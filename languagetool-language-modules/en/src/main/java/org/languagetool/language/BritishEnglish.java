@@ -20,10 +20,7 @@
 package org.languagetool.language;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.GlobalConfig;
@@ -69,12 +66,23 @@ public class BritishEnglish extends English {
     return rules;
   }
 
+  private final static Map<String, Integer> id2prio = new HashMap<>();
+  static {
+    id2prio.put("OXFORD_SPELLING_ISATION_NOUNS", -20);
+    id2prio.put("OXFORD_SPELLING_ISE_VERBS", -21);
+    id2prio.put("OXFORD_SPELLING_IZE", -22);
+  }
+
+  @Override
+  public Map<String, Integer> getPriorityMap() {
+    return id2prio;
+  }
+
   @Override
   protected int getPriorityForId(String id) {
-    switch (id) {
-      case "OXFORD_SPELLING_ISATION_NOUNS": return -20;
-      case "OXFORD_SPELLING_ISE_VERBS":     return -21;
-      case "OXFORD_SPELLING_IZE":           return -22;
+    Integer prio = id2prio.get(id);
+    if (prio != null) {
+      return prio;
     }
     return super.getPriorityForId(id);
   }

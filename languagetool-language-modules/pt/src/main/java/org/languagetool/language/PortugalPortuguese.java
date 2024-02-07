@@ -56,12 +56,23 @@ public class PortugalPortuguese extends Portuguese {
     rules.add(new PortugueseWikipediaRule(messages, "/pt/pt-PT/wikipedia.txt", this));
     return rules;
   }
+  
+  private final static Map<String, Integer> id2prio = new HashMap<>();
+  static {
+    id2prio.put("PT_COMPOUNDS_POST_REFORM", 1);
+    id2prio.put("PORTUGUESE_OLD_SPELLING_INTERNAL", -9);	  
+  }
+
+  @Override
+  public Map<String, Integer> getPriorityMap() {
+    return id2prio;
+  }
 
   @Override
   protected int getPriorityForId(String id) {
-    switch (id) {
-      case "PT_COMPOUNDS_POST_REFORM":         return  1;
-      case "PORTUGUESE_OLD_SPELLING_INTERNAL": return -9;
+    Integer prio = id2prio.get(id);
+    if (prio != null) {
+      return prio;
     }
     return super.getPriorityForId(id);
   }

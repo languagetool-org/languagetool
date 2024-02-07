@@ -309,362 +309,362 @@ public class English extends Language implements AutoCloseable {
     }
     return 0;
   }
+  
+  private final static Map<String, Integer> id2prio = new HashMap<>();
+  static {
+    id2prio.put("I_E", 10);  // needs higher prio than EN_COMPOUNDS ("i.e learning")
+    id2prio.put("CHILDISH_LANGUAGE", 8);   // prefer over spell checker
+    id2prio.put("RUDE_SARCASTIC", 6);   // prefer over spell checker
+    id2prio.put("FOR_NOUN_SAKE", 6);   // prefer over PROFANITY (e.g. "for fuck sake")
+    id2prio.put("YEAR_OLD_HYPHEN", 6);   // higher prio than MISSING_HYPHEN
+    id2prio.put("MISSING_HYPHEN", 5);
+    id2prio.put("WRONG_APOSTROPHE", 5);
+    id2prio.put("YOU_GOOD", 3);   // prefer over AI_HYDRA_LEO_CP (YOU_YOURE etc.) // prefer over PRP_PAST_PART
+    id2prio.put("DOS_AND_DONTS", 3);
+    id2prio.put("IF_YOU_FURTHER_QUESTIONS", 3);   // higher prio than agreement rules and AI
+    id2prio.put("ABBREVIATION_PUNCTUATION", 2);
+    id2prio.put("READ_ONLY_ACCESS_HYPHEN", 2);   // higher priority than agreement rules
+    id2prio.put("MAKE_OR_BREAK_HYPHEN", 2);   // higher priority than agreement rules
+    id2prio.put("LINKED_IN", 2);   // higher prio than agreement rules
+    id2prio.put("T_HE", 1);   // higher prio than agreement rules
+    id2prio.put("I_A_M", 1);   // higher prio than EN_A_VS_AN
+    id2prio.put("ACCESS_EXCESS", 1);   // higher prio than A_UNCOUNTABLE
+    id2prio.put("PRP_ABLE_TO", 1);   // higher prio than AI_HYDRA_LEO_CP_YOU.*
+    id2prio.put("WEE_WE", 1);   // higher prio than INTERJECTIONS_PUNCTUATION
+    id2prio.put("CAN_MISSPELLING", 1);   // higher prio than COM_COME
+    id2prio.put("FOR_THE_MOST_PART2", 1);   // higher prio than FOR_THE_MOST_PART
+    id2prio.put("FACE_TO_FACE_HYPHEN", 1);   // higher prio than THIS_NNS
+    id2prio.put("RUN_ON", 1);   // higher prio than TOO_LONG_SENTENCE
+    id2prio.put("ON_THE_LOOK_OUT", 1);   // higher prio than VERB_NOUN_CONFUSION
+    id2prio.put("APOSTROPHE_IN_DAYS", 1);   // higher prio than A_NNS
+    id2prio.put("SAFE_GUARD_COMPOUND", 1);   // higher prio than some agreement rules
+    id2prio.put("EVEN_HANDED_HYPHEN", 1);   // higher prio than some agreement rules
+    id2prio.put("GET_TOGETHER_HYPHEN", 1);   // higher prio than some agreement rules
+    id2prio.put("GOT_HERE", 1);   // higher prio than GET_VBN and HEAR_HERE
+    id2prio.put("PICTURE_PERFECT_HYPHEN", 1);   // higher prio than some agreement rules
+    id2prio.put("SEEM_SEEN", 1);   // higher prio than some agreement rules (e.g. PRP_HAVE_VB)
+    id2prio.put("SAVE_SAFE", 1);   // higher prio than agreement rules
+    id2prio.put("FEDEX", 2);   // higher prio than many verb rules (e.g. MD_BASEFORM)
+    id2prio.put("DROP_DEAD_HYPHEN", 1);   // higher prio than agreement rules (e.g. I_AM_VB)
+    id2prio.put("HEAR_HERE", 1);   // higher prio than agreement rules (e.g. I_AM_VB)
+    id2prio.put("THE_FRENCH", 1);   // higher prio than agreement rules (e.g. I_AM_VB)
+    id2prio.put("A_HEADS_UP", 1);   // higher prio than some plural agreement rules (e.g. THERE_S_MANY)
+    id2prio.put("UNITES_UNITED", 1);   // higher prio than IS_VBZ
+    id2prio.put("THIS_MISSING_VERB", 1);   // higher priority than A_MY
+    id2prio.put("YOURE", 1);   // prefer over EN_CONTRACTION_SPELLING
+    id2prio.put("LIFE_COMPOUNDS", 1);
+    id2prio.put("DRIVE_THROUGH_HYPHEN", 1);   // higher prio than agreement rules
+    id2prio.put("CAUSE_COURSE", 1);   // higher prio than CAUSE_BECAUSE
+    id2prio.put("THANK_YOUR", 1);   // higher prio than POSSESSIVE_DETERMINER_SENT_END
+    id2prio.put("AN_AND", 1);   // higher prio than A_MY and DT_PRP
+    id2prio.put("HER_S", 1);   // higher prio than THEIR_S
+    id2prio.put("ONE_TO_MANY_HYPHEN", 1);   // higher prio than TO_TOO
+    id2prio.put("COVID_19", 1);
+    id2prio.put("RATHER_NOT_VB", 1);   // higher prio than NOT_TO_DOES_NOT
+    id2prio.put("PIECE_COMPOUNDS", 1);
+    id2prio.put("OTHER_WISE_COMPOUND", 1);
+    id2prio.put("ON_EXCEL", 1);
+    id2prio.put("ALL_NN", 1);   // higher prio than MASS_AGREEMENT
+    id2prio.put("SHOW_COMPOUNDS", 1);   // higher prio than agreement rules
+    id2prio.put("PRP_AREA", 1);   // higher prio than you/your confusion rules
+    id2prio.put("IF_VB_PCT", 1);   // higher prio than IF_VB
+    id2prio.put("CAUSE_BECAUSE", 1);   // higher prio than MISSING_TO_BETWEEN_BE_AND_VB
+    id2prio.put("MAY_MANY", 1);   // higher prio than MAY_MANY_MY
+    id2prio.put("BOUT_TO", 1);   // higher prio than PRP_VB
+    id2prio.put("HAVE_HAVE", 1);   // higher prio than HE_D_VBD
+    id2prio.put("LUV", 1);   // higher prio than spell checker
+    id2prio.put("DAT", 1);   // higher prio than spell checker
+    id2prio.put("MAC_OS", 1);   // higher prio than spell checker
+    id2prio.put("BESTEST", 1);   // higher prio than spell checker
+    id2prio.put("OFF_OF", 1);   // higher prio than ADJECTIVE_ADVERB
+    id2prio.put("SHELL_COMPOUNDS", 1);   // higher prio than HELL
+    id2prio.put("HANDS_ON_HYPHEN", 1);   // higher prio than A_NNS
+    id2prio.put("PROFITS_WARNINGS", 1);   // higher prio than A_NNS
+    id2prio.put("QUIET_QUITE", 1);   // higher prio than A_QUITE_WHILE
+    id2prio.put("A_OK", 1);   // prefer over A_AN
+    id2prio.put("I_A", 1);   // higher prio than I_IF
+    id2prio.put("PRP_NO_VB", 1);   // higher prio than I_IF
+    id2prio.put("GAVE_HAVE", 1);   // higher prio than MD_BASEFORM
+    id2prio.put("THERE_FORE", 1);   // higher prio than FORE_FOR
+    id2prio.put("FOLLOW_UP", 1);   // higher prio than MANY_NN
+    id2prio.put("IT_SOMETHING", 1);   // higher prio than IF_YOU_ANY and IT_THE_PRP
+    id2prio.put("NO_KNOW", 1);   // higher prio than DOUBLE_NEGATIVE
+    id2prio.put("WILL_BASED_ON", 1);   // higher prio than MD_BASEFORM / PRP_PAST_PART
+    id2prio.put("DON_T_AREN_T", 1);   // higher prio than DID_BASEFORM
+    id2prio.put("WILL_BECOMING", 1);   // higher prio than MD_BASEFORM
+    id2prio.put("WOULD_NEVER_VBN", 1);   // higher prio than MD_BASEFORM
+    id2prio.put("MONEY_BACK_HYPHEN", 1);   // higher prio than A_UNCOUNTABLE
+    id2prio.put("WORLDS_BEST", 1);   // higher prio than THE_SUPERLATIVE
+    id2prio.put("STEP_COMPOUNDS", 1);   // higher prio than STARS_AND_STEPS
+    id2prio.put("WON_T_TO", 1);   // higher prio than DON_T_AREN_T
+    id2prio.put("WAN_T", 1);   // higher prio than DON_T_AREN_T
+    id2prio.put("THE_US", 1);   // higher prio than DT_PRP
+    id2prio.put("THE_IT", 1);   // higher prio than DT_PRP
+    id2prio.put("THANK_YOU_MUCH", 1);   // higher prio than other rules
+    id2prio.put("TO_DO_HYPHEN", 1);   // higher prio than other rules
+    id2prio.put("A_NUMBER_NNS", 1);   // higher prio than A_NNS
+    id2prio.put("A_HUNDREDS", 1);   // higher prio than A_NNS
+    id2prio.put("NOW_A_DAYS", 1);   // higher prio than A_NNS
+    id2prio.put("COUPLE_OF_TIMES", 1);   // higher prio than A_NNS
+    id2prio.put("A_WINDOWS", 1);   // higher prio than A_NNS
+    id2prio.put("A_SCISSOR", 1);   // higher prio than A_NNS
+    id2prio.put("A_SNICKERS", 1);   // higher prio than A_NNS
+    id2prio.put("A_NNS_BEST_NN", 1);   // higher prio than A_NNS
+    id2prio.put("BACHELORS", 1);   // higher prio than A_NNS
+    id2prio.put("WERE_WEAR", 1);   // higher prio than agreement rules
+    id2prio.put("NEITHER_NOR", 1);   // higher prio than COMMA_COMPOUND_SENTENCE
+    id2prio.put("FOR_AWHILE", 1);   // higher prio than COMMA_COMPOUND_SENTENCE
+    id2prio.put("A_BUT", 1);   // higher prio than COMMA_COMPOUND_SENTENCE
+    id2prio.put("BORN_IN", 1);   // higher prio than PRP_PAST_PART
+    id2prio.put("DO_TO", 1);   // higher prio than HAVE_PART_AGREEMENT
+    id2prio.put("CURIOS_CURIOUS", 1);   // higher prio than A_NNS and POSSESSIVE_APOSTROPHE
+    id2prio.put("INCORRECT_POSSESSIVE_APOSTROPHE", 1);  // higher prio than THIS_NNS
+    id2prio.put("THIS_YEARS_POSSESSIVE_APOSTROPHE", 1);  // higher prio than THIS_NNS
+    id2prio.put("SPURIOUS_APOSTROPHE", 1);   // higher prio than THIS_NNS
+    id2prio.put("BE_NOT_BE_JJ", 1);   // higher prio than BEEN_PART_AGREEMENT
+    id2prio.put("IN_THIS_REGARDS", 1);   // higher prio than THIS_NNS
+    id2prio.put("IT_SEAMS", 1);   // higher prio than THIS_NNS_VB
+    id2prio.put("NO_WHERE", 1);   // higher prio than NOW
+    id2prio.put("APOSTROPHE_VS_QUOTE", 1);   // higher prio than EN_QUOTES
+    id2prio.put("ALL_OF_SUDDEN", 1);   // higher prio than ALL_MOST_SOME_OF_NOUN
+    id2prio.put("COMMA_PERIOD", 1);   // higher prio than COMMA_PARENTHESIS_WHITESPACE
+    id2prio.put("COMMA_CLOSING_PARENTHESIS", 1);   // higher prio than COMMA_PARENTHESIS_WHITESPACE
+    id2prio.put("ELLIPSIS", 1);   // higher prio than COMMA_PARENTHESIS_WHITESPACE
+    id2prio.put("HERE_HEAR", 1);   // higher prio than ENGLISH_WORD_REPEAT_RULE
+    id2prio.put("MISSING_POSS_APOS", 1);   // higher prio than SINGULAR_NOUN_VERB_AGREEMENT
+    id2prio.put("DO_HE_VERB", 1);   // prefer over HE_VERB_AGR
+    id2prio.put("LIGATURES", 1);   // prefer over spell checker
+    id2prio.put("APPSTORE", 1);   // prefer over spell checker
+    id2prio.put("INCORRECT_CONTRACTIONS", 1);   // prefer over EN_CONTRACTION_SPELLING
+    id2prio.put("DONT_T", 1);   // prefer over EN_CONTRACTION_SPELLING
+    id2prio.put("WHATS_APP", 1);   // prefer over EN_CONTRACTION_SPELLING
+    id2prio.put("NON_STANDARD_COMMA", 1);   // prefer over spell checker
+    id2prio.put("NON_ENGLISH_CHARACTER_IN_A_WORD", 1);  // prefer over spell checker
+    id2prio.put("WONT_CONTRACTION", 1);   // prefer over WONT_WANT
+    id2prio.put("THAN_THANK", 1);   // prefer over THAN_THEN
+    id2prio.put("SPURIOUS_APOSTROPHE", 1);   // prefer over CD_NN and LOWERCASE_NAME_APOSTROPHE_S
+    id2prio.put("IT_IF", 1);   // needs higher prio than PRP_COMMA and IF_YOU_ANY
+    id2prio.put("FINE_TUNE_COMPOUNDS", 1);   // prefer over less specific rules
+    id2prio.put("WHAT_IS_YOU", 1);   // prefer over HOW_DO_I_VB, NON3PRS_VERB
+    id2prio.put("SUPPOSE_TO", 1);   // prefer over HOW_DO_I_VB and I_AM_VB and ARE_WE_HAVE
+    id2prio.put("CONFUSION_GONG_GOING", 1);   // prefer over I_AM_VB
+    id2prio.put("SEEN_SEEM", 1);   // prefer over PRP_PAST_PART
+    id2prio.put("PROFANITY", 1);   // prefer over spell checker (less prio than EN_COMPOUNDS)
+    id2prio.put("GOOD_FLUCK", 2);   // prefer over PROFANITY
+    id2prio.put("PROFANITY_TYPOS", 2);   // prefer over PROFANITY
+    id2prio.put("THE_THEM", 1);   // prefer over TO_TWO
+    id2prio.put("THERE_THEIR", 1);   // prefer over GO_TO_HOME
+    id2prio.put("TO_WORRIED_ABOUT", 1);   // higher prio than TO_TOO
+    id2prio.put("IT_IS_DEPENDING_ON", 1);   // prefer over PROGRESSIVE_VERBS
+    id2prio.put("TO_NIGHT_TO_DAY", 1);   // prefer over TOO_JJ_TO
+    id2prio.put("IRREGARDLESS", 1);   // prefer over spell checker
+    id2prio.put("MD_APOSTROPHE_VB", 1);   // prefer over typography rules
+    id2prio.put("ULTRA_HYPHEN", 1);   // prefer over EN_COMPOUND_ADJECTIVE_INTERNAL
+    id2prio.put("THINK_BELIEVE_THAT", 1);
+    id2prio.put("HAS_TO_APPROVED_BY", 1);   // prefer over TO_NON_BASE
+    id2prio.put("MD_VBD", -1);  // prefer LOWERCASE_MONTHS
+    id2prio.put("PRP_PRP", -1);  // prefer other rules that give a suggestion
+    id2prio.put("IS_LIKELY_TO_BE", -1);  // give IS_RB_BE precedence (more suggestions)
+    id2prio.put("WANNA", 1);   // prefer over spell checker
+    id2prio.put("LOOK_FORWARD_TO", 1);   // prefer over LOOK_FORWARD_NOT_FOLLOWED_BY_TO
+    id2prio.put("LOOK_SLIKE", 1);   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT
+    id2prio.put("A3FT", 1);   // higher prio than NUMBERS_IN_WORDS
+    id2prio.put("HYPHEN_TO_EN", 1);   // higher prio than DASH_RULE (due to one picky subrule)
+    id2prio.put("EVERY_NOW_AND_THEN", 0);
+    id2prio.put("EN_DIACRITICS_REPLACE", -1);   // prefer over spell checker, less prio than ATTACHE_ATTACH
+    id2prio.put("MISSING_COMMA_BETWEEN_DAY_AND_YEAR", -1);   // less priority than DATE_WEEKDAY
+    id2prio.put("FASTLY", -1);   // higher prio than spell checker
+    id2prio.put("WHO_NOUN", -1);   // prefer SPECIFIC_CASE
+    id2prio.put("ANYWAYS", -1);   // higher prio than spell checker
+    id2prio.put("MISSING_GENITIVE", -1);  // prefer over spell checker (like EN_SPECIFIC_CASE)
+    id2prio.put("EN_UNPAIRED_BRACKETS", -1);  // less priority than rules that suggest the correct brackets
+    id2prio.put("WAKED_UP", -1);  // less priority than other grammar rules
+    id2prio.put("NEEDS_FIXED", -1);  // less priority than MISSING_TO_BEFORE_A_VERB
+    id2prio.put("SENT_START_NNP_COMMA", -1);  // prefer other more specific rules
+    id2prio.put("SENT_START_NN_DT", -1);  // prefer MISSING_PREPOSITION
+    id2prio.put("DT_PDT", -1);  // prefer other more specific rules
+    id2prio.put("MD_VB_AND_NOTVB", -1);  // prefer other more specific rules
+    id2prio.put("BLACK_SEA", -1);  // less priority than SEA_COMPOUNDS
+    id2prio.put("A_TO", -1);  // less priority than other rules that offer suggestions
+    id2prio.put("MANY_NN", -1);  // less priority than PUSH_UP_HYPHEN, SOME_FACULTY
+    id2prio.put("WE_BE", -1);
+    id2prio.put("A_LOT_OF_NN", -1);
+    id2prio.put("REPETITIONS_STYLE", -51);  // repetition style rules, usually with prefix REP_
+    id2prio.put("ORDER_OF_WORDS_WITH_NOT", -1);  // less prio than punctuation rules
+    id2prio.put("ADVERB_WORD_ORDER_10_TEMP", 1);
+    id2prio.put("ADVERB_WORD_ORDER", -1);  // less prio than PRP_PAST_PART //
+    id2prio.put("HAVE_VB_DT", -1);
+    id2prio.put("MD_PRP", -1);  // prefer ME_BE
+    id2prio.put("IT_IS_2", -1);  // needs higher prio than BEEN_PART_AGREEMENT
+    id2prio.put("A_RB_NN", -1);  // prefer other more specific rules (e.g. QUIET_QUITE, A_QUITE_WHILE)
+    id2prio.put("DT_RB_IN", -1);  // prefer other more specific rules
+    id2prio.put("VERB_NOUN_CONFUSION", -1);  // prefer other more specific rules
+    id2prio.put("NOUN_VERB_CONFUSION", -1);  // prefer other more specific rules
+    id2prio.put("PLURAL_VERB_AFTER_THIS", -1);  // prefer other more specific rules (e.g. COMMA_TAG_QUESTION)
+    id2prio.put("BE_RB_BE", -1);  // prefer other more specific rules
+    id2prio.put("IT_ITS", -1);  // prefer other more specific rules
+    id2prio.put("ENGLISH_WORD_REPEAT_RULE", -1);  // prefer other more specific rules (e.g. IT_IT)
+    id2prio.put("DT_JJ_NO_NOUN", -1);  // prefer other more specific rules (e.g. THIRD_PARTY)
+    id2prio.put("AGREEMENT_SENT_START", -1);  // prefer other more specific rules
+    id2prio.put("PREPOSITION_VERB", -1);  // prefer other more specific rules
+    id2prio.put("EN_A_VS_AN", -1);  // prefer other more specific rules (with suggestions, e.g. AN_ALSO)
+    id2prio.put("CD_NN", -1);  // prefer other more specific rules (with suggestions)
+    id2prio.put("CD_NNU", -1);  // prefer other more specific rules (with suggestions)
+    id2prio.put("ATD_VERBS_TO_COLLOCATION", -1);  // prefer other more specific rules (with suggestions)
+    id2prio.put("ORDINAL_NUMBER_MISSING_ORDINAL_INDICATOR", -1);  // prefer other more specific rules (with suggestions)
+    id2prio.put("ADVERB_OR_HYPHENATED_ADJECTIVE", -1);  // prefer other more specific rules (with suggestions)
+    id2prio.put("GOING_TO_VBD", -1);  // prefer other more specific rules (with suggestions, e.g. GOING_TO_JJ)
+    id2prio.put("MISSING_PREPOSITION", -1);  // prefer other more specific rules (with suggestions)
+    id2prio.put("CHARACTER_APOSTROPHE_WORD", -1);  // prefer other more specific rules
+    id2prio.put("SINGLE_CHARACTER", -1);  // prefer other more specific rules (with suggestions)
+    id2prio.put("BE_TO_VBG", -1);  // prefer other more specific rules (with suggestions)
+    id2prio.put("NON3PRS_VERB", -1);  // prefer other more specific rules (with suggestions, e.g. DONS_T)
+    id2prio.put("DT_NN_VBG", -1);  // prefer other more specific rules (with suggestions)
+    id2prio.put("NNS_THAT_ARE_JJ", -1);  // prefer other more specific rules
+    id2prio.put("DID_FOUND_AMBIGUOUS", -1);  // prefer other more specific rules (e.g. TWO_CONNECTED_MODAL_VERBS)
+    id2prio.put("BE_I_BE_GERUND", -1);  // prefer other more specific rules (with suggestions)
+    id2prio.put("VBZ_VBD", -1);  // prefer other more specific rules (e.g. IS_WAS)
+    id2prio.put("SUPERLATIVE_THAN", -1);  // prefer other more specific rules
+    id2prio.put("UNLIKELY_OPENING_PUNCTUATION", -1);  // prefer other more specific rules
+    id2prio.put("MD_DT_JJ", -1);  // prefer other more specific rules
+    id2prio.put("I_IF", -1);  // prefer other more specific rules
+    id2prio.put("NOUNPHRASE_VB_RB_DT", -1);  // prefer other more specific rules
+    id2prio.put("SENT_START_NN_NN_VB", -1);  // prefer other more specific rules
+    id2prio.put("VB_A_JJ_NNS", -1);  // prefer other more specific rules (e.g. A_NNS)
+    id2prio.put("DUPLICATION_OF_IS_VBZ", -1);  // prefer other more specific rules (e.g. A_NNS)
+    id2prio.put("METRIC_UNITS_EN_IMPERIAL", -1);  // prefer MILE_HYPHEN
+    id2prio.put("IF_THEN_COMMA", -1);  // prefer CONFUSION_OF_THEN_THAN
+    id2prio.put("COMMA_COMPOUND_SENTENCE", -1);  // prefer other rules
+    id2prio.put("COMMA_COMPOUND_SENTENCE_2", -1);  // prefer other rules
+    id2prio.put("BE_VBG_BE", -1);  // prefer other more specific rules
+    id2prio.put("PRP_VB_VB", -1);  // prefer other more specific rules
+    id2prio.put("FOR_ANY_CLARIFICATIONS", -1);  // prefer SENT_START_ALL_CAPITALS and ALL_UPPERCASE
+    id2prio.put("PLEASE_LET_ME_KNOW", -1);  // prefer SENT_START_ALL_CAPITALS and ALL_UPPERCASE
+    id2prio.put("UNNECESSARY_CAPITALIZATION", -1);  // prefer other more specific rules
+    id2prio.put("CONFUSION_OF_A_JJ_NNP_NNS_PRP", -1);  // prefer other more specific rules
+    id2prio.put("PLURALITY_CONFUSION_OF_NNS_OF_NN", -1); // prefer several compound rules
+    id2prio.put("NP_TO_IS", -1);  // prefer other more specific rules
+    id2prio.put("REPEATED_VERBS", -1);  // prefer other rules
+    id2prio.put("NNP_COMMA_QUESTION", -2);  // prefer other more specific rules
+    id2prio.put("VB_TO_NN_DT", -2);  // prefer other more specific rules (e.g. NOUN_VERB_CONFUSION)
+    id2prio.put("THE_CC", -2);  // prefer other more specific rules (with suggestions)
+    id2prio.put("PRP_VBG", -2);  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
+    id2prio.put("CANT_JJ", -2);  // prefer other more specific rules
+    id2prio.put("WOULD_A", -2);  // prefer other more specific rules
+    id2prio.put("I_AM_VB", -2);  // prefer other rules
+    id2prio.put("VBP_VBP", -2);  // prefer more specific rules
+    id2prio.put("GONNA_TEMP", -3);
+    id2prio.put("A_INFINITIVE", -3);  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB, THE_TO)
+    id2prio.put("INDIAN_ENGLISH", -3);  // prefer grammar rules, but higher prio than spell checker
+    id2prio.put("DO_PRP_NOTVB", -3);  // prefer other more specific rules (e.g. HOW_DO_I_VB)
+    id2prio.put("GONNA", -4);  // prefer over spelling rules
+    id2prio.put("WHATCHA", -4);  // prefer over spelling rules
+    id2prio.put("DONTCHA", -4);  // prefer over spelling rules
+    id2prio.put("GOTCHA", -4);  // prefer over spelling rules
+    id2prio.put("OUTTA", -4);  // prefer over spelling rules
+    id2prio.put("Y_ALL", -4);  // prefer over spelling rules
+    id2prio.put("GIMME", -4);  // prefer over spelling rules
+    id2prio.put("LEMME", -4);  // prefer over spelling rules
+    id2prio.put("ID_CASING", -4);  // prefer over spelling rules but not over ID_IS
+    id2prio.put("EN_GB_SIMPLE_REPLACE", -5);  // higher prio than Speller
+    id2prio.put("EN_US_SIMPLE_REPLACE", -5);  // higher prio than Speller
+    id2prio.put("MORFOLOGIK_RULE_EN_US", -10);  // more specific rules (e.g. L2 rules) have priority
+    id2prio.put("MORFOLOGIK_RULE_EN_GB", -10);  // more specific rules (e.g. L2 rules) have priority
+    id2prio.put("MORFOLOGIK_RULE_EN_CA", -10);  // more specific rules (e.g. L2 rules) have priority
+    id2prio.put("MORFOLOGIK_RULE_EN_ZA", -10);  // more specific rules (e.g. L2 rules) have priority
+    id2prio.put("MORFOLOGIK_RULE_EN_NZ", -10);  // more specific rules (e.g. L2 rules) have priority
+    id2prio.put("MORFOLOGIK_RULE_EN_AU", -10);  // more specific rules (e.g. L2 rules) have priority
+    id2prio.put("MD_PRP_QUESTION_MARK", -11);  // speller needs higher priority
+    id2prio.put("PRP_RB_NO_VB", -12);  // prefer other more specific rules (with suggestions)
+    id2prio.put("MD_JJ", -12);  // prefer other rules (e.g. NOUN_VERB_CONFUSION)
+    id2prio.put("HE_VERB_AGR", -12);  // prefer other more specific rules (e.g. AI models, PRP_VBG)
+    id2prio.put("MD_BASEFORM", -12);  // prefer other more specific rules (e.g. AI models)
+    id2prio.put("IT_VBZ", -12);  // prefer other more specific rules (e.g. AI models)
+    id2prio.put("PRP_THE", -12);  // prefer other rules (e.g. AI models, I_A, PRP_JJ, IF_YOU_ANY, I_AN)
+    id2prio.put("PRP_JJ", -12);  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
+    id2prio.put("SINGULAR_NOUN_VERB_AGREEMENT", -12);  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
+    id2prio.put("SINGULAR_AGREEMENT_SENT_START", -12);    // prefer AI
+    id2prio.put("SUBJECTVERBAGREEMENT_2", -12);    // prefer AI
+    id2prio.put("THE_SENT_END", -12);    // prefer AI
+    id2prio.put("DT_NN_ARE_AME", -12);    // prefer AI
+    id2prio.put("COLLECTIVE_NOUN_VERB_AGREEMENT_VBP", -12);    // prefer AI
+    id2prio.put("SUBJECT_VERB_AGREEMENT", -12);    // prefer AI
+    id2prio.put("VERB_APOSTROPHE_S", -12);    // prefer AI
+    id2prio.put("SENT_START_PRPS_JJ_NN_VBP", -12);  // prefer AI
+    id2prio.put("TO_AFTER_MODAL_VERBS", -12);  // prefer AI
+    id2prio.put("SINGULAR_NOUN_ADV_AGREEMENT", -12);  // prefer AI
+    id2prio.put("BE_VBP_IN", -12);  // prefer over BEEN_PART_AGREEMENT but not over AI_EN_LECTOR
+    id2prio.put("BE_VBG_NN", -12);  // prefer other more specific rules and speller
+    id2prio.put("THE_NNS_NN_IS", -12);  // prefer HYDRA_LEO
+    id2prio.put("IF_DT_NN_VBZ", -12);  // prefer HYDRA_LEO and lector
+    id2prio.put("PRP_MD_NN", -12);  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
+    id2prio.put("HAVE_PART_AGREEMENT", -13);  // prefer HYDRA_LEO and lector
+    id2prio.put("BEEN_PART_AGREEMENT", -13);  // prefer HYDRA_LEO and lector
+    id2prio.put("BE_WITH_WRONG_VERB_FORM", -14);  // prefer HYDRA_LEO, BEEN_PART_AGREEMENT and other rules
+    id2prio.put("TWO_CONNECTED_MODAL_VERBS", -15);
+    id2prio.put("PRP_NO_ADVERB_VERB", -15);  // prefer other more specific rules (e.g. PRP_VBG, IT_ITS, ...)
+    id2prio.put("MISSING_TO_BETWEEN_BE_AND_VB", -15); // prefer AI and comma rules
+    id2prio.put("IN_DT_IN", -15); // prefer AI and comma rules
+    id2prio.put("MISSING_SUBJECT", -15);  // prefer other more specific rules
+    id2prio.put("HAVE_TO_NOTVB", -15); // prefer AI and comma rules
+    id2prio.put("PLEASE_DO_NOT_THE_CAT", -15); // prefer AI and comma rules
+    id2prio.put("VB_TO_JJ", -15); // prefer AI and comma rules
+    id2prio.put("CC_PRP_ARTICLE", -15);  // prefer other more specific rules
+    id2prio.put("BE_MD", -20);  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)
+    id2prio.put("POSSESSIVE_APOSTROPHE", -10);  // prefer over AI_HYDRA_LEO_APOSTROPHE_S_XS (again, temporarily)
+    id2prio.put("WANT_TO_NN", -25);  // prefer more specific rules that give a suggestion
+    id2prio.put("QUESTION_WITHOUT_VERB", -25);  // prefer more specific rules that give a suggestion
+    id2prio.put("PRP_VB", -25);  // prefer other rules (with suggestions, e.g. confusion rules)
+    id2prio.put("PRP_VB_NN", -25);  // prefer other more specific rules (e.g. HYDRA_LEO)
+    id2prio.put("BE_NN", -26);  // prefer other more specific rules (e.g. PRP_VB_NN, BEEN_PART_AGREEMENT, HYDRA_LEO)
+    id2prio.put("BE_VB_OR_NN", -26);  // prefer other more specific rules (e.g. PRP_VB_NN, BE_MD, BEEN_PART_AGREEMENT, HYDRA_LEO)
+    id2prio.put("DO_DT_NN_BE", -26);  // prefer other more specific rules (e.g. PRP_VB_NN, BE_MD, BEEN_PART_AGREEMENT, HYDRA_LEO)
+    id2prio.put("PRONOUN_NOUN", -26);  // prefer other rules (with suggestions, e.g. confusion rules)
+    id2prio.put("ETC_PERIOD", -49);  // prefer over QB rules that are now style
+    id2prio.put("COULD_YOU_NOT_NEEDED", -49);  // prefer over TAKE_A_LOOK
+    id2prio.put("SENTENCE_FRAGMENT", -50);  // prefer other more important sentence start corrections.
+    id2prio.put("SENTENCE_FRAGMENT", -51);  // prefer other more important sentence start corrections.
+    id2prio.put("SEEMS_TO_BE", -51);  // prefer SEEM_APPEAR
+    id2prio.put("MD_NN", -60);  // prefer PRP_MD_NN
+    id2prio.put("I_THINK_FEEL", -60);
+    id2prio.put("KNOW_AWARE_REDO", -60);
+    id2prio.put("EN_REDUNDANCY_REPLACE", -510);  // style rules should always have the lowest priority.
+    id2prio.put("EN_PLAIN_ENGLISH_REPLACE", -511);  // style rules should always have the lowest priority.
+    id2prio.put("REP_PASSIVE_VOICE", -599);  // higher prio than PASSIVE_VOICE for testing purposes, but lower than other style rules
+    id2prio.put("FOUR_NN", -599);  // higher prio than THREE_NN for testing purposes, but lower than other style rules
+    id2prio.put("THREE_NN", -600);  // style rules should always have the lowest priority.
+    id2prio.put("SENT_START_NUM", -600);  // style rules should always have the lowest priority.
+    id2prio.put("PASSIVE_VOICE", -600);  // style rules should always have the lowest priority.
+    id2prio.put("EG_NO_COMMA", -600);  // style rules should always have the lowest priority.
+    id2prio.put("IE_NO_COMMA", -600);  // style rules should always have the lowest priority.
+    id2prio.put("REASON_WHY", -600);  // style rules should always have the lowest priority.
+    id2prio.put(LongSentenceRule.RULE_ID, -997);
+    id2prio.put(LongParagraphRule.RULE_ID, -998);
+    id2prio.put("ALL_UPPERCASE", -1000);  // do not hide spelling and grammar issues, when text is all upper case	  
+  }
+
+  @Override
+  public Map<String, Integer> getPriorityMap() {
+    return id2prio;
+  }
 
   @Override
   protected int getPriorityForId(String id) {
-    switch (id) {
-      case "I_E":                       return 10;  // needs higher prio than EN_COMPOUNDS ("i.e learning")
-      case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
-      case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
-      case "FOR_NOUN_SAKE":             return 6;   // prefer over PROFANITY (e.g. "for fuck sake")
-      case "YEAR_OLD_HYPHEN":           return 6;   // higher prio than MISSING_HYPHEN
-      case "MISSING_HYPHEN":            return 5;
-      case "WRONG_APOSTROPHE":          return 5;
-      case "YOU_GOOD":                  return 3;   // prefer over AI_HYDRA_LEO_CP (YOU_YOURE etc.) // prefer over PRP_PAST_PART
-      case "DOS_AND_DONTS":             return 3;
-      case "IF_YOU_FURTHER_QUESTIONS":  return 3;   // higher prio than agreement rules and AI
-      case "ABBREVIATION_PUNCTUATION":  return 2;
-      case "READ_ONLY_ACCESS_HYPHEN":   return 2;   // higher priority than agreement rules
-      case "MAKE_OR_BREAK_HYPHEN":   return 2;   // higher priority than agreement rules
-      case "LINKED_IN":                 return 2;   // higher prio than agreement rules
-      case "T_HE":                      return 1;   // higher prio than agreement rules
-      case "I_A_M":                     return 1;   // higher prio than EN_A_VS_AN
-      case "ACCESS_EXCESS":             return 1;   // higher prio than A_UNCOUNTABLE
-      case "PRP_ABLE_TO":               return 1;   // higher prio than AI_HYDRA_LEO_CP_YOU.*
-      case "WEE_WE":                    return 1;   // higher prio than INTERJECTIONS_PUNCTUATION
-      case "CAN_MISSPELLING":           return 1;   // higher prio than COM_COME
-      case "FOR_THE_MOST_PART2":        return 1;   // higher prio than FOR_THE_MOST_PART
-      case "FACE_TO_FACE_HYPHEN":       return 1;   // higher prio than THIS_NNS
-      case "RUN_ON":                    return 1;   // higher prio than TOO_LONG_SENTENCE
-      case "ON_THE_LOOK_OUT":           return 1;   // higher prio than VERB_NOUN_CONFUSION
-      case "APOSTROPHE_IN_DAYS":        return 1;   // higher prio than A_NNS
-      case "SAFE_GUARD_COMPOUND":       return 1;   // higher prio than some agreement rules
-      case "EVEN_HANDED_HYPHEN":        return 1;   // higher prio than some agreement rules
-      case "GET_TOGETHER_HYPHEN":       return 1;   // higher prio than some agreement rules
-      case "GOT_HERE":                  return 1;   // higher prio than GET_VBN and HEAR_HERE
-      case "PICTURE_PERFECT_HYPHEN":    return 1;   // higher prio than some agreement rules
-      case "SEEM_SEEN":    return 1;   // higher prio than some agreement rules (e.g. PRP_HAVE_VB)
-      case "SAVE_SAFE":                 return 1;   // higher prio than agreement rules
-      case "FEDEX":                     return 2;   // higher prio than many verb rules (e.g. MD_BASEFORM)
-      case "DROP_DEAD_HYPHEN":          return 1;   // higher prio than agreement rules (e.g. I_AM_VB)
-      case "HEAR_HERE":                 return 1;   // higher prio than agreement rules (e.g. I_AM_VB)
-      case "THE_FRENCH":                return 1;   // higher prio than agreement rules (e.g. I_AM_VB)
-      case "A_HEADS_UP":                return 1;   // higher prio than some plural agreement rules (e.g. THERE_S_MANY)
-      case "UNITES_UNITED":             return 1;   // higher prio than IS_VBZ
-      case "THIS_MISSING_VERB":         return 1;   // higher priority than A_MY
-      case "YOURE":                     return 1;   // prefer over EN_CONTRACTION_SPELLING
-      case "LIFE_COMPOUNDS":            return 1;
-      case "DRIVE_THROUGH_HYPHEN":      return 1;   // higher prio than agreement rules
-      case "CAUSE_COURSE":              return 1;   // higher prio than CAUSE_BECAUSE
-      case "THANK_YOUR":                return 1;   // higher prio than POSSESSIVE_DETERMINER_SENT_END
-      case "AN_AND":                    return 1;   // higher prio than A_MY and DT_PRP
-      case "HER_S":                     return 1;   // higher prio than THEIR_S
-      case "ONE_TO_MANY_HYPHEN":        return 1;   // higher prio than TO_TOO
-      case "COVID_19":                  return 1;
-      case "RATHER_NOT_VB":             return 1;   // higher prio than NOT_TO_DOES_NOT
-      case "PIECE_COMPOUNDS":           return 1;
-      case "OTHER_WISE_COMPOUND":       return 1;
-      case "ON_EXCEL":                  return 1;
-      case "ALL_NN":                    return 1;   // higher prio than MASS_AGREEMENT
-      case "SHOW_COMPOUNDS":            return 1;   // higher prio than agreement rules
-      case "PRP_AREA":                  return 1;   // higher prio than you/your confusion rules
-      case "IF_VB_PCT":                 return 1;   // higher prio than IF_VB
-      case "CAUSE_BECAUSE":             return 1;   // higher prio than MISSING_TO_BETWEEN_BE_AND_VB
-      case "MAY_MANY":                  return 1;   // higher prio than MAY_MANY_MY
-      case "BOUT_TO":                   return 1;   // higher prio than PRP_VB
-      case "HAVE_HAVE":                 return 1;   // higher prio than HE_D_VBD
-      case "LUV":                       return 1;   // higher prio than spell checker
-      case "DAT":                       return 1;   // higher prio than spell checker
-      case "MAC_OS":                    return 1;   // higher prio than spell checker
-      case "BESTEST":                   return 1;   // higher prio than spell checker
-      case "OFF_OF":                    return 1;   // higher prio than ADJECTIVE_ADVERB
-      case "SHELL_COMPOUNDS":           return 1;   // higher prio than HELL
-      case "HANDS_ON_HYPHEN":           return 1;   // higher prio than A_NNS
-      case "PROFITS_WARNINGS":          return 1;   // higher prio than A_NNS
-      case "QUIET_QUITE":               return 1;   // higher prio than A_QUITE_WHILE
-      case "A_OK":                      return 1;   // prefer over A_AN
-      case "I_A":                       return 1;   // higher prio than I_IF
-      case "NO_GOOD":                   return 1;   // higher prio than I_IF
-      case "PRP_NO_VB":                 return 1;   // higher prio than I_IF
-      case "GOT_GO":                    return 1;   // higher prio than MD_BASEFORM
-      case "GAVE_HAVE":                 return 1;   // higher prio than MD_BASEFORM
-      case "THERE_FORE":                return 1;   // higher prio than FORE_FOR
-      case "FOLLOW_UP":                 return 1;   // higher prio than MANY_NN
-      case "IT_SOMETHING":              return 1;   // higher prio than IF_YOU_ANY and IT_THE_PRP
-      case "NO_KNOW":                   return 1;   // higher prio than DOUBLE_NEGATIVE
-      case "WILL_BASED_ON":             return 1;   // higher prio than MD_BASEFORM / PRP_PAST_PART
-      case "DON_T_AREN_T":              return 1;   // higher prio than DID_BASEFORM
-      case "WILL_BECOMING":             return 1;   // higher prio than MD_BASEFORM
-      case "WOULD_NEVER_VBN":           return 1;   // higher prio than MD_BASEFORM
-      case "MD_APPRECIATED":            return 1;   // higher prio than MD_BASEFORM
-      case "MONEY_BACK_HYPHEN":         return 1;   // higher prio than A_UNCOUNTABLE
-      case "FINAL_THOUGH_HOWEVER_Q":    return 1;   // higher prio than THOUGH_COMMA
-      case "WORLDS_BEST":               return 1;   // higher prio than THE_SUPERLATIVE
-      case "STEP_COMPOUNDS":            return 1;   // higher prio than STARS_AND_STEPS
-      case "WON_T_TO":                  return 1;   // higher prio than DON_T_AREN_T
-      case "WAN_T":                     return 1;   // higher prio than DON_T_AREN_T
-      case "THE_US":                    return 1;   // higher prio than DT_PRP
-      case "THE_IT":                    return 1;   // higher prio than DT_PRP
-      case "THANK_YOU_MUCH":            return 1;   // higher prio than other rules
-      case "TO_DO_HYPHEN":              return 1;   // higher prio than other rules
-      case "A_NUMBER_NNS":              return 1;   // higher prio than A_NNS
-      case "A_HUNDREDS":                return 1;   // higher prio than A_NNS
-      case "NOW_A_DAYS":                return 1;   // higher prio than A_NNS
-      case "COUPLE_OF_TIMES":           return 1;   // higher prio than A_NNS
-      case "A_WINDOWS":                 return 1;   // higher prio than A_NNS
-      case "A_SCISSOR":                 return 1;   // higher prio than A_NNS
-      case "A_SNICKERS":                return 1;   // higher prio than A_NNS
-      case "ROUND_A_BOUT":              return 1;   // higher prio than A_NNS
-      case "A_NNS_BEST_NN":             return 1;   // higher prio than A_NNS
-      case "BACHELORS":                 return 1;   // higher prio than A_NNS
-      case "WERE_WEAR":                 return 1;   // higher prio than agreement rules
-      case "NEITHER_NOR":               return 1;   // higher prio than COMMA_COMPOUND_SENTENCE
-      case "FOR_AWHILE":                return 1;   // higher prio than COMMA_COMPOUND_SENTENCE
-      case "A_BUT":                     return 1;   // higher prio than COMMA_COMPOUND_SENTENCE
-      case "BORN_IN":                   return 1;   // higher prio than PRP_PAST_PART
-      case "DO_TO":                     return 1;   // higher prio than HAVE_PART_AGREEMENT
-      case "CURIOS_CURIOUS":            return 1;   // higher prio than A_NNS and POSSESSIVE_APOSTROPHE
-      case "INCORRECT_POSSESSIVE_APOSTROPHE": return 1;  // higher prio than THIS_NNS
-      case "THIS_YEARS_POSSESSIVE_APOSTROPHE": return 1;  // higher prio than THIS_NNS
-      case "SPURIOUS_APOSTROPHE":       return 1;   // higher prio than THIS_NNS
-      case "BE_NOT_BE_JJ":       return 1;   // higher prio than BEEN_PART_AGREEMENT
-      case "IN_THIS_REGARDS":           return 1;   // higher prio than THIS_NNS
-      case "IT_SEAMS":                  return 1;   // higher prio than THIS_NNS_VB
-      case "NO_WHERE":                  return 1;   // higher prio than NOW
-      case "APOSTROPHE_VS_QUOTE":       return 1;   // higher prio than EN_QUOTES
-      case "ALL_OF_SUDDEN":             return 1;   // higher prio than ALL_MOST_SOME_OF_NOUN
-      case "COMMA_PERIOD":              return 1;   // higher prio than COMMA_PARENTHESIS_WHITESPACE
-      case "COMMA_CLOSING_PARENTHESIS": return 1;   // higher prio than COMMA_PARENTHESIS_WHITESPACE
-      case "ELLIPSIS":                  return 1;   // higher prio than COMMA_PARENTHESIS_WHITESPACE
-      case "HERE_HEAR":                 return 1;   // higher prio than ENGLISH_WORD_REPEAT_RULE
-      case "MISSING_POSS_APOS":         return 1;   // higher prio than SINGULAR_NOUN_VERB_AGREEMENT
-      case "DO_HE_VERB":                return 1;   // prefer over HE_VERB_AGR
-      case "LIGATURES":                 return 1;   // prefer over spell checker
-      case "APPSTORE":                  return 1;   // prefer over spell checker
-      case "INCORRECT_CONTRACTIONS":    return 1;   // prefer over EN_CONTRACTION_SPELLING
-      case "CAUSED_BY":                 return 1;   // prefer over PASSIVE_VOICE_SIMPLE
-      case "DONT_T":                    return 1;   // prefer over EN_CONTRACTION_SPELLING
-      case "DONT_LIKE":                 return 1;   // prefer over EN_WORDINESS_PREMIUM
-      case "WHATS_APP":                 return 1;   // prefer over EN_CONTRACTION_SPELLING
-      case "NON_STANDARD_COMMA":        return 1;   // prefer over spell checker
-      case "NON_STANDARD_ALPHABETIC_CHARACTERS": return 1;  // prefer over spell checker
-      case "WONT_CONTRACTION":          return 1;   // prefer over WONT_WANT
-      case "THAN_THANK":                return 1;   // prefer over THAN_THEN
-      case "CD_NN_APOSTROPHE_S":        return 1;   // prefer over CD_NN and LOWERCASE_NAME_APOSTROPHE_S
-      case "IT_IF":                     return 1;   // needs higher prio than PRP_COMMA and IF_YOU_ANY
-      case "FINE_TUNE_COMPOUNDS":       return 1;   // prefer over less specific rules
-      case "WHAT_IS_YOU":               return 1;   // prefer over HOW_DO_I_VB, NON3PRS_VERB
-      case "SUPPOSE_TO":                return 1;   // prefer over HOW_DO_I_VB and I_AM_VB and ARE_WE_HAVE
-      case "CONFUSION_GONG_GOING":      return 1;   // prefer over I_AM_VB
-      case "SEEN_SEEM":                 return 1;   // prefer over PRP_PAST_PART
-      case "PROFANITY":                 return 1;   // prefer over spell checker (less prio than EN_COMPOUNDS)
-      case "GOOD_FLUCK":                return 2;   // prefer over PROFANITY
-      case "PROFANITY_TYPOS":           return 2;   // prefer over PROFANITY
-      case "THE_THEM":                  return 1;   // prefer over TO_TWO
-      case "THERE_THEIR":               return 1;   // prefer over GO_TO_HOME
-      case "TO_WORRIED_ABOUT":          return 1;   // higher prio than TO_TOO
-      case "IT_IS_DEPENDING_ON":        return 1;   // prefer over PROGRESSIVE_VERBS
-      case "TO_NIGHT_TO_DAY":           return 1;   // prefer over TOO_JJ_TO
-      case "IRREGARDLESS":              return 1;   // prefer over spell checker
-      case "MD_APOSTROPHE_VB":          return 1;   // prefer over typography rules
-      case "ULTRA_HYPHEN":              return 1;   // prefer over EN_COMPOUND_ADJECTIVE_INTERNAL
-      case "THINK_BELIEVE_THAT":        return 1;
-      case "HAS_TO_APPROVED_BY":        return 1;   // prefer over TO_NON_BASE
-      case "MD_VBD":                    return -1;  // prefer LOWERCASE_MONTHS
-      case "PRP_PRP":                   return -1;  // prefer other rules that give a suggestion
-      case "IS_LIKELY_TO_BE":           return -1;  // give IS_RB_BE precedence (more suggestions)
-      case "FOCUS_IN_2":                return 1;   // prefer over FOCUS_IN (delete this setting and FOCUS_IN after testing)
-      case "WANNA":                     return 1;   // prefer over spell checker
-      case "LOOK_FORWARD_TO":           return 1;   // prefer over LOOK_FORWARD_NOT_FOLLOWED_BY_TO
-      case "LOOK_SLIKE":                return 1;   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT
-      case "A3FT":                      return 1;   // higher prio than NUMBERS_IN_WORDS
-      case "HYPHEN_TO_EN":              return 1;   // higher prio than DASH_RULE (due to one picky subrule)
-      case "EVERY_NOW_AND_THEN":        return 0;
-      case "EN_DIACRITICS_REPLACE":     return -1;   // prefer over spell checker, less prio than ATTACHE_ATTACH
-      case "MISSING_COMMA_BETWEEN_DAY_AND_YEAR":     return -1;   // less priority than DATE_WEEKDAY
-      case "FASTLY":                    return -1;   // higher prio than spell checker
-      case "WHO_NOUN":                    return -1;   // prefer SPECIFIC_CASE
-      case "ANYWAYS":                   return -1;   // higher prio than spell checker
-      case "MISSING_GENITIVE":          return -1;  // prefer over spell checker (like EN_SPECIFIC_CASE)
-      case "EN_UNPAIRED_BRACKETS":      return -1;  // less priority than rules that suggest the correct brackets
-      case "WAKED_UP":                  return -1;  // less priority than other grammar rules
-      case "NEEDS_FIXED":               return -1;  // less priority than MISSING_TO_BEFORE_A_VERB
-      case "SENT_START_NNP_COMMA":      return -1;  // prefer other more specific rules
-      case "SENT_START_NN_DT":          return -1;  // prefer MISSING_PREPOSITION
-      case "DT_PDT":                    return -1;  // prefer other more specific rules
-      case "MD_VB_AND_NOTVB":           return -1;  // prefer other more specific rules
-      case "BLACK_SEA":                 return -1;  // less priority than SEA_COMPOUNDS
-      case "A_TO":                      return -1;  // less priority than other rules that offer suggestions
-      case "MANY_NN":                   return -1;  // less priority than PUSH_UP_HYPHEN, SOME_FACULTY
-      case "WE_BE":                     return -1;
-      case "A_LOT_OF_NN":               return -1;
-      case "REPETITIONS_STYLE":         return -51;  // repetition style rules, usually with prefix REP_
-      case "ORDER_OF_WORDS_WITH_NOT":   return -1;  // less prio than punctuation rules
-      case "ADVERB_WORD_ORDER_10_TEMP": return 1;
-      case "ADVERB_WORD_ORDER":         return -1;  // less prio than PRP_PAST_PART //
-      case "HAVE_VB_DT":                return -1;
-      case "MD_PRP":                    return -1;  // prefer ME_BE
-      case "IT_IS_2":                   return -1;  // needs higher prio than BEEN_PART_AGREEMENT
-      case "A_RB_NN":                   return -1;  // prefer other more specific rules (e.g. QUIET_QUITE, A_QUITE_WHILE)
-      case "DT_RB_IN":                  return -1;  // prefer other more specific rules
-      case "VERB_NOUN_CONFUSION":       return -1;  // prefer other more specific rules
-      case "NOUN_VERB_CONFUSION":       return -1;  // prefer other more specific rules
-      case "PLURAL_VERB_AFTER_THIS":    return -1;  // prefer other more specific rules (e.g. COMMA_TAG_QUESTION)
-      case "BE_RB_BE":                  return -1;  // prefer other more specific rules
-      case "IT_ITS":                    return -1;  // prefer other more specific rules
-      case "ENGLISH_WORD_REPEAT_RULE":  return -1;  // prefer other more specific rules (e.g. IT_IT)
-      case "NON_ANTI_PRE_JJ":           return -1;  // prefer other more specific rules
-      case "DT_JJ_NO_NOUN":             return -1;  // prefer other more specific rules (e.g. THIRD_PARTY)
-      case "AGREEMENT_SENT_START":      return -1;  // prefer other more specific rules
-      case "PREPOSITION_VERB":          return -1;  // prefer other more specific rules
-      case "EN_A_VS_AN":                return -1;  // prefer other more specific rules (with suggestions, e.g. AN_ALSO)
-      case "CD_NN":                     return -1;  // prefer other more specific rules (with suggestions)
-      case "CD_NNU":                    return -1;  // prefer other more specific rules (with suggestions)
-      case "ATD_VERBS_TO_COLLOCATION":  return -1;  // prefer other more specific rules (with suggestions)
-      case "ORDINAL_NUMBER_MISSING_ORDINAL_INDICATOR": return -1;  // prefer other more specific rules (with suggestions)
-      case "ADVERB_OR_HYPHENATED_ADJECTIVE": return -1;  // prefer other more specific rules (with suggestions)
-      case "GOING_TO_VBD":              return -1;  // prefer other more specific rules (with suggestions, e.g. GOING_TO_JJ)
-      case "MISSING_PREPOSITION":       return -1;  // prefer other more specific rules (with suggestions)
-      case "CHARACTER_APOSTROPHE_WORD": return -1;  // prefer other more specific rules
-      case "SINGLE_CHARACTER":          return -1;  // prefer other more specific rules (with suggestions)
-      case "BE_TO_VBG":                 return -1;  // prefer other more specific rules (with suggestions)
-      case "NON3PRS_VERB":              return -1;  // prefer other more specific rules (with suggestions, e.g. DONS_T)
-      case "DT_NN_VBG":                 return -1;  // prefer other more specific rules (with suggestions)
-      case "NNS_THAT_ARE_JJ":           return -1;  // prefer other more specific rules
-      case "DID_FOUND_AMBIGUOUS":       return -1;  // prefer other more specific rules (e.g. TWO_CONNECTED_MODAL_VERBS)
-      case "BE_I_BE_GERUND":            return -1;  // prefer other more specific rules (with suggestions)
-      case "VBZ_VBD":                   return -1;  // prefer other more specific rules (e.g. IS_WAS)
-      case "SUPERLATIVE_THAN":          return -1;  // prefer other more specific rules
-      case "UNLIKELY_OPENING_PUNCTUATION": return -1;  // prefer other more specific rules
-      case "MD_DT_JJ":                  return -1;  // prefer other more specific rules
-      case "I_IF":                      return -1;  // prefer other more specific rules
-      case "NOUNPHRASE_VB_RB_DT":       return -1;  // prefer other more specific rules
-      case "SENT_START_NN_NN_VB":       return -1;  // prefer other more specific rules
-      case "VB_A_JJ_NNS":               return -1;  // prefer other more specific rules (e.g. A_NNS)
-      case "DUPLICATION_OF_IS_VBZ":     return -1;  // prefer other more specific rules (e.g. A_NNS)
-      case "METRIC_UNITS_EN_IMPERIAL":  return -1;  // prefer MILE_HYPHEN
-      case "METRIC_UNITS_EN_GB":        return -1;  // prefer MILE_HYPHEN
-      case "IF_THEN_COMMA":             return -1;  // prefer CONFUSION_OF_THEN_THAN
-      case "COMMA_COMPOUND_SENTENCE":   return -1;  // prefer other rules
-      case "COMMA_COMPOUND_SENTENCE_2": return -1;  // prefer other rules
-      case "BE_VBG_BE":                 return -1;  // prefer other more specific rules
-      case "PRP_VB_VB":                 return -1;  // prefer other more specific rules
-      case "FOR_ANY_CLARIFICATIONS":    return -1;  // prefer SENT_START_ALL_CAPITALS and ALL_UPPERCASE
-      case "PLEASE_LET_ME_KNOW":        return -1;  // prefer SENT_START_ALL_CAPITALS and ALL_UPPERCASE
-      case "UNNECESSARY_CAPITALIZATION": return -1;  // prefer other more specific rules
-      case "CONFUSION_OF_A_JJ_NNP_NNS_PRP": return -1;  // prefer other more specific rules
-      case "PLURALITY_CONFUSION_OF_NNS_OF_NN": return -1; // prefer several compound rules
-      case "NP_TO_IS":                  return -1;  // prefer other more specific rules
-      case "REPEATED_VERBS":            return -1;  // prefer other rules
-      case "NNP_COMMA_QUESTION":        return -2;  // prefer other more specific rules
-      case "VB_TO_NN_DT":               return -2;  // prefer other more specific rules (e.g. NOUN_VERB_CONFUSION)
-      case "THE_CC":                    return -2;  // prefer other more specific rules (with suggestions)
-      case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
-      case "PRP_VBZ":                   return -2;  // prefer other more specific rules (with suggestions)
-      case "CANT_JJ":                   return -2;  // prefer other more specific rules
-      case "WOULD_A":                   return -2;  // prefer other more specific rules
-      case "I_AM_VB":                   return -2;  // prefer other rules
-      case "VBP_VBP":                 return -2;  // prefer more specific rules
-      case "GONNA_TEMP":                return -3;
-      case "A_INFINITIVE":              return -3;  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB, THE_TO)
-      case "INDIAN_ENGLISH":            return -3;  // prefer grammar rules, but higher prio than spell checker
-      case "DO_PRP_NOTVB":              return -3;  // prefer other more specific rules (e.g. HOW_DO_I_VB)
-      case "ARTICLE_VB":                return -3;  // prefer A_INFINITIVE and other more specific rules (with suggestions)
-      case "GONNA":                     return -4;  // prefer over spelling rules
-      case "WHATCHA":                   return -4;  // prefer over spelling rules
-      case "DONTCHA":                   return -4;  // prefer over spelling rules
-      case "GOTCHA":                    return -4;  // prefer over spelling rules
-      case "OUTTA":                     return -4;  // prefer over spelling rules
-      case "Y_ALL":                     return -4;  // prefer over spelling rules
-      case "GIMME":                     return -4;  // prefer over spelling rules
-      case "LEMME":                     return -4;  // prefer over spelling rules
-      case "ID_CASING":                 return -4;  // prefer over spelling rules but not over ID_IS
-      case "EN_GB_SIMPLE_REPLACE":      return -5;  // higher prio than Speller
-      case "EN_US_SIMPLE_REPLACE":      return -5;  // higher prio than Speller
-      case "MORFOLOGIK_RULE_EN_US":     return -10;  // more specific rules (e.g. L2 rules) have priority
-      case "MORFOLOGIK_RULE_EN_GB":     return -10;  // more specific rules (e.g. L2 rules) have priority
-      case "MORFOLOGIK_RULE_EN_CA":     return -10;  // more specific rules (e.g. L2 rules) have priority
-      case "MORFOLOGIK_RULE_EN_ZA":     return -10;  // more specific rules (e.g. L2 rules) have priority
-      case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
-      case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
-      case "MD_PRP_QUESTION_MARK":   return -11;  // speller needs higher priority
-      case "PRP_RB_NO_VB":              return -12;  // prefer other more specific rules (with suggestions)
-      case "EN_UPPER_CASE_NGRAM":       return -12;  // prefer other more specific rules (e.g. AI models)
-      case "MD_JJ":                     return -12;  // prefer other rules (e.g. NOUN_VERB_CONFUSION)
-      case "HE_VERB_AGR":               return -12;  // prefer other more specific rules (e.g. AI models, PRP_VBG)
-      case "MD_BASEFORM":               return -12;  // prefer other more specific rules (e.g. AI models)
-      case "IT_VBZ":                    return -12;  // prefer other more specific rules (e.g. AI models)
-      case "PRP_THE":                   return -12;  // prefer other rules (e.g. AI models, I_A, PRP_JJ, IF_YOU_ANY, I_AN)
-      case "PRP_JJ":                    return -12;  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
-      case "SINGULAR_NOUN_VERB_AGREEMENT": return -12;  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
-      case "SINGULAR_AGREEMENT_SENT_START": return -12;    // prefer AI
-      case "SUBJECTVERBAGREEMENT_2": return -12;    // prefer AI
-      case "THE_SENT_END": return -12;    // prefer AI
-      case "DT_NN_ARE_AME": return -12;    // prefer AI
-      case "COLLECTIVE_NOUN_VERB_AGREEMENT_VBP": return -12;    // prefer AI
-      case "SUBJECT_VERB_AGREEMENT":   return -12;    // prefer AI
-      case "VERB_APOSTROPHE_S":   return -12;    // prefer AI
-      case "SENT_START_PRPS_JJ_NN_VBP": return -12;  // prefer AI
-      case "TO_AFTER_MODAL_VERBS": return -12;  // prefer AI
-      case "SINGULAR_NOUN_ADV_AGREEMENT": return -12;  // prefer AI
-      case "BE_VBP_IN":                 return -12;  // prefer over BEEN_PART_AGREEMENT but not over AI_EN_LECTOR
-      case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
-      case "THE_NNS_NN_IS":             return -12;  // prefer HYDRA_LEO
-      case "IF_DT_NN_VBZ":             return -12;  // prefer HYDRA_LEO and lector
-      case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
-      case "PRP_A":                     return -13;  // prefer other more specific rules (e.g. AI models, I_AN, PRP_JJ)
-      case "HAVE_PART_AGREEMENT":       return -13;  // prefer HYDRA_LEO and lector
-      case "BEEN_PART_AGREEMENT":       return -13;  // prefer HYDRA_LEO and lector
-      case "BE_WITH_WRONG_VERB_FORM":   return -14;  // prefer HYDRA_LEO, BEEN_PART_AGREEMENT and other rules
-      case "TWO_CONNECTED_MODAL_VERBS": return -15;
-      case "PRP_NO_ADVERB_VERB":        return -15;  // prefer other more specific rules (e.g. PRP_VBG, IT_ITS, ...)
-      case "MISSING_TO_BETWEEN_BE_AND_VB": return -15; // prefer AI and comma rules
-      case "IN_DT_IN": return -15; // prefer AI and comma rules
-      case "MISSING_SUBJECT":           return -15;  // prefer other more specific rules
-      case "HAVE_TO_NOTVB":             return -15; // prefer AI and comma rules
-      case "PLEASE_DO_NOT_THE_CAT":     return -15; // prefer AI and comma rules
-      case "VB_TO_JJ":     return -15; // prefer AI and comma rules
-      case "CC_PRP_ARTICLE":            return -15;  // prefer other more specific rules
-      case "BE_MD":                     return -20;  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)
-      case "POSSESSIVE_APOSTROPHE":     return -10;  // prefer over AI_HYDRA_LEO_APOSTROPHE_S_XS (again, temporarily)
-      case "PRP_VB_IMPROVE":            return -24;  // higher prio than PRP_VB but prefer other rules (with suggestions, e.g. confusion rules)
-      case "WANT_TO_NN":                return -25;  // prefer more specific rules that give a suggestion
-      case "QUESTION_WITHOUT_VERB":     return -25;  // prefer more specific rules that give a suggestion
-      case "PRP_VB":                    return -25;  // prefer other rules (with suggestions, e.g. confusion rules)
-      case "PRP_VB_NN":                 return -25;  // prefer other more specific rules (e.g. HYDRA_LEO)
-      case "BE_NN":                     return -26;  // prefer other more specific rules (e.g. PRP_VB_NN, BEEN_PART_AGREEMENT, HYDRA_LEO)
-      case "BE_VB_OR_NN":               return -26;  // prefer other more specific rules (e.g. PRP_VB_NN, BE_MD, BEEN_PART_AGREEMENT, HYDRA_LEO)
-      case "DO_DT_NN_BE":               return -26;  // prefer other more specific rules (e.g. PRP_VB_NN, BE_MD, BEEN_PART_AGREEMENT, HYDRA_LEO)
-      case "PRONOUN_NOUN":              return -26;  // prefer other rules (with suggestions, e.g. confusion rules)
-      case "ETC_PERIOD":                return -49;  // prefer over QB rules that are now style
-      case "COULD_YOU_NOT_NEEDED":      return -49;  // prefer over TAKE_A_LOOK
-      case "SENTENCE_FRAGMENT":         return -50;  // prefer other more important sentence start corrections.
-      case "AI_HYDRA_LEO_MISSING_COMMA": return -51; // prefer comma style rules.
-      case "SENTENCE_FRAGMENT_SINGLE_WORDS": return -51;  // prefer other more important sentence start corrections.
-      case "SEEMS_TO_BE":               return -51;  // prefer SEEM_APPEAR
-      case "QB_EN_OXFORD":               return -51;  // MISSING_COMMA_AFTER_YEAR
-      case "MD_NN":                     return -60;  // prefer PRP_MD_NN
-      case "I_THINK_FEEL":              return -60;
-      case "KNOW_AWARE_REDO":           return -60;
-      case "EN_REDUNDANCY_REPLACE":     return -510;  // style rules should always have the lowest priority.
-      case "EN_PLAIN_ENGLISH_REPLACE":  return -511;  // style rules should always have the lowest priority.
-      case "REP_PASSIVE_VOICE":         return -599;  // higher prio than PASSIVE_VOICE for testing purposes, but lower than other style rules
-      case "FOUR_NN":                   return -599;  // higher prio than THREE_NN for testing purposes, but lower than other style rules
-      case "THREE_NN":                  return -600;  // style rules should always have the lowest priority.
-      case "SENT_START_NUM":            return -600;  // style rules should always have the lowest priority.
-      case "PASSIVE_VOICE":             return -600;  // style rules should always have the lowest priority.
-      case "EG_NO_COMMA":               return -600;  // style rules should always have the lowest priority.
-      case "IE_NO_COMMA":               return -600;  // style rules should always have the lowest priority.
-      case "REASON_WHY":                return -600;  // style rules should always have the lowest priority.
-      case LongSentenceRule.RULE_ID:    return -997;
-      case LongParagraphRule.RULE_ID:   return -998;
-      case "ALL_UPPERCASE":             return -1000;  // do not hide spelling and grammar issues, when text is all upper case
+    Integer prio = id2prio.get(id);
+    if (prio != null) {
+      return prio;
     }
     if (id.startsWith("EN_COMPOUNDS_")) {
       return 2;
     }
+    if (id.equals("PRP_VBZ")) {
+      return -2; // prefer other more specific rules (with suggestions)
+    }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -20;
+    }
+    if (id.equals("EN_UPPER_CASE_NGRAM")) {
+      return -12; // prefer other more specific rules (e.g. AI models)
     }
     if (id.startsWith("AI_SPELLING_RULE")) {
       return -9; // higher than MORFOLOGIK_*, for testing
@@ -672,7 +672,13 @@ public class English extends Language implements AutoCloseable {
     if (id.startsWith("EN_MULTITOKEN_SPELLING_")) {
       return -9; // higher than MORFOLOGIK_*
     }
+    if (id.equals("QB_EN_OXFORD")) {
+      return -51; // MISSING_COMMA_AFTER_YEAR
+    }
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      if (id.equals("AI_HYDRA_LEO_MISSING_COMMA")) {
+        return -51; // prefer comma style rules.
+      }
       if (id.startsWith("AI_HYDRA_LEO_CP_YOU_YOUARE")) {
         return -1;
       }
