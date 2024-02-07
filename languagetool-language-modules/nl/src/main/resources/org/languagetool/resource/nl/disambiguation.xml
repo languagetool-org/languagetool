@@ -2827,24 +2827,6 @@ Copyright (C) 2008-2024 Ruud Baars
     </rule>
 
 	<!--
-	?  37632	(2)	BYW BNW:STL:ONV|VGW|VRZ
-    8375:	 terug naar
-    3503:	 Terug naar
-    3180:	 eens naar
-    2630:	 mee naar
-    2074:	 ook naar
-	-->
-    <rule id="NEW_061" name="-">
-        <pattern>
-            <token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
-            <marker>
-				<token postag="VRZ">naar</token>
-           </marker>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
-
-	<!--
 	?  36905	(3)	WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ ZNW:EKV:DE_ ITP:PNT|SENT_END
     1279:	 zijn rug.
     1119:	 zijn vrouw.
@@ -13025,5 +13007,25 @@ Copyright (C) 2008-2024 Ruud Baars
 			<disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
 		</rule>
 	</rulegroup>
+	<!-- ===================================================================== -->
+	<!--
+	Test sentence:
+	x goed x
+	Result for 'goed' before adding rule:
+	goed[goed/BNW:STL:ONV, goed/ZNW:EKV:HET]
+	Rule to test:
+	-->
+
+	<rule id="BUG_DEMO" name="-">
+		<pattern>
+			<token>X</token>
+			<marker>
+				<token postag_regexp="yes" postag="BNW:STL:ONV|ZNW:EKV:HET"><exception postag_regexp="yes" postag="BNW:STL:ONV|ZNW:EKV:HET"/></token>
+			</marker>
+			<token>x</token>
+		</pattern>
+		<disambig action="remove" postag="BNW:STL:ONV"/>
+	</rule>
+
 
 </rules>
