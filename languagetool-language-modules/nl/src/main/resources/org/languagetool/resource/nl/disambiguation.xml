@@ -12415,7 +12415,6 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="VGW"/>
 			<token postag="VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:MRV:DE_"/></token>
 			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
@@ -12544,6 +12543,59 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
+
+	<!--
+	?	  3829	(5)	VRZ VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ ITP:KMA VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VGW:EKV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_
+	    21:	 van de rittenkoers, die
+	     3:	 op de telefoon, die
+	     3:	 naar de deur, die
+	     2:	 naar de voordeur, die
+	     2:	 naar de vrouw, die
+	-->
+	<rule id="NEW_568" name="-">
+		<pattern>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="ITP:KMA"/>
+			<token postag="VGW:EKV:DE_">die</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3814	(4)	VNW:URT|BYW:GRD|TSW|VNW|VNW:OBP:EKV|VNW:VRG VNW:PER:2EP:EKV:ACT|VNW:PER:2EP:EKV:BEZ WKW:TGW:3EP ITP:PNT|SENT_END
+	    20:	 wat je wilt.
+	    13:	 wat je zegt.
+	    11:	 wat je ziet.
+	-->
+	<rule id="NEW_569" name="-">
+		<pattern>
+			<token postag="VNW:OBP:EKV">wat</token>
+			<token postag="VNW:PER:2EP:EKV:ACT" regexp="yes">je|jij</token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<!--
+	?	  3794	(4)	GET:TXT:EKV ZNW:EKV:DE_ WKW:TGW:1EP|BNW:STL:ONV ITP:PNT|SENT_END
+	     1:	 een pen nodig.
+	     1:	 een fles open.
+	     1:	 een tas nodig.
+	     1:	 een pil nodig.
+	-->
+	<rule id="NEW_570" name="-">
+		<pattern>
+			<token postag="GET:TXT:EKV"/>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="BNW:STL:ONV">nodig</token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
 
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
