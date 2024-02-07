@@ -198,14 +198,13 @@ public class MorfologikFrenchSpellerRuleTest {
     // had to make these laxer as the order changed
     assertSuggestionsContain("damazon", "d'Amazon", "Amazon", "d'Amazone", "Damazan");
     assertSuggestionsContain("coulurs", "couleurs");
-    // strict
-    assertExactSuggestion("deja", "déjà");
-    // wtf
     assertSingleMatchWithSuggestions("Den", "De");
     assertSuggestionsContain("offe", "effet", "offre", "coffre", "bouffe");
     assertSuggestionsContain("camara", "caméra", "camard");
     assertSuggestionsContain("boton", "bâton", "béton", "Boston", "coton", "bouton");  // "bouton" would be better?
     assertSuggestionsContain("La journé", "journée"); // see #2900. Better: journée
+    // strict
+    assertExactSuggestion("deja", "déjà");
   }
 
   @Test
@@ -237,7 +236,6 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSingleMatchWithSuggestions("depechetoi", "dépêche-toi");
     assertSingleMatchWithSuggestions("sattendre", "s'attendre", "attendre");
     assertSingleMatchWithSuggestions("preferes-tu", "Préférés", "Préfères"); //TODO
-    // wtf
     assertSingleMatchWithSuggestions("àllonsy", "allons-y");
   }
 
@@ -267,13 +265,18 @@ public class MorfologikFrenchSpellerRuleTest {
   }
 
   @Test
-  public void testHours() throws Exception {
+  public void testTokenisation() throws Exception {
+    // digits and letters must be split
     assertSingleMatchWithSuggestions("123heures", "123 heures");
-    assertSingleMatchWithSuggestions("\u23F0heures", "⏰ heures");
-    assertSingleMatchWithSuggestions("\u23F0heuras", "⏰ heures");
+    // emoji and letters are tokenised separately, so this is not a spelling mistake
+    assertNoMatches("⏰heures");
+    // typo in "heuras", so we get "heures" as a suggestion, but the emoji is not touched
+    assertSingleMatchWithSuggestions("⏰heuras", "heures");
+    // "©" is a word character, so this is a single token, which triggers the speller
     assertSingleMatchWithSuggestions("©heures", "© heures");
-    assertSingleMatchWithSuggestions("►heures", "► heures");
-    assertSingleMatchWithSuggestions("◦heures", "◦ heures");
+    // these symbols are *not* word characters, so we get two tokens, and "heures" is fine
+    assertNoMatches("►heures");
+    assertNoMatches("◦heures");
   }
 
   @Test
