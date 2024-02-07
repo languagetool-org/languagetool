@@ -843,6 +843,7 @@ regexp case-insensitive maken: (?i)
 			<antipattern><token>punt</token><token>be</token></antipattern>
 			<antipattern><token>(</token><token>be</token><token>)</token></antipattern>
 			<antipattern><token/><token/><token case_sensitive="yes">Be</token><token/><token/></antipattern>
+			<antipattern><token>be</token><token postag="_FOREIGN_ENGLISH"/></antipattern>
 			<rule>
 				<pattern>
 					<marker>
@@ -11859,8 +11860,8 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="AN" name="an/An" type="misspelling">
 			<rule>
-				<antipattern><token postag="UNKNOWN"/><token>an</token></antipattern> <!-- Engels -->
-				<antipattern><token>an</token><token postag="UNKNOWN"/></antipattern> <!-- Engels -->
+				<antipattern><token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/><token>an</token></antipattern> <!-- Engels -->
+				<antipattern><token>an</token><token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/></antipattern> <!-- Engels -->
 				<antipattern><token>an</token><token>sich</token></antipattern>
 				<antipattern><token>zin</token><token>an</token></antipattern><!-- detected elsewhere -->
 				<pattern>
@@ -18376,6 +18377,10 @@ regexp case-insensitive maken: (?i)
 		<rulegroup id="I_HAD" name="I/Ik">
 			<!-- R. Baars december 2022 -->
 			<rule>
+				<antipattern>
+					<token skip="1">I</token>
+					<token postag="_FOREIGN_ENGLISH"/>
+				</antipattern>
 				<pattern>
 					<token postag="SENT_START"/>
 					<marker>
@@ -19012,6 +19017,11 @@ regexp case-insensitive maken: (?i)
 			<antipattern><token>wil</token><token regexp="yes">hij|zij|men|u</token></antipattern>
 			<antipattern><token>dan</token><token postag="WKW:TGW:1EP"/></antipattern>
 			<antipattern><token>schuil</token><token>gaan</token></antipattern>
+			<antipattern>
+				<token postag="_FOREIGN_ENGLISH"/>
+				<token postag="WKW:TGW:1EP"/>
+				<example>Het wordt opgestuurd met track and trace.</example>
+			</antipattern>
 			<antipattern>
 				<token><exception regexp="yes">[;,:]</exception></token>
 				<token postag="WKW:TGW:1EP"><exception regexp="yes">ben|word|heb|kan|zal</exception></token>
@@ -25851,6 +25861,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 			<rule>
 				<antipattern><token>de</token><token postag="ZNW:EKV:HET"/><token postag="ZNW.*" postag_regexp="yes"/></antipattern>
+				<antipattern><token>de</token><token postag="_FOREIGN_ENGLISH"/></antipattern>
 				<pattern>
 					<token>de</token>
 					<token/>
@@ -25950,7 +25961,6 @@ regexp case-insensitive maken: (?i)
 				<antipattern><token>van</token><token regexp="yes">jongs|kleins|ouds</token></antipattern>
 				<antipattern><token>al</token><token regexp="yes">het|dat|dit|te</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
 				<antipattern><token regexp="yes" skip="10">iets|niets|niks|weinig|wat|hoeveel|zoveel|zoiets|veel|allerlei|genoeg|ander|vele|voor</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
-
 				<antipattern><token regexp="yes">iets|niets|niks|weinig|wat|hoeveel|zoveel|zoiets|veel|allerlei|genoeg|ander|vele|voor</token><token postag_regexp="yes" postag="BNW:.*:IET"/><token regexp="yes">en|of</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
 				<antipattern><token>op</token><token regexp="yes">zijn|z'n</token><token postag="BNW:STL:IET"/></antipattern>
 				<antipattern><token/><token postag_regexp="yes" postag=".*MRV.*"/></antipattern>
@@ -25961,6 +25971,7 @@ regexp case-insensitive maken: (?i)
 				<antipattern><token>ups</token><token>en</token><token>downs</token></antipattern>
 				<antipattern case_sensitive="yes"><token regexp="yes">[A-Z].*</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="BNW:.*:IET"/><token regexp="yes">en|of</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
+				<antipattern><token postag="_FOREIGN_ENGLISH"/><token>stars</token></antipattern>
 				<pattern case_sensitive="yes">
 					<token/>
 					<marker>
