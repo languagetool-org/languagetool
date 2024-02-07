@@ -158,6 +158,10 @@ public class GenericUnpairedQuotesRule extends TextLevelRule {
   private boolean isOpeningQuote(AnalyzedTokenReadings[] tokens, int i) {
     for (int j = 0; j < startSymbols.size(); j++) {
       if (startSymbols.get(j).equals(tokens[i].getToken())) {
+        if ((tokens[i - 1].isSentenceStart() || tokens[i].isWhitespaceBefore())
+            && (i >= tokens.length -1 || tokens[i + 1].isWhitespaceBefore())) {
+          return false;
+        }
         if (endSymbols.contains(startSymbols.get(j))) {
           return (tokens[i - 1].isSentenceStart()
               || tokens[i].isWhitespaceBefore()
@@ -175,6 +179,10 @@ public class GenericUnpairedQuotesRule extends TextLevelRule {
   private boolean isClosingQuote(AnalyzedTokenReadings[] tokens, int i) {
     for (int j = 0; j < endSymbols.size(); j++) {
       if (endSymbols.get(j).equals(tokens[i].getToken())) {
+        if ((tokens[i - 1].isSentenceStart() || tokens[i].isWhitespaceBefore())
+            && (i >= tokens.length -1 || tokens[i + 1].isWhitespaceBefore())) {
+          return false;
+        }
         return true;
       }
     }
