@@ -45,7 +45,8 @@ public class MultitokenSpellerFilter extends RuleFilter {
     Language lang = ((PatternRule) match.getRule()).getLanguage();
     // check the spelling for some languages in a different way
     boolean areTokensAcceptedBySpeller = false;
-    if (lang.getShortCode().equals("en") || lang.getShortCode().equals("de") || lang.getShortCode().equals("pt")) {
+    if (lang.getShortCode().equals("en") || lang.getShortCode().equals("de") || lang.getShortCode().equals("pt")
+      || lang.getShortCode().equals("nl")) {
       if (lang.getShortCodeWithCountryAndVariant().length()==2) {
         // needed in testing
         lang = lang.getDefaultLanguageVariant();
