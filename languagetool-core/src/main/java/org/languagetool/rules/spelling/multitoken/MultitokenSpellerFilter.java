@@ -27,10 +27,8 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class MultitokenSpellerFilter extends RuleFilter {
 
@@ -80,6 +78,11 @@ public class MultitokenSpellerFilter extends RuleFilter {
       replacements = capitalizedReplacements;
     }
     match.setSuggestedReplacements(replacements);
+    if (!replacements.isEmpty()) {
+      SimpleDateFormat sdf = new SimpleDateFormat("HH");
+      System.out.println(sdf.format(new Date()) + " - multitoken suggestion " + match.getRule().getFullId() +": " + replacements.toString()
+        + "; original: " + underlinedError);
+    }
     return match;
   }
 
