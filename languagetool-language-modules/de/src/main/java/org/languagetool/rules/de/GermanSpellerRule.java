@@ -2364,6 +2364,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
 
     // TODO distinguish more cases with hyphens
+    // TODO allow foreign terms
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
       // 's' is the last character in *part1* and is probably not an infix
       part1WithoutHyphen.endsWith("s") && (isNounNom(part1upcased) || isVerbStem(part1)) &&
