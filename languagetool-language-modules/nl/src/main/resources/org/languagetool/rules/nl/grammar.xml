@@ -8784,6 +8784,7 @@ regexp case-insensitive maken: (?i)
 		<rulegroup id="DE_GENE" name="die gene → diegene">
 			<!-- 2014-08-23 TaalTik -->
 			<rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token>euro</token></antipattern>
 				<pattern>
 					<token regexp="yes">de|dit|het</token>
 					<token>gene</token>
@@ -9615,6 +9616,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="XXX_DING" name="KLM vliegtuig → KLM-vliegtuig" type="misspelling">
 			<rule>
+				<antipattern><token>KNMI</token><token>code</token></antipattern>
 				<antipattern>
 					<token>de</token>
 					<token regexp="yes" case_sensitive="yes">[WEN]K</token>
@@ -12338,6 +12340,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 
 			<rule>
+				<antipattern><token postag="ENM:PER:FST"/><token>van</token><token>den</token><token>Oever</token></antipattern>
 				<antipattern case_sensitive="yes"><token>Den</token><token>Oever</token></antipattern>
 				<pattern><token>den</token><token>oever</token></pattern>
 				<message>U bedoelt misschien de plaats <suggestion>Den Oever</suggestion>.</message>
@@ -14618,9 +14621,9 @@ regexp case-insensitive maken: (?i)
 					<token regexp="yes">[,;]</token>
 					<token case_sensitive="yes">Van</token>
 					<token min="0" max="1" regexp="yes">de|der|den</token>
-					<token postag_regexp="yes" postag="ENM.*|UNKNOWN"/>
+					<token postag_regexp="yes" postag="ENM.*|UNKNOWN|_FOREIGN_ENGLISH"/>
 				</antipattern>
-				<antipattern><token regexp="yes">[,;]</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN"></token></antipattern>
+				<antipattern><token regexp="yes">[,;]</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN|_FOREIGN_ENGLISH"></token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">San|St|Ch|Th|Ph|Peg</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token/><token>,</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*">[A-Z].*</token></antipattern>
@@ -15705,6 +15708,12 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="SINT_X" name="Sint Anna/Sint-Anna">
 			<rule>
+				<antipattern>
+					<token>St</token>
+					<token>.</token>
+					<token>Louis</token>
+					<token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+				</antipattern>
 				<antipattern>
 					<token>p</token>
 					<token>/</token>
@@ -19011,6 +19020,8 @@ regexp case-insensitive maken: (?i)
 
 		<rulegroup id="STAM_ZONDER_IK" name="werkwoordstam zonder ik">
 			<!-- R. Baars, oktober 2022 -->
+			<antipattern><token skip="4">zich</token><token>schuil</token></antipattern>
+			<antipattern><token>te</token><token>grabbel</token></antipattern>
 			<antipattern><token>schuil</token><token>gaat</token></antipattern>
 			<antipattern><token>de</token><token>war</token></antipattern>
 			<antipattern><token>in</token><token>de</token><token>maak</token></antipattern>
