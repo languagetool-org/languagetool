@@ -608,59 +608,61 @@ public class SpellAndGrammarCheckDialog extends Thread {
       paRes.aProperties = propertyValues;
       paRes.aErrors = null;
       Language langForShortName = MultiDocumentsHandler.getLanguage(locale);
-      if (doInit || !langForShortName.equals(lastLanguage) || !documents.isCheckImpressDocument()) {
-        lastLanguage = langForShortName;
-        setLangTool(document, lastLanguage);
-        document.removeResultCache(nFPara, true);
-      }
-      int lastSentenceStart = -1;
-      while (paRes.nStartOfNextSentencePosition < text.length() && paRes.nStartOfNextSentencePosition != lastSentenceStart) {
-        lastSentenceStart = paRes.nStartOfNextSentencePosition;
-        paRes.nStartOfSentencePosition = paRes.nStartOfNextSentencePosition;
-        paRes.nStartOfNextSentencePosition = text.length();
-        paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
-        if (debugMode) {
-          for (String id : lt.getDisabledRules()) {
-            MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Dialog disabled rule: " + id);
-          }
+      if (langForShortName != null) {
+        if (doInit || !langForShortName.equals(lastLanguage) || !documents.isCheckImpressDocument()) {
+          lastLanguage = langForShortName;
+          setLangTool(document, lastLanguage);
+          document.removeResultCache(nFPara, true);
         }
-        paRes = document.getCheckResults(text, locale, paRes, propertyValues, false, lt, nFPara, errType);
-        if (paRes.aErrors != null) {
+        int lastSentenceStart = -1;
+        while (paRes.nStartOfNextSentencePosition < text.length() && paRes.nStartOfNextSentencePosition != lastSentenceStart) {
+          lastSentenceStart = paRes.nStartOfNextSentencePosition;
+          paRes.nStartOfSentencePosition = paRes.nStartOfNextSentencePosition;
+          paRes.nStartOfNextSentencePosition = text.length();
+          paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
           if (debugMode) {
-            MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Number of Errors = " 
-                + paRes.aErrors.length + ", Paragraph: " + nFPara + ", Next Position: " + paRes.nStartOfNextSentencePosition
-                + ", Text.length: " + text.length());
-          }
-          for (SingleProofreadingError error : paRes.aErrors) {
-            if (debugMode) {
-              MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Start: " + error.nErrorStart + ", ID: " + error.aRuleIdentifier);
-              if (error.nErrorType != TextMarkupType.SPELLCHECK) {
-                MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Test for correct spell: " 
-                        + text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength));
-              }
+            for (String id : lt.getDisabledRules()) {
+              MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Dialog disabled rule: " + id);
             }
-            if (error.nErrorType != TextMarkupType.SPELLCHECK 
-                 || !documents.getLinguisticServices().isCorrectSpell(text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale)) {
-              if (error.nErrorStart >= x) {
-                if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
-                    && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
-                  error.aSuggestions = document.getSynonymArray(error, text, locale, lt, false);
-                } else if (error.nErrorType == TextMarkupType.SPELLCHECK) {
-                  List<String> suggestionList = new ArrayList<>();
-                  for (String suggestion : error.aSuggestions) {
-                    suggestionList.add(suggestion);
-                  }
-                  String[] suggestions = documents.getLinguisticServices().getSpellAlternatives(text, locale);
-                  if (suggestions != null) {
-                    for (String suggestion : suggestions) {
-                      if (!suggestionList.contains(suggestion)) {
-                        suggestionList.add(suggestion);
+          }
+          paRes = document.getCheckResults(text, locale, paRes, propertyValues, false, lt, nFPara, errType);
+          if (paRes.aErrors != null) {
+            if (debugMode) {
+              MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Number of Errors = " 
+                  + paRes.aErrors.length + ", Paragraph: " + nFPara + ", Next Position: " + paRes.nStartOfNextSentencePosition
+                  + ", Text.length: " + text.length());
+            }
+            for (SingleProofreadingError error : paRes.aErrors) {
+              if (debugMode) {
+                MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Start: " + error.nErrorStart + ", ID: " + error.aRuleIdentifier);
+                if (error.nErrorType != TextMarkupType.SPELLCHECK) {
+                  MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Test for correct spell: " 
+                          + text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength));
+                }
+              }
+              if (error.nErrorType != TextMarkupType.SPELLCHECK 
+                   || !documents.getLinguisticServices().isCorrectSpell(text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale)) {
+                if (error.nErrorStart >= x) {
+                  if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
+                      && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
+                    error.aSuggestions = document.getSynonymArray(error, text, locale, lt, false);
+                  } else if (error.nErrorType == TextMarkupType.SPELLCHECK) {
+                    List<String> suggestionList = new ArrayList<>();
+                    for (String suggestion : error.aSuggestions) {
+                      suggestionList.add(suggestion);
+                    }
+                    String[] suggestions = documents.getLinguisticServices().getSpellAlternatives(text, locale);
+                    if (suggestions != null) {
+                      for (String suggestion : suggestions) {
+                        if (!suggestionList.contains(suggestion)) {
+                          suggestionList.add(suggestion);
+                        }
                       }
                     }
+                    error.aSuggestions = suggestionList.toArray(new String[0]);
                   }
-                  error.aSuggestions = suggestionList.toArray(new String[0]);
+                  return error;
                 }
-                return error;
               }
             }
           }
@@ -2127,6 +2129,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
             MessageHandler.printToLogFile("CheckDialog: findNextError: Suggestions set");
           }
           Language lang = locale == null ? lt.getLanguage() : MultiDocumentsHandler.getLanguage(locale);
+          if (lang == null) {
+            lang = lt.getLanguage();
+          }
           if (debugMode && lt.getLanguage() == null) {
             MessageHandler.printToLogFile("CheckDialog: findNextError: LT language == null");
           }

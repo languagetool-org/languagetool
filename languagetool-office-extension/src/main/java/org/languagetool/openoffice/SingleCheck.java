@@ -556,12 +556,15 @@ public class SingleCheck {
       //  One paragraph check
       if (!isTextParagraph || parasToCheck == 0) {
         Locale primaryLocale = isMultiLingual ? docCache.getFlatParagraphLocale(nFPara) : locale;
-        SwJLanguageTool mLt;
+        SwJLanguageTool mLt = null;
         if (OfficeTools.isEqualLocale(primaryLocale, locale) || !MultiDocumentsHandler.hasLocale(primaryLocale)) {
           mLt = lt;
         } else {
-          mLt = mDocHandler.initLanguageTool(MultiDocumentsHandler.getLanguage(primaryLocale), false);
-          mDocHandler.initCheck(mLt);
+          Language mLang = MultiDocumentsHandler.getLanguage(primaryLocale);
+          if (mLang != null) {
+            mLt = mDocHandler.initLanguageTool(mLang, false);
+            mDocHandler.initCheck(mLt);
+          }
         }
         List<Integer> nextSentencePositions = getNextSentencePositions(paraText, mLt);
         List<Integer> deletedChars = isTextParagraph ? docCache.getFlatParagraphDeletedCharacters(nFPara): null;

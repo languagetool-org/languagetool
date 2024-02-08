@@ -605,7 +605,7 @@ public class MultiDocumentsHandler {
   public SwJLanguageTool getLanguageTool() {
     if (lt == null) {
       if (docLanguage == null) {
-        docLanguage = getLanguage();
+        docLanguage = getCurrentLanguage();
       }
       lt = initLanguageTool();
     }
@@ -619,7 +619,7 @@ public class MultiDocumentsHandler {
     try {
       if (config == null || recheck) {
         if (docLanguage == null) {
-          docLanguage = getLanguage();
+          docLanguage = getCurrentLanguage();
         }
         initLanguageTool();
       }
@@ -671,19 +671,20 @@ public class MultiDocumentsHandler {
   /**
    * Checks the language under the cursor. Used for opening the configuration dialog.
    * @return the language under the visible cursor
+   * if null or not supported returns the most used language of the document
+   * if there is no supported language use en-US as default
    */
-  public Language getLanguage() {
+  public Language getCurrentLanguage() {
     Locale locale = getDocumentLocale();
-    if (locale == null) {
+    if (locale == null || locale.Language.equals(OfficeTools.IGNORE_LANGUAGE) || !hasLocale(locale)) {
+      SingleDocument document = getCurrentDocument();
+      if (document != null) {
+        Language lang = document.getLanguage();
+        if (lang != null) {
+          return lang;
+        }
+      }
       locale = new Locale("en","US","");
-    }
-    if (locale.Language.equals(OfficeTools.IGNORE_LANGUAGE)) {
-      return null;
-    }
-    if (!hasLocale(locale)) {
-      String message = Tools.i18n(messages, "language_not_supported", locale.Language);
-      MessageHandler.showMessage(message);
-      return null;
     }
     return getLanguage(locale);
   }
@@ -811,7 +812,11 @@ public class MultiDocumentsHandler {
         return Languages.getLanguageForShortCode(locale.Language + "-" + locale.Country);
       }
     } catch (Throwable e) {
-      return Languages.getLanguageForShortCode(locale.Language);
+      try {
+        return Languages.getLanguageForShortCode(locale.Language);
+      } catch (Throwable t) {
+        return null;
+      }
     }
   }
 
@@ -1179,7 +1184,7 @@ public class MultiDocumentsHandler {
    */
   public boolean toggleNoBackgroundCheck() throws IOException {
     if (docLanguage == null) {
-      docLanguage = getLanguage();
+      docLanguage = getCurrentLanguage();
     }
     if (config == null) {
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage, true);
@@ -1480,7 +1485,7 @@ public class MultiDocumentsHandler {
       Configuration config = getConfiguration();
       Language lang = config.getDefaultLanguage();
       if (lang == null) {
-        lang = getLanguage();
+        lang = getCurrentLanguage();
       }
       if (lang == null) {
         return;
@@ -1868,12 +1873,14 @@ public class MultiDocumentsHandler {
       }
       if (docType != DocumentType.WRITER) {
         langForShortName = getLanguage(locale);
-        docLanguage = langForShortName;
-        this.locale = locale;
-        extraRemoteRules.clear();
-        lt = initLanguageTool(true);
-        initCheck(lt);
-        initDocuments(true);
+        if (langForShortName != null) {
+          docLanguage = langForShortName;
+          this.locale = locale;
+          extraRemoteRules.clear();
+          lt = initLanguageTool(true);
+          initCheck(lt);
+          initDocuments(true);
+        }
         return true;
       } else {
         resetCheck();
@@ -2200,10 +2207,12 @@ public class MultiDocumentsHandler {
             }
             MessageHandler.printToLogFile("MultiDocumentsHandler: LtHelper: local: " + OfficeTools.localeToString(locale));
             langForShortName = getLanguage(locale);
-            docLanguage = langForShortName;
-            lt = initLanguageTool(true);
-            initCheck(lt);
-            initDocuments(false);
+            if (langForShortName != null) {
+              docLanguage = langForShortName;
+              lt = initLanguageTool(true);
+              initCheck(lt);
+              initDocuments(false);
+            }
           }
         }
       } catch (Throwable e) {

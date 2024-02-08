@@ -162,7 +162,7 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
    */
   public boolean isValid(String word, Locale locale, PropertyValue[] Properties) throws IllegalArgumentException {
     try {
-      if (noLtSpeller) {
+      if (noLtSpeller || !hasLocale(locale)) {
         return false;
       }
       String localeStr = OfficeTools.localeToString(locale);
@@ -225,23 +225,21 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
 //            + ", locale: " + (locale == null ? "null" : OfficeTools.localeToString(locale))
 //            + ", word: " + (word == null ? "null" : word)
 //            );
-        if (hasLocale(locale)) {
-          lastLocale = locale;
-          Language lang = MultiDocumentsHandler.getLanguage(locale);
-          lt = new JLanguageTool(lang);
-          for (Rule rule : lt.getAllRules()) {
-            if (rule.isDictionaryBasedSpellingRule()) {
-              spellingCheckRule = (SpellingCheckRule) rule;
-              if (spellingCheckRule instanceof MorfologikSpellerRule) {
-                mSpellRule = (MorfologikSpellerRule) spellingCheckRule;
-                hSpellRule = null;
-              } else if (spellingCheckRule instanceof HunspellRule) {
-                hSpellRule = (HunspellRule) spellingCheckRule;
-                mSpellRule = null;
-              }
-            } else {
-              lt.disableRule(rule.getId());
+        lastLocale = locale;
+        Language lang = MultiDocumentsHandler.getLanguage(locale);
+        lt = new JLanguageTool(lang);
+        for (Rule rule : lt.getAllRules()) {
+          if (rule.isDictionaryBasedSpellingRule()) {
+            spellingCheckRule = (SpellingCheckRule) rule;
+            if (spellingCheckRule instanceof MorfologikSpellerRule) {
+              mSpellRule = (MorfologikSpellerRule) spellingCheckRule;
+              hSpellRule = null;
+            } else if (spellingCheckRule instanceof HunspellRule) {
+              hSpellRule = (HunspellRule) spellingCheckRule;
+              mSpellRule = null;
             }
+          } else {
+            lt.disableRule(rule.getId());
           }
         }
       }

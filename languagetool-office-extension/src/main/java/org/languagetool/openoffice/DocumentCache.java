@@ -2238,24 +2238,22 @@ public class DocumentCache implements Serializable {
   private SerialLocale getMostUsedLanguage(List<SerialLocale> locales) {
     Map<SerialLocale, Integer> localesMap = new HashMap<>();
     for (SerialLocale locale : locales) {
-      if (!OfficeTools.IGNORE_LANGUAGE.equals(locale.Language)) {
-        boolean localeExists = false;
-        for (SerialLocale loc : localesMap.keySet()) {
-          if (loc.equalsLocale(locale)) {
-            localesMap.put(loc, localesMap.get(loc) + 1);
-            localeExists = true;
-            break;
-          }
+      boolean localeExists = false;
+      for (SerialLocale loc : localesMap.keySet()) {
+        if (loc.equalsLocale(locale)) {
+          localesMap.put(loc, localesMap.get(loc) + 1);
+          localeExists = true;
+          break;
         }
-        if (!localeExists) {
-          localesMap.put(locale, 1);
-        }
+      }
+      if (!localeExists) {
+        localesMap.put(locale, 1);
       }
     }
     int max = 0;
     SerialLocale maxLocale = null;
     for (SerialLocale loc : localesMap.keySet()) {
-      if (localesMap.get(loc) > max) {
+      if (localesMap.get(loc) > max && MultiDocumentsHandler.hasLocale(loc.toLocale())) {
         max = localesMap.get(loc);
         maxLocale = loc;
       }
