@@ -3815,6 +3815,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Kosten-Nutzenverhältnisses": return topMatch("Kosten-Nutzen-Verhältnisses");
       case "Kosten-Nutzenrechnung": return topMatch("Kosten-Nutzen-Rechnung");
       case "Kosten-Nutzenrechnungen": return topMatch("Kosten-Nutzen-Rechnungen");
+      case "Brandwein": return topMatch("Branntwein");
+      case "Brandweins": return topMatch("Branntweins");
+      case "Brandweines": return topMatch("Branntweines");
+      case "Brandweine": return topMatch("Branntweine");
+      case "Brandweinen": return topMatch("Branntweinen");
+      case "Deluxe": return topMatch("de luxe");
+      case "deluxe": return topMatch("de luxe");
     }
     return Collections.emptyList();
   }
