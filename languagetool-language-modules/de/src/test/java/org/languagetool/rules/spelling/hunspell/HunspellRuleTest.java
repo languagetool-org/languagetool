@@ -121,9 +121,20 @@ public class HunspellRuleTest {
     assertEquals("[E-Commerce, Comer]", matches[1].getSuggestedReplacements().toString());
     assertEquals(3, matches[1].getFromPos());
     assertEquals(11, matches[1].getToPos());
-    
   }
 
+  @Test
+  public void testMultitokensWithSepllerRule() throws Exception {
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+
+    // a multiword as a suggestion for a single-token misspelled word
+    List<RuleMatch> matches = lt.check("BigBrother");
+    assertEquals(1, matches.size());
+    assertEquals("Big Brother", matches.get(0).getSuggestedReplacements().get(0).toString());
+
+    // multiwords at the sentence start (capitalized)
+    assertEquals(0, lt.check("Mea culpa").size());
+  }
   @Test
   public void testRuleWithWrongSplit() throws Exception {
     HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), Languages.getLanguageForShortCode("de-DE"), null);
