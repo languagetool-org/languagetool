@@ -12756,7 +12756,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		<pattern>
 			<marker>
 				<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
-				<token postag="VRZ"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+				<token postag="VRZ"/>
 				<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
 			</marker>
 			<token postag="SENT_END" regexp="yes">[.!?]</token>
@@ -12838,6 +12838,7 @@ Copyright (C) 2008-2024 Ruud Baars
 			<marker>
 				<token postag="VNW:OBP">veel</token>
 				<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+				<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
 			</marker>
 			<token postag="SENT_END" regexp="yes">[.!?]</token>
 		</pattern>
@@ -13007,25 +13008,5 @@ Copyright (C) 2008-2024 Ruud Baars
 			<disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
 		</rule>
 	</rulegroup>
-	<!-- ===================================================================== -->
-	<!--
-	Test sentence:
-	x goed x
-	Result for 'goed' before adding rule:
-	goed[goed/BNW:STL:ONV, goed/ZNW:EKV:HET]
-	Rule to test:
-	-->
-
-	<rule id="BUG_DEMO" name="-">
-		<pattern>
-			<token>X</token>
-			<marker>
-				<token postag_regexp="yes" postag="BNW:STL:ONV|ZNW:EKV:HET"><exception postag_regexp="yes" postag="BNW:STL:ONV|ZNW:EKV:HET"/></token>
-			</marker>
-			<token>x</token>
-		</pattern>
-		<disambig action="remove" postag="BNW:STL:ONV"/>
-	</rule>
-
 
 </rules>
