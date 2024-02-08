@@ -35,10 +35,10 @@ public class GermanRuleDisambiguator extends AbstractDisambiguator {
   private final Disambiguator disambiguator;
 
   private final MultiWordChunker multitokenSpeller = new MultiWordChunker(
-    "/de/multitoken-ignore.txt", false, true, false, MultiWordChunker.tagForNotAddingTags);
+    "/de/multitoken-ignore.txt", true, true, false, MultiWordChunker.tagForNotAddingTags);
 
   private final MultiWordChunker multitokenSpeller2 = new MultiWordChunker(
-    "/de/multitoken-suggest.txt", false, true, false, MultiWordChunker.tagForNotAddingTags);
+    "/de/multitoken-suggest.txt", true, true, false, MultiWordChunker.tagForNotAddingTags);
 
   private final MultiWordChunker multitokenSpeller3 = new MultiWordChunker(
     "/spelling_global.txt", false, true, false, MultiWordChunker.tagForNotAddingTags);

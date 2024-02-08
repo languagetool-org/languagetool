@@ -71,7 +71,7 @@ public class MultitokenSpellerFilter extends RuleFilter {
           //do not capitalize iPad
           newReplacement = StringTools.uppercaseFirstChar(replacement);
         }
-        if (!capitalizedReplacements.contains(newReplacement)) {
+        if (!capitalizedReplacements.contains(newReplacement) && !underlinedError.equals(newReplacement)) {
           capitalizedReplacements.add(newReplacement);
         }
       }
