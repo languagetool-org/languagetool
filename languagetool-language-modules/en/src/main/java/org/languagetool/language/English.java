@@ -590,6 +590,7 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("COLLECTIVE_NOUN_VERB_AGREEMENT_VBP", -12);    // prefer AI
     id2prio.put("SUBJECT_VERB_AGREEMENT", -12);    // prefer AI
     id2prio.put("VERB_APOSTROPHE_S", -12);    // prefer AI
+    id2prio.put("WHERE_MD_VB", -12);    // prefer AI
     id2prio.put("SENT_START_PRPS_JJ_NN_VBP", -12);  // prefer AI
     id2prio.put("TO_AFTER_MODAL_VERBS", -12);  // prefer AI
     id2prio.put("SINGULAR_NOUN_ADV_AGREEMENT", -12);  // prefer AI
