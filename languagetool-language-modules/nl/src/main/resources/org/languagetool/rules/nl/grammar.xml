@@ -8035,6 +8035,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="DE_WKWVLT3EP" name="De aanlegde" >
 			<rule>
+				<antipattern><token>De</token><token postag="ZNW:EKV:DE_"/></antipattern>
 				<antipattern><token>De</token><token postag="BNW:STL:ONV"/><token postag="WKW:VTD:ONV"/><token postag="ZNW.*DE_" postag_regexp="yes"/></antipattern>
 				<antipattern><token>.</token><token spacebefore="no">de</token></antipattern>
 				<pattern>
@@ -8319,6 +8320,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="TE_WKW1EP" name="te check" >
 			<rule>
+				<antipattern><token>te</token><token postag="BNW:STL:ONV"/></antipattern>
 				<antipattern><token>des</token><token>te</token></antipattern>
 				<pattern>
 					<token>te</token>
@@ -25671,6 +25673,10 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="DE_LELIJKS_TE" name="De lelijks te/de lelijkste" >
 			<rule>
+				<antipattern>
+					<token>te</token>
+					<token postag="WKW:TGW:INF"/>
+				</antipattern>
 				<pattern>
 					<token regexp="yes">de|het</token>
 					<marker>
