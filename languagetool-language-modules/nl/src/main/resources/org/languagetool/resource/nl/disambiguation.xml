@@ -1860,11 +1860,7 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
 			<marker>
-				<and>
-					<token postag="WKW:TGW:1EP"/>
-					<token postag="WKW:VLT:1EP"/>
-					<token postag="ZNW:EKV:DE_"/>
-				</and>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
 			</marker>
 		</pattern>
 		<disambig action="remove" postag="ZNW:EKV:DE_"/>
@@ -1927,27 +1923,6 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
-	?  68701	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP|WKW:TGW:3EP|ZNW:EKV:DE_
-   38927:	~ Ik wil
-   19790:	~ Ik moet
-    5065:	~ Ik zit
-	-->
-	<rule id="NEW_020" name="-">
-		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
-			<marker>
-				<and>
-					<token postag="WKW:TGW:1EP"/>
-					<token postag="WKW:TGW:3EP"/>
-					<token postag="ZNW:EKV:DE_"/>
-				</and>
-			</marker>
-		</pattern>
-		<disambig action="remove" postag="^(WKW:TGW:3EP|ZNW:EKV:DE_)$"/>
-	</rule>
-
-	<!--
 	?  66213	(3)	SENT_START VNW:PER:1EP:MRV:ACT WKW:TGW:INF|ZNW:MRV:DE_
    15992:	~ We moeten
     9826:	~ We kunnen
@@ -1959,13 +1934,10 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<token postag="VNW:PER:1EP:MRV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:MRV:ACT"/></token>
 			<marker>
-				<and>
-					<token postag="WKW:TGW:INF"/>
-					<token postag="ZNW:MRV:DE_"/>
-				</and>
+				<token postag_regexp="yes" postag="WKW:TGW:INF|ZNW:MRV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:INF|ZNW:MRV:DE_"/></token>
 			</marker>
 		</pattern>
-		<disambig action="remove" postag="ZNW:MRV:DE_"/>
+		<disambig postag="WKW:TGW:INF"/>
 	</rule>
 
 	<!--
@@ -1986,15 +1958,11 @@ Copyright (C) 2008-2024 Ruud Baars
 		<pattern>
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<marker>
-				<and>
-					<token postag="VNW:OND:MRV:HET"/>
-					<token postag="VNW:AWZ:EKV:HET"/>
-					<token postag="VNW:OND:EKV:HET"/>
-				</and>
+				<token postag="VNW:OND:EKV:HET"/>
 			</marker>
 			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
 		</pattern>
-		<disambig action="remove" postag="^(VNW:OND:MRV:HET|VNW:AWZ:EKV:HET)$"/>
+		<disambig action="filterall"/>
 	</rule>
 
 	<!--
@@ -2013,11 +1981,11 @@ Copyright (C) 2008-2024 Ruud Baars
 		<pattern>
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<marker>
-				<token postag="VNW:VRG">wat</token>
+				<token>wat</token>
 			</marker>
 			<token postag="WKW:VLT:3EP"><exception negate_pos="yes" postag="WKW:VLT:3EP"/></token>
 		</pattern>
-		<disambig action="filterall"/>
+		<disambig action="remove" postag="VNW|VNW:OBP:EKV"/>
 	</rule>
 
 	<!--
@@ -2096,10 +2064,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		<pattern>
 			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
 			<marker>
-				<and>
-					<token postag="WKW:TGW:3EP"/>
-					<token postag="ZNW:EKV:DE_"/>
-				</and>
+				<token postag_regexp="yes" postag="WKW:TGW:3EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:3EP|ZNW:EKV:DE_"/></token>
 			</marker>
 		</pattern>
 		<disambig action="remove" postag="WKW:TGW:3EP"/>
