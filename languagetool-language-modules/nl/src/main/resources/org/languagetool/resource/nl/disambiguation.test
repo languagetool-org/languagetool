@@ -619,6 +619,33 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<rule id="TE_X" name="na te komt een werkwoord of een vergroting meestal; eventueel een plaats">
+		<!-- verwijdert ook tags bij 'te paard', 'te vuur' etc. -->
+		<pattern>
+			<token>te</token>
+			<marker><token postag_regexp="yes" postag="WKW:TGW:INF.*|ENM:LOC:PTS"/></marker>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<rule id="TE_BNW-STL-ONV" name="alleen bnw">
+		<pattern>
+			<token>te</token>
+			<token postag="BNW:STL:ONV"/>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<rule id="TE_MRV" name="alleen wkw">
+		<pattern>
+			<token>te</token>
+			<marker>
+				<token postag_regexp="yes" postag="ZNW:MRV:DE_|WKW:TGW:INF"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:MRV:DE_|WKW:TGW:INF"/></token>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="ZNW:MRV:DE_"/>
+	</rule>
+
 	<rule id="DE_X_END" name="alleen znw">
 		<!-- hier alleen zelfstandige naamwoorden met de ; is wellicht -->
 		<pattern>
@@ -1398,32 +1425,6 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="ignore_spelling"/>
 	</rule>
 
-	<rule id="AMBIGUITY_001" name="x">
-		<antipattern>
-			<token regexp="yes" skip="1">n?iets</token>
-			<token/>
-		</antipattern>
-		<pattern>
-			<and>
-				<token postag_regexp="yes" postag="BNW:.*:ONV"/>
-				<token postag_regexp="yes" postag="BNW:.*:IET"/>
-			</and>
-		</pattern>
-	   <disambig action="remove" postag="BNW:.*IET"/>
-	</rule>
-	<rule id="AMBIGUITY_002" name="x">
-		<pattern>
-			<token regexp="yes" skip="1">n?iets</token>
-			<marker>
-				<and>
-					<token postag_regexp="yes" postag="BNW:.*:ONV"/>
-					<token postag_regexp="yes" postag="BNW:.*:IET"/>
-				</and>
-			</marker>
-		</pattern>
-	   <disambig action="remove" postag="BNW:.*ONV"/>
-	</rule>
-
 	<!--
 ?	450219	(4)	SENT_START VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP
 	     7:	De politie heeft
@@ -1434,12 +1435,12 @@ Copyright (C) 2008-2024 Ruud Baars
         <pattern>
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<marker>
-				<token postag="VNW:AWZ:EKV:DE_"/>
+				<token postag_regexp="yes" postag="VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"/></token>
 			</marker>
 			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
 			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 		</pattern>
-        <disambig action="filterall"/>
+        <disambig action="remove" postag="VNW:AWZ:MRV:DE_"/>
     </rule>
 	<!--
 ?	240675	(4)	VRZ VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ ZNW:EKV:DE_ VRZ
@@ -1449,16 +1450,13 @@ Copyright (C) 2008-2024 Ruud Baars
 	-->
 	<rule id="AMBIGUITY_536067" name="x">
         <pattern>
-			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
 			<marker>
-				<token postag="VNW:AWZ:EKV:DE_"/>
+				<token postag_regexp="yes" postag="VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"/></token>
 			</marker>
 			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
-			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
 		</pattern>
-        <disambig action="filterall"/>
+        <disambig action="remove" postag="VNW:AWZ:MRV:DE_"/>
     </rule>
-
 	<rule id="AMBIGUITY_235830" name="x">
 		<pattern>
 			<marker>
@@ -4697,31 +4695,6 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token><exception>de</exception></token>
 			<marker>
 				<token postag="VNW:PER:1EP:MRV:BEZ:VRB">onze</token>
-			</marker>
-		</pattern>
-        <disambig action="filterall"/>
-    </rule>
-
-	<!--
-	?	 37026	(4)	SENT_START VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:1EP|WKW:TGW:3EP
-	   221:	~ De voorzitter sluit
-	   220:	~ De overheid moet
-	   205:	~ De inschrijving sluit
-	   167:	~ De Commissie kan
-	   144:	~ De rest moet
-	   130:	~ De rest kan
-	   129:	~ De vis kan
-	   126:	~ De politie kan
-	   112:	~ De gemeente kan
-	   105:	~ De VVD wil
-	-->
-    <rule id="NEW_166" name="-">
-        <pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
-			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
-			<marker>
-				<token postag="WKW:TGW:3EP"/>
 			</marker>
 		</pattern>
         <disambig action="filterall"/>
