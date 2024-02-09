@@ -679,6 +679,15 @@ public final class TokenAgreementNounVerbExceptionHelper {
         logException();
         return true;
       }
+      
+      // У місті Біла Церква було сформовано
+      if( nounPos > 2
+          && LemmaHelper.isPossiblyProperNoun(tokens[nounPos])
+          && LemmaHelper.isPossiblyProperNoun(tokens[nounPos-1])
+          && LemmaHelper.hasLemma(tokens[nounPos-2], GEO_QUALIFIERS) ) {
+        logException();
+        return true;
+      }
     }
     
     // У невизнаній республіці Південна Осетія відбулися вибори

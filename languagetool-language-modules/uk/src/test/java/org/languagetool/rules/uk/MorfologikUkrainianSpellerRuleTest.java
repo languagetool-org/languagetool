@@ -93,8 +93,10 @@ public class MorfologikUkrainianSpellerRuleTest {
 
     // кличний для неістот
     matches = rule.match(lt.getAnalyzedSentence("душе"));
+    assertEquals(1, matches.length);
 
-    assertEquals(0, matches.length);
+    // incorrect v_kly could be removed by disambig with no tags left
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("польовою дружино")).length);
 
     // розмовний інфінітив
 //    matches = rule.match(langTool.getAnalyzedSentence("треба писать"));

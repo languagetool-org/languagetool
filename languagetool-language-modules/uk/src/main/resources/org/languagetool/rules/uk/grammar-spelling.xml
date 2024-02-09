@@ -510,7 +510,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- negate_pos fails for when we have accent char in the last word with dot
             <exception negate_pos="yes" postag_regexp="yes" postag=".*:alt.*|SENT_END|PARA_END" />
             -->
-            <exception postag_regexp="yes" postag="[a-z](?!.*alt).*" />
+            <exception postag_regexp="yes" postag="[a-z](?!.*:(slang|alt|arch|bad|subst)).*" />
           </token>
         </pattern>
         <message>Слово, написане не за чинним правописом</message>
@@ -518,6 +518,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction=""><marker>ґрантовий</marker></example>
         <example correction=""><marker>ґра́нтовий</marker></example>
         <example correction=""><marker>ґра́нтовий</marker>.</example>
+        <example correction=""><marker>ґурка</marker></example> <!-- alt + arch -->
         <example>проекту</example>
         <example>проєкту</example>
         <example>хоче прорости</example>
@@ -542,38 +543,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>просиш</example>
     </rule>
 
-    <rule id="VERB_SUBSTANDARD_FORMS" name="Просторічні форми">
-      <antipattern>
-        <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ]([а-яіїєґ']+|\.)</token>
-        <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ']+</token>
-      </antipattern>
+    <rule id="SUBSTANDARD_FORMS" name="Форми поза мовною нормою">
       <pattern>
-        <token postag_regexp="yes" postag="verb.*?:p:1.*?:subst.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:p:1.*?:subst.*|SENT_END|PARA_END"/>
+        <token postag_regexp="yes" postag=".*subst.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag=".*:(slang|alt|arch|bad|subst).*|SENT_END|PARA_END"/>
         </token>
       </pattern>
-      <message>Форми теп. і майб. ч. на -м(ся) є просторічними. Нормативними є форми на -мо: <suggestion><match no="1" regexp_match="^(.*?)(ся)?$" regexp_replace="$1о$2"/></suggestion></message>
-      <url>http://pravopys.net/#search=80-85</url>
-      <example correction="підемо">Сьогодні <marker>підем</marker> в кіно.</example>
-      <example correction="прогуляємося">Підемо <marker>прогуляємся</marker>.</example>
-      <example correction="Підемо"><marker>Підем</marker> в кіно завтра.</example>
-      <example correction="Скажемо">…<marker>Скажем</marker> їм.</example>
-      <example>прозвали Сергієм Підрахуєм</example>
-      <example>В.Кукольником, П.Подієм, І.Орлом</example>
-      <example>хотять</example>
+      <message>Ця форма не відповідає мовній нормі</message>
+      <example correction=""><marker>визволи</marker>.</example>
+      <example correction="">і став <marker>роздовбаєм</marker></example> <!-- slang + subst -->
+      <example correction=""><marker>гребнем</marker></example> <!-- slang + bad -->
     </rule>
 
-    <rule id="VERB_SUBSTANDARD_FORMS_2" name="Просторічні форми 2">
-      <pattern>
-        <token postag_regexp="yes" postag="verb.*?:3.*?:subst.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:3.*?:subst.*|SENT_END|PARA_END"/>
-        </token>
-      </pattern>
-      <message>Ця дієслівна форма є просторічною</message>
-      <suggestion><match no="1" postag_regexp="yes" postag="(verb.*):subst(.*)" postag_replace="$1$2"/></suggestion>
-      <example correction="хочуть">щось <marker>хотять</marker>.</example>
-      <example correction="ходить">хтось <marker>ходе</marker>.</example>
-    </rule>
+    <rulegroup id="VERB_SUBSTANDARD_FORMS" name="Просторічні форми">
+      <rule>
+        <antipattern>
+          <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ]([а-яіїєґ']+|\.)</token>
+          <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ']+</token>
+        </antipattern>
+        <pattern>
+          <token postag_regexp="yes" postag="verb.*?(futr|pres):p:1.*?:subst.*">
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:p:1.*?:(slang|alt|arch|bad|subst).*|SENT_END|PARA_END"/>
+          </token>
+        </pattern>
+        <message>Форми теп. і майб. ч. на -м(ся) є просторічними. Нормативними є форми на -мо: <suggestion><match no="1" regexp_match="^(.*?)(ся)?$" regexp_replace="$1о$2"/></suggestion></message>
+        <url>http://pravopys.net/#search=80-85</url>
+        <example correction="підемо">Сьогодні <marker>підем</marker> в кіно.</example>
+        <example correction="прогуляємося">Підемо <marker>прогуляємся</marker>.</example>
+        <example correction="Підемо"><marker>Підем</marker> в кіно завтра.</example>
+        <example correction="Скажемо">…<marker>Скажем</marker> їм.</example>
+        <example>прозвали Сергієм Підрахуєм</example>
+        <example>В.Кукольником, П.Подієм, І.Орлом</example>
+        <example>хотять</example>
+        <example>Оглянімося</example>
+      </rule>
+  
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="verb.*?:3.*?:subst.*">
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:3.*?:(slang|alt|arch|bad|subst).*|SENT_END|PARA_END"/>
+          </token>
+        </pattern>
+        <message>Ця дієслівна форма є просторічною</message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(verb.*):subst(.*)" postag_replace="$1$2"/></suggestion>
+        <example correction="хочуть">щось <marker>хотять</marker>.</example>
+        <example correction="ходить">хтось <marker>ходе</marker>.</example>
+      </rule>
+    </rulegroup>
 
     <!-- group: abbreviations -->
 
@@ -1205,6 +1221,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion><match no="1" regexp_match="ВВС([-—].+)?" regexp_replace="Бі-Бі-Сі$1"/></suggestion>
         <example correction="BBC|Бі-Бі-Сі">повідомляє <marker>ВВС</marker> Україна.</example>
         <example correction="BBC-Україна|Бі-Бі-Сі-Україна">повідомляла <marker>ВВС-Україна</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token case_sensitive="yes">МІТ</token>
+        </pattern>
+        <message>Потенційна помилка: українські літери замість латинських у скороченні</message>
+        <suggestion>MIT</suggestion>
+        <example correction="MIT">поступив у <marker>МІТ</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token case_sensitive="yes">ІРО</token>
+        </pattern>
+        <message>Потенційна помилка: українські літери замість латинських у скороченні</message>
+        <suggestion>IPO</suggestion>
+        <example correction="IPO">виходить на <marker>ІРО</marker>.</example>
       </rule>
       <rule>
         <pattern>

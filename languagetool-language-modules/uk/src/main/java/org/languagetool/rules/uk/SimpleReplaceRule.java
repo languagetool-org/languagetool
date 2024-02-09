@@ -125,9 +125,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
       }
       else {
         if( PosTagHelper.hasPosTagPart(tokenReadings, ":bad") 
-            && ! PosTagHelper.hasPosTagStart(tokenReadings, "number")
-            && ! "чоловік".equalsIgnoreCase(tokenReadings.getToken()) ) {
-//          try {
+            && ! PosTagHelper.hasPosTagStart(tokenReadings, "number") ) {
             String msg = "Неправильно написане слово.";
 
             RuleMatch match = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getStartPos()
@@ -140,25 +138,20 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 //            if( spellerMatches.length > 0 ) {
 //              match.setSuggestedReplacements(spellerMatches[0].getSuggestedReplacements());
 //            }
-
             matches.add(match);
-//          }
-//          catch (IOException e) {
-//            throw new RuntimeException(e);
-//          }
         }
       }
     }
-    else {
-      if( PosTagHelper.hasPosTag(tokenReadings, Pattern.compile("(?!verb).*:subst")) ) {
-        for(int i=0; i<matches.size(); i++) {
-          RuleMatch match = matches.get(i);
-          RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), "Це розмовна просторічна форма");
-          newMatch.setSuggestedReplacements(match.getSuggestedReplacements());
-          matches.set(i, newMatch);
-        }
-      }
-    }
+//    else {
+//      if( PosTagHelper.hasPosTag(tokenReadings, Pattern.compile("(?!verb).*:subst")) ) {
+//        for(int i=0; i<matches.size(); i++) {
+//          RuleMatch match = matches.get(i);
+//          RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), "Ця форма не відповідає мовній нормі");
+//          newMatch.setSuggestedReplacements(match.getSuggestedReplacements());
+//          matches.set(i, newMatch);
+//        }
+//      }
+//    }
     return matches;
   }
 
