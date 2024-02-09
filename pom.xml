@@ -1424,5 +1424,17 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>ide</id>
+            <activation>
+                <property>
+                    <name>m2e.version</name>
+                </property>
+            </activation>
+            <build>
+                <!-- Put the IDE's build output in a folder other than target, so that IDE builds don't interact with Maven builds -->
+                <directory>target-ide</directory>
+            </build>
+        </profile>
     </profiles>
 </project>
