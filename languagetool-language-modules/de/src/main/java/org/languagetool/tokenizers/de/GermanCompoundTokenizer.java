@@ -155,8 +155,6 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Festigung", asList("Festigung"));
     wordSplitter.addException("Allerheiligen", asList("Allerheiligen"));
     wordSplitter.addException("Druckerpressen", asList("Drucker", "pressen"));
-    wordSplitter.addException("Habitat", asList("Habitat"));
-    wordSplitter.addException("Damast", asList("Damast"));
   }
 
   @Override

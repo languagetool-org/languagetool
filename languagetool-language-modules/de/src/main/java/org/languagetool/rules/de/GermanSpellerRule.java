@@ -57,8 +57,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   public static final String RULE_ID = "GERMAN_SPELLER_RULE";
 
-  private static final int MIN_WORD_LENGTH   = 5;
-  private static final int MAX_WORD_LENGTH   = 40;
   private static final int MAX_EDIT_DISTANCE = 2;
 
   private static final String adjSuffix = "(affin|basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
@@ -130,11 +128,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern STARTS_WITH_ZB = compile("z[bB].");
   private static final Pattern DIRECTION = compile("nord|ost|süd|west");
   private static final Pattern SS = compile("ss");
-  private static final Pattern COMPOUND_TYPOS = compile("([Ee]mail|[Ii]reland|[Mm]akeup|[Ss]tandart).*");
-  private static final Pattern COMPOUND_END_TYPOS = compile(".*(gruße|schaf(s|en)?)$");
-  private static final Pattern ARBEIT = compile("(gebe|nehme)(r(s|n|innen|in)?|nde[mnr]?)");
-  private static final Pattern RECHT = compile("bank|eck|fertigung|gläubigkeit|haber|haberei|leitung|losigkeit|mäßigkeit|winkligkeit|zeitigkeit");
-  private static final Pattern RECHTS = compile("abteilung|akt|akte|angelegenheit|ansicht|anspruch|anwalt|anwalts|anwaltschaft|anwendung|anwältin|auffassung|aufsicht|auskunft|ausschuss|außen|begehren|begriff|behelf|beistand|berater|beratung|bereich|beschwerde|beugung|beziehung|brecher|bruch|dienst|durchsetzung|empfinden|entwicklung|setzung|experte|experten|extreme|extremer|extremismus|extremist|fall|fehler|folge|form|fortbildung|frage|fähigkeit|gebiet|gebieten|gelehrte|gelehrter|geschichte|geschäft|gewinde|gleichheit|grund|grundlage|grundsatz|gründen|gut|gutachten|gültigkeit|güter|handlung|hilfe|händer|hängigkeit|inhaber|institut|klick|konformität|kraft|kreis|kurve|lage|lehre|lenker|medizin|mediziner|meinung|missbrauch|mittel|mitteln|mängel|nachfolge|nachfolger|nachfolgerin|natur|norm|ordnung|persönlichkeit|pflege|pfleger|pflicht|philosophie|politik|populismus|populist|position|praxis|problem|quelle|radikale|radikaler|radikalismus|rahmen|rat|ratgeber|ruck|sache|sachen|satz|schutz|sicherheit|sinn|sprache|sprechung|staat|staatlichkeit|stand|status|stellung|streit|streitigkeit|system|staat|terrorist|texte|texter|thema|theorie|tipp|titel|träger|unsicherheit|verfolgung|vergleichung|verhältnis|verkehr|verletzung|verletzungen|verordnung|verstoß|verständnis|verteidiger|verteidigung|vertreter|vertretung|vorschrift|wahl|weg|wesen|widrigkeit|wirksamkeit|wirkung|wissenschaft|wissenschaften|wissenschaftler|zug|änderung");
 
   private static final List<Pattern> PREVENT_SUGGESTION_PATTERNS = new ArrayList<>();
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
@@ -143,8 +136,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordsNeedingInfixS          = new HashSet<>();
   private final Set<String> wordsWithoutInfixS          = new HashSet<>();
   private final Set<String> germanPrefixes              = new HashSet<>();
-  private static Set<String> verbStems                  = new HashSet<>();
-  private static Set<String> verbPrefixes               = new HashSet<>();
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
@@ -1731,8 +1722,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     loadFile("/de/words_infix_s.txt", wordsNeedingInfixS);
     loadFile("/de/words_no_infix_s.txt", wordsWithoutInfixS);
     loadFile("/de/german_prefix.txt", germanPrefixes);
-    loadFile("/de/verb_stems.txt", verbStems);
-    loadFile("/de/verb_prefixes.txt", verbPrefixes);
   }
 
   private void loadFile(String fileInClasspath, Set<String> set) {
@@ -2234,27 +2223,22 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected boolean ignorePotentiallyMisspelledWord(String word) throws IOException {
-    if (isValidWordLength(word) || startsWithLowercase(word) || isProhibited(word)) {
-      // Exclude cases like weird/irrelevant words and very long words that can cause crashes
+    if (word.length() <= 5 || word.length() >= 40 || startsWithLowercase(word) || isProhibited(word)) {
+      // exclude weird/irrelevant cases (also the splitter can crash on VERY long words)
       return false;
     }
-    // Check for words that are likely to be typos
-    if (isProbablyTypo(word)) {
+    if (word.endsWith("gruße") ||   // too big chance of a "...grüße" typo
+        word.endsWith("schaf") ||  // too big chance of a "...schaft" typo
+        word.endsWith("schafs") ||
+        word.endsWith("schafen")
+    ) {
       return false;
     }
-    // Remove dot
+    // Accept compounds with infix-s if both parts are known to the speller AND the first part
+    // ends with some specific chars, which indicate the need for the infix-s.
+    // Example: Müdigkeitsanzeichen = Müdigkeit + s + Anzeichen
+    // Deals with two-part compounds only and could be extended.
     String wordNoDot = word.endsWith(".") ? word.substring(0, word.length()-1) : word;
-
-    // Format gender neutral forms here to make processing easier
-    // "Expert*innen" -> "Expertinnen"
-    // "ExpertInnen"  -> "Expertinnen"
-    wordNoDot = wordNoDot.replaceFirst("(\\*in|(?<=(\\w))In)", "in");
-
-    // Return false if a word is written in CamelCase
-    if (!isValidCamelCase(wordNoDot)) {
-      return false;
-    }
-
     List<String> parts = compoundTokenizer.tokenize(wordNoDot);
     boolean nonStrictMode = false;
     if (parts.size() == 1) {
@@ -2263,73 +2247,81 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     String part1;
     String part2;
-
-    // If at least one element in *parts* at position i equals "s", then append "s" to element at i-1
-    parts = avoidInfixSAsSingleToken(parts);
-
-    // Handle cases for hyphenated compounds that don't depend on tokenization
-    // and preprocess further
-    if (wordNoDot.contains("-")) {
-      //Split original word by hyphen
-      List<String> splitByHyphen = new ArrayList<String>(Arrays.asList(wordNoDot.split("-")));
-      String lastPart = splitByHyphen.get(splitByHyphen.size() - 1);
-
-      if (!isNoun(lastPart) &&  isNoun(uppercaseFirstChar(lastPart))) {
-        // Make sure that last part is uppercase, if it is probably a noun
-        // e.g. "Implementierungs-pflicht"
-        return false;
-      }
-
-      for (String w : splitByHyphen) {
-        if (isMisspelled(w) && isMisspelled(removeTrailingSAndHyphen(w))) {
-          return false;
-        }
-      }
-
-      // Split tokenized parts that contain hyphens
-      // example: "Wacht" + "ums-pistole" -> "Wacht" + "ums" + "pistole"
-      parts = splitPartsByHyphen(parts);
-
-      // Hyphens are often removed by the tokenizer. Restore them to determine later if a compound is correct
-      parts = restoreRemovedHyphens(parts, wordNoDot);
-    }
-
+    boolean hasInfixS = false;
     if (parts.size() == 2) {
       part1 = parts.get(0);
       part2 = parts.get(1);
-
-      // Make sure that the individual parts of the compound have appropriate length.
-      // Short words can also be typos.
-      if (!isValidPartLength(part1, part2)) {
-        return false;
+      if (nonStrictMode && part2.startsWith("s") && isMisspelled(part2) && !isMisspelled(uppercaseFirstChar(part2.substring(1)))) {
+        // nonStrictSplitter case, it splits like "[Priorität, sdings]", we fix that here to match the strict splitter case:
+        part1 = part1 + "s";
+        part2 = part2.substring(1);
+        hasInfixS = true;
       }
-
-      return processTwoPartCompounds(part1, part2);
-
-    } else if (parts.size() == 3) {
-      return processThreePartCompound(parts);
+    } else if (parts.size() == 3 && parts.get(1).equals("s") && word.contains("-") && startsWithUppercase(parts.get(2))) {
+      // e.g. "Prioritäts-Dings" gets split like "Priorität", "s", "dings" -> treat it as if there was no "-":
+      part1 = parts.get(0) + "s";
+      part2 = lowercaseFirstChar(parts.get(2));
+      hasInfixS = true;
+    } else if (parts.size() == 3 && !word.contains("-")) {
+      // e.g. Hundefutterschachtel = Hunde, Futter, Schachtel
+      part1 = parts.get(0);
+      part2 = parts.get(1);
+      String compound1 = parts.get(0) + parts.get(1);
+      String compound1noS = compound1.replaceFirst("s$", "");
+      String compound2 = uppercaseFirstChar(parts.get(1)) + parts.get(2);
+      boolean compound1ok = false;
+      if (germanPrefixes.contains(part2)) {
+        compound1ok = 
+          (((!isMisspelled(part1) && !isMisspelled(part1+parts.get(2))) ||  // Weinkühlschrank gets split into Wein, kühl, schrank
+          ignorePotentiallyMisspelledWord(part1+parts.get(2))) &&
+          parts.get(2).length() >= 3) ||  //Vorraus --> Vor, rau, s
+          (!isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||   //Menschenrechtsdemos as 'rechts' is in germanPrefixes
+          !isMisspelled(compound1noS) || ignorePotentiallyMisspelledWord(compound1noS)); 
+      } else {
+        compound1ok =
+          !isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||
+          !isMisspelled(compound1noS) || ignorePotentiallyMisspelledWord(compound1noS);
+      }
+      boolean compound2ok =
+        (!isMisspelled(compound2) || ignorePotentiallyMisspelledWord(compound2)) && isNoun(compound2);
+      return compound1ok && compound2ok;
     } else {
       // more than three parts can be supported later
       return false;
     }
-  }
-
-  private boolean isValidWordLength(String word) {
-    return word.length() <= MIN_WORD_LENGTH || word.length() >= MAX_WORD_LENGTH;
-  }
-
-  private boolean isValidPartLength(String part1, String part2) {
+    if (word.contains("-" + part2)) {
+      // don't accept e.g. "Implementierungs-pflicht"
+      return false;
+    }
     // don't assume very short parts (like "Ei") are correct, these can easily be typos:
-    return part1.length() >= 3 && part2.length() >= 4;
+    if ((hasInfixS || part1.endsWith("s")) && part1.length() >= 4 /* includes 's' */ && part2.length() >= 3 && startsWithLowercase(part2)) {
+      String part1noInfix = part1.substring(0, part1.length()-1);
+      String part2uc = uppercaseFirstChar(part2);
+      if ((compoundPatternWithHeit.matcher(part1).matches() || wordsNeedingInfixS.contains(part1noInfix)) &&
+          isNoun(part2uc)) {
+        if (compoundPatternWithAction.matcher(part1noInfix).matches() ||
+            compoundPatternWithFirst.matcher(part2uc).matches() ||
+            part1.endsWith("schwungs") || part1.endsWith("sprungs") || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
+          return false;
+        }
+        return true;
+      }
+    }
+    String part2uc = uppercaseFirstChar(part2);
+    if (!hasInfixS &&
+        part1.length() >= 3 && part2.length() >= 4 &&
+        !part2.contains("-") &&
+        startsWithLowercase(part2) &&
+        !part1.equals("Lass") &&  // e.g. "Lasstest" - couldn't find a more generic solution yet
+        (wordsWithoutInfixS.contains(part1) || (compoundPatternSpecialEnding.matcher(part1).matches() && isNoun(part2uc))) &&
+        !isMisspelled(part1) &&
+        isNoun(part2uc) // don't accept e.g. "Azubikommt"
+      ) {
+      System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");
+      return true;
+    }
+    return false;
   }
-
-  private String removeTrailingS(String part1) {
-    return part1.replaceFirst("s?$", "");
-  }
-
-  private String removeTrailingHyphen(String part1) { return part1.replaceFirst("-?$", ""); }
-
-  private String removeTrailingSAndHyphen(String part1) { return part1.replaceFirst("s?-?$", ""); }
 
   private boolean isAdjective(String word) throws IOException {
     return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("ADJ:"));
@@ -2346,234 +2338,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private boolean isOnlyPluralNoun(String word) throws IOException {
     return isPluralNoun(word) && word.endsWith("en") && isOnlyNoun(word);
   }
-
-  private boolean processTwoPartCompounds(String part1, String part2) throws IOException {
-    // Expects two parts of a compound and checks
-    //  if their POS tags are correct,
-    //  if an infix s is missing or
-    //  if an infix s is incorrect
-    String part1upcased = uppercaseFirstChar(part1);
-    String part2upcased = uppercaseFirstChar(part2);
-    String part1WithoutHyphen = removeTrailingHyphen(part1);
-    boolean part2upcasedIsNoun = isNoun(part2upcased);
-    boolean part2upcasedIsMispelled = isMisspelled(uppercaseFirstChar(part2upcased));
-
-    // For some part1-and-part2 combinations an infix s is correct or incorrect
-    if (checkInfixSForPart1Part2Combination(part1, part2)) {
-      return false;
-    }
-
-    // TODO distinguish more cases with hyphens
-    // TODO allow foreign terms
-    if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
-      // 's' is the last character in *part1* and is probably not an infix
-      part1WithoutHyphen.endsWith("s") && (isNounNom(part1upcased) || isVerbStem(part1)) &&
-      // check if infix 's' is required or not allowed
-      (!hasNoInfixS(removeTrailingS(part1upcased)) || needsInfixS(removeTrailingS(part1upcased)))) {
-      return true;
-    }
-    if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
-      // 's' is the last character in *part1* and is probably an infix
-      part1WithoutHyphen.endsWith("s") && isNounNom(removeTrailingSAndHyphen(part1upcased)) &&
-      // check if infix 's' is required or not allowed
-      (!hasNoInfixS(removeTrailingSAndHyphen(part1upcased)) || needsInfixS(removeTrailingSAndHyphen(part1upcased)))) {
-      return true;
-    }
-    if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
-      // *part1* does not end with 's' and is noun or verb stem
-      (!part1WithoutHyphen.endsWith("s")) && (isNounNom(part1upcased) || isVerbStem(part1)) &&
-      // check if infix 's' is required or not allowed
-      (hasNoInfixS(part1upcased) || !needsInfixS(part1upcased))) {
-      return true;
-    }
-    if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
-      // *part1* is acronym, e. g. "SEO-Expertinnen"
-      isAllUppercase(removeTrailingSAndHyphen(part1)) && !isMisspelled(removeTrailingSAndHyphen(part1))) {
-      return true;
-    }
-    return false;
-  }
-
-  protected boolean processThreePartCompound(List<String> parts) throws IOException {
-    String part1 = parts.get(0);
-    String part2 = parts.get(1);
-    String part3 = parts.get(2);
-    String compound1 = part1 + part2;
-    String compound2 = uppercaseFirstChar(part2) + parts.get(2);
-
-    if (isNoun(compound1) && isNoun(compound2)) {
-      // If part1part2 and part2part3 are compounds, then so is part1part2part3
-      return (processTwoPartCompounds(part1, removeTrailingHyphen(part2)) && processTwoPartCompounds(part2, part3));
-    }
-    if (compound1.endsWith("s") || compound1.endsWith("s-")) {
-      String part2NoInfixSNoHyphen = removeTrailingSAndHyphen(part2);
-      // If part1part2NoInfixSNoHyphen and part2part3 are compounds, then so is part1part2part3
-      return (processTwoPartCompounds(part1, part2NoInfixSNoHyphen) && processTwoPartCompounds(part2, part3));
-    }
-    if (isVerbPrefix(part1) && isVerbStem(part2) && isNoun(compound2)) {
-      // e.g. "Aus" + "leih" + "stelle"
-      return true;
-    }
-    if (isNounNom(part1) && isVerbStem(part2) && isNoun(compound2)) {
-      // e.g. "Wein" + "kühl" + "schrank"
-      return true;
-    }
-    return false;
-  }
-
-  private boolean checkInfixSForPart1Part2Combination(String part1, String part2) throws IOException {
-    // For some part1-and-part2 combinations an infix s is correct or incorrect
-    String part2_lemma = findLemmaForNoun(removeTrailingHyphen(part2));
-    if (part2_lemma.equals("") && removeTrailingHyphen(part2).endsWith("s")) {
-      part2_lemma = findLemmaForNoun(removeTrailingSAndHyphen(part2));
-    }
-
-    if (part1.equals("Arbeit") && !(ARBEIT.matcher(part2).matches())) {
-      // e. g. "Arbeitplatz"
-      return true;
-    }
-    if (part1.equals("Arbeits") && (ARBEIT.matcher(part2).matches())) {
-      // e. g. "Arbeitsgeber"
-      return true;
-    }
-    if (part1.equals("Recht") && RECHTS.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
-      // e. g. "Rechtanwälte"
-      return true;
-    }
-    if (part1.equals("Rechts") && RECHT.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
-      // e. g. "Rechtsfertigung"
-      return true;
-    }
-    return false;
-  }
-
-  private String findLemmaForNoun(String word) throws IOException {
-    String lemma = "";
-    List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(uppercaseFirstChar(word)));
-    for (AnalyzedTokenReadings reading : readings) {
-      if (reading.hasPosTagStartingWith("SUB")) {
-        lemma = reading.getReadings().get(0).getLemma();
-      }
-    }
-    return lemma;
-  }
-
-  private boolean isProbablyTypo(String word) {
-    return COMPOUND_TYPOS.matcher(word).matches() || COMPOUND_END_TYPOS.matcher(word).matches();
-  }
-
-  private boolean isValidCamelCase(String input) {
-    // Check if the string contains any instance of camel casing
-    // TODO Is this already implemented in StringTools::isCamelCase?
-
-    return !input.matches(".*(\\p{Ll}\\p{Lu}|\\p{Lu}{2,}\\p{Ll}).*");
-  }
-
-  private List<String> restoreRemovedHyphens(List<String> parts, String word) {
-      // Restore hyphens that were removed by the tokenizer by appending them to
-      //   individual tokens
-      List<String> tokensWithHyphens = new ArrayList<>();
-
-      // Find and store the positions of hyphens in the original word
-      List<Integer> hyphenPositions = new ArrayList<>();
-      for (int i = 0; i < word.length(); i++) {
-        if (word.charAt(i) == '-') {
-          hyphenPositions.add(i);
-        }
-      }
-
-      int currentPos = 0;
-      for (String token : parts) {
-        // Check if the next hyphen is within the current token
-        for (int hyphenPos : hyphenPositions) {
-          if (hyphenPos >= currentPos && hyphenPos == currentPos + token.length()) {
-            // Insert hyphen at the end of this token
-            token += "-";
-            break; // Move to the next token after adding a hyphen
-          }
-        }
-        tokensWithHyphens.add(token);
-        currentPos += token.length();
-      }
-      return tokensWithHyphens;
-    }
-
-  private List<String> avoidInfixSAsSingleToken(List<String> parts) {
-    // If a part equals "s", append it to its predecessor
-    //   example: "Priorität", "s", "ding" -> "Prioritäts", "ding"
-    List<String> fixed_parts = new ArrayList<String>();
-    List<Integer> indexes_of_s = indexOfInfixS(parts);
-
-    // Sort indexes in descending order to avoid shifting issues while removing elements
-    Collections.sort(indexes_of_s, Collections.reverseOrder());
-
-    for (Integer index : indexes_of_s) {
-      if (index > 0 && index < parts.size()) { // Ensure index is within bounds and not the first element
-        String toAppend = parts.remove((int) index); // Remove the element at position i and store it
-        parts.set(index - 1, parts.get(index - 1) + toAppend); // Append the removed string to the element at i-1
-      }
-    }
-    return parts;
-  }
-
-  private List<String> splitPartsByHyphen(List<String> originalParts) {
-    List<String> parts = new ArrayList<>(originalParts);
-
-    // Iterate through the list using indices to safely modify it while iterating
-    for (int i = 0; i < parts.size(); i++) {
-      String element = parts.get(i);
-
-      if (element.contains("-")) {
-        String[] splitWords = element.split("-");
-
-        // Remove the original element
-        parts.remove(i);
-
-        // Insert the split parts back into the list at the current position
-        // Insert in reverse order to maintain the original order after insertion
-        for (int j = splitWords.length - 1; j >= 0; j--) {
-          parts.add(i, splitWords[j]);
-        }
-
-        // Adjust the index to account for the newly inserted elements
-        // Subtracting 1 because the loop increment will add 1 back
-        i += splitWords.length - 1;
-      }
-    }
-    return parts;
-  }
-
-  private List<Integer> indexOfInfixS(List<String> parts) {
-    List<Integer> indexList = new ArrayList<>();
-    for (int i = 0; i < parts.size(); i++) {
-      if ("s".equals(parts.get(i))) {
-        indexList.add(i);
-      }
-    }
-    return indexList;
-  }
-
-  private boolean needsInfixS(String word) throws IOException {
-    return wordsNeedingInfixS.contains(word);
-  }
-
-  private boolean hasNoInfixS(String word) throws IOException {
-    return wordsWithoutInfixS.contains(word);
-  }
-
-  private boolean isNounNom(String word) throws IOException {
-    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM"));
-  }
-
-  private boolean isVerbPrefix(String word) throws IOException {
-    return verbPrefixes.contains(lowercaseFirstChar(word));
-  }
-
-  private boolean isVerbStem(String word) throws IOException {
-    return verbStems.contains(lowercaseFirstChar(word));
-  }
-
-
 
   @Override
   protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word) throws IOException {
