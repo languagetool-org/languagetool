@@ -2146,6 +2146,7 @@ public class DocumentCache implements Serializable {
       if (to < from) {
         to = from;
       }
+      this.removeAndShiftAnalyzedParagraph(from, to, oldCache.paragraphs.size(), paragraphs.size());
       return new ChangedRange(from, to, oldCache.paragraphs.size(), paragraphs.size());
     } finally {
       rwLock.readLock().unlock();
@@ -2305,10 +2306,13 @@ public class DocumentCache implements Serializable {
   /**
    * Has analyzed paragraph same length as text
    */
-  public boolean isCorrectAnalyzedParagraphLength(int nFPara, String text) {
+  public boolean isCorrectAnalyzedParagraphLength(int nFPara, String text) { 
+    List<AnalyzedSentence> analyzedSentences = getAnalyzedParagraph(nFPara);
+    if (analyzedSentences == null) {
+      return false;
+    }
     text = fixLinebreak(SingleCheck.removeFootnotes(text, 
         getFlatParagraphFootnotes(nFPara), getFlatParagraphDeletedCharacters(nFPara)));
-    List<AnalyzedSentence> analyzedSentences = getAnalyzedParagraph(nFPara);
     int len = 0;
     for (AnalyzedSentence analyzedSentence : analyzedSentences) {
       String sentence = analyzedSentence.getText();
@@ -2349,7 +2353,7 @@ public class DocumentCache implements Serializable {
   /**
    * Remove and shift analyzed paragraphs by a range
    */
-  public void removeAndShiftAnalyzedParagraph(int fromParagraph, int toParagraph, int oldSize, int newSize) {
+  private void removeAndShiftAnalyzedParagraph(int fromParagraph, int toParagraph, int oldSize, int newSize) {
     if (analyzedParagraphs == null || analyzedParagraphs.isEmpty()) {
       return;
     }
@@ -2357,29 +2361,24 @@ public class DocumentCache implements Serializable {
     if (fromParagraph < 0 && toParagraph >= newSize) {
       return;
     }
-    rwLock.writeLock().lock();
-    try {
-      Map<Integer, List<AnalyzedSentence>> tmpParagraphs = new HashMap<>(analyzedParagraphs);
-      analyzedParagraphs.clear();
-      if (shift < 0) {   // new size < old size
-        for (int i : tmpParagraphs.keySet()) {
-          if (i < fromParagraph) {
-            analyzedParagraphs.put(i, tmpParagraphs.get(i));
-          } else if (i >= toParagraph - shift) {
-            analyzedParagraphs.put(i + shift, tmpParagraphs.get(i));
-          }
-        }
-      } else {
-        for (int i : tmpParagraphs.keySet()) {
-          if (i < fromParagraph - 1) {  // remove also the last paragraph before (it was changed in many cases)
-            analyzedParagraphs.put(i, tmpParagraphs.get(i));
-          } else if (i >= toParagraph) {
-            analyzedParagraphs.put(i + shift, tmpParagraphs.get(i));
-          }
+    Map<Integer, List<AnalyzedSentence>> tmpParagraphs = new HashMap<>(analyzedParagraphs);
+    analyzedParagraphs.clear();
+    if (shift < 0) {   // new size < old size
+      for (int i : tmpParagraphs.keySet()) {
+        if (i < fromParagraph) {
+          analyzedParagraphs.put(i, tmpParagraphs.get(i));
+        } else if (i >= toParagraph - shift) {
+          analyzedParagraphs.put(i + shift, tmpParagraphs.get(i));
         }
       }
-    } finally {
-      rwLock.writeLock().unlock();
+    } else {
+      for (int i : tmpParagraphs.keySet()) {
+        if (i < fromParagraph - 1) {  // remove also the last paragraph before (it was changed in many cases)
+          analyzedParagraphs.put(i, tmpParagraphs.get(i));
+        } else if (i >= toParagraph + 1) {  // remove also the last paragraph after (it was changed in many cases)
+          analyzedParagraphs.put(i + shift, tmpParagraphs.get(i));
+        }
+      }
     }
   }
 

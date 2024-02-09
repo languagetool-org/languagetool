@@ -888,7 +888,7 @@ public class SingleDocument {
               String sChangedPara = changedParas.get(nPara);
               changedParas.remove(nPara);
               if (sChangedPara != null && (!sChangedPara.equals(sPara)
-                  || docCache.isCorrectAnalyzedParagraphLength(nPara, sPara))) {
+                  || (mDocHandler.useAnalyzedSentencesCache() && !docCache.isCorrectAnalyzedParagraphLength(nPara, sPara)))) {
                 docCache.setFlatParagraph(nPara, sPara);
 //                removeResultCache(nPara, false);
                 for (int i = 1; i < mDocHandler.getNumMinToCheckParas().size(); i++) {
