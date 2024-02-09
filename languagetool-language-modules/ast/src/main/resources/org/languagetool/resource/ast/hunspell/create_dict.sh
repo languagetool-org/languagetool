@@ -75,4 +75,4 @@ wc -l $FINAL_FILE
 java -cp $CPATH:languagetool-standalone/target/LanguageTool-$LT_VERSION/LanguageTool-$LT_VERSION/languagetool.jar:languagetool-standalone/target/LanguageTool-$LT_VERSION/LanguageTool-$LT_VERSION/libs/languagetool-tools.jar \
   org.languagetool.tools.SpellDictionaryBuilder -i $FINAL_FILE -info $INFO_FILE -o $OUTPUT_FILE #-freq $FREQ_FILE
 
-rm $TEMP_FILE
+#rm $TEMP_FILE
