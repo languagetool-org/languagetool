@@ -74,7 +74,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
     }
     
     // звалося Подєбради
-    if( LemmaHelper.hasLemma(tokens[verbPos], Arrays.asList("зватися", "називатися"))
+    if( LemmaHelper.hasLemma(tokens[verbPos], Arrays.asList("звати", "називати", "зватися", "називатися"))
         && Character.isUpperCase(tokens[nounAdjPos].getCleanToken().charAt(0)) ) {
       logException();
       return true;

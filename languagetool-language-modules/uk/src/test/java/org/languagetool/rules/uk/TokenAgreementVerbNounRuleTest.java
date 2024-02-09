@@ -207,6 +207,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     
     // називатися + н.в.
     assertEmptyMatch("вона називалася Оперативний злам");
+    assertEmptyMatch("мене звати Ігор");
     
     assertEmptyMatch("підклали дров");
     

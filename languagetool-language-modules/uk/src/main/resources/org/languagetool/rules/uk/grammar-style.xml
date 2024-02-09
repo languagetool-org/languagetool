@@ -3115,6 +3115,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="обіймати">коли він <marker>займав</marker> посаду директора.</example>
     </rule>
 
+    <rule id="tochka_zoru" name="Точка зору">
+      <pattern>
+        <token inflected="yes">точка</token>
+        <token>зору</token>
+      </pattern>
+      <message>На думку багатьох українських мовознавців, краще вживати «погляд», «думка»</message>
+      <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim):f:(.*)" postag_replace="$1:m:$2">погляд</match></suggestion>
+      <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim):f:(.*)">думка</match></suggestion>
+      <example correction="погляду|думки">з його <marker>точки зору</marker>.</example>
+    </rule>
+
     <rulegroup id="govoryty_v_lyce" name="Говорити в лице">
       <rule>
         <pattern>
