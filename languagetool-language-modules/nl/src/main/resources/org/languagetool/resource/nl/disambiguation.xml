@@ -1483,20 +1483,6 @@ Copyright (C) 2008-2024 Ruud Baars
 	   <disambig action="remove" postag="[^E]"/>
 	</rule>
 
-	<!-- verwijder bijvoeglijke patronen bij BYW:GRD -->
-	<rule id="BYW_GRD" name="x">
-		<pattern>
-			<marker>
-				<and>
-					<token postag_regexp="yes" postag="(BNW|WKW).*:ONV"/>
-					<token postag="BYW:GRD"/>
-				</and>
-			</marker>
-			<token postag_regexp="yes" postag="(BNW|WKW).*:ONV"/>
-		</pattern>
-	   <disambig action="remove" postag="(BNW|WKW).*:ONV"/>
-	</rule>
-
 	<rule id="DATUM" name="Datum">
 		<pattern>
 			<token postag_regexp="yes" postag="GET:ARA:00[12]:MRV|GET:ARA:001:EKV" regexp="yes">[1-9]|[12][0-9]|3[01]</token>
@@ -1508,21 +1494,6 @@ Copyright (C) 2008-2024 Ruud Baars
 
 	<!-- NEW DISAMBIGUATION PATTERNS -->
 
-	<!--
-	remove ambiguity between BYW and VRZ
-	Elk voorzetsel wordt een bijwoord als het los is van het werkwoord.
-	-->
-	<rule id="NEW_000" name="-">
-		<pattern>
-			<marker>
-				<and>
-					<token postag="VRZ"/>
-					<token postag="BYW"/>
-				</and>
-			</marker>
-		</pattern>
-		<disambig action="remove" postag="BYW"/>
-	</rule>
 	<rule id="NEW_000b" name="-">
 		<pattern>
 			<token>in</token>
@@ -1543,7 +1514,7 @@ Copyright (C) 2008-2024 Ruud Baars
 				<token>dan</token>
 			</marker>
 		</pattern>
-		<disambig action="add"><wd pos="CMP"/></disambig>
+		<disambig postag="CMP"/>
 	</rule>
 	<rule id="NEW_000e" name="-">
 		<!-- forget opening quotes, bullet etc -->
@@ -1682,11 +1653,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		</antipattern>
 		<pattern>
 			<marker>
-				<and>
-					<token postag="VNW:OND:MRV:HET"/>
-					<token postag="VNW:AWZ:EKV:HET"/>
-					<token postag="VNW:OND:EKV:HET"/>
-				</and>
+				<token postag_regexp="yes" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET"><exception negate_pos="yes" postag_regexp="yes" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET"/></token>
 			</marker>
 			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
 		</pattern>
@@ -1853,10 +1820,7 @@ Copyright (C) 2008-2024 Ruud Baars
 		<pattern>
 			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
 			<marker>
-				<and>
-					<token postag="ZNW:EKV"/>
-					<token postag="BNW:STL:VRB"/>
-				</and>
+				<token postag_regexp="yes" postag="ZNW:EKV|BNW:STL:VRB"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV|BNW:STL:VRB"/></token>
 			</marker>
 			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
 		</pattern>
@@ -1874,7 +1838,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	001218:	 'Wat is
 	001182:	~ Wat wordt
 	-->
-	<rule id="NEW_015a" name="-">
+	<rule id="NEW_015" name="-">
 		<pattern>
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<marker>
@@ -1882,17 +1846,7 @@ Copyright (C) 2008-2024 Ruud Baars
 			</marker>
 			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 		</pattern>
-		<disambig action="remove" postag="BYW:GRD"/>
-	</rule>
-	<rule id="NEW_015b" name="-">
-		<pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<marker>
-				<token>wat</token>
-			</marker>
-			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
-		</pattern>
-		<disambig action="remove" postag="TSW"/>
+		<disambig action="remove" postag="BYW:GRD|TSW"/>
 	</rule>
 
 	<!--
