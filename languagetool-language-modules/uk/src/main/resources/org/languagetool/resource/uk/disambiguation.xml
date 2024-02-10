@@ -166,38 +166,6 @@
     <example type="untouched">капостити</example>
   </rule>
 
-  <rule name="Назви будинків - noninfl" id="house_numbers_noninfl_1">
-    <pattern>
-      <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]{4,15}</token>
-      <token>,</token>
-      <marker>
-        <token regexp="yes">[0-9]{1,3}[-–][а-ж]</token>
-      </marker>
-      <token regexp="yes">[,.;]</token>
-    </pattern>
-    <disambig action="replace"><wd pos="noninfl"/></disambig>
-    <example type="ambiguous"
-        inputform="45-а[45-й/adj:f:v_naz:&amp;numr]"
-        outputform="45-а[45-а/noninfl]">Чорновола, <marker>45-а</marker>.</example>
-    <example type="untouched">Головна 45-а бригада</example>
-  </rule>
-
-  <rule name="Назви будинків - noninfl (2)" id="house_numbers_noninfl_2">
-    <pattern>
-      <token regexp="yes" inflected="yes">вулиця|вул\.</token>
-      <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]{4,15}</token>
-      <token>,</token>
-      <marker>
-        <token case_sensitive="yes" regexp="yes">[0-9]{1,3}[-–][а-ж]</token>
-      </marker>
-    </pattern>
-    <disambig action="replace"><wd pos="noninfl"/></disambig>
-    <example type="ambiguous"
-        inputform="45-а[45-й/adj:f:v_naz:&amp;numr]"
-        outputform="45-а[45-а/noninfl]">вул. Чорновола, <marker>45-а</marker> згорів</example>
-    <example type="untouched">Головна 45-а бригада</example>
-  </rule>
-
   <rule name="Знахідний для осіб лише після в/у" id="anim_v_zna_rare">
     <antipattern>
       <token regexp="yes">[ву]|на|між|меж[іи]</token> 
@@ -1772,26 +1740,67 @@
   </rule>
 -->
   
-  <rule name="Номер_будинку" id="STREET_NUMBER">
+  <rule name="Номер_пункту" id="POINT_NUMBER">
     <pattern>
-      <token regexp="yes" inflected="yes">вул\.|вулиця|номер|№</token>
-      <token min="0" max="3">
-        <exception regexp="yes">[0-9]+-[а-еєґ]</exception>
-      </token>
+      <token regexp="yes" inflected="yes">номер|будинок|[№§/]</token>
       <marker>
         <token regexp="yes">[0-9]+-[а-еєґ]</token>
       </marker>
     </pattern>
-    <disambig action="add"><wd lemma="0-а" pos="number"/></disambig>
+    <disambig action="replace"><wd pos="noninfl"/></disambig>
     <example type="ambiguous" 
         inputform="17-а[17-й/adj:f:v_naz:&amp;numr]"
-        outputform="17-а[0-а/number,17-й/adj:f:v_naz:&amp;numr]">З № <marker>17-а</marker>.</example>
+        outputform="17-а[17-а/noninfl]">будинок номер <marker>17-а</marker>.</example>
     <example type="ambiguous" 
         inputform="17-а[17-й/adj:f:v_naz:&amp;numr]"
-        outputform="17-а[0-а/number,17-й/adj:f:v_naz:&amp;numr]">На вул. Рубчака <marker>17-а</marker>.</example>
+        outputform="17-а[17-а/noninfl]">№50/<marker>17-а</marker>.</example>
+    <!--
+    <example type="ambiguous" 
+        inputform="17-а[17-й/adj:f:v_naz:&amp;numr]"
+        outputform="17-а[17-а/noninfl]">З № <marker>17-а</marker>.</example>
+    -->
+    <example type="untouched">17-а сторінка.</example>
+  </rule>
+  
+  <rule name="Номер_будинку 0" id="house_numbers_noninfl_0">
+    <pattern>
+      <token regexp="yes" inflected="yes">вулиця|вул\.</token>
+      <token case_sensitive="yes" regexp="yes" max="2">[А-ЯІЇЄҐ].*</token>
+      <token min="0">,</token>
+      <marker>
+        <token regexp="yes">[0-9]+-[а-еєґ]</token>
+      </marker>
+    </pattern>
+    <disambig action="replace"><wd pos="noninfl"/></disambig>
+    <example type="ambiguous" 
+        inputform="17-а[17-й/adj:f:v_naz:&amp;numr]"
+        outputform="17-а[17-а/noninfl]">На вул. Рубчака <marker>17-а</marker>.</example>
+    <example type="ambiguous"
+        inputform="45-а[45-й/adj:f:v_naz:&amp;numr]"
+        outputform="45-а[45-а/noninfl]">вул. Чорновола, <marker>45-а</marker> згорів</example>
+    <example type="untouched">Головна 45-а бригада</example>
     <example type="untouched">17-а сторінка.</example>
   </rule>
  
+  <rule name="Номер будинку - 1" id="house_numbers_noninfl_1">
+    <pattern>
+      <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ']{4,15}([-–][А-ЯІЇЄҐ][а-яіїєґ']{4,15})?</token>
+      <token>,</token>
+      <marker>
+        <token regexp="yes">[0-9]{1,3}[-–][а-жєґ]</token>
+      </marker>
+      <token regexp="yes">[,.;:)»]</token>
+    </pattern>
+    <disambig action="replace"><wd pos="noninfl"/></disambig>
+    <example type="ambiguous"
+        inputform="45-а[45-й/adj:f:v_naz:&amp;numr]"
+        outputform="45-а[45-а/noninfl]">Чорновола, <marker>45-а</marker>.</example>
+    <example type="ambiguous"
+        inputform="42-а[42-й/adj:f:v_naz:&amp;numr]"
+        outputform="42-а[42-а/noninfl]">– Хрещатик, <marker>42-а</marker>)</example>
+    <example type="untouched">Головна 45-а бригада</example>
+  </rule>
+
   <rule name="га - гектар 1" id="HA_HEKTAR_1">
     <pattern>
       <token postag_regexp="yes" postag=".*?num.*"/>

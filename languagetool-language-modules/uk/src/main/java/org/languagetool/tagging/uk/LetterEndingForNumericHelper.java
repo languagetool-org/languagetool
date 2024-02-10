@@ -139,6 +139,10 @@ class LetterEndingForNumericHelper {
     }
   }
 
+  public static boolean isPossibleAdjAdjEnding(String leftWord, String rightWord) {
+    return NUMR_ADJ_ENDING_MAP.containsKey(rightWord);
+  }
+  
   public static String[] findTagsAdj(String leftWord, String rightWord) {
     if( NUMR_ADJ_ENDING_MAP.containsKey(rightWord) ) {
       String[] tags = RegexToCaseList.getCaseTags(leftWord, NUMR_ADJ_ENDING_MAP.get(rightWord));
