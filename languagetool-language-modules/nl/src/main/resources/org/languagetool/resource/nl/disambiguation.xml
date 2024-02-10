@@ -12867,6 +12867,41 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="filterall"/>
     </rule>
 
+	<!--
+	?	  2612	(4)	SENT_START ENM:PER:FST WKW:VLT:1EP BYW|VRZ
+	     4:	Tom wreef over
+	     4:	Will wreef over
+	     4:	Luke wreef over
+	-->
+	<rule id="NEW_597" name="-">
+        <pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="ENM:PER:FST"><exception negate_pos="yes" postag="ENM:PER:FST"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
+			</marker>
+		</pattern>
+        <disambig postag="VRZ"/>
+    </rule>
+
+	<!--
+	?	  2562	(4)	WKW:TGW:3EP BNW:STL:ONV|BYW:GRD BNW:STL:ONV ITP:PNT|SENT_END
+	   129:	 is zeer belangrijk.
+	    81:	 is zeer eenvoudig.
+	    71:	 is zeer divers.
+	-->
+	<rule id="NEW_598" name="-">
+        <pattern>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="BNW:STL:ONV|BYW:GRD"><exception negate_pos="yes" postag_regexp="yes" postag="BNW:STL:ONV|BYW:GRD"/></token>
+			</marker>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig postag="BYW:GRD"/>
+    </rule>
 
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
