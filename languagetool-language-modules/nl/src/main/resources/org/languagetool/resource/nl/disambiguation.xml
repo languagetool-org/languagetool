@@ -1432,31 +1432,12 @@ Copyright (C) 2008-2024 Ruud Baars
 	-->
 	<rule id="AMBIGUITY_536066" name="x">
         <pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<marker>
-				<token postag="VNW:AWZ:EKV:DE_"/>
+				<token postag_regexp="yes" postag="VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"/></token>
 			</marker>
 			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
-			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 		</pattern>
-        <disambig action="filterall"/>
-    </rule>
-	<!--
-?	240675	(4)	VRZ VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ ZNW:EKV:DE_ VRZ
-	     2:	 op de uitnodiging van
-	     2:	 in de nacht van
-	     2:	 in de omgeving van
-	-->
-	<rule id="AMBIGUITY_536067" name="x">
-        <pattern>
-			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
-			<marker>
-				<token postag="VNW:AWZ:EKV:DE_"/>
-			</marker>
-			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
-			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
-		</pattern>
-        <disambig action="filterall"/>
+        <disambig postag="VNW:AWZ:EKV:DE_"/>
     </rule>
 
 	<rule id="AMBIGUITY_235830" name="x">
