@@ -9349,6 +9349,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
                 <example correction="tú">Algo que en verdad nadie te puede quitar, sino <marker>tu</marker> mismo.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>tu</token>
+                    </marker>
+                    <token postag="N..P.*|A...P.|V.P..P.|_GN_.P" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Quería usar el posesivo <suggestion>tus</suggestion> o el pronombre personal <suggestion>tú</suggestion>?</message>
+                <example correction="tus|tú">No entiendo <marker>tu</marker> palabras.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token>tu</token>
