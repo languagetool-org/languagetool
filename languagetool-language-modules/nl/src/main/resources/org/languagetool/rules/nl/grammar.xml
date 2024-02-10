@@ -12427,11 +12427,10 @@ regexp case-insensitive maken: (?i)
 			</rule>
 
 			<rule>
-				<antipattern case_sensitive="yes"><token>De</token><token>Vecht</token></antipattern>
-				<pattern><token>de</token><token>vecht</token></pattern>
-				<message>U bedoelt misschien de plaats <suggestion>De Vecht</suggestion>.</message>
-				<short>Plaatsnaam verkeerd</short>
-				<example correction="De Vecht">Ik zie <marker>de vecht</marker>.</example>
+				<pattern><token>de</token><token case_sensitive="yes">vecht</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Vecht</suggestion> of de rivier <suggestion>de Vecht</suggestion>.</message>
+				<short>Eigennaam verkeerd</short>
+				<example correction="De Vecht|de Vecht">Ik zie <marker>de vecht</marker>.</example>
 			</rule>
 
 			<rule>
