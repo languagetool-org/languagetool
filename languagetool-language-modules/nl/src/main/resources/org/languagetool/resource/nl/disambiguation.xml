@@ -12786,7 +12786,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	-->
 	<rule id="NEW_592" name="-">
         <pattern>
-			<token postag="WKW:VLT:1EP">keek</token>
+			<token postag="WKW:VLT:1EP"/>
 			<token postag="VNW:PER:3EP:EKV:BEZ">haar</token>
 		</pattern>
         <disambig action="filterall"/>
@@ -12944,14 +12944,72 @@ Copyright (C) 2008-2024 Ruud Baars
 	   114:	 naar de trap.
 	   108:	 naar de tafel.
 	-->
-	<rule id="NEW_601a" name="-">
+	<rule id="NEW_601" name="-">
         <pattern>
 			<marker>
-				<token postag="VNW:AWZ:EKV:DE_"></token>
+				<token postag="VNW:AWZ:EKV:DE_"/>
 			</marker>
 			<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
 		</pattern>
         <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  2235	(4)	BNW:STL:ONV|VGW|VRZ VNW:AWZ:EKV:DE_ WKW:TGW:1EP|ZNW:EKV:DE_ ITP:PNT|SENT_END
+	   207:	 naar de grond.
+	   114:	 naar de trap.
+	   108:	 naar de tafel.
+	    90:	 naar de vloer.
+
+	Disambiguation between WKW:TGW:1EP and ZNW:EKV:DE_ causes a rule to fail
+
+	-->
+	<rule id="NEW_602" name="-">
+        <pattern>
+			<token postag="VRZ">naar</token>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  2153	(4)	VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET BNW:STL:ONV
+	    73:	Ik vind het gewoon
+	    72:	Ik vind het erg
+	    54:	Ik wil het graag
+	-->
+	<rule id="NEW_603" name="-">
+        <pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<marker>
+				<token postag_regexp="yes" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET BNW:STL:ONV"><exception negate_pos="yes" postag_regexp="yes" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET"/></token>
+			</marker>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+		</pattern>
+        <disambig postag="VNW:OND:EKV:HET"/>
+    </rule>
+
+	<!--
+	?	  2139	(4)	ENM:PER:FST WKW:VLT:1EP VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF WKW:TGW:INF|ZNW:MRV:DE_
+	     3:	Sarah kneep haar ogen
+	     3:	Sarah sloeg haar ogen
+	     3:	Gwen sloeg haar ogen
+	     3:	Anna sloeg haar ogen
+	-->
+	<rule id="NEW_604" name="-">
+        <pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="ENM:PER:FST"><exception negate_pos="yes" postag="ENM:PER:FST"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<marker>
+				<token postag="VNW:PER:3EP:EKV:BEZ">haar</token>
+				<token postag="WKW:TGW:INF"/>
+			</marker>
+		</pattern>
+		<disambig action="filterall"/>
     </rule>
 
 	<!-- ##################################################################################################### -->
