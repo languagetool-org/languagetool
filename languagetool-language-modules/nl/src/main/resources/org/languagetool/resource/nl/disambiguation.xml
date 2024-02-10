@@ -12903,6 +12903,57 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig postag="BYW:GRD"/>
     </rule>
 
+	<!--
+	?	  2413	(4)	WKW:TGW:1EP|BNW:STL:ONV BYW BNW:STL:ONV ITP:PNT|SENT_END
+	    24:	 warm en zacht.
+	    23:	 snel en betrouwbaar.
+	22:	 snel en efficiënt.
+	-->
+	<rule id="NEW_599" name="-">
+        <pattern>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|BNW:STL:ONV"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|BNW:STL:ONV"/></token>
+			</marker>
+			<token regexp="yes">en|of|maar</token>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig postag="BNW:STL:ONV"/>
+    </rule>
+
+	<!--
+	?	  2372	(4)	WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ ZNW:MRV:DE_ VRZ ITP:PNT|SENT_END
+	  1921:	 zijn schouders op.
+	   353:	 zijn wenkbrauwen op.
+	-->
+	<rule id="NEW_600" name="-">
+        <pattern>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ"/></token>
+			</marker>
+			<token postag_regexp="yes" postag="ZNW:.*:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:.*:DE_"/></token>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig postag="VNW:PER:3EP:EKV:BEZ"/>
+    </rule>
+
+	<!--
+?	  2216	(4)	BNW:STL:ONV|VGW|VRZ VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ WKW:TGW:1EP|ZNW:EKV:DE_ ITP:PNT|SENT_END
+	   207:	 naar de grond.
+	   114:	 naar de trap.
+	   108:	 naar de tafel.
+	-->
+	<rule id="NEW_601a" name="-">
+        <pattern>
+			<marker>
+				<token postag="VNW:AWZ:EKV:DE_"></token>
+			</marker>
+			<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
 	<rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
