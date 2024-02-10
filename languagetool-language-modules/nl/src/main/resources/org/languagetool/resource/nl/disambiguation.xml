@@ -5420,24 +5420,16 @@ Copyright (C) 2008-2024 Ruud Baars
 	  2458:	~ Dat is dan
 	  1475:	~ Het is dan
 	-->
-	<!--
-	?	 21990	(4)	SENT_START VNW:OND:EKV:HET WKW:TGW:3EP BYW|VGW
-	  3499:	~ Het is dus
-	  3415:	~ Dat is dus
-	  2363:	~ Dat is dan
-	  1431:	~ Het is dan
-	  1430:	~ Dit is dus
-	-->
     <rule id="NEW_209" name="-">
         <pattern>
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<token postag="VNW:OND:EKV:HET"><exception negate_pos="yes" postag="VNW:OND:EKV:HET"/></token>
 			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 			<marker>
-				<token postag="BYW"/>
+				<token postag_regexp="yes" postag="BYW|VGW"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VGW"/></token>
 			</marker>
 		</pattern>
-        <disambig action="filterall"/>
+        <disambig postag="BYW"/>
     </rule>
 
 	<!--
@@ -7838,37 +7830,8 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="remove" postag="VGW"/>
     </rule>
 	-->
-	<!--
-	?	  9110	(4)	BYW|VRZ BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT|SENT_END
-	    76:	 voor kleine kinderen.
-	    55:	 voor jonge kinderen.
-	    52:	 voor grote uitdagingen.
-	    38:	 over coronagerelateerde sterfgevallen.
-	    37:	 voor nieuwe ideeën.
-	    37:	 voor andere zaken.
-	    33:	 voor andere mensen.
-	    27:	 voor nieuwe uitdagingen.
-		27:	 bij jonge kinderen.
-	-->
-	<!--
-	<rule id="NEW_328" name="-">
-        <pattern>
-			<marker>
-				<and>
-					<token postag="BYW"/>
-					<token postag="VRZ"/>
-				</and>
-			</marker>
-			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
-			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-		</pattern>
-        <disambig action="remove" postag="VGW"/>
-    </rule>
-	-->
 
 	<!--
-	==
 ?	  8575	(4)	SENT_START VGW BYW|VGW WKW:VLT:1EP
 	   641:	~ En toen kwam
 	   312:	~ En toen werd
@@ -8628,33 +8591,6 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="remove" postag="VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"/>
     </rule>
 
-	<!--
-	?	 30162	(4)	BYW|VRZ VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ ITP:PNT|SENT_END
-	     2:	 over de financiën.
-	     1:	 bij de Republikeinen.
-	     1:	 voor de demonstranten.
-	     1:	 voor de kiezers.
-	     1:	 bij de schoenenketens.
-	     1:	 over de implantaten.
-	     1:	 voor de incassokosten.
-	     1:	 voor de levensverzekeraars.
-	-->
-	<!--
-	<rule id="NEW_362" name="-">
-        <pattern>
-			<marker>
-				<and>
-					<token postag="VRZ"/>
-					<token postag="BYW"/>
-				</and>
-			</marker>
-			<token postag="VNW:PER:3EP:EKV:BEZ"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:BEZ"/></token>
-			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-        </pattern>
-        <disambig action="remove" postag="BYW"/>
-    </rule>
-	-->
 	<!--
 	?	  7069	(4)	VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP WKW:VTD:ONV|WKW:VTD:VRB
 	     1:	 de directeur heeft neergeschoten
@@ -12740,6 +12676,197 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
+
+	<!--
+	?	  6285	(4)	BYW|VRZ VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ ITP:PNT|SENT_END
+	   143:	 voor de kinderen.
+	    34:	 voor de allerkleinsten.
+	    31:	 voor de foto's.
+	    29:	 voor de mogelijkheden.
+	    28:	 voor de ouders.
+	-->
+	<rule id="NEW_587" name="-">
+		<pattern>
+			<marker>
+				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
+			</marker>
+			<token postag="VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:MRV:DE_"/></token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig postag="VRZ"/>
+	</rule>
+
+	<!--
+	?	  3925	(4)	BYW|VRZ GET:TXT:EKV ZNW:EKV:DE_ ITP:PNT|SENT_END
+	    19:	 voor een vrouw.
+	    17:	 voor een afspraak.
+	    13:	 voor een foto.
+	-->
+	<rule id="NEW_588" name="-">
+		<pattern>
+			<marker>
+				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
+			</marker>
+			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+		<disambig postag="VRZ"/>
+	</rule>
+
+	<!--
+	?	  9110	(4)	BYW|VRZ BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT|SENT_END
+	    76:	 voor kleine kinderen.
+	    55:	 voor jonge kinderen.
+	    52:	 voor grote uitdagingen.
+	    38:	 over coronagerelateerde sterfgevallen.
+	    37:	 voor nieuwe ideeën.
+	    37:	 voor andere zaken.
+	    33:	 voor andere mensen.
+	    27:	 voor nieuwe uitdagingen.
+		27:	 bij jonge kinderen.
+	-->
+	<rule id="NEW_589" name="-">
+        <pattern>
+			<marker>
+				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
+			</marker>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig postag="VRZ"/>
+    </rule>
+
+	<!--
+	?	  3465	(4)	SENT_START VNW:URT|BYW:GRD|TSW|VNW|VNW:OBP:EKV|VNW:VRG GET:TXT:EKV BNW:STL:ONV
+	   269:	Wat een mooi
+	   220:	Wat een heerlijk
+	   195:	Wat een prachtig
+	149:	Wat een geweldig
+	-->
+	<rule id="NEW_590" name="-">
+        <pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<marker>
+				<token>wat</token>
+			</marker>
+			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
+		</pattern>
+        <disambig action="remove" postag="BYW:GRD|TSW|VNW:VRG"/>
+    </rule>
+
+	<!--
+?	  3160	(4)	BYW|VRZ GET:TXT:EKV BNW:STL:VRB ZNW:EKV:DE_
+	    11:	 voor een nieuwe generatie
+	    10:	 voor een grote uitdaging
+	     8:	 voor een goede nachtrust
+	     8:	 voor een gezellige avond
+	     6:	 voor een nieuwe uitdaging
+	-->
+	<rule id="NEW_591" name="-">
+        <pattern>
+			<marker>
+				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
+			</marker>
+			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig postag="VRZ"/>
+    </rule>
+
+	<!--
+	?	 14169	(4)	SENT_START ENM:PER:FST WKW:VLT:1EP VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF
+	    39:	Tom keek haar
+	    30:	Anna keek haar
+	    28:	Max keek haar
+	-->
+	<rule id="NEW_592" name="-">
+        <pattern>
+			<token postag="WKW:VLT:1EP">keek</token>
+			<token postag="VNW:PER:3EP:EKV:BEZ">haar</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  2855	(4)	BYW|VRZ VNW:AWZ:EKV:DE_ BNW:STL:VRB ZNW:EKV:DE_
+	    27:	 voor de hele familie
+	    20:	 voor de lange termijn
+	    11:	 voor de snelle reactie
+	    10:	 over de hele wereld
+	-->
+	<rule id="NEW_593" name="-">
+        <pattern>
+			<marker>
+				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
+			</marker>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig postag="VRZ"/>
+    </rule>
+
+	<!--
+	?	  2829	(4)	SENT_START VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ WKW:TGW:1EP|ZNW:EKV:DE_ WKW:TGW:1EP|ZNW:EKV:DE_|WKW:VLT:1EP
+	   279:	De man was
+	    85:	De pijn was
+	    76:	De wind was
+	-->
+	<rule id="NEW_594" name="-">
+		<antipattern>
+			<token>was</token>
+			<token regexp="yes">ik|je|jij</token>
+		</antipattern>
+        <pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<marker>
+				<token>was</token>
+			</marker>
+		</pattern>
+        <disambig postag="WKW:VLT:1EP"/>
+    </rule>
+
+	<!--
+	?	  2819	(4)	BYW|VRZ VNW:PER:3EP:EKV:BEZ ZNW:EKV:DE_ ITP:PNT|SENT_END
+	   171:	 over zijn schouder.
+	   167:	 over zijn kin.
+	    56:	 over haar rug.
+	-->
+	<rule id="NEW_595" name="-">
+        <pattern>
+			<marker>
+				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
+			</marker>
+			<token postag_regexp="yes" postag=".*:BEZ"><exception negate_pos="yes" postag_regexp="yes" postag=".*:BEZ"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig postag="VRZ"/>
+    </rule>
+
+	<!--
+	?	  2752	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF
+	   594:	Ik heb ze
+	   295:	Ik zal ze
+	-->
+	<rule id="NEW_596" name="-">
+        <pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
+			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
+			<token postag="VNW:PER:3EP:MRV:PSF">ze</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
+
 
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
