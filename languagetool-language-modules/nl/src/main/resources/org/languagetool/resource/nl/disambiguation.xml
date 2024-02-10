@@ -13006,10 +13006,64 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
 			<marker>
 				<token postag="VNW:PER:3EP:EKV:BEZ">haar</token>
-				<token postag="WKW:TGW:INF"/>
+				<token postag="ZNW:MRV:DE_"/>
 			</marker>
 		</pattern>
 		<disambig action="filterall"/>
+    </rule>
+
+	<!--
+	?	  2132	(4)	ENM:PER:FST WKW:VLT:1EP VNW:PER:3EP:EKV:BEZ WKW:TGW:1EP|ZNW:EKV:DE_
+	     3:	Lidy keek haar man
+	     3:	Eve stak haar hand
+	     3:	Laura stak haar hand
+	     3:	Steffie keek haar moeder
+	-->
+	<rule id="NEW_605" name="-">
+        <pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="ENM:PER:FST"><exception negate_pos="yes" postag="ENM:PER:FST"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag=".*:BEZ"/>
+			<marker>
+				<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
+			</marker>
+		</pattern>
+		<disambig postag="ZNW:EKV:DE_"/>
+    </rule>
+
+	<!--
+	?	  1942	(4)	SENT_START ENM:PER:FST WKW:VLT:1EP BYW|ZNW:EKV:DE_|ZNW:EKV:HET|WKW:TGW:1EP
+	     5:	Harry keek weer
+	     4:	Jane keek weer
+	     4:	Tom keek weer
+	     4:	Kate keek weer
+	     3:	Nina keek weer
+	-->
+	<rule id="NEW_606" name="-">
+        <pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="ENM:PER:FST"><exception negate_pos="yes" postag="ENM:PER:FST"/></token>
+			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
+			<token postag="BYW">weer</token>
+		</pattern>
+		<disambig postag="filterall"/>
+    </rule>
+
+	<!--
+	?	  1919	(4)	SENT_START VNW:URT|VNW|VNW:VRG WKW:TGW:3EP BNW:STL:ONV
+	    93:	Wat is eigenlijk
+	    23:	Wat is goed
+	    18:	Wat is duurzaam
+	-->
+	<rule id="NEW_607" name="-">
+        <pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="VNW:VRG">wat</token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
+		</pattern>
+		<disambig postag="filterall"/>
     </rule>
 
 	<!-- ##################################################################################################### -->
