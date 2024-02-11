@@ -21,6 +21,7 @@ package org.languagetool.language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ca.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -464,5 +465,24 @@ public class Catalan extends Language {
 
   public MultitokenSpeller getMultitokenSpeller() {
     return CatalanMultitokenSpeller.INSTANCE;
+  }
+
+  @Override
+  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+    List<RuleMatch> results = new ArrayList<>();
+    for (int i=0; i<ruleMatches.size(); i++) {
+      RuleMatch ruleMatch = ruleMatches.get(i);
+      if (ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[3]") ||
+        ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[4]")) {
+        if (i+1 < ruleMatches.size()) {
+          if (ruleMatches.get(i+1).getFromPosSentence()>-1
+            && ruleMatches.get(i+1).getFromPosSentence() - ruleMatch.getToPosSentence()<20) {
+            continue;
+          }
+        }
+      }
+      results.add(ruleMatch);
+    }
+    return results;
   }
 }
