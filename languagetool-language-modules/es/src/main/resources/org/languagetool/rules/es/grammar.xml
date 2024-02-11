@@ -9349,15 +9349,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
                 <example correction="tú">Algo que en verdad nadie te puede quitar, sino <marker>tu</marker> mismo.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SPS00"/>
+                    <marker>
+                        <token>tu</token>
+                    </marker>
+                    <token postag="N..P.*|A...P.|V.P..P.|_GN_.P" postag_regexp="yes"><exception postag_regexp="yes" postag="N..S.*|A...S.|V.P..S.|_GN_.S"/></token>
+                </pattern>
+                <message>¿Quería usar el posesivo <suggestion>tus</suggestion>?</message>
+                <example correction="tus">Para <marker>tu</marker> cuatro patas.</example>
+                <example>En dónde lavas tu bus.</example>
+                <example>Mucha suerte con tu test.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <marker>
                         <token>tu</token>
                     </marker>
-                    <token postag="N..P.*|A...P.|V.P..P.|_GN_.P" postag_regexp="yes"/>
+                    <token postag="N..P.*|A...P.|V.P..P.|_GN_.P" postag_regexp="yes"><exception postag_regexp="yes" postag="N..S.*|A...S.|V.P..S.|_GN_.S"/></token>
                 </pattern>
                 <message>¿Quería usar el posesivo <suggestion>tus</suggestion> o el pronombre personal <suggestion>tú</suggestion>?</message>
                 <example correction="tus|tú">No entiendo <marker>tu</marker> palabras.</example>
+                <example>En dónde lavas tu bus.</example>
+                <example>Mucha suerte con tu test.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -21372,6 +21387,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cuando menos te lo esperas te deja.</example>
                 <example>Son de los peor pagados.</example>
                 <example>Son de los mejor pagados.</example>
+                <example>Santo Domingo de los Tsáchilas</example>
             </rule>
             <rule>
                 <antipattern>
