@@ -48,120 +48,131 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
-    
-//    if (match.getSentence().getText().contains("Jo pensem")) {
-//      int ii=0;
-//      ii++;
-//    }
+                                   AnalyzedTokenReadings[] patternTokens) throws IOException {
 
     String postagSelect = getRequired("postagSelect", arguments);
     String lemmaSelect = getRequired("lemmaSelect", arguments);
     String postagFromStr = getRequired("postagFrom", arguments);
     String lemmaFromStr = getRequired("lemmaFrom", arguments);
-    
-    int postagFrom = 0;
-    if (postagFromStr.startsWith("marker")) {
-      while (postagFrom < patternTokens.length && patternTokens[postagFrom].getStartPos() < match.getFromPos()) {
-        postagFrom++;
-      }
-      postagFrom++;
-      if (postagFromStr.length()>6) {
-        postagFrom += Integer.parseInt(postagFromStr.replace("marker", ""));
-      }
-    } else {
-      postagFrom = Integer.parseInt(postagFromStr);
-    }
-    if (postagFrom < 1 || postagFrom > patternTokens.length) {
-      throw new IllegalArgumentException("AdvancedSynthesizerFilter: Index out of bounds in "
-          + match.getRule().getFullId() + ", value: " + postagFromStr);
-    }
-    int lemmaFrom = 0;
-    if (lemmaFromStr.startsWith("marker")) {
-      while (lemmaFrom < patternTokens.length && patternTokens[lemmaFrom].getStartPos() < match.getFromPos()) {
-        lemmaFrom++;
-      }
-      lemmaFrom++;
-      if (lemmaFromStr.length()>6) {
-        lemmaFrom += Integer.parseInt(lemmaFromStr.replace("marker", ""));
-      }
-    } else {
-      lemmaFrom = Integer.parseInt(lemmaFromStr);
-    }
-    if (lemmaFrom < 1 || lemmaFrom > patternTokens.length) {
-      throw new IllegalArgumentException("AdvancedSynthesizerFilter: Index out of bounds in "
-          + match.getRule().getFullId() + ", value: " + lemmaFromStr);
-    }
+
+    int postagFrom = calculateIndex(postagFromStr, patternTokens, match.getFromPos());
+    int lemmaFrom = calculateIndex(lemmaFromStr, patternTokens, match.getFromPos());
+
+    validateIndex("postagFrom", postagFrom, patternTokens, match);
+    validateIndex("lemmaFrom", lemmaFrom, patternTokens, match);
 
     String postagReplace = getOptional("postagReplace", arguments);
 
     String desiredLemma = getAnalyzedToken(patternTokens[lemmaFrom - 1], lemmaSelect).getLemma();
     String originalPostag = getAnalyzedToken(patternTokens[lemmaFrom - 1], lemmaSelect).getPOSTag();
     String desiredPostag = getAnalyzedToken(patternTokens[postagFrom - 1], postagSelect).getPOSTag();
-    
-    if (desiredPostag == null) {
-      throw new IllegalArgumentException("AdvancedSynthesizerFilter: undefined POS tag for rule " +
-        match.getRule().getFullId() + " with POS regex '" + postagSelect + "' for token: " + patternTokens[postagFrom-1]);
-    }
 
-    if (postagReplace != null) {
-      desiredPostag = getCompositePostag(lemmaSelect, postagSelect, originalPostag, desiredPostag, postagReplace);
-    }
+    handleUndefinedPosTag(match, desiredPostag, postagSelect, patternTokens, postagFrom);
 
-    // take capitalization from the lemma (?)
+    desiredPostag = replacePosTagIfNeeded(postagReplace, lemmaSelect, postagSelect, originalPostag, desiredPostag);
+
     boolean isWordCapitalized = StringTools.isCapitalizedWord(patternTokens[lemmaFrom - 1].getToken());
     boolean isWordAllupper = StringTools.isAllUppercase(patternTokens[lemmaFrom - 1].getToken());
     AnalyzedToken token = new AnalyzedToken("", desiredPostag, desiredLemma);
     String[] replacements = getSynthesizer().synthesize(token, desiredPostag, true);
-    
-    if (replacements.length > 0) {
-      RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
-          match.getMessage(), match.getShortMessage());
-      newMatch.setType(match.getType());
-      List<String> replacementsList = new ArrayList<>();
 
-      boolean suggestionUsed = false;
-      for (String r : match.getSuggestedReplacements()) {
-        for (String nr : replacements) {
-          if (isSuggestionException(nr, desiredPostag)) {
-            continue;
-          }
-          if (r.contains("{suggestion}") || r.contains("{Suggestion}") || r.contains("{SUGGESTION}")) {
-            suggestionUsed = true;
-          }
-          if (isWordCapitalized) {
-            nr = StringTools.uppercaseFirstChar(nr);
-          }
-          if (isWordAllupper) {
-            nr = nr.toUpperCase();
-          }
-          String completeSuggestion = r.replace("{suggestion}", nr);
-          completeSuggestion = completeSuggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(nr));
-          completeSuggestion = completeSuggestion.replace("{SUGGESTION}", nr.toUpperCase());
-          if (!replacementsList.contains(completeSuggestion)) {
-            replacementsList.add(completeSuggestion);
-          }
-        }
-      }
-      if (!suggestionUsed) {
-        replacementsList.addAll(Arrays.asList(replacements));
-      }
-      
-      List<String> adjustedReplacementsList = new ArrayList<>();
-      Rule rule = match.getRule();
-      if (rule instanceof AbstractPatternRule) {  
-        Language lang = ((AbstractPatternRule) rule).getLanguage();
-        for (String replacement : replacementsList) {
-          adjustedReplacementsList.add(lang.adaptSuggestion(replacement));  
-        }
-      } else {
-        adjustedReplacementsList = replacementsList;
-      }
-      newMatch.setSuggestedReplacements(adjustedReplacementsList);
-      return newMatch;
+    if (replacements.length > 0) {
+      return createNewRuleMatch(match, isWordCapitalized, isWordAllupper, replacements, desiredPostag);
     }
     return match;
   }
+
+  private int calculateIndex(String indexStr, AnalyzedTokenReadings[] patternTokens, int fromPos) {
+    int index;
+    if (indexStr.startsWith("marker")) {
+      index = calculateMarkerIndex(indexStr, patternTokens, fromPos);
+    } else {
+      index = Integer.parseInt(indexStr);
+    }
+    return index;
+  }
+
+  private int calculateMarkerIndex(String marker, AnalyzedTokenReadings[] patternTokens, int fromPos) {
+    int index = 0;
+    while (index < patternTokens.length && patternTokens[index].getStartPos() < fromPos) {
+      index++;
+    }
+    index++;
+    if (marker.length() > 6) {
+      index += Integer.parseInt(marker.replace("marker", ""));
+    }
+    return index;
+  }
+
+  private void validateIndex(String indexName, int index, AnalyzedTokenReadings[] patternTokens, RuleMatch match) {
+    if (index < 1 || index > patternTokens.length) {
+      throw new IllegalArgumentException("AdvancedSynthesizerFilter: Index out of bounds in "
+        + match.getRule().getFullId() + ", value: " + index);
+    }
+  }
+
+  private void handleUndefinedPosTag(RuleMatch match, String desiredPostag, String postagSelect, AnalyzedTokenReadings[] patternTokens, int postagFrom) {
+    if (desiredPostag == null) {
+      throw new IllegalArgumentException("AdvancedSynthesizerFilter: undefined POS tag for rule " +
+        match.getRule().getFullId() + " with POS regex '" + postagSelect + "' for token: " +
+        patternTokens[postagFrom - 1]);
+    }
+  }
+
+  private String replacePosTagIfNeeded(String postagReplace, String lemmaSelect, String postagSelect, String originalPostag, String desiredPostag) {
+    if (postagReplace != null) {
+      desiredPostag = getCompositePostag(lemmaSelect, postagSelect, originalPostag, desiredPostag, postagReplace);
+    }
+    return desiredPostag;
+  }
+
+  private RuleMatch createNewRuleMatch(RuleMatch match, boolean isWordCapitalized, boolean isWordAllupper, String[] replacements, String desiredPostag) {
+    RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
+      match.getMessage(), match.getShortMessage());
+    newMatch.setType(match.getType());
+    List<String> replacementsList = new ArrayList<>();
+
+    boolean suggestionUsed = false;
+    for (String r : match.getSuggestedReplacements()) {
+      for (String nr : replacements) {
+        if (isSuggestionException(nr, desiredPostag)) {
+          continue;
+        }
+        if (r.toLowerCase().contains("{suggestion}")) {
+          suggestionUsed = true;
+        }
+        if (isWordCapitalized) {
+          nr = StringTools.uppercaseFirstChar(nr);
+        }
+        if (isWordAllupper) {
+          nr = nr.toUpperCase();
+        }
+        String completeSuggestion = r.replace("{suggestion}", nr);
+        completeSuggestion = completeSuggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(nr));
+        completeSuggestion = completeSuggestion.replace("{SUGGESTION}", nr.toUpperCase());
+        if (!replacementsList.contains(completeSuggestion)) {
+          replacementsList.add(completeSuggestion);
+        }
+      }
+    }
+    if (!suggestionUsed) {
+      replacementsList.addAll(Arrays.asList(replacements));
+    }
+
+    List<String> adjustedReplacementsList = new ArrayList<>();
+    Rule rule = match.getRule();
+    if (rule instanceof AbstractPatternRule) {
+      Language lang = ((AbstractPatternRule) rule).getLanguage();
+      for (String replacement : replacementsList) {
+        adjustedReplacementsList.add(lang.adaptSuggestion(replacement));
+      }
+    } else {
+      adjustedReplacementsList = replacementsList;
+    }
+    newMatch.setSuggestedReplacements(adjustedReplacementsList);
+    return newMatch;
+  }
+
 
   private String getCompositePostag(String lemmaSelect, String postagSelect, String originalPostag,
       String desiredPostag, String postagReplace) {

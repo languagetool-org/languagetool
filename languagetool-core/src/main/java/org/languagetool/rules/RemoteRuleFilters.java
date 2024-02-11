@@ -105,10 +105,37 @@ public final class RemoteRuleFilters {
   }
 
   static class ExpectedMatch {
-    public int offset;
-    public int length;
-    public String rule_id;
+    private int offset;
+    private int length;
+    private String rule_id;
+
+    // Getter methods
+    public int getOffset() {
+      return offset;
+    }
+
+    public int getLength() {
+      return length;
+    }
+
+    public String getRuleId() {
+      return rule_id;
+    }
+
+    // Setter methods
+    public void setOffset(int offset) {
+      this.offset = offset;
+    }
+
+    public void setLength(int length) {
+      this.length = length;
+    }
+
+    public void setRuleId(String ruleId) {
+      this.rule_id = ruleId;
+    }
   }
+
 
   static class ExpectedRule extends Rule{
     private final String id;
