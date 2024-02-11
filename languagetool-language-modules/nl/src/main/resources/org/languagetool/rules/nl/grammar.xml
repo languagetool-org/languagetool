@@ -8101,7 +8101,7 @@ regexp case-insensitive maken: (?i)
 			<rule>
 				<antipattern><token>de</token><token postag_regexp="yes" postag="ENM.*"></token><token>de</token></antipattern>
 				<antipattern><token>.</token><token spacebefore="no">de</token></antipattern>
-				<pattern case_sensitive="yes">
+				<pattern raw_pos="yes" case_sensitive="yes">
 					<token>de</token>
 					<marker>
 						<token postag="WKW:TGW:1EP"><exception regexp="yes">.*[kfschp]$</exception><exception postag_regexp="yes" postag="VRZ|ZNW.*"/></token>
@@ -8118,7 +8118,7 @@ regexp case-insensitive maken: (?i)
 		<rulegroup id="STAM_BAAR" name="beschik baar" >
 			<rule>
 				<antipattern><token regexp="yes">mevrouw|meneer</token><token>Baars</token></antipattern>
-				<pattern>
+				<pattern raw_pos="yes">
 					<marker>
 						<token postag="WKW:TGW:1EP"/>
 						<token regexp="yes">baar|bare|baarheid|baarheden|baarder|baardere|baars|baarders|baarst|baarste</token>
@@ -8131,7 +8131,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="STAM_STER" name="berijd ster" >
 			<rule>
-				<pattern>
+				<pattern raw_pos="yes">
 					<marker>
 						<token postag="WKW:TGW:1EP"/>
 						<token>ster</token>
@@ -8142,7 +8142,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="maakster">Zij is de beste <marker>maak ster</marker> die we hebben.</example>
 			</rule>
 			<rule>
-				<pattern>
+				<pattern  raw_pos="yes">
 					<marker>
 						<token postag="WKW:TGW:1EP" regexp="yes">.*[^aeiou][aeiou]t</token>
 						<token>ter</token>
@@ -8165,7 +8165,7 @@ regexp case-insensitive maken: (?i)
 					<token postag_regexp="yes" postag="WKW:TGW:1EP.*"></token>
 					<token>dingen</token>
 				</antipattern>
-				<pattern>
+				<pattern raw_pos="yes">
 					<marker>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP.*"><exception regexp="yes">maar|veel|uit|bevat</exception><exception postag_regexp="yes" postag="BNW.*|VNW.*|ZNW.*"/></token>
 						<token regexp="yes">ding|dingen</token>
@@ -8178,7 +8178,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="STAM_KING" name="bedek king" >
 			<rule>
-				<pattern>
+				<pattern raw_pos="yes">
 					<marker>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*k</token>
 						<token regexp="yes">king|kings|kingen</token>
@@ -8202,7 +8202,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="verstopping">De <marker>verstop ping</marker> klopt niet.</example>
 			</rule>
 			<rule>
-				<pattern>
+				<pattern raw_pos="yes">
 					<marker>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*t</token>
 						<token regexp="yes">ting|tings|tingen</token>
@@ -8214,7 +8214,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="bezetting">De <marker>bezet ting</marker> klopt niet.</example>
 			</rule>
 			<rule>
-				<pattern>
+				<pattern raw_pos="yes">
 					<marker>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes" case_sensitive="yes">.*g<exception regexp="yes">lang|vraag|genoeg|jong</exception></token>
 						<token regexp="yes">ging|gings|gingen</token>
@@ -8226,7 +8226,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="overbrugging">De <marker>overbrug ging</marker> klopt niet.</example>
 			</rule>
 			<rule>
-				<pattern>
+				<pattern raw_pos="yes">
 					<marker>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*r<exception>haar</exception></token>
 						<token regexp="yes">ring|ringen</token>
@@ -8238,7 +8238,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="verwarring">De <marker>verwar ring</marker> klopt niet.</example>
 			</rule>
 			<rule>
-				<pattern>
+				<pattern raw_pos="yes">
 					<marker>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*k</token>
 						<token>kers</token>
@@ -8252,7 +8252,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="STAM_LENDE" name="opval lende" >
 			<rule>
-				<pattern>
+				<pattern raw_pos="yes">
 					<marker>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.*l</token>
 						<token regexp="yes">lenden?</token>
@@ -8266,7 +8266,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="DOORRIJD_DING" name="Achteruitrijd camera/achteruitrijcamera" >
 			<rule>
-				<pattern>
+				<pattern raw_pos="yes">
 					<marker>
 						<token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.{3,30}rijd$<exception>bevrijd</exception></token>
 						<token postag_regexp="yes" postag="ZNW.*"><exception regexp="yes">tegen|kunnen</exception></token>
@@ -8420,7 +8420,7 @@ regexp case-insensitive maken: (?i)
 					<token regexp="yes">die|dat</token>
 					<token regexp="yes">een|geen</token>
 				</antipattern>
-				<pattern>
+				<pattern raw_pos="yes">
 					<token regexp="yes">de|een|geen|deze|menige?|elke?|iedere?|sommige?</token>
 					<marker>
 						<token postag="WKW:TGW:1EP" regexp="yes" case_sensitive="yes">^[a-z].*<exception regexp="yes">naast|jou|weer|geval|haar|jouw|acht|kan|moet|wil|uit|vier|was|wel|eer|mag</exception><exception postag_regexp="yes" postag="BNW.*|WKW:VTD:ONV|ZNW.*"></exception></token>
@@ -11883,7 +11883,7 @@ regexp case-insensitive maken: (?i)
 
 		<rulegroup id="WEEKDAGEN_MAANDEN" name="Hoofdletters bij dagen en maanden" type="misspelling">
 			<rule>
-				<antipattern><token>WNL</token><token>op</token><token>Zondag</antipattern>
+				<antipattern><token>WNL</token><token>op</token><token>Zondag</token></antipattern>
 				<antipattern case_sensitive="yes"><token>,</token><token>April</token><token postag="SENT_END"/></antipattern>
 				<antipattern case_sensitive="yes"><token>April</token><token postag_regexp="yes" postag="ENM:PER:LST.*"/></antipattern>
 				<antipattern><token postag="UNKNOWN"/><token case_sensitive="yes">April</token></antipattern> <!-- titles, names -->
@@ -18523,7 +18523,7 @@ regexp case-insensitive maken: (?i)
 		<rulegroup id="STAM_DE_HIJ" name="muteer de hij/muteerde hij">
 			<!-- R. Baars, oktober 2022 -->
 			<rule>
-				<pattern>
+				<pattern raw_pos="yes">
 					<marker>
 						<token postag="WKW:TGW:1EP"/>
 						<token>de</token>

@@ -13203,7 +13203,62 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="filterall"/>
     </rule>
 
+	<!--
+	?	  1591	(4)	VRZ BYW|BYW:GRD|VRZ WKW:TGW:INF|ZNW:MRV:DE_ ITP:PNT|SENT_END
+	   115:	 aan te pakken.
+	    71:	 op te wachten.
+	    65:	 aan te passen.
+	    64:	 op te halen.
+	-->
+	<rule id="NEW_616" name="-">
+        <pattern>
+			<marker>
+				<token postag="VRZ">te</token>
+				<token postag="WKW:TGW:INF"/>
+			</marker>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="filterall"/>
+    </rule>
 
+	<!--
+	?	  1126	(4)	SENT_START VNW:AWZ:EKV:DE_ WKW:TGW:1EP|ZNW:EKV:DE_ WKW:TGW:1EP|ZNW:EKV:DE_|WKW:VLT:1EP
+	   149:	De man was
+	    30:	Die man was
+	    28:	De wind was
+	    26:	De hemel was
+	-->
+	<rule id="NEW_617" name="-">
+        <pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
+			<marker>
+				<token>was</token>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="ZNW:EKV:DE_"/>
+    </rule>
+
+	<!--
+	?	  1039	(4)	BYW|VRZ VNW:AWZ:EKV:HET ZNW:EKV:HET VRZ
+	    24:	 bij het begin van
+	    23:	 over het gebruik van
+	    21:	 bij het ministerie van
+	    15:	 over het verloop van
+	    14:	 over het lot van
+	-->
+	<rule id="NEW_618" name="-">
+        <pattern>
+			<marker>
+				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
+			</marker>
+			<token postag="VNW:AWZ:EKV:HET"><exception negate_pos="yes" postag="VNW:AWZ:EKV:HET"/></token>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+		</pattern>
+		<disambig postag="VRZ"/>
+    </rule>
 
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
