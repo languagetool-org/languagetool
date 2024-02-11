@@ -13278,6 +13278,25 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig postag="VGW"/>
     </rule>
 
+	<!--
+	?	  1097	(4)	VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ VRZ
+	    10:	 dat de kans op
+	     9:	 dat de invoering van
+	     9:	 dat de situatie in
+	-->
+	<rule id="NEW_620" name="-">
+        <pattern>
+			<marker>
+				<token>dat</token>
+			</marker>
+			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
+		</pattern>
+		<disambig action="remove" postag="VNW:AWZ:EKV:HET"/>
+    </rule>
+
+
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
 	<rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
