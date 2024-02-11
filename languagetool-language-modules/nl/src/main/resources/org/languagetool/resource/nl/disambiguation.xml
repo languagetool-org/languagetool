@@ -13260,6 +13260,24 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig postag="VRZ"/>
     </rule>
 
+	<!--
+	?	  1273	(4)	^ VGW|VRZ VRZ WKW:TGW:INF ITP:PNT|SENT_END $
+	    69:	 om te vertrekken.
+	    61:	 om te horen.
+	    46:	 om te eten.
+	    43:	 om te weten.
+	-->
+	<rule id="NEW_619" name="-">
+        <pattern>
+			<marker>
+				<token postag_regexp="yes" postag="VGW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="VGW|VRZ"/></token>
+			</marker>
+			<token>te</token>
+			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
+		</pattern>
+		<disambig postag="VGW"/>
+    </rule>
+
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
 	<rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
