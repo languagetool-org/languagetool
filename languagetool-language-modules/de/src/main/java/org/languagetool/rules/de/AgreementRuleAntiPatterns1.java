@@ -896,6 +896,12 @@ class AgreementRuleAntiPatterns1 {
       token("das"),
       token("Korrektur"),
       token("gelesen")
+    ),
+    asList(
+      // In einer entzückend chaotischen Partie zwischen A und B kam es zum Unentschieden.
+      posRegex("VER:PA[12]"),
+      posRegex("ADJ.*"),
+      posRegex("SUB.*")
     )
   );
 
