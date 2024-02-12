@@ -377,6 +377,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="geheißen">Sie hat früher Müller <marker>gehießen</marker>.</example>
             </rule>
         </rulegroup>
+        <!-- we're ignoring two matches, and using only one -->
+        <rule id="TEST_IF_MATCH" name="If match test">
+            <pattern>
+              <token>token</token>
+            </pattern> 
+            <message>You could use: <match no="1" if_match="yes" regexp_match="t(.*)x" regexp_replace="b$1"/></message>
+            <suggestion><match no="1" if_match="yes" regexp_match="t(.*)n" regexp_replace="moke"/></suggestion>
+            <suggestion><match no="1" if_match="yes" regexp_match="t(.*)x" regexp_replace="l$1"/></suggestion>
+            <example correction="moke">It's a <marker>token</marker>.</example>
+        </rule>
     </category>
 
     <category id="OTHER" name="otherCategory" type="addition">

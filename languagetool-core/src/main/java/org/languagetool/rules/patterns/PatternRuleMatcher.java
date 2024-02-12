@@ -30,6 +30,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
@@ -394,7 +395,10 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     }
     int lastLeftSugEnd = leftSide.indexOf(RuleMatch.SUGGESTION_END_TAG);
     int lastLeftSugStart = leftSide.lastIndexOf(RuleMatch.SUGGESTION_START_TAG);
-    StringBuilder sb = new StringBuilder();
+
+    matches = filterOutEmpty(matches);
+    
+    StringBuilder sb = new StringBuilder(leftSide.length() + rightSide.length() + 40 * matches.length);
     sb.append(errorMessage);
     for (int z = 0; z < matches.length; z++) {
       sb.append(suggestionLeft);
@@ -441,6 +445,12 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
           new String[matchList.size()], 0, language);
     }
     return finalMatch;
+  }
+
+  private static String[] filterOutEmpty(String[] finalMatch) {
+    return Stream.of(finalMatch)
+        .filter(m -> ! MatchState.DONT_APPLY.equals(m))
+        .toArray(String[]::new);
   }
 
   private int phraseLen(int i) {

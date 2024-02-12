@@ -758,6 +758,8 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
         }
       }
       List<String> realSuggestions = matches.get(0).getSuggestedReplacements();
+      realSuggestions = new ArrayList<>(realSuggestions);
+      realSuggestions.removeIf(s -> MatchState.DONT_APPLY.equals(s));
       if (realSuggestions.isEmpty()) {
         boolean expectedEmptyCorrection = expectedCorrections.size() == 1 && expectedCorrections.get(0).length() == 0;
         if (!expectedEmptyCorrection) {

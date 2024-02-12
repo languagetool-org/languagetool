@@ -51,6 +51,8 @@ public final class Match {
   private final IncludeRange includeSkipped;
   // Pattern used to define parts of the matched token:
   private final Pattern pRegexMatch;
+  // if true the suggestion will only be applied if match is successful
+  private boolean ifMatch;
   // True if this match element is used for formatting POS token:
   private final boolean setPos;
 
@@ -226,6 +228,14 @@ public final class Match {
   /** @since 2.3 */
   public IncludeRange getIncludeSkipped() {
     return includeSkipped;
+  }
+
+  public boolean isIfMatch() {
+    return ifMatch;
+  }
+
+  public void setIfMatch(boolean ifMatch) {
+    this.ifMatch = ifMatch;
   }
 
 }

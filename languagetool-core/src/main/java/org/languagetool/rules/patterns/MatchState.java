@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -45,7 +46,10 @@ import static org.languagetool.JLanguageTool.SENTENCE_START_TAGNAME;
  * @since 2.3
  */
 public class MatchState {
-
+  // use private Unicode char for suggestions to filter out
+  // we can't use empty string as existing tests expect it and it's hard to signal skipping in other ways
+  static final String DONT_APPLY = "\uE120";
+  
   private final Match match;
   private final Synthesizer synthesizer;
 
@@ -224,7 +228,11 @@ public class MatchState {
         if (lang != null && lang.getShortCode().equals("ar")) {
            formattedString[0] = StringTools.removeTashkeel(formattedString[0]);
         }
-        formattedString[0] = pRegexMatch.matcher(formattedString[0]).replaceAll(regexReplace);
+        Matcher matcher = pRegexMatch.matcher(formattedString[0]);
+        if( match.isIfMatch() && ! matcher.find() ) {
+          return new String[] { DONT_APPLY };
+        }
+        formattedString[0] = matcher.replaceAll(regexReplace);
       }
 
       String posTag = match.getPosTag();

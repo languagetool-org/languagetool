@@ -390,6 +390,7 @@ public class XMLRuleHandler extends DefaultHandler {
         caseConversion, YES.equals(attrs.getValue("setpos")),
         isSuppressMisspelled,
         includeRange);
+    mWorker.setIfMatch(YES.equals(attrs.getValue("if_match")));
     mWorker.setInMessageOnly(!inSuggestion);
     if (inMessage) {
       suggestionMatches.add(mWorker);

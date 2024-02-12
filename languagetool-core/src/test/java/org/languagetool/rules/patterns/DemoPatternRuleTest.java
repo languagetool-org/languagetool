@@ -139,6 +139,12 @@ public class DemoPatternRuleTest extends PatternRuleTest {
     assertEquals("This is how you should write: <suggestion>test</suggestion>, <suggestion> </suggestion>.",
             PatternRuleMatcher.formatMultipleSynthesis(suggestions2,
                     "This is how you should write: <suggestion>", "</suggestion>."));
+
+    String[] suggestions3 = { "test", MatchState.DONT_APPLY };
+
+    assertEquals("This is how you should write: <suggestion>test</suggestion>.",
+            PatternRuleMatcher.formatMultipleSynthesis(suggestions3,
+                    "This is how you should write: <suggestion>", "</suggestion>."));
   }
 
   private PatternRule makePatternRule(String s) {
