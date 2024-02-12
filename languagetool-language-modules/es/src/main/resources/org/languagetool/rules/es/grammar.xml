@@ -9335,6 +9335,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="TU_TILDE" name="tu / tú">
             <rule>
+                <pattern>
+                    <token>tu</token>
+                    <token>seras</token>
+                </pattern>
+                <message>Faltan dos acentos: "tú" (pronombre), serás (del v. 'ser').</message>
+                <suggestion>tú serás</suggestion>
+                <example correction="Tú serás"><marker>Tu seras</marker> el encargado.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <token regexp="yes">mism[oa]</token>
                     <token postag="N.*" postag_regexp="yes"/>
@@ -9355,7 +9364,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>tu</token>
                     </marker>
-                    <token postag="N..P.*|A...P.|V.P..P.|_GN_.P" postag_regexp="yes"><exception postag_regexp="yes" postag="N..S.*|A...S.|V.P..S.|_GN_.S"/></token>
+                    <token postag="N..P.*|A...P.|V.P..P.|_GN_.P" postag_regexp="yes"><exception postag_regexp="yes" postag="N..S.*|A...S.|V.P..S.|_GN_.S|D[^N].*|&pronombre_personal_atono_POS;"/></token>
                 </pattern>
                 <message>¿Quería usar el posesivo <suggestion>tus</suggestion>?</message>
                 <example correction="tus">Para <marker>tu</marker> cuatro patas.</example>
@@ -9363,11 +9372,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Mucha suerte con tu test.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>tu</token>
+                    <token postag="&pronombre_personal_atono_POS;" min="0" max="2" postag_regexp="yes"/>
+                    <token postag="V...2S." postag_regexp="yes"/>
+                    <token postag="_GN_.*|V.G.*" postag_regexp="yes"/>
+                    <!--for other subrules:-->
+                    <example>¿Tu las tomas?</example>
+                    <example>Tu amas la pasta.</example>
+                    <example>Tu sales corriendo.</example>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>tu</token>
                     </marker>
-                    <token postag="N..P.*|A...P.|V.P..P.|_GN_.P" postag_regexp="yes"><exception postag_regexp="yes" postag="N..S.*|A...S.|V.P..S.|_GN_.S"/></token>
+                    <token postag="N..P.*|A...P.|V.P..P.|_GN_.P" postag_regexp="yes"><exception postag_regexp="yes" postag="N..S.*|A...S.|V.P..S.|_GN_.S|D[^N].*|&pronombre_personal_atono_POS;"/></token>
                 </pattern>
                 <message>¿Quería usar el posesivo <suggestion>tus</suggestion> o el pronombre personal <suggestion>tú</suggestion>?</message>
                 <example correction="tus|tú">No entiendo <marker>tu</marker> palabras.</example>
