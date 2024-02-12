@@ -181,6 +181,9 @@ public class JLanguageToolTest {
 
     List<RuleMatch> matches1 = lt.check("Continuo veien cada dia gent amb ID baixa ");
     assertEquals("GERUNDI_PERD_T", matches1.get(0).getRule().getId());
+
+//    matches1 = lt.check("Vine canta i balla.");
+//    assertEquals("GERUNDI_PERD_T", matches1.get(0).getRule().getId());
   }
 
 }

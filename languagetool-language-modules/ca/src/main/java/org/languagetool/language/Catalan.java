@@ -476,10 +476,15 @@ public class Catalan extends Language {
         ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[4]")) {
         if (i+1 < ruleMatches.size()) {
           if (ruleMatches.get(i+1).getFromPosSentence()>-1
+            && !ruleMatches.get(i+1).getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[5]")
             && ruleMatches.get(i+1).getFromPosSentence() - ruleMatch.getToPosSentence()<20) {
             continue;
           }
         }
+      }
+      if (i>0 && ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[5]") &&
+        ruleMatches.get(i-1).getRule().getId().equals("FALTA_ELEMENT_ENTRE_VERBS")) {
+      continue;
       }
       results.add(ruleMatch);
     }
