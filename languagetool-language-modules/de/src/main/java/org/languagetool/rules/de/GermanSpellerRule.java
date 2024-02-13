@@ -838,7 +838,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Unorganisation", w -> Arrays.asList("Desorganisation", "Unorganisiertheit"));
     put("Cand(el|le)lightdinner", "Candle-Light-Dinner");
     put("wertgelegt", "Wert gelegt");
-    put("Deluxe", "de luxe");
+    put("deluxe", "de luxe");
     put("antuhen", "antun");
     put("komen", "kommen");
     put("genißen", "genießen");
@@ -2954,6 +2954,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
         }
       case "do": return topMatch("so");
+      case "AirFrance": return topMatch("Air France");
       case "Wiederspruch": return topMatch("Widerspruch");
       case "Wiederspruchs": return topMatch("Widerspruchs");
       case "Wiedersprüche": return topMatch("Widersprüche");
@@ -3820,8 +3821,20 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Brandweines": return topMatch("Branntweines");
       case "Brandweine": return topMatch("Branntweine");
       case "Brandweinen": return topMatch("Branntweinen");
-      case "Deluxe": return topMatch("de luxe");
-      case "deluxe": return topMatch("de luxe");
+      case "IfoInstitut": return topMatch("ifo Institut");
+      case "IfoInstituts": return topMatch("ifo Instituts");
+      case "ifoInstitut": return topMatch("ifo Institut");
+      case "ifoInstituts": return topMatch("ifo Instituts");
+      case "Ifo-Institut": return topMatch("ifo Institut");
+      case "Ifo-Instituts": return topMatch("ifo Instituts");
+      case "ifo-Institut": return topMatch("ifo Institut");
+      case "ifo-Instituts": return topMatch("ifo Instituts");
+      case "MacMini": return topMatch("Mac mini");
+      case "MacMinis": return topMatch("Mac minis");
+      case "Neisse-Verlag": return topMatch("Neisse Verlag");
+      case "Neiße-Verlag": return topMatch("Neisse Verlag");
+      case "Neisse-Verlags": return topMatch("Neisse Verlags");
+      case "Neiße-Verlags": return topMatch("Neisse Verlags");
     }
     return Collections.emptyList();
   }
