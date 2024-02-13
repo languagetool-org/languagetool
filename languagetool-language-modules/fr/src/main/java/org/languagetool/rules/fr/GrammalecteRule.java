@@ -123,7 +123,6 @@ public class GrammalecteRule extends Rule {
     "g2__gn_toutes_nom__b1_a1_1",
     "g2__gn_toutes_nom__b2_a1_1",
     "g2__gn_toutes_nom__b2_a2_1",
-    "g2__maj_Dieu__b1_a1_1",
     "g3__gn_2m_et_ou__b1_a1_1",
     "g3__gn_2m_et_ou__b1_a2_1",
     "g3__gn_adverbe_fort__b1_a1_1",
@@ -440,6 +439,7 @@ public class GrammalecteRule extends Rule {
     "g2__conf_a_à_verbe__b8_a1_1",
     "g2__conf_quand_quant_qu_en__b1_a1_1",
     "g3__gn_de_manière_façon_1m",
+    "g3__gn_de_manière_façon_1m__b1_a2_1",
     "g3__gn_la_3m__b1_a1_1",
     "gv1__imp_verbe_groupe3_d__b2_a1_1",//rule is generating FP and a loop(https://github.com/languagetooler-gmbh/languagetool-premium/issues/5220)
     "typo_guillemets_perdus",
@@ -452,12 +452,14 @@ public class GrammalecteRule extends Rule {
     "g2__conj_tu__b1_a1_1",
     "typo_guillemets_doubles_ouvrants_non_fermé",
     "g2__maj_gentilés__b3_a1_1",
+    "g2__maj_gentilés__b3_a2_1",
+    "g2__maj_Dieu__b1_a1_1",
+    "g2__maj_jours_semaine__b1_a1_1",
     "typo_signe_moins",
     "g3__conf_numérique_digital__b1_a1_1",
     "g2__conf_start_nom_ppas__b1_a1_1",
     "typo_guillemets_fin",
     "g2__conf_non_verbe_après_préverbes__b2_a1_1",
-    "g2__maj_gentilés__b3_a2_1",
     "g2__typo_ordinaux_chiffres_romains_exposants__b9_a1_1",
     "g3__gn_pfx_de_2m__b1_a1_1",
     "eepi_écriture_épicène_singulier",
@@ -572,7 +574,8 @@ public class GrammalecteRule extends Rule {
     "gv1__conf_verbes_det_verbe_nom__b1_a1_1",
     "g2__typo_ordinaux_chiffres_exposants__b5_a1_1",
     "g2__conf_dès_des_dés__b5_a1_1",
-    "g3__infi_faire__b2_a1_1"
+    "g3__infi_faire__b2_a1_1",
+    "g3__infi_verbes__b4_a1_1"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {

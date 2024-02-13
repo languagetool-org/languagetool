@@ -670,9 +670,6 @@ class CheckRequestAnalysis {
       for (ResultCache cache : paragraphsCache) {
         cache.removeAndShift(changed.from, changed.to, changed.oldSize, changed.newSize);
       }
-      if (mDocHandler.useAnalyzedSentencesCache()) {
-        docCache.removeAndShiftAnalyzedParagraph(changed.from, changed.to, changed.oldSize, changed.newSize);
-      }
       if (useQueue) {
         if (debugMode > 0) {
           MessageHandler.printToLogFile("CheckRequestAnalysis: handleCacheChanges: Number of Paragraphs has changed: new: " + changed.newSize 
@@ -685,6 +682,8 @@ class CheckRequestAnalysis {
                 + docCache.getFlatParagraph(changed.from) + "'");
           }
         }
+        changedParas.put(changed.from, docCache.getFlatParagraph(changed.from));
+        changedParas.put(changed.to, docCache.getFlatParagraph(changed.to));
         for (int i = 0; i < minToCheckPara.size(); i++) {
           if (minToCheckPara.get(i) != 0) {
             if (changed.newSize - changed.oldSize > 0) {

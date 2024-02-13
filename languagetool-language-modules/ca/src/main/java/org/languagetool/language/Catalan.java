@@ -21,6 +21,7 @@ package org.languagetool.language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ca.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -283,6 +284,7 @@ public class Catalan extends Language {
       case "NOMBRES_ROMANS": return -90;
       case "TASCAS_TASQUES": return -97;
       case "PREPOSICIONS_MINUSCULA": return -97; // less than CA_MULTITOKEN_SPELLING
+      case "SUGGERIMENTS_LE": return -97; // less than CA_MULTITOKEN_SPELLING
       case "MORFOLOGIK_RULE_CA_ES": return -100;
       case "EXIGEIX_ACCENTUACIO_VALENCIANA": return -120;
       //case "APOSTROFACIO_MOT_DESCONEGUT": return -120; // lesser than MORFOLOGIK_RULE_CA_ES
@@ -463,5 +465,29 @@ public class Catalan extends Language {
 
   public MultitokenSpeller getMultitokenSpeller() {
     return CatalanMultitokenSpeller.INSTANCE;
+  }
+
+  @Override
+  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+    List<RuleMatch> results = new ArrayList<>();
+    for (int i=0; i<ruleMatches.size(); i++) {
+      RuleMatch ruleMatch = ruleMatches.get(i);
+      if (ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[3]") ||
+        ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[4]")) {
+        if (i+1 < ruleMatches.size()) {
+          if (ruleMatches.get(i+1).getFromPosSentence()>-1
+            && !ruleMatches.get(i+1).getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[5]")
+            && ruleMatches.get(i+1).getFromPosSentence() - ruleMatch.getToPosSentence()<20) {
+            continue;
+          }
+        }
+      }
+      if (i>0 && ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[5]") &&
+        ruleMatches.get(i-1).getRule().getId().equals("FALTA_ELEMENT_ENTRE_VERBS")) {
+      continue;
+      }
+      results.add(ruleMatch);
+    }
+    return results;
   }
 }

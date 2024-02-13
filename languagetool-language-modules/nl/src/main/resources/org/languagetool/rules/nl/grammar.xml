@@ -8035,6 +8035,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="DE_WKWVLT3EP" name="De aanlegde" >
 			<rule>
+				<antipattern><token>De</token><token postag="ZNW:EKV:DE_"/></antipattern>
 				<antipattern><token>De</token><token postag="BNW:STL:ONV"/><token postag="WKW:VTD:ONV"/><token postag="ZNW.*DE_" postag_regexp="yes"/></antipattern>
 				<antipattern><token>.</token><token spacebefore="no">de</token></antipattern>
 				<pattern>
@@ -8141,7 +8142,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="maakster">Zij is de beste <marker>maak ster</marker> die we hebben.</example>
 			</rule>
 			<rule>
-				<pattern>
+				<pattern >
 					<marker>
 						<token postag="WKW:TGW:1EP" regexp="yes">.*[^aeiou][aeiou]t</token>
 						<token>ter</token>
@@ -8319,6 +8320,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="TE_WKW1EP" name="te check" >
 			<rule>
+				<antipattern><token>te</token><token postag="BNW:STL:ONV"/></antipattern>
 				<antipattern><token>des</token><token>te</token></antipattern>
 				<pattern>
 					<token>te</token>
@@ -8335,7 +8337,7 @@ regexp case-insensitive maken: (?i)
 					<marker>
 						<token>te</token>
 					</marker>
-					<token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*|WKW:TGW:INF.*|BYW:JES"/><exception case_sensitive="yes" regexp="yes">[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren|water|hoop|kijk|fiets|keer|gemeente</exception></token>
+					<token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="BNW.*|WKW:TGW:INF.*|BYW:JES"/><exception case_sensitive="yes" regexp="yes">[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren|water|hoop|kijk|fiets|keer|gemeente|weinig|werk|midden|lijf|meer|boek|vuur|zwaard|wapen|woord|leen|land</exception></token>
 				</pattern>
 				<message>Voor een zelfstandig naamwoord hoort <suggestion>de</suggestion>. Er is ook een kans dat u <suggestion>ter</suggestion> bedoelt.</message>
 				<example correction="de|ter">Zij heeft <marker>te</marker> leeservaring.</example>
@@ -8421,7 +8423,7 @@ regexp case-insensitive maken: (?i)
 				<pattern>
 					<token regexp="yes">de|een|geen|deze|menige?|elke?|iedere?|sommige?</token>
 					<marker>
-						<token postag="WKW:TGW:1EP" regexp="yes" case_sensitive="yes">^[a-z].*<exception regexp="yes">naast|jou|weer|geval|haar|jouw|acht|kan|moet|wil|uit|vier|was|wel|eer|mag</exception><exception postag_regexp="yes" postag="BNW.*|WKW:VTD:ONV|ZNW.*"></exception></token>
+						<token postag="WKW:TGW:1EP" regexp="yes" case_sensitive="yes">^[a-z].*<exception regexp="yes">naast|jou|weer|geval|haar|jouw|acht|kan|moet|wil|uit|vier|was|wel|eer|mag|in</exception><exception postag_regexp="yes" postag="BNW.*|WKW:VTD:ONV|ZNW.*"></exception></token>
 						<token postag_regexp="yes" postag="ZNW.*DE_|ZNW:EKV" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="BNW.*|BYW.*|WKW:TGW:INF.*|WKW:VTD.*|WKW:VLT.*|GET.*|ENM:LOC.*"/><exception regexp="yes">bent|zult|zo|kan|moet|wil|was|over|staat|weer|tegen|niets|at|kost|haar|zit</exception></token>
 					</marker>
 					<token postag_regexp="yes" postag="WKW.*|VRZ.*|SENT_END"/>
@@ -9616,6 +9618,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="XXX_DING" name="KLM vliegtuig → KLM-vliegtuig" type="misspelling">
 			<rule>
+				<antipattern><token regexp="yes">KNVB|BBC</token><token regexp="yes">.*dag</token></antipattern>
 				<antipattern><token>KNMI</token><token>code</token></antipattern>
 				<antipattern>
 					<token>de</token>
@@ -11104,6 +11107,10 @@ regexp case-insensitive maken: (?i)
 			<!-- R. Baars, november 2022 -->
 			<rule>
 				<antipattern>
+					<token postag="WKW:TGW:1EP"/>
+					<token>ik</token>
+				</antipattern>
+				<antipattern>
 					<token>het</token>
 					<token postag="WKW:VTD:ONV"/>
 					<token postag="WKW:TGW:INF"/>
@@ -11877,6 +11884,7 @@ regexp case-insensitive maken: (?i)
 
 		<rulegroup id="WEEKDAGEN_MAANDEN" name="Hoofdletters bij dagen en maanden" type="misspelling">
 			<rule>
+				<antipattern><token>WNL</token><token>op</token><token>Zondag</token></antipattern>
 				<antipattern case_sensitive="yes"><token>,</token><token>April</token><token postag="SENT_END"/></antipattern>
 				<antipattern case_sensitive="yes"><token>April</token><token postag_regexp="yes" postag="ENM:PER:LST.*"/></antipattern>
 				<antipattern><token postag="UNKNOWN"/><token case_sensitive="yes">April</token></antipattern> <!-- titles, names -->
@@ -12421,11 +12429,10 @@ regexp case-insensitive maken: (?i)
 			</rule>
 
 			<rule>
-				<antipattern case_sensitive="yes"><token>De</token><token>Vecht</token></antipattern>
-				<pattern><token>de</token><token>vecht</token></pattern>
-				<message>U bedoelt misschien de plaats <suggestion>De Vecht</suggestion>.</message>
-				<short>Plaatsnaam verkeerd</short>
-				<example correction="De Vecht">Ik zie <marker>de vecht</marker>.</example>
+				<pattern><token>de</token><token case_sensitive="yes">vecht</token></pattern>
+				<message>U bedoelt misschien de plaats <suggestion>De Vecht</suggestion> of de rivier <suggestion>de Vecht</suggestion>.</message>
+				<short>Eigennaam verkeerd</short>
+				<example correction="De Vecht|de Vecht">Ik zie <marker>de vecht</marker>.</example>
 			</rule>
 
 			<rule>
@@ -17710,6 +17717,7 @@ regexp case-insensitive maken: (?i)
 		<rulegroup id="KOMMA_ONTBR" name="Komma vergeten?" >
 			<!-- 2014-08-20 TaalTik -->
 			<rule>
+				<antipattern><token>vierde</token><token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
 				<antipattern>
 					<token postag="WKW:TGW:1EP"/>
 					<token postag="WKW:VTD:VRB"/>
@@ -25667,6 +25675,10 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="DE_LELIJKS_TE" name="De lelijks te/de lelijkste" >
 			<rule>
+				<antipattern>
+					<token>te</token>
+					<token postag="WKW:TGW:INF"/>
+				</antipattern>
 				<pattern>
 					<token regexp="yes">de|het</token>
 					<marker>

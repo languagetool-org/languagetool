@@ -144,6 +144,13 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="VAIP2V0"/>
     </rule>
+    <rule id="pagar_impuestos" name="pagar impuestos">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes" inflected="yes">pagar</token>
+            <token postag="NCMP000">impuestos</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rulegroup id="PUNCT" name="puntuación">
         <rule>
             <pattern>
@@ -6519,10 +6526,10 @@ Copyright (C) 2011 Juan Martorell
                 <token postag="SENT_START"/>
                 <token min="0" max="3" regexp="yes">\p{P}</token>
                 <marker>
-                <and>
-                    <token postag="V.[SI].*" postag_regexp="yes" skip="7"/>
-                    <token postag="V.M.*" postag_regexp="yes"/>
-                </and>
+                    <and>
+                        <token postag="V.[SI].*" postag_regexp="yes" skip="7"/>
+                        <token postag="V.M.*" postag_regexp="yes"/>
+                    </and>
                 </marker>
                 <!--<token>o</token>-->
                 <token>si</token>

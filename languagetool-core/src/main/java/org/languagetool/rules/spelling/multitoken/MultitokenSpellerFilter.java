@@ -78,11 +78,6 @@ public class MultitokenSpellerFilter extends RuleFilter {
       replacements = capitalizedReplacements;
     }
     match.setSuggestedReplacements(replacements);
-    if (!replacements.isEmpty()) {
-      SimpleDateFormat sdf = new SimpleDateFormat("HH");
-      System.out.println(sdf.format(new Date()) + " - multitoken suggestion " + match.getRule().getFullId() +": " + replacements.toString()
-        + "; original: " + underlinedError);
-    }
     return match;
   }
 

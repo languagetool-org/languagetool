@@ -97,6 +97,49 @@ Pour en savoir plus sur les tone tags, suivez le lien vers notre documentation (
         ]>
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category id="STYLE" name="style rules" type="style">
+        <rule id="DE_PAR_GRACE_A" name="De par au lieu de grâce à" tone_tags="general">
+                <antipattern>
+                    <token>de</token>
+                    <token>part</token>
+                    <token regexp="yes">le|la|les</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token>par</token>
+                    <token>le</token>
+                    <token>monde</token>
+                </antipattern>
+                <antipattern>
+                    <token>part</token>
+                    <token postag="P.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token>part</token>
+                    <token>et</token>
+                    <token min="0">d'</token>
+                    <token>autre</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token>part</token>
+                    <token>en</token>
+                    <token>part</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>de</token>
+                        <token regexp="yes">par|part</token>
+                    </marker>
+                    <token postag="[PD].*" postag_regexp="yes">
+                        <exception regexp="yes">en|pour|par|sur|sous</exception></token>
+                </pattern>
+                <message>Cette expression n'est plus couramment utilisée.</message>
+                <suggestion>grâce à</suggestion>
+                <suggestion>par</suggestion>
+                <url>https://www.lalanguefrancaise.com/orthographe/de-par-ou-de-part</url>
+                <example correction="grâce à|par">Il a réussi <marker>de par</marker> sa pugnacité.</example>
+        </rule>
         <rule id="HEURES_PILES" name="heures piles avec 00" tags="picky">
                 <pattern>
                     <token regexp="yes">\d\d?</token>

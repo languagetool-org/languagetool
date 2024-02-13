@@ -11612,7 +11612,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+'>
                         <exception negate_pos='yes' postag_regexp='yes' postag='(?:N..|A...)P.+'/></token>
                 </pattern>
-                <message>O verbo aqui concorda com o objeto; portanto, deve utilizar o verbo no plural.</message>
+                <message>Possível erro de concordância.</message>
                 <suggestion><match no='1' postag='(V....)S(.+)' include_skipped='all' postag_replace='$1P$2' postag_regexp='yes'/>\2\3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all'/></suggestion>
                 <example correction='juntaram-se os amigos'>A ele <marker>juntou-se os amigos</marker> e família.</example>
                 <example correction='juntaram-se muitos bons amigos'>A ele <marker>juntou-se muitos bons amigos</marker> e família.</example>
@@ -11641,7 +11641,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token>
                         <exception regexp='yes'>e|,</exception></token>
                 </pattern>
-                <message>O verbo aqui concorda com o objeto; portanto, deve utilizar o verbo no singular.</message>
+                <message>Possível erro de concordância.</message>
                 <suggestion><match no='1' postag='(V....)P(.+)' include_skipped='all' postag_replace='$1S$2' postag_regexp='yes'/>\2\3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all'/></suggestion>
                 <example correction='juntara-se a família|juntou-se a família'>A ele <marker>juntaram-se a família</marker>.</example>
                 <!--example correction='juntara-se à família|juntou-se à família'>Ele <marker>juntaram-se à família</marker>.</example-->
@@ -33839,8 +33839,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <antipattern><!-- futuro perifrástico -->
                     <token inflected='yes'>ir</token>
                     <token postag='VMN0000'><!-- TODO add exceptions. e.g. "Onde vamos comer?" "Nós não decidimos onde vamos descansar."-->
-                        <exception>levar</exception> <!-- MARCOAGPINTO AND RICARDO JOSEH LIMA, MOTION VERBS - 2022-04-17 - "Onde você vai levar seu filho?" -->
+                        <exception regexp="yes">levar|ir</exception> <!-- MARCOAGPINTO AND RICARDO JOSEH LIMA, MOTION VERBS - 2022-04-17 - "Onde você vai levar seu filho?" -->
                     </token>
+                    <example>Não conte para o Tom aonde estamos indo.</example>
                 </antipattern>
                 <pattern>
                     <marker>
