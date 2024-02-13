@@ -153,6 +153,8 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     assertTrue("Missing message for кількисний числівник", matches[0].getMessage().contains("Можливо"));
     assertTrue(matches[0].getSuggestedReplacements().contains("7 відсотків"));
 
+//    assertHasError("використати 25-ю бригаду");
+    
     matches = rule.match(lt.getAnalyzedSentence("Та пахових ділянках"));
     assertEquals(1, matches.length);
     assertTrue("Missing message for v_mis", matches[0].getMessage().contains("Можливо"));
