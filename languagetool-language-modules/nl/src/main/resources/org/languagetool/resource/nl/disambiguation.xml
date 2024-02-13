@@ -619,6 +619,36 @@ Copyright (C) 2008-2024 Ruud Baars
 		<disambig action="filterall"/>
 	</rule>
 
+	<rule id="TE_X" name="na te komt een werkwoord of een vergroting meestal; eventueel een plaats">
+		<!-- verwijdert ook tags bij 'te paard', 'te vuur' etc. -->
+		<pattern>
+			<token>te</token>
+			<marker><token postag_regexp="yes" postag="WKW:TGW:INF.*|ENM:LOC:PTS"/></marker>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<rule id="TE_BNW-STL-ONV" name="alleen bnw">
+		<pattern>
+			<token>te</token>
+			<token postag="BNW:STL:ONV"/>
+		</pattern>
+		<disambig action="filterall"/>
+	</rule>
+
+	<rule id="TE_MRV" name="alleen wkw">
+		<pattern>
+			<token>te</token>
+			<marker>
+				<and>
+					<token postag="ZNW:MRV:DE_"/>
+					<token postag="WKW:TGW:INF"/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="WKW:TGW:INF"/>
+	</rule>
+
 	<rule id="DE_X_END" name="alleen znw">
 		<!-- hier alleen zelfstandige naamwoorden met de ; is wellicht -->
 		<pattern>
@@ -857,6 +887,19 @@ Copyright (C) 2008-2024 Ruud Baars
 			</marker>
 		</pattern>
 		<disambig action="filterall"/>
+	</rule>
+
+	<rule id="DE_1EP" name="-">
+		<pattern>
+			<token regexp="yes">de|een</token>
+			<marker>
+				<and>
+					<token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/>
+					<token postag_regexp="yes" postag="ZNW:EKV:DE_"/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="WKW:(TGW|VLT):1EP"/>
 	</rule>
 
 	<!--
@@ -1432,18 +1475,43 @@ Copyright (C) 2008-2024 Ruud Baars
 	-->
 	<rule id="AMBIGUITY_536066" name="x">
         <pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<marker>
-				<token postag_regexp="yes" postag="VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"/></token>
+				<and>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="VNW:AWZ:MRV:DE_"/>
+				</and>
+			</marker>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+        <disambig action="remove" postag="VNW:AWZ:MRV:DE_"/>
+    </rule>
+	<!--
+?	240675	(4)	VRZ VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ ZNW:EKV:DE_ VRZ
+	     2:	 op de uitnodiging van
+	     2:	 in de nacht van
+	     2:	 in de omgeving van
+	-->
+	<rule id="AMBIGUITY_536067" name="x">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="VNW:AWZ:MRV:DE_"/>
+				</and>
 			</marker>
 			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
 		</pattern>
-        <disambig postag="VNW:AWZ:EKV:DE_"/>
+        <disambig action="remove" postag="VNW:AWZ:MRV:DE_"/>
     </rule>
-
 	<rule id="AMBIGUITY_235830" name="x">
 		<pattern>
 			<marker>
-				<token postag_regexp="yes" postag="VNW:AWZ:EKV:HET|VNW:OND:EKV:HET"><exception negate_pos="yes" postag_regexp="yes" postag="VNW:AWZ:EKV:HET|VNW:OND:EKV:HET"/></token>
+				<and>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="VNW:OND:EKV:HET"/>
+				</and>
 			</marker>
 			<token postag_regexp="yes" postag="ZNW.*HET"/>
 		</pattern>
@@ -1464,6 +1532,20 @@ Copyright (C) 2008-2024 Ruud Baars
 	   <disambig action="remove" postag="[^E]"/>
 	</rule>
 
+	<!-- verwijder bijvoeglijke patronen bij BYW:GRD -->
+	<rule id="BYW_GRD" name="x">
+		<pattern>
+			<marker>
+				<and>
+					<token postag_regexp="yes" postag="(BNW|WKW).*:ONV"/>
+					<token postag="BYW:GRD"/>
+				</and>
+			</marker>
+			<token postag_regexp="yes" postag="(BNW|WKW).*:ONV"/>
+		</pattern>
+	   <disambig action="remove" postag="(BNW|WKW).*:ONV"/>
+	</rule>
+
 	<rule id="DATUM" name="Datum">
 		<pattern>
 			<token postag_regexp="yes" postag="GET:ARA:00[12]:MRV|GET:ARA:001:EKV" regexp="yes">[1-9]|[12][0-9]|3[01]</token>
@@ -1475,6 +1557,21 @@ Copyright (C) 2008-2024 Ruud Baars
 
 	<!-- NEW DISAMBIGUATION PATTERNS -->
 
+	<!--
+	remove ambiguity between BYW and VRZ
+	Elk voorzetsel wordt een bijwoord als het los is van het werkwoord.
+	-->
+	<rule id="NEW_000" name="-">
+		<pattern>
+			<marker>
+				<and>
+					<token postag="VRZ"/>
+					<token postag="BYW"/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="BYW"/>
+	</rule>
 	<rule id="NEW_000b" name="-">
 		<pattern>
 			<token>in</token>
@@ -1495,7 +1592,7 @@ Copyright (C) 2008-2024 Ruud Baars
 				<token>dan</token>
 			</marker>
 		</pattern>
-		<disambig postag="CMP"/>
+		<disambig action="add"><wd pos="CMP"/></disambig>
 	</rule>
 	<rule id="NEW_000e" name="-">
 		<!-- forget opening quotes, bullet etc -->
@@ -1634,7 +1731,11 @@ Copyright (C) 2008-2024 Ruud Baars
 		</antipattern>
 		<pattern>
 			<marker>
-				<token postag_regexp="yes" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET"><exception negate_pos="yes" postag_regexp="yes" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET"/></token>
+				<and>
+					<token postag="VNW:OND:MRV:HET"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="VNW:OND:EKV:HET"/>
+				</and>
 			</marker>
 			<token postag="BYW"><exception negate_pos="yes" postag="BYW"/></token>
 		</pattern>
@@ -1801,7 +1902,10 @@ Copyright (C) 2008-2024 Ruud Baars
 		<pattern>
 			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
 			<marker>
-				<token postag_regexp="yes" postag="ZNW:EKV|BNW:STL:VRB"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV|BNW:STL:VRB"/></token>
+				<and>
+					<token postag="ZNW:EKV"/>
+					<token postag="BNW:STL:VRB"/>
+				</and>
 			</marker>
 			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
 		</pattern>
@@ -1819,7 +1923,7 @@ Copyright (C) 2008-2024 Ruud Baars
 	001218:	 'Wat is
 	001182:	~ Wat wordt
 	-->
-	<rule id="NEW_015" name="-">
+	<rule id="NEW_015a" name="-">
 		<pattern>
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<marker>
@@ -1827,7 +1931,17 @@ Copyright (C) 2008-2024 Ruud Baars
 			</marker>
 			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 		</pattern>
-		<disambig action="remove" postag="BYW:GRD|TSW"/>
+		<disambig action="remove" postag="BYW:GRD"/>
+	</rule>
+	<rule id="NEW_015b" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<marker>
+				<token>wat</token>
+			</marker>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+		<disambig action="remove" postag="TSW"/>
 	</rule>
 
 	<!--
@@ -1841,7 +1955,11 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
 			<marker>
-				<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="WKW:VLT:1EP"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
 			</marker>
 		</pattern>
 		<disambig action="remove" postag="ZNW:EKV:DE_"/>
@@ -1904,6 +2022,27 @@ Copyright (C) 2008-2024 Ruud Baars
 	</rule>
 
 	<!--
+	?  68701	(3)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP|WKW:TGW:3EP|ZNW:EKV:DE_
+   38927:	~ Ik wil
+   19790:	~ Ik moet
+    5065:	~ Ik zit
+	-->
+	<rule id="NEW_020" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="SENT_START|START"/>
+			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
+			<marker>
+				<and>
+					<token postag="WKW:TGW:1EP"/>
+					<token postag="WKW:TGW:3EP"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="^(WKW:TGW:3EP|ZNW:EKV:DE_)$"/>
+	</rule>
+
+	<!--
 	?  66213	(3)	SENT_START VNW:PER:1EP:MRV:ACT WKW:TGW:INF|ZNW:MRV:DE_
    15992:	~ We moeten
     9826:	~ We kunnen
@@ -1915,10 +2054,13 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<token postag="VNW:PER:1EP:MRV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:MRV:ACT"/></token>
 			<marker>
-				<token postag_regexp="yes" postag="WKW:TGW:INF|ZNW:MRV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:INF|ZNW:MRV:DE_"/></token>
+				<and>
+					<token postag="WKW:TGW:INF"/>
+					<token postag="ZNW:MRV:DE_"/>
+				</and>
 			</marker>
 		</pattern>
-		<disambig postag="WKW:TGW:INF"/>
+		<disambig action="remove" postag="ZNW:MRV:DE_"/>
 	</rule>
 
 	<!--
@@ -1939,11 +2081,15 @@ Copyright (C) 2008-2024 Ruud Baars
 		<pattern>
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<marker>
-				<token postag="VNW:OND:EKV:HET"/>
+				<and>
+					<token postag="VNW:OND:MRV:HET"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="VNW:OND:EKV:HET"/>
+				</and>
 			</marker>
 			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
 		</pattern>
-		<disambig action="filterall"/>
+		<disambig action="remove" postag="^(VNW:OND:MRV:HET|VNW:AWZ:EKV:HET)$"/>
 	</rule>
 
 	<!--
@@ -1962,11 +2108,11 @@ Copyright (C) 2008-2024 Ruud Baars
 		<pattern>
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<marker>
-				<token>wat</token>
+				<token postag="VNW:VRG">wat</token>
 			</marker>
 			<token postag="WKW:VLT:3EP"><exception negate_pos="yes" postag="WKW:VLT:3EP"/></token>
 		</pattern>
-		<disambig action="remove" postag="VNW|VNW:OBP:EKV"/>
+		<disambig action="filterall"/>
 	</rule>
 
 	<!--
@@ -2045,7 +2191,10 @@ Copyright (C) 2008-2024 Ruud Baars
 		<pattern>
 			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
 			<marker>
-				<token postag_regexp="yes" postag="WKW:TGW:3EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:3EP|ZNW:EKV:DE_"/></token>
+				<and>
+					<token postag="WKW:TGW:3EP"/>
+					<token postag="ZNW:EKV:DE_"/>
+				</and>
 			</marker>
 		</pattern>
 		<disambig action="remove" postag="WKW:TGW:3EP"/>
@@ -4083,7 +4232,7 @@ Copyright (C) 2008-2024 Ruud Baars
         <pattern>
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 				<token postag="ENM:PER:FST"><exception negate_pos="yes" postag="ENM:PER:FST"/></token>
-				<token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/></token>
+				<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
 				<marker>
 					<token postag="VNW:PER:3EP:EKV:BEZ" regexp="yes">haar|zijn</token>
 				</marker>
@@ -4616,10 +4765,6 @@ Copyright (C) 2008-2024 Ruud Baars
 	   105:	~ De VVD wil
 	-->
     <rule id="NEW_166" name="-">
-		<antipattern>
-			<token postag="WKW:TGW:1EP"/>
-			<token regexp="yes">ik|je|jij</token>
-		</antipattern>
         <pattern>
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
@@ -4936,6 +5081,29 @@ Copyright (C) 2008-2024 Ruud Baars
 			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 		</pattern>
         <disambig action="remove" postag="VGW:EKV:DE_"/>
+    </rule>
+
+	<!--
+	?	 26681	(2)	BNW:STL:ONV|ZNW:EKV:HET ZNW:EKV:HET
+	  1986:	 half uur
+	  1613:	 paar uur
+	  1593:	 paar jaar
+	  1025:	 half jaar
+	   699:	 goed voorbeeld
+	   378:	 goed moment
+	   322:	 goed advies
+	-->
+    <rule id="NEW_184" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="BNW:STL:ONV"/>
+					<token postag="ZNW:EKV:HET"/>
+				</and>
+			</marker>
+			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
+		</pattern>
+        <disambig action="remove" postag="ZNW:EKV:HET"/>
     </rule>
 
 	<!--
@@ -5397,16 +5565,24 @@ Copyright (C) 2008-2024 Ruud Baars
 	  2458:	~ Dat is dan
 	  1475:	~ Het is dan
 	-->
+	<!--
+	?	 21990	(4)	SENT_START VNW:OND:EKV:HET WKW:TGW:3EP BYW|VGW
+	  3499:	~ Het is dus
+	  3415:	~ Dat is dus
+	  2363:	~ Dat is dan
+	  1431:	~ Het is dan
+	  1430:	~ Dit is dus
+	-->
     <rule id="NEW_209" name="-">
         <pattern>
 			<token postag_regexp="yes" postag="SENT_START|START"/>
 			<token postag="VNW:OND:EKV:HET"><exception negate_pos="yes" postag="VNW:OND:EKV:HET"/></token>
 			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
 			<marker>
-				<token postag_regexp="yes" postag="BYW|VGW"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VGW"/></token>
+				<token postag="BYW"/>
 			</marker>
 		</pattern>
-        <disambig postag="BYW"/>
+        <disambig action="filterall"/>
     </rule>
 
 	<!--
@@ -7807,8 +7983,37 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="remove" postag="VGW"/>
     </rule>
 	-->
+	<!--
+	?	  9110	(4)	BYW|VRZ BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT|SENT_END
+	    76:	 voor kleine kinderen.
+	    55:	 voor jonge kinderen.
+	    52:	 voor grote uitdagingen.
+	    38:	 over coronagerelateerde sterfgevallen.
+	    37:	 voor nieuwe ideeën.
+	    37:	 voor andere zaken.
+	    33:	 voor andere mensen.
+	    27:	 voor nieuwe uitdagingen.
+		27:	 bij jonge kinderen.
+	-->
+	<!--
+	<rule id="NEW_328" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="BYW"/>
+					<token postag="VRZ"/>
+				</and>
+			</marker>
+			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
+			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+		</pattern>
+        <disambig action="remove" postag="VGW"/>
+    </rule>
+	-->
 
 	<!--
+	==
 ?	  8575	(4)	SENT_START VGW BYW|VGW WKW:VLT:1EP
 	   641:	~ En toen kwam
 	   312:	~ En toen werd
@@ -8568,6 +8773,33 @@ Copyright (C) 2008-2024 Ruud Baars
         <disambig action="remove" postag="VNW:OND:EKV:DE_|VNW:OND:MRV:DE_|VGW:MRV:DE_|VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_"/>
     </rule>
 
+	<!--
+	?	 30162	(4)	BYW|VRZ VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ ITP:PNT|SENT_END
+	     2:	 over de financiën.
+	     1:	 bij de Republikeinen.
+	     1:	 voor de demonstranten.
+	     1:	 voor de kiezers.
+	     1:	 bij de schoenenketens.
+	     1:	 over de implantaten.
+	     1:	 voor de incassokosten.
+	     1:	 voor de levensverzekeraars.
+	-->
+	<!--
+	<rule id="NEW_362" name="-">
+        <pattern>
+			<marker>
+				<and>
+					<token postag="VRZ"/>
+					<token postag="BYW"/>
+				</and>
+			</marker>
+			<token postag="VNW:PER:3EP:EKV:BEZ"><exception negate_pos="yes" postag="VNW:PER:3EP:EKV:BEZ"/></token>
+			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
+			<token postag="SENT_END" regexp="yes">[.!?]</token>
+        </pattern>
+        <disambig action="remove" postag="BYW"/>
+    </rule>
+	-->
 	<!--
 	?	  7069	(4)	VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ WKW:TGW:3EP WKW:VTD:ONV|WKW:VTD:VRB
 	     1:	 de directeur heeft neergeschoten
@@ -12653,626 +12885,6 @@ Copyright (C) 2008-2024 Ruud Baars
 		</pattern>
 		<disambig action="filterall"/>
 	</rule>
-
-	<!--
-	?	  6285	(4)	BYW|VRZ VNW:AWZ:MRV:DE_ ZNW:MRV:DE_ ITP:PNT|SENT_END
-	   143:	 voor de kinderen.
-	    34:	 voor de allerkleinsten.
-	    31:	 voor de foto's.
-	    29:	 voor de mogelijkheden.
-	    28:	 voor de ouders.
-	-->
-	<rule id="NEW_587" name="-">
-		<pattern>
-			<marker>
-				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
-			</marker>
-			<token postag="VNW:AWZ:MRV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:MRV:DE_"/></token>
-			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-		</pattern>
-		<disambig postag="VRZ"/>
-	</rule>
-
-	<!--
-	?	  3925	(4)	BYW|VRZ GET:TXT:EKV ZNW:EKV:DE_ ITP:PNT|SENT_END
-	    19:	 voor een vrouw.
-	    17:	 voor een afspraak.
-	    13:	 voor een foto.
-	-->
-	<rule id="NEW_588" name="-">
-		<pattern>
-			<marker>
-				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
-			</marker>
-			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
-			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-		</pattern>
-		<disambig postag="VRZ"/>
-	</rule>
-
-	<!--
-	?	  9110	(4)	BYW|VRZ BNW:STL:VRB ZNW:MRV:DE_ ITP:PNT|SENT_END
-	    76:	 voor kleine kinderen.
-	    55:	 voor jonge kinderen.
-	    52:	 voor grote uitdagingen.
-	    38:	 over coronagerelateerde sterfgevallen.
-	    37:	 voor nieuwe ideeën.
-	    37:	 voor andere zaken.
-	    33:	 voor andere mensen.
-	    27:	 voor nieuwe uitdagingen.
-		27:	 bij jonge kinderen.
-	-->
-	<rule id="NEW_589" name="-">
-        <pattern>
-			<marker>
-				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
-			</marker>
-			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
-			<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-		</pattern>
-        <disambig postag="VRZ"/>
-    </rule>
-
-	<!--
-	?	  3465	(4)	SENT_START VNW:URT|BYW:GRD|TSW|VNW|VNW:OBP:EKV|VNW:VRG GET:TXT:EKV BNW:STL:ONV
-	   269:	Wat een mooi
-	   220:	Wat een heerlijk
-	   195:	Wat een prachtig
-	149:	Wat een geweldig
-	-->
-	<rule id="NEW_590" name="-">
-        <pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<marker>
-				<token>wat</token>
-			</marker>
-			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
-		</pattern>
-        <disambig action="remove" postag="BYW:GRD|TSW|VNW:VRG"/>
-    </rule>
-
-	<!--
-?	  3160	(4)	BYW|VRZ GET:TXT:EKV BNW:STL:VRB ZNW:EKV:DE_
-	    11:	 voor een nieuwe generatie
-	    10:	 voor een grote uitdaging
-	     8:	 voor een goede nachtrust
-	     8:	 voor een gezellige avond
-	     6:	 voor een nieuwe uitdaging
-	-->
-	<rule id="NEW_591" name="-">
-        <pattern>
-			<marker>
-				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
-			</marker>
-			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
-			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
-			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-		</pattern>
-        <disambig postag="VRZ"/>
-    </rule>
-
-	<!--
-	?	 14169	(4)	SENT_START ENM:PER:FST WKW:VLT:1EP VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF
-	    39:	Tom keek haar
-	    30:	Anna keek haar
-	    28:	Max keek haar
-	-->
-	<rule id="NEW_592" name="-">
-        <pattern>
-			<token postag="WKW:VLT:1EP"/>
-			<token postag="VNW:PER:3EP:EKV:BEZ">haar</token>
-		</pattern>
-        <disambig action="filterall"/>
-    </rule>
-
-	<!--
-	?	  2855	(4)	BYW|VRZ VNW:AWZ:EKV:DE_ BNW:STL:VRB ZNW:EKV:DE_
-	    27:	 voor de hele familie
-	    20:	 voor de lange termijn
-	    11:	 voor de snelle reactie
-	    10:	 over de hele wereld
-	-->
-	<rule id="NEW_593" name="-">
-        <pattern>
-			<marker>
-				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
-			</marker>
-			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
-			<token postag="BNW:STL:VRB"><exception negate_pos="yes" postag="BNW:STL:VRB"/></token>
-			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-		</pattern>
-        <disambig postag="VRZ"/>
-    </rule>
-
-	<!--
-	?	  2829	(4)	SENT_START VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ WKW:TGW:1EP|ZNW:EKV:DE_ WKW:TGW:1EP|ZNW:EKV:DE_|WKW:VLT:1EP
-	   279:	De man was
-	    85:	De pijn was
-	    76:	De wind was
-	-->
-	<rule id="NEW_594" name="-">
-		<antipattern>
-			<token>was</token>
-			<token regexp="yes">ik|je|jij</token>
-		</antipattern>
-        <pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
-			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
-			<marker>
-				<token>was</token>
-			</marker>
-		</pattern>
-        <disambig postag="WKW:VLT:1EP"/>
-    </rule>
-
-	<!--
-	?	  2819	(4)	BYW|VRZ VNW:PER:3EP:EKV:BEZ ZNW:EKV:DE_ ITP:PNT|SENT_END
-	   171:	 over zijn schouder.
-	   167:	 over zijn kin.
-	    56:	 over haar rug.
-	-->
-	<rule id="NEW_595" name="-">
-        <pattern>
-			<marker>
-				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
-			</marker>
-			<token postag_regexp="yes" postag=".*:BEZ"><exception negate_pos="yes" postag_regexp="yes" postag=".*:BEZ"/></token>
-			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-		</pattern>
-        <disambig postag="VRZ"/>
-    </rule>
-
-	<!--
-	?	  2752	(4)	SENT_START VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VNW:PER:3EP:EKV:ACT|VNW:PER:3EP:MRV:ACT|VNW:PER:3EP:MRV:PSF
-	   594:	Ik heb ze
-	   295:	Ik zal ze
-	-->
-	<rule id="NEW_596" name="-">
-        <pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
-			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
-			<token postag="VNW:PER:3EP:MRV:PSF">ze</token>
-		</pattern>
-        <disambig action="filterall"/>
-    </rule>
-
-	<!--
-	?	  2612	(4)	SENT_START ENM:PER:FST WKW:VLT:1EP BYW|VRZ
-	     4:	Tom wreef over
-	     4:	Will wreef over
-	     4:	Luke wreef over
-	-->
-	<rule id="NEW_597" name="-">
-        <pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<token postag="ENM:PER:FST"><exception negate_pos="yes" postag="ENM:PER:FST"/></token>
-			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
-			<marker>
-				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
-			</marker>
-		</pattern>
-        <disambig postag="VRZ"/>
-    </rule>
-
-	<!--
-	?	  2562	(4)	WKW:TGW:3EP BNW:STL:ONV|BYW:GRD BNW:STL:ONV ITP:PNT|SENT_END
-	   129:	 is zeer belangrijk.
-	    81:	 is zeer eenvoudig.
-	    71:	 is zeer divers.
-	-->
-	<rule id="NEW_598" name="-">
-        <pattern>
-			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
-			<marker>
-				<token postag_regexp="yes" postag="BNW:STL:ONV|BYW:GRD"><exception negate_pos="yes" postag_regexp="yes" postag="BNW:STL:ONV|BYW:GRD"/></token>
-			</marker>
-			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-		</pattern>
-        <disambig postag="BYW:GRD"/>
-    </rule>
-
-	<!--
-	?	  2413	(4)	WKW:TGW:1EP|BNW:STL:ONV BYW BNW:STL:ONV ITP:PNT|SENT_END
-	    24:	 warm en zacht.
-	    23:	 snel en betrouwbaar.
-	22:	 snel en efficiënt.
-	-->
-	<rule id="NEW_599" name="-">
-        <pattern>
-			<marker>
-				<token postag_regexp="yes" postag="WKW:TGW:1EP|BNW:STL:ONV"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|BNW:STL:ONV"/></token>
-			</marker>
-			<token regexp="yes">en|of|maar</token>
-			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-		</pattern>
-        <disambig postag="BNW:STL:ONV"/>
-    </rule>
-
-	<!--
-	?	  2372	(4)	WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ ZNW:MRV:DE_ VRZ ITP:PNT|SENT_END
-	  1921:	 zijn schouders op.
-	   353:	 zijn wenkbrauwen op.
-	-->
-	<rule id="NEW_600" name="-">
-        <pattern>
-			<marker>
-				<token postag_regexp="yes" postag="WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:INF|VNW:PER:3EP:EKV:BEZ"/></token>
-			</marker>
-			<token postag_regexp="yes" postag="ZNW:.*:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:.*:DE_"/></token>
-			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-		</pattern>
-        <disambig postag="VNW:PER:3EP:EKV:BEZ"/>
-    </rule>
-
-
-	<!--
-?	  2216	(4)	BNW:STL:ONV|VGW|VRZ VNW:AWZ:EKV:DE_|VNW:AWZ:MRV:DE_ WKW:TGW:1EP|ZNW:EKV:DE_ ITP:PNT|SENT_END
-	   207:	 naar de grond.
-	   114:	 naar de trap.
-	   108:	 naar de tafel.
-	-->
-	<rule id="NEW_601" name="-">
-        <pattern>
-			<marker>
-				<token postag="VNW:AWZ:EKV:DE_"/>
-			</marker>
-			<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
-		</pattern>
-        <disambig action="filterall"/>
-    </rule>
-
-	<!--
-	?	  2235	(4)	BNW:STL:ONV|VGW|VRZ VNW:AWZ:EKV:DE_ WKW:TGW:1EP|ZNW:EKV:DE_ ITP:PNT|SENT_END
-	   207:	 naar de grond.
-	   114:	 naar de trap.
-	   108:	 naar de tafel.
-	    90:	 naar de vloer.
-
-	Disambiguation between WKW:TGW:1EP and ZNW:EKV:DE_ causes a rule to fail
-
-	-->
-	<rule id="NEW_602" name="-">
-        <pattern>
-			<marker>
-				<token postag="VRZ">naar</token>
-			</marker>
-			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
-			<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
-		</pattern>
-        <disambig action="filterall"/>
-    </rule>
-
-	<!--
-	?	  2153	(4)	VNW:PER:1EP:EKV:ACT WKW:TGW:1EP VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET BNW:STL:ONV
-	    73:	Ik vind het gewoon
-	    72:	Ik vind het erg
-	    54:	Ik wil het graag
-	-->
-	<rule id="NEW_603" name="-">
-        <pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<token postag="VNW:PER:1EP:EKV:ACT"><exception negate_pos="yes" postag="VNW:PER:1EP:EKV:ACT"/></token>
-			<token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/></token>
-			<marker>
-				<token postag_regexp="yes" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET BNW:STL:ONV"><exception negate_pos="yes" postag_regexp="yes" postag="VNW:OND:MRV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET"/></token>
-			</marker>
-			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
-		</pattern>
-        <disambig postag="VNW:OND:EKV:HET"/>
-    </rule>
-
-	<!--
-	?	  2139	(4)	ENM:PER:FST WKW:VLT:1EP VNW:PER:3EP:EKV:BEZ|VNW:PER:3EP:EKV:PSF WKW:TGW:INF|ZNW:MRV:DE_
-	     3:	Sarah kneep haar ogen
-	     3:	Sarah sloeg haar ogen
-	     3:	Gwen sloeg haar ogen
-	     3:	Anna sloeg haar ogen
-	-->
-	<rule id="NEW_604" name="-">
-        <pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<marker>
-				<token postag="ENM:PER:FST"><exception negate_pos="yes" postag="ENM:PER:FST"/></token>
-				<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
-				<token postag="VNW:PER:3EP:EKV:BEZ">haar</token>
-				<token postag="ZNW:MRV:DE_"/>
-			</marker>
-		</pattern>
-		<disambig action="filterall"/>
-    </rule>
-
-	<!--
-	?	  2132	(4)	ENM:PER:FST WKW:VLT:1EP VNW:PER:3EP:EKV:BEZ WKW:TGW:1EP|ZNW:EKV:DE_
-	     3:	Lidy keek haar man
-	     3:	Eve stak haar hand
-	     3:	Laura stak haar hand
-	     3:	Steffie keek haar moeder
-	-->
-	<rule id="NEW_605" name="-">
-        <pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<token postag="ENM:PER:FST"><exception negate_pos="yes" postag="ENM:PER:FST"/></token>
-			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
-			<token postag_regexp="yes" postag=".*:BEZ"/>
-			<marker>
-				<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
-			</marker>
-		</pattern>
-		<disambig postag="ZNW:EKV:DE_"/>
-    </rule>
-
-	<!--
-	?	  1942	(4)	SENT_START ENM:PER:FST WKW:VLT:1EP BYW|ZNW:EKV:DE_|ZNW:EKV:HET|WKW:TGW:1EP
-	     5:	Harry keek weer
-	     4:	Jane keek weer
-	     4:	Tom keek weer
-	     4:	Kate keek weer
-	     3:	Nina keek weer
-	-->
-	<rule id="NEW_606" name="-">
-        <pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<marker>
-				<token postag="ENM:PER:FST"><exception negate_pos="yes" postag="ENM:PER:FST"/></token>
-				<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
-				<token postag="BYW">weer</token>
-			</marker>
-		</pattern>
-		<disambig action="filterall"/>
-    </rule>
-
-	<!--
-	?	  1919	(4)	SENT_START VNW:URT|VNW|VNW:VRG WKW:TGW:3EP BNW:STL:ONV
-	    93:	Wat is eigenlijk
-	    23:	Wat is goed
-	    18:	Wat is duurzaam
-	-->
-	<rule id="NEW_607" name="-">
-        <pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<marker>
-				<token postag="VNW:VRG">wat</token>
-				<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
-				<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
-			</marker>
-		</pattern>
-		<disambig action="filterall"/>
-    </rule>
-
-	<!--
-	?	  1891	(4)	WKW:TGW:3EP BNW:STL:ONV WKW:VTD:ONV|WKW:VTD:VRB ITP:PNT|SENT_END
-	    14:	 is enorm toegenomen.
-	    12:	 is duidelijk aangegeven.
-	    12:	 is ongewijzigd gebleven.
-	    11:	 is bewust gekozen.
-	-->
-	<rule id="NEW_608" name="-">
-        <pattern>
-			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
-			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
-			<marker>
-				<token postag_regexp="yes" postag="WKW:VTD:ONV|WKW:VTD:VRB"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:VTD:ONV|WKW:VTD:VRB"/></token>
-			</marker>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-		</pattern>
-        <disambig postag="WKW:VTD:ONV"/>
-    </rule>
-
-	<!--
-	?	  1870	(4)	GET:TXT:EKV BNW:STL:ONV ZNW:EKV:HET|WKW:VTD:ONV ITP:PNT|SENT_END
-	   232:	 een vies gezicht.
-	   171:	 een lelijk gezicht.
-	    68:	 een bedenkelijk gezicht.
-	    55:	 een ernstig gezicht.
-	-->
-	<rule id="NEW_609" name="-">
-        <pattern>
-			<token postag="GET:TXT:EKV"><exception negate_pos="yes" postag="GET:TXT:EKV"/></token>
-			<token postag="BNW:STL:ONV"><exception negate_pos="yes" postag="BNW:STL:ONV"/></token>
-			<marker>
-				<token postag_regexp="yes" postag="ZNW:EKV:HET|WKW:VTD:ONV"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV:HET|WKW:VTD:ONV"/></token>
-			</marker>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-		</pattern>
-        <disambig postag="ZNW:EKV:HET"/>
-    </rule>
-
-	<!--
-	?	  1856	(4)	WKW:VLT:1EP VNW:OBP WKW:TGW:1EP|ZNW:EKV:HET ITP:PNT|SENT_END
-	  1529:	 gaf geen antwoord.
-	    22:	 had geen antwoord.
-	    16:	 kreeg geen antwoord.
-	-->
-	<rule id="NEW_610" name="-">
-        <pattern>
-			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
-			<token postag="VNW:OBP">geen</token>
-			<marker>
-				<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:HET"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:HET"/></token>
-			</marker>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-		</pattern>
-        <disambig postag="ZNW:EKV:HET"/>
-    </rule>
-
-	<!--
-	?	  1850	(4)	ZNW:EKV:DE_ BYW|VRZ ZNW:EKV:DE_ ITP:PNT|SENT_END
-	    36:	 ruimte voor verbetering.
-	    13:	 tijd voor actie.
-	    13:	 tijd voor ontspanning.
-	    13:	 ruimte voor discussie.
-	-->
-	<rule id="NEW_611" name="-">
-        <pattern>
-			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
-			<marker>
-				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
-			</marker>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-		</pattern>
-        <disambig postag="VRZ"/>
-    </rule>
-
-	<!--
-		  1849	(4)	SENT_START VNW:VRG:VRB|VNW:VRG ZNW:MRV:DE_ WKW:TGW:INF
-	     8:	Welke mogelijkheden zijn
-	     8:	Welke voorzieningen zijn
-	     8:	Welke criteria worden
-	-->
-	<rule id="NEW_612" name="-">
-        <pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<marker>
-				<token postag="VNW:VRG:VRB">welke</token>
-				<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
-				<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
-			</marker>
-		</pattern>
-		<disambig action="filterall"/>
-    </rule>
-
-	<!--
-	?	  1765	(4)	ENM:PER:FST WKW:VLT:1EP VNW:PER:3EP:EKV:BEZ WKW:TGW:INF|ZNW:MRV:DE_
-	     3:	Will kneep zijn ogen
-	     3:	Bill sloeg zijn ogen
-
-	-->
-	<rule id="NEW_613" name="-">
-        <pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<token postag="ENM:PER:FST"><exception negate_pos="yes" postag="ENM:PER:FST"/></token>
-			<token postag="WKW:VLT:1EP"><exception negate_pos="yes" postag="WKW:VLT:1EP"/></token>
-			<token postag_regexp="yes" postag=".*:BEZ"><exception negate_pos="yes" postag_regexp="yes" postag=".*:BEZ"/></token>
-			<marker>
-				<token postag_regexp="yes" postag="WKW:TGW:INF|ZNW:MRV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:INF|ZNW:MRV:DE_"/></token>
-			</marker>
-		</pattern>
-		<disambig postag="ZNW:MRV:DE_"/>
-    </rule>
-
-	<!--
-	?	  1718	(4)	SENT_START VNW:PER:2EP:EKV:ACT|VNW:PER:2EP:EKV:BEZ|VNW:PER:2EP:EKV:PSF ZNW:EKV:DE_ WKW:TGW:3EP
-	    26:	Je reactie is
-	    23:	Je dochter is
-	    23:	Je broer is
-	    22:	Je vriend is
-	-->
-	<rule id="NEW_615" name="-">
-        <pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<marker>
-				<token postag="VNW:PER:2EP:EKV:BEZ">je</token>
-			</marker>
-			<token postag_regexp="yes" postag="ZNW:EKV.*"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV.*"/></token>
-			<token postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:VLT:1EP|WKW:TGW:3EP"/></token>
-		</pattern>
-		<disambig action="filterall"/>
-    </rule>
-
-	<!--
-	?	  1591	(4)	VRZ BYW|BYW:GRD|VRZ WKW:TGW:INF|ZNW:MRV:DE_ ITP:PNT|SENT_END
-	   115:	 aan te pakken.
-	    71:	 op te wachten.
-	    65:	 aan te passen.
-	    64:	 op te halen.
-	-->
-	<rule id="NEW_616" name="-">
-        <pattern>
-			<marker>
-				<token postag="VRZ">te</token>
-				<token postag="WKW:TGW:INF"/>
-			</marker>
-			<token postag="SENT_END" regexp="yes">[.!?]</token>
-		</pattern>
-        <disambig action="filterall"/>
-    </rule>
-
-	<!--
-	?	  1126	(4)	SENT_START VNW:AWZ:EKV:DE_ WKW:TGW:1EP|ZNW:EKV:DE_ WKW:TGW:1EP|ZNW:EKV:DE_|WKW:VLT:1EP
-	   149:	De man was
-	    30:	Die man was
-	    28:	De wind was
-	    26:	De hemel was
-	-->
-	<rule id="NEW_617" name="-">
-        <pattern>
-			<token postag_regexp="yes" postag="SENT_START|START"/>
-			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
-			<token postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"><exception negate_pos="yes" postag_regexp="yes" postag="WKW:TGW:1EP|ZNW:EKV:DE_"/></token>
-			<marker>
-				<token>was</token>
-			</marker>
-		</pattern>
-		<disambig action="remove" postag="ZNW:EKV:DE_"/>
-    </rule>
-
-	<!--
-	?	  1039	(4)	BYW|VRZ VNW:AWZ:EKV:HET ZNW:EKV:HET VRZ
-	    24:	 bij het begin van
-	    23:	 over het gebruik van
-	    21:	 bij het ministerie van
-	    15:	 over het verloop van
-	    14:	 over het lot van
-	-->
-	<rule id="NEW_618" name="-">
-        <pattern>
-			<marker>
-				<token postag_regexp="yes" postag="BYW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="BYW|VRZ"/></token>
-			</marker>
-			<token postag="VNW:AWZ:EKV:HET"><exception negate_pos="yes" postag="VNW:AWZ:EKV:HET"/></token>
-			<token postag="ZNW:EKV:HET"><exception negate_pos="yes" postag="ZNW:EKV:HET"/></token>
-			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
-		</pattern>
-		<disambig postag="VRZ"/>
-    </rule>
-
-	<!--
-	?	  1273	(4)	^ VGW|VRZ VRZ WKW:TGW:INF ITP:PNT|SENT_END $
-	    69:	 om te vertrekken.
-	    61:	 om te horen.
-	    46:	 om te eten.
-	    43:	 om te weten.
-	-->
-	<rule id="NEW_619" name="-">
-        <pattern>
-			<marker>
-				<token postag_regexp="yes" postag="VGW|VRZ"><exception negate_pos="yes" postag_regexp="yes" postag="VGW|VRZ"/></token>
-			</marker>
-			<token>te</token>
-			<token postag="WKW:TGW:INF"><exception negate_pos="yes" postag="WKW:TGW:INF"/></token>
-		</pattern>
-		<disambig postag="VGW"/>
-    </rule>
-
-	<!--
-	?	  1097	(4)	VNW:OND:MRV:HET|VGW|VGW:EKV:HET|VNW:AWZ:EKV:HET|VNW:OND:EKV:HET VNW:AWZ:EKV:DE_ ZNW:EKV:DE_ VRZ
-	    10:	 dat de kans op
-	     9:	 dat de invoering van
-	     9:	 dat de situatie in
-	-->
-	<rule id="NEW_620" name="-">
-        <pattern>
-			<marker>
-				<token>dat</token>
-			</marker>
-			<token postag="VNW:AWZ:EKV:DE_"><exception negate_pos="yes" postag="VNW:AWZ:EKV:DE_"/></token>
-			<token postag="ZNW:EKV:DE_"><exception negate_pos="yes" postag="ZNW:EKV:DE_"/></token>
-			<token postag="VRZ"><exception negate_pos="yes" postag="VRZ"/></token>
-		</pattern>
-		<disambig action="remove" postag="VNW:AWZ:EKV:HET"/>
-    </rule>
-
 
 	<!-- ##################################################################################################### -->
     <!-- Taggen van Engelse woorden -->
