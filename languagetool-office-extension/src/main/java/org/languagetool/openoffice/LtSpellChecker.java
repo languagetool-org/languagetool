@@ -75,17 +75,24 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
   
   public LtSpellChecker(XComponentContext xContxt) {
     if (xContext == null) {
-      xContext = xContxt;
-      OfficeProductInfo officeInfo = OfficeTools.getOfficeProductInfo(xContext);
-      if (officeInfo == null || officeInfo.osArch.equals("x86")) {
-        noLtSpeller = true;
-      } else {
-        CacheIO c = new CacheIO(); 
-        SpellCache sc = c.new SpellCache();
-        if (sc.read()) {
-          lastWrongWords.putAll(sc.getWrongWords());
-          lastSuggestions.putAll(sc.getSuggestions());
+      try {
+        xContext = xContxt;
+        OfficeProductInfo officeInfo = OfficeTools.getOfficeProductInfo(xContext);
+        if (officeInfo == null || officeInfo.osArch.equals("x86")) {
+          noLtSpeller = true;
+        } else {
+          CacheIO c = new CacheIO(); 
+          SpellCache sc = c.new SpellCache();
+          if (sc.read()) {
+            if (sc.getWrongWords() != null && sc.getSuggestions() != null
+                && sc.getWrongWords().size() == sc.getSuggestions().size()) {
+              lastWrongWords.putAll(sc.getWrongWords());
+              lastSuggestions.putAll(sc.getSuggestions());
+            }
+          }
         }
+      } catch (Throwable e) {
+        MessageHandler.showError(e);
       }
     }
   }
@@ -156,13 +163,18 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
     return false;
   }
 
-  @Override
   /**
    * is a correct spelled word
    */
+  @Override
   public boolean isValid(String word, Locale locale, PropertyValue[] Properties) throws IllegalArgumentException {
     try {
-      if (noLtSpeller || !hasLocale(locale)) {
+      if (noLtSpeller || locale == null || !hasLocale(locale)) {
+        return false;
+      }
+//      MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: check word: " + (word == null ? "null" : word));
+      if (word == null || word.isBlank() || word.contains("==")) {
+//        MessageHandler.printToLogFile("LtSpellChecker: isValid: Problematic word found: " + (word == null ? "null" : word));
         return false;
       }
       String localeStr = OfficeTools.localeToString(locale);
@@ -170,7 +182,6 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
       if (wrongWords != null && wrongWords.contains(word)) {
         return false;
       }
-//      MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: check word: " + word);
       initSpellChecker(locale);
       if (spellingCheckRule != null) {
         if (!spellingCheckRule.isMisspelled(word)) {
@@ -202,7 +213,7 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
     } catch (Throwable e) {
       MessageHandler.showError(e);
     }
-    return true;
+    return false;
   }
 
   /**
@@ -267,22 +278,33 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
     
     Locale locale;
     String word;
-    String[] alternatives;
+    String[] alternatives = null;
     
     LTSpellAlternatives(String word, Locale locale) {
-      this.word = word;
-      this.locale = locale;
-      if (noLtSpeller) {
-        alternatives = new String[0];
-        return;
-      }
-      String localeStr = OfficeTools.localeToString(locale);
-      if (lastWrongWords.get(localeStr).contains(word)) {
-        int num = lastWrongWords.get(localeStr).indexOf(word);
-        alternatives = lastSuggestions.get(localeStr).get(num);
-        return;
-      }
       try {
+        this.word = word;
+        this.locale = locale;
+        if (noLtSpeller) {
+          alternatives = new String[0];
+          return;
+        }
+        String localeStr = OfficeTools.localeToString(locale);
+        if (word == null || word.isBlank() || localeStr == null || localeStr.isEmpty()) {
+          alternatives = new String[0];
+          return;
+        }
+        List<String> wrongWords = lastWrongWords.get(localeStr);
+        List<String[]> suggestions = lastSuggestions.get(localeStr);
+        if (wrongWords != null && suggestions != null) {
+          if (wrongWords.contains(word)) {
+            int num = wrongWords.indexOf(word);
+            alternatives = suggestions.get(num);
+            if (alternatives == null) {
+              alternatives = new String[0];
+            }
+            return;
+          }
+        }
         if (mSpellRule != null) {
           alternatives = mSpellRule.getSpellingSuggestions(word).toArray(new String[0]);
         }
@@ -291,6 +313,8 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
         }
       } catch (Throwable t) {
         MessageHandler.showError(t);
+      }
+      if (alternatives == null) {
         alternatives = new String[0];
       }
     }
@@ -313,11 +337,17 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
 
     @Override
     public Locale getLocale() {
+      if (locale == null) {
+        return lastLocale;
+      }
       return locale;
     }
 
     @Override
     public String getWord() {
+      if (word == null) {
+        return "";
+      }
       return word;
     }
     

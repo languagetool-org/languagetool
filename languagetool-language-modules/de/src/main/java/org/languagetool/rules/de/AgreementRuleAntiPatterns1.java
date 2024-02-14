@@ -903,6 +903,13 @@ class AgreementRuleAntiPatterns1 {
       posRegex("VER:PA[12]"),
       posRegex("ADJ.*"),
       posRegex("SUB.*")
+    ),
+    asList(
+      // Er lässt einen Visionen haben.
+      csRegex("lässt|lassen|ließ|ließen"),
+      token("einen"),
+      posRegex("SUB:AKK.*"),
+      posRegex("VER:INF.*")
     )
   );
 
