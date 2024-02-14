@@ -8295,6 +8295,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RB" />
             <token postag="VBP" />
         </antipattern>
+        <antipattern>
+            <token postag="W.*|SENT_START|PCT" postag_regexp="yes" />
+            <token postag="RB" min="0" />
+            <token postag="MD" />
+            <token postag="RB" min="0" />
+            <token postag="VBG|NN:UN?" postag_regexp="yes" />
+            <token postag="IN" />
+            <token chunk_re="B-NP.*" />
+            <token chunk_re="E-NP.*" postag="VB" />
+            <example>How will sharing of tech work?</example>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
