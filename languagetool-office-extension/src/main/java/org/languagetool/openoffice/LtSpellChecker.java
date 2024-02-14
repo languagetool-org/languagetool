@@ -173,7 +173,7 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
         return false;
       }
 //      MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: check word: " + (word == null ? "null" : word));
-      if (word == null || word.isBlank() || word.contains("==")) {
+      if (word == null || word.trim().isEmpty() || word.contains("==")) {
 //        MessageHandler.printToLogFile("LtSpellChecker: isValid: Problematic word found: " + (word == null ? "null" : word));
         return false;
       }
@@ -289,7 +289,7 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
           return;
         }
         String localeStr = OfficeTools.localeToString(locale);
-        if (word == null || word.isBlank() || localeStr == null || localeStr.isEmpty()) {
+        if (word == null || word.trim().isEmpty() || localeStr == null || localeStr.isEmpty()) {
           alternatives = new String[0];
           return;
         }
