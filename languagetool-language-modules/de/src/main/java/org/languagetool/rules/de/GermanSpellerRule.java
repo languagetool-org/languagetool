@@ -838,7 +838,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Unorganisation", w -> Arrays.asList("Desorganisation", "Unorganisiertheit"));
     put("Cand(el|le)lightdinner", "Candle-Light-Dinner");
     put("wertgelegt", "Wert gelegt");
-    put("deluxe", "de luxe");
     put("antuhen", "antun");
     put("komen", "kommen");
     put("genißen", "genießen");
@@ -2954,6 +2953,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
         }
       case "do": return topMatch("so");
+      case "deluxe": return topMatch("de luxe");
+      case "Deluxe": return topMatch("de luxe");
+      case "Design-Op": return topMatch("Design-OP");
+      case "AppStore": return topMatch("App Store");
+      case "AppStores": return topMatch("App Stores");
+      case "AppleStore": return topMatch("Apple Store");
+      case "AppleStores": return topMatch("Apple Stores");
       case "AirFrance": return topMatch("Air France");
       case "Wiederspruch": return topMatch("Widerspruch");
       case "Wiederspruchs": return topMatch("Widerspruchs");
