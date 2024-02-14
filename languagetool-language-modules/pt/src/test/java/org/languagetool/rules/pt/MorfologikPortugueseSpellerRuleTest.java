@@ -604,6 +604,10 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertSingleError("caramba Center", ltBR, ruleBR, new String[]{"Conter", "Centre"});  // not in context
   }
 
+  @Test public void testPortugueseSpellerForeignEnglish() throws Exception {
+    assertNoErrors("Achei indubitably preposterous, o que você achou?", ltBR, ruleBR);
+  }
+
   @Test public void testPortugueseSpellerAcceptsArbitraryHyphenation() throws Exception {
     assertNoErrors("Xai-Xai", ltBR, ruleBR);
     assertNoErrors("Tsé-Tung", ltBR, ruleBR);

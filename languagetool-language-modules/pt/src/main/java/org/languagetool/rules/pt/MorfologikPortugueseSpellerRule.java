@@ -23,6 +23,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
 import org.languagetool.tagging.pt.PortugueseTagger;
 import org.languagetool.tools.StringTools;
@@ -38,7 +39,10 @@ import static org.languagetool.JLanguageTool.getDataBroker;
 public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
 
   private final Language spellerLanguage;
+  private final String englishDictFilepath;
   private final String dictFilepath;
+  private final UserConfig userConfig;
+  protected MorfologikMultiSpeller englishSpeller;
   // Path, in pt/resources, where the list of words to be removed from the suggestion list is to be found.
   private static final String doNotSuggestWordsFilepath = "/pt/do_not_suggest.txt";
   // Set of words that we do not want to add to the suggestions, despite being correctly spelt. Mostly profanity.
@@ -170,6 +174,9 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
   public MorfologikPortugueseSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
                                       List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
+    englishDictFilepath = "/en/hunspell/en_US.dict";
+    this.userConfig = userConfig;
+    initEnglishSpeller();
     // the tagger tags pt-PT and pt-BR words all the same, as it should, but they're still incorrect if they belong
     // to the wrong dialect, commenting this out
     // this.setIgnoreTaggedWords();
@@ -243,10 +250,33 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
     ruleMatches.set(0, newMatch);
   }
 
+  private void initEnglishSpeller() throws IOException {
+    List<String> plainTextDicts = new ArrayList<>();
+    String languageVariantPlainTextDict = null;
+    if (getDataBroker().resourceExists(getSpellingFileName())) {
+      plainTextDicts.add(getSpellingFileName());
+    }
+    for (String fileName : getAdditionalSpellingFileNames()) {
+      if (getDataBroker().resourceExists(fileName)) {
+        plainTextDicts.add(fileName);
+      }
+    }
+    if (getLanguageVariantSpellingFileName() != null && getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
+      languageVariantPlainTextDict = getLanguageVariantSpellingFileName();
+    }
+    englishSpeller = new MorfologikMultiSpeller(englishDictFilepath, plainTextDicts, languageVariantPlainTextDict,
+          userConfig, 1, language);
+    setConvertsCase(englishSpeller.convertsCase());
+  }
+
   @Override
   public List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence,
                                         List<RuleMatch> ruleMatchesSoFar, int idx,
                                         AnalyzedTokenReadings[] tokens) throws IOException {
+    // for now, just accept correctly spelled English words
+    if (tokens[idx].hasPosTag("_FOREIGN_ENGLISH") && !englishSpeller.isMisspelled(tokens[idx].getToken())) {
+      return Collections.emptyList();
+    }
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
     if (!ruleMatches.isEmpty()) {
       String wordWithBrazilianStylePastTense = checkEuropeanStyle1PLPastTense(word);

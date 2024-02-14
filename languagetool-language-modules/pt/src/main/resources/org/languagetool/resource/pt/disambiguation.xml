@@ -33,6 +33,7 @@
         <!ENTITY % languages SYSTEM "../../resource/pt/entities/languages.ent">
         <!ENTITY % postal    SYSTEM "../../resource/pt/entities/postal.ent"   >
         <!ENTITY % chars     SYSTEM "../../resource/pt/entities/chars.ent"    >
+        <!ENTITY TEST_ENGLISH_WORDS "indubitably">
         %datetime;
         %misc;
         %abbrev;
@@ -3675,4 +3676,55 @@
           <disambig action="remove" postag="A.+"/>
       </rule>
   </rulegroup>
+
+  <!-- ##################################################################################################### -->
+    <!-- Tag potentially English words -->
+  <rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
+    <rule>
+      <pattern>
+        <token regexp="yes" postag_regexp="yes" postag="UNKNOWN|NULL">&TEST_ENGLISH_WORDS;</token>
+      </pattern>
+      <disambig action="add"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="GUESS_FOREIGN_WORDS_POST" name="Guess foreign words">
+    <rule>
+      <pattern>
+        <token postag="_FOREIGN_ENGLISH" skip="1"/>
+        <marker>
+          <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
+        </marker>
+        <token postag="_FOREIGN_ENGLISH" skip="1"/>
+      </pattern>
+      <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="_FOREIGN_ENGLISH" skip="1"/>
+        <marker>
+          <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
+        </marker>
+        <token postag="_FOREIGN_ENGLISH" skip="1"/>
+      </pattern>
+      <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+    </rule>
+  </rulegroup>
+
 </rules>
