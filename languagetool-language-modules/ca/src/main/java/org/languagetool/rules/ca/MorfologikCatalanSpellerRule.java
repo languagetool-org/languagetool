@@ -22,7 +22,6 @@ package org.languagetool.rules.ca;
 import org.languagetool.*;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tools.StringTools;

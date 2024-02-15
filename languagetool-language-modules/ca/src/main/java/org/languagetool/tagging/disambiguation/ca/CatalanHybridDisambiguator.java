@@ -27,6 +27,7 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.language.Catalan;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -44,9 +45,7 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
   private final MultiWordChunker chunker = new MultiWordChunker("/ca/multiwords.txt", true, true, false);
   private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, false,"NPCN000");
   private final Disambiguator disambiguator;
-
-  private final String englishDictFilepath = "/en/hunspell/en_US.dict";
-  protected MorfologikSpeller englishSpeller;
+  private SpellingCheckRule englishSpellerRule = null;
 
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {
@@ -61,11 +60,16 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
   public CatalanHybridDisambiguator(Language lang) {
     disambiguator = new XmlRuleDisambiguator(lang, true);
     chunker.setRemovePreviousTags(true);
+    Language english = null;
     try {
-      englishSpeller = new MorfologikSpeller(englishDictFilepath);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+      Languages.getLanguageForShortCode("en-US");
+    } catch (IllegalArgumentException e) {
+      //throw new RuntimeException(e);
     }
+    if (english != null) {
+      englishSpellerRule = english.getDefaultSpellingRule();
+    }
+
   }
 
   @Override
@@ -77,6 +81,9 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
 
   private AnalyzedSentence ignoreEnglishWords(AnalyzedSentence input,
                                               @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) {
+    if (englishSpellerRule == null) {
+      return input;
+    }
     AnalyzedTokenReadings[] anTokens = input.getTokens();
     AnalyzedTokenReadings[] output = anTokens;
     boolean prevIsEnglish = false;
@@ -93,7 +100,11 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
         skippedTokens = 1;
         continue;
       }
-      isEnglish = output[i].hasPosTag("_english_ignore_") || !englishSpeller.isMisspelled(word);
+      try {
+        isEnglish = output[i].hasPosTag("_english_ignore_") || !englishSpellerRule.isMisspelled(word);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
       if (isEnglish && prevIsEnglish) {
         output[i].ignoreSpelling();
         output[i - skippedTokens].ignoreSpelling();
