@@ -1975,18 +1975,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ADJECTIVE">
-            <rule><!--1-->
+            <rule>
                 <pattern>
                     <token postag="ADJ.*" postag_regexp="yes" regexp="yes">adrett.*</token>
                 </pattern>
                 <example correction="">Sie trug die gleiche <marker>adrette</marker> Jacke.</example>
             </rule>
-            <rule><!--2-->
+            <rule>
                 <pattern>
-                    <token regexp="yes">asbachuralt.*|gelingsicher.*|auskultatorisch.*</token>
+                    <token regexp="yes">asbachuralt.*|gelingsicher.*|auskultatorisch.*|isländisch.+</token>
                 </pattern>
                 <example correction="">Das ist doch echt <marker>asbachuralt</marker>!</example>
                 <example correction="">Ist <marker>gelingsicher</marker>, kann nicht anbrennen, ist immer saftig und zart!!</example>
+                <example correction=""><marker>Isländischen</marker> Medienberichten zufolge ...</example>
             </rule>
         </rulegroup>
 
@@ -2389,16 +2390,6 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Er fragte, ob <marker>das</marker> Frauen auch so gerne mögen.</example>
             </rule>
-            <!--<rule>
-                <pattern>
-                    <token>zu</token>
-                    <marker>
-                        <token>einer</token>
-                    </marker>
-                    <token postag_regexp="yes" postag=".*DAT.*" />
-                </pattern>
-                <example>Man unterschätzt den Einfluss der Liebe zu einer Person.</example>
-            </rule> Tests fail -->
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_EXCLAMATION" name="">
@@ -2570,7 +2561,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_COMMA" name="">
-            <rule><!--1-->
+            <rule>
                 <pattern>
                     <token regexp="yes">Gerne?</token>
                     <marker>
@@ -2582,6 +2573,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Gerne<marker>,</marker> würde mich freuen.</example>
                 <!--gGEC wants to remove the comma-->
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_VERB_FORM" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="VER:3:SIN:KJ1:NON"/>
+                    </marker>
+                        <token postag="PRO:PER:NOM:SIN:FEM"/>
+                </pattern>
+                <example correction="">Selten <marker>nehme</marker> sie sich dafür Zeit, sagte sie.</example>
             </rule>
         </rulegroup>
 
