@@ -58,6 +58,7 @@ class CompoundTagger {
   private static final Pattern DASH_PREFIX_LAT_PATTERN = Pattern.compile("[a-zA-Z]{3,}|[α-ωΑ-Ω]");
   private static final Pattern YEAR_NUMBER = Pattern.compile("[12][0-9]{3}");
   private static final Pattern NOUN_PREFIX_NUMBER = Pattern.compile("[0-9]+");
+  private static final Pattern NOUN_WITH_INTERVAL_PREFIX_NUMBER = Pattern.compile("([0-9]+[-–])?[0-9]+");
   private static final Pattern NOUN_SUFFIX_NUMBER_LETTER = Pattern.compile("[0-9][0-9А-ЯІЇЄҐ-]*");
   private static final Pattern ADJ_PREFIX_NUMBER = Pattern.compile("[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?%?|(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})|І{2,3}");
   private static final Pattern REQ_NUM_DVA_PATTERN = Pattern.compile("(місн|томник|поверхів).{0,4}");
@@ -953,7 +954,7 @@ class CompoundTagger {
       List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
 
       // e.g. 101-го
-      String[] tags = LetterEndingForNumericHelper.findTags(leftWord, rightWord);
+      String[] tags = LetterEndingForNumericHelper.findTagsAdj(leftWord, rightWord);
       if( tags != null ) {
         for (String tag: tags) {
           String lemma = leftWord + "-" + "й";  // lemma is approximate here, we mostly care about the tag
@@ -962,37 +963,22 @@ class CompoundTagger {
         }
 
         // з 3-ма вікнами - не дуже правильно, але вживають часто
-        if( "ма".equals(rightWord) ) {
-          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.noun.getText() + ":p:v_oru:&numr:bad", leftWord));
-        }
-        // вбивство 148-ми селян
-        else if( "ми".equals(rightWord) 
-            && Pattern.compile("(.*[^1]|^)[78]").matcher(leftWord).matches() ) {
-          newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_rod:bad", leftWord));
-          newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_dav:bad", leftWord));
-          newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_mis:bad", leftWord));
-        }
+//        if( "ма".equals(rightWord) && leftWord.matches(".*(1[0-9]|[23456789])") ) {
+//          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.numr.getText() + ":p:v_oru:bad", leftWord));
+//        }
       }
       else {
-        if( NOUN_PREFIX_NUMBER.matcher(leftWord).matches() ) {
+        if( NOUN_WITH_INTERVAL_PREFIX_NUMBER.matcher(leftWord).matches() ) {
 
-          // вбивство 15-ти селян
-          if( "ти".equals(rightWord) 
-              && Pattern.compile(".*([0569]|1[0-9])").matcher(leftWord).matches() ) {
-            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_rod:bad", leftWord));
-            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_dav:bad", leftWord));
-            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_mis:bad", leftWord));
+          String[] tagsNoun = LetterEndingForNumericHelper.findTagsNoun(leftWord, rightWord);
+          if( tagsNoun != null ) {
+            for (String tag: tagsNoun) {
+              newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.numr.getText() + tag, leftWord));
+            }
             return newAnalyzedTokens;
           }
-          // на 20-ці
-          else if( "ці".equals(rightWord) 
-              && Pattern.compile(".*([0569]|1[0-9])").matcher(leftWord).matches() ) {
-            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:f:v_dav:bad", leftWord));
-            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:f:v_mis:bad", leftWord));
-            return newAnalyzedTokens;
-          }
-          // 100-мм гаубиці
-          else if( "мм".equals(rightWord) ) {
+          
+          if( "мм".equals(rightWord) ) {
             for(String gender: PosTagHelper.BASE_GENDERS ) {
               for(String vidm: PosTagHelper.VIDMINKY_MAP.keySet()) {
                 if( vidm.equals("v_kly") )

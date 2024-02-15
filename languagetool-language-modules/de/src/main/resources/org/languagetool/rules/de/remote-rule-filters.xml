@@ -1841,7 +1841,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ADPOSITION">
-            <rule><!--1-->
+            <rule>
                 <pattern>
                     <marker>
                         <token>im</token>
@@ -1852,6 +1852,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Das ist <marker>im</marker> Welten besser als vorher.</example>
                 <example correction="">Und natürlich <marker>im</marker> Längen besser als der Futtermittel-Anbau.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Liebe</token>
+                    <marker>
+                        <token>zu</token>
+                    </marker>
+                    <token postag=".*DAT.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Man unterschätzt den Einfluss der Liebe <marker>zu</marker> einer Person.</example>
             </rule>
         </rulegroup>
 
@@ -2347,7 +2357,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_DETERMINER_FORM" name="">
-            <rule><!--1-->
+            <rule>
                 <pattern>
                     <token inflected="yes">lesen</token>
                     <marker>
@@ -2357,7 +2367,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Ich lese <marker>das</marker> Korrektur.</example>
             </rule>
-            <rule><!--2-->
+            <rule>
                 <pattern>
                     <token>auf</token>
                     <marker>
@@ -2368,7 +2378,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Das hat auch er auf <marker>die</marker> harte Tour gelernt.</example>
             </rule>
-            <rule><!--3-->
+            <rule>
                 <pattern>
                     <token>ob</token>
                     <marker>
@@ -2379,6 +2389,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Er fragte, ob <marker>das</marker> Frauen auch so gerne mögen.</example>
             </rule>
+            <!--<rule>
+                <pattern>
+                    <token>zu</token>
+                    <marker>
+                        <token>einer</token>
+                    </marker>
+                    <token postag_regexp="yes" postag=".*DAT.*" />
+                </pattern>
+                <example>Man unterschätzt den Einfluss der Liebe zu einer Person.</example>
+            </rule> Tests fail -->
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_EXCLAMATION" name="">

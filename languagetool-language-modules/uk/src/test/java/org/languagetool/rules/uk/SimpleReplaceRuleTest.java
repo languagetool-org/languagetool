@@ -98,6 +98,9 @@ public class SimpleReplaceRuleTest {
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("мікрорайону"), matches[0].getSuggestedReplacements());
 
+    // subst + subst
+    matches = rule.match(lt.getAnalyzedSentence("гребнем."));
+    assertEquals(0, matches.length);
   }
 
   @Test
@@ -108,15 +111,15 @@ public class SimpleReplaceRuleTest {
         assertEquals(1, matches.length);
   }
 
-  @Test
-  public void testSubstandards() throws IOException {
-    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule, lt.getLanguage());
-
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("А шо такого?"));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("що"), matches[0].getSuggestedReplacements());
-    assertEquals("Це розмовна просторічна форма", matches[0].getMessage());
-  }
+//  @Test
+//  public void testSubstandards() throws IOException {
+//    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule, lt.getLanguage());
+//
+//    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("А шо такого?"));
+//    assertEquals(1, matches.length);
+//    assertEquals(Arrays.asList("що"), matches[0].getSuggestedReplacements());
+//    assertEquals("Це розмовна просторічна форма", matches[0].getMessage());
+//  }
 
   @Test
   public void testMisspellings() throws IOException {

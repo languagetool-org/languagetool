@@ -61,6 +61,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Бен", "Бен/[Бен]noun:anim:m:v_naz:prop:fname|Бен/[бен]part:pers", tokenizer, tagger);
     TestTools.myAssert("бен", "бен/[бен]part:pers", tokenizer, tagger);
 
+    TestTools.myAssert("френдити", "френдити/[френдити]verb:imperf:inf:slang", tokenizer, tagger);
 
     TestTools.myAssert("Справу порушено судом", 
       "Справу/[справа]noun:inanim:f:v_zna -- порушено/[порушити]verb:perf:impers -- судом/[суд]noun:inanim:m:v_oru|судом/[судома]noun:inanim:p:v_rod",
@@ -98,6 +99,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("ХІХ", "ХІХ/[ХІХ]number:latin:bad", tokenizer, tagger);
     TestTools.myAssert("ІV", "ІV/[ІV]number:latin:bad", tokenizer, tagger);
     TestTools.myAssert("ХІХ-го", "ХІХ-го/[ХІХ-го]number:latin:bad", tokenizer, tagger);
+    TestTools.myAssert("V-типу", "V-типу/[null]null", tokenizer, tagger);
 
     // done in disambig
 //    TestTools.myAssert("Петром І", "Петром/[Петро]noun:anim:m:v_oru:prop:fname І/[І]number:latin:bad", tokenizer, tagger);
@@ -171,7 +173,7 @@ public class UkrainianTaggerTest {
   }
 
   @Test
-  public void testDynamicTaggingNumeric() throws IOException {
+  public void testDynamicTaggingNumericPair() throws IOException {
     // numr-numr
     TestTools.myAssert("одним-трьома", "одним-трьома/[один-три]numr:p:v_oru|одним-трьома/[один-троє]numr:p:v_oru", tokenizer, tagger);
     TestTools.myAssert("одного-другого", "одного-другого/[один-другий]adj:m:v_rod:&numr|одного-другого/[один-другий]adj:m:v_zna:ranim:&numr|одного-другого/[один-другий]adj:n:v_rod:&numr", tokenizer, tagger);
@@ -205,19 +207,26 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("11-ту", "11-ту/[11-й]adj:f:v_zna:&numr", tokenizer, tagger);
     TestTools.myAssert("3-ій", "3-ій/[3-й]adj:f:v_dav:&numr|3-ій/[3-й]adj:f:v_mis:&numr|3-ій/[3-й]adj:m:v_naz:&numr|3-ій/[3-й]adj:m:v_zna:rinanim:&numr", tokenizer, tagger);
     TestTools.myAssert("5-ій", "5-ій/[5-й]adj:f:v_dav:&numr|5-ій/[5-й]adj:f:v_mis:&numr", tokenizer, tagger);
+    TestTools.myAssert("33-ми", "33-ми/[33-й]adj:p:v_oru:&numr", tokenizer, tagger);
     TestTools.myAssert("100%-й", "100%-й/[100%-й]adj:f:v_dav:&numr|100%-й/[100%-й]adj:f:v_mis:&numr|100%-й/[100%-й]adj:m:v_naz:&numr|100%-й/[100%-й]adj:m:v_zna:rinanim:&numr", tokenizer, tagger);
     TestTools.myAssert("2000-ні", "2000-ні/[2000-й]adj:p:v_naz:&numr|2000-ні/[2000-й]adj:p:v_zna:rinanim:&numr", tokenizer, tagger);
 
-    //TODO: tag this as bad
+
+    // too many letters
     TestTools.myAssert("58-мою", "58-мою/[58-й]adj:f:v_oru:&numr:bad", tokenizer, tagger);
-//    assertNotTagged("58-мою");
+    // invalid numr
+    TestTools.myAssert("3-ми", "3-ми/[3-й]adj:p:v_oru:&numr", tokenizer, tagger);
+//    TestTools.myAssert("7-ма", "7-ма/[7-й]adj:f:v_naz:&numr|7-ма/[7]numr:p:v_oru:bad", tokenizer, tagger);
+    TestTools.myAssert("7-ма", "7-ма/[7-й]adj:f:v_naz:&numr", tokenizer, tagger);
+    TestTools.myAssert("2-3-ма", "2-3-ма/[2-3]numr:p:v_oru:bad", tokenizer, tagger);
+    TestTools.myAssert("15-ти", "15-ти/[15]numr:p:v_dav:bad|15-ти/[15]numr:p:v_mis:bad|15-ти/[15]numr:p:v_rod:bad", tokenizer, tagger);
+    TestTools.myAssert("20-ці", "20-ці/[20]numr:f:v_dav:bad|20-ці/[20]numr:f:v_mis:bad", tokenizer, tagger);
+    TestTools.myAssert("42-ві", "42-ві/[42]numr:p:v_naz:bad|42-ві/[42]numr:p:v_zna:rinanim:bad", tokenizer, tagger);
+    TestTools.myAssert("148-ми", "148-ми/[148-й]adj:p:v_oru:&numr", tokenizer, tagger);
     
     // n-dash
     TestTools.myAssert("54–річна", "54-річна/[54-річний]adj:f:v_kly|54-річна/[54-річний]adj:f:v_naz|54–річна/[null]null", tokenizer, tagger);
     assertNotTagged("54–бкх");
-
-    TestTools.myAssert("15-ти", "15-ти/[15]numr:p:v_dav:bad|15-ти/[15]numr:p:v_mis:bad|15-ти/[15]numr:p:v_rod:bad", tokenizer, tagger);
-    TestTools.myAssert("20-ці", "20-ці/[20]numr:f:v_dav:bad|20-ці/[20]numr:f:v_mis:bad", tokenizer, tagger);
 
     TestTools.myAssert("100-річчя", "100-річчя/[100-річчя]noun:inanim:n:v_kly|100-річчя/[100-річчя]noun:inanim:n:v_naz|100-річчя/[100-річчя]noun:inanim:n:v_rod|100-річчя/[100-річчя]noun:inanim:n:v_zna|100-річчя/[100-річчя]noun:inanim:p:v_kly|100-річчя/[100-річчя]noun:inanim:p:v_naz|100-річчя/[100-річчя]noun:inanim:p:v_zna", tokenizer, tagger);
     TestTools.myAssert("100-метрівка", "100-метрівка/[100-метрівка]noun:inanim:f:v_naz", tokenizer, tagger);
@@ -746,7 +755,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Му-у-у", "Му-у-у/[му]intj:alt", tokenizer, tagger);
     TestTools.myAssert("С-с-с-лава", "С-с-с-лава/[Слава]noun:anim:m:v_naz:prop:fname:alt|С-с-с-лава/[Слава]noun:inanim:f:v_naz:prop:geo:alt|С-с-с-лава/[слава]noun:inanim:f:v_naz:alt", tokenizer, tagger);
     TestTools.myAssert("ва-ре-ни-ки", "ва-ре-ни-ки/[вареник]noun:inanim:p:v_kly:alt|ва-ре-ни-ки/[вареник]noun:inanim:p:v_naz:alt|ва-ре-ни-ки/[вареник]noun:inanim:p:v_zna:alt", tokenizer, tagger);
-    TestTools.myAssert("ч-чо-л-ло-в-вік", "ч-чо-л-ло-в-вік/[чоловік]noun:anim:m:v_naz:alt|ч-чо-л-ло-в-вік/[чоловік]noun:anim:p:v_rod:bad:alt|ч-чо-л-ло-в-вік/[чоловік]noun:anim:p:v_zna:bad:alt", tokenizer, tagger);
+    TestTools.myAssert("ч-чо-л-ло-в-вік", "ч-чо-л-ло-в-вік/[чоловік]noun:anim:m:v_naz:alt|ч-чо-л-ло-в-вік/[чоловік]noun:anim:p:v_rod:subst:alt|ч-чо-л-ло-в-вік/[чоловік]noun:anim:p:v_zna:subst:alt", tokenizer, tagger);
     TestTools.myAssert("Я-вор-рова", "Я-вор-рова/[Яворів]noun:inanim:m:v_rod:prop:geo:alt|Я-вор-рова/[яворовий]adj:f:v_kly:alt|Я-вор-рова/[яворовий]adj:f:v_naz:alt", tokenizer, tagger);
     // мілі- (з дефісом) є помилковим префіксом
     TestTools.myAssert("мілі-ціо-нерів", "мілі-ціо-нерів/[null]null", tokenizer, tagger);
