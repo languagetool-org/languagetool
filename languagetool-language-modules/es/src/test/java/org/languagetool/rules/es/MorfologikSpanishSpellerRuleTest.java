@@ -241,6 +241,10 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals("Me dices", matches[0].getSuggestedReplacements().get(0).toString());
 
+    // Foreign English test
+    matches = rule.match(lt.getAnalyzedSentence("Pensé que era indubitably preposterous, ¿qué te pareció?"));
+    assertEquals(0, matches.length);
+
     // coloquialism allowed, but not suggested
     matches = rule.match(lt.getAnalyzedSentence("El munipa"));
     assertEquals(0, matches.length);

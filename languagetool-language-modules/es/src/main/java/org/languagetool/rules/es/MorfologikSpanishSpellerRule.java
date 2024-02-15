@@ -19,12 +19,15 @@
 package org.languagetool.rules.es;
 
 import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.tagging.es.SpanishTagger;
 import org.languagetool.tools.StringTools;
 
@@ -37,6 +40,8 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static org.languagetool.JLanguageTool.getDataBroker;
 
 /**
  * @since 2.8
@@ -69,11 +74,17 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
   private static final List<String> SPLIT_DIGITS_AT_END = Arrays.asList("en", "de", "del", "al", "a", "y", "o", "con");
   private static final Pattern VERB_INDSUBJ = Pattern.compile("V.[SI].*");
   private static final SpanishTagger tagger = SpanishTagger.INSTANCE;
+  private final String englishDictFilepath;
+  private final UserConfig userConfig;
+  protected MorfologikMultiSpeller englishSpeller;
 
   public MorfologikSpanishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
       List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
+    englishDictFilepath = "/en/hunspell/en_US.dict";
+    this.userConfig = userConfig;
+    initEnglishSpeller();
   }
 
   @Override
@@ -177,6 +188,36 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
   // Multi-token words should be in multiwords.txt
   protected boolean tokenizeNewWords() {
     return false;
+  }
+
+  private void initEnglishSpeller() throws IOException {
+    List<String> plainTextDicts = new ArrayList<>();
+    String languageVariantPlainTextDict = null;
+    if (getDataBroker().resourceExists(getSpellingFileName())) {
+      plainTextDicts.add(getSpellingFileName());
+    }
+    for (String fileName : getAdditionalSpellingFileNames()) {
+      if (getDataBroker().resourceExists(fileName)) {
+        plainTextDicts.add(fileName);
+      }
+    }
+    if (getLanguageVariantSpellingFileName() != null && getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
+      languageVariantPlainTextDict = getLanguageVariantSpellingFileName();
+    }
+    englishSpeller = new MorfologikMultiSpeller(englishDictFilepath, plainTextDicts, languageVariantPlainTextDict,
+          userConfig, 1, language);
+    setConvertsCase(englishSpeller.convertsCase());
+  }
+
+  @Override
+  public List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence,
+    List<RuleMatch> ruleMatchesSoFar, int idx,
+    AnalyzedTokenReadings[] tokens) throws IOException {
+    // for now, just accept correctly spelled English words
+    if (tokens[idx].hasPosTag("_FOREIGN_ENGLISH") && !englishSpeller.isMisspelled(tokens[idx].getToken())) {
+      return Collections.emptyList();
+    }
+    return super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
   }
 
 }
