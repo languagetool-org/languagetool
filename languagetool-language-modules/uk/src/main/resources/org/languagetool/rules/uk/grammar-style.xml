@@ -2736,7 +2736,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
     <rulegroup id="pokaznyi_vs_pokazovyi" name="Показний і показовий">
-      <url>https://r2u.org.ua/check/rules/pokaznyi_vs_pokazovyi</url>
+      <url>https://check.nlp.net.ua/rules/pokaznyi_vs_pokazovyi</url>
       <rule>
         <pattern>
           <marker>
@@ -3608,7 +3608,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>На позначення часового відрізка деякі мовознавці не рекомендують вживати «на протязі»</message>
       <suggestion>упродовж</suggestion>
       <suggestion>протягом</suggestion>
-      <url>https://r2u.org.ua/check/rules/na_protyazi</url>
+      <url>https://check.nlp.net.ua/rules/na_protyazi</url>
       <example correction="упродовж|протягом"><marker>на протязі</marker> року</example>
       <example correction="упродовж|протягом"><marker>на протязі</marker> 10 хвилин</example>
       <example correction="упродовж|протягом"><marker>на протязі</marker> XX століття</example>
@@ -3839,13 +3839,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="slang_words" name="Жаргонні слова">
       <pattern>
         <token postag_regexp="yes" postag=".*:slang.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag=".*:slang.*|SENT_END|PARA_END"/>
+          <exception negate_pos="yes" postag_regexp="yes" postag=".*:(slang|alt|arch|bad|subst).*|SENT_END|PARA_END"/>
           <exception inflected="yes">чарт</exception>
         </token>
       </pattern>
       <message>Це слово є жаргонним</message>
       <example correction="">Ось так він <marker>лоханувся</marker>.</example>
-      <example correction="">Ось так він <marker>лоханувся</marker></example>
+      <example correction="">і став <marker>роздовбаєм</marker></example> <!-- slang + subst -->
+      <example correction=""><marker>воронках</marker></example> <!-- slang + subst -->
       <example>прапор</example>
     </rule>
 
@@ -3933,16 +3934,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </antipattern>
       <pattern>
         <token postag_regexp="yes" postag=".*:arch.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag=".*:arch.*|.*_END"/>
+          <exception negate_pos="yes" postag_regexp="yes" postag=".*:(slang|alt|arch|bad|subst).*|.*_END"/>
         </token>
       </pattern>
       <message>Це слово або форма є застарілою, архаїчною або діалектною.</message>
       <example correction="">І <marker>сього</marker> дня.</example>
+      <example correction=""><marker>бриндзі</marker></example> <!-- arch + alt -->
       <example>довгу</example>
       <example>Анголи</example>
       <example>китаянку Сю Ян</example>
       <example>бігуна Мо Кейна</example>
       <example>ні з того ні з сього</example>
+      <example>про всяк випадок</example> <!-- arch + short -->
     </rule>
 
     <rule id="vulgar" name="Вульгаризми">

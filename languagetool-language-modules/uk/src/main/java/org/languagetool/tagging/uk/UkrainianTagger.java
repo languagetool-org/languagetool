@@ -88,9 +88,20 @@ public class UkrainianTagger extends BaseTagger {
     }
 
     if ( LATIN_NUMBER_CYR.matcher(word).matches() ) {
-      List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
-      additionalTaggedTokens.add(new AnalyzedToken(word, "number:latin:bad", word));
-      return additionalTaggedTokens;
+
+      boolean ordinal = false;
+      int dashIdx = word.lastIndexOf('-');
+      if( dashIdx > 0 ) {
+        String left = word.substring(0, dashIdx);
+        String right = word.substring(dashIdx+1);
+        ordinal = LetterEndingForNumericHelper.isPossibleAdjAdjEnding(left, right);
+      }
+      
+      if( dashIdx == -1 || ordinal ) {
+        List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
+        additionalTaggedTokens.add(new AnalyzedToken(word, "number:latin:bad", word));
+        return additionalTaggedTokens;
+      }
     }
 
     if ( TIME.matcher(word).matches() ) {

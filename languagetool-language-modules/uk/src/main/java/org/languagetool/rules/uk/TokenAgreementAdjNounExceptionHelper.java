@@ -1018,7 +1018,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // we still want to trigger on: за наявною інформацію
     if( //(nounPos < 3 || ! CaseGovernmentHelper.hasCaseGovernment(tokens[adjPos-1], "v_oru"))
         adjPos > 1
-        && PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "v_oru") 
+        && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj:.:v_oru.*") 
         && PosTagHelper.hasPosTag(slaveTokenReadings, ".*v_zna.*") 
         && genderMatches(masterInflections, slaveInflections, "v_oru", "v_zna") ) {
       

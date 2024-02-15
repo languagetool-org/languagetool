@@ -147,6 +147,14 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     assertEquals(1, matches.length);
     assertTrue("Missing message for v_rod/v_dav -у/ю", matches[0].getMessage().contains("Можливо"));
 
+    // false кількисний числівник з v_rod
+    matches = rule.match(lt.getAnalyzedSentence("до 7-ми відсотків ВВП"));
+    assertEquals(1, matches.length);
+    assertTrue("Missing message for кількисний числівник", matches[0].getMessage().contains("Можливо"));
+    assertTrue(matches[0].getSuggestedReplacements().contains("7 відсотків"));
+
+//    assertHasError("використати 25-ю бригаду");
+    
     matches = rule.match(lt.getAnalyzedSentence("Та пахових ділянках"));
     assertEquals(1, matches.length);
     assertTrue("Missing message for v_mis", matches[0].getMessage().contains("Можливо"));
@@ -196,6 +204,9 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     assertHasError("символічною акцію стало складання");
     assertHasError("в будь–яким момент");
     assertHasError("хронічними порушення торговельних угод");
+
+    // 148-ми правильно лише adj (восьмими), а numr (восьми) - є помилкою
+    assertHasError("вбивство 148-ми селян");
   }
   
   
@@ -268,7 +279,6 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("писав про щось подібне Юрій");
 
     assertEmptyMatch("з 11-ма годинами");
-    assertEmptyMatch("вбивство 148-ми селян");
 
     
     // площею, об'ємом...

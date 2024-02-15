@@ -80,10 +80,22 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern VERB_GER = Pattern.compile("V.G.*");
 
   /* lemma exceptions */
-  public static final String[] LemmasToIgnore =  new String[] {"enterar", "sentar", "conseguir", "alcançar"};
+  public static final String[] LemmasToIgnore =  new String[] {"enterar", "sentar", "conseguir", "alcançar", "entimar"};
   public static final String[] LemmasToAllow =  new String[] {"enter", "sentir"};
 
-  private static final List<String> inalambric = Arrays.asList("inalàmbric", "inalàmbrica", "inalàmbrics", "inalàmbriques", "inalàmbricament", "inalàmbricamente");
+  private static final List<String> inalambric = Arrays.asList("inalàmbric", "inalàmbrica", "inalàmbrics", "inal" +
+    "àmbriques", "inalàmbricament", "inalàmbricamente");
+
+  private static final List<String> PronomsDarrere = Arrays.asList("losels", "losles", "nosels", "nosles", "vosels",
+    "vosens", "vosles", "lesen", "leshi", "liles", "losel", "losen", "loshi", "losho", "losla", "lsels", "lsles",
+    "meles", "nosel", "nosen", "noshi", "nosho", "nosla", "nosli", "nsels", "nsles", "seles", "sevos", "teles",
+    "usels", "usens", "usles", "vosel", "vosem", "vosen", "voshi", "vosho", "vosla", "vosli", "lahi", "lihi", "liho",
+    "lila", "lils", "lsel", "lsen", "lshi", "lsho", "lsla", "mela", "meli", "mels", "nsel", "nsen", "nshi", "nsho",
+    "nsla", "nsli", "sela", "seli", "sels", "sens", "seus", "tela", "teli", "tels", "tens", "usel", "usem", "usen",
+    "ushi", "usho", "usla", "usli", "lan", "len", "les", "lhi", "lil", "lin", "los", "mel", "men", "mhi", "mho", "nhi"
+    , "nos", "sel", "sem", "sen", "set", "shi", "sho", "tel", "tem", "ten", "thi", "tho", "vos", "hi", "ho", "la",
+    "li", "lo", "ls", "me", "ne", "ns", "se", "te", "us");
+  // "l", "m", "n", "s", "t"
 
   private CatalanTagger tagger;
 
@@ -140,11 +152,12 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
         continue;
       }
       boolean ignoreSuggestion = false;
-      String[] wordsToAnalyze = replacement.split(" ");
+      String[] wordsToAnalyze = replacement.split("[ '-]");
       List<AnalyzedTokenReadings> newatrs = tagger.tag(Arrays.asList(wordsToAnalyze));
       for (AnalyzedTokenReadings newatr : newatrs) {
         if (newatr.hasAnyLemma(LemmasToIgnore) && !newatr.hasAnyLemma(LemmasToAllow)) {
           ignoreSuggestion = true;
+          break;
         }
       }
       if (ignoreSuggestion) {
@@ -209,9 +222,10 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
         newSuggestions.add(posNewSugg, suggestions.get(i));
         continue;
       }
-      // move "queda'n" to second position
+      // move "queda'n" to second position, but not anar-se'n
       if (i == 1) {
-        if (suggestions.get(0).getReplacement().endsWith("'n") || suggestions.get(0).getReplacement().endsWith("'t")) {
+        if (!suggestions.get(0).getReplacement().contains("-") && (suggestions.get(0).getReplacement().endsWith("'n")
+          || suggestions.get(0).getReplacement().endsWith("'t"))) {
           newSuggestions.add(0, suggestions.get(i));
           continue;
         }
@@ -259,7 +273,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL_S, VERB_INF, 1, "'", "");
     suggestion = findSuggestion(suggestion, word, GUIONET_FINAL_GERUNDI, VERB_GER, 1, "-", "t");
     suggestion = findSuggestion(suggestion, word, GUIONET_FINAL, VERB_INFGERIMP, 1, "-", "");
-
+    suggestion = findSuggestionMultiplePronouns(suggestion, word);
     if (!suggestion.isEmpty()) {
       return Collections.singletonList(suggestion);
     }
@@ -278,6 +292,37 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       if ((!newatr.hasPosTag("VMIP1S0B") || newSuggestion.equalsIgnoreCase("fer") || newSuggestion.equalsIgnoreCase("ajust")
           || newSuggestion.equalsIgnoreCase("gran")) && matchPostagRegexp(newatr, postagPattern)) {
         return matcher.group(1) + addStr + separator + matcher.group(2);
+      }
+    }
+    return "";
+  }
+
+  // anarsen -> anar-se'n, danarsen -> d'anar-se'n
+  private String findSuggestionMultiplePronouns(String suggestion, String word) {
+    if (!suggestion.isEmpty()) {
+      return suggestion;
+    }
+    String lcword = word.toLowerCase();
+    String pronouns = endsWithPronoun(lcword);
+    String verb = lcword.substring(0, word.length() - pronouns.length());
+    AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(verb)).get(0);
+    if (matchPostagRegexp(newatr, VERB_INFGERIMP)) {
+      return verb + PronomsFeblesHelper.transformDarrere(pronouns, verb);
+    }
+    if (lcword.startsWith("d") || lcword.startsWith("l")) {
+      verb = verb.substring(1, verb.length());
+      newatr = tagger.tag(Arrays.asList(verb)).get(0);
+      if (matchPostagRegexp(newatr, VERB_INF)) {
+        return lcword.substring(0, 1) + "'" + verb + PronomsFeblesHelper.transformDarrere(pronouns, verb);
+      }
+    }
+    return "";
+  }
+
+  private String endsWithPronoun(String s) {
+    for (String pronoun : PronomsDarrere) {
+      if (s.endsWith(pronoun)) {
+        return pronoun;
       }
     }
     return "";

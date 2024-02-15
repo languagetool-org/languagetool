@@ -8295,6 +8295,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RB" />
             <token postag="VBP" />
         </antipattern>
+        <antipattern>
+            <token postag="W.*|SENT_START|PCT" postag_regexp="yes" />
+            <token postag="RB" min="0" />
+            <token postag="MD" />
+            <token postag="RB" min="0" />
+            <token postag="VBG|NN:UN?" postag_regexp="yes" />
+            <token postag="IN" />
+            <token chunk_re="B-NP.*" />
+            <token chunk_re="E-NP.*" postag="VB" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -8409,6 +8419,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Play it smart.</example><!-- #2522 -->
         <example type="untouched">Play it cool.</example>
         <example type="untouched">Use It Act.</example>
+        <example type="untouched">How will sharing of tech work?</example>
         <example type="untouched">We further wish to do it again.</example>
         <example type="untouched">Currently we email and share the stuff.</example><!-- #2539 -->
         <example type="untouched">Incorrect grammar: It sound's good.</example><!-- needed for VERB_APOSTROPHE_S -->
