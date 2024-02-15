@@ -214,7 +214,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token regexp="yes">[a-z]</token>
                 <token>,</token>
                 <token regexp="yes">[a-z]</token>
-                <token regexp="yes">i|o</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]</token>
+                <token>,</token>
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">i|o|,</token>
                 <token regexp="yes">[a-z]</token>
             </pattern>
             <disambig action="immunize"/>
@@ -300,7 +308,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" inflected="yes">lletra|secció|apartat|panell</token>
+                <token regexp="yes" inflected="yes">lletra|secció|apartat|panell|bloc</token>
                 <token regexp="yes">[a-z]</token>
                 <token regexp="yes">,|i|o|ni</token>
                 <marker>
@@ -313,7 +321,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" inflected="yes">lletra|secció|apartat|panell</token>
+                <token regexp="yes" inflected="yes">lletra|secció|apartat|panell|bloc</token>
                 <marker>
                     <token regexp="yes">[a-z]</token>
                 </marker>
@@ -20630,7 +20638,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token regexp="yes">[a-z]</token>
-                <token regexp="yes">[=&gt;&lt;]</token>
+                <token regexp="yes">[=&gt;&lt;\+]</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
@@ -20643,7 +20651,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes">[a-z][⁰ⁱ⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ]</token>
+                <token regexp="yes">[a-z][⁰ⁱ²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">[⁰ⁱ²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ]</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
