@@ -209,8 +209,23 @@ public class JLanguageToolTest {
     List<RuleMatch> matches1 = lt.check("Continuo veien cada dia gent amb ID baixa ");
     assertEquals("GERUNDI_PERD_T", matches1.get(0).getRule().getId());
 
-//    matches1 = lt.check("Vine canta i balla.");
-//    assertEquals("GERUNDI_PERD_T", matches1.get(0).getRule().getId());
+    List<RuleMatch> matches2 = lt.check("This asdfasdfasd cosa m'agrada molt.");
+  }
+
+  @Test
+  public void testIgnoreEnglishWords() throws IOException {
+    Language lang = new Catalan();
+    JLanguageTool lt = new JLanguageTool(lang);
+    List<RuleMatch> matches = lt.check("This asdfasdfasd m'agrada molt.");
+    assertEquals(2, matches.size());
+
+    matches = lt.check("This is a good thing.");
+    assertEquals(0, matches.size());
+
+    matches = lt.check("This is a good gasdfghadsfha.");
+    assertEquals(1, matches.size());
+    matches = lt.check("I didn't know gasdfghadsfha.");
+    assertEquals(1, matches.size());
   }
 
 }
