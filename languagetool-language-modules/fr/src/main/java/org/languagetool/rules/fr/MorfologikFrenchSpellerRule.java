@@ -22,6 +22,8 @@ package org.languagetool.rules.fr;
 import org.languagetool.*;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.fr.FrenchTagger;
 import org.languagetool.tools.StringTools;
 
@@ -32,6 +34,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.util.regex.Pattern.*;
+import static org.languagetool.JLanguageTool.getDataBroker;
 
 public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
 
@@ -85,10 +88,17 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
   private static final String DICT_FILE = "/fr/french.dict";
   private static final Pattern HYPHEN_OR_QUOTE = compile("['-]");
 
+  private final String englishDictFilepath;
+  private final UserConfig userConfig;
+  protected MorfologikMultiSpeller englishSpeller;
+
   public MorfologikFrenchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
       List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
     setIgnoreTaggedWords();
+    englishDictFilepath = "/en/hunspell/en_US.dict";
+    this.userConfig = userConfig;
+    initEnglishSpeller();
   }
 
   @Override
@@ -298,6 +308,36 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       }
     }
     return false;
+  }
+
+  private void initEnglishSpeller() throws IOException {
+    List<String> plainTextDicts = new ArrayList<>();
+    String languageVariantPlainTextDict = null;
+    if (getDataBroker().resourceExists(getSpellingFileName())) {
+      plainTextDicts.add(getSpellingFileName());
+    }
+    for (String fileName : getAdditionalSpellingFileNames()) {
+      if (getDataBroker().resourceExists(fileName)) {
+        plainTextDicts.add(fileName);
+      }
+    }
+    if (getLanguageVariantSpellingFileName() != null && getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
+      languageVariantPlainTextDict = getLanguageVariantSpellingFileName();
+    }
+    englishSpeller = new MorfologikMultiSpeller(englishDictFilepath, plainTextDicts, languageVariantPlainTextDict,
+          userConfig, 1, language);
+    setConvertsCase(englishSpeller.convertsCase());
+  }
+
+  @Override
+  public List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence,
+    List<RuleMatch> ruleMatchesSoFar, int idx,
+    AnalyzedTokenReadings[] tokens) throws IOException {
+    // for now, just accept correctly spelled English words
+    if (tokens[idx].hasPosTag("_FOREIGN_ENGLISH") && !englishSpeller.isMisspelled(tokens[idx].getToken())) {
+      return Collections.emptyList();
+    }
+    return super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
   }
 
 }

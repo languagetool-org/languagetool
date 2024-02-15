@@ -297,4 +297,10 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestionsContain("saperçoit", "sa perçoit", "s'aperçoit");
     assertSuggestionsContain("saperçu", "sa perçu", "aperçu");
   }
+
+  @Test
+  public void testForeignEnglish() throws Exception {
+    assertNoMatches("Je pensais que c'était indubitably preposterous, qu'en as-tu pensé?");
+  }
+
 }
