@@ -83,7 +83,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     "judenrein", "judenreine", "judenreiner", "judenreines", "judenreinen", "judenreinem",
     "judenmord", "judenmorden", "judenmörder"
   ));
-  
+
   private static final int MAX_TOKEN_LENGTH = 200;
   private static final Pattern GENDER_STAR_PATTERN = compile("([A-ZÖÄÜ][a-zöäüß]{1,25}|[A-ZÖÄÜ]{1,10}-[A-ZÖÄÜ][a-zöäüß]{1,25})[*:_][a-zöäüß]{1,25}");  // z.B. "Jurist:innenausbildung"
   private static final Pattern FILE_UNDERLINE_PATTERN = compile("[a-zA-Z0-9-]{1,25}_[a-zA-Z0-9-]{1,25}\\.[a-zA-Z]{1,5}");
@@ -136,6 +136,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordsNeedingInfixS          = new HashSet<>();
   private final Set<String> wordsWithoutInfixS          = new HashSet<>();
   private final Set<String> germanPrefixes              = new HashSet<>();
+  private String englishDictFilepath;
+  private UserConfig userConfig;
+  protected MorfologikMultiSpeller englishSpeller;
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
@@ -1706,6 +1709,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
    */
   public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict) {
     this(messages, language, userConfig, languageVariantPlainTextDict, Collections.emptyList(), null);
+    this.userConfig = userConfig;
+    englishDictFilepath = "/en/hunspell/en_US.dict";
+    try {
+      initEnglishSpeller();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
@@ -1730,6 +1740,25 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         set.add(line.trim());
       }
     }
+  }
+
+  private void initEnglishSpeller() throws IOException {
+    List<String> plainTextDicts = new ArrayList<>();
+    String languageVariantPlainTextDict = null;
+    if (JLanguageTool.getDataBroker().resourceExists(getSpellingFileName())) {
+      plainTextDicts.add(getSpellingFileName());
+    }
+    for (String fileName : getAdditionalSpellingFileNames()) {
+      if (JLanguageTool.getDataBroker().resourceExists(fileName)) {
+        plainTextDicts.add(fileName);
+      }
+    }
+    if (getLanguageVariantSpellingFileName() != null && JLanguageTool.getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
+      languageVariantPlainTextDict = getLanguageVariantSpellingFileName();
+    }
+    englishSpeller = new MorfologikMultiSpeller(englishDictFilepath, plainTextDicts, languageVariantPlainTextDict,
+          userConfig, 1, language);
+    setConvertsCase(englishSpeller.convertsCase());
   }
 
   @Override
@@ -2057,6 +2086,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
   }
 
+  private boolean isForeignEnglish(String word) {
+    try {
+      List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(word));
+      // it seems like the tag from disambuguation.xml is added after this runs
+      return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("_FOREIGN_ENGLISH")) && !englishSpeller.isMisspelled(word);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   private boolean isOnlyNoun(String word) {
     try {
       List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(word));
@@ -2156,6 +2195,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !isMisspelled(word.toLowerCase());
     }
     boolean ignoreHyphenatedCompound = false;
+    //if (isForeignEnglish(word)){
+    //  return true;
+    //}
     if (!ignore && !ignoreUncapitalizedWord) {
       if (word.contains("-")) {
         if (idx > 0 && "".equals(words.get(idx-1)) && StringUtils.startsWithAny(word, "stel-", "tel-")) {

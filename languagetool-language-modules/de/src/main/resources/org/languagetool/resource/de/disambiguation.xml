@@ -21,6 +21,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!ENTITY given_names_not_sorted "Evander|Fabianu|Florianus|Freddie|Gwennie|Koichi|Leonidas|Lucjan|Ronnie|Sidonie">
     <!ENTITY last_names_not_sorted "Althusman|Appeltauer|Arensmeier|Bagchi|Bayerlein|Berglund|Blackman|Blackthorn|Bottaro|Brocchi|Brentford|Brodbeck|Bronkowitz|Brooker|Broulis|Browall|Brower|Bründlmayer|Buckman|Cancellara|Castaldi|Castleman|Chernick|Cooperman|Copper|Copping|Crappius|Crockford|Cropper|Dahlmeier|Deguchi|Demirbay|Disreaeli|Domenicali|Drakeford|Drummond|Dubben|Dublies|Dubrau|Ehlebracht|Eikenroth|Enzensperger|Felbermeier|Fondell|Fowler|Gaidar|Gaidies|Gateman|Georgieva|Gerstenmaier|Gilmartin|Gilmore|Gouaida|Grebenroth|Grevemeyer|Grünbeck|Gudewill|Götzensberger|Haggenmiller|Hamilton|Hardegger|Harmstorf|Heinzelmeier|Hesselbarth|Hillerzeder|Horwitz|Hulubei|Höglund|Höglwörth|Ilgenfritz|Irmscher|Jeffries|Jessenberlin|Jivedas|Josenhans|Karabey|Karadima|Karagiannis|Karaman|Karamustafa|Kayman|Kaysing|Kirkman|Kirnberger|Kletzinsky|Koberstein|Kollsman|Köllensperger|Lanzrein|Leimstoll|Lemmermeier|Longford|Longmate|Macdonald|Mackey|Maclaurin|Martenstein|Medelsky|Milliken|Monkman|Montada|Möslein|Münchmeyer|Padeste|Padmini|Pairan|Perlman|Polifroni|Radlmaier|Radlmeier|Rayborn|Rayder|Rayford|Reithmeier|Reutersholm|Rickman|Riedlsperger|Ringgenberger|Roachford|Roithmeier|Ronchi|Rundshagen|Ruschmeyer|Rönnebeck|Rüttenauer|Sahlender|Sandloff|Scheibitz|Schoppmeyer|Schwediauer|Selznick|Shannon|Siekmaier|Soubeyran|Stadelhofer|Stadelmaier|Stickelberger|Tabbert|Tedder|Triestino|Tupperman|Valdes|Voßbeck|Voßschmidt |Völklein|Walburgis|Walchhofer|Weitzman|Wenderholm|Werremeier|Werthschulte|Wilmsmeier|Woitschach|Wittmeier|Wulfmeyer|Wulftange|Wölfelund|Wöllper|Zilkens">
     <!ENTITY verb_prefixes "(ge|fort|bei?|a[bn]|au[fs]|e(in|nt|r)|hin(ein|aus)?|her(ein|aus)?|los|mi(t|ss)|vor(wärts)?|weg|zu(rück)?|r(aus|ein)|ver|zer|um|über|unter|durch)">
+    <!ENTITY TEST_ENGLISH_WORDS "indubitably">
 ]>
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -8378,5 +8379,55 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </pattern>
             <disambig action="remove" postag="VER.*" />
         </rule>
+    </rulegroup>
+
+    <!-- ##################################################################################################### -->
+      <!-- Tag potentially English words -->
+    <rulegroup id="TAG_ENGLISH_WORDS" name="Add a tag to English words">
+      <rule>
+        <pattern>
+          <token regexp="yes" postag_regexp="yes" postag="UNKNOWN|NULL">&TEST_ENGLISH_WORDS;</token>
+        </pattern>
+        <disambig action="add"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="GUESS_FOREIGN_WORDS_POST" name="Guess foreign words">
+      <rule>
+        <pattern>
+          <token postag="_FOREIGN_ENGLISH" skip="1"/>
+          <marker>
+            <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
+          </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
+          </marker>
+          <token postag="_FOREIGN_ENGLISH" skip="1"/>
+        </pattern>
+        <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="_FOREIGN_ENGLISH" skip="1"/>
+          <marker>
+            <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
+          </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token postag_regexp="yes" postag="NULL|UNKNOWN" regexp="yes">[a-z].*</token>
+          </marker>
+          <token postag="_FOREIGN_ENGLISH" skip="1"/>
+        </pattern>
+        <disambig action="replace"><wd pos="_FOREIGN_ENGLISH"/></disambig>
+      </rule>
     </rulegroup>
 </rules>

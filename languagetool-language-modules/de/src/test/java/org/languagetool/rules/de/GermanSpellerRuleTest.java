@@ -73,6 +73,13 @@ public class GermanSpellerRuleTest {
     assertThat(rule.getMessage("nomral", new SuggestedReplacement("normal")),
       is("Möglicher Tippfehler gefunden."));
   }
+  @Test
+  public void testForeignEnglish() throws IOException {
+    //GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    //JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    // Test EN words
+    //assertThat(rule.match(lt.getAnalyzedSentence("Ich fand es indubitably preposterous, was hast du gedacht?")).length, is(0));
+  }
 
   @Test
   public void testIgnoreMisspelledWord() throws IOException {
