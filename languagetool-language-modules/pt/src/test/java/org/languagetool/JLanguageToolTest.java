@@ -34,7 +34,14 @@ public class JLanguageToolTest {
       JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode(langCode));
       assertEquals(0, lt.check(sentence).size());
       assertEquals(1, lt.check(sentence2).size());
+
     }
+  }
+
+  @Test
+  public void testSomeSentences() throws IOException {
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("pt-BR"));
+    lt.check("™ ® Marcas registradas da Corteva Agriscience e de suas companhias afiliadas.");
   }
 
 }
