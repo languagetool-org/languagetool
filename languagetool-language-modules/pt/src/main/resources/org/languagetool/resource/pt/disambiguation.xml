@@ -509,19 +509,20 @@
     </rule>
   </rulegroup>
   <rulegroup id="NP_BRANDS" name="Brands and Trademarks">
-    <rule>
+    <!--<rule>
       <pattern>
         <marker>
           <token regexp="yes">\w+[™®]$</token>
         </marker>
       </pattern>
       <filter class="org.languagetool.rules.pt.NoDisambiguationPortuguesePartialPosTagFilter"
-              args="no:1 regexp:(\w+)[™®] postag_regexp:NP.+"/><!-- The filter is case-sensitive -->
+              args="no:1 regexp:(\w+)[™®] postag_regexp:NP.+"/><!-\- The filter is case-sensitive -\->
       <disambig action="replace"><wd pos="NPCN000_"/></disambig>
-    </rule>
+    </rule>-->
     <rule>
       <pattern>
-        <token/>
+          <!-- cannot be empty (e.g. SENT_START) -->
+        <token regexp="yes">..+</token>
         <token regexp="yes">[™®]</token>
       </pattern>
       <disambig action="replace"><wd pos="NPCN000_"/><wd pos="NPCN000_"/></disambig>
