@@ -28,9 +28,6 @@ import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Hybrid chunker-disambiguator for French
@@ -42,9 +39,12 @@ public class FrenchHybridDisambiguator extends AbstractDisambiguator {
 
   private final MultiWordChunker chunker = new MultiWordChunker("/fr/multiwords.txt", true, true, false);
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new French(), true);
+  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, false,
+    MultiWordChunker.tagForNotAddingTags);
 
   public FrenchHybridDisambiguator() {
     chunker.setRemovePreviousTags(true);
+    chunkerGlobal.setIgnoreSpelling(true);
   }
 
   @Override
@@ -57,8 +57,10 @@ public class FrenchHybridDisambiguator extends AbstractDisambiguator {
    * disambiguator.
    */
   @Override
-  public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    return disambiguator.disambiguate(chunker.disambiguate(input, checkCanceled), checkCanceled);
+  public AnalyzedSentence disambiguate(AnalyzedSentence input,
+                                       @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
+    return disambiguator.disambiguate(chunker.disambiguate(chunkerGlobal.disambiguate(input, checkCanceled),
+      checkCanceled), checkCanceled);
   }
 
 

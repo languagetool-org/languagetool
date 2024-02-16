@@ -128,7 +128,7 @@ public class FrenchTagger extends BaseTagger {
     }
     // tag all-uppercase proper nouns (ex. FRANCE)
     if (l.isEmpty() && isAllUpper) {
-      final String firstUpper = StringTools.uppercaseFirstChar(lowerWord);
+      final String firstUpper = StringTools.convertToTitleCaseIteratingChars(lowerWord);
       List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord,
           getWordTagger().tag(firstUpper));
       addTokens(firstupperTaggerTokens, l);
