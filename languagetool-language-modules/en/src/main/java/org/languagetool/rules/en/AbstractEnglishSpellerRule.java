@@ -186,6 +186,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern HTTPS = compile("[Hh]ttps");
   private static final Pattern FYI = compile("[Ff]yi");
   private static final Pattern DEVOPS = compile("[Dd]evops");
+  private static final Pattern ALLRIGHT = compile("[Aa]llright");
   private static final Pattern LANGUAGETOOL = compile("[Ll]anguagetool");
 
   private final BeoLingusTranslator translator;
@@ -1493,6 +1494,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (LANGUAGETOOL.matcher(word).matches()) return topMatch("LanguageTool");
     if (HONGKONG.matcher(word).matches()) return topMatch("Hong Kong");
     if (BONAFIDE.matcher(word).matches()) return topMatch(word.replaceFirst("onafide", "ona fide"));
+    if (ALLRIGHT.matcher(word).matches()) return topMatch(word.replaceFirst("llright", "lright"));
     if (WHEREEVER.matcher(word).matches()) return topMatch(word.replaceFirst("hereever", "herever"));
     if (TV.matcher(word).matches()) {
       List<SuggestedReplacement> l = new ArrayList<>();
