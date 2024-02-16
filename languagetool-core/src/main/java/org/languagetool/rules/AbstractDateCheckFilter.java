@@ -19,6 +19,7 @@
 package org.languagetool.rules;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -74,10 +75,10 @@ public abstract class AbstractDateCheckFilter extends RuleFilter {
   protected abstract Calendar getCalendar();
 
   /**
-   * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
+   * @param args           a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
    */
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     try {
       int dayOfWeekFromString = getDayOfWeek(getRequired("weekDay", args).replace("\u00AD", ""));  // replace soft hyphen
       Calendar dateFromDate = getDate(args);

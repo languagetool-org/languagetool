@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.es;
 
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,7 +42,7 @@ public class ConfusionCheckFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
 
     Pattern desiredGenderNumberPattern = null;
     String replacement = null;

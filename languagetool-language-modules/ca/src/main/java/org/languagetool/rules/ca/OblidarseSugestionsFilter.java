@@ -89,7 +89,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     int posWord = 0;
     if (match.getSentence().getText().contains("A massa gent")) {
       int ii = 0;

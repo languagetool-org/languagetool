@@ -1,5 +1,6 @@
 package org.languagetool.rules.ca;
 
+import java.util.List;
 import java.util.Map;
 
 import org.languagetool.AnalyzedTokenReadings;
@@ -16,7 +17,7 @@ public class CatalanNumberSpellerFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
 
     String strToSpell = getRequired("number_to_spell", arguments).replaceAll("\\.", "");
     if (getRequired("gender", arguments).contentEquals("feminine")) {

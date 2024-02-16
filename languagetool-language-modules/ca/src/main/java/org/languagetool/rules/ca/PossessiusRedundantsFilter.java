@@ -24,6 +24,7 @@ import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import static org.languagetool.rules.ca.PronomsFeblesHelper.*;
@@ -31,7 +32,7 @@ import static org.languagetool.rules.ca.PronomsFeblesHelper.*;
 public class PossessiusRedundantsFilter extends RuleFilter {
 
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-                                   AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int posPossessive = patternTokenPos;
     while (posPossessive < tokens.length && !tokens[posPossessive].hasPartialPosTag("PX")) {

@@ -24,7 +24,6 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +53,7 @@ public class CompoundFilterTest {
   }
 
   private void assertSuggestion(List<String> words, String expectedSuggestion) throws IOException {
-    RuleMatch ruleMatch = filter.acceptRuleMatch(match, makeMap(words), -1, null);
+    RuleMatch ruleMatch = filter.acceptRuleMatch(match, makeMap(words), -1, null, null);
     assertThat(ruleMatch.getSuggestedReplacements().size(), is(1));
     assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedSuggestion));
   }

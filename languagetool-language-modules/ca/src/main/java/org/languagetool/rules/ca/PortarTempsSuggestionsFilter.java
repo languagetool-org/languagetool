@@ -19,6 +19,7 @@
 package org.languagetool.rules.ca;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.languagetool.AnalyzedTokenReadings;
@@ -40,7 +41,7 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-                                   AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     int posWord = 0;
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     while (posWord < tokens.length

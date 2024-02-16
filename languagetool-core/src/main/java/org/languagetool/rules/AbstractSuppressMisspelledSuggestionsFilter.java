@@ -41,7 +41,7 @@ public abstract class AbstractSuppressMisspelledSuggestionsFilter extends RuleFi
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     RuleMatch ruleMatch = match;
     List<String> replacements = match.getSuggestedReplacements();
     List<String> newReplacements = new ArrayList<>();
