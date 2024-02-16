@@ -44,7 +44,7 @@ public abstract class AbstractDateCheckFilter extends RuleFilter {
   // The day of the month may contain not only digits but also extra letters
   // such as"22nd" in English or "22-an" in Esperanto. The regexp extracts
   // the numerical part.
-  private static final Pattern DAY_OF_MONTH_PATTERN = Pattern.compile("(\\d+).*");
+  protected static final Pattern DAY_OF_MONTH_PATTERN = Pattern.compile("(\\d+).*");
 
   /**
    * Implement so that Sunday returns {@code 1}, Monday {@code 2} etc.
