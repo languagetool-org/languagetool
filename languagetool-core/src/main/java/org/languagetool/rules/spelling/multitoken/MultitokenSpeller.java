@@ -318,6 +318,10 @@ public class MultitokenSpeller {
       if (StringTools.isCapitalizedWord(parts[1])) {
         return false;
       }
+      if (parts[0].length() == 0 || parts[1].length() == 0) {
+        // probably emojis, or mal-formed chars
+        return true;
+      }
       String sugg1a = parts[0].substring(0, parts[0].length() - 1);
       String sugg1b = parts[0].substring(parts[0].length() - 1) + parts[1];
       if (!spellingRule.isMisspelled(sugg1a) && !spellingRule.isMisspelled(sugg1b)) {
