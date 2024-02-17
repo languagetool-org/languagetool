@@ -48,7 +48,7 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     
 //    if (match.getSentence().getText().contains("Jo pensem")) {
 //      int ii=0;

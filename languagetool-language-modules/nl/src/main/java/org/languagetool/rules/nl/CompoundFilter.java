@@ -34,7 +34,7 @@ public class CompoundFilter extends RuleFilter {
   private static final Pattern SUGGESTION_ELEM = Pattern.compile("<suggestion>.*?</suggestion>");
 
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     List<String> words = new ArrayList<>();
     for (int i = 1; i < 6; i++) {
       String arg = arguments.get("word" + i);

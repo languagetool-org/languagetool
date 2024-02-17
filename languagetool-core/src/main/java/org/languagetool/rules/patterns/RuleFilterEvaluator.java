@@ -43,7 +43,7 @@ public class RuleFilterEvaluator {
   @Nullable
   public RuleMatch runFilter(String filterArgs, RuleMatch ruleMatch, AnalyzedTokenReadings[] patternTokens, int patternTokenPos, List<Integer> tokenPositions) throws IOException {
     Map<String,String> args = getResolvedArguments(filterArgs, patternTokens, patternTokenPos, tokenPositions);
-    return filter.acceptRuleMatch(ruleMatch, args, patternTokenPos, patternTokens);
+    return filter.acceptRuleMatch(ruleMatch, args, patternTokenPos, patternTokens, tokenPositions);
   }
 
   /**

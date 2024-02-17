@@ -114,7 +114,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     boolean addComma = getOptional("addComma", arguments, "false").equalsIgnoreCase("true")? true : false;
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     int i = patternTokenPos;

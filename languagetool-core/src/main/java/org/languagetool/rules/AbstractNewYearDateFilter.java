@@ -71,10 +71,10 @@ public abstract class AbstractNewYearDateFilter extends RuleFilter {
   }
 
   /**
-   * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month)
+   * @param args           a map with values for {@code year}, {@code month}, {@code day} (day of month)
    */
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     Calendar dateFromText = getDate(args);
     int monthFromText;
     int yearFromText;

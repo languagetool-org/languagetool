@@ -64,7 +64,7 @@ public class SynthesizeWithDeterminerFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-                                   AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     String lemmaFromStr = getRequired("lemmaFrom", arguments);
     String lemmaSelect = getRequired("lemmaSelect", arguments);
     boolean synthAllForms = getOptional("synthAllForms", arguments, "false").equalsIgnoreCase("true")? true: false;

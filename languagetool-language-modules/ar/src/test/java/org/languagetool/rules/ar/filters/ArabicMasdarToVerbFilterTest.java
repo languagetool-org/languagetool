@@ -61,7 +61,7 @@ public class ArabicMasdarToVerbFilterTest {
     args.put("noun", word2);
     List<AnalyzedTokenReadings> patternTokens = tagger.tag(asList(word1, word2));
     AnalyzedTokenReadings[] patternTokensArray = patternTokens.toArray(new AnalyzedTokenReadings[0]);
-    RuleMatch ruleMatch = filter.acceptRuleMatch(match, args, -1, patternTokensArray);
+    RuleMatch ruleMatch = filter.acceptRuleMatch(match, args, -1, patternTokensArray, null);
 
     assertThat(ruleMatch, notNullValue());
     assertThat(ruleMatch.getSuggestedReplacements().size(), is(1));

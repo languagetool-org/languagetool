@@ -27,7 +27,6 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MultitokenSpellerFilter extends RuleFilter {
@@ -35,7 +34,7 @@ public class MultitokenSpellerFilter extends RuleFilter {
    /* Provide suggestions for misspelled multitoken expressions, usually proper nouns*/
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-                                   AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     if (Arrays.stream(patternTokens).allMatch(x -> x.isIgnoredBySpeller())) {
       return null;
     }

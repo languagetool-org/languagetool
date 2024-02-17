@@ -21,7 +21,7 @@ public class CompoundCheckFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     
     String part1 = arguments.get("part1").toLowerCase();
     String part2 = arguments.get("part2").toLowerCase();

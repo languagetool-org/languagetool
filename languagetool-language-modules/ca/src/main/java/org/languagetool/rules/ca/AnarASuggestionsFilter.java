@@ -41,7 +41,7 @@ public class AnarASuggestionsFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-                                   AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     int initPos = 0;
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     while (initPos < tokens.length

@@ -26,6 +26,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,19 +39,20 @@ public abstract class RuleFilter {
   /**
    * Returns the original rule match or a modified one, or {@code null}
    * if the rule match is filtered out.
-   * @param arguments the resolved argument from the {@code args} attribute in the XML. Resolved
-   *                  means that e.g. {@code \1} has been resolved to the actual string at that match position.
-   * @param patternTokens those tokens of the text that correspond the matched pattern
+   *
+   * @param arguments      the resolved argument from the {@code args} attribute in the XML. Resolved
+   *                       means that e.g. {@code \1} has been resolved to the actual string at that match position.
+   * @param patternTokens  those tokens of the text that correspond the matched pattern
    * @return {@code null} if this rule match should be removed, or any other RuleMatch (e.g. the one from
-   *         the arguments) that properly describes the detected error
+   * the arguments) that properly describes the detected error
    */
   @Nullable
-  public abstract RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) throws IOException;
+  public abstract RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException;
 
   /** @since 3.2 */
-  public boolean matches(Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens, int firstMatchToken) throws IOException {
+  public boolean matches(Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens, int firstMatchToken, List<Integer> tokenPositions) throws IOException {
     RuleMatch fakeMatch = new RuleMatch(new FakeRule(), null, 0, 1, "(internal rule)");
-    return acceptRuleMatch(fakeMatch, arguments, firstMatchToken, patternTokens) != null;
+    return acceptRuleMatch(fakeMatch, arguments, firstMatchToken, patternTokens, tokenPositions) != null;
   }
 
   private static class FakeRule extends Rule {
@@ -110,6 +112,22 @@ public abstract class RuleFilter {
       i--;
     }
     return i == 0;
+  }
+
+  // when there's a 'skip', we need to adapt the reference number
+  protected int getSkipCorrectedReference(List<Integer> tokenPositions, int refNumber) {
+    if (refNumber < 0) {
+      return refNumber;
+    }
+    int correctedRef = 0;
+    int i = 0;
+    for (int tokenPosition : tokenPositions) {
+      if (i++ >= refNumber) {
+        break;
+      }
+      correctedRef += tokenPosition;
+    }
+    return correctedRef - 1;
   }
 
 }

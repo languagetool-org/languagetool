@@ -38,15 +38,15 @@ public class DateCheckFilterTest {
 
   @Test
   public void testAccept() {
-    assertNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "Samstag"), -1, null));  // correct date
-    assertNotNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "Sonntag"), -1, null));  // incorrect date
+    assertNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "Samstag"), -1, null, null));  // correct date
+    assertNotNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "Sonntag"), -1, null, null));  // incorrect date
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testAcceptIncompleteArgs() {
     Map<String,String> map = makeMap("2014", "8" ,"23", "Samstag");
     map.remove("weekDay");
-    filter.acceptRuleMatch(match, map, -1, null);
+    filter.acceptRuleMatch(match, map, -1, null, null);
   }
 
   @Test

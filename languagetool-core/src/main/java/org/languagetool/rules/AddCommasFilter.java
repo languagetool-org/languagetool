@@ -20,6 +20,7 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -35,7 +36,7 @@ public class AddCommasFilter extends RuleFilter {
   
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
    
     // for patterns ", aun así" suggest "; aun así," and ", aun así,"
     String suggestSemicolon = getOptional("suggestSemicolon", arguments);

@@ -21,6 +21,7 @@ package org.languagetool.rules.ar.filters;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,7 +32,7 @@ import java.util.Map;
 public class ArabicDMYDateCheckFilter extends ArabicDateCheckFilter {
 
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     if (args.containsKey("year") || args.containsKey("month") || args.containsKey("day")) {
       throw new RuntimeException("Set only 'weekDay' and 'date' for " + ArabicDMYDateCheckFilter.class.getSimpleName());
     }
@@ -43,7 +44,7 @@ public class ArabicDMYDateCheckFilter extends ArabicDateCheckFilter {
     args.put("day", parts[0]);
     args.put("month", parts[1]);
     args.put("year", parts[2]);
-    return super.acceptRuleMatch(match, args, patternTokenPos, patternTokens);
+    return super.acceptRuleMatch(match, args, patternTokenPos, patternTokens, tokenPositions);
   }
 
 }
