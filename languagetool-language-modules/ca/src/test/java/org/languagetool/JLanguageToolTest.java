@@ -62,6 +62,29 @@ public class JLanguageToolTest {
     JLanguageTool tool = new JLanguageTool(lang);
     List<RuleMatch> matches = tool.check("Cal usar mètodes d'anàlisi adequats.");
     assertEquals(0, matches.size());
+
+    matches = tool.check("Aquests ganivets no corresponen amb estes forquilles.");
+    assertEquals(1, matches.size());
+    assertEquals( "aquestes", matches.get(0).getSuggestedReplacements().get(0));
+
+    matches = tool.check("Estes forquilles, aquestos ganivets.");
+    assertEquals(1, matches.size());
+    assertEquals( "estos", matches.get(0).getSuggestedReplacements().get(0));
+
+    matches = tool.check("Aqueixes forquilles, eixos ganivets.");
+    assertEquals(1, matches.size());
+    assertEquals( "aqueixos", matches.get(0).getSuggestedReplacements().get(0));
+
+    matches = tool.check("Eixes forquilles, aqueixos ganivets.");
+    assertEquals(1, matches.size());
+    assertEquals( "eixos", matches.get(0).getSuggestedReplacements().get(0));
+
+    matches = tool.check("Estos ganivets no corresponen amb estes forquilles.");
+    assertEquals(0, matches.size());
+    matches = tool.check("Aquests ganivets no corresponen amb aquestes forquilles.");
+    assertEquals(0, matches.size());
+
+
   }
   
   @Test
