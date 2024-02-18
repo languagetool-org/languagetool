@@ -309,6 +309,9 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     if (matchPostagRegexp(newatr, VERB_INFGERIMP)) {
       return verb + PronomsFeblesHelper.transformDarrere(pronouns, verb);
     }
+    if (verb.length() < 5) {
+      return "";
+    }
     if (lcword.startsWith("d") || lcword.startsWith("l")) {
       verb = verb.substring(1, verb.length());
       newatr = tagger.tag(Arrays.asList(verb)).get(0);

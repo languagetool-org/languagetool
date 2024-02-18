@@ -25,13 +25,14 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class RemoveUnknownCompoundsFilter extends RuleFilter {
 
   @Nullable
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) throws IOException {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     String compound = arguments.get("part1") + arguments.get("part2").toLowerCase();
     if (GermanyGerman.INSTANCE.getDefaultSpellingRule().isMisspelled(compound)) {
       //System.err.println("Ignoring match for " + compound + ": " + match.getRule().getFullId());

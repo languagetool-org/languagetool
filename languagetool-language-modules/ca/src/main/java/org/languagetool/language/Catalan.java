@@ -108,7 +108,8 @@ public class Catalan extends Language {
             new CatalanRepeatedWordsRule(messages), 
             new SimpleReplaceDNVRule(messages, this),
             new SimpleReplaceDNVColloquialRule(messages, this),
-            new SimpleReplaceDNVSecondaryRule(messages, this)
+            new SimpleReplaceDNVSecondaryRule(messages, this),
+            new WordCoherencyRule(messages)
     );
   }
 
@@ -268,6 +269,7 @@ public class Catalan extends Language {
       case "ACCENTUACIO": return 5;
       case "CONTRACCIONS": return 0; // lesser than apostrophations
       case "CASING_START": return -5;
+      case "CA_WORD_COHERENCY": return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE
       case "ARTICLE_TOPONIM_MIN": return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM 
       case "PEL_QUE": return -10; // lesser than PEL_QUE_FA
       case "COMMA_LOCUTION": return -10;

@@ -64,7 +64,7 @@ public class ConfusionCheckFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-                                   AnalyzedTokenReadings[] patternTokens) {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
 
     Pattern desiredGenderNumberPattern = null;
     String replacement = null;

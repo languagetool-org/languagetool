@@ -53,7 +53,7 @@ public class ArabicAdjectiveToExclamationFilter extends RuleFilter {
 
   @Nullable
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
 
     //  This rule return only the comparative according to given adjective
     String adj = arguments.get("adj"); // extract adjective

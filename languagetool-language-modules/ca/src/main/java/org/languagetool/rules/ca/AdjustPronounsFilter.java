@@ -141,7 +141,7 @@ public class AdjustPronounsFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
 
     List<String> replacements = new ArrayList<>();
     List<String> actions = Arrays.asList(getRequired("actions", arguments).split(","));

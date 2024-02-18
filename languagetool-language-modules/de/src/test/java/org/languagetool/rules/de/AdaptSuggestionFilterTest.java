@@ -110,7 +110,7 @@ public class AdaptSuggestionFilterTest {
     }
     Map<String,String> map = new HashMap<>();
     map.put("sub", "\\1");
-    RuleMatch newMatch = filter.acceptRuleMatch(match, map, i, Arrays.copyOfRange(sentence.getTokensWithoutWhitespace(), tokenPos, tokenPos+1));
+    RuleMatch newMatch = filter.acceptRuleMatch(match, map, i, Arrays.copyOfRange(sentence.getTokensWithoutWhitespace(), tokenPos, tokenPos+1), null);
     assertNotNull(newMatch);
     assertThat(newMatch.getSuggestedReplacements().toString(), is(newReplacements));
   }

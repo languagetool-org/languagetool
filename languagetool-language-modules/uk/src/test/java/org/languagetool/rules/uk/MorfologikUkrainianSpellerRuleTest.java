@@ -32,14 +32,11 @@ import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
-public class MorfologikUkrainianSpellerRuleTest {
-  private JLanguageTool lt;
-  private MorfologikUkrainianSpellerRule rule;
+public class MorfologikUkrainianSpellerRuleTest extends AbstractRuleTest {
   
   @Before
   public void init() throws IOException {
-    rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), null, Collections.emptyList());
-    lt = new JLanguageTool(new Ukrainian());
+    rule = new MorfologikUkrainianSpellerRule(TestTools.getMessages("uk"), new Ukrainian(), null, Collections.emptyList());
   }
 
   @Test
@@ -92,8 +89,8 @@ public class MorfologikUkrainianSpellerRuleTest {
     assertEquals("прийдешній", matches[0].getSuggestedReplacements().get(0));
 
     // кличний для неістот
-    matches = rule.match(lt.getAnalyzedSentence("душе"));
-    assertEquals(1, matches.length);
+    assertEmptyMatch("душе");
+//    assertHasError("душе");
 
     // incorrect v_kly could be removed by disambig with no tags left
     assertEquals(1, rule.match(lt.getAnalyzedSentence("польовою дружино")).length);
@@ -155,6 +152,8 @@ public class MorfologikUkrainianSpellerRuleTest {
 //    assertEquals(1, Arrays.asList(match).size());
 //    assertEquals(0, match[0].getFromPos());
 //    assertEquals(sent.length(), match[0].getToPos());
+    
+    assertEmptyMatch("Добрий ранок, Україно!");
   }
 
   @Test

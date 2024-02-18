@@ -43,7 +43,7 @@ public abstract class AbstractNumberInWordFilter extends RuleFilter {
 
   @Nullable
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) throws IOException {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     String word = arguments.get("word");
     String wordReplacingZeroO = word.replaceAll("0","o");
     String wordWithoutNumberCharacter = typoPattern.matcher(word).replaceAll("");

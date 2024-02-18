@@ -24,6 +24,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -38,7 +39,7 @@ public class OrdinalSuffixFilter extends RuleFilter {
 
   @Nullable
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) throws IOException {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     String ordinal = NON_DIGITS.matcher(match.getSuggestedReplacements().get(0)).replaceAll("");
     if (PATTERN.matcher(ordinal).matches()) {
       match.setSuggestedReplacement(ordinal + "th");

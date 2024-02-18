@@ -78,7 +78,7 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
               String msg = getMessage(token, otherSpelling);
               RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg);
               String marked = sentence.getText().substring(tmpToken.getStartPos(), tmpToken.getEndPos());
-              String replacement = marked.replaceFirst("(?i)" + token, otherSpelling);
+              String replacement = createReplacement(marked, token, otherSpelling, tmpToken);
               if (StringTools.startsWithUppercase(tmpToken.getToken())) {
                 replacement = StringTools.uppercaseFirstChar(replacement);
               }
@@ -104,6 +104,10 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
   @Override
   public int minToCheckParagraph() {
     return -1;
+  }
+
+  protected String createReplacement(String marked, String token, String otherSpelling, AnalyzedTokenReadings tmpToken) {
+    return  marked.replaceFirst("(?i)" + token, otherSpelling);
   }
 
 }

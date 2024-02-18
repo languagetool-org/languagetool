@@ -891,7 +891,7 @@ public final class StringTools {
     StringBuilder converted = new StringBuilder();
     boolean convertNext = true;
     for (char ch : text.toCharArray()) {
-      if (Character.isSpaceChar(ch)) {
+      if (Character.isSpaceChar(ch) || ch == '-') {
         convertNext = true;
       } else if (convertNext) {
         ch = Character.toTitleCase(ch);

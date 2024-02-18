@@ -27,7 +27,6 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MultitokenSpellerFilter extends RuleFilter {
@@ -35,7 +34,7 @@ public class MultitokenSpellerFilter extends RuleFilter {
    /* Provide suggestions for misspelled multitoken expressions, usually proper nouns*/
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-                                   AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     if (Arrays.stream(patternTokens).allMatch(x -> x.isIgnoredBySpeller())) {
       return null;
     }
@@ -51,31 +50,46 @@ public class MultitokenSpellerFilter extends RuleFilter {
       }
       areTokensAcceptedBySpeller = !isMisspelled(underlinedError, lang) ;
     }
-
     List<String> replacements = lang.getMultitokenSpeller().getSuggestions(underlinedError, areTokensAcceptedBySpeller);
     if (replacements.isEmpty()) {
       return null;
     }
-    int wordsStartPos = 1;
-    // ignore punctuation marks at the sentence start to do the capitalization
-    AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
-    while (wordsStartPos<tokens.length && (StringTools.isPunctuationMark(tokens[wordsStartPos].getToken())
-      || StringTools.isNotWordString((tokens[wordsStartPos].getToken())))) {
-      wordsStartPos++;
-    }
-    if (patternTokenPos==wordsStartPos) {
-      List<String> capitalizedReplacements = new ArrayList<>();
+    // all upper-case suggestions
+    if (underlinedError.length()>4 && StringTools.isAllUppercase(underlinedError)) {
+      List<String> allupercaseReplacements = new ArrayList<>();
       for (String replacement : replacements) {
-        String newReplacement = replacement;
-        if (replacement.equals(replacement.toLowerCase())) {
-          //do not capitalize iPad
-          newReplacement = StringTools.uppercaseFirstChar(replacement);
-        }
-        if (!capitalizedReplacements.contains(newReplacement) && !underlinedError.equals(newReplacement)) {
-          capitalizedReplacements.add(newReplacement);
+        String newReplacement = replacement.toUpperCase();
+        if (!allupercaseReplacements.contains(newReplacement) && !underlinedError.equals(newReplacement)) {
+          allupercaseReplacements.add(newReplacement);
         }
       }
-      replacements = capitalizedReplacements;
+      replacements = allupercaseReplacements;
+    } else {
+      // capitalize suggestion at sentence start
+      int wordsStartPos = 1;
+      // ignore punctuation marks at the sentence start to do the capitalization
+      AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
+      while (wordsStartPos<tokens.length && (StringTools.isPunctuationMark(tokens[wordsStartPos].getToken())
+        || StringTools.isNotWordString((tokens[wordsStartPos].getToken())))) {
+        wordsStartPos++;
+      }
+      if (patternTokenPos==wordsStartPos) {
+        List<String> capitalizedReplacements = new ArrayList<>();
+        for (String replacement : replacements) {
+          String newReplacement = replacement;
+          if (replacement.equals(replacement.toLowerCase())) {
+            //do not capitalize iPad
+            newReplacement = StringTools.uppercaseFirstChar(replacement);
+          }
+          if (!capitalizedReplacements.contains(newReplacement) && !underlinedError.equals(newReplacement)) {
+            capitalizedReplacements.add(newReplacement);
+          }
+        }
+        replacements = capitalizedReplacements;
+      }
+    }
+    if (replacements.isEmpty()) {
+      return null;
     }
     match.setSuggestedReplacements(replacements);
     return match;

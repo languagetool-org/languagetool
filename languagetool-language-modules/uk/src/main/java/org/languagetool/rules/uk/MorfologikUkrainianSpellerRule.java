@@ -73,7 +73,7 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence,
       List<RuleMatch> ruleMatchesSoFar, int idx, AnalyzedTokenReadings[] tokens) throws IOException {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
-    
+
     // disambig may remove v_kly leaving token with no good tags
     if( ruleMatches.isEmpty() && ! hasGoodTag(tokens[idx]) ) {
       ruleMatches.add(new RuleMatch(this, sentence, startPos, startPos+word.length(), startPos, startPos+word.length(), 
@@ -153,9 +153,9 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
       String posTag = analyzedToken.getPOSTag();
       if( posTag != null 
             && ! posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) 
-            && ! posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME) 
+            && ! posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME) ) 
 //            && (! posTag.contains(IPOSTag.bad.getText()) || posTag.contains(":latin"))  
-            && ! (posTag.contains(":inanim") && posTag.contains(":v_kly")) )
+//            && ! (posTag.contains(":inanim") && posTag.contains(":v_kly")) )
         return true;
     }
     return false;

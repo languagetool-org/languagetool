@@ -10266,15 +10266,16 @@ USA
             <pattern>
                 <marker>
                     <token>para</token>
-                    <token inflected='yes'>ajudar</token>
+                    <token postag="V.N.*" postag_regexp="yes" inflected='yes'>ajudar</token>
                     <token>a</token>
-                    <token postag='VMN0000' postag_regexp='no'/>
+                    <token postag='VMN0000'/>
                 </marker>
             </pattern>
-            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:2 postagSelect:V(......)* postagReplace:V[\b1]*"/>
             <message>&thesis_msg;</message>
-            <suggestion>\1 {suggestion}</suggestion>
+            <suggestion>\1 \4</suggestion>
             <example correction="para melhorar">Estas regras servem <marker>para ajudar a melhorar</marker> a gramática.</example>
+            <example correction="Para planejar"><marker>Para ajudá a planejar</marker> o orçamento.</example>
+            <example correction="para alcançar"><marker>para ajudá a alcançar</marker> seus objetivos</example>
         </rule>
 
 
