@@ -113,17 +113,18 @@ public class FrenchTagger extends BaseTagger {
   private List<AnalyzedToken> tagWord(String word, String originalWord) {
     final List<AnalyzedToken> l = new ArrayList<>();
     final String lowerWord = word.toLowerCase(locale);
-    final boolean isLowercase = word.equals(lowerWord);
-    final boolean isMixedCase = StringTools.isMixedCase(word);
+    final boolean isStartUpper = StringTools.isCapitalizedWord(word);
     final boolean isAllUpper = StringTools.isAllUppercase(word);
+    final boolean isHyphenatedTitleCase =
+      originalWord.contains("-") && originalWord.equals(StringTools.convertToTitleCaseIteratingChars(lowerWord));
     List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(word));
     // normal case:
     addTokens(taggerTokens, l);
-    // tag non-lowercase (alluppercase or startuppercase), but not mixedcase
-    // word with lowercase word tags:
-    if (!isLowercase && !isMixedCase) {
+    // tag non-lowercase (alluppercase, startuppercase, hyphenated title case),
+    // but not mixedcase word, with lowercase word tags:
+    if (isAllUpper || isStartUpper || isHyphenatedTitleCase) {
       List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord,
-          getWordTagger().tag(lowerWord));
+        getWordTagger().tag(lowerWord));
       addTokens(lowerTaggerTokens, l);
     }
     // tag all-uppercase proper nouns (ex. FRANCE)

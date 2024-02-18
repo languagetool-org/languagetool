@@ -80,6 +80,11 @@ public class FrenchTaggerTest {
     TestTools.myAssert("soeur","soeur/[sœur]N f s", tokenizer, tagger);
     TestTools.myAssert("oeils-de-boeuf","oeils-de-boeuf/[œils-de-bœuf]N m p", tokenizer, tagger);
     TestTools.myAssert("Ç'avait","Ç'/[cela]R dem m s -- avait/[avoir]V avoir ind impa 3 s", tokenizer, tagger);
+
+    TestTools.myAssert("aéro-club","aéro-club/[aéro-club]N m s", tokenizer, tagger);
+    TestTools.myAssert("Aéro-club","Aéro-club/[aéro-club]N m s", tokenizer, tagger);
+    TestTools.myAssert("Aéro-Club","Aéro-Club/[aéro-club]N m s", tokenizer, tagger);
+    TestTools.myAssert("AÉRO-CLUB","AÉRO-CLUB/[aéro-club]N m s", tokenizer, tagger);
   }
 
 }
