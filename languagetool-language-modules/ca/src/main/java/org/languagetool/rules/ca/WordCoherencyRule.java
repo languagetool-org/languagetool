@@ -21,9 +21,7 @@ package org.languagetool.rules.ca;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Languages;
-import org.languagetool.rules.AbstractWordCoherencyRule;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.WordCoherencyDataLoader;
+import org.languagetool.rules.*;
 import org.languagetool.synthesis.Synthesizer;
 
 import java.io.IOException;
@@ -41,8 +39,9 @@ public class WordCoherencyRule extends AbstractWordCoherencyRule {
 
   public WordCoherencyRule(ResourceBundle messages) throws IOException {
     super(messages);
-    addExamplePair(Example.wrong("<marker>Este</marker> home d'ací parla amb <marker>aquest</marker> altre ací."),
-      Example.fixed("<marker>Este</marker> home d'ací parla amb <marker>este</marker> altre ací."));
+    this.setCategory(Categories.STYLE.getCategory(messages));
+    addExamplePair(Example.wrong("Un <marker>pesebre</marker> ací i un altre <marker>pessebre</marker> allà."),
+      Example.fixed("Un <marker>pesebre</marker> ací i un altre <marker>pesebre</marker> allà."));
   }
 
   @Override
@@ -58,6 +57,11 @@ public class WordCoherencyRule extends AbstractWordCoherencyRule {
   @Override
   public String getId() {
     return "CA_WORD_COHERENCY";
+  }
+
+  @Override
+  public String getShortMessage() {
+    return "Coherència";
   }
 
   @Override

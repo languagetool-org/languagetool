@@ -50,6 +50,10 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
    * Get the message shown to the user if the rule matches.
    */
   protected abstract String getMessage(String word1, String word2);
+
+  protected String getShortMessage() {
+    return null;
+  };
   
   public AbstractWordCoherencyRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
@@ -86,6 +90,7 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
                 ruleMatch.setSuggestedReplacement(replacement);
                 ruleMatches.add(ruleMatch);
               }
+              ruleMatch.setShortMessage(getShortMessage());
               break;
             } else if (getWordMap().containsKey(token)) {
               Set<String> shouldNotAppearSet = getWordMap().get(token);
