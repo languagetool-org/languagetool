@@ -34026,7 +34026,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="2014">7-10-<marker>2013</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="DATE_WEEKDAY" name="Fecha incorrecta">
+        <rulegroup id="ES_DATE_WEEKDAY" name="Fecha incorrecta">
             <rule>
                 <pattern>
                     <!-- "Lunes, 7 de octubre de 2014" -->
@@ -34040,17 +34040,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0" max="3">de|del|,|año</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
-                <filter class="org.languagetool.rules.es.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
+                <filter class="org.languagetool.rules.es.DateCheckFilter" args="year:7 month:5 day:3 weekDay:1"/>
                 <message>Esta fecha no es un {day} sino un <suggestion>{realDay}</suggestion>.</message>
-                <example correction="martes"><marker>Lunes</marker>, 7 de octubre de 2014</example>
-                <example correction="martes"><marker>Lunes</marker> 7 de octubre de 2014</example>
+                <example correction="Martes, 7|Lunes, 6"><marker>Lunes, 7</marker> de octubre de 2014</example>
+                <example correction="Martes 7|Lunes 6"><marker>Lunes 7</marker> de octubre de 2014</example>
                 <example><marker>Martes, 7 de octubre de 2014</marker></example>
-                <example correction="martes"><marker>Lunes</marker>, 7 de octubre del 2014</example>
-                <example correction="martes"><marker>Lunes</marker> 7 de octubre del 2014</example>
+                <example correction="Martes, 7|Lunes, 6"><marker>Lunes, 7</marker> de octubre del 2014</example>
+                <example correction="Martes 7|Lunes 6"><marker>Lunes 7</marker> de octubre del 2014</example>
                 <example><marker>Martes, 7 d'octubre del 2014</marker></example>
                 <example><marker>Washington DC, 7 de octubre del 2014</marker></example>
             </rule>
-            <rule>
+            <rule id="ES_DATE_WEEKDAY_CURRENTYEAR">
                 <antipattern>
                     <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
                     <token regexp="yes" min="0" max="3">de|del|,|año</token>
@@ -34070,10 +34070,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" regexp="yes">de|del</token>
                     <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
                 </pattern>
-                <filter class="org.languagetool.rules.es.DateCheckFilter" args="month:\5 day:\3 weekDay:\1"/>
+                <filter class="org.languagetool.rules.es.DateCheckFilter" args="month:5 day:3 weekDay:1"/>
                 <message>Si se refiere al año actual ({currentYear}), esta fecha no es un {day} sino un <suggestion>{realDay}</suggestion>.</message>
-                <example correction="martes"><marker>Lunes</marker> 7 de octubre</example>
-                <example correction="martes"><marker>Lunes</marker>, 7 de octubre</example>
+                <example correction="Martes 7|Lunes 6"><marker>Lunes 7</marker> de octubre</example>
+                <example correction="Martes, 7|Lunes, 6"><marker>Lunes, 7</marker> de octubre</example>
                 <example><marker>Martes, 7 de octubre</marker></example>
                 <example><marker>Washington DC, 7 de octubre</marker></example>
                 <example>Lunes 27 de noviembre de 1922</example>
@@ -34094,10 +34094,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
-                <filter class="org.languagetool.rules.es.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
+                <filter class="org.languagetool.rules.es.DateCheckFilter" args="year:5 month:4 day:3 weekDay:1"/>
                 <message>Esta fecha no es un <match no="1" case_conversion="alllower"/> sino un <suggestion>{realDay}</suggestion>.</message>
-                <example correction="martes"><marker>Lunes</marker>, 7 oct 2014</example>
-                <example correction="martes"><marker>Lu</marker> 7 oct 2014</example>
+                <example correction="Martes, 7|Lunes, 6"><marker>Lunes, 7</marker> oct 2014</example>
+                <example correction="Martes 7|Lu 6"><marker>Lu 7</marker> oct 2014</example>
                 <example><marker>Martes, 7 oct 2014</marker></example>
             </rule>
             <!-- "Lunes, 7 /7/2014" -->
@@ -34113,10 +34113,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[/\-]</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
-                <filter class="org.languagetool.rules.es.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
+                <filter class="org.languagetool.rules.es.DateCheckFilter" args="year:7 month:5 day:3 weekDay:1"/>
                 <message>Esta fecha no es un <match no="1" case_conversion="alllower"/> sino un <suggestion>{realDay}</suggestion>.</message>
-                <example correction="martes"><marker>Lunes</marker>, 7-10-2014</example>
-                <example correction="martes"><marker>Lu</marker> 7/10/2014</example>
+                <example correction="Martes, 7|Lunes, 6"><marker>Lunes, 7</marker>-10-2014</example>
+                <example correction="Martes 7|Lu 6"><marker>Lu 7</marker>/10/2014</example>
                 <example><marker>Martes, 7-10-2014</marker></example>
             </rule>
         </rulegroup>
@@ -35288,6 +35288,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>Jane Fonda</suggestion> (actriz estadounidense)?</message>
                 <url>https://es.wikipedia.org/wiki/Jane_Fonda</url>
                 <example correction="Jane Fonda"><marker>Jean Fonda</marker>.</example>
+            </rule>
+            <rule id="BARBRA_STREISAND" name="Barbra Streisand">
+                <pattern>
+                    <token regexp="yes">b.rb.?r.?<exception case_sensitive="yes">Barbra</exception></token>
+                    <token>Streisand</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>Barbra Streisand</suggestion> (cantante y actriz estadounidense)?</message>
+                <url>https://es.wikipedia.org/wiki/Barbra_Streisand</url>
+                <example correction="Barbra Streisand"><marker>Barbara Streisand</marker>.</example>
             </rule>
         </rulegroup>
     </category>

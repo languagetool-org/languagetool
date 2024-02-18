@@ -19,6 +19,7 @@
 package org.languagetool.rules.es;
 
 import org.languagetool.rules.AbstractDateCheckFilter;
+import org.languagetool.rules.AbstractDateCheckWithSuggestionsFilter;
 
 import java.util.Calendar;
 
@@ -26,7 +27,7 @@ import java.util.Calendar;
  * Spanish localization of {@link AbstractDateCheckFilter}.
  * @since 5.0
  */
-public class DateCheckFilter extends AbstractDateCheckFilter {
+public class DateCheckFilter extends AbstractDateCheckWithSuggestionsFilter {
 
 
   private final DateFilterHelper dateFilterHelper = new DateFilterHelper();
