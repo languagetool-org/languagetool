@@ -26,6 +26,7 @@ import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -58,10 +59,15 @@ public class FrenchTagger extends BaseTagger {
     super("/fr/french.dict", Locale.FRENCH, false);
   }
 
+  private List<String> ambigousTokens = Arrays.asList("-Le", "-Les", "-La", "-Elle", "-Elles", "-On", "-Tu", "-Vous",
+    "-Il", "-Ils", "-Ce");
+
   @Override
   public boolean overwriteWithManualTagger() {
     return false;
   }
+
+
 
   @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
@@ -115,8 +121,7 @@ public class FrenchTagger extends BaseTagger {
     final String lowerWord = word.toLowerCase(locale);
     final boolean isStartUpper = StringTools.isCapitalizedWord(word);
     final boolean isAllUpper = StringTools.isAllUppercase(word);
-    final boolean isHyphenatedTitleCase = !originalWord.equals("-Le") && !originalWord.equals("-Les") &&
-      !originalWord.equals("-Ce") &&
+    final boolean isHyphenatedTitleCase = !ambigousTokens.contains(originalWord) &&
       originalWord.contains("-") && originalWord.equals(StringTools.convertToTitleCaseIteratingChars(lowerWord));
     List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(word));
     // normal case:
