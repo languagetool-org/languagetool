@@ -32,8 +32,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static org.languagetool.JLanguageTool.getDataBroker;
-
 public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 
   private final String dictFilename;
