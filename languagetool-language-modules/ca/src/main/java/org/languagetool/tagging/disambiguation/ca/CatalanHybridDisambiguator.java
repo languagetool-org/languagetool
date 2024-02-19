@@ -62,7 +62,7 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
     chunker.setRemovePreviousTags(true);
     Language english = null;
     try {
-      Languages.getLanguageForShortCode("en-US");
+      english = Languages.getLanguageForShortCode("en-US");
     } catch (IllegalArgumentException e) {
       //throw new RuntimeException(e);
     }
