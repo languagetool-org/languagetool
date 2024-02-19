@@ -54,6 +54,6 @@ public class DateCheckFilter extends AbstractDateCheckWithSuggestionsFilter {
 
   @Override
   protected String getErrorMessageWrongYear() {
-    return "Esta data está incorreta. Você está se referindo ao ano {currentYear}?";
+    return "Esta data está incorreta. Você está se referindo ao ano \"{currentYear}\"?";
   }
 }

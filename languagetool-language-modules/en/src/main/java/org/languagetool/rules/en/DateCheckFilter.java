@@ -39,7 +39,7 @@ public class DateCheckFilter extends AbstractDateCheckWithSuggestionsFilter {
 
   @Override
   protected String getErrorMessageWrongYear() {
-    return "This date is wrong. Did you mean {currentYear}?";
+    return "This date is wrong. Did you mean \"{currentYear}\"?";
   }
 
   @SuppressWarnings("ControlFlowStatementWithoutBraces")

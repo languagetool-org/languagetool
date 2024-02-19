@@ -84,13 +84,32 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     try {
       int dayOfWeekPos = getSkipCorrectedReference(tokenPositions, Integer.parseInt(getRequired("weekDay", args)));
-      int dayPos = getSkipCorrectedReference(tokenPositions, Integer.parseInt(getRequired("day", args)));
-      int monthPos = getSkipCorrectedReference(tokenPositions, Integer.parseInt(getRequired("month", args)));
-      int yearPos = getSkipCorrectedReference(tokenPositions, Integer.parseInt(getOptional("year", args, "-1")));
       String dayOfWeekStr = patternTokens[dayOfWeekPos].getToken().replace("\u00AD", "");  // replace soft hyphen
-      String dayStr = patternTokens[dayPos].getToken();
-      String monthStr = patternTokens[monthPos].getToken();
-      String yearStr = (yearPos > -1 ? patternTokens[yearPos].getToken() : null);
+      int dayPos;
+      int monthPos;
+      int yearPos;
+      String dayStr;
+      String monthStr;
+      String yearStr;
+      boolean isFullDateToken = false;
+      int fullDatePos = getSkipCorrectedReference(tokenPositions, Integer.parseInt(getOptional("date", args, "-1"))); // format yyyy-mm-dd
+      if (fullDatePos > -1 ) {
+        String [] parts = patternTokens[fullDatePos].getToken().split("-");
+        isFullDateToken = true;
+        dayPos = fullDatePos;
+        monthPos = fullDatePos;
+        yearPos = fullDatePos;
+        dayStr = parts[2];
+        monthStr = parts[1];
+        yearStr = parts[0];
+      } else {
+        dayPos = getSkipCorrectedReference(tokenPositions, Integer.parseInt(getRequired("day", args)));
+        monthPos = getSkipCorrectedReference(tokenPositions, Integer.parseInt(getRequired("month", args)));
+        yearPos = getSkipCorrectedReference(tokenPositions, Integer.parseInt(getOptional("year", args, "-1")));
+        dayStr = patternTokens[dayPos].getToken();
+        monthStr = patternTokens[monthPos].getToken();
+        yearStr = (yearPos > -1 ? patternTokens[yearPos].getToken() : null);
+      }
       int dayOfWeekFromString = getDayOfWeek(dayOfWeekStr);
       int day = getDayOfMonthFromStr(dayStr);
       int month = getMonthFromStr(monthStr);
@@ -114,7 +133,11 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
             patternTokens[yearPos].getStartPos(), patternTokens[yearPos].getEndPos(), message, match.getShortMessage());
           ruleMatch.setType(match.getType());
           ruleMatch.setUrl(Tools.getUrl("https://www.timeanddate.com/calendar/?year=" + dateFromDateChangeYear.get(Calendar.YEAR)));
-          ruleMatch.setSuggestedReplacement(String.valueOf(currentYear));
+          if (isFullDateToken) {
+            ruleMatch.setSuggestedReplacement(String.valueOf(currentYear)+"-"+monthStr+"-"+dayStr);
+          } else {
+            ruleMatch.setSuggestedReplacement(String.valueOf(currentYear));
+          }
           return ruleMatch;
         }
         // suggest changing day of week or day of month
@@ -164,7 +187,11 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
               suggestion.append(" ");
             }
             if (j == dayPos) {
-              suggestion.append(getDayStrLikeOriginal(correctedDayofMonth, dayStr));
+              if (isFullDateToken) {
+                suggestion.append(yearStr+"-"+monthStr+"-"+correctedDayofMonth);
+              } else {
+                suggestion.append(getDayStrLikeOriginal(correctedDayofMonth, dayStr));
+              }
             } else {
               suggestion.append(patternTokens[j].getToken());
             }
