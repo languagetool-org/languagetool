@@ -64,12 +64,11 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
     try {
       english = Languages.getLanguageForShortCode("en-US");
     } catch (IllegalArgumentException e) {
-      //throw new RuntimeException(e);
+      // English is not available; ignoring English words will not be available
     }
     if (english != null) {
       englishSpellerRule = english.getDefaultSpellingRule();
     }
-
   }
 
   @Override
