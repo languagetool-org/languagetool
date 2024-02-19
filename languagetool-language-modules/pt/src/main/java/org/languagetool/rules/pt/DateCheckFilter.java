@@ -51,4 +51,9 @@ public class DateCheckFilter extends AbstractDateCheckWithSuggestionsFilter {
   protected int getMonth(String monthStr) {
     return new DateFilterHelper().getMonth(monthStr);
   }
+
+  @Override
+  protected String getErrorMessageWrongYear() {
+    return "Esta data está incorreta. Você está se referindo ao ano {currentYear}?";
+  }
 }

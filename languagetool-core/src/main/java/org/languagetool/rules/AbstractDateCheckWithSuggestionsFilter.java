@@ -74,6 +74,8 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
 
   protected abstract Calendar getCalendar();
 
+  protected abstract String getErrorMessageWrongYear();
+
   /**
    * @param args           a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
    */
@@ -101,7 +103,22 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
       if (dayOfWeekFromString != dayOfWeekFromDate) {
         Calendar calFromDateString = Calendar.getInstance();
         calFromDateString.set(Calendar.DAY_OF_WEEK, dayOfWeekFromString);
-        String message = match.getMessage()
+        String message;
+        // suggest changing the year (to current year)
+        int currentYear = getYearFromStr(null);
+        Calendar dateFromDateChangeYear = getDate(day, month, currentYear);
+        int dayOfWeekFromDateChangeYear = getdayOfWeekFromDate(dateFromDateChangeYear);
+        if (dayOfWeekFromString == dayOfWeekFromDateChangeYear) {
+          message = getErrorMessageWrongYear().replace("{currentYear}", String.valueOf(currentYear));
+          RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(),
+            patternTokens[yearPos].getStartPos(), patternTokens[yearPos].getEndPos(), message, match.getShortMessage());
+          ruleMatch.setType(match.getType());
+          ruleMatch.setUrl(Tools.getUrl("https://www.timeanddate.com/calendar/?year=" + dateFromDateChangeYear.get(Calendar.YEAR)));
+          ruleMatch.setSuggestedReplacement(String.valueOf(currentYear));
+          return ruleMatch;
+        }
+        // suggestion changing day of week or day of month
+        message = match.getMessage()
           .replace("{realDay}", getDayOfWeek(dateFromDate))
           .replace("{day}", getDayOfWeek(calFromDateString))
           .replace("{currentYear}", Integer.toString(Calendar.getInstance().get(Calendar.YEAR)));

@@ -50,5 +50,10 @@ public class DateCheckFilter extends AbstractDateCheckWithSuggestionsFilter {
   protected String getDayOfWeek(Calendar date) {
     return dateFilterHelper.getDayOfWeek(date);
   }
+
+  @Override
+  protected String getErrorMessageWrongYear() {
+    return "Este fecha no es correcta. ¿Se refería al año {currentYear}?";
+  }
   
 }
