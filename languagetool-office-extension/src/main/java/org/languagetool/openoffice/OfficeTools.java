@@ -92,6 +92,7 @@ public class OfficeTools {
     
   public static final String EXTENSION_MAINTAINER = "Fred Kruse";
   public static final String LT_SERVICE_NAME = "org.languagetool.openoffice.Main";
+  public static final String LT_SPELL_SERVICE_NAME = "org.languagetool.openoffice.LanguageToolSpellChecker";
   public static final int PROOFINFO_UNKNOWN = 0;
   public static final int PROOFINFO_GET_PROOFRESULT = 1;
   public static final int PROOFINFO_MARK_PARAGRAPH = 2;
@@ -564,7 +565,7 @@ public class OfficeTools {
     return cacheDir;
   }
   
-  private static double getMaxHeapSpace() {
+  public static double getMaxHeapSpace() {
     if(MAX_HEAP_SPACE < 0) {
       MAX_HEAP_SPACE = Runtime.getRuntime().maxMemory();
     }

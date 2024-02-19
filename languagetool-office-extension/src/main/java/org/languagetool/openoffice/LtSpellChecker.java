@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import java.util.Map;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.JLanguageTool.ParagraphHandling;
+import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.CacheIO.SpellCache;
 import org.languagetool.openoffice.OfficeTools.OfficeProductInfo;
 import org.languagetool.Language;
@@ -56,12 +58,15 @@ import com.sun.star.uno.XComponentContext;
 public class LtSpellChecker extends WeakBase implements XServiceInfo, 
   XServiceDisplayName, XSpellChecker {
 
+  private static final int MIN_HEAP = 1000;
   private static final int MAX_WRONG = 10000;
+//  private static final String PROB_CHARS = ".*[\\p{Punct}&&[^'\\.-]].*";
+  private static final String PROB_CHARS = ".*[~<>].*";
   
   // Service name required by the OOo API && our own name.
   private static final String[] SERVICE_NAMES = {
           "com.sun.star.linguistic2.SpellChecker",
-          "org.languagetool.openoffice.LanguageToolSpellChecker" };
+          OfficeTools.LT_SPELL_SERVICE_NAME };
   
   private static JLanguageTool lt = null;
   private static Locale lastLocale = null;                //  locale for spell check
@@ -77,8 +82,10 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
     if (xContext == null) {
       try {
         xContext = xContxt;
+        MessageHandler.init(xContext);
         OfficeProductInfo officeInfo = OfficeTools.getOfficeProductInfo(xContext);
-        if (officeInfo == null || officeInfo.osArch.equals("x86")) {
+        if (officeInfo == null || officeInfo.osArch.equals("x86")
+            || !isEnoughHeap() || !runLTSpellChecker(xContext)) {
           noLtSpeller = true;
         } else {
           CacheIO c = new CacheIO(); 
@@ -86,8 +93,20 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
           if (sc.read()) {
             if (sc.getWrongWords() != null && sc.getSuggestions() != null
                 && sc.getWrongWords().size() == sc.getSuggestions().size()) {
-              lastWrongWords.putAll(sc.getWrongWords());
-              lastSuggestions.putAll(sc.getSuggestions());
+              for (String loc : sc.getWrongWords().keySet()) {
+                if (!sc.getWrongWords().get(loc).isEmpty()) {
+                  List<String> savedLastWords = sc.getWrongWords().get(loc);
+                  List<String[]> savedSuggestions = sc.getSuggestions().get(loc);
+                  List<String> lastWords = new ArrayList<>();
+                  List<String[]> suggestions = new ArrayList<>();
+                  for (int i = 0; i < sc.getWrongWords().get(loc).size() && i < MAX_WRONG; i++) {
+                    lastWords.add(savedLastWords.get(i));
+                    suggestions.add(savedSuggestions.get(i));
+                  }
+                  lastWrongWords.put(loc, lastWords);
+                  lastSuggestions.put(loc, suggestions);
+                }
+              }
             }
           }
         }
@@ -114,12 +133,14 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
    * Default method called by LO/OO extensions
    */
   public static boolean __writeRegistryServiceInfo(XRegistryKey regKey) {
-//    MessageHandler.printToLogFile("XRegistryKey (LanguageToolSpellChecker): KeyName: " + regKey.getKeyName());
     return Factory.writeRegistryServiceInfo(LtSpellChecker.class.getName(), LtSpellChecker.getServiceNames(), regKey);
   }
 
   @Override
   public Locale[] getLocales() {
+    if (noLtSpeller) {
+      return new Locale[0];
+    }
     return MultiDocumentsHandler.getLocales();
   }
 
@@ -173,17 +194,21 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
         return false;
       }
 //      MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: check word: " + (word == null ? "null" : word));
-      if (word == null || word.trim().isEmpty() || word.contains("==")) {
-//        MessageHandler.printToLogFile("LtSpellChecker: isValid: Problematic word found: " + (word == null ? "null" : word));
-        return false;
+      if (word == null || word.trim().isEmpty()) {
+        return true;
       }
       String localeStr = OfficeTools.localeToString(locale);
       List<String> wrongWords = lastWrongWords.get(localeStr);
       if (wrongWords != null && wrongWords.contains(word)) {
         return false;
       }
+      if (word.matches(PROB_CHARS)) {
+        MessageHandler.printToLogFile("LtSpellChecker: isValid: Problematic word found: " + (word == null ? "null" : word));
+        return true;
+      }
       initSpellChecker(locale);
       if (spellingCheckRule != null) {
+//        MessageHandler.printToLogFile("LTSpellChecker: isValid: test word: " + word);
         if (!spellingCheckRule.isMisspelled(word)) {
           return true;
         }
@@ -213,7 +238,7 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
     } catch (Throwable e) {
       MessageHandler.showError(e);
     }
-    return false;
+    return true;
   }
 
   /**
@@ -305,6 +330,11 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
             return;
           }
         }
+        if (word.matches(PROB_CHARS)) {
+          MessageHandler.printToLogFile("LtSpellChecker: LTSpellAlternatives: Problematic word found: " + (word == null ? "null" : word));
+          alternatives = new String[0];
+          return;
+        }
         if (mSpellRule != null) {
           alternatives = mSpellRule.getSpellingSuggestions(word).toArray(new String[0]);
         }
@@ -366,6 +396,28 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
     return lastSuggestions;
   }
   
+  public static boolean runLTSpellChecker(XComponentContext xContext) {
+    Configuration confg;
+    try {
+      confg = new Configuration(OfficeTools.getLOConfigDir(xContext), 
+          OfficeTools.CONFIG_FILE, OfficeTools.getOldConfigFile(), null, true);
+      return confg.useLtDictionary();
+    } catch (IOException e) {
+      MessageHandler.printToLogFile("Can't read configuration: LT spell checker not used!");
+    }
+    return false;
+  }
+
+  public static boolean isEnoughHeap() {
+    int maxHeapSpace = (int) (OfficeTools.getMaxHeapSpace()/1048576);
+    boolean ret = maxHeapSpace >= MIN_HEAP;
+    if (!ret) {
+      MessageHandler.printToLogFile("Heap Space (" + maxHeapSpace + ") is too small: LT spell checker not used!\n"
+          + "Set heap space greater than " + MIN_HEAP);
+    }
+    return ret;
+  }
+
   public static void resetSpellCache() {
     lastWrongWords.clear();
     lastSuggestions.clear();
