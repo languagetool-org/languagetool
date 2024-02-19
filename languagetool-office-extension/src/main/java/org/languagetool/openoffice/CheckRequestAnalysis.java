@@ -814,33 +814,35 @@ class CheckRequestAnalysis {
    * Handle caches for changed paragraph
    */
   private void handleChangedPara(int nPara, String chPara, Locale locale, int[] footnotePos, List<Integer> deletedChars) {
-    if (debugMode > 0) {
-      MessageHandler.printToLogFile("CheckRequestAnalysis: handleChangedPara: flat praragraph changed: nPara: " + nPara + "; docID: " + docID
-              + "; locale: isMultilingual: " + docCache.isMultilingualFlatParagraph(nPara) 
-              + "; old: " + OfficeTools.localeToString(docCache.getFlatParagraphLocale(nPara))
-              + "; new: " + OfficeTools.localeToString(locale) + OfficeTools.LOG_LINE_BREAK
-              + "old: " + docCache.getFlatParagraph(nPara) + OfficeTools.LOG_LINE_BREAK 
-              + "new: " + chPara + OfficeTools.LOG_LINE_BREAK);
-    }
-//    boolean checkOnlyPara = (docCache.getFlatParagraph(nPara).isEmpty() ? false : true);
-    docCache.setFlatParagraph(nPara, chPara, locale);
-    docCache.setFlatParagraphFootnotes(nPara, footnotePos);
-    docCache.setFlatParagraphDeletedCharacters(nPara, deletedChars);
-//    mDocHandler.handleLtDictionary(chPara, locale);
-    if (useQueue) {
-      runningParas.add(nPara);
-      changedParas.put(nPara, chPara);
-      singleDocument.removeResultCache(nPara, true);
-      for (int i = 1; i < minToCheckPara.size(); i++) {
-        singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, numLastFlPara.get(numLastFlPara.size() - 1) < 0 ? false : true);
+    if (!docCache.isAutomaticGenerated(nPara, false)) {
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("CheckRequestAnalysis: handleChangedPara: flat praragraph changed: nPara: " + nPara + "; docID: " + docID
+                + "; locale: isMultilingual: " + docCache.isMultilingualFlatParagraph(nPara) 
+                + "; old: " + OfficeTools.localeToString(docCache.getFlatParagraphLocale(nPara))
+                + "; new: " + OfficeTools.localeToString(locale) + OfficeTools.LOG_LINE_BREAK
+                + "old: " + docCache.getFlatParagraph(nPara) + OfficeTools.LOG_LINE_BREAK 
+                + "new: " + chPara + OfficeTools.LOG_LINE_BREAK);
       }
-    } else {
-      singleDocument.removeResultCache(nPara, true);
+  //    boolean checkOnlyPara = (docCache.getFlatParagraph(nPara).isEmpty() ? false : true);
+      docCache.setFlatParagraph(nPara, chPara, locale);
+      docCache.setFlatParagraphFootnotes(nPara, footnotePos);
+      docCache.setFlatParagraphDeletedCharacters(nPara, deletedChars);
+  //    mDocHandler.handleLtDictionary(chPara, locale);
+      if (useQueue) {
+        runningParas.add(nPara);
+        changedParas.put(nPara, chPara);
+        singleDocument.removeResultCache(nPara, true);
+        for (int i = 1; i < minToCheckPara.size(); i++) {
+          singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, numLastFlPara.get(numLastFlPara.size() - 1) < 0 ? false : true);
+        }
+      } else {
+        singleDocument.removeResultCache(nPara, true);
+      }
+      textIsChanged = true;
+      changeFrom = nPara - numParasToChange;
+      changeTo = nPara + numParasToChange + 1;
+      singleDocument.removeIgnoredMatch(nPara, false);
     }
-    textIsChanged = true;
-    changeFrom = nPara - numParasToChange;
-    changeTo = nPara + numParasToChange + 1;
-    singleDocument.removeIgnoredMatch(nPara, false);
   }
   
   

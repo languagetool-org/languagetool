@@ -1345,11 +1345,11 @@ public class DocumentCache implements Serializable {
   /**
    * get deleted characters (report changes) of Flat Paragraph by Index
    */
-  public boolean isAutomaticGenerated(int n) {
+  public boolean isAutomaticGenerated(int n, boolean alsoIgnore) {
     rwLock.readLock().lock();
     try {
       if (n >= 0 && n < toTextMapping.size()) {
-        if (locales.get(n).Language.equals(OfficeTools.IGNORE_LANGUAGE)) {
+        if (alsoIgnore && locales.get(n).Language.equals(OfficeTools.IGNORE_LANGUAGE)) {
           return true;
         }
         TextParagraph tPara = toTextMapping.get(n);

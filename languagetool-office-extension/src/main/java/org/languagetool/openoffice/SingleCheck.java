@@ -187,7 +187,7 @@ public class SingleCheck {
       return;
     }
     DocumentCache docCache = new DocumentCache(this.docCache);
-    if (debugMode > 0 && lt == null && !docCache.isAutomaticGenerated(nFPara)) {
+    if (debugMode > 0 && lt == null && !docCache.isAutomaticGenerated(nFPara, true)) {
       MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: return: lt is null");
     }
     try {
@@ -222,7 +222,7 @@ public class SingleCheck {
       //  NOTE: lt == null if language is not supported by LT
       //        but empty proof reading errors have added to cache to satisfy text level queue
       if (lt != null && mDocHandler.isSortedRuleForIndex(cacheNum)) {
-        if (!docCache.isAutomaticGenerated(nFPara)) {
+        if (!docCache.isAutomaticGenerated(nFPara, true)) {
           int startText = docCache.getStartOfParaCheck(tPara, parasToCheck, checkOnlyParagraph, useQueue, true);
           int endText = docCache.getEndOfParaCheck(tPara, parasToCheck, checkOnlyParagraph, useQueue, true);
           paragraphMatches = lt.check(new TextParagraph(tPara.type, startText), new TextParagraph(tPara.type, endText), textToCheck,
@@ -568,7 +568,7 @@ public class SingleCheck {
         }
         List<Integer> nextSentencePositions = getNextSentencePositions(paraText, mLt);
         List<Integer> deletedChars = isTextParagraph ? docCache.getFlatParagraphDeletedCharacters(nFPara): null;
-        if (mLt == null || (nFPara >= 0 && docCache != null && docCache.isAutomaticGenerated(nFPara))) {
+        if (mLt == null || (nFPara >= 0 && docCache != null && docCache.isAutomaticGenerated(nFPara, true))) {
           paragraphMatches = null;
         } else {
           paraText = removeFootnotes(paraText, footnotePos, deletedChars);

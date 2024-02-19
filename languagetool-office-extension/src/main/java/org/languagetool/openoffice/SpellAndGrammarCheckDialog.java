@@ -470,7 +470,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
    */
   private CheckError getNextErrorInParagraph (int x, int nFPara, SingleDocument document, 
       DocumentCursorTools docTools, boolean checkFrames) throws Throwable {
-    if (docCache.isAutomaticGenerated(nFPara)) {
+    if (docCache.isAutomaticGenerated(nFPara, true)) {
       return null;
     }
     String text = docCache.getFlatParagraph(nFPara);
@@ -510,7 +510,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     while (nWait < TEST_LOOPS) {
       document = documents.getCurrentDocument();
       for (int cacheNum = 0; cacheNum < documents.getNumMinToCheckParas().size(); cacheNum++) {
-        if (!docCache.isAutomaticGenerated(nFPara) && (cacheNum == 0 || (documents.isSortedRuleForIndex(cacheNum) 
+        if (!docCache.isAutomaticGenerated(nFPara, true) && (cacheNum == 0 || (documents.isSortedRuleForIndex(cacheNum) 
                                 && !document.getDocumentCache().isSingleParagraph(nFPara)))) {
           SingleProofreadingError[] pErrors = document.getParagraphsCache().get(cacheNum).getSafeMatches(nFPara);
           //  Note: unsafe matches are needed to prevent the thread to get into a read lock
@@ -1713,7 +1713,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       int nSingle = 0;
       int nAuto = 0;
       for (int i = 0; i < docCache.size(); i++) {
-        if (docCache.isAutomaticGenerated(i)) {
+        if (docCache.isAutomaticGenerated(i, true)) {
           nAuto++;
         } else if (docCache.isSingleParagraph(i)) {
           nSingle++;
@@ -1733,6 +1733,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
       int size;
       if (docType == DocumentType.WRITER) {
         size = (fullSize == 0 || numCache == 0) ? 0 : (pSize * 100) / (fullSize * numCache);
+        if (size < 0) {
+          size = 0;
+        } else if (size > 100) {
+          size = 100;
+        }
       } else {
         size = 100;
       }
@@ -1876,7 +1881,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       List<Rule> allRules = lt.getAllRules();
       for (int nFPara = 0; nFPara < docCache.size(); nFPara++) {
         for (int cacheNum = 0; cacheNum < documents.getNumMinToCheckParas().size(); cacheNum++) {
-          if (!docCache.isAutomaticGenerated(nFPara) && (cacheNum == 0 || (documents.isSortedRuleForIndex(cacheNum) 
+          if (!docCache.isAutomaticGenerated(nFPara, true) && (cacheNum == 0 || (documents.isSortedRuleForIndex(cacheNum) 
                                   && !currentDocument.getDocumentCache().isSingleParagraph(nFPara)))) {
             SingleProofreadingError[] pErrors = currentDocument.getParagraphsCache().get(cacheNum).getSafeMatches(nFPara);
             if (pErrors != null) {

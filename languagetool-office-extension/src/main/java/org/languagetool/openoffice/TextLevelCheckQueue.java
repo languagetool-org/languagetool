@@ -252,7 +252,7 @@ public class TextLevelCheckQueue {
     if (document != null) {
       docCache = document.getDocumentCache();
       if (docCache != null && nStart.number < docCache.textSize(nStart)) {
-        if (docCache.isAutomaticGenerated(docCache.getFlatParagraphNumber(nStart))) {
+        if (docCache.isAutomaticGenerated(docCache.getFlatParagraphNumber(nStart), true)) {
           return null;
         }
         Locale locale = docCache.getTextParagraphLocale(nStart);

@@ -338,6 +338,9 @@ public class SingleDocument {
             proofInfo, numParasToCheck, fixedLanguage, docLanguage, this, paragraphsCache, changedParas, runningParas);
         paraNum = requestAnalysis.getNumberOfParagraph(nPara, paraText, locale, paRes.nStartOfSentencePosition, footnotePositions);
       }
+      if (docCache.isAutomaticGenerated(paraNum, true)) {
+        return paRes;
+      }
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime;
         if (runTime > OfficeTools.TIME_TOLERANCE) {
