@@ -5108,6 +5108,20 @@ USA
 		</rulegroup>
 	</category>
 	<category id="BE_NL" name="Verschil België en Nederland" type="style" tone_tags="clarity">
+		<rulegroup id="DOORHEEN_DE" name="Doorheen de jaren(Door de jaren heen)..." default="temp_off">
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>doorheen</token>
+						<token regexp="yes">de|het|een</token>
+						<token regexp="yes">[a-z].*</token>
+					</marker>
+				</pattern>
+				<message>'Doorheen de...' is geen Standaardnederlands. Wellicht past hier beter: <suggestion>Door \3 \4 heen</suggestion>.</message>
+				<example correction="Door de jaren heen"><marker>Doorheen de jaren</marker> ben ik zelfverzekerder geworden.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="ZO_N_MEERVOUD" name="Zo'n vingers/zulke vingers">
 			<rule>
 				<antipattern><token>zo'n</token><token postag="BNW:STF"/><token postag_regexp="yes" postag="ZNW:EKV.*"/></antipattern>
