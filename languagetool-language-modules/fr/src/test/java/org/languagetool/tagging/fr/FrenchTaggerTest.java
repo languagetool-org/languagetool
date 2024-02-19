@@ -85,6 +85,11 @@ public class FrenchTaggerTest {
     TestTools.myAssert("Aéro-club","Aéro-club/[aéro-club]N m s", tokenizer, tagger);
     TestTools.myAssert("Aéro-Club","Aéro-Club/[aéro-club]N m s", tokenizer, tagger);
     TestTools.myAssert("AÉRO-CLUB","AÉRO-CLUB/[aéro-club]N m s", tokenizer, tagger);
+
+    TestTools.myAssert("ex-Le Pen","ex/[ex]A|ex/[ex]N e sp -- Le/[le]D m s|Le/[le]R pers obj 3 m s -- Pen/[null]null", tokenizer, tagger);
+    TestTools.myAssert("Saint-Côme-Le Mesnil","Saint-Côme/[Saint-Côme]Z e sp -- Le/[le]D m s|Le/[le]R pers obj 3 m s -- Mesnil/[null]null", tokenizer, tagger);
+    TestTools.myAssert("Dieppe-Le Tréport","Dieppe/[Dieppe]Z e sp|Dieppe/[Dieppe]Z e sp -- Le/[le]D m s|Le/[le]R pers obj 3 m s -- Tréport/[null]null", tokenizer, tagger);
+
   }
 
 }
