@@ -117,7 +117,7 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
           ruleMatch.setSuggestedReplacement(String.valueOf(currentYear));
           return ruleMatch;
         }
-        // suggestion changing day of week or day of month
+        // suggest changing day of week or day of month
         message = match.getMessage()
           .replace("{realDay}", getDayOfWeek(dateFromDate))
           .replace("{day}", getDayOfWeek(calFromDateString))
@@ -134,7 +134,7 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
         RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), patternTokens[startIndex].getStartPos(), patternTokens[endIndex].getEndPos(), message, match.getShortMessage());
         ruleMatch.setType(match.getType());
         ruleMatch.setUrl(Tools.getUrl("https://www.timeanddate.com/calendar/?year=" + dateFromDate.get(Calendar.YEAR)));
-        // suggestion changing day of week
+        // suggest changing day of week
         StringBuilder suggestion = new StringBuilder();
         boolean isFirst = true;
         for (int j = startIndex; j <= endIndex; j++) {
@@ -152,7 +152,7 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
         if (!suggestion.toString().isEmpty()) {
           ruleMatch.setSuggestedReplacement(suggestion.toString());
         }
-        // suggestion changing day of month
+        // suggest changing day of month
         String correctedDayofMonth = findNewDayOfMonth(day, month, year, dayOfWeekFromString);
         if (!correctedDayofMonth.isEmpty()) {
           suggestion = new StringBuilder();
@@ -164,7 +164,7 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
               suggestion.append(" ");
             }
             if (j == dayPos) {
-              suggestion.append(correctedDayofMonth);
+              suggestion.append(getDayStrLikeOriginal(correctedDayofMonth, dayStr));
             } else {
               suggestion.append(patternTokens[j].getToken());
             }
@@ -270,6 +270,10 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
       month = getMonth(StringTools.trimSpecialCharacters(monthStr));
     }
     return month - 1;
+  }
+
+  protected String getDayStrLikeOriginal(String day, String original) {
+    return day;
   }
 
 }
