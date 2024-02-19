@@ -482,6 +482,10 @@ public class JLanguageToolTest {
     assertEquals(1, matches.size());
     matches = lt.check("I didn't know gasdfghadsfha.");
     assertEquals(1, matches.size());
+    matches = lt.check("Didn't know gasdfghadsfha.");
+    assertEquals(1, matches.size());
+    matches = lt.check("This is, it seems, a good gasdfghadsfha.");
+    assertEquals(1, matches.size());
   }
 
 }

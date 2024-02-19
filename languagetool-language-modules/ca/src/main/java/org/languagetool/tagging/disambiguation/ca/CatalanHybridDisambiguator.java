@@ -78,6 +78,9 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
       checkCanceled), checkCanceled), checkCanceled), checkCanceled);
   }
 
+  /*
+   * Ignore English words (at least two consecutive English words)
+   */
   private AnalyzedSentence ignoreEnglishWords(AnalyzedSentence input,
                                               @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) {
     if (englishSpellerRule == null) {
@@ -87,8 +90,8 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
     AnalyzedTokenReadings[] output = anTokens;
     boolean prevIsEnglish = false;
     boolean isEnglish;
-    Integer skippedTokens = 0;
-    for (int i = 0; i < anTokens.length - 1; i++) {
+    Integer skippedTokens = 1;
+    for (int i = 1; i < anTokens.length - 1; i++) {
       String word = output[i].getToken();
       if (word.length() < 1 || StringTools.isWhitespace(word) || StringTools.isNotWordString(word)) {
         skippedTokens++;
@@ -104,7 +107,7 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
-      if (isEnglish && prevIsEnglish) {
+      if (isEnglish && prevIsEnglish && i - skippedTokens > 0) {
         output[i].ignoreSpelling();
         output[i - skippedTokens].ignoreSpelling();
       }
