@@ -115,7 +115,7 @@ public class FrenchTagger extends BaseTagger {
     final String lowerWord = word.toLowerCase(locale);
     final boolean isStartUpper = StringTools.isCapitalizedWord(word);
     final boolean isAllUpper = StringTools.isAllUppercase(word);
-    final boolean isHyphenatedTitleCase = !originalWord.equals("-Le") &&
+    final boolean isHyphenatedTitleCase = !originalWord.equals("-Le") && !originalWord.equals("-Les") &&
       originalWord.contains("-") && originalWord.equals(StringTools.convertToTitleCaseIteratingChars(lowerWord));
     List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(word));
     // normal case:
