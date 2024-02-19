@@ -19,6 +19,7 @@
 package org.languagetool.rules.en;
 
 import org.languagetool.rules.AbstractDateCheckFilter;
+import org.languagetool.rules.AbstractDateCheckWithSuggestionsFilter;
 
 import java.util.Calendar;
 
@@ -26,13 +27,18 @@ import java.util.Calendar;
  * English localization of {@link AbstractDateCheckFilter}.
  * @since 2.7
  */
-public class DateCheckFilter extends AbstractDateCheckFilter {
+public class DateCheckFilter extends AbstractDateCheckWithSuggestionsFilter {
 
   private final DateFilterHelper dateFilterHelper = new DateFilterHelper();
 
   @Override
   protected Calendar getCalendar() {
     return dateFilterHelper.getCalendar();
+  }
+
+  @Override
+  protected String getErrorMessageWrongYear() {
+    return "This date is wrong. Did you mean {currentYear}?";
   }
 
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
