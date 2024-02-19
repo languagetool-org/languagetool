@@ -1991,6 +1991,35 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
 
+        <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ADJECTIVE_FORM">
+            <rule>
+                <pattern>
+                    <token skip="3">für</token>
+                    <token postag="SUB:AKK.*" postag_regexp="yes"/>
+                    <token inflected="yes">sein</token>
+                    <token>das</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="ADJ:NOM:SIN:NEU.*"/>
+                    </marker>
+                    <token postag="SUB:NOM:SIN:NEU"/>
+                </pattern>
+                <example correction="">Für die italienische Mafia ist das <marker>heiliges</marker> Gebiet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>für</token>
+                    <token skip="3" postag="PRO:PER:AKK.*" postag_regexp="yes"/>
+                    <token inflected="yes">sein</token>
+                    <token>das</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="ADJ:NOM:SIN:NEU.*"/>
+                    </marker>
+                    <token postag="SUB:NOM:SIN:NEU"/>
+                </pattern>
+                <example correction="">Für uns alle hier ist das <marker>heiliges</marker> Gebiet.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup name="" id="AI_DE_GGEC_MISSING_PUNCTUATION_PERIOD">
             <rule>
                 <pattern>
