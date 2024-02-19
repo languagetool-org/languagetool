@@ -1203,7 +1203,7 @@ and Russian.
   * New setting `fasttextModel` (see https://fasttext.cc/docs/en/language-identification.html)
     and `fasttextBinary` (see https://fasttext.cc/docs/en/support.html). With these
     options set, the automatic language detection is much better than the built-in one.
-  * Experimental new `mode` parameter with `all`, `textLevelOnly`, or `allButTextLevelOnly` as value:
+  * Experimental new `mode` parameter with `all`, `textLevelOnly`, or `paragraphLevelOnly` as value:
     Will check only text-level rules or all other rules. As there are fewer text-level rules,
     this is usually much faster and the access limit for characters per minute that can be
     checked is more generous for this mode.

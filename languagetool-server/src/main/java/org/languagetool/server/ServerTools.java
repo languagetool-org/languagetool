@@ -166,7 +166,7 @@ final class ServerTools {
       String modeParam = params.get("mode");
       if ("textLevelOnly".equals(modeParam)) {
         mode = Mode.TEXTLEVEL_ONLY;
-      } else if ("allButTextLevelOnly".equals(modeParam)) {
+      } else if ("paragraphLevelOnly".equals(modeParam)) {
         mode = Mode.ALL_BUT_TEXTLEVEL_ONLY;
       } else if ("all".equals(modeParam)) {
         mode = Mode.ALL;
@@ -174,7 +174,7 @@ final class ServerTools {
         // used in undocumented API for /words/add, /words/delete; ignore
         mode = Mode.ALL;
       } else {
-        throw new BadRequestException("Mode must be one of 'textLevelOnly', 'allButTextLevelOnly', or 'all' but was: '" + modeParam + "'");
+        throw new BadRequestException("Mode must be one of 'textLevelOnly', 'paragraphLevelOnly', or 'all' but was: '" + modeParam + "'");
       }
     } else {
       mode = Mode.ALL;
