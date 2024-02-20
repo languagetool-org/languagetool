@@ -87,4 +87,12 @@ public class PortugueseTaggerTest {
     TestTools.myAssert("to", "to/[tu:ele]PP2CSO00:PP3MSA00", tokenizer, tagger);
     TestTools.myAssert("ao", "ao/[a:o]SPS00:DA0MS0", tokenizer, tagger);
   }
+
+  @Test
+  public void testTaggerTagsCompoundsRegardlessOfLetterCase() throws IOException {
+    TestTools.myAssert("jiu-jitsu", "jiu-jitsu/[jiu-jitsu]NCMS000", tokenizer, tagger);
+    TestTools.myAssert("Jiu-jitsu", "Jiu-jitsu/[jiu-jitsu]NCMS000", tokenizer, tagger);
+    TestTools.myAssert("JIU-JITSU", "JIU-JITSU/[jiu-jitsu]NCMS000", tokenizer, tagger);
+    TestTools.myAssert("Jiu-Jitsu", "Jiu-Jitsu/[jiu-jitsu]NCMS000", tokenizer, tagger);
+  }
 }

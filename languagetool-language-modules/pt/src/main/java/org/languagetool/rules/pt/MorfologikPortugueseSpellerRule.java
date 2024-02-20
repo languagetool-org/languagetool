@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.pt;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
@@ -140,6 +141,19 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
     return null;
   }
 
+  private boolean isTitlecasedHyphenatedWord(String word) {
+    if (word.indexOf('-') == 0) {
+      return false;
+    }
+    String[] parts = word.split("-");
+    for (String part : parts) {
+      if (StringTools.isMixedCase(part)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   private Map<String,String> getDialectAlternationMapping() {
     Map<String,String> wordMap = new HashMap<>();
     List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(dialectAlternationsFilepath);
@@ -249,6 +263,12 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
                                         AnalyzedTokenReadings[] tokens) throws IOException {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
     if (!ruleMatches.isEmpty()) {
+      if (isTitlecasedHyphenatedWord(word)) {
+        // if the word is hyphenated and each element is titlecased, downcase it and see if it's still misspelt
+        if (!speller1.isMisspelled(word.toLowerCase())) {  // if not misspelt, empty out the rule matches
+          ruleMatches = Collections.emptyList();
+        }
+      }
       String wordWithBrazilianStylePastTense = checkEuropeanStyle1PLPastTense(word);
       if (wordWithBrazilianStylePastTense != null) {
         String message = "No Brasil, o pretérito perfeito da primeira pessoa do plural escreve-se sem acento.";

@@ -634,4 +634,11 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("sub-taça", ltBR, ruleBR);
     assertNoErrors("sub-pratos", ltBR, ruleBR);
   }
+
+  @Test public void testPortugueseSpellerAcceptsCapitalisationOfAllCompoundElements() throws Exception {
+    assertNoErrors("jiu-jitsu.", ltBR, ruleBR);
+    assertNoErrors("Jiu-jitsu.", ltBR, ruleBR);
+    assertNoErrors("Jiu-Jitsu.", ltBR, ruleBR);
+    assertErrorLength("jIu-JItsU", 2, ltBR, ruleBR, new String[]{});
+  }
 }

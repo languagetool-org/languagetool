@@ -145,7 +145,22 @@ public class PortugueseTagger extends BaseTagger {
       List<AnalyzedToken> l = new ArrayList<>();
       String lowerWord = word.toLowerCase(locale);
       boolean isLowercase = word.equals(lowerWord);
-      boolean isMixedCase = StringTools.isMixedCase(word);
+      boolean isMixedCase;
+      // if the word contains a hyphen, it is only mixed case if at least one element is mixed case
+      if (word.contains("-")) {
+        isMixedCase = false;
+        String[] parts = word.split("-");
+        for (String part : parts) {
+          if (StringTools.isMixedCase(part)) {
+            isMixedCase = true;
+            break;
+          }
+        }
+      // No hyphens found, just do a regular isMixedCase check
+      } else {
+        isMixedCase = StringTools.isMixedCase(word);
+      }
+
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
       
       // normal case:
