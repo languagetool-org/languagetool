@@ -437,6 +437,12 @@ public class UkrainianWordTokenizerTest {
  
     testList = w.tokenize("Fair trade [«Справедлива торгівля». –    Авт.], який стежить за тим, щоб у країнах");
     assertTrue(testList.toString(), testList.contains("Авт."));
+
+    testList = w.tokenize("яку авт. устиг");
+    assertEquals(Arrays.asList("яку", " ", "авт.", " ", "устиг"), testList);
+    
+    testList = w.tokenize("пише ред. Бойків");
+    assertEquals(Arrays.asList("пише", " ", "ред.", " ", "Бойків"), testList);
     
     testList = w.tokenize("диво з див.");
     assertEquals(Arrays.asList("диво", " ", "з", " ", "див", "."), testList);

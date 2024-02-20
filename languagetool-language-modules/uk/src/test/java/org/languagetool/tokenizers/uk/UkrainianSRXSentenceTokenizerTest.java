@@ -116,6 +116,7 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("B.B. King");
     testSplit("Церква Св. Духа і церква св. Духа");
     testSplit("Валерій (міліціонер-пародист.  –  Авт.) стане пародистом.");
+    testSplit("пише ред. Бойків");
     testSplit("Сьогодні (у четвер.  - Ред.), вранці.");
     testSplit(" ([27]див. Тиждень № 9, 2008)");
 
