@@ -1883,6 +1883,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Ich mach<marker>’</marker>s heute nicht mehr fertig.</example>
             </rule>
+            <rule><!--colloq. saying-->
+                <pattern>
+                    <token>Butter</token>
+                    <marker>
+                        <token>bei</token>
+                        <token>die</token>
+                        <token>Fische</token>
+                    </marker>
+                </pattern>
+                <example correction="">Jetzt aber mal Butter <marker>bei die Fische</marker>.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_VERB">
@@ -2120,12 +2131,13 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_OTHER" name="">
             <rule><!--1-->
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">Korrektur|Hubertusorden|plemplem|Abbitte|Abessiv|Abhitze|Ablativ|Abtestat|obzwar|asbachuralt.*</token>
+                    <token regexp="yes" case_sensitive="yes">lose|Korrektur|Hubertusorden|plemplem|Abbitte|Abessiv|Abhitze|Ablativ|Abtestat|obzwar|asbachuralt.*</token>
                 </pattern>
                 <example correction="">Du bist doch echt <marker>plemplem</marker>!</example>
                 <example correction=""><marker>Abbitte</marker></example>
                 <example correction="">Das ist doch echt <marker>asbachuralt</marker>.</example>
                 <example correction="">Wir lasen das noch schnell <marker>Korrektur</marker>, bevor wir gehen mussten.</example>
+                <example correction="">Der Türbelag ist über der Ambientebeleeuchtung <marker>lose</marker>.</example>
             </rule>
             <rule><!--2-->
                 <pattern>
