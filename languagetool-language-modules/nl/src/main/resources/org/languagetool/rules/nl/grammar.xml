@@ -17655,25 +17655,6 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="HE_KOMMA" name="Hé Jacob(,) alles goed?" default="temp_off">
-			<rule>
-				<pattern>
-                    <token postag="SENT_START"/>
-					<marker>
-						<token regexp="yes" case_sensitive="yes">H[éè]</token>
-						<token postag_regexp="yes" postag="ENM.*"/>
-					</marker>
-					<token regexp="yes">[a-z].*</token>
-				</pattern>
-				<message>Het lijkt erop dat hier een komma ontbreekt.</message>
-				<suggestion>\2, \3</suggestion>
-				<suggestion>\2 \3,</suggestion>
-				<suggestion>\2, \3,</suggestion>
-				<example correction="Hé, Wilders|Hé Wilders,|Hé, Wilders,"><marker>Hé Wilders</marker> wilde zelfs geen kaas.</example>
-				<example>Hé Wilders, hoe is het?</example>
-			</rule>
-		</rulegroup>
-
 		<rulegroup id="PUNT_UITR" name=".! of .?">
 			<rule>
 				<antipattern><token>.</token><token spacebefore="no" regexp="yes">[a-z]</token><token spacebefore="no">.</token></antipattern>
@@ -17878,7 +17859,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="LANGS_WORD_GEBRACHT" name="wordt" default="temp_off">
+		<rulegroup id="LANGS_WORD_GEBRACHT" name="wordt">
 			<rule>
 				<pattern>
 				    <token skip="-1" postag_regexp="yes" postag="VNW.*"><exception postag_regexp="yes" postag="VNW:PER.*"/></token>
@@ -23304,26 +23285,22 @@ regexp case-insensitive maken: (?i)
 				<example correction="ook, hè">Ik <marker>ook he</marker>?</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="HE_BEGIN" name="Hè daar kom ik net vandaan!" default="temp_off">
+		<rulegroup id="HE_BEGIN" name="Hé Jacob(,) alles goed?">
 			<rule>
-			    <antipattern>
-		            <token>hè</token>
-		            <token>hè</token>
-			    </antipattern>
-			    <antipattern>
-		            <token>hè</token>
-		            <token postag_regexp="yes" postag="UNKNOWN|TSW"/>
-			    </antipattern>
 				<pattern>
-				    <token postag="SENT_START"/>
+                    <token postag="SENT_START"/>
 					<marker>
-						<token>hè</token>
+						<token regexp="yes" case_sensitive="yes">H[éè]</token>
+						<token postag_regexp="yes" postag="ENM.*"/>
 					</marker>
-					<token><exception spacebefore="no">,</exception></token>
+					<token regexp="yes">[a-z].*</token>
 				</pattern>
 				<message>Het lijkt erop dat hier een komma ontbreekt.</message>
-				<suggestion>\2,</suggestion>
-				<example correction="Hè,"><marker>Hè</marker> daar kom ik net vandaan!</example>
+				<suggestion>\2, \3</suggestion>
+				<suggestion>\2 \3,</suggestion>
+				<suggestion>\2, \3,</suggestion>
+				<example correction="Hé, Wilders|Hé Wilders,|Hé, Wilders,"><marker>Hé Wilders</marker> wilde zelfs geen kaas.</example>
+				<example>Hé Wilders, hoe is het?</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="HE_EINDE" name="Lekker weertje, he(hè)?">
