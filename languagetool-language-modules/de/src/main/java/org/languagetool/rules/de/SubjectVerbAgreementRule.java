@@ -440,6 +440,11 @@ public class SubjectVerbAgreementRule extends Rule {
       tokenRegex("sind|w[äa]ren")
     ),
     Arrays.asList(
+      // Halte ich für unwahrscheinlich, dass es Spannungsspitzen sind.
+      new PatternTokenBuilder().posRegex("SUB.*INF").build(),
+      tokenRegex("sind|w[äa]ren")
+    ),
+    Arrays.asList(
       tokenRegex("Teile"),
       tokenRegex("de[rs]|diese[sr]|[msd]?eine[rs]"),
       new PatternTokenBuilder().posRegex("SUB.*|EIG.*|UNKNOWN").setSkip(-1).build(),
