@@ -72,7 +72,9 @@ public abstract class AbstractDisambiguator implements Disambiguator {
     }
     if (lang != null) {
       spellingRule = lang.getDefaultSpellingRule();
-      tagsToIgnore = tagsToBeIgnored;
+      if (tagsToBeIgnored != null) {
+        tagsToIgnore = tagsToBeIgnored;
+      }
       if (languageCode.startsWith("en")) {
         commonWords = commonEnglishWords;
       }
