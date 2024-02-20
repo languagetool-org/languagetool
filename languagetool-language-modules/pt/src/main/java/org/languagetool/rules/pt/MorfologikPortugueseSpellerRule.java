@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.pt;
 
-import org.apache.commons.lang3.StringUtils;
 import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
