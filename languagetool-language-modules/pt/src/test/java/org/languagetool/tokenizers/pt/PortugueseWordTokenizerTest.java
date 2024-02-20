@@ -34,7 +34,7 @@ import static org.junit.Assert.assertEquals;
 public class PortugueseWordTokenizerTest {
   final PortugueseWordTokenizer wordTokenizer = new PortugueseWordTokenizer();
 
-  private void testTokenise(String sentence, String[] tokens) {
+  private void testTokenise(String sentence, String ...tokens) {
     assertArrayEquals(tokens, wordTokenizer.tokenize(sentence).toArray());
   }
 
@@ -69,6 +69,14 @@ public class PortugueseWordTokenizerTest {
     testTokenise("Montemor-o-Novo", new String[]{"Montemor-o-Novo"});
     testTokenise("Andorra-a-Velha", new String[]{"Andorra-a-Velha"});
     testTokenise("Tsé-Tung", new String[]{"Tsé-Tung"});
+  }
+
+  @Test
+  public void testTokeniseHyphenatedSplitRegardlessOfLetterCase() {
+    testTokenise("jiu-jitsu", "jiu-jitsu");
+    testTokenise("Jiu-jitsu", "Jiu-jitsu");
+    testTokenise("JIU-JITSU", "JIU-JITSU");
+    testTokenise("Jiu-Jitsu", "Jiu-Jitsu");
   }
 
   @Test
