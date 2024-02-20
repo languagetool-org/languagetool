@@ -2079,6 +2079,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         if (isDisposed) {
           return;
         }
+        OfficeTools.waitForLO();  //  wait to end all LO related process to prevent LO hang up
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: findNextError: Error is " + (checkError == null ? "Null" : "NOT Null"));
         }
