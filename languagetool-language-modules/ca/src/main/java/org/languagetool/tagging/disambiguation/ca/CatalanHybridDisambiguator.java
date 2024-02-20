@@ -20,9 +20,6 @@
 package org.languagetool.tagging.disambiguation.ca;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
@@ -56,13 +53,14 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
   public CatalanHybridDisambiguator(Language lang) {
     disambiguator = new XmlRuleDisambiguator(lang, true);
     chunker.setRemovePreviousTags(true);
+    initExtraSpellingRule("en-US", new String[]{"_english_ignore_"});
   }
-  
+
   @Override
-  public final AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    return disambiguator.disambiguate(chunker.disambiguate(chunkerGlobal.disambiguate(input, checkCanceled), checkCanceled), checkCanceled);
+  public final AnalyzedSentence disambiguate(AnalyzedSentence input,
+                                             @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
+    return ignoreSpellingWithExtraSpellingRule(disambiguator.disambiguate(chunker.disambiguate(
+      chunkerGlobal.disambiguate(input, checkCanceled), checkCanceled), checkCanceled), checkCanceled);
   }
-
-
 
 }
