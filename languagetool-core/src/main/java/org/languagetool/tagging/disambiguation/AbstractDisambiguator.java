@@ -97,7 +97,7 @@ public abstract class AbstractDisambiguator implements Disambiguator {
     boolean prevIsEnglish = false;
     boolean isEnglish;
     Integer skippedTokens = 1;
-    for (int i = 1; i < anTokens.length - 1; i++) {
+    for (int i = 1; i < anTokens.length; i++) {
       String word = output[i].getToken();
       if (word.length() < 1 || StringTools.isWhitespace(word) || StringTools.isNotWordString(word)) {
         skippedTokens++;

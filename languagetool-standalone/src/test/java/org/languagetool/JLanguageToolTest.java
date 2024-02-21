@@ -487,6 +487,10 @@ public class JLanguageToolTest {
     assertEquals(1, matches.size());
     matches = lt.check("This is, it seems, a good gasdfghadsfha.");
     assertEquals(1, matches.size());
+    matches = lt.check("Rocky Mountains National Park");
+    assertEquals(1, matches.size());
+    matches = lt.check("Rocky Mountain National Park");
+    assertEquals(0, matches.size());
   }
 
 }
