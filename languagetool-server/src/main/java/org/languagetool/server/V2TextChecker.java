@@ -60,7 +60,7 @@ class V2TextChecker extends TextChecker {
 
   private void loadConfidenceMap() throws IOException {
     if (config.getRuleIdToConfidenceFile() != null) {
-      logger.info("Loading confidence map for rules from " + ruleIdToConfidence);
+      logger.info("Loading confidence map for rules from " + config.getRuleIdToConfidenceFile());
       List<String> lines = Files.readAllLines(Paths.get(config.getRuleIdToConfidenceFile().getAbsolutePath()), UTF_8);
       for (String line : lines) {
         if (line.startsWith("#")) {
