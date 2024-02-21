@@ -2368,14 +2368,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // 's' is the last character in *part1* and is probably not an infix
       part1WithoutHyphen.endsWith("s") && (isNounNom(part1upcased) || isVerbStem(part1)) &&
       // check if infix 's' is required or not allowed
-      (!hasNoInfixS(removeTrailingS(part1upcased)) || needsInfixS(removeTrailingS(part1upcased)))) {
+      (!hasNoInfixS(removeTrailingS(part1upcased)) && !needsInfixS(removeTrailingS(part1upcased)))) {
       return true;
     }
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
       // 's' is the last character in *part1* and is probably an infix
       part1WithoutHyphen.endsWith("s") && isNounNom(removeTrailingSAndHyphen(part1upcased)) &&
       // check if infix 's' is required or not allowed
-      (!hasNoInfixS(removeTrailingSAndHyphen(part1upcased)) || needsInfixS(removeTrailingSAndHyphen(part1upcased)))) {
+      (!hasNoInfixS(removeTrailingSAndHyphen(part1upcased)) && needsInfixS(removeTrailingSAndHyphen(part1upcased)))) {
       return true;
     }
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
