@@ -97,7 +97,7 @@ public class CompoundAcceptor {
       String part1 = word.substring(0, i);
       String part2 = word.substring(i);
       if (!part1.equals(part2) && acceptCompound(part1, part2)) {
-        System.out.println(part1+part2 + " -> accepted");
+        //System.out.println(part1+part2 + " -> accepted");
         return true;
       }
     }
