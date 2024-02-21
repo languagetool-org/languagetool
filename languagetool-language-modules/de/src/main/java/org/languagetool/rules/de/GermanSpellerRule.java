@@ -3842,6 +3842,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Neisse-Verlags": return topMatch("Neisse Verlags");
       case "Neiße-Verlags": return topMatch("Neisse Verlags");
       case "weihnachten": return topMatch("Weihnachten");
+      case "Carlsen-Verlag": return topMatch("Carlsen Verlag");
+      case "Carlsen-Verlags": return topMatch("Carlsen Verlags");
     }
     return Collections.emptyList();
   }
