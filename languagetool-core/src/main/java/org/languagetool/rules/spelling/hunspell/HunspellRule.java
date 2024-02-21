@@ -245,10 +245,10 @@ public class HunspellRule extends SpellingCheckRule {
           ruleMatch.setType(RuleMatch.Type.UnknownWord);
           String cleanWord2 = cleanWord.substring(dashCorr);
           // log non-accepted de-DE words for debugging - only log hour to make aggregation easier:
-          if (language.getShortCodeWithCountryAndVariant().equals("de-DE") && cleanWord2.matches("[A-ZÖÄÜ][a-zöäüß]{6,30}+")) {
-            SimpleDateFormat sdf = new SimpleDateFormat("HH");
-            System.out.println(sdf.format(new Date()) + " - speller: " + cleanWord2);
-          }
+          //if (language.getShortCodeWithCountryAndVariant().equals("de-DE") && cleanWord2.matches("[A-ZÖÄÜ][a-zöäüß]{6,30}+")) {
+          //  SimpleDateFormat sdf = new SimpleDateFormat("HH");
+          //  System.out.println(sdf.format(new Date()) + " - speller: " + cleanWord2);
+          //}
           if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
             List<SuggestedReplacement> sugg = calcSuggestions(word, cleanWord2);
             if (isFirstItemHighConfidenceSuggestion(word, sugg)) {
