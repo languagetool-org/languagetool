@@ -21,10 +21,7 @@ package org.languagetool;
 import org.hamcrest.CoreMatchers;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.language.AmericanEnglish;
-import org.languagetool.language.Demo;
-import org.languagetool.language.English;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.*;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -471,6 +468,29 @@ public class JLanguageToolTest {
     }
     System.out.println("Total matches:" + matchesCounter);
     assertThat(matchesCounter, is(0));
+  }
+
+
+  @Test
+  public void testIgnoringEnglishWordsInCatalan() throws IOException {
+    Language lang = new Catalan();
+    JLanguageTool lt = new JLanguageTool(lang);
+    List<RuleMatch> matches = lt.check("This asdfasdfasd m'agrada molt.");
+    assertEquals(2, matches.size());
+    matches = lt.check("This is a good thing.");
+    assertEquals(0, matches.size());
+    matches = lt.check("This is a good gasdfghadsfha.");
+    assertEquals(1, matches.size());
+    matches = lt.check("I didn't know gasdfghadsfha.");
+    assertEquals(1, matches.size());
+    matches = lt.check("Didn't know gasdfghadsfha.");
+    assertEquals(1, matches.size());
+    matches = lt.check("This is, it seems, a good gasdfghadsfha.");
+    assertEquals(1, matches.size());
+    matches = lt.check("Rocky Mountains National Park");
+    assertEquals(1, matches.size());
+    matches = lt.check("Rocky Mountain National Park");
+    assertEquals(0, matches.size());
   }
 
 }
