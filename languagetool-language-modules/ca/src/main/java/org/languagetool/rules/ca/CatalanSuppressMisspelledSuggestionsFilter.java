@@ -23,18 +23,17 @@ import java.io.IOException;
 import java.util.List;
 
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.language.ValencianCatalan;
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSuppressMisspelledSuggestionsFilter;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
 public class CatalanSuppressMisspelledSuggestionsFilter extends AbstractSuppressMisspelledSuggestionsFilter {
 
   public CatalanSuppressMisspelledSuggestionsFilter() throws IOException {
-    super(new ValencianCatalan());
   }
 
   @Override
-  public boolean isMisspelled(String s) throws IOException {
+  public boolean isMisspelled(String s, Language language) throws IOException {
     SpellingCheckRule spellerRule = language.getDefaultSpellingRule();
     if (spellerRule == null) {
       return false;

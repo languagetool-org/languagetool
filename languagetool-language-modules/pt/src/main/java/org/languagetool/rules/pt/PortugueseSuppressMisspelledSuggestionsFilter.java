@@ -26,7 +26,6 @@ import org.languagetool.rules.AbstractSuppressMisspelledSuggestionsFilter;
 public class PortugueseSuppressMisspelledSuggestionsFilter extends AbstractSuppressMisspelledSuggestionsFilter {
 
   public PortugueseSuppressMisspelledSuggestionsFilter() throws IOException {
-    super(new BrazilianPortuguese());
   }
 
 }
