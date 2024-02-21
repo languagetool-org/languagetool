@@ -641,4 +641,17 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("Jiu-Jitsu.", ltBR, ruleBR);
     assertErrorLength("jIu-JItsU", 2, ltBR, ruleBR, new String[]{});
   }
+
+  @Test public void testPortugueseSpellerAcceptsNationalPrefixes() throws Exception {
+    // disambiguation rule for productive prefixes (the first element doesn't exist separately)
+    // not in speller or tagger
+    assertNoErrors("ítalo-congolês", ltBR, ruleBR);
+    // not in the speller, but in the tagger
+    assertNoErrors("franco-prussiana", ltBR, ruleBR);
+    assertNoErrors("Franco-prussiana", ltBR, ruleBR);
+    assertNoErrors("Franco-Prussiana", ltBR, ruleBR);
+    // speller logic (split by hyphen and check elements separately)
+    // not a prefix per se, true compounding (the first element exists as an independent lexeme)
+    assertNoErrors("húngaro-romeno", ltBR, ruleBR);
+  }
 }

@@ -77,6 +77,9 @@ public class PortugueseWordTokenizerTest {
     testTokenise("Jiu-jitsu", "Jiu-jitsu");
     testTokenise("JIU-JITSU", "JIU-JITSU");
     testTokenise("Jiu-Jitsu", "Jiu-Jitsu");
+    testTokenise("franco-prussiano", "franco-prussiano");
+    testTokenise("Franco-prussiano", "Franco-prussiano");
+    testTokenise("Franco-Prussiano", "Franco-Prussiano");
   }
 
   @Test

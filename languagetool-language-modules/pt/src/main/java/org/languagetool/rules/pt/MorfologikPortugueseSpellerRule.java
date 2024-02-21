@@ -140,17 +140,34 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
     return null;
   }
 
-  private boolean isTitlecasedHyphenatedWord(String word) {
-    if (word.indexOf('-') == 0) {
-      return false;
-    }
-    String[] parts = word.split("-");
-    for (String part : parts) {
+  private boolean isTitlecasedHyphenatedWord(String[] wordParts) {
+    for (String part : wordParts) {
       if (StringTools.isMixedCase(part)) {
         return false;
       }
     }
     return true;
+  }
+
+  // This is a bit of a hack specifically for the cases when the tagger dictionary has a hyphenated form (which is,
+  // therefore, NOT split in tokenisation) and the speller dictionary doesn't have it.
+  @Nullable
+  private String checkCompoundElements(String[] wordParts) {
+    List<String> suggestedParts = new ArrayList<>();
+    for (String part : wordParts) {
+      if (speller1.isMisspelled(part)) {
+        // keep it simple, only first suggestion for now
+        suggestedParts.add(speller1.getSuggestions(part).get(0));
+      } else {
+        suggestedParts.add(part);
+      }
+    }
+    String newSuggestion = String.join("-", suggestedParts);
+    if (newSuggestion.equals(String.join("-", wordParts))) {
+      return null;
+    } else {
+      return newSuggestion;
+    }
   }
 
   private Map<String,String> getDialectAlternationMapping() {
@@ -262,10 +279,22 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
                                         AnalyzedTokenReadings[] tokens) throws IOException {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
     if (!ruleMatches.isEmpty()) {
-      if (isTitlecasedHyphenatedWord(word)) {
-        // if the word is hyphenated and each element is titlecased, downcase it and see if it's still misspelt
-        if (!speller1.isMisspelled(word.toLowerCase())) {  // if not misspelt, empty out the rule matches
-          ruleMatches = Collections.emptyList();
+      if (word.indexOf('-') > 0) {
+        String[] wordParts = word.split("-");
+        if (isTitlecasedHyphenatedWord(wordParts)) {
+          // if the word is hyphenated and each element is titlecased, downcase it and see if it's still misspelt
+          if (!speller1.isMisspelled(word.toLowerCase())) {  // if not misspelt, empty out the rule matches
+            ruleMatches = Collections.emptyList();
+          }
+        }
+        // When the word is incorrect but we don't have a suggestion, put one together based on each of its parts
+        if (!ruleMatches.isEmpty() && ruleMatches.get(0).getSuggestedReplacements().isEmpty()) {
+          @Nullable String newSuggestion = checkCompoundElements(wordParts);
+          if (newSuggestion == null) {
+            ruleMatches = Collections.emptyList();
+          } else {
+            replaceFormsOfFirstMatch(ruleMatches.get(0).getMessage(), sentence, ruleMatches, newSuggestion, false);
+          }
         }
       }
       String wordWithBrazilianStylePastTense = checkEuropeanStyle1PLPastTense(word);
