@@ -19,26 +19,41 @@
 package org.languagetool.server;
 
 import org.junit.Test;
+import org.languagetool.Language;
+import org.languagetool.Languages;
+import org.languagetool.tools.ConfidenceMap;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 public class ConfidenceMapLoaderTest {
 
   @Test
   public void testLoading() throws IOException {
-    Map<String, Float> map = new ConfidenceMapLoader().load(new File("src/test/resources/org/languagetool/server/confidence-map.csv"));
-    assertThat(map.size(), is(3));
-    System.out.println(map);
-    assertNotNull(map.get("FOO_1"));
-    assertThat(map.get("FOO_1"), is(0.72f));
-    assertNotNull(map.get("OTHER_RULE_1"));
-    assertNotNull(map.get("OTHER_RULE_2"));
+    ConfidenceMap map = new ConfidenceMapLoader().load(new File("src/test/resources/org/languagetool/server/confidence-map-{lang}.csv"));
+    assertThat(map.size(), is(7*3));  // 7 language variantes, 3 rules each
+    Language en = Languages.getLanguageForShortCode("en");
+    assertNotNull(map.get(new ConfidenceMap.ConfidenceKey(en, "FOO_1")));
+    assertThat(map.get(new ConfidenceMap.ConfidenceKey(en, "FOO_1")), is(0.72f));
+    assertNotNull(map.get(new ConfidenceMap.ConfidenceKey(en, "OTHER_RULE_1")));
+    assertNotNull(map.get(new ConfidenceMap.ConfidenceKey(en, "OTHER_RULE_2")));
+  }
+
+  @Test
+  public void testLoadingFail() throws IOException {
+    try {
+      new ConfidenceMapLoader().load(new File("src/test/resources/org/languagetool/server/confidence-map.csv"));
+      fail();
+    } catch (RuntimeException expected) {}
+    try {
+      new ConfidenceMapLoader().load(new File("src/test/resources/org/languagetool/server/does-not-exist-{lang}.csv"));
+      fail();
+    } catch (RuntimeException expected) {}
   }
 
 }
