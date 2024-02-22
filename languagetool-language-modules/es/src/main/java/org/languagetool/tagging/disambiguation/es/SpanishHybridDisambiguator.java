@@ -62,9 +62,10 @@ public class SpanishHybridDisambiguator extends AbstractDisambiguator {
    * disambiguator.
    */
   @Override
-  public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    return ignoreSpellingWithExtraSpellingRule(disambiguator.disambiguate(chunker.disambiguate(
-      chunkerGlobal.disambiguate(input, checkCanceled), checkCanceled), checkCanceled), checkCanceled);
+  public AnalyzedSentence disambiguate(AnalyzedSentence input,
+                                       @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
+    return disambiguator.disambiguate(chunker.disambiguate(chunkerGlobal.disambiguate(input, checkCanceled),
+      checkCanceled), checkCanceled);
   }
 
 }

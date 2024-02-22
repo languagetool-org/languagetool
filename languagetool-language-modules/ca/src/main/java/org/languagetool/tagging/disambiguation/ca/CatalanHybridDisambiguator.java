@@ -59,8 +59,8 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input,
                                              @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    return ignoreSpellingWithExtraSpellingRule(disambiguator.disambiguate(chunker.disambiguate(
-      chunkerGlobal.disambiguate(input, checkCanceled), checkCanceled), checkCanceled), checkCanceled);
+    return disambiguator.disambiguate(chunker.disambiguate(chunkerGlobal.disambiguate(input, checkCanceled),
+      checkCanceled), checkCanceled);
   }
 
 }
