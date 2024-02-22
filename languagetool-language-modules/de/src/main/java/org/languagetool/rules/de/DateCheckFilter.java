@@ -36,11 +36,6 @@ public class DateCheckFilter extends AbstractDateCheckWithSuggestionsFilter {
     return dateFilterHelper.getCalendar();
   }
 
-  @Override
-  protected String getErrorMessageWrongYear()  {
-    return "Dieses Datum stimmt nicht. Meinten Sie \"{currentYear}\"?";
-  }
-
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
   protected int getDayOfWeek(String dayStr) {
@@ -56,5 +51,26 @@ public class DateCheckFilter extends AbstractDateCheckWithSuggestionsFilter {
   @Override
   protected int getMonth(String monthStr) {
     return dateFilterHelper.getMonth(monthStr);
+  }
+
+  @Override
+  protected String getErrorMessageWrongYear()  {
+    return "Dieses Datum stimmt nicht mit dem Tag überein. Meinten Sie \"{currentYear}\"?";
+  }
+
+  @Override
+  protected String adjustSuggestion(String sugg) {
+    // So. vs Sonntag
+    int dotCommaPos = sugg.indexOf(".,");
+    if (dotCommaPos > 5 && dotCommaPos < 12) {
+      // remove unnecessary dot
+      return sugg.replace(".,", ",");
+    }
+    int commaPos = sugg.indexOf(",");
+    if (dotCommaPos < 0 && commaPos > 0 && commaPos < 5) {
+      // add dot
+      return sugg.replace(",", ".,");
+    }
+    return sugg;
   }
 }

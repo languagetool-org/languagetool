@@ -173,7 +173,7 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
           }
         }
         if (!suggestion.toString().isEmpty()) {
-          ruleMatch.setSuggestedReplacement(suggestion.toString());
+          ruleMatch.setSuggestedReplacement(adjustSuggestion(suggestion.toString()));
         }
         // suggest changing day of month
         String correctedDayofMonth = findNewDayOfMonth(day, month, year, dayOfWeekFromString);
@@ -197,7 +197,7 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
             }
           }
           if (!suggestion.toString().isEmpty()) {
-            ruleMatch.addSuggestedReplacement(suggestion.toString());
+            ruleMatch.addSuggestedReplacement(adjustSuggestion(suggestion.toString()));
           }
         }
         return ruleMatch;
@@ -301,6 +301,11 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
 
   protected String getDayStrLikeOriginal(String day, String original) {
     return day;
+  }
+
+  // typographical adjusments needed in some language
+  protected String adjustSuggestion(String sugg) {
+    return sugg;
   }
 
 }
