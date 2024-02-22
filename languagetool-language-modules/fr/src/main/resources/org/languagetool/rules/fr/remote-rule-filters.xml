@@ -643,6 +643,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">On s'est bel et bien <marker>rencontrés</marker> hier.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="V etre.*" postag_regexp="yes"/>
+                    <token postag="A|C coor" postag_regexp="yes" min="0" max="3"/>
+                    <marker>
+                        <token regexp="yes">partante?s?</token>
+                    </marker>
+                </pattern>
+                <example correction="">Tu es <marker>partant</marker> ?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_FR_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE.*" name="">
             <rule>
