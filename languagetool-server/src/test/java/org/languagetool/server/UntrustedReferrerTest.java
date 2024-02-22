@@ -26,12 +26,11 @@ import okhttp3.Response;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class UntrustedReferrerTest {
 
@@ -45,11 +44,8 @@ public class UntrustedReferrerTest {
   @Test
   @Ignore("Needs a local remote-rule file")
   public void runUntrustedReferrerTest() throws Exception {
-    HTTPServerConfig serverConfig = new HTTPServerConfig(HTTPTestTools.getDefaultPort(), true);
-
-    serverConfig.setUntrustedReferrers(Arrays.asList("foo.org", "bar.org", "baz.org", "language.com"));
-    serverConfig.remoteRulesConfigFile = new File("/home/stefan/Dokumente/Test-Config-Files/test-untrusted.json");
-
+    String[] args = {"--config","/home/stefan/Dokumente/Test-Config-Files/test-untrusted.properties"}; //contains a list of untrusted referrers and a remote rule file with 1 remote rule with option set to "onlyTrustedSources": true
+    HTTPServerConfig serverConfig = new HTTPServerConfig(args);
     HTTPServer server = new HTTPServer(serverConfig, false, HTTPServerConfig.DEFAULT_HOST, null);
     assertFalse(server.isRunning());
     try {
@@ -61,7 +57,9 @@ public class UntrustedReferrerTest {
       runRequest("https://foo.org/something", false);
       runRequest("foo.org", false);
       runRequest("bar.org", false);
+      runRequest("https://foobar.org/", true);
       runRequest("https://languagetool.org/", true);
+      runRequest("https://languagetool.org", true);
       runRequest("http://languagetool.org/", true);
       runRequest("languagetool", true);
       runRequest("https://www.languagetool.org/", true);
@@ -73,12 +71,13 @@ public class UntrustedReferrerTest {
 
   private void runRequest(String referrer, Boolean expectedMatch) throws IOException {
     Request request = new Request.Builder()
-      .url("http://localhost:8081/v2/check?text=Ich%20möchte,%20dass%20das%20funktioniert&language=de-DE")
+      .url("http://localhost:8081/v2/check?text=Ich%20möchte,%20dass%20das%20funktioniert&language=de-DE") //missing punctuation
       .addHeader("Referer", referrer)
       .build();
     try (Response response = client.newCall(request).execute()) {
       if (response.body() != null) {
         String body = response.body().string();
+        System.out.println(body);
         if (expectedMatch) {
           assertTrue(body.contains("AI_DE_GGEC"));
         } else {
