@@ -49,6 +49,7 @@ public class SpanishHybridDisambiguator extends AbstractDisambiguator {
   public SpanishHybridDisambiguator(Language lang) {
     disambiguator = new XmlRuleDisambiguator(lang, true);
     chunker.setRemovePreviousTags(true);
+    initExtraSpellingRule("en-US", new String[]{"_english_ignore_"});
   }
 
   @Override
@@ -61,8 +62,10 @@ public class SpanishHybridDisambiguator extends AbstractDisambiguator {
    * disambiguator.
    */
   @Override
-  public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    return disambiguator.disambiguate(chunker.disambiguate(chunkerGlobal.disambiguate(input, checkCanceled), checkCanceled), checkCanceled);
+  public AnalyzedSentence disambiguate(AnalyzedSentence input,
+                                       @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
+    return disambiguator.disambiguate(chunker.disambiguate(chunkerGlobal.disambiguate(input, checkCanceled),
+      checkCanceled), checkCanceled);
   }
 
 }
