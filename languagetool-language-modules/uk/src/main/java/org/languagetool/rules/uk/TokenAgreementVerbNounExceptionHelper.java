@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.uk.LemmaHelper.Dir;
+import org.languagetool.rules.uk.RuleException.Type;
+import org.languagetool.rules.uk.SearchHelper.Condition;
 import org.languagetool.rules.uk.TokenAgreementVerbNounRule.State;
 import org.languagetool.rules.uk.VerbInflectionHelper.Inflection;
 import org.languagetool.tagging.uk.PosTagHelper;
@@ -26,28 +28,182 @@ public final class TokenAgreementVerbNounExceptionHelper {
   private static final Pattern VCHYTY_PATTERN = Pattern.compile(".*вч[аи]ти(ся)?");
   private static final Pattern ADV_PREDICT_PATTERN = Pattern.compile("(adv|noninfl:&predic).*");
 
-//  private static final Pattern MODALS = Pattern.compile("було|буде|варто|необхідно|треба|потрібно|муси.*|повин(ен|н[оеаі])||готов(ий|[еаі])");
-//  private static final Pattern MODALS = Pattern.compile("варто|можна|необхідно|треба|потрібно|муси.+|зму[сш].+|(повин|здат)(ен|н[оеаі]|ий)||готов(ий|[еаі])");
+  private static final Pattern MODALS_ADJ = Pattern.compile("змушений|повинний|здатний|готовий");
   
   private TokenAgreementVerbNounExceptionHelper() {
   }
 
-  public static boolean isException(AnalyzedTokenReadings[] tokens, int verbPos, int nounAdjPos, 
+  public static boolean isException(AnalyzedTokenReadings[] tokens, 
                                     State state, List<VerbInflectionHelper.Inflection> verbInflections, 
                                     List<VerbInflectionHelper.Inflection> nounAdjInflections,
                                     List<AnalyzedToken> verbTokenReadings, 
                                     List<AnalyzedToken> nounTokenReadings) {
     
-    // серйозно каже Вадо.
-//    if( LemmaHelper.isCapitalized(tokens[nounAdjPos].getCleanToken())
-//        && ! PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "prop") ) {
-//      logException();
-//      return true;
-//    }
+    int verbPos = state.verbPos;
+    int nounAdjPos = state.nounPos;
 
+    String cleanTokenLower = tokens[nounAdjPos].getCleanToken().toLowerCase();
+
+    if( verbPos > 1
+        && LemmaHelper.hasLemma(tokens[verbPos], "бути") ) {
+      // здатна була
+      if( LemmaHelper.hasLemma(tokens[verbPos-1], TokenAgreementVerbNounExceptionHelper.MODALS_ADJ, Pattern.compile("adj:.:v_naz.*")) ) {
+          // повинен був випадок передбачити
+//          && agrees(tokens[verbPos], state.nounAdjNazInflections, state.nounAdjIndirTokenReadings) ) {
+        logException();
+        return true; 
+      }
+    }
+
+    // TODO: temp: коли зможе силою розуму освоїти
+    if( LemmaHelper.hasLemma(tokens[verbPos], Pattern.compile("з?могти"))
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], ".*v_oru.*") ) {
+      logException();
+      return true; 
+    }
+    
+    // чим могла
+    if( verbPos > 1
+        && LemmaHelper.hasLemma(tokens[verbPos], Pattern.compile("з?могти"))
+        && tokens[verbPos-1].getCleanToken().toLowerCase().equals("чим") ) {
+      logException();
+      return true; 
+    }
+    
+    // хоче маляром
+    if( LemmaHelper.hasLemma(tokens[verbPos], "хотіти") 
+        && PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "v_oru") ) {
+      logException();
+      return true; 
+    }
+
+    // має своїм неодмінним наслідком
+    if( LemmaHelper.hasLemma(tokens[verbPos], Pattern.compile("мати|маючи|мавши"))
+//        && new SearchHelper.Match()
+//          .target(new Condition(Pattern.compile("наслідок|результат|принцип|підґрунтя|виток|причина|коріння|ідеал"), Pattern.compile(".*v_oru.*")))
+//          .skip(Condition.postag(Pattern.compile("(.*v_oru|part|adv).*")))
+//          .limit(4)
+//          .mAfter(tokens, nounAdjPos) >= 0
+        && PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "v_oru")
+        ) {
+      logException();
+      return true; 
+    }
+
+    // були б іншої думки/такого змісту
+    if( LemmaHelper.hasLemma(tokens[verbPos], Pattern.compile("бути"))
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], "(adj|numr).*v_rod.*") ) {
+      logException();
+      return true; 
+    }
+    
+    // що є сил
+    if( verbPos > 1
+        && tokens[verbPos-1].getCleanToken().toLowerCase().equals("що")
+        && LemmaHelper.hasLemma(tokens[verbPos], Pattern.compile("бути"), Pattern.compile("verb.*(:s:3|past:n).*"))
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], "(adj|noun).*v_rod.*") ) {
+      logException();
+      return true; 
+    }
+
+    // навіщо було город городити
+    if( verbPos > 1
+        && tokens[verbPos].getCleanToken().toLowerCase().equals("було")
+        && tokens[verbPos-1].getCleanToken().toLowerCase().equals("навіщо") ) {
+      logException();
+      return true; 
+    }
+
+    // чесніше було б державний фонд
+    if( verbPos > 1
+        && tokens[verbPos].getCleanToken().toLowerCase().equals("було")
+        && PosTagHelper.hasPosTag(tokens[verbPos-1], "(adv:comp[cs].*|.*predic.*)") ) {
+      logException();
+      return true; 
+    }
+
+    if( verbPos > 2
+        && tokens[verbPos].getCleanToken().toLowerCase().equals("було")
+        && tokens[verbPos-1].getCleanToken().toLowerCase().matches("би?")
+        && PosTagHelper.hasPosTag(tokens[verbPos-2], "(adv:comp[cs].*|.*predic.*)") ) {
+      logException();
+      return true; 
+    }
+    
+    // квітне притухлий було пафос
+    if( verbPos > 1
+        && tokens[verbPos].getCleanToken().toLowerCase().equals("було")
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile(".*v_naz.*"))      // may be not just for v_naz
+        && PosTagHelper.hasPosTag(tokens[verbPos-1], "adj:.:v_naz:&adjp:.*:perf.*") ) { // may be not just for v_naz
+      logException();
+      return true; 
+    }
+
+    // підстрахуватися не зайве
+    if( // tokens[verbPos].getCleanToken().toLowerCase().matches("було|буде")
+        cleanTokenLower.matches("зайве|резон") ) {
+      logException();
+      return true; 
+    }
+
+    // було всі 90-ті
+    if( tokens[verbPos].getCleanToken().toLowerCase().matches("було|буде")
+        && LemmaHelper.hasLemma(tokens[nounAdjPos], Arrays.asList("весь"), Pattern.compile(".*v_zna.*")) ) {
+      logException();
+      return true; 
+    }
+    
+    if( tokens[verbPos].getCleanToken().toLowerCase().matches("було|буде")
+        // видно - temporary until new dict
+      && ( //new SearchHelper.Match().target(Condition.lemma(Pattern.compile("видно|помітно"))).limit(nounAdjPos-verbPos).mNow(tokens, verbPos+1) >= 0 
+         new SearchHelper.Match().target(Condition.postag(Pattern.compile(".*predic.*"))).limit(nounAdjPos-verbPos).mNow(tokens, verbPos+1) >= 0) ) {
+      logException();
+      return true; 
+    }
+    
+    // він був талановита людина
+    if( tokens[verbPos].getCleanToken().toLowerCase().equals("був") ) {
+      if (tokens[nounAdjPos].getCleanToken().toLowerCase().matches("людина|знаменитість")) {
+        logException();
+        return true; 
+      }
+      if ( nounAdjPos < tokens.length -1 
+          && tokens[nounAdjPos+1].getCleanToken().toLowerCase().matches("людина")) {
+        logException();
+        return true; 
+      }
+    }
+    
+    // Конкурс був десь шість
+    if( verbPos > 1
+        && tokens[verbPos-1].getCleanToken().toLowerCase().equals("конкурс")
+        && LemmaHelper.hasLemma(tokens[verbPos], Pattern.compile("бути"), Pattern.compile("verb.*(:s:3|past:m).*"))
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("num.*")) ) {
+      logException();
+      return true; 
+    }
+
+    // розподілятиметься пропорційно вкладеній праці
+    if( nounAdjPos - verbPos > 1 ) {
+      Set<String> advReq = CaseGovernmentHelper.getCaseGovernments(tokens[nounAdjPos-1], Pattern.compile("adv(?!p).*"));
+      if( advReq.size() > 0 ) {
+        for(int ii=verbPos+1; ii<nounAdjPos; ii++) {
+          if (TokenAgreementPrepNounRule.hasVidmPosTag(advReq, tokens[ii])) {
+            logException();
+            return true;
+          }
+        }
+      }
+    }
+
+    if( LemmaHelper.PLUS_MINUS.contains(cleanTokenLower) ) {
+      logException();
+      return true;
+    }
+    
     // закінчилося 18-го ввечері
     // наслухатися дорогою
-    if( tokens[nounAdjPos].getCleanToken().matches("[0-9]+-.+|дорогою|толком|дивом|чверть|третину|половину|святая") ) {
+    if( cleanTokenLower.matches("[0-9]+-.+|дорогою|толком|дивом|чверть|третину|половину|святая") ) {
       logException();
       return true;
     }
@@ -74,6 +230,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
     }
     
     // звалося Подєбради
+    // TODO: звався українська медицина
     if( LemmaHelper.hasLemma(tokens[verbPos], Arrays.asList("звати", "називати", "зватися", "називатися"))
         && Character.isUpperCase(tokens[nounAdjPos].getCleanToken().charAt(0)) ) {
       logException();
@@ -83,15 +240,6 @@ public final class TokenAgreementVerbNounExceptionHelper {
     // тривав довгих десять раундів.
     if( LemmaHelper.hasLemma(tokens[verbPos], Arrays.asList("тривати", "протривати", "йти", "іти", "ходити", "їхати"))
         && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("(adj|numr|noun:inanim).*v_zna.*")) ) {
-      logException();
-      return true;
-    }
-    
-    // світ за очі
-    if( nounAdjPos < tokens.length - 2 
-        && tokens[nounAdjPos].getCleanToken().equals("світ")
-        && LemmaHelper.hasLemma(tokens[nounAdjPos+1], "за")
-        && tokens[nounAdjPos+2].getCleanToken().equals("очі") ) {
       logException();
       return true;
     }
@@ -111,7 +259,6 @@ public final class TokenAgreementVerbNounExceptionHelper {
       logException();
       return true;
     }
-    
     
     // потребувала мільйон
     if( state.cases.contains("v_rod")
@@ -158,64 +305,74 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return true;
     }
 
-    // споживає газу менше
-    if( nounAdjPos < tokens.length - 1
-        &&  PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("noun:.*v_rod.*")) 
-        && tokens[nounAdjPos+1].getCleanToken().matches("менше|більше")
-        ) {
-      logException();
-      return true;
-    }
+    // V_DAV
+    if( PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "v_dav") ) {
 
-    // як боротися підприємцям
-    if( verbPos > 1 
-        && LemmaHelper.hasLemma(tokens[verbPos-1], Arrays.asList("як", "куди", "де", "що", "чого", "чи"))
-        && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
-        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("(adj|noun).*v_dav.*"))) {
-      logException();
-      return true;
-    }
-    // Квапитися їй нікуди
-    if( nounAdjPos < tokens.length -1
-        && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
-        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("(adj|noun).*v_dav.*"))
-        && tokens[nounAdjPos+1].getCleanToken().toLowerCase().matches("ніколи|нікуди|нічого|нічим|ніде|немає?|не")
-            ) {
-      logException();
-      return true;
-    }
+      // INF + V_DAV
+      if( PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf") ) {
 
-    // нічим пишатися селянам
-    if( verbPos > 1
-        && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
-        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("(adj|noun).*v_dav.*"))
-        && tokens[verbPos-1].getCleanToken().toLowerCase().matches("ніколи|нікуди|нічого|нічим|немає?|не")
-            ) {
-      logException();
-      return true;
-    }
+        // як боротися підприємцям
+        if( verbPos > 1 
+            && LemmaHelper.hasLemma(tokens[verbPos-1], Arrays.asList("як", "куди", "де", "що", "чого", "чи"))) {
+          logException();
+          return true;
+        }
+        // Квапитися їй нікуди
+        if( nounAdjPos < tokens.length -1
+            && tokens[nounAdjPos+1].getCleanToken().toLowerCase().matches("ніколи|нікуди|нічого|нічим|ніде|немає?|не")) {
+          logException();
+          return true;
+        }
 
-    // розсміявся брату в обличчя
-    if( nounAdjPos < tokens.length - 2
-        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile(".*v_dav.*"))
-        && tokens[nounAdjPos+1].getCleanToken().toLowerCase().matches("в|у|на|від|під|по|до|і?з|з[іо]|над|з-під|перед|попід|поза|напереріз")
-        && PosTagHelper.hasPosTag(tokens[nounAdjPos+2], Pattern.compile("(noun|adj).*"))) {
-      logException();
-      return true;
-    }
+        // тут жити мешканцям було б добре
+        if( LemmaHelper.hasLemma(tokens[verbPos], Arrays.asList("жити", "сидіти", "судити"))) {
+          logException();
+          return true;
+        }
+        // нічим пишатися селянам
+        // TODO: нікуди було діватися поліції
+        if( verbPos > 1
+            && tokens[verbPos-1].getCleanToken().toLowerCase().matches("ніколи|нікуди|нічого|нічим|ніде|де|немає?|не")) {
+          logException();
+          return true;
+        }
 
-    // закружляли мені десь у тьмі
-    if( nounAdjPos < tokens.length - 2
-        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("noun.*?v_dav:&pron:(pers|refl).*"))) {
-      logException();
-      return true;
-    }
+        // не бачити вам цирку
+        if( verbPos > 1 && nounAdjPos < tokens.length - 1
+            && tokens[verbPos-1].getCleanToken().toLowerCase().matches("не|а?ні")
+            && PosTagHelper.hasPosTagPart(tokens[nounAdjPos+1], "v_rod") ) {
+          logException();
+          return true;
+        }
 
-    if( nounAdjPos < tokens.length - 1
-        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile(".*v_dav.*"))
-        && tokens[nounAdjPos+1].getCleanToken().toLowerCase().matches("назустріч|навперейми|навздогін|услід")) {
-      logException();
-      return true;
+        // слід проходити людям
+        if( verbPos > 1
+            && tokens[verbPos-1].getCleanToken().toLowerCase().matches("слід|снаги|силу")) {
+          logException();
+          return true;
+        }
+      }
+
+      // розсміявся брату в обличчя
+      if( nounAdjPos < tokens.length - 2
+          && tokens[nounAdjPos+1].getCleanToken().toLowerCase().matches("в|у|на|від|під|по|до|і?з|з[іо]|над|з-під|перед|попід|поза|напереріз")
+          && PosTagHelper.hasPosTag(tokens[nounAdjPos+2], Pattern.compile("(noun|adj).*"))) {
+        logException();
+        return true;
+      }
+      if( nounAdjPos < tokens.length - 1
+          && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile(".*v_dav.*"))
+          && tokens[nounAdjPos+1].getCleanToken().toLowerCase().matches("назустріч|навперейми|навздогін|услід")) {
+        logException();
+        return true;
+      }
+
+      // закружляли мені десь у тьмі
+      if( nounAdjPos < tokens.length - 2
+          && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("noun.*?v_dav:&pron:(pers|refl).*"))) {
+        logException();
+        return true;
+      }
     }
 
     // сміятися гріх
@@ -227,26 +384,34 @@ public final class TokenAgreementVerbNounExceptionHelper {
 
     // тренувалися годину
     // працювала рік-два
-    if( LemmaHelper.hasLemmaBase(tokens[nounAdjPos], LemmaHelper.TIME_PLUS_LEMMAS, Pattern.compile("noun:inanim:.:v_(zna|rod|oru).*"))) {
-      logException();
-      return true;
-    }
-
+//    if( LemmaHelper.hasLemmaBase(tokens[nounAdjPos], LemmaHelper.TIME_PLUS_LEMMAS, Pattern.compile("noun:inanim:.:v_(zna|rod|oru).*"))) {
+//      logException();
+//      return true;
+//    }
+//
     // відбудеться наступного дня
-    if( nounAdjPos < tokens.length - 1 
-        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("(adj|numr).*v_(rod|zna|oru).*|noun.*v_(rod|zna|oru).*numr.*"))
-        && LemmaHelper.hasLemma(tokens[nounAdjPos+1], LemmaHelper.TIME_PLUS_LEMMAS, Pattern.compile("noun:inanim:.:v_(rod|zna|oru).*"))) {
-      logException();
-      return true;
-    }
+//    if( nounAdjPos < tokens.length - 1 
+//        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("(adj|numr).*v_(rod|zna|oru).*|noun.*v_(rod|zna|oru).*numr.*"))
+//        && LemmaHelper.hasLemma(tokens[nounAdjPos+1], LemmaHelper.TIME_PLUS_LEMMAS, Pattern.compile("noun:inanim:.:v_(rod|zna|oru).*"))) {
+//      logException();
+//      return true;
+//    }
 
     // відбувається кожні два роки
     // розпочнеться того ж дня
-    if( nounAdjPos < tokens.length - 2 
-        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("(adj|numr).*v_(rod|zna|oru).*"))
-        && (tokens[nounAdjPos+1].getCleanToken().matches("же?")
-         || PosTagHelper.hasPosTag(tokens[nounAdjPos+1], Pattern.compile("(adj|numr).*v_(rod|zna|oru).*|number|noun.*v_(rod|zna|oru).*numr.*")))
-        && LemmaHelper.hasLemma(tokens[nounAdjPos+2], LemmaHelper.TIME_PLUS_LEMMAS, Pattern.compile("noun:inanim:.:v_(rod|zna|oru).*"))) {
+    if( 
+//        nounAdjPos < tokens.length - 2 
+//        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("(adj|numr).*v_(rod|zna|oru).*"))
+//        && (tokens[nounAdjPos+1].getCleanToken().matches("же?")
+//         || PosTagHelper.hasPosTag(tokens[nounAdjPos+1], Pattern.compile("(adj|numr).*v_(rod|zna|oru).*|number|noun.*v_(rod|zna|oru).*numr.*")))
+//        && LemmaHelper.hasLemma(tokens[nounAdjPos+2], LemmaHelper.TIME_PLUS_LEMMAS, Pattern.compile("noun:inanim:.:v_(rod|zna|oru).*"))) {
+      
+      new SearchHelper.Match()
+          .skip(Condition.postag(Pattern.compile(".*v_(rod|zna|oru).*|part.*|number")))
+         .target(Condition.lemma(LemmaHelper.TIME_PLUS_LEMMAS_PATTERN))
+         .limit(4)
+         .mAfter(tokens, nounAdjPos) > 0 ) {
+      
       logException();
       return true;
     }
@@ -254,35 +419,22 @@ public final class TokenAgreementVerbNounExceptionHelper {
     // йде три з половиною години
     if( nounAdjPos < tokens.length - 3 
         && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("numr.*v_zna.*"))
-        && tokens[nounAdjPos+1].getCleanToken().matches("з")
-        && tokens[nounAdjPos+2].getCleanToken().matches("половиною")
-        && LemmaHelper.hasLemma(tokens[nounAdjPos+3], LemmaHelper.TIME_PLUS_LEMMAS, Pattern.compile("noun:inanim:.:v_(rod|zna).*"))) {
+//        && tokens[nounAdjPos+1].getCleanToken().matches("з")
+//        && tokens[nounAdjPos+2].getCleanToken().matches("половиною")
+//        && LemmaHelper.hasLemma(tokens[nounAdjPos+3], LemmaHelper.TIME_PLUS_LEMMAS, Pattern.compile("noun:inanim:.:v_(rod|zna).*"))) {
+        && new SearchHelper.Match().target(Condition.lemma(LemmaHelper.TIME_PLUS_LEMMAS_PATTERN))
+            .limit(4)
+            .mAfter(tokens, nounAdjPos+1) > 0 ) {
       logException();
       return true;
     }
 
-    // не бачити вам цирку
-    if( verbPos > 1 && nounAdjPos < tokens.length - 1
-        && tokens[verbPos-1].getCleanToken().toLowerCase().equals("не")
-        && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
-        && PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "v_dav")
-        && PosTagHelper.hasPosTagPart(tokens[nounAdjPos+1], "v_rod") ) {
-      logException();
-      return true;
-    }
+    if( new SearchHelper.Match()
+        .skip(Condition.postag(Pattern.compile(".*v_oru.*|part.*|adv.*")))
+        .target(new Condition(Pattern.compile("мова"), Pattern.compile("noun:inanim:.:v_oru.*")))
+        .limit(4)
+        .mAfter(tokens, nounAdjPos) > 0 ) {
 
-    // слід проходити людям
-    if( verbPos > 1
-        && tokens[verbPos-1].getCleanToken().toLowerCase().equals("слід")
-        && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
-        && PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "v_dav")) {
-      logException();
-      return true;
-    }
-
-    // меншає людей
-    if( LemmaHelper.hasLemma(state.verbAnalyzedTokenReadings, Pattern.compile("(по)?меншати|(по)?більшати|стати"), Pattern.compile("verb.*:[sn](:.*|$)"))
-        && PosTagHelper.hasPosTag(tokens[state.nounPos], Pattern.compile("(noun|adj).*v_rod.*")) ) {
       logException();
       return true;
     }
@@ -320,12 +472,28 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return true;
     }
 
+    // меншає людей
+    if( LemmaHelper.hasLemma(state.verbAnalyzedTokenReadings, Pattern.compile("(по)?меншати|(по)?більшати|стати"), Pattern.compile("verb.*:[sn](:.*|$)"))
+        && PosTagHelper.hasPosTag(tokens[state.nounPos], Pattern.compile("(noun|adj).*v_rod.*")) ) {
+      logException();
+      return true;
+    }
+
+    // споживає газу менше
+    if( nounAdjPos < tokens.length - 1
+        &&  PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("noun:.*v_rod.*")) 
+        && tokens[nounAdjPos+1].getCleanToken().matches("менше|більше")
+        ) {
+      logException();
+      return true;
+    }
+
     // небагато надходить книжок
     // трохи зменшується матерії
     if( state.verbPos > 1
         && PosTagHelper.hasPosTagPart(tokens[state.nounPos], "v_rod") ) {
 
-      Pattern vRodDriverPattern = Pattern.compile("не|(на)?с[кт]ільки|(най)?більше|(най)?менше|(не|за)?багато|(не|чи|за)?мало|трохи|годі|неможливо|а?ніж|вдосталь", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+      Pattern vRodDriverPattern = Pattern.compile("не|(на)?с[кт]ільки|(най)?більше|(най)?менше|(не|за)?багато|(не|чи|за)?мало|трохи|годі|неможливо|а?ніж|вдосталь|купу", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
       int xpos = LemmaHelper.tokenSearch(tokens, state.verbPos-1, (String)null, vRodDriverPattern, Pattern.compile("[a-z].*"), Dir.REVERSE);
       if( xpos >= 0 && xpos >= state.verbPos-4 ) {
           logException();
@@ -442,7 +610,18 @@ public final class TokenAgreementVerbNounExceptionHelper {
     if( verbPos > 1
         && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
         ) {
-      int v2pos = LemmaHelper.tokenSearch(tokens, state.verbPos-1, PosTagHelper.VERB_ADVP_PATTERN, null, Pattern.compile("[a-z].*"), Dir.REVERSE);
+
+      int lookupPos = state.verbPos-1;
+
+      // перестають діяти й розвиватися демократичні
+      if( verbPos > 3 ) {
+        if( LemmaHelper.hasLemma(tokens[verbPos-1], Arrays.asList("і", "й", "та"))
+            && PosTagHelper.hasPosTagPart(tokens[verbPos-2], ":inf") ) {
+          lookupPos = verbPos - 3;
+        }
+      }
+      
+      int v2pos = LemmaHelper.tokenSearch(tokens, lookupPos, PosTagHelper.VERB_ADVP_PATTERN, null, Pattern.compile("[a-z].*"), Dir.REVERSE);
       if( v2pos >= 0 && v2pos >= state.verbPos-5
           && (CaseGovernmentHelper.hasCaseGovernment(tokens[v2pos], PosTagHelper.VERB_ADVP_PATTERN, "v_inf") 
             || tokens[verbPos].getCleanToken().matches("(по)?їсти")) 
@@ -451,6 +630,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
           logException();
           return true;
         }
+        // заважають розвиватися погане управління, війна
         if( PosTagHelper.hasPosTag(tokens[v2pos], Pattern.compile("verb.*:p($|:.*)")) 
             && PosTagHelper.hasPosTag(tokens[state.nounPos], Pattern.compile(".*v_naz.*")) ) {
           logException();
@@ -487,6 +667,12 @@ public final class TokenAgreementVerbNounExceptionHelper {
         && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
         && PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "v_naz")
         ) {
+      // не в змозі приховати офіційна статистика
+      if( tokens[verbPos-1].getCleanToken().toLowerCase().matches("змозі|змогу|силі|силах") ) { // але "під силу" + v_dav
+        logException();
+        return true;
+      }
+
       int v2pos = LemmaHelper.tokenSearch(tokens, state.verbPos-1, PosTagHelper.ADJ_V_NAZ_PATTERN, null, Pattern.compile("[a-z].*"), Dir.REVERSE);
       if( v2pos >= 0 && v2pos >= state.verbPos-3 ) {
         if( CaseGovernmentHelper.hasCaseGovernment(tokens[v2pos], PosTagHelper.ADJ_V_NAZ_PATTERN, "v_inf") ) {
@@ -628,4 +814,172 @@ public final class TokenAgreementVerbNounExceptionHelper {
     }
   }
 
+  static int isExceptionHardAdjNoun(AnalyzedTokenReadings[] tokens, int i, State state) {
+
+    // понад - very complicated
+    // зайнявся понад тисячу справ
+//    if( tokens[i].getCleanToken().equals("понад") )
+//      continue;
+
+    String cleanTokenLower = tokens[i].getCleanToken().toLowerCase();
+    if( cleanTokenLower.matches("[0-9]{4}-.+|нікому|нічому|нічого|нікого|нічим|решту|ніщо") ) {
+      return 1;
+    }
+
+    if( LemmaHelper.hasLemma(tokens[i], Arrays.asList("сам", "самий", "себе", "один")) ) {
+      return 1;
+    }
+
+    // висміювати такого роду забобони
+    if( i < tokens.length - 1
+        && PosTagHelper.hasPosTag(tokens[i], Pattern.compile("adj:m:v_rod.*"))
+        && tokens[i+1].getCleanToken().matches("роду|разу|типу|штибу|розміру")
+        ) {
+      return 1;
+    }
+    if( i < tokens.length - 1
+        && PosTagHelper.hasPosTag(tokens[i], Pattern.compile("(adj|numr):[mp]:v_oru.*"))
+        && tokens[i+1].getCleanToken().matches("чином|способом|робом|ходом|шляхом|коштом") ) {
+          return 1;
+    }
+    if( i < tokens.length - 1
+        && PosTagHelper.hasPosTag(tokens[i], Pattern.compile("adj:f:v_oru.*"))
+        && tokens[i+1].getCleanToken().matches("мірою")
+        ) {
+      return 1;
+    }
+    if( i < tokens.length - 1
+        && PosTagHelper.hasPosTag(tokens[i], Pattern.compile("adj:f:v_rod.*"))
+        && tokens[i+1].getCleanToken().matches("якості|свіжості")
+        ) {
+      return 1;
+    }
+    if( i < tokens.length - 1
+        && tokens[i+1].getCleanToken().toLowerCase().matches("темпами")
+        ) {
+      return 1;
+    }
+
+    if (new SearchHelper.Match().tokenLine("не те щоб").mNow(tokens, i) == i + 2
+        || new SearchHelper.Match().tokenLine("не те що").mNow(tokens, i) == i + 2
+        || new SearchHelper.Match().tokenLine("не останньою чергою").mNow(tokens, i) == i + 2)
+      return 3;
+
+    if( new SearchHelper.Match().tokenLine("не те, що").mNow(tokens, i) == i + 3 )
+      return 4;
+
+    if( new SearchHelper.Match().tokenLine("світ за очі").mNow(tokens, i) == i + 2 )
+      return 3;
+
+    if( new SearchHelper.Match().tokenLine("ні світ ні").mNow(tokens, i) == i + 2 )
+      return 3;
+
+    if( new SearchHelper.Match().tokenLine("куди очі").mNow(tokens, i) == i + 1 )
+      return 3;
+
+    if( new SearchHelper.Match().tokenLine("куди очі").mNow(tokens, i) == i + 1 )
+      return 3;
+
+    if( new SearchHelper.Match().tokenLine("станом на").mNow(tokens, i) == i + 1 )
+      return 3;
+
+    if( tokens[i-1].getCleanToken().equals("не")
+        && tokens[i].getCleanToken().matches("указ|варіант|рідкість")
+        ) {
+      return 0;
+    }
+
+    return -1;
+  }
+
+  private static final Pattern PARTS_CANT_SKIP = Pattern.compile("і|й|та|чи|або|але|як|де|куди|наче|ніби|хоч|навіщо|немов|вдвічі|дедалі|щойно|наскільки");
+  static int isExceptionSkip(AnalyzedTokenReadings[] tokens, int i) {
+
+    String cleanTokenLower = tokens[i].getCleanToken().toLowerCase();
+    
+    if( PosTagHelper.hasPosTagAll(tokens[i].getReadings(), Pattern.compile("(part|adv).*"))
+       && ! LemmaHelper.ADV_QUANT_PATTERN.matcher(cleanTokenLower).matches()
+      && ! PARTS_CANT_SKIP.matcher(cleanTokenLower).matches() ) {
+      return 0;
+    }
+    if( PosTagHelper.hasPosTag(tokens[i].getReadings(), Pattern.compile("part.*"))
+       && PosTagHelper.hasPosTagAll(tokens[i].getReadings(), Pattern.compile("(part|conj|adv).*")) 
+       && ! PARTS_CANT_SKIP.matcher(cleanTokenLower).matches() ) {
+      return 0;
+    }
+
+    return -1;
+  }
+
+  static RuleException isExceptionVerb(AnalyzedTokenReadings[] tokens, int i, State state) {
+    
+    if( LemmaHelper.hasLemma(tokens[i], Arrays.asList("мусити")) )
+      return new RuleException(Type.exception);
+    
+    String cleanTokenLower = tokens[i].getCleanToken().toLowerCase();
+
+    if( cleanTokenLower.equals("може") )
+      return new RuleException(Type.exception);
+
+    // як є
+    if( i > 1 
+        && (cleanTokenLower.matches("є") || LemmaHelper.hasLemma(tokens[i], "могти"))
+        && tokens[i-1].getCleanToken().equalsIgnoreCase("як")
+        ) {
+      return new RuleException(Type.exception);
+    }
+    
+    // будь то
+    if( i < tokens.length - 2
+        && cleanTokenLower.equals("будь")
+        && tokens[i+1].getCleanToken().equalsIgnoreCase("то")
+        ) {
+      return new RuleException(Type.exception);
+    }
+    
+    // вкласти спати Маринку
+    if( i > 1 && i < tokens.length - 1
+        && tokens[i].getCleanToken().toLowerCase().equals("спати")
+        && LemmaHelper.hasLemma(tokens[i-1], Pattern.compile("(по|в)?кла(сти|вши)"))
+        ) {
+      return new RuleException(Type.skip);
+    }
+    
+    // розпочав був
+    if( i > 1 && state != null ) {
+      // TODO: merge with unify
+      if( cleanTokenLower.matches("був|було")
+          && PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile("verb.*:past:m.*")) ) {
+        return new RuleException(0);
+      }
+      if( cleanTokenLower.matches("були|було")
+          && PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile("verb.*:past:p.*")) ) { 
+        return new RuleException(0); 
+      }
+      if( cleanTokenLower.equals("було")
+          && PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile("verb.*:past:n.*")) ) { 
+        return new RuleException(0); 
+      }
+      if( cleanTokenLower.matches("була|було")
+          && PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile("verb.*:past:f.*")) ) { 
+        return new RuleException(0); 
+      }
+    }
+
+    if( i > 1
+        && cleanTokenLower.matches("було|буде") ) {
+      // чути/проголошено було
+      if( state != null 
+          && PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile("verb.*(impers|predic).*")) ) {
+        return new RuleException(0); 
+      }
+      // видно/варто було
+//      if( LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("видно", "помітно")) // temporary until new dict
+//          || PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile(".*predic.*")) ) {
+//        return new RuleException(Type.exception); 
+//      }
+    }
+
+    return new RuleException(Type.none); 
+  }
 }

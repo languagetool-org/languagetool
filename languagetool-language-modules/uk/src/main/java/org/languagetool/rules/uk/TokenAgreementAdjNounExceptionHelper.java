@@ -831,7 +831,7 @@ final class TokenAgreementAdjNounExceptionHelper {
       }
       else if( PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj.*v_oru.*") ) {
         // була чинною заборона
-        if( PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*v_naz.*")) {
+        if( PosTagHelper.hasPosTag(slaveTokenReadings, Pattern.compile("noun.*v_naz.*"))) {
           if( genderMatches(masterInflections, slaveInflections, "v_oru", "v_naz") ) {
             // не можуть бути толерантними ізраїльтяни
             if( PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")

@@ -42,7 +42,6 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.uk.LemmaHelper.Dir;
-import org.languagetool.rules.uk.TokenAgreementPrepNounExceptionHelper.RuleException;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
@@ -521,7 +520,7 @@ public class TokenAgreementPrepNounRule extends Rule {
 
     if( state.posTagsToFind.contains("v_rod")
         && tokens[i].getToken().matches(".*[ую]")
-        && PosTagHelper.hasPosTag(tokenReadings.getReadings(), "noun.*?:m:v_dav.*") ) {
+        && PosTagHelper.hasPosTag(tokenReadings.getReadings(), Pattern.compile("noun.*?:m:v_dav.*")) ) {
       msg += CaseGovernmentHelper.USED_U_INSTEAD_OF_A_MSG;
     }
     else if( tokenString.equals("їх") && requiredPostTagsRegEx != null ) {

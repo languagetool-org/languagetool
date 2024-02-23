@@ -489,11 +489,11 @@ public class TokenAgreementNumrNounRule extends Rule {
         }
         else if( masterInflections.contains(new Inflection("m", "v_rod", null))
             && tokens[i].getToken().matches(".*[ую]")
-            && PosTagHelper.hasPosTag(nounTokenReadings, "noun.*?:m:v_dav.*") ) {
+            && PosTagHelper.hasPosTag(nounTokenReadings, Pattern.compile("noun.*?:m:v_dav.*")) ) {
           msg += CaseGovernmentHelper.USED_U_INSTEAD_OF_A_MSG;
         }
-        else if( ! PosTagHelper.hasPosTag(state.numrTokenReadings, "adj.*?v_mis.*")
-            && PosTagHelper.hasPosTag(nounTokenReadings, "noun.*?v_mis.*") ) {
+        else if( ! PosTagHelper.hasPosTag(state.numrTokenReadings, Pattern.compile("adj.*?v_mis.*"))
+            && PosTagHelper.hasPosTag(nounTokenReadings, Pattern.compile("noun.*?v_mis.*")) ) {
           msg += ". Можливо, пропущено прийменник на/в/у...?";
         }
 
