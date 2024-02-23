@@ -34,9 +34,11 @@ import java.util.regex.Pattern;
  */
 public class GenericUnpairedQuotesRule extends TextLevelRule {
 
-  private static final Pattern OPENING_BRACKETS = Pattern.compile("[(\\[{]");
+//  private static final Pattern OPENING_BRACKETS = Pattern.compile("[(\\[{]");
   private static final Pattern POSSIBLE_APOSTROPHE = Pattern.compile("[‘’']");
   private static final Pattern INCH_PATTERN = Pattern.compile(".*\\d\".*", Pattern.DOTALL);
+  private static final Pattern PUNCTUATION = Pattern.compile("[\\p{Punct}…–—&&[^\"'_]]");
+  private static final Pattern PUNCT_MARKS = Pattern.compile("[\\?\\.!,]");
 
   private final List<String> startSymbols;
   private final List<String> endSymbols;
@@ -108,8 +110,12 @@ public class GenericUnpairedQuotesRule extends TextLevelRule {
             removeAllOpenInnerQuotes(index - 1, openingQuotes, ruleMatches);
           }
           openingQuotes.add(new SymbolLocator(symbol, tokens[i].getStartPos() + startPosBase, sentence));
-        } else if (isClosingQuote(tokens, i)) {
+        } else if (isClosingQuote(tokens, i, openingQuotes)) {
           String symbol = tokens[i].getToken();
+          if (!isNotBeginningApostrophe(tokens, i)) {
+            lastApostropheSymbol = symbol;
+            continue;
+          }
           boolean isInchSymb = "\"".equals(symbol);
           boolean isInch = isInchSymb ? isInchQuote(sentence.getText()) : false;
           String startSymbol = findCorrespondingSymbol(symbol);
@@ -144,7 +150,7 @@ public class GenericUnpairedQuotesRule extends TextLevelRule {
   
   private boolean isStartSymbolbefore(AnalyzedTokenReadings[] tokens, int i) {
     for (int j = i - 1; j > 0; j--) {
-      if (startSymbols.contains(tokens[j].getToken())) {
+      if (!tokens[i].getToken().equals(tokens[j].getToken()) && startSymbols.contains(tokens[j].getToken())) {
         if (tokens[j - 1].isSentenceStart() || tokens[j].isWhitespaceBefore()) {
           return true;
         }
@@ -154,21 +160,50 @@ public class GenericUnpairedQuotesRule extends TextLevelRule {
     }
     return true;
   }
+  
+  private boolean isNotOpenSymbol(int j, List<SymbolLocator> openingQuotes) {
+    if (endSymbols.get(j).equals(startSymbols.get(j))) {
+      for (SymbolLocator openingQuote : openingQuotes) {
+        if (endSymbols.get(j).equals(openingQuote.getSymbol())) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+  
+  private boolean isNotQuote (AnalyzedTokenReadings[] tokens, int i, int j) {
+    if ((tokens[i - 1].isSentenceStart() || tokens[i].isWhitespaceBefore())
+        && (i >= tokens.length -1 || tokens[i + 1].isWhitespaceBefore())) {
+      return true;
+    }
+    if (endSymbols.get(j).equals(startSymbols.get(j))) {
+      if (i < tokens.length - 1 
+          && !tokens[i].isWhitespaceBefore()
+          && !tokens[i + 1].isWhitespaceBefore()
+          && PUNCTUATION.matcher(tokens[i - 1].getToken()).matches()
+          && !".".equals(tokens[i + 1].getToken())
+          && PUNCTUATION.matcher(tokens[i + 1].getToken()).matches()) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   private boolean isOpeningQuote(AnalyzedTokenReadings[] tokens, int i) {
     for (int j = 0; j < startSymbols.size(); j++) {
       if (startSymbols.get(j).equals(tokens[i].getToken())) {
-        if ((tokens[i - 1].isSentenceStart() || tokens[i].isWhitespaceBefore())
-            && (i >= tokens.length -1 || tokens[i + 1].isWhitespaceBefore())) {
+        if (isNotQuote (tokens, i, j)) {
           return false;
         }
         if (endSymbols.contains(startSymbols.get(j))) {
           return (tokens[i - 1].isSentenceStart()
               || tokens[i].isWhitespaceBefore()
-              || OPENING_BRACKETS.matcher(tokens[i - 1].getToken()).matches()
-              || isStartSymbolbefore(tokens, i)
-              || (tokens[i - 1].getToken().endsWith("-") 
-                  && i < tokens.length - 1 && !tokens[i + 1].isWhitespaceBefore()));
+              || (i < tokens.length - 1 && !tokens[i + 1].isWhitespaceBefore()
+                  && ((!PUNCT_MARKS.matcher(tokens[i + 1].getToken()).matches()
+                      && PUNCTUATION.matcher(tokens[i - 1].getToken()).matches())
+                      || (tokens[i - 1].getToken().endsWith("-"))))
+              || isStartSymbolbefore(tokens, i));
         }
         return true;
       }
@@ -176,11 +211,10 @@ public class GenericUnpairedQuotesRule extends TextLevelRule {
     return false;
   }
 
-  private boolean isClosingQuote(AnalyzedTokenReadings[] tokens, int i) {
+  private boolean isClosingQuote(AnalyzedTokenReadings[] tokens, int i, List<SymbolLocator> openingQuotes) {
     for (int j = 0; j < endSymbols.size(); j++) {
       if (endSymbols.get(j).equals(tokens[i].getToken())) {
-        if ((tokens[i - 1].isSentenceStart() || tokens[i].isWhitespaceBefore())
-            && (i >= tokens.length -1 || tokens[i + 1].isWhitespaceBefore())) {
+        if (isNotQuote (tokens, i, j) && isNotOpenSymbol(j, openingQuotes)) {
           return false;
         }
         return true;
@@ -195,12 +229,13 @@ public class GenericUnpairedQuotesRule extends TextLevelRule {
   
   protected boolean isNotBeginningApostrophe(AnalyzedTokenReadings[] tokens, int i) {
     return !POSSIBLE_APOSTROPHE.matcher(tokens[i].getToken()).matches()
-        || (i < tokens.length - 1  && tokens[i + 1].isNonWord());
+        || i >= tokens.length - 1  || tokens[i + 1].isNonWord() || tokens[i + 1].isWhitespaceBefore();
             
   }
 
   protected boolean isNotEndingApostrophe(AnalyzedTokenReadings[] tokens, int i) {
     return !POSSIBLE_APOSTROPHE.matcher(tokens[i].getToken()).matches()
+            || tokens[i].isWhitespaceBefore()
             || tokens[i - 1].isNonWord();
   }
   
