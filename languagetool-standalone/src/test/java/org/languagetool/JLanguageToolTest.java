@@ -510,6 +510,7 @@ public class JLanguageToolTest {
     assertEquals(1, matches.size());
     matches = lt.check("My son is tall.");
     assertEquals(0, matches.size());
-
+    matches = lt.check("The event was successful.");
+    assertEquals(0, matches.size());
   }
 }

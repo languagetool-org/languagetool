@@ -84,10 +84,10 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
 
   @Override
   protected boolean isTokenExceptionInContext(AnalyzedTokenReadings[] tokens, int i) {
-    if (i > 2 && i + 1 < tokens.length) {
-      if (possibleExceptions.contains(tokens[i].getToken().toLowerCase()) && tokens[i - 1].hasPosTag(
-          "_english_ignore_") && tokens[i].hasPosTag("_english_ignore_") &&
-        tokens[i + 1].hasPosTag("_english_ignore_")) {
+    // accept English words in English sentences
+    if (i > 1 && i + 1 < tokens.length) {
+      if (possibleExceptions.contains(tokens[i].getToken().toLowerCase()) && tokens[i].hasPosTag("_english_ignore_")
+        && (tokens[i + 1].hasPosTag("_english_ignore_") || tokens[i - 1].hasPosTag("_english_ignore_"))) {
         return true;
       }
     }
