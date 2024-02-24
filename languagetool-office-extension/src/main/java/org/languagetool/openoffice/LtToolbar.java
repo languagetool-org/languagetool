@@ -151,12 +151,15 @@ public class LtToolbar {
       XLayoutManager layoutManager = getLayoutManager();
       boolean exist = false;
       boolean isLocked = false;
+      boolean isVisible = false;
       Point pos = null;
       
       if (layoutManager.getElement(toolbarName) != null) {
         exist = true;
         isLocked = layoutManager.isElementLocked(toolbarName);
         pos = layoutManager.getElementPos(toolbarName);
+        isVisible = layoutManager.isElementVisible(toolbarName);
+        MessageHandler.printToLogFile("LtToolbar: makeToolbar: name: " + toolbarName + ", isVisible: " + isVisible + ", isLocked: " + isLocked);
       }
       layoutManager.destroyElement(toolbarName);
       layoutManager.createElement(toolbarName);
@@ -165,10 +168,14 @@ public class LtToolbar {
         if (isLocked) {
           layoutManager.lockWindow(toolbarName);
         }
-      } else {
-        layoutManager.dockWindow(toolbarName, DockingArea.DOCKINGAREA_RIGHT, new Point(1,0));
+//      } else {
+//        layoutManager.dockWindow(toolbarName, DockingArea.DOCKINGAREA_RIGHT, new Point(1,0));
       }
-      layoutManager.showElement(toolbarName);
+      if (isVisible) {
+        layoutManager.showElement(toolbarName);
+      } else {
+        layoutManager.hideElement(toolbarName);
+      }
 /*
       XUIElement oLtBar = layoutManager.getElement(toolbarName);
       XUIElementSettings oLtBarSettings = UnoRuntime.queryInterface(XUIElementSettings.class, oLtBar);
