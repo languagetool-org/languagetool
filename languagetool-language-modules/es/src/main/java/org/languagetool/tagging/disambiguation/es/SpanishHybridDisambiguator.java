@@ -49,7 +49,6 @@ public class SpanishHybridDisambiguator extends AbstractDisambiguator {
   public SpanishHybridDisambiguator(Language lang) {
     disambiguator = new XmlRuleDisambiguator(lang, true);
     chunker.setRemovePreviousTags(true);
-    initExtraSpellingRule("en-US", new String[]{"_english_ignore_"});
   }
 
   @Override

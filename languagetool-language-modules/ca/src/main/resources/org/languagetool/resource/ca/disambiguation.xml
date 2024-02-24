@@ -37,6 +37,132 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
+    <rulegroup id="IGNORE_ENGLISH_WORDS" name="etiqueta paraules angleses">
+        <antipattern>
+            <token regexp="yes">the|than</token>
+            <token postag="V.P.*" postag_regexp="yes"/>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token postag="UNKNOWN" regexp="yes">&english_common;|&english_common_casesensitive;</token>
+                <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_" regexp="yes">&english_common;|&english_common_casesensitive;</token>
+                <marker>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+                <token postag="UNKNOWN" regexp="yes">&english_common;|&english_common_casesensitive;<exception>in</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+                <token postag="_english_ignore_" regexp="yes">&english_common;|&english_common_casesensitive;<exception>in</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>to</token>
+                <token regexp="yes">[a-z]+</token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2 postags:VB"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token case_sensitive="yes">I</token>
+                <token regexp="yes">[a-z]+<exception>buffet</exception><exception regexp="yes">&english_no;</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2 postags:VB[PD]"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_|UNKNOWN" postag_regexp="yes" regexp="yes">[a-z]+<exception regexp="yes">saint|anti|&english_no;</exception></token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no" regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,3"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]+<exception regexp="yes">saint|anti|&english_no;</exception></token>
+                <token spacebefore="no">-</token>
+                <token postag="_english_ignore_|UNKNOWN" postag_regexp="yes" spacebefore="no" regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,3"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="IGNORE_ENGLISH_WORDS2" name="etiqueta paraules angleses">
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_"/>
+                <marker>
+                    <token regexp="yes">[a-z]+|'s<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+                <token postag="_english_ignore_"/>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="FIX_DICTIONARY" name="fix some problems in dictionaries">
         <!-- es pot eliminar quan s'arregle el diccionari -->
         <rule>

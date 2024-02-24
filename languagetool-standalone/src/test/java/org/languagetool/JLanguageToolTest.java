@@ -470,4 +470,46 @@ public class JLanguageToolTest {
     assertThat(matchesCounter, is(0));
   }
 
+
+  @Test
+  public void testIgnoringEnglishWordsInCatalan() throws IOException {
+    Language lang = new Catalan();
+    JLanguageTool lt = new JLanguageTool(lang);
+    List<RuleMatch> matches = lt.check("To do this");
+    assertEquals(0, matches.size());
+    matches = lt.check("I'm good at this");
+    assertEquals(0, matches.size());
+    lt.check("The Live Anthology");
+    assertEquals(0, matches.size());
+    matches = lt.check("The Ecology of Post-Cultural Revolution Frontier Art és el títol d'un llibre");
+    assertEquals(0, matches.size());
+    matches = lt.check("This is a good thing és una frase en anglès sense faltez.");
+    assertEquals(1, matches.size());
+    matches = lt.check("The Great Dictator és una pel·lícula de Chaplin.");
+    assertEquals(0, matches.size());
+    matches = lt.check("Llegirem una part de The Handmaid's Tale.");
+    assertEquals(0, matches.size());
+    matches = lt.check("The dit una cosa");
+    assertEquals(1, matches.size());
+    assertEquals("T'he", matches.get(0).getSuggestedReplacements().get(0));
+    matches = lt.check("I am the goalkeeper.");
+    assertEquals(0, matches.size());
+    matches = lt.check("I'm the goalkeeper.");
+    assertEquals(0, matches.size());
+    matches = lt.check("Me'n vaig a Malaga.");
+    assertEquals(1, matches.size());
+    matches = lt.check("Me'n vaig a Malaga of Spain.");
+    assertEquals(0, matches.size());
+    matches = lt.check("a l´area de");
+    assertEquals(2, matches.size());
+    matches = lt.check("el interest: 98,850.00 euros");
+    assertEquals(3, matches.size());
+    matches = lt.check("En aquest video I en aquestes");
+    assertEquals(1, matches.size());
+    matches = lt.check("D'India i de Pakistan.");
+    assertEquals(1, matches.size());
+    matches = lt.check("My son is tall.");
+    assertEquals(0, matches.size());
+
+  }
 }

@@ -260,7 +260,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
         sb.insert(0, prevTokensList.get(j).getToken());
         variants.add(0, sb.toString());
       }
-      if (isTokenException(tokens[i])) {
+      if (isTokenExceptionInContext(tokens, i)) {
         continue;
       }
       int len = variants.size(); // prevTokensList and variants have now the same length
@@ -339,6 +339,10 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   
   protected boolean isTokenException(AnalyzedTokenReadings atr) {
     return false;
+  }
+
+  protected boolean isTokenExceptionInContext(AnalyzedTokenReadings[] tokens, int i) {
+    return isTokenException(tokens[i]);
   }
 
   /**

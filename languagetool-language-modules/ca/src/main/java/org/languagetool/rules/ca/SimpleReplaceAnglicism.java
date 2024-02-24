@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -33,9 +33,9 @@ import java.util.ResourceBundle;
 /**
  * A rule that matches words which should not be used and suggests correct ones
  * instead.
- * 
+ * <p>
  * Loads the relevant words from <code>rules/ca/replace_anglicism.txt</code>.
- * 
+ *
  * @author Jaume Ortolà
  */
 public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
@@ -80,10 +80,19 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
     return "Anglicisme innecessari. Considereu fer servir una altra paraula.";
   }
 
+  private List<String> possibleExceptions = Arrays.asList("link", "links", "event", "events");
+
   @Override
-  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+  protected boolean isTokenExceptionInContext(AnalyzedTokenReadings[] tokens, int i) {
+    if (i > 2 && i + 1 < tokens.length) {
+      if (possibleExceptions.contains(tokens[i].getToken().toLowerCase()) && tokens[i - 1].hasPosTag(
+          "_english_ignore_") && tokens[i].hasPosTag("_english_ignore_") &&
+        tokens[i + 1].hasPosTag("_english_ignore_")) {
+        return true;
+      }
+    }
     // proper nouns tagged in multiwords are exceptions
-    return atr.hasPosTagStartingWith("NP") || atr.isImmunized() || atr.isIgnoredBySpeller();
+    return tokens[i].hasPosTagStartingWith("NP") || tokens[i].isImmunized() || tokens[i].isIgnoredBySpeller();
   }
 
 }

@@ -70,7 +70,7 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
         sb.insert(0, prevTokensList.get(j).getToken());
         phrases.add(0, sb.toString());
       }
-      if (isTokenException(tokens[i])) {
+      if (isTokenExceptionInContext(tokens, i)) {
         continue;
       }
       int len = phrases.size(); // prevTokensList and variants have now the same length

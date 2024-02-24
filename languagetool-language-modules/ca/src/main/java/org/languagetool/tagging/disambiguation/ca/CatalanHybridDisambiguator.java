@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -20,10 +20,8 @@
 package org.languagetool.tagging.disambiguation.ca;
 
 import java.io.IOException;
-
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.language.Catalan;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
@@ -31,14 +29,17 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 /**
  * Hybrid chunker-disambiguator for Catalan
- * 
+ *
  * @author Jaume Ortolà
  */
 public class CatalanHybridDisambiguator extends AbstractDisambiguator {
 
   private final MultiWordChunker chunker = new MultiWordChunker("/ca/multiwords.txt", true, true, false);
-  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, false,"NPCN000");
+  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, false,
+    "NPCN000");
   private final Disambiguator disambiguator;
+
+  private static final String ENGLISH_IGNORE_TAG = "_english_ignore_";
 
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {
@@ -49,17 +50,17 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based
    * disambiguator.
    */
-  
+
   public CatalanHybridDisambiguator(Language lang) {
     disambiguator = new XmlRuleDisambiguator(lang, true);
     chunker.setRemovePreviousTags(true);
-    initExtraSpellingRule("en-US", new String[]{"_english_ignore_"});
   }
 
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input,
                                              @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    return disambiguator.disambiguate(chunker.disambiguate(chunkerGlobal.disambiguate(input, checkCanceled),
+    return disambiguator.disambiguate(chunker.disambiguate(chunkerGlobal.disambiguate(input,
+        checkCanceled),
       checkCanceled), checkCanceled);
   }
 
