@@ -100,6 +100,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern SPECIAL_CASE = compile(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)");
   private static final Pattern SPECIAL_CASE_WITH_S = compile(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)s");
   private static final Pattern AUTENTISCH_WITH_CASES = compile("[Aa]utentisch(e[nmsr]?|ste[nmsr]?|ere[nmsr]?)?");
+  private static final Pattern SYMPHATISCH = compile("symphatisch(e[nmsr]?|ste[nmsr]?|ere[nmsr]?)?");
   private static final Pattern BRILLIANT_WITH_CASES = compile("brilliant(e[nmsr]?|ere[nmsr]?|este[nmsr]?)?");
   private static final Pattern RECHTMASIG_WITH_CASES = compile("rechtmässig(e[nmsr]?|ere[nmsr]?|ste[nmsr]?)?");
   private static final Pattern HOLZ_SPIEGEL_PANEL_COMPOUND = compile("(Holz|Spiegel)panel(s|en?)?");
@@ -2919,6 +2920,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected List<SuggestedReplacement> getOnlySuggestions(String word) {
+    if (SYMPHATISCH.matcher(word).matches()) {
+      return topMatch(word.replaceFirst("symphatisch", "sympathisch"));
+    }
     if (AUTENTISCH_WITH_CASES.matcher(word).matches()) {
       return topMatch(word.replaceFirst("utent", "uthent"));
     }
