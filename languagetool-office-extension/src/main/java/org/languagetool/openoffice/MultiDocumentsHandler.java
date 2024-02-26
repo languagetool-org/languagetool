@@ -132,6 +132,7 @@ public class MultiDocumentsHandler {
 
   private boolean noBackgroundCheck = false;        //  is LT switched off by config
   private boolean useQueue = true;                  //  will be overwritten by config
+  private boolean noLtSpeller = false;              //  true if LT spell checker can't be used
 
   private String menuDocId = null;                    //  Id of document at which context menu was called 
   private TextLevelCheckQueue textLevelQueue = null;  // Queue to check text level rules
@@ -169,6 +170,10 @@ public class MultiDocumentsHandler {
     documents = new ArrayList<>();
     disabledRulesUI = new HashMap<>();
     extraRemoteRules = new ArrayList<>();
+    if (officeInfo == null || officeInfo.osArch.equals("x86")
+        || !LtSpellChecker.runLTSpellChecker(xContext)) {
+      noLtSpeller = true;
+    }
 //    handleDictionary = new HandleLtDictionary();
 //    handleDictionary.start();
     LtHelper ltHelper = new LtHelper();
@@ -353,6 +358,13 @@ public class MultiDocumentsHandler {
    */
   boolean isNotTextDocument() {
     return isNotTextDocument;
+  }
+  
+  /**
+   * return true, if the LT spell checker is not be used
+   */
+  boolean noLtSpeller() {
+    return this.noLtSpeller;
   }
   
   /**
@@ -629,6 +641,15 @@ public class MultiDocumentsHandler {
     return config;
   }
   
+  private void disableLTSpellChecker(XComponentContext xContext, Language lang) {
+    try {
+      config.setUseLtSpellChecker(false);
+      config.saveConfiguration(lang);
+    } catch (IOException e) {
+      MessageHandler.printToLogFile("Can't read configuration: LT spell checker not used!");
+    }
+  }
+
   /**
    *  get LinguisticServices
    */
@@ -637,8 +658,7 @@ public class MultiDocumentsHandler {
       linguServices = new LinguisticServices(xContext);
       MessageHandler.printToLogFile("MultiDocumentsHandler: getLinguisticServices: linguServices set: is " 
             + (linguServices == null ? "" : "NOT ") + "null");
-      OfficeProductInfo officeProductInfo = OfficeTools.getOfficeProductInfo(xContext);
-      if (officeProductInfo != null && officeProductInfo.osArch.equals("x86")) {
+      if (noLtSpeller) {
         Tools.setLinguisticServices(linguServices);
         MessageHandler.printToLogFile("MultiDocumentsHandler: getLinguisticServices: linguServices set to tools");
       }
@@ -965,6 +985,11 @@ public class MultiDocumentsHandler {
         OfficeTools.setLogLevel(config.getlogLevel());
         debugMode = OfficeTools.DEBUG_MODE_MD;
         debugModeTm = OfficeTools.DEBUG_MODE_TM;
+        if (!noLtSpeller && !LtSpellChecker.isEnoughHeap()) {
+          noLtSpeller = true;
+          disableLTSpellChecker(xContext, docLanguage);
+          MessageHandler.showMessage(messages.getString("guiSpellCheckerWarning"));
+        }
       }
       long startTime = 0;
       if (debugModeTm) {
@@ -999,20 +1024,18 @@ public class MultiDocumentsHandler {
           }
         }
       }
-/*    
- *    The spell rules will not be disabled (test version)
- *         
-      List<Rule> allRules = checkImpressDocument ? lt.getAllActiveRules() : lt.getAllActiveOfficeRules();
-      for (Rule rule : allRules) {
-        if (rule.isDictionaryBasedSpellingRule()) {
-          lt.disableRule(rule.getId());
-          if (rule.useInOffice()) {
-            // set default off so it can be re-enabled by user configuration
-            rule.setDefaultOff();
+      if (noLtSpeller) {  // if LT spell checker is not use disable the spelling rules
+        List<Rule> allRules = checkImpressDocument ? lt.getAllActiveRules() : lt.getAllActiveOfficeRules();
+        for (Rule rule : allRules) {
+          if (rule.isDictionaryBasedSpellingRule()) {
+            lt.disableRule(rule.getId());
+            if (rule.useInOffice()) {
+              // set default off so it can be re-enabled by user configuration
+              rule.setDefaultOff();
+            }
           }
         }
       }
-*/
       recheck = false;
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime;

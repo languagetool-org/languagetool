@@ -58,7 +58,6 @@ import com.sun.star.uno.XComponentContext;
 public class LtSpellChecker extends WeakBase implements XServiceInfo, 
   XServiceDisplayName, XSpellChecker {
 
-  private static final int MIN_HEAP = 1000;
   private static final int MAX_WRONG = 10000;
 //  private static final String PROB_CHARS = ".*[\\p{Punct}&&[^'\\.-]].*";
   private static final String PROB_CHARS = ".*[~<>].*";
@@ -401,7 +400,7 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
     try {
       confg = new Configuration(OfficeTools.getLOConfigDir(xContext), 
           OfficeTools.CONFIG_FILE, OfficeTools.getOldConfigFile(), null, true);
-      return confg.useLtDictionary();
+      return confg.useLtSpellChecker();
     } catch (IOException e) {
       MessageHandler.printToLogFile("Can't read configuration: LT spell checker not used!");
     }
@@ -410,10 +409,10 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
 
   public static boolean isEnoughHeap() {
     int maxHeapSpace = (int) (OfficeTools.getMaxHeapSpace()/1048576);
-    boolean ret = maxHeapSpace >= MIN_HEAP;
+    boolean ret = maxHeapSpace >= OfficeTools.SPELL_CHECK_MIN_HEAP;
     if (!ret) {
       MessageHandler.printToLogFile("Heap Space (" + maxHeapSpace + ") is too small: LT spell checker not used!\n"
-          + "Set heap space greater than " + MIN_HEAP);
+          + "Set heap space greater than " +  OfficeTools.SPELL_CHECK_MIN_HEAP);
     }
     return ret;
   }

@@ -1028,19 +1028,19 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(new JLabel(" "), cons);
     
+    JCheckBox useLtSpellCheckerBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseLtSpellChecker")));
+    useLtSpellCheckerBox.setSelected(config.useLtSpellChecker());
+    useLtSpellCheckerBox.addItemListener(e -> {
+      config.setUseLtSpellChecker(useLtSpellCheckerBox.isSelected());
+    });
+    cons.gridy++;
+    portPanel.add(useLtSpellCheckerBox, cons);
+
     JCheckBox markSingleCharBold = new JCheckBox(Tools.getLabel(messages.getString("guiMarkSingleCharBold")));
     markSingleCharBold.setSelected(config.markSingleCharBold());
     markSingleCharBold.addItemListener(e -> config.setMarkSingleCharBold(markSingleCharBold.isSelected()));
     cons.gridy++;
     portPanel.add(markSingleCharBold, cons);
-
-    JCheckBox useLtDictionaryBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseLtDictionary")));
-    useLtDictionaryBox.setSelected(config.useLtDictionary());
-    useLtDictionaryBox.addItemListener(e -> {
-      config.setUseLtDictionary(useLtDictionaryBox.isSelected());
-    });
-    cons.gridy++;
-    portPanel.add(useLtDictionaryBox, cons);
 
     JCheckBox noSynonymsAsSuggestionsBox = new JCheckBox(Tools.getLabel(messages.getString("guiNoSynonymsAsSuggestions")));
     noSynonymsAsSuggestionsBox.setSelected(config.noSynonymsAsSuggestions());

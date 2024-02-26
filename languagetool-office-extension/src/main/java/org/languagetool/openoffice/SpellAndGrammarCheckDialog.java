@@ -71,6 +71,8 @@ import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -93,6 +95,7 @@ import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.text.TextMarkupType;
+import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XMarkingAccess;
 import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XTextCursor;
@@ -111,7 +114,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private static boolean debugModeTm = OfficeTools.DEBUG_MODE_TM;       //  should be false except for testing
 
   private static final ResourceBundle messages = JLanguageTool.getMessageBundle();
-//  private static final String spellRuleId = "LO_SPELLING_ERROR";
+  private static final String spellingError = messages.getString("desc_spelling");
+  private static final String spellRuleId = "LO_SPELLING_ERROR";
   
   private final static int DIALOG_LOOPS = 20;
   private final static int LOOP_WAIT_TIME = 50;
@@ -170,6 +174,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private final XComponentContext xContext;
   private final MultiDocumentsHandler documents;
 //  private ExtensionSpellChecker spellChecker;
+  private LinguisticServices linguServices;
   
   private WaitDialogThread inf;
   private SwJLanguageTool lt = null;
@@ -194,6 +199,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
     locale = LinguisticServices.getLocale(language);
     if(!documents.javaVersionOkay()) {
       return;
+    }
+    if (documents.noLtSpeller()) {
+      linguServices = new LinguisticServices(xContext);
     }
   }
 
@@ -547,6 +555,92 @@ public class SpellAndGrammarCheckDialog extends Thread {
   }
   
   /**
+   * get a list of all spelling errors of the flat paragraph nPara
+   */
+  public SingleProofreadingError[] getSpellErrors(int nPara, String text, Locale lang, SingleDocument document) throws Throwable {
+    try {
+      List<SingleProofreadingError> errorArray = new ArrayList<>();
+      if (document == null) {
+        return null;
+      }
+      XFlatParagraph xFlatPara = null;
+      if (docType == DocumentType.WRITER) {
+        xFlatPara = document.getFlatParagraphTools().getFlatParagraphAt(nPara);
+        if (xFlatPara == null) {
+          return null;
+        }
+      }
+      Locale locale = null;
+      List<AnalyzedSentence> analyzedSentences = docCache.getAnalyzedParagraph(nPara);
+      int pos = 0;
+      for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+        AnalyzedTokenReadings[] tokens = analyzedSentence.getTokensWithoutWhitespace();
+        for (int i = 0; i < tokens.length; i++) {
+          AnalyzedTokenReadings token = tokens[i];
+          String sToken = token.getToken();
+          if (!token.isNonWord()) {
+            int nStart = token.getStartPos() + pos;
+            int nEnd = token.getEndPos() + pos;
+            if (i < tokens.length - 1) {
+              if (tokens[i + 1].getToken().equals(".")) {
+                sToken += ".";
+              } else { 
+                String nextToken = tokens[i + 1].getToken();
+                boolean shouldComposed = nextToken.length() > 1 
+                    && (nextToken.charAt(0) == '’' || nextToken.charAt(0) == '\''
+                    || nextToken.startsWith("n’") || nextToken.startsWith("n'"));
+                if (shouldComposed) {
+                  sToken += nextToken;
+                  nEnd = tokens[i + 1].getEndPos();
+                  i++;
+                }
+              }
+            }
+            if (sToken.length() > 1) {
+              if (xFlatPara != null) {
+                locale = xFlatPara.getLanguageOfText(nStart, nEnd - nStart);
+              }
+              if (locale == null) {
+                locale = lang;
+              }
+              if (!linguServices.isCorrectSpell(sToken, locale)) {
+                SingleProofreadingError aError = new SingleProofreadingError();
+                if (debugMode) {
+                  MessageHandler.printToLogFile("CheckDialog: getSpellErrors: Spell Error: Word: " + sToken 
+                      + ", Start: " + nStart + ", End: " + nEnd + ", Token(" + i + "): " + tokens[i].getToken()
+                      + (i < tokens.length - 1 ? (", Token(" + (i + 1) + "): " + tokens[i + 1].getToken()) : ""));
+                }
+                if (!document.isIgnoreOnce(nStart, nEnd, nPara, spellRuleId)) {
+                  aError.nErrorType = TextMarkupType.SPELLCHECK;
+                  aError.aFullComment = spellingError;
+                  aError.aShortComment = aError.aFullComment;
+                  aError.nErrorStart = nStart;
+                  aError.nErrorLength = nEnd - nStart;
+                  aError.aRuleIdentifier = spellRuleId;
+                  String[] alternatives = linguServices.getSpellAlternatives(token.getToken(), locale);
+                  if (alternatives != null) {
+                    aError.aSuggestions = alternatives;
+                  } else {
+                    aError.aSuggestions = new String[0];
+                  }
+                  aError = SingleCheck.correctRuleMatchWithFootnotes(aError, 
+                      docCache.getFlatParagraphFootnotes(nPara), docCache.getFlatParagraphDeletedCharacters(nPara));
+                  errorArray.add(aError);
+                }
+              }
+            }
+          }
+        }
+        pos = analyzedSentence.getCorrectedTextLength();
+      }
+      return errorArray.toArray(new SingleProofreadingError[errorArray.size()]);
+    } catch (Throwable t) {
+      MessageHandler.showError(t);
+    }
+    return null;
+  }
+
+  /**
    * Get the first grammatical or spell error in the flat paragraph y at or after character position x
    */
   SingleProofreadingError getNextGrammatikOrSpellErrorInParagraph(int x, int nFPara, String text, int[] footnotePosition, 
@@ -554,7 +648,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     if (text == null || text.isEmpty() || x >= text.length() || !MultiDocumentsHandler.hasLocale(locale)) {
       return null;
     }
-    if (document.getDocumentType() == DocumentType.WRITER && documents.getTextLevelCheckQueue() != null) {
+    if (document.getDocumentType() == DocumentType.WRITER && documents.getTextLevelCheckQueue() != null && !documents.noLtSpeller()) {
       SingleProofreadingError[] errors = getErrorsFromCache(nFPara);
       if (errors == null) {
         return null;
@@ -626,13 +720,28 @@ public class SpellAndGrammarCheckDialog extends Thread {
             }
           }
           paRes = document.getCheckResults(text, locale, paRes, propertyValues, false, lt, nFPara, errType);
-          if (paRes.aErrors != null) {
+          SingleProofreadingError[] spellErrors = null;
+          SingleProofreadingError[] allErrors = null;
+          if (checkType != 3 && errType != LoErrorType.GRAMMAR) {
+            spellErrors = getSpellErrors(nFPara, text, locale, document);
+          }
+          if (paRes == null || paRes.aErrors == null || paRes.aErrors.length == 0) {
+            allErrors = spellErrors;
+          } else if (spellErrors == null || spellErrors.length == 0) {
+            allErrors = paRes.aErrors;
+          } else {
+            List<SingleProofreadingError[]> errorList = new ArrayList<>();
+            errorList.add(spellErrors);
+            errorList.add(paRes.aErrors);
+            allErrors = document.mergeErrors(errorList, nFPara);
+          }
+          if (allErrors != null) {
             if (debugMode) {
               MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Number of Errors = " 
                   + paRes.aErrors.length + ", Paragraph: " + nFPara + ", Next Position: " + paRes.nStartOfNextSentencePosition
                   + ", Text.length: " + text.length());
             }
-            for (SingleProofreadingError error : paRes.aErrors) {
+            for (SingleProofreadingError error : allErrors) {
               if (debugMode) {
                 MessageHandler.printToLogFile("CheckDialog: getNextGrammatikErrorInParagraph: Start: " + error.nErrorStart + ", ID: " + error.aRuleIdentifier);
                 if (error.nErrorType != TextMarkupType.SPELLCHECK) {
@@ -640,8 +749,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
                           + text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength));
                 }
               }
-              if (error.nErrorType != TextMarkupType.SPELLCHECK 
-                   || !documents.getLinguisticServices().isCorrectSpell(text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale)) {
+              if (checkType != 3 && ((errType != LoErrorType.SPELL && error.nErrorType != TextMarkupType.SPELLCHECK)
+                  || (errType != LoErrorType.GRAMMAR && error.nErrorType == TextMarkupType.SPELLCHECK
+                  && !documents.getLinguisticServices().isCorrectSpell(text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale)))
+                 || (checkType == 3 && error.aRuleIdentifier.equals(checkRuleId)) ) {
                 if (error.nErrorStart >= x) {
                   if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
                       && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
