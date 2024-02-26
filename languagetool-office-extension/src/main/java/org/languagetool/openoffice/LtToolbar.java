@@ -25,6 +25,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.gui.Configuration;
 
 import com.sun.star.awt.Point;
+import com.sun.star.awt.XWindow;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.NoSuchElementException;
@@ -39,7 +40,6 @@ import com.sun.star.lang.IndexOutOfBoundsException;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
-import com.sun.star.ui.DockingArea;
 import com.sun.star.ui.ItemStyle;
 import com.sun.star.ui.ItemType;
 import com.sun.star.ui.UIElementType;
@@ -69,7 +69,6 @@ public class LtToolbar {
   
   public void makeToolbar() {
     try {
-      Configuration config = document.getMultiDocumentsHandler().getConfiguration();
       XUIConfigurationManager confMan = getUIConfigManagerDoc(xContext);
       if (confMan == null) {
         MessageHandler.printToLogFile("Cannot create configuration manager");
@@ -78,65 +77,111 @@ public class LtToolbar {
       
       String toolbarName = LT_TOOLBAR_URL;
       
-      XIndexContainer elementsContainer = confMan.createSettings();
-
       boolean hasStatisticalStyleRules;
       if (document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
         hasStatisticalStyleRules = false;
       } else {
         hasStatisticalStyleRules = OfficeTools.hasStatisticalStyleRules(document.getLanguage());
       }
-      
-      int j = 0;
-      PropertyValue[] itemProps = makeBarItem(LtMenus.LT_NEXT_ERROR_COMMAND, MESSAGES.getString("loMenuNextError"));
-      elementsContainer.insertByIndex(j, itemProps);
-      j++;
-      itemProps = makeBarItem(LtMenus.LT_CHECKDIALOG_COMMAND, MESSAGES.getString("checkTextShortDesc"));
-      elementsContainer.insertByIndex(j, itemProps);
-      j++;
-      itemProps = makeBarItem(LtMenus.LT_CHECKAGAINDIALOG_COMMAND, MESSAGES.getString("loMenuGrammarCheckAgain"));
-      elementsContainer.insertByIndex(j, itemProps);
-      j++;
-      itemProps = makeBarItem(LtMenus.LT_REFRESH_CHECK_COMMAND, MESSAGES.getString("loContextMenuRefreshCheck"));
-      elementsContainer.insertByIndex(j, itemProps);
-      if (hasStatisticalStyleRules) {
-        j++;
-        itemProps = makeBarItem(LtMenus.LT_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
+      XWindow window = getWindow();
+      if (window != null) {
+        window.setVisible(false);
+      }
+      if (!confMan.hasSettings(toolbarName)) {
+        XIndexContainer elementsContainer = confMan.createSettings();
+        int j = 0;
+        PropertyValue[] itemProps = makeBarItem(LtMenus.LT_NEXT_ERROR_COMMAND, MESSAGES.getString("loMenuNextError"));
         elementsContainer.insertByIndex(j, itemProps);
-      }
-      j++;
-      if (document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
-        itemProps = makeBarItem(LtMenus.LT_BACKGROUND_CHECK_ON_COMMAND, MESSAGES.getString("loMenuEnableBackgroundCheck"));
-      } else {
-        itemProps = makeBarItem(LtMenus.LT_BACKGROUND_CHECK_OFF_COMMAND, MESSAGES.getString("loMenuDisableBackgroundCheck"));
-      }
-      elementsContainer.insertByIndex(j, itemProps);
-      j++;
-      itemProps = makeBarItem(LtMenus.LT_RESET_IGNORE_PERMANENT_COMMAND, MESSAGES.getString("loMenuResetIgnorePermanent"));
-      elementsContainer.insertByIndex(j, itemProps);
-/*        TODO: Add sub toolbars:
-      if(!document.getMultiDocumentsHandler().getDisabledRulesMap(null).isEmpty()) {
         j++;
-        itemProps = makeBarItem(LtMenus.LT_ACTIVATE_RULES_COMMAND, MESSAGES.getString("loContextMenuActivateRule"));
+        itemProps = makeBarItem(LtMenus.LT_CHECKDIALOG_COMMAND, MESSAGES.getString("checkTextShortDesc"));
         elementsContainer.insertByIndex(j, itemProps);
-      }
-      if(config.getDefinedProfiles().size() > 1) {
         j++;
-        itemProps = makeBarItem(LtMenus.LT_PROFILES_COMMAND, MESSAGES.getString("loMenuChangeProfiles"));
+        itemProps = makeBarItem(LtMenus.LT_CHECKAGAINDIALOG_COMMAND, MESSAGES.getString("loMenuGrammarCheckAgain"));
         elementsContainer.insertByIndex(j, itemProps);
-      }
-*/
-      j++;
-      itemProps = makeBarItem(LtMenus.LT_OPTIONS_COMMAND, MESSAGES.getString("loContextMenuOptions"));
-      elementsContainer.insertByIndex(j, itemProps);
-      j++;
-      itemProps = makeBarItem(LtMenus.LT_ABOUT_COMMAND, MESSAGES.getString("loContextMenuAbout"));
-      elementsContainer.insertByIndex(j, itemProps);
-      
-      if (confMan.hasSettings(toolbarName)) {
-        confMan.replaceSettings(toolbarName, elementsContainer);
-      } else {
+        j++;
+        itemProps = makeBarItem(LtMenus.LT_REFRESH_CHECK_COMMAND, MESSAGES.getString("loContextMenuRefreshCheck"));
+        elementsContainer.insertByIndex(j, itemProps);
+        if (hasStatisticalStyleRules) {
+          j++;
+          itemProps = makeBarItem(LtMenus.LT_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
+          elementsContainer.insertByIndex(j, itemProps);
+        }
+        j++;
+        if (document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
+          itemProps = makeBarItem(LtMenus.LT_BACKGROUND_CHECK_ON_COMMAND, MESSAGES.getString("loMenuEnableBackgroundCheck"));
+        } else {
+          itemProps = makeBarItem(LtMenus.LT_BACKGROUND_CHECK_OFF_COMMAND, MESSAGES.getString("loMenuDisableBackgroundCheck"));
+        }
+        elementsContainer.insertByIndex(j, itemProps);
+        j++;
+        itemProps = makeBarItem(LtMenus.LT_RESET_IGNORE_PERMANENT_COMMAND, MESSAGES.getString("loMenuResetIgnorePermanent"));
+        elementsContainer.insertByIndex(j, itemProps);
+  /*        TODO: Add sub toolbars:
+        if(!document.getMultiDocumentsHandler().getDisabledRulesMap(null).isEmpty()) {
+          j++;
+          itemProps = makeBarItem(LtMenus.LT_ACTIVATE_RULES_COMMAND, MESSAGES.getString("loContextMenuActivateRule"));
+          elementsContainer.insertByIndex(j, itemProps);
+        }
+        if(config.getDefinedProfiles().size() > 1) {
+          j++;
+          itemProps = makeBarItem(LtMenus.LT_PROFILES_COMMAND, MESSAGES.getString("loMenuChangeProfiles"));
+          elementsContainer.insertByIndex(j, itemProps);
+        }
+  */
+        j++;
+        itemProps = makeBarItem(LtMenus.LT_OPTIONS_COMMAND, MESSAGES.getString("loContextMenuOptions"));
+        elementsContainer.insertByIndex(j, itemProps);
+        j++;
+        itemProps = makeBarItem(LtMenus.LT_ABOUT_COMMAND, MESSAGES.getString("loContextMenuAbout"));
+        elementsContainer.insertByIndex(j, itemProps);
+
         confMan.insertSettings(toolbarName, elementsContainer);
+
+      } else {
+        boolean changed = false;
+        XIndexAccess settings = confMan.getSettings(toolbarName, true);
+        XIndexContainer elementsContainer = UnoRuntime.queryInterface(XIndexContainer.class, settings);
+        PropertyValue[] itemProps = null;
+        int j = getIndexOfItem(elementsContainer, LtMenus.LT_STATISTICAL_ANALYSES_COMMAND);
+        if (hasStatisticalStyleRules && j < 0) {
+          itemProps = makeBarItem(LtMenus.LT_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
+          elementsContainer.insertByIndex(4, itemProps);
+          changed = true;
+        } else if (!hasStatisticalStyleRules && j >= 0) {
+          elementsContainer.removeByIndex(j); 
+          changed = true;
+        }
+        itemProps = null;
+        int i = getIndexOfItem(elementsContainer, LtMenus.LT_BACKGROUND_CHECK_ON_COMMAND);
+        j = getIndexOfItem(elementsContainer, LtMenus.LT_BACKGROUND_CHECK_OFF_COMMAND);
+        if (document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
+          if (j < 0) {
+            j = 4;
+          } else {
+            elementsContainer.removeByIndex(j);
+            changed = true;
+          }
+          if (i < 0) {
+            itemProps = makeBarItem(LtMenus.LT_BACKGROUND_CHECK_ON_COMMAND, MESSAGES.getString("loMenuEnableBackgroundCheck"));
+            elementsContainer.insertByIndex(j, itemProps);
+            changed = true;
+          }
+        } else {
+          if (i < 0) {
+            i = 4;
+          } else {
+            elementsContainer.removeByIndex(i);
+            changed = true;
+          }
+          if (j < 0) {
+            itemProps = makeBarItem(LtMenus.LT_BACKGROUND_CHECK_OFF_COMMAND, MESSAGES.getString("loMenuDisableBackgroundCheck"));
+            elementsContainer.insertByIndex(i, itemProps);
+            changed = true;
+          }
+        }
+        if (changed) {
+          confMan.replaceSettings(toolbarName, elementsContainer);
+        }
       }
 /*        
       setToolbarName(confMan, LT_TOOLBAR_URL, "LanguageTool");
@@ -200,22 +245,31 @@ public class LtToolbar {
 
 //      MessageHandler.printToLogFile("XUIConfigurationManager created!");
 
-    } catch (java.lang.Exception e) {
+      if (window != null) {
+        window.setVisible(true);
+      }
+
+    } catch (Throwable e) {
       MessageHandler.printException(e);
     }
   }
-
-  private void setToolbarName(XUIConfigurationManager confMan, String toolbarUrl, String name) 
-                  throws IllegalArgumentException {
-    for (PropertyValue[] propValList : confMan.getUIElementsInfo(UIElementType.TOOLBAR)) {
-      if ("ResourceURL".equals(propValList[0].Name) && toolbarUrl.equals(propValList[0].Value)
-          && "UIName".equals(propValList[1].Name)) {
-        propValList[1].Value = new String(name);
-        return;
+  
+  private int getIndexOfItem (XIndexContainer elementsContainer, String command) throws Throwable {
+    for (int i = 0; i < elementsContainer.getCount(); i++) {
+      PropertyValue[] itemProps = (PropertyValue[]) elementsContainer.getByIndex(i);
+      for (PropertyValue prop : itemProps) {
+        if ("CommandURL".equals(prop.Name)) {
+          if (command.equals(prop.Value)) {
+            return i;
+          } else {
+            break;
+          }
+        }
       }
     }
+    return -1;
   }
-  
+
   private PropertyValue[] makeBarItem(String cmd, String itemName) {
     // propertiees for a toolbar item using a name and an image
     // problem: image does not appear next to text on toolbar
@@ -257,20 +311,36 @@ public class LtToolbar {
     return xSupplier.getUIConfigurationManager(WRITER_SERVICE);
   }
   
+  private XFrame getFrame() {
+    XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
+    if (xComponent == null) {
+      MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XComponent not found!");
+      return null;
+    }
+    XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
+    if (xModel == null) {
+      MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XModel not found!");
+      return null;
+    }
+    XController xController = xModel.getCurrentController();
+    if (xController == null) {
+      MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XController not found!");
+      return null;
+    }
+    return xController.getFrame();
+  }
+
+  private XWindow getWindow() {
+    XFrame frame = getFrame();
+    if (frame == null) {
+      return null;
+    }
+    return frame.getComponentWindow();
+  }
+
   private XLayoutManager getLayoutManager() {
     try {
-      XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
-      XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
-      if (xModel == null) {
-        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XModel not found!");
-        return null;
-      }
-      XController xController = xModel.getCurrentController();
-      if (xController == null) {
-        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XController not found!");
-        return null;
-      }
-      XFrame frame = xController.getFrame();
+      XFrame frame = getFrame();
       if (frame == null) {
         return null;
       }
