@@ -20,7 +20,7 @@ package org.languagetool.server;
 
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.tools.ConfidenceMap;
+import org.languagetool.tools.ConfidenceKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,11 +38,11 @@ class ConfidenceMapLoader {
 
   private static final Logger logger = LoggerFactory.getLogger(ConfidenceMapLoader.class);
 
-  ConfidenceMap load(File filePattern) throws IOException {
+  Map<ConfidenceKey,Float> load(File filePattern) throws IOException {
     if (!filePattern.toString().contains("{lang}")) {
       throw new RuntimeException("The 'ruleIdToConfidenceFile' parameter must contain '{lang}' as a placeholder for the language code");
     }
-    Map<ConfidenceMap.ConfidenceKey,Float> confMap = new HashMap<>();
+    Map<ConfidenceKey,Float> confMap = new HashMap<>();
     for (Language lang : Languages.get()) {
       int loadCount = 0;
       String fileName = filePattern.getAbsolutePath().replace("{lang}", lang.getShortCode());
@@ -58,7 +58,7 @@ class ConfidenceMapLoader {
         if (parts.length >= 2) {   // there might be more columns for better debugging, but we don't use them here
           try {
             float confidence = Float.parseFloat(parts[1]);
-            confMap.put(new ConfidenceMap.ConfidenceKey(lang, parts[0]), confidence);
+            confMap.put(new ConfidenceKey(lang, parts[0]), confidence);
             loadCount++;
           } catch (NumberFormatException e) {
             throw new RuntimeException("Invalid confidence float value in " + fileName + ", expected 'RULE_ID,float_value[,...]': " + line);
@@ -73,7 +73,7 @@ class ConfidenceMapLoader {
       throw new RuntimeException("No confidence values could be loaded for " + filePattern +
         " -- please check there are actually files that match this pattern");
     }
-    return new ConfidenceMap(confMap);
+    return confMap;
   }
 
 }

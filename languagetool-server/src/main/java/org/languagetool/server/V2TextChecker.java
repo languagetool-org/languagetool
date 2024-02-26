@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.tools.ConfidenceMap;
+import org.languagetool.tools.ConfidenceKey;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.RuleMatchesAsJsonSerializer;
 
@@ -42,7 +42,7 @@ class V2TextChecker extends TextChecker {
   private static final String JSON_CONTENT_TYPE = "application/json";
   private static final Pattern COMMA_WHITESPACE_PATTERN = Pattern.compile(",\\s*");
 
-  private static ConfidenceMap confidenceMap;
+  private static Map<ConfidenceKey,Float> confidenceMap;
 
   V2TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
     super(config, internalServer, workQueue, reqCounter);
