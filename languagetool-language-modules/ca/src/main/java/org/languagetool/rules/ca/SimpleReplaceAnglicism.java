@@ -80,13 +80,13 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
     return "Anglicisme innecessari. Considereu fer servir una altra paraula.";
   }
 
-  private List<String> possibleExceptions = Arrays.asList("link", "links", "event", "events");
+  //private List<String> possibleExceptions = Arrays.asList("link", "links", "event", "events");
 
   @Override
   protected boolean isTokenExceptionInContext(AnalyzedTokenReadings[] tokens, int i) {
     // accept English words in English sentences
     if (i > 1 && i + 1 < tokens.length) {
-      if (possibleExceptions.contains(tokens[i].getToken().toLowerCase()) && tokens[i].hasPosTag("_english_ignore_")
+      if (tokens[i].hasPosTag("_english_ignore_")
         && (tokens[i + 1].hasPosTag("_english_ignore_") || tokens[i - 1].hasPosTag("_english_ignore_"))) {
         return true;
       }

@@ -136,6 +136,44 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd pos="_english_ignore_"/>
             </disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_"/>
+                <marker>
+                    <token regexp="yes">a|to</token>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:3"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_"/>
+                <marker>
+                    <token regexp="yes">a|to</token>
+                </marker>
+                <token postag="_english_ignore_"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>from</token>
+                <token/>
+                <marker>
+                    <token>to</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
     </rulegroup>
     <rulegroup id="IGNORE_ENGLISH_WORDS2" name="etiqueta paraules angleses">
         <rule>
@@ -16093,7 +16131,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="N.*|A.*|V.P.*"/>
+        <disambig action="filter" postag="N.*|A.*|V.P.*|_english_ignore_"/>
     </rule>
     <rule id="PrepNom_llevat" name="preposició o nom: llevat">
         <!-- potser no és prep.: cap  -->
