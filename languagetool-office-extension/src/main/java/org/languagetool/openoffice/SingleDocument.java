@@ -1297,7 +1297,11 @@ public class SingleDocument {
       return getRuleIdFromCheck(x, viewCursor);
     }
     int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
-    return new RuleDesc(docCache.getFlatParagraphLocale(y), getErrorFromCache(y, x).aRuleIdentifier);
+    SingleProofreadingError error = getErrorFromCache(y, x);
+    if (error != null) {
+      return new RuleDesc(docCache.getFlatParagraphLocale(y), error.aRuleIdentifier);
+    }
+    return null;
   }
 
   /**

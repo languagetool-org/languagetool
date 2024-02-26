@@ -1998,7 +1998,7 @@ public class DocumentCache implements Serializable {
   }
 
   /**
-   * Change manual linebreak to distinguish from end of paragraph
+   * remove zero width space
    */
   public static String removeZeroWidthSpace(String text) {
     return text.replaceAll(OfficeTools.ZERO_WIDTH_SPACE, "");
@@ -2396,7 +2396,7 @@ public class DocumentCache implements Serializable {
   }
 
   private List<AnalyzedSentence> createAnalyzedParagraph(int nFPara, String paraText, SwJLanguageTool lt) throws IOException {
-    List<AnalyzedSentence> analyzedParagraph = lt.analyzeText(paraText);
+    List<AnalyzedSentence> analyzedParagraph = lt.analyzeText(paraText.replace("\u00AD", ""));
     putAnalyzedParagraph(nFPara, analyzedParagraph);
     return analyzedParagraph;
   }

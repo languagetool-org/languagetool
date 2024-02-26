@@ -424,19 +424,6 @@ public class SwJLanguageTool {
       List<AnalyzedSentence> analyzedSentences = analysedText.analyzedSentences;
       List<String> sentences = analysedText.sentences;
       String text = analysedText.text;
-/*      
-      List<AnalyzedSentence> testAnalyzedSentences = this.analyzeText(text);
-      MessageHandler.printToLogFile("From text: ");
-      DocumentCache.printTokenizedSentences(testAnalyzedSentences);
-      MessageHandler.printToLogFile("From AnalyzedSentence: ");
-      DocumentCache.printTokenizedSentences(analyzedSentences);
-/*      
-      List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
-      List<String> sentences = new ArrayList<>();
-      for (AnalyzedSentence analyzedSentence : analyzedSentences) {
-        sentences.add(analyzedSentence.getText());
-      }
-*/
       return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
           Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
     }
@@ -479,13 +466,6 @@ public class SwJLanguageTool {
       List<AnalyzedSentence> analyzedSentences = analysedText.analyzedSentences;
       List<String> sentences = analysedText.sentences;
       String text = analysedText.text;
-/*      
-      List<AnalyzedSentence> analyzedSentences = document.getDocumentCache().getAnalyzedParagraphs(from, to, lt);
-      List<String> sentences = new ArrayList<>();
-      for (AnalyzedSentence analyzedSentence : analyzedSentences) {
-        sentences.add(analyzedSentence.getText());
-      }
-*/
       return checkInternal(new AnnotatedTextBuilder().addText(text).build(), paraMode, null, mode, 
           Level.PICKY, toneTags, null, sentences, analyzedSentences).getRuleMatches();
     }
