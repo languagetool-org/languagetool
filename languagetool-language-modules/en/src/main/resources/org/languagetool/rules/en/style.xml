@@ -8769,8 +8769,14 @@ For more detailed information, including tag definitions, please check out our d
                 <token>the</token>
                 <token>book</token>
             </antipattern>
+            <antipattern>
+                <token>or</token>
+                <token>all</token>
+                <token>of</token>
+                <token>the</token>
+                <example>She is going some or all of the parks.</example>
+            </antipattern>
             <pattern>
-                <token negate="yes">or</token>
                 <marker>
                     <token>all</token>
                     <token>of</token>
@@ -8778,12 +8784,13 @@ For more detailed information, including tag definitions, please check out our d
                 </marker>
                 <token negate="yes" regexp="yes">sudden|above|many</token> <!-- See ALL_OF_THE_SUDDEN rule -->
             </pattern>
-            <message>Consider using <suggestion>\2 \4</suggestion>.</message>
+            <message>Consider removing "of" to be more concise</message>
+            <suggestion>\1 \3</suggestion>
             <url>https://languagetool.org/insights/post/wordiness/</url>
             <short>Redundant phrase</short>
+            <example correction="All the"><marker>All of the</marker> people I know came.</example>
             <example correction="all the">She is going to <marker>all of the</marker> parks.</example>
             <example correction="all the">I say you can't fool <marker>all of the</marker> people all the time.</example>
-            <example>She is going some or all of the parks.</example>
             <example>Did Lincoln say "... but you can’t fool <marker>all of the people all of the time</marker>"?</example>
         </rule>
         <rule id="DROP_DOWN" name="drop down (drop)">
