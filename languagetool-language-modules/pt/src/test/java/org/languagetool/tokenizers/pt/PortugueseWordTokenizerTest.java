@@ -267,4 +267,9 @@ public class PortugueseWordTokenizerTest {
     testTokenise("⌈Herói⌋", new String[]{"⌈", "Herói", "⌋"});
     testTokenise("″Santo Antônio do Manga″", new String[]{"″", "Santo", " ", "Antônio", " ", "do", " ", "Manga", "″"});
   }
+
+  @Test
+  public void testTokeniseParagraphSymbol() {
+    testTokenise("§1º", "§", "1º");
+  }
 }

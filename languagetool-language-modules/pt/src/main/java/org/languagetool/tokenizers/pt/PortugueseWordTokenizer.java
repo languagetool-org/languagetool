@@ -86,7 +86,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
   // - ©®™
   // - # (hashtags)
   // This leads to some inconsistencies, e.g. '@user' is tokenised as '@user', but '#hashtag' as '#' + 'hashtag'.
-  private final String wordCharsLeftEdge = "§@€£\\$¢¥¤";
+  private final String wordCharsLeftEdge = "@€£\\$¢¥¤";
   private final String wordCharsRightEdge = "€£\\$%‰‱ºªᵃᵒˢ";
   private final Pattern wordPattern = compile(
     "[" + wordCharsLeftEdge + "]?[" + wordChars + "]+[" + wordCharsRightEdge + "]?|" +

@@ -689,4 +689,11 @@ public class MorfologikPortugueseSpellerRuleTest {
     // not a prefix per se, true compounding (the first element exists as an independent lexeme)
     assertNoErrors("húngaro-romeno", ltBR, ruleBR);
   }
+
+  @Test public void testPortugueseSpellerAcceptsParagraphAndOrdinal() throws Exception {
+    assertNoErrors("§1º", ltBR, ruleBR);
+    assertNoErrors("§ 1º", ltBR, ruleBR);
+    assertNoErrors("§1º-A", ltBR, ruleBR);
+    assertNoErrors("§ 1º-A", ltBR, ruleBR);
+  }
 }
