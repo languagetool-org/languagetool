@@ -252,6 +252,7 @@ public class Portuguese extends Language implements AutoCloseable {
     id2prio.put("DIACRITICS", -45);
     id2prio.put("PT_COMPOUNDS_POST_REFORM", -45);
     id2prio.put("AUX_VERBO", -45);  // HIGHER THAN SPELLER
+    id2prio.put("ENSINO_A_DISTANCIA", -45);
     // MORFOLOGIK SPELLER FITS HERE AT -50 ---------------------  // SPELLER (-50)
     id2prio.put("PRETERITO_PERFEITO", -51);  // LOWER THAN SPELLER
     id2prio.put("PT_BR_SIMPLE_REPLACE", -51);
