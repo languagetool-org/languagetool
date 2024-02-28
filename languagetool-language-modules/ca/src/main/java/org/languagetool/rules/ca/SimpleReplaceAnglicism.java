@@ -87,7 +87,7 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
     // accept English words in English sentences
     if (i > 1 && i + 1 < tokens.length) {
       if (tokens[i].hasPosTag("_english_ignore_")
-        && (tokens[i + 1].hasPosTag("_english_ignore_") && tokens[i - 1].hasPosTag("_english_ignore_"))) {
+        && (tokens[i + 1].hasPosTag("_english_ignore_") || tokens[i - 1].hasPosTag("_english_ignore_"))) {
         return true;
       }
     }
