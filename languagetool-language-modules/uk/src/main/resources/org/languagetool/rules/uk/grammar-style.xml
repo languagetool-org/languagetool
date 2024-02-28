@@ -2993,9 +2993,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="khalatnyi_vs_nedbalyi" name="Халатний і недбалий">
       <pattern>
-        <token inflected="yes" regexp="yes">халатн(ий|ість)</token>
+        <token inflected="yes" regexp="yes">халатн(ий|ість|о)</token>
       </pattern>
-      <message>Хоча в українському законодавстві вживають «халатний/халатність» правильним варіантом є «недбалий/недбалість»</message>
+      <message>Хоча в українському законодавстві вживають «халатний/халатність» правильним варіантом є «недбалий/недбало/недбалість»</message>
       <suggestion><match no="1" regexp_match="(?iu)халатн(.*)" regexp_replace="недбал$1"/></suggestion>
       <!--
       <suggestion><match no="1" postag_regexp="yes" postag="(noun.*?|adj):f:(.*)" postag_replace="$1:n:$2">недбальство</match></suggestion>
@@ -3211,19 +3211,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Краще: <suggestion>розв'язувати \2 \3</suggestion></message>
-        <example correction="розв'язувати цю проблему">він <marker>вирішив цю проблему</marker> просто...</example>
-        <example correction="розв'язувати питання">він <marker>вирішив питання</marker>...</example>
+        <suggestion>розв'язати \2 \3</suggestion>
+        <example correction="розв'язувати цю проблему|розв'язати цю проблему">він <marker>вирішив цю проблему</marker> просто...</example>
+        <example correction="розв'язувати питання|розв'язати питання">він <marker>вирішив питання</marker>...</example>
       </rule>
+
       <rule>
         <pattern>
           <marker>
-            <token regexp="yes" inflected="yes">рішення|вирішення</token>
+            <token regexp="yes" inflected="yes">рішення|вирішення|вирішування</token>
             <token postag_regexp="yes" postag="(adj|numr):.:v_rod.*" min="0" max="2"/>
             <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*">проблема|питання|задача</token>
           </marker>
         </pattern>
         <message>Краще: <suggestion>розв'язання \2 \3</suggestion></message>
-        <example correction="розв'язання цієї проблеми">а <marker>вирішення цієї проблеми</marker> непросте...</example>
+        <suggestion>розв'язування \2 \3</suggestion>
+        <example correction="розв'язання цієї проблеми|розв'язування цієї проблеми">а <marker>вирішення цієї проблеми</marker> непросте...</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <marker>
+              <token regexp="yes" inflected="yes">(не)?вирішений|(не)?вирішуваний</token>
+              <token regexp="yes" inflected="yes">проблема|питання|задача</token>
+            </marker>
+          </unify>
+        </pattern>
+        <message>Краще: <suggestion><match no="1" postag="(adj:.:v_...).*" postag_replace="$1.*">розв'язаний</match> \2</suggestion></message>
+        <suggestion><match no="1" postag="(adj:.:v_...).*" postag_replace="$1.*">розв'язуваний</match> \2</suggestion>
+        <example correction="розв'язана проблема|розв'язувана проблема">а <marker>вирішена проблема</marker> не пішла...</example>
       </rule>
     </rulegroup>
 
