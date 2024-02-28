@@ -23,6 +23,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +41,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.UIManager;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -67,6 +70,7 @@ import com.sun.star.lang.XEventListener;
 import com.sun.star.linguistic2.LinguServiceEvent;
 import com.sun.star.linguistic2.LinguServiceEventFlags;
 import com.sun.star.linguistic2.ProofreadingResult;
+import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.linguistic2.XLinguServiceEventListener;
 import com.sun.star.linguistic2.XProofreader;
 import com.sun.star.text.XTextDocument;
@@ -116,7 +120,8 @@ public class MultiDocumentsHandler {
   private final List<Rule> extraRemoteRules;        //  store of rules supported by remote server but not locally
   private LtCheckDialog ltDialog = null;            //  LT spelling and grammar check dialog
   private ConfigurationDialog cfgDialog = null;     //  configuration dialog (show only one configuration panel)
-  private static AboutDialog aboutDialog = null;           //  about dialog (show only one about panel)
+  private static AboutDialog aboutDialog = null;    //  about dialog (show only one about panel)
+  private static MoreInfoDialog infoDialog = null;  //  more info about a rule dialog (show only one info panel)
   private boolean dialogIsRunning = false;          //  The dialog was started
   private WaitDialogThread waitDialog = null;
 
@@ -1388,16 +1393,62 @@ public class MultiDocumentsHandler {
   public void deactivateRule() {
     for (SingleDocument document : documents) {
       if (menuDocId.equals(document.getDocID())) {
-        RuleDesc ruleDesc = document.deactivateRule();
+        RuleDesc ruleDesc = document.getCurrentRule();
         if (ruleDesc != null) {
           if (debugMode) {
-            MessageHandler.printToLogFile("MultiDocumentsHandler: deactivateRule: ruleID = "+ ruleDesc.ruleID + "langCode = " + ruleDesc.langCode);
+            MessageHandler.printToLogFile("MultiDocumentsHandler: deactivateRule: ruleID = "+ ruleDesc.error.aRuleIdentifier + "langCode = " + ruleDesc.langCode);
           }
-          deactivateRule(ruleDesc.ruleID, ruleDesc.langCode, false);
+          deactivateRule(ruleDesc.error.aRuleIdentifier, ruleDesc.langCode, false);
         }
         return;
       }
     }
+  }
+  
+  /**
+   * More Information to current error
+   */
+  private void moreInfo() {
+    if (infoDialog != null) {
+      infoDialog.close();
+      infoDialog = null;
+    }
+    for (SingleDocument document : documents) {
+      if (menuDocId.equals(document.getDocID())) {
+        RuleDesc ruleDesc = document.getCurrentRule();
+        if (ruleDesc != null) {
+          try {
+            if (debugMode) {
+              MessageHandler.printToLogFile("MultiDocumentsHandler: moreInfo: ruleID = "+ ruleDesc.error.aRuleIdentifier + "langCode = " + ruleDesc.langCode);
+            }
+            SingleProofreadingError error = ruleDesc.error;
+            for (Rule rule : lt.getAllRules()) {
+              if (error.aRuleIdentifier.equals(rule.getId())) {
+                String tmp = error.aShortComment;
+                if (StringUtils.isEmpty(tmp)) {
+                  tmp = error.aFullComment;
+                }
+                String msg = org.languagetool.gui.Tools.shortenComment(tmp);
+                String sUrl = null;
+                for (PropertyValue prop : error.aProperties) {
+                  if ("FullCommentURL".equals(prop.Name)) {
+                    sUrl = (String) prop.Value;
+                  }
+                }
+                URL url = sUrl == null? null : new URL(sUrl);
+                MoreInfoDialogThread infoThread = new MoreInfoDialogThread(msg, error.aFullComment, rule, url,
+                    messages, lt.getLanguage().getShortCodeWithCountryAndVariant());
+                infoThread.start();
+              }
+            }
+          } catch (MalformedURLException e) {
+            MessageHandler.showError(e);
+          }
+        }
+        return;
+      }
+    }
+    
   }
   
   /**
@@ -1689,6 +1740,8 @@ public class MultiDocumentsHandler {
         }
         AboutDialogThread aboutThread = new AboutDialogThread(messages, xContext);
         aboutThread.start();
+      } else if ("moreInfo".equals(sEvent)) {
+        moreInfo();
       } else if ("toggleNoBackgroundCheck".equals(sEvent) || "backgroundCheckOn".equals(sEvent) || "backgroundCheckOff".equals(sEvent)) {
         if (toggleNoBackgroundCheck()) {
           resetCheck();
@@ -2022,6 +2075,38 @@ public class MultiDocumentsHandler {
       // here which we could use instead:
       aboutDialog = new AboutDialog(messages);
       aboutDialog.show(xContext);
+    }
+    
+  }
+
+  /**
+   * class to run the more info dialog
+   */
+  private class MoreInfoDialogThread extends Thread {
+
+    private final String title;
+    private final String message;
+    private final Rule rule;
+    private final URL matchUrl;
+    private final ResourceBundle messages;
+    private final String lang;
+
+    MoreInfoDialogThread(String title, String message, Rule rule, URL matchUrl, ResourceBundle messages, String lang) {
+      this.title = title;
+      this.message = message;
+      this.rule = rule;
+      this.matchUrl = matchUrl;
+      this.messages = messages;
+      this.lang = lang;
+    }
+
+    @Override
+    public void run() {
+      // Note: null can cause the dialog to appear on the wrong screen in a
+      // multi-monitor setup, but we just don't have a proper java.awt.Component
+      // here which we could use instead:
+      infoDialog = new MoreInfoDialog(title, message, rule, matchUrl, messages, lang);
+      infoDialog.show();
     }
     
   }
