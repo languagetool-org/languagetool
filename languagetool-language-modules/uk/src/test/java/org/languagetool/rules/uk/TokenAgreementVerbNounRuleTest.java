@@ -114,7 +114,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     
     // complicated case with понад
 //    assertHasError("зайнявся понад двісті справ");
-//    assertEmptyMatch("сидять понад міру");
+    assertEmptyMatch("сидять понад міру");
 //    assertEmptyMatch("тягнуться понад воду");
 //    assertEmptyMatch("прибуло понад мільйон");
     
@@ -263,7 +263,6 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("підстрахуватися не зайве");
     
     assertEmptyMatch("поназбиравши купу обіцянок");
-//     assertEmptyMatch("купуючи-продаючи долари");
     
     assertEmptyMatch("пішов світ за очі");
     assertEmptyMatch("тікати куди очі бачать");
@@ -288,6 +287,13 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("що є сил");
     
     assertEmptyMatch("Конкурс був десь шість");
+
+    // ADJ + бути + v_rod
+    assertEmptyMatch("повна була образів");
+    // IMPERS + бути + N
+    assertEmptyMatch("відкрито було журнал");
+    
+    assertEmptyMatch("треба буде ще склянку");
   }
 
   @Test
@@ -316,7 +322,6 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("у таких будиночках жити мешканцям");
     assertEmptyMatch("як тепер жити нам");
     assertEmptyMatch("сидіти б панові");
-    //assertHasError("жити селянам");
 
     assertEmptyMatch("не було де амбулаторні карточки ставити");
     
@@ -330,10 +335,9 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("маю тобі щось підказати");
     assertEmptyMatch("вміємо цим зазвичай користуватися");
     assertHasError("вміємо цьому зазвичай користуватися");
-//    assertHasError("заскрегоіти цим зазвичай користуватися");
     assertEmptyMatch("вони воліли мені якнайбільш ефективно допомогти");
     assertEmptyMatch("воліли заворушень не допускати");
-//    assertEmptyMatch("не втомлюються десятиріччями боротися Берлін і Венеція");
+    assertEmptyMatch("не втомлюються десятиріччями боротися Берлін і Венеція");
     assertEmptyMatch("постарається таку двозначність усунути");
     assertEmptyMatch("розпорядився частину зарплати примусово видавати");
     assertEmptyMatch("не схотіли нам про це казати");
@@ -535,10 +539,9 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("відбувся чверть століття тому");
     
     assertEmptyMatch("слідкувало майже мільйон людей");
-    //TODO:
-    //  assertEmptyMatch("нарубав лісу"); // v_rod
-//    assertHasError("Про це повідомляє Української правди із посланням на співрозмовників");
-//    assertEmptyMatch("не виїхало більшість автобусів");
+    assertEmptyMatch("не виїхало більшість автобусів");
+    
+    assertEmptyMatch("буде лежати двоє хворих");
   }
   
   @Test
@@ -619,6 +622,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("не стане сили");
     //TODO:
 //    assertHasError("не відбувалися якихось серйозних");
+    assertEmptyMatch("нарубав лісу"); // v_rod
   }
 
   
@@ -627,8 +631,8 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("змалював дивовижної краси церкву");
     assertEmptyMatch("Піднявся страшенної сили крижаний шторм");
     assertEmptyMatch("поводиться дивним чином");
+    assertEmptyMatch("триває повним ходом.");
     //TODO:
-//    assertEmptyMatch("триває повним ходом.");
 //    assertEmptyMatch("скоюються незнайомими жертві злочинцями");
   }
 

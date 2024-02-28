@@ -28,7 +28,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
   private static final Pattern VCHYTY_PATTERN = Pattern.compile(".*вч[аи]ти(ся)?");
   private static final Pattern ADV_PREDICT_PATTERN = Pattern.compile("(adv|noninfl:&predic).*");
 
-  private static final Pattern MODALS_ADJ = Pattern.compile("змушений|повинний|здатний|готовий");
+  private static final Pattern MODALS_ADJ = Pattern.compile("змушений|вимушений|повинний|здатний|готовий|ладний|радий");
   
   private TokenAgreementVerbNounExceptionHelper() {
   }
@@ -43,6 +43,23 @@ public final class TokenAgreementVerbNounExceptionHelper {
     int nounAdjPos = state.nounPos;
 
     String cleanTokenLower = tokens[nounAdjPos].getCleanToken().toLowerCase();
+
+    // боротиметься кілька однопартійців
+    // входило двоє студентів
+    if( (PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("numr.*v_naz.*"))
+            || LemmaHelper.hasLemma(tokens[nounAdjPos], LemmaHelper.ADV_QUANT_PATTERN, Pattern.compile("noun.*v_naz.*|adv.*|part.*"))) ) {
+      if( PosTagHelper.hasPosTag(state.verbAnalyzedTokenReadings, Pattern.compile(".*:[sn](:.*|$)")) ) {
+        logException();
+        return true; 
+      }
+      // буде лежати двоє хворих
+      if( verbPos > 1 
+          && PosTagHelper.hasPosTag(state.verbAnalyzedTokenReadings, Pattern.compile("verb.*inf.*"))
+          && LemmaHelper.hasLemma(tokens[verbPos-1], Pattern.compile("бути|мусити"), Pattern.compile("verb.*(past:n|:s:3).*")) ) {
+        logException();
+        return true; 
+      }
+    }
 
     if( verbPos > 1
         && LemmaHelper.hasLemma(tokens[verbPos], "бути") ) {
@@ -152,11 +169,22 @@ public final class TokenAgreementVerbNounExceptionHelper {
       logException();
       return true; 
     }
-    
+
+    // буде видно тільки супутники
     if( tokens[verbPos].getCleanToken().toLowerCase().matches("було|буде")
-        // видно - temporary until new dict
-      && ( //new SearchHelper.Match().target(Condition.lemma(Pattern.compile("видно|помітно"))).limit(nounAdjPos-verbPos).mNow(tokens, verbPos+1) >= 0 
-         new SearchHelper.Match().target(Condition.postag(Pattern.compile(".*predic.*"))).limit(nounAdjPos-verbPos).mNow(tokens, verbPos+1) >= 0) ) {
+      && new SearchHelper.Match()
+        .target(Condition.postag(Pattern.compile(".*predic.*")))
+        .limit(nounAdjPos-verbPos)
+        .mAfter(tokens, verbPos+1) >= 0 ) {
+      logException();
+      return true; 
+    }
+
+    // потрібно буде ше склянку
+    if( tokens[verbPos].getCleanToken().toLowerCase().matches("було|буде")
+      && new SearchHelper.Match()
+        .target(Condition.lemma(Pattern.compile("треба|потрібно")))
+        .mNow(tokens, verbPos-1) >= 0 ) {
       logException();
       return true; 
     }
@@ -686,6 +714,28 @@ public final class TokenAgreementVerbNounExceptionHelper {
       }
     }
     
+    // ADJ + бути + N
+    if( verbPos > 1
+        && LemmaHelper.hasLemma(tokens[verbPos], "бути") 
+        && PosTagHelper.hasPosTag(tokens[verbPos-1], "adj:.:v_naz.*")
+//        && agrees(tokens[verbPos], tokens[verbPos-1])
+        && CaseGovernmentHelper.hasCaseGovernment(tokens[verbPos-1], "v_rod") 
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("(adj|noun).*v_rod.*"))
+        ) {
+      logException();
+      return true;
+    }
+
+    // V:IMPERS + бути + N
+    if( verbPos > 1
+        && LemmaHelper.hasLemma(tokens[verbPos], "бути") 
+        && PosTagHelper.hasPosTag(tokens[verbPos-1], "verb.*impers.*")
+        && agrees(tokens[verbPos-1], state.nounAdjNazInflections, state.nounAdjIndirTokenReadings)
+        ) {
+      logException();
+      return true;
+    }
+
     // NOUN + V:INF + N
     // гріх зайнятися Генеральній прокуратурі
     // готовність спілкуватися людини
@@ -881,6 +931,12 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return 3;
 
     if( new SearchHelper.Match().tokenLine("станом на").mNow(tokens, i) == i + 1 )
+      return 3;
+
+    if( new SearchHelper.Match().tokenLine("страх як").mNow(tokens, i) == i + 1 )
+      return 3;
+
+    if( new SearchHelper.Match().tokenLine("жах як").mNow(tokens, i) == i + 1 )
       return 3;
 
     if( tokens[i-1].getCleanToken().equals("не")

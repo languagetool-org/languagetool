@@ -192,15 +192,6 @@ public class TokenAgreementVerbNounRule extends Rule {
           state.verbTokenReadings, nounAdjTokenReadingsVnaz, state.nounAdjIndirTokenReadings);
 
       // perform the check
-
-      // боротиметься кілька однопартійців
-      if( PosTagHelper.hasPosTag(state.verbAnalyzedTokenReadings, Pattern.compile(".*:[sn](:.*|$)"))
-          && (PosTagHelper.hasPosTag(tokens[i], Pattern.compile("numr.*v_naz.*"))
-              || LemmaHelper.hasLemma(tokens[i], LemmaHelper.ADV_QUANT_PATTERN, Pattern.compile("noun.*v_naz.*"))) ) {
-        state = null;
-        continue;
-      }
-
       
       List<VerbInflectionHelper.Inflection> verbInflections = null;
       boolean pass = false;
