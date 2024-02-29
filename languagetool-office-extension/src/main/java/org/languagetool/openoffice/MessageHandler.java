@@ -154,6 +154,14 @@ public class MessageHandler {
     DialogThread dt = new DialogThread(txt, false);
     dt.run();
   }
+  
+  public static void showFullStackMessage (String msg) {
+    try {
+      throw new RuntimeException(msg);
+    } catch (Throwable t) {
+      showError(t);
+    }
+  }
 
   /**
    * run an information message in a separate thread

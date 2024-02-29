@@ -1275,7 +1275,7 @@ public class SingleDocument {
         }
         for (SingleProofreadingError error : paRes.aErrors) {
           if (error.nErrorStart <= nChar && nChar < error.nErrorStart + error.nErrorLength) {
-            return new RuleDesc(paRes.aLocale, error);
+            return new RuleDesc(paRes.aLocale, -1, error);
           }
         }
       }
@@ -1299,7 +1299,7 @@ public class SingleDocument {
     int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
     SingleProofreadingError error = getErrorFromCache(y, x);
     if (error != null) {
-      return new RuleDesc(docCache.getFlatParagraphLocale(y), error);
+      return new RuleDesc(docCache.getFlatParagraphLocale(y), y, error);
     }
     return null;
   }
@@ -1518,10 +1518,12 @@ public class SingleDocument {
   
   public static class RuleDesc {
     String langCode;
+    int nFPara;
     SingleProofreadingError error;
     
-    RuleDesc(Locale locale, SingleProofreadingError error) {
+    RuleDesc(Locale locale, int nFPara, SingleProofreadingError error) {
       langCode = OfficeTools.localeToString(locale);
+      this.nFPara = nFPara;
       this.error = error;
     }
   }

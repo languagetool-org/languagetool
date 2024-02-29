@@ -53,6 +53,7 @@ import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.OfficeTools.LoErrorType;
 import org.languagetool.openoffice.OfficeTools.OfficeProductInfo;
+import org.languagetool.openoffice.ResultCache.CacheEntry;
 import org.languagetool.openoffice.SingleDocument.RuleDesc;
 import org.languagetool.openoffice.SpellAndGrammarCheckDialog.LtCheckDialog;
 import org.languagetool.openoffice.stylestatistic.StatAnDialog;
@@ -239,6 +240,10 @@ public class MultiDocumentsHandler {
       }
       if (!isSameLanguage || recheck || checkImpressDocument) {
         boolean initDocs = (lt == null || recheck || checkImpressDocument);
+        if (debugMode && initDocs) {
+          MessageHandler.showMessage("initDocs: lt " + (lt == null ? "=" : "!") + "= null, recheck: " + recheck 
+              + ", Impress: " + checkImpressDocument);
+        }
         checkImpressDocument = false;
         if (!isSameLanguage) {
           docLanguage = langForShortName;
@@ -397,8 +402,10 @@ public class MultiDocumentsHandler {
    *  Set XComponentContext
    */
   void setComponentContext(XComponentContext xContext) {
+    if (this.xContext != null && !xContext.equals(this.xContext)) {
+      setRecheck();
+    }
     this.xContext = xContext;
-    setRecheck();
   }
   
   /**
@@ -1222,7 +1229,7 @@ public class MultiDocumentsHandler {
       textLevelQueue.setStop();
       textLevelQueue = null;
     }
-    recheck = true;
+    setRecheck();
     config.saveNoBackgroundCheck(noBackgroundCheck, docLanguage);
     for (SingleDocument document : documents) {
       document.setConfigValues(config);
@@ -1419,7 +1426,8 @@ public class MultiDocumentsHandler {
         if (ruleDesc != null) {
           try {
             if (debugMode) {
-              MessageHandler.printToLogFile("MultiDocumentsHandler: moreInfo: ruleID = "+ ruleDesc.error.aRuleIdentifier + "langCode = " + ruleDesc.langCode);
+              MessageHandler.printToLogFile("MultiDocumentsHandler: moreInfo: ruleID = " 
+                            + ruleDesc.error.aRuleIdentifier + "langCode = " + ruleDesc.langCode);
             }
             SingleProofreadingError error = ruleDesc.error;
             for (Rule rule : lt.getAllRules()) {
@@ -1439,6 +1447,7 @@ public class MultiDocumentsHandler {
                 MoreInfoDialogThread infoThread = new MoreInfoDialogThread(msg, error.aFullComment, rule, url,
                     messages, lt.getLanguage().getShortCodeWithCountryAndVariant());
                 infoThread.start();
+                return;
               }
             }
           } catch (MalformedURLException e) {
@@ -1708,7 +1717,6 @@ public class MultiDocumentsHandler {
   /**
    * Triggers the events from LT menu
    */
-  @SuppressWarnings("null")
   public void trigger(String sEvent) {
     try {
 //      MessageHandler.printToLogFile("Trigger event: " + sEvent);

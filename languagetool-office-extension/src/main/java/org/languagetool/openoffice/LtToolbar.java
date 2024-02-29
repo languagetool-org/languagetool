@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.gui.Configuration;
 
 import com.sun.star.awt.Point;
 import com.sun.star.awt.XWindow;
@@ -42,7 +41,6 @@ import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.ui.ItemStyle;
 import com.sun.star.ui.ItemType;
-import com.sun.star.ui.UIElementType;
 import com.sun.star.ui.XModuleUIConfigurationManagerSupplier;
 import com.sun.star.ui.XUIConfigurationManager;
 import com.sun.star.uno.Exception;
@@ -204,7 +202,7 @@ public class LtToolbar {
         isLocked = layoutManager.isElementLocked(toolbarName);
         pos = layoutManager.getElementPos(toolbarName);
         isVisible = layoutManager.isElementVisible(toolbarName);
-        MessageHandler.printToLogFile("LtToolbar: makeToolbar: name: " + toolbarName + ", isVisible: " + isVisible + ", isLocked: " + isLocked);
+//        MessageHandler.printToLogFile("LtToolbar: makeToolbar: name: " + toolbarName + ", isVisible: " + isVisible + ", isLocked: " + isLocked);
       }
       layoutManager.destroyElement(toolbarName);
       layoutManager.createElement(toolbarName);
