@@ -67,7 +67,7 @@ public class IsEnglishWordFilter extends RuleFilter {
       String [] postags = postagsStr.split(",");
       if (postags.length != forms.size()) {
         throw new RuntimeException("The number of forms and postags has to be the same in disambiguation rule with " +
-            "fitler IsEnglishWordFilter.");
+            "filter IsEnglishWordFilter.");
       }
       for (int i = 0; i < postags.length; i++) {
         isEnglish = isEnglish && wordIsTaggedWith(forms.get(i), postags[i]);
