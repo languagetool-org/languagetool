@@ -547,7 +547,6 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("NP_TO_IS", -1);  // prefer other more specific rules
     id2prio.put("REPEATED_VERBS", -1);  // prefer other rules
     id2prio.put("NNP_COMMA_QUESTION", -2);  // prefer other more specific rules
-    id2prio.put("VB_TO_NN_DT", -2);  // prefer other more specific rules (e.g. NOUN_VERB_CONFUSION)
     id2prio.put("THE_CC", -2);  // prefer other more specific rules (with suggestions)
     id2prio.put("PRP_VBG", -2);  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
     id2prio.put("CANT_JJ", -2);  // prefer other more specific rules
@@ -585,6 +584,7 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("PRP_JJ", -12);  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
     id2prio.put("SINGULAR_NOUN_VERB_AGREEMENT", -12);  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
     id2prio.put("SINGULAR_AGREEMENT_SENT_START", -12);    // prefer AI
+    id2prio.put("VB_TO_NN_DT", -12);  // prefer AI and other more specific rules (e.g. NOUN_VERB_CONFUSION)
     id2prio.put("SUBJECTVERBAGREEMENT_2", -12);    // prefer AI
     id2prio.put("THE_SENT_END", -12);    // prefer AI
     id2prio.put("DT_NN_ARE_AME", -12);    // prefer AI
