@@ -95,6 +95,11 @@ public class AvsAnRule extends Rule {
       }
       if (equalsA || equalsAn) {
         Determiner determiner = getCorrectDeterminerFor(token);
+        if (token.getToken().equals("EUR") && i < tokens.length - 1) {
+          determiner = getCorrectDeterminerFor(tokens[i + 1]);
+        } else if (token.getToken().equals("EUR") && i == tokens.length - 1) {
+          determiner = Determiner.A;
+        }
         String msg = null;
         if (equalsA && determiner == Determiner.AN) {
           String replacement = StringTools.startsWithUppercase(prevTokenStr) ? "An" : "an";
