@@ -23,6 +23,7 @@ import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -83,16 +84,32 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
   //private List<String> possibleExceptions = Arrays.asList("link", "links", "event", "events");
 
   @Override
-  protected boolean isTokenExceptionInContext(AnalyzedTokenReadings[] tokens, int i) {
+  protected boolean isRuleMatchException(RuleMatch ruleMatch) {
     // accept English words in English sentences
-    if (i > 1 && i + 1 < tokens.length) {
-      if (tokens[i].hasPosTag("_english_ignore_")
-        && (tokens[i + 1].hasPosTag("_english_ignore_") || tokens[i - 1].hasPosTag("_english_ignore_"))) {
-        return true;
-      }
+    int startIndex = 0;
+    AnalyzedTokenReadings[] tokens = ruleMatch.getSentence().getTokensWithoutWhitespace();
+    while (startIndex < tokens.length && tokens[startIndex].getStartPos() < ruleMatch.getFromPos()) {
+      startIndex++;
     }
+    int endIndex = startIndex;
+    while (endIndex < tokens.length && tokens[endIndex].getEndPos() < ruleMatch.getToPos()) {
+      endIndex++;
+    }
+    if (startIndex > 1 && tokens[startIndex].hasPosTag("_english_ignore_")
+      && tokens[startIndex - 1].hasPosTag("_english_ignore_")) {
+      return true;
+    }
+    if (endIndex + 1 < tokens.length && tokens[endIndex].hasPosTag("_english_ignore_")
+      && tokens[endIndex + 1].hasPosTag("_english_ignore_")) {
+      return true;
+    }
+    return false;
+  }
+
+  @Override
+  protected boolean isTokenException(AnalyzedTokenReadings atr) {
     // proper nouns tagged in multiwords are exceptions
-    return tokens[i].hasPosTagStartingWith("NP") || tokens[i].isImmunized() || tokens[i].isIgnoredBySpeller();
+    return atr.hasPosTagStartingWith("NP") || atr.isImmunized() || atr.isIgnoredBySpeller();
   }
 
 }

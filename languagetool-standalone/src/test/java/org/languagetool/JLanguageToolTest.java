@@ -512,5 +512,11 @@ public class JLanguageToolTest {
     assertEquals(0, matches.size());
     matches = lt.check("The event was successful.");
     assertEquals(0, matches.size());
+
+    matches = lt.check("This is the community manager.");
+    assertEquals(0, matches.size());
+
+    matches = lt.check("Aquest és el community manager.");
+    assertEquals(1, matches.size());
   }
 }
