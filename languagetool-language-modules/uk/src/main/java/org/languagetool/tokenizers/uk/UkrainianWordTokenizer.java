@@ -175,7 +175,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   // Сьогодні (у четвер. - Ред.), вранці.
 //  private static final Pattern ABBR_DOT_PATTERN8 = Pattern.compile("([\\s\u00A0\u202F]+[–—-][\\s\u00A0\u202F]+(?:[Рр]ед|[Аа]вт))\\.([\\)\\]])");
-  private static final Pattern ABBR_DOT_RED_AVT_PATTERN = Pattern.compile("([\\h\\v]+(?:[Рр]ед|[Аа]вт))\\.([\\)\\]])");
+  private static final Pattern ABBR_DOT_RED_AVT_PATTERN = Pattern.compile("([\\h\\v]+(?:[Рр]ед|[Аа]вт))\\.(\\h*[)\\]а-яіїєґ])");
   
   private static final String SOFT_HYPHEN_WRAP = "\u00AD\n";
   private static final String SOFT_HYPHEN_WRAP_SUBST = "\uE103";

@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -23,6 +23,7 @@ import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -33,9 +34,9 @@ import java.util.ResourceBundle;
 /**
  * A rule that matches words which should not be used and suggests correct ones
  * instead.
- * 
+ * <p>
  * Loads the relevant words from <code>rules/ca/replace_anglicism.txt</code>.
- * 
+ *
  * @author Jaume Ortolà
  */
 public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
@@ -78,6 +79,31 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
   @Override
   public String getMessage() {
     return "Anglicisme innecessari. Considereu fer servir una altra paraula.";
+  }
+
+  //private List<String> possibleExceptions = Arrays.asList("link", "links", "event", "events");
+
+  @Override
+  protected boolean isRuleMatchException(RuleMatch ruleMatch) {
+    // accept English words in English sentences
+    int startIndex = 0;
+    AnalyzedTokenReadings[] tokens = ruleMatch.getSentence().getTokensWithoutWhitespace();
+    while (startIndex < tokens.length && tokens[startIndex].getStartPos() < ruleMatch.getFromPos()) {
+      startIndex++;
+    }
+    int endIndex = startIndex;
+    while (endIndex < tokens.length && tokens[endIndex].getEndPos() < ruleMatch.getToPos()) {
+      endIndex++;
+    }
+    if (startIndex > 1 && tokens[startIndex].hasPosTag("_english_ignore_")
+      && tokens[startIndex - 1].hasPosTag("_english_ignore_")) {
+      return true;
+    }
+    if (endIndex + 1 < tokens.length && tokens[endIndex].hasPosTag("_english_ignore_")
+      && tokens[endIndex + 1].hasPosTag("_english_ignore_")) {
+      return true;
+    }
+    return false;
   }
 
   @Override

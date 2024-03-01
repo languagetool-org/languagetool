@@ -338,6 +338,9 @@ public class SingleDocument {
             proofInfo, numParasToCheck, fixedLanguage, docLanguage, this, paragraphsCache, changedParas, runningParas);
         paraNum = requestAnalysis.getNumberOfParagraph(nPara, paraText, locale, paRes.nStartOfSentencePosition, footnotePositions);
       }
+      if (docCache.isAutomaticGenerated(paraNum, true)) {
+        return paRes;
+      }
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime;
         if (runTime > OfficeTools.TIME_TOLERANCE) {
@@ -1272,7 +1275,7 @@ public class SingleDocument {
         }
         for (SingleProofreadingError error : paRes.aErrors) {
           if (error.nErrorStart <= nChar && nChar < error.nErrorStart + error.nErrorLength) {
-            return new RuleDesc(paRes.aLocale, error.aRuleIdentifier);
+            return new RuleDesc(paRes.aLocale, -1, error);
           }
         }
       }
@@ -1284,7 +1287,7 @@ public class SingleDocument {
   /**
    * get back the rule ID to deactivate a rule
    */
-  public RuleDesc deactivateRule() {
+  public RuleDesc getCurrentRule() {
     if (disposed) {
       return null;
     }
@@ -1294,7 +1297,11 @@ public class SingleDocument {
       return getRuleIdFromCheck(x, viewCursor);
     }
     int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
-    return new RuleDesc(docCache.getFlatParagraphLocale(y), getErrorFromCache(y, x).aRuleIdentifier);
+    SingleProofreadingError error = getErrorFromCache(y, x);
+    if (error != null) {
+      return new RuleDesc(docCache.getFlatParagraphLocale(y), y, error);
+    }
+    return null;
   }
 
   /**
@@ -1511,11 +1518,13 @@ public class SingleDocument {
   
   public static class RuleDesc {
     String langCode;
-    String ruleID;
+    int nFPara;
+    SingleProofreadingError error;
     
-    RuleDesc(Locale locale, String ruleID) {
+    RuleDesc(Locale locale, int nFPara, SingleProofreadingError error) {
       langCode = OfficeTools.localeToString(locale);
-      this.ruleID = ruleID;
+      this.nFPara = nFPara;
+      this.error = error;
     }
   }
 

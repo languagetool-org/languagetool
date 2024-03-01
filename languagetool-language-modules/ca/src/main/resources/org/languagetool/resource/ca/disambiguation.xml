@@ -37,6 +37,170 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
+    <rulegroup id="IGNORE_ENGLISH_WORDS" name="etiqueta paraules angleses">
+        <antipattern>
+            <token regexp="yes">the|than</token>
+            <token postag="V.P.*" postag_regexp="yes"/>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token postag="UNKNOWN" regexp="yes">&english_common;|&english_common_casesensitive;</token>
+                <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_" regexp="yes">&english_common;|&english_common_casesensitive;</token>
+                <marker>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+                <token postag="UNKNOWN" regexp="yes">&english_common;|&english_common_casesensitive;<exception>in</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+                <token postag="_english_ignore_" regexp="yes">&english_common;|&english_common_casesensitive;<exception>in</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>to</token>
+                <token regexp="yes">[a-z]+</token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2 postags:VB"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token case_sensitive="yes">I</token>
+                <token regexp="yes">[a-z]+<exception>buffet</exception><exception regexp="yes">&english_no;</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2 postags:VB[PD]"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_|UNKNOWN" postag_regexp="yes" regexp="yes">[a-z]+<exception regexp="yes">saint|anti|&english_no;</exception></token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no" regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,3"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]+<exception regexp="yes">saint|anti|&english_no;</exception></token>
+                <token spacebefore="no">-</token>
+                <token postag="_english_ignore_|UNKNOWN" postag_regexp="yes" spacebefore="no" regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,3"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_"/>
+                <marker>
+                    <token regexp="yes">a|to</token>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:3"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_"/>
+                <marker>
+                    <token regexp="yes">a|to</token>
+                </marker>
+                <token postag="_english_ignore_"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>from</token>
+                <token/>
+                <marker>
+                    <token>to</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="IGNORE_ENGLISH_WORDS2" name="etiqueta paraules angleses">
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_"/>
+                <marker>
+                    <token regexp="yes">[a-z]+|'s<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+                <token postag="_english_ignore_"/>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="FIX_DICTIONARY" name="fix some problems in dictionaries">
         <!-- es pot eliminar quan s'arregle el diccionari -->
         <rule>
@@ -922,7 +1086,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="PERIODES_DE_TEMPS" name="períodes de temps">
         <rule>
             <pattern>
-                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|&periodes_temps;|&estacions;</token>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|&periodes_temps;|&estacions;<exception regexp="yes">segona|segones</exception></token>
             </pattern>
             <disambig action="addchunk">
                 <wd pos="PTime"/>
@@ -931,7 +1095,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token postag="D[NI].*" postag_regexp="yes"><exception>cada</exception></token>
-                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|&periodes_temps;|&estacions;</token>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|&periodes_temps;|&estacions;<exception regexp="yes">segona|segones</exception></token>
             </pattern>
             <disambig action="addchunk">
                 <wd pos="PTime"/>
@@ -942,7 +1106,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="D[NI].*" postag_regexp="yes"><exception>cada</exception></token>
                 <token postag="D[NI].*" postag_regexp="yes"><exception>cada</exception></token>
-                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|&periodes_temps;|&estacions;</token>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|&periodes_temps;|&estacions;<exception regexp="yes">segona|segones</exception></token>
             </pattern>
             <disambig action="addchunk">
                 <wd pos="PTime"/>
@@ -991,7 +1155,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="DI.*" postag_regexp="yes"><exception>cada</exception></token>
                 <token regexp="yes">de|d'</token>
-                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|&periodes_temps;|&estacions;</token>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|&periodes_temps;|&estacions;<exception regexp="yes">segona|segones</exception></token>
             </pattern>
             <disambig action="addchunk">
                 <wd pos="PTime"/>
@@ -1003,7 +1167,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="DI.*" postag_regexp="yes" inflected="yes" regexp="yes">un|tot</token>
                 <token postag="D.*" postag_regexp="yes" inflected="yes" regexp="yes">quant|el</token>
-                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|&periodes_temps;|&estacions;</token>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|&periodes_temps;|&estacions;<exception regexp="yes">segona|segones</exception></token>
             </pattern>
             <disambig action="addchunk">
                 <wd pos="PTime"/>
@@ -3951,6 +4115,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token>no</token>
+                <marker>
+                    <token>sé</token>
+                </marker>
+                <token regexp="yes" min="0" max="4">gaire|molt|bé|ben|el</token>
+                <token regexp="yes">qui|quin|quins|quina|quines|on|com|què|quan|quant|quanta|quants|quantes</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_loc_nosequi"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token regexp="yes">ves|vés|aneu</token>
                 </marker>
@@ -5024,7 +5201,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="annual" name="desastre d'Annual">
         <pattern>
             <token regexp="yes" inflected="yes">desastre|batalla|ocupació|victòria|desfeta|derrota</token>
-            <token regexp="yes">d'|de</token>
+            <token regexp="yes">d'|de|a|en</token>
             <marker>
                 <token case_sensitive="yes">Annual</token>
             </marker>
@@ -15954,7 +16131,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="N.*|A.*|V.P.*"/>
+        <disambig action="filter" postag="N.*|A.*|V.P.*|_english_ignore_"/>
     </rule>
     <rule id="PrepNom_llevat" name="preposició o nom: llevat">
         <!-- potser no és prep.: cap  -->
@@ -15988,7 +16165,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <marker>
                     <and>
-                        <token postag="SPS.*" postag_regexp="yes"><exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+                        <token postag="SPS.*" postag_regexp="yes"><exception scope="previous" postag="D[^N].*" postag_regexp="yes"/></token>
                         <token postag="N.*" postag_regexp="yes"><exception postag="_GN.*" postag_regexp="yes"/></token>
                     </and>
                 </marker>

@@ -3115,6 +3115,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="обіймати">коли він <marker>займав</marker> посаду директора.</example>
     </rule>
 
+    <rule id="zarubaty_na_nosi" name="Зарубати на носі">
+      <pattern>
+        <token inflected="yes" regexp="yes">зарубити|зарубати|зарубивши</token>
+        <token min="0">собі</token>
+        <token min="0">це</token>
+        <token>на</token>
+        <token regexp="yes">нос[іу]</token>
+      </pattern>
+      <message>Краще: <suggestion>закарбувати \2 \3 \4 \5</suggestion></message>
+      <suggestion>затямити \2 \3</suggestion>
+      <example correction="закарбувати собі на носі|затямити собі ">він <marker>зарубив собі на носі</marker> .</example>
+      <example correction="закарбувати собі це на носі|затямити собі це"><marker>зарубай собі це на носі</marker> .</example>
+    </rule>
+
     <rule id="tochka_zoru" name="Точка зору">
       <pattern>
         <token inflected="yes">точка</token>

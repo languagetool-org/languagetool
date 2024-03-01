@@ -98,7 +98,7 @@ public class MorfologikPortugueseSpellerRuleTest {
   }
 
   private void assertSingleError(String sentence, JLanguageTool lt,
-                                 MorfologikPortugueseSpellerRule rule, String[] suggestions) throws IOException {
+                                 MorfologikPortugueseSpellerRule rule, String ...suggestions) throws IOException {
     assertErrorLength(sentence, 1, lt, rule, suggestions);
   }
 
@@ -127,9 +127,9 @@ public class MorfologikPortugueseSpellerRuleTest {
 
   private void assertTwoWayOrthographicAgreementError(String sentence90, String sentence45) throws IOException {
     assertNoErrors(sentence90, ltPT, rulePT);
-    assertSingleError(sentence45, ltPT, rulePT, new String[]{sentence90});
+    assertSingleError(sentence45, ltPT, rulePT, sentence90);
     assertNoErrors(sentence45, ltMZ, ruleMZ);
-    assertSingleError(sentence90, ltMZ, ruleMZ, new String[]{sentence45});
+    assertSingleError(sentence90, ltMZ, ruleMZ, sentence45);
   }
 
   @Test
@@ -284,6 +284,9 @@ public class MorfologikPortugueseSpellerRuleTest {
     // orthographic reforms
     assertTwoWayOrthographicAgreementError("detetar", "detectar");
     assertTwoWayOrthographicAgreementError("abjeção", "abjecção");
+    assertTwoWayOrthographicAgreementError("direção", "direcção");
+    assertTwoWayOrthographicAgreementError("diretamente", "directamente");
+    assertTwoWayOrthographicAgreementError("afetada", "afectada");
   }
 
   @Test
@@ -618,6 +621,8 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("CD-ROM", ltBR, ruleBR);
     assertNoErrors("CD-ROMs", ltBR, ruleBR);
     assertSingleError("heavy-metal", ltBR, ruleBR, new String[]{"heavy metal"});
+    assertNoErrors("Aix-en-Provence", ltBR, ruleBR);
+    assertNoErrors("Agualva-Cacém", ltPT, rulePT);
   }
 
   @Test public void testPortugueseSpellerAccepts50PercentOff() throws Exception {
@@ -633,5 +638,26 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("semi-frio", ltBR, ruleBR);
     assertNoErrors("sub-taça", ltBR, ruleBR);
     assertNoErrors("sub-pratos", ltBR, ruleBR);
+  }
+
+  @Test public void testPortugueseSpellerAcceptsCapitalisationOfAllCompoundElements() throws Exception {
+    assertNoErrors("jiu-jitsu.", ltBR, ruleBR);
+    assertNoErrors("Jiu-jitsu.", ltBR, ruleBR);
+    assertNoErrors("Jiu-Jitsu.", ltBR, ruleBR);
+    assertErrorLength("jIu-JItsU", 2, ltBR, ruleBR, new String[]{});
+  }
+
+  @Test public void testPortugueseSpellerAcceptsNationalPrefixes() throws Exception {
+    // disambiguation rule for productive prefixes (the first element doesn't exist separately)
+    // not in speller or tagger
+    assertNoErrors("ítalo-congolês", ltBR, ruleBR);
+    assertNoErrors("Belgo-Luxemburguesa", ltBR, ruleBR);
+    // not in the speller, but in the tagger
+    assertNoErrors("franco-prussiana", ltBR, ruleBR);
+    assertNoErrors("Franco-prussiana", ltBR, ruleBR);
+    assertNoErrors("Franco-Prussiana", ltBR, ruleBR);
+    // speller logic (split by hyphen and check elements separately)
+    // not a prefix per se, true compounding (the first element exists as an independent lexeme)
+    assertNoErrors("húngaro-romeno", ltBR, ruleBR);
   }
 }

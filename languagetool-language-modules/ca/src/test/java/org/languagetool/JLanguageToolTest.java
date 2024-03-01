@@ -71,6 +71,10 @@ public class JLanguageToolTest {
     assertEquals(1, matches.size());
     assertEquals( "estos", matches.get(0).getSuggestedReplacements().get(0));
 
+    matches = tool.check("Estes forquilles, aquests ganivets.");
+    assertEquals(1, matches.size());
+    assertEquals( "estos", matches.get(0).getSuggestedReplacements().get(0));
+
     matches = tool.check("Aqueixes forquilles, eixos ganivets.");
     assertEquals(1, matches.size());
     assertEquals( "aqueixos", matches.get(0).getSuggestedReplacements().get(0));

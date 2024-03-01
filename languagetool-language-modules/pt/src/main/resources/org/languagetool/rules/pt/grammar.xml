@@ -15882,13 +15882,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token>:</token>
                 <example>Andrey Koreshkov (Russo: nome em russo aqui)</example>
             </antipattern>
-            <antipattern>
-                <token regexp="yes">[nd]o</token>
-                <token case_sensitive="yes">Sul</token>
-                <token spacebefore='no'>-</token>
-                <token regexp="yes" spacebefore='no' inflected="yes">&languages;</token>
-                <example>Participou do Sul-Americano.</example>
-            </antipattern>
+            <!-- p-goulart@2024-02-20 - DESC: comment out due to changes in tokenisation of Sul-Americano (this is tricky) -->
+            <!-- <antipattern> -->
+                <!-- <token regexp="yes">[nd]o</token> -->
+                <!-- <token case_sensitive="yes">Sul</token> -->
+                <!-- <token spacebefore='no'>-</token> -->
+                <!-- <token regexp="yes" spacebefore='no' inflected="yes">&languages;</token> -->
+                <!-- <example>Participou do Sul-Americano.</example> -->
+            <!-- </antipattern> -->
             <antipattern>
                 <token regexp="yes" inflected="yes">&languages;</token>
                 <token>de</token>
@@ -36162,7 +36163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule-->
         </rulegroup>
 
-        <rulegroup id="DATE_WEEKDAY_WITHOUT_YEAR" name="Data Incorreta: Dia da Semana Errado em Data Incompleta">
+        <rulegroup id="PT_DATE_WEEKDAY_CURRENTYEAR" name="Data Incorreta: Dia da Semana Errado em Data Incompleta">
             <!-- Localized from English grammar.xml by Tiago F. Santos, 2018-07-19 -->
             <antipattern>
                 <token regexp="yes">\d\d\d\d</token>
@@ -36239,13 +36240,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token min='0'>de</token>
                     <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
                 </pattern>
-                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:\5 day:\3 weekDay:\1"/>
+                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:5 day:3 weekDay:1"/>
                 <message>Refere-se ao ano atual? \3 de \5, {currentYear} não é {day}, mas sim {realDay}.</message>
-                <example correction="">Festival Pop/Rock - <marker>Segunda-feira, 7 de outubro</marker></example>
-                <example correction="">Festival Pop/Rock - <marker>Seg, 7 outubro</marker></example>
-                <example correction="">Festival Pop/Rock - <marker>Seg, 7 outubro</marker></example>
-                <example correction="">Festival Pop/Rock - <marker>Segunda, 7 out</marker></example>
-                <example correction="">Festival Pop/Rock - <marker>Segunda-Feira, 7 out</marker></example>
+                <example correction="Terça-feira, 7|Segunda-feira, 6">Festival Pop/Rock - <marker>Segunda-feira, 7</marker> de outubro</example>
+                <example correction="Terça-feira, 7|Seg, 6">Festival Pop/Rock - <marker>Seg, 7</marker> outubro</example>
+                <example correction="Terça-feira, 7|Seg, 6">Festival Pop/Rock - <marker>Seg, 7</marker> outubro</example>
+                <example correction="Terça-feira, 7|Segunda, 6">Festival Pop/Rock - <marker>Segunda, 7</marker> out</example>
+                <example correction="terça-feira, 7|Segunda-Feira, 6">Festival Pop/Rock - <marker>Segunda-Feira, 7</marker> out</example>
                 <example>Festival Pop/Rock - <marker>Terça-feira, 7 outubro</marker></example>
                 <example>Festival Pop/Rock - <marker>Terça-feira, 7 out</marker></example>
             </rule>
@@ -36259,18 +36260,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
                     <token regexp="yes">\d\d?</token>
                 </pattern>
-                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:\5 day:\6 weekDay:\1"/>
+                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:5 day:6 weekDay:1"/>
                 <message>Refere-se ao ano atual? \5 \6, {currentYear} não é {day}, mas sim {realDay}.</message>
-                <example correction="">Festival Pop/Rock - <marker>Segunda, Outubro 7</marker></example>
-                <example correction="">Festival Pop/Rock - <marker>Segunda-Feira, outubro 7</marker></example>
-                <example correction="">Festival Pop/Rock - <marker>Seg, outubro 7</marker></example>
-                <example correction="">Festival Pop/Rock - <marker>Seg, outubro 7</marker></example>
-                <example correction="">Festival Pop/Rock - <marker>Quarta, outubro 7</marker></example>
-                <example correction="">Festival Pop/Rock - <marker>Quinta, outubro 7</marker></example>
-                <example correction="">Festival Pop/Rock - <marker>Sexta, outubro 7</marker></example>
-                <example correction="">Festival Pop/Rock - <marker>Sábado, outubro 7</marker></example>
-                <example correction="">Festival Pop/Rock - <marker>Domingo, outubro 7</marker></example>
-                <example correction="">Festival Pop/Rock - <marker>Domingo, out 7</marker></example>
+                <example correction="Terça-feira, Outubro 7|Segunda, Outubro 6">Festival Pop/Rock - <marker>Segunda, Outubro 7</marker></example>
+                <example correction="terça-feira, outubro 7|Segunda-Feira, outubro 6">Festival Pop/Rock - <marker>Segunda-Feira, outubro 7</marker></example>
+                <example correction="Terça-feira, outubro 7|Seg, outubro 6">Festival Pop/Rock - <marker>Seg, outubro 7</marker></example>
+                <example correction="Terça-feira, outubro 7|Quarta, outubro 8">Festival Pop/Rock - <marker>Quarta, outubro 7</marker></example>
+                <example correction="Terça-feira, outubro 7|Quinta, outubro 9">Festival Pop/Rock - <marker>Quinta, outubro 7</marker></example>
+                <example correction="Terça-feira, outubro 7|Sexta, outubro 10">Festival Pop/Rock - <marker>Sexta, outubro 7</marker></example>
+                <example correction="Terça-feira, outubro 7|Sábado, outubro 4">Festival Pop/Rock - <marker>Sábado, outubro 7</marker></example>
+                <example correction="Terça-feira, outubro 7|Domingo, outubro 5">Festival Pop/Rock - <marker>Domingo, outubro 7</marker></example>
+                <example correction="Terça-feira, out 7|Domingo, out 5">Festival Pop/Rock - <marker>Domingo, out 7</marker></example>
                 <example>Festival Pop/Rock - <marker>Terça-feira, outubro 7</marker></example>
                 <example>Festival Pop/Rock - <marker>Terça-feira, out 7</marker></example>
             </rule>
@@ -36285,10 +36285,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token>/</token>
                     <token regexp="yes">0?[1-9]|1[0-2]</token>
                 </pattern>
-                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:\7 day:\5 weekDay:\1"/>
+                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:7 day:5 weekDay:1"/>
                 <message>Refere-se ao ano atual? \5/\7/{currentYear} não é {day}, mas sim {realDay}.</message>
-                <example correction="">Festival Pop/Rock 2014 - <marker>Segunda, 31/10</marker></example>
-                <example correction="">Festival Pop/Rock 2014 - <marker>Segunda-feira, 31/10</marker></example>
+                <example correction="Sexta-feira, 31|Segunda, 27">Festival Pop/Rock 2014 - <marker>Segunda, 31</marker>/10</example>
+                <example correction="Sexta-feira, 31|Segunda-feira, 27">Festival Pop/Rock 2014 - <marker>Segunda-feira, 31</marker>/10</example>
                 <example>Festival Pop/Rock 2014 - <marker>Sexta, 31/10</marker></example>
                 <!--example>Festival Pop/Rock 2014 - <marker>Segunda, 10/09</marker></example> not ambiguous in Portuguese-->
                 <!--example>Festival Pop/Rock 2014 - <marker>Segunda, 9/10</marker></example> not ambiguous in Portuguese-->
@@ -36314,10 +36314,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token>/</token>
                     <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
                 </pattern>
-                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:\5 day:\7 weekDay:\1"/>
+                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:5 day:7 weekDay:1"/>
                 <message>Refere-se ao ano atual? \5/\7/{currentYear} não é {day}, mas sim {realDay}.</message>
-                <example correction="">Festival Pop/Rock 2014 - <marker>Segunda, 10/31</marker></example>
-                <example correction="">Festival Pop/Rock 2014 - <marker>Segunda-feira, 10/31</marker></example>
+                <example correction="Sexta-feira, 10/31|Segunda, 10/27">Festival Pop/Rock 2014 - <marker>Segunda, 10/31</marker></example>
+                <example correction="Sexta-feira, 10/31|Segunda-feira, 10/27">Festival Pop/Rock 2014 - <marker>Segunda-feira, 10/31</marker></example>
                 <example>Festival Pop/Rock 2014 - <marker>Sexta, 10/31</marker></example>
                 <!--example>Festival Pop/Rock 2014 - <marker>Segunda, 10/09</marker></example> not ambiguous in Portuguese-->
                 <!--example>Festival Pop/Rock 2014 - <marker>Segunda, 9/10</marker></example> not ambiguous in Portuguese-->
@@ -36341,7 +36341,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>É de 2015.</example>
         </rule>
 
-        <rulegroup id='DATE_WEEKDAY' name="Data Incorreta: Dia da Semana Errado">
+        <rulegroup id='PT_DATE_WEEKDAY' name="Data Incorreta: Dia da Semana Errado">
             <antipattern>
                 <marker>
                     <token>Washington</token>
@@ -36363,11 +36363,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token spacebefore="no" min="0">l</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
-                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="year:\11 month:\8 day:\6 weekDay:\1"/>
+                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="year:11 month:8 day:6 weekDay:1"/>
                 <message>Esta data não é <match no='1' case_conversion="alllower" include_skipped='all'/><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/>, é {realDay}.</message>
-                <example correction=""><marker>Segunda-feira, 7 de outubro de 2014</marker></example>
-                <example correction=""><marker>Segunda-feira 7 de outubro 2014</marker></example>
-                <example correction=""><marker>Segunda-feira (dia 7 de outubro 2014</marker>)</example>
+                <example correction="Terça-feira, 7|Segunda-feira, 6"><marker>Segunda-feira, 7</marker> de outubro de 2014</example>
+                <example correction="Terça-feira 7|Segunda-feira 6"><marker>Segunda-feira 7</marker> de outubro 2014</example>
+                <example correction="Terça-feira (dia 7|Segunda-feira (dia 6"><marker>Segunda-feira (dia 7</marker> de outubro 2014)</example>
                 <example><marker>Terça-feira, 7 de outubro de 2014</marker></example>
                 <example><marker>Washington DC, 7 de outubro de 2014</marker></example>
             </rule>
@@ -36382,11 +36382,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
-                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="year:\7 month:\6 day:\5 weekDay:\1"/>
+                <filter class="org.languagetool.rules.pt.DateCheckFilter" args="year:7 month:6 day:5 weekDay:1"/>
                 <message>Esta data não é <match no='1' case_conversion="alllower" include_skipped='all'/><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/>, é {realDay}.</message>
-                <example correction=""><marker>Segunda-feira, 7 out 2014</marker></example>
-                <example correction=""><marker>Segunda-feira 7 out 2014</marker></example>
-                <example correction=""><marker>Segunda-feira (7 out 2014</marker>)</example>
+                <example correction="Terça-feira, 7|Segunda-feira, 6"><marker>Segunda-feira, 7</marker> out 2014</example>
+                <example correction="Terça-feira 7|Segunda-feira 6"><marker>Segunda-feira 7</marker> out 2014</example>
+                <example correction="Terça-feira (7|Segunda-feira (6"><marker>Segunda-feira (7</marker> out 2014)</example>
                 <example><marker>Terça-feira, 7 out 2014</marker></example>
             </rule>
             <!--  End of French grammar.xml adaptation  -->
@@ -36888,6 +36888,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='MISSPELLING' name="Erros Ortográficos" type="misspelling">
+        <rule id="ENSINO_A_DISTANCIA" name="Sugerir EaD para ensino a distância">
+            <!-- p-goulart@2024-02-27 - DESC: must have higher priority than the speller rule! -->
+            <pattern>
+                <token case_sensitive="yes">EAD</token>
+            </pattern>
+            <message>Se estiver se referindo a &quot;ensino a distância&quot;, prefira <suggestion>EaD</suggestion>.</message>
+            <example correction="EaD">Professores de <marker>EAD</marker> têm várias dificuldades.</example>
+        </rule>
+
+        <rule id="EMAIL_SEM_HIFEN_ORTHOGRAPHY" name="Corrigir email para e-mail">
+            <!-- p-goulart@2024-02-27 - DESC: the _ORTHOGRAPHY suffix is to get a red underline -->
+            <pattern>
+                <token regexp="yes">emails?</token>
+            </pattern>
+            <message>A palavra <suggestion><match no="1" regexp_match="(?i)email(s)?" regexp_replace="e-mail$1"/></suggestion> se escreve com hífen.</message>
+            <example correction="e-mail">Ele me enviou outro <marker>email</marker>.</example>
+            <example correction="e-mails">Não vejo <marker>emails</marker> novos.</example>
+            <example correction="E-mail"><marker>Email</marker>: foo@bar.com</example>
+        </rule>
+
         <rulegroup id="DIACRITICS" name="Confusão com diacríticos">
             <!--      Created by Jaume Ortolà, Portuguese rule 2021-01-08      -->
             <!--

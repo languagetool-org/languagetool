@@ -315,12 +315,13 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
             }
           }
           ruleMatch.setSuggestedReplacements(replacements);
-          if (!isException(sentence.getText().substring(startPos, endPos))) {
+          if (!isException(sentence.getText().substring(startPos, endPos))
+            && !isRuleMatchException(ruleMatch)) {
             //keep only the longest match
             if (ruleMatches.size() > 0) {
               RuleMatch lastRuleMatch = ruleMatches.get(ruleMatches.size() - 1);
               if (lastRuleMatch.getFromPos() == ruleMatch.getFromPos()
-                  && lastRuleMatch.getToPos() < ruleMatch.getToPos()) {
+                && lastRuleMatch.getToPos() < ruleMatch.getToPos()) {
                 ruleMatches.remove(ruleMatches.size() - 1);
               }
             }
@@ -331,6 +332,10 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       }
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  protected boolean isRuleMatchException(RuleMatch ruleMatch) {
+    return false;
   }
 
   protected boolean isException(String matchedText) {

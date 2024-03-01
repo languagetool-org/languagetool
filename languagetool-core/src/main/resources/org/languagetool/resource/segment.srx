@@ -1164,7 +1164,7 @@
 <afterbreak>D\.?</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b([Aa]vg|[Ee]d|pp|[Vv]iz|i\.?[\s\u00A0]*e|[Vvol]|[Rr]col|maj|Lt|[Ff]ig|[Ff]igs|[Vv]iz|[Vv]ols|[Aa]pprox|[Aa]cq|[Ii]ncl?|[Aa]cc|Pres|[Cc]orp|[Ee]x|[Cc]onn|[Dd]ept|[Ll]tda|[Mm]in|[Mm]ax|[Gg]ovt|[Rr]etd|Ing|lb|lbf|ft|c\.?[\s\u00A0]*f|vs|dia|lbs|\d+-(:?oz|kc|in|h[rp]|ml)|M?sec)\.[\s\u00A0]</beforebreak>
+<beforebreak>\b([Aa]vg|[Ee]d|pp|[Vv]iz|i\.?[\s\u00A0]*e|[Vvol]|[Rr]col|maj|Lt|[Ff]ig|[Ff]igs|[Vv]iz|[Vv]ols|[Aa]pprox|[Aa]cq|[Ii]ncl?|[Ee]xcl|[Aa]cc|Pres|[Cc]orp|[Ee]x|[Cc]onn|[Dd]ept|[Ll]tda|[Mm]in|[Mm]ax|[Gg]ovt|[Rr]etd|Ing|lb|lbf|ft|c\.?[\s\u00A0]*f|vs|dia|lbs|\d+-(:?oz|kc|in|h[rp]|ml)|M?sec)\.[\s\u00A0]</beforebreak>
 <afterbreak>[^\p{Lu}]|I</afterbreak>
 </rule>
 <rule break="no">
@@ -1329,7 +1329,11 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bCorp\.[\s\u00A0]</beforebreak>
+<beforebreak>\b[cC]orp\.[\s\u00A0]</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[Rr]eg\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5860,7 +5864,11 @@
 <!-- статус правових держав. — Авт.). -->
 <rule break="no">
 <beforebreak></beforebreak>
-<afterbreak>[\h\v]*[‐-―-][\h\v]*([Рр]ед|[Аа]вт)[\h\v]*\.[\)\]]</afterbreak>
+<afterbreak>[\h\v]*[‐-―-][\h\v]*([Рр]ед|[Аа]вт)\.[\h\v]*[\)\]]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b([Рр]ед)\.[\h\v]*</beforebreak>
+<afterbreak>[А-ЯІЇЄҐ]</afterbreak>
 </rule>
 <!-- Цензор.НЕТ -->
 <rule break="no">

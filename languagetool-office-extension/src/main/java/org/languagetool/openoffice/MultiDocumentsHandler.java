@@ -23,6 +23,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +41,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.UIManager;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -50,6 +53,7 @@ import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.OfficeTools.LoErrorType;
 import org.languagetool.openoffice.OfficeTools.OfficeProductInfo;
+import org.languagetool.openoffice.ResultCache.CacheEntry;
 import org.languagetool.openoffice.SingleDocument.RuleDesc;
 import org.languagetool.openoffice.SpellAndGrammarCheckDialog.LtCheckDialog;
 import org.languagetool.openoffice.stylestatistic.StatAnDialog;
@@ -67,6 +71,7 @@ import com.sun.star.lang.XEventListener;
 import com.sun.star.linguistic2.LinguServiceEvent;
 import com.sun.star.linguistic2.LinguServiceEventFlags;
 import com.sun.star.linguistic2.ProofreadingResult;
+import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.linguistic2.XLinguServiceEventListener;
 import com.sun.star.linguistic2.XProofreader;
 import com.sun.star.text.XTextDocument;
@@ -116,7 +121,8 @@ public class MultiDocumentsHandler {
   private final List<Rule> extraRemoteRules;        //  store of rules supported by remote server but not locally
   private LtCheckDialog ltDialog = null;            //  LT spelling and grammar check dialog
   private ConfigurationDialog cfgDialog = null;     //  configuration dialog (show only one configuration panel)
-  private static AboutDialog aboutDialog = null;           //  about dialog (show only one about panel)
+  private static AboutDialog aboutDialog = null;    //  about dialog (show only one about panel)
+  private static MoreInfoDialog infoDialog = null;  //  more info about a rule dialog (show only one info panel)
   private boolean dialogIsRunning = false;          //  The dialog was started
   private WaitDialogThread waitDialog = null;
 
@@ -132,6 +138,7 @@ public class MultiDocumentsHandler {
 
   private boolean noBackgroundCheck = false;        //  is LT switched off by config
   private boolean useQueue = true;                  //  will be overwritten by config
+  private boolean noLtSpeller = false;              //  true if LT spell checker can't be used
 
   private String menuDocId = null;                    //  Id of document at which context menu was called 
   private TextLevelCheckQueue textLevelQueue = null;  // Queue to check text level rules
@@ -169,6 +176,10 @@ public class MultiDocumentsHandler {
     documents = new ArrayList<>();
     disabledRulesUI = new HashMap<>();
     extraRemoteRules = new ArrayList<>();
+    if (officeInfo == null || officeInfo.osArch.equals("x86")
+        || !LtSpellChecker.runLTSpellChecker(xContext)) {
+      noLtSpeller = true;
+    }
 //    handleDictionary = new HandleLtDictionary();
 //    handleDictionary.start();
     LtHelper ltHelper = new LtHelper();
@@ -229,6 +240,10 @@ public class MultiDocumentsHandler {
       }
       if (!isSameLanguage || recheck || checkImpressDocument) {
         boolean initDocs = (lt == null || recheck || checkImpressDocument);
+        if (debugMode && initDocs) {
+          MessageHandler.showMessage("initDocs: lt " + (lt == null ? "=" : "!") + "= null, recheck: " + recheck 
+              + ", Impress: " + checkImpressDocument);
+        }
         checkImpressDocument = false;
         if (!isSameLanguage) {
           docLanguage = langForShortName;
@@ -356,6 +371,13 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   * return true, if the LT spell checker is not be used
+   */
+  boolean noLtSpeller() {
+    return this.noLtSpeller;
+  }
+  
+  /**
    * return true, if the document to check is an Impress document
    */
   boolean isCheckImpressDocument() {
@@ -380,8 +402,10 @@ public class MultiDocumentsHandler {
    *  Set XComponentContext
    */
   void setComponentContext(XComponentContext xContext) {
+    if (this.xContext != null && !xContext.equals(this.xContext)) {
+      setRecheck();
+    }
     this.xContext = xContext;
-    setRecheck();
   }
   
   /**
@@ -629,6 +653,15 @@ public class MultiDocumentsHandler {
     return config;
   }
   
+  private void disableLTSpellChecker(XComponentContext xContext, Language lang) {
+    try {
+      config.setUseLtSpellChecker(false);
+      config.saveConfiguration(lang);
+    } catch (IOException e) {
+      MessageHandler.printToLogFile("Can't read configuration: LT spell checker not used!");
+    }
+  }
+
   /**
    *  get LinguisticServices
    */
@@ -637,8 +670,7 @@ public class MultiDocumentsHandler {
       linguServices = new LinguisticServices(xContext);
       MessageHandler.printToLogFile("MultiDocumentsHandler: getLinguisticServices: linguServices set: is " 
             + (linguServices == null ? "" : "NOT ") + "null");
-      OfficeProductInfo officeProductInfo = OfficeTools.getOfficeProductInfo(xContext);
-      if (officeProductInfo != null && officeProductInfo.osArch.equals("x86")) {
+      if (noLtSpeller) {
         Tools.setLinguisticServices(linguServices);
         MessageHandler.printToLogFile("MultiDocumentsHandler: getLinguisticServices: linguServices set to tools");
       }
@@ -965,6 +997,11 @@ public class MultiDocumentsHandler {
         OfficeTools.setLogLevel(config.getlogLevel());
         debugMode = OfficeTools.DEBUG_MODE_MD;
         debugModeTm = OfficeTools.DEBUG_MODE_TM;
+        if (!noLtSpeller && !LtSpellChecker.isEnoughHeap()) {
+          noLtSpeller = true;
+          disableLTSpellChecker(xContext, docLanguage);
+          MessageHandler.showMessage(messages.getString("guiSpellCheckerWarning"));
+        }
       }
       long startTime = 0;
       if (debugModeTm) {
@@ -999,20 +1036,18 @@ public class MultiDocumentsHandler {
           }
         }
       }
-/*    
- *    The spell rules will not be disabled (test version)
- *         
-      List<Rule> allRules = checkImpressDocument ? lt.getAllActiveRules() : lt.getAllActiveOfficeRules();
-      for (Rule rule : allRules) {
-        if (rule.isDictionaryBasedSpellingRule()) {
-          lt.disableRule(rule.getId());
-          if (rule.useInOffice()) {
-            // set default off so it can be re-enabled by user configuration
-            rule.setDefaultOff();
+      if (noLtSpeller) {  // if LT spell checker is not use disable the spelling rules
+        List<Rule> allRules = checkImpressDocument ? lt.getAllActiveRules() : lt.getAllActiveOfficeRules();
+        for (Rule rule : allRules) {
+          if (rule.isDictionaryBasedSpellingRule()) {
+            lt.disableRule(rule.getId());
+            if (rule.useInOffice()) {
+              // set default off so it can be re-enabled by user configuration
+              rule.setDefaultOff();
+            }
           }
         }
       }
-*/
       recheck = false;
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime;
@@ -1194,7 +1229,7 @@ public class MultiDocumentsHandler {
       textLevelQueue.setStop();
       textLevelQueue = null;
     }
-    recheck = true;
+    setRecheck();
     config.saveNoBackgroundCheck(noBackgroundCheck, docLanguage);
     for (SingleDocument document : documents) {
       document.setConfigValues(config);
@@ -1365,16 +1400,64 @@ public class MultiDocumentsHandler {
   public void deactivateRule() {
     for (SingleDocument document : documents) {
       if (menuDocId.equals(document.getDocID())) {
-        RuleDesc ruleDesc = document.deactivateRule();
+        RuleDesc ruleDesc = document.getCurrentRule();
         if (ruleDesc != null) {
           if (debugMode) {
-            MessageHandler.printToLogFile("MultiDocumentsHandler: deactivateRule: ruleID = "+ ruleDesc.ruleID + "langCode = " + ruleDesc.langCode);
+            MessageHandler.printToLogFile("MultiDocumentsHandler: deactivateRule: ruleID = "+ ruleDesc.error.aRuleIdentifier + "langCode = " + ruleDesc.langCode);
           }
-          deactivateRule(ruleDesc.ruleID, ruleDesc.langCode, false);
+          deactivateRule(ruleDesc.error.aRuleIdentifier, ruleDesc.langCode, false);
         }
         return;
       }
     }
+  }
+  
+  /**
+   * More Information to current error
+   */
+  private void moreInfo() {
+    if (infoDialog != null) {
+      infoDialog.close();
+      infoDialog = null;
+    }
+    for (SingleDocument document : documents) {
+      if (menuDocId.equals(document.getDocID())) {
+        RuleDesc ruleDesc = document.getCurrentRule();
+        if (ruleDesc != null) {
+          try {
+            if (debugMode) {
+              MessageHandler.printToLogFile("MultiDocumentsHandler: moreInfo: ruleID = " 
+                            + ruleDesc.error.aRuleIdentifier + "langCode = " + ruleDesc.langCode);
+            }
+            SingleProofreadingError error = ruleDesc.error;
+            for (Rule rule : lt.getAllRules()) {
+              if (error.aRuleIdentifier.equals(rule.getId())) {
+                String tmp = error.aShortComment;
+                if (StringUtils.isEmpty(tmp)) {
+                  tmp = error.aFullComment;
+                }
+                String msg = org.languagetool.gui.Tools.shortenComment(tmp);
+                String sUrl = null;
+                for (PropertyValue prop : error.aProperties) {
+                  if ("FullCommentURL".equals(prop.Name)) {
+                    sUrl = (String) prop.Value;
+                  }
+                }
+                URL url = sUrl == null? null : new URL(sUrl);
+                MoreInfoDialogThread infoThread = new MoreInfoDialogThread(msg, error.aFullComment, rule, url,
+                    messages, lt.getLanguage().getShortCodeWithCountryAndVariant());
+                infoThread.start();
+                return;
+              }
+            }
+          } catch (MalformedURLException e) {
+            MessageHandler.showError(e);
+          }
+        }
+        return;
+      }
+    }
+    
   }
   
   /**
@@ -1634,7 +1717,6 @@ public class MultiDocumentsHandler {
   /**
    * Triggers the events from LT menu
    */
-  @SuppressWarnings("null")
   public void trigger(String sEvent) {
     try {
 //      MessageHandler.printToLogFile("Trigger event: " + sEvent);
@@ -1666,6 +1748,8 @@ public class MultiDocumentsHandler {
         }
         AboutDialogThread aboutThread = new AboutDialogThread(messages, xContext);
         aboutThread.start();
+      } else if ("moreInfo".equals(sEvent)) {
+        moreInfo();
       } else if ("toggleNoBackgroundCheck".equals(sEvent) || "backgroundCheckOn".equals(sEvent) || "backgroundCheckOff".equals(sEvent)) {
         if (toggleNoBackgroundCheck()) {
           resetCheck();
@@ -1999,6 +2083,38 @@ public class MultiDocumentsHandler {
       // here which we could use instead:
       aboutDialog = new AboutDialog(messages);
       aboutDialog.show(xContext);
+    }
+    
+  }
+
+  /**
+   * class to run the more info dialog
+   */
+  private class MoreInfoDialogThread extends Thread {
+
+    private final String title;
+    private final String message;
+    private final Rule rule;
+    private final URL matchUrl;
+    private final ResourceBundle messages;
+    private final String lang;
+
+    MoreInfoDialogThread(String title, String message, Rule rule, URL matchUrl, ResourceBundle messages, String lang) {
+      this.title = title;
+      this.message = message;
+      this.rule = rule;
+      this.matchUrl = matchUrl;
+      this.messages = messages;
+      this.lang = lang;
+    }
+
+    @Override
+    public void run() {
+      // Note: null can cause the dialog to appear on the wrong screen in a
+      // multi-monitor setup, but we just don't have a proper java.awt.Component
+      // here which we could use instead:
+      infoDialog = new MoreInfoDialog(title, message, rule, matchUrl, messages, lang);
+      infoDialog.show();
     }
     
   }

@@ -20,13 +20,12 @@
 package org.languagetool.rules.nl;
 
 import java.io.IOException;
-import org.languagetool.language.Dutch;
+
 import org.languagetool.rules.AbstractSuppressMisspelledSuggestionsFilter;
 
 public class DutchSuppressMisspelledSuggestionsFilter extends AbstractSuppressMisspelledSuggestionsFilter {
 
   public DutchSuppressMisspelledSuggestionsFilter() throws IOException {
-    super(new Dutch());
-  }
+      }
 
 }

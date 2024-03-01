@@ -69,6 +69,7 @@ public class LtMenus {
   public final static String LT_IGNORE_ONCE_COMMAND = "service:org.languagetool.openoffice.Main?ignoreOnce";
   public final static String LT_IGNORE_PERMANENT_COMMAND = "service:org.languagetool.openoffice.Main?ignorePermanent";
   public final static String LT_DEACTIVATE_RULE_COMMAND = "service:org.languagetool.openoffice.Main?deactivateRule";
+  public final static String LT_MORE_INFO_COMMAND = "service:org.languagetool.openoffice.Main?moreInfo";
   public final static String LT_ACTIVATE_RULES_COMMAND = "service:org.languagetool.openoffice.Main?activateRules";
   public final static String LT_ACTIVATE_RULE_COMMAND = "service:org.languagetool.openoffice.Main?activateRule_";
   public final static String LT_REMOTE_HINT_COMMAND = "service:org.languagetool.openoffice.Main?remoteHint";   
@@ -633,13 +634,13 @@ public class LtMenus {
                 nId++;
               }
               addLTMenuEntry(nId, xContextMenu, xMenuElementFactory, false);
-/*
+              
               XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
                   xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-              xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuOptions"));
-              xNewMenuEntry.setPropertyValue("CommandURL", LT_OPTIONS_URL);
-              xContextMenu.insertByIndex(nId, xNewMenuEntry);
-*/              
+              xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("guiMore"));
+              xNewMenuEntry.setPropertyValue("CommandURL", LT_MORE_INFO_COMMAND);
+              xContextMenu.insertByIndex(1, xNewMenuEntry);
+
               if (debugModeTm) {
                 long runTime = System.currentTimeMillis() - startTime;
                 if (runTime > OfficeTools.TIME_TOLERANCE) {

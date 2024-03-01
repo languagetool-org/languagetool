@@ -27,6 +27,7 @@ class LetterEndingForNumericHelper {
                                  RegexToCaseList.regex(".*(?!<1)8", ":f:v_zna", ":m:v_dav", ":m:v_mis", ":n:v_dav", ":n:v_mis"), // 8-му
                                  RegexToCaseList.always(":m:v_dav", ":m:v_mis", ":n:v_dav", ":n:v_mis")));
     map2.put("ма", Arrays.asList(RegexToCaseList.regex(".*(?!<1)[78]", ":f:v_naz")));
+//                                RegexToCaseList.always(":p:v_oru:bad"))); // 3-ма - помилка
     map2.put("м", Arrays.asList(RegexToCaseList.always(":m:v_oru", ":n:v_oru", ":p:v_dav"))); // theoretically can also be -ім v_mis but rare
     map2.put("им", Arrays.asList(RegexToCaseList.always(":m:v_oru", ":n:v_oru", ":p:v_dav")));
     map2.put("ім", Arrays.asList(RegexToCaseList.regex(".*(?!<1)3", ":m:v_oru", ":m:v_mis", ":n:v_oru", ":n:v_mis"),
@@ -38,7 +39,6 @@ class LetterEndingForNumericHelper {
     map2.put("тя", Arrays.asList(RegexToCaseList.always(":f:v_naz"))); // 3-тя
     map2.put("я", Arrays.asList(RegexToCaseList.regex(".*(?!<1)3", ":f:v_naz"))); // 3-я
     map2.put("та", Arrays.asList(RegexToCaseList.always(":f:v_naz"))); // 4-та
-    map2.put("ма", Arrays.asList(RegexToCaseList.regex(".*[78]", ":f:v_naz"))); // 3-ма - помилка (також часто 8-ма=вісьма ":p:v_oru")
     map2.put("ї", Arrays.asList(RegexToCaseList.always(":f:v_rod"))); // 4-ї
     map2.put("ої", Arrays.asList(RegexToCaseList.always(":f:v_rod"))); // 4-ої
     map2.put("у", Arrays.asList(RegexToCaseList.always(":f:v_zna"))); // 1-у

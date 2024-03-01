@@ -20,13 +20,13 @@
 package org.languagetool.rules.fr;
 
 import java.io.IOException;
-import org.languagetool.language.French;
+
 import org.languagetool.rules.AbstractSuppressMisspelledSuggestionsFilter;
 
 public class FrenchSuppressMisspelledSuggestionsFilter extends AbstractSuppressMisspelledSuggestionsFilter {
 
   public FrenchSuppressMisspelledSuggestionsFilter() throws IOException {
-    super(new French());
+
   }
 
 }

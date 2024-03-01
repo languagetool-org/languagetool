@@ -18,21 +18,22 @@
  */
 package org.languagetool.rules.nl;
 
-import org.languagetool.rules.AbstractDateCheckFilter;
+import org.languagetool.rules.AbstractDateCheckWithSuggestionsFilter;
 
 import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * Dutch localization of {@link AbstractDateCheckFilter}.
+ * Dutch localization of {@link AbstractDateCheckWithSuggestionsFilter}.
  * @since 2.8
  */
-public class DateCheckFilter extends AbstractDateCheckFilter {
+public class DateCheckFilter extends AbstractDateCheckWithSuggestionsFilter {
 
   @Override
   protected Calendar getCalendar() {
     return Calendar.getInstance(Locale.UK);
   }
+
 
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
@@ -81,5 +82,10 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (mon.startsWith("nov")) return 11;
     if (mon.startsWith("dec")) return 12;
     throw new RuntimeException("Could not find month '" + monthStr + "'");
+  }
+
+  @Override
+  protected String getErrorMessageWrongYear() {
+    return "Deze datum is onjuist. Bedoelt u misschien \"{currentYear}\"?";
   }
 }

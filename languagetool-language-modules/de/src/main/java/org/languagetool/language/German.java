@@ -143,6 +143,7 @@ public class German extends Language implements AutoCloseable {
                     Example.fixed("Die Partei<marker>,</marker> die die letzte Wahl gewann."),
                     Tools.getUrl("https://languagetool.org/insights/de/beitrag/grammatik-leerzeichen/#fehler-1-leerzeichen-vor-und-nach-satzzeichen")),
             new GermanUnpairedBracketsRule(messages, this),
+            new GermanUnpairedQuotesRule(messages, this),
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Das Haus ist alt. <marker>es</marker> wurde 1950 gebaut."),
                     Example.fixed("Das Haus ist alt. <marker>Es</marker> wurde 1950 gebaut."),
@@ -434,6 +435,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("SCHOENE_WETTER", -2); // prefer more specific rules that offer a suggestion (e.g. DE_AGREEMENT)
     id2prio.put("MEIN_KLEIN_HAUS", -2); // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
     id2prio.put("UNPAIRED_BRACKETS", -2);
+    id2prio.put("DE_UNPAIRED_QUOTES", -2); // less prio than FALSCHES_ANFUEHRUNGSZEICHEN
     id2prio.put("ICH_GLAUBE_FUER_EUCH", -2); // prefer agreement rules
     id2prio.put("OBJECT_AGREEMENT", -2); // less prio than DE_AGREEMENT
     id2prio.put("ICH_INF_PREMIUM", -2); // prefer more specific rules that offer a suggestion (e.g. SUBJECT_VERB_AGREEMENT)

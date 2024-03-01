@@ -1334,6 +1334,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>заробітна плата, a й b — числа</example>
         -->
       </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">([12][0-9])?[0-9][0-9]</token>
+          <marker>
+            <token case_sensitive="yes" regexp="yes" max="2">pp?</token>
+          </marker>
+        </pattern>
+        <message>Потенційна помилка: латинські літери замість українських</message>
+        <suggestion><match no="2" regexp_match="p" regexp_replace="р"/></suggestion>
+        <example correction="рр">врахували в 1990 <marker>pp</marker>.</example>
+        <example correction="р">врахували в 90 <marker>p</marker>.</example>
+        <example correction="р">врахували в 90 <marker>p</marker>. р.</example>
+      </rule>
+
       <rule>
         <pattern>
           <token regexp="yes">.*[а-яіїєґ]</token>

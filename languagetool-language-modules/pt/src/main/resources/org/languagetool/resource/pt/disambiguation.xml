@@ -3676,4 +3676,15 @@
           <disambig action="remove" postag="A.+"/>
       </rule>
   </rulegroup>
+
+  <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
+      <rule>
+          <pattern>
+              <marker>
+                  <token regexp="yes" postag_regexp="yes" postag="(N|A).+">(&national_prefixes;)-.+</token>
+              </marker>
+          </pattern>
+          <disambig action="ignore_spelling"/>
+      </rule>
+  </rulegroup>
 </rules>

@@ -1345,11 +1345,11 @@ public class DocumentCache implements Serializable {
   /**
    * get deleted characters (report changes) of Flat Paragraph by Index
    */
-  public boolean isAutomaticGenerated(int n) {
+  public boolean isAutomaticGenerated(int n, boolean alsoIgnore) {
     rwLock.readLock().lock();
     try {
       if (n >= 0 && n < toTextMapping.size()) {
-        if (locales.get(n).Language.equals(OfficeTools.IGNORE_LANGUAGE)) {
+        if (alsoIgnore && locales.get(n).Language.equals(OfficeTools.IGNORE_LANGUAGE)) {
           return true;
         }
         TextParagraph tPara = toTextMapping.get(n);
@@ -1998,7 +1998,7 @@ public class DocumentCache implements Serializable {
   }
 
   /**
-   * Change manual linebreak to distinguish from end of paragraph
+   * remove zero width space
    */
   public static String removeZeroWidthSpace(String text) {
     return text.replaceAll(OfficeTools.ZERO_WIDTH_SPACE, "");
@@ -2396,7 +2396,7 @@ public class DocumentCache implements Serializable {
   }
 
   private List<AnalyzedSentence> createAnalyzedParagraph(int nFPara, String paraText, SwJLanguageTool lt) throws IOException {
-    List<AnalyzedSentence> analyzedParagraph = lt.analyzeText(paraText);
+    List<AnalyzedSentence> analyzedParagraph = lt.analyzeText(paraText.replace("\u00AD", ""));
     putAnalyzedParagraph(nFPara, analyzedParagraph);
     return analyzedParagraph;
   }

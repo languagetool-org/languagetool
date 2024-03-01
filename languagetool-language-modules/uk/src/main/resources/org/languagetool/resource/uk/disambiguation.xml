@@ -678,7 +678,7 @@
         <token postag="verb:perf:futr:s:1">вживу</token>
       </marker>
       <token postag_regexp="yes" postag="(adj|numr):.:v_rod.*" min="0"/>
-      <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_(zna|rod).*" regexp="yes">захід|термін|слово|зусилля|порівняння|означення|приказку|вислів|авторитет</token>
+      <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_(zna|rod).*" regexp="yes">захід|термін|слово|зусилля|порівняння|означення|приказку|вислів|аоритет</token>
     </pattern>
     <disambig action="filter" postag="verb:perf:futr:s:1"/>
     <example type="ambiguous"
@@ -2587,8 +2587,9 @@
   </rule>
 -->
 
+<!--
   <rule name="Велика літера всередині речення" id="CAPITAL_LETTER_INSIDE_SENTENCE">
-    <!-- поки лише для слова, що створює проблему -->
+    поки лише для слова, що створює проблему
     <pattern case_sensitive="yes">
       <marker>
         <token>Авт
@@ -2596,17 +2597,15 @@
         </token>
       </marker>
     </pattern>
-    <!--
-    <disambig action="remove"><match no="1" postag_regexp="yes" postag=".*?:alt.*"></match></disambig>
-    -->
     <disambig action="add"><wd lemma="авт" pos="noun:inanim:m:v_naz:abbr">Авт</wd></disambig>
     <example type="ambiguous" 
         inputform="Авт[авто/noun:inanim:p:v_rod:alt]"
         outputform="Авт[авт/noun:inanim:m:v_naz:abbr,авто/noun:inanim:p:v_rod:alt]">перерозподіл (власності. — <marker>Авт</marker>. ).</example>
     <example type="untouched">під час аварій власних авт чи мотоциклів.</example>
     <example type="untouched">Авт не було зовсім.</example>
+    <example type="untouched">Приїхало 500 авт.</example>
   </rule>
-
+-->
   <rule name="Кот д'Івуар" id="DIS_KOT_D_IVUAR1">
     <pattern case_sensitive="yes">
       <marker>
