@@ -574,6 +574,12 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">La capitale du Japon est <marker>Tokyo</marker>.</example>
             </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token postag="R pers obj 3 sp" regexp="yes">iel(s)</token>
+                </pattern>
+                <example correction=""><marker>Iel</marker> ne nous reconnait plus.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_FR_GGEC_REPLACEMENT_ADJECTIVE_FORM.*" name="">
             <rule><!--1-->
@@ -688,6 +694,14 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="[VNJ].*" postag_regexp="yes"/>
                 </pattern>
                 <example correction="">Il ne nous <marker>reconnait</marker> plus.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_FR_GGEC_REPLACEMENT_PRONOUN.*" name="">
+            <rule>
+                <pattern>
+                    <token postag="R pers obj 3 sp" regexp="yes">iel(s)</token>
+                </pattern>
+                <example correction="">Mais <marker>iel</marker> a décidé de faire ça autrement.</example>
             </rule>
         </rulegroup>
     </category>
