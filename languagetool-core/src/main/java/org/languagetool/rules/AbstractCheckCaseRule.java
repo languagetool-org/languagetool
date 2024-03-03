@@ -53,39 +53,51 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
     if (wrongWords.size() == 0) {
       return toRuleMatchArray(ruleMatches);
     }
-    Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(wrongWords.size());
-    int sentStart = 0;
-    while (sentStart + 1 < tokens.length && isPunctuationStart(tokens[sentStart + 1].getToken())) {
+    int sentStart = 1;
+    while (sentStart < tokens.length && isPunctuationStart(tokens[sentStart].getToken())) {
       sentStart++;
     }
-    for (int i = 1; i < tokens.length; i++) {
-      addToQueue(tokens[i], prevTokens);
+    int endIndex;
+    int startIndex;
+    for (endIndex = 1; endIndex < tokens.length; endIndex++) {
+      startIndex = endIndex;
       StringBuilder sb = new StringBuilder();
       List<String> phrases = new ArrayList<>();
-      List<AnalyzedTokenReadings> prevTokensList = Arrays.asList(prevTokens.toArray(new AnalyzedTokenReadings[0]));
-      for (int j = prevTokensList.size() - 1; j >= 0; j--) {
-        if (j != prevTokensList.size() - 1 && prevTokensList.get(j + 1).isWhitespaceBefore()) {
+      List<Integer> phrasesStartIndex = new ArrayList<>();
+      while (startIndex > 0) {
+        if (startIndex != endIndex && tokens[startIndex + 1].isWhitespaceBefore()) {
           sb.insert(0, " ");
         }
-        sb.insert(0, prevTokensList.get(j).getToken());
-        phrases.add(0, sb.toString());
+        sb.insert(0, tokens[startIndex].getToken());
+        if (getWordCountIndex(sb.toString()) < wrongWords.size()) {
+          phrases.add(0, sb.toString());
+          phrasesStartIndex.add(0, startIndex);
+          startIndex--;
+        } else {
+          startIndex = -1; // end while
+        }
       }
-      if (isTokenException(tokens[i])) {
+      if (isTokenException(tokens[endIndex])) {
         continue;
       }
       int len = phrases.size(); // prevTokensList and variants have now the same length
       for (int j = 0; j < len; j++) { // longest words first
         String originalPhrase = phrases.get(j);
-        int crtWordCount = len - j;
-        SuggestionWithMessage suggMess = wrongWords.get(crtWordCount - 1).get(originalPhrase.toLowerCase(getLocale()));
+        startIndex = phrasesStartIndex.get(j);
+        String lcOriginalPhrase = originalPhrase.toLowerCase(getLocale());
+        int wordCountIndex = getWordCountIndex(lcOriginalPhrase);
+        if (wordCountIndex < 0) {
+          continue;
+        }
+        SuggestionWithMessage suggMess = wrongWords.get(wordCountIndex).get(lcOriginalPhrase);
         if (suggMess == null) {
           continue;
         }
         String correctPhrase = suggMess.getSuggestion();
         String capitalizedCorrect = StringTools.uppercaseFirstChar(correctPhrase);
-        int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
-        int endPos = prevTokensList.get(len - 1).getEndPos();
-        if ((crtWordCount + sentStart == i && originalPhrase.equals(capitalizedCorrect))
+        int startPos = tokens[startIndex].getStartPos();
+        int endPos = tokens[endIndex].getEndPos();
+        if ((sentStart == startIndex && originalPhrase.equals(capitalizedCorrect))
             || correctPhrase.equals(originalPhrase)) {
           // remove last match if is contained in a correct phrase
           if (ruleMatches.size() > 0) {
@@ -118,7 +130,7 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
           if (subRuleSpecificIds) {
             ruleMatch.setSpecificRuleId(StringTools.toId(getId() + "_" + correctPhrase, language));
           }
-          if (crtWordCount + sentStart == i) {
+          if (sentStart == startIndex) {
             // Capitalize suggestion at the sentence start
             correctPhrase = StringTools.uppercaseFirstChar(correctPhrase);
           }
@@ -147,11 +159,6 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
 
   protected void setIgnoreShortUppercaseWords(boolean value) {
     ignoreShortUppercaseWords = value;
-  }
-
-  private boolean isPunctuationStart(String word) {
-    return StringUtils.getDigits(word).length() > 0 // e.g. postal codes
-        || StringTools.isPunctuationMark(word) || StringTools.isNotWordCharacter(word);
   }
 
 }
