@@ -7375,7 +7375,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <marker><token>złotych</token></marker>
       </antipattern>
       <antipattern> <!-- przymiotniki wymagające dopełniacza -->
-        <token inflected="yes" regexp="yes">bliski|chciwy|chytry|ciekawy|głodny|godny|kierunkowy|łakomy|łapczywy|łasy|niebaczny|niegodny|(?:nie)?pomny|(?:nie)świadomy|pamiętny|pazerny|pewny|(?:nie)?syty|wart|winny|współodpowiedzialny|wygłodniały|zachłanny|zgłodniały|żądny</token>
+        <token inflected="yes" regexp="yes">bliski|chciwy|chytry|ciekawy|dotyczący|głodny|godny|kierunkowy|łakomy|łapczywy|łasy|niebaczny|niegodny|(?:nie)?pomny|(?:nie)świadomy|pamiętny|pazerny|pewny|(?:nie)?syty|wart|winny|współodpowiedzialny|wygłodniały|zachłanny|zgłodniały|żądny</token>
         <token postag="subst.*gen.*" postag_regexp="yes"/>
       </antipattern>
       <pattern>
@@ -7415,6 +7415,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>To staje się każdego dnia gorsze.</example>
       <example>Dałem Tomowi środek uspokajający.</example>
       <example>Ta opowieść jest bliska prawdy historycznej.</example>
+      <example>Jest to nakaz dotyczący osoby wykonującej swoje obowiązki.</example>
 		</rule>
 		<rule id="SUBST_ADJ_UNIFY" name="Niezgodność form rzeczownika i przymiotnika">
 		  <antipattern> <!-- jedni zdziwieni pytali… -->
@@ -18567,6 +18568,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <token inflected="yes">malajski</token>                
                 </unify>
 				    </antipattern>
+                    <antipattern>
+                        <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                            <token inflected="yes">liga</token>
+                            <token inflected="yes">arabski</token>
+                        </unify>
+                    </antipattern>
             <antipattern>
 				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
                   <token inflected="yes">półwysep</token>
@@ -18638,6 +18645,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Został prezesem Narodowego Banku Polskiego.</example>
 						<example>Tekst ukazał się w „Nauce Polskiej”.</example>
 						<example>Z inicjatywy krośnieńskiego oddziału Polskiego Towarzystwa Leśnego powstaje bajka…</example>
+                        <example>Liga Arabska powstała w 1945 roku.</example>
 				</rule>
                 <rulegroup id="PISOWNIA_NAZW_CZASOPISM" name="Tytuły czasopism bez wielkich liter">
                     <rule>

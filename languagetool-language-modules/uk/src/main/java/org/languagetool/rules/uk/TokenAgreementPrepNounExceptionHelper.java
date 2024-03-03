@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.uk.RuleException.Type;
 import org.languagetool.rules.uk.SearchHelper.Condition;
 import org.languagetool.rules.uk.SearchHelper.Match;
 import org.languagetool.tagging.uk.PosTagHelper;
@@ -19,35 +20,6 @@ public class TokenAgreementPrepNounExceptionHelper {
   private static final Set<String> NAMES = new HashSet<>(Arrays.asList(
       "ім'я", "прізвище"
       ));
-  private static final Set<String> PLUS_MINUS = new HashSet<>(Arrays.asList(
-      "плюс", "мінус", "максимум", "мінімум"
-      ));
-
-  private static final Pattern ADV_QUANT_PATTERN = Pattern.compile("чимало|стільки|обмаль|кілька|декілька"); // |якомога
-
-  //|лиш(е(нь)?)?
-  private static final Pattern PART_INSERT_PATTERN = Pattern.compile("бодай|буцім(то)?|геть|дедалі|десь|іще|ледве|мов(би(то)?)?|навіть|наче(б(то)?)?|неначе(бто)?|немов(би(то)?)?|ніби(то)?"
-      + "|попросту|просто(-напросто)?|справді|усього-на-всього|хай|хоча?|якраз|ж|би?");
-
-  public enum Type { none, exception, skip }
-  
-  public static class RuleException {
-    public final Type type;
-    public final int skip;
-
-    public RuleException(Type type) {
-      this.type = type;
-      this.skip = 0;
-      if( type == Type.exception ) {
-        logException();
-      }
-    }
-    public RuleException(int skip) {
-      this.type = Type.skip;
-      this.skip = skip;
-    }
-  }
-
   
   public static RuleException getExceptionInfl(AnalyzedTokenReadings[] tokens, int i, State state) {
     AnalyzedTokenReadings tokenReadings = tokens[i];
@@ -137,7 +109,7 @@ public class TokenAgreementPrepNounExceptionHelper {
       // від мінус 1 до плюс 1
       if( (PosTagHelper.hasPosTagStart(tokens[i+1], "num")
             || tokens[i+1].getToken().equals("$"))
-          && PLUS_MINUS.contains(tokenLower) ) {
+          && LemmaHelper.PLUS_MINUS.contains(tokenLower) ) {
         return new RuleException(Type.exception);
       }
 
@@ -262,7 +234,7 @@ public class TokenAgreementPrepNounExceptionHelper {
     
     // про чимало обмежень
     if( i < tokens.length - 1 
-        && ADV_QUANT_PATTERN.matcher(tokenLower).matches() ) {
+        && LemmaHelper.ADV_QUANT_PATTERN.matcher(tokenLower).matches() ) {
       return new RuleException(Type.exception);
     }
 
@@ -303,7 +275,7 @@ public class TokenAgreementPrepNounExceptionHelper {
 //      return new RuleException(0);
 
     if( PosTagHelper.hasPosTagStart(tokenReadings, "part") ) {
-      if( PART_INSERT_PATTERN.matcher(token.toLowerCase()).matches() ) {
+      if( LemmaHelper.PART_INSERT_PATTERN.matcher(token.toLowerCase()).matches() ) {
         return new RuleException(0);
       }
     }
@@ -357,7 +329,7 @@ public class TokenAgreementPrepNounExceptionHelper {
   }
 
 
-  private static void logException() {
+  static void logException() {
     if( logger.isDebugEnabled() ) {
       StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[3];
       logger.debug("exception: " /*+ stackTraceElement.getFileName()*/ + stackTraceElement.getLineNumber());

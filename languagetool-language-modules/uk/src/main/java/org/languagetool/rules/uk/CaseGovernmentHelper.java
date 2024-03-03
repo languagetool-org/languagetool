@@ -1,5 +1,6 @@
 package org.languagetool.rules.uk;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -67,6 +68,9 @@ public class CaseGovernmentHelper {
     }
     
     LinkedHashSet<String> list = new LinkedHashSet<>();
+    
+    list.addAll(getCustomGovs(analyzedTokenReadings));
+
     for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {
       if( ! token.hasNoTag()
           && (token.getPOSTag() != null && token.getPOSTag().startsWith(startPosTag)
@@ -91,24 +95,7 @@ public class CaseGovernmentHelper {
 
     LinkedHashSet<String> list = new LinkedHashSet<>();
 
-    // special case - only some inflections of мати
-    if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("мати"), Pattern.compile("verb:imperf:(futr|past|pres).*")) ) {
-      list.add("v_inf");
-    }
-    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("бути"), Pattern.compile("verb:imperf:futr.*")) ) {
-      list.add("v_inf");
-    }
-    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList(
-        "вимагатися", "випадати", "випасти", "личити", "належати", "тягнути", "щастити",
-        "плануватися", "рекомендуватися", "пропонуватися", "сподобатися", "плануватися", "прийтися",
-        "удатися", "годитися", "доводитися"), 
-        Pattern.compile("verb(:rev)?:(im)?perf:(pres:s:3|futr:s:3|past:n).*")) ) {
-      list.add("v_inf");
-    }
-    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("належить"), 
-        Pattern.compile("verb:imperf:inf.*")) ) {
-      list.add("v_inf");
-    }
+    list.addAll(getCustomGovs(analyzedTokenReadings));
     
     for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {
       if( token.hasNoTag() )
@@ -135,6 +122,33 @@ public class CaseGovernmentHelper {
       }
     }
 
+    return list;
+  }
+
+  private static ArrayList<String> getCustomGovs(AnalyzedTokenReadings analyzedTokenReadings) {
+    ArrayList<String> list = new ArrayList<>();
+    // special case - only some inflections of the verbs
+    if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("мати"), Pattern.compile("verb:imperf:(futr|past|pres).*")) ) {
+      list.add("v_inf");
+    } // є, буде, було
+    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("бути"), Pattern.compile("verb:imperf:(futr|past:n|pres:s:3).*")) ) {
+      list.add("v_inf");
+    }
+    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList(
+        "вимагатися", "випадати", "випасти", "личити", "належати", "тягнути", "щастити",
+        "плануватися", "рекомендуватися", "пропонуватися", "сподобатися", "плануватися", "прийтися",
+        "удатися", "годитися", "доводитися"), 
+        Pattern.compile("verb.*(pres:s:3|futr:s:3|past:n).*")) ) {
+      list.add("v_inf");
+    }
+    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("належить"), 
+        Pattern.compile("verb:imperf:inf.*")) ) {
+      list.add("v_inf");
+    }
+    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Pattern.compile("(по)?більшати|(по)?меншати"), 
+        Pattern.compile("verb.*(inf|pres:s:3|futr:s:3|past:n).*")) ) {
+      list.add("v_rod");
+    }
     return list;
   }
 

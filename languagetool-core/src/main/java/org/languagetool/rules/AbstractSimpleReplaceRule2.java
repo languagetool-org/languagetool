@@ -21,6 +21,7 @@ package org.languagetool.rules;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -35,9 +36,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.languagetool.JLanguageTool.getDataBroker;
 
@@ -185,8 +187,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           String[] confPairParts = confPair.split("=");
           String[] wrongForms = confPairParts[0].split("\\|"); // multiple incorrect forms
           for (String wrongForm : wrongForms) {
-            int wordCount = getWordCount(lang, wrongForm);
-            for (int i = list.size(); i < wordCount; i++) {  // grow if necessary
+            int wordCountIndex = getWordCountIndex(wrongForm);
+            for (int i = list.size(); i < wordCountIndex + 1; i++) {  // grow if necessary
               list.add(new HashMap<>());
             }
             String searchToken = caseSensitive ? wrongForm : wrongForm.toLowerCase();
@@ -195,7 +197,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
                 + ". Found same word on left and right side of '='. Line: " + line);
             }
             SuggestionWithMessage sugg = new SuggestionWithMessage(confPairParts[1], msg);
-            list.get(wordCount - 1).put(searchToken, sugg);
+            list.get(wordCountIndex).put(searchToken, sugg);
           }
         }
         //System.out.println(msgCount + " of " + lineCount + " have a specific message in " + filename);
@@ -209,24 +211,20 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     return Collections.unmodifiableList(result);
   }
 
-  private static int getWordCount(Language lang, String wrongForm) {
-    int wordCount = 0;
-    List<String> tokens = lang.getWordTokenizer().tokenize(wrongForm);
-    for (String token : tokens) {
-      if (!StringTools.isWhitespace(token)) {
-        wordCount++;
-      }
-    }
-    return wordCount;
-  }
+  private static Pattern whiteSpacePattern = Pattern.compile("\\s");
 
-  protected void addToQueue(AnalyzedTokenReadings token,
-                          Queue<AnalyzedTokenReadings> prevTokens) {
-    boolean inserted = prevTokens.offer(token);
-    if (!inserted) {
-      prevTokens.poll();
-      prevTokens.offer(token);
+  /*
+  Use this method to count tokens in a consistent way.
+  This count is used to group phrases in a map with different indexes.
+  It doesn't match necessarily the number of tokens from the word tokenizer.
+   */
+  protected static int getWordCountIndex(String str) {
+    Matcher matcher = whiteSpacePattern.matcher(str.trim());
+    int count = 0;
+    while (matcher.find()) {
+      count++;
     }
+    return count;
   }
 
   /**
@@ -240,95 +238,109 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-
     List<Map<String, SuggestionWithMessage>> wrongWords = getWrongWords(false);
     if (wrongWords.size() == 0) {
       return toRuleMatchArray(ruleMatches);
     }
-    Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(wrongWords.size());
-
-    for (int i = 1; i < tokens.length; i++) {
-      addToQueue(tokens[i], prevTokens);
+    int sentStart = 1;
+    while (sentStart < tokens.length && isPunctuationStart(tokens[sentStart].getToken())) {
+      sentStart++;
+    }
+    int endIndex;
+    int startIndex;
+    for (endIndex = 1; endIndex < tokens.length; endIndex++) {
+      startIndex = endIndex;
       StringBuilder sb = new StringBuilder();
-      List<String> variants = new ArrayList<>();
-      List<AnalyzedTokenReadings> prevTokensList =
-              Arrays.asList(prevTokens.toArray(new AnalyzedTokenReadings[0]));
-      for (int j = prevTokensList.size() - 1; j >= 0; j--) {
-        if (j != prevTokensList.size() - 1 && prevTokensList.get(j + 1).isWhitespaceBefore()) {
+      List<String> phrases = new ArrayList<>();
+      List<Integer> phrasesStartIndex = new ArrayList<>();
+      while (startIndex > 0) {
+        if (startIndex != endIndex && tokens[startIndex + 1].isWhitespaceBefore()) {
           sb.insert(0, " ");
         }
-        sb.insert(0, prevTokensList.get(j).getToken());
-        variants.add(0, sb.toString());
+        sb.insert(0, tokens[startIndex].getToken());
+        if (getWordCountIndex(sb.toString()) < wrongWords.size()) {
+          phrases.add(0, sb.toString());
+          phrasesStartIndex.add(0, startIndex);
+          startIndex--;
+        } else {
+          startIndex = -1; // end while
+        }
       }
-      if (isTokenException(tokens[i])) {
+      if (isTokenException(tokens[endIndex])) {
         continue;
       }
-      int len = variants.size(); // prevTokensList and variants have now the same length
+      int len = phrases.size(); // prevTokensList and variants have now the same length
       for (int j = 0; j < len; j++) { // longest words first
-        String crt = variants.get(j);
-        int crtWordCount = len - j;
+        String originalPhrase = phrases.get(j);
+        startIndex = phrasesStartIndex.get(j);
         SuggestionWithMessage crtMatch;
-        if (getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart && i - crtWordCount == 0) {  // at sentence start, words can be uppercase
-          crtMatch = wrongWords.get(crtWordCount - 1).get(crt.toLowerCase(getLocale()));
+        String lcOriginalPhrase = originalPhrase.toLowerCase(getLocale());
+        int wordCountIndex = getWordCountIndex(lcOriginalPhrase);
+        if (wordCountIndex < 0) {
+          continue;
+        }
+        if (getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart && startIndex == sentStart) {  // at sentence start, words can be uppercase
+          crtMatch = wrongWords.get(wordCountIndex).get(lcOriginalPhrase);
         } else {
           boolean caseSen = getCaseSensitivy() == CaseSensitivy.CS || getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart;
           crtMatch = caseSen ?
-            wrongWords.get(crtWordCount - 1).get(crt) :
-            wrongWords.get(crtWordCount - 1).get(crt.toLowerCase(getLocale()));
+            wrongWords.get(wordCountIndex).get(originalPhrase) :
+            wrongWords.get(wordCountIndex).get(lcOriginalPhrase);
         }
-        if (crtMatch != null) {
-          List<String> replacements = Arrays.asList(crtMatch.getSuggestion().split("\\|"));
-          String msgSuggestions = "";
+        if (crtMatch == null) {
+          continue;
+        }
+        List<String> replacements = Arrays.asList(crtMatch.getSuggestion().split("\\|"));
+        String msgSuggestions = "";
+        for (int k = 0; k < replacements.size(); k++) {
+          if (k > 0) {
+            msgSuggestions += (k == replacements.size() - 1 ? getSuggestionsSeparator(): ", ");
+          }
+          msgSuggestions += "<suggestion>" + replacements.get(k) + "</suggestion>";
+        }
+        String msg = getMessage().replaceFirst("\\$match", originalPhrase).replaceFirst("\\$suggestions", msgSuggestions);
+        if (crtMatch.getMessage() != null) {
+          if (!crtMatch.getMessage().startsWith("http://") && !crtMatch.getMessage().startsWith("https://")) {
+            msg = crtMatch.getMessage();
+          }
+        }
+        int startPos = tokens[startIndex].getStartPos();
+        int endPos = tokens[endIndex].getEndPos();
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
+        if (subRuleSpecificIds) {
+          String id = StringTools.toId(getId() + "_" + originalPhrase, language);
+          String desc = getDescription().replace("$match", originalPhrase);
+          SpecificIdRule specificIdRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());
+          ruleMatch = new RuleMatch(specificIdRule, sentence, startPos, endPos, msg, getShort());
+        }
+        if (crtMatch.getMessage() != null && (crtMatch.getMessage().startsWith("http://") || crtMatch.getMessage().startsWith("https://"))) {
+          ruleMatch.setUrl(Tools.getUrl(crtMatch.getMessage()));
+        }
+        if ((getCaseSensitivy() != CaseSensitivy.CS || getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart)
+             && StringTools.startsWithUppercase(originalPhrase)) {
+          //String covered = sentence.getText().substring(startPos, endPos);
           for (int k = 0; k < replacements.size(); k++) {
-            if (k > 0) {
-              msgSuggestions += (k == replacements.size() - 1 ? getSuggestionsSeparator(): ", ");
-            }
-            msgSuggestions += "<suggestion>" + replacements.get(k) + "</suggestion>";
+            String repl = StringTools.uppercaseFirstChar(replacements.get(k));
+            replacements.set(k, repl);
+            //if (covered.equals(repl)) {
+            //  System.err.println("suggestion == original text for '" + covered + "' in AbstractSimpleReplaceRule2");
+            //}
           }
-          String msg = getMessage().replaceFirst("\\$match", crt).replaceFirst("\\$suggestions", msgSuggestions);
-          if (crtMatch.getMessage() != null) {
-            if (!crtMatch.getMessage().startsWith("http://") && !crtMatch.getMessage().startsWith("https://")) {
-              msg = crtMatch.getMessage();
-            }
-          }
-          int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
-          int endPos = prevTokensList.get(len - 1).getEndPos();
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
-          if (subRuleSpecificIds) {
-            String id = StringTools.toId(getId() + "_" + crt, language);
-            String desc = getDescription().replace("$match", crt);
-            SpecificIdRule specificIdRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());
-            ruleMatch = new RuleMatch(specificIdRule, sentence, startPos, endPos, msg, getShort());
-          }
-          if (crtMatch.getMessage() != null && (crtMatch.getMessage().startsWith("http://") || crtMatch.getMessage().startsWith("https://"))) {
-            ruleMatch.setUrl(Tools.getUrl(crtMatch.getMessage()));
-          }
-          if ((getCaseSensitivy() != CaseSensitivy.CS || getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart)
-               && StringTools.startsWithUppercase(crt)) {
-            //String covered = sentence.getText().substring(startPos, endPos);
-            for (int k = 0; k < replacements.size(); k++) {
-              String repl = StringTools.uppercaseFirstChar(replacements.get(k));
-              replacements.set(k, repl);
-              //if (covered.equals(repl)) {
-              //  System.err.println("suggestion == original text for '" + covered + "' in AbstractSimpleReplaceRule2");
-              //}
-            }
-          }
-          ruleMatch.setSuggestedReplacements(replacements);
-          if (!isException(sentence.getText().substring(startPos, endPos))
-            && !isRuleMatchException(ruleMatch)) {
-            //keep only the longest match
-            if (ruleMatches.size() > 0) {
-              RuleMatch lastRuleMatch = ruleMatches.get(ruleMatches.size() - 1);
-              if (lastRuleMatch.getFromPos() == ruleMatch.getFromPos()
-                && lastRuleMatch.getToPos() < ruleMatch.getToPos()) {
-                ruleMatches.remove(ruleMatches.size() - 1);
-              }
-            }
-            ruleMatches.add(ruleMatch);
-          }
-          break;
         }
+        ruleMatch.setSuggestedReplacements(replacements);
+        if (!isException(sentence.getText().substring(startPos, endPos))
+          && !isRuleMatchException(ruleMatch)) {
+          //keep only the longest match
+          if (ruleMatches.size() > 0) {
+            RuleMatch lastRuleMatch = ruleMatches.get(ruleMatches.size() - 1);
+            if (lastRuleMatch.getFromPos() == ruleMatch.getFromPos()
+              && lastRuleMatch.getToPos() < ruleMatch.getToPos()) {
+              ruleMatches.remove(ruleMatches.size() - 1);
+            }
+          }
+          ruleMatches.add(ruleMatch);
+        }
+        break;
       }
     }
     return toRuleMatchArray(ruleMatches);
@@ -391,4 +403,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     }
   }
 
+  protected boolean isPunctuationStart(String word) {
+    return StringUtils.getDigits(word).length() > 0 // e.g. postal codes
+      || StringTools.isPunctuationMark(word) || StringTools.isNotWordCharacter(word);
+  }
 }
