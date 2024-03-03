@@ -33,7 +33,7 @@ public class AsturianTest extends LanguageSpecificTest {
     String s = "Apega testu equí. o revisa toes les pallabres de esti testu pa ver dalgún de los problemis que LanguageTool ye pa deteutar. ¿Afáyeste con los correutores gramaticales? Has date cuenta de que entá nun son perfeutos.";
     Asturian lang = new Asturian();
     testDemoText(lang, s,
-      Arrays.asList("UPPERCASE_SENTENCE_START", "TOU_CONTR", "PREPOS_APOSTR", "MORFOLOGIK_RULE_AST", "MORFOLOGIK_RULE_AST", "MORFOLOGIK_RULE_AST", "CON_CONTR", "QUE_APOSTR")
+      Arrays.asList("MORFOLOGIK_RULE_AST", "UPPERCASE_SENTENCE_START", "TOU_CONTR", "PREPOS_APOSTR", "MORFOLOGIK_RULE_AST", "MORFOLOGIK_RULE_AST", "CON_CONTR", "QUE_APOSTR")
     );
     runTests(lang);
   }
