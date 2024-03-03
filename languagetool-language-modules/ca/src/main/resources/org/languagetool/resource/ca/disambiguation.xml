@@ -37,6 +37,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
+    <rule id="genitiu_saxo" name="permet el genitiu saxó">
+        <pattern>
+            <token regexp="yes">\p{Lu}.+</token>
+            <marker>
+                <token spacebefore="no" regexp="yes">[’']s</token>
+            </marker>
+        </pattern>
+        <disambig action="add">
+            <wd pos="allow_saxon_genitive"/>
+        </disambig>
+    </rule>
     <rulegroup id="IGNORE_ENGLISH_WORDS" name="etiqueta paraules angleses">
         <antipattern>
             <token regexp="yes">the|than</token>
@@ -55,7 +66,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="_english_ignore_" regexp="yes">&english_common;|&english_common_casesensitive;</token>
+                <token postag="_english_ignore_"/>
                 <marker>
                     <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
                 </marker>
@@ -81,7 +92,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
                 </marker>
-                <token postag="_english_ignore_" regexp="yes">&english_common;|&english_common_casesensitive;<exception>in</exception></token>
+                <token postag="_english_ignore_|allow_saxon_genitive" postag_regexp="yes"/>
             </pattern>
             <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
             <disambig action="add">
@@ -16839,17 +16850,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="immunize"/>
         </rule>
     </rulegroup>
-    <rule id="genitiu_saxo" name="permet el genitiu saxó">
-        <pattern>
-            <token regexp="yes">\p{Lu}.+</token>
-            <marker>
-                <token spacebefore="no" regexp="yes">[’']s</token>
-            </marker>
-        </pattern>
-        <disambig action="add">
-            <wd pos="allow_saxon_genitive"/>
-        </disambig>
-    </rule>
     <rulegroup id="nom_en_complement" name="nom en complement">
         <rule>
             <pattern>

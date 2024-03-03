@@ -110,6 +110,7 @@ public class ProhibitedCompoundRuleTest {
   }
 
   @Test
+  @Ignore("turn off now that eis/reis is commented out")
   public void testMoreThanOneCandidate() throws IOException {
     String input = "Das ist Testreis";
 

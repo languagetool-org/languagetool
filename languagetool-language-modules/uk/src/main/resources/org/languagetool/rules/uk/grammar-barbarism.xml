@@ -677,7 +677,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <pattern>
           <marker>
-            <token inflected="yes" regexp="yes">переводити|перевести|перевод(ивши|ячи)|перевівши|переведений</token>
+            <token inflected="yes" regexp="yes">переводити(ся)?|перевести(ся)?|перевод(ивши|ячи)(сь)?|перевівши(сь)?|переведений</token>
           </marker>
           <token regexp="yes" min="0">би?</token>
           <token postag_regexp="yes" postag="adj:p:v_zna.*" min="0" max="2"/>
@@ -710,7 +710,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="adv(?!p).*" min="0"/>
           <token min="0">не</token>
           <marker>
-            <token inflected="yes" regexp="yes">переводити|перевести|перевод(ивши|ячи)|перевівши|переведений</token>
+            <token inflected="yes" regexp="yes">переводити(ся)?|перевести(ся)?|перевод(ивши|ячи)(сь)?|перевівши(сь)?|переведений</token>
           </marker>
         </pattern>
         <message>Правильно: <suggestion>переказувати</suggestion></message>
@@ -3841,13 +3841,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <exception scope="previous" inflected="yes" regexp="yes">один|своєрідний</exception>
           </token>
         </pattern>
-        <message>На позначення процесу краще вживати: <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:.:)(v_...).*" postag_replace="noun:inanim:n:$2.*">перероблювання</match></suggestion></message>
+        <message>Не рекомендовано вживати суфікс -обка на позначення процесу</message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:.:)(v_...).*" postag_replace="noun:inanim:n:$2.*">перероблювання</match></suggestion>
         <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:.:)(v_...).*" postag_replace="noun:inanim:n:$2.*">перероблення</match></suggestion>
         <example correction="перероблювання|перероблення">зберігання та <marker>переробки</marker> продукції рослинництва</example>
         <example correction="перероблювання|перероблення">Фахівець із <marker>нафтопереробки</marker>.</example>
         <example correction="Перероблюванням|Переробленням"><marker>Переробкою</marker> нафти займається інша фірма.</example>
         <example>своєрідні переробки пісень</example>
       </rule>
+
+      <!--
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">(.*?)?упаковка
+            <exception scope="previous" inflected="yes" regexp="yes">внутрішний|внутрішний|м'який|фірмовий|фабричний|твердий|багаторазовий|заводський</exception>
+          </token>
+        </pattern>
+        <message>На позначення процесу краще вживати суфікс -ування, а на позначення предмету (рідше): -овання</message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:.:)(v_...).*" postag_replace="noun:inanim:n:$2.*">пакування</match></suggestion>
+        <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:.:)(v_...).*" postag_replace="noun:inanim:n:$2.*">упакування</match></suggestion>
+        <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:.:)(v_...).*" postag_replace="noun:inanim:n:$2.*">паковання</match></suggestion>
+        <example correction="пакування|упакування|паковання"><marker>упаковка</marker> та зберігання продукції рослинництва</example>
+        <example>заводської упаковки</example>
+      </rule>
+      -->
     </rulegroup>
 
     <rulegroup id="YEMNIST_VS_MISTKIST" name="-ємність та -місткість">

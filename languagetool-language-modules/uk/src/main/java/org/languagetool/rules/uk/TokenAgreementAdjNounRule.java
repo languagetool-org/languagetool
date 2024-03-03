@@ -255,7 +255,7 @@ public class TokenAgreementAdjNounRule extends Rule {
 
         if( PosTagHelper.hasPosTagPart(state.adjTokenReadings, ":m:v_rod")
             && tokens[i].getToken().matches(".*[ую]")
-            && PosTagHelper.hasPosTag(nounTokenReadings, "noun.*?:m:v_dav.*") ) {
+            && PosTagHelper.hasPosTag(nounTokenReadings, Pattern.compile("noun.*?:m:v_dav.*")) ) {
           msg += CaseGovernmentHelper.USED_U_INSTEAD_OF_A_MSG;
         }
         else if( state.adjAnalyzedTokenReadings.getToken().contains("-")

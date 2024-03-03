@@ -85,6 +85,12 @@ public class CheckCaseRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("-\"¿Leonardo Da Vinci?\""));
     assertEquals(1, matches.length);
     assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(lt.getAnalyzedSentence("Baixar Al-Assad"));
+    assertEquals(1, matches.length);
+    assertEquals("Baixar al-Assad", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(lt.getAnalyzedSentence("El president al-Assad"));
+    assertEquals(1, matches.length);
+    assertEquals("Al-Assad", matches[0].getSuggestedReplacements().get(0));
 
     //matches = rule.match(lt.getAnalyzedSentence("darth maul"));
     //assertEquals(1, matches.length);
