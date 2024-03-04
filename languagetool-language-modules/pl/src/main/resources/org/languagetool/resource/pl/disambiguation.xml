@@ -7431,10 +7431,10 @@
 
     <rule id="Burzy_subst_2" name="burzy jako genetiwus">
         <pattern>
-            <marker><token>burzy</token></marker>
+            <marker><token postag="verb.*" postag_regexp="yes">burzy</token></marker>
             <token regexp="yes">mózgów|oklasków|Szekspira</token>
         </pattern>
-        <disambig postag="subst:sg:gen:f"/>
+        <disambig action="filter" postag="subst:sg:.*:f"/>
     </rule>
     
     <rule id="CIAZY_SUBST" name="ciąży jako genetiwus">
@@ -12319,6 +12319,20 @@
         <example type="untouched">Tu mamy piękny przykład.</example>
         <example type="untouched">Łaciny używamy na co dzień.</example>
         <!-- example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]" outputform="mamy[mama/subst:sg:gen:f]">Idę do <marker>mamy</marker>.</example>  -->
+    </rule>
+
+    <rule name="Przyimek z przymiotnikiem i rzeczownikiem po unifikacji" id="PREP_SUBST_3">
+        <pattern>
+            <unify> <feature id="case"/>
+                <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception regexp="yes">co|temu</exception></token>
+                <token postag="(?:adj|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/><exception>trochę</exception><exception>dużo</exception></token>
+                <token postag="(?:adj|subst|ger|ppas|pact|num):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/><exception>trochę</exception><exception>dużo</exception></token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">Tu mamy piękny przykład.</example>
+        <example type="untouched">Łaciny używamy na co dzień.</example>
+        <example type="ambiguous" inputform="części[częsty/adj:pl:nom.voc:m1.p1:pos,część/subst:pl:acc:f,część/subst:pl:gen:f,część/subst:pl:nom:f,część/subst:pl:voc:f,część/subst:sg:dat:f,część/subst:sg:gen:f,część/subst:sg:loc:f,część/subst:sg:voc:f]" outputform="części[część/subst:sg:loc:f]">To było w górnej <marker>części</marker> lodowca górskiego.</example>
     </rule>
 
     <rule name="PREP_ACC_JAKIS_CZAS" id="PREP_JAKIS_CZAS">

@@ -2816,6 +2816,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="no cóż, czasem">A ich przeliczniki, <marker>no cóż czasem</marker> pozostawiają wiele do życzenia.</example>
 				</rule>
 				<rule id="JAK_I" name="Brak przecinka przed „jak i/również”">
+                    <antipattern>
+                        <token>krakać</token>
+                        <marker><token>jak</token></marker>
+                        <token>i</token>
+                        <token>one</token>
+                    </antipattern>
 						<pattern>
 								<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;|tyle|i|lub|albo|ani|oraz|bądź|czy|tak|podobnie</exception></token>
 								<token>jak</token>
@@ -2826,6 +2832,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>To jest podejrzany typ, podobnie jak inni w tej dzielnicy.</example>
 						<example>Lubię zarówno Lecha, jak i Jarosława.</example>
 						<example correction="Lecha, jak i">Lubię zarówno <marker>Lecha jak i</marker> Jarosława.</example>
+                        <example>Kiedy wejdziesz między wrony, musisz krakać jak i one. </example>
 				</rule>
             <rulegroup id="IM_TYM" name="Brak przecinka wewnątrz spójnika „im..., tym”">
                 <rule>
@@ -7359,23 +7366,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<token postag="subst:sg:acc:f"><exception postag="subst:sg:inst:f"/></token>
       </antipattern>
       <antipattern>
-        <token regexp="yes" inflected="yes" postag="ppas.*" postag_regexp="yes">nazy?wać|doprawiać|pol(?:ew)?ać|pokry(?:wa)ć|wysypać|tknąć|zainteresować|s?powodować|określać|obdarzyć|kierować|zmartwić|zdziwić|przejąć</token>
-        <marker>
-          <token postag=".*inst.*" postag_regexp="yes"/>        
+          <marker>
+        <token regexp="yes" inflected="yes" postag="ppas.*" postag_regexp="yes">nazy?wać|doprawiać|pol(?:ew)?ać|(?:po)?kry(?:wa)?ć|wysypać|tknąć|zainteresować|s?powodować|określać|obdarzyć|kierować|u?karać|wyłożyć|zmartwić|zdziwić|przejąć</token>
+          <token postag=".*inst.*" postag_regexp="yes"/>
         </marker>
       </antipattern>
+            <antipattern> <!-- dający tytuł licencjacki -->
+                <token postag="pact.*" postag_regexp="yes">
+                    <exception regexp="yes" inflected="yes" postag="ppas.*" postag_regexp="yes">nazy?wać|doprawiać|pol(?:ew)?ać|pokry(?:wa)ć|wysypać|tknąć|zainteresować|s?powodować|określać|obdarzyć|kierować|u?karać|wyłożyć|zmartwić|zdziwić|przejąć</exception>
+                </token>
+                <marker>
+                    <token min="1" max="3" postag=".*acc.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
       <antipattern>
         <unify><feature id="case"><type id="gen"/></feature>
           <token postag="adj.*" postag_regexp="yes"></token>
           <token>dnia</token>        
-        </unify>      
+        </unify>
       </antipattern>
       <antipattern>
         <token regexp="yes">\d+</token>
         <marker><token>złotych</token></marker>
       </antipattern>
-      <antipattern> <!-- przymiotniki wymagające dopełniacza -->
-        <token inflected="yes" regexp="yes">bliski|chciwy|chytry|ciekawy|dotyczący|głodny|godny|kierunkowy|łakomy|łapczywy|łasy|niebaczny|niegodny|(?:nie)?pomny|(?:nie)świadomy|pamiętny|pazerny|pewny|(?:nie)?syty|wart|winny|współodpowiedzialny|wygłodniały|zachłanny|zgłodniały|żądny</token>
+      <antipattern> <!-- przymiotniki / ppas wymagające dopełniacza -->
+        <token inflected="yes" regexp="yes">bliski|chciwy|chytry|ciekawy|dotyczyć|głodny|godny|kierunkowy|łakomy|łapczywy|łasy|niebaczny|niegodny|(?:nie)?pomny|(?:nie)świadomy|pamiętny|pazerny|pewny|pozbawić|(?:nie)?syty|wart|winny|współodpowiedzialny|wygłodniały|zachłanny|zgłodniały|żądny</token>
         <token postag="subst.*gen.*" postag_regexp="yes"/>
       </antipattern>
       <pattern>
@@ -7416,6 +7431,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Dałem Tomowi środek uspokajający.</example>
       <example>Ta opowieść jest bliska prawdy historycznej.</example>
       <example>Jest to nakaz dotyczący osoby wykonującej swoje obowiązki.</example>
+            <example>Patrzył na dom pokryty płytami dekoracyjnymi.</example>
+            <example>Pozbawiony cech charakterystycznych, bez charakteru, ot co.</example>
+            <example>Zaplanował podjazd wyłożony płytami kamiennymi.</example>
+            <example>To instytucja dająca tytuł licencjacki.</example>
 		</rule>
 		<rule id="SUBST_ADJ_UNIFY" name="Niezgodność form rzeczownika i przymiotnika">
 		  <antipattern> <!-- jedni zdziwieni pytali… -->
@@ -14046,6 +14065,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>To produkt dla masowego odbiorcy.</example>
 				</rule>
 				<rule id="LEPSZE_ZLO" name="„lepsze zło” (mniejsze zło)">
+                    <antipattern>
+                        <marker><token>lepsze</token></marker>
+                        <token>zło</token>
+                        <token>znane</token>
+                        <token>niż</token>
+                    </antipattern>
 						<pattern>
 								<token inflected="yes" postag="adj.*n[12].*:com" postag_regexp="yes">dobry</token>
 								<token inflected="yes">zło</token>
@@ -14054,6 +14079,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<short>Błąd leksykalny</short>
 						<example correction="mniejszym złem">Kiedy stoimy przed takim dylematem, zadowolić się musimy <marker>lepszym złem</marker>.</example>
 						<example>Generał twierdzi, że wybrał mniejsze zło.</example>
+                        <example>Lepsze zło znane niż nieznane.</example>
 				</rule>
 				<rule id="POSTAWIC_OPOR" name="„postawić opór” (stawić opór)">
 						<pattern>
@@ -18552,7 +18578,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				    </antipattern>
 				    <antipattern>
 				    		<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
-                  <token inflected="yes">mur</token>
+                  <token inflected="yes" regexp="yes">mur|morze</token>
                   <token inflected="yes">chiński</token>                
                 </unify>
 				    </antipattern>
@@ -18979,7 +19005,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 														<token inflected="yes">morze</token>
 														<token regexp="yes">mo.*</token>
 												</and>
-												<token inflected="yes" regexp="yes">adriatycki|alandzki|andamański|azowski|arabski|balearski|balijski|biały|bałtycki|botnicki|celtycki|egejski|chilijski|czerwony|filipiński|grenlandzki|hebrydzki|irlandzki|joński|karaibski|kreteński|labradorski|lakkadiwski|lewantyński|libijski|liguryjski|mirtejski|norweski|nowogwinejski|północny|sargassowy|sycylijski|śródziemny|tracki|tyrreński|wattowy|czarny|koralowy|wschodniochiński|jawajski|molucki|japoński|ochocki|południowochiński|wewnętrzny|żółty</token>
+												<token inflected="yes" regexp="yes">adriatycki|alandzki|andamański|azowski|arabski|balearski|balijski|biały|bałtycki|botnicki|celtycki|chiński|egejski|chilijski|czerwony|filipiński|grenlandzki|hebrydzki|irlandzki|joński|karaibski|kreteński|labradorski|lakkadiwski|lewantyński|libijski|liguryjski|mirtejski|norweski|nowogwinejski|północny|sargassowy|sycylijski|śródziemny|tracki|tyrreński|wattowy|czarny|koralowy|wschodniochiński|jawajski|molucki|japoński|ochocki|południowochiński|wewnętrzny|żółty</token>
 										</unify>
 								</pattern>
 								<message>Błędna pisownia. Powinno być: <suggestion><match case_conversion="startupper" no="1"></match> <match case_conversion="startupper" no="2"></match></suggestion>.</message>
