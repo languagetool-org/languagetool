@@ -3097,6 +3097,38 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="immunize"/>
     </rule>
+    <rule id="pre_post" name="prefix pre- post">
+        <pattern>
+            <marker>
+                <token>pre</token>
+            </marker>
+            <token postag="CC"/>
+            <token regexp="yes">post.*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rulegroup id="intra_inter" name="prefix inter- intra-">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>inter</token>
+                </marker>
+                <token postag="CC"/>
+                <token regexp="yes">intra.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>intra</token>
+                </marker>
+                <token postag="CC"/>
+                <token regexp="yes">inter.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
     <rule id="no_ij" name="no interjecció">
         <pattern>
             <marker>
