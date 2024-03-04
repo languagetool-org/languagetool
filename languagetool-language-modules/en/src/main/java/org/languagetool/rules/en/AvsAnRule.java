@@ -95,8 +95,15 @@ public class AvsAnRule extends Rule {
       }
       if (equalsA || equalsAn) {
         Determiner determiner = getCorrectDeterminerFor(token);
+        // if token is "EUR", look at the following word to establish the correct determiner, e.g. "an EUR 80 million debt"
         if (token.getToken().equals("EUR") && i < tokens.length - 1) {
-          determiner = getCorrectDeterminerFor(tokens[i + 1]);
+          if (tokens[i + 1].hasPosTag("PCT")) {
+            determiner = Determiner.A;
+          }
+          else {
+            determiner = getCorrectDeterminerFor(tokens[i + 1]);
+          }
+        // if token is "EUR" and no other word follows it (sentence-final), use "a"
         } else if (token.getToken().equals("EUR") && i == tokens.length - 1) {
           determiner = Determiner.A;
         }

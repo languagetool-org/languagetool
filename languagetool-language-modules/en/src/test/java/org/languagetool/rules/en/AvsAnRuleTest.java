@@ -46,6 +46,8 @@ public class AvsAnRuleTest {
     // correct sentences:
     assertCorrect("The company has also entered into a EUR 100 million ($88 million) debt");
     assertCorrect("The company has also entered into an EUR 80 million debt");
+    assertCorrect("It costs a EUR");
+    assertCorrect("It costs a EUR.");
     assertCorrect("Import an Xcode project.");
     assertCorrect("This is a oncer.");
     assertCorrect("She was a Oaxacan chef.");
@@ -77,6 +79,8 @@ public class AvsAnRuleTest {
     // errors:
     assertIncorrect("The company has also entered into an EUR 100 million ($88 million) debt");
     assertIncorrect("The company has also entered into a EUR 80 million debt");
+    assertIncorrect("It costs an EUR");
+    assertIncorrect("It costs an EUR.");
     assertIncorrect("It was a hour ago.");
     assertIncorrect("It was an sentence that's long.");
     assertIncorrect("It was a uninteresting talk.");
