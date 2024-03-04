@@ -22,13 +22,11 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Tag;
 import org.languagetool.UserConfig;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -41,6 +39,9 @@ public class LongSentenceRule extends TextLevelRule {
 
   private static final Pattern QUOTED_SENT_END = Pattern.compile("[?!.][\"“”„»«]", Pattern.DOTALL);
   private static final Pattern SENT_END = Pattern.compile("[?!.]");
+
+  private static List<String> OPENING_QUOTES = Arrays.asList("\"", "“", "„", "«");
+  private static List<String> CLOSING_QUOTES = Arrays.asList("\"", "”", "“", "»");
 
   private final ResourceBundle messages;
   private final int maxWords;
@@ -72,11 +73,7 @@ public class LongSentenceRule extends TextLevelRule {
 
   private boolean isWordCount(String tokenText) {
     if (tokenText.length() > 0) {
-      char firstChar = tokenText.charAt(0);
-      if ((firstChar >= 'A' && firstChar <= 'Z') ||
-        (firstChar >= 'a' && firstChar <= 'z')) {
-        return true;
-      }
+      return !StringTools.isNotWordCharacter(tokenText.substring(0,1));
     }
     return false;
   }
@@ -106,13 +103,23 @@ public class LongSentenceRule extends TextLevelRule {
 
       AnalyzedTokenReadings fromPosToken = null;
       AnalyzedTokenReadings toPosToken = null;
+      boolean inQuotes = false;
+      int indexOfQuote = -1 ;
       while (i < tokens.length) {
         int numWords = 0;
         while (i < tokens.length && !tokens[i].getToken().equals(":") && !tokens[i].getToken().equals(";")
           && !tokens[i].getToken().equals("\n") && !tokens[i].getToken().equals("\r\n")
           && !tokens[i].getToken().equals("\n\r")
         ) {
-          if (isWordCount(tokens[i].getToken())) {
+          String token = tokens[i].getToken();
+          if (!inQuotes && OPENING_QUOTES.indexOf(token) > -1) {
+            inQuotes = true;
+            indexOfQuote = OPENING_QUOTES.indexOf(token);
+          } else if (inQuotes && CLOSING_QUOTES.indexOf(token) == indexOfQuote) {
+            inQuotes = false;
+            indexOfQuote = -1;
+          }
+          if (isWordCount(token) && !inQuotes) {
             //Get first word token
             if (fromPosToken == null) {
               fromPosToken = tokens[i];

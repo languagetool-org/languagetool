@@ -54,7 +54,8 @@ public class MultiWordChunker extends AbstractDisambiguator {
   private volatile boolean initialized;
   private Map<String, Integer> mStartSpace;
   private Map<String, Integer> mStartNoSpace;
-  private Map<String, AnalyzedToken> mFull;
+  private Map<String, AnalyzedToken> mFullSpace;
+  private Map<String, AnalyzedToken> mFullNoSpace;
 
   private final static int MAX_TOKENS_IN_MULTIWORD = 20;
 
@@ -113,69 +114,72 @@ public class MultiWordChunker extends AbstractDisambiguator {
 
       Object2IntOpenHashMap<String> mStartSpace = new Object2IntOpenHashMap<>();
       Object2IntOpenHashMap<String> mStartNoSpace = new Object2IntOpenHashMap<>();
-      Object2ObjectOpenHashMap<String, AnalyzedToken> mFull = new Object2ObjectOpenHashMap<>();
+      Object2ObjectOpenHashMap<String, AnalyzedToken> mFullSpace = new Object2ObjectOpenHashMap<>();
+      Object2ObjectOpenHashMap<String, AnalyzedToken> mFullNoSpace = new Object2ObjectOpenHashMap<>();
 
-      fillMaps(mStartSpace, mStartNoSpace, mFull);
+      fillMaps(mStartSpace, mStartNoSpace, mFullSpace, mFullNoSpace);
 
       mStartSpace.trim();
       mStartNoSpace.trim();
-      mFull.trim();
+      mFullSpace.trim();
+      mFullNoSpace.trim();
 
       this.mStartSpace = mStartSpace;
       this.mStartNoSpace = mStartNoSpace;
-      this.mFull = mFull;
+      this.mFullSpace = mFullSpace;
+      this.mFullNoSpace = mFullNoSpace;
       initialized = true;
     }
   }
 
-  private void fillMaps(Map<String, Integer> mStartSpace, Map<String, Integer> mStartNoSpace, Map<String, AnalyzedToken> mFull) {
+  private void fillMaps(Map<String, Integer> mStartSpace, Map<String, Integer> mStartNoSpace, Map<String,
+    AnalyzedToken> mFullSpace, Map<String, AnalyzedToken> mFullNoSpace) {
     Map<String, String> interner = new HashMap<>();
     try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename)) {
-      List<String> posTokens = loadWords(stream);
-      for (String posToken : posTokens) {
-        String[] tokenAndTag = posToken.split(separator);
-        if (tokenAndTag.length != 2 && defaultTag == null) {
+      List<String> lines = loadWords(stream);
+      for (String line : lines) {
+        String[] stringAndTag = line.split(separator);
+        if (stringAndTag.length != 2 && defaultTag == null) {
           throw new RuntimeException(
-              "Invalid format in " + filename + ": '" + posToken + "', expected two tab-separated parts");
+              "Invalid format in " + filename + ": '" + line + "', expected two tab-separated parts");
         }
-        if (tokenAndTag.length != 1 && defaultTag != null) {
+        if (stringAndTag.length != 1 && defaultTag != null) {
           throw new RuntimeException(
-            "Invalid format in " + filename + ": '" + posToken + "', expected one element with no separator");
+            "Invalid format in " + filename + ": '" + line + "', expected one element with no separator");
         }
-        List<String> tokens = new ArrayList<>();
-        String originalToken = interner.computeIfAbsent(tokenAndTag[0], Function.identity());
-        String tag = interner.computeIfAbsent((defaultTag != null ? defaultTag:tokenAndTag[1]), Function.identity());
-        tokens.add(originalToken);
-        tokens.addAll(getTokenLettercaseVariants(originalToken, mFull));
-        for (String token : tokens) {
-          boolean containsSpace = token.indexOf(' ') > 0;
-          String firstToken;
-          String[] firstTokens;
+        List<String> casingVariants = new ArrayList<>();
+        String originalString = interner.computeIfAbsent(stringAndTag[0], Function.identity());
+        String tag = interner.computeIfAbsent((defaultTag != null ? defaultTag:stringAndTag[1]), Function.identity());
+        boolean containsSpace = originalString.indexOf(' ') > 0;
+        casingVariants.add(originalString);
+        if (containsSpace) {
+          casingVariants.addAll(getTokenLettercaseVariants(originalString, mFullSpace));
+        } else {
+          casingVariants.addAll(getTokenLettercaseVariants(originalString, mFullNoSpace));
+        }
+        for (String casingVariant : casingVariants) {
           if (!containsSpace) {
-            firstTokens = new String[tokenAndTag[0].length()];
-            firstToken = token.substring(0, 1);
-            for (int i = 1; i < token.length(); i++) {
-              firstTokens[i] = token.substring(i - 1, i);
-            }
-            if (mStartNoSpace.containsKey(firstToken)) {
-              if (mStartNoSpace.get(firstToken) < firstTokens.length) {
-                mStartNoSpace.put(firstToken, firstTokens.length);
+            String firstChar = casingVariant.substring(0, 1);
+            if (mStartNoSpace.containsKey(firstChar)) {
+              if (mStartNoSpace.get(firstChar) < casingVariant.length()) {
+                mStartNoSpace.put(firstChar, casingVariant.length());
               }
             } else {
-              mStartNoSpace.put(firstToken, firstTokens.length);
+              mStartNoSpace.put(firstChar, casingVariant.length());
             }
+            mFullNoSpace.put(casingVariant, new AnalyzedToken(casingVariant, tag, originalString));
           } else {
-            firstTokens = token.split(" ");
-            firstToken = firstTokens[0];
+            String[] tokens = casingVariant.split(" ");
+            String firstToken = tokens[0];
             if (mStartSpace.containsKey(firstToken)) {
-              if (mStartSpace.get(firstToken) < firstTokens.length) {
-                mStartSpace.put(firstToken, firstTokens.length);
+              if (mStartSpace.get(firstToken) < tokens.length) {
+                mStartSpace.put(firstToken, tokens.length);
               }
             } else {
-              mStartSpace.put(firstToken, firstTokens.length);
+              mStartSpace.put(firstToken, tokens.length);
             }
+            mFullSpace.put(casingVariant, new AnalyzedToken(casingVariant, tag, originalString));
           }
-          mFull.put(token, new AnalyzedToken(token, tag, originalToken));
         }
       }
     } catch (IOException e) {
@@ -244,7 +248,6 @@ public class MultiWordChunker extends AbstractDisambiguator {
         tok = tok + output[k].getToken();
         k++;
       }
-
       if (checkCanceled != null && checkCanceled.checkCancelled()) {
         break;
       }
@@ -258,20 +261,23 @@ public class MultiWordChunker extends AbstractDisambiguator {
           if (!anTokens[j].isWhitespace()) {
             keyBuilder.append(anTokens[j].getToken());
             String keyStr = keyBuilder.toString();
-            if (mFull.containsKey(keyStr) && !mFull.get(keyStr).getPOSTag().equals(tagForNotAddingTags)) {
-              if (finalLen == 0) { // the key has only one token
-                output[i] = setAndAnnotate(output[i], new AnalyzedToken(anTokens[j].getToken(), mFull.get(keyStr).getPOSTag(), mFull.get(keyStr).getLemma()));
-              } else {
-                output[i] = prepareNewReading(keyStr, output[i].getToken(), output[i], false);
-                output[finalLen] = prepareNewReading(keyStr, anTokens[finalLen].getToken(), output[finalLen], true);
+            AnalyzedToken at = mFullSpace.get(keyStr);
+            if (at != null) {
+              if (!at.getPOSTag().equals(tagForNotAddingTags)) {
+                if (finalLen == 0) { // the key has only one token
+                  output[i] = setAndAnnotate(output[i], new AnalyzedToken(anTokens[j].getToken(), at.getPOSTag(), at.getLemma()));
+                } else {
+                  output[i] = prepareNewReading(at, output[i].getToken(), output[i], false);
+                  output[finalLen] = prepareNewReading(at, anTokens[finalLen].getToken(), output[finalLen], true);
+                }
               }
-            }
-            if (mFull.containsKey(keyStr) && addIgnoreSpelling) {
-              if (finalLen == 0) {
-                output[i].ignoreSpelling();
-              } else {
-                for (int m = i; m <= finalLen; m++) {
-                  output[m].ignoreSpelling();
+              if (addIgnoreSpelling) {
+                if (finalLen == 0) {
+                  output[i].ignoreSpelling();
+                } else {
+                  for (int m = i; m <= finalLen; m++) {
+                    output[m].ignoreSpelling();
+                  }
                 }
               }
             }
@@ -294,20 +300,23 @@ public class MultiWordChunker extends AbstractDisambiguator {
         while (j < anTokens.length && !anTokens[j].isWhitespace() && j - i < MAX_TOKENS_IN_MULTIWORD) {
           keyBuilder.append(anTokens[j].getToken());
           String keyStr = keyBuilder.toString();
-          if (mFull.containsKey(keyStr) && !mFull.get(keyStr).getPOSTag().equals(tagForNotAddingTags)) {
-            if (i == j) {
-              String postag = mFull.get(keyStr).getPOSTag();
-              if (!isLowPriorityTag(postag) || !output[i].hasReading()) {
-                output[i] = setAndAnnotate(output[i], new AnalyzedToken(anTokens[j].getToken(), postag, mFull.get(keyStr).getLemma()));
+          AnalyzedToken at = mFullNoSpace.get(keyStr);
+          if (at != null) {
+            if (!at.getPOSTag().equals(tagForNotAddingTags)) {
+              if (i == j) {
+                String postag = at.getPOSTag();
+                if (!isLowPriorityTag(postag) || !output[i].hasReading() || output[i].isPosTagUnknown()) {
+                  output[i] = setAndAnnotate(output[i], new AnalyzedToken(anTokens[j].getToken(), postag, at.getLemma()));
+                }
+              } else {
+                output[i] = prepareNewReading(at, anTokens[i].getToken(), output[i], false);
+                output[j] = prepareNewReading(at, anTokens[j].getToken(), output[j], true);
               }
-            } else {
-              output[i] = prepareNewReading(keyStr, anTokens[i].getToken(), output[i], false);
-              output[j] = prepareNewReading(keyStr, anTokens[j].getToken(), output[j], true);
             }
-          }
-          if (mFull.containsKey(keyStr) && addIgnoreSpelling) {
-            for (int m = i; m <= j; m++) {
-              output[m].ignoreSpelling();
+            if (addIgnoreSpelling) {
+              for (int m = i; m <= j; m++) {
+                output[m].ignoreSpelling();
+              }
             }
           }
           j++;
@@ -320,17 +329,16 @@ public class MultiWordChunker extends AbstractDisambiguator {
     return new AnalyzedSentence(output);
   }
 
-  private AnalyzedTokenReadings prepareNewReading(String tokens, String tok, AnalyzedTokenReadings token,
+  private AnalyzedTokenReadings prepareNewReading(AnalyzedToken at, String token, AnalyzedTokenReadings atrs,
       boolean isLast) {
     StringBuilder sb = new StringBuilder();
     sb.append('<');
     if (isLast) {
       sb.append('/');
     }
-    sb.append(mFull.get(tokens).getPOSTag());
+    sb.append(at.getPOSTag());
     sb.append('>');
-    AnalyzedToken tokenStart = new AnalyzedToken(tok, sb.toString(), mFull.get(tokens).getLemma());
-    return setAndAnnotate(token, tokenStart);
+    return setAndAnnotate(atrs, new AnalyzedToken(token, sb.toString(), at.getLemma()));
   }
 
   private AnalyzedTokenReadings setAndAnnotate(AnalyzedTokenReadings oldReading, AnalyzedToken newReading) {
