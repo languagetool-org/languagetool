@@ -41,8 +41,8 @@ public class MorfologikAsturianSpellerRuleTest {
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("¿Tas avecáu colos correutores gramaticales?"));
     assertEquals(1, matches.length);
-    assertEquals(6, matches[0].getFromPos());
-    assertEquals(11, matches[0].getToPos());
+    assertEquals(5, matches[0].getFromPos());
+    assertEquals(10, matches[0].getToPos());
     assertEquals("avezáu", matches[0].getSuggestedReplacements().get(0));
   }
 
