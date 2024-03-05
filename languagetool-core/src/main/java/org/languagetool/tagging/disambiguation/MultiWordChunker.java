@@ -189,7 +189,8 @@ public class MultiWordChunker extends AbstractDisambiguator {
 
   public List<String> getTokenLettercaseVariants(String originalToken, Map<String, AnalyzedToken> tokenMap) {
     List<String> newTokens = new ArrayList<>();
-    if (allowAllUppercase) {
+    if (allowAllUppercase && !StringTools.isCamelCase(originalToken)) {
+      // do not capitalize iPad, iPhone, etc. (single tokens)
       String tokenAllUppercase = originalToken.toUpperCase();
       if (!tokenMap.containsKey(tokenAllUppercase) && !originalToken.equals(tokenAllUppercase)) {
         newTokens.add(tokenAllUppercase);
