@@ -427,12 +427,13 @@ public class TokenAgreementPrepNounRule extends Rule {
       String posTag = token.getPOSTag();
 
       if( posTag == null ) { // && ! ".".equals(tokenReadings.get(0).getToken()) ) {
-        if( tokenReadings.size() == 1) 
+        if( tokenReadings.size() == 1)
           return true;
-        
+
         continue;
       }
-      
+
+      // shortcut
       if( posTag.contains(PosTagHelper.NO_VIDMINOK_SUBSTR) )
         return true;
 

@@ -144,9 +144,10 @@ public class UkrainianTaggerTest {
          tokenizer, tagger);
 
     TestTools.myAssert("Валерій (міліціонер-пародист. – Авт.) стане пародистом.",
-        "Валерій/[Валерій]noun:anim:m:v_naz:prop:fname -- міліціонер-пародист/[міліціонер-пародист]noun:anim:m:v_naz -- Авт./[авт.]noun:anim:m:v_naz:nv:abbr"
+        "Валерій/[Валерій]noun:anim:m:v_naz:prop:fname -- міліціонер-пародист/[міліціонер-пародист]noun:anim:m:v_naz"
+            + " -- Авт./[авт.]adj:f:v_dav:nv:abbr|Авт./[авт.]adj:f:v_mis:nv:abbr|Авт./[авт.]adj:f:v_naz:nv:abbr|Авт./[авт.]adj:f:v_oru:nv:abbr|Авт./[авт.]adj:f:v_rod:nv:abbr|Авт./[авт.]adj:f:v_zna:nv:abbr|Авт./[авт.]adj:m:v_dav:nv:abbr|Авт./[авт.]adj:m:v_mis:nv:abbr|Авт./[авт.]adj:m:v_naz:nv:abbr|Авт./[авт.]adj:m:v_oru:nv:abbr|Авт./[авт.]adj:m:v_rod:nv:abbr|Авт./[авт.]adj:m:v_zna:ranim:nv:abbr|Авт./[авт.]adj:m:v_zna:rinanim:nv:abbr|Авт./[авт.]adj:n:v_dav:nv:abbr|Авт./[авт.]adj:n:v_mis:nv:abbr|Авт./[авт.]adj:n:v_naz:nv:abbr|Авт./[авт.]adj:n:v_oru:nv:abbr|Авт./[авт.]adj:n:v_rod:nv:abbr|Авт./[авт.]adj:n:v_zna:nv:abbr|Авт./[авт.]adj:p:v_dav:nv:abbr|Авт./[авт.]adj:p:v_mis:nv:abbr|Авт./[авт.]adj:p:v_naz:nv:abbr|Авт./[авт.]adj:p:v_oru:nv:abbr|Авт./[авт.]adj:p:v_rod:nv:abbr|Авт./[авт.]adj:p:v_zna:ranim:nv:abbr|Авт./[авт.]adj:p:v_zna:rinanim:nv:abbr|Авт./[авт.]noun:anim:m:v_naz:nv:abbr"
  //       "Валерій/[Валерій]noun:anim:m:v_naz:prop:fname -- міліціонер-пародист/[міліціонер-пародист]noun:anim:m:v_naz -- Авт./[null]null"
-      + " -- стане/[стан]noun:inanim:m:v_kly:xp1|стане/[стан]noun:inanim:m:v_kly:xp2|стане/[станути]verb:perf:futr:s:3|стане/[стати]verb:perf:futr:s:3 -- пародистом/[пародист]noun:anim:m:v_oru",
+            + " -- стане/[стан]noun:inanim:m:v_kly:xp1|стане/[стан]noun:inanim:m:v_kly:xp2|стане/[станути]verb:perf:futr:s:3|стане/[стати]verb:perf:futr:s:3 -- пародистом/[пародист]noun:anim:m:v_oru",
          tokenizer, tagger);
 
 //    TestTools.myAssert("Сьогодні (у четвер. - Ред.), вранці.",
