@@ -42,11 +42,8 @@ public final class Languages {
   private static final String PROPERTIES_KEY = "languageClasses";
   private static final Language NOOP_LANGUAGE = new NoopLanguage();
 
-  private static final List<Language> languages = getAllLanguages();
-  private static final List<Language> dynLanguages = new ArrayList<>();
-
-  private static final List<Language> staticAndDynamicLanguages = new ArrayList<>(getAllLanguages());
-  private static final List<Language> staticAndDynamicLanguagesImmutable = Collections.unmodifiableList(staticAndDynamicLanguages);
+  private static List<Language> staticAndDynamicLanguages;
+  private static List<Language> staticAndDynamicLanguagesImmutable;
 
   private Languages() {
   }
@@ -63,7 +60,9 @@ public final class Languages {
     } else {
       throw new RuntimeException("Please specify a dictPath that ends in '.dict' (Morfologik binary dictionary) or '.dic' (Hunspell dictionary): " + dictPath);
     }
-    dynLanguages.add(lang);
+    if (staticAndDynamicLanguages == null) {
+      staticAndDynamicLanguages = new ArrayList<>(getAllLanguages());
+    }
     staticAndDynamicLanguages.add(lang);
     return lang;
   }
@@ -96,6 +95,10 @@ public final class Languages {
   }
 
   private static List<Language> getStaticAndDynamicLanguages() {
+    if (staticAndDynamicLanguages == null) {
+      staticAndDynamicLanguages = new ArrayList<>(getAllLanguages());
+      staticAndDynamicLanguagesImmutable = Collections.unmodifiableList(staticAndDynamicLanguages);
+    }
     return staticAndDynamicLanguagesImmutable;
   }
 
@@ -177,7 +180,6 @@ public final class Languages {
       Class<?> aClass = JLanguageTool.getClassBroker().forName(className);
       Constructor<?> constructor = aClass.getConstructor();
       Language language = (Language) constructor.newInstance();
-      dynLanguages.add(language);
       staticAndDynamicLanguages.add(language);
       return language;
     } catch (ClassNotFoundException e) {
@@ -283,7 +285,7 @@ public final class Languages {
         return firstFallbackLanguage;
       }
     }
-    for (Language aLanguage : languages) {
+    for (Language aLanguage : getStaticAndDynamicLanguages()) {
       if (aLanguage.getShortCodeWithCountryAndVariant().equals("en-US")) {
         return aLanguage;
       }
