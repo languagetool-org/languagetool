@@ -40,8 +40,8 @@ public class LongSentenceRule extends TextLevelRule {
   private static final Pattern QUOTED_SENT_END = Pattern.compile("[?!.][\"“”„»«]", Pattern.DOTALL);
   private static final Pattern SENT_END = Pattern.compile("[?!.]");
 
-  private static List<String> OPENING_QUOTES = Arrays.asList("\"", "“", "„", "«");
-  private static List<String> CLOSING_QUOTES = Arrays.asList("\"", "”", "“", "»");
+  private static List<String> OPENING_QUOTES = Arrays.asList("\"", "“", "„", "«", "(", "[", "{", "—");
+  private static List<String> CLOSING_QUOTES = Arrays.asList("\"", "”", "“", "»", ")", "]", "}", "—");
 
   private final ResourceBundle messages;
   private final int maxWords;
@@ -103,7 +103,6 @@ public class LongSentenceRule extends TextLevelRule {
 
       AnalyzedTokenReadings fromPosToken = null;
       AnalyzedTokenReadings toPosToken = null;
-      boolean inQuotes = false;
       int indexOfQuote = -1 ;
       while (i < tokens.length) {
         int numWords = 0;
@@ -112,14 +111,12 @@ public class LongSentenceRule extends TextLevelRule {
           && !tokens[i].getToken().equals("\n\r")
         ) {
           String token = tokens[i].getToken();
-          if (!inQuotes && OPENING_QUOTES.indexOf(token) > -1) {
-            inQuotes = true;
+          if (indexOfQuote == -1 && OPENING_QUOTES.indexOf(token) > -1) {
             indexOfQuote = OPENING_QUOTES.indexOf(token);
-          } else if (inQuotes && CLOSING_QUOTES.indexOf(token) == indexOfQuote) {
-            inQuotes = false;
+          } else if (indexOfQuote > -1 && CLOSING_QUOTES.indexOf(token) == indexOfQuote) {
             indexOfQuote = -1;
           }
-          if (isWordCount(token) && !inQuotes) {
+          if (isWordCount(token) && indexOfQuote == -1) {
             //Get first word token
             if (fromPosToken == null) {
               fromPosToken = tokens[i];
