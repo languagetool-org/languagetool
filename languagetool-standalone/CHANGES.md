@@ -2,7 +2,9 @@
 
 ## 6.4-SNAPSHOT (release planned for 2024-03-28)
 
-...
+#### Arabic
+  * add ArabicTransVerbDirectToIndirectRule, ArabicTransVerbIndirectToDirectRule, ArabicTransVerbIndirectToIndirectRule
+  * add enclitics and proclitics tags
 
 #### English
   * tagger and spelling dictionaries have been moved to an external dependency (english-pos-dict v 0.3)
