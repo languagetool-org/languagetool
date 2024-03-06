@@ -2009,6 +2009,23 @@
     <example type="untouched">ганяли Едгара по полю.</example>
   </rule>
 
+  <rule name="Ле - помилка" id="LE_MISTAKE">
+    <pattern case_sensitive="yes">
+      <marker>
+        <token>ле
+          <exception scope="next" regexp="yes">[А-ЯІЇЄҐ].+</exception>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noninfl:foreign" />
+    <example type="ambiguous" 
+        inputform="ле[ле/noninfl:foreign]"
+        outputform="ле[ле]">А <marker>ле</marker> вони туди не хотіли</example>
+    <example type="ambiguous" 
+        inputform="ле[ле/noninfl:foreign]"
+        outputform="ле[ле]">І <marker>ле</marker> можна цього робити</example>
+    <example type="untouched">прийшов Ле Пен</example>
+  </rule>
 
   <rule name="Поліна" id="POLINA">
     <pattern case_sensitive="yes">
@@ -2884,7 +2901,7 @@
         <token postag_regexp="yes" postag="verb.*?:impr:.:2.*"/>
       </antipattern>
       <antipattern>
-        <token postag_regexp="yes" postag="adj:.:v_kly.*" regexp="yes" inflected="yes">.*шановний|.*поважний|дорог(еньк)?ий</token>
+        <token postag_regexp="yes" postag="adj:.:v_kly.*" regexp="yes" inflected="yes">.*шановний|.*поважний|дорог(еньк)?ий|любий</token>
         <token min="0" max="5">
           <exception postag_regexp="yes" postag="noun:anim:.:v_kly.*?:fname.*"/>
           <exception postag_regexp="yes" postag="verb.*|(adj|noun)(?!.*v_kly).*"/>
@@ -2923,6 +2940,7 @@
       <example type="untouched">Ти для нас, зухвалий Лесю,</example>
       <example type="untouched">Шановний Арсенію Петровичу!</example>
       <example type="untouched">Шановний пане Андрію Садовий</example>
+      <example type="untouched">Моя люба Олю,</example>
       <!-- TODO:
       <example type="untouched">Шановні Арсенію Кравчук, Ігорю Марков!</example>
       <example type="untouched">Сергію Нігоян, спасибі за все</example>
