@@ -18,6 +18,9 @@
  */
 package org.languagetool.server;
 
+import org.languagetool.Language;
+import org.languagetool.Languages;
+import org.languagetool.tools.ConfidenceKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,27 +38,42 @@ class ConfidenceMapLoader {
 
   private static final Logger logger = LoggerFactory.getLogger(ConfidenceMapLoader.class);
 
-  Map<String,Float> load(File file) throws IOException {
-    Map<String,Float> ruleIdToConfidence = new HashMap<>();
-    List<String> lines = Files.readAllLines(Paths.get(file.getAbsolutePath()), UTF_8);
-    for (String line : lines) {
-      if (line.startsWith("#")) {
+  Map<ConfidenceKey,Float> load(File filePattern) throws IOException {
+    if (!filePattern.toString().contains("{lang}")) {
+      throw new RuntimeException("The 'ruleIdToConfidenceFile' parameter must contain '{lang}' as a placeholder for the language code");
+    }
+    Map<ConfidenceKey,Float> confMap = new HashMap<>();
+    for (Language lang : Languages.get()) {
+      int loadCount = 0;
+      String fileName = filePattern.getAbsolutePath().replace("{lang}", lang.getShortCode());
+      if (!Paths.get(fileName).toFile().exists()) {
         continue;
       }
-      String[] parts = line.split(",");
-      if (parts.length >= 2) {   // there might be more columns for better debugging, but we don't use them here
-        try {
-          float confidence = Float.parseFloat(parts[1]);
-          ruleIdToConfidence.put(parts[0], confidence);
-        } catch (NumberFormatException e) {
-          throw new RuntimeException("Invalid confidence float value in " + file + ", expected 'RULE_ID,float_value[,...]': " + line);
+      List<String> lines = Files.readAllLines(Paths.get(fileName), UTF_8);
+      for (String line : lines) {
+        if (line.startsWith("#")) {
+          continue;
         }
-      } else {
-        throw new RuntimeException("Invalid line in " + file + ", expected 'RULE_ID,float_value[,...]': " + line);
+        String[] parts = line.split(",");
+        if (parts.length >= 2) {   // there might be more columns for better debugging, but we don't use them here
+          try {
+            float confidence = Float.parseFloat(parts[1]);
+            confMap.put(new ConfidenceKey(lang, parts[0]), confidence);
+            loadCount++;
+          } catch (NumberFormatException e) {
+            throw new RuntimeException("Invalid confidence float value in " + fileName + ", expected 'RULE_ID,float_value[,...]': " + line);
+          }
+        } else {
+          throw new RuntimeException("Invalid line in " + fileName + ", expected 'RULE_ID,float_value[,...]': " + line);
+        }
       }
+      logger.info("Loaded " + loadCount + " mappings for " + lang + " from confidence map for rules from " + fileName);
     }
-    logger.info("Loaded " + ruleIdToConfidence.size() + " mappings from confidence map for rules from " + file);
-    return ruleIdToConfidence;
+    if (confMap.size() == 0) {
+      throw new RuntimeException("No confidence values could be loaded for " + filePattern +
+        " -- please check there are actually files that match this pattern");
+    }
+    return confMap;
   }
 
 }
