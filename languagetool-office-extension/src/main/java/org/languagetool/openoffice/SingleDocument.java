@@ -117,6 +117,7 @@ public class SingleDocument {
   private boolean isOnUnload = false;             //  Document will be closed
   private String lastSinglePara = null;           //  stores the last paragraph which is checked as single paragraph
   private Language docLanguage;                   //  docLanguage (usually the Language of the first paragraph)
+  private Locale docLocale;                       //  docLanguage as Locale
   private final Language fixedLanguage;           //  fixed language (by configuration); if null: use language of document (given by LO/OO)
   private LtMenus ltMenus = null;                 //  LT menus (tools menu and context menu)
   private LtToolbar ltToolbar = null;             //  LT dynamic toolbar
@@ -124,7 +125,7 @@ public class SingleDocument {
   private String statAnRuleId = null;             //  RuleId of current statistical rule tested
 
   SingleDocument(XComponentContext xContext, Configuration config, String docID, 
-      XComponent xComp, MultiDocumentsHandler mDH) {
+      XComponent xComp, MultiDocumentsHandler mDH, Language lang) {
     numLastFlPara = new ArrayList<>();
     for (int i = 0; i < DocumentCache.NUMBER_CURSOR_TYPES + 1; i++) {
       numLastFlPara.add(-1);
@@ -137,6 +138,8 @@ public class SingleDocument {
     this.xContext = xContext;
     this.config = config;
     this.docID = docID;
+    docLanguage = lang;
+    docLocale = LinguisticServices.getLocale(lang);
     if (docID.charAt(0) == 'I') {
       docType = DocumentType.IMPRESS;
     } else if (docID.charAt(0) == 'C') {
@@ -171,9 +174,9 @@ public class SingleDocument {
     if (!mDocHandler.isOpenOffice && (docType == DocumentType.IMPRESS 
         || (mDH.isBackgroundCheckOff() && docType == DocumentType.WRITER)) && ltMenus == null) {
       ltMenus = new LtMenus(xContext, this, config);
-      if (docType == DocumentType.WRITER) {
-        ltToolbar = new LtToolbar(xContext, this);
-      }
+    }
+    if (!mDocHandler.isOpenOffice && docType == DocumentType.WRITER) {
+      ltToolbar = new LtToolbar(xContext, this, docLanguage);
     }
   }
   
@@ -418,9 +421,16 @@ public class SingleDocument {
       if (ltMenus == null && !mDocHandler.isOpenOffice && docType == DocumentType.WRITER && paraText.length() > 0) {
         ltMenus = new LtMenus(xContext, this, config);
       }
+      if (!mDocHandler.isOpenOffice && docType == DocumentType.WRITER && docCache != null && docCache.getDocumentLocale() != null
+          && docLocale != null && !OfficeTools.isEqualLocale(docLocale, docCache.getDocumentLocale())) {
+        docLocale = docCache.getDocumentLocale();
+        ltToolbar.makeToolbar(getLanguage());
+      }
+/*
       if (ltToolbar == null && !mDocHandler.isOpenOffice && docType == DocumentType.WRITER) {
         ltToolbar = new LtToolbar(xContext, this);
       }
+*/
     } catch (Throwable t) {
       MessageHandler.showError(t);
     } finally {
@@ -542,6 +552,8 @@ public class SingleDocument {
    */
   void setLanguage(Language language) {
     docLanguage = language;
+    docLocale = LinguisticServices.getLocale(language);
+    ltToolbar.makeToolbar(language);
   }
   
   /** 

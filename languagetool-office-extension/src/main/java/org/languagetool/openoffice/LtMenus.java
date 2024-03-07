@@ -79,6 +79,7 @@ public class LtMenus {
   public final static String LT_CHECKDIALOG_COMMAND = "service:org.languagetool.openoffice.Main?checkDialog";
   public final static String LT_CHECKAGAINDIALOG_COMMAND = "service:org.languagetool.openoffice.Main?checkAgainDialog";
   public static final String LT_STATISTICAL_ANALYSES_COMMAND = "service:org.languagetool.openoffice.Main?statisticalAnalyses";   
+  public static final String LT_OFF_STATISTICAL_ANALYSES_COMMAND = "service:org.languagetool.openoffice.Main?offStatisticalAnalyses";   
   public static final String LT_RESET_IGNORE_PERMANENT_COMMAND = "service:org.languagetool.openoffice.Main?resetIgnorePermanent";   
   public static final String LT_TOGGLE_BACKGROUND_CHECK_COMMAND = "service:org.languagetool.openoffice.Main?toggleNoBackgroundCheck";
   public static final String LT_BACKGROUND_CHECK_ON_COMMAND = "service:org.languagetool.openoffice.Main?backgroundCheckOn";

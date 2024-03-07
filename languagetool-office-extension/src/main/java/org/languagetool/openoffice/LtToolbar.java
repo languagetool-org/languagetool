@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 
 import com.sun.star.awt.Point;
 import com.sun.star.awt.XWindow;
@@ -59,13 +60,13 @@ public class LtToolbar {
   private XComponentContext xContext;
   private SingleDocument document;
 
-  LtToolbar(XComponentContext xContext, SingleDocument document) {
+  LtToolbar(XComponentContext xContext, SingleDocument document, Language lang) {
     this.xContext = xContext;
     this.document = document;
-    makeToolbar();
+    makeToolbar(lang);
   }
   
-  public void makeToolbar() {
+  public void makeToolbar(Language lang) {
     try {
       XUIConfigurationManager confMan = getUIConfigManagerDoc(xContext);
       if (confMan == null) {
@@ -79,12 +80,14 @@ public class LtToolbar {
       if (document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
         hasStatisticalStyleRules = false;
       } else {
-        hasStatisticalStyleRules = OfficeTools.hasStatisticalStyleRules(document.getLanguage());
+        hasStatisticalStyleRules = OfficeTools.hasStatisticalStyleRules(lang);
       }
+/*
       XWindow window = getWindow();
       if (window != null) {
         window.setVisible(false);
       }
+*/
       if (!confMan.hasSettings(toolbarName)) {
         XIndexContainer elementsContainer = confMan.createSettings();
         int j = 0;
@@ -99,11 +102,6 @@ public class LtToolbar {
         j++;
         itemProps = makeBarItem(LtMenus.LT_REFRESH_CHECK_COMMAND, MESSAGES.getString("loContextMenuRefreshCheck"));
         elementsContainer.insertByIndex(j, itemProps);
-        if (hasStatisticalStyleRules) {
-          j++;
-          itemProps = makeBarItem(LtMenus.LT_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
-          elementsContainer.insertByIndex(j, itemProps);
-        }
         j++;
         if (document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
           itemProps = makeBarItem(LtMenus.LT_BACKGROUND_CHECK_ON_COMMAND, MESSAGES.getString("loMenuEnableBackgroundCheck"));
@@ -132,6 +130,13 @@ public class LtToolbar {
         j++;
         itemProps = makeBarItem(LtMenus.LT_ABOUT_COMMAND, MESSAGES.getString("loContextMenuAbout"));
         elementsContainer.insertByIndex(j, itemProps);
+        j++;
+        if (hasStatisticalStyleRules) {
+          itemProps = makeBarItem(LtMenus.LT_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
+        } else {
+          itemProps = makeBarItem(LtMenus.LT_OFF_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
+        }
+        elementsContainer.insertByIndex(j, itemProps);
 
         confMan.insertSettings(toolbarName, elementsContainer);
 
@@ -140,6 +145,7 @@ public class LtToolbar {
         XIndexAccess settings = confMan.getSettings(toolbarName, true);
         XIndexContainer elementsContainer = UnoRuntime.queryInterface(XIndexContainer.class, settings);
         PropertyValue[] itemProps = null;
+/*
         int j = getIndexOfItem(elementsContainer, LtMenus.LT_STATISTICAL_ANALYSES_COMMAND);
         if (hasStatisticalStyleRules && j < 0) {
           itemProps = makeBarItem(LtMenus.LT_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
@@ -149,8 +155,36 @@ public class LtToolbar {
           elementsContainer.removeByIndex(j); 
           changed = true;
         }
+*/
+        int i = getIndexOfItem(elementsContainer, LtMenus.LT_STATISTICAL_ANALYSES_COMMAND);
+        int j = getIndexOfItem(elementsContainer, LtMenus.LT_OFF_STATISTICAL_ANALYSES_COMMAND);
+        if (hasStatisticalStyleRules) {
+          if (j < 0) {
+            j = 8;
+          } else {
+            elementsContainer.removeByIndex(j);
+            changed = true;
+          }
+          if (i < 0) {
+            itemProps = makeBarItem(LtMenus.LT_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
+            elementsContainer.insertByIndex(j, itemProps);
+            changed = true;
+          }
+        } else {
+          if (i < 0) {
+            i = 8;
+          } else {
+            elementsContainer.removeByIndex(i);
+            changed = true;
+          }
+          if (j < 0) {
+            itemProps = makeBarItem(LtMenus.LT_OFF_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
+            elementsContainer.insertByIndex(i, itemProps);
+            changed = true;
+          }
+        }
         itemProps = null;
-        int i = getIndexOfItem(elementsContainer, LtMenus.LT_BACKGROUND_CHECK_ON_COMMAND);
+        i = getIndexOfItem(elementsContainer, LtMenus.LT_BACKGROUND_CHECK_ON_COMMAND);
         j = getIndexOfItem(elementsContainer, LtMenus.LT_BACKGROUND_CHECK_OFF_COMMAND);
         if (document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
           if (j < 0) {
@@ -242,11 +276,11 @@ public class LtToolbar {
 //      printUICmds(confMan, toolbarName);
 
 //      MessageHandler.printToLogFile("XUIConfigurationManager created!");
-
+/*
       if (window != null) {
         window.setVisible(true);
       }
-
+*/
     } catch (Throwable e) {
       MessageHandler.printException(e);
     }

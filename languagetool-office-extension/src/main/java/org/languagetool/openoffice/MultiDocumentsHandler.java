@@ -327,7 +327,7 @@ public class MultiDocumentsHandler {
           if (config == null) {
             config = getConfiguration();
           }
-          SingleDocument newDocument = new SingleDocument(xContext, config, docID, xComponent, this);
+          SingleDocument newDocument = new SingleDocument(xContext, config, docID, xComponent, this, null);
           documents.add(newDocument);
           MessageHandler.printToLogFile("Document " + (documents.size() - 1) + " created; docID = " + docID);
           return newDocument;
@@ -919,11 +919,13 @@ public class MultiDocumentsHandler {
         }
       }
     }
-    SingleDocument newDocument = new SingleDocument(xContext, config, docID, xComponent, this);
+    SingleDocument newDocument = new SingleDocument(xContext, config, docID, xComponent, this, docLanguage);
     documents.add(newDocument);
+/*
     if (!testMode) {              //  xComponent == null for test cases 
       newDocument.setLanguage(docLanguage);
     }
+*/
     if (isDisposed) {
       removeDoc(docID);
     }
@@ -1753,7 +1755,9 @@ public class MultiDocumentsHandler {
       } else if ("toggleNoBackgroundCheck".equals(sEvent) || "backgroundCheckOn".equals(sEvent) || "backgroundCheckOff".equals(sEvent)) {
         if (toggleNoBackgroundCheck()) {
           resetCheck();
-          getCurrentDocument().getLtToolbar().makeToolbar();
+          for (SingleDocument document : documents) {
+            document.getLtToolbar().makeToolbar(document.getLanguage());
+          }
         }
       } else if ("ignoreOnce".equals(sEvent)) {
         ignoreOnce();
@@ -1841,6 +1845,8 @@ public class MultiDocumentsHandler {
       } else if ("statisticalAnalyses".equals(sEvent)) {
         StatAnDialog statAnDialog = new StatAnDialog(getCurrentDocument());
         statAnDialog.start();
+      } else if ("offStatisticalAnalyses".equals(sEvent)) {
+        //  statistical analysis id not supported for this language --> do nothing
       } else if ("writeAnalyzedParagraphs".equals(sEvent)) {
         new AnalyzedParagraphsCache(this); 
       } else if ("remoteHint".equals(sEvent)) {
