@@ -470,6 +470,17 @@ public class JLanguageToolTest {
     assertThat(matchesCounter, is(0));
   }
 
+  @Test
+  public void testIgnoringEnglishWordsInSpanish() throws IOException {
+    Language lang = new Spanish();
+    JLanguageTool lt = new JLanguageTool(lang);
+    // No error for unclosed exclamation marks ¡!
+    List<RuleMatch> matches = lt.check("This is fantastic!");
+    assertEquals(0, matches.size());
+    matches = lt.check("The exhibition will feature a combination of new work as well as previously exhibited pieces.");
+    assertEquals(0, matches.size());
+  }
+
 
   @Test
   public void testIgnoringEnglishWordsInCatalan() throws IOException {

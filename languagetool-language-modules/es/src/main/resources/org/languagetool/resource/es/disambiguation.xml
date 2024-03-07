@@ -95,10 +95,25 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
                 </marker>
-                <token postag="_english_ignore_|allow_saxon_genitive" postag_regexp="yes"/>
+                <token postag="_english_ignore_"/>
             </pattern>
             <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
             <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                    <token>'</token>
+                    <token>s</token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
                 <wd pos="_english_ignore_"/>
             </disambig>
         </rule>
@@ -124,6 +139,7 @@ Copyright (C) 2011 Juan Martorell
                 <wd pos="_english_ignore_"/>
             </disambig>
         </rule>
+        <!-- TODO: The Sino-Russian (change in tokenization) -->
         <rule>
             <pattern>
                 <token postag="_english_ignore_|UNKNOWN" postag_regexp="yes" regexp="yes">[a-z]+<exception regexp="yes">saint|anti|&english_no;</exception></token>
