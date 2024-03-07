@@ -277,6 +277,7 @@ public class Catalan extends Language {
       case "COMMA_LOCUTION": return -10;
       case "REGIONAL_VERBS": return -10;
       case "PRONOMS_FEBLES_SOLTS": return -10; //lesser than SPELLING
+      case "CONCORDANCA_PRONOMS_CATCHALL": return -10;
       case "AGREEMENT_POSTPONED_ADJ": return -15;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "ESPAIS_QUE_FALTEN_PUNTUACIO": return -20;
