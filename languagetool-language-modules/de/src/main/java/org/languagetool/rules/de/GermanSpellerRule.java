@@ -130,7 +130,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern STARTS_WITH_ZB = compile("z[bB].");
   private static final Pattern DIRECTION = compile("nord|ost|süd|west");
   private static final Pattern SS = compile("ss");
-  private static final Pattern COMPOUND_TYPOS = compile("([Ee]mail|[Ii]reland|[Mm]akeup|[Ss]tandart).*");
+  private static final Pattern COMPOUND_TYPOS = compile("([Ee]mail|[Ii]reland|[Kk]reissaal|[Mm]akeup|[Ss]tandart).*");
   private static final Pattern COMPOUND_END_TYPOS = compile(".*(gruße|schaf(s|en)?)$");
   private static final Pattern INFIX_S_SUFFIXES = compile(".*(heit|ion|ität|keit|ling|ung|schaft|tum)$");
   private static final Pattern ARBEIT = compile("(gebe|nehme)(r(s|n|innen|in)?|nde[mnr]?)");
@@ -2367,21 +2367,21 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // TODO distinguish more cases with hyphens
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
       // 's' is the last character in *part1* and is probably not an infix
-      part1WithoutHyphen.endsWith("s") && (isNounNom(part1upcased) || isVerbStem(part1)) &&
+      part1WithoutHyphen.endsWith("s") && (isNounNomSin(part1upcased) || isVerbStem(part1)) &&
       // check if infix 's' is required or not allowed
       (!hasNoInfixS(removeTrailingS(part1upcased)) && !needsInfixS(removeTrailingS(part1upcased)))) {
       return true;
     }
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
       // 's' is the last character in *part1* and is probably an infix
-      part1WithoutHyphen.endsWith("s") && isNounNom(removeTrailingSAndHyphen(part1upcased)) &&
+      part1WithoutHyphen.endsWith("s") && isNounNomSin(removeTrailingSAndHyphen(part1upcased)) &&
       // check if infix 's' is required or not allowed
       (!hasNoInfixS(removeTrailingSAndHyphen(part1upcased)) && needsInfixS(removeTrailingSAndHyphen(part1upcased)))) {
       return true;
     }
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
       // *part1* does not end with 's' and is noun or verb stem
-      (!part1WithoutHyphen.endsWith("s")) && (isNounNom(part1upcased) || isVerbStem(part1)) &&
+      (!part1WithoutHyphen.endsWith("s")) && (isNounNomSin(part1upcased) || isVerbStem(part1)) &&
       // check if infix 's' is required or not allowed
       (hasNoInfixS(part1upcased) || !needsInfixS(part1upcased))) {
       return true;
@@ -2414,7 +2414,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // e.g. "Aus" + "leih" + "stelle"
       return true;
     }
-    if (isNounNom(part1) && isVerbStem(part2) && isNoun(compound2)) {
+    if (isNounNomSin(part1) && isVerbStem(part2) && isNoun(compound2)) {
       // e.g. "Wein" + "kühl" + "schrank"
       return true;
     }
@@ -2567,8 +2567,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return wordsWithoutInfixS.contains(word);
   }
 
-  private boolean isNounNom(String word) throws IOException {
-    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM"));
+  private boolean isNounNomSin(String word) throws IOException {
+    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM:SIN"));
   }
 
   private boolean isVerbPrefix(String word) throws IOException {
