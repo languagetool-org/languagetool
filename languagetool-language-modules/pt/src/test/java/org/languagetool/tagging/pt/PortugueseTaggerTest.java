@@ -55,8 +55,9 @@ public class PortugueseTaggerTest {
     TestTools.myAssert("tentou resolver",
         "tentou/[tentar]VMIS3S0 -- resolver/[resolver]VMN0000|resolver/[resolver]VMN01S0|resolver/[resolver]VMN03S0|resolver/[resolver]VMSF1S0|resolver/[resolver]VMSF3S0"
         , tokenizer, tagger);
+    // as of dict v0.13, verbs with enclitics are considered as a single word and tagged as such
     TestTools.myAssert("Deixe-me",
-      "Deixe/[deixar]VMM03S0|Deixe/[deixar]VMSP1S0|Deixe/[deixar]VMSP3S0 -- me/[eu]PP1CSO00",
+      "Deixe-me/[deixar]VMM03S0:PP1CSO00|Deixe-me/[deixar]VMSP1S0:PP1CSO00|Deixe-me/[deixar]VMSP3S0:PP1CSO00",
       tokenizer, tagger);
   }
 
@@ -94,5 +95,16 @@ public class PortugueseTaggerTest {
     TestTools.myAssert("Jiu-jitsu", "Jiu-jitsu/[jiu-jitsu]NCMS000", tokenizer, tagger);
     TestTools.myAssert("JIU-JITSU", "JIU-JITSU/[jiu-jitsu]NCMS000", tokenizer, tagger);
     TestTools.myAssert("Jiu-Jitsu", "Jiu-Jitsu/[jiu-jitsu]NCMS000", tokenizer, tagger);
+  }
+  @Test
+  public void testTagProductivePrefixesNotPresentInSpeller() throws IOException {
+    // not a real prefix, must be null
+    TestTools.myAssert("xoxotrepei", "xoxotrepei/[null]null", tokenizer, tagger);
+    // auto- and re- are Tiago's original prefixes
+    TestTools.myAssert("autotrepei", "autotrepei/[autotrepar]VMIS1S0", tokenizer, tagger);
+    TestTools.myAssert("retrepei", "retrepei/[retrepar]VMIS1S0", tokenizer, tagger);
+    // new prefixes, to work with dict v0.13
+    // include prefixes that always require a hyphen, like 'soto-'
+    TestTools.myAssert("soto-trepei", "soto-trepei/[soto-trepar]VMIS1S0", tokenizer, tagger);
   }
 }

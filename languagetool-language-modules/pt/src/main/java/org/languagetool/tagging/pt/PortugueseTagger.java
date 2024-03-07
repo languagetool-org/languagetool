@@ -43,7 +43,9 @@ public class PortugueseTagger extends BaseTagger {
 
   private static final Pattern ADJ_PART_FS = Pattern.compile("V.P..SF.|A[QO].[FC][SN].");
   private static final Pattern VERB = Pattern.compile("V.+");
-  private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto|re)(...+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  // TODO: add more, we will need this
+  private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto|re|soto-)(...+)",
+    Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final String ORDINAL_SUFFIX_MASC = "oºᵒ";
   private static final String ORDINAL_SUFFIX_FEM = "aªᵃ";
   private static final String ORDINAL_SUFFIX_PL = "sˢ";
@@ -133,8 +135,10 @@ public class PortugueseTagger extends BaseTagger {
     IStemmer dictLookup = new DictionaryLookup(getDictionary());
 
     for (String word : sentenceTokens) {
-      // This hack allows all rules and dictionary entries to work with
-      // typewriter apostrophe
+      // to be used in case we also want to make sure this isn't flagged as a spelling error later
+      // but we don't want to pass a blank cheque to the spell checker from the tagger
+      boolean ignoreSpelling = false;
+      // This hack allows all rules and dictionary entries to work with typewriter apostrophe
       boolean containsTypewriterApostrophe = false;
       if (word.length() > 1) {
         if (word.contains("'")) {
@@ -142,7 +146,7 @@ public class PortugueseTagger extends BaseTagger {
         }
         word = word.replace('’', '\'');
       }
-      List<AnalyzedToken> l = new ArrayList<>();
+      List<AnalyzedToken> analyzedTokens = new ArrayList<>();
       String lowerWord = word.toLowerCase(locale);
       boolean isLowercase = word.equals(lowerWord);
       boolean isMixedCase;
@@ -163,36 +167,46 @@ public class PortugueseTagger extends BaseTagger {
 
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
       
-      // normal case:
-      addTokens(taggerTokens, l);
+      // normal case, i.e. something is found
+      addTokens(taggerTokens, analyzedTokens);
       // tag non-lowercase (alluppercase or startuppercase), but not mixedcase
       // word with lowercase word tags:
       if (!isLowercase && !isMixedCase) {
         List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
-        addTokens(lowerTaggerTokens, l);
+        addTokens(lowerTaggerTokens, analyzedTokens);
       }
 
       // tag ordinals and percentages, i.e. expressions that include digits
-      if (l.isEmpty()) {
-        addTokens(tagNumberExpressions(word), l);
+      if (analyzedTokens.isEmpty()) {
+        addTokens(tagNumberExpressions(word), analyzedTokens);
       }
 
-      // additional tagging with prefixes
-      if (l.isEmpty() && !isMixedCase) {
-        addTokens(additionalTags(word, dictLookup), l);
+      // additional tagging with adverbs ending in -mente
+      if (analyzedTokens.isEmpty() && !isMixedCase) {
+        addTokens(tagMenteAdverbs(word, lowerWord, dictLookup), analyzedTokens);
       }
 
-      if (l.isEmpty()) {
-        l.add(new AnalyzedToken(word, null, null));
+      // additional tagging with prefixes for verbs
+      if (analyzedTokens.isEmpty() && !isMixedCase) {
+        addTokens(tagPrefixedVerbs(word, dictLookup), analyzedTokens);
+        if (!analyzedTokens.isEmpty()) {
+          ignoreSpelling = true;
+        }
       }
 
-      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
+      if (analyzedTokens.isEmpty()) {
+        analyzedTokens.add(new AnalyzedToken(word, null, null));
+      }
+
+      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(analyzedTokens, pos);
+      if (ignoreSpelling) {
+        atr.ignoreSpelling();
+      }
       if (containsTypewriterApostrophe) {
         List<ChunkTag> listChunkTags = new ArrayList<>();
         listChunkTags.add(new ChunkTag("containsTypewriterApostrophe"));
         atr.setChunkTags(listChunkTags);
       }
-
       tokenReadings.add(atr);
       pos += word.length();
     }
@@ -200,16 +214,12 @@ public class PortugueseTagger extends BaseTagger {
     return tokenReadings;
   }
 
-  @Nullable
-  protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
-    IStemmer dictLookup = new DictionaryLookup(getDictionary());
+  //Any well-formed adverb with suffix -mente is tagged as an adverb of manner (RG)
+  private List<AnalyzedToken> tagMenteAdverbs(String word, String lowerWord, IStemmer dictLookup) {
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
-    //Any well-formed adverb with suffix -mente is tagged as an adverb of manner (RG)
     if (word.endsWith("mente")){
-      String lowerWord = word.toLowerCase(locale);
       String possibleAdj = lowerWord.replaceAll("^(.+)mente$", "$1");
-      List<AnalyzedToken> taggerTokens;
-      taggerTokens = asAnalyzedTokenList(lowerWord, dictLookup.lookup(possibleAdj));
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(lowerWord, dictLookup.lookup(possibleAdj));
       for (AnalyzedToken taggerToken : taggerTokens ) {
         String posTag = taggerToken.getPOSTag();
         if (posTag != null) {
@@ -221,25 +231,29 @@ public class PortugueseTagger extends BaseTagger {
         }
       }
     }
+    return additionalTaggedTokens;
+  }
+
+  private List<AnalyzedToken> tagPrefixedVerbs(String word, IStemmer dictLookup) {
+    List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
     //Any well-formed verb with prefixes is tagged as a verb copying the original tags
-    Matcher matcher=PREFIXES_FOR_VERBS.matcher(word);
+    Matcher matcher = PREFIXES_FOR_VERBS.matcher(word);
     if (matcher.matches()) {
       String possibleVerb = matcher.group(2).toLowerCase();
       List<AnalyzedToken> taggerTokens;
       taggerTokens = asAnalyzedTokenList(possibleVerb, dictLookup.lookup(possibleVerb));
-      for (AnalyzedToken taggerToken : taggerTokens ) {
+      for (AnalyzedToken taggerToken : taggerTokens) {
         String posTag = taggerToken.getPOSTag();
         if (posTag != null) {
           Matcher m = VERB.matcher(posTag);
           if (m.matches()) {
-            String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
+            String lemma = matcher.group(1).toLowerCase() + taggerToken.getLemma();
             additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
           }
         }
       }
-      return additionalTaggedTokens;
     }
-    return null;
+    return additionalTaggedTokens;
   }
 
   private void addTokens(List<AnalyzedToken> taggedTokens, List<AnalyzedToken> l) {
