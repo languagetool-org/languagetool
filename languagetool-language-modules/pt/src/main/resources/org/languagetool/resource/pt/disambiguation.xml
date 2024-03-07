@@ -3687,4 +3687,15 @@
           <disambig action="ignore_spelling"/>
       </rule>
   </rulegroup>
+
+  <rulegroup id="VERBS_WITH_CLITICS" name="Ignore spelling issues in verbs tagged with clitics">
+      <rule>
+          <!-- p-goulart@2024-03-07 - DESC: all tags that contain verbs *and* pronouns come from our tagger and need to be accepted...
+          the only exception being -ámos verbs in pt-BR, but I feel like this is a super edge case...-->
+          <pattern>
+              <token postag_regexp="yes" postag="V.+:P.+"/>
+          </pattern>
+          <disambig action="ignore_spelling"/>
+      </rule>
+  </rulegroup>
 </rules>

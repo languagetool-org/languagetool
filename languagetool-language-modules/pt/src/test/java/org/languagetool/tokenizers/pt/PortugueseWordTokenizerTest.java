@@ -251,10 +251,10 @@ public class PortugueseWordTokenizerTest {
   @Test
   public void testTokeniseExtraWordEdgeChars() {
     // left-edge
-    testTokenise("§50", "§50");  // single char
-    testTokenise("§§50", "§", "§50");  // two chars
-    testTokenise("50§", "50", "§");  // wrong edge
-    testTokenise("666§50", "666", "§50");  // middle of the word
+    testTokenise("@50", "@50");  // single char
+    testTokenise("@@50", "@", "@50");  // two chars
+    testTokenise("50@", "50", "@");  // wrong edge
+    testTokenise("666@50", "666", "@50");  // middle of the word
     // right-edge
     testTokenise("50‰", "50‰");  // single char
     testTokenise("50‰‰", "50‰", "‰");  // two chars

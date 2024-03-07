@@ -204,32 +204,15 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("pu-las", lt, rule);
     assertNoErrors("pusé-lo", lt, rule);
     assertNoErrors("soubé-lo", lt, rule);
+    // here we are mostly testing the suggestions
+    assertSingleError("amarte", lt, rule, "amar-te");
+    assertSingleError("amamonos", lt, rule, "amamo-nos");
+    assertSingleError("amarlhe", lt, rule, "amar-lhe");
   }
 
   @Test
   public void testEuropeanPortugueseHyphenatedClitics() throws Exception {
-//    testPortugueseHyphenatedClitics(ltPT, rulePT);
-    JLanguageTool lt = ltPT;
-    MorfologikPortugueseSpellerRule rule = rulePT;
-
-//    assertNoErrors("diz-se", lt, rule);
-    assertNoErrors("fá-lo-á", lt, rule);
-    assertNoErrors("dir-lhe-ia", lt, rule);
-    assertNoErrors("amar-nos-emos", lt, rule);
-    assertNoErrors("dê-mo", lt, rule);  // not a single token!
-    assertNoErrors("fizemo-lo", lt, rule);
-//    assertNoErrors("compramo-lo", lt, rule);
-    assertNoErrors("apercebemo-nos", lt, rule);
-    assertNoErrors("referirmo-nos", lt, rule);
-//    assertNoErrors("amamo-las", lt, rule);
-    assertNoErrors("mantínhamo-nos", lt, rule);
-    assertNoErrors("qui-lo", lt, rule);
-    assertNoErrors("fi-lo", lt, rule);
-    assertNoErrors("fê-lo", lt, rule);
-    assertNoErrors("trá-las", lt, rule);
-    assertNoErrors("pu-las", lt, rule);
-//    assertNoErrors("pusé-lo", lt, rule);
-//    assertNoErrors("soubé-lo", lt, rule);
+    testPortugueseHyphenatedClitics(ltPT, rulePT);
   }
 
   @Test
@@ -443,7 +426,8 @@ public class MorfologikPortugueseSpellerRuleTest {
 
   @Test
   public void testBrazilPortugueseSpellingSplitsEmoji() throws Exception {
-    assertSingleError("☺☺☺Só", ltBR, ruleBR, new String[]{"☺☺☺ Só"});
+    // Due to new tokenisation, this is no longer a spelling mistake <3
+    assertNoErrors("☺☺☺Só", ltBR, ruleBR);
   }
 
   @Test
