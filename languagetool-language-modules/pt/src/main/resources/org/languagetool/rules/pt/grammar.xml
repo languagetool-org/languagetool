@@ -340,19 +340,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <rule id="ELISAO_VERBAL_SEM_ENCLITICO">
                 <antipattern>
                     <token postag="_QUOT"/>
-                    <token postag_regexp="yes" postag="V.+X"/>
+                    <token regexp="yes">.+mo$.+[áê]$</token>
                     <token postag="_QUOT"/>
                     <example>Outra tradição culinária é a “ligada” ou "ligá”</example>
                 </antipattern>
                 <antipattern>
                     <token>-</token>
-                    <token spacebefore="no" postag_regexp="yes" postag="V.+X"/>
+                    <token spacebefore="no" regexp="yes">.+mo$.+[áê]$</token>
                     <example>castenheira-do-pará.</example>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token postag_regexp="yes" postag="V.+X">
-                            <exception negate_pos="yes" postag_regexp="yes" postag="V.+X"/>
+                        <token regexp="yes">.+mo$.+[áê]$
                             <exception regexp="yes">\p{Lu}*|arraiá|avi|mangá|zumbi|abadá|atê|di|bumbá</exception>
                             <!--TODO: create confusion pair rule for atê vs. até-->
                         </token>
@@ -374,9 +373,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <rule id="ELISAO_VERBAL_COM_ENCLITICO_INCORRETO_1PL">
                 <pattern>
                     <marker>
-                        <token postag_regexp="yes" postag="V...1P.X" regexp="yes">.+mo$
-                            <exception negate_pos="yes" postag_regexp="yes" postag="V.+X"/>
-                        </token>
+                        <token regexp="yes">.+mo$</token>
                     </marker>
                     <token spacebefore="no">-</token>
                     <token regexp="yes" spacebefore="no">(te|vos|lhes?)</token>
@@ -389,9 +386,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <!-- Specifically skip 'parti-lo' because of valid 'parti-o', Portuguese is DIFFICULT -->
                 <pattern>
                     <marker>
-                        <token postag="VMN0000X" regexp="yes">.+[áê]$
-                            <exception negate_pos="yes" postag_regexp="yes" postag="V.+X"/>
-                        </token>
+                        <token regexp="yes">.+[áê]$</token>
                     </marker>
                     <token spacebefore="no">-</token>
                     <token regexp="yes" spacebefore="no">([smt]e|[nv]os|lhes?)</token>
