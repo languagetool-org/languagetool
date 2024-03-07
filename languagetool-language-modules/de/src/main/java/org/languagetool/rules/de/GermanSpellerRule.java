@@ -208,6 +208,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Geschumpfen", "Geschimpft");
     put("Oke", "Okay");
     put("Mü", "My");
+    put("packs", "pack es");
     put("abschiednehmen", "Abschied nehmen");
     put("wars", w -> Arrays.asList("war es", "warst"));
     put("[aA]wa", w -> Arrays.asList("AWA", "ach was", "aber"));
