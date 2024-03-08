@@ -204,6 +204,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("pu-las", lt, rule);
     assertNoErrors("pusé-lo", lt, rule);
     assertNoErrors("soubé-lo", lt, rule);
+    assertNoErrors("partam-no", lt, rule);
     // here we are mostly testing the suggestions
     assertSingleError("amarte", lt, rule, "amar-te");
     assertSingleError("amamonos", lt, rule, "amamo-nos");
@@ -213,11 +214,17 @@ public class MorfologikPortugueseSpellerRuleTest {
   @Test
   public void testEuropeanPortugueseHyphenatedClitics() throws Exception {
     testPortugueseHyphenatedClitics(ltPT, rulePT);
+    // These are dialect-specific; pt-PT doesn't have 'detetava-se' in the speller
+    assertNoErrors("detetava-se", ltPT, rulePT);
+    assertSingleError("detectava-se", ltPT, rulePT, "detetava-se");
   }
 
   @Test
   public void testBrazilianPortugueseHyphenatedClitics() throws Exception {
     testPortugueseHyphenatedClitics(ltBR, ruleBR);
+    // These are dialect-specific; pt-PT doesn't have 'detetava-se' in the speller
+    assertNoErrors("detectava-se", ltBR, ruleBR);
+    assertSingleError("detetava-se", ltBR, ruleBR, "detectava-se");
   }
 
   @Test

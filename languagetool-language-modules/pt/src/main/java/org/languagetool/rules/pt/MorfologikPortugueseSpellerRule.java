@@ -197,6 +197,24 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
     return wordMap;
   }
 
+  private boolean isValidCliticVerb(String word) {
+    // Because of differences between the tagger and the speller when it comes to verbs with clitics, and the fact
+    // that, theoretically, it is possible for dialect issues to emerge, we need to check if the flagged word is
+    // actually a *valid* verb form (e.g. pt-PT struggles with 'diz-se').
+    for (AnalyzedTokenReadings reading : tagger.tag(Collections.singletonList(word))) {
+      for (AnalyzedToken token : reading.getReadings()) {
+        String posTag = token.getPOSTag();
+        if (posTag != null && posTag.matches("V.+:P.+")) {
+          String lemma = token.getLemma();
+          // if the lemma is in the dialect alternation mapping, it is invalid
+          return !dialectAlternationMapping.containsKey(lemma);
+        }
+      }
+    }
+    // Not a clitic verb, so can't be an invalid clitic verb. Logically this works later on, don't worry.
+    return false;
+  }
+
   public MorfologikPortugueseSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
                                       List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
@@ -279,6 +297,9 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
                                         AnalyzedTokenReadings[] tokens) throws IOException {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
     if (!ruleMatches.isEmpty()) {
+      if (isValidCliticVerb(word)) {
+        ruleMatches = Collections.emptyList();
+      }
       if (word.indexOf('-') > 0) {
         String[] wordParts = word.split("-");
         if (isTitlecasedHyphenatedWord(wordParts)) {
