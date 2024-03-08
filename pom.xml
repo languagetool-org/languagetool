@@ -210,6 +210,7 @@
         <org.openoffice.version>4.1.2</org.openoffice.version>
         <org.slf4j.version>2.0.7</org.slf4j.version>
         <org.softcatala.catalan-pos-dict.version>2.24</org.softcatala.catalan-pos-dict.version>
+        <org.languagetool.asturian-pos-dict.version>0.1</org.languagetool.asturian-pos-dict.version>
         <org.tukaani.version>1.8</org.tukaani.version>
 
         <french-pos-dict.version>0.5</french-pos-dict.version>
@@ -1002,6 +1003,21 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${org.slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.languagetool</groupId>
+                <artifactId>asturian-pos-dict</artifactId>
+                <version>${org.languagetool.asturian-pos-dict.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.carrot2</groupId>
+                        <artifactId>morfologik-fsa</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.carrot2</groupId>
+                        <artifactId>morfologik-stemming</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.softcatala</groupId>

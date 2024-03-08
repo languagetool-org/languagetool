@@ -2,10 +2,17 @@
 
 ## 6.4-SNAPSHOT (release planned for 2024-03-28)
 
-...
+#### Asturian
+  * tagger and spelling dictionaries have been moved to an external dependency (asturian-pos-dict v 0.1)
+
+#### Catalan
+  * added and improved rules
 
 #### English
   * tagger and spelling dictionaries have been moved to an external dependency (english-pos-dict v 0.3)
+
+#### Spanish
+  * added and improved rules
 
 #### Ukrainian
   * new words in the POS dictionary
