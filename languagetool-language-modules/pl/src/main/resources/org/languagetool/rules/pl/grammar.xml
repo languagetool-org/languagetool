@@ -856,11 +856,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <rulegroup id="BEZOKOLICZNIKI" name="Dwa bezokoliczniki bez przecinka">
                     <rule>
                         <antipattern>
-                            <token regexp="yes">chodzić|kłaść|położyć</token>
+                            <token regexp="yes">iść|chodzić|kłaść|położyć</token>
                             <token>spać</token>
                         </antipattern>
                     <pattern>
-                        <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">zabronić|móc|umieć|(?:za)?przestać|s?kończyć|zacząć|zaczynać|nauczyć|pomóc|pomagać|jechać|iść|pójść|przyjść|musieć|pozwolić|s?próbować|(?:za)?przestawać|dać|dawać|usiłować|zdołać|zapomnieć|starać|wyjść|postanowić|pozwalać|kazać|(?:ze)?chcieć|potrafić|lubić|mieć</exception></token>
+                        <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">zabronić|móc|umieć|(?:za)?przestać|s?kończyć|zacząć|zaczynać|nauczyć|pomóc|pomagać|jechać|iść|pójść|przyjść|musieć|pozwolić|s?próbować|(?:za)?przestawać|dać|dawać|usiłować|zdołać|zapomnieć|starać|wyjść|postanowić|pozwalać|kazać|(?:ze)?chcieć|potrafić|lubić|mieć|raczyć|uczyć</exception></token>
                         <token postag='verb:inf.*' postag_regexp='yes'></token>
                     </pattern>
                     <message>Dwa bezokoliczniki nierozdzielone przecinkiem. Czy chodziło o <suggestion><match no="1"/>, <match no="2"/></suggestion>?</message>
@@ -2792,6 +2792,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 				</rulegroup>
 				<rule id="WOLACZ_BEZ_PRZECINKA" name="Brak przecinka po wołaczu na początku zdania">
+                    <antipattern>
+                        <token>primo</token>
+                        <token>voto</token>
+                    </antipattern>
 						<pattern>
 								<token postag="SENT_START"></token>
 								<token postag=".*voc.*" postag_regexp="yes" skip="-1"><exception postag=".*nom.*|conj|comp|pred|verb.*|adv.*|.*[pm]3" postag_regexp="yes" scope="current"></exception><exception regexp="yes">kogo|coście|Tacie</exception><exception regexp="yes" scope="next">[,-–—!\.]|mi</exception></token>
@@ -2812,6 +2816,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Matko Boska… święty Janie, patronie… u złodzieja służę!</example>
                         <example>Władco dżungli, powiedz mi teraz: kto jest władcą dżungli?</example>
                         <example>Panno Kaźmiro!</example>
+                        <example>Józefa Nowakowa, primo voto Kowalska.</example>
 				</rule>
 				<rule id="INTERJ_PRZECINEK" name="Brak przecinka po „no cóż”">
 				<pattern>
@@ -7368,17 +7373,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </unify>            
       </antipattern>
       <antipattern> <!-- to jest już w regule TA_KSIAZKA -->
-						<marker>
-						  <token>tą<exception scope="previous" postag="prep:inst.*" postag_regexp="yes"/><exception scope="previous">była</exception></token>
-            </marker>
-						<token postag="subst:sg:acc:f"><exception postag="subst:sg:inst:f"/></token>
+      <marker>
+          <token>tą<exception scope="previous" postag="prep:inst.*" postag_regexp="yes"/><exception scope="previous">była</exception></token>
+      </marker>
+        <token postag="subst:sg:acc:f"><exception postag="subst:sg:inst:f"/></token>
       </antipattern>
       <antipattern>
-          <marker>
-        <token regexp="yes" inflected="yes" postag="ppas.*" postag_regexp="yes">nazy?wać|doprawiać|pol(?:ew)?ać|(?:po)?kry(?:wa)?ć|wysypać|tknąć|zainteresować|s?powodować|określać|obdarzyć|kierować|u?karać|wyłożyć|zmartwić|zdziwić|przejąć</token>
-          <token postag=".*inst.*" postag_regexp="yes"/>
-        </marker>
+      <marker>
+        <token regexp="yes" inflected="yes" postag="ppas.*" postag_regexp="yes">(?:wy)?hodować|nazy?wać|doprawiać|pol(?:ew)?ać|(?:po)?kry(?:wa)?ć|wysypać|tknąć|zainteresować|s?powodować|określać|o?zdobić|(?:ob)?darzyć|kierować|u?karać|wyłożyć|zmartwić|zdziwić|przejąć|(?:za)?grozić|o?znaczyć</token>
+        <token postag=".*inst.*" postag_regexp="yes"/>
+      </marker>
       </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes" postag="pact.*" postag_regexp="yes">być|zarządzać</token>
+                    <token postag=".*inst.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
             <antipattern> <!-- dający tytuł licencjacki -->
                 <token postag="pact.*" postag_regexp="yes">
                     <exception regexp="yes" inflected="yes" postag="ppas.*" postag_regexp="yes">nazy?wać|doprawiać|pol(?:ew)?ać|pokry(?:wa)ć|wysypać|tknąć|zainteresować|s?powodować|określać|obdarzyć|kierować|u?karać|wyłożyć|zmartwić|zdziwić|przejąć</exception>
@@ -7398,9 +7409,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <marker><token>złotych</token></marker>
       </antipattern>
       <antipattern> <!-- przymiotniki / ppas wymagające dopełniacza -->
-        <token inflected="yes" regexp="yes">bliski|chciwy|chytry|ciekawy|dotyczyć|głodny|godny|kierunkowy|łakomy|łapczywy|łasy|niebaczny|niegodny|(?:nie)?pomny|(?:nie)świadomy|pamiętny|pazerny|pewny|pozbawić|(?:nie)?syty|wart|winny|współodpowiedzialny|wygłodniały|zachłanny|zgłodniały|żądny</token>
+        <token inflected="yes" regexp="yes">bliski|chciwy|chytry|ciekawy|dotyczyć|głodny|godny|kierunkowy|łakomy|łapczywy|łasy|niebaczny|niegodny|(?:nie)?pomny|(?:nie)?świadomy|pamiętny|pazerny|pewny|pozbawić|(?:nie)?syty|wart|winny|współodpowiedzialny|wygłodniały|zachłanny|zgłodniały|żądny</token>
         <token postag="subst.*gen.*" postag_regexp="yes"/>
       </antipattern>
+            <antipattern> <!-- zanegowane pact wymagające dopełniacza -->
+                <token postag="pact.*:neg.*" postag_regexp="yes"/>
+                <token postag="subst.*gen.*" postag_regexp="yes"/>
+            </antipattern>
+
+            <antipattern> <!-- przymiotniki /pact wymagające celownika -->
+                <token inflected="yes" regexp="yes">bliski|oddany|podlegać</token>
+                <token postag="subst.*dat.*" postag_regexp="yes"/>
+            </antipattern>
       <pattern>
         <marker>
         <unify negate="yes"><feature id="gender"></feature><feature id="number"/><feature id="case"/>
@@ -7443,6 +7463,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Pozbawiony cech charakterystycznych, bez charakteru, ot co.</example>
             <example>Zaplanował podjazd wyłożony płytami kamiennymi.</example>
             <example>To instytucja dająca tytuł licencjacki.</example>
+            <example>Był świadomy różnic klasowych.</example>
+            <example>Był oddany sprawom doczesnym.</example>
+            <example>To wzór będący własnością publiczną.</example>
+            <example>Ten potwór był hodowany metodami naturalnymi.</example>
+            <example>To biedak niemający płynności finansowej.</example>
 		</rule>
 		<rule id="SUBST_ADJ_UNIFY" name="Niezgodność form rzeczownika i przymiotnika">
 		  <antipattern> <!-- jedni zdziwieni pytali… -->
@@ -28626,6 +28651,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>do</token>
                         <token regexp="yes">cna|czysta|naga|niedawna|pełna|późna|sucha|syta</token>
                     </antipattern>
+                    <antipattern>
+                        <token>na</token>
+                        <token>chrupko</token>
+                    </antipattern>
 						<pattern>
 								<token><exception scope="previous" postag="adjp"/><exception regexp="yes">i|po</exception></token>
 								<marker>
@@ -28644,6 +28673,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Wstąpił na herbatę do znajomego mieszkającego po &quot;sąsiedzku&quot;, tj. 50 km dalej.</example>
                         <example>Nie mógł się z nimi porozumieć po... bułgarsku.</example>
                         <example>W latach 1907-1908 w Sławiańsku na Ukrainie wspólnicy wybudowali dużą fabrykę.</example>
+                        <example>Uwielbiam skórkę wypieczoną na chrupko.</example>
 				</rule>
 				<rule id="W_ODROZNIENIU_DO" name="„w odróżnieniu do” (w odróżnieniu od)">
 						<pattern>
@@ -29738,6 +29768,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                         <token>rzeczy</token>
                     </antipattern>
+                    <antipattern>
+                        <marker>
+                            <token regexp="yes" inflected="yes" postag="pact.*" postag_regexp="yes">być|zarządzać</token>
+                            <token postag=".*inst.*" postag_regexp="yes"/>
+                        </marker>
+                    </antipattern>
                     <pattern>
                         <marker>
                         <token postag='adj:sg:nom.voc:f.*' postag_regexp="yes">
@@ -29757,6 +29793,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		                <example>Życie moje rozłamało się na dwie wielkie części, z których jedna była pragnieniem rzeczy nieznanych, a druga tęsknotą za straconymi… </example>
 		                <example>Miarę brały szwaczki, gdy na ziemi leżałem: jedna stanęła mi na szyi, druga na kolanach i trzymały wyprężony sznurek, gdy tymczasem trzecia linijką na cal długą mierzyła długość sznurka.</example>
 		                <example>W budżecie zapisane były na ten rok trzy, pierwsza w lutym, druga w połowie roku, a trzecia jesienią.</example>
+                    <example>Odpowiedzialna za to była rada okręgowa zarządzająca grupą wysp.</example>
                 </rule>
                 <rule>
                     <pattern>
@@ -29866,6 +29903,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>złe</token>
                         </marker>
                         </antipattern>
+                        <antipattern>
+                            <marker>
+                                <token regexp="yes" inflected="yes" postag="ppas.*" postag_regexp="yes">nazy?wać|doprawiać|pol(?:ew)?ać|(?:po)?kry(?:wa)?ć|wysypać|tknąć|zainteresować|s?powodować|określać|o?zdobić|(?:ob)?darzyć|kierować|u?karać|wyłożyć|zmartwić|zdziwić|przejąć|(?:za)?grozić</token>
+                                <token postag=".*inst.*" postag_regexp="yes"/>
+                            </marker>
+                        </antipattern>
                         <pattern>
                             <token postag='adj:pl:acc:m2.m3.f.n1.n2.p2.p3.*' postag_regexp='yes'>
                             <exception postag="subst:pl:nom:f" scope="previous"/>
@@ -29879,7 +29922,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example correction=''>Wykładam psychologię na trzech uczelniach jednocześnie i jakoś ogarniam <marker>te rzeczywistość</marker>.</example>
                         <example>Wykładam psychologię na trzech uczelniach jednocześnie i jakoś ogarniam tę rzeczywistość.</example>
                         <example>Rozpowszechniały się kulty i religie obiecujące nieśmiertelność i zbawienie.</example>
-                        <example>Czernomyrdin dał do zrozumienia, że ma mu za złe odmowę udzielenia wyraźnego poparcia Jelcynowi w dugiej turze wyborow.</example>
+                        <example>Czernomyrdin dał do zrozumienia, że ma mu za złe odmowę udzielenia wyraźnego poparcia Jelcynowi w drugiej turze wyborów.</example>
+                        <example>To przecież morderstwo karane karą śmierci.</example>
                     </rule>
             </rulegroup>
             <rule id="TEGO_OKRESY_TEGO_OKRESU" name="Niezgodność przypadków przymiotnika i rzeczownika rodzaju męskiego">
