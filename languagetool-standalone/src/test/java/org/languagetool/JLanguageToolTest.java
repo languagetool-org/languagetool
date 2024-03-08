@@ -479,6 +479,10 @@ public class JLanguageToolTest {
     assertEquals(0, matches.size());
     matches = lt.check("The exhibition will feature a combination of new work as well as previously exhibited pieces.");
     assertEquals(0, matches.size());
+
+    matches = lt.check("El president nos informa de la situación.");
+    assertEquals(1, matches.size());
+    assertEquals("presidente", matches.get(0).getSuggestedReplacements().get(0));
   }
 
 
