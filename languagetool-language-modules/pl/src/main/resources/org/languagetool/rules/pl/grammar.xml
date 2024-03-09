@@ -7380,7 +7380,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </antipattern>
       <antipattern>
       <marker>
-        <token regexp="yes" inflected="yes" postag="ppas.*" postag_regexp="yes">(?:wy)?hodować|nazy?wać|doprawiać|pol(?:ew)?ać|(?:po)?kry(?:wa)?ć|wysypać|tknąć|zainteresować|s?powodować|określać|o?zdobić|(?:ob)?darzyć|kierować|u?karać|wyłożyć|zmartwić|zdziwić|przejąć|(?:za)?grozić|o?znaczyć</token>
+        <token regexp="yes" inflected="yes" postag="ppas.*" postag_regexp="yes">(?:wy)?hodować|nazy?wać|doprawiać|pol(?:ew)?ać|(?:po)?kry(?:wa)?ć|wysypać|tknąć|zainteresować|s?powodować|określać|o?zdobić|(?:ob)?darzyć|kierować|u?karać|wyłożyć|zmartwić|zdziwić|przejąć|(?:za)?grozić|o?znaczyć|wyściełać|zakończyć</token>
         <token postag=".*inst.*" postag_regexp="yes"/>
       </marker>
       </antipattern>
@@ -7418,7 +7418,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
 
             <antipattern> <!-- przymiotniki /pact wymagające celownika -->
-                <token inflected="yes" regexp="yes">bliski|oddany|podlegać</token>
+                <token inflected="yes" regexp="yes">bliski|oddany|podlegać|zapewniać</token>
                 <token postag="subst.*dat.*" postag_regexp="yes"/>
             </antipattern>
       <pattern>
@@ -8582,7 +8582,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes" regexp="yes">(?:nie)?(?:znany|obojętny|przeciwny|potrzebny|równy|wdzięczny|wierny|obcy|drogi|zbędny|rad|wstrętny|straszny|życzliwy)|(?:winny|wiadomy|właściwy|bliski|podległy|podszyć|wydawać)</token>
         </antipattern>
         <antipattern> <!-- rzeczowniki wymagające dopełniacza -->
-          <token inflected="yes" regexp="yes">grupa|pozycja|strata|fala|funkcja|towarzystwo|wrażenie|miano|nazwa|treść|obraz|typ|rodzaj|brak|większość|pół|grono|mnóstwo|masa|lista|poziom|postać|powód|przyczyna|skutek|szereg|para|połowa|rola|tłum|liczba|tysiąc|milion|kolejka</token>
+          <token inflected="yes" regexp="yes">grupa|pozycja|strata|fala|funkcja|towarzystwo|wrażenie|miano|nazwa|treść|obraz|typ|rodzaj|brak|większość|pół|grono|mnóstwo|masa|lista|poziom|postać|powód|przyczyna|skutek|szereg|para|połowa|rola|tłum|liczba|tysiąc|milion|kolejka|rodzina</token>
           <token postag="(adj|ppas|pact|subst).*gen.*" postag_regexp="yes"/>        
         </antipattern>
         <antipattern> <!-- przymiotniki wymagające „w” + locativus -->
@@ -9684,7 +9684,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag='prep.*|num.*|adv.*' postag_regexp='yes'/>
                     <!-- jako liczebnik porzadkowy -->
                     <exception regexp="yes">miejsce|urodziny|minuta|edycja|rocznica|brygady</exception>
-                    <exception regexp="yes">to|plus|emerytury|fot|\p{Lu}+|(?:po)?dzielone|maj|lis|paź|lut|sie</exception>
+                    <exception regexp="yes">to|minus|plus|emerytury|fot|\p{Lu}+|(?:po)?dzielone|maj|lis|paź|lut|sie</exception>
                     <!-- there's another rule, PIERWSZY_STYCZEN, for this: -->
                     <exception regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</exception>
                     <exception inflected="yes" regexp="yes">minutowy|letni|godzinny|calowy|watowy|sekundowy|dniowy|centymetrowy|wieczny|procentowy|stopniowy|miesięczny|kilogramowy|(?:kilo)?metrowy|gigabajtowy|bitowy|osobowy|warstwowy|literowy|milionowy|roczek|&numord;</exception>
@@ -29774,6 +29774,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token postag=".*inst.*" postag_regexp="yes"/>
                         </marker>
                     </antipattern>
+                    <antipattern>
+                        <marker>
+                            <token regexp="yes" inflected="yes" postag="ppas.*" postag_regexp="yes">(?:wy)?hodować|nazy?wać|doprawiać|pol(?:ew)?ać|(?:po)?kry(?:wa)?ć|wysypać|tknąć|zainteresować|s?powodować|określać|o?zdobić|(?:ob)?darzyć|kierować|u?karać|wyłożyć|zmartwić|zdziwić|przejąć|(?:za)?grozić|o?znaczyć|wyściełać|zakończyć</token>
+                            <token postag=".*inst.*" postag_regexp="yes"/>
+                        </marker>
+                    </antipattern>
                     <pattern>
                         <marker>
                         <token postag='adj:sg:nom.voc:f.*' postag_regexp="yes">
@@ -29794,6 +29800,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		                <example>Miarę brały szwaczki, gdy na ziemi leżałem: jedna stanęła mi na szyi, druga na kolanach i trzymały wyprężony sznurek, gdy tymczasem trzecia linijką na cal długą mierzyła długość sznurka.</example>
 		                <example>W budżecie zapisane były na ten rok trzy, pierwsza w lutym, druga w połowie roku, a trzecia jesienią.</example>
                     <example>Odpowiedzialna za to była rada okręgowa zarządzająca grupą wysp.</example>
+                    <example>Na biurku leżała pokaźna koperta wyściełana folią bąbelkową.</example>
                 </rule>
                 <rule>
                     <pattern>
