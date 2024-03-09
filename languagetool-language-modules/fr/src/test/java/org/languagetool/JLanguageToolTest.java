@@ -63,7 +63,7 @@ public class JLanguageToolTest {
   @Test
   public void testMultitokenSpeller() throws IOException {
     Language lang = new French();
-    assertEquals("[Gréco-Romain, gréco-romain]", lang.getMultitokenSpeller().getSuggestions("greco-romain").toString());
+    assertEquals("[gréco-romain, Gréco-Romain]", lang.getMultitokenSpeller().getSuggestions("greco-romain").toString());
     assertEquals("[Rimski-Korsakov]", lang.getMultitokenSpeller().getSuggestions("Rinsky-Korsakov").toString());
     assertEquals("[Nikolaï Rimski-Korsakov]", lang.getMultitokenSpeller().getSuggestions("Nikolai Rimski-Korsakov").toString());
   }
