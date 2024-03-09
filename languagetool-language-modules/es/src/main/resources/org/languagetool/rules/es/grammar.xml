@@ -13520,6 +13520,103 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
+        <rulegroup id="ENVIO_ACENTO" name="envio -> envío/envió" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SPS00|SP:DA|LOC_PREP" postag_regexp="yes"/>
+                    <token postag="D..MS." postag_regexp="yes" min="0"/>
+                    <marker>
+                        <token>envio</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe con acento: <suggestion>envío</suggestion> (acción de enviar).</message>
+                <example correction="envío">La notificación de <marker>envio</marker></example>
+                <example correction="envío">La notificación del <marker>envio</marker></example>
+                <example correction="envío">La notificación de este <marker>envio</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>yo</token>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                    <marker>
+                        <token>envio</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe con acento: yo <suggestion>envío</suggestion> (del verbo 'enviar').</message>
+                <example correction="envío">Yo se lo <marker>envio</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>él</token>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                    <marker>
+                        <token>envio</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe con acento: él <suggestion>envió</suggestion> (del verbo 'enviar').</message>
+                <example correction="envió">Él se lo <marker>envio</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>el</token>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="1" max="2"/>
+                    <marker>
+                        <token>envio</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe con acento: él <suggestion>envió</suggestion> (del verbo 'enviar').</message>
+                <example correction="envió">El se lo <marker>envio</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">me|te|os|le|les|lo|los|la|las</token>
+                    <marker>
+                        <token>envio</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe con acento: él <suggestion>envió</suggestion> o yo <suggestion>envío</suggestion> (del verbo 'enviar').</message>
+                <example correction="envió|envío">Se lo <marker>envio</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">me|te|se|nos|os|le|les|lo|los|la|las</token>
+                    <marker>
+                        <token>envio</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe con acento: él <suggestion>envió</suggestion> (del verbo 'enviar').</message>
+                <example correction="envió">Él se lo <marker>envio</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                        <token>envio</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe con acento: <suggestion>el envío</suggestion> (sustantivo) <suggestion>él envió</suggestion> (del verbo 'enviar').</message>
+                <example correction="El envío|Él envió"><marker>El envio</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..MS." postag_regexp="yes"/>
+                    <marker>
+                        <token>envio</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe con acento: <suggestion>envío</suggestion> (sustantivo).</message>
+                <example correction="envío">Un <marker>envio</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>envio</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe con acento: <suggestion>envío</suggestion> (sustantivo o verbo en presente) o <suggestion>envió</suggestion> (verbo en pasado).</message>
+                <example correction="envío|envió"><marker>envio</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="APOSTROFO_ACENTO" name="cambi'o -> cambió">
             <rule>
                 <pattern>
