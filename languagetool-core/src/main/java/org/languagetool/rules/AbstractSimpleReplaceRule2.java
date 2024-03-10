@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -35,7 +35,7 @@ import java.util.*;
 import static org.languagetool.JLanguageTool.getDataBroker;
 
 /**
- * A rule that matches words which should not be used and suggests correct ones instead. 
+ * A rule that matches words which should not be used and suggests correct ones instead.
  * <p>Unlike AbstractSimpleReplaceRule, it supports phrases (Ex: "aqua forte" -&gt; "acvaforte").
  * Note: Merge this into {@link AbstractSimpleReplaceRule}
  *
@@ -91,7 +91,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   public abstract String getMessage();
 
   /**
-   * @return the word used to separate multiple suggestions; used only before last suggestion, the rest are comma-separated.
+   * @return the word used to separate multiple suggestions; used only before last suggestion, the rest are
+   * comma-separated.
    */
   public String getSuggestionsSeparator() {
     return ", ";
@@ -145,7 +146,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       if (tok.length() < 1) {
         continue;
       }
-      // If there is no whitespace to the next token, concatenate it
+      // If there is no whitespace to the next token, concatenate the next token
       int k = startIndex + 1;
       while (k < tokens.length && !tokens[k].isWhitespaceBefore()) {
         tok = tok + tokens[k].getToken();
@@ -158,7 +159,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
         StringBuilder keyBuilder = new StringBuilder();
         int maxTokenLen = mStartSpace.get(tok);
         int endIndex = startIndex;
-        while (endIndex < tokens.length  && endIndex - startIndex < MAX_TOKENS_IN_MULTIWORD) {
+        while (endIndex < tokens.length && endIndex - startIndex < MAX_TOKENS_IN_MULTIWORD) {
           if (endIndex > startIndex && tokens[endIndex].isWhitespaceBefore()) {
             keyBuilder.append(" ");
           }
@@ -170,12 +171,12 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           }
           if (numberOfSpaces > 0) {
             String keyStr = originalStr;
-
             if (getCaseSensitivy() == CaseSensitivy.CI) {
               keyStr = keyStr.toLowerCase();
             }
             SuggestionWithMessage suggestionWithMessage = mFullSpace.get(keyStr);
-            createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence, sentStart, checkCaseCoveredUpto);
+            createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence,
+              sentStart, checkCaseCoveredUpto);
             if (suggestionWithMessage == null && sentStart == startIndex && getCaseSensitivy() == CaseSensitivy.CS
               && !keyStr.equals(StringTools.lowercaseFirstChar(keyStr))) {
               keyStr = StringTools.lowercaseFirstChar(keyStr);
@@ -201,12 +202,14 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
             keyStr = keyStr.toLowerCase();
           }
           SuggestionWithMessage suggestionWithMessage = mFullNoSpace.get(keyStr);
-          createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence, sentStart, checkCaseCoveredUpto);
+          createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence,
+            sentStart, checkCaseCoveredUpto);
           if (suggestionWithMessage == null && sentStart == startIndex && getCaseSensitivy() == CaseSensitivy.CS
             && !keyStr.equals(StringTools.lowercaseFirstChar(keyStr))) {
             keyStr = StringTools.lowercaseFirstChar(keyStr);
             suggestionWithMessage = mFullNoSpace.get(keyStr);
-            createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence, sentStart, checkCaseCoveredUpto);
+            createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence,
+              sentStart, checkCaseCoveredUpto);
           }
           endIndex++;
         }
@@ -244,7 +247,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     if (subRuleSpecificIds) {
       String id = StringTools.toId(getId() + "_" + originalStr, language);
       String desc = getDescription().replace("$match", originalStr);
-      SpecificIdRule specificIdRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());
+      SpecificIdRule specificIdRule = new SpecificIdRule(id, desc, isPremium(), getCategory(),
+        getLocQualityIssueType(), getTags());
       ruleMatch = new RuleMatch(specificIdRule, sentence, startPos, endPos, msg, getShort());
     }
     if (url != null) {
@@ -270,7 +274,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     }
     List<String> finalReplacements = new ArrayList<>();
     // capitalize at the sentence start
-    for (String repl: replacements) {
+    for (String repl : replacements) {
       String finalRepl = repl;
       if (sentStart == startIndex) {
         finalRepl = StringTools.uppercaseFirstChar(repl);
@@ -286,9 +290,9 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       if (ignoreShortUppercaseWords) {
         return;
       } else {
-        if ( originalStr.length() <= MAX_LENGTH_SHORT_WORDS ){
+        if (originalStr.length() <= MAX_LENGTH_SHORT_WORDS) {
           // correct uppercase words of max X characters
-        } else{
+        } else {
           return;
         }
       }
@@ -380,7 +384,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
             continue;
           }
           if (line.contains("  ") && !language.getShortCode().equals("ar")) {
-            throw new RuntimeException("More than one consecutive space in " + filePath + " - use a tab character as a delimiter for the message: " + line);
+            throw new RuntimeException("More than one consecutive space in " + filePath + " - use a tab character as " +
+              "a delimiter for the message: " + line);
           }
           line = StringUtils.substringBefore(line, "#").trim();
           if (isCheckingCase()) {

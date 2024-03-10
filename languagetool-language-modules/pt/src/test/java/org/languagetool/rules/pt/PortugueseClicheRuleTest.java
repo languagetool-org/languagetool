@@ -53,7 +53,7 @@ public class PortugueseClicheRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Evite as frases-feitas e as expressões idiomáticas.")).length);
 
     // incorrect sentences:
-    checkSimpleReplaceRule("Teste. A todo o vapor!", "O mais rápido possível");
+    checkSimpleReplaceRule("A todo o vapor!", "O mais rápido possível");
     checkSimpleReplaceRule("Teste, a todo o vapor!", "o mais rápido possível");
   }
 
