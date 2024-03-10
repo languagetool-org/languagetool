@@ -21,6 +21,7 @@ package org.languagetool.openoffice;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
@@ -82,6 +83,7 @@ public class LtToolbar {
       } else {
         hasStatisticalStyleRules = OfficeTools.hasStatisticalStyleRules(lang);
       }
+      boolean isOsWindows = SystemUtils.IS_OS_WINDOWS;
 /*
       XWindow window = getWindow();
       if (window != null) {
@@ -130,13 +132,15 @@ public class LtToolbar {
         j++;
         itemProps = makeBarItem(LtMenus.LT_ABOUT_COMMAND, MESSAGES.getString("loContextMenuAbout"));
         elementsContainer.insertByIndex(j, itemProps);
-        j++;
-        if (hasStatisticalStyleRules) {
-          itemProps = makeBarItem(LtMenus.LT_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
-        } else {
-          itemProps = makeBarItem(LtMenus.LT_OFF_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
+        if (!isOsWindows) {
+          j++;
+          if (hasStatisticalStyleRules) {
+            itemProps = makeBarItem(LtMenus.LT_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
+          } else {
+            itemProps = makeBarItem(LtMenus.LT_OFF_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
+          }
+          elementsContainer.insertByIndex(j, itemProps);
         }
-        elementsContainer.insertByIndex(j, itemProps);
 
         confMan.insertSettings(toolbarName, elementsContainer);
 
@@ -158,29 +162,40 @@ public class LtToolbar {
 */
         int i = getIndexOfItem(elementsContainer, LtMenus.LT_STATISTICAL_ANALYSES_COMMAND);
         int j = getIndexOfItem(elementsContainer, LtMenus.LT_OFF_STATISTICAL_ANALYSES_COMMAND);
-        if (hasStatisticalStyleRules) {
-          if (j < 0) {
-            j = 8;
-          } else {
-            elementsContainer.removeByIndex(j);
-            changed = true;
-          }
-          if (i < 0) {
-            itemProps = makeBarItem(LtMenus.LT_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
-            elementsContainer.insertByIndex(j, itemProps);
-            changed = true;
-          }
-        } else {
-          if (i < 0) {
-            i = 8;
-          } else {
+        if (isOsWindows) {
+          if (i >= 0) {
             elementsContainer.removeByIndex(i);
             changed = true;
           }
-          if (j < 0) {
-            itemProps = makeBarItem(LtMenus.LT_OFF_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
-            elementsContainer.insertByIndex(i, itemProps);
+          if (j >= 0) {
+            elementsContainer.removeByIndex(j);
             changed = true;
+          }
+        } else {
+          if (hasStatisticalStyleRules) {
+            if (j < 0) {
+              j = 8;
+            } else {
+              elementsContainer.removeByIndex(j);
+              changed = true;
+            }
+            if (i < 0) {
+              itemProps = makeBarItem(LtMenus.LT_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
+              elementsContainer.insertByIndex(j, itemProps);
+              changed = true;
+            }
+          } else {
+            if (i < 0) {
+              i = 8;
+            } else {
+              elementsContainer.removeByIndex(i);
+              changed = true;
+            }
+            if (j < 0) {
+              itemProps = makeBarItem(LtMenus.LT_OFF_STATISTICAL_ANALYSES_COMMAND, MESSAGES.getString("loStatisticalAnalysis"));
+              elementsContainer.insertByIndex(i, itemProps);
+              changed = true;
+            }
           }
         }
         itemProps = null;
