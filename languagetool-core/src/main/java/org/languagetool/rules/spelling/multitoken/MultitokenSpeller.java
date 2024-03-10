@@ -46,9 +46,8 @@ public class MultitokenSpeller {
   private final SpellingCheckRule spellingRule;
   private final Language language;
 
-  private HashMap<String, List<String>> oneSpace;
-  private HashMap<String, List<String>> twoSpaces;
-  private HashMap<String, List<String>> threeSpaces;
+  private HashMap<String, List<String>> suggestionsMap;
+  private HashMap<String, List<String>> suggestionsMapNoSpacesKey;
 
   /*
    * Ultra-naive speller that provides spelling suggestions for multitoken words from a list of words.
@@ -73,11 +72,11 @@ public class MultitokenSpeller {
      return Collections.emptyList();
     }
     String normalizedWord = getNormalizeKey(word);
-    HashMap<String, List<String>> mapOfCandidates = chooseHashMap(normalizedWord);
     List<WeightedSuggestion> weightedCandidates = new ArrayList<>();
     // try searching the key
-    if (mapOfCandidates.containsKey(normalizedWord)) {
-      List<String> candidates = mapOfCandidates.get(normalizedWord);
+    String normalizedWordNoSpaces = normalizedWord.replaceAll(" ","");
+    if (suggestionsMapNoSpacesKey.containsKey(normalizedWordNoSpaces)) {
+      List<String> candidates = suggestionsMapNoSpacesKey.get(normalizedWordNoSpaces);
       if (stopSearching(candidates, originalWord)) {
         return Collections.emptyList();
       }
@@ -87,7 +86,7 @@ public class MultitokenSpeller {
     }
     if (weightedCandidates.isEmpty()) {
       String firstChar = normalizedWord.substring(0,1);
-      for (Map.Entry<String, List<String>> entry : mapOfCandidates.entrySet()) {
+      for (Map.Entry<String, List<String>> entry : suggestionsMap.entrySet()) {
         String normalizedCandidate = entry.getKey();
         List<String> candidates = entry.getValue();
         if (stopSearching(candidates, originalWord)) {
@@ -232,6 +231,9 @@ public class MultitokenSpeller {
   }
 
   private int levenshteinDistance(String s1, String s2) {
+    if (s1.replaceAll(" ","").equals(s2.replaceAll(" ",""))) {
+      return 0;
+    }
     int distance = LevenshteinDistance.getDefaultInstance().apply(s1, s2);
     String ns1= normalizeSimilarChars(s1);
     String ns2= normalizeSimilarChars(s2);
@@ -267,12 +269,11 @@ public class MultitokenSpeller {
   }
 
   private void initMultitokenSpeller(List<String> filePaths) {
-    if (oneSpace != null) {
+    if (suggestionsMap != null) {
       return;
     }
-    oneSpace = new HashMap<>();
-    twoSpaces = new HashMap<>();
-    threeSpaces = new HashMap<>();
+    suggestionsMap = new HashMap<>();
+    suggestionsMapNoSpacesKey = new HashMap<>();
     for (String filePath : filePaths) {
       try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
            BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
@@ -286,7 +287,8 @@ public class MultitokenSpeller {
               continue;
             }
             String normalizedKey = getNormalizeKey(line);
-            addToMap(chooseHashMap(normalizedKey), normalizedKey, line);
+            addToMap(suggestionsMap, normalizedKey, line);
+            addToMap(suggestionsMapNoSpacesKey, normalizedKey.replaceAll(" ",""), line);
           }
         }
       } catch (IOException e) {
@@ -304,18 +306,6 @@ public class MultitokenSpeller {
 
   private static String getNormalizeKey(String word) {
     return StringTools.removeDiacritics(word.toLowerCase()).replaceAll("-", " ");
-  }
-
-  private HashMap<String, List<String>> chooseHashMap(String normalizedKey) {
-    int numSpaces = StringTools.numberOf(normalizedKey, " ");
-    if (numSpaces==1) {
-      return oneSpace;
-    } else if (numSpaces==2) {
-      return twoSpaces;
-    } else if (numSpaces>=3) {
-      return threeSpaces;
-    }
-    return new HashMap<>();
   }
 
   private boolean discardRunOnWords(String underlinedError) throws IOException {
