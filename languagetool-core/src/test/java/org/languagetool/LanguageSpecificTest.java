@@ -77,7 +77,7 @@ public class LanguageSpecificTest {
         if (rule instanceof AbstractSimpleReplaceRule2) {
           AbstractSimpleReplaceRule2 replRule = (AbstractSimpleReplaceRule2) rule;
           boolean checkingCase = rule instanceof AbstractCheckCaseRule;
-          List<Map<String, SuggestionWithMessage>> wrongWords = replRule.getWrongWords(checkingCase);
+          List<Map<String, SuggestionWithMessage>> wrongWords = replRule.getWrongWords();
           for (Map<String, SuggestionWithMessage> entry : wrongWords) {
             for (String s : entry.keySet()) {
               String repl = entry.get(s).getSuggestion();

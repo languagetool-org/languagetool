@@ -33,18 +33,19 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @author Jaume Ortolà
  */
 public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
-  private final Language language;
-  private boolean ignoreShortUppercaseWords = true;
-  private int MAX_LENGTH_SHORT_WORDS = 4;
+
+  @Override
+  protected boolean isCheckingCase() {
+    return true;
+  }
 
   public AbstractCheckCaseRule(ResourceBundle messages, Language language) {
     super(messages, language);
-    this.language = language;
     setLocQualityIssueType(ITSIssueType.Typographical);
     setCategory(Categories.CASING.getCategory(messages));
   }
 
-  @Override
+  /*@Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
@@ -151,14 +152,6 @@ public abstract class AbstractCheckCaseRule extends AbstractSimpleReplaceRule2 {
       }
     }
     return toRuleMatchArray(ruleMatches);
-  }
-
-  protected boolean isIgnoreShortUppercaseWords() {
-    return ignoreShortUppercaseWords;
-  }
-
-  protected void setIgnoreShortUppercaseWords(boolean value) {
-    ignoreShortUppercaseWords = value;
-  }
+  }*/
 
 }
