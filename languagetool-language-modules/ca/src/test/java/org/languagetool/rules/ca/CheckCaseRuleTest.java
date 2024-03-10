@@ -51,7 +51,7 @@ public class CheckCaseRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("‒ ¡'Da Vinci'!")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("El Prat de Llobregat")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("08820 - El Prat de Llobregat")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("En el Prat de Llobregat")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("el Prat de Llobregat")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Da Vinci")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Amb Joan Pau i Josep Maria.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("ESTAT D'ALARMA")).length);

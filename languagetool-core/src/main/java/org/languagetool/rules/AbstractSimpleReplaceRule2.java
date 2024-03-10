@@ -138,6 +138,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     while (sentStart < tokens.length && isPunctuationStart(tokens[sentStart].getToken())) {
       sentStart++;
     }
+    int[] checkCaseCoveredUpto = new int[1];
+    checkCaseCoveredUpto[0] = 0;
     for (int startIndex = sentStart; startIndex < tokens.length; startIndex++) {
       String tok = tokens[startIndex].getToken();
       if (tok.length() < 1) {
@@ -162,19 +164,25 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           }
           keyBuilder.append(tokens[endIndex].getToken());
           String originalStr = keyBuilder.toString();
-          String keyStr = originalStr;
-          if (getCaseSensitivy() == CaseSensitivy.CI) {
-            keyStr = keyStr.toLowerCase();
-          }
-          SuggestionWithMessage suggestionWithMessage = mFullSpace.get(keyStr);
-          createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence, sentStart);
-          if (suggestionWithMessage == null && sentStart == startIndex) {
-            keyStr = StringTools.lowercaseFirstChar(keyStr);
-            suggestionWithMessage = mFullSpace.get(keyStr);
-            createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence, sentStart);
-          }
-          if (StringTools.numberOf(keyStr, " ") + 1 == maxTokenLen) {
+          int numberOfSpaces = StringTools.numberOf(originalStr, " ");
+          if (numberOfSpaces + 1 > maxTokenLen) {
             break;
+          }
+          if (numberOfSpaces > 0) {
+            String keyStr = originalStr;
+
+            if (getCaseSensitivy() == CaseSensitivy.CI) {
+              keyStr = keyStr.toLowerCase();
+            }
+            SuggestionWithMessage suggestionWithMessage = mFullSpace.get(keyStr);
+            createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence, sentStart, checkCaseCoveredUpto);
+            if (suggestionWithMessage == null && sentStart == startIndex && getCaseSensitivy() == CaseSensitivy.CS
+              && !keyStr.equals(StringTools.lowercaseFirstChar(keyStr))) {
+              keyStr = StringTools.lowercaseFirstChar(keyStr);
+              suggestionWithMessage = mFullSpace.get(keyStr);
+              createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence,
+                sentStart, checkCaseCoveredUpto);
+            }
           }
           endIndex++;
         }
@@ -193,11 +201,12 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
             keyStr = keyStr.toLowerCase();
           }
           SuggestionWithMessage suggestionWithMessage = mFullNoSpace.get(keyStr);
-          createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence, sentStart);
-          if (suggestionWithMessage == null && sentStart == startIndex) {
+          createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence, sentStart, checkCaseCoveredUpto);
+          if (suggestionWithMessage == null && sentStart == startIndex && getCaseSensitivy() == CaseSensitivy.CS
+            && !keyStr.equals(StringTools.lowercaseFirstChar(keyStr))) {
             keyStr = StringTools.lowercaseFirstChar(keyStr);
             suggestionWithMessage = mFullNoSpace.get(keyStr);
-            createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence, sentStart);
+            createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence, sentStart, checkCaseCoveredUpto);
           }
           endIndex++;
         }
@@ -208,7 +217,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
 
   private void createMatch(List<RuleMatch> ruleMatches, SuggestionWithMessage suggestionWithMessage, int startIndex,
                            int endIndex, String originalStr, AnalyzedTokenReadings[] tokens, AnalyzedSentence sentence,
-                           int sentStart) {
+                           int sentStart, int[] checkCaseCoveredUpto) {
     if (suggestionWithMessage == null) {
       return;
     }
@@ -241,14 +250,33 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     if (url != null) {
       ruleMatch.setUrl(Tools.getUrl(url));
     }
-    List<String> finalReplacements = new ArrayList<>();
-    if (sentStart == startIndex) {
-      // capitalize at the sentence start
-      for (String repl: replacements) {
-        String finalRepl = StringTools.uppercaseFirstChar(repl);
-        if (!finalRepl.equals(originalStr) && !finalReplacements.contains(finalRepl)) {
-          finalReplacements.add(finalRepl);
+    if (isCheckingCase()) {
+      // remove last match if is contained in a correct phrase
+      if (endIndex <= checkCaseCoveredUpto[0]) {
+        return;
+      }
+      String replacementCheckCase = replacements.get(0);
+      if ((sentStart == startIndex && originalStr.equals(StringTools.uppercaseFirstChar(replacementCheckCase)))
+        || originalStr.equals(replacementCheckCase)) {
+        if (ruleMatches.size() > 0) {
+          RuleMatch lastRuleMatch = ruleMatches.get(ruleMatches.size() - 1);
+          if (lastRuleMatch.getToPos() > startPos) {
+            ruleMatches.remove(ruleMatches.size() - 1);
+          }
         }
+        checkCaseCoveredUpto[0] = endIndex;
+        return;
+      }
+    }
+    List<String> finalReplacements = new ArrayList<>();
+    // capitalize at the sentence start
+    for (String repl: replacements) {
+      String finalRepl = repl;
+      if (sentStart == startIndex) {
+        finalRepl = StringTools.uppercaseFirstChar(repl);
+      }
+      if (!repl.equals(originalStr) && !finalRepl.equals(originalStr) && !finalReplacements.contains(finalRepl)) {
+        finalReplacements.add(finalRepl);
       }
     }
     if (finalReplacements.isEmpty()) {
@@ -278,6 +306,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       }
       ruleMatches.add(ruleMatch);
     }
+    return;
   }
 
   protected boolean isRuleMatchException(RuleMatch ruleMatch) {
@@ -426,6 +455,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
 
   // Only for checking the spelling of the suggestions
   public List<Map<String, SuggestionWithMessage>> getWrongWords() {
+    lazyInit();
     List<Map<String, SuggestionWithMessage>> wrongWords = new ArrayList<>();
     wrongWords.add(mFullSpace);
     wrongWords.add(mFullNoSpace);
