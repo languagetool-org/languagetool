@@ -46,7 +46,7 @@ public class MultitokenSpeller {
   private final SpellingCheckRule spellingRule;
   private final Language language;
 
-  private HashMap<String, List<String>> suggestionsMap;
+  private HashMap<Character, HashMap<String, List<String>>> suggestionsMap;
   private HashMap<String, List<String>> suggestionsMapNoSpacesKey;
 
   /*
@@ -84,17 +84,13 @@ public class MultitokenSpeller {
         weightedCandidates.add(new WeightedSuggestion(candidate, 0));
       }
     }
-    if (weightedCandidates.isEmpty()) {
-      String firstChar = normalizedWord.substring(0,1);
-      for (Map.Entry<String, List<String>> entry : suggestionsMap.entrySet()) {
+    Character firstChar = normalizedWord.charAt(0);
+    if (weightedCandidates.isEmpty() && suggestionsMap.containsKey(firstChar) ) {
+      for (Map.Entry<String, List<String>> entry : suggestionsMap.get(firstChar).entrySet()) {
         String normalizedCandidate = entry.getKey();
         List<String> candidates = entry.getValue();
         if (stopSearching(candidates, originalWord)) {
           return Collections.emptyList();
-        }
-        // require that the first letter is correct to speed up the generation of suggestions even more
-        if (!normalizedCandidate.substring(0,1).equals(firstChar)) {
-          continue;
         }
         if (Math.abs(normalizedCandidate.length() - word.length()) > MAX_LENGTH_DIFF) {
           continue;
@@ -287,7 +283,9 @@ public class MultitokenSpeller {
               continue;
             }
             String normalizedKey = getNormalizeKey(line);
-            addToMap(suggestionsMap, normalizedKey, line);
+            Character firstChar = normalizedKey.charAt(0);
+            HashMap<String, List<String>> suggestionsMapByChar = suggestionsMap.computeIfAbsent(firstChar, k -> new HashMap<>());
+            addToMap(suggestionsMapByChar, normalizedKey, line);
             addToMap(suggestionsMapNoSpacesKey, normalizedKey.replaceAll(" ",""), line);
           }
         }
