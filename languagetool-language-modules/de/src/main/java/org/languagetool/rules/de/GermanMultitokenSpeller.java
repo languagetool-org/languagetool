@@ -29,8 +29,7 @@ public class GermanMultitokenSpeller extends MultitokenSpeller {
 
   protected GermanMultitokenSpeller() {
     super(Languages.getLanguageForShortCode("de-DE"),
-      Arrays.asList("/de/multitoken-suggest.txt", "/spelling_global.txt"));
-    //, "de/hunspell/spelling.txt"));
+      Arrays.asList("/de/multitoken-suggest.txt", "/spelling_global.txt", "de/hunspell/spelling.txt"));
   }
 
   @Override

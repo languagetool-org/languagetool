@@ -283,6 +283,10 @@ public class MultitokenSpeller {
               continue;
             }
             String normalizedKey = getNormalizeKey(line);
+            if (!normalizedKey.contains(" ")) {
+              //Ignore one-token suggestions. They are provided by the spelling rule, or other rules
+              continue;
+            }
             Character firstChar = normalizedKey.charAt(0);
             HashMap<String, List<String>> suggestionsMapByChar = suggestionsMap.computeIfAbsent(firstChar, k -> new HashMap<>());
             addToMap(suggestionsMapByChar, normalizedKey, line);
