@@ -420,6 +420,10 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
               "most 1 tab character. Line: " + line);
           }
           String[] confPairParts = confPair.split("=");
+          if (confPairParts.length < 2) {
+            throw new IOException("Format error in file " + filePath
+              + ". Missing suggestion after character '='. Line: " + line);
+          }
           String[] wrongForms = confPairParts[0].split("\\|"); // multiple incorrect forms
           for (String wrongForm : wrongForms) {
             String searchKey = getCaseSensitivy() == CaseSensitivy.CI ? wrongForm.toLowerCase() : wrongForm;
