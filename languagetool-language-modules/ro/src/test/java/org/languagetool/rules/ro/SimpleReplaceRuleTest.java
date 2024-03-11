@@ -55,7 +55,7 @@ public class SimpleReplaceRuleTest {
   @Test
   public void testInvalidSuggestion()  {
     final List<String> invalidSuggestions = new ArrayList<>();
-    final List<Map<String, SuggestionWithMessage>> wrongWords = rule.getWrongWords(false);
+    final List<Map<String, SuggestionWithMessage>> wrongWords = rule.getWrongWords();
     for (Map<String, SuggestionWithMessage> ruleEntry : wrongWords) {
       for (Map.Entry<String,SuggestionWithMessage> entry : ruleEntry.entrySet()) {
         final String fromWord = entry.getKey();
@@ -97,20 +97,20 @@ public class SimpleReplaceRuleTest {
 
     // multiple words / compounds
     // space-delimited
-    checkSimpleReplaceRule("aqua forte", "acvaforte");
-    checkSimpleReplaceRule("aqua forte.", "acvaforte");
+    checkSimpleReplaceRule("aqua forte", "Acvaforte");
+    checkSimpleReplaceRule("aqua forte.", "Acvaforte");
     checkSimpleReplaceRule("A folosit «aqua forte».", "acvaforte");
     checkSimpleReplaceRule("Aqua forte.", "Acvaforte");
     checkSimpleReplaceRule("este aqua forte", "acvaforte");
     checkSimpleReplaceRule("este aqua forte.", "acvaforte");
     checkSimpleReplaceRule("este Aqua Forte.", "Acvaforte");
-    checkSimpleReplaceRule("este AquA Forte.", "Acvaforte");
+    checkSimpleReplaceRule("este AquA Forte.", "acvaforte");
     checkSimpleReplaceRule("A primit jumate de litru de lapte și este aqua forte.", "jumătate", "acvaforte");
-    checkSimpleReplaceRule("du-te vino", "du-te-vino");
+    checkSimpleReplaceRule("du-te vino", "Du-te-vino");
     // dash-delimited
-    checkSimpleReplaceRule("cou-boi", "cowboy");
-    checkSimpleReplaceRule("cow-boy", "cowboy");
-    checkSimpleReplaceRule("cau-boi", "cowboy");
+    checkSimpleReplaceRule("cou-boi", "Cowboy");
+    checkSimpleReplaceRule("cow-boy", "Cowboy");
+    checkSimpleReplaceRule("cau-boi", "Cowboy");
     checkSimpleReplaceRule("Cau-boi", "Cowboy");
     checkSimpleReplaceRule("cowboy"); // correct, no replacement
     checkSimpleReplaceRule("Iată un cau-boi", "cowboy");

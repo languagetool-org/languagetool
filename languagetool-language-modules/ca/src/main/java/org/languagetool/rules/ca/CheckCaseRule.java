@@ -27,8 +27,6 @@ import java.util.ResourceBundle;
 import org.languagetool.Language;
 import org.languagetool.rules.AbstractCheckCaseRule;
 
-import static org.languagetool.JLanguageTool.getDataBroker;
-
 public class CheckCaseRule  extends AbstractCheckCaseRule {
 
   private static final String FILE_NAME = "/ca/check_case.txt";
