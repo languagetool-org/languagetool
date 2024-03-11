@@ -103,7 +103,7 @@ public class SimpleReplaceRuleTest {
     checkSimpleReplaceRule("Aqua forte.", "Acvaforte");
     checkSimpleReplaceRule("este aqua forte", "acvaforte");
     checkSimpleReplaceRule("este aqua forte.", "acvaforte");
-    checkSimpleReplaceRule("este Aqua Forte.", "acvaforte");
+    checkSimpleReplaceRule("este Aqua Forte.", "Acvaforte");
     checkSimpleReplaceRule("este AquA Forte.", "acvaforte");
     checkSimpleReplaceRule("A primit jumate de litru de lapte și este aqua forte.", "jumătate", "acvaforte");
     checkSimpleReplaceRule("du-te vino", "Du-te-vino");

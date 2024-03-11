@@ -24,6 +24,7 @@ import org.languagetool.language.ValencianCatalan;
 import org.languagetool.language.BalearicCatalan;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.ca.SimpleReplaceMultiwordsRule;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -215,5 +216,20 @@ public class JLanguageToolTest {
 //    matches1 = lt.check("Vine canta i balla.");
 //    assertEquals("GERUNDI_PERD_T", matches1.get(0).getRule().getId());
   }
+
+  @Test
+  public void testReplaceMultiwords() throws IOException {
+    Language lang = new Catalan();
+    JLanguageTool lt = new JLanguageTool(lang);
+    SimpleReplaceMultiwordsRule rule = new SimpleReplaceMultiwordsRule(TestTools.getEnglishMessages());
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Les persones membres"));
+    assertEquals(1, matches.length);
+    assertEquals("Els membres", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("LES PERSONES MEMBRES"));
+    assertEquals(1, matches.length);
+    assertEquals("ELS MEMBRES", matches[0].getSuggestedReplacements().get(0));
+  }
+
 
 }

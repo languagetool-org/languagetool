@@ -221,10 +221,67 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   private void createMatch(List<RuleMatch> ruleMatches, SuggestionWithMessage suggestionWithMessage, int startIndex,
                            int endIndex, String originalStr, AnalyzedTokenReadings[] tokens, AnalyzedSentence sentence,
                            int sentStart, int[] checkCaseCoveredUpto) {
-    if (suggestionWithMessage == null) {
+    if (suggestionWithMessage == null || isException(originalStr)) {
       return;
     }
     List<String> replacements = Arrays.asList(suggestionWithMessage.getSuggestion().split("\\|"));
+    int fromPos = tokens[startIndex].getStartPos();
+    int toPos = tokens[endIndex].getEndPos();
+    //keep only the longest match
+    if (ruleMatches.size() > 0) {
+      RuleMatch lastRuleMatch = ruleMatches.get(ruleMatches.size() - 1);
+      if (lastRuleMatch.getFromPos() <= fromPos
+        && lastRuleMatch.getToPos() >= toPos) {
+        return;
+      }
+    }
+    boolean firstWordInSuggIsCamelCase = replacements.stream().anyMatch(k -> StringTools.isCamelCase(k.split(" ")[0]));
+    boolean isAllUppercase = StringTools.isAllUppercase(originalStr);
+    boolean isCapitalized = StringTools.isCapitalizedWord(originalStr.split(" ")[0]);
+    // exceptions for checking case
+    if (isCheckingCase()) {
+      if (endIndex <= checkCaseCoveredUpto[0]) {
+        return;
+      }
+      String replacementCheckCase = replacements.get(0);
+      if ((sentStart == startIndex && originalStr.equals(StringTools.uppercaseFirstChar(replacementCheckCase)))
+        || originalStr.equals(replacementCheckCase)) {
+        if (ruleMatches.size() > 0) {
+          // remove last match if is contained in a correct phrase
+          RuleMatch lastRuleMatch = ruleMatches.get(ruleMatches.size() - 1);
+          if (lastRuleMatch.getToPos() > fromPos) {
+            ruleMatches.remove(ruleMatches.size() - 1);
+          }
+        }
+        checkCaseCoveredUpto[0] = endIndex;
+        return;
+      }
+      //Allow all-upper case, except for CamelCase and short words in Dutch (length<MAX_LENGTH_SHORT_WORDS)
+      if (!firstWordInSuggIsCamelCase && originalStr.equals(originalStr.toUpperCase())) {
+        if (ignoreShortUppercaseWords || originalStr.length() > MAX_LENGTH_SHORT_WORDS) {
+          checkCaseCoveredUpto[0] = endIndex;
+          return;
+        }
+      }
+    }
+    List<String> finalReplacements = new ArrayList<>();
+    // adjust casing of suggestions
+    for (String repl : replacements) {
+      String finalRepl = repl;
+      if (!firstWordInSuggIsCamelCase && (sentStart == startIndex || (isCapitalized && !isCheckingCase()))) {
+        finalRepl = StringTools.uppercaseFirstChar(repl);
+      }
+      if (!isCheckingCase() && isAllUppercase) {
+        finalRepl = repl.toUpperCase();
+      }
+      if (!repl.equals(originalStr) && !finalRepl.equals(originalStr) && !finalReplacements.contains(finalRepl)) {
+        finalReplacements.add(finalRepl);
+      }
+    }
+    if (finalReplacements.isEmpty()) {
+      return;
+    }
+    // Begin of match creation
     String msg = suggestionWithMessage.getMessage();
     String url = null;
     if (msg != null && (msg.startsWith("http://") || msg.startsWith("https://"))) {
@@ -241,76 +298,31 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       }
       msg = getMessage().replaceFirst("\\$match", originalStr).replaceFirst("\\$suggestions", msgSuggestions);
     }
-    int startPos = tokens[startIndex].getStartPos();
-    int endPos = tokens[endIndex].getEndPos();
-    RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
+    RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg, getShort());
     if (subRuleSpecificIds) {
       String id = StringTools.toId(getId() + "_" + originalStr, language);
       String desc = getDescription().replace("$match", originalStr);
       SpecificIdRule specificIdRule = new SpecificIdRule(id, desc, isPremium(), getCategory(),
         getLocQualityIssueType(), getTags());
-      ruleMatch = new RuleMatch(specificIdRule, sentence, startPos, endPos, msg, getShort());
+      ruleMatch = new RuleMatch(specificIdRule, sentence, fromPos, toPos, msg, getShort());
     }
     if (url != null) {
       ruleMatch.setUrl(Tools.getUrl(url));
     }
-    if (isCheckingCase()) {
-      // remove last match if is contained in a correct phrase
-      if (endIndex <= checkCaseCoveredUpto[0]) {
-        return;
-      }
-      String replacementCheckCase = replacements.get(0);
-      if ((sentStart == startIndex && originalStr.equals(StringTools.uppercaseFirstChar(replacementCheckCase)))
-        || originalStr.equals(replacementCheckCase)) {
-        if (ruleMatches.size() > 0) {
-          RuleMatch lastRuleMatch = ruleMatches.get(ruleMatches.size() - 1);
-          if (lastRuleMatch.getToPos() > startPos) {
-            ruleMatches.remove(ruleMatches.size() - 1);
-          }
-        }
-        checkCaseCoveredUpto[0] = endIndex;
-        return;
-      }
-    }
-    List<String> finalReplacements = new ArrayList<>();
-    // capitalize at the sentence start
-    for (String repl : replacements) {
-      String finalRepl = repl;
-      if (sentStart == startIndex) {
-        finalRepl = StringTools.uppercaseFirstChar(repl);
-      }
-      if (!repl.equals(originalStr) && !finalRepl.equals(originalStr) && !finalReplacements.contains(finalRepl)) {
-        finalReplacements.add(finalRepl);
-      }
-    }
-    if (finalReplacements.isEmpty()) {
+    ruleMatch.setSuggestedReplacements(finalReplacements);
+    // End of match creation
+    if (isRuleMatchException(ruleMatch)) {
       return;
     }
-    if (isCheckingCase() && originalStr.equals(originalStr.toUpperCase())) {
-      if (ignoreShortUppercaseWords) {
-        return;
-      } else {
-        if (originalStr.length() <= MAX_LENGTH_SHORT_WORDS) {
-          // correct uppercase words of max X characters
-        } else {
-          return;
-        }
+    //keep only the longest match
+    if (ruleMatches.size() > 0) {
+      RuleMatch lastRuleMatch = ruleMatches.get(ruleMatches.size() - 1);
+      if (lastRuleMatch.getFromPos() >= fromPos
+        && lastRuleMatch.getToPos() <= toPos) {
+        ruleMatches.remove(ruleMatches.size() - 1);
       }
     }
-    ruleMatch.setSuggestedReplacements(finalReplacements);
-    if (!isException(sentence.getText().substring(startPos, endPos))
-      && !isRuleMatchException(ruleMatch)) {
-      //keep only the longest match
-      if (ruleMatches.size() > 0) {
-        RuleMatch lastRuleMatch = ruleMatches.get(ruleMatches.size() - 1);
-        if (lastRuleMatch.getFromPos() == ruleMatch.getFromPos()
-          && lastRuleMatch.getToPos() < ruleMatch.getToPos()) {
-          ruleMatches.remove(ruleMatches.size() - 1);
-        }
-      }
-      ruleMatches.add(ruleMatch);
-    }
-    return;
+    ruleMatches.add(ruleMatch);
   }
 
   protected boolean isRuleMatchException(RuleMatch ruleMatch) {
