@@ -60,11 +60,13 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   //only for CheckCaseRule
   private int MAX_LENGTH_SHORT_WORDS = 4;
 
+  private boolean ruleHasSuggestions = true;
+
   public enum CaseSensitivy {CS, CI}
 
   protected final Language language;
 
-  protected boolean subRuleSpecificIds;
+  protected boolean subRuleSpecificIds = false;
 
   public abstract List<String> getFileNames();
 
@@ -278,7 +280,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
         finalReplacements.add(finalRepl);
       }
     }
-    if (finalReplacements.isEmpty()) {
+    if (ruleHasSuggestions && finalReplacements.isEmpty()) {
       return;
     }
     // Begin of match creation
@@ -309,7 +311,9 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     if (url != null) {
       ruleMatch.setUrl(Tools.getUrl(url));
     }
-    ruleMatch.setSuggestedReplacements(finalReplacements);
+    if (ruleHasSuggestions) {
+      ruleMatch.setSuggestedReplacements(finalReplacements);
+    }
     // End of match creation
     if (isRuleMatchException(ruleMatch)) {
       return;
@@ -420,18 +424,22 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
               "most 1 tab character. Line: " + line);
           }
           String[] confPairParts = confPair.split("=");
-          if (confPairParts.length < 2) {
-            throw new IOException("Format error in file " + filePath
-              + ". Missing suggestion after character '='. Line: " + line);
+          String suggestion = "";
+          if (ruleHasSuggestions) {
+            if (confPairParts.length < 2) {
+              throw new IOException("Format error in file " + filePath
+                + ". Missing suggestion after character '='. Line: " + line);
+            }
+            suggestion = confPairParts[1];
           }
           String[] wrongForms = confPairParts[0].split("\\|"); // multiple incorrect forms
           for (String wrongForm : wrongForms) {
             String searchKey = getCaseSensitivy() == CaseSensitivy.CI ? wrongForm.toLowerCase() : wrongForm;
-            if (!isCheckingCase() && searchKey.equals(confPairParts[1])) {
+            if (!isCheckingCase() && searchKey.equals(suggestion)) {
               throw new IOException("Format error in file " + filePath
                 + ". Found same word on left and right side of '='. Line: " + line);
             }
-            SuggestionWithMessage suggestionWithMessage = new SuggestionWithMessage(confPairParts[1], msg);
+            SuggestionWithMessage suggestionWithMessage = new SuggestionWithMessage(suggestion, msg);
             boolean containsSpace = wrongForm.indexOf(' ') > 0;
             if (!containsSpace) {
               String firstChar = searchKey.substring(0, 1);
@@ -493,5 +501,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     ignoreShortUppercaseWords = value;
   }
 
+  protected void setRuleHasSuggestions(boolean value) {
+    ruleHasSuggestions = value;
+  }
 
 }
