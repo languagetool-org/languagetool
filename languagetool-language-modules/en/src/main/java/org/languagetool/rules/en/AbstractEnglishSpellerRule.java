@@ -479,6 +479,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           !repLc.startsWith("mono ") &&
           !repLc.startsWith("trans ") &&
           !repLc.startsWith("neuro ") &&
+          !repLc.startsWith("hetero ") &&
           !repLc.startsWith("ultra ") &&
           !repLc.startsWith("mini ") &&
           !repLc.startsWith("hyper ") &&

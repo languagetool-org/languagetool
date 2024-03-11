@@ -17076,4 +17076,24 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule id="OTHER_THAN_NO_ADJECTIVE" name="'other' no adjective in 'other than'">
+        <pattern>
+            <marker>
+                <token>other</token>
+            </marker>
+            <token>than</token>
+        </pattern>
+        <disambig action="remove" postag="JJ" />
+    </rule>
+
+    <rule id="OTHER_THAN_ADVERB" name="'other' adverb in 'other than'">
+        <pattern>
+            <marker>
+                <token>other</token>
+            </marker>
+            <token>than</token>
+        </pattern>
+        <disambig action="add"><wd pos="RB"/></disambig>
+    </rule>
+
 </rules>
