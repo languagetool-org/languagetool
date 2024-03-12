@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.*;
 import org.languagetool.rules.fr.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -36,6 +37,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.fr.FrenchWordTokenizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.File;
 import java.io.IOException;
@@ -472,6 +474,28 @@ public class French extends Language implements AutoCloseable {
 
   public MultitokenSpeller getMultitokenSpeller() {
     return FrenchMultitokenSpeller.INSTANCE;
+  }
+
+  @Override
+  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+    List<RuleMatch> results = new ArrayList<>();
+    for (RuleMatch ruleMatch : ruleMatches) {
+      List<String> suggestions = ruleMatch.getSuggestedReplacements();
+      if (suggestions.size()==1 && ruleMatch.getRule().getId().startsWith("AI_FR_GGEC")) {
+        String suggestion = suggestions.get(0);
+        ruleMatch.setOriginalErrorStr();
+        // the suggestion only changes the casing
+        if (suggestion.equalsIgnoreCase(ruleMatch.getOriginalErrorStr())) {
+          ruleMatch.setMessage("Un usage différent des majuscules et des minuscules est recommandé.");
+          ruleMatch.setShortMessage("Majuscules et minuscules");
+          ruleMatch.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
+          ruleMatch.getRule().setCategory(Categories.CASING.getCategory(ResourceBundleTools.getMessageBundle(this)));
+          //ruleMatch.getRule().setTags(Arrays.asList(Tag.picky));
+        }
+      }
+      results.add(ruleMatch);
+    }
+    return results;
   }
 
 }
