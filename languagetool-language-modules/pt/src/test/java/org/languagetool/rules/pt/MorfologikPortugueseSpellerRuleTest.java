@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.pt;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
@@ -35,24 +37,34 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class MorfologikPortugueseSpellerRuleTest {
-  private final MorfologikPortugueseSpellerRule ruleBR = getSpellerRule("BR");
-  private final JLanguageTool ltBR = getLT("BR");
-  private final MorfologikPortugueseSpellerRule rulePT = getSpellerRule("PT");
-  private final JLanguageTool ltPT = getLT("PT");
+  private static MorfologikPortugueseSpellerRule ruleBR;
+  private static JLanguageTool ltBR;
+  private static MorfologikPortugueseSpellerRule rulePT;
+  private static JLanguageTool ltPT;
   // This one is used to test the pre-90 agreement spellings
-  private final MorfologikPortugueseSpellerRule ruleMZ = getSpellerRule("MZ");
-  private final JLanguageTool ltMZ = getLT("MZ");
+  private static MorfologikPortugueseSpellerRule ruleMZ;
+  private static JLanguageTool ltMZ;
 
   public MorfologikPortugueseSpellerRuleTest() throws IOException {
   }
 
-  private MorfologikPortugueseSpellerRule getSpellerRule(String countryCode) throws IOException {
+  private static MorfologikPortugueseSpellerRule getSpellerRule(String countryCode) throws IOException {
     return new MorfologikPortugueseSpellerRule(TestTools.getMessages("pt"),
       Languages.getLanguageForShortCode("pt-" + countryCode), null, null);
   }
 
-  private JLanguageTool getLT(String countryCode) {
+  private static JLanguageTool getLT(String countryCode) {
     return new JLanguageTool(Languages.getLanguageForShortCode("pt-" + countryCode));
+  }
+
+  @BeforeClass
+  public static void setUp() throws IOException {
+    ltBR = getLT("BR");
+    ltPT = getLT("PT");
+    ltMZ = getLT("MZ");
+    ruleBR = getSpellerRule("BR");
+    rulePT = getSpellerRule("PT");
+    ruleMZ = getSpellerRule("MZ");
   }
 
   private List<String> getFirstSuggestions(RuleMatch match, int max) {
