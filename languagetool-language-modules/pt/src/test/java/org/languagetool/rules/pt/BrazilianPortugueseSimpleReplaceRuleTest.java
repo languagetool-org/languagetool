@@ -51,6 +51,9 @@ public class BrazilianPortugueseSimpleReplaceRuleTest {
     checkSimpleReplaceRule("O lançamento de dardo é um desporto.", "esporte");
     checkSimpleReplaceRule("Está no meu ADN!", "DNA");
 
+    // these are dialect-dependent but are marked as exceptions (e.g. named entities)
+    assertNoMatches("José António Miranda Coutinho");
+    assertNoMatches("Jerónimo Soares");
   }
 
   /**
@@ -66,5 +69,10 @@ public class BrazilianPortugueseSimpleReplaceRuleTest {
       + sentence, 1, matches[0].getSuggestedReplacements().size());
     assertEquals("Invalid suggested replacement while checking sentence: "
       + sentence, word, matches[0].getSuggestedReplacements().get(0));
+  }
+
+  private void assertNoMatches(String sentence) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
+    assertEquals(0, matches.length);
   }
 }
