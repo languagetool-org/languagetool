@@ -142,6 +142,9 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     int[] checkCaseCoveredUpto = new int[1];
     checkCaseCoveredUpto[0] = 0;
     for (int startIndex = sentStart; startIndex < tokens.length; startIndex++) {
+      if (isTokenException(tokens[startIndex])) {
+        continue;
+      }
       String tok = tokens[startIndex].getToken();
       if (tok.length() < 1) {
         continue;

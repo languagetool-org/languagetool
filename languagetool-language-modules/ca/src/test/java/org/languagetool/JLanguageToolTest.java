@@ -24,6 +24,7 @@ import org.languagetool.language.ValencianCatalan;
 import org.languagetool.language.BalearicCatalan;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.ca.SimpleReplaceAnglicism;
 import org.languagetool.rules.ca.SimpleReplaceMultiwordsRule;
 
 import java.io.IOException;
@@ -34,10 +35,13 @@ import static org.junit.Assert.assertEquals;
 
 public class JLanguageToolTest {
 
+
+  private  Language lang = new Catalan();
+  private JLanguageTool tool = new JLanguageTool(lang);
+
+
   @Test
   public void testCleanOverlappingErrors() throws IOException {
-    Language lang = new Catalan();
-    JLanguageTool tool = new JLanguageTool(lang);
     List<RuleMatch> matches = tool.check("prosper");
     assertEquals(1, matches.size());
     assertEquals("CA_SIMPLE_REPLACE_BALEARIC_PROSPER", matches.get(0).getRule().getId());
@@ -102,7 +106,6 @@ public class JLanguageToolTest {
   
   @Test
   public void testAdvancedTypography() throws IOException {
-    Language lang = new Catalan();
     assertEquals(lang.toAdvancedTypography("És l'\"hora\"!"), "És l’«hora»!");
     assertEquals(lang.toAdvancedTypography("És l''hora'!"), "És l’‘hora’!");
     assertEquals(lang.toAdvancedTypography("És l'«hora»!"), "És l’«hora»!");
@@ -128,7 +131,6 @@ public class JLanguageToolTest {
 
   @Test
   public void testAdaptSuggestions() throws IOException {
-    JLanguageTool tool = new JLanguageTool(new Catalan());
     List<RuleMatch> matches = tool.check(
         "Els valencians hem sigut valencians des que Jaume I creà el regne de València i poc a poc es conformà una nova identitat política (que en l'edat mitjana, per exemple, no entrava en contradicció amb la consciència clara que teníem un origen i una llengua comuns amb els catalans).");
     assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[a poc a poc]");
@@ -141,7 +143,6 @@ public class JLanguageToolTest {
 
   @Test
   public void testMultitokenSpeller() throws IOException {
-    Language lang = new Catalan();
     assertEquals("[Jacques-Louis David]", lang.getMultitokenSpeller().getSuggestions("Jacques Louis David").toString());
     assertEquals("[Chiang Kai-shek]", lang.getMultitokenSpeller().getSuggestions("Chiang Kaishek").toString());
     assertEquals("[Comédie-Française]", lang.getMultitokenSpeller().getSuggestions("Comédie Français").toString());
@@ -203,14 +204,12 @@ public class JLanguageToolTest {
 
   @Test
   public void testCommaWhitespaceRule() throws IOException {
-    Language lang = new Catalan();
-    JLanguageTool lt = new JLanguageTool(lang);
     CommaWhitespaceRule rule = new CommaWhitespaceRule(TestTools.getEnglishMessages());
 
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Sol Picó (\uD83D\uDC0C+\uD83D\uDC1A)"));
+    RuleMatch[] matches = rule.match(tool.getAnalyzedSentence("Sol Picó (\uD83D\uDC0C+\uD83D\uDC1A)"));
     assertEquals(0, matches.length);
 
-    List<RuleMatch> matches1 = lt.check("Continuo veien cada dia gent amb ID baixa ");
+    List<RuleMatch> matches1 = tool.check("Continuo veien cada dia gent amb ID baixa ");
     assertEquals("GERUNDI_PERD_T", matches1.get(0).getRule().getId());
 
 //    matches1 = lt.check("Vine canta i balla.");
@@ -219,16 +218,22 @@ public class JLanguageToolTest {
 
   @Test
   public void testReplaceMultiwords() throws IOException {
-    Language lang = new Catalan();
-    JLanguageTool lt = new JLanguageTool(lang);
     SimpleReplaceMultiwordsRule rule = new SimpleReplaceMultiwordsRule(TestTools.getEnglishMessages());
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Les persones membres"));
+    RuleMatch[] matches = rule.match(tool.getAnalyzedSentence("Les persones membres"));
     assertEquals(1, matches.length);
     assertEquals("Els membres", matches[0].getSuggestedReplacements().get(0));
 
-    matches = rule.match(lt.getAnalyzedSentence("LES PERSONES MEMBRES"));
+    matches = rule.match(tool.getAnalyzedSentence("LES PERSONES MEMBRES"));
     assertEquals(1, matches.length);
     assertEquals("ELS MEMBRES", matches[0].getSuggestedReplacements().get(0));
+  }
+
+  @Test
+  public void testReplaceAnglicisms() throws IOException {
+    SimpleReplaceAnglicism rule = new SimpleReplaceAnglicism(TestTools.getEnglishMessages());
+    RuleMatch[] matches = rule.match(tool.getAnalyzedSentence("que són la revolució física (Bacon, Galileu)"));
+    assertEquals(0, matches.length);
+
   }
 
 
