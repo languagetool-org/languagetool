@@ -13520,7 +13520,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
-        <rulegroup id="ENVIO_ACENTO" name="envio -> envío/envió" default="temp_off">
+        <rulegroup id="ENVIO_ACENTO" name="envio -> envío/envió">
             <rule>
                 <pattern>
                     <token postag="SPS00|SP:DA|LOC_PREP" postag_regexp="yes"/>
@@ -13569,7 +13569,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">me|te|os|le|les|lo|los|la|las</token>
+                    <token regexp="yes">te|os|le|les|lo|los|la|las</token>
                     <marker>
                         <token>envio</token>
                     </marker>
@@ -13590,7 +13590,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>el</token>
+                        <token>el<exception scope="previous" postag="SPS00|SP:DA|LOC_PREP" postag_regexp="yes"/></token>
+                        <token>envio</token>
+                    </marker>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V.[IS].*" postag_regexp="yes"/>
+                </pattern>
+                <message>Se escribe con acento: <suggestion>el envío</suggestion> (sustantivo).</message>
+                <example correction="El envío"><marker>El envio</marker> sale barato.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>el<exception scope="previous" postag="SPS00|SP:DA|LOC_PREP" postag_regexp="yes"/></token>
                         <token>envio</token>
                     </marker>
                 </pattern>
@@ -13606,6 +13618,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Se escribe con acento: <suggestion>envío</suggestion> (sustantivo).</message>
                 <example correction="envío">Un <marker>envio</marker></example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>de</token>
+                    <token regexp="yes">manera|forma</token>
+                    <token postag="AQ0[CF][SN]0" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>envio</token>
+                    </marker>
+                    <token regexp="yes">de|del</token>
+                </pattern>
+                <message>Se escribe con acento: <suggestion>envío</suggestion> (sustantivo).</message>
+                <example correction="Envío"><marker>Envio</marker> de documentos.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18464,21 +18491,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="porque|por qué"> No puedo responder <marker>por que</marker> él sea un deshonesto.</example>
             </rule>
         </rulegroup>
-        <rule id="ENVIO" name="envio -> envío">
-            <!-- avoid "envió" as first suggestion -->
-            <pattern>
-                <token postag="LOC_PREP|SPS00|SP:DA" postag_regexp="yes"/>
-                <token postag="D..MS." postag_regexp="yes" min="0"/>
-                <marker>
-                    <token>envio</token>
-                </marker>
-            </pattern>
-            <message>Con el significado de 'acción de enviar', se escribe con tilde.</message>
-            <suggestion>envío</suggestion>
-            <example correction="envío">Pon la dirección de <marker>envio</marker>.</example>
-            <example correction="envío">Pon la dirección del <marker>envio</marker>.</example>
-            <example correction="envío">Pon la dirección de este <marker>envio</marker> es incorrecta.</example>
-        </rule>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
             <antipattern>
                 <token>por</token>

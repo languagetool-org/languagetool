@@ -62,7 +62,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
 
   private boolean ruleHasSuggestions = true;
 
-  public enum CaseSensitivy {CS, CI}
+  public enum CaseSensitivy {CS, CI, CSExceptAtSentenceStart}
 
   protected final Language language;
 
@@ -144,6 +144,9 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     int[] checkCaseCoveredUpto = new int[1];
     checkCaseCoveredUpto[0] = 0;
     for (int startIndex = sentStart; startIndex < tokens.length; startIndex++) {
+      if (isTokenException(tokens[startIndex])) {
+        continue;
+      }
       String tok = tokens[startIndex].getToken();
       if (tok.length() < 1) {
         continue;
@@ -179,7 +182,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
             SuggestionWithMessage suggestionWithMessage = mFullSpace.get(keyStr);
             createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence,
               sentStart, checkCaseCoveredUpto);
-            if (suggestionWithMessage == null && sentStart == startIndex && getCaseSensitivy() == CaseSensitivy.CS
+            //No language uses this. It could be removed.
+            if (suggestionWithMessage == null && sentStart == startIndex && getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart
               && !keyStr.equals(StringTools.lowercaseFirstChar(keyStr))) {
               keyStr = StringTools.lowercaseFirstChar(keyStr);
               suggestionWithMessage = mFullSpace.get(keyStr);
@@ -206,7 +210,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           SuggestionWithMessage suggestionWithMessage = mFullNoSpace.get(keyStr);
           createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence,
             sentStart, checkCaseCoveredUpto);
-          if (suggestionWithMessage == null && sentStart == startIndex && getCaseSensitivy() == CaseSensitivy.CS
+          //No language uses this. It could be removed.
+          if (suggestionWithMessage == null && sentStart == startIndex && getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart
             && !keyStr.equals(StringTools.lowercaseFirstChar(keyStr))) {
             keyStr = StringTools.lowercaseFirstChar(keyStr);
             suggestionWithMessage = mFullNoSpace.get(keyStr);

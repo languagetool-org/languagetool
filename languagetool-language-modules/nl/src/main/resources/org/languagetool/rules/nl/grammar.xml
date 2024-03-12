@@ -26569,7 +26569,7 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="NL_MULTITOKEN_SPELLING_FOUR" name="Spelfouten in eigennamen (4 tokens)">
             <rule><!--1-->
                 <pattern>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&particles_of;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&particles_of;|[^\p{L}]</exception></token>
                     <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
                     <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
                     <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
@@ -26589,7 +26589,7 @@ regexp case-insensitive maken: (?i)
             </rule>
             <rule><!--2-->
                 <pattern>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&particles_of;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&particles_of;|[^\p{L}]</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
@@ -26598,6 +26598,7 @@ regexp case-insensitive maken: (?i)
                 <message>Mogelijk staat hier een typfout.</message>
                 <example correction="The Dark Knight Rises"><marker>Ther Derk Knaight Rises</marker>.</example>
                 <example correction="Rocky Mountain National Park"><marker>Rocki Mountains National Park</marker>.</example>
+                <example>3 - Alcide De Gasperi,</example>
             </rule>
             <rule><!--3-->
                 <pattern>
@@ -26890,6 +26891,7 @@ regexp case-insensitive maken: (?i)
                 <example>U ziet, kun je niet wreed over Alfa Romeos zijn.</example>
                 <example>1932 - Charles Lindberghs zoon wordt gekidnapt.</example>
                 <example>Neolithicum in grote lijnen\nKanariepietje, een nachtvlinder\nHij schreef het op zijn zeventiende en nam daarbij Charles Gounods (1818-1893) Symfonie Nr. 1 als voorbeeld.</example>
+                <example>Stabat Mater- eerste versie 1832</example>
             </rule>
             <rule><!--3-->
                  <antipattern>
