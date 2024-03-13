@@ -3584,6 +3584,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"/>
     </rule>
+    <rule id="barra_es" name="persona/es">
+        <pattern>
+            <token postag="[NA].*" postag_regexp="yes"/>
+            <token spacebefore="no">/</token>
+            <marker>
+                <token spacebefore="no">es</token>
+            </marker>
+        </pattern>
+        <disambig action="replace" postag="NCCP000"/>
+    </rule>
     <rulegroup id="nom_seguitde_nompropi" name="nom seguit de nom propi: el mont Or">
         <antipattern>
             <token regexp="yes">el|els|les</token>
