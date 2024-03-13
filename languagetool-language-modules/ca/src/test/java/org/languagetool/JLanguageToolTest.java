@@ -226,6 +226,8 @@ public class JLanguageToolTest {
     matches = rule.match(tool.getAnalyzedSentence("LES PERSONES MEMBRES"));
     assertEquals(1, matches.length);
     assertEquals("ELS MEMBRES", matches[0].getSuggestedReplacements().get(0));
+
+
   }
 
   @Test
@@ -234,6 +236,8 @@ public class JLanguageToolTest {
     RuleMatch[] matches = rule.match(tool.getAnalyzedSentence("que són la revolució física (Bacon, Galileu)"));
     assertEquals(0, matches.length);
 
+    matches = rule.match(tool.getAnalyzedSentence("de E-Commerce"));
+    assertEquals(1, matches.length);
   }
 
 
