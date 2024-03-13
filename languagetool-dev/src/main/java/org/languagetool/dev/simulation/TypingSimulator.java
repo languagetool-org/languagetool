@@ -188,14 +188,14 @@ class TypingSimulator {
   private void check(String doc, Stats stats, boolean checkCompleteText) {
     try {
       if (checkCompleteText) {
-        checkByPOST(doc, "allButTextLevelOnly", stats);
+        checkByPOST(doc, "paragraphLevelOnly", stats);
       } else {
         String[] paras = doc.split("\n\n");
         String lastPara = paras[paras.length-1];
         //if (!lastPara.equals(doc)) {
         //  System.out.println("doc/last: " + doc.length() + " / " + lastPara.length() + ": " + lastPara);
         //}
-        checkByPOST(lastPara, "allButTextLevelOnly", stats);
+        checkByPOST(lastPara, "paragraphLevelOnly", stats);
       }
       checkByPOST(doc, "textLevelOnly", stats);
     } catch (IOException e) {
