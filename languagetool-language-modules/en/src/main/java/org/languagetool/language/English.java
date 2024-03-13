@@ -452,7 +452,7 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("CONFUSION_GONG_GOING", 1);   // prefer over I_AM_VB
     id2prio.put("SEEN_SEEM", 1);   // prefer over PRP_PAST_PART
     id2prio.put("PROFANITY", 1);   // prefer over spell checker (less prio than EN_COMPOUNDS)
-    id2prio.put("EN_SIMPLE_REPLACE_PROFANITY", 1);
+    id2prio.put("PROFANITY_XML", 1);
     id2prio.put("GOOD_FLUCK", 2);   // prefer over PROFANITY
     id2prio.put("PROFANITY_TYPOS", 2);   // prefer over PROFANITY
     id2prio.put("THE_THEM", 1);   // prefer over TO_TWO
