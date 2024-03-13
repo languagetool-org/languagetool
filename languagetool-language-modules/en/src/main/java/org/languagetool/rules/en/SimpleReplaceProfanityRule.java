@@ -50,7 +50,7 @@ public class SimpleReplaceProfanityRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public final String getId() {
-    return "EN_SIMPLE_REPLACE_PROFANITY";
+    return "PROFANITY";
   }
 
   @Override
