@@ -25,7 +25,6 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.Dutch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
-import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -37,19 +36,12 @@ import static org.languagetool.JLanguageTool.getDataBroker;
 
 public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
 
-  private final String englishDictFilepath;
-  private final UserConfig userConfig;
-  protected MorfologikMultiSpeller englishSpeller;
-
   public MorfologikDutchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
     this(messages, language, userConfig, Collections.emptyList());
   }
   
   public MorfologikDutchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
-    englishDictFilepath = "/en/hunspell/en_US.dict";
-    this.userConfig = userConfig;
-    initEnglishSpeller();
   }
 
   @Override
@@ -82,33 +74,10 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
     return "/nl/spelling/prohibit.txt";
   }
 
-  private void initEnglishSpeller() throws IOException {
-    List<String> plainTextDicts = new ArrayList<>();
-    String languageVariantPlainTextDict = null;
-    if (getDataBroker().resourceExists(getSpellingFileName())) {
-      plainTextDicts.add(getSpellingFileName());
-    }
-    for (String fileName : getAdditionalSpellingFileNames()) {
-      if (getDataBroker().resourceExists(fileName)) {
-        plainTextDicts.add(fileName);
-      }
-    }
-    if (getLanguageVariantSpellingFileName() != null && getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
-      languageVariantPlainTextDict = getLanguageVariantSpellingFileName();
-    }
-    englishSpeller = new MorfologikMultiSpeller(englishDictFilepath, plainTextDicts, languageVariantPlainTextDict,
-          userConfig, 1, language);
-    setConvertsCase(englishSpeller.convertsCase());
-  }
-
   @Override
   public List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence,
     List<RuleMatch> ruleMatchesSoFar, int idx,
     AnalyzedTokenReadings[] tokens) throws IOException {
-    // for now, just accept correctly spelled English words
-    if (tokens[idx].hasPosTag("_FOREIGN_ENGLISH") && !englishSpeller.isMisspelled(tokens[idx].getToken())) {
-      return Collections.emptyList();
-    }
     return super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
   }
 
