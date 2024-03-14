@@ -553,7 +553,9 @@ public class SingleDocument {
   void setLanguage(Language language) {
     docLanguage = language;
     docLocale = LinguisticServices.getLocale(language);
-    ltToolbar.makeToolbar(language);
+    if (ltToolbar != null) {
+      ltToolbar.makeToolbar(language);
+    }
   }
   
   /** 

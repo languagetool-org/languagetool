@@ -603,6 +603,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
               if (locale == null) {
                 locale = lang;
               }
+              if (linguServices == null) {
+                linguServices = new LinguisticServices(xContext);
+              }
               if (!linguServices.isCorrectSpell(sToken, locale)) {
                 SingleProofreadingError aError = new SingleProofreadingError();
                 if (debugMode) {
