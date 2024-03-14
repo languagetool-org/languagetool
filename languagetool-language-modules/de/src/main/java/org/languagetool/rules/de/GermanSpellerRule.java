@@ -3851,6 +3851,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "weihnachten": return topMatch("Weihnachten");
       case "Carlsen-Verlag": return topMatch("Carlsen Verlag");
       case "Carlsen-Verlags": return topMatch("Carlsen Verlags");
+      case "Rundumsorglospaket": return topMatch("Rundum-sorglos-Paket");
+      case "Rundumsorglospakets": return topMatch("Rundum-sorglos-Pakets");
     }
     return Collections.emptyList();
   }
