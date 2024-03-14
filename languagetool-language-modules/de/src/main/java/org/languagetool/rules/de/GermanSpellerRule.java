@@ -2958,6 +2958,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
         }
       case "do": return topMatch("so");
+      case "Au-Pair": return topMatch("Au-pair");
+      case "Au-Pairs": return topMatch("Au-pairs");
       case "deluxe": return topMatch("de luxe");
       case "Deluxe": return topMatch("de luxe");
       case "Design-Op": return topMatch("Design-OP");
