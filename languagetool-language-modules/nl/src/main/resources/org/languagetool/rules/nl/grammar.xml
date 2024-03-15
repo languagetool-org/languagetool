@@ -835,15 +835,14 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 
 		<rulegroup id="BE" name="be kan van alles zijn…">
-			<antipattern><token postag_regexp="yes" postag="UNKNOWN|ENM.*|DVW"/><token>be</token></antipattern> <!-- Engels -->
-			<antipattern><token>be</token><token postag_regexp="yes" postag="UNKNOWN|DVW"/></antipattern> <!-- Engels -->
+			<antipattern><token postag_regexp="yes" postag="UNKNOWN|ENM.*|DVW|_english_ignore_"/><token>be</token></antipattern> <!-- Engels -->
+			<antipattern><token>be</token><token postag_regexp="yes" postag="UNKNOWN|DVW||_english_ignore_"/></antipattern> <!-- Engels -->
 			<antipattern><token regexp="yes">to|must|or|still</token><token>be</token></antipattern> <!-- Engels -->
 			<antipattern><token>.</token><token spacebefore="no">be</token></antipattern>
 			<antipattern><token>be</token><token>.</token><token>.</token><token>.</token></antipattern>
 			<antipattern><token>punt</token><token>be</token></antipattern>
 			<antipattern><token>(</token><token>be</token><token>)</token></antipattern>
 			<antipattern><token/><token/><token case_sensitive="yes">Be</token><token/><token/></antipattern>
-			<antipattern><token>be</token><token postag="_FOREIGN_ENGLISH"/></antipattern>
 			<rule>
 				<pattern>
 					<marker>
@@ -11869,8 +11868,8 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 		<rulegroup id="AN" name="an/An" type="misspelling">
 			<rule>
-				<antipattern><token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/><token>an</token></antipattern> <!-- Engels -->
-				<antipattern><token>an</token><token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/></antipattern> <!-- Engels -->
+				<antipattern><token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/><token>an</token></antipattern> <!-- Engels -->
+				<antipattern><token>an</token><token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/></antipattern> <!-- Engels -->
 				<antipattern><token>an</token><token>sich</token></antipattern>
 				<antipattern><token>zin</token><token>an</token></antipattern><!-- detected elsewhere -->
 				<pattern>
@@ -14628,12 +14627,12 @@ regexp case-insensitive maken: (?i)
 					<token regexp="yes">[,;]</token>
 					<token case_sensitive="yes">Van</token>
 					<token min="0" max="1" regexp="yes">de|der|den</token>
-					<token postag_regexp="yes" postag="ENM.*|UNKNOWN|_FOREIGN_ENGLISH"/>
+					<token postag_regexp="yes" postag="ENM.*|UNKNOWN|_english_ignore_"/>
 				</antipattern>
-				<antipattern><token regexp="yes">[,;]</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN|_FOREIGN_ENGLISH"></token></antipattern>
+				<antipattern><token regexp="yes">[,;]</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN|_english_ignore_"></token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">San|St|Ch|Th|Ph|Peg</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token/><token>,</token></antipattern>
-				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*">[A-Z].*</token></antipattern>
+				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*|_english_ignore_">[A-Z].*</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes" case_sensitive="yes" >^[A-Z][a-z].*(s|se|isch|ische|talife?)$</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*</token><token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token></antipattern>
 				<antipattern><token regexp="yes">[,;]</token><token regexp="yes">[A-Z][a-z].*(straat|plein|dreef|steeg|laan|park|talige?)</token></antipattern>
@@ -15948,7 +15947,7 @@ regexp case-insensitive maken: (?i)
 				<antipattern>
 					<!-- emojis with foreign names -->
 					<token>:</token>
-					<token spacebefore="no" postag="UNKNOWN"></token>
+					<token spacebefore="no" postag_regexp="yes" postag="UNKNOWN|_english_ignore_"></token>
 					<example>Dat was echt gaaf!:fire:</example>
 				</antipattern>
 				<antipattern>
@@ -18412,7 +18411,7 @@ regexp case-insensitive maken: (?i)
 			<rule>
 				<antipattern>
 					<token skip="1">I</token>
-					<token postag="_FOREIGN_ENGLISH"/>
+					<token postag="_english_ignore_"/>
 				</antipattern>
 				<pattern>
 					<token postag="SENT_START"/>
@@ -19053,7 +19052,7 @@ regexp case-insensitive maken: (?i)
 			<antipattern><token>dan</token><token postag="WKW:TGW:1EP"/></antipattern>
 			<antipattern><token>schuil</token><token>gaan</token></antipattern>
 			<antipattern>
-				<token postag="_FOREIGN_ENGLISH"/>
+				<token postag="_english_ignore_"/>
 				<token postag="WKW:TGW:1EP"/>
 				<example>Het wordt opgestuurd met track and trace.</example>
 			</antipattern>
@@ -25875,8 +25874,8 @@ regexp case-insensitive maken: (?i)
 			<antipattern><token>de</token><token postag="WKW:TGW:1EP"/><token postag_regexp="yes" postag="ZNW.*DE_"/></antipattern><!-- de betaal conditie -->
 			<antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET.*"/></antipattern>
 			<antipattern><token>de</token><token postag="AHL:OPN"/></antipattern>
-			<antipattern><token>de</token><token/><token postag_regexp="yes" postag="ZNW.*|DVW|UNKNOWN"/></antipattern>
-			<antipattern><token>de</token><token postag="UNKNOWN"/></antipattern>
+			<antipattern><token>de</token><token/><token postag_regexp="yes" postag="ZNW.*|DVW|UNKNOWN|_english_ignore_"/></antipattern>
+			<antipattern><token>de</token><token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/></antipattern>
 			<!-- let another rule deal with missing dash -->
 			<antipattern><token>de</token><token/><token>en</token></antipattern>
 			<!-- eigennamen -->
@@ -25896,7 +25895,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 			<rule>
 				<antipattern><token>de</token><token postag="ZNW:EKV:HET"/><token postag="ZNW.*" postag_regexp="yes"/></antipattern>
-				<antipattern><token>de</token><token postag="_FOREIGN_ENGLISH"/></antipattern>
+				<antipattern><token>de</token><token postag="_english_ignore_"/></antipattern>
 				<pattern>
 					<token>de</token>
 					<token/>
@@ -26007,7 +26006,7 @@ regexp case-insensitive maken: (?i)
 				<antipattern><token>ups</token><token>en</token><token>downs</token></antipattern>
 				<antipattern case_sensitive="yes"><token regexp="yes">[A-Z].*</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="BNW:.*:IET"/><token regexp="yes">en|of</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
-				<antipattern><token postag="_FOREIGN_ENGLISH"/><token>stars</token></antipattern>
+				<antipattern><token postag="_english_ignore_"/><token>stars</token></antipattern>
 				<pattern case_sensitive="yes">
 					<token/>
 					<marker>
@@ -26569,10 +26568,10 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="NL_MULTITOKEN_SPELLING_FOUR" name="Spelfouten in eigennamen (4 tokens)">
             <rule><!--1-->
                 <pattern>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&particles_of;|[^\p{L}]</exception></token>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&particles_of;|[^\p{L}]</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
                 <message>Mogelijk staat hier een typfout.</message>
@@ -26589,7 +26588,7 @@ regexp case-insensitive maken: (?i)
             </rule>
             <rule><!--2-->
                 <pattern>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&particles_of;|[^\p{L}]</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&particles_of;|[^\p{L}]</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
@@ -26603,7 +26602,7 @@ regexp case-insensitive maken: (?i)
             <rule><!--3-->
                 <pattern>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&particles_of;</exception></token>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
@@ -26616,7 +26615,7 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&particles_of;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
@@ -26629,7 +26628,7 @@ regexp case-insensitive maken: (?i)
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&particles_of;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
                 <message>Mogelijk staat hier een typfout.</message>
@@ -26639,10 +26638,10 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
         <rulegroup id="NL_MULTITOKEN_SPELLING_THREE" name="Spelfouten in eigennamen (3 tokens)">
             <antipattern>
-                <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/>
-                <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/>
-                <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/>
-                <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/>
+                <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
+                <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
+                <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
+                <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
             </antipattern>
             <antipattern>
                 <token regexp="yes">\p{Lu}.+</token>
@@ -26658,12 +26657,12 @@ regexp case-insensitive maken: (?i)
             </antipattern>
             <antipattern>
                 <token case_sensitive="yes" postag="UNKNOWN">s</token>
-                <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/>
+                <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
                 <example>Charlie Chaplin – A Tramp’s Life.</example>
             </antipattern>
             <rule><!--1-->
                 <pattern>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
@@ -26678,7 +26677,7 @@ regexp case-insensitive maken: (?i)
             <rule><!--2-->
                 <pattern>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
@@ -26693,7 +26692,7 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
                 <message>Mogelijk staat hier een typfout.</message>
@@ -26702,9 +26701,9 @@ regexp case-insensitive maken: (?i)
             </rule>
             <rule><!--4-->
                 <pattern>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
                 <message>Mogelijk staat hier een typfout.</message>
@@ -26719,7 +26718,7 @@ regexp case-insensitive maken: (?i)
             </rule>
             <rule><!--5-->
                 <pattern>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">&particles_of;|e|&amp;</token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
@@ -26736,7 +26735,7 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">&particles_of;|e|&amp;</token>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
                 <message>Mogelijk staat hier een typfout.</message>
@@ -26772,18 +26771,18 @@ regexp case-insensitive maken: (?i)
                     <token regexp="yes">\p{Lu}.*</token>
                 </antipattern>
                 <antipattern>
-                  <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/>
-                  <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH" regexp="yes">\p{Lu}</token>
+                  <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
+                  <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_" regexp="yes">\p{Lu}</token>
                   <example>Sirius B ist der lichtschwache Begleiter von Sirius A.</example>
                 </antipattern>
                 <antipattern>
-                  <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH">São</token>
-                  <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"/>
+                  <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_">São</token>
+                  <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
                   <example>São Francisco</example>
                 </antipattern>
                 <pattern>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
                 <message>Mogelijk staat hier een typfout.</message>
@@ -26839,7 +26838,7 @@ regexp case-insensitive maken: (?i)
                 </antipattern>
                 <pattern>
                     <token postag="ENM.*|ZNW.*" postag_regexp="yes" regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception><exception regexp="yes" case_sensitive="yes">[A-Z]{1,3}</exception><exception regexp="yes">[A-Z][A-Z\d]?</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception><exception regexp="yes" case_sensitive="yes">[A-Z]{1,3}</exception><exception regexp="yes">[A-Z][A-Z\d]?</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
                 <message>Mogelijk staat hier een typfout.</message>
@@ -26910,7 +26909,7 @@ regexp case-insensitive maken: (?i)
                     <token regexp="yes">\p{Lu}.*</token>
                 </antipattern>
                 <pattern>
-                    <token postag="UNKNOWN|_FOREIGN_ENGLISH|ADJ.*" postag_regexp="yes" regexp="yes">\p{L}..*<exception regexp="yes">sir|don</exception><exception regexp="yes">die|der|&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag="UNKNOWN|_english_ignore_|ADJ.*" postag_regexp="yes" regexp="yes">\p{L}..*<exception regexp="yes">sir|don</exception><exception regexp="yes">die|der|&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}\p{Ll}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="keepSpaces:true"/>
@@ -26946,7 +26945,7 @@ regexp case-insensitive maken: (?i)
                     <token postag="ENM.*" postag_regexp="yes" regexp="yes">\p{Lu}.*
                         <exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception>
 	                </token>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH">
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_">
                         <exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception>
                         <exception regexp="yes" case_sensitive="yes">[A-Z]{1,3}</exception>
                         <exception regexp="yes">[A-Z][A-Z\d]?</exception>
@@ -26961,7 +26960,7 @@ regexp case-insensitive maken: (?i)
             </rule>
             <rule><!--5-->
                 <pattern>
-                    <token postag_regexp="yes" postag="UNKNOWN|_FOREIGN_ENGLISH"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception><exception regexp="yes" case_sensitive="yes">[A-Z]{1,3}</exception><exception regexp="yes">[A-Z][A-Z\d]?</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception><exception regexp="yes" case_sensitive="yes">[A-Z]{1,3}</exception><exception regexp="yes">[A-Z][A-Z\d]?</exception></token>
                     <token postag="ENM.*" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
