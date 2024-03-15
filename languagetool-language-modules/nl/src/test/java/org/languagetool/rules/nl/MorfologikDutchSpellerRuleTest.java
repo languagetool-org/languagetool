@@ -56,9 +56,6 @@ public class MorfologikDutchSpellerRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("déur")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("deur-knop")).length);
 
-    // Test EN ignore rule -- "Population" still fails test
-    //assertEquals(0, rule.match(lt.getAnalyzedSentence("Hij is onderzoeker aan het Population Research Center van de Universiteit van Texas.")).length);
-
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Hartelijke groet en hopelijk tot ziens!")).length);
     
     RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("thailan."));

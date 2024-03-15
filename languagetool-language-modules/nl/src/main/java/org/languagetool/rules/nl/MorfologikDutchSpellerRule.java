@@ -78,8 +78,11 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
   public List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence,
     List<RuleMatch> ruleMatchesSoFar, int idx,
     AnalyzedTokenReadings[] tokens) throws IOException {
-    return super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
-  }
+      if (tokens[idx].hasPosTag("_english_ignore_")) {
+        return Collections.emptyList();
+      }
+      return super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
+    }
 
 }
 

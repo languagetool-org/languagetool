@@ -485,7 +485,6 @@ public class JLanguageToolTest {
     assertEquals("presidente", matches.get(0).getSuggestedReplacements().get(0));
   }
 
-
   @Test
   public void testIgnoringEnglishWordsInCatalan() throws IOException {
     Language lang = new Catalan();
@@ -534,4 +533,16 @@ public class JLanguageToolTest {
     matches = lt.check("Aquest és el community manager.");
     assertEquals(1, matches.size());
   }
+
+  @Test
+  public void testIgnoringEnglishWordsInDutch() throws IOException {
+    Language lang = new Dutch();
+    JLanguageTool lt = new JLanguageTool(lang);
+    List<RuleMatch> matches = lt.check("This for that was een goede film.");
+    assertEquals(0, matches.size());
+    matches = lt.check("We got this!");
+    assertEquals(0, matches.size());
+    // add more tests
+  }
+
 }
