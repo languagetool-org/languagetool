@@ -309,13 +309,14 @@ public class Catalan extends Language {
     if (id.startsWith("CA_SIMPLE_REPLACE_MULTIWORDS")) {
       return 70;
     }
+    if (id.startsWith("CA_SIMPLE_REPLACE_ANGLICISM")) {
+      return 65; // greater than CA_SIMPLE_REPLACE_BALEARIC
+    }
     if (id.startsWith("CA_SIMPLE_REPLACE_BALEARIC")) {
       return 60;
     }
     if (id.startsWith("CA_SIMPLE_REPLACE_VERBS")) {
       return 28;
-    }if (id.startsWith("CA_SIMPLE_REPLACE_ANGLICISM")) {
-      return 10;
     }
     if (id.startsWith("CA_COMPOUNDS")) {
       return 50;
