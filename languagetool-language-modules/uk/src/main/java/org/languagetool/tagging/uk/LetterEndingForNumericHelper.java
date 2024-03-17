@@ -100,8 +100,10 @@ class LetterEndingForNumericHelper {
     map3.put("ці", Arrays.asList(RegexToCaseList.regex(".*([03456789]|1[0-9])", ":f:v_dav:bad", ":f:v_mis:bad"))); // 20-ці
     map3.put("ма", Arrays.asList(RegexToCaseList.regex(".*([023456789]|1[0-9])", ":p:v_oru:bad"))); // 20-ма
     map3.put("ми", Arrays.asList(RegexToCaseList.always(":p:v_rod:bad", ":p:v_mis:bad"))); // 148-ми
+    map3.put("ох", Arrays.asList(RegexToCaseList.always(":p:v_rod:bad", ":p:v_zna:ranim:bad"))); // 4-ох
     map3.put("ві", Arrays.asList(RegexToCaseList.regex(".*(?!<1)2", ":p:v_naz:bad", ":p:v_zna:rinanim:bad"))); // 42-ві
     map3.put("ть", Arrays.asList(RegexToCaseList.always(":p:v_naz:bad", ":p:v_zna:rinanim:bad"))); // 75-ть
+    map3.put("ка", Arrays.asList(RegexToCaseList.always(":f:v_naz:bad"))); // 40-ка
     
     NUMR_NOUN_ENDING_MAP = Collections.unmodifiableMap(map3);
   }
