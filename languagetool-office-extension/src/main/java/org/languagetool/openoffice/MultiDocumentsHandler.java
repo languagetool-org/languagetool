@@ -53,7 +53,6 @@ import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.OfficeTools.LoErrorType;
 import org.languagetool.openoffice.OfficeTools.OfficeProductInfo;
-import org.languagetool.openoffice.ResultCache.CacheEntry;
 import org.languagetool.openoffice.SingleDocument.RuleDesc;
 import org.languagetool.openoffice.SpellAndGrammarCheckDialog.LtCheckDialog;
 import org.languagetool.openoffice.stylestatistic.StatAnDialog;
@@ -1755,9 +1754,14 @@ public class MultiDocumentsHandler {
       } else if ("toggleNoBackgroundCheck".equals(sEvent) || "backgroundCheckOn".equals(sEvent) || "backgroundCheckOff".equals(sEvent)) {
         if (toggleNoBackgroundCheck()) {
           resetCheck();
+/*  TODO: in LT 6.5 add dynamic toolbar          
           for (SingleDocument document : documents) {
-            document.getLtToolbar().makeToolbar(document.getLanguage());
+            LtToolbar ltToolbar = document.getLtToolbar();
+            if (ltToolbar != null) {
+              ltToolbar.makeToolbar(document.getLanguage());
+            }
           }
+*/
         }
       } else if ("ignoreOnce".equals(sEvent)) {
         ignoreOnce();
