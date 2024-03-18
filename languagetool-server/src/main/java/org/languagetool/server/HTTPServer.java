@@ -27,7 +27,7 @@ import javax.management.ObjectName;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
@@ -133,15 +133,13 @@ public class HTTPServer extends Server {
     if (minPort > 0 && minPort < maxPort) {
          log.info("Try to find a free Port for Server in range {}-{}", minPort, maxPort);
          for (int p = minPort; p <= maxPort; p++) {
-           try {
+           try (Socket socket = new Socket()){
              log.info("Check port {}", p);
-             ServerSocket serverSocket = new ServerSocket(p);
-             port = serverSocket.getLocalPort();
-             serverSocket.close();
+             socket.connect(new InetSocketAddress(p));
+             log.debug("Port {} is not available.", p);
+           } catch (IOException ex) {
              log.info("Port {} is available.", p);
              return p;
-           } catch (IOException ex) {
-             log.debug("Port {} is not available.", p);
            }
          }
          throw new IOException("No free port in range ("+ minPort + " - " + maxPort + ") found.");
