@@ -490,6 +490,7 @@ public class French extends Language implements AutoCloseable {
           ruleMatch.setShortMessage("Majuscules et minuscules");
           ruleMatch.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
           ruleMatch.getRule().setCategory(Categories.CASING.getCategory(ResourceBundleTools.getMessageBundle(this)));
+          ruleMatch.setSpecificRuleId(ruleMatch.getRule().getId().replace("ORTHOGRAPHY", "CASING"));
           //ruleMatch.getRule().setTags(Arrays.asList(Tag.picky));
         }
       }
