@@ -257,6 +257,7 @@ public class Portuguese extends Language implements AutoCloseable {
     id2prio.put("EMAIL_SEM_HIFEN_ORTHOGRAPHY", -45); // HIGHER THAN SPELLER
     // MORFOLOGIK SPELLER FITS HERE AT -50 ---------------------  // SPELLER (-50)
     id2prio.put("PRETERITO_PERFEITO", -51);  // LOWER THAN SPELLER
+    id2prio.put("AI_PT_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL", -51);  // gGEC speller is lower than the Java speller
     id2prio.put("PT_BR_SIMPLE_REPLACE", -51);
     id2prio.put("CRASE_CONFUSION", -54);
     id2prio.put("NAO_MILITARES", -54);
