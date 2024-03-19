@@ -737,6 +737,22 @@ regexp case-insensitive maken: (?i)
 				<example correction="typen">Wij bieden verschillende <marker>type</marker> voertuigen aan.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="WILDER_DE" name="wilder (wilde) de..." default="temp_off">
+			<rule>
+				<antipattern>
+					<token regexp="yes">hoe|te</token>
+					<token>wilder</token>
+				</antipattern>
+				<pattern>
+					<marker>
+						<token case_sensitive="yes">wilder</token>
+					</marker>
+					<token>de</token>
+				</pattern>
+				<message>Bedoelt u soms <suggestion>wilde</suggestion> of <suggestion>wilden</suggestion>?</message>
+				<example correction="wilde|wilden">Toch <marker>wilder</marker> de man niet weg.</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">

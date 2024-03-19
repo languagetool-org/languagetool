@@ -81,10 +81,10 @@ public class CheckCaseRuleTest {
     assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("-\"Leonardo Da Vinci\""));
     assertEquals(1, matches.length);
-    assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Leonardo da Vinci", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("-\"¿Leonardo Da Vinci?\""));
     assertEquals(1, matches.length);
-    assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Leonardo da Vinci", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("Baixar Al-Assad"));
     assertEquals(1, matches.length);
     assertEquals("Baixar al-Assad", matches[0].getSuggestedReplacements().get(0));
