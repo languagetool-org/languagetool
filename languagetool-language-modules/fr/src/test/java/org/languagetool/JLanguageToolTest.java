@@ -76,7 +76,7 @@ public class JLanguageToolTest {
     Language lang = new French();
     JLanguageTool lt = new JLanguageTool(lang);
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("C'est Madame Curie.");
-    RuleMatch ruleMatch = new RuleMatch(new FakeRule("AI_FR_GGEC_ORTOGRAPHY_CASING"), analyzedSentence,6, 12, "Possible error");
+    RuleMatch ruleMatch = new RuleMatch(new FakeRule("AI_FR_GGEC_REPLACEMENT_ORTHOGRAPHY_UPPERCASE_MADAME_MADAME"), analyzedSentence,6, 12, "Possible error");
     ruleMatch.setSuggestedReplacement("madame");
     List<RuleMatch> ruleMatches = new ArrayList<>();
     ruleMatches.add(ruleMatch);
@@ -85,5 +85,7 @@ public class JLanguageToolTest {
     assertEquals("Majuscules et minuscules", filteredRuleMatches.get(0).getShortMessage());
     assertEquals(ITSIssueType.Typographical, filteredRuleMatches.get(0).getRule().getLocQualityIssueType());
     assertEquals("CASING", filteredRuleMatches.get(0).getRule().getCategory().getId().toString());
+    assertEquals("AI_FR_GGEC_REPLACEMENT_ORTHOGRAPHY_UPPERCASE_MADAME_MADAME", filteredRuleMatches.get(0).getRule().getFullId());
+    assertEquals("AI_FR_GGEC_REPLACEMENT_CASING_UPPERCASE_MADAME_MADAME", filteredRuleMatches.get(0).getSpecificRuleId());
   }
 }
