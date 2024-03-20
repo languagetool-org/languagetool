@@ -186,6 +186,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern DECEMBER = compile("december");
   private static final Pattern ENGLISH = compile("english");
   private static final Pattern SPANISH = compile("spanish");
+  private static final Pattern GITLAB = compile("[Gg]itlab");
   private static final Pattern BONAFIDE = compile("[Bb]onafide");
   private static final Pattern WHEREEVER = compile("[Ww]hereever");
   private static final Pattern HUBSPOT = compile("[Hh]ubspot");
@@ -197,6 +198,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern DEVOPS = compile("[Dd]evops");
   private static final Pattern ALLRIGHT = compile("[Aa]llright");
   private static final Pattern LANGUAGETOOL = compile("[Ll]anguagetool");
+  private static final Pattern UNDETERMINISTIC = compile("undeterministic");
 
   private final BeoLingusTranslator translator;
 
@@ -1512,6 +1514,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (JANUARY.matcher(word).matches()) return topMatch("January");
     if (ENGLISH.matcher(word).matches()) return topMatch("English");
     if (SPANISH.matcher(word).matches()) return topMatch("Spanish");
+    if (UNDETERMINISTIC.matcher(word).matches()) return topMatch("nondeterministic");
+    if (GITLAB.matcher(word).matches()) return topMatch("GitLab");
     if (BONAFIDE.matcher(word).matches()) return topMatch(word.replaceFirst("onafide", "ona fide"));
     if (ALLRIGHT.matcher(word).matches()) return topMatch(word.replaceFirst("llright", "lright"));
     if (WHEREEVER.matcher(word).matches()) return topMatch(word.replaceFirst("hereever", "herever"));
