@@ -156,6 +156,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("The statements¹ of⁷ the⁵⁰ government⁹‽")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("At 3 o'clock.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("At 3 o’clock.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("fast⇿superfast")).length);
 
     // multiwords.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("C'est la vie.")).length);
