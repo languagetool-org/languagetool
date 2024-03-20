@@ -140,6 +140,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
+    put("Topfen", "Tropfen");
     put("frägst", "fragst");
     put("sähte", "säte");
     put("säht", "sät");
@@ -2958,6 +2959,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
         }
       case "do": return topMatch("so");
+      case "Blackweek": return topMatch("Black Week");
+      case "Blackfriday": return topMatch("Black Friday");
+      case "Blackweeks": return topMatch("Black Weeks");
+      case "Blackfridays": return topMatch("Black Fridays");
       case "Au-Pair": return topMatch("Au-pair");
       case "Au-Pairs": return topMatch("Au-pairs");
       case "deluxe": return topMatch("de luxe");
