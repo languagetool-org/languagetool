@@ -3864,6 +3864,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "orginale": return topMatch("originale");
       case "orginalen": return topMatch("originalen");
       case "orginales": return topMatch("originales");
+      case "geäussert": return topMatch("geäußert");
       case "Rundumsorglospaket": return topMatch("Rundum-sorglos-Paket");
       case "Rundumsorglospakets": return topMatch("Rundum-sorglos-Pakets");
     }
