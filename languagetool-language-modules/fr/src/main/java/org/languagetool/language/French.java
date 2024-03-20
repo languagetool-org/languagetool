@@ -425,9 +425,9 @@ public class French extends Language implements AutoCloseable {
 
   @Override
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
-    if (enabledRules.contains("APOS_TYP")) {
-      List<RuleMatch> newRuleMatches = new ArrayList<>();
-      for (RuleMatch rm : ruleMatches) {
+    List<RuleMatch> newRuleMatches = new ArrayList<>();
+    for (RuleMatch rm : ruleMatches) {
+      if (enabledRules.contains("APOS_TYP")) {
         List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
         List<SuggestedReplacement> newReplacements = new ArrayList<>();
         for (SuggestedReplacement s : replacements) {
@@ -439,12 +439,28 @@ public class French extends Language implements AutoCloseable {
           newRepl.setReplacement(newReplStr);
           newReplacements.add(newRepl);
         }
-        RuleMatch newMatch = new RuleMatch(rm, newReplacements);
-        newRuleMatches.add(newMatch);
+        rm = new RuleMatch(rm, newReplacements);
       }
-      return newRuleMatches;
+
+      if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("MISSING_PRONOUN_LAPOSTROPHE")) {
+        if (rm.getFromPos() >= 3) {
+          String substring = rm.getSentence().getText().substring(rm.getFromPos() - 3, rm.getToPos());
+          if (substring.equalsIgnoreCase("si on")) {
+            rm.setSpecificRuleId("AI_FR_GGEC_SI_LON");
+            rm.getRule().setTags(Arrays.asList(Tag.picky));
+          }
+        }
+      }
+
+      if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("REPLACEMENT_PUNCTUATION_QUOTE")) {
+        rm.setSpecificRuleId("AI_FR_GGEC_QUOTES");
+        rm.getRule().setTags(Arrays.asList(Tag.picky));
+        rm.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
+      }
+
+      newRuleMatches.add(rm);
     }
-    return ruleMatches;
+    return newRuleMatches;
   }
 
 
