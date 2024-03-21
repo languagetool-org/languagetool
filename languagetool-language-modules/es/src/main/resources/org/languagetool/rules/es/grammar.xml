@@ -20532,6 +20532,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>En este contexto, probablemente es más adecuado el nombre en plural.</message>
                 <suggestion><match no="3" postag_regexp="yes" postag="(NC.)S.*" postag_replace="$1[PN].*"/></suggestion>
                 <example correction="personas">Estaba abarrotado de <marker>persona</marker>.</example>
+                <example>10 millones de multa.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -22601,6 +22602,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_POSTPONED_ADJ" name="concordancia de adjetivo pospuesto a sustantivos">
+            <antipattern>
+                <token inflected="yes" skip="3">ser</token>
+                <token>poca</token>
+                <token>cosa</token>
+                <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                <example>Tres años es poca cosa comparado con los siete años.</example>
+            </antipattern>
             <antipattern>
                 <token>lo</token>
                 <token regexp="yes">más|menos</token>
