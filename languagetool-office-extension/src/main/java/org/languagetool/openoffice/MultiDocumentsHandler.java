@@ -734,15 +734,15 @@ public class MultiDocumentsHandler {
     if (xComponent == null) {
       return null;
     }
-    //  Test for Impress or Calc document
-    if (OfficeDrawTools.isImpressDocument(xComponent)) {
-      return OfficeDrawTools.getDocumentLocale(xComponent);
-    } else if (OfficeSpreadsheetTools.isSpreadsheetDocument(xComponent)) {
-      return OfficeSpreadsheetTools.getDocumentLocale(xComponent);
-    }
     Locale charLocale;
     XPropertySet xCursorProps;
     try {
+      //  Test for Impress or Calc document
+      if (OfficeDrawTools.isImpressDocument(xComponent)) {
+        return OfficeDrawTools.getDocumentLocale(xComponent);
+      } else if (OfficeSpreadsheetTools.isSpreadsheetDocument(xComponent)) {
+        return OfficeSpreadsheetTools.getDocumentLocale(xComponent);
+      }
       XModel model = UnoRuntime.queryInterface(XModel.class, xComponent);
       if (model == null) {
         return null;
