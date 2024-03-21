@@ -755,7 +755,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="wilde|wilden">Toch <marker>wilder</marker> de man niet weg.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="START_DE_ZNW_VTD" name="verkeerde werkwoordvorm" default="temp_off">
+		<rulegroup id="DT_CORRECTIES" name="verkeerde woordvormen" default="temp_off">
 			<rule>
 				<pattern>
 				<token postag="SENT_START"/>
@@ -770,8 +770,6 @@ regexp case-insensitive maken: (?i)
 				<suggestion>is \4</suggestion>
 				<example correction="vertelt|is verteld">De man <marker>verteld</marker> directeur Janssen het verhaal.</example>
 			</rule>
-		</rulegroup>
-		<rulegroup id="VTD_DE_ZNW" name="verkeerde woordsoort" default="temp_off">
 			<rule>
 				<antipattern>
 					<token postag="SENT_START" skip="-1"/>
@@ -794,8 +792,6 @@ regexp case-insensitive maken: (?i)
 				<suggestion><match no="1" postag="WKW:TGW:3EP"/></suggestion>
 				<example correction="vertelt">Dit alles <marker>verteld</marker> de politie ons.</example>
 			</rule>
-		</rulegroup>
-		<rulegroup id="DT_CORRECTIES" name="verkeerde woordvormen" default="temp_off">
 			<rule>
 				<antipattern>
 					<token postag="SENT_START"/>
