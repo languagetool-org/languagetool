@@ -1198,7 +1198,7 @@ public class DocumentCache implements Serializable {
   public String getFlatParagraph(int n) {
     rwLock.readLock().lock();
     try {
-      String para = n < 0 || n >= locales.size() ? null : paragraphs.get(n);
+      String para = n < 0 || n >= paragraphs.size() ? null : paragraphs.get(n);
       return para;
     } finally {
       rwLock.readLock().unlock();
