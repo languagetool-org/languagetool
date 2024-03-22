@@ -419,8 +419,7 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals("aquesta", matches[0].getSuggestedReplacements().get(1));
 
     matches = rule.match(lt.getAnalyzedSentence("daquelles"));
-    assertEquals("d'aquelles", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("aquelles", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("[d'aquelles, aquelles]", matches[0].getSuggestedReplacements().toString());
 
     matches = rule.match(lt.getAnalyzedSentence("lah"));
     assertEquals("la", matches[0].getSuggestedReplacements().get(0));
