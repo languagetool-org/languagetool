@@ -5,7 +5,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 /**
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.50.2)",
+    value = "by gRPC proto compiler (version 1.56.1)",
     comments = "Source: bert-lm.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class BertLmGrpc {
@@ -123,45 +123,39 @@ public final class BertLmGrpc {
 
   /**
    */
-  public static abstract class BertLmImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      */
-    public void score(org.languagetool.languagemodel.bert.grpc.BertLmProto.ScoreRequest request,
+    default void score(org.languagetool.languagemodel.bert.grpc.BertLmProto.ScoreRequest request,
         io.grpc.stub.StreamObserver<org.languagetool.languagemodel.bert.grpc.BertLmProto.BertLmResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getScoreMethod(), responseObserver);
     }
 
     /**
      */
-    public void batchScore(org.languagetool.languagemodel.bert.grpc.BertLmProto.BatchScoreRequest request,
+    default void batchScore(org.languagetool.languagemodel.bert.grpc.BertLmProto.BatchScoreRequest request,
         io.grpc.stub.StreamObserver<org.languagetool.languagemodel.bert.grpc.BertLmProto.BatchBertLmResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getBatchScoreMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getScoreMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                org.languagetool.languagemodel.bert.grpc.BertLmProto.ScoreRequest,
-                org.languagetool.languagemodel.bert.grpc.BertLmProto.BertLmResponse>(
-                  this, METHODID_SCORE)))
-          .addMethod(
-            getBatchScoreMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                org.languagetool.languagemodel.bert.grpc.BertLmProto.BatchScoreRequest,
-                org.languagetool.languagemodel.bert.grpc.BertLmProto.BatchBertLmResponse>(
-                  this, METHODID_BATCH_SCORE)))
-          .build();
     }
   }
 
   /**
+   * Base class for the server implementation of the service BertLm.
    */
-  public static final class BertLmStub extends io.grpc.stub.AbstractAsyncStub<BertLmStub> {
+  public static abstract class BertLmImplBase
+      implements io.grpc.BindableService, AsyncService {
+
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return BertLmGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service BertLm.
+   */
+  public static final class BertLmStub
+      extends io.grpc.stub.AbstractAsyncStub<BertLmStub> {
     private BertLmStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -191,8 +185,10 @@ public final class BertLmGrpc {
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service BertLm.
    */
-  public static final class BertLmBlockingStub extends io.grpc.stub.AbstractBlockingStub<BertLmBlockingStub> {
+  public static final class BertLmBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<BertLmBlockingStub> {
     private BertLmBlockingStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -220,8 +216,10 @@ public final class BertLmGrpc {
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service BertLm.
    */
-  public static final class BertLmFutureStub extends io.grpc.stub.AbstractFutureStub<BertLmFutureStub> {
+  public static final class BertLmFutureStub
+      extends io.grpc.stub.AbstractFutureStub<BertLmFutureStub> {
     private BertLmFutureStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -258,10 +256,10 @@ public final class BertLmGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final BertLmImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(BertLmImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -292,6 +290,25 @@ public final class BertLmGrpc {
           throw new AssertionError();
       }
     }
+  }
+
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getScoreMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              org.languagetool.languagemodel.bert.grpc.BertLmProto.ScoreRequest,
+              org.languagetool.languagemodel.bert.grpc.BertLmProto.BertLmResponse>(
+                service, METHODID_SCORE)))
+        .addMethod(
+          getBatchScoreMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              org.languagetool.languagemodel.bert.grpc.BertLmProto.BatchScoreRequest,
+              org.languagetool.languagemodel.bert.grpc.BertLmProto.BatchBertLmResponse>(
+                service, METHODID_BATCH_SCORE)))
+        .build();
   }
 
   private static abstract class BertLmBaseDescriptorSupplier
