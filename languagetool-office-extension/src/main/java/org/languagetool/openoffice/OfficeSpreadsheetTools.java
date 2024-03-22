@@ -51,7 +51,7 @@ public class OfficeSpreadsheetTools {
   /** 
    * test if the document is a Spreadsheet Document
    */
-  public static boolean isSpreadsheetDocument(XComponent xComponent) {
+  public static boolean isSpreadsheetDocument(XComponent xComponent) throws Throwable {
     XServiceInfo xInfo = UnoRuntime.queryInterface(XServiceInfo.class, xComponent);
     if (xInfo == null) {
       return false;
@@ -376,7 +376,7 @@ public class OfficeSpreadsheetTools {
   /**
    * Get local of the Spreadsheet
    */
-  public static Locale getDocumentLocale(XComponent xComponent) {
+  public static Locale getDocumentLocale(XComponent xComponent) throws Throwable {
     if (xComponent == null) {
       MessageHandler.printToLogFile("OfficeSpreadsheetTools: getDocumentLocale: xComponent == null");
       return null;
