@@ -13,6 +13,7 @@
 
 #### Spanish
   * added and improved rules
+  * updated dictionary (spanish-pos-dict-2.2)
 
 #### Ukrainian
   * new words in the POS dictionary
