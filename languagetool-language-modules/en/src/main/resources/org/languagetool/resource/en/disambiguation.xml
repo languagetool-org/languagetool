@@ -370,13 +370,13 @@
             <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
         </rule>
         <rule>
-            <!-- apostrophe inside a word -->
+            <!-- apostrophe inside a word, including cat-o'-nine-tails or will-o'-the-wisp -->
             <pattern>
-                <token regexp="yes">\p{L}.+</token>
+                <token regexp="yes">[\p{L}\-].+</token>
                 <marker>
                     <token regexp="yes" spacebefore="no">['’]</token>    
                 </marker>
-                <token regexp="yes" spacebefore="no">\p{L}.+</token>
+                <token regexp="yes" spacebefore="no">[\p{L}-].+</token>
             </pattern>
             <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
         </rule>
