@@ -39,7 +39,7 @@ public class SimpleReplaceRenamedRuleTest {
     SimpleReplaceRenamedRule rule = new SimpleReplaceRenamedRule(TestTools.getEnglishMessages());
 
     RuleMatch[] matches;
-    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
 
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("Київ."));

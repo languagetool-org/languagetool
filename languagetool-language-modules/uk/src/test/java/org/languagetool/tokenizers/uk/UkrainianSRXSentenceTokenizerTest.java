@@ -26,7 +26,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
 public class UkrainianSRXSentenceTokenizerTest {
 
-  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Ukrainian());
+  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(Ukrainian.DEFAULT_VARIANT);
 
   @Test
   public final void testTokenize() {
