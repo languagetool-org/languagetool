@@ -24,7 +24,6 @@ import static org.junit.Assert.assertFalse;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,15 +35,14 @@ import org.languagetool.rules.RuleMatch;
 
 
 public class SimpleReplaceRuleTest {
-  private final JLanguageTool lt = new JLanguageTool(new Ukrainian());
+  private final JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
   private MorfologikUkrainianSpellerRule morfologikSpellerRule;
   private SimpleReplaceRule rule;
 
   @Before
   public void setup() throws IOException {
-    Language ukrainian = new Ukrainian();
-    morfologikSpellerRule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), ukrainian,
-        null, Collections.emptyList());
+    Language ukrainian = Ukrainian.DEFAULT_VARIANT;
+    morfologikSpellerRule = (MorfologikUkrainianSpellerRule)lt.getLanguage().getDefaultSpellingRule();
 
     rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule, ukrainian);
   }

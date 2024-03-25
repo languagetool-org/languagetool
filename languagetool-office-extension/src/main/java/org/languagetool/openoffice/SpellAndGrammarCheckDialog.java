@@ -209,20 +209,24 @@ public class SpellAndGrammarCheckDialog extends Thread {
    * Initialize LanguageTool to run in LT check dialog and next error function
    */
   private void setLangTool(SingleDocument document, Language language) {
-    if (document.getDocumentType() == DocumentType.IMPRESS) {
-      documents.setCheckImpressDocument(true);
-    }
-    lt = documents.initLanguageTool(language, false);
-    if (lt != null) {
-      documents.initCheck(lt);
-      documents.resetSortedTextRules(lt);
-    }
-    if (debugMode) {
-      for (String id : lt.getDisabledRules()) {
-        MessageHandler.printToLogFile("CheckDialog: setLangTool: After init disabled rule: " + id);
+    try {
+      if (document.getDocumentType() == DocumentType.IMPRESS) {
+        documents.setCheckImpressDocument(true);
       }
+      lt = documents.initLanguageTool(language, false);
+      if (lt != null) {
+        documents.initCheck(lt);
+        documents.resetSortedTextRules(lt);
+      }
+      if (debugMode) {
+        for (String id : lt.getDisabledRules()) {
+          MessageHandler.printToLogFile("CheckDialog: setLangTool: After init disabled rule: " + id);
+        }
+      }
+      doInit = false;
+    } catch (Throwable t) {
+      MessageHandler.showError(t);
     }
-    doInit = false;
   }
 
   /**
@@ -602,6 +606,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
               }
               if (locale == null) {
                 locale = lang;
+              }
+              if (linguServices == null) {
+                linguServices = new LinguisticServices(xContext);
               }
               if (!linguServices.isCorrectSpell(sToken, locale)) {
                 SingleProofreadingError aError = new SingleProofreadingError();

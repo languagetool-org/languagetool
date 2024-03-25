@@ -36888,6 +36888,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='MISSPELLING' name="Erros Ortográficos" type="misspelling">
+        <rulegroup id="OQ_O_QUE_ORTHOGRAPHY" name="Sugerir 'o que' no lugar de 'oq'">
+            <rule> <!-- before sent-final punct -->
+                <pattern>
+                    <marker>
+                        <token>oq</token>
+                    </marker>
+                    <and>
+                        <token postag="SENT_END"/>
+                        <token postag="_PUNCT"/>
+                    </and>
+                </pattern>
+                <message>Evite abreviações informais.</message>
+                <suggestion>o quê</suggestion>
+                <example correction="o quê">Você quer <marker>oq</marker>?</example>
+            </rule>
+            <rule> <!-- sent-final, no punct -->
+                <pattern>
+                    <token postag="SENT_END">oq</token>
+                </pattern>
+                <message>Evite abreviações informais.</message>
+                <suggestion>o quê</suggestion>
+                <example correction="o quê">Sabe <marker>oq</marker></example>
+            </rule>
+            <rule> <!-- middle of sentence -->
+                <pattern>
+                    <token>oq</token>
+                </pattern>
+                <message>Evite abreviações informais.</message>
+                <suggestion>o que</suggestion>
+                <example correction="o que">Não sei <marker>oq</marker> eles querem.</example>
+            </rule>
+        </rulegroup>
         <rule id="ENSINO_A_DISTANCIA" name="Sugerir EaD para ensino a distância">
             <!-- p-goulart@2024-02-27 - DESC: must have higher priority than the speller rule! -->
             <pattern>

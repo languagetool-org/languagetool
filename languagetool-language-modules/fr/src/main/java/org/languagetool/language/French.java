@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.*;
 import org.languagetool.rules.fr.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -36,6 +37,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.fr.FrenchWordTokenizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.File;
 import java.io.IOException;
@@ -423,9 +425,9 @@ public class French extends Language implements AutoCloseable {
 
   @Override
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
-    if (enabledRules.contains("APOS_TYP")) {
-      List<RuleMatch> newRuleMatches = new ArrayList<>();
-      for (RuleMatch rm : ruleMatches) {
+    List<RuleMatch> newRuleMatches = new ArrayList<>();
+    for (RuleMatch rm : ruleMatches) {
+      if (enabledRules.contains("APOS_TYP")) {
         List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
         List<SuggestedReplacement> newReplacements = new ArrayList<>();
         for (SuggestedReplacement s : replacements) {
@@ -437,12 +439,28 @@ public class French extends Language implements AutoCloseable {
           newRepl.setReplacement(newReplStr);
           newReplacements.add(newRepl);
         }
-        RuleMatch newMatch = new RuleMatch(rm, newReplacements);
-        newRuleMatches.add(newMatch);
+        rm = new RuleMatch(rm, newReplacements);
       }
-      return newRuleMatches;
+
+      if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("MISSING_PRONOUN_LAPOSTROPHE")) {
+        if (rm.getFromPos() >= 3) {
+          String substring = rm.getSentence().getText().substring(rm.getFromPos() - 3, rm.getToPos());
+          if (substring.equalsIgnoreCase("si on")) {
+            rm.setSpecificRuleId("AI_FR_GGEC_SI_LON");
+            rm.getRule().setTags(Arrays.asList(Tag.picky));
+          }
+        }
+      }
+
+      if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("REPLACEMENT_PUNCTUATION_QUOTE")) {
+        rm.setSpecificRuleId("AI_FR_GGEC_QUOTES");
+        rm.getRule().setTags(Arrays.asList(Tag.picky));
+        rm.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
+      }
+
+      newRuleMatches.add(rm);
     }
-    return ruleMatches;
+    return newRuleMatches;
   }
 
 
@@ -472,6 +490,29 @@ public class French extends Language implements AutoCloseable {
 
   public MultitokenSpeller getMultitokenSpeller() {
     return FrenchMultitokenSpeller.INSTANCE;
+  }
+
+  @Override
+  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+    List<RuleMatch> results = new ArrayList<>();
+    for (RuleMatch ruleMatch : ruleMatches) {
+      List<String> suggestions = ruleMatch.getSuggestedReplacements();
+      if (suggestions.size()==1 && ruleMatch.getRule().getId().startsWith("AI_FR_GGEC")) {
+        String suggestion = suggestions.get(0);
+        ruleMatch.setOriginalErrorStr();
+        // the suggestion only changes the casing
+        if (suggestion.equalsIgnoreCase(ruleMatch.getOriginalErrorStr())) {
+          ruleMatch.setMessage("Un usage différent des majuscules et des minuscules est recommandé.");
+          ruleMatch.setShortMessage("Majuscules et minuscules");
+          ruleMatch.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
+          ruleMatch.getRule().setCategory(Categories.CASING.getCategory(ResourceBundleTools.getMessageBundle(this)));
+          ruleMatch.setSpecificRuleId(ruleMatch.getRule().getId().replace("ORTHOGRAPHY", "CASING"));
+          //ruleMatch.getRule().setTags(Arrays.asList(Tag.picky));
+        }
+      }
+      results.add(ruleMatch);
+    }
+    return results;
   }
 
 }

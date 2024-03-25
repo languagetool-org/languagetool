@@ -1228,7 +1228,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token regexp="yes" skip="1">[ву]|до</token>
-          <token inflected="yes" regexp="yes">університет|інститут|технікум|училище|школу|виш|вуз</token>
+          <token inflected="yes" regexp="yes">університет|інститут|технікум|училище|школу|виш|вуз|ВНЗ|коледж</token>
           <token postag_regexp="yes" postag="adv.*" min="0"/>
           <token regexp="yes" min="0">би?</token>
           <token min="0">не</token>
@@ -2380,7 +2380,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token inflected="yes" regexp="yes">держатися|триматися|бути</token>
         <marker>
           <token regexp="yes">в|у</token>
-          <token inflected="yes" postag_regexp="yes" postag='noun.*(v_mis|v_dav)'>сторона</token>
+          <token inflected="yes" postag_regexp="yes" postag="noun.*(v_mis|v_dav)">сторона</token>
         </marker>
       </pattern>
       <message>Правильно: <suggestion>осторонь</suggestion></message>
@@ -3850,21 +3850,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>своєрідні переробки пісень</example>
       </rule>
 
-      <!--
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">(.*?)?упаковка
-            <exception scope="previous" inflected="yes" regexp="yes">внутрішний|внутрішний|м'який|фірмовий|фабричний|твердий|багаторазовий|заводський</exception>
-          </token>
+          <token inflected="yes">цикл</token>
+          <marker>
+            <token inflected="yes" postag_regexp="yes" postag="noun:inanim:f:.*">упаковка</token>
+          </marker>
         </pattern>
-        <message>На позначення процесу краще вживати суфікс -ування, а на позначення предмету (рідше): -овання</message>
+        <message>На позначення процесу краще вживати суфікс -ування, також на позначення предмета інколи вживають суфікс: -овання</message>
         <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:.:)(v_...).*" postag_replace="noun:inanim:n:$2.*">пакування</match></suggestion>
         <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:.:)(v_...).*" postag_replace="noun:inanim:n:$2.*">упакування</match></suggestion>
         <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:.:)(v_...).*" postag_replace="noun:inanim:n:$2.*">паковання</match></suggestion>
-        <example correction="пакування|упакування|паковання"><marker>упаковка</marker> та зберігання продукції рослинництва</example>
+        <example correction="пакування|упакування|паковання">цикл <marker>упаковки</marker></example>
         <example>заводської упаковки</example>
+        <example>дві упаковки</example>
+        <example>складати в упаковку</example>
+        <example>тару і упаковку</example>
       </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">.*ання|доставка|продаж
+            <exception inflected="yes">маркування</exception>
+          </token>
+          <token regexp="yes">та|і|й|або|,</token>
+          <marker>
+            <token inflected="yes" postag_regexp="yes" postag="noun:inanim:f:.*">упаковка</token>
+          </marker>
+        </pattern>
+        <message>На позначення процесу краще вживати суфікс -ування, також на позначення предмета інколи вживають суфікс: -овання</message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:.:)(v_...).*" postag_replace="noun:inanim:n:$2.*">пакування</match></suggestion>
+        <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:.:)(v_...).*" postag_replace="noun:inanim:n:$2.*">упакування</match></suggestion>
+        <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:.:)(v_...).*" postag_replace="noun:inanim:n:$2.*">паковання</match></suggestion>
+      <!--
+        <example correction="пакування|упакування|паковання"><marker>упаковка</marker> та зберігання продукції рослинництва</example>
       -->
+        <example correction="пакування|упакування|паковання">зберігання та <marker>упаковка</marker> продукції рослинництва</example>
+        <example>заводської упаковки</example>
+        <example>дві упаковки</example>
+        <example>складати в упаковку</example>
+        <example>тару і упаковку</example>
+      </rule>
+
     </rulegroup>
 
     <rulegroup id="YEMNIST_VS_MISTKIST" name="-ємність та -місткість">
@@ -4616,7 +4643,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <feature id="gender"/>
           <feature id="case"/>
 
-          <token inflected="yes" regexp="yes">бакалійний|виновий|сувенірний|купецький|книжковий|різноманітні|в|у</token>
+          <token inflected="yes" regexp="yes">бакалійний|виновий|сувенірний|купецький|книжковий|різноманітний|в|у</token>
           <marker>
             <token inflected="yes">лавка</token>
           </marker>

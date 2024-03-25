@@ -56,7 +56,7 @@ public class UkrainianHybridDisambiguationTest {
   public void setUp() {
     tagger = new UkrainianTagger();
     tokenizer = new UkrainianWordTokenizer();
-    sentenceTokenizer = new SRXSentenceTokenizer(new Ukrainian());
+    sentenceTokenizer = new SRXSentenceTokenizer(Ukrainian.DEFAULT_VARIANT);
     disambiguator = new UkrainianHybridDisambiguator();
     demoDisambiguator = new DemoDisambiguator();
     chunker = new MultiWordChunker2("/uk/multiwords.txt", true);
@@ -580,7 +580,7 @@ public class UkrainianHybridDisambiguationTest {
   
   @Test
   public void testChunker() throws Exception {
-    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Для  годиться.");
     AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
     AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
@@ -600,7 +600,7 @@ public class UkrainianHybridDisambiguationTest {
   
   @Test
   public void testIgnoredCharacters() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Іва́н Петро́вич.");
 
     // TODO: fix disambiguator - it should be: Петро́вич[Петрович...

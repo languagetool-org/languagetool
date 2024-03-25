@@ -249,6 +249,9 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     
     assertEmptyMatch("зареєстровані зокрема БЮТівець Микола Булатецький та самовисуванець");
     
+    assertEmptyMatch("схований всередині номера");
+
+    
     // from real examples
     
      

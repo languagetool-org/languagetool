@@ -54,6 +54,16 @@ final class TokenAgreementAdjNounExceptionHelper {
 //      return true;
 //    }
 
+    // схований всередині номера
+    if( nounPos - adjPos > 1 ) {
+      Set<String> cases =  CaseGovernmentHelper.getCaseGovernments(tokens[adjPos+1], "adv");
+      if( cases.size() > 0
+          && TokenAgreementPrepNounRule.hasVidmPosTag(cases, tokens[nounPos]) ) {
+        logException();
+        return true;
+      }
+    }
+
     if( adjPos > 1
         && LemmaHelper.isCapitalized(tokens[adjPos].getCleanToken())
         && LemmaHelper.isCapitalized(tokens[adjPos-1].getCleanToken())

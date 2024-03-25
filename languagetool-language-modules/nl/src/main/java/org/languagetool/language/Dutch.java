@@ -180,6 +180,7 @@ public class Dutch extends Language {
   static {
     id2prio.put(LongSentenceRule.RULE_ID, -1);
     // default: 0
+    id2prio.put("SINT_X",3); // higher than simple replace
     id2prio.put("ET_AL", 1); // needs higher priority than MORFOLOGIK_RULE_NL_NL
     id2prio.put("N_PERSOONS", 1); // needs higher priority than MORFOLOGIK_RULE_NL_NL
     id2prio.put("HOOFDLETTERS_OVERBODIG_A", 1); // needs higher priority than MORFOLOGIK_RULE_NL_NL

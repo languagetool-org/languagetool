@@ -33,7 +33,7 @@ import org.languagetool.tagging.uk.UkrainianTagger;
 
 
 public class MissingHyphenRuleTest {
-  private final JLanguageTool lt = new JLanguageTool(new Ukrainian());
+  private final JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
 
   @Test
   public void testRule() throws IOException {

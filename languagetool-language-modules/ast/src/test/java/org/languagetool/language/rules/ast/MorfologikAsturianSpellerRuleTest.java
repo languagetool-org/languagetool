@@ -37,13 +37,13 @@ public class MorfologikAsturianSpellerRuleTest {
     MorfologikAsturianSpellerRule rule = new MorfologikAsturianSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
     JLanguageTool lt = new JLanguageTool(language);
 
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("¿Festeyate colos correutores gramaticales?")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("¿Tas avezáu colos correutores gramaticales?")).length);
 
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("¿Afáyeste colos correutores gramaticales?"));
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("¿Tas avecáu colos correutores gramaticales?"));
     assertEquals(1, matches.length);
-    assertEquals(1, matches[0].getFromPos());
-    assertEquals(9, matches[0].getToPos());
-    assertEquals("Afayesti", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(5, matches[0].getFromPos());
+    assertEquals(11, matches[0].getToPos());
+    assertEquals("avezáu", matches[0].getSuggestedReplacements().get(5));
   }
 
 }

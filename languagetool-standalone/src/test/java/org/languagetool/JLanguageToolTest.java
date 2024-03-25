@@ -470,6 +470,20 @@ public class JLanguageToolTest {
     assertThat(matchesCounter, is(0));
   }
 
+  @Test
+  public void testIgnoringEnglishWordsInSpanish() throws IOException {
+    Language lang = new Spanish();
+    JLanguageTool lt = new JLanguageTool(lang);
+    // No error for unclosed exclamation marks ¡!
+    List<RuleMatch> matches = lt.check("This is fantastic!");
+    assertEquals(0, matches.size());
+    matches = lt.check("The exhibition will feature a combination of new work as well as previously exhibited pieces.");
+    assertEquals(0, matches.size());
+
+    matches = lt.check("El president nos informa de la situación.");
+    assertEquals(1, matches.size());
+    assertEquals("presidente", matches.get(0).getSuggestedReplacements().get(0));
+  }
 
   @Test
   public void testIgnoringEnglishWordsInCatalan() throws IOException {
@@ -519,4 +533,16 @@ public class JLanguageToolTest {
     matches = lt.check("Aquest és el community manager.");
     assertEquals(1, matches.size());
   }
+
+  @Test
+  public void testIgnoringEnglishWordsInDutch() throws IOException {
+    Language lang = new Dutch();
+    JLanguageTool lt = new JLanguageTool(lang);
+    List<RuleMatch> matches = lt.check("This for that was een goede film.");
+    assertEquals(0, matches.size());
+    matches = lt.check("We got this!");
+    assertEquals(0, matches.size());
+    // add more tests
+  }
+
 }
