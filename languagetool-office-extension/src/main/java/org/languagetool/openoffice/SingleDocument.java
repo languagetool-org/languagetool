@@ -718,18 +718,22 @@ public class SingleDocument {
    * write caches to file
    */
   void writeCaches() {
-    if (numParasToCheck != 0 && !config.noBackgroundCheck() && docType != DocumentType.CALC) {
-      MessageHandler.printToLogFile("SingleDocument: writeCaches: Copy DocumentCache");
-      DocumentCache docCache = new DocumentCache(this.docCache);
-      List<ResultCache> paragraphsCache = new ArrayList<ResultCache>();
-      for (int i = 0; i < this.paragraphsCache.size(); i++) {
-        MessageHandler.printToLogFile("SingleDocument: writeCaches: Copy ResultCache " + i);
-        paragraphsCache.add(new ResultCache(this.paragraphsCache.get(i)));
+    try {
+      if (numParasToCheck != 0 && !config.noBackgroundCheck() && docType != DocumentType.CALC) {
+        MessageHandler.printToLogFile("SingleDocument: writeCaches: Copy DocumentCache");
+        DocumentCache docCache = new DocumentCache(this.docCache);
+        List<ResultCache> paragraphsCache = new ArrayList<ResultCache>();
+        for (int i = 0; i < this.paragraphsCache.size(); i++) {
+          MessageHandler.printToLogFile("SingleDocument: writeCaches: Copy ResultCache " + i);
+          paragraphsCache.add(new ResultCache(this.paragraphsCache.get(i)));
+        }
+        MessageHandler.printToLogFile("SingleDocument: writeCaches: Save Caches ...");
+        cacheIO.saveCaches(docCache, paragraphsCache, permanentIgnoredMatches, config, mDocHandler);
+        SpellCache sc = cacheIO.new SpellCache();
+        sc.write(LtSpellChecker.getWrongWords(), LtSpellChecker.getSuggestions());
       }
-      MessageHandler.printToLogFile("SingleDocument: writeCaches: Save Caches ...");
-      cacheIO.saveCaches(docCache, paragraphsCache, permanentIgnoredMatches, config, mDocHandler);
-      SpellCache sc = cacheIO.new SpellCache();
-      sc.write(LtSpellChecker.getWrongWords(), LtSpellChecker.getSuggestions());
+    } catch (Throwable t) {
+      MessageHandler.showError(t);
     }
   }
   
@@ -907,6 +911,13 @@ public class SingleDocument {
   public QueueEntry getQueueEntryForChangedParagraph() {
     if (!disposed && docCache != null && flatPara != null && !changedParas.isEmpty()) {
       Set<Integer> nParas = new HashSet<Integer>(changedParas.keySet());
+      if (!nParas.isEmpty()) {
+        try {
+          Thread.sleep(50);
+        } catch (InterruptedException e) {
+          MessageHandler.printException(e);
+        }
+      }
       for (int nPara : nParas) {
         OfficeTools.waitForLO();
         XFlatParagraph xFlatParagraph = flatPara.getFlatParagraphAt(nPara);
@@ -915,7 +926,6 @@ public class SingleDocument {
           if (sPara != null) {
             if (!isRunning(nPara)) {
               String sChangedPara = changedParas.get(nPara);
-              changedParas.remove(nPara);
               if (sChangedPara != null && (!sChangedPara.equals(sPara)
                   || (mDocHandler.useAnalyzedSentencesCache() && !docCache.isCorrectAnalyzedParagraphLength(nPara, sPara)))) {
                 docCache.setFlatParagraph(nPara, sPara);
@@ -928,6 +938,23 @@ public class SingleDocument {
                 } else {
                   return createQueueEntry(docCache.getNumberOfTextParagraph(nPara), 0);
                 }
+              } else {
+                changedParas.remove(nPara);  // test it as long there is no change
+                List<Integer> changedParas = new ArrayList<>();
+                if (nPara > 0) {
+                  changedParas.add(nPara - 1);                                                          
+                }
+//                changedParas.add(nPara);                                                          
+                if (nPara < docCache.size() - 1) {
+                  changedParas.add(nPara + 1);                                                          
+                }
+                remarkChangedParagraphs(changedParas, changedParas, false);
+              }
+            } else {
+              try {
+                Thread.sleep(50);
+              } catch (InterruptedException e) {
+                MessageHandler.printException(e);
               }
             }
           }
@@ -976,7 +1003,7 @@ public class SingleDocument {
     if (!disposed) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage, docLanguage, 
           numParasToCheck, false, false, isIntern);
-      singleCheck.remarkChangedParagraphs(changedParas, toRemarkParas, mDocHandler.getLanguageTool(), true);
+      singleCheck.remarkChangedParagraphs(changedParas, toRemarkParas, mDocHandler.getLanguageTool());
       closeDocumentCursor();
     }
   }
@@ -1600,8 +1627,12 @@ public class SingleDocument {
           //  save cache after document is saved (if something goes wrong the last state of document is saved)
           writeCaches();
       } else if(event.EventName.equals("OnSaveAsDone") && config.saveLoCache()) {
-        cacheIO.setDocumentPath(xComponent);
-        writeCaches();
+        try {
+          cacheIO.setDocumentPath(xComponent);
+          writeCaches();
+        } catch (Throwable t) {
+          MessageHandler.showError(t);
+        }
       }
     }
 
