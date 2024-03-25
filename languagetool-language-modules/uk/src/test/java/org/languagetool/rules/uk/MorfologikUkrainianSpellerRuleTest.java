@@ -160,7 +160,7 @@ public class MorfologikUkrainianSpellerRuleTest extends AbstractRuleTest {
   public void testSuggestionOrder() throws IOException {
     RuleMatch[] match = rule.match(lt.getAnalyzedSentence("захворіває"));
     assertEquals(1, Arrays.asList(match).size());
-    assertEquals(Arrays.asList("захворів", "захворіла", "захворіє", "захворівши", "захворював"), match[0].getSuggestedReplacements());
+    assertEquals(Arrays.asList("захворів", "захворіла", "захворіє", "захворював", "захворівши"), match[0].getSuggestedReplacements());
   }
 
   @Test
