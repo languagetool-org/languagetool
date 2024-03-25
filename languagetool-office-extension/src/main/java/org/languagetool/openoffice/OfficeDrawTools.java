@@ -26,8 +26,6 @@ import com.sun.star.awt.FontUnderline;
 import com.sun.star.awt.Point;
 import com.sun.star.awt.Size;
 import com.sun.star.beans.PropertyValue;
-import com.sun.star.beans.PropertyVetoException;
-import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.drawing.XDrawPage;
 import com.sun.star.drawing.XDrawPages;
@@ -39,9 +37,7 @@ import com.sun.star.drawing.XShape;
 import com.sun.star.drawing.XShapes;
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
-import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
-import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.linguistic2.SingleProofreadingError;
@@ -63,7 +59,7 @@ public class OfficeDrawTools {
   /** 
    * get the page count for standard pages
    */
-  public static int getDrawPageCount(XComponent xComponent) {
+  public static int getDrawPageCount(XComponent xComponent) throws Throwable {
     XDrawPagesSupplier xDrawPagesSupplier = UnoRuntime.queryInterface(XDrawPagesSupplier.class, xComponent);
     XDrawPages xDrawPages = xDrawPagesSupplier.getDrawPages();
     return xDrawPages.getCount();
@@ -73,7 +69,7 @@ public class OfficeDrawTools {
    * get draw page by index
    */
   public static XDrawPage getDrawPageByIndex(XComponent xComponent, int nIndex)
-      throws com.sun.star.lang.IndexOutOfBoundsException, com.sun.star.lang.WrappedTargetException {
+      throws Throwable {
     XDrawPagesSupplier xDrawPagesSupplier = UnoRuntime.queryInterface(XDrawPagesSupplier.class, xComponent);
     XDrawPages xDrawPages = xDrawPagesSupplier.getDrawPages();
     return UnoRuntime.queryInterface(XDrawPage.class, xDrawPages.getByIndex( nIndex ));
@@ -83,7 +79,7 @@ public class OfficeDrawTools {
    * creates and inserts a draw page into the giving position,
    * the method returns the new created page
    */
-  public static XDrawPage insertNewDrawPageByIndex(XComponent xComponent, int nIndex) throws Exception {
+  public static XDrawPage insertNewDrawPageByIndex(XComponent xComponent, int nIndex) throws Throwable {
     XDrawPagesSupplier xDrawPagesSupplier = UnoRuntime.queryInterface(XDrawPagesSupplier.class, xComponent);
     XDrawPages xDrawPages = xDrawPagesSupplier.getDrawPages();
     return xDrawPages.insertNewByIndex( nIndex );
@@ -93,7 +89,7 @@ public class OfficeDrawTools {
    * get size of the given page
    */
   public static Size getPageSize( XDrawPage xDrawPage ) 
-      throws com.sun.star.beans.UnknownPropertyException, com.sun.star.lang.WrappedTargetException {
+      throws Throwable {
     XPropertySet xPageProperties = UnoRuntime.queryInterface( XPropertySet.class, xDrawPage );
     return new Size(
         ((Integer)xPageProperties.getPropertyValue( "Width" )).intValue(),
@@ -112,8 +108,7 @@ public class OfficeDrawTools {
   /** 
    * get master page by index
    */
-  public static XDrawPage getMasterPageByIndex(XComponent xComponent, int nIndex)
-      throws com.sun.star.lang.IndexOutOfBoundsException, com.sun.star.lang.WrappedTargetException {
+  public static XDrawPage getMasterPageByIndex(XComponent xComponent, int nIndex) throws Throwable {
     XMasterPagesSupplier xMasterPagesSupplier = UnoRuntime.queryInterface(XMasterPagesSupplier.class, xComponent);
     XDrawPages xDrawPages = xMasterPagesSupplier.getMasterPages();
     return UnoRuntime.queryInterface(XDrawPage.class, xDrawPages.getByIndex( nIndex ));
@@ -123,7 +118,7 @@ public class OfficeDrawTools {
    * creates and inserts a new master page into the giving position,
    * the method returns the new created page
    */
-  public static XDrawPage insertNewMasterPageByIndex(XComponent xComponent, int nIndex) {
+  public static XDrawPage insertNewMasterPageByIndex(XComponent xComponent, int nIndex) throws Throwable {
     XMasterPagesSupplier xMasterPagesSupplier = UnoRuntime.queryInterface(XMasterPagesSupplier.class, xComponent);
     XDrawPages xDrawPages = xMasterPagesSupplier.getMasterPages();
     return xDrawPages.insertNewByIndex( nIndex );
@@ -132,7 +127,7 @@ public class OfficeDrawTools {
   /** 
    * sets given masterpage at the drawpage
    */
-  public static void setMasterPage(XDrawPage xDrawPage, XDrawPage xMasterPage) {
+  public static void setMasterPage(XDrawPage xDrawPage, XDrawPage xMasterPage) throws Throwable {
     XMasterPageTarget xMasterPageTarget = UnoRuntime.queryInterface(XMasterPageTarget.class, xDrawPage);
     xMasterPageTarget.setMasterPage( xMasterPage );
   }
@@ -142,7 +137,7 @@ public class OfficeDrawTools {
    * This is important, because only presentation documents
    * have notes and handout pages
    */
-  public static boolean isImpressDocument(XComponent xComponent) {
+  public static boolean isImpressDocument(XComponent xComponent) throws Throwable {
     XServiceInfo xInfo = UnoRuntime.queryInterface(XServiceInfo.class, xComponent);
     if (xInfo == null) {
       return false;
@@ -153,7 +148,7 @@ public class OfficeDrawTools {
   /** 
    * in impress documents each normal draw page has a corresponding notes page
    */
-  public static XDrawPage getNotesPage(XDrawPage xDrawPage) {
+  public static XDrawPage getNotesPage(XDrawPage xDrawPage) throws Throwable {
     XPresentationPage aPresentationPage = UnoRuntime.queryInterface(XPresentationPage.class, xDrawPage);
     return aPresentationPage.getNotesPage();
   }
@@ -161,7 +156,7 @@ public class OfficeDrawTools {
   /** 
    * in impress each documents has one handout page
    */
-  public static XDrawPage getHandoutMasterPage(XComponent xComponent) {
+  public static XDrawPage getHandoutMasterPage(XComponent xComponent) throws Throwable {
     XHandoutMasterSupplier aHandoutMasterSupplier = UnoRuntime.queryInterface(XHandoutMasterSupplier.class, xComponent);
     return aHandoutMasterSupplier.getHandoutMasterPage();
   }
@@ -169,7 +164,7 @@ public class OfficeDrawTools {
   /**
    * get shapes of a page
    */
-  public static XShapes getShapes(XDrawPage xPage) {
+  public static XShapes getShapes(XDrawPage xPage) throws Throwable {
     return UnoRuntime.queryInterface( XShapes.class, xPage );
   }
   
@@ -252,7 +247,8 @@ public class OfficeDrawTools {
    * returns -1 if it was found
    * returns the last number of paragraph otherwise
    */
-  private static int changeTextOfParagraphInText(int nParaCount, int nPara, int beginn, int length, String replace, XText xText) {
+  private static int changeTextOfParagraphInText(int nParaCount, int nPara, int beginn, int length, String replace, XText xText)
+        throws Throwable {
     if (xText != null) {
       XTextCursor xTextCursor = xText.createTextCursor();
       String sText = xText.getString();
@@ -331,7 +327,7 @@ public class OfficeDrawTools {
    * returns the last number of paragraph otherwise
    */
   private static int changeLocaleOfParagraphInText(int nParaCount, int nPara, int beginn, int length, Locale locale, 
-      XText xText) throws UnknownPropertyException, PropertyVetoException, IllegalArgumentException, WrappedTargetException {
+      XText xText) throws Throwable {
     if (xText != null) {
       XTextCursor xTextCursor = xText.createTextCursor();
       String sText = xText.getString();
@@ -410,7 +406,7 @@ public class OfficeDrawTools {
    * returns -1 if it was found
    * returns the last number of paragraph otherwise
    */
-  private static int findParaInText(int nParaCount, int nPara, XText xText) {
+  private static int findParaInText(int nParaCount, int nPara, XText xText) throws Throwable {
     if (xText != null) {
       String sText = xText.getString();
       if (nParaCount == nPara && sText.length() > 0) {

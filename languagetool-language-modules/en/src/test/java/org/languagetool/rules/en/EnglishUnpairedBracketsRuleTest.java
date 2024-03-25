@@ -70,6 +70,8 @@ public class EnglishUnpairedBracketsRuleTest {
     //some more cases
     assertCorrect("(Ketab fi Isti'mal al-'Adad al-Hindi)");
     assertCorrect("(al-'Adad al-Hindi)");
+    assertCorrect("will-o'-the-wisp");
+    assertCorrect("cat-o’-nine-tails");
     //TODO: ambiguous
     assertCorrect("a) item one\nb) item two\nc) item three");
     assertCorrectText("\n\n" +

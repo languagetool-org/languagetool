@@ -13730,10 +13730,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Posible error de ortografía.</message>
                 <example correction="O'Neill"><marker>O’neill</marker></example>
                 <example correction="L'ALCOIÀ|L'ALCORA"><marker>L’ALCOIA</marker></example>
-                <example correction="l'Alcoià|l'Alcora"><marker>L’Alcoia</marker></example>
-                <example correction="d'Alembert"><marker>D'Alembert</marker></example>
+                <example correction="L'Alcoià|l'Alcoià|L'Alcora|l'Alcora"><marker>L’Alcoia</marker></example>
                 <example correction="d'Alembert"><marker>D'Alambert</marker></example>
-                <example correction="l'Alcúdia"><marker>L´Alcudia</marker></example>
+                <example correction="L'Alcúdia|l'Alcúdia"><marker>L´Alcudia</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -18619,7 +18618,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Construcción incorrecta.</message>
                 <suggestion>se \2 \3</suggestion>
                 <suggestion>\1 \2 {suggestion}</suggestion>
-                <example correction="Se las cases|De las casas|De las clases|De las bases|De las fases|De las cales|De las cáseas"><marker>De las cases</marker> sociales.</example>
+                <example correction="Se las cases|De las casas|De las clases|De las bases|De las fases|De las cales|De las cakes|De las cáseas"><marker>De las cases</marker> sociales.</example>
                 <example correction="Se las lleva"><marker>De las lleva</marker> él.</example>
             </rule>
             <rule>
@@ -18632,7 +18631,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Construcción incorrecta.</message>
                 <suggestion>se \2 \3</suggestion>
                 <suggestion>\1 \2 {suggestion}</suggestion>
-                <example correction="Se la case|De la base|De la casa|De la clase|De la fase|De la Caspe|De la CAS|De la Cage|De la cásea"><marker>De la case</marker> social.</example>
+                <example correction="Se la case|De la base|De la casa|De la clase|De la fase|De la Caspe|De la CAS|De la Cage|De la cake|De la cásea"><marker>De la case</marker> social.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18656,7 +18655,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:N.[FC][PN].*|A..[FC][PN].|V.P..PF"/>
                 <message>Construcción incorrecta.</message>
                 <suggestion>\1 \2 {suggestion}</suggestion>
-                <example correction="En las casas|En las clases|En las bases|En las fases|En las cales|En las cáseas"><marker>En las cases</marker> sociales.</example>
+                <example correction="En las casas|En las clases|En las bases|En las fases|En las cales|En las cakes|En las cáseas"><marker>En las cases</marker> sociales.</example>
                 <example>Estamos en la era llamada "Kali-iuga".</example>
                 <example>Por esta vía las puede comprar.</example>
             </rule>
@@ -18669,7 +18668,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:3 desiredPostag:N.[FC][SN].*|A..[FC][SN].|V.P..SF"/>
                 <message>Construcción incorrecta.</message>
                 <suggestion>\1 \2 {suggestion}</suggestion>
-                <example correction="En la base|En la casa|En la clase|En la fase|En la Caspe|En la CAS|En la Cage|En la cásea"><marker>En la case</marker> social.</example>
+                <example correction="En la base|En la casa|En la clase|En la fase|En la Caspe|En la CAS|En la Cage|En la cake|En la cásea"><marker>En la case</marker> social.</example>
             </rule>
             <rule>
                 <pattern>
@@ -20532,6 +20531,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>En este contexto, probablemente es más adecuado el nombre en plural.</message>
                 <suggestion><match no="3" postag_regexp="yes" postag="(NC.)S.*" postag_replace="$1[PN].*"/></suggestion>
                 <example correction="personas">Estaba abarrotado de <marker>persona</marker>.</example>
+                <example>10 millones de multa.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -22601,6 +22601,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_POSTPONED_ADJ" name="concordancia de adjetivo pospuesto a sustantivos">
+            <antipattern>
+                <token inflected="yes" skip="3">ser</token>
+                <token>poca</token>
+                <token>cosa</token>
+                <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                <example>Tres años es poca cosa comparado con los siete años.</example>
+            </antipattern>
             <antipattern>
                 <token>lo</token>
                 <token regexp="yes">más|menos</token>

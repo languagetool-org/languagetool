@@ -360,7 +360,7 @@ public class TextLevelCheckQueue {
   /**
    *  run a queue entry for the specific document
    */
-  void runQueueEntry(QueueEntry qEntry, MultiDocumentsHandler multiDocHandler, SwJLanguageTool lt) {
+  void runQueueEntry(QueueEntry qEntry, MultiDocumentsHandler multiDocHandler, SwJLanguageTool lt) throws Throwable {
     if (testHeapSpace()) {
       SingleDocument document = getSingleDocument(qEntry.docId);
       if (document != null && !document.isDisposed()) {
@@ -491,7 +491,7 @@ public class TextLevelCheckQueue {
     /**
      * initialize languagetool for text level iteration
      */
-    public void initLangtool(Language language) {
+    public void initLangtool(Language language) throws Throwable {
       if (debugMode) {
         MessageHandler.printToLogFile("TextLevelCheckQueue: initLangtool: language = " + (language == null ? "null" : language.getShortCodeWithCountryAndVariant()));
       }

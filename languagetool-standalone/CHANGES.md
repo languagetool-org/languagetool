@@ -7,12 +7,14 @@
 
 #### Catalan
   * added and improved rules
+  * updated dictionary (spanish-pos-dict-2.25)
 
 #### English
   * tagger and spelling dictionaries have been moved to an external dependency (english-pos-dict v 0.3)
 
 #### Spanish
   * added and improved rules
+  * updated dictionary (spanish-pos-dict-2.2)
 
 #### Ukrainian
   * new words in the POS dictionary

@@ -149,7 +149,7 @@ public class SingleDocument {
     }
     xComponent = xComp;
     mDocHandler = mDH;
-    fixedLanguage = config.getDefaultLanguage();
+    fixedLanguage = config == null ? null : config.getDefaultLanguage();
     changedParas = new HashMap<Integer, String>();
     runningParas = new HashSet<>();
     setDokumentListener(xComponent);
@@ -459,9 +459,13 @@ public class SingleDocument {
    * @since 5.3
    */
   void setDocumentCacheForTests(List<String> paragraphs, List<List<String>> textParagraphs, List<int[]> footnotes, List<List<Integer>> chapterBegins, Locale locale) {
-    docCache.setForTest(paragraphs, textParagraphs, footnotes, chapterBegins, locale);
-    numParasToCheck = -1;
-    mDocHandler.resetSortedTextRules(mDocHandler.getLanguageTool());
+    try {
+      docCache.setForTest(paragraphs, textParagraphs, footnotes, chapterBegins, locale);
+      numParasToCheck = -1;
+      mDocHandler.resetSortedTextRules(mDocHandler.getLanguageTool());
+    } catch (Throwable t) {
+      //  For tests no messages
+    }
   }
   
   /** Get LanguageTool menu
@@ -492,8 +496,10 @@ public class SingleDocument {
       if (flatPara != null) {
         flatPara.setDisposed();
       }
-      ltMenus.removeListener();
-      ltMenus = null;
+      if (ltMenus != null) {
+        ltMenus.removeListener();
+        ltMenus = null;
+      }
     }
   }
   
@@ -778,18 +784,22 @@ public class SingleDocument {
    * Open new flat paragraph tools or initialize them again
    */
   public FlatParagraphTools setFlatParagraphTools() {
-	  if (disposed) {
-      flatPara = null;
-      return flatPara;
-	  }
-    OfficeTools.waitForLO();
-	  if (flatPara == null) {
-      flatPara = new FlatParagraphTools(xComponent);
-      if (!flatPara.isValid()) {
+    try  {
+  	  if (disposed) {
         flatPara = null;
+        return flatPara;
+  	  }
+      OfficeTools.waitForLO();
+  	  if (flatPara == null) {
+        flatPara = new FlatParagraphTools(xComponent);
+        if (!flatPara.isValid()) {
+          flatPara = null;
+        }
+      } else {
+        flatPara.init();
       }
-    } else {
-      flatPara.init();
+    } catch (Throwable t) {
+      MessageHandler.showError(t);
     }
     return flatPara;
   }
@@ -948,7 +958,7 @@ public class SingleDocument {
   /**
    * run a text level check from a queue entry (initiated by the queue)
    */
-  public void runQueueEntry(TextParagraph nStart, TextParagraph nEnd, int cacheNum, int nCheck, boolean override, SwJLanguageTool lt) {
+  public void runQueueEntry(TextParagraph nStart, TextParagraph nEnd, int cacheNum, int nCheck, boolean override, SwJLanguageTool lt) throws Throwable {
     if (!disposed && flatPara != null && docCache.isFinished() && nStart.number < docCache.textSize(nStart)) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache,
           fixedLanguage, docLanguage, numParasToCheck, false, false, false);

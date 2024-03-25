@@ -128,7 +128,7 @@ public class SingleCheck {
    */
   public SingleProofreadingError[] getCheckResults(String paraText, int[] footnotePositions, Locale locale, SwJLanguageTool lt, 
       int paraNum, int startOfSentence, boolean textIsChanged, int changeFrom, int changeTo, String lastSinglePara, 
-      int lastChangedPara, LoErrorType errType) {
+      int lastChangedPara, LoErrorType errType) throws Throwable {
     if (isDisposed()) {
       return new SingleProofreadingError[0];
     }
@@ -178,7 +178,7 @@ public class SingleCheck {
    *   is also called by text level queue
    */
   public void addParaErrorsToCache(int nFPara, SwJLanguageTool lt, int cacheNum, int parasToCheck, 
-        boolean checkOnlyParagraph, boolean override, boolean isIntern, boolean hasFootnotes) {
+        boolean checkOnlyParagraph, boolean override, boolean isIntern, boolean hasFootnotes) throws Throwable {
     //  make the method thread save
     MultiDocumentsHandler mDH = mDocHandler;
     if (isDisposed() || docCache == null || nFPara < 0 || nFPara >= docCache.size()) {
@@ -429,7 +429,7 @@ public class SingleCheck {
    * (for different kinds of text level rules)
    */
   private List<SingleProofreadingError[]> checkTextRules( String paraText, Locale locale, int[] footnotePos, int paraNum, 
-      int startSentencePos, SwJLanguageTool lt, boolean textIsChanged, boolean isIntern, LoErrorType errType) {
+      int startSentencePos, SwJLanguageTool lt, boolean textIsChanged, boolean isIntern, LoErrorType errType) throws Throwable{
     List<SingleProofreadingError[]> pErrors = new ArrayList<>();
     if (isDisposed()) {
       return pErrors;
