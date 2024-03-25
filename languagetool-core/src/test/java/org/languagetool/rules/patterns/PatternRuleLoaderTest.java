@@ -225,6 +225,24 @@ public class PatternRuleLoaderTest {
     assertTrue(isGoalSpecificFromCategoryRule.isGoalSpecific());
   }
 
+  @Test
+  public void testPrioAttribute() throws IOException {
+    PatternRuleLoader prg = new PatternRuleLoader();
+    String xmlFile = "/xx/grammar-withPrio.xml";
+    List<AbstractPatternRule> xmlPrioRules = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(xmlFile), xmlFile, null);
+
+    Rule rulePrio15 = getRuleById("CAT-PRIO-5-RG-PRIO-10-R-PRIO-15", xmlPrioRules);
+    assertEquals(15, rulePrio15.getPrio());
+    Rule rulePrio10 = getRuleById("CAT-PRIO-5-RG-PRIO-10-R-PRIO-0", xmlPrioRules);
+    assertEquals(10, rulePrio10.getPrio());
+    Rule rulePrio5 = getRuleById("CAT-PRIO-5-RG-PRIO-0-R-PRIO-0", xmlPrioRules);
+    assertEquals(5,rulePrio5.getPrio());
+    Rule rulePrio0_0 = getRuleById("CAT-PRIO-0-RG-PRIO-0-R-PRIO-0", xmlPrioRules);
+    assertEquals(0, rulePrio0_0.getPrio());
+    Rule rulePrio0_1 = getRuleById("CAT-PRIO-0-R-PRIO-0", xmlPrioRules);
+    assertEquals(0, rulePrio0_1.getPrio());
+  }
+
   private Set<String> getCategoryNames(List<AbstractPatternRule> rules) {
     Set<String> categories = new HashSet<>();
     for (AbstractPatternRule rule : rules) {
