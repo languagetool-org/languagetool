@@ -1834,9 +1834,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token inflected="yes">музичний</token>
           </marker>
-          <token inflected="yes" regexp="yes">слух|здібність</token>
+          <token inflected="yes" regexp="yes">слух|здібність|душа|дитина|родина|голос|палець|вірш</token>
         </pattern>
-        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">музикальний</match></suggestion></message>
+        <message>У значеннях обдарований здатністю точно сприймати музику, відчувати й виконувати музичні твори; мелодійний вживаємо: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">музикальний</match></suggestion></message>
         <example correction="Музикальний"><marker>Музичний</marker> слух</example>
       </rule>
 
@@ -1847,7 +1847,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes" regexp="yes">вечір|гурт|училище|інструмент|нота|установка|автомат|форма</token>
         </pattern>
-        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">музичний</match></suggestion></message>
+        <message>У значеннях який стосується музики як виду мистецтва; обслуговує потреби осіб, які пов’язані з музикою вживаємо: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">музичний</match></suggestion></message>
         <example correction="Музичного"><marker>Музикального</marker> вечора</example>
       </rule>
     </rulegroup>
@@ -2230,7 +2230,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes" regexp="yes">звання|лікар|присяга|справа|трибунал|училище|форма|частина|служба|квиток|обов'язок</token>
         </pattern>
-        <message>Правильно: <suggestion><match no="1" postag="adj.*">військовий</match></suggestion></message>
+        <message>У значенні: який стосується війська, військовослужбовця, вживаємо: <suggestion><match no="1" postag="adj.*">військовий</match></suggestion></message>
         <example correction="військового">Пішов до <marker>воєнного</marker> училища.</example>
       </rule>
 <!-- «воєнний стан» зафіксовано в багатьох законах та актах, запізно виправляти
@@ -2258,7 +2258,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes" regexp="yes">репортаж|комунізм|час|перемога|стан|злочин|кореспондент</token>
           </unify>
         </pattern>
-        <message>Правильно: <suggestion><match no="1" postag="adj.*">воєнний</match></suggestion></message>
+        <message>У значенні: який стосується війни, вживаємо: <suggestion><match no="1" postag="adj.*">воєнний</match></suggestion></message>
         <example correction="воєнний"><marker>військовий</marker> репортаж</example>
         <example correction="воєнного">Наслідки <marker>військового</marker> стану.</example>
         <example>військовий аташе</example>
@@ -3985,13 +3985,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="vulgar" name="Вульгаризми">
       <pattern>
-        <token postag_regexp="yes" postag=".*:vulg.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag=".*:vulg.*|.*_END"/>
+        <token postag_regexp="yes" postag=".*:(vulg|obsc).*">
+          <exception negate_pos="yes" postag_regexp="yes" postag=".*:(vulg|obsc).*|.*_END"/>
         </token>
       </pattern>
       <message>Це слово є вульгарним.</message>
       <example correction="">«все до <marker>сраки</marker>!»</example>
       <example correction="">все до <marker>сраки</marker></example>
+      <example correction=""><marker>бльо</marker></example>
     </rule>
 
     <!-- group: кличний відмінок -->
