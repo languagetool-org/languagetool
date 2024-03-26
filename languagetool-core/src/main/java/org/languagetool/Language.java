@@ -839,7 +839,7 @@ public abstract class Language {
   public int getRulePriority(Rule rule) {
     int categoryPriority = this.getPriorityForId(rule.getCategory().getId().toString());
     int rulePriority = this.getPriorityForId(rule.getId());
-    int rulePriorityFromRule = rule.getPrio();
+    int rulePriorityFromRule = rule.getPriority();
     // if there is a priority defined for rule it takes precedence over category priority
     if (rulePriority != 0) {
       return rulePriority;

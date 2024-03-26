@@ -20,7 +20,6 @@ package org.languagetool.rules.patterns;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.languagetool.*;
-import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.rules.*;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.xml.sax.Attributes;
@@ -935,7 +934,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     if (prioRuleAttribute != 0) {
       prio = prioRuleAttribute;
     }
-    rule.setPrio(prio);
+    rule.setPriority(prio);
   }
 
   private final Map<String, URL> internedUrls = new HashMap<>();

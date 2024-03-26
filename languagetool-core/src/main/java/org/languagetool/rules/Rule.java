@@ -74,7 +74,7 @@ public abstract class Rule {
   private boolean officeDefaultOff = false;
   private int minPrevMatches = 0; // minimum number of previous matches to show the rule
   private int distanceTokens = -1; // distance (number of tokens) between matches to consider a repetition
-  private int prio = 0;
+  private int priority = 0;
 
   public Rule() {
     this(null);
@@ -622,11 +622,11 @@ public abstract class Rule {
     isGoalSpecific = goalSpecific;
   }
 
-  public int getPrio() {
-    return prio;
+  public int getPriority() {
+    return priority;
   }
 
-  public void setPrio(int prio) {
-    this.prio = prio;
+  public void setPriority(int priority) {
+    this.priority = priority;
   }
 }
