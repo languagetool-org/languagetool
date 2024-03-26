@@ -90,7 +90,7 @@ public class FrenchTaggerTest {
       "Pen/[null]null", tokenizer, tagger);
     TestTools.myAssert("Saint-Côme-Le Mesnil", "Saint-Côme/[Saint-Côme]Z e sp -- Le/[le]D m s|Le/[le]R pers obj 3 m s" +
       " -- Mesnil/[null]null", tokenizer, tagger);
-    TestTools.myAssert("Dieppe-Le Tréport", "Dieppe/[Dieppe]Z e sp|Dieppe/[Dieppe]Z e sp -- Le/[le]D m s|Le/[le]R " +
+    TestTools.myAssert("Dieppe-Le Tréport", "Dieppe/[Dieppe]Z e sp -- Le/[le]D m s|Le/[le]R " +
       "pers obj 3 m s -- Tréport/[null]null", tokenizer, tagger);
     TestTools.myAssert("Caricaturistes-Les fantassins de la démocratie", "Caricaturistes/[caricaturiste]N e p -- " +
       "Les/[le]D e p|Les/[les]R pers obj 3 e p -- fantassins/[fantassin]N m p -- de/[de]D e sp|de/[de]P -- la/[la]N m" +
