@@ -327,7 +327,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Bole", "Bowle");
     put("letzens", "letztens");
     put("Pakur", w -> Arrays.asList("Parcours", "Parkuhr"));
-    put("Dez", w -> Arrays.asList("Dez.", "Der"));
+    put("Jun", "Jun.");
+    put("Sept", "Sept.");
+    put("Aug", w -> Arrays.asList("Aug.", "Auge"));
     put("Erstsemesterin", w -> Arrays.asList("Erstsemester", "Erstsemesters", "Erstsemesterstudentin"));
     put("Erstsemesterinnen", w -> Arrays.asList("Erstsemesterstudentinnen", "Erstsemester", "Erstsemestern"));
     put("kreativlos(e[nmrs]?)?", w -> Arrays.asList(w.replaceFirst("kreativ", "fantasie"), w.replaceFirst("kreativ", "einfalls"), w.replaceFirst("kreativlos", "unkreativ"), w.replaceFirst("kreativlos", "uninspiriert")));
@@ -1174,7 +1176,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("schalfen", w -> Arrays.asList("schlafen", "schaffen", "scharfen"));
     put("Anfage", w -> Arrays.asList("Anfrage", "Anlage"));
     put("gehör", w -> Arrays.asList("gehört", "Gehör", "gehöre"));
-    put("Sep", w -> Arrays.asList("Sepp", "September", "Separator", "Sei"));
+    put("Sep", w -> Arrays.asList("Sepp", "Sept.", "September", "Separator", "Sei"));
     put("Formulares", "Formulars");
     put("Danl", "Dank");
     put("umbennen", "umbenennen");
@@ -3803,6 +3805,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "ungunsten": return topMatch("Ungunsten");
       case "Situp": return topMatch("Sit-up");
       case "Situps": return topMatch("Sit-ups");
+      case "Feb": return topMatch("Feb.");
+      case "Apr": return topMatch("Apr.");
+      case "Okt": return topMatch("Okt.");
       case "Nov": return topMatch("Nov.");
       case "aussen": return topMatch("außen");
       case "bestmöglichst": return topMatch("bestmöglich");
