@@ -327,6 +327,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Bole", "Bowle");
     put("letzens", "letztens");
     put("Pakur", w -> Arrays.asList("Parcours", "Parkuhr"));
+    put("Dez", w -> Arrays.asList("Dez.", "Der"));
     put("Jun", "Jun.");
     put("Sept", "Sept.");
     put("Aug", w -> Arrays.asList("Aug.", "Auge"));
