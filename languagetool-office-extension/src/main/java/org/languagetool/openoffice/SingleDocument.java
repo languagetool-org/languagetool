@@ -720,11 +720,15 @@ public class SingleDocument {
   void writeCaches() {
     try {
       if (numParasToCheck != 0 && !config.noBackgroundCheck() && docType != DocumentType.CALC) {
-        MessageHandler.printToLogFile("SingleDocument: writeCaches: Copy DocumentCache");
+        if (debugMode > 0) {
+          MessageHandler.printToLogFile("SingleDocument: writeCaches: Copy DocumentCache");
+        }
         DocumentCache docCache = new DocumentCache(this.docCache);
         List<ResultCache> paragraphsCache = new ArrayList<ResultCache>();
         for (int i = 0; i < this.paragraphsCache.size(); i++) {
-          MessageHandler.printToLogFile("SingleDocument: writeCaches: Copy ResultCache " + i);
+          if (debugMode > 0) {
+            MessageHandler.printToLogFile("SingleDocument: writeCaches: Copy ResultCache " + i);
+          }
           paragraphsCache.add(new ResultCache(this.paragraphsCache.get(i)));
         }
         MessageHandler.printToLogFile("SingleDocument: writeCaches: Save Caches ...");

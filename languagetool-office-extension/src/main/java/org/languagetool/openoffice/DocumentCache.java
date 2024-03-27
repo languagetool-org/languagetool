@@ -338,7 +338,7 @@ public class DocumentCache implements Serializable {
 //        document.getMultiDocumentsHandler().handleLtDictionary(getDocAsString(), locale);
 //      }
       document.getMultiDocumentsHandler().runShapeCheck(hasUnsupportedText(), fromWhere);
-      if (fromWhere != 2 || debugModeTm) { //  do not write time to log for text level queue
+      if (debugModeTm) {
         long endTime = System.currentTimeMillis();
         MessageHandler.printToLogFile("Time to generate cache(" + fromWhere + "): " + (endTime - startTime));
       }

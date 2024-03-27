@@ -45,13 +45,13 @@ public class IgnoredMatches {
   public IgnoredMatches (Map<Integer, Map<String, Set<Integer>>> ignoredMatches, Map<Integer, List<LocaleEntry>> spellLocales) {
     this.ignoredMatches = new HashMap<>(ignoredMatches);
     this.spellLocales = new HashMap<>(spellLocales);
-    MessageHandler.printToLogFile("IgnoredMatches: IgnoredMatches(1): spellLocales.size: " + spellLocales.size());
+//    MessageHandler.printToLogFile("IgnoredMatches: IgnoredMatches(1): spellLocales.size: " + spellLocales.size());
   }
 
   public IgnoredMatches (IgnoredMatches ignoredMatches) {
     this.ignoredMatches = new HashMap<>(ignoredMatches.ignoredMatches);
     this.spellLocales = new HashMap<>(ignoredMatches.spellLocales);
-    MessageHandler.printToLogFile("IgnoredMatches: IgnoredMatches(2): spellLocales.size: " + spellLocales.size());
+//    MessageHandler.printToLogFile("IgnoredMatches: IgnoredMatches(2): spellLocales.size: " + spellLocales.size());
   }
   
   /**
@@ -261,8 +261,8 @@ public class IgnoredMatches {
 
   private void resetLocale(int y, int start, int length, Locale locale, FlatParagraphTools flatPara) {
     if (flatPara != null) {
-      MessageHandler.printToLogFile("IgnoredMatches: resetLocale: y: " + y + ", start: " + start 
-          + ", length: " + length + ", locale: " + OfficeTools.localeToString(locale));
+//      MessageHandler.printToLogFile("IgnoredMatches: resetLocale: y: " + y + ", start: " + start 
+//          + ", length: " + length + ", locale: " + OfficeTools.localeToString(locale));
       flatPara.setLanguageOfParagraph(y, start, length, locale);
     }
   }
@@ -279,7 +279,7 @@ public class IgnoredMatches {
 
   public void resetAllLocale(FlatParagraphTools flatPara) {
     if (flatPara != null) {
-      MessageHandler.printToLogFile("IgnoredMatches: resetAllLocale: spellLocales.size: " + spellLocales.size());
+//      MessageHandler.printToLogFile("IgnoredMatches: resetAllLocale: spellLocales.size: " + spellLocales.size());
       for (int y : spellLocales.keySet()) {
         for (LocaleEntry entry : spellLocales.get(y)) {
           resetLocale(y, entry.start, entry.length, entry.locale, flatPara);
