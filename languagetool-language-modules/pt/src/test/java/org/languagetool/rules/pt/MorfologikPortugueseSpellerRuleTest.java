@@ -25,6 +25,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternRuleXmlCreatorTest;
 
 
 import java.io.IOException;
@@ -698,5 +699,15 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("§ 1º", ltBR, ruleBR);
     assertNoErrors("§1º-A", ltBR, ruleBR);
     assertNoErrors("§ 1º-A", ltBR, ruleBR);
+  }
+
+  @Test public void testPortugueseSpellerReplacesOldGrammarRules() throws Exception {
+    // ELISAO_VERBAL_COM_ENCLITICO_INCORRETO_1PL
+    assertSingleError("Amamo-te", ltBR, ruleBR, "Amamos");
+    // ELISAO_VERBAL_COM_ENCLITICO_INCORRETO_INF
+    assertSingleError("Amá-te", ltBR, ruleBR, "Amar");
+    // ELISAO_VERBAL_SEM_ENCLITICO
+    assertSingleError("Fazê o quê?", ltBR, ruleBR, "Fazer");
+    assertSingleError("Vamo embora", ltBR, ruleBR, "Vamos");
   }
 }
