@@ -3546,21 +3546,17 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id='AVOID_ALL_PASSIVE_VOICE' name='Escrita Criativa: Evitar a Passiva (todas a formas)' type='style' default='off'>
-            <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
-            <!-- 			Synthetic Passive Voice			-->
             <rule>
                 <pattern>
-                    <token postag='V...3.+' postag_regexp='yes'>
-                        <exception inflected='yes' regexp='yes'>vestir|calçar|magoar|ferir</exception></token>
-                    <token spacebefore='no' regexp='yes'>&hifen;</token>
-                    <token spacebefore='no'>se</token>
+                    <token postag='V...3.+:PP3CNO00' postag_regexp='yes'>
+                        <exception inflected='yes' regexp='yes'>vestir|calçar|magoar|ferir</exception>
+                    </token>
                 </pattern>
                 <message>Evite a voz passiva.</message>
                 <url>https://pt.wikipedia.org/wiki/Voz_verbal#Voz_passiva</url>
                 <example type='incorrect'>O trabalho <marker>fez-se</marker>.</example>
                 <example>Alguém <marker>fez</marker> o trabalho.</example>
             </rule>
-            <!-- 		Analitic Passive Voice Complement	        -->
             <rule>
                 <pattern>
                     <token postag='V.P.+' postag_regexp='yes'/>
@@ -5195,16 +5191,14 @@ USA
             <rule id='CLICHE_18_LEVANTAR' name='Clichê: Levantar com o pé esquerdo'>
                 <pattern>
                     <token inflected='yes'>levantar</token>
-                    <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token min='0'>se</token>
                     <token>com</token>
                     <token>o</token>
                     <token>pé</token>
                     <token>esquerdo</token>
                 </pattern>
                 <message>&cliche_msg;</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match> um dia mau</suggestion>
-                <example correction='teve um dia mau'><marker>levantou-se com o pé esquerdo</marker>.</example>
+                <suggestion><match no='1' postag='(V......):PP.+' postag_regexp='yes' postag_replace="$1">ter</match> um dia ruim</suggestion>
+                <example correction='teve um dia ruim'><marker>levantou-se com o pé esquerdo</marker>.</example>
             </rule>
             <rule id='CLICHE_19_METER' name='Clichê: Meter o dedo na ferida'>
                 <pattern>
