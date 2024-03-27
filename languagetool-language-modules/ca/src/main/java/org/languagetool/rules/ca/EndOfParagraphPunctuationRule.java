@@ -56,6 +56,7 @@ public class EndOfParagraphPunctuationRule extends TextLevelRule {
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
+    int pos = 0;
     int sentencesInParagraph = 0;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
@@ -65,7 +66,7 @@ public class EndOfParagraphPunctuationRule extends TextLevelRule {
       if (lastToken.hasPosTag("PARA_END")) {
         if (sentencesInParagraph > 0) {
           if (!StringTools.isPunctuationMark(lastTokenStr) || lastTokenStr.equals(",") || lastTokenStr.equals(";")) {
-            RuleMatch ruleMatch = new RuleMatch(this, sentence, lastToken.getStartPos(), lastToken.getEndPos(),
+            RuleMatch ruleMatch = new RuleMatch(this, sentence, pos + lastToken.getStartPos(), pos + lastToken.getEndPos(),
               ruleMessage, shortMessage);
             if (!StringTools.isPunctuationMark(lastTokenStr)) {
               ruleMatch.setSuggestedReplacement(lastTokenStr + ".");
@@ -79,6 +80,7 @@ public class EndOfParagraphPunctuationRule extends TextLevelRule {
       } else {
         sentencesInParagraph++;
       }
+      pos += sentence.getCorrectedTextLength();
     }
     return ruleMatches.toArray(new RuleMatch[0]);
   }

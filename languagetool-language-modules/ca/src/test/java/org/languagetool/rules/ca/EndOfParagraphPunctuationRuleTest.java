@@ -45,15 +45,16 @@ public class EndOfParagraphPunctuationRuleTest {
     matches = rule.match(lt.analyzeText("Això és un paràgraf amb una frase només. Això és la segona frase"));
     assertEquals(1, matches.length);
     assertEquals("frase.", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(59, matches[0].getFromPos());
 
     matches = rule.match(lt.analyzeText("Això és un paràgraf amb una frase només. Això és la segona frase,"));
     assertEquals(1, matches.length);
     assertEquals(".", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(64, matches[0].getFromPos());
 
     matches = rule.match(lt.analyzeText("Això és un paràgraf amb una frase només.\\n"
     +"Això és una única frase en un paràgraf"));
     assertEquals(0, matches.length);
-
 
   }
 
