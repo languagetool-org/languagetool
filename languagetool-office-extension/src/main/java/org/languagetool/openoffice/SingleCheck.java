@@ -174,7 +174,7 @@ public class SingleCheck {
   }
   
   /**
-   *   check for number of Paragraphs > 0, chapter wide or full text
+   *   check for number of Paragraphs &gt; 0, chapter wide or full text
    *   is also called by text level queue
    */
   public void addParaErrorsToCache(int nFPara, SwJLanguageTool lt, int cacheNum, int parasToCheck, 

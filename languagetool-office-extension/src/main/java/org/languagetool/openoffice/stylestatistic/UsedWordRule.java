@@ -291,8 +291,7 @@ public class UsedWordRule {
   
   /**
    * set the Cache for one paragraph
-   * @throws IOException 
-   */  
+   */
   public void setCacheForParagraph(int nFPara, int nTPara, StatAnCache cache) {
     ResultCache statAnalysisCache = new ResultCache();
     List<AnalyzedSentence> analyzedSentences = cache.getAnalysedParagraph(nTPara);
