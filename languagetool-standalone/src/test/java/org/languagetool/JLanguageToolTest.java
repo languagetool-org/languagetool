@@ -545,4 +545,17 @@ public class JLanguageToolTest {
     // add more tests
   }
 
+  @Test
+  public void testIgnoringEnglishWordsInFrench() throws IOException {
+    Language lang = new French();
+    JLanguageTool lt = new JLanguageTool(lang);
+    
+    List<RuleMatch> matches = lt.check("Elle a fait le montage des deux clips sur After effect");
+    assertEquals(1, matches.size());
+    assertEquals("[After Effects]", matches.get(0).getSuggestedReplacements().toString());
+
+    matches = lt.check("House of Entrepreneurship");
+    assertEquals(0, matches.size());
+  }
+
 }
