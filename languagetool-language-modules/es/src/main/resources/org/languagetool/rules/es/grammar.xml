@@ -16963,6 +16963,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
+        <rulegroup id="CONCORDANCIAS_ADJ_COORD" name="concordancias de adjetivos coordinados" default="temp_off">
+            <rule>
+                <antipattern>
+                    <unify>
+                        <feature id="genero"/>
+                        <feature id="numero"/>
+                        <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                        <token postag="D.*" postag_regexp="yes"/>
+                    </unify>
+                </antipattern>
+                <pattern>
+                    <and>
+                        <token postag="_GN_FS"/>
+                        <token postag="A.*|V.P.*|N.*" postag_regexp="yes"/>
+                    </and>
+                    <unify negate="yes">
+                        <feature id="genero"/>
+                        <feature id="numero"/>
+                        <and>
+                            <token postag="_GN_FS"/>
+                            <token postag="A.*|V.P.*|N.*" postag_regexp="yes"/>
+                        </and>
+                        <unify-ignore>
+                            <token postag="CC|_PUNCT_CONT" postag_regexp="yes"/>
+                        </unify-ignore>
+                        <marker>
+                            <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag_regexp="yes" postag="_GN_.."/></token>
+                        </marker>
+                    </unify>
+                </pattern>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:A.*|V.P.* postagFrom:2 postagSelect:_GN_(.)(.) postagReplace:V.P..\b2\b1.|A..[C\b1][N\b2]."/>
+                <message>Posible error de concordancia.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="corrupta">Una administración lenta y <marker>corrupto</marker>.</example>
+                <example correction="agotada">Una administración lenta y <marker>agotadas</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="LAS_PASO" name="las PASOS > las PASO" premium="no">
             <pattern>
                 <token>las</token>

@@ -73,7 +73,7 @@ public class SimpleReplaceVerbsRuleTest {
     
     matches = rule.match(lt.getAnalyzedSentence("pringava"));
     assertEquals(1, matches.length);
-    assertEquals("enllardava", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("enfangava", matches[0].getSuggestedReplacements().get(0));
     assertEquals("empastifava", matches[0].getSuggestedReplacements().get(1));
     assertEquals("llepava", matches[0].getSuggestedReplacements().get(2));
     assertEquals("cagava", matches[0].getSuggestedReplacements().get(3));

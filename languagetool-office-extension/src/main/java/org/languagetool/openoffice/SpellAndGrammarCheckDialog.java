@@ -110,7 +110,6 @@ import com.sun.star.uno.XComponentContext;
 public class SpellAndGrammarCheckDialog extends Thread {
   
   private static boolean debugMode = OfficeTools.DEBUG_MODE_CD;         //  should be false except for testing
-//  private static boolean debugModeTm = OfficeTools.DEBUG_MODE_TM;       //  should be false except for testing
   private static boolean debugModeTm = OfficeTools.DEBUG_MODE_TM;       //  should be false except for testing
 
   private static final ResourceBundle messages = JLanguageTool.getMessageBundle();
@@ -610,7 +609,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
               if (linguServices == null) {
                 linguServices = new LinguisticServices(xContext);
               }
-              if (!linguServices.isCorrectSpell(sToken, locale)) {
+              if (!sToken.contains(" ") && !linguServices.isCorrectSpell(sToken, locale)) {
                 SingleProofreadingError aError = new SingleProofreadingError();
                 if (debugMode) {
                   MessageHandler.printToLogFile("CheckDialog: getSpellErrors: Spell Error: Word: " + sToken 
@@ -669,10 +668,15 @@ public class SpellAndGrammarCheckDialog extends Thread {
           }
         }
         if (checkType != 3 && ((errType != LoErrorType.SPELL && error.nErrorType != TextMarkupType.SPELLCHECK)
-             || (errType != LoErrorType.GRAMMAR && error.nErrorType == TextMarkupType.SPELLCHECK
-             && !documents.getLinguisticServices().isCorrectSpell(text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale)))
-            || (checkType == 3 && error.aRuleIdentifier.equals(checkRuleId)) ) {
+                           || (errType != LoErrorType.GRAMMAR && error.nErrorType == TextMarkupType.SPELLCHECK))
+              || (checkType == 3 && error.aRuleIdentifier.equals(checkRuleId)) ) {
           if (error.nErrorStart >= x) {
+            if (error.nErrorType == TextMarkupType.SPELLCHECK) {
+              String word = text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength);
+              if (word.contains(" ") || documents.getLinguisticServices().isCorrectSpell(word, locale)) {
+                continue;
+              }
+            }
             if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
                 && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
               error.aSuggestions = document.getSynonymArray(error, text, locale, lt, false);
@@ -757,10 +761,15 @@ public class SpellAndGrammarCheckDialog extends Thread {
                 }
               }
               if (checkType != 3 && ((errType != LoErrorType.SPELL && error.nErrorType != TextMarkupType.SPELLCHECK)
-                  || (errType != LoErrorType.GRAMMAR && error.nErrorType == TextMarkupType.SPELLCHECK
-                  && !documents.getLinguisticServices().isCorrectSpell(text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength), locale)))
+                                 || (errType != LoErrorType.GRAMMAR && error.nErrorType == TextMarkupType.SPELLCHECK))
                  || (checkType == 3 && error.aRuleIdentifier.equals(checkRuleId)) ) {
                 if (error.nErrorStart >= x) {
+                  if (error.nErrorType == TextMarkupType.SPELLCHECK) {
+                    String word = text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength);
+                    if (word.contains(" ") || documents.getLinguisticServices().isCorrectSpell(word, locale)) {
+                      continue;
+                    }
+                  }
                   if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
                       && documents.getLinguisticServices().isThesaurusRelevantRule(error.aRuleIdentifier)) {
                     error.aSuggestions = document.getSynonymArray(error, text, locale, lt, false);
