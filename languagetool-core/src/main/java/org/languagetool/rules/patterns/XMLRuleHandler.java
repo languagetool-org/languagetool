@@ -103,6 +103,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String TABNAME = "tab";
   protected static final String MINPREVMATCHES = "min_prev_matches";
   protected static final String DISTANCETOKENS = "distance_tokens";
+  protected static final String PRIO = "prio";
 
   protected List<AbstractPatternRule> rules = new ArrayList<>();
   protected Language language;
@@ -166,6 +167,9 @@ public class XMLRuleHandler extends DefaultHandler {
   protected String isGoalSpecificCategoryAttribute;
   protected String isGoalSpecificRuleGroupAttribute;
   protected boolean isGoalSpecific;
+  protected int prioCategoryAttribute;
+  protected int prioRuleGroupAttribute;
+  protected int prioRuleAttribute;
 
   protected boolean tokenLevelCaseSensitive;
   protected boolean tokenLevelCaseSet;
