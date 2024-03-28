@@ -29,7 +29,7 @@ import java.util.Objects;
 /**
  * @since 4.0
  */
-class UserLimits {
+public class UserLimits {
 
   private static final Logger logger = LoggerFactory.getLogger(UserLimits.class);
   
