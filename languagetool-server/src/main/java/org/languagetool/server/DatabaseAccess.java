@@ -18,7 +18,6 @@
  */
 package org.languagetool.server;
 
-import com.google.common.cache.Cache;
 import org.apache.ibatis.jdbc.SQL;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -228,4 +227,11 @@ abstract class DatabaseAccess {
    * @return a list of user rules (complete, or from the given range)
    */
   public abstract List<Rule> getRules(UserLimits limits, Language lang, @Nullable List<String> groups);
+
+  /**
+   *
+   * @param limits user account and settings for e.g. caching
+   * @return a list of ignored ruleIDs
+   */
+  public abstract List<String> getIgnoredRuleIds(UserLimits limits, @Nullable  List<String> groups);
 }
