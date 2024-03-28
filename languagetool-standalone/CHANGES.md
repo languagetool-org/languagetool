@@ -1,5 +1,10 @@
 # LanguageTool Change Log
 
+## 6.5-SNAPSHOT (release planned for 2024-09-27)
+
+...
+
+
 ## 6.4 (2024-03-28)
 
 #### Asturian
