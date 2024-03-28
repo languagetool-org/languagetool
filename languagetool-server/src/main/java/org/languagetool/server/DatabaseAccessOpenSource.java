@@ -27,6 +27,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.Premium;
 import org.languagetool.rules.Rule;
@@ -361,6 +362,12 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
 
   @Override
   public List<Rule> getRules(UserLimits limits, Language lang, List<String> groups) {
+    // not implemented in open source
+    return Collections.emptyList();
+  }
+
+  @Override
+  public List<String> getIgnoredRuleIds(UserLimits limits, @Nullable List<String> groups) {
     // not implemented in open source
     return Collections.emptyList();
   }

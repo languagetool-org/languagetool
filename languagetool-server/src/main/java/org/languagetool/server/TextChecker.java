@@ -38,8 +38,8 @@ import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
 import org.languagetool.server.tools.AbTestService;
 import org.languagetool.server.tools.LocalAbTestService;
-import org.languagetool.tools.TelemetryProvider;
 import org.languagetool.tools.LtThreadPoolFactory;
+import org.languagetool.tools.TelemetryProvider;
 import org.languagetool.tools.Tools;
 import org.slf4j.MDC;
 
@@ -436,6 +436,7 @@ abstract class TextChecker {
     List<String> enabledRules = getEnabledRuleIds(params);
 
     List<String> disabledRules = getDisabledRuleIds(params);
+    disabledRules.addAll(getDisabledRuleIdsFromDB(limits, finalDictGroups));
     List<CategoryId> enabledCategories = getCategoryIds("enabledCategories", params);
     List<CategoryId> disabledCategories = getCategoryIds("disabledCategories", params);
 
@@ -755,6 +756,16 @@ abstract class TextChecker {
     if (limits.getPremiumUid() != null && DatabaseAccess.isReady()) {
       DatabaseAccess db = DatabaseAccess.getInstance();
       return db.getRules(limits, lang, groups);
+    } else {
+      return Collections.emptyList();
+    }
+  }
+
+  @NotNull
+  private List<String> getDisabledRuleIdsFromDB(UserLimits limits, List<String> groups ) {
+    if (limits.getPremiumUid() != null && DatabaseAccess.isReady()) {
+      DatabaseAccess db = DatabaseAccess.getInstance();
+      return db.getIgnoredRuleIds(limits, groups);
     } else {
       return Collections.emptyList();
     }
