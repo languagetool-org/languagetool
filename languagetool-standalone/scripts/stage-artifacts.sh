@@ -4,9 +4,9 @@
 # Written because the automatic process didn't work: https://issues.sonatype.org/browse/OSSRH-7363
 
 # set to 1 to list what will be signed and uploaded, set to 0 to actually sign and upload:
-DRY_RUN=0
+DRY_RUN=1
 # set this to the version you want to release:
-VERSION=5.9
+VERSION=6.4
 
 CURRENT_DIR=`pwd`
 CURRENT_BASE=`basename $CURRENT_DIR`
@@ -28,7 +28,7 @@ fi
 
 # The list of projects was copied from the top-level pom.xml:
 # Note that we don't stage: languagetool-office-extension, languagetool-standalone, languagetool-commandline, languagetool-wikipedia, languagetool-http-client
-for PROJECT in languagetool-core en fr de pl ca it br nl pt ru ast be zh da eo gl el ja km ro sk sl es sv tl uk fa ta ga ar de-DE-x-simple-language all languagetool-gui-commons languagetool-server
+for PROJECT in languagetool-core en fr de pl ca it br nl pt ru ast be zh da eo gl el ja km ro sk sl es sv tl uk fa ta ga ar crh de-DE-x-simple-language all languagetool-gui-commons languagetool-server
 do
 
     if [ -d "../../languagetool-language-modules/$PROJECT" ]
