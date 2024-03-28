@@ -69,7 +69,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 
   private final Disambiguator chunker = new UkrainianMultiwordChunker("/uk/multiwords.txt", true);
 
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Ukrainian());
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(Ukrainian.DEFAULT_VARIANT);
   private final SimpleDisambiguator simpleDisambiguator = new SimpleDisambiguator();
 
   static final Set<String> V_MIS_PREPS = CaseGovernmentHelper.CASE_GOVERNMENT_MAP.entrySet()

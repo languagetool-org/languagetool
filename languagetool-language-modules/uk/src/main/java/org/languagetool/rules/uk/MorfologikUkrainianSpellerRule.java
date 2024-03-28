@@ -87,10 +87,11 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
     if( word.endsWith("-") ) {
       return !word.startsWith("-");
     }
-  
-    if( word.endsWith("²") || word.endsWith("³") ) {
-      word = word.substring(0, word.length() - 1); 
-    }
+
+    // we're tokenizing them separately now
+//    if( word.endsWith("²") || word.endsWith("³") ) {
+//      word = word.substring(0, word.length() - 1); 
+//    }
 
     // in some places disambiguator may leave tokens with ignored characters
     // so we have to ignore them here

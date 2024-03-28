@@ -144,7 +144,7 @@ public class SingleCheck {
       }
       if (changedParas.contains(lastChangedPara) )
       changedParas.add(lastChangedPara);
-      remarkChangedParagraphs(changedParas, changedParas, lt, true);
+      remarkChangedParagraphs(changedParas, changedParas, lt);
     }
     this.lastSinglePara = lastSinglePara;
 /*
@@ -165,9 +165,9 @@ public class SingleCheck {
       if (!isIntern && isDialogRequest && !textIsChanged) {
         List<Integer> changedParas = new ArrayList<Integer>();
         changedParas.add(paraNum);
-        remarkChangedParagraphs(changedParas, changedParas, lt, true);
+        remarkChangedParagraphs(changedParas, changedParas, lt);
       } else if (textIsChanged && (!useQueue || isDialogRequest)) {
-        remarkChangedParagraphs(changedParas, changedParas, lt, true);
+        remarkChangedParagraphs(changedParas, changedParas, lt);
       }
     }
     return errors;
@@ -309,7 +309,7 @@ public class SingleCheck {
         List<Integer> toRemarkParas = new ArrayList<>();
         if (cacheNum == 0) {
           changedParas.add(nFPara);
-          remarkChangedParagraphs(changedParas, changedParas, lt, true);
+          remarkChangedParagraphs(changedParas, changedParas, lt);
         } else if (oldCache != null) {
           for (int nText = startPara; nText < endPara; nText++) {
             int nFlat = docCache.getFlatParagraphNumber(docCache.createTextParagraph(cursorType, nText));
@@ -334,7 +334,7 @@ public class SingleCheck {
               MessageHandler.printToLogFile(tmpText);
             }
             singleDocument.setLastChangedParas(changedParas);
-            remarkChangedParagraphs(changedParas, toRemarkParas, lt, true);
+            remarkChangedParagraphs(changedParas, toRemarkParas, lt);
           } else if (debugMode > 1) {
             MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: Cache(" + cacheNum + ") Mark paragraphs from " + startPara 
                 + " to " + endPara + ": No Paras to Mark, tPara.type: " + tPara.type + ", tPara.number: " + tPara.number + ", nFPara: " + nFPara);
@@ -352,7 +352,7 @@ public class SingleCheck {
    * override existing marks
    */
   public void remarkChangedParagraphs(List<Integer> changedParas, List<Integer> toRemarkParas, 
-                                                  SwJLanguageTool lt, boolean override) {
+                                                  SwJLanguageTool lt) {
     if (!isDisposed() && !mDocHandler.isBackgroundCheckOff() && (!isDialogRequest || isIntern)) {
       
       Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();

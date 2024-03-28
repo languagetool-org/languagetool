@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
@@ -41,7 +42,7 @@ public class UkrainianTaggerTest {
 
   @Test
   public void testDictionary() throws IOException {
-    TestTools.testDictionary(tagger, new Ukrainian());
+    TestTools.testDictionary(tagger, Ukrainian.DEFAULT_VARIANT);
   }
 
   @Test
@@ -851,6 +852,13 @@ public class UkrainianTaggerTest {
 //    System.err.println(": " +token);
 //    TestTools.myAssert("і картками.", "", tokenizer, tagger);
 //  }
+
+  @Ignore
+  @Test
+  public void testObsceneMasked() throws IOException {
+    TestTools.myAssert("бл*ть", "бл*ть", tokenizer, tagger);
+    TestTools.myAssert("п#дарас", "п#дарас", tokenizer, tagger);
+  }
 
   @Test
   public void testSpecialChars() throws IOException {

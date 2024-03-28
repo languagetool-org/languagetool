@@ -76,7 +76,9 @@ public class TextLevelCheckQueue {
   * add it only if the new entry is not identical with the last entry or the running
   */
   public void addQueueEntry(TextParagraph nStart, TextParagraph nEnd, int nCache, int nCheck, String docId, boolean overrideRunning) {
-    if (nStart.type != nEnd.type || nStart.number < 0 || nEnd.number <= nStart.number || nCache < 0 || docId == null) {
+    if (nStart == null || nEnd == null || nStart.type != nEnd.type || nStart.number < 0 
+        || nEnd.number <= nStart.number || nCache < 0 || docId == null
+        || interruptCheck) {
       if (debugMode) {
         MessageHandler.printToLogFile("TextLevelCheckQueue: addQueueEntry: Return without add to queue: nCache = " + nCache
             + ", nStart = " + nStart + ", nEnd = " + nEnd 
@@ -87,7 +89,7 @@ public class TextLevelCheckQueue {
     QueueEntry queueEntry = new QueueEntry(nStart, nEnd, nCache, nCheck, docId, overrideRunning);
     if (!textRuleQueue.isEmpty()) {
       if (!overrideRunning && lastStart != null && nStart.type == lastStart.type && nStart.number >= lastStart.number 
-          && nEnd.number <= lastEnd.number && nCache == lastCache && docId.equals(lastDocId)) {
+          && nEnd.number <= lastEnd.number && nCache == lastCache && lastDocId != null && docId.equals(lastDocId)) {
         return;
       }
       synchronized(textRuleQueue) {
@@ -600,8 +602,8 @@ public class TextLevelCheckQueue {
                 MessageHandler.printToLogFile("TextLevelCheckQueue: run: queue ended");
               }
               queueRuns = false;
-              interruptCheck = false;
               queueIterator = null;
+              interruptCheck = false;
               return;
             } else if (queueEntry.special == RESET_FLAG) {
               if (debugMode) {

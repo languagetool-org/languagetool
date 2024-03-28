@@ -319,18 +319,49 @@ public class UkrainianTagger extends BaseTagger {
     // Івано-Франківська as adj from івано-франківський
     List<AnalyzedToken> analyzedTokens = analyzeAllCapitamizedAdj(word);
     if( analyzedTokens.size() > 0 ) {
-          if( tokens.get(0).hasNoTag() ) {
-            tokens = analyzedTokens;
+      if( tokens.get(0).hasNoTag() ) {
+        tokens = analyzedTokens;
+      }
+      else {
+        // compound tagging has already been performed and may have added tokens
+        for(AnalyzedToken token: analyzedTokens) {
+          if( ! tokens.contains(token) ) {
+            tokens.add(token);
           }
-          else {
-            // compound tagging has already been performed and may have added tokens
-            for(AnalyzedToken token: analyzedTokens) {
-              if( ! tokens.contains(token) ) {
-                tokens.add(token);
-              }
-            }
-          }
+        }
+      }
     }
+    
+    // бл*ть, нах#й
+    // приголосні: на#уй
+//    if( word.matches(".*[*#].*") ) {
+//      try {
+//        MorfologikUkrainianSpellerRule morfologikSpellerRule = (MorfologikUkrainianSpellerRule)Ukrainian.DEFAULT_VARIANT.getDefaultSpellingRule();
+//        Field field = morfologikSpellerRule.getClass().getSuperclass().getDeclaredField("speller1");
+//        field.setAccessible(true);
+//        MorfologikMultiSpeller speller1 = (MorfologikMultiSpeller) field.get(morfologikSpellerRule);
+//        Tagger tagger = Ukrainian.DEFAULT_VARIANT.getTagger();
+//        List<String> suggestions = speller1.getSuggestions(word);
+//        List<AnalyzedToken> tagged = suggestions.stream()
+//            .map(s -> {
+//              try {
+//                return tagger.tag(Arrays.asList(s)).get(0).getReadings();
+//              } catch (IOException e) {
+//                throw new RuntimeException(e);
+//              }
+//            })
+//            .filter(r -> PosTagHelper.hasPosTag(r, Pattern.compile(".*:(vulg|obsc).*")))
+//            .flatMap(Collection::stream)
+//            .collect(Collectors.toList());
+//        
+//        for(AnalyzedToken tagg:tagged) {
+//          tokens.add(new AnalyzedToken(word, tagg.getPOSTag() + ":alt", tagg.getLemma()));
+//        }
+//      }
+//      catch (Exception e) {
+//        logger.warn("Failed to tag {}", word);
+//      }
+//    }
 
     return tokens;
   }

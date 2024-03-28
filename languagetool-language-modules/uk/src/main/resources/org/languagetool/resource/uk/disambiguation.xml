@@ -5311,6 +5311,37 @@
     <example type="untouched">я вищу, як дурний</example>
   </rule>
 
+  <rule name="во - intj" id="vo_intj">
+    <pattern>
+      <marker>
+        <token>во</token>
+      </marker>
+      <token regexp="yes">!.*</token>
+    </pattern>
+    <disambig action="filter" postag="intj"/>
+    <example type="ambiguous"
+      inputform="во[во/intj,во/prep:arch]"
+      outputform="во[во/intj]">отаке <marker>во</marker>!
+    </example>
+    <example type="untouched">во ім'я</example>
+  </rule>
+
+  <rule name="во - prep" id="vo_prep">
+    <pattern>
+      <marker>
+        <token>во
+          <exception scope="next" inflected="yes">який</exception>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="prep:arch"/>
+    <example type="ambiguous"
+      inputform="во[во/intj,во/prep:arch]"
+      outputform="во[во/prep:arch]"><marker>во</marker> ім'я
+    </example>
+    <example type="untouched">во яка файна</example>
+  </rule>
+
   <!-- TODO: other просто, but it does not buy much - still have adv and part -->
 
 <!-- 

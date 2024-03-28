@@ -34,7 +34,7 @@ public class TypographyRuleTest {
   @Test
   public void testRule() throws IOException {
     TypographyRule rule = new TypographyRule(TestTools.getMessages("uk"));
-    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
 
     // correct sentences:
     assertEquals(0, rule.match(lt.getAnalyzedSentence("як-небудь")).length);
