@@ -467,13 +467,19 @@ public class French extends Language implements AutoCloseable {
 
       // AI_FR_GGEC_MAIL_EMAIL_JOINED
       if (sentenceText.contains("mail")) {
+        String message = "Dans un contexte formel, « e-mail » semble plus approprié.";
+        String shortMessage = "Forme préférée : « e-mail ».";
         if ((ruleId.startsWith("AI_FR_GGEC_REPLACEMENT_NOUN") || ruleId.startsWith("AI_FR_GGEC_REPLACEMENT_OTHER")) && !ruleId.contains("FORM")) {
           currentMatch.setSpecificRuleId("AI_FR_GGEC_MAIL_EMAIL");
           currentMatch.getRule().setTags(Arrays.asList(Tag.picky));
+          currentMatch.setMessage(message);
+          currentMatch.setShortMessage(shortMessage);
 
           if (potentialDeterminerMatch != null && isAdjacent(potentialDeterminerMatch, currentMatch)) {
             RuleMatch joinedMatch = joinMatches(potentialDeterminerMatch, currentMatch, "AI_FR_GGEC_MAIL_EMAIL_JOINED");
             newRuleMatches.add(joinedMatch);
+            currentMatch.setMessage(message);
+            currentMatch.setShortMessage(shortMessage);
             potentialDeterminerMatch = null;
             continue;
           }
