@@ -46,6 +46,9 @@ public class ItalianWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("passo", tokens, position)) {
       return true;   // "che passo passo vanno verso la rovina"
     }
+    if (wordRepetitionOf("piano", tokens, position)) {
+     return true;  // "Piano, piano, signor podestà."
+    }
     if (wordRepetitionOf("via", tokens, position)) {
       return true;   // "Il lessico si andava via via modificando."
     }
