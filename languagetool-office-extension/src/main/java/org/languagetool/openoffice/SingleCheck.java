@@ -128,7 +128,7 @@ public class SingleCheck {
    */
   public SingleProofreadingError[] getCheckResults(String paraText, int[] footnotePositions, Locale locale, SwJLanguageTool lt, 
       int paraNum, int startOfSentence, boolean textIsChanged, int changeFrom, int changeTo, String lastSinglePara, 
-      int lastChangedPara, LoErrorType errType) {
+      int lastChangedPara, LoErrorType errType) throws Throwable {
     if (isDisposed()) {
       return new SingleProofreadingError[0];
     }
@@ -144,7 +144,7 @@ public class SingleCheck {
       }
       if (changedParas.contains(lastChangedPara) )
       changedParas.add(lastChangedPara);
-      remarkChangedParagraphs(changedParas, changedParas, lt, true);
+      remarkChangedParagraphs(changedParas, changedParas, lt);
     }
     this.lastSinglePara = lastSinglePara;
 /*
@@ -165,20 +165,20 @@ public class SingleCheck {
       if (!isIntern && isDialogRequest && !textIsChanged) {
         List<Integer> changedParas = new ArrayList<Integer>();
         changedParas.add(paraNum);
-        remarkChangedParagraphs(changedParas, changedParas, lt, true);
+        remarkChangedParagraphs(changedParas, changedParas, lt);
       } else if (textIsChanged && (!useQueue || isDialogRequest)) {
-        remarkChangedParagraphs(changedParas, changedParas, lt, true);
+        remarkChangedParagraphs(changedParas, changedParas, lt);
       }
     }
     return errors;
   }
   
   /**
-   *   check for number of Paragraphs > 0, chapter wide or full text
+   *   check for number of Paragraphs &gt; 0, chapter wide or full text
    *   is also called by text level queue
    */
   public void addParaErrorsToCache(int nFPara, SwJLanguageTool lt, int cacheNum, int parasToCheck, 
-        boolean checkOnlyParagraph, boolean override, boolean isIntern, boolean hasFootnotes) {
+        boolean checkOnlyParagraph, boolean override, boolean isIntern, boolean hasFootnotes) throws Throwable {
     //  make the method thread save
     MultiDocumentsHandler mDH = mDocHandler;
     if (isDisposed() || docCache == null || nFPara < 0 || nFPara >= docCache.size()) {
@@ -309,7 +309,7 @@ public class SingleCheck {
         List<Integer> toRemarkParas = new ArrayList<>();
         if (cacheNum == 0) {
           changedParas.add(nFPara);
-          remarkChangedParagraphs(changedParas, changedParas, lt, true);
+          remarkChangedParagraphs(changedParas, changedParas, lt);
         } else if (oldCache != null) {
           for (int nText = startPara; nText < endPara; nText++) {
             int nFlat = docCache.getFlatParagraphNumber(docCache.createTextParagraph(cursorType, nText));
@@ -334,7 +334,7 @@ public class SingleCheck {
               MessageHandler.printToLogFile(tmpText);
             }
             singleDocument.setLastChangedParas(changedParas);
-            remarkChangedParagraphs(changedParas, toRemarkParas, lt, true);
+            remarkChangedParagraphs(changedParas, toRemarkParas, lt);
           } else if (debugMode > 1) {
             MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: Cache(" + cacheNum + ") Mark paragraphs from " + startPara 
                 + " to " + endPara + ": No Paras to Mark, tPara.type: " + tPara.type + ", tPara.number: " + tPara.number + ", nFPara: " + nFPara);
@@ -352,7 +352,7 @@ public class SingleCheck {
    * override existing marks
    */
   public void remarkChangedParagraphs(List<Integer> changedParas, List<Integer> toRemarkParas, 
-                                                  SwJLanguageTool lt, boolean override) {
+                                                  SwJLanguageTool lt) {
     if (!isDisposed() && !mDocHandler.isBackgroundCheckOff() && (!isDialogRequest || isIntern)) {
       
       Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();
@@ -429,7 +429,7 @@ public class SingleCheck {
    * (for different kinds of text level rules)
    */
   private List<SingleProofreadingError[]> checkTextRules( String paraText, Locale locale, int[] footnotePos, int paraNum, 
-      int startSentencePos, SwJLanguageTool lt, boolean textIsChanged, boolean isIntern, LoErrorType errType) {
+      int startSentencePos, SwJLanguageTool lt, boolean textIsChanged, boolean isIntern, LoErrorType errType) throws Throwable{
     List<SingleProofreadingError[]> pErrors = new ArrayList<>();
     if (isDisposed()) {
       return pErrors;
@@ -864,7 +864,7 @@ public class SingleCheck {
    * Correct SingleProofreadingError by footnote positions
    * footnotes before is the sum of all footnotes before the checked paragraph
    */
-  private static SingleProofreadingError correctRuleMatchWithFootnotes(SingleProofreadingError pError, int[] footnotes, List<Integer> deletedChars) {
+  protected static SingleProofreadingError correctRuleMatchWithFootnotes(SingleProofreadingError pError, int[] footnotes, List<Integer> deletedChars) {
     if (deletedChars == null || deletedChars.isEmpty()) {
       if (footnotes == null || footnotes.length == 0) {
         return pError;

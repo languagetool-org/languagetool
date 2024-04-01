@@ -338,7 +338,7 @@ public class DocumentCache implements Serializable {
 //        document.getMultiDocumentsHandler().handleLtDictionary(getDocAsString(), locale);
 //      }
       document.getMultiDocumentsHandler().runShapeCheck(hasUnsupportedText(), fromWhere);
-      if (fromWhere != 2 || debugModeTm) { //  do not write time to log for text level queue
+      if (debugModeTm) {
         long endTime = System.currentTimeMillis();
         MessageHandler.printToLogFile("Time to generate cache(" + fromWhere + "): " + (endTime - startTime));
       }
@@ -1198,7 +1198,7 @@ public class DocumentCache implements Serializable {
   public String getFlatParagraph(int n) {
     rwLock.readLock().lock();
     try {
-      String para = n < 0 || n >= locales.size() ? null : paragraphs.get(n);
+      String para = n < 0 || n >= paragraphs.size() ? null : paragraphs.get(n);
       return para;
     } finally {
       rwLock.readLock().unlock();
@@ -1998,7 +1998,7 @@ public class DocumentCache implements Serializable {
   }
 
   /**
-   * Change manual linebreak to distinguish from end of paragraph
+   * remove zero width space
    */
   public static String removeZeroWidthSpace(String text) {
     return text.replaceAll(OfficeTools.ZERO_WIDTH_SPACE, "");
@@ -2396,7 +2396,7 @@ public class DocumentCache implements Serializable {
   }
 
   private List<AnalyzedSentence> createAnalyzedParagraph(int nFPara, String paraText, SwJLanguageTool lt) throws IOException {
-    List<AnalyzedSentence> analyzedParagraph = lt.analyzeText(paraText);
+    List<AnalyzedSentence> analyzedParagraph = lt.analyzeText(paraText.replace("\u00AD", ""));
     putAnalyzedParagraph(nFPara, analyzedParagraph);
     return analyzedParagraph;
   }

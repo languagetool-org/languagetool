@@ -574,6 +574,12 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">La capitale du Japon est <marker>Tokyo</marker>.</example>
             </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token postag="R pers suj 3.*|R pers obj 3.*" postag_regexp="yes" regexp="yes">iels?</token>
+                </pattern>
+                <example correction=""><marker>Iel</marker> ne nous reconnait plus.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_FR_GGEC_REPLACEMENT_ADJECTIVE_FORM.*" name="">
             <rule><!--1-->
@@ -627,6 +633,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Elle avait les yeux <marker>marron</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="V etre.*" postag_regexp="yes"/>
+                    <token postag="A|C coor" postag_regexp="yes" min="0" max="3"/>
+                    <marker>
+                        <token regexp="yes">partante?s?</token>
+                    </marker>
+                </pattern>
+                <example correction="">Tu es <marker>partant</marker> ?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_FR_GGEC_REPLACEMENT_VERB_FORM.*" name="">
             <rule>
@@ -652,6 +668,34 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Tu es <marker>partant</marker> ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
+                    <token>que</token>
+                    <token postag="R pers suj 1 p|R pers suj 2 p" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V inf"/>
+                    </marker>
+                    <token postag="SENT_END" regexp="yes">[.!?]</token>
+                </pattern>
+                <example correction="">Que vous <marker>souhaiter</marker> ?</example>
+            </rule>
+            <rule><!--"se rendre compte"-->
+                <pattern>
+                    <token postag="[NJZ] . p|R pers suj [13].* p|R dem.* p|R m p" postag_regexp="yes"/>
+                    <token regexp="yes">ne|n'</token>
+                    <token inflected="yes" regexp="yes" min="0" max="1">[mts]e|lui|leur|[nv]ous</token>
+                    <token min="0" max="1" regexp="yes">y|en</token>
+                    <token postag="V .*p" postag_regexp="yes" inflected="yes">être</token>
+                    <token regexp="yes">pas|point|guère|plus|jamais</token>
+                    <token min="0" max="4" postag="A"/>
+                    <marker>
+                        <token postag="V ppa m s" inflected="yes">rendre</token>
+                    </marker>
+                    <token>compte</token>
+                </pattern>
+                <example correction="">Elles ne sont pas <marker>rendu</marker> compte.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_FR_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE.*" name="">
@@ -682,12 +726,32 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Deux<marker>-</marker>cents personnes se sont rassemblées devant la mairie.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_FR_GGEC_UNNECESSARY_PUNCTUATION_COMMA.*" name="">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>Mais</token>
+                    <marker>
+                        <token spacebefore="no">,</token>
+                    </marker>
+                </pattern>
+                <example correction="">Mais<marker>,</marker> qu’est-ce qui vous en empêche ?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_FR_GGEC_REPLACEMENT_CONFUSION_OLDSPELL.*" name="">
             <rule>
                 <pattern>
                     <token postag="[VNJ].*" postag_regexp="yes"/>
                 </pattern>
                 <example correction="">Il ne nous <marker>reconnait</marker> plus.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_FR_GGEC_REPLACEMENT_PRONOUN.*" name="">
+            <rule>
+                <pattern>
+                    <token postag="R pers suj 3.*|R pers obj 3.*" postag_regexp="yes" regexp="yes">iels?</token>
+                </pattern>
+                <example correction="">Mais <marker>iel</marker> a décidé de faire ça autrement.</example>
             </rule>
         </rulegroup>
     </category>

@@ -2245,7 +2245,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name="4-gliedrig" id="ZAHL_GLIEDRIG">
         <pattern>
-            <token>[1-9]*-gliedrig.*</token>
+            <token regexp="yes">[1-9]*-gliedrig.*</token>
             <token postag="SUB.*|EIG.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -8379,4 +8379,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="VER.*" />
         </rule>
     </rulegroup>
+    <rule id="NEHMEN_HOPS" name="ignore spelling 'nehmen mich hops'">
+        <pattern>
+            <token inflected="yes" skip="4">nehmen</token>
+            <marker>
+                <token>hops</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>

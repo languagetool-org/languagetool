@@ -21,7 +21,7 @@ public abstract class AbstractRuleTest {
   
   @Before
   public void setUpBase() throws IOException {
-    lt = new JLanguageTool(new Ukrainian());
+    lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
   }
 
   

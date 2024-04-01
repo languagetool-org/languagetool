@@ -192,6 +192,7 @@ public class English extends Language implements AutoCloseable {
         new ConsistentApostrophesRule(messages),
         new EnglishSpecificCaseRule(messages),
         new EnglishUnpairedBracketsRule(messages, this),
+        new EnglishUnpairedQuotesRule(messages, this),
         new EnglishWordRepeatRule(messages, this),
         new AvsAnRule(messages),
         new EnglishWordRepeatBeginningRule(messages, this),
@@ -204,6 +205,7 @@ public class English extends Language implements AutoCloseable {
         new EnglishPlainEnglishRule(messages),
         new EnglishRedundancyRule(messages),
         new SimpleReplaceRule(messages, this),
+        new SimpleReplaceProfanityRule(messages, this),
         new ReadabilityRule(messages, this, userConfig, false),
         new ReadabilityRule(messages, this, userConfig, true), 
         new EnglishRepeatedWordsRule(messages),
@@ -450,6 +452,7 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("CONFUSION_GONG_GOING", 1);   // prefer over I_AM_VB
     id2prio.put("SEEN_SEEM", 1);   // prefer over PRP_PAST_PART
     id2prio.put("PROFANITY", 1);   // prefer over spell checker (less prio than EN_COMPOUNDS)
+    id2prio.put("PROFANITY_XML", 1);
     id2prio.put("GOOD_FLUCK", 2);   // prefer over PROFANITY
     id2prio.put("PROFANITY_TYPOS", 2);   // prefer over PROFANITY
     id2prio.put("THE_THEM", 1);   // prefer over TO_TWO
@@ -546,7 +549,6 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("NP_TO_IS", -1);  // prefer other more specific rules
     id2prio.put("REPEATED_VERBS", -1);  // prefer other rules
     id2prio.put("NNP_COMMA_QUESTION", -2);  // prefer other more specific rules
-    id2prio.put("VB_TO_NN_DT", -2);  // prefer other more specific rules (e.g. NOUN_VERB_CONFUSION)
     id2prio.put("THE_CC", -2);  // prefer other more specific rules (with suggestions)
     id2prio.put("PRP_VBG", -2);  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
     id2prio.put("CANT_JJ", -2);  // prefer other more specific rules
@@ -584,6 +586,7 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("PRP_JJ", -12);  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
     id2prio.put("SINGULAR_NOUN_VERB_AGREEMENT", -12);  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
     id2prio.put("SINGULAR_AGREEMENT_SENT_START", -12);    // prefer AI
+    id2prio.put("VB_TO_NN_DT", -12);  // prefer AI and other more specific rules (e.g. NOUN_VERB_CONFUSION)
     id2prio.put("SUBJECTVERBAGREEMENT_2", -12);    // prefer AI
     id2prio.put("THE_SENT_END", -12);    // prefer AI
     id2prio.put("DT_NN_ARE_AME", -12);    // prefer AI

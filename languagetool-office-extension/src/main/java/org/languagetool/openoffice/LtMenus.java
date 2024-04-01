@@ -36,14 +36,12 @@ import com.sun.star.awt.XMenuBar;
 import com.sun.star.awt.XMenuListener;
 import com.sun.star.awt.XPopupMenu;
 import com.sun.star.beans.Property;
-import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.XIndexAccess;
 import com.sun.star.container.XIndexContainer;
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.EventObject;
-import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.text.XTextRange;
@@ -69,6 +67,7 @@ public class LtMenus {
   public final static String LT_IGNORE_ONCE_COMMAND = "service:org.languagetool.openoffice.Main?ignoreOnce";
   public final static String LT_IGNORE_PERMANENT_COMMAND = "service:org.languagetool.openoffice.Main?ignorePermanent";
   public final static String LT_DEACTIVATE_RULE_COMMAND = "service:org.languagetool.openoffice.Main?deactivateRule";
+  public final static String LT_MORE_INFO_COMMAND = "service:org.languagetool.openoffice.Main?moreInfo";
   public final static String LT_ACTIVATE_RULES_COMMAND = "service:org.languagetool.openoffice.Main?activateRules";
   public final static String LT_ACTIVATE_RULE_COMMAND = "service:org.languagetool.openoffice.Main?activateRule_";
   public final static String LT_REMOTE_HINT_COMMAND = "service:org.languagetool.openoffice.Main?remoteHint";   
@@ -78,6 +77,7 @@ public class LtMenus {
   public final static String LT_CHECKDIALOG_COMMAND = "service:org.languagetool.openoffice.Main?checkDialog";
   public final static String LT_CHECKAGAINDIALOG_COMMAND = "service:org.languagetool.openoffice.Main?checkAgainDialog";
   public static final String LT_STATISTICAL_ANALYSES_COMMAND = "service:org.languagetool.openoffice.Main?statisticalAnalyses";   
+  public static final String LT_OFF_STATISTICAL_ANALYSES_COMMAND = "service:org.languagetool.openoffice.Main?offStatisticalAnalyses";   
   public static final String LT_RESET_IGNORE_PERMANENT_COMMAND = "service:org.languagetool.openoffice.Main?resetIgnorePermanent";   
   public static final String LT_TOGGLE_BACKGROUND_CHECK_COMMAND = "service:org.languagetool.openoffice.Main?toggleNoBackgroundCheck";
   public static final String LT_BACKGROUND_CHECK_ON_COMMAND = "service:org.languagetool.openoffice.Main?backgroundCheckOn";
@@ -119,36 +119,46 @@ public class LtMenus {
   private ContextMenuInterceptor ltContextMenu;
 
   LtMenus(XComponentContext xContext, SingleDocument document, Configuration config) {
-    debugMode = OfficeTools.DEBUG_MODE_LM;
-    debugModeTm = OfficeTools.DEBUG_MODE_TM;
-    this.document = document;
-    this.xContext = xContext;
-    this.xComponent = document.getXComponent();
-    setConfigValues(config);
-    if (document.getDocumentType() == DocumentType.WRITER) {
-      ltHeadMenu = new LTHeadMenu(xComponent);
-    }
-    ltContextMenu = new ContextMenuInterceptor(xComponent);
-    if (debugMode) {
-      MessageHandler.printToLogFile("LanguageToolMenus initialised");
+    try {
+      debugMode = OfficeTools.DEBUG_MODE_LM;
+      debugModeTm = OfficeTools.DEBUG_MODE_TM;
+      this.document = document;
+      this.xContext = xContext;
+      this.xComponent = document.getXComponent();
+      setConfigValues(config);
+      if (document.getDocumentType() == DocumentType.WRITER) {
+        ltHeadMenu = new LTHeadMenu(xComponent);
+      }
+      ltContextMenu = new ContextMenuInterceptor(xComponent);
+      if (debugMode) {
+        MessageHandler.printToLogFile("LanguageToolMenus initialised");
+      }
+    } catch (Throwable t) {
+      MessageHandler.showError(t);
     }
   }
   
   void setConfigValues(Configuration config) {
     this.config = config;
-    isRemote = config.doRemoteCheck();
+    if (config != null) {
+      isRemote = config.doRemoteCheck();
+    }
   }
   
   void removeListener() {
-    ltHeadMenu.removeListener();
+    if (ltHeadMenu != null) {
+      ltHeadMenu.removeListener();
+    }
   }
   
   void addListener() {
-    ltHeadMenu.addListener();
+    if (ltHeadMenu != null) {
+      ltHeadMenu.addListener();
+    }
   }
   
   String replaceColon (String str) {
-    return str.replace(":", LT_MENU_REPLACE_COLON);
+    return str == null ? null : str.replace(":", LT_MENU_REPLACE_COLON);
   }
   
   /**
@@ -167,93 +177,101 @@ public class LtMenus {
     private String currentProfile = null;
     
     public LTHeadMenu(XComponent xComponent) {
-      XMenuBar menubar = null;
-      menubar = OfficeTools.getMenuBar(xComponent);
-      if (menubar == null) {
-        MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: Menubar is null");
-        return;
-      }
-      for (short i = 0; i < menubar.getItemCount(); i++) {
-        toolsId = menubar.getItemId(i);
-        String command = menubar.getCommand(toolsId);
-        if (TOOLS_COMMAND.equals(command)) {
-          toolsMenu = menubar.getPopupMenu(toolsId);
-          break;
+      try {
+        XMenuBar menubar = null;
+        menubar = OfficeTools.getMenuBar(xComponent);
+        if (menubar == null) {
+          MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: Menubar is null");
+          return;
         }
-      }
-      if (toolsMenu == null) {
-        MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: Tools Menu is null");
-        return;
-      }
-      for (short i = 0; i < toolsMenu.getItemCount(); i++) {
-        String command = toolsMenu.getCommand(toolsMenu.getItemId(i));
-        if (COMMAND_BEFORE_LT_MENU.equals(command)) {
-          ltId = toolsMenu.getItemId((short) (i + 1));
-          ltMenu = toolsMenu.getPopupMenu(ltId);
-          break;
+        for (short i = 0; i < menubar.getItemCount(); i++) {
+          toolsId = menubar.getItemId(i);
+          String command = menubar.getCommand(toolsId);
+          if (TOOLS_COMMAND.equals(command)) {
+            toolsMenu = menubar.getPopupMenu(toolsId);
+            break;
+          }
         }
-      }
-      if (ltMenu == null) {
-        MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: LT Menu is null");
-        return;
-      }
-      
-      for (short i = 0; i < ltMenu.getItemCount(); i++) {
-        String command = ltMenu.getCommand(ltMenu.getItemId(i));
-        if (LT_OPTIONS_COMMAND.equals(command)) {
-          switchOffId = (short)102;
-          switchOffPos = (short)(i - 1);
-          break;
+        if (toolsMenu == null) {
+          MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: Tools Menu is null");
+          return;
         }
-      }
-      if (switchOffId == 0) {
-        MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: switchOffId not found");
-        return;
-      }
-      boolean hasStatisticalStyleRules = false;
-      if (document.getDocumentType() == DocumentType.WRITER &&
-          !document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
-        Language lang = document.getLanguage();
-        if (lang != null) {
-          hasStatisticalStyleRules = OfficeTools.hasStatisticalStyleRules(lang);
+        for (short i = 0; i < toolsMenu.getItemCount(); i++) {
+          String command = toolsMenu.getCommand(toolsMenu.getItemId(i));
+          if (COMMAND_BEFORE_LT_MENU.equals(command)) {
+            ltId = toolsMenu.getItemId((short) (i + 1));
+            ltMenu = toolsMenu.getPopupMenu(ltId);
+            break;
+          }
         }
-      }
-      if (hasStatisticalStyleRules) {
-        ltMenu.insertItem((short)(switchOffId + 1), MESSAGES.getString("loStatisticalAnalysis") + " ...", 
-            (short)0, switchOffPos);
-        ltMenu.setCommand(switchOffId, LT_STATISTICAL_ANALYSES_COMMAND);
+        if (ltMenu == null) {
+          MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: LT Menu is null");
+          return;
+        }
+        
+        for (short i = 0; i < ltMenu.getItemCount(); i++) {
+          String command = ltMenu.getCommand(ltMenu.getItemId(i));
+          if (LT_OPTIONS_COMMAND.equals(command)) {
+            switchOffId = (short)102;
+            switchOffPos = (short)(i - 1);
+            break;
+          }
+        }
+        if (switchOffId == 0) {
+          MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: switchOffId not found");
+          return;
+        }
+        boolean hasStatisticalStyleRules = false;
+        if (document.getDocumentType() == DocumentType.WRITER &&
+            !document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
+          Language lang = document.getLanguage();
+          if (lang != null) {
+            hasStatisticalStyleRules = OfficeTools.hasStatisticalStyleRules(lang);
+          }
+        }
+        if (hasStatisticalStyleRules) {
+          ltMenu.insertItem((short)(switchOffId + 1), MESSAGES.getString("loStatisticalAnalysis") + " ...", 
+              (short)0, switchOffPos);
+          ltMenu.setCommand(switchOffId, LT_STATISTICAL_ANALYSES_COMMAND);
+          switchOffPos++;
+        }
+        ltMenu.insertItem(switchOffId, MESSAGES.getString("loMenuResetIgnorePermanent"), (short)0, switchOffPos);
+        ltMenu.setCommand(switchOffId, LT_RESET_IGNORE_PERMANENT_COMMAND);
+        switchOffId--;
         switchOffPos++;
-      }
-      ltMenu.insertItem(switchOffId, MESSAGES.getString("loMenuResetIgnorePermanent"), (short)0, switchOffPos);
-      ltMenu.setCommand(switchOffId, LT_RESET_IGNORE_PERMANENT_COMMAND);
-      switchOffId--;
-      switchOffPos++;
-      ltMenu.insertItem(switchOffId, MESSAGES.getString("loMenuEnableBackgroundCheck"), (short)0, switchOffPos);
-      if (document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
-        ltMenu.setCommand(switchOffId, LT_BACKGROUND_CHECK_ON_COMMAND);
-      } else {
-        ltMenu.setCommand(switchOffId, LT_BACKGROUND_CHECK_OFF_COMMAND);
-      }
-      toolsMenu.addMenuListener(this);
-      ltMenu.addMenuListener(this);
-      if (debugMode) {
-        MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: Menu listener set");
+        ltMenu.insertItem(switchOffId, MESSAGES.getString("loMenuEnableBackgroundCheck"), (short)0, switchOffPos);
+        if (document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
+          ltMenu.setCommand(switchOffId, LT_BACKGROUND_CHECK_ON_COMMAND);
+        } else {
+          ltMenu.setCommand(switchOffId, LT_BACKGROUND_CHECK_OFF_COMMAND);
+        }
+        toolsMenu.addMenuListener(this);
+        ltMenu.addMenuListener(this);
+        if (debugMode) {
+          MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: Menu listener set");
+        }
+      } catch (Throwable t) {
+        MessageHandler.showError(t);
       }
     }
     
     void removeListener() {
-      toolsMenu.removeMenuListener(this);
+      if (toolsMenu != null) {
+        toolsMenu.removeMenuListener(this);
+      }
     }
     
     void addListener() {
-      toolsMenu.addMenuListener(this);
+      if (toolsMenu != null) {
+        toolsMenu.addMenuListener(this);
+      }
     }
     
     /**
      * Set the dynamic parts of the LT menu
      * placed as submenu at the LO/OO tools menu
      */
-    private void setLtMenu() {
+    private void setLtMenu() throws Throwable {
       if (document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
         ltMenu.setItemText(switchOffId, MESSAGES.getString("loMenuEnableBackgroundCheck"));
       } else {
@@ -272,7 +290,7 @@ public class LtMenus {
      * Set the profile menu
      * if there are more than one profiles defined at the LT configuration file
      */
-    private void setProfileMenu(short profilesId, short profilesPos) {
+    private void setProfileMenu(short profilesId, short profilesPos) throws Throwable {
       ltMenu.insertItem(profilesId, MESSAGES.getString("loMenuChangeProfiles"), MenuItemStyle.AUTOCHECK, profilesPos);
       xProfileMenu = OfficeTools.getPopupMenu(xContext);
       if (xProfileMenu == null) {
@@ -289,7 +307,7 @@ public class LtMenus {
      * Set the items for different profiles 
      * if there are more than one defined at the LT configuration file
      */
-    private int setProfileItems() {
+    private int setProfileItems() throws Throwable {
       currentProfile = config.getCurrentProfile();
       definedProfiles = config.getDefinedProfiles();
       definedProfiles.sort(null);
@@ -324,7 +342,7 @@ public class LtMenus {
     /**
      * Run the actions defined in the profile menu
      */
-    private void runProfileAction(String profile) {
+    private void runProfileAction(String profile) throws Throwable {
       List<String> definedProfiles = config.getDefinedProfiles();
       if (profile != null && (definedProfiles == null || !definedProfiles.contains(profile))) {
         MessageHandler.showMessage("profile '" + profile + "' not found");
@@ -348,7 +366,7 @@ public class LtMenus {
      * Set Activate Rule Submenu
      */
     
-    private void setActivateRuleMenu(short pos, short id, short submenuStartId) {
+    private void setActivateRuleMenu(short pos, short id, short submenuStartId) throws Throwable {
       Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap(null);
       if (!deactivatedRulesMap.isEmpty()) {
         if (ltMenu.getItemId(pos) != id) {
@@ -384,7 +402,11 @@ public class LtMenus {
     @Override
     public void itemActivated(MenuEvent event) {
       if (event.MenuId == 0) {
-        setLtMenu();
+        try {
+          setLtMenu();
+        } catch (Throwable e) {
+          MessageHandler.showError(e);
+        }
       }
     }
     @Override
@@ -427,7 +449,7 @@ public class LtMenus {
             j++;
           }
         }
-      } catch (IOException e) {
+      } catch (Throwable e) {
         MessageHandler.showError(e);
       }
     }
@@ -633,13 +655,13 @@ public class LtMenus {
                 nId++;
               }
               addLTMenuEntry(nId, xContextMenu, xMenuElementFactory, false);
-/*
+              
               XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
                   xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-              xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuOptions"));
-              xNewMenuEntry.setPropertyValue("CommandURL", LT_OPTIONS_URL);
-              xContextMenu.insertByIndex(nId, xNewMenuEntry);
-*/              
+              xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("guiMore"));
+              xNewMenuEntry.setPropertyValue("CommandURL", LT_MORE_INFO_COMMAND);
+              xContextMenu.insertByIndex(1, xNewMenuEntry);
+
               if (debugModeTm) {
                 long runTime = System.currentTimeMillis() - startTime;
                 if (runTime > OfficeTools.TIME_TOLERANCE) {
@@ -707,7 +729,7 @@ public class LtMenus {
     }
     
     private void addLTMenuEntry(int nId, XIndexContainer xContextMenu, XMultiServiceFactory xMenuElementFactory,
-                boolean showAll) throws Exception {
+                boolean showAll) throws Throwable {
       XIndexContainer xSubMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
           xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerContainer"));
       boolean hasStatisticalStyleRules;
@@ -793,7 +815,7 @@ public class LtMenus {
     }
     
     private XPropertySet createActivateRuleProfileItems(Map<String, String> deactivatedRulesMap, 
-        XMultiServiceFactory xMenuElementFactory) throws Exception {
+        XMultiServiceFactory xMenuElementFactory) throws Throwable {
       XPropertySet xNewSubMenuEntry;
       XIndexContainer xRuleMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
           xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerContainer"));
@@ -867,7 +889,7 @@ public class LtMenus {
     /**
      * Print properties in debug mode
      */
-    private void printProperties(XPropertySet props) throws UnknownPropertyException, WrappedTargetException {
+    private void printProperties(XPropertySet props) throws Throwable {
       Property[] propInfo = props.getPropertySetInfo().getProperties();
       for (Property property : propInfo) {
         MessageHandler.printToLogFile("LanguageToolMenus: Property: Name: " + property.Name + ", Type: " + property.Type);

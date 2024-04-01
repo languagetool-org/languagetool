@@ -110,6 +110,7 @@ public class Catalan extends Language {
             new SimpleReplaceDNVColloquialRule(messages, this),
             new SimpleReplaceDNVSecondaryRule(messages, this),
             new WordCoherencyRule(messages)
+            //new EndOfParagraphPunctuationRule(messages)
     );
   }
 
@@ -210,7 +211,9 @@ public class Catalan extends Language {
   protected int getPriorityForId(String id) {
     switch (id) {
       case "CONFUSIONS2": return 80;
-      case "DEU_NI_DO": return 80; // greater then rules about pronouns
+      case "DEU_NI_DO": return 80; // greater than rules about pronouns
+      case "FER_LOGIN": return 70; // greater than anglicisms
+      case "L_OK": return 70; // greater than anglicisms
       case "INCORRECT_EXPRESSIONS": return 50;
       case "PERSONATGES_FAMOSOS": return 50;
       case "CONEIXO_CONEC": return 50;
@@ -257,6 +260,7 @@ public class Catalan extends Language {
       case "DOS_ARTICLES": return 10; // greater than apostrophation rules
       case "MOTS_GUIONET": return 10; // greater than CONCORDANCES_DET_NOM
       case "SELS_EN_VA": return 10;
+      case "PREFIXOS_SENSE_GUIONET_EN_DICCIONARI": return 10; // greater than SPELLING
       case "ZERO_O": return 10; //greater than SPELLING
       case "URL": return 10; //greater than SPELLING
       case "CONCORDANCES_DET_NOM": return 5;
@@ -276,11 +280,13 @@ public class Catalan extends Language {
       case "COMMA_LOCUTION": return -10;
       case "REGIONAL_VERBS": return -10;
       case "PRONOMS_FEBLES_SOLTS": return -10; //lesser than SPELLING
+      case "CONCORDANCA_PRONOMS_CATCHALL": return -10;
       case "AGREEMENT_POSTPONED_ADJ": return -15;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "ESPAIS_QUE_FALTEN_PUNTUACIO": return -20;
       case "VERBS_NOMSPROPIS": return -20;
       case "VERBS_PRONOMINALS": return -25;
+      case "PORTO_LLEGINT": return -30;
       case "PORTA_UNA_HORA": return -40;
       case "REPETITIONS_STYLE": return -50;
       case "MUNDAR": return -50;
@@ -296,6 +302,7 @@ public class Catalan extends Language {
       case "REPETITION_ADJ_N_ADJ": return -155;
       case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
       case "PUNT_FINAL": return -200;
+      case "CA_END_PARAGRAPH_PUNCTUATION": return -250;
       case "DICENDI_QUE": return -250;
       case "UPPERCASE_SENTENCE_START": return -500;
       case "MAJUSCULA_IMPROBABLE": return -500;
@@ -307,13 +314,14 @@ public class Catalan extends Language {
     if (id.startsWith("CA_SIMPLE_REPLACE_MULTIWORDS")) {
       return 70;
     }
+    if (id.startsWith("CA_SIMPLE_REPLACE_ANGLICISM")) {
+      return 65; // greater than CA_SIMPLE_REPLACE_BALEARIC
+    }
     if (id.startsWith("CA_SIMPLE_REPLACE_BALEARIC")) {
       return 60;
     }
     if (id.startsWith("CA_SIMPLE_REPLACE_VERBS")) {
       return 28;
-    }if (id.startsWith("CA_SIMPLE_REPLACE_ANGLICISM")) {
-      return 10;
     }
     if (id.startsWith("CA_COMPOUNDS")) {
       return 50;

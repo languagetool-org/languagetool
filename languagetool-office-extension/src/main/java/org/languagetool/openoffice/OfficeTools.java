@@ -110,6 +110,7 @@ public class OfficeTools {
   public static final String MULTILINGUAL_LABEL = "99-";  // Label added in front of variant to indicate a multilingual paragraph (returned is the main language)
   public static final int CHECK_MULTIPLIKATOR = 40;       //  Number of minimum checks for a first check run
   public static final int CHECK_SHAPES_TIME = 1000;       //  time interval to run check for changes in text inside of shapes
+  public static final int SPELL_CHECK_MIN_HEAP = 850;     //  Minimal heap space to run LT spell check
   public static int TIME_TOLERANCE = 100;                 //  Minimal milliseconds to show message in TM debug mode
   
   public static int DEBUG_MODE_SD = 0;            //  Set Debug Mode for SingleDocument

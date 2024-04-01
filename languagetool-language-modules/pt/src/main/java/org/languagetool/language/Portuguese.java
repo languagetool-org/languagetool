@@ -251,7 +251,10 @@ public class Portuguese extends Language implements AutoCloseable {
     id2prio.put("PT_DIACRITICS_REPLACE", -45);  // prefer over spell checker
     id2prio.put("DIACRITICS", -45);
     id2prio.put("PT_COMPOUNDS_POST_REFORM", -45);
-    id2prio.put("AUX_VERBO", -45);  // HIGHER THAN SPELLER
+    id2prio.put("AUX_VERBO", -45);
+    id2prio.put("ENSINO_A_DISTANCIA", -45);
+    id2prio.put("OQ_O_QUE_ORTHOGRAPHY", -45);
+    id2prio.put("EMAIL_SEM_HIFEN_ORTHOGRAPHY", -45); // HIGHER THAN SPELLER
     // MORFOLOGIK SPELLER FITS HERE AT -50 ---------------------  // SPELLER (-50)
     id2prio.put("PRETERITO_PERFEITO", -51);  // LOWER THAN SPELLER
     id2prio.put("PT_BR_SIMPLE_REPLACE", -51);
@@ -287,6 +290,9 @@ public class Portuguese extends Language implements AutoCloseable {
   protected int getPriorityForId(String id) {
     if (id.startsWith("MORFOLOGIK_RULE")) {
       return -50;
+    }
+    if (id.startsWith("AI_PT_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL")) {
+      return -49;
     }
     if (id.startsWith("PT_MULTITOKEN_SPELLING")) {
       return -49;

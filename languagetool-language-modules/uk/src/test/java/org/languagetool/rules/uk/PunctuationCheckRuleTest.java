@@ -36,7 +36,7 @@ public class PunctuationCheckRuleTest {
     PunctuationCheckRule rule = new PunctuationCheckRule(TestTools.getEnglishMessages());
 
     RuleMatch[] matches;
-    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
     
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("Дві, коми. Ось: дві!!!"));

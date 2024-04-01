@@ -118,7 +118,7 @@ public class QuestionMarkRule extends TextLevelRule {
             }
           }
         }
-        if (firstToken != null) {
+        if (firstToken != null && !firstToken.hasPosTag("_english_ignore_")) {
           String s = null;
           if (needsInvQuestionMarkAt > 1 && needsInvExclMarkAt > 1) {
             // ignore for now, e.g. "¡¿Nunca tienes clases o qué?!"

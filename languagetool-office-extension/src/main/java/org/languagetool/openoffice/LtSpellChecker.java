@@ -58,10 +58,10 @@ import com.sun.star.uno.XComponentContext;
 public class LtSpellChecker extends WeakBase implements XServiceInfo, 
   XServiceDisplayName, XSpellChecker {
 
-  private static final int MIN_HEAP = 1000;
+  private static final boolean DEBUG_MODE = false;  // set to true for debug output
+  
   private static final int MAX_WRONG = 10000;
-//  private static final String PROB_CHARS = ".*[\\p{Punct}&&[^'\\.-]].*";
-  private static final String PROB_CHARS = ".*[~<>].*";
+  private static final String PROB_CHARS = ".*[~<> ].*";
   
   // Service name required by the OOo API && our own name.
   private static final String[] SERVICE_NAMES = {
@@ -193,34 +193,40 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
       if (noLtSpeller || locale == null || !hasLocale(locale)) {
         return false;
       }
-//      MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: check word: " + (word == null ? "null" : word));
       if (word == null || word.trim().isEmpty()) {
+        if (DEBUG_MODE) {
+          MessageHandler.printToLogFile("LtSpellChecker: isValid: word id empty: " + (word == null ? "null" : word));
+        }
         return true;
       }
       String localeStr = OfficeTools.localeToString(locale);
       List<String> wrongWords = lastWrongWords.get(localeStr);
-      if (wrongWords != null && wrongWords.contains(word)) {
+      if (word.matches(PROB_CHARS)) {
+        if (DEBUG_MODE) {
+          MessageHandler.printToLogFile("LtSpellChecker: isValid: Problematic word found: " + (word == null ? "null" : word));
+        }
         return false;
       }
-      if (word.matches(PROB_CHARS)) {
-        MessageHandler.printToLogFile("LtSpellChecker: isValid: Problematic word found: " + (word == null ? "null" : word));
-        return true;
+/*
+      if (word.endsWith(".")) {
+        word = word.substring(0, word.length() - 1);
+      }
+*/
+      if (wrongWords != null && wrongWords.contains(word)) {
+        if (DEBUG_MODE) {
+          MessageHandler.printToLogFile("LtSpellChecker: isValid: invalid word found in list: " + (word == null ? "null" : word));
+        }
+        return false;
       }
       initSpellChecker(locale);
       if (spellingCheckRule != null) {
-//        MessageHandler.printToLogFile("LTSpellChecker: isValid: test word: " + word);
         if (!spellingCheckRule.isMisspelled(word)) {
           return true;
         }
         List<RuleMatch> matches = lt.check(word,true, ParagraphHandling.ONLYNONPARA);
-//        MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: advanced check: word: " + word + ", matches: " + matches.size());
         if (matches == null || matches.size() == 0) {
           return true;
         }
-//        if (word.endsWith(".") && !spellingCheckRule.isMisspelled(word.substring(0, word.length() - 1))) {
-//          return true;
-//        }
-//        MessageHandler.printToLogFile("LanguageToolSpellChecker: isValid: misspelled word: " + word);
         if (wrongWords == null) {
           lastWrongWords.put(localeStr, new ArrayList<String>());
           lastSuggestions.put(localeStr, new ArrayList<String[]>());
@@ -233,12 +239,16 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
             lastSuggestions.get(localeStr).remove(0);
           }
         }
+        if (DEBUG_MODE) {
+          MessageHandler.printToLogFile("LtSpellChecker: isValid: invalid word found: " + (word == null ? "null" : word));
+        }
         return false;
       }
     } catch (Throwable e) {
       MessageHandler.showError(e);
     }
-    return true;
+    MessageHandler.printToLogFile("LtSpellChecker: isValid: Problem with spelling rule: word: " + (word == null ? "null" : word));
+    return false;
   }
 
   /**
@@ -256,11 +266,6 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
   private void initSpellChecker(Locale locale) {
     try {
       if (lastLocale == null || !OfficeTools.isEqualLocale(lastLocale, locale)) {
-//        MessageHandler.printToLogFile("LanguageToolSpellChecker: initSpellChecker: lastLocale: "
-//            + (lastLocale == null ? "null" : OfficeTools.localeToString(lastLocale)) 
-//            + ", locale: " + (locale == null ? "null" : OfficeTools.localeToString(locale))
-//            + ", word: " + (word == null ? "null" : word)
-//            );
         lastLocale = locale;
         Language lang = MultiDocumentsHandler.getLanguage(locale);
         lt = new JLanguageTool(lang);
@@ -331,7 +336,9 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
           }
         }
         if (word.matches(PROB_CHARS)) {
-          MessageHandler.printToLogFile("LtSpellChecker: LTSpellAlternatives: Problematic word found: " + (word == null ? "null" : word));
+          if (DEBUG_MODE) {
+            MessageHandler.printToLogFile("LtSpellChecker: LTSpellAlternatives: Problematic word found: " + (word == null ? "null" : word));
+          }
           alternatives = new String[0];
           return;
         }
@@ -401,7 +408,7 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
     try {
       confg = new Configuration(OfficeTools.getLOConfigDir(xContext), 
           OfficeTools.CONFIG_FILE, OfficeTools.getOldConfigFile(), null, true);
-      return confg.useLtDictionary();
+      return confg.useLtSpellChecker();
     } catch (IOException e) {
       MessageHandler.printToLogFile("Can't read configuration: LT spell checker not used!");
     }
@@ -410,10 +417,10 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
 
   public static boolean isEnoughHeap() {
     int maxHeapSpace = (int) (OfficeTools.getMaxHeapSpace()/1048576);
-    boolean ret = maxHeapSpace >= MIN_HEAP;
+    boolean ret = maxHeapSpace >= OfficeTools.SPELL_CHECK_MIN_HEAP;
     if (!ret) {
       MessageHandler.printToLogFile("Heap Space (" + maxHeapSpace + ") is too small: LT spell checker not used!\n"
-          + "Set heap space greater than " + MIN_HEAP);
+          + "Set heap space greater than " +  OfficeTools.SPELL_CHECK_MIN_HEAP);
     }
     return ret;
   }

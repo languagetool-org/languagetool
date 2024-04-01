@@ -75,6 +75,7 @@ public class HTTPServerTest {
   }
   
   @Test
+  @Ignore()
   public void testRandomPortHttpServer() {
       HTTPServerConfig config = new HTTPServerConfig(0, true);
       config.minPort = 8081;

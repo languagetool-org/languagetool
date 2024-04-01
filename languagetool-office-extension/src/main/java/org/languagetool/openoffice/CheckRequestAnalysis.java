@@ -699,7 +699,9 @@ class CheckRequestAnalysis {
             }
           }
         }
-        mDocHandler.getTextLevelCheckQueue().wakeupQueue(docID);;
+        if (mDocHandler.getTextLevelCheckQueue() != null) {
+          mDocHandler.getTextLevelCheckQueue().wakeupQueue(docID);;
+        }
       }
     }
     return true;

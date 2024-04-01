@@ -370,13 +370,13 @@
             <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
         </rule>
         <rule>
-            <!-- apostrophe inside a word -->
+            <!-- apostrophe inside a word, including cat-o'-nine-tails or will-o'-the-wisp -->
             <pattern>
-                <token regexp="yes">\p{L}.+</token>
+                <token regexp="yes">[\p{L}\-].+</token>
                 <marker>
                     <token regexp="yes" spacebefore="no">['’]</token>    
                 </marker>
-                <token regexp="yes" spacebefore="no">\p{L}.+</token>
+                <token regexp="yes" spacebefore="no">[\p{L}-].+</token>
             </pattern>
             <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
         </rule>
@@ -5137,7 +5137,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
         </pattern>
         <disambig postag="RB"/>
-        <example type="ambiguous" outputform="then[then/RB]" inputform="then[then/JJ,then/NN,then/RB]">It should be safe by <marker>then</marker>.</example>
+        <example type="ambiguous" outputform="then[then/RB]" inputform="then[then/JJ,then/NN:U,then/RB]">It should be safe by <marker>then</marker>.</example>
         <example type="untouched">For now they are having fun and learning all they can by <marker>playing</marker> with neighbors and friends.</example>
         <example type="untouched">I'll by flying.</example>
     </rule>
@@ -17074,6 +17074,37 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_WHYS_AND_WHEREFORES" name="ignore 'whys and wherefores'">
+        <pattern>
+            <marker>
+            <token>whys</token>
+            </marker>
+            <token>and</token>
+            <token>wherefores</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="OTHER_THAN_NO_ADJECTIVE" name="'other' no adjective in 'other than'">
+        <pattern>
+            <marker>
+                <token>other</token>
+            </marker>
+            <token>than</token>
+        </pattern>
+        <disambig action="remove" postag="JJ" />
+    </rule>
+
+    <rule id="OTHER_THAN_ADVERB" name="'other' adverb in 'other than'">
+        <pattern>
+            <marker>
+                <token>other</token>
+            </marker>
+            <token>than</token>
+        </pattern>
+        <disambig action="add"><wd pos="RB"/></disambig>
     </rule>
 
 </rules>

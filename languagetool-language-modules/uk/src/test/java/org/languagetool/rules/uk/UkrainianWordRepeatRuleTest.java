@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.uk;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,8 +31,6 @@ import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
-import static org.junit.Assert.assertEquals;
-
 public class UkrainianWordRepeatRuleTest {
   
   private JLanguageTool lt;
@@ -38,7 +38,7 @@ public class UkrainianWordRepeatRuleTest {
 
   @Before
   public void setUp() throws IOException {
-    lt = new JLanguageTool(new Ukrainian());
+    lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
     rule = new UkrainianWordRepeatRule(TestTools.getMessages("uk"), lt.getLanguage());
   }
   
