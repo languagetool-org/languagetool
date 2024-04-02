@@ -157,6 +157,12 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Druckerpressen", asList("Drucker", "pressen"));
     wordSplitter.addException("Habitat", asList("Habitat"));
     wordSplitter.addException("Damast", asList("Damast"));
+    wordSplitter.addException("Muttertag", asList("Muttertag"));
+    wordSplitter.addException("Muttertags", asList("Muttertags"));
+    wordSplitter.addException("Vatertag", asList("Vatertag"));
+    wordSplitter.addException("Vatertags", asList("Vatertags"));
+    wordSplitter.addException("Vaterland", asList("Vaterland"));
+    wordSplitter.addException("Vaterlands", asList("Vaterlands"));
   }
 
   @Override

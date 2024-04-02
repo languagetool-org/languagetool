@@ -129,13 +129,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern ZB = compile("z[bB]");
   private static final Pattern STARTS_WITH_ZB = compile("z[bB].");
   private static final Pattern DIRECTION = compile("nord|ost|süd|west");
+  private static final Pattern WOCHENTAGE = compile("Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag");
+  private static final Pattern WOCHENTAGE_S = compile("(Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag)s");
   private static final Pattern SS = compile("ss");
   private static final Pattern COMPOUND_TYPOS = compile("([Ee]mail|[Ii]reland|[Kk]reissaal|[Mm]akeup|[Ss]tandart).*");
   private static final Pattern COMPOUND_END_TYPOS = compile(".*(gruße|schaf(s|en)?)$");
   private static final Pattern INFIX_S_SUFFIXES = compile(".*(heit|ion|ität|keit|ling|ung|schaft|tum)$");
-  private static final Pattern ARBEIT = compile("(gebe|nehme)(r(s|n|innen|in)?|nde[mnr]?)");
-  private static final Pattern RECHT = compile("bank|eck|fertigung|gläubigkeit|haber|haberei|leitung|losigkeit|mäßigkeit|winkligkeit|zeitigkeit");
-  private static final Pattern RECHTS = compile("abteilung|akt|akte|angelegenheit|ansicht|anspruch|anwalt|anwalts|anwaltschaft|anwendung|anwältin|auffassung|aufsicht|auskunft|ausschuss|außen|begehren|begriff|behelf|beistand|berater|beratung|bereich|beschwerde|beugung|beziehung|brecher|bruch|dienst|durchsetzung|empfinden|entwicklung|setzung|experte|experten|extreme|extremer|extremismus|extremist|fall|fehler|folge|form|fortbildung|frage|fähigkeit|gebiet|gebieten|gelehrte|gelehrter|geschichte|geschäft|gewinde|gleichheit|grund|grundlage|grundsatz|gründen|gut|gutachten|gültigkeit|güter|handlung|hilfe|händer|hängigkeit|inhaber|institut|klick|konformität|kraft|kreis|kurve|lage|lehre|lenker|medizin|mediziner|meinung|missbrauch|mittel|mitteln|mängel|nachfolge|nachfolger|nachfolgerin|natur|norm|ordnung|persönlichkeit|pflege|pfleger|pflicht|philosophie|politik|populismus|populist|position|praxis|problem|quelle|radikale|radikaler|radikalismus|rahmen|rat|ratgeber|ruck|sache|sachen|satz|schutz|sicherheit|sinn|sprache|soziologie|sprechung|staat|staatlichkeit|stand|status|stellung|streit|streitigkeit|system|staat|terrorist|texte|texter|thema|theorie|tipp|titel|träger|unsicherheit|verfolgung|vergleichung|verhältnis|verkehr|verletzung|verletzungen|verordnung|verstoß|verständnis|verteidiger|verteidigung|vertreter|vertretung|vorschrift|wahl|weg|wesen|widrigkeit|wirksamkeit|wirkung|wissenschaft|wissenschaften|wissenschaftler|zug|änderung");
+  private static final Pattern WECHSELINFIX = compile("(arbeit|dienstag|donnerstag|freitag|montag|mittwoch|recht|samstag|sonntag|verband)s?");
+  private static final Pattern ARBEIT_COMP = compile("(gebe|nehme)(r(s|n|innen|in)?|nde[mnr]?)");
+  private static final Pattern RECHT_COMP = compile("bank|eck|fertigung|gläubigkeit|haber|haberei|leitung|losigkeit|mäßigkeit|winkligkeit|zeitigkeit");
+  private static final Pattern RECHTS_COMP = compile("abteilung|akt|akte|angelegenheit|ansicht|anspruch|anwalt|anwalts|anwaltschaft|anwendung|anwältin|auffassung|aufsicht|auskunft|ausschuss|außen|begehren|begriff|behelf|beistand|berater|beratung|bereich|beschwerde|beugung|beziehung|brecher|bruch|dienst|durchsetzung|empfinden|entwicklung|setzung|experte|experten|extreme|extremer|extremismus|extremist|fall|fehler|folge|form|fortbildung|frage|fähigkeit|gebiet|gebieten|gelehrte|gelehrter|geschichte|geschäft|gewinde|gleichheit|grund|grundlage|grundsatz|gründen|gut|gutachten|gültigkeit|güter|handlung|hilfe|händer|hängigkeit|inhaber|institut|klick|konformität|kraft|kreis|kurve|lage|lehre|lenker|medizin|mediziner|meinung|missbrauch|mittel|mitteln|mängel|nachfolge|nachfolger|nachfolgerin|natur|norm|ordnung|persönlichkeit|pflege|pfleger|pflicht|philosophie|politik|populismus|populist|position|praxis|problem|quelle|radikale|radikaler|radikalismus|rahmen|rat|ratgeber|ruck|sache|sachen|satz|schutz|sicherheit|sinn|sprache|soziologie|sprechung|staat|staatlichkeit|stand|status|stellung|streit|streitigkeit|system|staat|terrorist|texte|texter|thema|theorie|tipp|titel|träger|unsicherheit|verfolgung|vergleichung|verhältnis|verkehr|verletzung|verletzungen|verordnung|verstoß|verständnis|verteidiger|verteidigung|vertreter|vertretung|vorschrift|wahl|weg|wesen|widrigkeit|wirksamkeit|wirkung|wissenschaft|wissenschaften|wissenschaftler|zug|änderung");
+  private static final Pattern VERBAND_COMP = compile("klammer|kasten|kiste|mull|material|päckchen|platz|raum|schere|zeug|zimmer");
+  private static final Pattern VERBANDS_COMP = compile("chef(in)?|flug|funktionär(in)?|kasse|klage|leben|leitung|leiter(in)?|ligist(in)|material|päckchen|präsident(in)?|presse|spiel|vertreter(in)|vorsitzender?|vorstand|wechsel|zeichen|zeit(schrift|ung)");
+  private static final Pattern WOCHENTAG_COMP = compile("abend|mittag|morgen|nachmittag|vormittag");
 
   private static final List<Pattern> PREVENT_SUGGESTION_PATTERNS = new ArrayList<>();
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
@@ -2360,8 +2366,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     boolean part2upcasedIsMispelled = isMisspelled(uppercaseFirstChar(part2upcased));
 
     // For some part1-and-part2 combinations an infix s is correct or incorrect
-    if (checkInfixSForPart1Part2Combination(part1, part2)) {
-      return false;
+    if (WECHSELINFIX.matcher(lowercaseFirstChar(part1)).matches()) {
+      return checkInfixSForPart1Part2Combination(part1, part2);
     }
 
     // TODO distinguish more cases with hyphens
@@ -2428,20 +2434,34 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       part2_lemma = findLemmaForNoun(removeTrailingSAndHyphen(part2));
     }
 
-    if (part1.equals("Arbeit") && !(ARBEIT.matcher(part2).matches())) {
+    if (part1.equals("Arbeit") && (ARBEIT_COMP.matcher(part2).matches())) {
       // e. g. "Arbeitplatz"
       return true;
     }
-    if (part1.equals("Arbeits") && (ARBEIT.matcher(part2).matches())) {
+    if (part1.equals("Arbeits") && !(ARBEIT_COMP.matcher(part2).matches())) {
       // e. g. "Arbeitsgeber"
       return true;
     }
-    if (part1.equals("Recht") && RECHTS.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+    if (part1.equals("Recht") && RECHT_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
       // e. g. "Rechtanwälte"
       return true;
     }
-    if (part1.equals("Rechts") && RECHT.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+    if (part1.equals("Rechts") && RECHTS_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
       // e. g. "Rechtsfertigung"
+      return true;
+    }
+    if (part1.equals("Verband") && VERBAND_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+      // e. g. "Verbandgemeinde"
+      return true;
+    }
+    if (part1.equals("Verbands") && VERBANDS_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+      // e. g. "Verbandszeug"
+      return true;
+    }
+    if (WOCHENTAGE.matcher(part1).matches() && WOCHENTAG_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+      return true;
+    }
+    if (WOCHENTAGE_S.matcher(part1).matches() && !WOCHENTAG_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
       return true;
     }
     return false;

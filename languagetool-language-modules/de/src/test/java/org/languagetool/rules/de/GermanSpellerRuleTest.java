@@ -240,6 +240,14 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Gehorsambereitschaft"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Haushaltgeräte"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Kitasausbau"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Muttertagskarte"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Muttertagkarte"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Verbandmaterial"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Verbandsmaterial"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Verbandgemeinde"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Sonntagnachmittag"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Sonntagsfahrer"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Sonntagfahrer"));
     //
   }
 
