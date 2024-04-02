@@ -255,14 +255,13 @@ USA
 
         <rule>
             <pattern>
-                <token inflected='yes' regexp='yes'>estar|andar|ir|vir</token><!-- TODO Review all cases and confirm it can be safely expanded to more cases-->
-                <token regexp='yes' spacebefore='no'>&hifen;</token>
-                <token postag='PP.*' postag_regexp='yes'/>
+                <token inflected='yes' regexp='yes' postag_regexp="yes" postag="V.+:PP.+">estar|andar|ir|vir</token><!-- TODO Review all cases and confirm it can be safely expanded to more cases-->
                 <token postag='V.G0+' postag_regexp='yes'>
-                    <exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
+                    <exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/>
+                </token>
             </pattern>
             <message>Se possível, evite o gerúndio.</message>
-            <suggestion>\1\2\3 a <match no='4' postag='VMN0000' case_conversion="alllower"/></suggestion>
+            <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
             <example correction='iam-se a acender'>As luzes <marker>iam-se acendendo</marker> à medida que ela passava.</example>
 
             <example type='correct'>Ao fazê-lo <marker>vão saindo</marker> resultados cada vez mais inesperados.</example>
@@ -1165,8 +1164,6 @@ USA
         <rule>
             <pattern>
                 <token inflected='yes'>bobear</token>
-                <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-                <token min='0'>se</token>
             </pattern>
             <message>Linguagem informal. Considere as alternativas.</message>
             <suggestion/>
@@ -1494,9 +1491,7 @@ USA
     </rule>
     <rule>
         <pattern>
-            <token inflected='yes'>dizer</token>
-            <token>-</token>
-            <token>me</token>
+            <token inflected='yes' postag_regexp="yes" postag="V.+:PP1CSO00">dizer</token>
             <token>com</token>
             <token>quem</token>
             <token>andas</token>
@@ -2025,8 +2020,6 @@ USA
     <rule>
         <pattern>
             <token inflected='yes'>ver</token>
-            <token>-</token>
-            <token spacebefore='no' regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
             <token>à</token>
             <token>brocha</token>
         </pattern>
@@ -2396,7 +2389,7 @@ USA
         -->
 
         <antipattern>
-            <token regexp='yes' inflected='yes'>alterar|banir|bloquear|efetuar|enviar|fazer|modificar|pedir|querer|realizar|receber|requerer|ser|solicitar</token>
+            <token regexp='yes' inflected='yes' postag_regexp="yes" postag="V......">alterar|banir|bloquear|efetuar|enviar|fazer|modificar|pedir|querer|realizar|receber|requerer|ser|solicitar</token>
             <token min="0" max="1" postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
             <token regexp='yes'>chamad[ao]s?|chamares</token>
             <token>de</token>
@@ -2419,8 +2412,6 @@ USA
 
         <antipattern>
             <token regexp='yes' inflected='yes'>alterar|banir|bloquear|chamar|efetuar|enviar|fazer|modificar|pedir|querer|realizar|receber|requerer|ser|solicitar</token>
-            <token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-            <token min="0" max="1" regexp='yes'>&pronomes_obliquos;</token>
             <token>de</token>
             <token regexp='yes'>áudio|regresso|retorno|telefone|vídeo|volta</token>
             <example>Ele foi chamado de volta, em meio à sua viagem.</example>
@@ -2431,9 +2422,9 @@ USA
         </antipattern>
 
         <rule>
-            <pattern>
+            <pattern> <!-- most cases -->
                 <marker>
-                    <token regexp='yes' inflected='yes'>&verbos_pronominais;</token>
+                    <token regexp='yes' inflected='yes' postag_regexp="yes" postag="V.+">&verbos_pronominais;</token>
                     <token>de</token>
                 </marker>
                 <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
@@ -2444,12 +2435,12 @@ USA
             <example correction="denominada">Temos uma teoria <marker>denominada de</marker> matemática.</example>
         </rule>
 
-        <rule>
+        <rule> <!-- weird pt-PT contractions -->
             <pattern>
                 <marker>
                     <token regexp='yes' inflected='yes'>&verbos_pronominais;</token>
                     <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-                    <token regexp='yes' spacebefore='no'>&pronomes_obliquos;</token>
+                    <token regexp='yes' spacebefore='no'>lh[oa]s?|[tm][oa]</token>
                     <token>de</token>
                 </marker>
                 <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
@@ -3897,9 +3888,7 @@ USA
 
         <!-- MARCOAGPINTO 2023-01-21 (Checked/Enhanced) (25-JUL-2022+) *START* -->
         <antipattern>
-            <token postag='VMIP3.+' postag_regexp='yes'/>
-            <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-            <token regexp='yes' spacebefore='no'>me|lhes?|nos</token>
+            <token postag='VMIP3.+:(PP1C.O00|PP3C.D00)' postag_regexp='yes'/>
             <token postag='DA.+|SPS00:DA.+|DI.+|SPS00:DI.+' postag_regexp='yes'/>
             <token postag='NC.+|AQ.+' postag_regexp='yes'/>
             <token postag='DA.+|DI.+' postag_regexp='yes'/>
@@ -3916,15 +3905,13 @@ USA
         <antipattern>
             <token postag='DA.+|DI.+' postag_regexp='yes'/>
             <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes' skip='-1'/>
-            <token postag='VMIP3.+' postag_regexp='yes'/>
-            <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-            <token regexp='yes' spacebefore='no'>me|lhes?|nos</token>
+            <token postag='VMIP3..:(PP1C.O00|PP3C.D00)' postag_regexp='yes'/>
             <token min="0" max="1" postag='DA.+|SPS00:DA.+|DI.+|SPS00:DI.+' postag_regexp='yes'/>
             <token postag='NC.+|AQ.+' postag_regexp='yes'/>
             <example>O livro [9] dá-nos informação sobre as várias técnicas de combate.</example>
             <example>O ASPIRANTE AMÉRICO VICTOR SALVATO rende-me como Comandante da Prontidão.</example>
             <example>A Ana [11] dá-nos a quantidade de informação necessária.</example>
-            <example>Esta fórmula que se afirma “elitista” e nesse sentido rejeita todas as tendências actuais, concede-lhes a contra-gosto apenas os mínimos possíveis.</example>
+            <example>Esta fórmula que se afirma “elitista” e nesse sentido rejeita todas as tendências recentes, concede-lhes a contra-gosto apenas os mínimos possíveis.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2023-01-26 + 2023-01-27 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
@@ -4208,13 +4195,13 @@ USA
     </rule>
     <rule>
         <pattern>
-            <token>te</token>
+            <token postag_regexp="yes" postag="V.+:PP2CSO00"/>
         </pattern>
-        <message>O uso explícito do pronome "\1" pode ser interpretado como desrespeitoso. Considere substituí-lo pelo pronome de tratamento adequado.</message>
-        <suggestion>lhe</suggestion>
+        <message>O uso explícito do pronome "te" pode ser interpretado como desrespeitoso. Considere substituí-lo pelo pronome de tratamento adequado.</message>
+        <suggestion><match no="1" regexp_match="(.+)-te" regexp_replace="$1-lhe"/></suggestion>
         <short>Tratamento inapropriado</short>
-        <example correction="lhe">O Dr. Mário faz-<marker>te</marker> essa análise sem problemas.</example>
-        <example>—O Dr. Mário faz-<marker>te</marker> essa análise sem problemas.</example>
+        <example correction="faz-lhe">O Dr. Mário <marker>faz-te</marker> essa análise sem problemas.</example>
+        <example>—O Dr. Mário <marker>faz-te</marker> essa análise sem problemas.</example>
     </rule>
     <rule>
         <pattern>
@@ -4304,12 +4291,10 @@ USA
     <!-- JAUME + MARCOAGPINTO 2020-07-27 (2-JUL-2020+) Improved *END* -->
     <rule>
         <pattern>
-            <token postag="V.+" postag_regexp='yes'/>
-            <token regexp='yes' spacebefore='no'>&hifen;</token>
-            <token>te</token>
+            <token postag="V.+:PP2CSO00" postag_regexp='yes'/>
         </pattern>
         <message>Confirme se esta forma de tratamento informal é apropriada.</message>
-        <suggestion>\1-lhe</suggestion>
+        <suggestion><match no="1" postag_regexp="yes" postag="(V.+):PP2CSO00" postag_replace="$1:PP3CSD00"/></suggestion>
         <short>Possível tratamento informal</short>
         <example correction="Garanto-lhe"><marker>Garanto-te</marker> que foi mesmo assim.</example>
         <example>—<marker>Garanto-te</marker> que foi mesmo assim.</example>
@@ -4328,9 +4313,7 @@ USA
         <antipattern>
             <token negate="yes" regexp='yes'>muito|pouco|por</token>
             <token postag="PD0NN000|NC[CFM]S000" postag_regexp='yes'/>
-            <token postag="V...2.+" postag_regexp='yes'/>
-            <token regexp='yes' spacebefore='no'>&hifen;</token>
-            <token regexp='yes'>me|nos</token>
+            <token postag="V...2.+:PP1C.O00" postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2020-06-07 *END* -->
         <!-- MARCOAGPINTO 2020-10-23 (21-OCT-2020+) *START* -->
@@ -4338,9 +4321,7 @@ USA
         <!-- "E assim abri-lhe a porta." -->
         <!-- "E assim abri-lhes a porta." -->
         <antipattern>
-            <token postag='VMX0000|VMIP2P0|VMIS1S0|VMM02P0' postag_regexp='yes'/>
-            <token regexp='yes' spacebefore='no'>&hifen;</token>
-            <token regexp='yes' spacebefore='no'>me|lhes?</token>
+            <token postag='(VMX0000|VMIP2P0|VMIS1S0|VMM02P0):(PP1CSO00|PP3C.D00)' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2020-10-23 (21-OCT-2020+) *END* -->
         <!-- MARCOAGPINTO 2021-01-11 + 2021-01-12 (1-JAN-2021+) *START* -->
@@ -4352,11 +4333,9 @@ USA
             Entristece-me ao ouvir isso.
         -->
         <antipattern>
-            <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'>
+            <token postag='(VMIP3S0|VMM02S0):(PP1C.O00|PP3C.D00)' postag_regexp='yes'>
                 <exception postag='NCFS000' postag_regexp='no'/> <!-- NOUN MALE SEEMS TO WORK WELL WITH THIS RULE "Dói-me dizer" WHILE FEMALE GIVES FALSE POSITIVES  "Deixa-me dizer"-->
             </token>
-            <token regexp='yes' spacebefore='no'>&hifen;</token>
-            <token regexp='yes' spacebefore='no'>me|lhes?|nos</token>
             <token min="0" max="1" postag='SPS.+' postag_regexp='yes'/>
             <token postag='VMN0000' postag_regexp='no'/>
         </antipattern>
@@ -4371,9 +4350,7 @@ USA
             <token min="1" max="3" postag='NC.+|NP.+|AQ.+' postag_regexp='yes'>
                 <exception postag_regexp='yes' postag='V.+'/>
             </token>
-            <token postag='V.+' postag_regexp='yes'/>
-            <token regexp='yes' spacebefore='no'>&hifen;</token>
-            <token regexp='yes' spacebefore='no'>me|lhes?|nos</token>
+            <token postag='V.+:(PP1C.O00|PP3C.D00)' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2021-03-07 (1-JAN-2021+) *END* -->
         <!-- MARCOAGPINTO 2021-04-29 + 2021-07-16 (Enhanced) (17-MAR-2021+) *START* -->
@@ -4390,9 +4367,7 @@ USA
                 <exception postag_regexp='yes' postag='NP.+'/>
             </token>
             <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-            <token postag='VMIP3S0|VMM0[23]S0|VMSP[13]S0' postag_regexp='yes'/>
-            <token regexp='yes' spacebefore='no'>&hifen;</token>
-            <token regexp='yes' spacebefore='no'>me|lhes?|nos</token>
+            <token postag='(VMIP3S0|VMM0[23]S0|VMSP[13]S0):(PP1C.O00|PP3C.D00)' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2021-04-29 + 2021-07-16 (Enhanced) (17-MAR-2021+) *END* -->
 
@@ -4404,9 +4379,7 @@ USA
             Dói-me aqui.
         -->
         <antipattern>
-            <token postag='VMIP3P0' postag_regexp='no'/>
-            <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-            <token regexp='yes' spacebefore='no'>me|lhes?|nos</token>
+            <token postag='VMIP3P0:(PP1C.O00|PP3C.D00)' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *END* -->
 
@@ -4421,17 +4394,15 @@ USA
         -->
         <antipattern>
             <token postag='P[ADIP][3N][FMN].+|D[ADIP].+' postag_regexp='yes'/>
-            <token postag='VMIP3S0' postag_regexp='no'/>
+            <token postag="VMIP3S0:(PP1C.O00|PP3C.D00)" postag_regexp="yes"/>
         </antipattern>
         <!-- MARCOAGPINTO 2022-05-29 (Checked/Enhanced) (24-MAY-2022+) *END* -->
 
         <!-- MARCOAGPINTO 2022-06-06 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
-            <token postag='VMIP3S0|VMM0[23]S0|VMSP[13]S0' postag_regexp='yes'>
+            <token postag='(VMIP3S0|VMM0[23]S0|VMSP[13]S0):(PP1CPO00|PP3C.D00)' postag_regexp='yes'>
                 <exception scope="previous" postag="SENT_START|_PUNCT" postag_regexp='yes'/>
             </token>
-            <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-            <token regexp='yes' spacebefore='no'>lhes?|nos</token>
             <token postag='SPS.+|CC|CS|[DP][ADIP].+|RG' postag_regexp='yes'/>
             <token postag='NC.+|AQ.+|NP.+|[DP][ADI].+|CS|RG' postag_regexp='yes'/>
             <example>Ambrósio responde-lhe por um tratado "Sobre a fé para Graciano Augusto", em cinco livros.</example>
@@ -4448,9 +4419,7 @@ USA
         <!-- MARCOAGPINTO 2022-06-06 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
             <!--<token postag="AQ..S.+|NC.S.+" postag_regexp='yes'/>-->
-            <token postag="V...3S.+" postag_regexp='yes'/>
-            <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-            <token regexp='yes'>lhes?</token>
+            <token postag="V...3S.+:PP3C.D00" postag_regexp='yes'/>
             <token><exception postag='PP2CSN00|DA.+|_PUNCT|SPS00' postag_regexp='yes'/></token>
             <example>Falta-lhe talento para ser ator.</example>
             <example>À Mary, falta-lhe delicadeza.</example>
@@ -4463,14 +4432,12 @@ USA
 
         <pattern>
             <token min='0' regexp='yes'>tu|vós</token>
-            <token postag="V...2.+" postag_regexp='yes'>
+            <token postag="V...2..:(PP[12]C.O00|PP3C.D00)" postag_regexp='yes'>
                 <exception>parece</exception>
-                <!--<exception postag="V..[^P]3.+" postag_regexp='yes'/>--></token>
-            <token regexp='yes' spacebefore='no'>&hifen;</token>
-            <token regexp='yes'>me|te|lhe|nos|vos|lhes</token>
+            </token>
         </pattern>
         <message>Confirme se esta forma de tratamento informal é apropriada.</message>
-        <suggestion><match no="2" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/>-\4</suggestion>
+        <suggestion><match no="2" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
         <short>Possível tratamento informal</short>
         <example correction="Diga-me"><marker>Diz-me</marker> que foi mesmo assim?</example>
         <example correction="Diga-me"><marker>Tu diz-me</marker> que foi mesmo assim?</example>
@@ -4586,9 +4553,7 @@ USA
 
     <!-- MARCOAGPINTO 2022-10-21 (Checked/Enhanced) (25-JUL-2022+) *START* -->
     <antipattern>
-        <token postag='VMIP3S0' postag_regexp="no"/>
-        <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-        <token regexp='no' spacebefore='no'>se</token>
+        <token postag='VMIP3S0:PP3CNO00' postag_regexp="no"/>
         <example>Em amarelo representa-se o conhecimento como um conjunto de crenças verdadeiras, que foram provadas e justificadas.</example>
         <example>Estende-se por uma área de 45,89 km².</example>
         <example>Pode-se chegar lá depressa?</example>
@@ -4631,10 +4596,10 @@ USA
     <rule>
         <pattern>
             <token min='0' regexp='yes'>tu|vós</token>
-            <token postag="V...2.+" postag_regexp='yes'/>
+            <token postag="V...2.." postag_regexp='yes'/>
         </pattern>
         <message>Confirme se esta forma de tratamento informal é apropriada.</message>
-        <suggestion><match no="2" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no="2" postag="(V...)2(..)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
         <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
         <short>Tratamento informal</short>
         <example correction="Cole"><marker>Cola</marker> aqui o texto.</example>

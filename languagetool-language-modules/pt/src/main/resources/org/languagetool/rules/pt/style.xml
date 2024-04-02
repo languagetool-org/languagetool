@@ -5819,17 +5819,15 @@ USA
             <rule id='CLICHE_240_ARMAR-SE' name='Clichê: Armar-se até aos dentes|armado até aos dentes|armado até os dentes'>
                 <pattern>
                     <token inflected='yes' regexp='yes'>armar|armado</token>
-                    <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token min='0'>se</token>
                     <token>até</token>
                     <token regexp='yes'>a?os</token>
                     <token>dentes</token>
                 </pattern>
                 <message>&cliche_msg;</message>
-                <suggestion>exageradamente <match no='1' postag='V.+' postag_regexp='yes'>armar</match></suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>armar</match> exageradamente</suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>preparar</match> para uma situação</suggestion>
-                <example correction='exageradamente armar|preparar para uma situação'><marker>armar-se até aos dentes</marker>.</example>
-                <example correction='exageradamente armado|preparado para uma situação'><marker>armado até aos dentes</marker>.</example>
+                <example correction='armar-se exageradamente|preparar-se para uma situação'><marker>armar-se até aos dentes</marker>.</example>
+                <example correction='armado exageradamente|preparado para uma situação'><marker>armado até aos dentes</marker>.</example>
             </rule>
             <rule id='CLICHE_242_ARREBENTAR' name='Clichê: Arrebentar a boca do balão'>
                 <pattern>
@@ -7770,9 +7768,7 @@ USA
             </rule>
             <rule id='CLICHE_449_TRAIR-SE' name='Clichê: Trair-se pela emoção'>
                 <pattern>
-                    <token inflected='yes'>trair</token>
-                    <token regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token>se</token>
+                    <token inflected='yes' postag_regexp="yes" postag="V.+:PP.+">trair</token>
                     <token>pela</token>
                     <token>emoção</token>
                 </pattern>
@@ -8110,12 +8106,10 @@ USA
         <rule id='BASEIA-SE_EM' name="Tem por base" default='off'>
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
             <pattern>
-                <token inflected='yes'>basear</token>
-                <token regexp='yes' min='0'>&tracos_de_separacao;</token>
-                <token>se</token>
+                <token inflected='yes' postag_regexp="yes" postag="V.+:PP3CNO00">basear</token>
                 <token>em</token>
             </pattern>
-            <message>Substitua por <suggestion><match no='1' postag_regexp='yes' postag='V.+'>ter</match> por base</suggestion>.</message>
+            <message>Substitua por <suggestion><match no='1' postag_regexp='yes' postag='(V.+):PP3CNO00' postag_replace="$1">ter</match> por base</suggestion>.</message>
             <example correction="tem por base">O estudo <marker>baseia-se em</marker> dados estatísticos.</example>
         </rule>
 
@@ -9054,29 +9048,12 @@ USA
                 <suggestion>deliberadamente</suggestion>
                 <example correction="deliberadamente">Eles fizeram <marker>de propósito</marker>.</example>
                 <example correction="deliberadamente">Eles fizeram aquilo <marker>de propósito</marker>.</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <token inflected='yes'>fazer</token>
-                    <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-                    <token regexp='yes' spacebefore='no'>&pronomes_obliquos;</token>
-                    <marker>
-                        <token>de</token>
-                        <token>propósito</token>
-                    </marker>
-                </pattern>
-                <message>Num contexto formal/científico, é preferível escrever &quot;deliberadamente&quot;.</message>
-                <suggestion>deliberadamente</suggestion>
                 <example correction="deliberadamente">Eles fizeram-no <marker>de propósito</marker>.</example>
             </rule>
-
         </rulegroup>
 
 
-        <!-- USAR empregar -->
         <rulegroup id='CIENTÍFICO_EMPREGAR_TERMO' name="[Científico] usar → empregar" type="style" tags="picky" tone_tags="formal" is_goal_specific="true">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-31 (Enhanced) (17-MAR-2021+) *START* -->
             <rule>
                 <pattern>
                     <marker>
@@ -9089,19 +9066,6 @@ USA
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match></suggestion>
                 <example correction="empregamos">Na nossa investigação <marker>usamos</marker> o termo “terrorismo”.</example>
                 <example correction="empregamos">Na nossa investigação <marker>usamos</marker> termos caros.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token inflected='yes'>usar</token>
-                        <token regexp='yes' spacebefore='no'>&hifen;</token>
-                        <token spacebefore='no'>se</token>
-                    </marker>
-                    <token min="0" max="1" negate="yes" regexp="yes">termos?</token>
-                    <token regexp="yes">termos?</token>
-                </pattern>
-                <message>Num contexto formal, é preferível escrever &quot;empregar um termo&quot;.</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match>-se</suggestion>
                 <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> o termo “terrorismo”.</example>
                 <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> termos caros.</example>
             </rule>
@@ -10251,12 +10215,7 @@ USA
         </rule>
 
 
-        <!-- PARA AJUDAR A MELHORAR para melhorar -->
         <rule id='PHD_TESE_PARA_AJUDAR_A_VINFINITIVO_PARA_VINFINITIVO' name="[Universitário] Para Ajudar a + V.Inf. → Para V.Inf." type='style' tone_tags="academic">
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-24 (25-JUL-2022+) -->
-            <!--
-            Estas regras servem para ajudar a melhorar a gramática. → Estas regras servem para melhorar a gramática.
-            -->
             <pattern>
                 <marker>
                     <token>para</token>
@@ -10268,8 +10227,8 @@ USA
             <message>&thesis_msg;</message>
             <suggestion>\1 \4</suggestion>
             <example correction="para melhorar">Estas regras servem <marker>para ajudar a melhorar</marker> a gramática.</example>
-            <example correction="Para planejar"><marker>Para ajudá a planejar</marker> o orçamento.</example>
-            <example correction="para alcançar"><marker>para ajudá a alcançar</marker> seus objetivos</example>
+            <example correction="Para planejar"><marker>Para ajudá-la a planejar</marker> o orçamento.</example>
+            <example correction="para alcançar"><marker>para ajudar-nos a alcançar</marker> seus objetivos</example>
         </rule>
 
 
@@ -12256,16 +12215,14 @@ USA
 
 
         <rule id='SER_NECESSARIO_NECESSARIO_V2' name="Simplificar: Ser necessário → necessário">
-            <!-- IDEA shorten_it -->
-
             <antipattern>
-                <token postag='VMIP.+|VMSF.+|NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag="V.+|NC.+" postag_regexp='yes'/>
                 <token>que</token>
                 <token regexp='yes'>é|são</token>
                 <token regexp='yes'>necessários?</token>
-                <token postag='VMN03.+|RG|CS' postag_regexp='yes'/>
+                <token postag='VMN.+|RG|CS' postag_regexp='yes'/>
                 <token min='0' max='1' postag='SPS00'/>
-                <token postag='(SPS00:)?D[AI].+|VMN03.+' postag_regexp='yes'/>
+                <token postag='(SPS00:)?D[AI].+|VMN.+' postag_regexp='yes'/>
                 <example>Sinceramente, não recomendo esse tipo de pratica pois entendo que é necessário sempre um ambiente profissional para garantir a qualidade e a produtividade.</example>
                 <example>Todos nós sabemos que é necessário acelerar o Programa de Aceleração do Crescimento", emendou ele, usando um trocadilho para se referi...</example>
                 <example>Com a incorporação da Adequação Sociotécnica à Teoria, passa-se a entender que é necessário que um processo seja concebido nas condições em que ele acontecerá.</example>
@@ -14397,14 +14354,7 @@ USA
         </rule>
 
 
-        <!-- QUANDO TEMOS DE LIDAR ao lidarmos -->
         <rule id='QUANDO_TER_DE_QUE_VINF_AO_VINF' name="[Simplificar] 'Quando V.Ter de/que V.Inf.' com → 'Ao V.Inf.'" type="style" tags="picky">
-            <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-10 (2-MAR-2023+) -->
-            <!--
-      Quando tenho de lidar com muitos elementos. → Ao lidar com muitos elementos.
-      Quando temos de lidar com muitos elementos. → Ao lidarmos com muitos elementos.
-      -->
             <pattern>
                 <marker>
                     <token>quando</token>
@@ -14417,7 +14367,7 @@ USA
                 </marker>
                 <token>com</token>
             </pattern>
-            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:2 postagSelect:VMIP(.)(.).* postagReplace:VMN0[\b1][\b2].*"/>
+            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:2 postagSelect:VMIP(.)(.). postagReplace:VMN0[\b1][\b2]."/>
             <message>&simplify_msg;</message>
             <suggestion>ao {suggestion}</suggestion>
             <example correction="Ao lidar"><marker>Quando tenho de lidar</marker> com muitos elementos.</example>
@@ -14519,7 +14469,7 @@ USA
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token postag='V.+' postag_regexp='yes'/>
-                <token postag='SPS00_?' postag_regexp='no'/>
+                <token postag='SPS00_?' postag_regexp='yes'/>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
                 <example>Eu acho que ela estava planejando ir visitar a mãe, que está no hospital.</example>
@@ -15889,15 +15839,7 @@ USA
         </rule>
 
 
-        <!-- VERBO_ESTAR + A + VERBO_INF verbo -->
         <rulegroup id='VERBO_ESTAR_A_VERBO_INF' name="[Simplificar] Verbo estar + a + V.Inf. → Verbo" type="style" tags="picky">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-11 (21-OCT-2020+)     -->
-            <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
-      -->
-
-            <!-- MARCOAGPINTO 2023-02-08 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token inflected='yes'>estar</token>
                 <token>a</token>
@@ -15910,11 +15852,8 @@ USA
                 <example>Um projecto de 3 anos (começou com AVB) que nos deu 3 campeonatos e uma liga europa está a ser trucidado.</example>
                 <example>O aparecimento “espontâneo” de vida, por outro lado, está a ser estudado.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2023-02-08 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-            <!-- Fixes false positives - Rule needs to be rewritten: 2024-01-13 -->
             <antipattern>
-                <token regexp='yes'>lhes?</token>
+                <token postag_regexp="yes" postag="V.+:PP3C.D00"/>
                 <token postag='CS'/>
                 <token inflected='yes'>estar</token>
                 <token>a</token>
@@ -15938,8 +15877,6 @@ USA
                 <example>O telemóvel está a carregar.</example>
                 <example>A dívida nacional está a aumentar.</example>
             </antipattern>
-
-            <!-- estou -->
             <rule>
                 <pattern>
                     <token negate_pos="yes" postag='SENT_START'/>
@@ -15953,8 +15890,6 @@ USA
                 <suggestion><match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP1S0'/></suggestion>
                 <example correction="oriento">Temos diferentes perspetivas mediante a lógica pela qual me <marker>estou a orientar</marker>.</example>
             </rule>
-
-            <!-- estás -->
             <rule>
                 <pattern>
                     <token negate_pos="yes" postag='SENT_START'/>
@@ -15969,8 +15904,6 @@ USA
                 <suggestion>\2 <match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
                 <example correction="orientas|estás orientando">Temos diferentes perspetivas mediante a lógica pela qual me <marker>estás a orientar</marker>.</example>
             </rule>
-
-            <!-- está -->
             <rule>
                 <pattern>
                     <token negate_pos="yes" postag='SENT_START'/>
@@ -15985,8 +15918,6 @@ USA
                 <suggestion>\2 <match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
                 <example correction="orienta|está orientando">Temos diferentes perspetivas mediante a lógica pela qual me <marker>está a orientar</marker>.</example>
             </rule>
-
-            <!-- estamos -->
             <rule>
                 <pattern>
                     <token negate_pos="yes" postag='SENT_START'/>
@@ -16001,8 +15932,6 @@ USA
                 <suggestion>\2 <match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
                 <example correction="orientamos|estamos orientando">Temos diferentes perspetivas mediante a lógica pela qual nos <marker>estamos a orientar</marker>.</example>
             </rule>
-
-            <!-- estais -->
             <rule>
                 <pattern>
                     <token negate_pos="yes" postag='SENT_START'/>
@@ -16017,8 +15946,6 @@ USA
                 <suggestion>\2 <match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
                 <example correction="orientais|estais orientando">Temos diferentes perspetivas mediante a lógica pela qual nos <marker>estais a orientar</marker>.</example>
             </rule>
-
-            <!-- estão -->
             <rule>
                 <pattern>
                     <token negate_pos="yes" postag='SENT_START'/>
@@ -18526,6 +18453,11 @@ USA
                     <token regexp='yes'>&pronomes_obliquos;</token>
                     <token inflected='yes'>ver</token>
                     <example>Te vi chegar em casa ontem.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="V.+:PP.+"/>
+                    <token inflected='yes'>ver</token>
+                    <example>Deixa-me ver isso aqui.</example>
                 </antipattern>
                 <antipattern>
                     <token inflected='yes'>ver</token>

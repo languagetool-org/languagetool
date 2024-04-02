@@ -80,7 +80,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
   // \u2070-\u209F is the range of superscript characters
   // The degree sign is included in the word characters, as it is used in temperatures and angles, and can appear
   // in the middle of a token, e.g. "30°C".
-  private final String wordChars = "°\\-\\p{L}\\d\\u0300-\\u036F\\u00A8\\u2070-\\u209F" + DECIMAL_COMMA_SUBST +
+  private final String wordChars = "°\\^\\-\\p{L}\\d\\u0300-\\u036F\\u00A8\\u2070-\\u209F" + DECIMAL_COMMA_SUBST +
     NON_BREAKING_DOT_SUBST + NON_BREAKING_COLON_SUBST + NON_BREAKING_SPACE_SUBST + HYPHEN_SUBST;
   // The following characters might be included at some point, but, to preserve the current behaviour, they aren't:
   // - ©®™

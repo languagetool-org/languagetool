@@ -11458,9 +11458,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag='CS|RG' postag_regexp='yes'/>
                 </antipattern>
                 <pattern>
-                    <token postag_regexp='yes' postag='V....S.:PP3CNO00' regexp='yes'>
+                    <token postag_regexp='yes' postag='V....S.:PP3CNO00' regexp='no'>
                         <exception inflected='yes'>concentrar</exception>
-                        <exception negate_pos='yes' postag_regexp='yes' postag='V....S.:PP3CNO00'/></token>
+                        <exception negate_pos='yes' postag_regexp='yes' postag='V....S.:PP3CNO00'/>
+                    </token>
                     <token min="0" max="3" postag_regexp='yes' postag='R.'/>
                     <token postag_regexp='yes' postag='D...P.+' min='0'>
                         <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
@@ -30874,7 +30875,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception regexp='yes'>&art_detecao_paronimos;|\-</exception>
                         <exception postag='(?:A|C|D|SP|V).+|_PUNCT|SENT_START' postag_regexp='yes'/>
                     </token>
-                    <token regexp='yes' inflected="yes">serrar
+                    <token inflected="yes">serrar
                         <exception case_sensitive='yes'>Serra</exception>
                     </token>
                 </pattern>
@@ -41412,31 +41413,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
         <rulegroup id='SI_UNITS_EXPONENT' name="Unidades: Sistema Internacional: km2/km²">
-            <!-- Created by Tiago F. Santos, 2017-05-12 -->
             <url>https://pt.wikipedia.org/wiki/Exponencia%C3%A7%C3%A3o</url>
             <short>Erro tipográfico</short>
 
-            <!-- MARCOAGPINTO 2022-05-30 + 2022-10-02 (Checked/Enhanced) (24-MAY-2022+) *START* -->
-            <!--
-            THIS ANTIPATTERN ALSO APPEARS IN TWO OTHER PLACES ALSO ^2 RELATED.
-            As forças estão organizadas numa hierarquia C2.
-            -->
             <antipattern>
                 <token regexp='yes'>ciclos?|estruturas?|hierarquias?|hierárquicas?</token>
                 <token min="0" max="1">de</token>
                 <token case_sensitive='yes'>C2</token>
             </antipattern>
-            <!-- 2022-10-02 -->
-            <!--
-            O grupo detém pouca análise de alvos, C2 ou capacidade de aprendizagem.
-            -->
             <antipattern>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
                 <token case_sensitive='yes'>C2</token>
                 <token postag='CC' postag_regexp='no'/>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-05-30 + 2022-10-02 (Checked/Enhanced) (24-MAY-2022+) *END* -->
 
             <rule>
                 <pattern case_sensitive="yes">
