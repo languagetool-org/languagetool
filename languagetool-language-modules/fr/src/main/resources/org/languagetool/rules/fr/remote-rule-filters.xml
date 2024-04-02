@@ -606,6 +606,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Que vous <marker>souhaiter</marker> ?</example>
             </rule>
+            <rule><!--"se rendre compte"-->
+                <pattern>
+                    <marker>
+                        <token postag="V ppa m s" inflected="yes">rendre</token>
+                    </marker>
+                    <token>compte</token>
+                </pattern>
+                <example correction="">Elles ne sont pas <marker>rendu</marker> compte.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_FR_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE.*" name="">
             <rule><!--1 to avoid interfering with other rules-->
@@ -683,13 +692,6 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule><!--"se rendre compte"-->
                 <pattern>
-                    <token postag="[NJZ] . p|R pers suj [13].* p|R dem.* p|R m p" postag_regexp="yes"/>
-                    <token regexp="yes">ne|n'</token>
-                    <token inflected="yes" regexp="yes" min="0" max="1">[mts]e|lui|leur|[nv]ous</token>
-                    <token min="0" max="1" regexp="yes">y|en</token>
-                    <token postag="V .*p" postag_regexp="yes" inflected="yes">être</token>
-                    <token regexp="yes">pas|point|guère|plus|jamais</token>
-                    <token min="0" max="4" postag="A"/>
                     <marker>
                         <token postag="V ppa m s" inflected="yes">rendre</token>
                     </marker>
@@ -724,6 +726,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="K" spacebefore="no"/>
                 </pattern>
                 <example correction="">Deux<marker>-</marker>cents personnes se sont rassemblées devant la mairie.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_FR_GGEC_UNNECESSARY_PUNCTUATION_COMMA.*" name="">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>Mais</token>
+                    <marker>
+                        <token spacebefore="no">,</token>
+                    </marker>
+                </pattern>
+                <example correction="">Mais<marker>,</marker> qu’est-ce qui vous en empêche ?</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_FR_GGEC_REPLACEMENT_CONFUSION_OLDSPELL.*" name="">

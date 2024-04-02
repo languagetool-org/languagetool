@@ -2322,7 +2322,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         !isMisspelled(part1) &&
         isNoun(part2uc) // don't accept e.g. "Azubikommt"
       ) {
-      System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");
+      //System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");
       return true;
     }
     return false;

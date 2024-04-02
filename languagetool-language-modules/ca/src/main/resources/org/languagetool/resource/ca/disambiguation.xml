@@ -4416,7 +4416,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <token>te</token>
             <marker>
-                <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">dius?|tornes|fan|don</exception></token>
+                <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">dius?|tornes|fan|don|trobes</exception></token>
             </marker>
         </pattern>
         <disambig action="remove" postag="V.*"/>
@@ -20916,6 +20916,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token regexp="yes">[a-z]</token>
                 <token regexp="yes">[⁰ⁱ²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">&math_operators;</token>
+                <token regexp="yes" case_sensitive="yes">[a-zA-Z]|[A-Z][A-Z]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[a-zA-Z]|[A-Z][A-Z]</token>
+                <token regexp="yes">&math_operators;</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
