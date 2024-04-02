@@ -112,7 +112,7 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Grossmächten"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Aussichtplattform"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Datumangabe"));
-    //assertTrue(rule.ignorePotentiallyMisspelledWord("Hundefutterschachtel"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Hundefutterschachtel"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstest"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Nachuntersuchungstest"));  // needs extension in ExtendedGermanWordSplitter.extendedList (as of 2023-10-02)
     assertTrue(rule.ignorePotentiallyMisspelledWord("Robustheitsabstände"));  // triggers use of nonStrictSplitter (2023-09-18, might change...)
@@ -248,6 +248,8 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.ignorePotentiallyMisspelledWord("Sonntagnachmittag"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Sonntagsfahrer"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Sonntagfahrer"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Gerätebezeichnung"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Gerätbezeichnung"));
     //
   }
 

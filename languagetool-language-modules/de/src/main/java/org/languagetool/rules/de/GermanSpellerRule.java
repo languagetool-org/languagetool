@@ -136,9 +136,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern COMPOUND_END_TYPOS = compile(".*(gruße|schaf(s|en)?)$");
   private static final Pattern INFIX_S_SUFFIXES = compile(".*(heit|ion|ität|keit|ling|ung|schaft|tum)$");
   private static final Pattern WECHSELINFIX = compile("(arbeit|dienstag|donnerstag|freitag|montag|mittwoch|recht|samstag|sonntag|verband)s?");
+  private static final Pattern NEEDS_TO_BE_PLURAL = compile("gerät|gilde|historie|hose|hund|jungfer|kante|katze|kette|kid|klasse|kirche|klaue|klinge|knappe|koeffizient|kojote|kontrahent|krake|kralle|kranke|krähe|kraut|kuriosität|kurve|kusine|küste|laterne|laute|legende|lehne|leuchte|lippe|loge |lotse|länge|läuse |löwe|lücke|made|maske|maßnahme|menge|mensch|metapher|methode |metropole|miene |miete |million|miniatur|mitte|maus|mücke|mühle|nerv|niederlage|nixe|nonne|note|obdachlose|ode|organist|panne|parzelle|pate|patient|petze|pfanne|pfeife|platte|polle|pomade|pomeranze|posse|prise|prominente|prälat|puppe|pädophile|radikale|rakete|rampe|ranke|rate|rendite|repressalie|rest|riese|rinde|rind|robbe|robe|romanist|rose|ross|route|nummer|runde|röhre|rübe|salbe|schabe|schale|scheide|schelle|schenke|schere|dicke|kröte|schlampe|schlange|schluchte|schmiere|schnake|schnalle|schneide|schnelle|schokolade|schotte|schwabe|schwalbe|schwule|seele|seide|hölle|höhle|sonne|sorge|spanne|sparte|sperre|spitze|sproße|spule|steppe|straße|streife|studie|stunde|stütze|tabelle|tinte|tote|toilette|traube|treffe|treppe|truhe|träne|tunte|tüte|urne|vene|versicherte|verwandte|virtuose");
   private static final Pattern ARBEIT_COMP = compile("(gebe|nehme)(r(s|n|innen|in)?|nde[mnr]?)");
   private static final Pattern RECHT_COMP = compile("bank|eck|fertigung|gläubigkeit|haber|haberei|leitung|losigkeit|mäßigkeit|winkligkeit|zeitigkeit");
-  private static final Pattern RECHTS_COMP = compile("abteilung|akt|akte|angelegenheit|ansicht|anspruch|anwalt|anwalts|anwaltschaft|anwendung|anwältin|auffassung|aufsicht|auskunft|ausschuss|außen|begehren|begriff|behelf|beistand|berater|beratung|bereich|beschwerde|beugung|beziehung|brecher|bruch|dienst|durchsetzung|empfinden|entwicklung|setzung|experte|experten|extreme|extremer|extremismus|extremist|fall|fehler|folge|form|fortbildung|frage|fähigkeit|gebiet|gebieten|gelehrte|gelehrter|geschichte|geschäft|gewinde|gleichheit|grund|grundlage|grundsatz|gründen|gut|gutachten|gültigkeit|güter|handlung|hilfe|händer|hängigkeit|inhaber|institut|klick|konformität|kraft|kreis|kurve|lage|lehre|lenker|medizin|mediziner|meinung|missbrauch|mittel|mitteln|mängel|nachfolge|nachfolger|nachfolgerin|natur|norm|ordnung|persönlichkeit|pflege|pfleger|pflicht|philosophie|politik|populismus|populist|position|praxis|problem|quelle|radikale|radikaler|radikalismus|rahmen|rat|ratgeber|ruck|sache|sachen|satz|schutz|sicherheit|sinn|sprache|soziologie|sprechung|staat|staatlichkeit|stand|status|stellung|streit|streitigkeit|system|staat|terrorist|texte|texter|thema|theorie|tipp|titel|träger|unsicherheit|verfolgung|vergleichung|verhältnis|verkehr|verletzung|verletzungen|verordnung|verstoß|verständnis|verteidiger|verteidigung|vertreter|vertretung|vorschrift|wahl|weg|wesen|widrigkeit|wirksamkeit|wirkung|wissenschaft|wissenschaften|wissenschaftler|zug|änderung");
+  private static final Pattern RECHTS_COMP = compile("abteilung|akt|akte|angelegenheit|ansicht|anspruch|anwalt|anwalts|anwaltschaft|anwendung|anwältin|auffassung|aufsicht|auskunft|ausschuss|außen|begehren|begriff|behelf|beistand|berater|beratung|bereich|beschwerde|beugung|beziehung|brecher|bruch|dienst|durchsetzung|empfinden|entwicklung|setzung|experte|experten|extreme|extremer|extremismus|extremist|fall|fehler|folge|form|fortbildung|frage|fähigkeit|gebiet|gebieten|gelehrte|gelehrter|geschichte|geschäft|gewinde|gleichheit|grund|grundlage|grundsatz|gründen|gut|gutachten|gültigkeit|güter|handlung|hilfe|händer|hängigkeit|inhaber|institut|klick|konformität|kraft|kreis|kurve|lage|lehre|lenker|medizin|mediziner|meinung|missbrauch|mittel|mitteln|mängel|nachfolge|nachfolger|nachfolgerin|natur|norm|ordnung|persönlichkeit|pflege|pfleger|pflicht|philosophie|politik|populismus|populist|position|praxis|problem|quelle|radikale|radikaler|radikalismus|rahmen|rat|ratgeber|ruck|sache|sachen|satz|schutz|sicherheit|sinn|sprache|soziologie|sprechung|staat|staatlichkeit|stand|status|stellung|streit|streitigkeit|system|terrorist|texte|texter|thema|theorie|tipp|titel|träger|unsicherheit|verfolgung|vergleichung|verhältnis|verkehr|verletzung|verletzungen|verordnung|verstoß|verständnis|verteidiger|verteidigung|vertreter|vertretung|vorschrift|wahl|weg|wesen|widrigkeit|wirksamkeit|wirkung|wissenschaft|wissenschaften|wissenschaftler|zug|änderung");
   private static final Pattern VERBAND_COMP = compile("klammer|kasten|kiste|mull|material|päckchen|platz|raum|schere|zeug|zimmer");
   private static final Pattern VERBANDS_COMP = compile("chef(in)?|flug|funktionär(in)?|kasse|klage|leben|leitung|leiter(in)?|ligist(in)|material|päckchen|präsident(in)?|presse|spiel|vertreter(in)|vorsitzender?|vorstand|wechsel|zeichen|zeit(schrift|ung)");
   private static final Pattern WOCHENTAG_COMP = compile("abend|mittag|morgen|nachmittag|vormittag");
@@ -2370,6 +2371,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return checkInfixSForPart1Part2Combination(part1, part2);
     }
 
+    // Sometimes part1 requires singular or plural
+    String part1_lemma = findLemmaForNoun(removeTrailingHyphen(part1));
+    if (part1_lemma.equals("") && removeTrailingHyphen(part1).endsWith("s")) {
+      part1_lemma = findLemmaForNoun(removeTrailingSAndHyphen(part1));
+    }
+    if (NEEDS_TO_BE_PLURAL.matcher(lowercaseFirstChar(part1_lemma)).matches()) {
+      return checkNumerus(part1, part1_lemma, part2);
+    }
+
     // TODO distinguish more cases with hyphens
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
       // 's' is the last character in *part1* and is probably not an infix
@@ -2462,6 +2472,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return true;
     }
     if (WOCHENTAGE_S.matcher(part1).matches() && !WOCHENTAG_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+      return true;
+    }
+    return false;
+  }
+
+  private boolean checkNumerus(String part1, String part1_lemma, String part2) throws IOException {
+    // For some part1-and-part2 combinations an infix s is correct or incorrect
+    String part2_lemma = findLemmaForNoun(removeTrailingHyphen(part2));
+    if (part2_lemma.equals("") && removeTrailingHyphen(part2).endsWith("s")) {
+      part2_lemma = findLemmaForNoun(removeTrailingSAndHyphen(part2));
+    }
+
+    if (NEEDS_TO_BE_PLURAL.matcher(lowercaseFirstChar(part1_lemma)).matches() && isNounNomPlu(part1)) {
       return true;
     }
     return false;
@@ -2589,6 +2612,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean isNounNomSin(String word) throws IOException {
     return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM:SIN"));
+  }
+
+  private boolean isNounNomPlu(String word) throws IOException {
+    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM:PLU"));
   }
 
   private boolean isVerbPrefix(String word) throws IOException {
