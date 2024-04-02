@@ -427,97 +427,42 @@ public class French extends Language implements AutoCloseable {
   @Override
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
-    RuleMatch potentialDeterminerMatch = null;
-
-    for (int i = 0; i < ruleMatches.size(); i++) {
-      RuleMatch currentMatch = ruleMatches.get(i);
-      String ruleId = currentMatch.getRule().getId();
-      String sentenceText = currentMatch.getSentence().getText().toLowerCase();
-
-      // APOS_TYP
+    for (RuleMatch rm : ruleMatches) {
       if (enabledRules.contains("APOS_TYP")) {
-        List<SuggestedReplacement> replacements = currentMatch.getSuggestedReplacementObjects();
+        List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
         List<SuggestedReplacement> newReplacements = new ArrayList<>();
         for (SuggestedReplacement s : replacements) {
-          String newReplStr = s.getReplacement().length() > 1 ? s.getReplacement().replace('\'', '’') : s.getReplacement();
+          String newReplStr = s.getReplacement();
+          if (s.getReplacement().length() > 1) {
+            newReplStr = s.getReplacement().replace('\'', '’');
+          }
           SuggestedReplacement newRepl = new SuggestedReplacement(s);
           newRepl.setReplacement(newReplStr);
           newReplacements.add(newRepl);
         }
-        currentMatch = new RuleMatch(currentMatch, newReplacements);
+        rm = new RuleMatch(rm, newReplacements);
       }
 
-      // MISSING_PRONOUN_LAPOSTROPHE
-      if (ruleId.startsWith("AI_FR_GGEC") && ruleId.contains("MISSING_PRONOUN_LAPOSTROPHE")) {
-        if (currentMatch.getFromPos() >= 3) {
-          String substring = sentenceText.substring(currentMatch.getFromPos() - 3, currentMatch.getToPos());
+      if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("MISSING_PRONOUN_LAPOSTROPHE")) {
+        if (rm.getFromPos() >= 3) {
+          String substring = rm.getSentence().getText().substring(rm.getFromPos() - 3, rm.getToPos());
           if (substring.equalsIgnoreCase("si on")) {
-            currentMatch.setSpecificRuleId("AI_FR_GGEC_SI_LON");
-            currentMatch.getRule().setTags(Arrays.asList(Tag.picky));
+            rm.setSpecificRuleId("AI_FR_GGEC_SI_LON");
+            rm.getRule().setTags(Arrays.asList(Tag.picky));
           }
         }
       }
 
-      // REPLACEMENT_PUNCTUATION_QUOTE
-      if (ruleId.startsWith("AI_FR_GGEC") && ruleId.contains("REPLACEMENT_PUNCTUATION_QUOTE")) {
-        currentMatch.setSpecificRuleId("AI_FR_GGEC_QUOTES");
-        currentMatch.getRule().setTags(Arrays.asList(Tag.picky));
-        currentMatch.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
+      if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("REPLACEMENT_PUNCTUATION_QUOTE")) {
+        rm.setSpecificRuleId("AI_FR_GGEC_QUOTES");
+        rm.getRule().setTags(Arrays.asList(Tag.picky));
+        rm.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
       }
 
-      // AI_FR_GGEC_MAIL_EMAIL_JOINED
-      if (sentenceText.contains("mail")) {
-        String message = "Dans un contexte formel, « e-mail » semble plus approprié.";
-        String shortMessage = "Forme préférée : « e-mail ».";
-        if ((ruleId.startsWith("AI_FR_GGEC_REPLACEMENT_NOUN") || ruleId.startsWith("AI_FR_GGEC_REPLACEMENT_OTHER")) && !ruleId.contains("FORM")) {
-          currentMatch.setSpecificRuleId("AI_FR_GGEC_MAIL_EMAIL");
-          currentMatch.getRule().setTags(Arrays.asList(Tag.picky));
-          currentMatch.setMessage(message);
-          currentMatch.setShortMessage(shortMessage);
-
-          if (potentialDeterminerMatch != null && isAdjacent(potentialDeterminerMatch, currentMatch)) {
-            RuleMatch joinedMatch = joinMatches(potentialDeterminerMatch, currentMatch, "AI_FR_GGEC_MAIL_EMAIL_JOINED");
-            newRuleMatches.add(joinedMatch);
-            currentMatch.setMessage(message);
-            currentMatch.setShortMessage(shortMessage);
-            potentialDeterminerMatch = null;
-            continue;
-          }
-        } else if (ruleId.contains("DETERMINER")) {
-          potentialDeterminerMatch = currentMatch;
-          continue;
-        }
-      }
-
-      if (potentialDeterminerMatch != null && potentialDeterminerMatch != currentMatch) {
-        newRuleMatches.add(potentialDeterminerMatch);
-        potentialDeterminerMatch = null;
-      }
-
-      newRuleMatches.add(currentMatch);
+      newRuleMatches.add(rm);
     }
-
-    if (potentialDeterminerMatch != null) {
-      newRuleMatches.add(potentialDeterminerMatch);
-    }
-
     return newRuleMatches;
   }
-
-  private boolean isAdjacent(RuleMatch match1, RuleMatch match2) {
-    return match1.getToPos() + 1 == match2.getFromPos();
-  }
-
-  private RuleMatch joinMatches(RuleMatch match1, RuleMatch match2, String specificRuleId) {
-    RuleMatch joinedMatch = new RuleMatch(match1.getRule(), match1.getSentence(),
-            match1.getFromPos(), match2.getToPos(),
-            match2.getMessage());
-    joinedMatch.setSpecificRuleId(specificRuleId);
-    joinedMatch.getRule().setTags(Arrays.asList(Tag.picky));
-    return joinedMatch;
-  }
-
-
 
   private final List<String> spellerExceptions = Arrays.asList("Ho Chi Minh");
 
