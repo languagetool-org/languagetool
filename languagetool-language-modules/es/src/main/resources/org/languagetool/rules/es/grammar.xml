@@ -16963,7 +16963,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
-        <rulegroup id="CONCORDANCIAS_ADJ_COORD" name="concordancias de adjetivos coordinados" default="temp_off">
+        <rulegroup id="CONCORDANCIAS_ADJ_COORD" name="concordancias de adjetivos coordinados" default="off">
             <rule>
                 <antipattern>
                     <unify>
@@ -20429,6 +20429,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="personas">Son un conjunto de <marker>persona</marker>.</example>
                 <example>Participa en un grupo de teatro.</example>
                 <example>10 millones de forma semestral.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">decena|centena|centenar|mil|millón|billón</token>
+                    <token>de</token>
+                    <marker>
+                        <token postag="NC.S.*" postag_regexp="yes"><exception regexp="yes">&meses_ano;|multa|sanción|alto|ancho|anticipo|antigüedad|arco|audiencia|aumento|base|bien|capital|capitalización|compensación|consolidación|contribución|coste|crédito|depósito|diferencia|dinero|distancia|dote|edad|entrada|facturación|fianza|financiación|ganancia|gasto|gente|indemnización|infantería|intensidad|inversión|jubilación|largo|longitud|líquido|maquinaria|mierda|munición|nadir|oro|patrimonio|patrocinio|personal|plata|población|porcentaje|prejubilación|presión|probabilidad|profundidad|propina|pérdida|recompensa|regalo|renta|repuesto|rescate|reserva|riqueza|secano|subsidio|tierra|tipo|utilidad|voltaje|volumen|uso|ganado|telefonía|carbón|yeso|fondo|deuda|presupuesto|responsabilidad|valor|agua|pensión|beca|valoración|estimación|evaluación</exception></token>
+                    </marker>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion><match no="3" postag="(NC.)S(.*)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+                <example correction="personas">Son miles de <marker>persona</marker>.</example>
+                <example correction="personalidades">Decenas de <marker>personalidad</marker> firman un manifiesto.</example>
+                <example correction="euros">Puede costar billones de <marker>euro</marker>.</example>
+                <example>Forma parte de un grupo de teatro.</example>
+                <example>Costará 5.000 millones de presupuesto.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_NUMERAL_GENDER" name="concordancia de género en numerales">
