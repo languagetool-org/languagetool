@@ -1177,7 +1177,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("schalfen", w -> Arrays.asList("schlafen", "schaffen", "scharfen"));
     put("Anfage", w -> Arrays.asList("Anfrage", "Anlage"));
     put("gehör", w -> Arrays.asList("gehört", "Gehör", "gehöre"));
-    put("Sep", w -> Arrays.asList("Sepp", "Sept.", "September", "Separator", "Sei"));
+    put("Sep", w -> Arrays.asList("Sept.", "Sepp", "September", "Separator", "Sei"));
     put("Formulares", "Formulars");
     put("Danl", "Dank");
     put("umbennen", "umbenennen");
