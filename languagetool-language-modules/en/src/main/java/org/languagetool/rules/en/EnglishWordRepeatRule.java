@@ -99,10 +99,12 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
         (position + 1 < tokens.length) && SINGLE_CHAR.matcher(tokens[position + 1].getToken()).matches()) {
       // spelling with spaces in between: "b a s i c a l l y"
       return true;
+    } else if (repetitionOf("aye", tokens, position)) {
+      return true;   // "aye aye"
     } else if (repetitionOf("blah", tokens, position)) {
       return true;   // "blah blah"
     } else if (repetitionOf("mau", tokens, position)) {
-      return true;   // "blah blah"
+      return true;   // "mau mau"
     } else if (repetitionOf("uh", tokens, position)) {
       return true;   // "uh uh"
     } else if (repetitionOf("paw", tokens, position)) {
