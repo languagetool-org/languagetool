@@ -102,7 +102,7 @@ public class JLanguageToolTest {
     Set<String> enabledRules = Collections.emptySet();
     List<RuleMatch> processedMatches = lang.adaptSuggestions(ruleMatches, enabledRules);
     assertEquals("AI_FR_GGEC_MAIL_EMAIL", processedMatches.get(0).getSpecificRuleId());
-    assertEquals("Rule should be marked as picky", processedMatches.get(0).getRule().getTags().contains(Tag.picky));
+    assertEquals(true, processedMatches.get(0).getRule().getTags().contains(Tag.picky));
     assertEquals("Dans un contexte formel, « e-mail » semble plus approprié.", processedMatches.get(0).getMessage());
     assertEquals("Forme préférée : « e-mail ».", processedMatches.get(0).getShortMessage());
   }
@@ -116,7 +116,7 @@ public class JLanguageToolTest {
     ruleMatches.add(ruleMatch);
     Set<String> enabledRules = Collections.emptySet();
     List<RuleMatch> processedMatches = lang.adaptSuggestions(ruleMatches, enabledRules);
-    assertEquals("Rule should be marked as picky", processedMatches.get(0).getRule().getTags().contains(Tag.picky));
+    assertEquals(true, processedMatches.get(0).getRule().getTags().contains(Tag.picky));
     assertEquals("AI_FR_GGEC_QUOTES", processedMatches.get(0).getSpecificRuleId());
   }
 }
