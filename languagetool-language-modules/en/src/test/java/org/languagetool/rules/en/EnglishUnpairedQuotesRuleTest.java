@@ -94,6 +94,7 @@ public class EnglishUnpairedQuotesRuleTest {
     assertCorrect("Côte d’Ivoire");
     assertCorrect("Côte d'Ivoire");
     assertCorrect("Colonel d’Aubigni");
+    assertCorrect("They are members of the Bahá'í Faith.");
     
     
     // test for a case that created a false alarm after disambiguation
