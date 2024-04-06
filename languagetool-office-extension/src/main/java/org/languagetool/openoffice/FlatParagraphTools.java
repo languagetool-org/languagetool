@@ -489,12 +489,10 @@ public class FlatParagraphTools {
       XFlatParagraph flatPara = getFlatParagraphAt(nPara);
       isBusy++;
       if (flatPara == null) {
-        MessageHandler.showMessage("flatPara == null");
         return paragraphLocale;
       }
       Locale locale = flatPara.getLanguageOfText(start, len);
       if (locale == null || locale.Language.isEmpty()) {
-        MessageHandler.showMessage("locale == null");
         return paragraphLocale;
       }
       return getSaveLocale(locale.Language, locale.Country, locale.Variant);
