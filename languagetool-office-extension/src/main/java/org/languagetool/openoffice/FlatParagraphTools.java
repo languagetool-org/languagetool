@@ -481,6 +481,29 @@ public class FlatParagraphTools {
   }
   
   /**
+   * Get language of character
+   * @throws IllegalArgumentException 
+   */
+  public Locale getLanguageOfWord(int nPara, int start, int len, Locale paragraphLocale) throws Throwable {
+    try {
+      XFlatParagraph flatPara = getFlatParagraphAt(nPara);
+      isBusy++;
+      if (flatPara == null) {
+        MessageHandler.showMessage("flatPara == null");
+        return paragraphLocale;
+      }
+      Locale locale = flatPara.getLanguageOfText(start, len);
+      if (locale == null || locale.Language.isEmpty()) {
+        MessageHandler.showMessage("locale == null");
+        return paragraphLocale;
+      }
+      return getSaveLocale(locale.Language, locale.Country, locale.Variant);
+    } finally {
+      isBusy--;
+    }
+  }
+  
+  /**
    * Returns Number of all FlatParagraphs of Document from current FlatParagraph
    * Returns negative value if it fails
    */

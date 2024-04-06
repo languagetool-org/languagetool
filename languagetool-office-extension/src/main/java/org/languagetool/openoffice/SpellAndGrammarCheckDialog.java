@@ -673,7 +673,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
           if (error.nErrorStart >= x) {
             if (error.nErrorType == TextMarkupType.SPELLCHECK) {
               String word = text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength);
-              if (word.contains(" ") || documents.getLinguisticServices().isCorrectSpell(word, locale)) {
+              if (word.contains(" ") || documents.getLinguisticServices().isCorrectSpell(word, 
+                             document.getFlatParagraphTools().getLanguageOfWord(nFPara, error.nErrorStart, word.length(), locale))) {
                 continue;
               }
             }
@@ -766,7 +767,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
                 if (error.nErrorStart >= x) {
                   if (error.nErrorType == TextMarkupType.SPELLCHECK) {
                     String word = text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength);
-                    if (word.contains(" ") || documents.getLinguisticServices().isCorrectSpell(word, locale)) {
+                    if (word.contains(" ") || documents.getLinguisticServices().isCorrectSpell(word, 
+                        document.getFlatParagraphTools().getLanguageOfWord(nFPara, error.nErrorStart, word.length(), locale))) {
                       continue;
                     }
                   }
@@ -798,7 +800,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     }
     return null;
   }
-  
+
   /** 
    * Class for spell checking in LT check dialog
    * The LO/OO spell checker is used
