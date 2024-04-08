@@ -18,11 +18,14 @@
  */
 package org.languagetool.rules.pt;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternRuleXmlCreatorTest;
 
 
 import java.io.IOException;
@@ -35,24 +38,34 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class MorfologikPortugueseSpellerRuleTest {
-  private final MorfologikPortugueseSpellerRule ruleBR = getSpellerRule("BR");
-  private final JLanguageTool ltBR = getLT("BR");
-  private final MorfologikPortugueseSpellerRule rulePT = getSpellerRule("PT");
-  private final JLanguageTool ltPT = getLT("PT");
+  private static MorfologikPortugueseSpellerRule ruleBR;
+  private static JLanguageTool ltBR;
+  private static MorfologikPortugueseSpellerRule rulePT;
+  private static JLanguageTool ltPT;
   // This one is used to test the pre-90 agreement spellings
-  private final MorfologikPortugueseSpellerRule ruleMZ = getSpellerRule("MZ");
-  private final JLanguageTool ltMZ = getLT("MZ");
+  private static MorfologikPortugueseSpellerRule ruleMZ;
+  private static JLanguageTool ltMZ;
 
   public MorfologikPortugueseSpellerRuleTest() throws IOException {
   }
 
-  private MorfologikPortugueseSpellerRule getSpellerRule(String countryCode) throws IOException {
+  private static MorfologikPortugueseSpellerRule getSpellerRule(String countryCode) throws IOException {
     return new MorfologikPortugueseSpellerRule(TestTools.getMessages("pt"),
       Languages.getLanguageForShortCode("pt-" + countryCode), null, null);
   }
 
-  private JLanguageTool getLT(String countryCode) {
+  private static JLanguageTool getLT(String countryCode) {
     return new JLanguageTool(Languages.getLanguageForShortCode("pt-" + countryCode));
+  }
+
+  @BeforeClass
+  public static void setUp() throws IOException {
+    ltBR = getLT("BR");
+    ltPT = getLT("PT");
+    ltMZ = getLT("MZ");
+    ruleBR = getSpellerRule("BR");
+    rulePT = getSpellerRule("PT");
+    ruleMZ = getSpellerRule("MZ");
   }
 
   private List<String> getFirstSuggestions(RuleMatch match, int max) {
@@ -190,7 +203,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("fá-lo-á", lt, rule);
     assertNoErrors("dir-lhe-ia", lt, rule);
     assertNoErrors("amar-nos-emos", lt, rule);
-    assertNoErrors("dê-mo", lt, rule);
+    assertNoErrors("dê-mo", lt, rule);  // not a single token!
     assertNoErrors("fizemo-lo", lt, rule);
     assertNoErrors("compramo-lo", lt, rule);
     assertNoErrors("apercebemo-nos", lt, rule);
@@ -202,16 +215,29 @@ public class MorfologikPortugueseSpellerRuleTest {
     assertNoErrors("fê-lo", lt, rule);
     assertNoErrors("trá-las", lt, rule);
     assertNoErrors("pu-las", lt, rule);
+    assertNoErrors("pusé-lo", lt, rule);
+    assertNoErrors("soubé-lo", lt, rule);
+    assertNoErrors("partam-no", lt, rule);
+    // here we are mostly testing the suggestions
+    assertSingleError("amarte", lt, rule, "amar-te");
+    assertSingleError("amamonos", lt, rule, "amamo-nos");
+    assertSingleError("amarlhe", lt, rule, "amar-lhe");
   }
 
   @Test
   public void testEuropeanPortugueseHyphenatedClitics() throws Exception {
     testPortugueseHyphenatedClitics(ltPT, rulePT);
+    // These are dialect-specific; pt-PT doesn't have 'detetava-se' in the speller
+    assertNoErrors("detetava-se", ltPT, rulePT);
+    assertSingleError("detectava-se", ltPT, rulePT, "detetava-se");
   }
 
   @Test
   public void testBrazilianPortugueseHyphenatedClitics() throws Exception {
     testPortugueseHyphenatedClitics(ltBR, ruleBR);
+    // These are dialect-specific; pt-PT doesn't have 'detetava-se' in the speller
+    assertNoErrors("detectava-se", ltBR, ruleBR);
+    assertSingleError("detetava-se", ltBR, ruleBR, "detectava-se");
   }
 
   @Test
@@ -219,12 +245,18 @@ public class MorfologikPortugueseSpellerRuleTest {
     // These will need to be accepted until the tokenisation is made to work with pt-BR better.
     // We will, for now, have an XML rule to correct these (id: ELISAO_VERBAL_DESNECESSARIA).
     // Once we rework the tokenisation logic, these will need to be single error assertions!
-    assertNoErrors("amávamo", ltBR, ruleBR);
-    assertNoErrors("fizemo", ltBR, ruleBR);
-    assertNoErrors("compramo", ltBR, ruleBR);
-    assertNoErrors("pusemo", ltBR, ruleBR);
-    assertNoErrors("fazê", ltBR, ruleBR);
-    assertNoErrors("fi", ltBR, ruleBR);  // 'fi-lo'
+    assertSingleError("amávamo", ltBR, ruleBR, new String[]{"amávamos"});
+    assertSingleError("fizemo", ltBR, ruleBR, new String[]{"fizemos"});
+    assertSingleError("compramo", ltBR, ruleBR, new String[]{"compramos"});
+    assertSingleError("pusemo", ltBR, ruleBR, new String[]{"pusemos"});
+    assertSingleError("fazê", ltBR, ruleBR, new String[]{"fazer"});
+    assertSingleError("fê", ltBR, ruleBR, new String[]{"fé"});  // 'fê-lo', not sure about suggesting "fez"
+  }
+
+  @Test
+  public void testPortugueseSpellerAcceptsVerbsWithProductivePrefixes() throws Exception {
+    assertNoErrors("soto-pôr", ltBR, ruleBR);     // exists in speller, ignoreSpelling() from tagger
+    assertNoErrors("soto-trepar", ltBR, ruleBR);  // NOT in speller, ignoreSpelling() from tagger
   }
 
   @Test
@@ -265,8 +297,8 @@ public class MorfologikPortugueseSpellerRuleTest {
     // new words from portal da língua portuguesa
     assertTwoWayDialectError("napoleônia", "napoleónia");
     assertTwoWayDialectError("hiperêmese", "hiperémese");
-    // will not work due to tokenisation quirk, bebê-lo, must be fixed
-    // assertTwoWayDialectError("bebê", "bebé");
+    // as of dict v0.13! party emoji!
+    assertTwoWayDialectError("bebê", "bebé");
   }
 
   @Test
@@ -351,7 +383,7 @@ public class MorfologikPortugueseSpellerRuleTest {
     // each given incorrectly spelt word
     assertSingleErrorWithNegativeSuggestion("pwta", ltBR, ruleBR, "puta");
     assertSingleErrorWithNegativeSuggestion("bâbaca", ltBR, ruleBR, "babaca");
-    assertSingleErrorWithNegativeSuggestion("redardado", ltBR, ruleBR, "retardado");
+    assertSingleErrorWithNegativeSuggestion("rexardado", ltBR, ruleBR, "retardado");
     assertSingleErrorWithNegativeSuggestion("cagguei", ltBR, ruleBR, "caguei");
     assertSingleErrorWithNegativeSuggestion("bucetas", ltBR, ruleBR, "bocetas");
     assertSingleErrorWithNegativeSuggestion("mongolóide", ltBR, ruleBR, "mongoloide");
@@ -414,7 +446,8 @@ public class MorfologikPortugueseSpellerRuleTest {
 
   @Test
   public void testBrazilPortugueseSpellingSplitsEmoji() throws Exception {
-    assertSingleError("☺☺☺Só", ltBR, ruleBR, new String[]{"☺☺☺ Só"});
+    // Due to new tokenisation, this is no longer a spelling mistake <3
+    assertNoErrors("☺☺☺Só", ltBR, ruleBR);
   }
 
   @Test
@@ -659,5 +692,22 @@ public class MorfologikPortugueseSpellerRuleTest {
     // speller logic (split by hyphen and check elements separately)
     // not a prefix per se, true compounding (the first element exists as an independent lexeme)
     assertNoErrors("húngaro-romeno", ltBR, ruleBR);
+  }
+
+  @Test public void testPortugueseSpellerAcceptsParagraphAndOrdinal() throws Exception {
+    assertNoErrors("§1º", ltBR, ruleBR);
+    assertNoErrors("§ 1º", ltBR, ruleBR);
+    assertNoErrors("§1º-A", ltBR, ruleBR);
+    assertNoErrors("§ 1º-A", ltBR, ruleBR);
+  }
+
+  @Test public void testPortugueseSpellerReplacesOldGrammarRules() throws Exception {
+    // ELISAO_VERBAL_COM_ENCLITICO_INCORRETO_1PL
+    assertSingleError("Amamo-te", ltBR, ruleBR, "Amamos");
+    // ELISAO_VERBAL_COM_ENCLITICO_INCORRETO_INF
+    assertSingleError("Amá-te", ltBR, ruleBR, "Amar");
+    // ELISAO_VERBAL_SEM_ENCLITICO
+    assertSingleError("Fazê o quê?", ltBR, ruleBR, "Fazer");
+    assertSingleError("Vamo embora", ltBR, ruleBR, "Vamos");
   }
 }
