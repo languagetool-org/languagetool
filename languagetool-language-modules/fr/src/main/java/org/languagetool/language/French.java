@@ -419,7 +419,7 @@ public class French extends Language implements AutoCloseable {
     }
     return super.getPriorityForId(id);
   }
-  
+
   public boolean hasMinMatchesRules() {
     return true;
   }
@@ -431,6 +431,9 @@ public class French extends Language implements AutoCloseable {
 
     for (int i = 0; i < ruleMatches.size(); i++) {
       RuleMatch currentMatch = ruleMatches.get(i);
+      if (currentMatch.getSentence() == null) {
+        continue;
+      }
       String ruleId = currentMatch.getRule().getId();
       String sentenceText = currentMatch.getSentence().getText().toLowerCase();
 
