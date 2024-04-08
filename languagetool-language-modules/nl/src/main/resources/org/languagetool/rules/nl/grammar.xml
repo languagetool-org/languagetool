@@ -900,6 +900,23 @@ regexp case-insensitive maken: (?i)
 				<example correction="behandelt">De Duitse dokter <marker>behandeld</marker> de patient.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="HET_GET" name="Voor get(het) grootste deel wel" default="temp_off">
+			<rule>
+				<antipattern>
+					<token skip="3">get</token>
+					<token>set</token>
+				</antipattern>
+				<pattern>
+					<token postag="VRZ"></token>
+					<marker>
+						<token case_sensitive="yes">get</token>
+					</marker>
+					<token><exception postag_regexp="yes" postag="_english_ignore_|UNKNOWN"/></token>
+				</pattern>
+				<message>Bedoelt u soms <suggestion>het</suggestion>?</message>
+				<example correction="het">Voor <marker>get</marker> grootste deel wel.</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">

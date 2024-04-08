@@ -68,8 +68,8 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
+		    <xs:attribute name="id" type="xs:ID" use="required" />
 			<xs:attribute ref="name" use="required" />
-			<xs:attribute name="id" type="xs:ID" use="required" />
 			<xs:attribute name="premium" type="binaryYesNo"/>
 			<xs:attribute ref="type" />
 			<xs:attribute name="external" type="binaryYesNo" />
@@ -77,6 +77,7 @@
 		    <xs:attribute ref="tags" />
 		    <xs:attribute ref="tone_tags" />
 			<xs:attribute name="is_goal_specific" type="xs:boolean"/>
+            <xs:attribute name="prio" type="xs:integer" default="0"/>
 		</xs:complexType>
 	</xs:element>
 
@@ -102,9 +103,9 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
+		    <xs:attribute name="id" type="xs:ID" use="required" />
 			<xs:attribute ref="name" use="required" />
 			<xs:attribute name="premium" type="binaryYesNo"/>
-			<xs:attribute name="id" type="xs:ID" use="required" />
 			<xs:attribute ref="type" />
 		    <xs:attribute ref="tags" />
 		    <xs:attribute ref="tone_tags" />
@@ -123,6 +124,7 @@
 		            </xs:restriction>
 		        </xs:simpleType>
 		    </xs:attribute>
+            <xs:attribute name="prio" type="xs:integer" default="0"/>
 		</xs:complexType>
 	</xs:element>
 
@@ -229,9 +231,9 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="premium" type="binaryYesNo"/>
+		    <xs:attribute name="id" type="xs:ID" />
 			<xs:attribute name="name" type="xs:string" />
-			<xs:attribute name="id" type="xs:ID" />
+		    <xs:attribute name="premium" type="binaryYesNo"/>
 			<xs:attribute ref="type" />
 		    <xs:attribute ref="tags" />
 		    <xs:attribute ref="tone_tags" />
@@ -250,6 +252,7 @@
 		            </xs:restriction>
 		        </xs:simpleType>
 		    </xs:attribute>
+            <xs:attribute name="prio" type="xs:integer" default="0"/>
 		</xs:complexType>
 	</xs:element>
 

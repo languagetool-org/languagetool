@@ -1786,7 +1786,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </antipattern>
         <pattern>
             <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">fot|fots|bon|creix|ros|se|es|de|i|o|a|he|ha|hem|més|en|per|ni|no|menys|fas|com</token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">fot|fots|bon|creix|ros|se|es|de|i|o|a|he|ha|hem|més|en|per|ni|no|menys|fas|com|mateixa|mateixes</token>
                 <token postag="N.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
             </and>
         </pattern>
@@ -4416,7 +4416,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <token>te</token>
             <marker>
-                <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">dius?|tornes|fan|don</exception></token>
+                <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">dius?|tornes|fan|don|trobes</exception></token>
             </marker>
         </pattern>
         <disambig action="remove" postag="V.*"/>
@@ -11623,7 +11623,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <feature id="nombre"/>
                 <feature id="genere"/>
                 <marker>
-                    <token postag="D[ET].*|PT.*" postag_regexp="yes"/>
+                    <token postag="D[ET].*|PT.*" postag_regexp="yes"><exception>què</exception></token>
                     <token postag="DI.*" postag_regexp="yes"/>
                     <token postag="N.*" postag_regexp="yes"/>
                 </marker>
@@ -19351,6 +19351,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add">
                 <wd pos="_GN_MP"/>
             </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="primera_o_tercera_persona" name="3a persona, no 1a">
+        <rule>
+            <pattern>
+                <token postag="V...3..." postag_regexp="yes" inflected="yes">condir</token>
+            </pattern>
+            <disambig action="remove" postag="V...1..."/>
         </rule>
     </rulegroup>
     <rulegroup id="masculi_inusual" name="masculí inusual: policia, part, justícia...">

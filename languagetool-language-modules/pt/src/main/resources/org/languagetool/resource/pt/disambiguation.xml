@@ -3677,6 +3677,17 @@
       </rule>
   </rulegroup>
 
+  <rulegroup id="COMPRAZER_VERB" name="Remove comprazer lemma from 'comprá-la'">
+      <rule>
+          <pattern>
+              <marker>
+                  <token regexp="yes">comprá-l[oa]s?</token>
+              </marker>
+          </pattern>
+          <disambig action="remove"><wd lemma="comprazer"/></disambig>
+      </rule>
+  </rulegroup>
+
   <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
       <rule>
           <pattern>
@@ -3687,4 +3698,15 @@
           <disambig action="ignore_spelling"/>
       </rule>
   </rulegroup>
+
+          <!-- p-goulart@2024-03-07 - DESC: all tags that contain verbs *and* pronouns come from our tagger and need to be accepted...
+          the only exception being -ámos verbs in pt-BR, but I feel like this is a super edge case...-->
+  <!-- <rulegroup id="VERBS_WITH_CLITICS" name="Ignore spelling issues in verbs tagged with clitics"> -->
+      <!-- <rule> -->
+      <!--     <pattern> -->
+      <!--         <token postag_regexp="yes" postag="V.+:P.+"/> -->
+      <!--     </pattern> -->
+      <!--     <disambig action="ignore_spelling"/> -->
+      <!-- </rule> -->
+  <!-- </rulegroup> -->
 </rules>

@@ -4961,13 +4961,20 @@ For more detailed information, including tag definitions, please check out our d
                     <token>code</token>
                 </antipattern>
                 <pattern>
-                    <token regexp='yes'>&extreme_qualifiers;</token>
-                    <token inflected="yes">clean</token>
+                    <token><exception postag="NNPS?" postag_regexp="yes" /></token>
+                    <token regexp="yes" inflected="yes">appear|be|keep|seem</token>
+                    <marker>
+                        <token regexp='yes'>&extreme_qualifiers;</token>
+                        <token>clean</token>
+                    </marker>
                 </pattern>
                 <message>Consider using an extreme adjective for 'clean'.</message>
-                <suggestion><match no="2">spotless</match></suggestion>
+                <suggestion>spotless</suggestion>
                 <example correction="spotless">This room is <marker>extremely clean</marker>.</example>
                 <example>He has written really clean code.</example>
+                <example>Tom is extremely clean.</example>
+                <example>I asked him to lay the shelf down on the floor and thoroughly clean under it.</example>
+                <example>I asked him to lay the shelf down on the floor to thoroughly clean under it.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -6919,6 +6926,11 @@ For more detailed information, including tag definitions, please check out our d
                 <token>but</token>
                 <token>seldom</token>
             </antipattern>
+            <antipattern> <!-- https://www.collinsdictionary.com/dictionary/english/never-you-mind-->
+                <token>never</token>
+                <token>you</token>
+                <token>mind</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/> <!-- or but -->
@@ -6967,6 +6979,7 @@ For more detailed information, including tag definitions, please check out our d
                 <example>Ever really want someone to wake you up from a bad dream...</example>
                 <example>Ever louder voices of protest drowned out his speech.</example>
                 <example>Ever the organizer, Reggie separates his Skittles into groupings of the same flavor before he eats them.</example>
+                <example>Never you mind.</example>
             </rule>
             <rule>
                 <antipattern><!-- I was just bugging like always. -->
