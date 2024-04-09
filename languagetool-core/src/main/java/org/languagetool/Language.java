@@ -845,9 +845,16 @@ public abstract class Language {
       return rulePriority;
     } else if ( rulePriorityFromRule != 0) {
       return rulePriorityFromRule;
-    } else {
+    } else if (categoryPriority != 0) {
       return categoryPriority;
+    } else if (getDefaultRulePriorityForStyle() != 0 && rule.getLocQualityIssueType().equals(ITSIssueType.Style)) {
+      return getDefaultRulePriorityForStyle();
     }
+    return 0;
+  }
+
+  protected int getDefaultRulePriorityForStyle() {
+    return 0;
   }
 
   /**

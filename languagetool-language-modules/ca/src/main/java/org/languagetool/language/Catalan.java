@@ -189,8 +189,8 @@ public class Catalan extends Language {
   }
   
   @Override
-  public int getRulePriority(Rule rule) {
-    return rule.getLocQualityIssueType().equals(ITSIssueType.Style) ? -50 : super.getRulePriority(rule);
+  protected int getDefaultRulePriorityForStyle() {
+    return -50;
   }
 
   @Override

@@ -294,8 +294,8 @@ public class English extends Language implements AutoCloseable {
   }
   
   @Override
-  public int getRulePriority(Rule rule) {
-    return rule.getLocQualityIssueType().equals(ITSIssueType.Style) ? -50 : super.getRulePriority(rule);
+  protected int getDefaultRulePriorityForStyle() {
+    return -50;
   }
   
   private final static Map<String, Integer> id2prio = new HashMap<>();
