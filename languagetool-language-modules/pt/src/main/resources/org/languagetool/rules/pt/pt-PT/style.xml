@@ -2909,24 +2909,24 @@ USA
     </rule>
 
 
-    <rule id='CONCLUIR_UM_CURSO' name="[pt-PT] 'acabar/terminar' um curso → 'concluir'" type='style' tone_tags="academic">
-    <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-03 (25-JUL-2022+) -->
-    <!--
-        Vou acabar o meu doutoramento. → Vou concluir o meu doutoramento.
-        Ele terminou um mestrado em gestão. → Ele concluiu um mestrado em gestão.
-    -->
+    <rule id='CONCLUIR_UM_CURSO' name="[pt-PT] 'acabar/terminar' um curso → 'concluir'" type='style' tone_tags="academic" default="temp_off">
         <pattern>
             <marker>
                 <token regexp="yes" inflected='yes'>acabar|terminar</token>
             </marker>
-            <token postag='DA.+|DI.+|SPS00:DA.+|SPS00:DI.+' postag_regexp='yes'/>
-            <token min="0" max="1" postag='DP.+' postag_regexp='yes'/>
-            <token regexp="yes">bacharelados?|bacharelatos?|cursos?|doutorados?|doutoramentos?|especialização|especializações|faculdades?|graduação|graduações|licenciaturas?|mestrados?|PhDs?|pós-graduação|pós-graduações|universidades?</token>
+            <token min="1" max="3" postag='(SPS00:)?D.+|NC.+|AQ.+|RG' postag_regexp='yes'>
+                <exception inflected='yes' regexp='yes'>bacharela[dt]o|curso|doutorado|doutoramento|especialização|faculdade|graduação|licenciatura|mestrado|PhD|pós-doutoramento|pós-graduação|universidade</exception>
+                <exception postag_regexp='yes' postag='V.+'/>
+            </token>
+            <token inflected='yes' regexp="yes">bacharela[dt]o|curso|doutorado|doutoramento|especialização|faculdade|graduação|licenciatura|mestrado|PhD|pós-doutoramento|pós-graduação|universidade</token>
         </pattern>
-        <message>Relativamente a cursos, é mais correto empregar o verbo 'concluir'.</message>
+        <message>Relativamente a cursos e a graus universitários, é mais corrente escrever &quot;concluir&quot;.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>concluir</match></suggestion>
         <example correction="concluir">Vou <marker>acabar</marker> o meu doutoramento.</example>
         <example correction="concluiu">Ele <marker>terminou</marker> um mestrado em gestão.</example>
+        <example correction="concluiu">A Ana <marker>terminou</marker> o seu grande PhD em gestão.</example>
+        <example correction="concluiu">O Rui <marker>acabou</marker> hoje o PhD.</example>
+        <example>Desativada no final dos anos 40, a escola acabou ocupada pela Faculdade de Medicina de Ribeirão Preto.</example>
     </rule>
 
 
