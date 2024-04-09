@@ -120,19 +120,19 @@ public class JLanguageToolTest {
     assertEquals("AI_FR_GGEC_QUOTES", processedMatches.get(0).getSpecificRuleId());
   }
 
-@Test
-public void teststyle() throws IOException {
-  Language lang = new French();
-  JLanguageTool lt = new JLanguageTool(lang);
-  AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("C'est très très bien.");
-  RuleMatch ruleMatch = new RuleMatch(new FakeRule("AI_FR_GGEC_UNNECESSARY_ADVERB_TRÈS"), analyzedSentence, 6, 10, "Possible error");
-  List<RuleMatch> ruleMatches = new ArrayList<>();
-  ruleMatches.add(ruleMatch);
-  Set<String> enabledRules = Collections.emptySet();
-  List<RuleMatch> processedMatches = lang.adaptSuggestions(ruleMatches, enabledRules);
-  assertEquals(true, processedMatches.get(0).getRule().getToneTags().contains(ToneTag.formal));
-  assertEquals(true, processedMatches.get(0).getRule().isGoalSpecific());
-  assertEquals("AI_FR_GGEC_TRES", processedMatches.get(0).getSpecificRuleId());
-  assertEquals(ITSIssueType.Style, processedMatches.get(0).getRule().getLocQualityIssueType());
-}
+  @Test
+  public void teststyle() throws IOException {
+    Language lang = new French();
+    JLanguageTool lt = new JLanguageTool(lang);
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("C'est très très bien.");
+    RuleMatch ruleMatch = new RuleMatch(new FakeRule("AI_FR_GGEC_UNNECESSARY_ADVERB_TRÈS"), analyzedSentence, 6, 10, "Possible error");
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    ruleMatches.add(ruleMatch);
+    Set<String> enabledRules = Collections.emptySet();
+    List<RuleMatch> processedMatches = lang.adaptSuggestions(ruleMatches, enabledRules);
+    assertEquals(true, processedMatches.get(0).getRule().getToneTags().contains(ToneTag.formal));
+    assertEquals(true, processedMatches.get(0).getRule().isGoalSpecific());
+    assertEquals("AI_FR_GGEC_TRES", processedMatches.get(0).getSpecificRuleId());
+    assertEquals(ITSIssueType.Style, processedMatches.get(0).getRule().getLocQualityIssueType());
+  }
 }
