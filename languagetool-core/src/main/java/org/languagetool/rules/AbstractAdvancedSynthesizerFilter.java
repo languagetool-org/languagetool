@@ -163,7 +163,7 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     return match;
   }
 
-  private String getCompositePostag(String lemmaSelect, String postagSelect, String originalPostag,
+  public String getCompositePostag(String lemmaSelect, String postagSelect, String originalPostag,
       String desiredPostag, String postagReplace) {
     Pattern aPattern = Pattern.compile(lemmaSelect, Pattern.UNICODE_CASE);
     Pattern bPattern = Pattern.compile(postagSelect, Pattern.UNICODE_CASE);
