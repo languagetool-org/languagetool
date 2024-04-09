@@ -834,13 +834,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- p-goulart@2024-03-27 - DESC: this rule technically matches correct forms such as "canta-la", but they're rare enough in pt-BR that we can be certain "cantá-la" is meant -->
             <pattern>
                 <marker>
-                    <token postag='VMIP2S0:PP3..A00' postag_regexp='yes' regexp="yes">.+-l[oa]s?</token>
+                    <token postag='VMIP2S0:PP3..A00' postag_regexp='yes' regexp="yes">.+[aeo]-l[oa]s?</token>
                 </marker>
             </pattern>
             <message>Possível erro de acentuação.</message>
             <suggestion><match no="1" postag="VMIP2S0:(PP.+)" postag_regexp="yes" postag_replace="VMN0000:$1"/></suggestion>
             <example correction="escrevê-lo">Ele vai <marker>escreve-lo</marker> amanhã.</example>
             <example correction="puxá-las">O ímpeto de <marker>puxa-las</marker>.</example>
+            <example>Quero revê-la.</example>
         </rule>
 
 
@@ -30876,7 +30877,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception postag='(?:A|C|D|SP|V).+|_PUNCT|SENT_START' postag_regexp='yes'/>
                     </token>
                     <token inflected="yes">serrar
-                        <exception case_sensitive='yes'>Serra</exception>
+                        <exception case_sensitive='yes' regexp="yes">Serra|Serrad[oa]</exception>
                     </token>
                 </pattern>
                 <message>Esta palavra refere-se a uma montanha ou instrumento de corte. Se pretende referir-se à ação de cortar, deve utilizar a forma com 'c'.</message>

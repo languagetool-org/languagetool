@@ -16098,21 +16098,17 @@ USA
         </rule>
 
 
-        <!-- VIR A VERBO verbo -->
         <rule id='VIR_A_VERBO_VERBO' name="[Simplificar] Vir + a + Verbo → Verbo" type='style'>
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-22 (25-JUN-2021+)      -->
-            <!--
-      O nosso estudo terá grande aplicabilidade caso esta ameaça se venha a concretizar. → O nosso estudo terá grande aplicabilidade caso esta ameaça se concretize.
-      -->
             <pattern>
                 <token inflected='yes'>vir<exception>vi</exception></token><!-- please remove "vi" as a form of "vir" from dict -->
                 <token>a</token>
                 <token postag='VMN.+' postag_regexp='yes'/>
             </pattern>
-            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.* postagFrom:1 postagSelect:V.*"/>
+            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.+ postagFrom:1 postagSelect:V.+ postagReplace:keepPronoun"/>
             <message>&simplify_msg;</message>
             <example correction="concretize">O nosso estudo terá grande aplicabilidade caso esta ameaça se <marker>venha a concretizar</marker>.</example>
+            <example correction="especializar-se-ia">Acho que ele <marker>viria a especializar-se</marker> nisso.</example>
+            <example correction="conheceu-a">Ele <marker>veio a conhecê-la</marker> bem.</example>
             <example>Eu vi a professora Gómez ontem.</example>
             <example>Quando eles vieram a receita quiseram fazer logo.</example>
         </rule>
@@ -18244,6 +18240,10 @@ USA
 
 
         <rulegroup id='VER_OBSERVAR_CONSTATAR' name="Ver → Observar/Constatar" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
+            <antipattern>
+                <token case_sensitive="yes">VI</token>
+                <example>Constantino VI no ano 790 da nossa era.</example>
+            </antipattern>
             <antipattern>
                 <token inflected='yes' skip='-1'>ver</token>
                 <token regexp='yes'>filmes?|vídeos?|séries?|mensagem|mensagens|cenas?|televisão|tv|lado</token>
