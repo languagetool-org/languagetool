@@ -8633,6 +8633,30 @@ USA
             </rule>
         </rulegroup>
 
+       <rule id='SER_CONSISTIR_RESIDIR' name="[Universitário][Científico] V.Ser → V.Consistir/V.Residir" tone_tags="academic" is_goal_specific="true" default="temp_off">
+            <pattern>
+                <token regexp='yes' inflected='yes'>assimetria|diferença|dissemelhança|disparidade|distinção|oposição|oposto</token>
+                <token min='0' max='1' postag='NC.+|AQ.+|V.+' postag_regexp='yes'>
+                    <exception regexp='no'>entre</exception>
+                </token>
+                <token skip="-1" regexp='no'>entre</token>
+                <marker>
+                    <token inflected='yes' regexp='no'>ser</token>
+                </marker>
+                <token min='0' max='1' postag='CC|RM' postag_regexp='yes'/>
+                <token regexp='yes'>em|n[ao]s?</token>
+            </pattern>
+            <message>Num contexto formal/universitário, é preferível escrever &quot;consistir&quot; ou &quot;residir&quot;.</message>
+            <suggestion><match no='4' postag='V.+' postag_regexp='yes'>consistir</match></suggestion>
+            <suggestion><match no='4' postag='V.+' postag_regexp='yes'>residir</match></suggestion>
+            <example correction="consiste|reside">A distinção entre A e B <marker>é</marker> apenas na complexidade.</example>
+            <example correction="consiste|reside">A diferença existente entre A e B <marker>é</marker> apenas na complexidade.</example>
+            <example correction="consiste|reside">A diferença existente entre A e B <marker>é</marker> simplesmente em bits.</example>
+            <example correction="consiste|reside">A diferença existente entre Rui e Pedro <marker>é</marker> no vestuário.</example>
+            <example correction="consiste|reside">A diferença existindo entre o Rui e o Pedro <marker>é</marker> no vestuário.</example>
+            <example correction="consiste|reside">A diferença entre ambos <marker>é</marker> na beleza.</example>
+        </rule>
+
         <rulegroup id='IR_VERBO-A_DE-SEGUIR-SEGUIDA-INFINITIVO' name="[Simplificar] Ir_verbo + [a/de seguir/seguida] + V.Inf." type="style" tone_tags="academic">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-2 + 2021-02-03 + 2021-02-04 (1-JAN-2021+)      -->
