@@ -3688,6 +3688,22 @@
       </rule>
   </rulegroup>
 
+  <rulegroup id="VEIAR_VERB" name="Remove veiar lemma from 'veio'">
+      <antipattern>
+          <token>eu</token>
+          <token postag_regexp="yes" postag="R." min="0" max="2"/>
+          <token>veio</token>
+      </antipattern>
+      <rule>
+          <pattern>
+              <marker>
+                  <token regexp="yes">veio</token>
+              </marker>
+          </pattern>
+          <disambig action="remove"><wd lemma="veiar"/></disambig>
+      </rule>
+  </rulegroup>
+
   <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
       <rule>
           <pattern>
