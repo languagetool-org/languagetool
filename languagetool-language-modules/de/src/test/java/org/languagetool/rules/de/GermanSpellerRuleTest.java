@@ -250,6 +250,12 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Sonntagfahrer"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Gerätebezeichnung"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Gerätbezeichnung"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Abflußleitung")); // old spelling
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Abflussleitung")); // new spelling
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Grünschloß")); // old spelling
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Grünschloss")); // new spelling
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Bewußtseinswandels")); // old spelling
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Bewusstseinswandels")); // new spelling
     //
   }
 

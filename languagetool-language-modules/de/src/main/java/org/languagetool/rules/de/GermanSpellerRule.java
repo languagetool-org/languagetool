@@ -153,6 +153,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> germanPrefixes              = new HashSet<>();
   private static Set<String> verbStems                  = new HashSet<>();
   private static Set<String> verbPrefixes               = new HashSet<>();
+  private static Set<String> oldSpelling                = new HashSet<>();
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
@@ -1741,13 +1742,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     loadFile("/de/german_prefix.txt", germanPrefixes);
     loadFile("/de/verb_stems.txt", verbStems);
     loadFile("/de/verb_prefixes.txt", verbPrefixes);
+    loadFile("/de/alt_neu.csv", oldSpelling);
   }
 
   private void loadFile(String fileInClasspath, Set<String> set) {
     List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(fileInClasspath);
     for (String line : lines) {
       if (!line.startsWith("#")) {
-        set.add(line.trim());
+        set.add(line.trim().split(";")[0]);
       }
     }
   }
@@ -2302,18 +2304,24 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       parts = restoreRemovedHyphens(parts, wordNoDot);
     }
 
+
+    // Make sure that the individual parts of the compound have appropriate length.
+    // Short words can also be typos.
+    if (!isValidPartLength(parts)) {
+      return false;
+    }
+
+    // Make sure that compound is not written in old spelling
+    if (parts.size() >= 2) {
+      if (isOldSpelling(parts)) {
+        return false;
+      }
+    }
+
     if (parts.size() == 2) {
       part1 = parts.get(0);
       part2 = parts.get(1);
-
-      // Make sure that the individual parts of the compound have appropriate length.
-      // Short words can also be typos.
-      if (!isValidPartLength(part1, part2)) {
-        return false;
-      }
-
       return processTwoPartCompounds(part1, part2);
-
     } else if (parts.size() == 3) {
       return processThreePartCompound(parts);
     } else {
@@ -2326,9 +2334,32 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return word.length() <= MIN_WORD_LENGTH || word.length() >= MAX_WORD_LENGTH;
   }
 
-  private boolean isValidPartLength(String part1, String part2) {
+  private boolean isValidPartLength(List<String> parts) {
     // don't assume very short parts (like "Ei") are correct, these can easily be typos:
-    return part1.length() >= 3 && part2.length() >= 4;
+    if (parts.size() == 2) {
+      return parts.get(0).length() >= 3 && parts.get(1).length() >= 4;
+    }
+    if (parts.size() == 3) {
+      return parts.get(0).length() >= 3 && parts.get(1).length() >= 4 && parts.get(2).length() >= 4;
+    }
+    return false;
+  }
+
+  private boolean isOldSpelling(List<String> parts) {
+    for (String part: parts) {
+      String cleaned_part = removeTrailingSAndHyphen(part);
+      if (part.endsWith("s")) {
+        if (oldSpelling.contains(uppercaseFirstChar(part)) || oldSpelling.contains(uppercaseFirstChar(cleaned_part))
+          || oldSpelling.contains(lowercaseFirstChar(part)) ||oldSpelling.contains(lowercaseFirstChar(cleaned_part))) {
+          return true;
+        }
+      } else {
+        if (oldSpelling.contains(uppercaseFirstChar(cleaned_part)) || oldSpelling.contains(lowercaseFirstChar(cleaned_part))) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private String removeTrailingS(String part1) {
