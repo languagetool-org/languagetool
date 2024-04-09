@@ -22,6 +22,7 @@ package org.languagetool.tokenizers.pt;
 import org.junit.Test;
 
 import java.sql.Struct;
+import java.util.List;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -271,5 +272,10 @@ public class PortugueseWordTokenizerTest {
   @Test
   public void testTokeniseParagraphSymbol() {
     testTokenise("§1º", "§", "1º");
+  }
+
+  @Test
+  public void testTokeniseComplexEmoji() {
+    testTokenise("🧝🏽‍♀️", "🧝", "🏽", "‍", "♀️");
   }
 }

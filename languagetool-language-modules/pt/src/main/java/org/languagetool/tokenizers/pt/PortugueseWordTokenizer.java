@@ -144,7 +144,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
       String token = tokeniserMatcher.group();
       // 0xFE00-0xFE0F are non-spacing marks
       if (!tokenList.isEmpty() && token.length() == 1 && token.codePointAt(0)>=0xFE00 && token.codePointAt(0)<=0xFE0F) {
-        tokenList.set(tokenList.size() - 1, tokenList.get(tokenList.size() - 1) + tokenList);
+        tokenList.set(tokenList.size() - 1, tokenList.get(tokenList.size() - 1) + token);
         continue;
       }
       token = token.replace(DECIMAL_COMMA_SUBST, ',');
