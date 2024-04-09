@@ -468,6 +468,17 @@ public class French extends Language implements AutoCloseable {
         currentMatch.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
       }
 
+      // UNNECESSARY_ADVERB_TRES
+      if (ruleId.startsWith("AI_FR_GGEC") && ruleId.contains("UNNECESSARY_ADVERB_TRÈS")) {
+        if (sentenceText.contains("très très")) {
+          currentMatch.setSpecificRuleId("AI_FR_GGEC_TRES");
+          currentMatch.getRule().setToneTags(Collections.singletonList(ToneTag.formal));
+          currentMatch.getRule().setGoalSpecific(true);
+          currentMatch.getRule().setLocQualityIssueType(ITSIssueType.Style);
+        }
+      }
+
+
       // AI_FR_GGEC_MAIL_EMAIL_JOINED
       if (sentenceText.contains("mail")) {
         String message = "Dans un contexte formel, « e-mail » semble plus approprié.";
