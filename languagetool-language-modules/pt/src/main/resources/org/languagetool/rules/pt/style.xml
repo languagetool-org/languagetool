@@ -13482,11 +13482,12 @@ USA
                         <token postag='VMII1S0|VMII3S0' postag_regexp='yes'/>
                     </and>
                     <token>a</token>
-                    <token postag='VMN0000'/>
+                    <token postag_regexp="yes" postag="VMN0000(:PP.+)?"/>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMII3S0'/></suggestion>
+                <suggestion><match no='3' postag="VMN0000(:PP.+)?" postag_regexp="yes" postag_replace="VMII3S0$1"/></suggestion>
                 <example correction="tomava">O Rui <marker>estava a tomar</marker> café.</example>
+                <example correction="Ameaçava-me"><marker>Estava a ameaçar-me</marker>?</example>
             </rule>
             <rule>
                 <pattern>
@@ -13495,11 +13496,12 @@ USA
                         <token postag='VMII3P0'/>
                     </and>
                     <token>a</token>
-                    <token postag='VMN0000'/>
+                    <token postag_regexp="yes" postag="VMN0000(:PP.+)?"/>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMII3P0|VMIM3P0|VMIS3P0'/></suggestion>
+                <suggestion><match no='3' postag="VMN0000(:PP.+)?" postag_regexp="yes" postag_replace='(VMII3P0|VMIM3P0|VMIS3P0)$1'/></suggestion>
                 <example correction="tomaram|tomavam">O Rui e Ana <marker>estavam a tomar</marker> café.</example>
+                <example correction="seguiam-me|seguiram-me">Vocês <marker>estavam a seguir-me</marker>.</example>
             </rule>
         </rulegroup>
         <!-- MAS SIM QUE ERA DEVIDO mas era devido -->
