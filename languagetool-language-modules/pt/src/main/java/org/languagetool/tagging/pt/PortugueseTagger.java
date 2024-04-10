@@ -44,7 +44,8 @@ public class PortugueseTagger extends BaseTagger {
   private static final Pattern ADJ_PART_FS = Pattern.compile("V.P..SF.|A[QO].[FC][SN].");
   private static final Pattern VERB = Pattern.compile("V.+");
   // TODO: add more, we will need this
-  private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto|re|soto-)(...+)",
+  // Removed 're' and 'auto' because of 'reune', 'autossabotar', etc.; we need more robust logic for this elsewhere
+  private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(soto-)(...+)",
     Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final String ORDINAL_SUFFIX_MASC = "oºᵒ";
   private static final String ORDINAL_SUFFIX_FEM = "aªᵃ";
@@ -239,6 +240,7 @@ public class PortugueseTagger extends BaseTagger {
     //Any well-formed verb with prefixes is tagged as a verb copying the original tags
     Matcher matcher = PREFIXES_FOR_VERBS.matcher(word);
     if (matcher.matches()) {
+      String prefix = matcher.group(1).toLowerCase();
       String possibleVerb = matcher.group(2).toLowerCase();
       List<AnalyzedToken> taggerTokens;
       taggerTokens = asAnalyzedTokenList(possibleVerb, dictLookup.lookup(possibleVerb));
@@ -247,8 +249,10 @@ public class PortugueseTagger extends BaseTagger {
         if (posTag != null) {
           Matcher m = VERB.matcher(posTag);
           if (m.matches()) {
-            String lemma = matcher.group(1).toLowerCase() + taggerToken.getLemma();
-            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+            String lemma = prefix + taggerToken.getLemma();
+            if (dictLookup.lookup(lemma).isEmpty()) {
+              additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+            }
           }
         }
       }
