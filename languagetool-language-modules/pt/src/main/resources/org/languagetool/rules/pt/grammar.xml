@@ -943,8 +943,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     </token>
                 </pattern>
                 <message>Verbos auxiliares devem ser seguidos de formas verbais no infinitivo ou no gerúndio. Se esse não é o caso, verifique se está faltando uma vírgula entre os dois verbos.</message>
-                <suggestion>\1 <match no='2' postag='VMN0000'/></suggestion>
+                <suggestion>\1 <match no='2' postag_regexp="yes" postag="V......(:PP.+)?" postag_replace="VMN0000$1"/></suggestion>
                 <example correction="vão dormir">Elas <marker>vão dormi</marker> agora.</example>
+                <example correction="vão lembrar-se">Elas <marker>vão lembra-se</marker>.</example>
                 <example>Podemos acompanhá-lo em sua caminhada?</example>
                 <example>É claro que isso foi há muito tempo atrás.</example>
                 <example>Seu poder prorrogou a partir de Mashhad, no oeste da Caxemira, para o…</example>
@@ -1006,9 +1007,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     </token>
                 </pattern>
                 <message>Verbos auxiliares devem ser seguidos de formas verbais no infinitivo ou no gerúndio. Se esse não é o caso, verifique se está faltando uma vírgula entre os dois verbos.</message>
-                <suggestion>\1 \2 <match no='3' postag='VMN0000'/></suggestion>
+                <suggestion>\1 \2 <match no='3' postag='V......(:PP.+)?' postag_regexp="yes" postag_replace="VMN0000$1"/></suggestion>
                 <example correction="comecei a escrever">Já <marker>comecei a escreve</marker> o livro.</example>
                 <example correction="comecei a escrever">Já <marker>comecei a escrevendo</marker> o livro.</example>
+                <example correction="comecei a coçar-me">Logo <marker>comecei a coça-me</marker>.</example>
                 <!--example>No começo ele a odiava, mas aos poucos acabou a amando.</example--><!-- XXX This is correct but rare. Try to fix this -->
                 <example>É um trabalho que vem de há muitos anos.</example>
 
