@@ -136,7 +136,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern COMPOUND_END_TYPOS = compile(".*(gruße|schaf(s|en)?)$");
   private static final Pattern INFIX_S_SUFFIXES = compile(".*(heit|ion|ität|keit|ling|ung|schaft|tum)$");
   private static final Pattern WECHSELINFIX = compile("(arbeit|dienstag|donnerstag|freitag|montag|mittwoch|recht|samstag|sonntag|verband)s?");
-  private static final Pattern NEEDS_TO_BE_PLURAL = compile("gerät|gilde|historie|hose|hund|jungfer|kante|katze|kette|kid|klasse|kirche|klaue|klinge|knappe|koeffizient|kojote|kontrahent|krake|kralle|kranke|krähe|kraut|kuriosität|kurve|kusine|küste|laterne|laute|legende|lehne|leuchte|lippe|loge |lotse|länge|läuse |löwe|lücke|made|maske|maßnahme|menge|mensch|metapher|methode |metropole|miene |miete |million|miniatur|mitte|maus|mücke|mühle|nerv|niederlage|nixe|nonne|note|obdachlose|ode|organist|panne|parzelle|pate|patient|petze|pfanne|pfeife|platte|polle|pomade|pomeranze|posse|prise|prominente|prälat|puppe|pädophile|radikale|rakete|rampe|ranke|rate|rendite|repressalie|rest|riese|rinde|rind|robbe|robe|romanist|rose|ross|route|nummer|runde|röhre|rübe|salbe|schabe|schale|scheide|schelle|schenke|schere|dicke|kröte|schlampe|schlange|schluchte|schmiere|schnake|schnalle|schneide|schnelle|schokolade|schotte|schwabe|schwalbe|schwule|seele|seide|hölle|höhle|sonne|sorge|spanne|sparte|sperre|spitze|sproße|spule|steppe|straße|streife|studie|stunde|stütze|tabelle|tinte|tote|toilette|traube|treffe|treppe|truhe|träne|tunte|tüte|urne|vene|versicherte|verwandte|virtuose");
+  private static final Pattern NEEDS_TO_BE_PLURAL = compile("aktie|arbeitnehmerin|gerät|gilde|historie|hose|hund|jungfer|kante|katze|kette|kid|klasse|kirche|klaue|klinge|knappe|koeffizient|kojote|kontrahent|krake|kralle|kranke|krähe|kraut|kuriosität|kurve|kusine|küste|laterne|laute|legende|lehne|leuchte|lippe|loge |lotse|länge|läuse |löwe|lücke|made|maske|maßnahme|menge|mensch|metapher|methode |metropole|miene |miete |million|miniatur|mitte|maus|mücke|mühle|nerv|niederlage|nixe|nonne|note|obdachlose|ode|organist|panne|parzelle|pate|patient|petze|pfanne|pfeife|platte|polle|pomade|pomeranze|posse|prise|prominente|prälat|puppe|pädophile|radikale|rakete|rampe|ranke|rate|rendite|repressalie|rest|riese|rinde|rind|robbe|robe|romanist|rose|ross|route|nummer|runde|röhre|rübe|salbe|schabe|schale|scheide|schelle|schenke|schere|dicke|kröte|schlampe|schlange|schluchte|schmiere|schnake|schnalle|schneide|schnelle|schokolade|schotte|schwabe|schwalbe|schwule|seele|seide|hölle|höhle|sonne|sorge|spanne|sparte|sperre|spitze|sproße|spule|steppe|straße|streife|studie|stunde|stütze|tabelle|tinte|tote|toilette|traube|treffe|treppe|truhe|träne|tunte|tüte|urne|vene|versicherte|verwandte|virtuose");
   private static final Pattern ARBEIT_COMP = compile("(gebe|nehme)(r(s|n|innen|in)?|nde[mnr]?)");
   private static final Pattern RECHT_COMP = compile("bank|eck|fertigung|gläubigkeit|haber|haberei|leitung|losigkeit|mäßigkeit|winkligkeit|zeitigkeit");
   private static final Pattern RECHTS_COMP = compile("abteilung|akt|akte|angelegenheit|ansicht|anspruch|anwalt|anwalts|anwaltschaft|anwendung|anwältin|auffassung|aufsicht|auskunft|ausschuss|außen|begehren|begriff|behelf|beistand|berater|beratung|bereich|beschwerde|beugung|beziehung|brecher|bruch|dienst|durchsetzung|empfinden|entwicklung|setzung|experte|experten|extreme|extremer|extremismus|extremist|fall|fehler|folge|form|fortbildung|frage|fähigkeit|gebiet|gebieten|gelehrte|gelehrter|geschichte|geschäft|gewinde|gleichheit|grund|grundlage|grundsatz|gründen|gut|gutachten|gültigkeit|güter|handlung|hilfe|händer|hängigkeit|inhaber|institut|klick|konformität|kraft|kreis|kurve|lage|lehre|lenker|medizin|mediziner|meinung|missbrauch|mittel|mitteln|mängel|nachfolge|nachfolger|nachfolgerin|natur|norm|ordnung|persönlichkeit|pflege|pfleger|pflicht|philosophie|politik|populismus|populist|position|praxis|problem|quelle|radikale|radikaler|radikalismus|rahmen|rat|ratgeber|ruck|sache|sachen|satz|schutz|sicherheit|sinn|sprache|soziologie|sprechung|staat|staatlichkeit|stand|status|stellung|streit|streitigkeit|system|terrorist|texte|texter|thema|theorie|tipp|titel|träger|unsicherheit|verfolgung|vergleichung|verhältnis|verkehr|verletzung|verletzungen|verordnung|verstoß|verständnis|verteidiger|verteidigung|vertreter|vertretung|vorschrift|wahl|weg|wesen|widrigkeit|wirksamkeit|wirkung|wissenschaft|wissenschaften|wissenschaftler|zug|änderung");
@@ -2255,10 +2255,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // Remove dot
     String wordNoDot = word.endsWith(".") ? word.substring(0, word.length()-1) : word;
 
-    // Format gender neutral forms here to make processing easier
+    // Format gender neutral forms here to make splitting easier, but
+    //   we need to double-check the word later to avoid words in camel case
+    //   that look similar to gender-neutral language (e. g. AktienIndex).
+    String wordNoDotOrg = wordNoDot;
     // "Expert*innen" -> "Expertinnen"
     // "ExpertInnen"  -> "Expertinnen"
-    wordNoDot = wordNoDot.replaceFirst("(\\*in|(?<=(\\w))In)", "in");
+    wordNoDot = wordNoDot.replaceFirst("((?<=(\\w))In|[\\*:_]in|/-in)", "in");
 
     // Return false if a word is written in CamelCase
     if (!isValidCamelCase(wordNoDot)) {
@@ -2318,6 +2321,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
 
+    // Now that the compound has probably been split correctly,
+    //   we can use this information to check,
+    //   if a part matching '(?<=(\w))In|[\*:_]in|/-in'
+    //   is actually gender-neutral language
+    if (!isValidGenderNeutralWord(parts, wordNoDotOrg)) {
+      return false;
+    }
+
     if (parts.size() == 2) {
       part1 = parts.get(0);
       part2 = parts.get(1);
@@ -2360,6 +2371,36 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
     return false;
+  }
+
+  private boolean isValidGenderNeutralWord(List<String> parts, String word) {
+    int start = 0;
+    for (String part : parts) {
+      int end = start + part.length();
+
+      String to_check = word.substring(start, end);
+      if (to_check.startsWith("I") && start > 0) {
+        // e. g. AktienIndex
+        return false;
+      }
+      if (!to_check.equals(part)) {
+        String binnenI = to_check.replaceFirst("((?<=(\\w))In)", "in");
+        String specialChrs = to_check.replaceFirst("[\\*:_/]in", "in");
+        if (part.equals(binnenI)) {
+          if (isMisspelled(binnenI)) {
+            return false;
+          }
+        }
+        if (part.equals(specialChrs)) {
+          if (isMisspelled(specialChrs)) {
+            return false;
+          }
+          end += 1;
+        }
+      }
+      start = end;
+    }
+    return true;
   }
 
   private String removeTrailingS(String part1) {
