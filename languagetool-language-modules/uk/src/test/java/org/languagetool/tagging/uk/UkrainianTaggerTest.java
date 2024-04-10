@@ -110,10 +110,13 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("14.07.2001", "14.07.2001/[14.07.2001]date", tokenizer, tagger);
 
     TestTools.myAssert("15:33", "15:33/[15:33]time", tokenizer, tagger);
+    TestTools.myAssert("15:33:00", "15:33:00/[15:33:00]time", tokenizer, tagger);
     TestTools.myAssert("о 15.33", "о/[о]intj|о/[о]prep -- 15.33/[15.33]time", tokenizer, tagger);
     // in the disambiguator
 //    TestTools.myAssert("15.33", "15.33/[null]null", tokenizer, tagger);
     TestTools.myAssert("О 1:05", "О/[о]intj|О/[о]prep -- 1:05/[1:05]time", tokenizer, tagger);
+    
+    assertNotTagged("5610100000:01:041:0487");
     
     assertNotTagged("H1");
   }
