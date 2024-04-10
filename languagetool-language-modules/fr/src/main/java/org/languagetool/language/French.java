@@ -503,8 +503,10 @@ public class French extends Language implements AutoCloseable {
         }
       }
 
-      if (potentialDeterminerMatch != null && potentialDeterminerMatch != currentMatch) {
-        newRuleMatches.add(potentialDeterminerMatch);
+      if (potentialDeterminerMatch != null && !isAdjacent(potentialDeterminerMatch, currentMatch)) {
+        if (!potentialDeterminerMatch.getSuggestedReplacements().isEmpty()) {
+          newRuleMatches.add(potentialDeterminerMatch);
+        }
         potentialDeterminerMatch = null;
       }
 
@@ -523,11 +525,25 @@ public class French extends Language implements AutoCloseable {
   }
 
   private RuleMatch joinMatches(RuleMatch match1, RuleMatch match2, String specificRuleId) {
+    List<String> mergedReplacements = new ArrayList<>();
+    if (match1.getSuggestedReplacements() != null) {
+      mergedReplacements.addAll(match1.getSuggestedReplacements());
+    }
+    if (match2.getSuggestedReplacements() != null) {
+      mergedReplacements.addAll(match2.getSuggestedReplacements());
+    }
+    String combinedSuggestion = String.join(" ", mergedReplacements);
+    String message = "Dans un contexte formel, « e-mail » semble plus approprié.";
+    String shortMessage = "Forme préférée : « e-mail ».";
+
     RuleMatch joinedMatch = new RuleMatch(match1.getRule(), match1.getSentence(),
             match1.getFromPos(), match2.getToPos(),
-            match2.getMessage());
+            message, shortMessage, Collections.emptyList());
+
+    joinedMatch.setSuggestedReplacements(Collections.singletonList(combinedSuggestion));
     joinedMatch.setSpecificRuleId(specificRuleId);
     joinedMatch.getRule().setTags(Arrays.asList(Tag.picky));
+
     return joinedMatch;
   }
 
