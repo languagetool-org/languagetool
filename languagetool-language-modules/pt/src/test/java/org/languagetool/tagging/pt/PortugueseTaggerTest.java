@@ -100,9 +100,9 @@ public class PortugueseTaggerTest {
   public void testTagProductivePrefixesNotPresentInSpeller() throws IOException {
     // not a real prefix, must be null
     TestTools.myAssert("xoxotrepei", "xoxotrepei/[null]null", tokenizer, tagger);
-    // auto- and re- are Tiago's original prefixes
-    TestTools.myAssert("autotrepei", "autotrepei/[autotrepar]VMIS1S0", tokenizer, tagger);
-    TestTools.myAssert("retrepei", "retrepei/[retrepar]VMIS1S0", tokenizer, tagger);
+    // auto- and re- are Tiago's original prefixes; these were removed because of issues like 'reune' and 'autosabotar'
+//    TestTools.myAssert("autotrepei", "autotrepei/[autotrepar]VMIS1S0", tokenizer, tagger);
+//    TestTools.myAssert("retrepei", "retrepei/[retrepar]VMIS1S0", tokenizer, tagger);
     // new prefixes, to work with dict v0.13
     // include prefixes that always require a hyphen, like 'soto-'
     TestTools.myAssert("soto-trepei", "soto-trepei/[soto-trepar]VMIS1S0", tokenizer, tagger);

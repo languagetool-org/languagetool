@@ -18,14 +18,12 @@
  */
 package org.languagetool.rules.pt;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.PatternRuleXmlCreatorTest;
 
 
 import java.io.IOException;
@@ -257,6 +255,7 @@ public class MorfologikPortugueseSpellerRuleTest {
   public void testPortugueseSpellerAcceptsVerbsWithProductivePrefixes() throws Exception {
     assertNoErrors("soto-pôr", ltBR, ruleBR);     // exists in speller, ignoreSpelling() from tagger
     assertNoErrors("soto-trepar", ltBR, ruleBR);  // NOT in speller, ignoreSpelling() from tagger
+    assertSingleError("reune", ltBR, ruleBR, "reúne");  // no 're' + 'unir'
   }
 
   @Test
