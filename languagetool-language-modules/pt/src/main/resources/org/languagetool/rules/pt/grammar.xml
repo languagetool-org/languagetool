@@ -12431,7 +12431,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- p-goulart@2024-03-27 - DESC: this rule technically matches correct forms such as "canta-la", but they're rare enough in pt-BR that we can be certain "cantá-la" is meant -->
             <pattern>
                 <marker>
-                    <token postag='VMIP2S0:PP3..A00' postag_regexp='yes' regexp="yes">.+[aeo]-l[oa]s?</token>
+                    <token postag='VMIP2S0:PP3..A00' postag_regexp='yes' regexp="yes">.+([aeo]|[aeou]i)-l[oa]s?</token>
                 </marker>
             </pattern>
             <message>Possível erro de acentuação.</message>
@@ -12439,6 +12439,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="escrevê-lo">Ele vai <marker>escreve-lo</marker> amanhã.</example>
             <example correction="puxá-las">O ímpeto de <marker>puxa-las</marker>.</example>
             <example correction="abraçá-la">Quero <marker>abraça-la</marker>.</example>
+            <example correction="distraí-los">Não quero <marker>distrai-los</marker>.</example>
             <example>Quero revê-la.</example>
         </rule>
 
@@ -12550,6 +12551,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>O caso tornou-se um escândalo de saúde após a morte de várias crianças imunizadas…</example>
             </antipattern>
             <!-- Must be placed AFTER the rules that correct improper enclitic/mesoclitic pronoun forms. -->
+
+            <antipattern>
+                <token postag='VMIP2S0:PP3..A00' postag_regexp='yes' regexp="yes">.+([aeo]|[aeou]i)-l[oa]s?</token>
+                <example>Você quer abraça-la?</example>
+                <example>Não quero mais observa-lo.</example>
+                <example>Nunca distrai-lo.</example>
+            </antipattern>
 
             <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_SIMPLES" default="on">
                 <antipattern>
