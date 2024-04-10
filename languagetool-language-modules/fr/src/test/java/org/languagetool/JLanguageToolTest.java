@@ -60,7 +60,6 @@ public class JLanguageToolTest {
     assertEquals("[D'homme]", matches.get(0).getSuggestedReplacements().toString());
     
     tool.check("vrai/faux avec explication : Les droits d'accès, également appelés permissions ou autorisations, sont des règles définissant");
-
   }
 
   @Test
@@ -88,6 +87,7 @@ public class JLanguageToolTest {
     assertEquals("AI_FR_GGEC_REPLACEMENT_ORTHOGRAPHY_UPPERCASE_MADAME_MADAME", filteredRuleMatches.get(0).getRule().getFullId());
     assertEquals("AI_FR_GGEC_REPLACEMENT_CASING_UPPERCASE_MADAME_MADAME", filteredRuleMatches.get(0).getSpecificRuleId());
   }
+
   @Test
   public void testMailRule() throws IOException {
     Language lang = new French();
@@ -121,7 +121,7 @@ public class JLanguageToolTest {
   }
 
   @Test
-  public void teststyle() throws IOException {
+  public void testStyle() throws IOException {
     Language lang = new French();
     JLanguageTool lt = new JLanguageTool(lang);
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("C'est très très bien.");
