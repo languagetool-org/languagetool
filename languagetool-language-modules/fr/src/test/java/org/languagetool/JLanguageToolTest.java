@@ -92,7 +92,7 @@ public class JLanguageToolTest {
   public void testMailRule() throws IOException {
     Language lang = new French();
     JLanguageTool lt = new JLanguageTool(lang);
-    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Un mail à la personne concernée");
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Ce mail à la personne concernée");
     RuleMatch ruleMatch = new RuleMatch(new FakeRule("AI_FR_GGEC_REPLACEMENT_OTHER_MAIL"), analyzedSentence, 3, 7, "Dans un contexte formel, « e-mail » semble plus approprié.");
     List<String> suggestions = new ArrayList<>();
     suggestions.add("e-mail");
@@ -105,7 +105,33 @@ public class JLanguageToolTest {
     assertEquals(true, processedMatches.get(0).getRule().getTags().contains(Tag.picky));
     assertEquals("Dans un contexte formel, « e-mail » semble plus approprié.", processedMatches.get(0).getMessage());
     assertEquals("Forme préférée : « e-mail ».", processedMatches.get(0).getShortMessage());
+    assertEquals("[e-mail]", processedMatches.get(0).getSuggestedReplacements().toString());
   }
+  @Test
+  public void testMailRuleWithDeterminer() throws IOException {
+    Language lang = new French();
+    JLanguageTool lt = new JLanguageTool(lang);
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Ce mail à la personne concernée");
+    RuleMatch determinerMatch = new RuleMatch(new FakeRule("AI_FR_GGEC_REPLACEMENT_DETERMINER"), analyzedSentence, 0, 2, "Determiner message");
+    List<String> determinerSuggestions = new ArrayList<>();
+    determinerSuggestions.add("Cet");
+    determinerMatch.setSuggestedReplacements(determinerSuggestions);
+    RuleMatch mailMatch = new RuleMatch(new FakeRule("AI_FR_GGEC_REPLACEMENT_NOUN_MAIL"), analyzedSentence, 3, 7, "Mail message");
+    List<String> mailSuggestions = new ArrayList<>();
+    mailSuggestions.add("e-mail");
+    mailMatch.setSuggestedReplacements(mailSuggestions);
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    ruleMatches.add(determinerMatch);
+    ruleMatches.add(mailMatch);
+    Set<String> enabledRules = Collections.emptySet();
+    List<RuleMatch> processedMatches = lang.adaptSuggestions(ruleMatches, enabledRules);
+    assertEquals("AI_FR_GGEC_MAIL_EMAIL_JOINED", processedMatches.get(0).getSpecificRuleId());
+    assertEquals(true, processedMatches.get(0).getRule().getTags().contains(Tag.picky));
+    assertEquals("Dans un contexte formel, « e-mail » semble plus approprié.", processedMatches.get(0).getMessage());
+    assertEquals("Forme préférée : « e-mail ».", processedMatches.get(0).getShortMessage());
+    assertEquals("[Cet e-mail]", processedMatches.get(0).getSuggestedReplacements().toString());
+  }
+
   @Test
   public void testQuotes() throws IOException {
     Language lang = new French();
