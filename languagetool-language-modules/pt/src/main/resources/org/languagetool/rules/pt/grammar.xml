@@ -36299,6 +36299,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='MISSPELLING' name="Erros Ortográficos" type="misspelling">
+
+        <rulegroup id="SERIAR_VERB" name="Possível erro de acentuação: seriamos (seriar) no lugar de seríamos (ser).">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>seriamos</token>
+                    </marker>
+                </pattern>
+                <message>Possível erro de acentuação.</message>
+                <suggestion>seríamos</suggestion>
+                <example correction="seríamos">O que nós <marker>seriamos</marker>?</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(seria[ms]?|seriamos?)-.+</token>
+                    </marker>
+                </pattern>
+                <message>Possível erro de colocação pronominal.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="VMIP(..)0:(PP.+)" postag_replace="VMIC$10:$2">ser</match></suggestion>
+                <example correction="sê-lo-ia">E <marker>seria-o</marker>.</example>
+                <example correction="ser-lhe-íamos">E <marker>seriamos-lhe</marker> úteis.</example>
+                <example correction="ser-vos-iam">E <marker>seriam-vos</marker> piores.</example>
+                <example correction="ser-lhes-ia">Mas <marker>seria-lhes</marker> concedido...</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="OQ_O_QUE_ORTHOGRAPHY" name="Sugerir 'o que' no lugar de 'oq'">
             <rule> <!-- before sent-final punct -->
                 <pattern>
