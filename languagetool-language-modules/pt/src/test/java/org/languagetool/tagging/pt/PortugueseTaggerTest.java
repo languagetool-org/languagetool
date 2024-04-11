@@ -107,4 +107,10 @@ public class PortugueseTaggerTest {
     // include prefixes that always require a hyphen, like 'soto-'
     TestTools.myAssert("soto-trepei", "soto-trepei/[soto-trepar]VMIS1S0", tokenizer, tagger);
   }
+
+  @Test
+  public void testTaggerTagsVerbsWithEnclitics() throws Exception {
+    // requires dictionary v0.14
+    TestTools.myAssert("distribuí-lo-ei", "distribuí-lo-ei/[distribuir]VMIF1S0:PP3MSA00", tokenizer, tagger);
+  }
 }
