@@ -428,12 +428,6 @@ public class French extends Language implements AutoCloseable {
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
-      if (rm.getSentence() == null) {
-        continue;
-      }
-      String ruleId = rm.getRule().getId();
-      String sentenceText = rm.getSentence().getText().toLowerCase();
-
       if (enabledRules.contains("APOS_TYP")) {
         List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
         List<SuggestedReplacement> newReplacements = new ArrayList<>();
@@ -449,9 +443,9 @@ public class French extends Language implements AutoCloseable {
         rm = new RuleMatch(rm, newReplacements);
       }
 
-      if (ruleId.startsWith("AI_FR_GGEC") && ruleId.contains("MISSING_PRONOUN_LAPOSTROPHE")) {
+      if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("MISSING_PRONOUN_LAPOSTROPHE")) {
         if (rm.getFromPos() >= 3) {
-          String substring = sentenceText.substring(rm.getFromPos() - 3, rm.getToPos());
+          String substring = rm.getSentence().getText().substring(rm.getFromPos() - 3, rm.getToPos());
           if (substring.equalsIgnoreCase("si on")) {
             rm.setSpecificRuleId("AI_FR_GGEC_SI_LON");
             rm.getRule().setTags(Arrays.asList(Tag.picky));
@@ -459,19 +453,10 @@ public class French extends Language implements AutoCloseable {
         }
       }
 
-      if (ruleId.startsWith("AI_FR_GGEC") && ruleId.contains("REPLACEMENT_PUNCTUATION_QUOTE")) {
+      if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("REPLACEMENT_PUNCTUATION_QUOTE")) {
         rm.setSpecificRuleId("AI_FR_GGEC_QUOTES");
         rm.getRule().setTags(Arrays.asList(Tag.picky));
         rm.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
-      }
-
-      if (ruleId.startsWith("AI_FR_GGEC") && ruleId.contains("UNNECESSARY_ADVERB_TRÈS")) {
-        if (sentenceText.contains("très très")) {
-          rm.setSpecificRuleId("AI_FR_GGEC_TRES");
-          rm.getRule().setToneTags(Collections.singletonList(ToneTag.formal));
-          rm.getRule().setGoalSpecific(true);
-          rm.getRule().setLocQualityIssueType(ITSIssueType.Style);
-        }
       }
 
       newRuleMatches.add(rm);
