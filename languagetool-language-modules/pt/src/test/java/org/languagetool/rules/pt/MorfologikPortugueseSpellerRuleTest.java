@@ -714,7 +714,7 @@ public class MorfologikPortugueseSpellerRuleTest {
   // we want to cover. This is an extra level of testing to make sure we're not missing anything.
   @Test public void testPortugueseSpellerHasNewWords() throws Exception {
     // v0.15
-    assertNoErrors("verossiméis", ltBR, ruleBR);
+    assertNoErrors("verossímeis", ltBR, ruleBR);
     assertNoErrors("autorregeneradores", ltPT, rulePT);
     assertNoErrors("pitão-da-birmânia", ltPT, rulePT);
     assertNoErrors("titanossauro", ltBR, ruleBR);
