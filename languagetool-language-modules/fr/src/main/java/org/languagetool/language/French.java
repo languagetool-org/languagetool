@@ -428,6 +428,9 @@ public class French extends Language implements AutoCloseable {
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
+      if (rm.getSentence() == null) {
+        continue;
+      }
       String ruleId = rm.getRule().getId();
       String sentenceText = rm.getSentence().getText().toLowerCase();
 
