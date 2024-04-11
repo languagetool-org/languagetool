@@ -3697,10 +3697,24 @@
       <rule>
           <pattern>
               <marker>
-                  <token regexp="yes">veio</token>
+                  <token>veio</token>
               </marker>
           </pattern>
           <disambig action="remove"><wd lemma="veiar"/></disambig>
+      </rule>
+  </rulegroup>
+
+  <rulegroup id="FARAR_VERB" name="Remove farar lemma from forms that conflict with fazer">
+      <rule>
+          <pattern>
+              <marker>
+                  <and>
+                      <token inflected="yes">farar</token>
+                      <token inflected="yes">fazer</token>
+                  </and>
+              </marker>
+          </pattern>
+          <disambig action="remove"><wd lemma="farar"/></disambig>
       </rule>
   </rulegroup>
 
