@@ -1093,7 +1093,7 @@ public class JLanguageTool {
         }
       }
     }
-    return false;
+    return true;
   }
 
   private final Map<LevelToneTagCacheKey, RuleSet> ruleSetCache = new ConcurrentHashMap<>();
