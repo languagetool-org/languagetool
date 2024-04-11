@@ -109,7 +109,7 @@ public class French extends Language implements AutoCloseable {
   public Synthesizer createDefaultSynthesizer() {
     return FrenchSynthesizer.INSTANCE;
   }
-  
+
   @Override
   public Tokenizer createDefaultWordTokenizer() {
     return new FrenchWordTokenizer();
@@ -181,7 +181,7 @@ public class French extends Language implements AutoCloseable {
     languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
   }
-  
+
   /** @since 5.1 */
   @Override
   public String getOpeningDoubleQuote() {
@@ -193,7 +193,7 @@ public class French extends Language implements AutoCloseable {
   public String getClosingDoubleQuote() {
     return "»";
   }
-  
+
   /** @since 5.1 */
   @Override
   public String getOpeningSingleQuote() {
@@ -205,17 +205,17 @@ public class French extends Language implements AutoCloseable {
   public String getClosingSingleQuote() {
     return "’";
   }
-  
+
   /** @since 5.1 */
   @Override
   public boolean isAdvancedTypographyEnabled() {
     return true;
   }
-  
+
   @Override
   public String toAdvancedTypography (String input) {
     String output = super.toAdvancedTypography(input);
-  
+
     // special cases: apostrophe + quotation marks
     output = BEFORE_APOS_PATTERN_1.matcher(output).replaceAll("$1’");
     output = BEFORE_APOS_PATTERN_2.matcher(output).replaceAll("$1’" + getOpeningDoubleQuote());
@@ -233,7 +233,7 @@ public class French extends Language implements AutoCloseable {
     output = TYPOGRAPHY_PATTERN_7.matcher(output).replaceAll("\u00a0:");
     output = TYPOGRAPHY_PATTERN_8.matcher(output).replaceAll("\u00a0»");
     output = TYPOGRAPHY_PATTERN_9.matcher(output).replaceAll("«\u00a0");
-    
+
     //remove duplicate spaces
     output = TYPOGRAPHY_PATTERN_10.matcher(output).replaceAll("\u00a0");
     output = TYPOGRAPHY_PATTERN_11.matcher(output).replaceAll("\u202f");
@@ -242,7 +242,7 @@ public class French extends Language implements AutoCloseable {
     output = TYPOGRAPHY_PATTERN_14.matcher(output).replaceAll("\u00a0");
     output = TYPOGRAPHY_PATTERN_15.matcher(output).replaceAll("\u202f");
     output = TYPOGRAPHY_PATTERN_16.matcher(output).replaceAll("\u202f");
-    
+
     return output;
   }
 
@@ -393,7 +393,7 @@ public class French extends Language implements AutoCloseable {
     }
     if (id.equals("SON")) {
       return -5; // less than ETRE_VPPA_OU_ADJ
-    }		
+    }
     if (id.startsWith("CAR")) {
       return -50; // lesser than grammar rules
     }
@@ -419,16 +419,16 @@ public class French extends Language implements AutoCloseable {
     }
     return super.getPriorityForId(id);
   }
-  
+
   public boolean hasMinMatchesRules() {
     return true;
   }
 
   @Override
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
-    List<RuleMatch> newRuleMatches = new ArrayList<>();
-    for (RuleMatch rm : ruleMatches) {
-      if (enabledRules.contains("APOS_TYP")) {
+    if (enabledRules.contains("APOS_TYP")) {
+      List<RuleMatch> newRuleMatches = new ArrayList<>();
+      for (RuleMatch rm : ruleMatches) {
         List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
         List<SuggestedReplacement> newReplacements = new ArrayList<>();
         for (SuggestedReplacement s : replacements) {
@@ -440,29 +440,14 @@ public class French extends Language implements AutoCloseable {
           newRepl.setReplacement(newReplStr);
           newReplacements.add(newRepl);
         }
-        rm = new RuleMatch(rm, newReplacements);
+        RuleMatch newMatch = new RuleMatch(rm, newReplacements);
+        newRuleMatches.add(newMatch);
       }
-
-      if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("MISSING_PRONOUN_LAPOSTROPHE")) {
-        if (rm.getFromPos() >= 3) {
-          String substring = rm.getSentence().getText().substring(rm.getFromPos() - 3, rm.getToPos());
-          if (substring.equalsIgnoreCase("si on")) {
-            rm.setSpecificRuleId("AI_FR_GGEC_SI_LON");
-            rm.getRule().setTags(Arrays.asList(Tag.picky));
-          }
-        }
-      }
-
-      if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("REPLACEMENT_PUNCTUATION_QUOTE")) {
-        rm.setSpecificRuleId("AI_FR_GGEC_QUOTES");
-        rm.getRule().setTags(Arrays.asList(Tag.picky));
-        rm.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
-      }
-
-      newRuleMatches.add(rm);
+      return newRuleMatches;
     }
-    return newRuleMatches;
+    return ruleMatches;
   }
+
 
   private final List<String> spellerExceptions = Arrays.asList("Ho Chi Minh");
 

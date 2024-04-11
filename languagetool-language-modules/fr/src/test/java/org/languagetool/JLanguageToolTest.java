@@ -87,18 +87,4 @@ public class JLanguageToolTest {
     assertEquals("AI_FR_GGEC_REPLACEMENT_ORTHOGRAPHY_UPPERCASE_MADAME_MADAME", filteredRuleMatches.get(0).getRule().getFullId());
     assertEquals("AI_FR_GGEC_REPLACEMENT_CASING_UPPERCASE_MADAME_MADAME", filteredRuleMatches.get(0).getSpecificRuleId());
   }
-
-  @Test
-  public void testQuotes() throws IOException {
-    Language lang = new French();
-    JLanguageTool lt = new JLanguageTool(lang);
-    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("'elle'.");
-    RuleMatch ruleMatch = new RuleMatch(new FakeRule("AI_FR_GGEC_REPLACEMENT_PUNCTUATION_QUOTE_TEST"), analyzedSentence, 0, 5, "Possible error");
-    List<RuleMatch> ruleMatches = new ArrayList<>();
-    ruleMatches.add(ruleMatch);
-    Set<String> enabledRules = Collections.emptySet();
-    List<RuleMatch> processedMatches = lang.adaptSuggestions(ruleMatches, enabledRules);
-    assertEquals(true, processedMatches.get(0).getRule().getTags().contains(Tag.picky));
-    assertEquals("AI_FR_GGEC_QUOTES", processedMatches.get(0).getSpecificRuleId());
-  }
 }
