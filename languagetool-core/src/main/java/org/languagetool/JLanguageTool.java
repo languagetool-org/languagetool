@@ -1085,7 +1085,7 @@ public class JLanguageTool {
 
   private boolean isRuleActiveForLanguageWithModel(Rule rule, Language language, Map<String, RemoteRuleResult> remoteRulesResults) {
     if (language.getShortCode().equals("fr")) {
-      List<String> disableFrenchRules = Arrays.asList("OU");
+      List<String> disableFrenchRules = Arrays.asList("OU", "OU_FIGEES");
       RemoteRuleResult remoteRulesResult = remoteRulesResults.get("AI_FR_GGEC");
       if (remoteRulesResult != null) {
         if (remoteRulesResult.isSuccess()) {
