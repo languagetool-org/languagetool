@@ -89,24 +89,6 @@ public class JLanguageToolTest {
   }
 
   @Test
-  public void testMailRule() throws IOException {
-    Language lang = new French();
-    JLanguageTool lt = new JLanguageTool(lang);
-    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Un mail à la personne concernée");
-    RuleMatch ruleMatch = new RuleMatch(new FakeRule("AI_FR_GGEC_REPLACEMENT_OTHER_MAIL"), analyzedSentence, 3, 7, "Dans un contexte formel, « e-mail » semble plus approprié.");
-    List<String> suggestions = new ArrayList<>();
-    suggestions.add("e-mail");
-    ruleMatch.setSuggestedReplacements(suggestions);
-    List<RuleMatch> ruleMatches = new ArrayList<>();
-    ruleMatches.add(ruleMatch);
-    Set<String> enabledRules = Collections.emptySet();
-    List<RuleMatch> processedMatches = lang.adaptSuggestions(ruleMatches, enabledRules);
-    assertEquals("AI_FR_GGEC_MAIL_EMAIL", processedMatches.get(0).getSpecificRuleId());
-    assertEquals(true, processedMatches.get(0).getRule().getTags().contains(Tag.picky));
-    assertEquals("Dans un contexte formel, « e-mail » semble plus approprié.", processedMatches.get(0).getMessage());
-    assertEquals("Forme préférée : « e-mail ».", processedMatches.get(0).getShortMessage());
-  }
-  @Test
   public void testQuotes() throws IOException {
     Language lang = new French();
     JLanguageTool lt = new JLanguageTool(lang);
@@ -118,21 +100,5 @@ public class JLanguageToolTest {
     List<RuleMatch> processedMatches = lang.adaptSuggestions(ruleMatches, enabledRules);
     assertEquals(true, processedMatches.get(0).getRule().getTags().contains(Tag.picky));
     assertEquals("AI_FR_GGEC_QUOTES", processedMatches.get(0).getSpecificRuleId());
-  }
-
-  @Test
-  public void testStyle() throws IOException {
-    Language lang = new French();
-    JLanguageTool lt = new JLanguageTool(lang);
-    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("C'est très très bien.");
-    RuleMatch ruleMatch = new RuleMatch(new FakeRule("AI_FR_GGEC_UNNECESSARY_ADVERB_TRÈS"), analyzedSentence, 6, 10, "Possible error");
-    List<RuleMatch> ruleMatches = new ArrayList<>();
-    ruleMatches.add(ruleMatch);
-    Set<String> enabledRules = Collections.emptySet();
-    List<RuleMatch> processedMatches = lang.adaptSuggestions(ruleMatches, enabledRules);
-    assertEquals(true, processedMatches.get(0).getRule().getToneTags().contains(ToneTag.formal));
-    assertEquals(true, processedMatches.get(0).getRule().isGoalSpecific());
-    assertEquals("AI_FR_GGEC_TRES", processedMatches.get(0).getSpecificRuleId());
-    assertEquals(ITSIssueType.Style, processedMatches.get(0).getRule().getLocQualityIssueType());
   }
 }

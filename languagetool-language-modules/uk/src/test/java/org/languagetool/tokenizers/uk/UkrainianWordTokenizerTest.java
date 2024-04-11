@@ -126,6 +126,9 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("відбулася 17.8.1245");
     assertEquals(Arrays.asList("відбулася", " ", "17.8.1245"), testList);
+    
+    testList = w.tokenize("1814.03.09");
+    assertEquals(Arrays.asList("1814.03.09"), testList);
   }
 
   @Test
