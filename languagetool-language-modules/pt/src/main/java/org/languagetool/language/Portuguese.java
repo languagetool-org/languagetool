@@ -297,6 +297,14 @@ public class Portuguese extends Language implements AutoCloseable {
     if (id.startsWith("PT_MULTITOKEN_SPELLING")) {
       return -49;
     }
+    // enclitic diacritics always take precedence over pronoun placement
+    if (id.startsWith("ACENTUAÇÃO_VOGAL_ÊNCLISE")) {
+      return -51;
+    }
+    if (id.startsWith("COLOCACAO_PRONOMINAL_COM_ATRATOR")) {
+      return -52;
+    }
+
     Integer prio = id2prio.get(id);
     if (prio != null) {
       return prio;

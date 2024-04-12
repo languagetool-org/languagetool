@@ -58,10 +58,10 @@ import com.sun.star.uno.XComponentContext;
 public class LtSpellChecker extends WeakBase implements XServiceInfo, 
   XServiceDisplayName, XSpellChecker {
 
-  private static final boolean DEBUG_MODE = false;  // set to true for debug output
+  private static boolean DEBUG_MODE = false;  // set to true for debug output
   
   private static final int MAX_WRONG = 10000;
-  private static final String PROB_CHARS = ".*[~<> ].*";
+  private static final String PROB_CHARS = ".*[~<>].*";
   
   // Service name required by the OOo API && our own name.
   private static final String[] SERVICE_NAMES = {
@@ -75,6 +75,8 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
   private static HunspellRule hSpellRule = null;
   private static final Map<String, List<String>> lastWrongWords = new HashMap<>();
   private static final Map<String, List<String[]>> lastSuggestions = new HashMap<>();
+  private static String last1 = new String();
+  private static String last2 = new String();
   private static XComponentContext xContext = null;
   private static boolean noLtSpeller = false;
   
@@ -199,19 +201,33 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
         }
         return true;
       }
-      String localeStr = OfficeTools.localeToString(locale);
-      List<String> wrongWords = lastWrongWords.get(localeStr);
+      if (DEBUG_MODE) {
+        MessageHandler.printToLogFile("LtSpellChecker: isValid: test word/string: '" + (word == null ? "null" : word) + "'");
+      }
       if (word.matches(PROB_CHARS)) {
         if (DEBUG_MODE) {
           MessageHandler.printToLogFile("LtSpellChecker: isValid: Problematic word found: " + (word == null ? "null" : word));
         }
         return false;
       }
-/*
-      if (word.endsWith(".")) {
-        word = word.substring(0, word.length() - 1);
+      String[] words = word.split(" ");
+      if (words.length == 2 && words[0].equals(words[1])) {  //  this a workaround for a possible problem in LO
+        if (last2.endsWith(".") || words[0].equals(last1)) {
+          word = words[0] + " " + last2;
+          if (DEBUG_MODE) {
+            MessageHandler.printToLogFile("LtSpellChecker: isValid: repeated word changed to: " + (word == null ? "null" : word));
+          }
+        } else {
+          if (DEBUG_MODE) {
+            MessageHandler.printToLogFile("LtSpellChecker: isValid: repeated word found: " + (word == null ? "null" : word));
+          }
+          return false;
+        }
       }
-*/
+      last1 = last2;
+      last2 = word;
+      String localeStr = OfficeTools.localeToString(locale);
+      List<String> wrongWords = lastWrongWords.get(localeStr);
       if (wrongWords != null && wrongWords.contains(word)) {
         if (DEBUG_MODE) {
           MessageHandler.printToLogFile("LtSpellChecker: isValid: invalid word found in list: " + (word == null ? "null" : word));
@@ -220,11 +236,17 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
       }
       initSpellChecker(locale);
       if (spellingCheckRule != null) {
-        if (!spellingCheckRule.isMisspelled(word)) {
+        if (words.length == 1 && !spellingCheckRule.isMisspelled(word)) {
+          if (DEBUG_MODE) {
+            MessageHandler.printToLogFile("LtSpellChecker: isValid: valid word found: " + (word == null ? "null" : word));
+          }
           return true;
         }
         List<RuleMatch> matches = lt.check(word,true, ParagraphHandling.ONLYNONPARA);
         if (matches == null || matches.size() == 0) {
+          if (DEBUG_MODE) {
+            MessageHandler.printToLogFile("LtSpellChecker: isValid: valid word found (matches == 0): " + (word == null ? "null" : word));
+          }
           return true;
         }
         if (wrongWords == null) {
@@ -408,6 +430,8 @@ public class LtSpellChecker extends WeakBase implements XServiceInfo,
     try {
       confg = new Configuration(OfficeTools.getLOConfigDir(xContext), 
           OfficeTools.CONFIG_FILE, OfficeTools.getOldConfigFile(), null, true);
+      OfficeTools.setLogLevel(confg.getlogLevel());
+      DEBUG_MODE = OfficeTools.DEBUG_MODE_SP;
       return confg.useLtSpellChecker();
     } catch (IOException e) {
       MessageHandler.printToLogFile("Can't read configuration: LT spell checker not used!");

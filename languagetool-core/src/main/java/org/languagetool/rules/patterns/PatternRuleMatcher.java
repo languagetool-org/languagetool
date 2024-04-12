@@ -349,7 +349,8 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
 
   private static String concatWithoutExtraSpace(String leftSide, String rightSide) {
     // can't do \\p{Punct} as it catches \2 placeholder
-    if (leftSide.endsWith(" ") && WHITESPACE_OR_PUNCT.matcher(rightSide).matches()) {
+    if ((leftSide.endsWith(" ") && rightSide.startsWith("</suggestion>"))
+      || (leftSide.endsWith(" ") && WHITESPACE_OR_PUNCT.matcher(rightSide).matches())) {
       return leftSide.substring(0, leftSide.length()-1) + rightSide;
     }
     if (leftSide.endsWith("suggestion>") && rightSide.startsWith(" ")) {

@@ -116,16 +116,17 @@ public class OfficeTools {
   public static int DEBUG_MODE_SD = 0;            //  Set Debug Mode for SingleDocument
   public static int DEBUG_MODE_SC = 0;            //  Set Debug Mode for SingleCheck
   public static int DEBUG_MODE_CR = 0;            //  Set Debug Mode for CheckRequest
-  public static boolean DEBUG_MODE_MD = false;    //  Activate Debug Mode for MultiDocumentsHandler
+  public static boolean DEBUG_MODE_CD = false;    //  Activate Debug Mode for SpellAndGrammarCheckDialog
   public static boolean DEBUG_MODE_DC = false;    //  Activate Debug Mode for DocumentCache
   public static boolean DEBUG_MODE_FP = false;    //  Activate Debug Mode for FlatParagraphTools
-  public static boolean DEBUG_MODE_LM = false;    //  Activate Debug Mode for LanguageToolMenus
-  public static boolean DEBUG_MODE_TQ = false;    //  Activate Debug Mode for TextLevelCheckQueue
-  public static boolean DEBUG_MODE_LD = false;    //  Activate Debug Mode for LtDictionary
-  public static boolean DEBUG_MODE_CD = false;    //  Activate Debug Mode for SpellAndGrammarCheckDialog
   public static boolean DEBUG_MODE_IO = false;    //  Activate Debug Mode for Cache save to file
+  public static boolean DEBUG_MODE_LD = false;    //  Activate Debug Mode for LtDictionary
+  public static boolean DEBUG_MODE_LM = false;    //  Activate Debug Mode for LanguageToolMenus
+  public static boolean DEBUG_MODE_MD = false;    //  Activate Debug Mode for MultiDocumentsHandler
+  public static boolean DEBUG_MODE_SP = false;    //  Activate Debug Mode for LtSpellChecker
   public static boolean DEBUG_MODE_SR = false;    //  Activate Debug Mode for SortedTextRules
   public static boolean DEBUG_MODE_TM = false;    //  Activate Debug Mode for time measurements
+  public static boolean DEBUG_MODE_TQ = false;    //  Activate Debug Mode for TextLevelCheckQueue
   public static boolean DEVELOP_MODE_ST = false;  //  Activate Development Mode to test sorted text IDs
   public static boolean DEVELOP_MODE = false;     //  Activate Development Mode
 
@@ -837,6 +838,8 @@ public class OfficeTools {
           DEBUG_MODE_IO = true;
         } else if (level.equals("sr")) {
           DEBUG_MODE_SR = true;
+        } else if (level.equals("sp")) {
+          DEBUG_MODE_SP = true;
         } else if (level.startsWith("tm")) {
           String[] levelTm = level.split(":");
           if (levelTm[0].equals("tm")) {

@@ -917,6 +917,1655 @@ regexp case-insensitive maken: (?i)
 				<example correction="het">Voor <marker>get</marker> grootste deel wel.</example>
 			</rule>
 		</rulegroup>
+
+		<rulegroup id="DT_CORRECTIES2" name="dt-verwisseling" default="temp_off">
+			<rule>
+				<!-- pattern hash: 02c72d75f540810ae10a5b27bc6ff3a0, pattern count: 100 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>Als dit een zelfstandige zin is, lijkt de werkwoordvorm niet te kloppen.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beaamt">De vrouw <marker>beaamd</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 20aca568b09d6751941b40606837c3d8, pattern count: 100 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beklijft">Het traject <marker>beklijfd</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 39c6c55b8d99d16809d2740b3b18ae85, pattern count: 100 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<!--
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behandelt">De politierechter <marker>behandeld</marker> de zaak .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: e8cb02aeb1cfe020cef002b09acc8ee7, pattern count: 100 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="BYW"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoeft">De directievoerder <marker>behoefd</marker> hier .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: e95a03bc526ec0b7aec53f1d1ef04796, pattern count: 100 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="ENM:PER:FST"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beaamt">Jos <marker>beaamd</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: c7200959cbb857c951a792d1de83d5ee, pattern count: 99 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="BNW:STL:ONV"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beschadigt">De huid <marker>beschadigd</marker> gemakkelijk .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: fa011c9db21611dcff762c87140244fd, pattern count: 98 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="5" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="betaalt">De Franse regering <marker>betaald</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: c718cb6b30057e071e546fa2b6a30895, pattern count: 93 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="VRZ"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="7" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="herleeft">De hoop van de broodstad <marker>herleefd</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 2b59776984eaf3638aad024b1ff8c300, pattern count: 85 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:AWZ:MRV:DE_"/>
+					<!--
+					<token postag="ZNW:MRV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beaamt">De politie <marker>beaamd</marker> deze signalen .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: d0fcf38a1802094884563ea18f03ed0b, pattern count: 84 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VRZ"/>
+					<!--
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoort">De oliepalm <marker>behoord</marker> tot de palmfamilie .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 76a2ed5acff8161293bda92db3d48e1f, pattern count: 75 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoeft">Onenigheid <marker>behoefd</marker> partijdigheid .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 58f403d3d1da8df2a71ed15e611ceb0e, pattern count: 73 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:PER:3EP:EKV:BEZ"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="bekent">Haar echtgenoot <marker>bekend</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: eb451d35dcd01951775abee5b95b51e2, pattern count: 73 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="BYW"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="5" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="bekoort">Ook de natuur <marker>bekoord</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 37b2d5e6dc6767276af12249b0a97044, pattern count: 69 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VRZ"/>
+					<!--
+					<token postag="VNW:AWZ:MRV:DE_"/>
+					<token postag="ZNW:MRV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoort">De doodstraf <marker>behoord</marker> tot de mogelijkheden .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 074ce7854ac37fe6511b983fd353a705, pattern count: 69 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="BNW:STL:ONV"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="ontkent">Het bedrijf <marker>ontkend</marker> stellig .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: c5fcc8e9a3111097d11c0ee656457bec, pattern count: 64 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behartigt">De leverancier <marker>behartigd</marker> Manager .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 3d872bc43818de5adac033ed5a5c12fc, pattern count: 55 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:PER:3EP:EKV:BEZ"/>
+					<!--
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beaamt">De mentor <marker>beaamd</marker> haar teleurstelling .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 71291ad9e38c0ec4d8e50234bad11b64, pattern count: 48 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token>snel</token>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="herstelt">De vrouw <marker>hersteld</marker> snel .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 3ac168495e28a310e5a8e5513b8ef198, pattern count: 47 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="GET:TXT:EKV"/>
+					<!--
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beheert">Het museum <marker>beheerd</marker> een mooie collectie .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: d14dd5c57b6bcc890d4d1cad9dbb9a6b, pattern count: 47 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="ZNW:EKV:DE_"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoeft">Het licentiebeheer <marker>behoefd</marker> verbetering .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 7af0051fa07df8523e9f943e0088b53d, pattern count: 45 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="ZNW:MRV:DE_"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behandelt">De kantonrechter <marker>behandeld</marker> overtredingen .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 1e106f1d458b4d09bdf3831c85ecb54b, pattern count: 44 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VRZ"/>
+					<token postag="VNW:AWZ:MRV:DE_"/>
+					<token postag="ZNW:MRV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoort">Heroïne <marker>behoord</marker> tot de opiaten .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 950b1d2ce765b1e935c6746f963a7357, pattern count: 42 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<!--
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behaalt">Het album <marker>behaald</marker> de goudstatus .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 8812098072f9c20fbe35f3acbf734cc9, pattern count: 41 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag_regexp="yes" postag="ENM:PER:LST.*"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beaamt">Wierda <marker>beaamd</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 59a562e3a90f60d8169e8f3a31a8f003, pattern count: 39 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:PER:1EP:EKV:BEZ"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beaamt">Mijn echo <marker>beaamd</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 16efe98faaa483b87d4979a81d458d59, pattern count: 39 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:AWZ:MRV:DE_"/>
+					<!--
+					<token postag="ZNW:MRV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="becommentarieert">Het koor <marker>becommentarieerd</marker> de gebeurtenissen .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 9f175c191ab8df1b1d5a29752cd5ab87, pattern count: 39 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="BYW:VNW"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<!--
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beschadigt">Hierdoor <marker>beschadigd</marker> de staalkabel .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 5249b030d0d32eda81a11438dc8a822a, pattern count: 38 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord (en meer) ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="begrenst">Hekwerk <marker>begrensd</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 0031426877d5643b4596b650c96e2122, pattern count: 38 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="BYW"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<!--
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beklijft">Toch <marker>beklijfd</marker> de creatie .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: cc88d25cd668547eee610c1884dddb1f, pattern count: 37 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="BYW"/>
+					<!--
+					<token postag="BYW"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beklijft">De theorie <marker>beklijfd</marker> dan vanzelf .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: ff86bd045e779d959745683b390b4bb1, pattern count: 36 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<token postag="VRZ"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="7" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="verandert">Het geluid van de bel <marker>veranderd</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 0eac090270f4c5bc5706062e1b2855e6, pattern count: 35 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="GET:TXT:EKV"/>
+					<!--
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoeft">De drinkcultuur <marker>behoefd</marker> een kleine aanvulling .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 8193858316bcf016715c5ec2cdfc7768, pattern count: 35 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token>Hoeveel</token>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="GET:TXT:EKV"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="verdient">Hoeveel <marker>verdiend</marker> een supportmedewerker ?</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: bee5c183926b8409f56a1c7c8bd08ae7, pattern count: 34 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VGW"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="5" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="bedaart">Als de zee <marker>bedaard</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: b87bda0fe0cceb20a9052e2fd06a6070, pattern count: 34 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="BYW"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behandelt">Het Trimbos-instituut <marker>behandeld</marker> niet .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 4333d702a8f25c07c61775e0f02c61e2, pattern count: 34 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VRZ"/>
+					<!--
+					<token postag="GET:TXT:EKV"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="betaalt">De sponsor <marker>betaald</marker> via een factuur .</example>
+			</rule>
+
+			<rule>
+				<!-- pattern hash: f8b471d8a927c213f40da8b4f78c0f62, pattern count: 33 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="ZNW:MRV:DE_"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behandelt">Het kantongerecht <marker>behandeld</marker> overtredingen .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: ade0ffa8f5b9521e0e34cfe396b58d91, pattern count: 33 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="GET:TXT:EKV"/>
+					<!--
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beheert">De vader <marker>beheerd</marker> een medicijnwinkel .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 5f4e1b57586ac50eb0ce344c2ead9ba9, pattern count: 33 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="BNW:STL:ONV"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="5" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="bepaalt">Natuurlijk de kiezer <marker>bepaald</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: c22a44fc530c134b7676650a80efe6ac, pattern count: 32 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="GET:TXT:EKV"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beklijft">Een vraag <marker>beklijfd</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 10bd5031a1151bb9dade6e9ce668f56f, pattern count: 32 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="WKW:ODW:ONV"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="verandert">De omgeving <marker>veranderd</marker> voortdurend .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: b7047c97c2b3fa946bc924823e16200e, pattern count: 31 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:MRV:DE_"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behaalt">De school <marker>behaald</marker> goede resultaten .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: c39a552140e7cf19fd6945060db2a0d3, pattern count: 30 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:PER:1EP:EKV:PSF"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beangstigt">De stilte <marker>beangstigd</marker> me .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: c51e2012abb585429e529e584efaceff, pattern count: 30 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="ZNW:MRV:DE_"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behandelt">Psychosomatiek <marker>behandeld</marker> klachten .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 309c77b13e5658a092fdfe2b48625b4b, pattern count: 30 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:OBP:VRB"/>
+					<!--
+					<token postag="ZNW:MRV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beheert">De penningmeester <marker>beheerd</marker> alle geldmiddelen .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 72b9249f0b1bd085e916490a37ed82c3, pattern count: 30 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VRZ"/>
+					<!--
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoort">De handeling <marker>behoord</marker> tot het voetfetisjisme .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: bec4912eba5ddb0845939b72037620ca, pattern count: 30 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="BYW:VNW"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="betaalt">De verzender <marker>betaald</marker> daarvoor .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 0e7c1569b213fcd04608d179668b780b, pattern count: 29 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:PER:1EP:MRV:BEZ:VRB"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beschadigt">Onze ziel <marker>beschadigd</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 1ed9968155c59f196548e9ff4d59dee2, pattern count: 27 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<!--
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="VRZ"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behandelt">De homeopathie <marker>behandeld</marker> de patiënt achter de allergie .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 2fa495fa0c4cc85f2d1d256bac2e474d, pattern count: 27 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:RFX"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beheert">De folder <marker>beheerd</marker> zichzelf .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 3164a5e44995bd363fa484899d70a71f, pattern count: 27 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="BYW"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="5" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="bepaalt">Slechts het lot <marker>bepaald</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 1406a822f6a3807aad17855125b6a8c0, pattern count: 27 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token>Je</token>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="betaalt">Je oom <marker>betaald</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: b73fdb14b8eb331f8554c727438ba2bd, pattern count: 26 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VRZ"/>
+					<!--
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoort">Dromer <marker>behoord</marker> aan de wildernis .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: c2be524cd6eab88658aae82ae4bb0289, pattern count: 26 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VRZ"/>
+					<!--
+					<token postag="GET:TXT:EKV"/>
+					<token postag="BNW:STL:ONV"/>
+					<token postag="ZNW:EKV:HET"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="verandert">De zorgsector <marker>veranderd</marker> in een rap tempo .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: d39cc0fd3b648878889f18d1e66a9634, pattern count: 25 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:AWZ:MRV:DE_"/>
+					<!--
+					<token postag="ZNW:MRV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="bedwelmt">N-VA <marker>bedwelmd</marker> de geesten .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 4d070d9c57662aba1d609bdcf183c7f9, pattern count: 25 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VRZ"/>
+					<!--
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beoordeelt">De CE-check <marker>beoordeeld</marker> op plausibiliteit .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: c745b45ddaeb03a2e9538930832a009b, pattern count: 25 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="VRZ"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="6" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="verandert">De wereld van energie <marker>veranderd</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 416cbe48bded82b200fb0f260bacc1a6, pattern count: 24 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="BYW"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<!--
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beheert">De stichting <marker>beheerd</marker> ook de eendenkooi .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 33275ce2f714f08d1243d94a28a90991, pattern count: 24 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token>Dit</token>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoeft">Dit <marker>behoefd</marker> correctie .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: cfaa7a4c827aedb16e8954ff131b5e3f, pattern count: 23 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:MRV:DE_"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behaalt">Dit project <marker>behaald</marker> goede resultaten .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 1b058b27e030362754842295dc23f430, pattern count: 23 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:RFX"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beheert">Het apparaat <marker>beheerd</marker> zichzelf .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: d4f8e01620b4ae39f25cce5914322548, pattern count: 23 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VRZ"/>
+					<!--
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoort">Drukwerkveredeling <marker>behoord</marker> tot specialisatie .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 80f5ad2b2d1213396641b268f5708f05, pattern count: 23 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VRZ"/>
+					<!--
+					<token postag="VNW:AWZ:MRV:DE_"/>
+					<token postag="ZNW:MRV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoort">Het pigment <marker>behoord</marker> tot de aardkleuren .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 4434be726dfab4ce20781f1770ee0ab0, pattern count: 23 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VRZ"/>
+					<!--
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoort">Dit gebied <marker>behoord</marker> tot de oeverwal .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 2a8fd0bd239a447df6959f2f842b5db5, pattern count: 23 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="ENM:LOC:PTS"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoort">Vaticaanstad <marker>behoord</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 2315ec26a3b80c162de67430ac2b3aec, pattern count: 23 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VGW"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="5" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="bepaalt">En de klant <marker>bepaald</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: f9674d56d02afc1b05fb02db9350a720, pattern count: 23 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="BYW:VNW"/>
+					<token postag="GET:TXT:EKV"/>
+					<!--
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="betaalt">De sprintster <marker>betaald</marker> daarvoor een hoge prijs .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: c752bd617b90d20b5b2fea05e6bee909, pattern count: 22 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:OBP:EKV"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beklijft">Zoiets <marker>beklijfd</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: c03b1138243beb79abb7c7aa8a93bddd, pattern count: 22 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="ENM:BEZ"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="bekoelt">Anja's glimlach <marker>bekoeld</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: e9970b6defe63eba8018d3efd547a451, pattern count: 22 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="VRZ"/>
+					<!--
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beloont">Ontsteking <marker>beloond</marker> zonnebril krachtens diefstal .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: e5a89ea77931bac8e2d560116a5c0abb, pattern count: 22 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="5" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="herleeft">Het oude heidendom <marker>herleefd</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 30e3deb02cd64c2be795147d79f52e27, pattern count: 22 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="BNW:STL:ONV"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="verandert">Het landschap <marker>veranderd</marker> snel .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 5fcfcdf1c0c1f499e2f72f35fb1f4a9c, pattern count: 21 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<!--
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="begunstigt">Het geluk <marker>begunstigd</marker> de getrainde geest .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: b106ca059a506ae70fa9b5324e7550cb, pattern count: 21 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<!--
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="VRZ"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behandelt">Dit artikel <marker>behandeld</marker> de verslaggeving voor de ondernemingsraad .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 281a83f544a420581790689a10f7a5aa, pattern count: 21 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:OND:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beheert">De groepsleerkracht <marker>beheerd</marker> deze pagina .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 812bc2f1e3f88c237bb658201ea60ffd, pattern count: 21 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VRZ"/>
+					<!--
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoort">Het sectorwerkstuk <marker>behoord</marker> tot het schoolexamen .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 827168325e8fb1eccd6902d92a08e1b6, pattern count: 21 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="GET:TXT:EKV"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<!--
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="bekroont">Een kruisigingsgroep <marker>bekroond</marker> de gevel .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 51862b3f4f375a561064403f19eab4e7, pattern count: 20 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:PER:3EP:EKV:BEZ"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:OND:EKV:HET"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beaamt">Zijn advocaat <marker>beaamd</marker> dat .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: d27dbc28957a7a4af6d0607f05727dde, pattern count: 20 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:PER:1EP:EKV:BEZ"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="bedaart">Mijn hart <marker>bedaard</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 5e6f00ec979b315b26e89ab66bf8161f, pattern count: 20 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:OND:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="GET:TXT:EKV"/>
+					<!--
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behandelt">Deze tentoonstelling <marker>behandeld</marker> een werkelijke zaak .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 204f9f7005fb8bff21523cf382c9a527, pattern count: 20 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VGW"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="5" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="bepaalt">Maar het lichaam <marker>bepaald</marker> .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 80d377c26bb57b27f7e841296d765d5e, pattern count: 20 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:PER:3EP:EKV:BEZ"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beëindigt">Kramer <marker>beëindigd</marker> zijn zaak .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 5c08ce94d16f1f2d2e401e7dffd4d3e3, pattern count: 20 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VRZ"/>
+					<!--
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="VRZ"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="verandert">De wetgeving <marker>veranderd</marker> van tijd tot tijd .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: ac433312e6d9bdcc9896a65c045905e2, pattern count: 19 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:PER:1EP:EKV:PSF"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beangstigt">Liefde <marker>beangstigd</marker> me .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 37edfcda7f8ea62241c85d4bf541c8b1, pattern count: 19 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="ENM:PER:LST:NIX"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="VNW:PER:3EP:EKV:BEZ"/>
+					<!--
+					<token postag="ZNW:EKV:HET"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="5" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="vervolgt">De heer Depla <marker>vervolgd</marker> zijn betoog .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: cf2e757868e391493561fb3bc7d12177, pattern count: 18 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token>die</token>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beaamt">De PO-Raad <marker>beaamd</marker> die stelling .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 654b00529cb0631ba9976ce5c46317b3, pattern count: 18 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:HET"/>
+					<token postag="ZNW:EKV:HET"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="GET:TXT:EKV"/>
+					<!--
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="bedient">Dit signaal <marker>bediend</marker> een luidspreker .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: f1ac1354dcc40742bbbf335140f22e8e, pattern count: 18 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="BNW:STL:ONV"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="5" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="bedisselt">De Europese Commissie <marker>bedisseld</marker> vaak .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 847b3e0830cf74048d941c3597b41179, pattern count: 18 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token>Dat</token>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="ZNW:EKV:DE_"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="bedoelt">Dat <marker>bedoeld</marker> pa .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: c600c00f790ceab857564bea7fc74762, pattern count: 18 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="GET:TXT:EKV"/>
+					<!--
+					<token postag="BNW:STL:VRB"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="bedoelt">Kijkvogel <marker>bedoeld</marker> een andere toekomst .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 0af23c0e0e71b4d09773f53833a66b83, pattern count: 18 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:OND:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="ZNW:EKV:DE_"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="behoeft">Deze woning <marker>behoefd</marker> modernisatie .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: c0c669825bf672e582db85d380e931f6, pattern count: 18 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="VNW:AWZ:EKV:DE_"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="BNW:VGR:ONV"/>
+					<!--
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+					-->
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="4" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beklijft">De lesstof <marker>beklijfd</marker> beter .</example>
+			</rule>
+			<rule>
+				<!-- pattern hash: 60173fedd00330703842e8fa34f082db, pattern count: 18 -->
+				<pattern>
+					<token postag="SENT_START"/>
+					<token postag="ZNW:EKV:DE_"/>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
+					</marker>
+					<token postag="BNW:STL:ONV"/>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
+				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
+				<example correction="beknibbelt">Wintersporter <marker>beknibbeld</marker> flink .</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">

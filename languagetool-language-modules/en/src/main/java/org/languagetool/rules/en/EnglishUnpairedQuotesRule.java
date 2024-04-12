@@ -48,7 +48,7 @@ public class EnglishUnpairedQuotesRule extends GenericUnpairedQuotesRule {
 
   @Override
   protected boolean isNotBeginningApostrophe(AnalyzedTokenReadings[] tokens, int i) {
-    if (tokens[i].hasPosTag("_apostrophe_contraction_") || tokens[i].hasPosTag("POS")) {
+    if (tokens[i].hasPosTag("_apostrophe_contraction_") || tokens[i].hasPosTag("POS") || tokens[i].hasPosTag("NNP")) {
       return false;
     }
     return true;
@@ -56,7 +56,7 @@ public class EnglishUnpairedQuotesRule extends GenericUnpairedQuotesRule {
 
   @Override
   protected boolean isNotEndingApostrophe(AnalyzedTokenReadings[] tokens, int i) {
-    if (tokens[i].hasPosTag("_apostrophe_contraction_") || tokens[i].hasPosTag("POS")) {
+    if (tokens[i].hasPosTag("_apostrophe_contraction_") || tokens[i].hasPosTag("POS") || tokens[i].hasPosTag("NNP")) {
       return false;
     }
     return true;

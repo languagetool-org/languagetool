@@ -1729,13 +1729,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception>
                 </token>
                 <marker>
-                    <token postag_regexp='yes' postag='V.+'/>
-                    <token spacebefore='no' regexp='yes'>&hifen;</token>
-                    <token spacebefore='no'>se</token>
+                    <token postag_regexp='no' postag='VMIP3S0:PP3CNO00'/>
                 </marker>
             </pattern>
             <message>O subjuntivo é utilizado em condicionais (&quot;se...&quot;). Talvez você queira utilizar um pronome reflexivo?</message>
-            <suggestion>\2sse</suggestion>
+            <suggestion><match no="2" postag_regexp="yes" postag="V.+" postag_replace="VMSI3S0"/></suggestion>
             <example correction='lavasse'>Se <marker>lava-se</marker> os pratos, seria bom.</example>
             <example correction='trabalhasse'>Embora Chekhov <marker>trabalha-se</marker> como médico, enriqueceu a sua escrita com…</example>
         </rule>
@@ -1746,15 +1744,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule>
             <pattern>
                 <marker>
-                    <token postag='VMIP2S0'/>
-                    <token regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token spacebefore='no'>te</token>
+                    <token postag='VMIP2S0:PP2CSO00'/>
                 </marker>
                 <token postag='SPS.+|PD0FS.+|PP3FSA.+' postag_regexp='yes'/>
                 <token postag='AQ0.+|NC.+|V.+|DD.+' postag_regexp='yes'/>
             </pattern>
             <message>Caso se trate de uma forma do pretérito perfeito da segunda pessoa do singular, escreve-se sem hífen.</message>
-            <suggestion>\1\3</suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="V.+" postag_replace="VMIS2S0"/></suggestion>
             <example correction="trocaste">Hoje tu <marker>trocas-te</marker> de computador?</example>
             <example>Tu andaste cantando?</example>
             <example>Tu cantaste a canção?</example>

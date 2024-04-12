@@ -19,9 +19,16 @@
 
 package org.languagetool.rules.pt;
 
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /*
  * Synthesize suggestions using the lemma from one token (lemma_from) 
@@ -46,4 +53,22 @@ public class AdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter
     return false;
   }
 
+  protected String movePronounTag(String sourceTag, String destinationTag) {
+    String[] sourceTagParts = sourceTag.split(":");
+    String newTag = destinationTag;
+    if (sourceTagParts.length == 2) {
+      String[] destinationTagParts = destinationTag.split(":");
+      newTag = destinationTagParts[0] + ":" + sourceTagParts[1];
+    }
+    return newTag;
+  }
+
+  @Override
+  public String getCompositePostag(String lemmaSelect, String postagSelect, String originalPostag,
+                                   String desiredPostag, String postagReplace) {
+    if (Objects.equals(postagReplace, "keepPronoun")) {
+      return movePronounTag(originalPostag, desiredPostag);
+    }
+    return super.getCompositePostag(lemmaSelect, postagSelect, originalPostag, desiredPostag, postagReplace);
+  }
 }

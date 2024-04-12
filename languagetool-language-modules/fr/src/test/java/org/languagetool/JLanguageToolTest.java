@@ -32,8 +32,8 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.Assert.assertEquals;
+import java.util.*;
 
 public class JLanguageToolTest {
 
@@ -60,7 +60,6 @@ public class JLanguageToolTest {
     assertEquals("[D'homme]", matches.get(0).getSuggestedReplacements().toString());
     
     tool.check("vrai/faux avec explication : Les droits d'accès, également appelés permissions ou autorisations, sont des règles définissant");
-
   }
 
   @Test
@@ -87,5 +86,19 @@ public class JLanguageToolTest {
     assertEquals("CASING", filteredRuleMatches.get(0).getRule().getCategory().getId().toString());
     assertEquals("AI_FR_GGEC_REPLACEMENT_ORTHOGRAPHY_UPPERCASE_MADAME_MADAME", filteredRuleMatches.get(0).getRule().getFullId());
     assertEquals("AI_FR_GGEC_REPLACEMENT_CASING_UPPERCASE_MADAME_MADAME", filteredRuleMatches.get(0).getSpecificRuleId());
+  }
+
+  @Test
+  public void testQuotes() throws IOException {
+    Language lang = new French();
+    JLanguageTool lt = new JLanguageTool(lang);
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("'elle'.");
+    RuleMatch ruleMatch = new RuleMatch(new FakeRule("AI_FR_GGEC_REPLACEMENT_PUNCTUATION_QUOTE_TEST"), analyzedSentence, 0, 5, "Possible error");
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    ruleMatches.add(ruleMatch);
+    Set<String> enabledRules = Collections.emptySet();
+    List<RuleMatch> processedMatches = lang.adaptSuggestions(ruleMatches, enabledRules);
+    assertEquals(true, processedMatches.get(0).getRule().getTags().contains(Tag.picky));
+    assertEquals("AI_FR_GGEC_QUOTES", processedMatches.get(0).getSpecificRuleId());
   }
 }
