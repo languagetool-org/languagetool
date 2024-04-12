@@ -494,6 +494,22 @@ For more detailed information, including tag definitions, please check out our d
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rulegroup id="LIGHTYEAR" name="Light-year as a unit of time" tags="picky">
+            <rule>
+                <regexp>\b(light[- ]?years? ago)\b</regexp>
+                <message>Formally, a light-year is a unit of length (not of time) used to express astronomical distances.</message>
+                <suggestion>many years ago</suggestion>
+                <suggestion>ages ago</suggestion>
+                <suggestion>eons ago</suggestion>
+                <suggestion>a lifetime ago</suggestion>
+                <url>https://www.merriam-webster.com/dictionary/light-year</url>
+                <short>Semantic error</short>
+                <example correction="many years ago|ages ago|eons ago|a lifetime ago">It all seems <marker>light-years ago</marker> now.</example>
+                <example correction="many years ago|ages ago|eons ago|a lifetime ago">It all seems <marker>light years ago</marker> now.</example>
+                <example correction="many years ago|ages ago|eons ago|a lifetime ago">It all seems <marker>lightyears ago</marker> now.</example>
+                <example>A light-year is how astronomers measure distance in space.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TWITTER_X" name="Twitter (X)" tags="picky">
             <short>Outdated Name</short>
             <antipattern>
