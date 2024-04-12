@@ -11432,6 +11432,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
                 <example>...mã, minha digníssima esposa Magnólia, sempre tão solidária em relação aos problemas de sua família (entenda-se pais e irmãs) resolveu convidá-la a ficar uns tempos morando em casa, ou seja, na edícula, com a Freira,...</example>
             </antipattern>
+            <antipattern> <!-- levar-se/demorar-se as impersonal verbs -->
+                <token postag_regexp="yes" postag="V....S.:PP3CNO00" regexp="yes" inflected="yes">levar|demorar</token>
+                <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                <token postag_regexp='yes' postag='D...P.+' min='0'/>
+                <token regexp="yes">segundos|minutos|horas|dias|semanas|meses|anos|décadas|séculos|milênios</token>
+                <example>Leva-se anos para dominar uma língua estrangeira.</example>
+                <example>Demorou-se ainda muitas horas até chegarem.</example>
+            </antipattern>
 
             <rule>
                 <antipattern>
@@ -11444,14 +11452,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </antipattern>
                 <pattern>
                     <token postag_regexp='yes' postag='V...3S.:PP3CNO00' regexp='no'>
-                        <exception inflected='yes'>concentrar</exception>
+                        <exception inflected='yes' regexp="yes">concentrar|chamar|haver|precisar|confiar|acreditar|crer|referir|falar</exception>
                         <exception negate_pos='yes' postag_regexp='yes' postag='V....S.:PP3CNO00'/>
                     </token>
                     <token min="0" max="3" postag_regexp='yes' postag='R.'/>
                     <token postag_regexp='yes' postag='D...P.+' min='0'>
-                        <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
+                        <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/>
+                    </token>
                     <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+'>
-                        <exception negate_pos='yes' postag_regexp='yes' postag='(?:N..|A...)P.+'/></token>
+                        <exception negate_pos='yes' postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+                    </token>
                 </pattern>
                 <message>Possível erro de concordância.</message>
                 <suggestion><match no='1' postag='(V...3)S(.+)' include_skipped='all' postag_replace='$1P$2' postag_regexp='yes'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
@@ -11464,6 +11474,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Entre estes dois domínios opostos, encontra-se ainda os denominados sistemas econmicos mistos.</example>
                 <example>Na contagem do PIB, considera-se apenas bens e serviços finais, excluindo da conta todos os bens de consumo de intermediário.</example>
                 <example>A área agrícola ocupa cerca de 56,6% da área total deste concelho e nesta área inclui-se também as suiniculturas.</example>
+                <example>A claque do clube chama-se Ultras 2007.</example>
+                <example>A estas peças chama-se itens.</example>
+                <example>Houve-se especulações de um suposto suicídio.</example>
+                <example>E também precisava-se menos de adaptações.</example>
+                <example>Refere-se as antigas práticas.</example>  <!-- crasis issue, can't match here -->
             </rule>
             <rule>
                 <pattern>
