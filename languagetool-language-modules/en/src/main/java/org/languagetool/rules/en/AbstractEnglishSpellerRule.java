@@ -189,6 +189,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern GITLAB = compile("[Gg]itlab");
   private static final Pattern BONAFIDE = compile("[Bb]onafide");
   private static final Pattern WHEREEVER = compile("[Ww]hereever");
+  private static final Pattern WHATSAPP = compile("[Ww]hatsapp");
   private static final Pattern HUBSPOT = compile("[Hh]ubspot");
   private static final Pattern URL = compile("[Uu]rl");
   private static final Pattern TV = compile("tv");
@@ -1519,6 +1520,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (BONAFIDE.matcher(word).matches()) return topMatch(word.replaceFirst("onafide", "ona fide"));
     if (ALLRIGHT.matcher(word).matches()) return topMatch(word.replaceFirst("llright", "lright"));
     if (WHEREEVER.matcher(word).matches()) return topMatch(word.replaceFirst("hereever", "herever"));
+    if (WHATSAPP.matcher(word).matches()) return topMatch("WhatsApp");
     if (TV.matcher(word).matches()) {
       List<SuggestedReplacement> l = new ArrayList<>();
       l.add(new SuggestedReplacement("TV"));
