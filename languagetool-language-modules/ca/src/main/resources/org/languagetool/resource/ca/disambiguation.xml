@@ -9106,6 +9106,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace" postag="NCMS000"/>
             <example type="untouched">ET DIC QUE SÍ.</example>
         </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">PE|PV</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="NCCN000"/>
+            </disambig>
+        </rule>
     </rulegroup>
     <rulegroup id="C_LLOC" name="complements de lloc">
         <rule id="dins_meu" name="dins meu">
@@ -19488,6 +19496,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
         <rule>
+            <antipattern>
+                <token>des</token>
+                <token>de</token>
+                <token postag="LOC_ADV" regexp="yes">fa|feia</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="LOC_ADV" regexp="yes">fa|feia</token>

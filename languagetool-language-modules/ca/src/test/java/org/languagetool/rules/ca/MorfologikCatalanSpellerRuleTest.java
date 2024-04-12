@@ -49,6 +49,7 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("L'exdirigent del partit.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("S'autoprenia.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("S'autocanta.")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("CatalanoAmericans.")).length);
 
     //apostrophes
     matches = rule.match(lt.getAnalyzedSentence("lAjuntament"));
