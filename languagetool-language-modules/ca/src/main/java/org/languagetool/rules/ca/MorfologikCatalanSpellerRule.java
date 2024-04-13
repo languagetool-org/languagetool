@@ -103,12 +103,15 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
-    if (language.getVariant() != null) {
+    String spellingFilename = "ca-ES";
+    if (language.getVariant() == "valencia") {
       tagger = CatalanTagger.INSTANCE_VAL;
+      spellingFilename = "ca-ES-valencia";
     } else {
       tagger = CatalanTagger.INSTANCE_CAT;
     }
-    dictFilename = "/ca/" + language.getShortCodeWithCountryAndVariant() + "_spelling" + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+
+    dictFilename = "/ca/" + spellingFilename + "_spelling" + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
   }
 
   @Override

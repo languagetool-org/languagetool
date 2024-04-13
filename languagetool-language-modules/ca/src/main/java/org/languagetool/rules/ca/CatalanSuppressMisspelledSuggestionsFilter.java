@@ -36,7 +36,7 @@ public class CatalanSuppressMisspelledSuggestionsFilter extends AbstractSuppress
   public boolean isMisspelled(String s, Language language) throws IOException {
     SpellingCheckRule spellerRule = language.getDefaultSpellingRule();
     if (spellerRule == null) {
-      return false;
+      return true;
     }
     List<AnalyzedSentence> sentences = language.createDefaultJLanguageTool().analyzeText(s);
     return spellerRule.match(sentences.get(0)).length > 0;
