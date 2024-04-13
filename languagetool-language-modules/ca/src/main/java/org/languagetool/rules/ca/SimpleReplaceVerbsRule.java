@@ -203,6 +203,9 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
                 if (infinitiveAsAnTkn.getLemma().equals("haver")) {
                   posTag = "VA" + posTag.substring(2);
                 }
+                if (infinitiveAsAnTkn.getLemma().equals("ser")) {
+                  posTag = "VS" + posTag.substring(2);
+                }
                 synthesized = synth.synthesize(infinitiveAsAnTkn, posTag);
               } catch (IOException e) {
                 throw new RuntimeException(
