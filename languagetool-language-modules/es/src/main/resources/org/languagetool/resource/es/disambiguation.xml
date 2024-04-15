@@ -8126,6 +8126,76 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="immunize"/>
         </rule>
     </rulegroup>
+    <rulegroup id="MATEMATICAS" name="notación matemática">
+        <rule>
+            <pattern>
+                <token regexp="yes">[&#x2200;-&#x22FF;]</token>
+                <token regexp="yes">[a-z]</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">[=&gt;&lt;\+]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[=&gt;&lt;]</token>
+                <token regexp="yes">[a-z]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z][⁰ⁱ²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">[⁰ⁱ²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">&math_operators;</token>
+                <token regexp="yes" case_sensitive="yes">[a-zA-Z]|[A-Z][A-Z]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[a-zA-Z]|[A-Z][A-Z]</token>
+                <token regexp="yes">&math_operators;</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="1" inflected="yes" regexp="yes">lado|recta|semirrecta|hipotenusa|base|altura|diagonal|segmento|distancia</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[A-Z][A-Z]</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="1" inflected="yes" regexp="yes">lado|recta|semirrecta|hipotenusa|base|altura|diagonal|segmento|distancia</token>
+                <token case_sensitive="yes" regexp="yes">[A-Z][A-Z]</token>
+                <token postag="_PUNT_CONT|CC" postag_regexp="yes"/>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[A-Z][A-Z]</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="nombres_persona" name="nombres de persona abreviados">
         <rule>
             <pattern case_sensitive="yes">
