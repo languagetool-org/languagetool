@@ -352,6 +352,9 @@ public class Catalan extends Language {
           newReplStr = m.replaceAll("$1u$2");
           Matcher m2 = POSSESSIUS_V.matcher(newReplStr);
           newReplStr = m2.replaceAll("$1U$2");
+          newReplStr = newReplStr.replace("feina", "faena");
+          newReplStr = newReplStr.replace("feiner", "faener");
+          newReplStr = newReplStr.replace("feinera", "faenera");
         }
         // s = adaptContractionsApostrophes(s);
         Matcher m5 = CA_OLD_DIACRITICS.matcher(newReplStr);
