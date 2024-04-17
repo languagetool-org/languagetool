@@ -5,11 +5,9 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
-import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Predicate;
 
 public class PortugueseProclisisFilter extends RuleFilter {
   protected PortugueseSynthesizer getSynthesizer() {
@@ -23,8 +21,10 @@ public class PortugueseProclisisFilter extends RuleFilter {
     HashSet<String> suggestions = new HashSet<>(Collections.emptyList());
     for (AnalyzedToken at : encliticVerbTokenReadings.getReadings()) {
       String posTag = at.getPOSTag();
+      if (posTag == null || (!posTag.startsWith("V") && !posTag.contains(":"))) {
+        continue;
+      }
       String oldToken = at.getToken();
-      assert posTag != null;
       String[] tagParts = posTag.split(":");
       String verbTag = tagParts[0];
       String newVerb = getSynthesizer().synthesize(at, verbTag)[0];
