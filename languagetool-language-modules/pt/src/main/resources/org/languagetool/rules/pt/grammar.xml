@@ -12582,21 +12582,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes">por|do</token>
                     <token>que</token>
                     <token postag_regexp="yes" postag="R." min="0" max="2"/>
-                    <token postag_regexp="yes" postag="(VMN.+|V.SF3S0):PP.+"/>
+                    <token postag_regexp="yes" postag="(VMN0000|VMIP2S0):PP.+"/>
                     <example>Por que não ensiná-los?</example>
                     <example>É melhor confiá-la a ti do que entregá-la a um estranho.</example>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes">saber</token>
-                    <token regexp="yes">quando|onde</token>
+                    <token regexp="yes">onde|como|para|porque</token>
                     <token postag_regexp="yes" postag="R." min="0" max="2"/>
-                    <token postag_regexp="yes" postag="(VMN.+|V.SF3S0):PP.+"/>
+                    <token postag_regexp="yes" postag="(VMN0000|VMIP2S0):PP.+"/>
                     <example>Não sei onde achá-lo.</example>
+                    <example>É preciso estudar para entendê-lo.</example>
+                    <example>Não sei como usá-lo.</example>
+                    <example>Não sei como dizê-lo.</example>
+                    <!-- typo, but we still need to ignore -->
+                    <example>Ainda não sabe como usa-los.</example>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">ter</token>
                     <token>que</token>
-                    <token postag_regexp="yes" postag="(VMN.+|V.SF3S0):PP.+"/>
+                    <token postag_regexp="yes" postag="(VMN0000|VMIP2S0):PP.+"/>
                     <example>Temos que achá-lo.</example>
                     <example>Você terá que adicioná-los um a um.</example>
                 </antipattern>
@@ -12659,6 +12663,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction='me diga'>Não <marker>diga-me</marker> isso.</example>
             <example correction='te farei'>Nunca <marker>farei-te</marker> essa promessa.</example>
             <example correction='se propôs'>Ninguém <marker>propôs-se</marker> a fazer o relatório de contas.</example>
+            <!-- specifically test verb tagged with SENT_END -->
+            <example correction="o entendi">Sei que <marker>entendi-o</marker></example>
         </rule>
 
         <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_COMPLEXO" default="temp_off">
