@@ -51,6 +51,16 @@ Copyright (C) 2011 Juan Martorell
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
+    <rule id="SER_LA_REPERA" name="ser la repera">
+        <pattern>
+            <token skip="4" postag="VS.*" postag_regexp="yes" inflected="yes">ser</token>
+            <token>la</token>
+            <marker>
+                <token>repera</token>
+            </marker>
+        </pattern>
+        <disambig action="add"><wd pos="NCFS000"/></disambig>
+    </rule>
     <rulegroup id="IGNORE_ENGLISH_WORDS" name="etiqueta palabras inglesas para ignorarlas">
         <antipattern>
             <token regexp="yes">the|than</token>
