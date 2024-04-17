@@ -21,7 +21,7 @@ public class PortugueseProclisisFilter extends RuleFilter {
     HashSet<String> suggestions = new HashSet<>(Collections.emptyList());
     for (AnalyzedToken at : encliticVerbTokenReadings.getReadings()) {
       String posTag = at.getPOSTag();
-      if (posTag == null || (!posTag.startsWith("V") && !posTag.contains(":"))) {
+      if (posTag == null || !posTag.startsWith("V") || !posTag.contains(":")) {
         continue;
       }
       String oldToken = at.getToken();
