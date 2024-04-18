@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * This rule checks if an adjective doesn't agree with the previous noun and at
@@ -437,7 +438,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     } else {
       definitiveSugestions.addAll(suggestions);
     }
-    match.setSuggestedReplacements(definitiveSugestions);
+    match.setSuggestedReplacements(definitiveSugestions.stream().distinct().collect(Collectors.toList()));
     return match;
   }
 
