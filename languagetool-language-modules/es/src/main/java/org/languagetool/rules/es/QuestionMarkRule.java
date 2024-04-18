@@ -146,7 +146,13 @@ public class QuestionMarkRule extends TextLevelRule {
     int i = tokens.length - 1;
     while (i > 0) {
       if (tokens[i].getToken().equals(ch)) {
-        return i;
+        if (i < tokens.length - 1 && !tokens[i + 1].isWhitespaceBefore()
+          && !StringTools.isPunctuationMark(tokens[i + 1].getToken())
+          && !tokens[i + 1].isWhitespace()) {
+          // ignore question marks joined to the next word, as in URLs
+        } else {
+          return i;
+        }
       }
       i--;
     }
