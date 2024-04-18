@@ -376,6 +376,16 @@ public class Spanish extends Language implements AutoCloseable {
             continue;
           }
         }
+        ruleMatch.setOriginalErrorStr();
+        // the suggestion only changes the casing
+        if (suggestion.equalsIgnoreCase(ruleMatch.getOriginalErrorStr())) {
+          ruleMatch.setMessage("Mayúsculas y minúsculas recomendadas.");
+          ruleMatch.setShortMessage("Mayúsculas y minúsculas");
+          ruleMatch.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
+          ruleMatch.getRule().setCategory(Categories.CASING.getCategory(ResourceBundleTools.getMessageBundle(this)));
+          ruleMatch.setSpecificRuleId(ruleMatch.getRule().getId().replace("ORTHOGRAPHY", "CASING"));
+          //ruleMatch.getRule().setTags(Arrays.asList(Tag.picky));
+        }
       }
       results.add(ruleMatch);
     }
