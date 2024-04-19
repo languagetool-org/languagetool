@@ -78,7 +78,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+                <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;</exception></token>
                 <token postag="UNKNOWN" regexp="yes">&english_common;|&english_common_casesensitive;<exception>in</exception></token>
             </pattern>
             <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
@@ -90,7 +90,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;</exception><exception postag="_english_ignore_"/></token>
                 </marker>
                 <token postag="_english_ignore_|allow_saxon_genitive" postag_regexp="yes"/>
             </pattern>
@@ -181,6 +181,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token>to</token>
                 </marker>
             </pattern>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">in|to</token>
+                </marker>
+                <token min="0">-</token>
+                <token regexp="yes">a|an|the</token>
+                <token min="0">-</token>
+                <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:5"/>
             <disambig action="add">
                 <wd pos="_english_ignore_"/>
             </disambig>
@@ -3235,7 +3250,33 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token>repera</token>
             </marker>
         </pattern>
-        <disambig action="add"><wd pos="NCFS000"/></disambig>
+        <disambig action="add">
+            <wd pos="NCFS000"/>
+        </disambig>
+    </rule>
+    <rule id="EL_MERDA" name="fer el repera">
+        <pattern>
+            <token skip="4" postag="V.*" postag_regexp="yes" inflected="yes">fer</token>
+            <token>el</token>
+            <marker>
+                <token>merda</token>
+            </marker>
+        </pattern>
+        <disambig action="replace">
+            <wd pos="NCMS000"/>
+        </disambig>
+    </rule>
+    <rule id="UN_SOCA" name="ser un soca">
+        <pattern>
+            <token skip="3" postag="VS.*" postag_regexp="yes" inflected="yes">ser</token>
+            <token>un</token>
+            <marker>
+                <token>soca</token>
+            </marker>
+        </pattern>
+        <disambig action="replace">
+            <wd pos="NCMS000"/>
+        </disambig>
     </rule>
     <rule id="RIU_AMUNT" name="riu amunt/avall">
         <pattern>
