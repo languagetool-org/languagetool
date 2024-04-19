@@ -8006,6 +8006,52 @@ Copyright (C) 2011 Juan Martorell
             <wd pos="_allow_apostrophe"/>
         </disambig>
     </rule>
+    <rulegroup id="jura_y_recontrajura" name="jura y recontrajura">
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>y</token>
+                <marker>
+                    <token>re<match no="0"/></token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>y</token>
+                <marker>
+                    <token><match no="0"/></token>
+                    <token>re<match no="1"/></token>
+                </marker>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>y</token>
+                <marker>
+                    <token>recontra<match no="0"/></token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>y</token>
+                <marker>
+                    <token><match no="0"/></token>
+                    <token>recontra<match no="1"/></token>
+                </marker>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="IGNORE_SPELLING_OF_ABBREVIATIONS" name="Ignore spelling of some uppercase abbreviations">
         <rule>
             <pattern>
