@@ -1094,11 +1094,11 @@ public class JLanguageTool {
       }
     }
     if (language.getShortCode().equals("es")) {
-      List<String> disableFrenchRules = Arrays.asList("AGREEMENT_POSTPONED_ADJ");
+      List<String> disableSpanishRules = Arrays.asList("AGREEMENT_POSTPONED_ADJ");
       RemoteRuleResult remoteRulesResult = remoteRulesResults.get("AI_ES_GGEC");
       if (remoteRulesResult != null) {
         if (remoteRulesResult.isSuccess()) {
-          return !disableFrenchRules.contains(rule.getId());
+          return !disableSpanishRules.contains(rule.getId());
         }
       }
     }
