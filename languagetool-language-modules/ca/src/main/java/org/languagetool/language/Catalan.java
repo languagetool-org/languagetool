@@ -209,6 +209,7 @@ public class Catalan extends Language {
       case "MOTS_NO_SEPARATS": return 40;
       case "REPETEAD_ELEMENTS": return 40;
       case "ESPERANT_US_AGRADI": return 40;
+      case "LO_NEUTRE": return 40; // lower than other INCORRECT_EXPRESSIONS
       case "ESPAIS_SOBRANTS": return 40; // greater than L
       case "ELA_GEMINADA": return 35; // greater than agreement rules, pronoun rules
       case "CONFUSIONS_PRONOMS_FEBLES": return 35; // greater than ES (DIACRITICS), PRONOMS_FEBLES_DARRERE_VERB
