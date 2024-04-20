@@ -17098,6 +17098,410 @@ USA
         </rule>
 
 
+        <rule id='QUE_SER_ESTAR_PARTPASSADO_V2' name="Simplificar: Que + ser/estar + part. passado → Particípio passado" type='style' tags='picky' default="temp_off">
+            <!-- The rule has been completely rewritten.
+                 In my first rewrite, I used postag='VMI[IPS]3.+' for the verb "ser" and "estar".
+                 In my second rewrite, I removed the 'I' ("estava(m)") postag='VMI[PS]3.+' to avoid too many false positives.
+
+                 I have added a large number of detailed (commented) examples so that weaknesses can be easily spotted and fixed.
+
+                 For small fixes, make changes to the last two antipatterns.
+            -->
+
+            <antipattern>
+                <token skip="4" inflected='yes' regexp='yes'>haver|fazer|ser|estar|e|ou|o|de|de:o|em:o
+                    <exception scope='previous' regexp='no'>para</exception>
+                </token>
+                <token regexp='yes' inflected='yes'>&expressoes_de_tempo;</token>
+                <token>que</token>
+                <token regexp='yes' inflected='yes'>ser|estar</token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <example>O produto há anos que está esgotado na loja.</example>
+                <example>O produto há dois meses que está esgotado na loja.</example>
+                <example>O produto há bastante tempo que está esgotado na loja.</example>
+                <example>A testemunha ocular deixou um testemunho vívido do dia e hora que foram vitimados.</example>
+                <example>A lista abaixo contém o nome da série, a temporada que foi renovada e o canal que exibe o título.</example>
+                <example>É de suma importância que o candidato esteja sempre atento as datas que são discorridas no edital.</example>
+                <example>O tempo que é passado nunca voltará.</example>
+                <example>Lembra-se da primeira vez que foi preso?</example>
+                <example>Na época que foi lançado, Naturi não fazia mais parte do grupo.</example>
+                <example>Também é nessa época que é construído o salão nobre do complexo do Palácio do Itamaraty.</example>
+                <example>Que tal uma mulher de 22 anos que foi atingida por um raio, e possui implantes elétricos no cérebro?</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token regexp='yes' inflected='yes'>ser|estar</token>
+                <token postag='VMP.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='_PUNCT'/>
+                <token postag='SPS.+|[DP].+|RM|V.+|RG' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'>
+                    <exception postag='NC.+|AQ.+' postag_regexp='yes'/>
+                </token>
+                <token postag='_PUNCT|SENT_END|CC' postag_regexp='yes'/>
+                <example>Meia hora para pegar a mala que foi obrigada a despachar.</example>
+                <example>É óbvio que são usados para cavar!</example>
+                <example>Do manuscrito de que somente se mantem as cópias citadas que foram traduzidos ao copiar-los.</example>
+                <example>É uma música sobre as pessoas que são convencidas a vir e ficar na casa para uma festa juntos.</example>
+                <example>Rui, um dos motoristas que foi obrigado a trabalhar, disse que, se não fosse fazer a escala, seria detido.</example>
+                <example>Como uma ocasião que tiveram de abraçar com alegria a penitência que foram forçados a suportar.</example>
+            </antipattern>
+
+            <!-- The next two antipatterns fix FPs by detecting the change of the subject (male/female) in that part of the sentence -->
+            <antipattern>
+                <token postag='(SPS00:)?D[^DP].+|VM.P.+|AO.+|SENT_START|AQ.F.+|NCF.+|RG' postag_regexp='yes'>
+                    <exception regexp='yes'>d[ao]s?</exception>
+                    <exception scope='previous' postag='SPS00|VMM02.+' postag_regexp='yes'/>
+                    <exception scope='previous' regexp='yes'>n[ao]s?</exception>
+                </token>
+                <token postag='AQ.F.+|NCF.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token regexp='yes' inflected='yes'>ser|estar</token>
+                <token postag='VMP00.M' postag_regexp='yes'/>
+                <example>Tenho certeza que esteve ocupado.</example>
+                <example>Então não é a primeira vez que foi usado para tiro ao alvo.</example>
+                <example>Na época que foi lançado, Naturi não fazia mais parte do grupo.</example>
+                <example>É verdade que é divertido, mas ao mesmo tempo é assustador.</example>
+                <example>E o melhor são desenvolvidos para praticamente não deixar resíduos na superfície que foi aplicado.</example>
+                <example>Também é nessa época que é construído o salão nobre do complexo do Palácio do Itamaraty.</example>
+                <example>Ontem veio um cara que estava apaixonado pelos pés da moça.</example>
+                <example>Existe todo um cuidado com a seleção dos grãos, e na forma que é feito o café.</example>
+                <example>Eles tem sorte que estão presos e comendo bem.</example>
+                <example>Porém, é na jardinagem que está enraizado o prazer que poderia fazer da atividade uma profissão.</example>
+                <example>Posso recomendar o gato ruivo mais à frente nesta rua que é solto durante a tarde e é bastante amigável.</example>
+                <example>É conhecida por ter representado activistas da oposição iraniana que foram presos, após as eleições.</example>
+                <example>Talvez antes, um pouco, mas tenho certeza que é passado.</example>
+                <example>Tem certeza que é seguro, aqui?</example>
+                <example>E tenha certeza que está fervido... então os torrões não vão obstruir o aparelho.</example>
+                <example>Um general no 2º século da era cristã que foi queimado junto com sua família por converter ao Cristianismo.</example>
+            </antipattern>
+            <antipattern>
+                <token postag='(SPS00:)?D[^DP].+|VM.P.+|AO.+|SENT_START|AQ.M.+|NCM.+|RG' postag_regexp='yes'>
+                    <exception regexp='yes'>d[ao]s?</exception>
+                    <exception scope='previous' postag='SPS00|VMM02.+' postag_regexp='yes'/>
+                    <exception scope='previous' regexp='yes'>n[ao]s?</exception>
+                </token>
+                <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token regexp='yes' inflected='yes'>ser|estar</token>
+                <token postag='VMP00.F' postag_regexp='yes'/>
+                <example>Aposto que está ocupada.</example>
+                <example>Estas funções "L" são chamadas 'globais', no sentido que são definidas como produtos de Euler.</example>
+                <example>O centro da cidade está localizado em uma ilha no lago que está conectada ao continente por pontes.</example>
+                <example>Se for, são duas mulheres ligadas ao clube que foram assassinadas.</example>
+                <example>Deixe-a saber que está errada.</example>
+                <example>Esta mulher presidiu o PSDB em 1995, partido político que é filiada há mais de 20 anos.</example>
+                <example>Deu contribuições ao método histórico que foram reconhecidas posteriormente.</example>
+                <example>Eu li o flyer que foi entregue a mim.</example>
+                <example>A primeira mulher à frente de um partido político em Sorocaba, partido político que é filiada há 20 anos.</example>
+                <example>O termo tem sido aplicado a cantores de outros estilos musicais que são influenciadas pela "soul music".</example>
+            </antipattern>
+
+            <!-- This antipattern deals with small sentences that may end/break with punctuation, ideal for small fixes of false positives -->
+            <!-- WHENEVER POSSIBLE, USE THIS ANTIPATTERN FOR SMALL FIXES IN SMALL SENTENCES -->
+            <!-- Tried at the bottom the exceptions WHICH DIDN'T WORK: aos?|como|vári[ao]s -->
+            <antipattern>
+                <token postag='VMI.+|VMN0000|PP.+|DD.+|NP.+|AQ.+|NC.+|UNKNOWN|CC|SENT_START' postag_regexp='yes'/>
+                <token min='0' max='1' postag='_PUNCT'/>
+                <token min='0' max='1' postag='SPS00|(SPS00:)?D.+|Z0.+' postag_regexp='yes'>
+                    <exception regexp='yes'>d[ao]s?</exception>
+                </token>
+                <token min='0' max='1' postag='_PUNCT'/>
+                <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token regexp='yes' inflected='yes'>ser|estar</token>
+                <token postag='VMP.+' postag_regexp='yes'/>
+                <token postag='AQ.+|NC.+|SPS00|(SPS00:)?D.+|CC|SENT_END|_PUNCT|VMN0000|VMIS3.+|Z0.+' postag_regexp='yes'>
+                    <exception regexp='yes'>até|hoje|perto|segundo</exception> <!-- RG -->
+                    <exception regexp='yes'>consoante|e|ou|para</exception> <!-- CC -->
+                    <exception regexp='yes'>às?|com|de|desde|durante|em|entre|n[ao]s?|nest[ae]s?|pel[ao]s?|por|sem</exception> <!-- SPS00 + SPS00: -->
+                    <exception postag='RN' postag_regexp='no'/>
+                </token>
+                <example>É neste contexto que são criados projetos e iniciativas que a Fundação do Desporto promove.</example>
+                <example>São seus filhos que estão atrasados.</example>
+                <example>É verdade que está morta.</example>
+                <example>Tom tem uma irmã que é advogada.</example>
+                <example>É de energia que é feita a matéria.</example>
+                <example>Você não é o único que foi ferido.</example>
+                <example>É a lei que está errada.</example>
+                <example>Tem certeza que está apaixonada?</example>
+                <example>Conheço um menino que foi operado aos olhos.</example>
+                <example>Eu só bebo água que foi fervida.</example>
+                <example>Ele jura vingança pelo que lhe ocorreu e pelo amigo que foi morto.</example>
+                <example>Alguns insetos entraram na bolsa que estava aberta.</example>
+                <example>Quem era o homem que foi morto naquela colina?</example>
+                <example>Tom era o único que estava ocupado.</example>
+                <example>Eu tinha um vizinho que era cego.</example>
+                <example>Disseram a todos que estavam desconfiados.</example>
+                <example>Tom foi o único que foi preso.</example>
+                <example>Ela disse a todos que estava chateada.</example>
+                <example>Tom disse a todos que estava cansado.</example>
+                <example>Você não é o único que está morto.</example>
+                <example>Você não é o único que está ocupado.</example>
+                <example>Às vezes não é o corpo que está cansado, mas a alma.</example>
+                <example>É por providência que está prevista a conexão das coisas relativamente ao seu fim.</example>
+                <example>Eles tiveram uma filha que foi prometida a Tibério, mas o marido e a filha morreram antes.</example>
+                <example>Há oito anos teve um filho que foi roubado.</example>
+                <example>Lauso é rei etrusco que cometeu tantos excessos que foi expulso do trono por seus próprios súditos.</example>
+                <example>Renascer é avaliar todo nosso caminho já percorrido e canalizar as energias que estão reprimidas.</example>
+                <example>Adobe é uma espécie de argila usada para fazer tijolos que são secados ao sol.</example>
+                <example>Tom ajudou Mary a dobrar as roupas que foram lavadas.</example>
+                <example>Preciso dobrar as roupas que foram lavadas.</example>
+                <example>Eu não consegui entender o anúncio que foi feito.</example>
+                <example>Poderia me ajudar a dobrar as roupas que foram lavadas, por favor?</example>
+                <example>A capacidade para executar as atividades que são feitas, e no meio ambiente.</example>
+                <example>Porque você não sabe se vai ter um show que foi escolhido, eles não querem investir muito dinheiro.</example>
+                <example>Forçar as galáxias a se distanciarem à taxa de aceleração que foi observada, ela recebe este número:</example>
+                <example>Eu sou apenas um livro, mas cada palavra que está escrita, é a Palavra de Deus.</example>
+                <example>Você pensa que está acordado, mas é possível que, na verdade, esteja sonhando.</example>
+                <example>Agora é o momento de dar vida a essas toadas que foram selecionadas.</example>
+                <example>Sugiro tratar esse assunto com o mesmo grau que é tratado o Nazismo.</example>
+                <example>Este caso que foi ilustrado prova os benefícios da Terapia de Vidas Passadas para as pessoas com autismo.</example>
+                <example>Em seu primeiro caso, Yusuke deve recuperar três tesouros que foram roubados do submundo por três demônios.</example>
+                <example>Poderia este, ser o mesmo animal que foi visto a milhares de quilómetros a norte, no Texas?</example>
+                <example>Mesmo uma mulher que foi estuprada?</example>
+                <example>Esse filme é tão ruim que é engraçado.</example>
+                <example>Os pais ensinam aos filhos que é errado mentir.</example>
+                <example>A última vez que foi avistada foi no fim da década de 1990.</example>
+                <example>O tipo de vegetação em Pinhais é a Mata Araucária que é formada, majoritariamente, por Pinheiros-do-Paraná.</example>
+                <!-- NC.+|AQ.+ *START* -->
+                <example>Porque alguns professores de contratos que foram chamados, não quiseram assinar contratos.</example>
+                <example>Esses ditos milhões que foram tirados da pobreza, estão agora mergulhados na mais triste miséria.</example>
+                <example>A informação se tornou um termo poderoso que está ligado ao acesso dos cidadãos à informação</example>
+                <example>Outro item importante que é checado são as condições de trabalho dos colaboradores.</example>
+                <example>Depois da reforma trabalhista que foi aprovada?</example>
+                <example>Qual é a margem de erro em relação as arrecadações que são projetadas?</example>
+                <example>O cabedal, material que é feito o tênis, pode ser de materiais variados.</example>
+                <example>O mesmo ocorre com os backups periódicos que são realizados conforme programados.</example>
+                <example>Estou falando do aumento do IPI para carros importados que foi aumentado numa quinta-feira.</example>
+                <example>O coach é o instrutor de crossfit que está atento aos nossos movimentos e nos orienta na hora de treinar.</example>
+                <example>O que o médico acha que está errado?</example>
+                <example>Queremos ter mais do que apenas ser a mulher bonita que está sentada lá.</example>
+                <example>Ela pertencia a um grupo de bruxas que foram executadas como resultado das tramas de Drácula.</example>
+                <example>Foi também na zona sul que foi realizado o primeiro jogo noturno com iluminação.</example>
+                <example>Em tal caso A é o produto cinético que é favorecido sob controle cinético.</example>
+                <example>Incluiu o conceito do telefone enigmático que foi usado várias vezes ao longo da série.</example>
+                <example>A cabine possuí proteção contra os gases tóxicos que são exaustados dos foguetes.</example>
+                <example>Também fornece vários assuntos seculares perspicazes que foram descobertos fora da obra.</example>
+                <example>Apresenta um exterior rectangular, modelo que é considerado pouco comum entre os edifícios religiosos.</example>
+                <example>O registro do telefone mostra que foi feita uma ligação</example>
+                <example>Antes de 1900, Lily achou um grupo de bruxos que foram expulsos do clã Gemini.</example>
+                <example>Aqueles são os bangalôs privados que foram prometidos? Sim.</example>
+                <!-- NC.+|AQ.+ *END* -->
+                <example>Tenho de saber onde fica a farmácia que está aberta 24 horas.</example>
+                <example>A tradicional dança dos bonecos, bonecos que estão armados dois metros de altura. </example>
+                <!-- CC *START* -->
+                <example>É usado para descrever jogos para PC ou videogame que são jogados como esportes competitivos.</example>
+                <example>Deram um “abraço” no entorno do imóvel depois de trocarem as fechaduras e cadeados que foram arrombados.</example>
+                <example>Para shows e gravações que estão unidos, principalmente por Iris Camaa, Spa Linda e Beibl Bernhard.</example>
+                <example>Recebemos diariamente e por diversos casos e denúncias que foram solucionados após publicações neste blog.</example>
+                <example>Até em empresas, institutos e associações que são considerados inovadores, existem esses chefes.</example>
+                <example>Esses poderes e autoridades que foram estabelecidos produziram não somente os humanos.</example>
+                <example>Este travelcard vale para a data que está impressa nele até às 4h29 da madrugada seguinte.</example>
+                <example>Rui apresenta 40 canções para piano e canto, sendo duas obras inacabadas e sete que estão desaparecidas.</example>
+                <example>Ele é um bestiario de fantasmas, monstros, e espíritos que são categorizados como youkai.</example>
+                <!-- CC *END* -->
+                <example>Pessoas que são honradas como deuses aos poucos perdem seus traços humanos.</example>
+                <example>Aposto que está ocupado.</example>
+                <example>Aposto que estão ocupados.</example>
+                <example>Na parte que é dedicada ao estudo da física, os equipamentos em sua maioria possuem acesso disponível.</example>
+                <example>Artigos que foram reportados como escassos.</example>
+                <example>Dois indivíduos que foram identificados como responsáveis pelo atentado acabaram sendo mortos logo depois.</example>
+                <example>Escapulários que são reconhecidos como objetos devocionais devem conter esta parte da roupa.</example>
+                <example>Numa edição que foi considerada um fracasso financeiro pela organização.</example>
+                <example>Deu o título a seu maior ídolo - honraria que é concedida aos vascaínos com serviços prestados ao clube.</example>
+            </antipattern>
+
+            <!-- Another antipattern for small fixes -->
+            <!-- It may also be used for small fixes here and there, in a simpler way than the more complex antipattern above -->
+            <antipattern>
+                <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token regexp='yes' inflected='yes'>ser|estar</token>
+                <token postag='VMP.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='_PUNCT'/>
+                <token postag='RG|SPS00|CC|VMN0000' postag_regexp='yes'/>
+                <token postag='AO.+|SPS00|D[AIP].+|PP.+|NP.+|RG|VMN0000|VMP.+|RN' postag_regexp='yes'/>
+                <example>E peças que foram criadas para a incompleta fonte de Bartolomeo Ammannati.</example>
+                <example>Não há nenhum interesse em professores que são contratados apenas por interesse público.</example>
+                <example>As Políticas de Serviço aqui patentes regulamentam a relação que é estabelecida entre a ANA e o utilizador.</example>
+                <example>Não é atoa que foi aprovado em 1ª instância.</example>
+                <example>E um absurdo que foi feito com a ajuda da Dilma para beneficiar as empresas.</example>
+                <example>Esta é uma premissa que é assegurada desde o início do projeto em 2003.</example>
+                <example>Pronunciou e divulgou cinco de suas séries que foram renovadas para a próxima temporada.</example>
+                <example>Pegue o livro que foi deixado sobre a mesa.</example>
+                <example>Todo mundo acha que está preparado para a velhice.</example>
+                <example>Tom era o único menino que foi convidado para a festa da Mary.</example>
+                <example>Bote é um veículo pequeno que é impulsionado sobre a água por remos, velas ou um motor.</example>
+                <example>Os universitários desenvolvem trabalhos científicos que são elogiados durante a avaliação semestral.</example>
+                <example>Os edifícios que foram encontrado embaixo de suas fundações atesta uma tradição cúltica.</example>
+                <example>Simboliza os primórdios do atual Vale do Aço, município que é reputado como a "terra mãe"</example>
+                <example>Usaram pneus de 18 polegadas em vez dos de 13 polegadas que foram usados até a temporada de 2021.</example>
+                <example>As partes do corpo que foram tratados com os raios foram queimadas (...).</example>
+                <example>A irmã da Bruxa do Norte que foi morta quando o trailer de Dorothy caiu sobre ela.</example>
+                <example>A singeleza que foi perdida após a fase adulta.</example>
+                <example>Compõem um vírus com genoma de RNA simples (é a cópia que é usada para a síntese proteica).</example>
+                <example>Todos os desenvolvedores que estiveram envolvidos com o "Full Throttle" original já deixaram a LucasArts.</example>
+                <example>Ao dimensionar vigas de concreto que são fundidas com a laje.</example>
+                <example>Malawi tem um vice-presidente que é eleito com o presidente.</example>
+                <example>É um hospital onde há várias salas que são unidas junto a uma enorme multidão de pessoas doentes.</example>
+                <example>Seus ideais que foram levados até o fim, quando, por exemplo, apoia Getúlio Vargas, que havia deport...</example>
+                <example>Ela é uma garota moderna que está familiarizada com a cultura online.</example>
+                <example>Pesquisamos todos os BMWs brancos com tetos solares que foram apreendidos entre os últimos 9 e 12 meses.</example>
+                <example>Essa ligação espiritual está também presente no ideal régio que é justificado por João de Barros</example>
+                <example>O último sonho da turma que está presa em Curitiba foi o de obter do STF a anulação dos depoimentos.</example>
+                <example>Professor emérito de matemática da Universidade de Cambridge (posto que foi ocupado por Isaac Newton).</example>
+                <example>O acontecimento visa debater a melhor investigação em alterações climáticas que é realizada em Portugal.</example>
+                <example>Bush pensa que foi enviado por Deus para estabelecer a justiça na terra.</example>
+                <example>O que o médico acha que está errado com Tom?</example>
+                <example>Qual é o idioma que é falado em Omã?</example>
+                <example>Isso incluiu um cartaz que foi escrito por John Romita.</example>
+                <example>Em 1814, as pessoas que foram condecoradas por Napoleão foram reconhecidas como "nova nobreza"</example>
+                <example>Túscia era uma antiga cidade localizada na região do Lácio que foi absorvida por Roma em 381 a.C.</example>
+                <example>Foi uma revista ilustrada e com descrições botânicas que foi editada em Berlim.</example>
+                <!-- DI.+ last line *START* -->
+                <example>O Título IX não se aplicaria a uma instituição de ensino que é controlada por uma organização religiosa.</example>
+                <example>Ocorre que esse primogênito é, na verdade, uma mulher que está apaixonada por um dos rapazes.</example>
+                <example>Agora choram de crianças sob escombros, crianças que foram geradas sem nenhum prévio planejamento.</example>
+                <example>A Terra é o único planeta conhecido que é provido de uma atmosfera.</example>
+                <example>Ela analisa pontualmente o exame de sangue que é pedido em toda consulta para um acompanhamento inteiro.</example>
+                <example>Hoje conta com uma equipe com mais de 80 pessoas que estão distribuídas em várias cidades.</example>
+                <example>Percival, especificamente, encarna em um dissidente político que é transformado em um neo-humano.</example>
+                <example>Possui um amplo portfólio de produtos, composto por 1050 itens que são atualizados a cada 21 dias.</example>
+                <example>Uma casa que é feita por um homem.</example>
+                <example>Uma casa que foi feita por um homem.</example>
+                <example>Diz respeito ao estudo de ângulos e curvas, e às formas que são moldadas quando várias linhas se juntam.</example>
+                <example>O esperanto é uma língua internacional que é ensinada em muitos países.</example>
+                <example>"O Pequeno Príncipe" é um livro muito popular que foi traduzido para muitos idiomas.</example>
+                <example>As bactérias que são transferidas durante um beijo ajudam a melhorar o sistema imunológico.</example>
+                <example>Rui desenvolveu uma explicação para como se desenvolve na sociedade que é aceita por algumas escolas.</example>
+                <example>Uma função que é definida para todos os argumentos possíveis é chamada total.</example>
+                <example>Ficou conhecido pela sua lendária cavalaria que foi derrotada por poucos, mas não conseguiu derrotar o rei.</example>
+                <example>O humor da série se baseia em piadas corridas que são utilizadas em cada episódio com pequenas variações.</example>
+                <example>Dvalin, na mitologia nórdica, é um anão que é mencionado em vários contos e kennings nórdicos.</example>
+                <example>Criada em 1994, é uma das cinco categorias que foram entregue em todas as desessete edições.</example>
+                <example>Tratava-se de um prédio de pequeno porte e de arquitetura rústica que foi substituído por outro prédio.</example>
+                <example>Fora da praça de armas, mais a Sul, estava um outro imóvel que foi identificado como um paiol.</example>
+                <example>Divergem na natureza essencial da graça e da graça que é concedida sem uma experiência do Espírito Santo.</example>
+                <example>Uma série de toques que devem estar de acordo com os orixás que são evocados em cada momento da festa.</example>
+                <example>As medições podem depender de qual tipo de medidas que foram feitas em outros sistemas.</example>
+                <example>Ethel interpretou uma jovem aterrorizada que é trancafiada em um bordel.</example>
+                <example>São preservados em camadas de sedimento que foram comprimidas segundo uma direcção perpendicular ao plano.</example>
+                <!-- DI.+ last line *END* -->
+                <!-- PP.+ last line *START* -->
+                <example>Quando vamos parar de financiar a destruição do Cerrado e tudo de danoso que está associado a ela.</example>
+                <example>Não é aquela parlamentar americana de turbante na cabeça que foi acusada de se casar com o próprio irmão?</example>
+                <example>Recebi uma carta que foi escrita por ela.</example>
+                <example>É uma de suas forças que foi vista quando ela desenhou ao longo das paredes de sua cela.</example>
+                <example>Sua mãe e a melhor amiga que é apaixonada por ele, também tentam ajudá-lo de todas as formas.</example>
+                <example>Muito bem, Smiggs, esta vela que foi encontrado com você quando foi preso é feita de cera.</example>
+                <example>César... e o sonho que foi morto com ele</example>
+                <!-- PP.+ last line *END* -->
+                <!-- CC.+ added before last line *START* -->
+                <example>Os testes da vida são oportunidades que são aproveitadas consoante nós as percebemos e o que fazemos com essa percepção.</example>
+                <example>É comum circularem algumas ideias sobre dialetologia que são erradas e sem fundamento.</example>
+                <example>"vogue" foi o primeiro "single" do álbum que foi lançado e o primeiro também da Trilogia.</example>
+                <example>"d" é a diferença de pontuação entre o último elemento que foi acessado e o elemento atual sendo acessada.</example>
+                <!-- CC.+ added before last line *END* -->
+                <!-- RG.+ last line and after CC.+ *START* -->
+                <example>Excepto no caso das bibliotecas nacionais que são apresentadas em primeiro lugar.</example>
+                <example>Parabenizamos ao Servidor Associado ao Sindicato que foi contemplado e também a nossa Assessoria Jurídica.</example>
+                <example>Tenho esperança que a Direção continuasse com o bom trabalho que foi feito até aqui.</example>
+                <example>Toda a informação que é lançada desde lá no início, ela pode ser aproveitada.</example>
+                <example>São massas refratárias específicas para altas temperaturas que são aplicadas com facilidade.</example>
+                <example>A embalagem para arroz, tem algumas coisas que são vistas com bastante frequência.</example>
+                <example>Mas que furada atribuírem conversas ao procurador que esteve preso e fora do MPF.</example>
+                <example>Trouxe, ainda, a moeda que é utilizada até hoje por lá: o real brasileiro.</example>
+                <example>Aceitem minhas saudações, amigos que são vindos de tão longe.</example>
+                <example>Jud confirma que essa condição é a regra no caso de animais que foram ressuscitados desse modo.</example>
+                <example>Boruto tem 100 personagens que foram mostrados até então, mas sem dúvida terão muito mais.</example>
+                <example>É uma coleção por um artista que está sintonizado em quase todos os gêneros de música.</example>
+                <!-- RG.+ last line and after CC.+ *END* -->
+                <!-- VMN0000 last line and after CC.+ *START* -->
+                <example>Uma elegante sonda robô que é encarregada de localizar vegetação na Terra.</example>
+                <example>Pepino contém esteróis que são conhecidos por reduzir o nível do mau colesterol no sangue.</example>
+                <example>A vista na pia da churrasqueira que foi ampliada para receber um cooktop.</example>
+                <example>A nossa equipe de suporte que é treinada para tirar todas as suas dúvidas.</example>
+                <example>Parece que esta pode ser a arma que foi usada para matar Tom.</example>
+                <example>Diz a tradição que foi construído para receber o Imperador D. Pedro I.</example>
+                <example>Começaram por alterar as premissas básicas que foram desenvolvidas para promover uma maior flexibilidade.</example>
+                <example>É um princípio que é usado para controlar alguns argumentos de forcing.</example>
+                <example>A catapulta dele é do mesmo tipo de tecnologia que foi usada para prender a Voyager no quadrante Delta.</example>
+                <!-- VMN0000 last line and after CC.+ *END* -->
+                <!-- DP.+ last line and after CC.+ *START* -->
+                <example>Sua construção precisava transitar por edifícios antigos que foram derrubados e suas pedras apropriadas.</example>
+                <example>Reúne a leveza do TeamSpeak com funcionalidades importantes que foram implementados por seus concorrentes.</example>
+                <example>Já na coluna Conexão Nerd, trazemos vídeos incríveis que foram publicados em nosso canal no Youtube.</example>
+                <example>São potencialidades que estão escondidas de nosso raciocínio.</example>
+                <example>Uma celebridade é uma pessoa que é conhecida por sua qualidade de ser bem conhecida.</example>
+                <example>Tomem a decisão de reduzir a quantidade de dióxido de carbono que é lançada em nossa atmosfera.</example>
+                <example>Um bispo que está bloqueado por seus próprios peões e, portanto, tem pouca mobilidade é chamado bispo mau.</example>
+                <example>Lindon interpreta Suzanne, uma adolescente que está desencantada com seu grupo de colegas.</example>
+                <example>Um stinger que revela que Kip e LaFawnduh se casam, uma cena que foi incluída em seu lançamento amplo.</example>
+                <example>Foi agraciado com o título de conde pelo Papa Bento XV, título que foi transmitido a seu filho Alexandre.</example>
+                <example>Louise Brooks, lida com uma jovem que é expulsa de sua casa depois de ter um filho ilegítimo.</example>
+                <!-- DP.+ last line and after CC.+ *END* -->
+                <!-- VMP.+ last line and after CC.+ *START* -->
+                <example>Há carros que foram vendidos ou cedidos em uma loteria e os recursos recolhidos utilizados para os pobres.</example>
+                <example>Da estrutura e brilham por meio de gráficos de resolução que são calculados e apresentados em tempo real.</example>
+                <example>São coisas que são compradas e vendidas.</example>
+                <example>Um concreto de jasmim tem cerca de 41% de óleo essencial que é separado e isolado desta forma.</example>
+                <example>Providenciar o retorno de todos os profissionais concursados que foram cedidos ou desviados de função.</example>
+                <example>Estado corporal: um corpo que é levado e provocado pelo ambiente.</example>
+                <example>As substâncias que são conhecidas ou suspeitas de provocarem doenças.</example>
+                <example>A população mundial não tem acesso a direitos humanos básicos que são dados por garantidos em países ricos.</example>
+                <example>Sequências consonânticas que são lidas e mantidas.</example>
+                <example>É um remake filipina da série de televisão sul-coreana de mesmo nome que foi produzida e exibida em 2005.</example>
+                <example>Cidadão Brasileiro é uma telenovela brasileira que foi produzida e exibida pela RecordTV.</example>
+                <example>Minha Vida foi uma telenovela brasileira que foi produzida e exibida pela extinta TV Tupi.</example>
+                <!-- VMP.+ last line and after CC.+ *END* -->
+                <!-- _PUNCT before line of and after CC.+ *START* -->
+                <example>Quando for consertar, vai trocar somente os componentes que estão queimados, e os componentes que sofreram.</example>
+                <example>O significado de post engloba não somente o texto que é publicado, mas também o ato de publicá-lo.</example>
+                <example>Nesse caso está sendo a adoção de uma cultura de um povo que foi oprimido (e muito!)</example>
+                <example>No lugar dos programas independentes da rede que são exibidas, inclusive até igrejas evangélicas.</example>
+                <example>Ele fez o teste para um outro papel que foi cortado, mas depois de ver a fita escreveu uma participação.</example>
+                <!-- _PUNCT before line of and after CC.+ *END* -->
+                <!-- VMN0000 before line and after CC.+ *START* -->
+                <example>Mas é a favor de uma mulher que foi violada casar com seu estuprador (deut.</example>
+                <!-- VMN0000 before line and after CC.+ *END* -->
+                <!-- RN last line and after CC.+ *START* -->
+                <example>Professor que foi convocado e não recebeu ligação ou email pode reivindicar a vaga?</example>
+                <example>É armazenada permanentemente e atualizada com informações sobre áreas que foram limpas ou não.</example>
+                <!-- RN last line and after CC.+ *END* -->
+            </antipattern>
+
+            <pattern>
+                <marker>
+                    <token postag='AQ.+|NC.+' postag_regexp='yes'>
+                        <exception postag='SPS.+|NP.+' postag_regexp='yes'/>
+                    </token>
+                    <token>que</token>
+                    <token postag='VMI[PS]3.+' postag_regexp='yes' regexp='yes' inflected='yes'>ser|estar
+                        <exception postag='VMI....:.+' postag_regexp='yes'/> <!-- Exclude hyphenated verbs -->
+                    </token>
+                    <token postag='VMP.+' postag_regexp='yes'>
+                        <exception scope='next' postag='SENT_END' postag_regexp='no'/>
+                    </token>
+                </marker>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion>\1 \4</suggestion>
+            <suggestion>\1, \2 \3 \4</suggestion>
+            <suggestion>\1 em \2 \3 \4</suggestion>
+            <example correction="quantidade estimada|quantidade, que é estimada|quantidade em que é estimada">A <marker>quantidade que é estimada</marker> denomina-se 'estimativa'.</example>
+            <example>Após alguma discussão e tentativas de fuga, Decim explica as regras do jogo que foi escolhido.</example>
+            <example>Tudo o que incomoda gente como o autor das acusações que foram publicadas.</example>
+            <example>Escolhi sem ter tido nenhuma referência e me surpreendi com a qualidade dos banners que foram desenvolvidos.</example>
+            <example>Eu acho que não há quase nenhuma possibilidade de eu ver de novo minha moto que foi roubada.</example>
+            <example>A formiga pode viajar em qualquer uma das quatro direções cardeais a cada passo que é dado.</example>
+            <example>Em suas margens podem ser encontrados afloramentos com fósseis e acumulação das rochas que foram exploradas.</example>
+            <example>Irritado com a decepção, todos saem através de uma escotilha que foi destrancada.</example>
+            <example>Levantaram novamente os barracos que foram destruídos.</example>
+        </rule>
+
+
         <!-- QUE JULGÁVAMOS SER MAIOR que julgávamos maior -->
         <rule id='QUE_VERBO_SER_ADJ_QUE_VERBO_ADJ' name="Simplificar: Que + Verbo + ser + Adj (remover 'ser')">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-22/29 + 2022-12-17 (25-JUL-2022+) -->
