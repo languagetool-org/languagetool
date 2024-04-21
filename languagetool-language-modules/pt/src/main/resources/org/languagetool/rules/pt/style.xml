@@ -3633,6 +3633,117 @@ USA
         </rule>
 
 
+        <rulegroup id='MORRER_PERECER_FALECER' name="morrer → perecer/falecer" tags='picky' tone_tags='formal' default='temp_off'>
+
+            <!-- Subrule 1: not using "mort[ao]s?" -->
+            <rule>
+                <antipattern>
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
+                    <token regexp='yes'>a|de</token>
+                    <token min="0" max="1" regexp='yes' inflected='yes'>&adverbios_de_intensidade;</token>
+                    <token>rir</token> <!-- VMN0000 tested, only "rir" was valid -->
+                    <example>Morri de rir quando descobri que é o famoso boa noite Cinderela.</example>
+                    <example>Morri a rir.</example>
+                    <example>Morri de tanto rir.</example>
+                    <example>Eu morri de rir com esse trailer de Pets, como amo bichos estou doida pra ver!</example>
+                    <example>Tom está morrendo de rir.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip='4' inflected='yes' regexp='yes'>árvore|bateria|budismo|chip|computador|cristianismo|ecrã|écran|flor|laptop|memória|motherboard|paganismo|PC|planta|satanismo|TV</token> <!-- Add exception words here -->
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception>
+                        <exception scope='previous' postag='P.+' postag_regexp='yes'/>
+                        <exception scope='previous' regexp='no'>para</exception>
+                    </token>
+                    <example>E ainda dizem a TV está morrendo, mas não é bem o que os números mostram.</example>
+                    <example>Se uma árvore morrer, plante outra no seu lugar.</example>
+                    <example>A bateria morreu.</example>
+                    <example>As plantas morreram por falta de água.</example>
+                    <example>As árvores morreram.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip='4' inflected='yes' regexp='yes'>ser|estar</token>
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
+                    <token regexp='yes'>de|para</token>
+                    <token postag='NC.+|AQ.+|NP.+|VMN0000' postag_regexp='yes'/>
+                    <example>É NECESSÁRIO MORRER PARA VIVER!</example>
+                    <example>E olha só o detalhe do chaveiro não é pra morrer de amores?!</example>
+                    <example>Estou morrendo de dor nas costas.</example>
+                    <example>Estou morrendo de fome!</example>
+                    <example>Estou morrendo de vontade de uma xícara de café.</example>
+                    <example>Estou morrendo de vergonha dessa situação.</example>
+                </antipattern>
+                <pattern>
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception>
+                        <exception regexp='no' case_sensitive='yes'>Morro</exception> <!-- Proper names -->
+                    </token>
+                </pattern>
+                <message>Num contexto formal, é preferível escrever &quot;perecer&quot; ou &quot;falecer&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perecer</match></suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falecer</match></suggestion>
+                <example correction="pereceu|faleceu">O pai dele <marker>morreu</marker> no ano passado.</example>
+            </rule>
+
+            <!-- Subrule 2: using only "mort[ao]s?" -->
+            <rule>
+                <antipattern>
+                    <token skip='4' inflected='yes' regexp='yes'>ser|estar</token>
+                    <token regexp='yes'>mort[ao]s?</token>
+                    <example>Quando um dos animais é morto em seu trabalho, ele decide usá-los contra quem o atormenta.</example>
+                    <example>Ele foi morto na guerra.</example>
+                    <example>O soldado foi morto em ação.</example>
+                    <example>É uma pena, mas a sua personagem é morta no começo da peça.</example>
+                    <example>Ator é morto na varanda do hotel a facadas na noite desta quarta-feira.</example>
+                    <example>A mulher que me revelou a verdade foi encontrada morta em seu apartamento.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='V.+|RG' postag_regexp='yes'/>
+                    <token min='0' max='1' postag='SPS00|Z0.+' postag_regexp='yes'/>
+                    <token postag='NC.+|AQ.+|NP.+|Z0.+' postag_regexp='yes'/>
+                    <token regexp='yes'>mort[ao]s?</token>
+                    <example>"Quem não se enamora de Deus, vendo Cristo morto na cruz, não se abrasará jamais".</example>
+                    <example>A vala comum que continha os restos mortais de 14 soldados alemães mortos em agosto de 1944.</example>
+                    <example>Os caranguejos comem pele morta nas costas da iguana e, em troca, fornecem serviço de esfoliação.</example>
+                    <example>O dia foi marcado por protestos que deixaram ao menos 60 mortos no país.</example>
+                    <example>O pintor utiliza-se apenas de cores mortas em suas obras.</example>
+                    <example>Há mais de cem mortos na catástrofe.</example>
+                    <example>Desabamento de prédio deixa mais de 1000 mortos em Bangladesh.</example>
+                    <example>Corpos não identificados de mulheres mortas em Los Angeles geralmente são chamados: "Sally in the Alley"</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>mort[ao]s?
+                            <exception regexp='no' case_sensitive='yes'>Mortos</exception> <!-- Proper names -->
+                            <exception scope='previous' postag='_PUNCT|VMII3.+|SPS00' postag_regexp='yes'/>
+                            <exception scope='next' postag='SENT_END' postag_regexp='no'/>
+                        </token>
+                    </marker>
+                    <token regexp='yes'>em|n[ao]s?
+                        <exception scope='next' postag='Z0.+|PP.+' postag_regexp='yes'/>
+                    </token>
+                </pattern>
+                <message>Num contexto formal, é preferível escrever &quot;perecer&quot; ou &quot;falecer&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perecer</match></suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falecer</match></suggestion>
+                <example correction="perecidos|falecidos">Os militares <marker>mortos</marker> em combate foram muitos.</example>
+                <example correction="perecidos|falecidos">Os militares <marker>mortos</marker> no combate.</example>
+                <example>Do matrimónio nasceram dois filhos, além de uma menina que nasceu morta em 1890.</example>
+                <example>Em um ofício publicado no mesmo dia da batalha, o General Labatut estimou o número de mortos em 200.</example>
+                <example>Foi um mestre de Okinawa-te, do estilo Tomari-te, nascido em 1829 e morto em 1898.</example>
+                <example>Para o acompanharem na árdua tarefa de sepultar o seu filho Larry, morto na guerra do Afeganistão.</example>
+                <example>ABERTO o testamento do âncora do noticiário ABC NEWS, PETER JENNINGS, morto em agosto de 2005.</example>
+                <example>Patton também descendia de Hugh Mercer, morto na Batalha de Princeton na Guerra da Independência.</example>
+                <example>Suely Kanayama, a "Chica", morta em fins de 1974 num confronto com militares.</example>
+                <example>os laços com a Matéria, te enchem a mente com futilidade estéreis e mortas em si, vazias de bons propósitos.</example>
+                <example>Ele jazia morto na banheira.</example>
+                <example>Em 1893, o próprio Eça o declarava morto nas "Notas Contemporâneas"</example>
+                <example>Devido à violência brutal, que resultou em milhares de mortos no país, uma intervenção militar é necessária</example>
+                <example>O número de mortos no terremoto italiano cresceu a 247, talvez mais.</example>
+                <example>O número total de mortos no conflito ainda é incerto.</example>
+                <example>Os clássicos sempre chamam uma atenção a mais e há vários casos de mortos em regiões mais distantes.</example>
+            </rule>
+        </rulegroup>
+
+
         <!-- VESTIR calçar -->
         <rule id='CONFUSÃO_VESTIR_CALÇAR' name="[Confusão] vestir/calçar" tags='picky' tone_tags="formal">
             <antipattern>
