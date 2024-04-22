@@ -1878,6 +1878,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
+                        <token>in</token>
+                    </marker>
+                    <token>den</token>
+                    <token regexp="yes">Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember</token>
+                    <token inflected="yes">fallen</token>
+                </pattern>
+                <example correction="">Als Grund nannte Volkswagen am Freitag das chinesische Neujahrsfest, das in diesem Jahr <marker>in</marker> den Februar fiel.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token>im</token>
                     </marker>
                     <token regexp="yes">Welten|Längen</token>
@@ -2082,6 +2093,20 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Willkommen im <marker>Editor</marker></example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup name="" id="AI_DE_GGEC_UNNECESSARY_DETERMINER">
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <marker>
+                        <token>den</token>
+                    </marker>
+                    <token regexp="yes">Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember</token>
+                    <token inflected="yes">fallen</token>
+                </pattern>
+                <example correction="">Als Grund nannte Volkswagen am Freitag das chinesische Neujahrsfest, das in diesem Jahr in <marker>den</marker> Februar fiel.</example>
             </rule>
         </rulegroup>
 
