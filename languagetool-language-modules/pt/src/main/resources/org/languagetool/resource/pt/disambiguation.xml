@@ -33,6 +33,7 @@
         <!ENTITY % languages SYSTEM "../../resource/pt/entities/languages.ent">
         <!ENTITY % postal    SYSTEM "../../resource/pt/entities/postal.ent"   >
         <!ENTITY % chars     SYSTEM "../../resource/pt/entities/chars.ent"    >
+        <!ENTITY % english   SYSTEM "../../resource/pt/entities/english.ent"  >
         %datetime;
         %misc;
         %abbrev;
@@ -41,6 +42,7 @@
         %languages;
         %postal;
         %chars;
+        %english;
 ]>
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -3729,14 +3731,296 @@
       </rule>
   </rulegroup>
 
-          <!-- p-goulart@2024-03-07 - DESC: all tags that contain verbs *and* pronouns come from our tagger and need to be accepted...
-          the only exception being -ámos verbs in pt-BR, but I feel like this is a super edge case...-->
-  <!-- <rulegroup id="VERBS_WITH_CLITICS" name="Ignore spelling issues in verbs tagged with clitics"> -->
-      <!-- <rule> -->
-      <!--     <pattern> -->
-      <!--         <token postag_regexp="yes" postag="V.+:P.+"/> -->
-      <!--     </pattern> -->
-      <!--     <disambig action="ignore_spelling"/> -->
-      <!-- </rule> -->
-  <!-- </rulegroup> -->
+  <rulegroup id="IGNORE_ENGLISH_WORDS" name="Label English words">
+      <rule> <!-- #1 -->
+          <pattern>
+              <token regexp="yes">&english_common;</token>
+              <token regexp="yes">\p{L}+
+                  <exception regexp="yes">&english_no;|&english_forward;</exception>
+              </token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,2"/>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #2 -->
+          <pattern>
+              <token postag="_english_ignore_"/>
+              <marker>
+                  <token regexp="yes">\p{L}+
+                      <exception regexp="yes">&english_no;|&english_forward;</exception>
+                      <exception postag="_english_ignore_"/>
+                  </token>
+              </marker>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2"/>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #3 -->
+          <pattern>
+              <token regexp="yes">\p{L}+
+                  <exception regexp="yes">&english_no;|&english_forward;</exception>
+              </token>
+              <token regexp="yes">&english_common;</token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,2"/>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #4 -->
+          <pattern>
+              <marker>
+                  <token regexp="yes">\p{L}+
+                      <exception regexp="yes">&english_no;|&english_forward;</exception>
+                      <exception postag="_english_ignore_"/>
+                  </token>
+              </marker>
+              <token postag="_english_ignore_|allow_saxon_genitive" postag_regexp="yes"/>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #5 -->
+          <pattern>
+              <token>to</token>
+              <token regexp="yes" postag="UNKNOWN">\p{L}+</token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2 postags:VB"/>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #6 -->
+          <pattern>
+              <token case_sensitive="yes">I</token>
+              <token regexp="yes" postag="UNKNOWN">\p{L}+
+                  <exception regexp="yes">&english_no;|&english_forward;</exception>
+              </token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2 postags:VB[PD]"/>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <!--<rule>
+          <pattern>
+          <token postag="_english_ignore_|UNKNOWN" postag_regexp="yes" regexp="yes">[a-z]+<exception regexp="yes">saint|anti|&english_no;</exception></token>
+          <token spacebefore="no">-</token>
+          <token spacebefore="no" regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,3"/>
+          <disambig action="add">
+          <wd pos="_english_ignore_"/>
+          <wd pos="_english_ignore_"/>
+          <wd pos="_english_ignore_"/>
+          </disambig>
+          </rule>
+          <rule>
+          <pattern>
+          <token regexp="yes">[a-z]+<exception regexp="yes">saint|anti|&english_no;</exception></token>
+          <token spacebefore="no">-</token>
+          <token postag="_english_ignore_|UNKNOWN" postag_regexp="yes" spacebefore="no" regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,3"/>
+          <disambig action="add">
+          <wd pos="_english_ignore_"/>
+          <wd pos="_english_ignore_"/>
+          <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>-->
+      <rule> <!-- #7 -->
+          <pattern>
+              <token postag="_english_ignore_"/>
+              <marker>
+                  <token regexp="yes">to</token>
+                  <token regexp="yes" postag="UNKNOWN">\p{L}+
+                      <exception regexp="yes">&english_no;|&english_forward;</exception>
+                      <exception postag="_english_ignore_"/>
+                  </token>
+              </marker>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:3"/>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #8 -->
+          <pattern>
+              <token postag="_english_ignore_"/>
+              <marker>
+                  <token regexp="yes">to</token>
+              </marker>
+              <token postag="_english_ignore_"/>
+          </pattern>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #9 -->
+          <pattern>
+              <token>from</token>
+              <token/>
+              <marker>
+                  <token>to</token>
+              </marker>
+          </pattern>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #10, contractions -->
+          <pattern>
+              <token regexp="yes">&english_contracted_not;</token>
+              <token regexp="yes">&apostrophes;</token>
+              <token>t</token>
+          </pattern>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #11, contractions -->
+          <pattern>
+              <token regexp="yes">&english_contracted_is;</token>
+              <token regexp="yes">&apostrophes;</token>
+              <token>s</token>
+          </pattern>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #12, contractions -->
+          <pattern>
+              <token regexp="yes">&english_contracted_are;</token>
+              <token regexp="yes">&apostrophes;</token>
+              <token>re</token>
+          </pattern>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #13, contractions -->
+          <pattern>
+              <token regexp="yes">&english_contracted_have;</token>
+              <token regexp="yes">&apostrophes;</token>
+              <token>ve</token>
+          </pattern>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #14, contractions -->
+          <pattern>
+              <token regexp="yes">&english_contracted_will;</token>
+              <token regexp="yes">&apostrophes;</token>
+              <token>ll</token>
+          </pattern>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #15, contractions -->
+          <pattern>
+              <token regexp="yes">&english_contracted_would;</token>
+              <token regexp="yes">&apostrophes;</token>
+              <token>d</token>
+          </pattern>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+
+      <rule> <!-- #16, risky -->
+          <pattern>
+              <token regexp="yes">&english_forward;
+                  <exception postag="_english_ignore_"/>
+              </token>
+              <token regexp="yes" negate_pos="yes" postag="_english_ignore_">&english_common;</token>
+          </pattern>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #17, risky -->
+          <pattern>
+              <marker>
+                  <token regexp="yes">&english_forward;
+                      <exception postag="_english_ignore_"/>
+                  </token>
+              </marker>
+              <token postag="_english_ignore_"/>
+          </pattern>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+  </rulegroup>
+
+  <rulegroup id="IGNORE_WORDS_AROUND_ENGLISH_WORDS" name="Label unknown words as English when adjacent to English-labelled words">
+      <rule> <!-- #1 -->
+          <pattern>
+              <token postag="_english_ignore_"/>
+              <marker>
+                  <token regexp="yes" postag="UNKNOWN">\p{L}+|'s
+                      <exception regexp="yes">&english_no;|&english_forward;</exception>
+                      <exception postag="_english_ignore_"/>
+                  </token>
+              </marker>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2"/>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+      <rule> <!-- #2 -->
+          <pattern>
+              <marker>
+                  <token regexp="yes" postag="UNKNOWN">\p{L}+
+                      <exception regexp="yes">&english_no;|&english_forward;</exception>
+                      <exception postag="_english_ignore_"/>
+                  </token>
+              </marker>
+              <token postag="_english_ignore_"/>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+      <rule> <!-- #3, unknown single-word parenthetical -->
+          <!-- This is for when we have a bunch of English words and then a single word in parenthesis,
+               99% of the time it's also English or it's some kind of English acronym. -->
+          <pattern>
+              <token postag="_english_ignore_"/>  <!-- refused to work with min="3", idk why -->
+              <token postag="_english_ignore_"/>
+              <token postag="_english_ignore_"/>
+              <token>(</token>
+              <marker>
+                  <token spacebefore="no" postag="UNKNOWN">
+                      <exception postag="_english_ignore_"/>
+                  </token>
+              </marker>
+              <token spacebefore="no">)</token>
+          </pattern>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+  </rulegroup>
+
 </rules>
