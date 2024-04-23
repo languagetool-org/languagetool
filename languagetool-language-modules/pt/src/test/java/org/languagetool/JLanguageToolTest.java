@@ -42,6 +42,16 @@ public class JLanguageToolTest {
   public void testSomeSentences() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("pt-BR"));
     lt.check("™ ® Marcas registradas da Corteva Agriscience e de suas companhias afiliadas.");
+    lt.check("Vatatzes teve que lutar contra a reivindicação de Isaac e Aleixo, os irmãos de Teodoro I, que fugiram para o Império Latino e procuraram ajuda.\n" +
+      "Outros artistas que participaram do Vevo Lift são One Direction, 5 Seconds of Summer, Fifth Harmony, Sam Smith, Iggy Azalea, Rita Ora, Avicii, entre outros.\n" +
+      "Astarte (desambiguação)\n" +
+      "Drocourt (pas-de-calais)\n" +
+      "O principal trabalho do G.E.R.E.C foi desenvolver, a partir de 1976, a escrita do crioulo, incluindo uma família de padrões de ortografia.\n" +
+      "Zeth foi o mais novo de dez filhos.\n" +
+      "Segundo Ajahn Mudito, a proposta do site é dar às pessoas a oportunidade de ter esses ensinamentos traduzidos diretamente do tailandês para o português, sem ter que passar pela costumeira “retradução”, onde primeiro os ensinamentos são traduzidos para o inglês para, só depois, chegar ao nosso idioma, fato que, segundo ele, gera muitas distorções e perda de significado do ensinamento original.\n" +
+      "No entanto, em julho de 2016 foi anunciado como vice-prefeito na candidatura de Hélio Godoy.\n" +
+      "As dissecções que envolvem a aorta descendente são geralmente tratadas com medicação para baixar a pressão arterial e o ritmo cardíaco, a não ser que ocorram complicações.\n" +
+      "Margarethe era filha de Karl Krambeck e Catharina Neve, que emigraram de Sehestedt para o Brasil em 10.03.1852, com o Vapor Princess Louize e Capitão Bähr, dirigindo-se ao Distrito de Valença/RJ, onde trabalharam na Fazenda Independência, A família Krambeck originou-se no Estado de Schleswig-Holstein, no Norte da Alemanha, e os registros existentes têm início com Claus Krambeck, por volta de 1700, em Sehestedt.");
   }
 
 }
