@@ -148,6 +148,11 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Implementierungs-pflicht"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Sachsenmeisterschaf"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Agensprinzip"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-ExpertIn"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert*in"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert:in"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert_in"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert/-in"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-ExpertInnen"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert*innen"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert:innen"));
@@ -160,6 +165,9 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.ignorePotentiallyMisspelledWord("Arbeitnehmer/-innenschutzgesetz"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("PDFversion"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("AktienIndex"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("EisenbahnerInnern"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Eisenbahner*innern"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Eisenbahner/-innern"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Ireland"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Karnevalmuseum"));
     //assertTrue(rule.ignorePotentiallyMisspelledWord("Karnevalsmuseum"));
@@ -249,6 +257,8 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Gehorsambereitschaft"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Haushaltgeräte"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Kitasausbau"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Linkpartei"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Linksportal"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Muttertagskarte"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Muttertagkarte"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Verbandmaterial"));

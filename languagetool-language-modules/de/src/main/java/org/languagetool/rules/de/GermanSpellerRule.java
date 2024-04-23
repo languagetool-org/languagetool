@@ -135,11 +135,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern COMPOUND_TYPOS = compile("([Ee]mail|[Ii]reland|[Kk]reissaal|[Mm]akeup|[Ss]tandart).*");
   private static final Pattern COMPOUND_END_TYPOS = compile(".*(gruße|schaf(s|en)?)$");
   private static final Pattern INFIX_S_SUFFIXES = compile(".*(heit|ion|ität|keit|ling|ung|schaft|tum)$");
-  private static final Pattern WECHSELINFIX = compile("(arbeit|dienstag|donnerstag|freitag|montag|mittwoch|recht|samstag|sonntag|verband)s?");
-  private static final Pattern NEEDS_TO_BE_PLURAL = compile("aktie|arbeitnehmerin|gerät|gilde|historie|hose|hund|jungfer|kante|katze|kette|kid|klasse|kirche|klaue|klinge|knappe|koeffizient|kojote|kontrahent|krake|kralle|kranke|krähe|kraut|kuriosität|kurve|kusine|küste|laterne|laute|legende|lehne|leuchte|lippe|loge |lotse|länge|läuse |löwe|lücke|made|maske|maßnahme|menge|mensch|metapher|methode |metropole|miene |miete |million|miniatur|mitte|maus|mücke|mühle|nerv|niederlage|nixe|nonne|note|obdachlose|ode|organist|panne|parzelle|pate|patient|petze|pfanne|pfeife|platte|polle|pomade|pomeranze|posse|prise|prominente|prälat|puppe|pädophile|radikale|rakete|rampe|ranke|rate|rendite|repressalie|rest|riese|rinde|rind|robbe|robe|romanist|rose|ross|route|nummer|runde|röhre|rübe|salbe|schabe|schale|scheide|schelle|schenke|schere|dicke|kröte|schlampe|schlange|schluchte|schmiere|schnake|schnalle|schneide|schnelle|schokolade|schotte|schwabe|schwalbe|schwule|seele|seide|hölle|höhle|sonne|sorge|spanne|sparte|sperre|spitze|sproße|spule|steppe|straße|streife|studie|stunde|stütze|tabelle|tinte|tote|toilette|traube|treffe|treppe|truhe|träne|tunte|tüte|urne|vene|versicherte|verwandte|virtuose");
+  private static final Pattern WECHSELINFIX = compile("(arbeit|dienstag|donnerstag|freitag|montag|mittwoch|link|recht|samstag|sonntag|verband)s?");
+  private static final Pattern NEEDS_TO_BE_PLURAL = compile("adresse|aktie|antenne|arbeitnehmerin|bürge|blume|börse|däne|decke|ehre|elfe|elle|enge|erde|erste|esche|farbe|frage|förde|galle|gerät|gilde|halt|historie|hose|hund|jungfer|kante|katze|kette|kid|klasse|kirche|klaue|klinge|knappe|koeffizient|kojote|kontrahent|kontrolle|krake|kralle|kranke|krähe|kraut|kuriosität|kurve|kusine|küste|laterne|laute|legende|lehne|leise|leuchte|lippe|loge|lotse|länge|läuse|löwe|lücke|made|maske|maßnahme|menge|mensch|metapher|methode|metropole|miene|miete|million|miniatur|mitte|maus|mücke|mühle|nerv|niederlage|nixe|nonne|note|obdachlose|ode|organist|panne|parzelle|pate|patient|petze|pfanne|pfeife|platte|polle|pomade|pomeranze|posse|prise|prominente|prälat|puppe|pädophile|radikale|rakete|rampe|ranke|rate|rendite|repressalie|rest|riese|rinde|rind|robbe|robe|romanist|rose|ross|route|nummer|runde|röhre|rübe|salbe|schabe|schale|scheide|schelle|schenke|schere|dicke|kröte|schlampe|schlange|schluchte|schmiere|schnake|schnalle|schneide|schnelle|schokolade|schotte|schwabe|schwalbe|schwule|seele|seide|hölle|höhle|sonne|sorge|spanne|sparte|sperre|spitze|sproße|spule|steppe|straße|streife|studie|stunde|stütze|tabelle|tinte|tote|toilette|traube|treffe|treppe|truhe|träne|tunte|tüte|urne|vene|versicherte|verwandte|virtuose");
   private static final Pattern ARBEIT_COMP = compile("(gebe|nehme)(r(s|n|innen|in)?|nde[mnr]?)");
+  private static final Pattern LINK_COMP = compile("element|inhalt|liste|portal|text|titel|tracking|verzeichnis");
+  private static final Pattern LINKS_COMP = compile("abbieger(in)?|abweichler(in)?|anwalt|anwältin|anwaltschaft|ausfall|auslage|ausleger(in)?|au(ss|ß)en|bündnis|drall|drehung|extremer?|extremis(t|tin|mus)|faschis(t|tin|mus)|fraktion|galopp|gewinde|händ(er|erin|igkeit)|hörnchen|innen|intellektueller?|katholizis(t|tin|mus)|koalition|konter|kurs|kurve|lastigkeit|lenker|nationalis(t|tin|mus)|opposition|orientierung|partei|populis(t|tin|mus)|radikal(e|er|ismus|ist|istin)|regierung|ruck|rutsch|schnitt|schuss|schwenk(ung)?|sektierer(in)?|steuerung|terror(t|tin|ismus)|verbinder(in)?|verkehr|wendung|wichser");
   private static final Pattern RECHT_COMP = compile("bank|eck|fertigung|gläubigkeit|haber|haberei|leitung|losigkeit|mäßigkeit|winkligkeit|zeitigkeit");
-  private static final Pattern RECHTS_COMP = compile("abteilung|akt|akte|angelegenheit|ansicht|anspruch|anwalt|anwalts|anwaltschaft|anwendung|anwältin|auffassung|aufsicht|auskunft|ausschuss|außen|begehren|begriff|behelf|beistand|berater|beratung|bereich|beschwerde|beugung|beziehung|brecher|bruch|dienst|durchsetzung|empfinden|entwicklung|setzung|experte|experten|extreme|extremer|extremismus|extremist|fall|fehler|folge|form|fortbildung|frage|fähigkeit|gebiet|gebieten|gelehrte|gelehrter|geschichte|geschäft|gewinde|gleichheit|grund|grundlage|grundsatz|gründen|gut|gutachten|gültigkeit|güter|handlung|hilfe|händer|hängigkeit|inhaber|institut|klick|konformität|kraft|kreis|kurve|lage|lehre|lenker|medizin|mediziner|meinung|missbrauch|mittel|mitteln|mängel|nachfolge|nachfolger|nachfolgerin|natur|norm|ordnung|persönlichkeit|pflege|pfleger|pflicht|philosophie|politik|populismus|populist|position|praxis|problem|quelle|radikale|radikaler|radikalismus|rahmen|rat|ratgeber|ruck|sache|sachen|satz|schutz|sicherheit|sinn|sprache|soziologie|sprechung|staat|staatlichkeit|stand|status|stellung|streit|streitigkeit|system|terrorist|texte|texter|thema|theorie|tipp|titel|träger|unsicherheit|verfolgung|vergleichung|verhältnis|verkehr|verletzung|verletzungen|verordnung|verstoß|verständnis|verteidiger|verteidigung|vertreter|vertretung|vorschrift|wahl|weg|wesen|widrigkeit|wirksamkeit|wirkung|wissenschaft|wissenschaften|wissenschaftler|zug|änderung");
+  private static final Pattern RECHTS_COMP = compile("abbieger(in)?|abteilung|akt|akte|angelegenheit|ansicht|anspruch|anwalt|anwalts|anwaltschaft|anwendung|anwältin|auffassung|aufsicht|auskunft|ausleger(in)?|ausschuss|au(ss|ß)en|begehren|begriff|behelf|beistand|berater|beratung|bereich|beschwerde|beugung|beziehung|brecher|bruch|dienst|drall|durchsetzung|empfinden|entwicklung|setzung|experte|experten|extremer?|extremis(t|tin|mus)|fall|fehler|folge|form|fortbildung|frage|fähigkeit|gebiet|gebieten|gelehrte|gelehrter|geschichte|geschäft|gewinde|gleichheit|grund|grundlage|grundsatz|gründen|gut|gutachten|gültigkeit|güter|handlung|hilfe|händ(er|erin|igkeit)|hängigkeit|inhaber|institut|katholizis(t|tin|mus)|klick|konformität|kraft|kreis|kurve|lage|lastigkeit|lehre|lenker|medizin|mediziner|meinung|missbrauch|mittel|mitteln|mängel|nachfolge|nachfolger|nachfolgerin|nationalis(t|tin|mus)|natur|norm|ordnung|persönlichkeit|pflege|pfleger|pflicht|philosophie|politik|populis(t|tin|mus)|position|praxis|problem|quelle|radikal(e|er|ismus|ist|istin)|rahmen|rat|ratgeber(in)?|ruck|rutsch|sache|sachen|satz|schutz|sicherheit|sinn|sprache|soziologie|sprechung|staat|staatlichkeit|stand|status|stellung|streit|streitigkeit|system|terroris(t|tin|ismus)|texte|texter|thema|theorie|tipp|titel|träger|unsicherheit|verfolgung|vergleichung|verhältnis|verkehr|verletzung|verletzungen|verordnung|verstoß|verständnis|verteidiger|verteidigung|vertreter|vertretung|vorschrift|wahl|weg|wesen|widrigkeit|wirksamkeit|wirkung|wissenschaft|wissenschaften|wissenschaftler|zug|änderung");
   private static final Pattern VERBAND_COMP = compile("klammer|kasten|kiste|mull|material|päckchen|platz|raum|schere|zeug|zimmer");
   private static final Pattern VERBANDS_COMP = compile("chef(in)?|flug|funktionär(in)?|kasse|klage|leben|leitung|leiter(in)?|ligist(in)|material|päckchen|präsident(in)?|presse|spiel|vertreter(in)|vorsitzender?|vorstand|wechsel|zeichen|zeit(schrift|ung)");
   private static final Pattern WOCHENTAG_COMP = compile("abend|mittag|morgen|nachmittag|vormittag");
@@ -2325,8 +2327,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     //   we can use this information to check,
     //   if a part matching '(?<=(\w))In|[\*:_]in|/-in'
     //   is actually gender-neutral language
-    if (!isValidGenderNeutralWord(parts, wordNoDotOrg)) {
-      return false;
+    if (wordNoDotOrg.matches(".*((?<=(\\w))In|[\\*:_]in|/-in).*")) {
+      if (!isValidGenderNeutralWord(parts, wordNoDotOrg)) {
+        return false;
+      }
     }
 
     if (parts.size() == 2) {
@@ -2383,21 +2387,39 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         // e. g. AktienIndex
         return false;
       }
-      if (!to_check.equals(part)) {
-        String binnenI = to_check.replaceFirst("((?<=(\\w))In)", "in");
-        String specialChrs = to_check.replaceFirst("[\\*:_/]in", "in");
-        if (part.equals(binnenI)) {
-          if (isMisspelled(binnenI)) {
-            return false;
-          }
-        }
-        if (part.equals(specialChrs)) {
-          if (isMisspelled(specialChrs)) {
-            return false;
-          }
-          end += 1;
+      if (to_check.matches(".*((?<=(\\w))In).*")) {
+        if (isMisspelled(to_check.replaceFirst("((?<=(\\w))In)", "in"))
+            || (!to_check.endsWith("In") && !to_check.endsWith("Innen"))) {
+          return false;
         }
       }
+      if (to_check.matches(".*[\\*:_/]in$")) {
+        if (isMisspelled(to_check.replaceFirst("[\\*:_/]in", "in"))) {
+          return false;
+        }
+        end ++;
+      }
+      if (to_check.matches(".*[\\*:_/]in.+")) {
+        if (end < word.length()) {
+          end++;
+          to_check = word.substring(start, end);
+        }
+        if (isMisspelled(to_check.replaceFirst("[\\*:_/]in", "in"))
+          || (!to_check.endsWith("in") && !to_check.endsWith("innen"))) {
+          return false;
+        }
+      }
+      if (to_check.matches(".*/-in.+")) {
+        if (end + 1 < word.length()) {
+          end += 2;
+          to_check = word.substring(start, end);
+        }
+        if (isMisspelled(to_check.replaceFirst("/-in", "in"))
+          || (!to_check.endsWith("in") && !to_check.endsWith("innen"))) {
+          return false;
+        }
+      }
+
       start = end;
     }
     return true;
@@ -2522,6 +2544,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     if (part1.equals("Arbeits") && !(ARBEIT_COMP.matcher(part2).matches())) {
       // e. g. "Arbeitsgeber"
+      return true;
+    }
+    if (part1.equals("Link") && LINK_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+      return true;
+    }
+    if (part1.equals("Links") && LINKS_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
       return true;
     }
     if (part1.equals("Recht") && RECHT_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
