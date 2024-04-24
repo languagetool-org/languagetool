@@ -90,13 +90,17 @@ public class JLanguageToolTest {
 
     matches = tool.check("Estos ganivets no corresponen amb estes forquilles.");
     assertEquals(0, matches.size());
+
     matches = tool.check("Aquests ganivets no corresponen amb aquestes forquilles.");
     assertEquals(0, matches.size());
+
+    matches = tool.check("Com no te vaig a estimar?");
+    assertEquals(1, matches.size());
+    assertEquals( "Com vols que no t'estime", matches.get(0).getSuggestedReplacements().get(0));
 
     List<RuleMatch> matches2 = tool.check("Aquestes frases per a probar.");
     assertEquals(1, matches2.size());
     assertEquals("provar", matches2.get(0).getSuggestedReplacements().get(0));
-
 
   }
   

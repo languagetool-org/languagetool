@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,16 +19,25 @@
 
 package org.languagetool.rules.ca;
 
-
+import org.languagetool.AnalyzedToken;
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
+import org.languagetool.synthesis.ca.CatalanSynthesizer;
+
+import java.io.IOException;
 
 /*
- * Synthesize suggestions using the lemma from one token (lemma_from) 
+ * Synthesize suggestions using the lemma from one token (lemma_from)
  * and the POS tag from another one (postag_from).
- * 
- * The lemma_select and postag_select attributes are required 
+ *
+ * The lemma_select and postag_select attributes are required
  * to choose one among several possible readings.
  */
 public class AdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter {
+
+  protected String[] getSynthesizedReplacements(AnalyzedToken token, String desiredPostag, Language language) throws IOException {
+    CatalanSynthesizer synth = (CatalanSynthesizer) language.getSynthesizer();
+    return synth.synthesize(token, desiredPostag, true, language.getShortCodeWithCountryAndVariant());
+  }
 
 }

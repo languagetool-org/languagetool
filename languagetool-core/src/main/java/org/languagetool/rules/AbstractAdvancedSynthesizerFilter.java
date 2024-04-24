@@ -111,9 +111,14 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     boolean isWordCapitalized = StringTools.isCapitalizedWord(patternTokens[lemmaFrom - 1].getToken());
     boolean isWordAllupper = StringTools.isAllUppercase(patternTokens[lemmaFrom - 1].getToken());
     AnalyzedToken token = new AnalyzedToken("", desiredPostag, desiredLemma);
-    Synthesizer synth = ((PatternRule) match.getRule()).getLanguage().getSynthesizer();
-    String[] replacements = synth.synthesize(token, desiredPostag, true);
-    
+    Rule rule = match.getRule();
+    Language language;
+    if (rule instanceof AbstractPatternRule) {
+      language = ((PatternRule) match.getRule()).getLanguage();
+    } else {
+      throw new RuntimeException("AbstractAdvancedSynthesizerFilter only works with pattern rules. " + rule.getFullId() + " is not a pattern rule");
+    }
+    String[] replacements = getSynthesizedReplacements(token, desiredPostag, language);
     if (replacements.length > 0) {
       RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
           match.getMessage(), match.getShortMessage());
@@ -146,21 +151,19 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
       if (!suggestionUsed) {
         replacementsList.addAll(Arrays.asList(replacements));
       }
-      
       List<String> adjustedReplacementsList = new ArrayList<>();
-      Rule rule = match.getRule();
-      if (rule instanceof AbstractPatternRule) {  
-        Language lang = ((AbstractPatternRule) rule).getLanguage();
-        for (String replacement : replacementsList) {
-          adjustedReplacementsList.add(lang.adaptSuggestion(replacement));  
-        }
-      } else {
-        adjustedReplacementsList = replacementsList;
+      for (String replacement : replacementsList) {
+        adjustedReplacementsList.add(language.adaptSuggestion(replacement));
       }
       newMatch.setSuggestedReplacements(adjustedReplacementsList);
       return newMatch;
     }
     return match;
+  }
+
+  protected String[] getSynthesizedReplacements(AnalyzedToken token, String desiredPostag, Language language) throws IOException {
+    Synthesizer synth = language.getSynthesizer();
+    return synth.synthesize(token, desiredPostag, true);
   }
 
   public String getCompositePostag(String lemmaSelect, String postagSelect, String originalPostag,
