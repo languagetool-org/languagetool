@@ -31,6 +31,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
@@ -43,8 +44,6 @@ import org.languagetool.tools.StringTools;
  * to choose one among several possible readings.
  */
 public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
-
-  abstract protected Synthesizer getSynthesizer();
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
@@ -112,7 +111,8 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     boolean isWordCapitalized = StringTools.isCapitalizedWord(patternTokens[lemmaFrom - 1].getToken());
     boolean isWordAllupper = StringTools.isAllUppercase(patternTokens[lemmaFrom - 1].getToken());
     AnalyzedToken token = new AnalyzedToken("", desiredPostag, desiredLemma);
-    String[] replacements = getSynthesizer().synthesize(token, desiredPostag, true);
+    Synthesizer synth = ((PatternRule) match.getRule()).getLanguage().getSynthesizer();
+    String[] replacements = synth.synthesize(token, desiredPostag, true);
     
     if (replacements.length > 0) {
       RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),

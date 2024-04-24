@@ -19,15 +19,8 @@
 
 package org.languagetool.rules.pt;
 
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.synthesis.pt.PortugueseSynthesizer;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /*
@@ -39,11 +32,6 @@ import java.util.Objects;
  */
 public class AdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter {
 
-  @Override
-  protected Synthesizer getSynthesizer() {
-    return PortugueseSynthesizer.INSTANCE;
-  }
-  
   @Override
   protected boolean isSuggestionException(String token, String desiredPostag) {
     if ((desiredPostag.equals("VMIP1P0") || desiredPostag.equals("VMIP2P0"))
