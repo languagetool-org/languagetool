@@ -558,4 +558,46 @@ public class JLanguageToolTest {
     assertEquals(0, matches.size());
   }
 
+  @Test
+  public void testIgnoreEnglishWordsInPortuguese() throws IOException {
+    JLanguageTool lt = new JLanguageTool(new BrazilianPortuguese());
+    lt.disableRules(lt.getAllRules().stream().map(Rule::getId).collect(Collectors.toList()));
+    lt.enableRule("MORFOLOGIK_RULE_PT_BR");
+    String[] noErrorSentences = new String[]{
+      "Ontem vi A New Hope pela primeira vez.",
+      "Ela gosta de The Empire Strikes Back.",
+      "Mas prefiro The Return of the Jedi.",
+      "E quanto a The Phantom Menace, melhor nada dizer.",
+      "Aqui adoramos Whose line is it Anyway.",
+      "Por enquanto, só How I Met Your Mother.",  // already a multi-token spelling entry
+      "Aí ele disse: I am become death, destroyer of worlds.", // intervening punctuation
+      "O filme Don't Look Up.",  // contractions
+      "Só escrevem que we've told them we won't do it.",  // contractions
+      "Esta palavra existe: the precariousness.",  // "-ness" suffix
+      "Os melhores livros about business practices.",
+      "O filme se chama No Country For Old Men.",  // "no"
+      "Acho que era Driving Miss Daisy.",
+      "Ele disse Luke I am your father.",
+      "Ou teria sido Luke I am looking for your father?",  // "for"
+      "Algo mais estranho: I am providing for Mother, talvez?",  // "for"
+      "Mas mandou mensagem que she is waiting for your brother.",  // "for"
+      "E se for business?",  // "for"
+      "Em português é Conduzindo a Miss Daisy, não é?",  // "a"
+      "A organização Law Enforcement Agent Protection (Leap)."  // single-word parenthetical
+    };
+    for (String sentence : noErrorSentences) {
+      List<RuleMatch> matches = lt.check(sentence);
+      assert matches.isEmpty();
+    }
+    HashMap<String, String> errorSentences = new HashMap<>();
+    errorSentences.put("Foi uma melhora substantial.", "substancial");  // single word
+    // match the suffix, but 'whateverness' is not tagged in English, so it's a spelling error
+    errorSentences.put("Esta palavra não existe: the whateverness.", "lhe");
+    for (Map.Entry<String, String> entry : errorSentences.entrySet()) {
+      List<RuleMatch> matches = lt.check(entry.getKey());
+      assert !matches.isEmpty();
+      assertEquals(entry.getValue(), matches.get(0).getSuggestedReplacements().get(0));
+    }
+  }
+
 }
