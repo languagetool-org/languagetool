@@ -2566,6 +2566,19 @@ regexp case-insensitive maken: (?i)
 				<example correction="beknibbelt">Wintersporter <marker>beknibbeld</marker> flink .</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="ALS_NOG" name="als nog - alsnog" default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token>als</token>
+						<token>nog</token>
+					</marker>
+					<token postag_regexp="yes" postag="WKW.*|VGW|VRZ"/>
+				</pattern>
+				<message>Did you mean <suggestion>alsnog</suggestion>?</message>
+				<example correction="alsnog">Dat moet je <marker>als nog</marker> met de auto.</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
