@@ -10743,7 +10743,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </antipattern>
         <pattern>
             <marker>
-                <token postag="AQ.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|màxim|mínim|major|menor|nou</token>
+                <token postag="AQ.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|màxim|mínim|major|menor</token>
             </marker>
             <token postag="N.*" postag_regexp="yes"/>
         </pattern>
@@ -13519,6 +13519,35 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token><exception postag="[AN].*[FMC][PN].*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="filter" postag="AQ.MS.*|_GN_MS"/>
+        </rule>
+        <!-- nou (adj) amb error de gènere -->
+        <rule>
+            <pattern>
+                <token postag="AQ0FP0" postag_regexp="yes">noves</token>
+                <token>senyals</token>
+            </pattern>
+            <disambig action="filter" postag="AQ0FP0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="AQ0FS0" postag_regexp="yes">nova</token>
+                <token>senyal</token>
+            </pattern>
+            <disambig action="filter" postag="AQ0FP0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="AQ0MP0" postag_regexp="yes">nous</token>
+                <token>anàlisis</token>
+            </pattern>
+            <disambig action="filter" postag="AQ0MP0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="AQ0FS0" postag_regexp="yes">nou</token>
+                <token>anàlisi</token>
+            </pattern>
+            <disambig action="filter" postag="AQ0FS0"/>
         </rule>
     </rulegroup>
     <rulegroup id="molt_no_adverbi" name="molt no adverbi">
