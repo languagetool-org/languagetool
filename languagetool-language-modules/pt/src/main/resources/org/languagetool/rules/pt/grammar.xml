@@ -36241,6 +36241,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <category id='MISSPELLING' name="Erros Ortográficos" type="misspelling">
 
+        <rule id="EMAIL_SEM_HIFEN" name="Corrigir email para e-mail" tags="picky">
+            <!-- p-goulart@2024-02-27 - DESC: the _ORTHOGRAPHY suffix is to get a red underline -->
+            <!-- p-goulart@2024-04-24 - DESC: removed the _ORTHOGRAPHY suffix, and made rule picky (cf. portuguese-pos-dict#27) -->
+            <pattern>
+                <token regexp="yes">emails?</token>
+            </pattern>
+            <message>Em contextos oficiais ou formais, prefira escrever  <suggestion><match no="1" regexp_match="(?i)email(s)?" regexp_replace="e-mail$1"/></suggestion> com hífen.</message>
+            <example correction="e-mail">Ele me enviou outro <marker>email</marker>.</example>
+            <example correction="e-mails">Não vejo <marker>emails</marker> novos.</example>
+            <example correction="E-mail"><marker>Email</marker>: foo@bar.com</example>
+        </rule>
+
         <rulegroup id="SERIAR_VERB" name="Possível erro de acentuação: seriamos (seriar) no lugar de seríamos (ser).">
             <rule>
                 <pattern>
