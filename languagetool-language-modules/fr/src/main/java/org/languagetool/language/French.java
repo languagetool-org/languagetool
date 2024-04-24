@@ -511,7 +511,7 @@ public class French extends Language implements AutoCloseable {
 
     // Create a new merged RuleMatch object
     RuleMatch mergedMatch = new RuleMatch(match1.getRule(), match1.getSentence(), match1.getFromPos(), match2.getToPos(),
-            "There might be a problem here.", "Potential error");
+            "Il pourrait y avoir un problème ici.", "Erreur potentielle");
     mergedMatch.setOriginalErrorStr(newErrorStr);
     mergedMatch.setSuggestedReplacement(newReplacement);
 
