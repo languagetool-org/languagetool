@@ -23,7 +23,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.synthesis.ca.CatalanSynthesizer;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -36,8 +36,6 @@ import java.util.List;
  */
 
 public class AnarASuggestionsFilter extends RuleFilter {
-
-  static private CatalanSynthesizer synth = CatalanSynthesizer.INSTANCE;
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
@@ -52,8 +50,8 @@ public class AnarASuggestionsFilter extends RuleFilter {
     String lemma = tokens[initPos + 2].readingWithTagRegex("V.N.*").getLemma();
     AnalyzedToken at = new AnalyzedToken("", "", lemma);
     String newPostag =  "V[MS]I[PF]" + verbPostag.substring(4, 8);
-    String[] synthForms = synth.synthesize(at, newPostag, true,
-      getLanguageVariantCode(match));
+    Synthesizer synth = getSynthesizerFromRuleMatch(match);
+    String[] synthForms = synth.synthesize(at, newPostag, true);
     if (synthForms.length == 0) {
       return null;
     }

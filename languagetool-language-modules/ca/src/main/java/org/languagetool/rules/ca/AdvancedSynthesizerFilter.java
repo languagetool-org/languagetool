@@ -19,12 +19,7 @@
 
 package org.languagetool.rules.ca;
 
-import org.languagetool.AnalyzedToken;
-import org.languagetool.Language;
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
-import org.languagetool.synthesis.ca.CatalanSynthesizer;
-
-import java.io.IOException;
 
 /*
  * Synthesize suggestions using the lemma from one token (lemma_from)
@@ -34,10 +29,5 @@ import java.io.IOException;
  * to choose one among several possible readings.
  */
 public class AdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter {
-
-  protected String[] getSynthesizedReplacements(AnalyzedToken token, String desiredPostag, Language language) throws IOException {
-    CatalanSynthesizer synth = (CatalanSynthesizer) language.getSynthesizer();
-    return synth.synthesize(token, desiredPostag, true, language.getShortCodeWithCountryAndVariant());
-  }
 
 }

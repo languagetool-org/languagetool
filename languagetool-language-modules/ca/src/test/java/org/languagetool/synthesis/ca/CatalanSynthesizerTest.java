@@ -31,11 +31,11 @@ import static org.junit.Assert.assertEquals;
 
 public class CatalanSynthesizerTest {
 
-  private final CatalanSynthesizer synth = CatalanSynthesizer.INSTANCE;
+  private final CatalanSynthesizer synth = CatalanSynthesizer.INSTANCE_CAT;
 
   @Test
   public final void testSynthesizeStringString() throws IOException {
-      
+
     assertEquals("[un]", synth("1", "_spell_number_"));
     assertEquals("[onze]", synth("11", "_spell_number_"));
     assertEquals("[vint-i-un]", synth("21", "_spell_number_"));

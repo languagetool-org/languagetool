@@ -28,7 +28,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.rules.patterns.PatternRule;
-import org.languagetool.synthesis.ca.CatalanSynthesizer;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
 
 /*
@@ -37,13 +37,12 @@ import org.languagetool.tools.StringTools;
 
 public class DonarTempsSuggestionsFilter extends RuleFilter {
 
-  static private CatalanSynthesizer synth = CatalanSynthesizer.INSTANCE;
-
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     int posWord = 0;
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
+    Synthesizer synth = getSynthesizerFromRuleMatch(match);
     while (posWord < tokens.length
         && (tokens[posWord].getStartPos() < match.getFromPos() || tokens[posWord].isSentenceStart())) {
       posWord++;
@@ -59,8 +58,7 @@ public class DonarTempsSuggestionsFilter extends RuleFilter {
 
     // haver-hi temps
     AnalyzedToken at = new AnalyzedToken("", "", "haver");
-    String[] synthForms = synth.synthesize(at, "VA" + verbPostag.substring(2, 8),
-        getLanguageVariantCode(match));
+    String[] synthForms = synth.synthesize(at, "VA" + verbPostag.substring(2, 8));
     StringBuilder suggestion1 = new StringBuilder();
     if (synthForms.length > 0) {
       int index = indexFirstVerb;
@@ -86,14 +84,14 @@ public class DonarTempsSuggestionsFilter extends RuleFilter {
     int index = indexFirstVerb;
     if (index == indexMainVerb) {
       String[] synthForms2 = synth.synthesize(new AnalyzedToken("", "", "tenir"),
-        verbPostag.substring(0, 4) + pronomGenderNumber + verbPostag.substring(6, 8), getLanguageVariantCode(match));
+        verbPostag.substring(0, 4) + pronomGenderNumber + verbPostag.substring(6, 8));
       if (synthForms2.length > 0) {
         suggestion2.append(synthForms2[0] + " temps");
       }
     } else {
       AnalyzedToken at2 = tokens[indexFirstVerb].getAnalyzedToken(0);
       String[] synthForms2 = synth.synthesize( at2,
-        at2.getPOSTag().substring(0, 4) + pronomGenderNumber + at2.getPOSTag().substring(6, 8), getLanguageVariantCode(match));
+        at2.getPOSTag().substring(0, 4) + pronomGenderNumber + at2.getPOSTag().substring(6, 8));
       if (synthForms2.length > 0) {
         suggestion2.append(synthForms2[0]);
         index++;
@@ -105,7 +103,7 @@ public class DonarTempsSuggestionsFilter extends RuleFilter {
           index++;
         }
         String[] synthForms3 = synth.synthesize( new AnalyzedToken("", "", "tenir"),
-          tokens[indexMainVerb].getAnalyzedToken(0).getPOSTag(), getLanguageVariantCode(match));
+          tokens[indexMainVerb].getAnalyzedToken(0).getPOSTag());
         if (synthForms3.length > 0) {
           suggestion2.append(" " + synthForms3[0] + " temps");
         } else {

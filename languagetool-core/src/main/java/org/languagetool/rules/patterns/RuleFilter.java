@@ -21,8 +21,10 @@ package org.languagetool.rules.patterns;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -129,5 +131,21 @@ public abstract class RuleFilter {
     }
     return correctedRef - 1;
   }
+
+  public Language getLanguageFromRuleMatch(RuleMatch match) {
+    Rule rule = match.getRule();
+    Language language;
+    if (rule instanceof AbstractPatternRule) {
+      language = ((PatternRule) match.getRule()).getLanguage();
+    } else {
+      throw new RuntimeException("AbstractAdvancedSynthesizerFilter only works with pattern rules. " + rule.getFullId() + " is not a pattern rule");
+    }
+    return language;
+  }
+
+  public Synthesizer getSynthesizerFromRuleMatch(RuleMatch match) {
+    return getLanguageFromRuleMatch(match).getSynthesizer();
+  }
+
 
 }

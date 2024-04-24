@@ -19,6 +19,7 @@
 package org.languagetool.rules.ca;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.Tag;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
@@ -50,9 +51,9 @@ private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
     return antiPatterns.get();
   }
 
-  public CatalanRepeatedWordsRule(ResourceBundle messages) {
-    super(messages, new Catalan());
-    antiPatterns = cacheAntiPatterns(new Catalan(), ANTI_PATTERNS);
+  public CatalanRepeatedWordsRule(ResourceBundle messages, Language lang) {
+    super(messages, lang);
+    antiPatterns = cacheAntiPatterns(lang, ANTI_PATTERNS);
     super.setTags(Arrays.asList(Tag.picky));
     // super.setDefaultTempOff();
   }
@@ -81,7 +82,7 @@ private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   @Override
   protected Synthesizer getSynthesizer() {
-    return CatalanSynthesizer.INSTANCE;
+    return language.getSynthesizer();
   }
 
   @Override

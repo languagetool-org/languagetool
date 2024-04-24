@@ -22,6 +22,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 
 import java.io.IOException;
@@ -381,8 +382,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       }
     }
 
-    CatalanSynthesizer synth = CatalanSynthesizer.INSTANCE;
-
+    Synthesizer synth = getSynthesizerFromRuleMatch(match);
     // The rule matches
     // Synthesize suggestions
     List<String> suggestions = new ArrayList<>();

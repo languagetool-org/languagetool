@@ -15,8 +15,6 @@ import java.util.regex.Pattern;
 
 public class SynthesizeWithDeterminerFilter extends RuleFilter {
 
-  static private CatalanSynthesizer synth = CatalanSynthesizer.INSTANCE;
-
   private static Map<String, String> prepDet = new HashMap<>();
   static {
     prepDet.put("MS", "el ");
@@ -65,6 +63,7 @@ public class SynthesizeWithDeterminerFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
+    CatalanSynthesizer synth = (CatalanSynthesizer) getSynthesizerFromRuleMatch(match);
     String lemmaFromStr = getRequired("lemmaFrom", arguments);
     String lemmaSelect = getRequired("lemmaSelect", arguments);
     boolean synthAllForms = getOptional("synthAllForms", arguments, "false").equalsIgnoreCase("true")? true: false;
