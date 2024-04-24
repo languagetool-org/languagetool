@@ -1085,12 +1085,13 @@ public class JLanguageTool {
 
   private boolean isRuleActiveForLanguageWithModel(Rule rule, Language language, Map<String, RemoteRuleResult> remoteRulesResults) {
     if (language.getShortCode().equals("fr")) {
-      List<String> disableFrenchRules = Arrays.asList("OU", "OU_FIGEES");
+      List<String> disableFrenchRuleGroups = Arrays.asList("OU", "OU_FIGEES", "VIRG_NON_TROUVEE", "A_A_ACCENT","A_ACCENT_A", "CONFUSION_A_AS", "AGREEMENT_POSTPONED_ADJ", "LA_OU", "CONFUSION_RULE_PREMIUM_AIRE_AIR"); // List for rule group IDs
+      List<String> disableFrenchSpecificSubrules = Arrays.asList("A_A_ACCENT2[1]", "ACCORD_SUJET_VERBE[55]", "PAS_DE_VIRGULE[42]"); // List for specific subrules
       RemoteRuleResult remoteRulesResult = remoteRulesResults.get("AI_FR_GGEC");
-      if (remoteRulesResult != null) {
-        if (remoteRulesResult.isSuccess()) {
-          return !disableFrenchRules.contains(rule.getId());
-        }
+      if (remoteRulesResult != null && remoteRulesResult.isSuccess()) {
+        boolean isDisabledGroup = disableFrenchRuleGroups.contains(rule.getId());
+        boolean isDisabledSubrule = disableFrenchSpecificSubrules.contains(rule.getFullId());
+        return !(isDisabledGroup || isDisabledSubrule);
       }
     }
     if (language.getShortCode().equals("es")) {
