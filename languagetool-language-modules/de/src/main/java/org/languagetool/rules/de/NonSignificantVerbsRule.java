@@ -138,8 +138,13 @@ public class NonSignificantVerbsRule extends AbstractStatisticStyleRule {
   }
 
   @Override
-  public String getConfigureText() {
+  public String getConfigurePercentText() {
     return "Anzeigen wenn mehr als ...‰ eines Kapitels wenig aussagekräftige Verben sind:";
+  }
+
+  @Override
+  public String getConfigureWithoutDirectSpeachText() {
+    return "Keine direkte Rede und Zitate berücksichtigen";
   }
 
 }

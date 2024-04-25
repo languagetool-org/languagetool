@@ -157,7 +157,7 @@ public class Configuration {
   private final Map<String, Color> underlineRuleColors = new HashMap<>();
   private final Map<String, Short> underlineTypes = new HashMap<>();
   private final Map<String, Short> underlineRuleTypes = new HashMap<>();
-  private final Map<String, Integer> configurableRuleValues = new HashMap<>();
+  private final Map<String, Object[]> configurableRuleValues = new HashMap<>();
   private final Set<String> styleLikeCategories = new HashSet<>();
   private final Map<String, String> specialTabCategories = new HashMap<>();
 
@@ -392,7 +392,7 @@ public class Configuration {
       this.underlineRuleTypes.put(entry.getKey(), entry.getValue());
     }
     this.configurableRuleValues.clear();
-    for (Map.Entry<String, Integer> entry : configuration.configurableRuleValues.entrySet()) {
+    for (Map.Entry<String, Object[]> entry : configuration.configurableRuleValues.entrySet()) {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
     }
     this.styleLikeCategories.clear();
@@ -1125,7 +1125,7 @@ public class Configuration {
    * returns all configured values
    * @since 4.2
    */
-  public Map<String, Integer> getConfigurableValues() {
+  public Map<String, Object[]> getConfigurableValues() {
     return configurableRuleValues;
   }
 
@@ -1134,19 +1134,19 @@ public class Configuration {
    * returns -1 if no value is set by configuration
    * @since 4.2
    */
-  public int getConfigurableValue(String ruleID) {
+  public Object[] getConfigurableValue(String ruleID) {
     if (configurableRuleValues.containsKey(ruleID)) {
       return configurableRuleValues.get(ruleID);
     }
-    return -1;
+    return null;
   }
 
   /**
    * Set the value for a rule with ruleID
    * @since 4.2
    */
-  public void setConfigurableValue(String ruleID, int value) {
-    configurableRuleValues.put(ruleID, value);
+  public void setConfigurableValue(String ruleID, Object[] values) {
+    configurableRuleValues.put(ruleID, values);
   }
 
   /**
@@ -1466,13 +1466,38 @@ public class Configuration {
 
   private void parseConfigurableRuleValues(String rulesValueString) {
     if (StringUtils.isNotEmpty(rulesValueString)) {
-      String[] ruleToValueList = rulesValueString.split(CONFIGURABLE_RULE_SPLITTER_REGEXP);
+      String[] ruleToValueList = rulesValueString.split(",");
       for (String ruleToValue : ruleToValueList) {
-        String[] ruleAndValue = ruleToValue.split(":");
-        if (ruleAndValue.length != 2) {
-          throw new RuntimeException("Could not parse rule and value, colon expected: '" + ruleToValue + "'");
+        ruleToValue = ruleToValue.trim();
+        if (!ruleToValue.isEmpty()) {
+          String[] ruleAndValue = ruleToValue.split(":");
+          if (ruleAndValue.length != 2) {
+            throw new RuntimeException("Could not parse rule and value, colon expected: '" + ruleToValue + "'");
+          }
+          String[] values = ruleAndValue[1].split(";");
+          Object[] objects = new Object[values.length];
+          for (int i = 0; i < values.length; i++) {
+            String str = values[i].trim();
+            char c = values[i].charAt(0);
+            str = str.substring(1);
+            if (c == 's') {
+              objects[i] = str;
+            } else if (c == 'b') {
+              objects[i] = Boolean.parseBoolean(str);
+            } else if (c == 'f') {
+              objects[i] = Float.parseFloat(str);
+            } else if (c == 'd') {
+              objects[i] = Double.parseDouble(str);
+            } else if (c == 'c') {
+              objects[i] = str.charAt(0);
+            } else if (c == 'i') {
+              objects[i] = Integer.parseInt(str);
+            } else {  //  compatible to old version 
+              objects[i] = Integer.parseInt(values[i]);
+            }
+          }
+          configurableRuleValues.put(ruleAndValue[0].trim(), objects);
         }
-        configurableRuleValues.put(ruleAndValue[0], Integer.parseInt(ruleAndValue[1]));
       }
     }
   }
@@ -1771,8 +1796,31 @@ public class Configuration {
     }
     if (!configurableRuleValues.isEmpty()) {
       StringBuilder sbRV = new StringBuilder();
-      for (Map.Entry<String, Integer> entry : configurableRuleValues.entrySet()) {
-        sbRV.append(entry.getKey()).append(':').append(entry.getValue()).append(", ");
+      for (Map.Entry<String, Object[]> entry : configurableRuleValues.entrySet()) {
+        Object[] obs = entry.getValue();
+        if (obs != null && obs.length > 0) {
+          StringBuilder sbOV = new StringBuilder();
+          char c;
+          for (int i = 0; i < obs.length; i++) {
+            Object o = entry.getValue()[i];
+            if (o instanceof Integer) {
+              c = 'i';
+            } else if (o instanceof Boolean) {
+              c = 'b';
+            } else if (o instanceof Float) {
+              c = 'f';
+            } else if (o instanceof Double) {
+              c = 'd';
+            } else {
+              c = 's';
+            }
+            if (i > 0) {
+              sbOV.append(";");
+            }
+            sbOV.append(c).append(o);
+          }
+          sbRV.append(entry.getKey()).append(':').append(sbOV.toString()).append(", ");
+        }
       }
       props.setProperty(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier, sbRV.toString());
     }

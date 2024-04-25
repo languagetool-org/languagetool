@@ -2133,7 +2133,7 @@ public class JLanguageTool {
     }
   }
 
-  public void setConfigValues(Map<String, Integer> v) {
+  public void setConfigValues(Map<String, Object[]> v) {
     userConfig.insertConfigValues(v);
   }
 

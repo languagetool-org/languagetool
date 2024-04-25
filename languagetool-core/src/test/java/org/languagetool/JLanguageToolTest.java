@@ -44,7 +44,7 @@ public class JLanguageToolTest {
     List<Rule> userRules = new ArrayList<>();
     List<PatternToken> patternTokens = Arrays.asList(PatternRuleBuilderHelper.token("my"), PatternRuleBuilderHelper.token("test"));
     userRules.add(new PatternRule("MY_TEST", lang, patternTokens, "test rule desc", "my test rule", "my test rule"));
-    Map<String, Integer> map = new HashMap<>();
+    Map<String, Object[]> map = new HashMap<>();
     UserConfig userConfig = new UserConfig(Collections.emptyList(), userRules, map, -1, 1L, "fake", null, null, false, null, null, false, null);
     JLanguageTool lt2 = new JLanguageTool(lang, null, userConfig);
     lt2.disableRule("test_unification_with_negation");
