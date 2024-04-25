@@ -115,7 +115,7 @@ private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
     if (isAllUppercase || (isCapitalized && !sentStart)) {
       return true;
     }
-    if (tokens[i].hasPosTagStartingWith("NP")) {
+    if (tokens[i].hasPosTagStartingWith("NP") || tokens[i].hasPosTag("_english_ignore_")) {
       return true;
     }
     return false;
