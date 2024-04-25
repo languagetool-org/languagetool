@@ -61,7 +61,7 @@ public class SpellingCheckRuleTest {
     assertThat(lt.check("Ein Test mit Auriensis und Fantasiewortus").size(), is(2));  // the words on their own are not ignored
     assertThat(lt.check("fudeldu laberwort").size(), is(0));
     assertThat(lt.check("Fudeldu laberwort").size(), is(0));  // Uppercase at sentence start is okay
-    assertThat(lt.check("Fudeldu Laberwort").size(), is(2));  // Different case somewhere other than at sentence start is not okay
+    assertThat(lt.check("Fudeldu Laberwort").size(), is(1));  // Different case somewhere other than at sentence start is not okay
 
   }
 

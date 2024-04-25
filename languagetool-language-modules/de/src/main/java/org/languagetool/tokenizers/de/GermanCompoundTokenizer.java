@@ -156,13 +156,35 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Allerheiligen", asList("Allerheiligen"));
     wordSplitter.addException("Druckerpressen", asList("Drucker", "pressen"));
     wordSplitter.addException("Habitat", asList("Habitat"));
+    wordSplitter.addException("Augarten", asList("Augarten"));
+    wordSplitter.addException("Auszeit", asList("Auszeit"));
+    wordSplitter.addException("Bewegtbild", asList("Bewegtbild"));
+    wordSplitter.addException("Bigband", asList("Bigband"));
+    wordSplitter.addException("Bisexuelle", asList("Bisexuelle"));
+    wordSplitter.addException("Bisexuellen", asList("Bisexuellen"));
+    wordSplitter.addException("Bunsenbrenner", asList("Bunsenbrenner"));
+    wordSplitter.addException("Carbon", asList("Carbon"));
+    wordSplitter.addException("Carsharing", asList("Carsharing"));
+    wordSplitter.addException("Castor", asList("Castor"));
+    wordSplitter.addException("Catering", asList("Catering"));
+    wordSplitter.addException("Cholesterin", asList("Cholesterin"));
     wordSplitter.addException("Damast", asList("Damast"));
+    wordSplitter.addException("Dispositiv", asList("Dispositiv"));
+    wordSplitter.addException("Emittent", asList("Emittent"));
+    wordSplitter.addException("Emittenten", asList("Emittenten"));
+    wordSplitter.addException("Express", asList("Express"));
+    wordSplitter.addException("Fairness", asList("Fairness"));
+    wordSplitter.addException("Fiberglas", asList("Fiberglas"));
+    wordSplitter.addException("Globus", asList("Globus"));
+    wordSplitter.addException("Göttinnen", asList("Göttinnen"));
     wordSplitter.addException("Muttertag", asList("Muttertag"));
     wordSplitter.addException("Muttertags", asList("Muttertags"));
     wordSplitter.addException("Vatertag", asList("Vatertag"));
     wordSplitter.addException("Vatertags", asList("Vatertags"));
     wordSplitter.addException("Vaterland", asList("Vaterland"));
     wordSplitter.addException("Vaterlands", asList("Vaterlands"));
+    wordSplitter.addException("Wehrmacht", asList("Wehrmacht"));
+    wordSplitter.addException("Wehrmachts", asList("Wehrmachts"));
   }
 
   @Override
