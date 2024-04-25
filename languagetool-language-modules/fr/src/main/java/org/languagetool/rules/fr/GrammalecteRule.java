@@ -581,7 +581,8 @@ public class GrammalecteRule extends Rule {
     "gv1__ppas_pron_pluriel_se_être_ppas__b1_a1_1",
     "g2__conf_si_vconj__b1_a1_1",
     "g2__conf_à_vconj__b2_a1_1",
-    "g3__conf_pris_prix__b1_a1_1"
+    "g3__conf_pris_prix__b1_a1_1",
+    "g2__tu_locutions__b12_a1_1"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
