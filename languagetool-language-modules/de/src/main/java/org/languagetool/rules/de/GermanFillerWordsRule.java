@@ -198,8 +198,13 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
   }
 
   @Override
-  public String getConfigureText() {
+  public String getConfigurePercentText() {
     return "Anzeigen wenn mehr als ...% eines Kapitels Füllwörter sind:";
+  }
+
+  @Override
+  public String getConfigureWithoutDirectSpeachText() {
+    return "Keine wörtliche Rede und Zitate berücksichtigen";
   }
 
 }

@@ -26,6 +26,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleOption;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -2036,68 +2037,24 @@ public class ConfigurationDialog implements ActionListener {
     colorPanel.setVisible(false);
     // End of Color Panel
     
-    // Start of special option panel
-    JPanel specialOptionPanel = new JPanel();
-    specialOptionPanel.setLayout(new GridBagLayout());
-    GridBagConstraints cons2 = new GridBagConstraints();
-    cons2.gridx = 0;
-    cons2.gridy = 0;
-    cons2.weightx = 2.0f;
-    cons2.anchor = GridBagConstraints.WEST;
-    
-    JLabel ruleLabel = new JLabel("");
-    specialOptionPanel.add(ruleLabel, cons2);
-
-    cons2.gridx++;
-    JTextField ruleValueField = new JTextField("   ", 3);
-    ruleValueField.setMinimumSize(new Dimension(50, 28));  // without this the box is just a few pixels small, but why?
-    specialOptionPanel.add(ruleValueField, cons2);
-
-    ruleValueField.getDocument().addDocumentListener(new DocumentListener() {
-      @Override
-      public void insertUpdate(DocumentEvent e) {
-        changedUpdate(e);
-      }
-
-      @Override
-      public void removeUpdate(DocumentEvent e) {
-        changedUpdate(e);
-      }
-
-      @Override
-      public void changedUpdate(DocumentEvent e) {
-        try {
-          if (rule != null) {
-            int num = Integer.parseInt(ruleValueField.getText());
-            if (num < rule.getMinConfigurableValue()) {
-              num = rule.getMinConfigurableValue();
-              ruleValueField.setForeground(Color.RED);
-            } else if (num > rule.getMaxConfigurableValue()) {
-              num = rule.getMaxConfigurableValue();
-              ruleValueField.setForeground(Color.RED);
-            } else {
-              ruleValueField.setForeground(null);
-            }
-            config.setConfigurableValue(rule.getId(), num);
-          }
-        } catch (Exception ex) {
-          ruleValueField.setForeground(Color.RED);
-        }
-      }
-    });
-    specialOptionPanel.setVisible(false);
-    // End of special option panel
+    List<JPanel> specialOptionPanels = new ArrayList<>();
     
     ruleOptionsPanel.add(colorPanel, cons0);
     cons0.gridx = 0;
     cons0.gridy = 1;
-    ruleOptionsPanel.add(specialOptionPanel, cons0);
-    ruleOptionsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
     
     configTree[num].addTreeSelectionListener(e -> {
       DefaultMutableTreeNode node = (DefaultMutableTreeNode)
           configTree[num].getLastSelectedPathComponent();
       if (node != null) {
+        if (specialOptionPanels.size() > 0) {
+          for (JPanel optionPanel : specialOptionPanels) {
+            optionPanel.setVisible(false);
+            ruleOptionsPanel.remove(optionPanel);
+          }
+          specialOptionPanels.clear();
+        }
+        ruleOptionsPanel.setVisible(false);
         if (node instanceof RuleNode) {
           RuleNode o = (RuleNode) node;
           rule = o.getRule();
@@ -2109,16 +2066,176 @@ public class ConfigurationDialog implements ActionListener {
             underlineType.setSelectedIndex(getUnderlineType(category, ruleId));
           }
           colorPanel.setVisible(true);
-          if (rule.hasConfigurableValue()) {
-            ruleLabel.setText(rule.getConfigureText() + " ");
-            int value = config.getConfigurableValue(rule.getId());
-            if (value < 0) {
-              value = rule.getDefaultValue();
+          RuleOption[] ruleOptions = rule.getRuleOptions();
+          if (ruleOptions != null && ruleOptions.length > 0) {
+            Object[] obj = new Object[ruleOptions.length];
+            for (int i = 0; i < ruleOptions.length; i++) {
+              // Start of special option panel
+              JPanel specialOptionPanel = new JPanel();
+              specialOptionPanels.add(specialOptionPanel);
+              specialOptionPanel.setLayout(new GridBagLayout());
+              GridBagConstraints cons2 = new GridBagConstraints();
+              cons2.gridx = 0;
+              cons2.gridy = 0;
+              cons2.weightx = 2.0f;
+              cons2.anchor = GridBagConstraints.WEST;
+              RuleOption ruleOption = ruleOptions[i];
+              int n = i;
+
+              Object defValue = ruleOption.getDefaultValue();
+              Object[] confValues = config.getConfigurableValue(rule.getId());
+              
+              if (defValue instanceof Boolean) {
+                JCheckBox isTrueBox = new JCheckBox(ruleOption.getConfigureText());
+                boolean value;
+                if (confValues != null && confValues.length > i && confValues[i] != null && confValues[i] instanceof Boolean) {
+                  value = (boolean) confValues[i];
+                } else {
+                  value = (boolean) defValue;
+                }
+                isTrueBox.setSelected(value);
+                obj[n] = value;
+                isTrueBox.addItemListener(e1 -> {
+                  obj[n] = isTrueBox.isSelected();
+                  config.setConfigurableValue(rule.getId(), obj);
+                });
+                specialOptionPanel.add(isTrueBox, cons2);
+              } else {
+                JLabel ruleLabel = new JLabel(ruleOption.getConfigureText() + " ");
+                specialOptionPanel.add(ruleLabel, cons2);
+    
+                cons2.gridx++;
+                JTextField ruleValueField = new JTextField("   ", 3);
+                ruleValueField.setMinimumSize(new Dimension(50, 28));  // without this the box is just a few pixels small, but why?
+                String fieldValue;
+                if (defValue instanceof Integer) {
+                  if (confValues != null && confValues.length > i && confValues[i] != null && confValues[i] instanceof Integer) {
+                    fieldValue = Integer.toString((int) confValues[i]);
+                  } else {
+                    fieldValue = Integer.toString((int) defValue);
+                  }
+                } else if (defValue instanceof Character) {
+                  if (confValues != null && confValues.length > i && confValues[i] != null && confValues[i] instanceof Character) {
+                    fieldValue = Character.toString((char) confValues[i]);
+                  } else {
+                    fieldValue = Character.toString((char) defValue);
+                  }
+                } else if (defValue instanceof Double) {
+                  if (confValues != null && confValues.length > i && confValues[i] != null && confValues[i] instanceof Double) {
+                    fieldValue = Double.toString((double) confValues[i]);
+                  } else {
+                    fieldValue = Double.toString((double) defValue);
+                  }
+                } else if (defValue instanceof Float) {
+                  if (confValues != null && confValues.length > i && confValues[i] != null && confValues[i] instanceof Float) {
+                    fieldValue = Float.toString((float) confValues[i]);
+                  } else {
+                    fieldValue = Float.toString((float) defValue);
+                  }
+                } else {
+                  if (confValues != null && confValues.length > i && confValues[i] != null) {
+                    fieldValue = confValues[i].toString();
+                  } else {
+                    fieldValue = defValue.toString();
+                  }
+                }
+                ruleValueField.setText(fieldValue);
+                obj[n] = fieldValue;
+                specialOptionPanel.add(ruleValueField, cons2);
+    
+                ruleValueField.getDocument().addDocumentListener(new DocumentListener() {
+                  @Override
+                  public void insertUpdate(DocumentEvent e) {
+                    changedUpdate(e);
+                  }
+    
+                  @Override
+                  public void removeUpdate(DocumentEvent e) {
+                    changedUpdate(e);
+                  }
+    
+                  @Override
+                  public void changedUpdate(DocumentEvent e) {
+                    try {
+                      if (rule != null) {
+                        RuleOption[] ruleOptions = rule.getRuleOptions();
+                        if (ruleOptions != null && ruleOptions.length > 0) {
+                          boolean isCorrect = false;
+                          if (defValue instanceof Integer) {
+                            int num = Integer.parseInt(ruleValueField.getText());
+                            if (num < (int) ruleOption.getMinConfigurableValue()) {
+                              num = (int) ruleOption.getMinConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else if (num > (int) ruleOption.getMaxConfigurableValue()) {
+                              num = (int) ruleOption.getMaxConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else {
+                              ruleValueField.setForeground(null);
+                              isCorrect = true;
+                              obj[n] = num;
+                            }
+                          } else if (defValue instanceof Character) {
+                            char num = ruleValueField.getText().charAt(0);
+                            if (num < (char) ruleOption.getMinConfigurableValue()) {
+                              num = (char) ruleOption.getMinConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else if (num > (char) ruleOption.getMaxConfigurableValue()) {
+                              num = (char) ruleOption.getMaxConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else {
+                              ruleValueField.setForeground(null);
+                              isCorrect = true;
+                              obj[n] = num;
+                            }
+                          } else if (defValue instanceof Double) {
+                            double num = Double.parseDouble(ruleValueField.getText());
+                            if (num < (double) ruleOption.getMinConfigurableValue()) {
+                              num = (double) ruleOption.getMinConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else if (num > (double) ruleOption.getMaxConfigurableValue()) {
+                              num = (double) ruleOption.getMaxConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else {
+                              ruleValueField.setForeground(null);
+                              isCorrect = true;
+                              obj[n] = num;
+                            }
+                          } else if (defValue instanceof Float) {
+                            float num = Float.parseFloat(ruleValueField.getText());
+                            if (num < (float) ruleOption.getMinConfigurableValue()) {
+                              num = (float) ruleOption.getMinConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else if (num > (float) ruleOption.getMaxConfigurableValue()) {
+                              num = (float) ruleOption.getMaxConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else {
+                              ruleValueField.setForeground(null);
+                              isCorrect = true;
+                              obj[n] = num;
+                            }
+                          } else {
+                            String num = ruleValueField.getText();
+                            ruleValueField.setForeground(null);
+                            isCorrect = true;
+                            obj[n] = num;
+                          }
+                          if (isCorrect) {
+                            config.setConfigurableValue(rule.getId(), obj);
+                          }
+                        }
+                      }
+                    } catch (Exception ex) {
+                      ruleValueField.setForeground(Color.RED);
+                    }
+                  }
+                });
+              }
+              ruleOptionsPanel.add(specialOptionPanel, cons0);
+              ruleOptionsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+              ruleOptionsPanel.setVisible(true);
+              cons0.gridy++;
+              // End of special option panel
             }
-            ruleValueField.setText(Integer.toString(value));
-            specialOptionPanel.setVisible(true);
-          } else {
-            specialOptionPanel.setVisible(false);
           }
         } else if (node instanceof CategoryNode) {
           CategoryNode o = (CategoryNode) node;
@@ -2129,9 +2246,10 @@ public class ConfigurationDialog implements ActionListener {
             underlineType.setSelectedIndex(getUnderlineType(category, null));
           }
           colorPanel.setVisible(true);
-          specialOptionPanel.setVisible(false);
           rule = null;
         }
+//        ruleOptionsPanel.repaint();
+        ruleOptionsPanel.setVisible(true);
       }
     });
     return ruleOptionsPanel;
