@@ -731,10 +731,14 @@ public class SingleDocument {
           }
           paragraphsCache.add(new ResultCache(this.paragraphsCache.get(i)));
         }
-        MessageHandler.printToLogFile("SingleDocument: writeCaches: Save Caches ...");
-        cacheIO.saveCaches(docCache, paragraphsCache, permanentIgnoredMatches, config, mDocHandler);
-        SpellCache sc = cacheIO.new SpellCache();
-        sc.write(LtSpellChecker.getWrongWords(), LtSpellChecker.getSuggestions());
+        if (cacheIO != null) {
+          MessageHandler.printToLogFile("SingleDocument: writeCaches: Save Caches ...");
+          cacheIO.saveCaches(docCache, paragraphsCache, permanentIgnoredMatches, config, mDocHandler);
+          SpellCache sc = cacheIO.new SpellCache();
+          sc.write(LtSpellChecker.getWrongWords(), LtSpellChecker.getSuggestions());
+        } else {
+          MessageHandler.printToLogFile("SingleDocument: writeCaches: cacheIO == null: Can't save cache");
+        }
       }
     } catch (Throwable t) {
       MessageHandler.showError(t);

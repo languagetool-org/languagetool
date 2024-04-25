@@ -325,6 +325,15 @@ public class MultiDocumentsHandler {
               xComponent = null;
             }
             if (config == null) {
+              if (docLanguage == null) {
+                Locale loc;
+                if (prefix.equals("I")) {
+                  loc = OfficeDrawTools.getDocumentLocale(xComponent);
+                } else {
+                  loc = OfficeSpreadsheetTools.getDocumentLocale(xComponent);
+                }
+                docLanguage = getLanguage(loc);
+              }
               config = getConfiguration();
             }
             SingleDocument newDocument = new SingleDocument(xContext, config, docID, xComponent, this, null);
