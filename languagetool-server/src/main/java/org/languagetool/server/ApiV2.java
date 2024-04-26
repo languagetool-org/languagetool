@@ -579,10 +579,10 @@ class ApiV2 {
           //  Compatibility to old version (< 6.5)
           if (ruleOptions[0].getDefaultValue() instanceof Integer) {
             g.writeStringField("hasConfigurableValue", "yes");
-            g.writeStringField("configureText", ruleOptions[0].getConfigureText());
-            g.writeStringField("maxConfigurableValue", Integer.toString((int) ruleOptions[0].getMaxConfigurableValue()));
-            g.writeStringField("minConfigurableValue", Integer.toString((int) ruleOptions[0].getMinConfigurableValue()));
-            g.writeStringField("defaultValue", Integer.toString((int)ruleOptions[0].getDefaultValue()));
+            g.writeStringField(RuleOption.CONF_TEXT, ruleOptions[0].getConfigureText());
+            g.writeStringField(RuleOption.MAX_CONF_VALUE, Integer.toString((int) ruleOptions[0].getMaxConfigurableValue()));
+            g.writeStringField(RuleOption.MIN_CONF_VALUE, Integer.toString((int) ruleOptions[0].getMinConfigurableValue()));
+            g.writeStringField(RuleOption.DEFAULT_VALUE, Integer.toString((int)ruleOptions[0].getDefaultValue()));
           }
           //  new Version (>= 6.5)
           g.writeArrayFieldStart("ruleOptions");
@@ -590,37 +590,37 @@ class ApiV2 {
             g.writeStartObject();
             Object o = rOption.getDefaultValue();
             if (o instanceof Integer) {
-              g.writeStringField("defaultType", "Integer");
-              g.writeNumberField("defaultValue", (int) o);
-              g.writeNumberField("minConfigurableValue", (int) rOption.getMinConfigurableValue());
-              g.writeNumberField("maxConfigurableValue", (int) rOption.getMaxConfigurableValue());
+              g.writeStringField(RuleOption.DEFAULT_TYPE, "Integer");
+              g.writeNumberField(RuleOption.DEFAULT_VALUE, (int) o);
+              g.writeNumberField(RuleOption.MIN_CONF_VALUE, (int) rOption.getMinConfigurableValue());
+              g.writeNumberField(RuleOption.MAX_CONF_VALUE, (int) rOption.getMaxConfigurableValue());
             } else if (o instanceof Character) {
-              g.writeStringField("defaultType", "Character");
-              g.writeStringField("defaultValue", o.toString());
-              g.writeStringField("defaultValue", rOption.getMinConfigurableValue().toString());
-              g.writeStringField("defaultValue", rOption.getMaxConfigurableValue().toString());
+              g.writeStringField(RuleOption.DEFAULT_TYPE, "Character");
+              g.writeStringField(RuleOption.DEFAULT_VALUE, o.toString());
+              g.writeStringField(RuleOption.DEFAULT_VALUE, rOption.getMinConfigurableValue().toString());
+              g.writeStringField(RuleOption.DEFAULT_VALUE, rOption.getMaxConfigurableValue().toString());
             } else if (o instanceof Boolean) {
-              g.writeStringField("defaultType", "Boolean");
-              g.writeBooleanField("defaultValue", (boolean) o);
-              g.writeNumberField("minConfigurableValue", (int) rOption.getMinConfigurableValue());
-              g.writeNumberField("maxConfigurableValue", (int) rOption.getMaxConfigurableValue());
+              g.writeStringField(RuleOption.DEFAULT_TYPE, "Boolean");
+              g.writeBooleanField(RuleOption.DEFAULT_VALUE, (boolean) o);
+              g.writeNumberField(RuleOption.MIN_CONF_VALUE, (int) rOption.getMinConfigurableValue());
+              g.writeNumberField(RuleOption.MAX_CONF_VALUE, (int) rOption.getMaxConfigurableValue());
             } else if (o instanceof Float) {
-              g.writeStringField("defaultType", "Float");
-              g.writeNumberField("defaultValue", (float) o);
-              g.writeNumberField("minConfigurableValue", (float) rOption.getMinConfigurableValue());
-              g.writeNumberField("maxConfigurableValue", (float) rOption.getMaxConfigurableValue());
+              g.writeStringField(RuleOption.DEFAULT_TYPE, "Float");
+              g.writeNumberField(RuleOption.DEFAULT_VALUE, (float) o);
+              g.writeNumberField(RuleOption.MIN_CONF_VALUE, (float) rOption.getMinConfigurableValue());
+              g.writeNumberField(RuleOption.MAX_CONF_VALUE, (float) rOption.getMaxConfigurableValue());
             } else if (o instanceof Double) {
-              g.writeStringField("defaultType", "Double");
-              g.writeNumberField("defaultValue", (double) o);
-              g.writeNumberField("minConfigurableValue", (double) rOption.getMinConfigurableValue());
-              g.writeNumberField("maxConfigurableValue", (double) rOption.getMaxConfigurableValue());
+              g.writeStringField(RuleOption.DEFAULT_TYPE, "Double");
+              g.writeNumberField(RuleOption.DEFAULT_VALUE, (double) o);
+              g.writeNumberField(RuleOption.MIN_CONF_VALUE, (double) rOption.getMinConfigurableValue());
+              g.writeNumberField(RuleOption.MAX_CONF_VALUE, (double) rOption.getMaxConfigurableValue());
             } else {
-              g.writeStringField("defaultType", "String");
-              g.writeStringField("defaultValue", o.toString());
-              g.writeStringField("minConfigurableValue", rOption.getMinConfigurableValue().toString());
-              g.writeStringField("maxConfigurableValue", rOption.getMaxConfigurableValue().toString());
+              g.writeStringField(RuleOption.DEFAULT_TYPE, "String");
+              g.writeStringField(RuleOption.DEFAULT_VALUE, o.toString());
+              g.writeStringField(RuleOption.MIN_CONF_VALUE, rOption.getMinConfigurableValue().toString());
+              g.writeStringField(RuleOption.MAX_CONF_VALUE, rOption.getMaxConfigurableValue().toString());
             }
-            g.writeStringField("configureText", rOption.getConfigureText());
+            g.writeStringField(RuleOption.CONF_TEXT, rOption.getConfigureText());
             g.writeEndObject();
           }
           g.writeEndArray();

@@ -741,27 +741,7 @@ abstract class TextChecker {
     String[] pairs = parameterString.split(",");
     for (String pair : pairs) {
       String[] ruleAndValue  = pair.split(":");
-      String[] values = ruleAndValue[1].split(";");
-      Object[] objects = new Object[values.length];
-      for (int i = 0; i < values.length; i++) {
-        char c = values[i].charAt(0);
-        String str = values[i].substring(1);
-        if (c == 's') {
-          objects[i] = str;
-        } else if (c == 'b') {
-          objects[i] = Boolean.parseBoolean(str);
-        } else if (c == 'f') {
-          objects[i] = Float.parseFloat(str);
-        } else if (c == 'd') {
-          objects[i] = Double.parseDouble(str);
-        } else if (c == 'c') {
-          objects[i] = str.charAt(0);
-        } else if (c == 'i') {
-          objects[i] = Integer.parseInt(str);
-        } else {  //  compatible to old version 
-          objects[i] = Integer.parseInt(values[i]);
-        }
-      }
+      Object[] objects = RuleOption.StringToObjects(ruleAndValue[1]);
       ruleValues.put(ruleAndValue[0], objects);
     }
     return ruleValues;

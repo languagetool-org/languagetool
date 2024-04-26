@@ -45,6 +45,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleOption;
 
 /**
  * Configuration like list of disabled rule IDs, server mode etc.
@@ -1474,28 +1475,7 @@ public class Configuration {
           if (ruleAndValue.length != 2) {
             throw new RuntimeException("Could not parse rule and value, colon expected: '" + ruleToValue + "'");
           }
-          String[] values = ruleAndValue[1].split(";");
-          Object[] objects = new Object[values.length];
-          for (int i = 0; i < values.length; i++) {
-            String str = values[i].trim();
-            char c = values[i].charAt(0);
-            str = str.substring(1);
-            if (c == 's') {
-              objects[i] = str;
-            } else if (c == 'b') {
-              objects[i] = Boolean.parseBoolean(str);
-            } else if (c == 'f') {
-              objects[i] = Float.parseFloat(str);
-            } else if (c == 'd') {
-              objects[i] = Double.parseDouble(str);
-            } else if (c == 'c') {
-              objects[i] = str.charAt(0);
-            } else if (c == 'i') {
-              objects[i] = Integer.parseInt(str);
-            } else {  //  compatible to old version 
-              objects[i] = Integer.parseInt(values[i]);
-            }
-          }
+          Object[] objects = RuleOption.StringToObjects(ruleAndValue[1]);
           configurableRuleValues.put(ruleAndValue[0].trim(), objects);
         }
       }
@@ -1796,30 +1776,15 @@ public class Configuration {
     }
     if (!configurableRuleValues.isEmpty()) {
       StringBuilder sbRV = new StringBuilder();
+      int i = 0;
       for (Map.Entry<String, Object[]> entry : configurableRuleValues.entrySet()) {
         Object[] obs = entry.getValue();
         if (obs != null && obs.length > 0) {
-          StringBuilder sbOV = new StringBuilder();
-          char c;
-          for (int i = 0; i < obs.length; i++) {
-            Object o = entry.getValue()[i];
-            if (o instanceof Integer) {
-              c = 'i';
-            } else if (o instanceof Boolean) {
-              c = 'b';
-            } else if (o instanceof Float) {
-              c = 'f';
-            } else if (o instanceof Double) {
-              c = 'd';
-            } else {
-              c = 's';
-            }
-            if (i > 0) {
-              sbOV.append(";");
-            }
-            sbOV.append(c).append(o);
+          if (i > 0) {
+            sbRV.append(",");
           }
-          sbRV.append(entry.getKey()).append(':').append(sbOV.toString()).append(", ");
+          sbRV.append(entry.getKey()).append(':').append(RuleOption.ObjectsToString(obs));
+          i++;
         }
       }
       props.setProperty(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier, sbRV.toString());

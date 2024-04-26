@@ -21,9 +21,14 @@ package org.languagetool.rules;
 /**
  * Class to configure rule option by option panel
  * @author Fred Kruse
- * @since 4.2
+ * @since 6.5
  */
 public class RuleOption {
+  public final static String DEFAULT_VALUE = "defaultValue";
+  public final static String DEFAULT_TYPE = "defaultType";
+  public final static String MIN_CONF_VALUE = "minConfigurableValue";
+  public final static String MAX_CONF_VALUE = "maxConfigurableValue";
+  public final static String CONF_TEXT = "configureText";
   private final Object defaultValue;
   private final String configureText;
   private Object minConfigurableValue;
@@ -72,6 +77,87 @@ public class RuleOption {
    */
   public Object getMaxConfigurableValue() {
     return maxConfigurableValue;
+  }
+
+  /**
+   * Gives back a special String representation of an Object for save or communication
+   * add a character to characterize the type of object before its String value
+   * (i for Integer, b for Boolean, etc.
+   * Can be decoded by StringToObject
+   */
+  public static String ObjectToString(Object o) {
+    char c;
+    if (o instanceof Integer) {
+      c = 'i';
+    } else if (o instanceof Character) {
+      c = 'c';
+    } else if (o instanceof Boolean) {
+      c = 'b';
+    } else if (o instanceof Float) {
+      c = 'f';
+    } else if (o instanceof Double) {
+      c = 'd';
+    } else {
+      c = 's';
+    }
+    return c + o.toString();
+  }
+
+  /**
+   * Gives back a special String representation of an array of Objects for save or communication
+   * use ObjectToString for encoding the single objects
+   * separate the objects by ';'
+   * Can be decoded by StringToObjects
+   */
+  public static String ObjectsToString(Object[] o) {
+    String s = "";
+    for (int i = 0; i < o.length; i++) {
+      if (i > 0) {
+        s += ";";
+      }
+      s += ObjectToString(o[i]);
+    }
+    return s;
+  }
+
+  /**
+   * decodes an String to an object encoded by ObjectToString
+   * Note: if there is no special encoding character at the beginning of the string
+   *       an integer is assumed for compatibility with older versions of LT
+   */
+  public static Object StringToObject(String s) {
+    Object o;
+    char c = s.charAt(0);
+    String str = s.substring(1);
+    if (c == 's') {
+      o = str;
+    } else if (c == 'b') {
+      o = Boolean.parseBoolean(str);
+    } else if (c == 'f') {
+      o = Float.parseFloat(str);
+    } else if (c == 'd') {
+      o = Double.parseDouble(str);
+    } else if (c == 'c') {
+      o = str.charAt(0);
+    } else if (c == 'i') {
+      o = Integer.parseInt(str);
+    } else {  //  compatible to old version 
+      o = Integer.parseInt(s);
+    }
+    return o;
+  }
+
+  /**
+   * decodes an String to an array of object encoded by ObjectsToString
+   */
+  public static Object[] StringToObjects(String s) {
+    String[] strs = s.split(";");
+    Object[] o = new Object[strs.length];
+    for (int i = 0; i < strs.length; i++) {
+      String str = strs[i].trim();
+      o[i] = StringToObject(str);
+    }
+    return o;
   }
 
 
