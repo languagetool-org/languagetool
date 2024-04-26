@@ -112,16 +112,19 @@ public abstract class WrongWordInContextRule extends Rule {
       int i;
       String token1 = "";
       for (i = 1; i < tokens.length && !matchedWord[0]; i++) {
-        token1 = tokens[i].getToken();
-        matchedWord[0] = matchers[0].reset(token1).find();
+        if (!tokens[i].hasPartialPosTag("IS_URL")) {
+          token1 = tokens[i].getToken();
+          matchedWord[0] = matchers[0].reset(token1).find();
+        }
       }
       int j;
       String token2 = "";
       for (j = 1; j < tokens.length && !matchedWord[1]; j++) {
-        token2 = tokens[j].getToken();
-        matchedWord[1] = matchers[1].reset(token2).find();
+        if (!tokens[j].hasPartialPosTag("IS_URL")) {
+          token2 = tokens[j].getToken();
+          matchedWord[1] = matchers[1].reset(token2).find();
+        }
       }
-      
       int foundWord = -1;
       int notFoundWord = -1;
       int startPos = 0;
