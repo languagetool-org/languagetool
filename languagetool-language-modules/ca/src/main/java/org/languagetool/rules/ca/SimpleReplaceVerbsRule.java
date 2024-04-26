@@ -118,7 +118,9 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
           m = desinencies_1conj_1.matcher(tokenString);
         }
         if (m.matches()) {
+          List<String> lexemes = new ArrayList<>();
           String lexeme = m.group(1);
+          lexemes.add(lexeme);
           String desinence = m.group(2);
           if (desinence.startsWith("e") || desinence.startsWith("é") || desinence.startsWith("i")
               || desinence.startsWith("ï")) {
@@ -133,6 +135,9 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
             } else if (lexeme.endsWith("gu")) {
               lexeme = lexeme.substring(0, lexeme.length() - 2).concat("g");
             }
+            if (!lexemes.contains(lexeme)) {
+              lexemes.add(lexeme);
+            }
           }
           if (desinence.startsWith("ï")) {
             desinence = "i" + desinence.substring(1);
@@ -145,26 +150,29 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
               analyzedTokenReadings = analyzedTokenReadingsList.get(0);
             }
           }
-          if (analyzedTokenReadings == null) {
-            infinitive = lexeme.concat("ir");
-            if (wrongWords.containsKey(infinitive)) {
-              List<String> wordAsArray = Arrays.asList("serv".concat(desinence)); // servir
-              List<AnalyzedTokenReadings> analyzedTokenReadingsList = tagger.tag(wordAsArray);
-              if (analyzedTokenReadingsList.get(0).getAnalyzedToken(0).getPOSTag() != null) {
-                analyzedTokenReadings = analyzedTokenReadingsList.get(0);
+          for (String lex : lexemes) {
+            if (analyzedTokenReadings == null) {
+              infinitive = lex.concat("ir");
+              if (wrongWords.containsKey(infinitive)) {
+                List<String> wordAsArray = Arrays.asList("serv".concat(desinence)); // servir
+                List<AnalyzedTokenReadings> analyzedTokenReadingsList = tagger.tag(wordAsArray);
+                if (analyzedTokenReadingsList.get(0).getAnalyzedToken(0).getPOSTag() != null) {
+                  analyzedTokenReadings = analyzedTokenReadingsList.get(0);
+                }
+              }
+            }
+            if (analyzedTokenReadings == null && lex.endsWith("g")) {
+              infinitive = lex.concat("uir");
+              if (wrongWords.containsKey(infinitive)) {
+                List<String> wordAsArray = Arrays.asList("serv".concat(desinence)); // servir
+                List<AnalyzedTokenReadings> analyzedTokenReadingsList = tagger.tag(wordAsArray);
+                if (analyzedTokenReadingsList.get(0).getAnalyzedToken(0).getPOSTag() != null) {
+                  analyzedTokenReadings = analyzedTokenReadingsList.get(0);
+                }
               }
             }
           }
-          if (analyzedTokenReadings == null && lexeme.endsWith("g")) {
-            infinitive = lexeme.concat("uir");
-            if (wrongWords.containsKey(infinitive)) {
-              List<String> wordAsArray = Arrays.asList("serv".concat(desinence)); // servir
-              List<AnalyzedTokenReadings> analyzedTokenReadingsList = tagger.tag(wordAsArray);
-              if (analyzedTokenReadingsList.get(0).getAnalyzedToken(0).getPOSTag() != null) {
-                analyzedTokenReadings = analyzedTokenReadingsList.get(0);
-              }
-            }
-          }
+
           if (analyzedTokenReadings == null) {
             infinitive = lexeme.concat("èixer");
             if (wrongWords.containsKey(infinitive)) {
