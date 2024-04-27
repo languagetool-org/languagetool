@@ -255,6 +255,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd lemma="imprimar"/>
             </disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token case_sensitive="yes">Cs</token>
+            </pattern>
+            <disambig action="add">
+                <wd lemma="Cs" pos="NPCNO00"/>
+            </disambig>
+        </rule>
     </rulegroup>
     <rulegroup id="FIX_SENTENCE_TOKENIZATION" name="fix problems with sentence tokenization">
         <rule>
@@ -4362,6 +4370,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token postag="D..MP." postag_regexp="yes"/>
+                <marker>
+                    <token postag="NCMP000">eixos</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="[^D].*"/>
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token>eixos</token>
                 </marker>
@@ -5526,7 +5543,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">projecte|pla|acció|conferècia|trobada|reunió|encontre</token>
+                <token inflected="yes" regexp="yes">projecte|pla|acció|conferècia|trobada|reunió|encontre|condició</token>
                 <marker>
                     <token>marc</token>
                 </marker>

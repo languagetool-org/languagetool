@@ -408,6 +408,8 @@ public class Catalan extends Language {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern CA_APOSTROPHES6 = compile("\\bs'e(ns|ls)\\b",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern CA_APOSTROPHES7 = compile("\\b(de|a)l (h?[aeoàúèéí][^ ])",
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern POSSESSIUS_v = compile("\\b([mtsMTS]e)v(a|es)\\b",
       Pattern.UNICODE_CASE);
   private static final Pattern POSSESSIUS_V = compile("\\b([MTS]E)V(A|ES)\\b",
@@ -431,6 +433,8 @@ public class Catalan extends Language {
     s = m5.replaceAll("$1$2");
     Matcher m6 = CA_APOSTROPHES6.matcher(s);
     s = m6.replaceAll("se'$1");
+    Matcher m7 = CA_APOSTROPHES7.matcher(s);
+    s = m7.replaceAll("$1 l'$2");
     if (capitalized) {
       s = StringTools.uppercaseFirstChar(s);
     }
