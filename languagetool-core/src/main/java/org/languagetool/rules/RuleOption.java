@@ -85,7 +85,7 @@ public class RuleOption {
    * (i for Integer, b for Boolean, etc.
    * Can be decoded by StringToObject
    */
-  public static String ObjectToString(Object o) {
+  public static String objectToString(Object o) {
     char c;
     if (o instanceof Integer) {
       c = 'i';
@@ -109,13 +109,13 @@ public class RuleOption {
    * separate the objects by ';'
    * Can be decoded by StringToObjects
    */
-  public static String ObjectsToString(Object[] o) {
+  public static String objectsToString(Object[] o) {
     String s = "";
     for (int i = 0; i < o.length; i++) {
       if (i > 0) {
         s += ";";
       }
-      s += ObjectToString(o[i]);
+      s += objectToString(o[i]);
     }
     return s;
   }
@@ -125,7 +125,7 @@ public class RuleOption {
    * Note: if there is no special encoding character at the beginning of the string
    *       an integer is assumed for compatibility with older versions of LT
    */
-  public static Object StringToObject(String s) {
+  public static Object stringToObject(String s) {
     Object o;
     char c = s.charAt(0);
     String str = s.substring(1);
@@ -150,12 +150,12 @@ public class RuleOption {
   /**
    * decodes an String to an array of object encoded by ObjectsToString
    */
-  public static Object[] StringToObjects(String s) {
+  public static Object[] stringToObjects(String s) {
     String[] strs = s.split(";");
     Object[] o = new Object[strs.length];
     for (int i = 0; i < strs.length; i++) {
       String str = strs[i].trim();
-      o[i] = StringToObject(str);
+      o[i] = stringToObject(str);
     }
     return o;
   }
