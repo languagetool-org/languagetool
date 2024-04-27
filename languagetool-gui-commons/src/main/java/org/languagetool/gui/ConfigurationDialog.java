@@ -2031,6 +2031,7 @@ public class ConfigurationDialog implements ActionListener {
         }
         underlineType.setSelectedIndex(getUnderlineType(category, ruleId));
       }
+      config.removeConfigurableValue(ruleId);
     });
     cons1.gridx++;
     colorPanel.add(defaultButton);
@@ -2083,16 +2084,10 @@ public class ConfigurationDialog implements ActionListener {
               int n = i;
 
               Object defValue = ruleOption.getDefaultValue();
-              Object[] confValues = config.getConfigurableValue(rule.getId());
               
               if (defValue instanceof Boolean) {
                 JCheckBox isTrueBox = new JCheckBox(ruleOption.getConfigureText());
-                boolean value;
-                if (confValues != null && confValues.length > i && confValues[i] != null && confValues[i] instanceof Boolean) {
-                  value = (boolean) confValues[i];
-                } else {
-                  value = (boolean) defValue;
-                }
+                boolean value = config.getConfigValueByID(rule.getId(), i, Boolean.class, (Boolean) defValue);
                 isTrueBox.setSelected(value);
                 obj[n] = value;
                 isTrueBox.addItemListener(e1 -> {
@@ -2109,35 +2104,15 @@ public class ConfigurationDialog implements ActionListener {
                 ruleValueField.setMinimumSize(new Dimension(50, 28));  // without this the box is just a few pixels small, but why?
                 String fieldValue;
                 if (defValue instanceof Integer) {
-                  if (confValues != null && confValues.length > i && confValues[i] != null && confValues[i] instanceof Integer) {
-                    fieldValue = Integer.toString((int) confValues[i]);
-                  } else {
-                    fieldValue = Integer.toString((int) defValue);
-                  }
+                  fieldValue = Integer.toString(config.getConfigValueByID(rule.getId(), i, Integer.class, (Integer) defValue));
                 } else if (defValue instanceof Character) {
-                  if (confValues != null && confValues.length > i && confValues[i] != null && confValues[i] instanceof Character) {
-                    fieldValue = Character.toString((char) confValues[i]);
-                  } else {
-                    fieldValue = Character.toString((char) defValue);
-                  }
+                  fieldValue = Character.toString(config.getConfigValueByID(rule.getId(), i, Character.class, (Character) defValue));
                 } else if (defValue instanceof Double) {
-                  if (confValues != null && confValues.length > i && confValues[i] != null && confValues[i] instanceof Double) {
-                    fieldValue = Double.toString((double) confValues[i]);
-                  } else {
-                    fieldValue = Double.toString((double) defValue);
-                  }
+                  fieldValue = Double.toString(config.getConfigValueByID(rule.getId(), i, Double.class, (Double) defValue));
                 } else if (defValue instanceof Float) {
-                  if (confValues != null && confValues.length > i && confValues[i] != null && confValues[i] instanceof Float) {
-                    fieldValue = Float.toString((float) confValues[i]);
-                  } else {
-                    fieldValue = Float.toString((float) defValue);
-                  }
+                  fieldValue = Float.toString(config.getConfigValueByID(rule.getId(), i, Float.class, (Float) defValue));
                 } else {
-                  if (confValues != null && confValues.length > i && confValues[i] != null) {
-                    fieldValue = confValues[i].toString();
-                  } else {
-                    fieldValue = defValue.toString();
-                  }
+                  fieldValue = config.getConfigValueByID(rule.getId(), i, String.class, (String) defValue);
                 }
                 ruleValueField.setText(fieldValue);
                 obj[n] = fieldValue;
@@ -2248,7 +2223,6 @@ public class ConfigurationDialog implements ActionListener {
           colorPanel.setVisible(true);
           rule = null;
         }
-//        ruleOptionsPanel.repaint();
         ruleOptionsPanel.setVisible(true);
       }
     });

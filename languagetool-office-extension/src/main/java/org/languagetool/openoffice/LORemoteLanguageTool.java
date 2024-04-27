@@ -316,7 +316,7 @@ class LORemoteLanguageTool {
     for (String rule : rules) {
       Object[] obs = configurableValues.get(rule);
       if (obs != null && obs.length > 0) {
-        String rOptions = RuleOption.ObjectsToString(obs);
+        String rOptions = RuleOption.objectsToString(obs);
         if (rOptions.charAt(0) == 'i') {  // for compatibility with older server versions
           rOptions = rOptions.substring(1);
         }

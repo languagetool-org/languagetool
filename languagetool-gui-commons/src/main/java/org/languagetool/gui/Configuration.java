@@ -1132,22 +1132,31 @@ public class Configuration {
 
   /**
    * Get the configurable value of a rule by ruleID
-   * returns -1 if no value is set by configuration
-   * @since 4.2
+   * returns default value if no value is set by configuration
+   * @since 6.5
    */
-  public Object[] getConfigurableValue(String ruleID) {
-    if (configurableRuleValues.containsKey(ruleID)) {
-      return configurableRuleValues.get(ruleID);
+  public <T> T getConfigValueByID(String ruleID, int index, Class<T> clazz, T defaultValue) {
+    Object[] value = configurableRuleValues.get(ruleID);
+    if (value == null || index >= value.length || !clazz.isInstance(value[index])) {
+      return defaultValue;
     }
-    return null;
+    return (T) value[index];
   }
 
   /**
-   * Set the value for a rule with ruleID
-   * @since 4.2
+   * Set the values for a rule by ruleID
+   * @since 6.5
    */
   public void setConfigurableValue(String ruleID, Object[] values) {
     configurableRuleValues.put(ruleID, values);
+  }
+
+  /**
+   * Remove the configuration values of a rule by ruleID
+   * @since 6.5
+   */
+  public void removeConfigurableValue(String ruleID) {
+    configurableRuleValues.remove(ruleID);
   }
 
   /**
@@ -1475,7 +1484,7 @@ public class Configuration {
           if (ruleAndValue.length != 2) {
             throw new RuntimeException("Could not parse rule and value, colon expected: '" + ruleToValue + "'");
           }
-          Object[] objects = RuleOption.StringToObjects(ruleAndValue[1]);
+          Object[] objects = RuleOption.stringToObjects(ruleAndValue[1]);
           configurableRuleValues.put(ruleAndValue[0].trim(), objects);
         }
       }
@@ -1783,7 +1792,7 @@ public class Configuration {
           if (i > 0) {
             sbRV.append(",");
           }
-          sbRV.append(entry.getKey()).append(':').append(RuleOption.ObjectsToString(obs));
+          sbRV.append(entry.getKey()).append(':').append(RuleOption.objectsToString(obs));
           i++;
         }
       }

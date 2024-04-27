@@ -741,7 +741,7 @@ abstract class TextChecker {
     String[] pairs = parameterString.split(",");
     for (String pair : pairs) {
       String[] ruleAndValue  = pair.split(":");
-      Object[] objects = RuleOption.StringToObjects(ruleAndValue[1]);
+      Object[] objects = RuleOption.stringToObjects(ruleAndValue[1]);
       ruleValues.put(ruleAndValue[0], objects);
     }
     return ruleValues;
