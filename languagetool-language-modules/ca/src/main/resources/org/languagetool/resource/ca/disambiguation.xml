@@ -1135,7 +1135,49 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="s_segle" name="s. > segle">
+        <pattern>
+            <marker>
+                <token>s</token>
+            </marker>
+            <token min="0">.</token>
+            <token regexp="yes">[XVICL]+</token>
+        </pattern>
+        <disambig action="add">
+            <wd lemma="segle" pos="NCMN000"/>
+        </disambig>
+    </rule>
     <rulegroup id="PERIODES_DE_TEMPS" name="períodes de temps">
+        <rule>
+            <pattern>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token postag="AO.*" postag_regexp="yes"/>
+                <token regexp="yes">meitat|terç|quart|part</token>
+                <token>de</token>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|&periodes_temps;|&estacions;|&parts_dia;<exception regexp="yes">segona|segones</exception></token>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|&periodes_temps;|&estacions;|&parts_dia;<exception regexp="yes">segona|segones</exception></token>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
         <rule>
             <pattern>
                 <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|&periodes_temps;|&estacions;|&parts_dia;<exception regexp="yes">segona|segones</exception></token>
@@ -11729,6 +11771,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="en_preposicio" name="en preposició, no article">
+        <pattern>
+            <marker>
+                <token postag="SPS00">en</token>
+            </marker>
+            <token postag="NC.*|A.*|V.P.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="DA0MS0"/>
+    </rule>
     <rulegroup id="DNA" name="Det + Nom + Adj/Possessiu/participi">
         <!--Falla amb nom neutre?: Aquest art expressa  -->
         <rule>
@@ -18061,7 +18112,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" skip="5">més|menys</token>
+                <token regexp="yes" skip="5">més|menys|millor|pitjor</token>
                 <marker>
                     <token>de</token>
                 </marker>
