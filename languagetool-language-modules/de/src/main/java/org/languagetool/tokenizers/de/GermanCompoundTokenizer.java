@@ -96,6 +96,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("abschattungen");
       words.add("kuscheltier");
       words.add("gastro");
+      words.add("hortensien");
       words.trim();
       return words;
     }
