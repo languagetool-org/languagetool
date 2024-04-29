@@ -51,6 +51,16 @@ Copyright (C) 2011 Juan Martorell
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
+    <rule id="SER_LA_REPERA" name="ser la repera">
+        <pattern>
+            <token skip="4" postag="VS.*" postag_regexp="yes" inflected="yes">ser</token>
+            <token>la</token>
+            <marker>
+                <token>repera</token>
+            </marker>
+        </pattern>
+        <disambig action="add"><wd pos="NCFS000"/></disambig>
+    </rule>
     <rulegroup id="IGNORE_ENGLISH_WORDS" name="etiqueta palabras inglesas para ignorarlas">
         <antipattern>
             <token regexp="yes">the|than</token>
@@ -7996,6 +8006,52 @@ Copyright (C) 2011 Juan Martorell
             <wd pos="_allow_apostrophe"/>
         </disambig>
     </rule>
+    <rulegroup id="jura_y_recontrajura" name="jura y recontrajura">
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>y</token>
+                <marker>
+                    <token>re<match no="0"/></token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>y</token>
+                <marker>
+                    <token><match no="0"/></token>
+                    <token>re<match no="1"/></token>
+                </marker>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>y</token>
+                <marker>
+                    <token>recontra<match no="0"/></token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>y</token>
+                <marker>
+                    <token><match no="0"/></token>
+                    <token>recontra<match no="1"/></token>
+                </marker>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="IGNORE_SPELLING_OF_ABBREVIATIONS" name="Ignore spelling of some uppercase abbreviations">
         <rule>
             <pattern>
@@ -8124,6 +8180,104 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
             </pattern>
             <disambig action="immunize"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="MATEMATICAS" name="notación matemática">
+        <rule>
+            <pattern>
+                <token regexp="yes">[&#x2200;-&#x22FF;]</token>
+                <token regexp="yes">[a-z]</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">[=&gt;&lt;\+]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[=&gt;&lt;]</token>
+                <token regexp="yes">[a-z]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z][⁰ⁱ²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">[⁰ⁱ²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">&math_operators;</token>
+                <token regexp="yes" case_sensitive="yes">[a-zA-Z]|[A-Z][A-Z]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[a-zA-Z]|[A-Z][A-Z]</token>
+                <token regexp="yes">&math_operators;</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="1" inflected="yes" regexp="yes">lado|recta|semirrecta|hipotenusa|base|altura|diagonal|segmento|distancia|triángulo|rectángulo|cuadrado|polígono|pentágono|hexágono</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[A-Z][A-Z]+</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="1" inflected="yes" regexp="yes">lado|recta|semirrecta|hipotenusa|base|altura|diagonal|segmento|distancia|triángulo|rectángulo|cuadrado|polígono|pentágono|hexágono</token>
+                <token case_sensitive="yes" regexp="yes">[A-Z][A-Z]+</token>
+                <token postag="_PUNT_CONT|CC" postag_regexp="yes"/>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[A-Z][A-Z]+</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="ignore_spelling_on_off" name="ignorar ortografía on/off">
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">estado|fase|posición</token>
+                <token min="0" postag="_QM_OPEN"/>
+                <marker>
+                    <token regexp="yes">on|off</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>on</token>
+                <token regexp="yes">[\-/]</token>
+                <token>off</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>off</token>
+                <token regexp="yes">[\-/]</token>
+                <token>on</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
     <rulegroup id="nombres_persona" name="nombres de persona abreviados">

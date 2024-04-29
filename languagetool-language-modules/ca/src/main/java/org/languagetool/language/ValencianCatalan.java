@@ -22,10 +22,13 @@ import java.io.IOException;
 import java.util.*;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ca.*;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ca.CatalanTagger;
 
@@ -50,6 +53,12 @@ public class ValencianCatalan extends Catalan {
   @Override
   public Tagger createDefaultTagger() {
     return CatalanTagger.INSTANCE_VAL;
+  }
+
+  @Nullable
+  @Override
+  public Synthesizer createDefaultSynthesizer() {
+    return CatalanSynthesizer.INSTANCE_VAL;
   }
 
   @Override

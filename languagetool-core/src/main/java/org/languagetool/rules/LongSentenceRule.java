@@ -53,9 +53,9 @@ public class LongSentenceRule extends TextLevelRule {
     setTags(Collections.singletonList(Tag.picky));
     int tmpMaxWords = maxWords;
     if (userConfig != null) {
-      int confWords = userConfig.getConfigValueByID(getId());
-      if (confWords > 0) {
-        tmpMaxWords = confWords;
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null) {
+        tmpMaxWords = (int) cf[0];
       }
     }
     this.maxWords = tmpMaxWords;
@@ -165,29 +165,13 @@ public class LongSentenceRule extends TextLevelRule {
     return 0;
   }
   
-// next functions give the user the possibility to configure the function
+  /**
+   *  give the user the possibility to configure the function
+   */
   @Override
-  public int getDefaultValue() {
-    return maxWords;
+  public RuleOption[] getRuleOptions() {
+    RuleOption[] ruleOptions = { new RuleOption(maxWords, messages.getString("guiLongSentencesText"), 5, 100) };
+    return ruleOptions;
   }
 
-  @Override
-  public boolean hasConfigurableValue() {
-    return true;
-  }
-
-  @Override
-  public int getMinConfigurableValue() {
-    return 5;
-  }
-
-  @Override
-  public int getMaxConfigurableValue() {
-    return 100;
-  }
-
-  @Override
-  public String getConfigureText() {
-    return messages.getString("guiLongSentencesText");
-  }
 }

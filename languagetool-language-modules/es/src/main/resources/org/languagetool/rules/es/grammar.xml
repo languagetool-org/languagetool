@@ -7139,13 +7139,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="VMSP[13]S0" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token>cuantas</token>
+                <token regexp="yes">cu[aá]ntas</token>
                 <token postag="NC[FC][PN].*" postag_regexp="yes"/>
                 <token postag_regexp="yes" min="0" max="2" postag="&pronombre_personal_atono_POS;"/>
                 <token postag="VMSP[13]S0" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token>cuantos</token>
+                <token regexp="yes">cu[aá]ntos</token>
                 <token postag="NC[MC][PN].*" postag_regexp="yes"/>
                 <token postag_regexp="yes" min="0" max="2" postag="&pronombre_personal_atono_POS;"/>
                 <token postag="VMSP[13]S0" postag_regexp="yes"/>
@@ -7240,7 +7240,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="VMSP[13]S0" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer</token>
+                <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer|encarecer</token>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
                 <token postag="VMSP[13]S0" postag_regexp="yes"/>
             </antipattern>
@@ -7249,9 +7249,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>desee</token>
             </antipattern>
             <antipattern>
-                <token>gracias</token>
+                <token skip="-1">gracias</token>
                 <token postag="CC|_PUNCT.*" postag_regexp="yes" min="1" max="2"/>
                 <token postag="VMSP[13]S0" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>foto</token>
+                <token>detalle</token>
+            </antipattern>
+            <antipattern>
+                <token>y</token>
+                <token>disculpe</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -11593,7 +11601,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>te</token>
                     </marker>
-                    <token regexp="yes">verde|perla|negro|borde|chino|herbal</token>
+                    <token regexp="yes">verde|perla|negro|borde|chino|herbal|&context_te;</token>
                 </pattern>
                 <message>Si es un sustantivo (bebida), lleva tilde.</message>
                 <suggestion>té</suggestion>
@@ -12969,11 +12977,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>no</token>
                 </antipattern>
                 <pattern>
-                    <token>con</token>
-                    <token regexp="yes">si|sí</token>
+                    <marker>
+                        <token>con</token>
+                        <token regexp="yes">si|sí</token>
+                    </marker>
+                    <token>mismo</token>
                 </pattern>
                 <message>¿Quería decir <suggestion>consigo</suggestion>?</message>
                 <example correction="consigo">Estaba satisfecho <marker>con sí</marker> mismo.</example>
+                <example>No tiene nada que ver con si es un guion o un punto.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SI_AFIRMACION" name="si -> sí">

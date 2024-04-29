@@ -189,6 +189,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern GITLAB = compile("[Gg]itlab");
   private static final Pattern BONAFIDE = compile("[Bb]onafide");
   private static final Pattern WHEREEVER = compile("[Ww]hereever");
+  private static final Pattern WHATSAPP = compile("[Ww]hatsapp");
+  private static final Pattern JETLAGGED = compile("jetlagged");
   private static final Pattern HUBSPOT = compile("[Hh]ubspot");
   private static final Pattern URL = compile("[Uu]rl");
   private static final Pattern TV = compile("tv");
@@ -197,6 +199,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern FYI = compile("[Ff]yi");
   private static final Pattern DEVOPS = compile("[Dd]evops");
   private static final Pattern ALLRIGHT = compile("[Aa]llright");
+  private static final Pattern ADDON = compile("[Aa]ddons?");
+  private static final Pattern UX = compile("ux");
   private static final Pattern LANGUAGETOOL = compile("[Ll]anguagetool");
   private static final Pattern UNDETERMINISTIC = compile("undeterministic");
 
@@ -1515,10 +1519,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (ENGLISH.matcher(word).matches()) return topMatch("English");
     if (SPANISH.matcher(word).matches()) return topMatch("Spanish");
     if (UNDETERMINISTIC.matcher(word).matches()) return topMatch("nondeterministic");
+    if (UX.matcher(word).matches()) return topMatch("UX");
     if (GITLAB.matcher(word).matches()) return topMatch("GitLab");
     if (BONAFIDE.matcher(word).matches()) return topMatch(word.replaceFirst("onafide", "ona fide"));
     if (ALLRIGHT.matcher(word).matches()) return topMatch(word.replaceFirst("llright", "lright"));
+    if (ADDON.matcher(word).matches()) return topMatch(word.replaceFirst("ddon", "dd-on"));
     if (WHEREEVER.matcher(word).matches()) return topMatch(word.replaceFirst("hereever", "herever"));
+    if (WHATSAPP.matcher(word).matches()) return topMatch("WhatsApp");
+    if (JETLAGGED.matcher(word).matches()) return topMatch("jet-lagged");
     if (TV.matcher(word).matches()) {
       List<SuggestedReplacement> l = new ArrayList<>();
       l.add(new SuggestedReplacement("TV"));

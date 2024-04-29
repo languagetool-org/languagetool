@@ -731,10 +731,14 @@ public class SingleDocument {
           }
           paragraphsCache.add(new ResultCache(this.paragraphsCache.get(i)));
         }
-        MessageHandler.printToLogFile("SingleDocument: writeCaches: Save Caches ...");
-        cacheIO.saveCaches(docCache, paragraphsCache, permanentIgnoredMatches, config, mDocHandler);
-        SpellCache sc = cacheIO.new SpellCache();
-        sc.write(LtSpellChecker.getWrongWords(), LtSpellChecker.getSuggestions());
+        if (cacheIO != null) {
+          MessageHandler.printToLogFile("SingleDocument: writeCaches: Save Caches ...");
+          cacheIO.saveCaches(docCache, paragraphsCache, permanentIgnoredMatches, config, mDocHandler);
+          SpellCache sc = cacheIO.new SpellCache();
+          sc.write(LtSpellChecker.getWrongWords(), LtSpellChecker.getSuggestions());
+        } else {
+          MessageHandler.printToLogFile("SingleDocument: writeCaches: cacheIO == null: Can't save cache");
+        }
       }
     } catch (Throwable t) {
       MessageHandler.showError(t);
@@ -1398,7 +1402,7 @@ public class SingleDocument {
         MessageHandler.printToLogFile("SingleDocument: getSynonymMap: Find Synonyms for word:" + word);
       }
 //      List<String> lemmas = lt.getLemmasOfWord(word);
-      List<String> lemmas = lt.getLemmasOfParagraph(para, error.nErrorStart);
+      List<String> lemmas = lt.isRemote() ? lt.getLemmasOfWord(word) : lt.getLemmasOfParagraph(para, error.nErrorStart);
       for (String lemma : lemmas) {
         if (debugMode > 1) {
           MessageHandler.printToLogFile("SingleDocument: getSynonymMap: Find Synonyms for lemma:" + lemma);

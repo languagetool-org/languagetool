@@ -31,6 +31,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
@@ -43,8 +44,6 @@ import org.languagetool.tools.StringTools;
  * to choose one among several possible readings.
  */
 public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
-
-  abstract protected Synthesizer getSynthesizer();
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
@@ -112,8 +111,9 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     boolean isWordCapitalized = StringTools.isCapitalizedWord(patternTokens[lemmaFrom - 1].getToken());
     boolean isWordAllupper = StringTools.isAllUppercase(patternTokens[lemmaFrom - 1].getToken());
     AnalyzedToken token = new AnalyzedToken("", desiredPostag, desiredLemma);
-    String[] replacements = getSynthesizer().synthesize(token, desiredPostag, true);
-    
+    Language language = getLanguageFromRuleMatch(match);
+    Synthesizer synth = language.getSynthesizer();
+    String[] replacements = synth.synthesize(token, desiredPostag, true);
     if (replacements.length > 0) {
       RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
           match.getMessage(), match.getShortMessage());
@@ -146,16 +146,9 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
       if (!suggestionUsed) {
         replacementsList.addAll(Arrays.asList(replacements));
       }
-      
       List<String> adjustedReplacementsList = new ArrayList<>();
-      Rule rule = match.getRule();
-      if (rule instanceof AbstractPatternRule) {  
-        Language lang = ((AbstractPatternRule) rule).getLanguage();
-        for (String replacement : replacementsList) {
-          adjustedReplacementsList.add(lang.adaptSuggestion(replacement));  
-        }
-      } else {
-        adjustedReplacementsList = replacementsList;
+      for (String replacement : replacementsList) {
+        adjustedReplacementsList.add(language.adaptSuggestion(replacement));
       }
       newMatch.setSuggestedReplacements(adjustedReplacementsList);
       return newMatch;

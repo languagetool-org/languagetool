@@ -1,5 +1,6 @@
 package org.languagetool.rules.pt;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
@@ -24,6 +25,57 @@ public class PortugueseEnclisisFilter extends RuleFilter {
     return pronounTag;
   }
 
+  // Extract pronoun tags from pronoun tokens
+  // We cannot just get all tags uncritically because of the 'nos' issue.
+  private List<String> getPronounTags(AnalyzedTokenReadings pronounReadings, String verbText,
+                                      boolean convertToAccusative) {
+    List<String> pronounTags = new ArrayList<>(Collections.emptyList());
+    for (AnalyzedToken pronounToken : pronounReadings) {
+      String pronounText = pronounToken.getToken();
+      if (pronounText.equals("nos")) {
+        pronounTags.add("PP1CPO00");
+        if (verbText.endsWith("m") || verbText.endsWith("ão") || verbText.endsWith("õe")) {
+          pronounTags.add("PP3MPA00");
+        }
+        break;
+      }
+      String posTag = pronounToken.getPOSTag();
+      if (posTag != null && posTag.startsWith("PP")) {
+        if (convertToAccusative) {
+          posTag = convertPronounToAccusative(posTag);
+        }
+        pronounTags.add(posTag);
+      }
+    }
+    return pronounTags;
+  }
+
+  @NotNull
+  private ArrayList<String> getVerbForms(AnalyzedTokenReadings verbStemTokenReadings, List<String> pronounTags) throws IOException {
+    HashSet<String> suggestions = new HashSet<>(Collections.emptyList());
+    boolean isTitleCase = StringTools.isCapitalizedWord(verbStemTokenReadings.getToken());
+    boolean isAllCaps = StringTools.isAllUppercase(verbStemTokenReadings.getToken());
+    for (AnalyzedToken at : verbStemTokenReadings.getReadings()) {
+      String posTag = at.getPOSTag();
+      if (posTag != null && posTag.startsWith("V")) {
+        for (String pronounTag : pronounTags) {
+          String enclisisTag = posTag + ":" + pronounTag;
+          String[] forms = getSynthesizer().synthesize(at, enclisisTag);
+          for (String form : forms) {
+            if (isTitleCase) {
+              form = StringTools.uppercaseFirstChar(form);
+            } else if (isAllCaps) {
+              form = form.toUpperCase();
+            }
+            suggestions.add(form);
+          }
+        }
+        break;
+      }
+    }
+    return new ArrayList<>(suggestions);
+  }
+
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
@@ -32,40 +84,12 @@ public class PortugueseEnclisisFilter extends RuleFilter {
     boolean convertToAccusative = Boolean.parseBoolean(arguments.get("convertToAccusative"));
     AnalyzedTokenReadings verbStemTokenReadings = patternTokens[verbPos];
     AnalyzedTokenReadings pronounTokenReadings = patternTokens[pronounPos];
-    String pronounTag = null;
-    for (AnalyzedToken at : pronounTokenReadings.getReadings()) {
-      String posTag = at.getPOSTag();
-      if (posTag != null && posTag.startsWith("PP")) {
-        pronounTag = posTag;
-        break;
-      }
-    }
-    if (pronounTag == null) {
+    List<String> pronounTags = getPronounTags(pronounTokenReadings, verbStemTokenReadings.getToken(),
+      convertToAccusative);
+    if (pronounTags.isEmpty()) {
       return null;
     }
-    if (convertToAccusative) {
-      pronounTag = convertPronounToAccusative(pronounTag);
-    }
-    List<String> suggestions = new ArrayList<>(Collections.emptyList());
-    boolean isTitleCase = StringTools.isCapitalizedWord(verbStemTokenReadings.getToken());
-    boolean isAllCaps = StringTools.isAllUppercase(verbStemTokenReadings.getToken());
-    for (AnalyzedToken at : verbStemTokenReadings.getReadings()) {
-      String posTag = at.getPOSTag();
-      if (posTag != null && posTag.startsWith("V")) {
-        String enclisisTag = posTag + ":" + pronounTag;
-        String[] forms = getSynthesizer().synthesize(at, enclisisTag);
-        for (String form : forms) {
-          if (isTitleCase) {
-            form = StringTools.uppercaseFirstChar(form);
-          } else if (isAllCaps) {
-            form = form.toUpperCase();
-          }
-          suggestions.add(form);
-        }
-        break;
-      }
-    }
-    match.setSuggestedReplacements(suggestions);
+    match.setSuggestedReplacements(getVerbForms(verbStemTokenReadings, pronounTags));
     return match;
   }
 }

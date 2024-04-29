@@ -732,8 +732,8 @@ abstract class TextChecker {
     return ruleMatchCount;
   }
 
-  private Map<String, Integer> getRuleValues(Map<String, String> parameters) {
-    Map<String, Integer> ruleValues = new HashMap<>();
+  private Map<String, Object[]> getRuleValues(Map<String, String> parameters) {
+    Map<String, Object[]> ruleValues = new HashMap<>();
     String parameterString = parameters.get("ruleValues");
     if (parameterString == null) {
       return ruleValues;
@@ -741,7 +741,8 @@ abstract class TextChecker {
     String[] pairs = parameterString.split(",");
     for (String pair : pairs) {
       String[] ruleAndValue  = pair.split(":");
-      ruleValues.put(ruleAndValue[0], Integer.parseInt(ruleAndValue[1]));
+      Object[] objects = RuleOption.stringToObjects(ruleAndValue[1]);
+      ruleValues.put(ruleAndValue[0], objects);
     }
     return ruleValues;
   }

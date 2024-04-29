@@ -54,8 +54,9 @@ public class GermanFillerWordsRuleTest {
     assertEquals(2, lt.check("Der Text enthält zu wenige Füllwörter, daher werden sie nicht angezeigt. Was sich an diesem Satz mit diesem relativ einfachen Füllwort zeigt. Dazu müssen noch eine Reihe von Sätzen geschrieben werden, um die Anzahl der Wörter zu erhöhen. Langsam sollten die Anzahl der Worte für das Drücken unter die kritische Grenze reichen. Jetzt schreibe ich einen Satz, der zwei Füllwörter hintereinander enthält, was allemal ziemlich ausreichend ist.").size());
     
     //  percentage set to zero - show all filler words
-    Map<String, Integer> ruleValues = new HashMap<>();
-    ruleValues.put("FILLER_WORDS_DE", 0);
+    Map<String, Object[]> ruleValues = new HashMap<>();
+    Object[] o = { 0 };  
+    ruleValues.put("FILLER_WORDS_DE", o);
     UserConfig userConfig = new UserConfig(ruleValues);
     setUpRule(lt, userConfig);
     assertEquals(1, lt.check("»Der Satz enthält augenscheinlich ein Füllwort«").size());

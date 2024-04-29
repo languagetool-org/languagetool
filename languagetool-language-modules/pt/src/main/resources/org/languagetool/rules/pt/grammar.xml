@@ -11432,6 +11432,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
                 <example>...mã, minha digníssima esposa Magnólia, sempre tão solidária em relação aos problemas de sua família (entenda-se pais e irmãs) resolveu convidá-la a ficar uns tempos morando em casa, ou seja, na edícula, com a Freira,...</example>
             </antipattern>
+            <antipattern> <!-- levar-se/demorar-se as impersonal verbs -->
+                <token postag_regexp="yes" postag="V....S.:PP3CNO00" regexp="yes" inflected="yes">levar|demorar</token>
+                <token postag_regexp="yes" postag="R." min="0" max="2"/>
+                <token postag_regexp='yes' postag='D...P.+' min='0'/>
+                <token regexp="yes">segundos|minutos|horas|dias|semanas|meses|anos|décadas|séculos|milênios</token>
+                <example>Leva-se anos para dominar uma língua estrangeira.</example>
+                <example>Demorou-se ainda muitas horas até chegarem.</example>
+            </antipattern>
 
             <rule>
                 <antipattern>
@@ -11444,14 +11452,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </antipattern>
                 <pattern>
                     <token postag_regexp='yes' postag='V...3S.:PP3CNO00' regexp='no'>
-                        <exception inflected='yes'>concentrar</exception>
+                        <exception inflected='yes' regexp="yes">concentrar|chamar|haver|precisar|confiar|acreditar|crer|referir|falar</exception>
                         <exception negate_pos='yes' postag_regexp='yes' postag='V....S.:PP3CNO00'/>
                     </token>
                     <token min="0" max="3" postag_regexp='yes' postag='R.'/>
                     <token postag_regexp='yes' postag='D...P.+' min='0'>
-                        <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
+                        <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/>
+                    </token>
                     <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+'>
-                        <exception negate_pos='yes' postag_regexp='yes' postag='(?:N..|A...)P.+'/></token>
+                        <exception negate_pos='yes' postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+                    </token>
                 </pattern>
                 <message>Possível erro de concordância.</message>
                 <suggestion><match no='1' postag='(V...3)S(.+)' include_skipped='all' postag_replace='$1P$2' postag_regexp='yes'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
@@ -11464,6 +11474,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Entre estes dois domínios opostos, encontra-se ainda os denominados sistemas econmicos mistos.</example>
                 <example>Na contagem do PIB, considera-se apenas bens e serviços finais, excluindo da conta todos os bens de consumo de intermediário.</example>
                 <example>A área agrícola ocupa cerca de 56,6% da área total deste concelho e nesta área inclui-se também as suiniculturas.</example>
+                <example>A claque do clube chama-se Ultras 2007.</example>
+                <example>A estas peças chama-se itens.</example>
+                <example>Houve-se especulações de um suposto suicídio.</example>
+                <example>E também precisava-se menos de adaptações.</example>
+                <example>Refere-se as antigas práticas.</example>  <!-- crasis issue, can't match here -->
             </rule>
             <rule>
                 <pattern>
@@ -12567,21 +12582,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes">por|do</token>
                     <token>que</token>
                     <token postag_regexp="yes" postag="R." min="0" max="2"/>
-                    <token postag_regexp="yes" postag="(VMN.+|V.SF3S0):PP.+"/>
+                    <token postag_regexp="yes" postag="(VMN0000|VMIP2S0):PP.+"/>
                     <example>Por que não ensiná-los?</example>
                     <example>É melhor confiá-la a ti do que entregá-la a um estranho.</example>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes">saber</token>
-                    <token regexp="yes">quando|onde</token>
+                    <token regexp="yes">onde|como|para|porque</token>
                     <token postag_regexp="yes" postag="R." min="0" max="2"/>
-                    <token postag_regexp="yes" postag="(VMN.+|V.SF3S0):PP.+"/>
+                    <token postag_regexp="yes" postag="(VMN0000|VMIP2S0):PP.+"/>
                     <example>Não sei onde achá-lo.</example>
+                    <example>É preciso estudar para entendê-lo.</example>
+                    <example>Não sei como usá-lo.</example>
+                    <example>Não sei como dizê-lo.</example>
+                    <!-- typo, but we still need to ignore -->
+                    <example>Ainda não sabe como usa-los.</example>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">ter</token>
                     <token>que</token>
-                    <token postag_regexp="yes" postag="(VMN.+|V.SF3S0):PP.+"/>
+                    <token postag_regexp="yes" postag="(VMN0000|VMIP2S0):PP.+"/>
                     <example>Temos que achá-lo.</example>
                     <example>Você terá que adicioná-los um a um.</example>
                 </antipattern>
@@ -12644,6 +12663,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction='me diga'>Não <marker>diga-me</marker> isso.</example>
             <example correction='te farei'>Nunca <marker>farei-te</marker> essa promessa.</example>
             <example correction='se propôs'>Ninguém <marker>propôs-se</marker> a fazer o relatório de contas.</example>
+            <!-- specifically test verb tagged with SENT_END -->
+            <example correction="o entendi">Sei que <marker>entendi-o</marker></example>
         </rule>
 
         <rule id="COLOCACAO_PRONOMINAL_COM_ATRATOR_COMPLEXO" default="temp_off">
@@ -36886,126 +36907,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>WALL-E' focuses on its hero's heart</example>
             <example>it's free</example>
         </rule>
-        <!-- PODERIAM-SE poder-se-ia -->
+
         <rulegroup id='PODERIAM-SE' name="Formas verbais: poderiam-se → poder-se-iam">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-24/30 + 2021-12-02 (Enhanced) (25-JUN-2021+)      -->
-            <!--
-      Assim poderia-se escrever à Ana. → Assim poder-se-ia escrever à Ana.
-      Assim poderias-te declarar à Ana. → Assim poder-te-ias declarar à Ana.
-      Assim poderiam-se escrever livros sobre o assunto. → Assim poder-se-iam escrever livros sobre o assunto.
-      Assim encontrarei-te amanhã. → Assim encontrar-te-ei amanhã.
-      Assim encontraremos-nos amanhã. → Assim encontrar-nos-emos amanhã.
-      Assim comerá-me o pão. → Assim comer-me-á o pão.
-      Assim comerás-me o pão. → Assim comer-me-ás o pão.
-      Assim comerão-me o pão. → Assim comer-me-ão o pão.
-
-      ; Notice that there are exceptions for the verbs 'dizer' and 'fazer' ('dir-me-ás' and 'far-me-ás')
-      as I see no easy way of coding them.
-      -->
-            <!-- ia/ias/iam -->
+            <short>Possível erro de colocação pronominal.</short>
             <rule>
                 <pattern>
-                    <token postag='VMI[C][13]S.+' postag_regexp='yes'>
-                        <exception regexp='yes' inflected='yes'>dizer|fazer</exception>
-                    </token>
+                    <token postag='VMI[CF]...+' postag_regexp='yes'/>
                     <token regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
+                    <token regexp='yes' spacebefore='no'>&pronomes_obliquos;</token>
                 </pattern>
-                <message>Forma verbal não existente.</message>
-                <suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-ia</suggestion>
+                <filter class="org.languagetool.rules.pt.PortugueseEnclisisFilter" args="verbPos:0 pronounPos:2 convertToAccusative:False"/>
+                <message>Em tais casos, deve-se usar a mesóclise em vez da ênclise.</message>
+                <suggestion>{suggestion}</suggestion>
                 <example correction="poder-se-ia">Assim <marker>poderia-se</marker> escrever à Ana.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag='VMI[C]2S.+' postag_regexp='yes'>
-                        <exception regexp='yes' inflected='yes'>dizer|fazer</exception>
-                    </token>
-                    <token regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
-                </pattern>
-                <message>Forma verbal não existente.</message>
-                <suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-ias</suggestion>
+                <example correction="Far-se-ia"><marker>Faria-se</marker> melhor com mais queijo.</example>
+                <example correction="Pô-los-ia"><marker>Poria-os</marker> no seu lugar.</example>
                 <example correction="poder-te-ias">Assim <marker>poderias-te</marker> declarar à Ana.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag='VMI[C]3P.+' postag_regexp='yes'>
-                        <exception regexp='yes' inflected='yes'>dizer|fazer</exception>
-                    </token>
-                    <token regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
-                </pattern>
-                <message>Forma verbal não existente.</message>
-                <suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-iam</suggestion>
                 <example correction="poder-se-iam">Assim <marker>poderiam-se</marker> escrever livros sobre o assunto.</example>
-            </rule>
-
-            <!-- ei/emos -->
-            <rule>
-                <pattern>
-                    <token postag='VMI[F]1S.+' postag_regexp='yes'>
-                        <exception regexp='yes' inflected='yes'>dizer|fazer</exception>
-                    </token>
-                    <token regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
-                </pattern>
-                <message>Forma verbal não existente.</message>
-                <suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-ei</suggestion>
                 <example correction="encontrar-te-ei">Assim <marker>encontrarei-te</marker> amanhã.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag='VMI[F]1P.+' postag_regexp='yes'>
-                        <exception regexp='yes' inflected='yes'>dizer|fazer</exception>
-                    </token>
-                    <token regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
-                </pattern>
-                <message>Forma verbal não existente.</message>
-                <suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-emos</suggestion>
                 <example correction="encontrar-nos-emos">Assim <marker>encontraremos-nos</marker> amanhã.</example>
-            </rule>
-
-            <!-- á/ás -->
-            <rule>
-                <pattern>
-                    <token postag='VMI[F]3S.+' postag_regexp='yes'>
-                        <exception regexp='yes' inflected='yes'>dizer|fazer</exception>
-                    </token>
-                    <token regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
-                </pattern>
-                <message>Forma verbal não existente.</message>
-                <suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-á</suggestion>
+                <example correction="encontrar-nos-ão|encontrá-los-ão">Assim <marker>encontrarão-nos</marker> amanhã.</example>
                 <example correction="comer-me-á">Assim <marker>comerá-me</marker> o pão.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag='VMI[F]2S.+' postag_regexp='yes'>
-                        <exception regexp='yes' inflected='yes'>dizer|fazer</exception>
-                    </token>
-                    <token regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
-                </pattern>
-                <message>Forma verbal não existente.</message>
-                <suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-ás</suggestion>
-                <example correction="comer-me-ás">Assim <marker>comerás-me</marker> o pão.</example>
-            </rule>
-
-            <!-- ão -->
-            <rule>
-                <pattern>
-                    <token postag='VMI[F]3P.+' postag_regexp='yes'>
-                        <exception regexp='yes' inflected='yes'>dizer|fazer</exception>
-                    </token>
-                    <token regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token regexp='yes' spacebefore='no'>se|lhes?|me|te|nos|vos</token>
-                </pattern>
-                <message>Forma verbal não existente.</message>
-                <suggestion><match no='1' postag="V.+" postag_replace='VMN0000' postag_regexp="yes"/>-\3-ão</suggestion>
+                <example correction="comê-la-ás">Quanto à pizza, assim <marker>comerás-a</marker> o pão.</example>
                 <example correction="comer-me-ão">Assim <marker>comerão-me</marker> o pão.</example>
+                <example correction="Far-vos-íamos"><marker>Faríamos-vos</marker> um grande favor.</example>
+                <example correction="dir-lhes-ia">Ontem, <marker>diria-lhes</marker> a verdade.</example>
+                <example correction="trá-lo-ia">Assim, <marker>traria-o</marker> sem medo.</example>
+                <example correction="tê-la-iam">Assim, <marker>teriam-na</marker> onde a querem.</example>
+                <example correction="dar-lhe-ia">Assim, <marker>daria-lhe</marker> um presente.</example>
             </rule>
-
         </rulegroup>
 
         <rulegroup id="WHATSAPP" name="WhatsApp">

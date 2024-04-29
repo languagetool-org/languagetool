@@ -11178,6 +11178,15 @@ RB => Règles Brutes
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rule id="URL" name="url">
+        <!-- It excludes URLs from list of unknown words -->
+        <pattern>
+            <token regexp="yes">(https?|ftp)://.*|www.*</token>
+        </pattern>
+        <disambig action="add">
+            <wd pos="IS_URL" lemma="IS_URL"/>
+        </disambig>
+    </rule>
     <rulegroup id="IGNORE_SPELLING_OF_ABBREVIATIONS" name="Ignore spelling of some uppercase abbreviations">
         <rule>
             <!-- lowercase word + abbreviation with no vowels -->

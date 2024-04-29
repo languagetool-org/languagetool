@@ -242,12 +242,12 @@ public class French extends Language implements AutoCloseable {
     output = TYPOGRAPHY_PATTERN_14.matcher(output).replaceAll("\u00a0");
     output = TYPOGRAPHY_PATTERN_15.matcher(output).replaceAll("\u202f");
     output = TYPOGRAPHY_PATTERN_16.matcher(output).replaceAll("\u202f");
-    
+
     return output;
   }
 
   /**
-   * Closes the language model, if any. 
+   * Closes the language model, if any.
    * @since 3.1
    */
   @Override
@@ -300,7 +300,7 @@ public class French extends Language implements AutoCloseable {
     id2prio.put("Y_A", 10); // needs to be higher than spell checker for style suggestion
     id2prio.put("COTE", 10); // needs to be higher than D_N
     id2prio.put("PEUTETRE", 10); // needs to be higher than AUX_ETRE_VCONJ
-    id2prio.put("A_A_ACCENT", 10); // triggers false alarms for IL_FAUT_INF if there is no a/à correction 
+    id2prio.put("A_A_ACCENT", 10); // triggers false alarms for IL_FAUT_INF if there is no a/à correction
     id2prio.put("A_ACCENT_A", 10); // greater than PRONSUJ_NONVERBE
     id2prio.put("A_A_ACCENT2", 10); // greater than ACCORD_SUJET_VERBE
     id2prio.put("A_ACCENT", 10); // greater than ACCORD_SUJET_VERBE
@@ -365,7 +365,7 @@ public class French extends Language implements AutoCloseable {
     id2prio.put("MOTS_INCOMP", -400); // greater than PRONSUJ_NONVERBE and DUPLICATE_DETERMINER
     id2prio.put("FRENCH_WHITESPACE", -400); // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
     id2prio.put("MOT_TRAIT_MOT", -400); // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
-    id2prio.put("FRENCH_WORD_REPEAT_BEGINNING_RULE", -350); // less than REPETITIONS_STYLE	    
+    id2prio.put("FRENCH_WORD_REPEAT_BEGINNING_RULE", -350); // less than REPETITIONS_STYLE
   }
 
   @Override
@@ -393,7 +393,7 @@ public class French extends Language implements AutoCloseable {
     }
     if (id.equals("SON")) {
       return -5; // less than ETRE_VPPA_OU_ADJ
-    }		
+    }
     if (id.startsWith("CAR")) {
       return -50; // lesser than grammar rules
     }
@@ -426,23 +426,9 @@ public class French extends Language implements AutoCloseable {
 
   @Override
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
+    ruleMatches = adaptAposTypSuggestions(ruleMatches, enabledRules);
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
-      if (enabledRules.contains("APOS_TYP")) {
-        List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
-        List<SuggestedReplacement> newReplacements = new ArrayList<>();
-        for (SuggestedReplacement s : replacements) {
-          String newReplStr = s.getReplacement();
-          if (s.getReplacement().length() > 1) {
-            newReplStr = s.getReplacement().replace('\'', '’');
-          }
-          SuggestedReplacement newRepl = new SuggestedReplacement(s);
-          newRepl.setReplacement(newReplStr);
-          newReplacements.add(newRepl);
-        }
-        rm = new RuleMatch(rm, newReplacements);
-      }
-
       if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("MISSING_PRONOUN_LAPOSTROPHE")) {
         if (rm.getFromPos() >= 3) {
           String substring = rm.getSentence().getText().substring(rm.getFromPos() - 3, rm.getToPos());
@@ -462,6 +448,93 @@ public class French extends Language implements AutoCloseable {
       newRuleMatches.add(rm);
     }
     return newRuleMatches;
+  }
+
+  @Override
+  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+    List<RuleMatch> processedMatches = processOrthographyToCasing(ruleMatches, text, enabledRules);
+    List<RuleMatch> resultMatches = new ArrayList<>();
+    RuleMatch previousMatch = null;
+    for (int i = 0; i < processedMatches.size(); i++) {
+      RuleMatch currentMatch = processedMatches.get(i);
+      if (previousMatch != null && previousMatch.getRule().getId().startsWith("AI_FR_GGEC") &&
+              currentMatch.getRule().getId().startsWith("AI_FR_GGEC")) {
+        if (previousMatch.getToPos() > currentMatch.getFromPos()) {
+          continue;  // Skip overlapping matches
+        }
+        // Check if matches are adjacent and share the same 'picky' status
+        if ((previousMatch.getToPos() == currentMatch.getFromPos() || previousMatch.getToPos() + 1 == currentMatch.getFromPos()) &&
+                (previousMatch.getRule().getTags().contains(Tag.picky) == currentMatch.getRule().getTags().contains(Tag.picky))) {
+          // Merge if they have the same ITSIssueType
+          if (previousMatch.getRule().getLocQualityIssueType() == currentMatch.getRule().getLocQualityIssueType()) {
+            RuleMatch mergedMatch = new RuleMatch(mergeMatches(previousMatch, currentMatch));
+            previousMatch = mergedMatch;
+            continue;
+          }
+          // If matches have different ITSIssueTypes but neither is a style match, merge them
+          if (previousMatch.getRule().getLocQualityIssueType() != currentMatch.getRule().getLocQualityIssueType() &&
+                  previousMatch.getRule().getLocQualityIssueType() != ITSIssueType.Style && currentMatch.getRule().getLocQualityIssueType() != ITSIssueType.Style) {
+            RuleMatch mergedMatch = new RuleMatch(mergeMatches(previousMatch, currentMatch));
+            previousMatch = mergedMatch;
+            continue;
+          }
+        }
+        // If no merge happened, add the previous match to results
+        resultMatches.add(previousMatch);
+        previousMatch = currentMatch;  // Move to next match
+      } else {
+        // Ensure current match becomes previous if no merging criteria are met
+        if (previousMatch != null) {
+          resultMatches.add(previousMatch);
+        }
+        previousMatch = currentMatch;
+      }
+    }
+    // Add the last processed match if it exists and hasn't been added yet
+    if (previousMatch != null) {
+      resultMatches.add(previousMatch);
+    }
+    return resultMatches;
+  }
+
+
+
+  private RuleMatch mergeMatches(RuleMatch match1, RuleMatch match2) {
+    // Calculate separator based on position
+    String separator = "";
+    if (match1.getToPos() + 1 == match2.getFromPos()) {
+      separator = " ";
+    }
+    // Merge original error strings and suggested replacements
+    String newErrorStr = match1.getOriginalErrorStr() + separator + match2.getOriginalErrorStr();
+    String newReplacement = match1.getSuggestedReplacements().get(0) + separator + match2.getSuggestedReplacements().get(0);
+
+    // Create a new merged RuleMatch object
+    RuleMatch mergedMatch = new RuleMatch(match1.getRule(), match1.getSentence(), match1.getFromPos(), match2.getToPos(),
+            "Il pourrait y avoir un problème ici.", "Erreur potentielle");
+    mergedMatch.setOriginalErrorStr(newErrorStr);
+    mergedMatch.setSuggestedReplacement(newReplacement);
+
+    // Set ID based on issue type
+    String newId = "AI_FR_MERGED_MATCH";
+    if (match1.getRule().getLocQualityIssueType().equals(ITSIssueType.Style) &&
+            match2.getRule().getLocQualityIssueType().equals(ITSIssueType.Style)) {
+      newId += "_STYLE";
+    }
+    if (match1.getRule().getTags().contains(Tag.picky) &&
+            match2.getRule().getTags().contains(Tag.picky)) {
+      newId += "_PICKY";
+    }
+    mergedMatch.setSpecificRuleId(newId);
+
+    // Set ITSIssueType to Grammar unless both are Style
+    if (!match1.getRule().getLocQualityIssueType().equals(match2.getRule().getLocQualityIssueType())) {
+      mergedMatch.getRule().setLocQualityIssueType(ITSIssueType.Grammar);
+    } else if (match1.getRule().getLocQualityIssueType() == ITSIssueType.Style) {
+      mergedMatch.getRule().setLocQualityIssueType(ITSIssueType.Style);
+    }
+
+    return mergedMatch;
   }
 
   private final List<String> spellerExceptions = Arrays.asList("Ho Chi Minh");
@@ -492,8 +565,26 @@ public class French extends Language implements AutoCloseable {
     return FrenchMultitokenSpeller.INSTANCE;
   }
 
-  @Override
-  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+  public List<RuleMatch> adaptAposTypSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
+    List<RuleMatch> newRuleMatches = new ArrayList<>();
+    for (RuleMatch rm : ruleMatches) {
+      if (enabledRules.contains("APOS_TYP")) {
+        List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
+        List<SuggestedReplacement> newReplacements = new ArrayList<>();
+        for (SuggestedReplacement s : replacements) {
+          String newReplStr = s.getReplacement().replace('\'', '’');
+          SuggestedReplacement newRepl = new SuggestedReplacement(s);
+          newRepl.setReplacement(newReplStr);
+          newReplacements.add(newRepl);
+        }
+        rm = new RuleMatch(rm, newReplacements);
+      }
+      newRuleMatches.add(rm);
+    }
+    return newRuleMatches;
+  }
+
+  public List<RuleMatch> processOrthographyToCasing(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
     List<RuleMatch> results = new ArrayList<>();
     for (RuleMatch ruleMatch : ruleMatches) {
       List<String> suggestions = ruleMatch.getSuggestedReplacements();

@@ -105,12 +105,12 @@ public class Catalan extends Language {
             new SimpleReplaceAdverbsMent(messages),
             new CatalanWordRepeatBeginningRule(messages, this),
             new CompoundRule(messages, this, userConfig),
-            new CatalanRepeatedWordsRule(messages), 
+            new CatalanRepeatedWordsRule(messages, this),
             new SimpleReplaceDNVRule(messages, this),
             new SimpleReplaceDNVColloquialRule(messages, this),
             new SimpleReplaceDNVSecondaryRule(messages, this),
-            new WordCoherencyRule(messages)
-            //new EndOfParagraphPunctuationRule(messages)
+            new WordCoherencyRule(messages),
+            new PunctuationMarkAtParagraphEnd(messages, this)
     );
   }
 
@@ -123,7 +123,7 @@ public class Catalan extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return CatalanSynthesizer.INSTANCE;
+    return CatalanSynthesizer.INSTANCE_CAT;
   }
 
   @Override
@@ -209,6 +209,7 @@ public class Catalan extends Language {
       case "MOTS_NO_SEPARATS": return 40;
       case "REPETEAD_ELEMENTS": return 40;
       case "ESPERANT_US_AGRADI": return 40;
+      case "LO_NEUTRE": return 40; // lower than other INCORRECT_EXPRESSIONS
       case "ESPAIS_SOBRANTS": return 40; // greater than L
       case "ELA_GEMINADA": return 35; // greater than agreement rules, pronoun rules
       case "CONFUSIONS_PRONOMS_FEBLES": return 35; // greater than ES (DIACRITICS), PRONOMS_FEBLES_DARRERE_VERB
@@ -352,6 +353,9 @@ public class Catalan extends Language {
           newReplStr = m.replaceAll("$1u$2");
           Matcher m2 = POSSESSIUS_V.matcher(newReplStr);
           newReplStr = m2.replaceAll("$1U$2");
+          newReplStr = newReplStr.replace("feina", "faena");
+          newReplStr = newReplStr.replace("feiner", "faener");
+          newReplStr = newReplStr.replace("feinera", "faenera");
         }
         // s = adaptContractionsApostrophes(s);
         Matcher m5 = CA_OLD_DIACRITICS.matcher(newReplStr);
@@ -404,6 +408,8 @@ public class Catalan extends Language {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern CA_APOSTROPHES6 = compile("\\bs'e(ns|ls)\\b",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern CA_APOSTROPHES7 = compile("\\b(de|a)l (h?[aeoàúèéí][^ ])",
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern POSSESSIUS_v = compile("\\b([mtsMTS]e)v(a|es)\\b",
       Pattern.UNICODE_CASE);
   private static final Pattern POSSESSIUS_V = compile("\\b([MTS]E)V(A|ES)\\b",
@@ -427,6 +433,8 @@ public class Catalan extends Language {
     s = m5.replaceAll("$1$2");
     Matcher m6 = CA_APOSTROPHES6.matcher(s);
     s = m6.replaceAll("se'$1");
+    Matcher m7 = CA_APOSTROPHES7.matcher(s);
+    s = m7.replaceAll("$1 l'$2");
     if (capitalized) {
       s = StringTools.uppercaseFirstChar(s);
     }

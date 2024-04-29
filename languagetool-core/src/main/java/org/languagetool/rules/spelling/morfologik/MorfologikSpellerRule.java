@@ -231,7 +231,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       } else {
         // should not happen, as we only configure this rule (or rather its subclasses)
         // when we have the resources:
-        return true;
+        throw new RuntimeException("Cannot find dictionary file " + getFileName());
       }
     }
     return false;
@@ -592,7 +592,13 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     userSuggestions = filterDupes(userSuggestions);
     defaultSuggestions = orderSuggestions(defaultSuggestions, word);
 
-    return Lists.newArrayList(Iterables.concat(userSuggestions, defaultSuggestions));
+    if (word.length()>4) {
+      return Lists.newArrayList(Iterables.concat(userSuggestions, defaultSuggestions));
+    } else {
+      // Don't use short words from user dictionaries because they usually hide the best suggestions
+      return Lists.newArrayList(Iterables.concat(defaultSuggestions, userSuggestions));
+    }
+
   }
 
   protected void addHyphenSuggestions(String[] split, List<SuggestedReplacement> topSuggestions) throws IOException {

@@ -30,7 +30,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.synthesis.ca.CatalanSynthesizer;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
 
 /*
@@ -41,8 +41,6 @@ import org.languagetool.tools.StringTools;
 public class AdjustPronounsFilter extends RuleFilter {
 
   Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
-
-  static private CatalanSynthesizer synth = CatalanSynthesizer.INSTANCE;
 
   private static Map<String, String> addEnApostrophe = new HashMap<>();
   static {
@@ -145,6 +143,7 @@ public class AdjustPronounsFilter extends RuleFilter {
 
     List<String> replacements = new ArrayList<>();
     List<String> actions = Arrays.asList(getRequired("actions", arguments).split(","));
+    Synthesizer synth = getSynthesizerFromRuleMatch(match);
     String newLemma = getOptional("newLemma", arguments);
     int posWord = 0;
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();

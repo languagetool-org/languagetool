@@ -66,7 +66,7 @@ public abstract class AbstractRepeatedWordsRule extends TextLevelRule {
   }
 
   private final String ruleId;
-  private final Language language;
+  protected final Language language;
   
   @Override
   public abstract String getDescription();

@@ -48,6 +48,7 @@ import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.RuleOption;
 import org.languagetool.rules.TextLevelRule;
 
 /**
@@ -309,12 +310,19 @@ class LORemoteLanguageTool {
   /**
    * Set the values for rules
    */
-  private void setRuleValues(Map<String, Integer> configurableValues) {
+  private void setRuleValues(Map<String, Object[]> configurableValues) {
     ruleValues.clear();
     Set<String> rules = configurableValues.keySet();
     for (String rule : rules) {
-      String ruleValueString = rule + ":" + configurableValues.get(rule);
-      ruleValues.add(ruleValueString);
+      Object[] obs = configurableValues.get(rule);
+      if (obs != null && obs.length > 0) {
+        String rOptions = RuleOption.objectsToString(obs);
+        if (rOptions.charAt(0) == 'i') {  // for compatibility with older server versions
+          rOptions = rOptions.substring(1);
+        }
+        String ruleValueString = rule + ":" + rOptions;
+        ruleValues.add(ruleValueString);
+      }
     }
   }
   
@@ -450,6 +458,51 @@ class LORemoteLanguageTool {
       allRules.add(rule);
     }
   }
+  
+  static RuleOption[] getRuleOptionsFromMap(Map<String,String> ruleMap) {
+    if (ruleMap.containsKey("ruleOptions")) {
+      Object o = ruleMap.get("ruleOptions");
+      @SuppressWarnings("unchecked")
+      List<Map<String,Object>> rOptions = (List<Map<String, Object>>) o;
+      RuleOption[] ruleOptions = new RuleOption[rOptions.size()];
+      for (int i = 0; i < rOptions.size(); i++) {
+        String defaultType = (String) rOptions.get(i).get(RuleOption.DEFAULT_TYPE);
+        String configureText = (String) rOptions.get(i).get(RuleOption.CONF_TEXT);
+        Object defaultValue;
+        Object minConfigurableValue;
+        Object maxConfigurableValue;
+        if (defaultType.equals("Integer")) {
+          defaultValue = (int) rOptions.get(i).get(RuleOption.DEFAULT_VALUE);
+          minConfigurableValue = (int) rOptions.get(i).get(RuleOption.MIN_CONF_VALUE);
+          maxConfigurableValue = (int) rOptions.get(i).get(RuleOption.MAX_CONF_VALUE);
+        } else if (defaultType.equals("Character")) {
+          defaultValue = rOptions.get(i).get(RuleOption.DEFAULT_VALUE).toString().charAt(0);
+          minConfigurableValue = rOptions.get(i).get(RuleOption.MIN_CONF_VALUE).toString().charAt(0);
+          maxConfigurableValue = rOptions.get(i).get(RuleOption.MAX_CONF_VALUE).toString().charAt(0);
+        } else if (defaultType.equals("Boolean")) {
+          defaultValue = (boolean) rOptions.get(i).get(RuleOption.DEFAULT_VALUE);
+          minConfigurableValue = (int) rOptions.get(i).get(RuleOption.MIN_CONF_VALUE);
+          maxConfigurableValue = (int) rOptions.get(i).get(RuleOption.MAX_CONF_VALUE);
+        } else if (defaultType.equals("Float")) {
+          defaultValue = (float) rOptions.get(i).get(RuleOption.DEFAULT_VALUE);
+          minConfigurableValue = (float) rOptions.get(i).get(RuleOption.MIN_CONF_VALUE);
+          maxConfigurableValue = (float) rOptions.get(i).get(RuleOption.MAX_CONF_VALUE);
+        } else if (defaultType.equals("Double")) {
+          defaultValue = (double) rOptions.get(i).get(RuleOption.DEFAULT_VALUE);
+          minConfigurableValue = (double) rOptions.get(i).get(RuleOption.MIN_CONF_VALUE);
+          maxConfigurableValue = (double) rOptions.get(i).get(RuleOption.MAX_CONF_VALUE);
+        } else {
+          defaultValue = rOptions.get(i).get(RuleOption.DEFAULT_VALUE).toString();
+          minConfigurableValue = rOptions.get(i).get(RuleOption.MIN_CONF_VALUE).toString();
+          maxConfigurableValue = rOptions.get(i).get(RuleOption.MAX_CONF_VALUE).toString();
+        }
+        ruleOptions[i] = new RuleOption(defaultValue, configureText, minConfigurableValue, maxConfigurableValue);
+      }
+      return ruleOptions;
+    } else {
+      return null;
+    }
+  }
 
   /**
    * Class to define remote (sentence level) rules
@@ -464,6 +517,7 @@ class LORemoteLanguageTool {
     private final int minConfigurableValue;
     private final int maxConfigurableValue;
     private final String configureText;
+    private final RuleOption[] ruleOptions;
     
     RemoteRule(Map<String,String> ruleMap) {
       ruleId = ruleMap.get("ruleId");
@@ -478,12 +532,13 @@ class LORemoteLanguageTool {
         setOfficeDefaultOff();
       }
       isDictionaryBasedSpellingRule = ruleMap.containsKey("isDictionaryBasedSpellingRule");
+      ruleOptions = getRuleOptionsFromMap(ruleMap);
       if (ruleMap.containsKey("hasConfigurableValue")) {
         hasConfigurableValue = true;
-        defaultValue = Integer.parseInt(ruleMap.get("defaultValue"));
-        minConfigurableValue = Integer.parseInt(ruleMap.get("minConfigurableValue"));
-        maxConfigurableValue = Integer.parseInt(ruleMap.get("maxConfigurableValue"));
-        configureText = ruleMap.get("configureText");
+        defaultValue = Integer.parseInt(ruleMap.get(RuleOption.DEFAULT_VALUE));
+        minConfigurableValue = Integer.parseInt(ruleMap.get(RuleOption.MIN_CONF_VALUE));
+        maxConfigurableValue = Integer.parseInt(ruleMap.get(RuleOption.MAX_CONF_VALUE));
+        configureText = ruleMap.get(RuleOption.CONF_TEXT);
       } else {
         hasConfigurableValue = false;
         defaultValue = 0;
@@ -504,6 +559,7 @@ class LORemoteLanguageTool {
       minConfigurableValue = 0;
       maxConfigurableValue = 100;
       configureText = "";
+      ruleOptions = null;
       String categoryId = remoteMatch.getCategoryId().orElse(null);
       String categoryName = remoteMatch.getCategory().orElse(null);
       if (categoryId != null && categoryName != null) {
@@ -531,28 +587,15 @@ class LORemoteLanguageTool {
     }
 
     @Override
-    public boolean hasConfigurableValue() {
-      return hasConfigurableValue;
-    }
-
-    @Override
-    public int getDefaultValue() {
-      return defaultValue;
-    }
-
-    @Override
-    public int getMinConfigurableValue() {
-      return minConfigurableValue;
-    }
-
-    @Override
-    public int getMaxConfigurableValue() {
-      return maxConfigurableValue;
-    }
-
-    @Override
-    public String getConfigureText() {
-      return configureText;
+    public RuleOption[] getRuleOptions() {
+      if (ruleOptions != null) {
+        return ruleOptions;
+      }
+      if (hasConfigurableValue) {
+        RuleOption[] ruleOptions = { new RuleOption(defaultValue, configureText, minConfigurableValue, maxConfigurableValue) };
+        return ruleOptions;
+      }
+      return null;
     }
 
     @Override
@@ -576,6 +619,7 @@ class LORemoteLanguageTool {
     private final int maxConfigurableValue;
     private final int minToCheckParagraph;
     private final String configureText;
+    private final RuleOption[] ruleOptions;
     
     RemoteTextLevelRule(Map<String,String> ruleMap) {
       ruleId = ruleMap.get("ruleId");
@@ -590,12 +634,13 @@ class LORemoteLanguageTool {
         setOfficeDefaultOff();
       }
       isDictionaryBasedSpellingRule = ruleMap.containsKey("isDictionaryBasedSpellingRule");
+      ruleOptions = getRuleOptionsFromMap(ruleMap);
       if (ruleMap.containsKey("hasConfigurableValue")) {
         hasConfigurableValue = true;
-        defaultValue = Integer.parseInt(ruleMap.get("defaultValue"));
-        minConfigurableValue = Integer.parseInt(ruleMap.get("minConfigurableValue"));
-        maxConfigurableValue = Integer.parseInt(ruleMap.get("maxConfigurableValue"));
-        configureText = ruleMap.get("configureText");
+        defaultValue = Integer.parseInt(ruleMap.get(RuleOption.DEFAULT_VALUE));
+        minConfigurableValue = Integer.parseInt(ruleMap.get(RuleOption.MIN_CONF_VALUE));
+        maxConfigurableValue = Integer.parseInt(ruleMap.get(RuleOption.MAX_CONF_VALUE));
+        configureText = ruleMap.get(RuleOption.CONF_TEXT);
       } else {
         hasConfigurableValue = false;
         defaultValue = 0;
@@ -624,28 +669,15 @@ class LORemoteLanguageTool {
     }
 
     @Override
-    public boolean hasConfigurableValue() {
-      return hasConfigurableValue;
-    }
-
-    @Override
-    public int getDefaultValue() {
-      return defaultValue;
-    }
-
-    @Override
-    public int getMinConfigurableValue() {
-      return minConfigurableValue;
-    }
-
-    @Override
-    public int getMaxConfigurableValue() {
-      return maxConfigurableValue;
-    }
-
-    @Override
-    public String getConfigureText() {
-      return configureText;
+    public RuleOption[] getRuleOptions() {
+      if (ruleOptions != null) {
+        return ruleOptions;
+      }
+      if (hasConfigurableValue) {
+        RuleOption[] ruleOptions = { new RuleOption(defaultValue, configureText, minConfigurableValue, maxConfigurableValue) };
+        return ruleOptions;
+      }
+      return null;
     }
 
     @Override

@@ -49,9 +49,9 @@ public class LongParagraphRule extends TextLevelRule {
       this.maxWords = defaultWords;
     }
     if (userConfig != null) {
-      int confWords = userConfig.getConfigValueByID(getId());
-      if (confWords > 0) {
-        this.maxWords = confWords;
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null) {
+        this.maxWords = (int) cf[0];
       }
     }
     setLocQualityIssueType(ITSIssueType.Style);
@@ -77,28 +77,13 @@ public class LongParagraphRule extends TextLevelRule {
     return RULE_ID;
   }
 
+  /**
+   *  give the user the possibility to configure the function
+   */
   @Override
-  public int getDefaultValue() {
-    return maxWords;
-  }
-
-  @Override
-  public boolean hasConfigurableValue() {
-    return true;
-  }
-
-  @Override
-  public int getMinConfigurableValue() {
-    return 5;
-  }
-
-  @Override
-  public int getMaxConfigurableValue() {
-    return 300;
-  }
-
-  public String getConfigureText() {
-    return messages.getString("guiLongParagraphsText");
+  public RuleOption[] getRuleOptions() {
+    RuleOption[] ruleOptions = { new RuleOption(maxWords, messages.getString("guiLongParagraphsText"), 5, 300) };
+    return ruleOptions;
   }
 
   public String getMessage() {

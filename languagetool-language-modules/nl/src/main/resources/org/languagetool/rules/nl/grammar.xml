@@ -1830,25 +1830,6 @@ regexp case-insensitive maken: (?i)
 				<example correction="betaalt">Je oom <marker>betaald</marker> .</example>
 			</rule>
 			<rule>
-				<!-- pattern hash: b73fdb14b8eb331f8554c727438ba2bd, pattern count: 26 -->
-				<pattern>
-					<token postag="SENT_START"/>
-					<token postag="ZNW:EKV:DE_"/>
-					<marker>
-						<token postag="WKW:VTD:ONV" regexp="yes">&VTD_3EP_VERWAR_T_D;d</token>
-					</marker>
-					<token postag="VRZ"/>
-					<!--
-					<token postag="VNW:AWZ:EKV:DE_"/>
-					<token postag="ZNW:EKV:DE_"/>
-					<token postag="SENT_END" regexp="yes">[.!?]</token>
-					-->
-				</pattern>
-				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
-				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
-				<example correction="behoort">Dromer <marker>behoord</marker> aan de wildernis .</example>
-			</rule>
-			<rule>
 				<!-- pattern hash: c2be524cd6eab88658aae82ae4bb0289, pattern count: 26 -->
 				<pattern>
 					<token postag="SENT_START"/>
@@ -2564,6 +2545,19 @@ regexp case-insensitive maken: (?i)
 				<message>De werkwoordvorm lijkt niet te kloppen of het hulpwerkwoord ontbreekt.</message>
 				<suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>
 				<example correction="beknibbelt">Wintersporter <marker>beknibbeld</marker> flink .</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="ALS_NOG" name="als nog - alsnog" default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token>als</token>
+						<token>nog</token>
+					</marker>
+					<token postag_regexp="yes" postag="WKW.*|VGW|VRZ"/>
+				</pattern>
+				<message>Did you mean <suggestion>alsnog</suggestion>?</message>
+				<example correction="alsnog">Dat moet je <marker>als nog</marker> met de auto.</example>
 			</rule>
 		</rulegroup>
 	</category>

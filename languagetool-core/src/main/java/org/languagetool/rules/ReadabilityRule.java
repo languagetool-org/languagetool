@@ -76,7 +76,10 @@ public class ReadabilityRule extends TextLevelRule {
     int tmpLevel = -1;
     if (userConfig != null) {
       linguServices = userConfig.getLinguServices();
-      tmpLevel = userConfig.getConfigValueByID(getId(tooEasyTest));
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null) {
+        tmpLevel = (int) cf[0];
+      }
     } else {
       linguServices = null;
     }
@@ -111,33 +114,17 @@ public class ReadabilityRule extends TextLevelRule {
       return "Readability: Too difficult text";
     }
   }
-
-  @Override
-  public int getDefaultValue() {
-//    return (tooEasyTest ? 4 : 2);
-    return (3);
-  }
   
-  @Override
-  public boolean hasConfigurableValue() {
-    return true;
-  }
-
-  @Override
-  public int getMinConfigurableValue() {
-    return 0;
-  }
-
-  @Override
-  public int getMaxConfigurableValue() {
-    return 6;
-  }
-  
-  @Override
   public String getConfigureText() {
     return "Level of readability 0 (very difficult) to 6 (very easy):";
   }
-  
+
+  @Override
+  public RuleOption[] getRuleOptions() {
+    RuleOption[] ruleOptions = { new RuleOption(3, getConfigureText(), 0, 6) };
+    return ruleOptions;
+  }
+
   public int getAllSentences() {
     return nAllSentences;
   }

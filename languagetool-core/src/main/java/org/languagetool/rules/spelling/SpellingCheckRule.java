@@ -324,7 +324,7 @@ public abstract class SpellingCheckRule extends Rule {
 
   protected boolean isIgnoredNoCase(String word) {
     return isInIgnoredSet(word) ||
-           (convertsCase && isInIgnoredSet(word.toLowerCase(language.getLocale()))) ||
+           (!StringTools.isMixedCase(word) && convertsCase && isInIgnoredSet(word.toLowerCase(language.getLocale()))) ||
            (ignoreWordsWithLength > 0 && word.length() <= ignoreWordsWithLength);
   }
 

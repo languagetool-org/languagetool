@@ -575,7 +575,14 @@ public class GrammalecteRule extends Rule {
     "g2__typo_ordinaux_chiffres_exposants__b5_a1_1",
     "g2__conf_dès_des_dés__b5_a1_1",
     "g3__infi_faire__b2_a1_1",
-    "g3__infi_verbes__b4_a1_1"
+    "g3__infi_verbes__b4_a1_1",
+    "gv2__vmode_verbe_que_subjonctif__b6_a1_1",
+    "gv2__conj_le_la_leur_nom__b3_a3_1",
+    "gv1__ppas_pron_pluriel_se_être_ppas__b1_a1_1",
+    "g2__conf_si_vconj__b1_a1_1",
+    "g2__conf_à_vconj__b2_a1_1",
+    "g3__conf_pris_prix__b1_a1_1",
+    "g2__tu_locutions__b12_a1_1"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {

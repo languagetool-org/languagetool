@@ -45,6 +45,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleOption;
 
 /**
  * Configuration like list of disabled rule IDs, server mode etc.
@@ -157,7 +158,7 @@ public class Configuration {
   private final Map<String, Color> underlineRuleColors = new HashMap<>();
   private final Map<String, Short> underlineTypes = new HashMap<>();
   private final Map<String, Short> underlineRuleTypes = new HashMap<>();
-  private final Map<String, Integer> configurableRuleValues = new HashMap<>();
+  private final Map<String, Object[]> configurableRuleValues = new HashMap<>();
   private final Set<String> styleLikeCategories = new HashSet<>();
   private final Map<String, String> specialTabCategories = new HashMap<>();
 
@@ -392,7 +393,7 @@ public class Configuration {
       this.underlineRuleTypes.put(entry.getKey(), entry.getValue());
     }
     this.configurableRuleValues.clear();
-    for (Map.Entry<String, Integer> entry : configuration.configurableRuleValues.entrySet()) {
+    for (Map.Entry<String, Object[]> entry : configuration.configurableRuleValues.entrySet()) {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
     }
     this.styleLikeCategories.clear();
@@ -1125,28 +1126,37 @@ public class Configuration {
    * returns all configured values
    * @since 4.2
    */
-  public Map<String, Integer> getConfigurableValues() {
+  public Map<String, Object[]> getConfigurableValues() {
     return configurableRuleValues;
   }
 
   /**
    * Get the configurable value of a rule by ruleID
-   * returns -1 if no value is set by configuration
-   * @since 4.2
+   * returns default value if no value is set by configuration
+   * @since 6.5
    */
-  public int getConfigurableValue(String ruleID) {
-    if (configurableRuleValues.containsKey(ruleID)) {
-      return configurableRuleValues.get(ruleID);
+  public <T> T getConfigValueByID(String ruleID, int index, Class<T> clazz, T defaultValue) {
+    Object[] value = configurableRuleValues.get(ruleID);
+    if (value == null || index >= value.length || !clazz.isInstance(value[index])) {
+      return defaultValue;
     }
-    return -1;
+    return (T) value[index];
   }
 
   /**
-   * Set the value for a rule with ruleID
-   * @since 4.2
+   * Set the values for a rule by ruleID
+   * @since 6.5
    */
-  public void setConfigurableValue(String ruleID, int value) {
-    configurableRuleValues.put(ruleID, value);
+  public void setConfigurableValue(String ruleID, Object[] values) {
+    configurableRuleValues.put(ruleID, values);
+  }
+
+  /**
+   * Remove the configuration values of a rule by ruleID
+   * @since 6.5
+   */
+  public void removeConfigurableValue(String ruleID) {
+    configurableRuleValues.remove(ruleID);
   }
 
   /**
@@ -1466,13 +1476,17 @@ public class Configuration {
 
   private void parseConfigurableRuleValues(String rulesValueString) {
     if (StringUtils.isNotEmpty(rulesValueString)) {
-      String[] ruleToValueList = rulesValueString.split(CONFIGURABLE_RULE_SPLITTER_REGEXP);
+      String[] ruleToValueList = rulesValueString.split(",");
       for (String ruleToValue : ruleToValueList) {
-        String[] ruleAndValue = ruleToValue.split(":");
-        if (ruleAndValue.length != 2) {
-          throw new RuntimeException("Could not parse rule and value, colon expected: '" + ruleToValue + "'");
+        ruleToValue = ruleToValue.trim();
+        if (!ruleToValue.isEmpty()) {
+          String[] ruleAndValue = ruleToValue.split(":");
+          if (ruleAndValue.length != 2) {
+            throw new RuntimeException("Could not parse rule and value, colon expected: '" + ruleToValue + "'");
+          }
+          Object[] objects = RuleOption.stringToObjects(ruleAndValue[1]);
+          configurableRuleValues.put(ruleAndValue[0].trim(), objects);
         }
-        configurableRuleValues.put(ruleAndValue[0], Integer.parseInt(ruleAndValue[1]));
       }
     }
   }
@@ -1771,8 +1785,16 @@ public class Configuration {
     }
     if (!configurableRuleValues.isEmpty()) {
       StringBuilder sbRV = new StringBuilder();
-      for (Map.Entry<String, Integer> entry : configurableRuleValues.entrySet()) {
-        sbRV.append(entry.getKey()).append(':').append(entry.getValue()).append(", ");
+      int i = 0;
+      for (Map.Entry<String, Object[]> entry : configurableRuleValues.entrySet()) {
+        Object[] obs = entry.getValue();
+        if (obs != null && obs.length > 0) {
+          if (i > 0) {
+            sbRV.append(",");
+          }
+          sbRV.append(entry.getKey()).append(':').append(RuleOption.objectsToString(obs));
+          i++;
+        }
       }
       props.setProperty(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier, sbRV.toString());
     }

@@ -171,11 +171,11 @@ public class StatAnConfiguration {
   private int getDefaultStep(TextLevelRule rule) {
     int defaultStep;
     if (rule instanceof AbstractStatisticSentenceStyleRule) {
-      defaultStep = (int) (((((AbstractStatisticSentenceStyleRule) rule).getDefaultValue() - 1) / 3.) + 0.5);
+      defaultStep = (int) ((((int)((AbstractStatisticSentenceStyleRule) rule).getRuleOptions()[0].getDefaultValue() - 1) / 3.) + 0.5);
     } else if (rule instanceof AbstractStatisticStyleRule) {
-      defaultStep = (int) (((((AbstractStatisticStyleRule) rule).getDefaultValue() - 1) / 3.) + 0.5);
+      defaultStep = (int) ((((int)((AbstractStatisticStyleRule) rule).getRuleOptions()[0].getDefaultValue() - 1) / 3.) + 0.5);
     } else if (rule instanceof AbstractStyleTooOftenUsedWordRule) {
-      defaultStep = (int) (((((AbstractStyleTooOftenUsedWordRule) rule).getDefaultValue() - 1) / 3.) + 0.5);
+      defaultStep = (int) ((((int)((AbstractStyleTooOftenUsedWordRule) rule).getRuleOptions()[0].getDefaultValue() - 1) / 3.) + 0.5);
     } else {
       return -1;
     }

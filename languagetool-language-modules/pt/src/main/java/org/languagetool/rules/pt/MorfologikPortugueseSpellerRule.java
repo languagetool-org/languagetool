@@ -156,8 +156,12 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
     List<String> suggestedParts = new ArrayList<>();
     for (String part : wordParts) {
       if (speller1.isMisspelled(part)) {
-        // keep it simple, only first suggestion for now
-        suggestedParts.add(speller1.getSuggestions(part).get(0));
+        List<String> partSuggestions = speller1.getSuggestions(part);
+        if (partSuggestions.isEmpty()) {  // if no suggestions, keep the part and hope for the best
+          suggestedParts.add(part);
+        } else {
+          suggestedParts.add(speller1.getSuggestions(part).get(0));  // keep it simple, only first suggestion for now
+        }
       } else {
         suggestedParts.add(part);
       }
