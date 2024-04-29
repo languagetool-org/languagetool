@@ -250,7 +250,8 @@ public class Catalan extends Language {
       case "PREFIXOS_SENSE_GUIONET_EN_DICCIONARI": return 10; // greater than SPELLING
       case "ZERO_O": return 10; //greater than SPELLING
       case "URL": return 10; //greater than SPELLING
-      case "CONCORDANCES_DET_NOM": return 5;
+      case "CONCORDANCES_DET_NOM": return 5; // greater then DE_EL_S_APOSTROFEN
+      case "CONCORDANCES_DET_ADJ": return 5; // greater then DE_EL_S_APOSTROFEN
       case "PASSAR_SE": return 5; // greater than OBLIDARSE
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
       case "SPELLING": return 5;
