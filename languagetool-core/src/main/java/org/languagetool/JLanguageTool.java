@@ -1415,6 +1415,11 @@ public class JLanguageTool {
     int lineCount = 0;
     int columnCount = 1;
     List<SentenceData> result = new ArrayList<>(texts.size());
+
+    if (analyzedSentences == null || analyzedSentences.isEmpty()) {
+      return result;
+    }
+
     for (int i = 0; i < texts.size(); i++) {
       String sentence = texts.get(i);
       result.add(new SentenceData(analyzedSentences.get(i), sentence, charCount, lineCount, columnCount));
