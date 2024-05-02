@@ -1747,7 +1747,10 @@
         <token inflected='yes' regexp='yes'>caminhar|correr|explicar|inaugurar|ver|comprar</token>
         <token min='0' postag='R.' postag_regexp='yes'/>
         <marker>
-          <token>a</token>
+            <and> <!-- only when the determiner reading has not already been dismissed -->
+                <token postag_regexp="yes" postag="S.+">a</token>
+                <token postag_regexp="yes" postag="[^S].+">a</token>
+            </and>
         </marker>
       </pattern>
       <disambig action="remove" postag="S.+"/>
