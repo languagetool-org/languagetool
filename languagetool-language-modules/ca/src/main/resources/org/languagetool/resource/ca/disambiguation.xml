@@ -167,6 +167,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                    <token regexp="yes">a|to|is</token>
+                </marker>
+                <token postag="_english_ignore_"/>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token postag="_english_ignore_"/>
                 <marker>
                     <token regexp="yes">a|to|is<exception postag="_english_ignore_"/></token>

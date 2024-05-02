@@ -333,6 +333,11 @@ public class MultiDocumentsHandler {
                   loc = OfficeSpreadsheetTools.getDocumentLocale(xComponent);
                 }
                 docLanguage = getLanguage(loc);
+                if (docLanguage == null) {
+                  //  language is not supported --> use default for configuration
+                  loc = new Locale("en","US","");
+                  docLanguage = getLanguage(loc);
+                }
               }
               config = getConfiguration();
             }

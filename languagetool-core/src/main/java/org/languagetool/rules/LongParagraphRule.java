@@ -35,6 +35,7 @@ public class LongParagraphRule extends TextLevelRule {
 
   private static final boolean DEFAULT_ACTIVATION = false;
   private static final int DEFAULT_MAX_WORDS = 220;
+  private static final int LIMIT_MAX_WORDS = 300;
 
   private final Language lang;
 
@@ -82,7 +83,8 @@ public class LongParagraphRule extends TextLevelRule {
    */
   @Override
   public RuleOption[] getRuleOptions() {
-    RuleOption[] ruleOptions = { new RuleOption(maxWords, messages.getString("guiLongParagraphsText"), 5, 300) };
+    RuleOption[] ruleOptions = { new RuleOption(maxWords, MessageFormat.format(
+        messages.getString("guiLongParagraphsText"), LIMIT_MAX_WORDS), 5, LIMIT_MAX_WORDS) };
     return ruleOptions;
   }
 
@@ -110,8 +112,9 @@ public class LongParagraphRule extends TextLevelRule {
         if (!token.isWhitespace() && !token.isSentenceStart() && !token.isNonWord()) {
           wordCount++;
           if (wordCount == maxWords) {
-            startPos = token.getStartPos() + pos;
             endPos = token.getEndPos() + pos;
+          } else if (wordCount == maxWords - 1) {
+            startPos = token.getStartPos() + pos;
           }
         }
       }

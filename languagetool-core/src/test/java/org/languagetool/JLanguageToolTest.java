@@ -33,23 +33,47 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class JLanguageToolTest {
 
+  private final Language LANG = Languages.getLanguageForShortCode("xx");
+
   @Test
   public void testUserConfig() throws IOException {
-    Language lang = Languages.getLanguageForShortCode("xx");
-    JLanguageTool lt1 = new JLanguageTool(lang);
+    JLanguageTool lt1 = new JLanguageTool(LANG);
     lt1.disableRule("test_unification_with_negation");
     List<RuleMatch> matches1 = lt1.check("This is my test");
     assertThat(matches1.size(), is(0));
 
     List<Rule> userRules = new ArrayList<>();
     List<PatternToken> patternTokens = Arrays.asList(PatternRuleBuilderHelper.token("my"), PatternRuleBuilderHelper.token("test"));
-    userRules.add(new PatternRule("MY_TEST", lang, patternTokens, "test rule desc", "my test rule", "my test rule"));
+    userRules.add(new PatternRule("MY_TEST", LANG, patternTokens, "test rule desc", "my test rule", "my test rule"));
     Map<String, Object[]> map = new HashMap<>();
     UserConfig userConfig = new UserConfig(Collections.emptyList(), userRules, map, -1, 1L, "fake", null, null, false, null, null, false, null);
-    JLanguageTool lt2 = new JLanguageTool(lang, null, userConfig);
+    JLanguageTool lt2 = new JLanguageTool(LANG, null, userConfig);
     lt2.disableRule("test_unification_with_negation");
     List<RuleMatch> matches2 = lt2.check("This is my test");
     assertThat(matches2.size(), is(1));
+  }
+
+  @Test
+  public void testCheckString() throws IOException {
+    JLanguageTool jLanguageTool = new JLanguageTool(LANG);
+    List<RuleMatch> ruleMatches = jLanguageTool.check("This is my test.");
+    assertThat(ruleMatches.size(), is(1));
+  }
+
+  @Test
+  public void testCheckStringWithCallbackReturnsTrue() throws IOException {
+    JLanguageTool jLanguageTool = new JLanguageTool(LANG);
+    jLanguageTool.setCheckCancelledCallback(() -> true);
+    List<RuleMatch> ruleMatches = jLanguageTool.check("This is my test.");
+    assertThat(ruleMatches.size(), is(0));
+  }
+
+  @Test
+  public void testCheckStringWithCallbackReturnsFalse() throws IOException {
+    JLanguageTool jLanguageTool = new JLanguageTool(LANG);
+    jLanguageTool.setCheckCancelledCallback(() -> false);
+    List<RuleMatch> ruleMatches = jLanguageTool.check("This is my test.");
+    assertThat(ruleMatches.size(), is(1));
   }
 
 }
