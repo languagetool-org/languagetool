@@ -490,6 +490,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           !repLc.startsWith("sub ") &&
           !repLc.startsWith("auto ") &&
           !repLc.startsWith("pl ") &&
+          !repLc.startsWith("ht ") &&
           !repLc.startsWith("dis ") &&
           !repLc.startsWith("est ") &&
           !repLc.startsWith("mono ") &&
@@ -564,6 +565,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           !rep.endsWith(" able") &&
           !rep.endsWith(" om") &&
           !rep.endsWith(" ox") &&
+          !rep.endsWith(" ht") &&
           !rep.endsWith(" wide") && // (e.g. storewide)
           !rep.endsWith(" less") && // (e.g. permissionless)
           !rep.endsWith(" sly") && // unnecessary suggestion (e.g. for continuesly)
