@@ -76,6 +76,7 @@ public class SwJLanguageTool {
       lt = null;
       mlt = null;
       rlt = new LORemoteLanguageTool(language, motherTongue, config, extraRemoteRules, userConfig);
+      //  TODO: CleanOverlappingMatches
       if (!rlt.remoteRun()) {
         MessageHandler.showMessage(MESSAGES.getString("loRemoteSwitchToLocal"));
         isRemote = false;
@@ -85,9 +86,11 @@ public class SwJLanguageTool {
     } else if (isMultiThread) {
       lt = null;
       mlt = new MultiThreadedJLanguageToolLo(language, motherTongue, userConfig);
+      mlt.setCleanOverlappingMatches(false);
       rlt = null;
     } else {
       lt = new JLanguageToolLo(language, motherTongue, null, userConfig);
+      lt.setCleanOverlappingMatches(false);
       mlt = null;
       rlt = null;
     }

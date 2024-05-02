@@ -359,7 +359,7 @@ public class SingleCheck {
       List <TextParagraph> toRemarkTextParas = new ArrayList<>();
       for (int i = 0; i < changedParas.size(); i++) {
         if (!singleDocument.isRunning(i)) {
-          List<SentenceErrors> sentencesErrors = getSentencesErrosAsList(changedParas.get(i), lt, LoErrorType.GRAMMAR);
+          List<SentenceErrors> sentencesErrors = getSentencesErrosAsList(changedParas.get(i), lt, LoErrorType.GRAMMAR, true);
           changedParasMap.put(changedParas.get(i), sentencesErrors);
           if (debugMode > 1) {
             String message = "SingleCheck: remarkChangedParagraphs: Mark errors: Paragraph: " + changedParas.get(i) 
@@ -916,7 +916,7 @@ public class SingleCheck {
   /**
    * get all errors of a Paragraph as list
    */
-  private List<SentenceErrors> getSentencesErrosAsList(int numberOfParagraph, SwJLanguageTool lt, LoErrorType errType) {
+  private List<SentenceErrors> getSentencesErrosAsList(int numberOfParagraph, SwJLanguageTool lt, LoErrorType errType, boolean noOverlap) {
     List<SentenceErrors> sentenceErrors = new ArrayList<SentenceErrors>();
     if (!isDisposed()) {
       CacheEntry entry = paragraphsCache.get(0).getCacheEntry(numberOfParagraph);
@@ -938,7 +938,8 @@ public class SingleCheck {
           errorList.add(cache.getMatches(numberOfParagraph, errType));
         }
         sentenceErrors.add(new SentenceErrors(startPosition, nextSentencePositions.get(0), 
-            singleDocument.mergeErrors(errorList, numberOfParagraph)));
+            (noOverlap ? singleDocument.filterOverlappingErrors(singleDocument.mergeErrors(errorList, numberOfParagraph)) :
+            singleDocument.mergeErrors(errorList, numberOfParagraph))));
       } else {
         for (int nextPosition : nextSentencePositions) {
           List<SingleProofreadingError[]> errorList = new ArrayList<SingleProofreadingError[]>();
@@ -946,7 +947,8 @@ public class SingleCheck {
             errorList.add(cache.getFromPara(numberOfParagraph, startPosition, nextPosition, errType));
           }
           sentenceErrors.add(new SentenceErrors(startPosition, nextPosition, 
-              singleDocument.mergeErrors(errorList, numberOfParagraph)));
+              (noOverlap ? singleDocument.filterOverlappingErrors(singleDocument.mergeErrors(errorList, numberOfParagraph)) :
+                singleDocument.mergeErrors(errorList, numberOfParagraph))));
           startPosition = nextPosition;
         }
       }

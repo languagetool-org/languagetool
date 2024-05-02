@@ -44,6 +44,7 @@ import com.sun.star.frame.XModel;
 import com.sun.star.lang.EventObject;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiServiceFactory;
+import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.text.XTextRange;
 import com.sun.star.ui.ActionTriggerSeparatorType;
 import com.sun.star.ui.ContextMenuExecuteEvent;
@@ -610,10 +611,10 @@ public class LtMenus {
               }
             }
             if (!isSpellError) {
+              document.getErrorAndChangeRange(aEvent);
               if (document.getCurrentNumberOfParagraph() >= 0) {
                 props.setPropertyValue("CommandURL", LT_IGNORE_ONCE_COMMAND);
               }
-
               XPropertySet xNewMenuEntry3 = UnoRuntime.queryInterface(XPropertySet.class,
                   xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
               xNewMenuEntry3.setPropertyValue("Text", MESSAGES.getString("loContextMenuIgnorePermanent"));
