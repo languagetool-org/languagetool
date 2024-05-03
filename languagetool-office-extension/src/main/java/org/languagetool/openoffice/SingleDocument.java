@@ -1409,7 +1409,7 @@ public class SingleDocument {
    * Splits overlapping errors
    */
   public SingleProofreadingError[] filterOverlappingErrors (SingleProofreadingError[] errors) {
-    MessageHandler.printToLogFile("errors: " + errors.length);
+//    MessageHandler.printToLogFile("errors: " + errors.length);
     if (errors == null || errors.length < 2) {
       return errors;
     }
@@ -1429,12 +1429,12 @@ public class SingleDocument {
     if (overlaps.isEmpty()) {
       return errors;
     }
-    MessageHandler.printToLogFile("overlaps: " + overlaps.size());
-    for (int i : overlaps) {
-      MessageHandler.printToLogFile("Rule: " + errors[i].aRuleIdentifier 
-          + ", nStart: " + errors[i].nErrorStart + ", nLength: " + errors[i].nErrorLength);
-    }
-    MessageHandler.printToLogFile("");
+//    MessageHandler.printToLogFile("overlaps: " + overlaps.size());
+//    for (int i : overlaps) {
+//      MessageHandler.printToLogFile("Rule: " + errors[i].aRuleIdentifier 
+//          + ", nStart: " + errors[i].nErrorStart + ", nLength: " + errors[i].nErrorLength);
+//    }
+//    MessageHandler.printToLogFile("");
     List<SingleProofreadingError> filteredErrors = new ArrayList<>();
     for (int i = 0; i < overlaps.size(); i++) {
       int k = overlaps.get(i);
@@ -1448,8 +1448,8 @@ public class SingleDocument {
             if (error2.nErrorStart + error2.nErrorLength < error1.nErrorStart + error1.nErrorLength) {
               SingleProofreadingError tmpError = duplicateSingleProofreadingError(error1);
               error1.nErrorLength = error2.nErrorStart - error1.nErrorStart - 1;
-              MessageHandler.printToLogFile("Add Error(1): Rule: " + error1.aRuleIdentifier 
-                  + ", nStart: " + error1.nErrorStart + ", nLength: " + error1.nErrorLength);
+//              MessageHandler.printToLogFile("Add Error(1): Rule: " + error1.aRuleIdentifier 
+//                  + ", nStart: " + error1.nErrorStart + ", nLength: " + error1.nErrorLength);
               filteredErrors.add(error1);
               error1 = tmpError;
               int diff = error2.nErrorStart + error2.nErrorLength - error1.nErrorStart;
@@ -1461,8 +1461,8 @@ public class SingleDocument {
           }
         }
       }
-      MessageHandler.printToLogFile("Add Error(2): Rule: " + error1.aRuleIdentifier 
-          + ", nStart: " + error1.nErrorStart + ", nLength: " + error1.nErrorLength);
+//      MessageHandler.printToLogFile("Add Error(2): Rule: " + error1.aRuleIdentifier 
+//          + ", nStart: " + error1.nErrorStart + ", nLength: " + error1.nErrorLength);
       filteredErrors.add(error1);
     }
     for(int i = 0; i < errors.length; i++) {
@@ -1470,11 +1470,11 @@ public class SingleDocument {
         filteredErrors.add(errors[i]);
       }
     }
-    MessageHandler.printToLogFile("");
-    for (SingleProofreadingError error : filteredErrors) {
-      MessageHandler.printToLogFile("Rule: " + error.aRuleIdentifier 
-          + ", nStart: " + error.nErrorStart + ", nLength: " + error.nErrorLength);
-    }
+//    MessageHandler.printToLogFile("");
+//    for (SingleProofreadingError error : filteredErrors) {
+//      MessageHandler.printToLogFile("Rule: " + error.aRuleIdentifier 
+//          + ", nStart: " + error.nErrorStart + ", nLength: " + error.nErrorLength);
+//    }
     return filteredErrors.toArray(new SingleProofreadingError[0]);
   }
 
