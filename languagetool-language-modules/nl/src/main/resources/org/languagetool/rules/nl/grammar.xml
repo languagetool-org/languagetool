@@ -488,6 +488,20 @@ regexp case-insensitive maken: (?i)
 	</category>
 
 	<category id="GRAMMAR" name="Grammaticaregels">
+		<rulegroup id="ANTWOORD_ANTWOORDT" name="...of iemand antwoord(t)." default="temp_off">
+			<rule>
+				<pattern>
+					<token>of</token>
+					<token postag_regexp="yes" postag="VNW.*"/>
+					<marker>
+						<token>antwoord</token>
+					</marker>
+					<token regexp="yes">[.,]</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>antwoordt</suggestion>.</message>
+				<example correction="antwoordt">Ik ben benieuwd of iemand <marker>antwoord</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rule id="MEN_MIJN" name="Appels zijn men (mijn) favoriete fruitsoort" type="misspelling" >
 			<pattern>
 				<token>zijn</token>
@@ -724,7 +738,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="gemeentehuizen">Hoeveel <marker>gemeentehuize</marker> heb je gevonden?</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="TYPE_MEERVOUD" name="Alle type(typen) mensen." default="temp_off">
+		<rulegroup id="TYPE_MEERVOUD" name="Alle type(typen) mensen.">
 			<rule>
 				<pattern>
 				    <token postag_regexp="yes" postag="BNW:STL:VRB|GET.*|VNW:OBP.*">
@@ -739,7 +753,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="typen">Wij bieden verschillende <marker>type</marker> voertuigen aan.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="WILDER_DE" name="wilder (wilde) de..." default="temp_off">
+		<rulegroup id="WILDER_DE" name="wilder (wilde) de...">
 			<rule>
 				<antipattern>
 					<token regexp="yes">hoe|te</token>
@@ -900,7 +914,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="behandelt">De Duitse dokter <marker>behandeld</marker> de patient.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="HET_GET" name="Voor get(het) grootste deel wel" default="temp_off">
+		<rulegroup id="HET_GET" name="Voor get(het) grootste deel wel">
 			<rule>
 				<antipattern>
 					<token skip="3">get</token>
@@ -2547,7 +2561,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="beknibbelt">Wintersporter <marker>beknibbeld</marker> flink .</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="ALS_NOG" name="als nog - alsnog" default="temp_off">
+		<rulegroup id="ALS_NOG" name="als nog - alsnog">
 			<rule>
 				<pattern>
 					<marker>
