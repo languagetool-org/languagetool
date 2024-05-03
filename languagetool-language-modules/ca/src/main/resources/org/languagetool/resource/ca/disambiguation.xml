@@ -8954,7 +8954,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token>cap</token>
                 </marker>
-                <token postag="RG.*" postag_regexp="yes"/>
+                <token postag="RG.*" postag_regexp="yes"><exception>més</exception></token>
             </pattern>
             <disambig action="filter" postag="S.*"/>
         </rule>
@@ -10038,7 +10038,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="V.G.*" postag_regexp="yes"/>
-                    <token postag="A.*" postag_regexp="yes"><exception regexp="yes">portant</exception></token>
+                    <token postag="A.*" postag_regexp="yes"><exception regexp="yes">portant|pensant</exception></token>
                 </and>
             </marker>
         </pattern>
@@ -12646,7 +12646,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="RG_anteposat|.*LOC_ADV.*" postag_regexp="yes"><exception regexp="yes">molt|poc|tant|tan|força|massa|tot|més|també</exception></token>
                 <marker>
-                    <token postag="AQ.*|V.P.*" postag_regexp="yes"><exception postag="V.[NMIS].*|_GV_|RG" postag_regexp="yes"/><exception inflected="yes" regexp="yes">estat|part</exception><exception>nou</exception></token>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes"><exception postag="V.[NMIS].*|_GV_|RG" postag_regexp="yes"/><exception inflected="yes" regexp="yes">estat|part|pensant</exception><exception>nou</exception></token>
                     <!--|N.*<exception regexp="yes">parts?</exception>-->
                     <!--  exc. força restaurants
                         que seria en pocs anys força hegemònica a Catalunya.-->
@@ -13752,6 +13752,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token>la</token>
             <token>a</token>
             <token postag="V.N.*|contraccio|D.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token>tot</token>
+            <token postag="V...3S.." postag_regexp="yes"/>
         </antipattern>
         <rule>
             <pattern>
