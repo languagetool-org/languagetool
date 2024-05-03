@@ -33907,6 +33907,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Eres|Sois"><marker>Sos</marker> el mejor.</example>
                 <example correction="piensas|pensáis">¿Qué <marker>pensás</marker>?</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="SP.*|LOC_PREP" postag_regexp="yes"/>
+                    <token min="0" postag="D.*" postag_regexp="yes"/>
+                    <token>tomate</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>tomate<exception postag="_GN_MS"/></token>
+                    </marker>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Forma correcta si se usa voseo. Si no, utilice una forma alternativa.</message>
+                <suggestion>tómate</suggestion>
+                <example correction="Tómate"><marker>Tomate</marker> tu tiempo.</example>
+                <example correction="Tómate"><marker>Tomate</marker> un descanso.</example>
+                <example>Con salsa de tomate esta semana.</example>
+                <example>Está caro el tomate esta temporada.</example>
+            </rule>
         </rulegroup>
     </category>
     <category name="repeticiones" id="REPETITIONS" type="duplication">
