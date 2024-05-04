@@ -11282,6 +11282,35 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rulegroup id="dura" name="dura">
+        <rule>
+            <pattern>
+                <token>encara</token>
+                <marker>
+                    <token postag="VMIP3S00">dura</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="[AN].*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="VMIP3S00">dura<exception scope="previous" postag="RG.*" postag_regexp="yes"/></token>
+                </marker>
+                <token postag="RG"/>
+            </pattern>
+            <disambig action="remove" postag="[AN].*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="VMIP3S00">dura</token>
+                </marker>
+                <token chunk="PTime"/>
+            </pattern>
+            <disambig action="remove" postag="[AN].*"/>
+        </rule>
+    </rulegroup>
     <rule id="via" name="via (preposició)">
         <pattern>
             <token><exception postag="D..FS." postag_regexp="yes"/></token>
@@ -13332,6 +13361,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="SENT_END|_PUNCT.*|C.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="N.*"/>
+    </rule>
+    <rule id="el_si" name="el si">
+        <pattern>
+            <token regexp="yes">el|l</token>
+            <marker>
+                <token postag="NCMS000">si</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="CS"/>
     </rule>
     <rule id="nNom0" name="no Nom">
         <!-- no són noms si no han concordat amb determinants. Mogut per "ens ensenya"-->
@@ -15885,15 +15923,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="remove" postag="A.*"/>
         </rule>
     </rulegroup>
-    <rule id="dura" name="dura">
-        <pattern>
-            <token>encara</token>
-            <marker>
-                <token>dura</token>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="[AN].*"/>
-    </rule>
     <rule id="VerbAdjectiu" name="verb i adjectiu que no ha concordat">
         <!-- fer exàmens. Excep: tan regular (adj) -->
         <antipattern>

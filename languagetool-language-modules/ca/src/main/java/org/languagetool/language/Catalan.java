@@ -272,6 +272,7 @@ public class Catalan extends Language {
       case "AGREEMENT_POSTPONED_ADJ": return -15;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "ESPAIS_QUE_FALTEN_PUNTUACIO": return -20;
+      case "DE_LA_DE_LA_QUE": return -20;
       case "VERBS_NOMSPROPIS": return -20;
       case "VERBS_PRONOMINALS": return -25;
       case "PORTO_LLEGINT": return -30;
