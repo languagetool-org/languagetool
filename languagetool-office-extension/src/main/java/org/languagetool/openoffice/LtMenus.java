@@ -66,6 +66,7 @@ import com.sun.star.view.XSelectionSupplier;
 public class LtMenus {
   
   public final static String LT_IGNORE_ONCE_COMMAND = "service:org.languagetool.openoffice.Main?ignoreOnce";
+  public final static String LT_IGNORE_ALL_COMMAND = "service:org.languagetool.openoffice.Main?ignoreAll";
   public final static String LT_IGNORE_PERMANENT_COMMAND = "service:org.languagetool.openoffice.Main?ignorePermanent";
   public final static String LT_DEACTIVATE_RULE_COMMAND = "service:org.languagetool.openoffice.Main?deactivateRule";
   public final static String LT_MORE_INFO_COMMAND = "service:org.languagetool.openoffice.Main?moreInfo";
@@ -89,6 +90,7 @@ public class LtMenus {
   public static final String LT_OPTIONS_COMMAND = "service:org.languagetool.openoffice.Main?configure";
   public static final String LT_PROFILES_COMMAND = "service:org.languagetool.openoffice.Main?profiles";
   public static final String LT_PROFILE_COMMAND = "service:org.languagetool.openoffice.Main?profileChangeTo_";
+  public static final String LT_NONE_COMMAND = "service:org.languagetool.openoffice.Main?noAction";
   
 //  public static final String LT_MENU_REPLACE_COLON = "__|__";
   public static final String LT_MENU_REPLACE_COLON = ":";
@@ -611,57 +613,11 @@ public class LtMenus {
               }
             }
             if (!isSpellError) {
-              document.getErrorAndChangeRange(aEvent);
+              document.getErrorAndChangeRange(aEvent, false);
+              addLTMenus(i, count, null, xContextMenu, xMenuElementFactory);
               if (document.getCurrentNumberOfParagraph() >= 0) {
                 props.setPropertyValue("CommandURL", LT_IGNORE_ONCE_COMMAND);
               }
-              XPropertySet xNewMenuEntry3 = UnoRuntime.queryInterface(XPropertySet.class,
-                  xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-              xNewMenuEntry3.setPropertyValue("Text", MESSAGES.getString("loContextMenuIgnorePermanent"));
-              xNewMenuEntry3.setPropertyValue("CommandURL", LT_IGNORE_PERMANENT_COMMAND);
-              xContextMenu.insertByIndex(i + 1, xNewMenuEntry3);
-              
-              XPropertySet xNewMenuEntry1 = UnoRuntime.queryInterface(XPropertySet.class,
-                  xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-              xNewMenuEntry1.setPropertyValue("Text", MESSAGES.getString("loContextMenuDeactivateRule"));
-              xNewMenuEntry1.setPropertyValue("CommandURL", LT_DEACTIVATE_RULE_COMMAND);
-              xContextMenu.insertByIndex(i + 3, xNewMenuEntry1);
-              
-              int nId = i + 4;
-              Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap(null);
-              if (!deactivatedRulesMap.isEmpty()) {
-                xContextMenu.insertByIndex(nId, createActivateRuleProfileItems(deactivatedRulesMap, xMenuElementFactory));
-                nId++;
-              }
-              
-              if (isRemote) {
-                XPropertySet xNewMenuEntry2 = UnoRuntime.queryInterface(XPropertySet.class,
-                    xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-                xNewMenuEntry2.setPropertyValue("Text", MESSAGES.getString("loMenuRemoteInfo"));
-                xNewMenuEntry2.setPropertyValue("CommandURL", LT_REMOTE_HINT_COMMAND);
-                xContextMenu.insertByIndex(nId, xNewMenuEntry2);
-                nId++;
-              }
-              
-              XPropertySet xNewMenuEntry4 = UnoRuntime.queryInterface(XPropertySet.class,
-                  xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-              xNewMenuEntry4.setPropertyValue("Text", MESSAGES.getString("loContextMenuRenewMarkups"));
-              xNewMenuEntry4.setPropertyValue("CommandURL", LT_RENEW_MARKUPS_COMMAND);
-              xContextMenu.insertByIndex(nId, xNewMenuEntry4);
-              nId++;
-
-              List<String> definedProfiles = config.getDefinedProfiles();
-              if (definedProfiles.size() > 1) {
-                xContextMenu.insertByIndex(nId, createProfileItems(definedProfiles, xMenuElementFactory));
-                nId++;
-              }
-              addLTMenuEntry(nId, xContextMenu, xMenuElementFactory, false);
-              
-              XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
-                  xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-              xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("guiMore"));
-              xNewMenuEntry.setPropertyValue("CommandURL", LT_MORE_INFO_COMMAND);
-              xContextMenu.insertByIndex(1, xNewMenuEntry);
 
               if (debugModeTm) {
                 long runTime = System.currentTimeMillis() - startTime;
@@ -678,6 +634,14 @@ public class LtMenus {
           }
         }
 
+        //  Workaround for LO 24.x
+        SingleProofreadingError error = document.getErrorAndChangeRange(aEvent, true);
+        if (error != null) {
+          addLTMenus(0, count, error, xContextMenu, xMenuElementFactory);
+          isRunning = false;
+          return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
+        }
+        
         //  Add LT Options Item for context menu without grammar error
         XPropertySet xSeparator = UnoRuntime.queryInterface(XPropertySet.class,
             xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerSeparator"));
@@ -727,6 +691,90 @@ public class LtMenus {
       isRunning = false;
       MessageHandler.printToLogFile("LanguageToolMenus: notifyContextMenuExecute: no change in Menu");
       return ContextMenuInterceptorAction.IGNORED;
+    }
+    
+    private void addLTMenus(int n, int count, SingleProofreadingError error, XIndexContainer xContextMenu, 
+        XMultiServiceFactory xMenuElementFactory) throws Throwable {
+      if (error != null) {
+        for (int i = count - 1; i >= 0; i--) {
+          xContextMenu.removeByIndex(i);
+        }
+        n = 0;
+        XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+        xNewMenuEntry.setPropertyValue("Text", error.aShortComment);
+        xNewMenuEntry.setPropertyValue("CommandURL", LT_NONE_COMMAND);
+        xContextMenu.insertByIndex(n, xNewMenuEntry);
+
+        n++;
+        XPropertySet xSeparator = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerSeparator"));
+        xSeparator.setPropertyValue("SeparatorType", ActionTriggerSeparatorType.LINE);
+        xContextMenu.insertByIndex(n, xSeparator);
+
+        n++;
+        xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+        xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("guiOOoIgnoreButton"));
+        xNewMenuEntry.setPropertyValue("CommandURL", LT_IGNORE_ONCE_COMMAND);
+        xContextMenu.insertByIndex(n, xNewMenuEntry);
+      }
+
+      XPropertySet xNewMenuEntry3 = UnoRuntime.queryInterface(XPropertySet.class,
+          xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+      xNewMenuEntry3.setPropertyValue("Text", MESSAGES.getString("loContextMenuIgnorePermanent"));
+      xNewMenuEntry3.setPropertyValue("CommandURL", LT_IGNORE_PERMANENT_COMMAND);
+      xContextMenu.insertByIndex(n + 1, xNewMenuEntry3);
+      
+      if (error != null) {
+        XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+        xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("guiOOoIgnoreAllButton"));
+        xNewMenuEntry.setPropertyValue("CommandURL", LT_IGNORE_ALL_COMMAND);
+        xContextMenu.insertByIndex(n + 2, xNewMenuEntry);
+      }
+      
+      XPropertySet xNewMenuEntry1 = UnoRuntime.queryInterface(XPropertySet.class,
+          xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+      xNewMenuEntry1.setPropertyValue("Text", MESSAGES.getString("loContextMenuDeactivateRule"));
+      xNewMenuEntry1.setPropertyValue("CommandURL", LT_DEACTIVATE_RULE_COMMAND);
+      xContextMenu.insertByIndex(n + 3, xNewMenuEntry1);
+      
+      int nId = n + 4;
+      Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap(null);
+      if (!deactivatedRulesMap.isEmpty()) {
+        xContextMenu.insertByIndex(nId, createActivateRuleProfileItems(deactivatedRulesMap, xMenuElementFactory));
+        nId++;
+      }
+      
+      if (isRemote) {
+        XPropertySet xNewMenuEntry2 = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+        xNewMenuEntry2.setPropertyValue("Text", MESSAGES.getString("loMenuRemoteInfo"));
+        xNewMenuEntry2.setPropertyValue("CommandURL", LT_REMOTE_HINT_COMMAND);
+        xContextMenu.insertByIndex(nId, xNewMenuEntry2);
+        nId++;
+      }
+      
+      XPropertySet xNewMenuEntry4 = UnoRuntime.queryInterface(XPropertySet.class,
+          xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+      xNewMenuEntry4.setPropertyValue("Text", MESSAGES.getString("loContextMenuRenewMarkups"));
+      xNewMenuEntry4.setPropertyValue("CommandURL", LT_RENEW_MARKUPS_COMMAND);
+      xContextMenu.insertByIndex(nId, xNewMenuEntry4);
+      nId++;
+
+      List<String> definedProfiles = config.getDefinedProfiles();
+      if (definedProfiles.size() > 1) {
+        xContextMenu.insertByIndex(nId, createProfileItems(definedProfiles, xMenuElementFactory));
+        nId++;
+      }
+      addLTMenuEntry(nId, xContextMenu, xMenuElementFactory, false);
+      
+      XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+          xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+      xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("guiMore"));
+      xNewMenuEntry.setPropertyValue("CommandURL", LT_MORE_INFO_COMMAND);
+      xContextMenu.insertByIndex(1, xNewMenuEntry);
     }
     
     private void addLTMenuEntry(int nId, XIndexContainer xContextMenu, XMultiServiceFactory xMenuElementFactory,

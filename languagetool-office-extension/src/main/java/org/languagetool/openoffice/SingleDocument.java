@@ -1046,7 +1046,7 @@ public class SingleDocument {
    * test if the range is correct and change it if necessary
    * return null if there is no error or the range is correct
    */
-  public SingleProofreadingError getErrorAndChangeRange(ContextMenuExecuteEvent aEvent) {
+  public SingleProofreadingError getErrorAndChangeRange(ContextMenuExecuteEvent aEvent, boolean onlyNonRange) {
     try {
       if (disposed) {
         return null;
@@ -1070,6 +1070,9 @@ public class SingleDocument {
       XTextRange xTextRange = UnoRuntime.queryInterface(XTextRange.class, xIndexAccess.getByIndex(0));
       if (xTextRange == null) {
         MessageHandler.printToLogFile("SingleDocument: getErrorAndChangeRange: xTextRange == null");
+        return null;
+      }
+      if (onlyNonRange && xTextRange.getString().length() != 0) {
         return null;
       }
       if (xTextRange.getString().length() == error.nErrorLength) {
@@ -1098,7 +1101,7 @@ public class SingleDocument {
   }
   
   /**
-   * add a ignore once entry to queue and remove the mark
+   * add a ignore once entry and remove the mark
    */
   public String ignoreOnce() {
     if (disposed) {
@@ -1113,7 +1116,7 @@ public class SingleDocument {
   }
   
   /**
-   * add a ignore once entry for point x, y to queue and remove the mark
+   * add a ignore once entry for point x, y and remove the mark
    */
   public void setIgnoredMatch(int x, int y, String ruleId, boolean isIntern) {
     ignoredMatches.setIgnoredMatch(x, y, 0, ruleId, null, null);
@@ -1128,6 +1131,21 @@ public class SingleDocument {
     if (debugMode > 0) {
       MessageHandler.printToLogFile("SingleDocument: setIgnoredMatch: Ignore Match added at: paragraph: " + y + "; character: " + x + "; ruleId: " + ruleId);
     }
+  }
+  
+  /**
+   * ignore all - call ignoreRule for specified rule
+   */
+  public void ignoreAll() {
+    if (disposed) {
+      return;
+    }
+    ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
+    int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
+    int x = viewCursor.getViewCursorCharacter();
+    SingleProofreadingError error = getErrorFromCache(y, x);
+    Locale locale = docCache.getFlatParagraphLocale(y);
+    mDocHandler.ignoreRule(error.aRuleIdentifier, locale);
   }
   
   /**
