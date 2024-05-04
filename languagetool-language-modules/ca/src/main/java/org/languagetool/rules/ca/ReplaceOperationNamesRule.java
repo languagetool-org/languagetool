@@ -94,6 +94,11 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
   public Locale getLocale() {
     return CA_LOCALE;
   }
+
+  @Override
+  public boolean isCaseSensitive() {
+    return false;
+  }
   
   @Override
   public final RuleMatch[] match(final AnalyzedSentence sentence) {
