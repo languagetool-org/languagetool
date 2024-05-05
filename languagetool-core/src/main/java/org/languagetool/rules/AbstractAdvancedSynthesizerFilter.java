@@ -58,6 +58,7 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     String lemmaSelect = getRequired("lemmaSelect", arguments);
     String postagFromStr = getRequired("postagFrom", arguments);
     String lemmaFromStr = getRequired("lemmaFrom", arguments);
+    String newLemma = getOptional("newLemma", arguments, "");
     
     int postagFrom = 0;
     if (postagFromStr.startsWith("marker")) {
@@ -97,6 +98,9 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     String desiredLemma = getAnalyzedToken(patternTokens[lemmaFrom - 1], lemmaSelect).getLemma();
     String originalPostag = getAnalyzedToken(patternTokens[lemmaFrom - 1], lemmaSelect).getPOSTag();
     String desiredPostag = getAnalyzedToken(patternTokens[postagFrom - 1], postagSelect).getPOSTag();
+    if (!newLemma.isEmpty()) {
+      desiredLemma = newLemma;
+    }
     
     if (desiredPostag == null) {
       throw new IllegalArgumentException("AdvancedSynthesizerFilter: undefined POS tag for rule " +
