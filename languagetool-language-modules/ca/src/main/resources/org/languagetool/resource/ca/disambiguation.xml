@@ -3324,6 +3324,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd pos="NPCNSP0"/>
         </disambig>
     </rule>
+    <rule id="una_rave" name="una rave (anglès)">
+        <pattern>
+            <token inflected="yes" regexp="yes" skip="-1">organitzar|muntar|participar|desmantellar|policia</token>
+            <token postag="D..FS." postag_regexp="yes"/>
+            <marker>
+                <token>rave</token>
+            </marker>
+        </pattern>
+        <disambig action="replace" postag="NCFS000"/>
+    </rule>
     <rule id="SER_LA_REPERA" name="ser la repera">
         <pattern>
             <token skip="4" postag="VS.*" postag_regexp="yes" inflected="yes">ser</token>
@@ -6636,7 +6646,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <!-- de fes -->
             <pattern>
-                <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception>en</exception></token>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception regexp="yes">en|dins|dintre</exception></token>
                 <marker>
                     <and>
                         <token inflected="yes">fer</token>
@@ -11939,7 +11949,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                         <token postag="D[^R].[MF].." postag_regexp="yes"/>
                         <!--afegit: altres, bastants, qualssevol, qualssevulla-->
                         <token postag="A.*|V.P.*|PX.*" postag_regexp="yes"/>
-                        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">tants|recull|passi|quina|sabeu|surt|ara|fou|perquè|trenca|era|diu|si|però|escull|creix|dura|parla|mira|queda|estima|passa|escolta|troba|tots?|som</exception><exception postag="DN.*" postag_regexp="yes"/></token>
+                        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">pren|tants|recull|passi|quina|sabeu|surt|ara|fou|perquè|trenca|era|diu|si|però|escull|creix|dura|parla|mira|queda|estima|passa|escolta|troba|tots?|som</exception><exception postag="DN.*" postag_regexp="yes"/></token>
                     </marker>
                 </unify>
             </pattern>
@@ -11964,7 +11974,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token postag="D[^R].[MC][SN0].*" postag_regexp="yes"/>
                     <token postag="A..[MC][SN0].*|V.P..SM.?|PX.[MC][SN0].*" postag_regexp="yes"/>
-                    <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">recull|passi|sabeu|fan|surt|perquè|diu|si|però|escull|creix|escolta|troba|tot|som</exception></token>
+                    <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">pren|recull|passi|sabeu|fan|surt|perquè|diu|si|però|escull|creix|escolta|troba|tot|som</exception></token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -14033,6 +14043,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="NCFS000|_GN_FS"/>
         </rule>
         <rule>
+            <antipattern>
+                <!-- ambigu -->
+                <token>els</token>
+                <token>tractes</token>
+            </antipattern>
             <pattern>
                 <and>
                     <token postag="D.*|PX.*" postag_regexp="yes"/>
@@ -14986,7 +15001,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token>dona</token>
             </antipattern>
             <pattern>
-                <token><exception regexp="yes">que|què</exception></token>
+                <token><exception regexp="yes">que|què|si</exception></token>
                 <token>en</token>
                 <marker>
                     <and>
@@ -18159,7 +18174,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" skip="5">més|menys|millor|pitjor</token>
+                <token regexp="yes" skip="5">més|menys|millor|pitjor|record|recordatori</token>
                 <marker>
                     <token>de</token>
                 </marker>
@@ -20932,7 +20947,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <token>(</token>
             <marker>
-                <token regexp="yes" spacebefore="no">des|dis|in|mal|anti|pro|tele</token>
+                <token regexp="yes" spacebefore="no">des|dis|in|mal|anti|pro|tele|auto</token>
                 <token spacebefore="no">)</token>
             </marker>
             <token spacebefore="no"/>

@@ -259,6 +259,8 @@ public class Catalan extends Language {
       case "DEUS_SEUS": return 5;
       case "SON_BONIC": return 5;
       case "ACCENTUACIO": return 5;
+      case "L_NO_APOSTROFA": return 5;
+      case "L_D_N_NO_S_APOSTROFEN": return 5;
       case "CONTRACCIONS": return 0; // lesser than apostrophations
       case "CASING_START": return -5;
       case "CA_WORD_COHERENCY": return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE
