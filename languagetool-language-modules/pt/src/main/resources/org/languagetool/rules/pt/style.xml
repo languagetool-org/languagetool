@@ -3617,6 +3617,23 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rule id='ATUAIS_TER_AGORA_HOJE_PRESENTEMENTE' name="V.Ter substantivo 'de agora/hoje/presentemente' → 'atual/atuais'" tone_tags='formal' default='temp_off'>
+            <pattern>
+                <token inflected='yes'>ter</token>
+                <token regexp='yes'>[ao]s?</token>
+                <token postag='NC.+' postag_regexp='yes'/>
+                <marker>
+                    <token>que</token>
+                    <token postag_regexp='yes' postag='VMIP.+' inflected='yes'>ter</token>
+                    <token regexp='yes'>agora|atualmente|correntemente|hoje|presentemente</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal empregue &quot;<suggestion><match no='3' postag='NC.(.)000' postag_replace='AQ0C$10'>atual</match></suggestion>&quot;.</message>
+            <example correction="atual">Os computadores aprenderam a jogar xadrez há muitos anos, mas nem sempre tiveram a força <marker>que têm hoje</marker>.</example>
+            <example correction="atuais">Nessa altura não tinha os conhecimentos <marker>que tenho agora</marker>.</example>
+        </rule>
+
+
         <rule id='PAÍSES_DO_TERCEIRO_MUNDO' name="'aos/os países do terceiro mundo' → 'ao/o Terceiro Mundo'" default="temp_off">
             <pattern>
                 <marker>
