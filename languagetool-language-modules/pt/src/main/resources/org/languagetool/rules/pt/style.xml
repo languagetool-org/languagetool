@@ -3616,19 +3616,21 @@ USA
     </category>
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
-        <rule id='PAÍSES_DO_TERCEIRO_MUNDO' name="'aos/os países do terceiro mundo' → 'ao/o Terceiro Mundo'" default="temp_off">
+
+        <rule id='AGORA_ATUAL' name="Agora → Atual" tone_tags='formal' default='temp_off'>
             <pattern>
+                <token inflected='yes'>ter</token>
+                <token regexp='yes'>[ao]s?</token>
+                <token postag='NC.+' postag_regexp='yes'/>
                 <marker>
-                    <token regexp='yes'>aos|os</token>
-                    <token>países</token>
-                    <token>do</token>
-                    <token>terceiro</token>
-                    <token>mundo</token>
+                    <token>que</token>
+                    <token postag_regexp='yes' postag='VMIP.+' inflected='yes'>ter</token>
+                    <token regexp='yes'>agora|atualmente|correntemente|hoje|presentemente</token>
                 </marker>
             </pattern>
-            <message>Num contexto formal pode omitir &quot;países&quot; e empregar <suggestion><match no='1' regexp_match='(.+)(s)' regexp_replace='$1'/> Terceiro Mundo</suggestion>.</message>
-            <example correction="o Terceiro Mundo">Ensine sobre <marker>os países do terceiro mundo</marker>.</example>
-            <example correction="ao Terceiro Mundo">Ele pertence <marker>aos países do terceiro mundo</marker>.</example>
+            <message>Num contexto formal empregue <suggestion><match no='3' postag='NC.(.)000' postag_replace='AQ0C$10'>atual</match></suggestion>.</message>
+            <example correction="atual">Os computadores aprenderam a jogar xadrez há muitos anos, mas nem sempre tiveram a força <marker>que têm hoje</marker>.</example>
+            <example correction="atuais">Nessa altura não tinha os conhecimentos <marker>que tenho agora</marker>.</example>
         </rule>
 
 
@@ -8577,7 +8579,7 @@ USA
         </rulegroup>
 
 
-       <rulegroup id='DAR_EXEMPLO_EXEMPLIFICAR' name="Simplificar: 'Dar exemplo' → exemplificar" tone_tags="academic" is_goal_specific="true" default="temp_off">
+       <rulegroup id='DAR_EXEMPLO_EXEMPLIFICAR' name="Simplificar: 'Dar exemplo' → exemplificar" tone_tags="academic" is_goal_specific="true">
 
             <!-- #1 - Without d[ao]s? -->
             <rule>
@@ -8743,7 +8745,7 @@ USA
             </rule>
         </rulegroup>
 
-       <rule id='SER_CONSISTIR_RESIDIR' name="[Universitário][Científico] V.Ser → V.Consistir/V.Residir" tone_tags="academic" is_goal_specific="true" default="temp_off">
+       <rule id='SER_CONSISTIR_RESIDIR' name="[Universitário][Científico] V.Ser → V.Consistir/V.Residir" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <token regexp='yes' inflected='yes'>assimetria|diferença|dissemelhança|disparidade|distinção|oposição|oposto</token>
                 <token min='0' max='1' postag='NC.+|AQ.+|V.+' postag_regexp='yes'>
@@ -11040,6 +11042,24 @@ USA
     </category>
 
     <category id='OBJECTIVE' name='Linguagem objetiva' type='style' tone_tags="objective">
+
+
+        <rule id='PAÍSES_DO_TERCEIRO_MUNDO' name="'aos/os países do terceiro mundo' → 'ao/o Terceiro Mundo'" tone_tags="objective">
+            <pattern>
+                <marker>
+                    <token regexp='yes'>aos|os</token>
+                    <token>países</token>
+                    <token>do</token>
+                    <token>terceiro</token>
+                    <token>mundo</token>
+                </marker>
+            </pattern>
+            <message>Para uma frase mais objetiva, considere omitir &quot;países&quot; e empregar <suggestion><match no='1' regexp_match='(.+)(s)' regexp_replace='$1'/> Terceiro Mundo</suggestion>.</message>
+            <example correction="o Terceiro Mundo">Ensine sobre <marker>os países do terceiro mundo</marker>.</example>
+            <example correction="ao Terceiro Mundo">Ele pertence <marker>aos países do terceiro mundo</marker>.</example>
+        </rule>
+
+
         <!-- DE N EM N a cada N -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-22 (21-OCT-2020+)     -->
         <rule id='DE_N_EM_N-A_CADA_N' name="A cada N" tone_tags="objective">
