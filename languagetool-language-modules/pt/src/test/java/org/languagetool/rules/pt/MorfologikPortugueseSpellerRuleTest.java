@@ -713,11 +713,15 @@ public class MorfologikPortugueseSpellerRuleTest {
   // I suppose we can just update this test whenever we make a new dictionary release with specific words
   // we want to cover. This is an extra level of testing to make sure we're not missing anything.
   @Test public void testPortugueseSpellerHasNewWords() throws Exception {
-    // v0.15
-    assertNoErrors("verossímeis", ltBR, ruleBR);
-    assertNoErrors("autorregeneradores", ltPT, rulePT);
-    assertNoErrors("pitão-da-birmânia", ltPT, rulePT);
-    assertNoErrors("titanossauro", ltBR, ruleBR);
-    assertNoErrors("cardiomiócito", ltBR, ruleBR);
+    // v1.0.0
+    assertNoErrors("diferençazinha", ltPT, rulePT);
+    assertNoErrors("Mewtwo, Pikachu, Rapidash e dois Growlithes", ltBR, ruleBR);
+    assertNoErrors("bebezice", ltBR, ruleBR);
+    assertNoErrors("Solucz", ltBR, ruleBR);
+    assertNoErrors("microagulhamento", ltBR, ruleBR);
+    assertNoErrors("curricularização", ltBR, ruleBR);
+    // from now on, "e-mail" is an XML rule, not a spelling one
+    assertNoErrors("email", ltBR, ruleBR);
+    assertNoErrors("pô", ltBR, ruleBR);
   }
 }

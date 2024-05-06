@@ -300,6 +300,9 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
                                         List<RuleMatch> ruleMatchesSoFar, int idx,
                                         AnalyzedTokenReadings[] tokens) throws IOException {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
+    if (tokens[idx].hasPosTag("_english_ignore_")) {
+      return Collections.emptyList();
+    }
     if (!ruleMatches.isEmpty()) {
       if (isValidCliticVerb(word)) {
         ruleMatches = Collections.emptyList();
