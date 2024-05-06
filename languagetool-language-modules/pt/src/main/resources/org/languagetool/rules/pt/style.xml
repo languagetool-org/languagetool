@@ -3616,23 +3616,6 @@ USA
     </category>
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
-
-        <rule id='PAÍSES_DO_TERCEIRO_MUNDO' name="'aos/os países do terceiro mundo' → 'ao/o Terceiro Mundo'">
-            <pattern>
-                <marker>
-                    <token regexp='yes'>aos|os</token>
-                    <token>países</token>
-                    <token>do</token>
-                    <token>terceiro</token>
-                    <token>mundo</token>
-                </marker>
-            </pattern>
-            <message>Num contexto formal pode omitir &quot;países&quot; e empregar <suggestion><match no='1' regexp_match='(.+)(s)' regexp_replace='$1'/> Terceiro Mundo</suggestion>.</message>
-            <example correction="o Terceiro Mundo">Ensine sobre <marker>os países do terceiro mundo</marker>.</example>
-            <example correction="ao Terceiro Mundo">Ele pertence <marker>aos países do terceiro mundo</marker>.</example>
-        </rule>
-
-
         <rulegroup id='MORRER_PERECER_FALECER' name="morrer → perecer/falecer" tags='picky' tone_tags='formal' default='temp_off'>
 
             <!-- Subrule 1: not using "mort[ao]s?" -->
@@ -11041,6 +11024,22 @@ USA
     </category>
 
     <category id='OBJECTIVE' name='Linguagem objetiva' type='style' tone_tags="objective">
+
+        <rule id='PAÍSES_DO_TERCEIRO_MUNDO' name="'aos/os países do terceiro mundo' → 'ao/o Terceiro Mundo'" tone_tags="objective">
+            <pattern>
+                <marker>
+                    <token regexp='yes'>aos|os</token>
+                    <token>países</token>
+                    <token>do</token>
+                    <token>terceiro</token>
+                    <token>mundo</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal pode omitir &quot;países&quot; e empregar <suggestion><match no='1' regexp_match='(.+)(s)' regexp_replace='$1'/> Terceiro Mundo</suggestion>.</message>
+            <example correction="o Terceiro Mundo">Ensine sobre <marker>os países do terceiro mundo</marker>.</example>
+            <example correction="ao Terceiro Mundo">Ele pertence <marker>aos países do terceiro mundo</marker>.</example>
+        </rule>
+
         <!-- DE N EM N a cada N -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-22 (21-OCT-2020+)     -->
         <rule id='DE_N_EM_N-A_CADA_N' name="A cada N" tone_tags="objective">
