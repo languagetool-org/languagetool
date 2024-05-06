@@ -2962,6 +2962,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
         }
       case "do": return topMatch("so");
+      case "Art-Nr": return topMatch("Art.-Nr.");
       case "Blackweek": return topMatch("Black Week");
       case "Blackfriday": return topMatch("Black Friday");
       case "Blackweeks": return topMatch("Black Weeks");
