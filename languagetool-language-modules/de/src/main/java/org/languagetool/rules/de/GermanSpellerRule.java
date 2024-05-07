@@ -2963,6 +2963,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         }
       case "do": return topMatch("so");
       case "Art-Nr": return topMatch("Art.-Nr.");
+      case "werrden": return topMatch("werden");
       case "Blackweek": return topMatch("Black Week");
       case "Blackfriday": return topMatch("Black Friday");
       case "Blackweeks": return topMatch("Black Weeks");
