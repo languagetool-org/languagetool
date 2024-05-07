@@ -485,6 +485,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("PA_WAS", -12); // less prio than AI
     id2prio.put("ICH_GEHE_DU_BLEIBST", -12); // prefer ICH_GLAUBE_FUER_EUCH and less prio than AI
     id2prio.put("PROPERNOMSIN_VERIMPSIN", -12); // less prio than AI
+    id2prio.put("DIESE_HABE_ER_BELEIDIGTE", -12); // less prio than AI
     id2prio.put("VER123_VERAUXMOD_TEST1", -12); // less prio than AI to produce a single suggestion
     id2prio.put("ZUSAMMENGESETZTE_VERBEN", -12); // less prio than most more specific rules and AI
     id2prio.put("PRP_VER_PRGK", -13); // lower prio than ZUSAMMENGESETZTE_VERBEN
