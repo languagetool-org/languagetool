@@ -10749,7 +10749,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 
         <rule id="VERB_XX_BETTER_RBR" name='know/stand + xx + better => RBR'>
           <pattern>
-            <token skip="3" regexp="yes" inflected="yes">know|stand</token>
+            <token skip="3" regexp="yes" inflected="yes">
+                know|stand
+                <exception scope="next" postag="DT|VB.*|CC|PCT|UNKNOWN|PRP\$" />
+            </token>
             <marker>
               <token>better</token>
             </marker>
