@@ -563,6 +563,7 @@ public class JLanguageToolTest {
     JLanguageTool lt = new JLanguageTool(new BrazilianPortuguese());
     lt.disableRules(lt.getAllRules().stream().map(Rule::getId).collect(Collectors.toList()));
     lt.enableRule("MORFOLOGIK_RULE_PT_BR");
+    lt.enableRule("PT_BARBARISMS_REPLACE");
     String[] noErrorSentences = new String[]{
       "Ontem vi A New Hope pela primeira vez.",
       "Ela gosta de The Empire Strikes Back.",
@@ -583,7 +584,8 @@ public class JLanguageToolTest {
       "Mas mandou mensagem que she is waiting for your brother.",  // "for"
       "E se for business?",  // "for"
       "Em português é Conduzindo a Miss Daisy, não é?",  // "a"
-      "A organização Law Enforcement Agent Protection (Leap)."  // single-word parenthetical
+      "A organização Law Enforcement Agent Protection (Leap).",  // single-word parenthetical
+      "Mais sucessos seguiram, com os álbuns \"Ghetto Dictionary: The Art of War\""  // ghetto
     };
     for (String sentence : noErrorSentences) {
       List<RuleMatch> matches = lt.check(sentence);
@@ -593,6 +595,7 @@ public class JLanguageToolTest {
     errorSentences.put("Foi uma melhora substantial.", "substancial");  // single word
     // match the suffix, but 'whateverness' is not tagged in English, so it's a spelling error
     errorSentences.put("Esta palavra não existe: the whateverness.", "lhe");
+    errorSentences.put("A comunidade do ghetto de Veneza.", "gueto");  // in isolation, it is not tagged with _english_ignore_
     for (Map.Entry<String, String> entry : errorSentences.entrySet()) {
       List<RuleMatch> matches = lt.check(entry.getKey());
       assert !matches.isEmpty();
