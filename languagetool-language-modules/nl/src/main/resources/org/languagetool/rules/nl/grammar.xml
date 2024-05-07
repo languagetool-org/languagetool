@@ -23645,6 +23645,37 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 	</category>
 	<category id="OVERIG" name="Diverse regels">
+		<rulegroup id="SPATIEFOUT_KOPJE" name="Mogelijke spatiefout" default="temp_off">
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token postag="ZNW:EKV:DE_"/>
+						<token postag="ZNW:EKV:DE_"/>
+						<token postag="SENT_END">.</token>
+					</marker>
+				</pattern>
+				<message>Horen deze woorden niet aan elkaar geschreven? Is het een kopje en hoort de punt er niet?</message>
+				<suggestion>\2\3</suggestion>
+				<example correction="Oppervlakteboring"><marker>Oppervlakte boring.</marker></example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="ONVERWACHT_EINDE" name="is. / is:" default="temp_off">
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<token>de</token>
+					<token postag="ZNW:EKV:DE_"/>
+					<token>is</token>
+					<marker>
+						<token spacebefore="no" postag="SENT_END" regexp="yes">[.!?]</token>
+					</marker>
+				</pattern>
+				<message>Deze zin eindigt onverwacht.</message>
+				<suggestion>:</suggestion>
+				<example correction=":">De man is<marker>.</marker></example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DE_18_DE" name="18 de/18e">
 			<rule>
 				<pattern>
