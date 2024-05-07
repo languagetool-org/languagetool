@@ -77,6 +77,22 @@ public class GermanSpellerRuleTest {
   @Test
   public void testIgnoreMisspelledWord() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Herzensanliegen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Herzenanliegen"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Vornamensliste"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Wörterbuch"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Wortgrenze"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Zahnbürsten"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Zähnebürsten"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Zähnebürste"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Apfelstehlen"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Äpfelstehlen"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Zwiebelschneiden"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Zwiebelnschneiden"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Fußballspielen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Fußbällespielen"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Naseputzen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Nasenputzen"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Abbiegemöglichkeit"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Grenzrevisionspunkt"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Chemotherapiezyklus"));

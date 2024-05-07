@@ -137,6 +137,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern INFIX_S_SUFFIXES = compile(".*(heit|ion|ität|keit|ling|ung|schaft|tum)$");
   private static final Pattern WECHSELINFIX = compile("(arbeit|dienstag|donnerstag|freitag|montag|mittwoch|link|recht|samstag|sonntag|verband)s?");
   private static final Pattern NEEDS_TO_BE_PLURAL = compile("adresse|aktie|antenne|apache|arbeitnehmerin|autor|bakterie|bauer|bisexuelle|bürge|blume|börse|buche|däne|debatte|decke|diakon(in)?|drohne|druide|ehre|eibe|emittent(in)?|elfe|elle|enge|erde|erste|esche|fassade|farbe|felge|ferien|fluor|frage|frau|förde|galle|gerät|gilde|göttin|halt|heide|historie|hose|hund|jungfer|kante|kathode|katze|kette|kid|klasse|kirche|klaue|klinge|knappe|koeffizient|kojote|kontrahent|kontrolle|krake|kralle|kranke|krähe|kraut|kuriosität|kurve|kusine|küste|laterne|laute|legende|lehne|leise|leuchte|lippe|loge|lotse|länge|läuse|löwe|lücke|made|maske|maßnahme|menge|mensch|metapher|methode|metropole|miene|miete|million|miniatur|mitte|maus|mücke|mühle|nerv|niederlage|nixe|nonne|note|obdachlose|ode|organist|panne|parzelle|pate|patient|petze|pfanne|pfeife|platte|polle|pomade|pomeranze|posse|prise|prominente|prälat|puppe|pädophile|radikale|rakete|rampe|ranke|rate|rendite|repressalie|rest|riese|rinde|rind|robbe|robe|romanist|rose|ross|route|nummer|runde|röhre|rübe|salbe|schabe|schale|scheide|schelle|schenke|schere|sphäre|dicke|kröte|schlampe|schlange|schluchte|schmiere|schnake|schnalle|schneide|schnelle|schokolade|schotte|schwabe|schwalbe|schwule|seele|seide|hölle|höhle|seite|sonne|sorge|spanne|sparte|sperre|spitze|sproße|spule|steppe|straße|streife|studie|stunde|stütze|tabelle|tinte|tote|toilette|traube|treffe|treppe|truhe|träne|tunte|tüte|urne|vene|versicherte|verwandte|virtuose|vorname|waffe|wanne|ware|watte|wehe|welle|wiese");
+  private static final Pattern SUBINF_SINGULAR_OBJECT = compile("putzen|rauchen|sein|spielen");
   private static final Pattern ARBEIT_COMP = compile("(gebe|nehme)(r(s|n|innen|in)?|nde[mnr]?)");
   private static final Pattern LINK_COMP = compile("element|inhalt|liste|portal|text|titel|tracking|verzeichnis");
   private static final Pattern LINKS_COMP = compile("abbieger(in)?|abweichler(in)?|anwalt|anwältin|anwaltschaft|ausfall|auslage|ausleger(in)?|au(ss|ß)en|bündnis|drall|drehung|extremer?|extremis(t|tin|mus)|faschis(t|tin|mus)|fraktion|galopp|gewinde|händ(er|erin|igkeit)|hörnchen|innen|intellektueller?|katholizis(t|tin|mus)|koalition|konter|kurs|kurve|lastigkeit|lenker|nationalis(t|tin|mus)|opposition|orientierung|partei|populis(t|tin|mus)|radikal(e|er|ismus|ist|istin)|regierung|ruck|rutsch|schnitt|schuss|schwenk(ung)?|sektierer(in)?|steuerung|terror(t|tin|ismus)|verbinder(in)?|verkehr|wendung|wichser");
@@ -145,6 +146,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern VERBAND_COMP = compile("klammer|kasten|kiste|mull|material|päckchen|platz|raum|schere|zeug|zimmer");
   private static final Pattern VERBANDS_COMP = compile("chef(in)?|flug|funktionär(in)?|kasse|klage|leben|leitung|leiter(in)?|ligist(in)|material|päckchen|präsident(in)?|presse|spiel|vertreter(in)|vorsitzender?|vorstand|wechsel|zeichen|zeit(schrift|ung)");
   private static final Pattern WOCHENTAG_COMP = compile("abend|mittag|morgen|nachmittag|vormittag");
+
+  private static final Pattern WECHSELNUMERUS = compile("wort");
+  private static final Pattern WELTEN_COMP = compile("Brand|Bummler(in)?|Drama|Wende");
+  private static final Pattern WOERTER_COMP = compile("Buch|Liste|Verzeichnis");
 
   private static final List<Pattern> PREVENT_SUGGESTION_PATTERNS = new ArrayList<>();
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
@@ -2460,38 +2465,60 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     boolean part2upcasedIsNoun = isNoun(part2upcased);
     boolean part2upcasedIsMispelled = isMisspelled(uppercaseFirstChar(part2upcased));
 
+    String part1_without_infix_s = part1upcased;
+
+    // Sometimes part1 requires singular or plural
+    String part1_lemma = findLemmaForNoun(removeTrailingHyphen(part1));
+    //
+    if (part1_lemma.equals("") && removeTrailingHyphen(part1).endsWith("s")) {
+      part1_lemma = findLemmaForNoun(removeTrailingSAndHyphen(part1));
+      part1_without_infix_s = removeTrailingS(part1upcased);
+    }
+
+    // Allow part1 to be a plural noun if...
+
+    // ... part2 is a nominalized verb or...
+    if (isNounNomPlu(part1_without_infix_s) && !isNounNomSin(part1_without_infix_s) &&
+        (!isSubVerInf(part2upcased)  ||
+        (isSubVerInf(part2upcased) && SUBINF_SINGULAR_OBJECT.matcher(lowercaseFirstChar(part2)).matches())) &&
+        !NEEDS_TO_BE_PLURAL.matcher(lowercaseFirstChar(part1_lemma)).matches() &&
+        !WECHSELNUMERUS.matcher(lowercaseFirstChar(part1_lemma)).matches()) {
+       return false;
+    }
+    // ... part1 always needs to be plural or...
+    if (NEEDS_TO_BE_PLURAL.matcher(lowercaseFirstChar(part1_lemma)).matches() && isNounNomSin(part1_without_infix_s)) {
+      return false;
+    }
+    // ... part1
+    if (WECHSELNUMERUS.matcher(lowercaseFirstChar(part1_lemma)).matches()) {
+      if (!checkPluralForPart1Part2Combination(part1, part2)) {
+        return false;
+      }
+    }
+
     // For some part1-and-part2 combinations an infix s is correct or incorrect
     if (WECHSELINFIX.matcher(lowercaseFirstChar(part1)).matches()) {
       return checkInfixSForPart1Part2Combination(part1, part2);
     }
 
-    // Sometimes part1 requires singular or plural
-    String part1_lemma = findLemmaForNoun(removeTrailingHyphen(part1));
-    if (part1_lemma.equals("") && removeTrailingHyphen(part1).endsWith("s")) {
-      part1_lemma = findLemmaForNoun(removeTrailingSAndHyphen(part1));
-    }
-    if (NEEDS_TO_BE_PLURAL.matcher(lowercaseFirstChar(part1_lemma)).matches()) {
-      return checkNumerus(part1, part1_lemma, part2);
-    }
-
     // TODO distinguish more cases with hyphens
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
       // 's' is the last character in *part1* and is probably not an infix
-      part1WithoutHyphen.endsWith("s") && (isNounNomSin(part1upcased) || isVerbStem(part1)) &&
+      part1WithoutHyphen.endsWith("s") && (isNounNom(part1upcased) || isVerbStem(part1)) &&
       // check if infix 's' is required or not allowed
       (!hasNoInfixS(removeTrailingS(part1upcased)) && !needsInfixS(removeTrailingS(part1upcased)))) {
       return true;
     }
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
       // 's' is the last character in *part1* and is probably an infix
-      part1WithoutHyphen.endsWith("s") && isNounNomSin(removeTrailingSAndHyphen(part1upcased)) &&
+      part1WithoutHyphen.endsWith("s") && isNounNom(removeTrailingSAndHyphen(part1upcased)) &&
       // check if infix 's' is required or not allowed
       (!hasNoInfixS(removeTrailingSAndHyphen(part1upcased)) && needsInfixS(removeTrailingSAndHyphen(part1upcased)))) {
       return true;
     }
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
       // *part1* does not end with 's' and is noun or verb stem
-      (!part1WithoutHyphen.endsWith("s")) && (isNounNomSin(part1upcased) || isVerbStem(part1)) &&
+      (!part1WithoutHyphen.endsWith("s")) && (isNounNom(part1upcased) || isVerbStem(part1)) &&
       // check if infix 's' is required or not allowed
       (hasNoInfixS(part1upcased) || !needsInfixS(part1upcased))) {
       return true;
@@ -2577,14 +2604,26 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return false;
   }
 
-  private boolean checkNumerus(String part1, String part1_lemma, String part2) throws IOException {
-    // For some part1-and-part2 combinations an infix s is correct or incorrect
+  private boolean checkPluralForPart1Part2Combination(String part1, String part2) throws IOException {
+    // For some part1-and-part2 combinations part1 needs to be singular or plural
     String part2_lemma = findLemmaForNoun(removeTrailingHyphen(part2));
     if (part2_lemma.equals("") && removeTrailingHyphen(part2).endsWith("s")) {
       part2_lemma = findLemmaForNoun(removeTrailingSAndHyphen(part2));
     }
-
-    if (NEEDS_TO_BE_PLURAL.matcher(lowercaseFirstChar(part1_lemma)).matches() && isNounNomPlu(uppercaseFirstChar(part1))) {
+    if (part1.equals("Welt") && (!WELTEN_COMP.matcher(part2_lemma).matches())) {
+      // e. g. "Weltklima"
+      return true;
+    }
+    if (part1.equals("Welten") && (WELTEN_COMP.matcher(part2_lemma).matches())) {
+      // e. g. "Weltenbummler"
+      return true;
+    }
+    if (part1.equals("Wort") && (!WOERTER_COMP.matcher(part2_lemma).matches())) {
+      // e. g. "Wortgrenze"
+      return true;
+    }
+    if (part1.equals("Wörter") && (WOERTER_COMP.matcher(part2_lemma).matches())) {
+      // e. g. "Wörterbuch"
       return true;
     }
     return false;
@@ -2708,6 +2747,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean hasNoInfixS(String word) throws IOException {
     return wordsWithoutInfixS.contains(word);
+  }
+
+  private boolean isNounNom(String word) throws IOException {
+    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM"));
   }
 
   private boolean isNounNomSin(String word) throws IOException {
