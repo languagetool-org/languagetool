@@ -6016,6 +6016,15 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="adj_antepuesto_improbable" name="adjetivo antepuesto improbable">
+        <pattern>
+            <marker>
+                <token postag="V.N.*" postag_regexp="yes">escalar</token>
+            </marker>
+            <token postag="N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="AQ0CS0"/>
+    </rule>
     <rulegroup id="AdjNom" name="adj + nom">
         <antipattern>
             <!-- adjetivo improbable antepuesto -->
