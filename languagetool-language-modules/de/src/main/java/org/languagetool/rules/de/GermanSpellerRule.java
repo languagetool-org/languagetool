@@ -131,6 +131,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern SS = compile("ss");
 
   private static final List<Pattern> PREVENT_SUGGESTION_PATTERNS = new ArrayList<>();
+  private static final Pattern EXPAND_PATTERN = compile(".*/[ESNAPFT]");
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
   private final Set<String> wordEndingsToBeProhibited   = new HashSet<>();
@@ -1734,6 +1735,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     for (String line : lines) {
       if (!line.startsWith("#")) {
         set.add(line.trim());
+      }
+      if (EXPAND_PATTERN.matcher(line).matches()) {
+        throw new RuntimeException("Syntax '/{X}' for expansion not supported in this file: '" + line + "' in " + fileInClasspath);
+      }
+      if (line.endsWith("_in")) {
+        throw new RuntimeException("Syntax '_in' not supported in this file: '" + line + "' in " + fileInClasspath);
       }
     }
   }
