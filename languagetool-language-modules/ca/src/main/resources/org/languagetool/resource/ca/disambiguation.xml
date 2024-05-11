@@ -11731,6 +11731,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="DPNA" name="det + poss + adj + adj">
+        <pattern>
+            <unify>
+                <feature id="nombre"/>
+                <feature id="genere"/>
+                <marker>
+                    <token postag="D[^R].*" postag_regexp="yes"/>
+                    <token postag="PX.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+    </rule>
     <rule id="DPAA" name="det + poss + adj + adj">
         <pattern>
             <unify>
