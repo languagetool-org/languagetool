@@ -85,7 +85,7 @@ public class SynthesizeWithDeterminerFilter extends RuleFilter {
     // original word form in the first place
     AnalyzedToken originalAT = patternTokens[lemmaFrom].readingWithTagRegex(lemmaSelect);
     if (originalAT == null) {
-      throw new RuntimeException("Cannot find analyzed token readins with postag "+lemmaSelect+" in sentence"+match.getSentence().getText());
+      throw new RuntimeException("Cannot find analyzed token readings with postag "+lemmaSelect+" in sentence"+match.getSentence().getText());
     }
     potentialSuggestions.add(originalAT);
     // second-best suggestion

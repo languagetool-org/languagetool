@@ -691,7 +691,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // найближчі рік-два
     // понаднормові годину-півтори
     // суперкризовими січнем–лютим
-//    if( LemmaHelper.hasLemma(adjAnalyzedTokenReadins, Arrays.asList("найближчий", "минулий"), ":p:") 
+//    if( LemmaHelper.hasLemma(adjAnalyzedTokenReadings, Arrays.asList("найближчий", "минулий"), ":p:")
     if( PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj.*:p:.*") 
         && tokens[nounPos].getToken().matches(".*[\u2014\u2013-].*")
         && (LemmaHelper.TIME_PLUS_LEMMAS.contains(tokens[nounPos].getAnalyzedToken(0).getLemma().split("[\u2014\u2013-]")[0])
@@ -933,7 +933,7 @@ final class TokenAgreementAdjNounExceptionHelper {
 
     if( adjPos > 2 ) {
 //      // порівняно з попереднім
-//      if( PosTagHelper.hasPosTag(adjAnalyzedTokenReadins, "adj.*v_oru")
+//      if( PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj.*v_oru")
 //          && LemmaHelper.hasLemma(tokens[adjPos-2], Arrays.asList("порівняно", "аналогічно")) 
 //          && LemmaHelper.hasLemma(tokens[adjPos-1], Pattern.compile("з|із|зі")) ) {
 //        logException();
@@ -1072,7 +1072,7 @@ final class TokenAgreementAdjNounExceptionHelper {
         // мають бути підпорядковані служінню
         // радий присутності генерала
         if( PosTagHelper.hasPosTag(tokens[nounPos+1], "noun.*v_(rod|oru|naz|dav).*") ) {
-//            && ! PosTagHelper.hasPosTag(adjAnalyzedTokenReadins, "adj.*v_oru.*") ) {
+//            && ! PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj.*v_oru.*") ) {
           logException();
           return true;
         }
