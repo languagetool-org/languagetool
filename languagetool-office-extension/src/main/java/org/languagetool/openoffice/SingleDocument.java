@@ -43,6 +43,7 @@ import com.sun.star.awt.MouseEvent;
 import com.sun.star.awt.XMouseClickHandler;
 import com.sun.star.awt.XUserInputInterception;
 import com.sun.star.beans.PropertyValue;
+import com.sun.star.container.XIndexAccess;
 import com.sun.star.document.DocumentEvent;
 import com.sun.star.document.XDocumentEventBroadcaster;
 import com.sun.star.document.XDocumentEventListener;
@@ -55,8 +56,11 @@ import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.text.TextMarkupType;
 import com.sun.star.text.XFlatParagraph;
+import com.sun.star.text.XTextRange;
+import com.sun.star.ui.ContextMenuExecuteEvent;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import com.sun.star.view.XSelectionSupplier;
 
 /**
  * Class for checking text of one LO document 
@@ -430,6 +434,10 @@ public class SingleDocument {
         ltToolbar.makeToolbar(getLanguage());
       }
 */
+      if (proofInfo == OfficeTools.PROOFINFO_MARK_PARAGRAPH) {
+        paRes.aErrors = filterOverlappingErrors(paRes.aErrors);
+      }
+
     } catch (Throwable t) {
       MessageHandler.showError(t);
     } finally {
@@ -1034,6 +1042,51 @@ public class SingleDocument {
   }
 
   /**
+   * Get an error at position of view cursor
+   * test if the range is correct and change it if necessary
+   * return null if there is no error or the range is correct
+   */
+  public SingleProofreadingError getErrorAndChangeRange(ContextMenuExecuteEvent aEvent, boolean onlyNonRange) {
+    try {
+      if (disposed) {
+        return null;
+      }
+      ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
+      int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
+      int x = viewCursor.getViewCursorCharacter();
+      SingleProofreadingError error = getErrorFromCache(y, x);
+      if (error == null) {
+        return null;
+      }
+//      MessageHandler.printToLogFile("SingleDocument: getErrorAndChangeRange: error at " + x + ": " + error.aRuleIdentifier
+//          + ", nStart: " + error.nErrorStart + ", nLength: " + error.nErrorLength);
+      XSelectionSupplier xSelectionSupplier = aEvent.Selection;
+      Object selection = xSelectionSupplier.getSelection();
+      XIndexAccess xIndexAccess = UnoRuntime.queryInterface(XIndexAccess.class, selection);
+      if (xIndexAccess == null) {
+        MessageHandler.printToLogFile("SingleDocument: getErrorAndChangeRange: xIndexAccess == null");
+        return null;
+      }
+      XTextRange xTextRange = UnoRuntime.queryInterface(XTextRange.class, xIndexAccess.getByIndex(0));
+      if (xTextRange == null) {
+        MessageHandler.printToLogFile("SingleDocument: getErrorAndChangeRange: xTextRange == null");
+        return null;
+      }
+      if (onlyNonRange && xTextRange.getString().length() != 0) {
+        return null;
+      }
+      if (xTextRange.getString().length() == error.nErrorLength) {
+        return null;
+      }
+      viewCursor.setViewCursorSelection((short)error.nErrorStart, (short)error.nErrorLength);
+      return error;
+    } catch (Throwable t) {
+      MessageHandler.printException(t);
+    }
+    return null;
+  }
+  
+  /**
    * is a ignore once entry in cache
    */
   public boolean isIgnoreOnce(int xFrom, int xTo, int y, String ruleId) {
@@ -1048,7 +1101,7 @@ public class SingleDocument {
   }
   
   /**
-   * add a ignore once entry to queue and remove the mark
+   * add a ignore once entry and remove the mark
    */
   public String ignoreOnce() {
     if (disposed) {
@@ -1063,7 +1116,7 @@ public class SingleDocument {
   }
   
   /**
-   * add a ignore once entry for point x, y to queue and remove the mark
+   * add a ignore once entry for point x, y and remove the mark
    */
   public void setIgnoredMatch(int x, int y, String ruleId, boolean isIntern) {
     ignoredMatches.setIgnoredMatch(x, y, 0, ruleId, null, null);
@@ -1078,6 +1131,21 @@ public class SingleDocument {
     if (debugMode > 0) {
       MessageHandler.printToLogFile("SingleDocument: setIgnoredMatch: Ignore Match added at: paragraph: " + y + "; character: " + x + "; ruleId: " + ruleId);
     }
+  }
+  
+  /**
+   * ignore all - call ignoreRule for specified rule
+   */
+  public void ignoreAll() {
+    if (disposed) {
+      return;
+    }
+    ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
+    int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
+    int x = viewCursor.getViewCursorCharacter();
+    SingleProofreadingError error = getErrorFromCache(y, x);
+    Locale locale = docCache.getFlatParagraphLocale(y);
+    mDocHandler.ignoreRule(error.aRuleIdentifier, locale);
   }
   
   /**
@@ -1231,9 +1299,9 @@ public class SingleDocument {
       return null;
     }
     for (ResultCache paraCache : paragraphsCache) {
-      SingleProofreadingError tError = paraCache.getErrorAtPosition(nPara, nChar);
-      if (tError != null) {
-        tmpErrors.add(tError);
+      List<SingleProofreadingError> tErrors = paraCache.getErrorsAtPosition(nPara, nChar);
+      if (tErrors != null) {
+        tmpErrors.addAll(tErrors);
       }
     }
     if (tmpErrors.size() > 0) {
@@ -1284,15 +1352,51 @@ public class SingleDocument {
   }
   
   /**
+   * Proofs if an error is equivalent
+   */
+  private boolean isEquivalentError(SingleProofreadingError filteredError, SingleProofreadingError error) {
+    if (filteredError == null || error == null 
+        || error.nErrorStart != filteredError.nErrorStart || error.nErrorLength != filteredError.nErrorLength) {
+      return false;
+    }
+    if ((error.aSuggestions == null && filteredError.aSuggestions != null) 
+        || (error.aSuggestions != null && filteredError.aSuggestions == null)) {
+      return false;
+    }
+    if (error.aSuggestions == null && filteredError.aSuggestions == null) {
+      return true;
+    }
+    if (error.aSuggestions.length != filteredError.aSuggestions.length) {
+      return false;
+    }
+    for (String suggestion : error.aSuggestions) {
+      boolean contents = false;
+      for (String fSuggestion : filteredError.aSuggestions) {
+        if (suggestion.equals(fSuggestion)) {
+          contents = true;
+          break;
+        }
+      }
+      if (!contents) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  /**
    * Filter ignored errors (from ignore once and spell errors)
    */
   private SingleProofreadingError[] filterIgnoredMatches (SingleProofreadingError[] unFilteredErrors, int nPara) {
     if ((!ignoredMatches.isEmpty() && ignoredMatches.containsParagraph(nPara)) || 
         (!permanentIgnoredMatches.isEmpty() && permanentIgnoredMatches.containsParagraph(nPara))){
+      SingleProofreadingError lastFilteredError = null;
       List<SingleProofreadingError> filteredErrors = new ArrayList<>();
       for (SingleProofreadingError error : unFilteredErrors) {
-        if (!ignoredMatches.isIgnored(error.nErrorStart, error.nErrorStart + error.nErrorLength, nPara, error.aRuleIdentifier) &&
-            !permanentIgnoredMatches.isIgnored(error.nErrorStart, error.nErrorStart + error.nErrorLength, nPara, error.aRuleIdentifier)) {
+        if (ignoredMatches.isIgnored(error.nErrorStart, error.nErrorStart + error.nErrorLength, nPara, error.aRuleIdentifier) ||
+            permanentIgnoredMatches.isIgnored(error.nErrorStart, error.nErrorStart + error.nErrorLength, nPara, error.aRuleIdentifier)) {
+          lastFilteredError = error;
+        } else if (!isEquivalentError(lastFilteredError, error)) {
           filteredErrors.add(error);
         }
       }
@@ -1303,6 +1407,93 @@ public class SingleDocument {
       return filteredErrors.toArray(new SingleProofreadingError[0]);
     }
     return unFilteredErrors;
+  }
+  
+  private static SingleProofreadingError duplicateSingleProofreadingError (SingleProofreadingError error) {
+    SingleProofreadingError duplicate = new SingleProofreadingError();
+    duplicate.aFullComment = error.aFullComment;
+    duplicate.aProperties= error.aProperties;
+    duplicate.aRuleIdentifier = error.aRuleIdentifier;
+    duplicate.aShortComment = error.aShortComment;
+    duplicate.aSuggestions = error.aSuggestions;
+    duplicate.nErrorLength = error.nErrorLength;
+    duplicate.nErrorStart = error.nErrorStart;
+    duplicate.nErrorType = error.nErrorType;
+    return duplicate;
+  }
+  
+  /**
+   * Filter overlapping errors
+   * Splits overlapping errors
+   */
+  public SingleProofreadingError[] filterOverlappingErrors (SingleProofreadingError[] errors) {
+//    MessageHandler.printToLogFile("errors: " + errors.length);
+    if (errors == null || errors.length < 2) {
+      return errors;
+    }
+    List<Integer> overlaps = new ArrayList<>();
+    for(int i = 0; i < errors.length; i++) {
+      SingleProofreadingError error1 = errors[i];
+      for(int j = 0; j < errors.length; j++) {
+        SingleProofreadingError error2 = errors[j];
+        if (i != j && (error2.nErrorStart != error1.nErrorStart || error2.nErrorStart != error1.nErrorStart)
+            && error2.nErrorStart >= error1.nErrorStart && error2.nErrorStart < error1.nErrorStart + error1.nErrorLength) {
+          if (!overlaps.contains(i)) {
+            overlaps.add(i);
+          }
+        }
+      }
+    }
+    if (overlaps.isEmpty()) {
+      return errors;
+    }
+//    MessageHandler.printToLogFile("overlaps: " + overlaps.size());
+//    for (int i : overlaps) {
+//      MessageHandler.printToLogFile("Rule: " + errors[i].aRuleIdentifier 
+//          + ", nStart: " + errors[i].nErrorStart + ", nLength: " + errors[i].nErrorLength);
+//    }
+//    MessageHandler.printToLogFile("");
+    List<SingleProofreadingError> filteredErrors = new ArrayList<>();
+    for (int i = 0; i < overlaps.size(); i++) {
+      int k = overlaps.get(i);
+      SingleProofreadingError error1 = duplicateSingleProofreadingError(errors[k]);
+      for(int j = 0; j < errors.length; j++) {
+        SingleProofreadingError error2 = errors[j];
+        if (k != j) {
+          if (error2.nErrorStart == error1.nErrorStart && error2.nErrorLength < error1.nErrorLength) {
+            error1.nErrorStart = error2.nErrorStart + error2.nErrorLength;
+          } else if (error2.nErrorStart > error1.nErrorStart && error2.nErrorStart < error1.nErrorStart + error1.nErrorLength) {
+            if (error2.nErrorStart + error2.nErrorLength < error1.nErrorStart + error1.nErrorLength) {
+              SingleProofreadingError tmpError = duplicateSingleProofreadingError(error1);
+              error1.nErrorLength = error2.nErrorStart - error1.nErrorStart - 1;
+//              MessageHandler.printToLogFile("Add Error(1): Rule: " + error1.aRuleIdentifier 
+//                  + ", nStart: " + error1.nErrorStart + ", nLength: " + error1.nErrorLength);
+              filteredErrors.add(error1);
+              error1 = tmpError;
+              int diff = error2.nErrorStart + error2.nErrorLength - error1.nErrorStart;
+              error1.nErrorStart += (diff + 1);
+              error1.nErrorLength -= diff;
+            } else {
+              error1.nErrorLength = error2.nErrorStart - error1.nErrorStart - 1;
+            }
+          }
+        }
+      }
+//      MessageHandler.printToLogFile("Add Error(2): Rule: " + error1.aRuleIdentifier 
+//          + ", nStart: " + error1.nErrorStart + ", nLength: " + error1.nErrorLength);
+      filteredErrors.add(error1);
+    }
+    for(int i = 0; i < errors.length; i++) {
+      if (!overlaps.contains(i)) {
+        filteredErrors.add(errors[i]);
+      }
+    }
+//    MessageHandler.printToLogFile("");
+//    for (SingleProofreadingError error : filteredErrors) {
+//      MessageHandler.printToLogFile("Rule: " + error.aRuleIdentifier 
+//          + ", nStart: " + error.nErrorStart + ", nLength: " + error.nErrorLength);
+//    }
+    return filteredErrors.toArray(new SingleProofreadingError[0]);
   }
 
   /**

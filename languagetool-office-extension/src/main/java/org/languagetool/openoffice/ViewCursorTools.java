@@ -292,6 +292,30 @@ public class ViewCursorTools {
   }
   
   /** 
+   * Change view cursor selection
+   */
+  void setViewCursorSelection(short from, short length) {
+    isBusy++;
+    try {
+      XParagraphCursor xParagraphCursor = getParagraphCursorFromViewCursor();
+      if (xParagraphCursor == null) {
+        return;
+      }
+      xParagraphCursor.collapseToStart();
+      xParagraphCursor.gotoStartOfParagraph(true);
+      short toStart = (short) xParagraphCursor.getString().length();
+      XTextViewCursor xVCursor = getViewCursor();
+      xVCursor.goLeft(toStart, false);
+      xVCursor.goRight(from, false);
+      xVCursor.goRight(length, true);
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } finally {
+      isBusy--;
+    }
+  }
+  
+  /** 
    * Replace a part of Paragraph under ViewCursor 
    */
   void setViewCursorParagraphText(int nStart, int nLength, String replace) {
