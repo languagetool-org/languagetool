@@ -9251,6 +9251,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd pos="NCMS000"/>
             </disambig>
         </rule>
+    </rulegroup>
+    <rulegroup id="algunes_sigles" name="algunes sigles">
         <rule id="ET" name="ET (Estatut dels Treballadors)">
             <antipattern>
                 <token>et</token>
@@ -9268,6 +9270,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add">
                 <wd pos="NPCN000"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token case_sensitive="yes">TL</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="NCMS00"/>
             </disambig>
         </rule>
     </rulegroup>
@@ -11732,6 +11742,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rule id="DPNA" name="det + poss + adj + adj">
+        <antipattern>
+            <unify>
+                <feature id="nombre"/>
+                <feature id="genere"/>
+                <and>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                </and>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+            </unify>
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="nombre"/>
@@ -11740,7 +11761,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="D[^R].*" postag_regexp="yes"/>
                     <token postag="PX.*" postag_regexp="yes"/>
                     <token postag="N.*" postag_regexp="yes"/>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception regexp="yes">viu|va|accepta</exception><exception postag="V...3S.." postag_regexp="yes"/></token>
                 </marker>
             </unify>
         </pattern>
@@ -14627,6 +14648,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^N].*"/>
     </rule>
     <rulegroup id="EncadenaAdj" name="encadena adjectius">
+        <antipattern>
+            <token inflected="yes">previ</token>
+            <token postag="NC.*" postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <pattern>
                 <token postag="_GN_MS"/>
@@ -16763,7 +16788,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="nNom2" name="no nom si no ha concordat">
         <pattern>
             <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">feu|busca|busques|màgics?|màgica|màgiques|pinte|trenca|guarda|passa|salva|faig|dic|jeia|estaria|estaries|grossa|ros|suau|sobre|publicà|allò|parla|parles|deixa|deixes|torna|tornes|sabeu|seré|joves?|caus?|meritoris?|meritòri(a|es)|seca|resulta|porta|fou|grans?|surt|era|verticals?|visc<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">plena|feu|busca|busques|màgics?|màgica|màgiques|pinte|trenca|guarda|passa|salva|faig|dic|jeia|estaria|estaries|grossa|ros|suau|sobre|publicà|allò|parla|parles|deixa|deixes|torna|tornes|sabeu|seré|joves?|caus?|meritoris?|meritòri(a|es)|seca|resulta|porta|fou|grans?|surt|era|verticals?|visc<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 <token postag="[AVCP].*|SPS00" postag_regexp="yes"/>
             </and>
         </pattern>
@@ -17488,6 +17513,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rulegroup id="adj_ignore_concordance" name="adjectiu que ja acompanya un nom">
+        <antipattern>
+            <token inflected="yes">previ</token>
+            <token postag="NC.*" postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <pattern>
                 <unify>
