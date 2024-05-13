@@ -1827,8 +1827,10 @@ public class SingleDocument {
           writeCaches();
       } else if(event.EventName.equals("OnSaveAsDone") && config.saveLoCache()) {
         try {
-          cacheIO.setDocumentPath(xComponent);
-          writeCaches();
+          if (cacheIO != null) {
+            cacheIO.setDocumentPath(xComponent);
+            writeCaches();
+          }
         } catch (Throwable t) {
           MessageHandler.showError(t);
         }
