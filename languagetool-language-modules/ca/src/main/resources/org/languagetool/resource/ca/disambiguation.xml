@@ -5416,7 +5416,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
-                <token regexp="yes" inflected="yes">nom|paraula|mot|verb|substantiu|expressió|frase|adjectiu|apel·latiu</token>
+                <token regexp="yes" inflected="yes">nom|paraula|mot|verb|substantiu|expressió|frase|adjectiu|apel·latiu|resposta|pregunta</token>
                 <marker>
                     <token regexp="yes">comodí|crossa|falca</token>
                 </marker>
@@ -15096,6 +15096,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="DA.*" postag_regexp="yes"/>
             <token postag="[NA].*|V.P.*" postag_regexp="yes"/>
         </antipattern>
+        <antipattern>
+            <token>es</token>
+            <token postag="[NA].*" postag_regexp="yes" regexp="yes">h?[aeiou].*</token>
+        </antipattern>
         <rule>
             <pattern>
                 <marker>
@@ -15991,6 +15995,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token inflected="yes">de</token>
             <token/>
             <token>completa</token>
+        </antipattern>
+        <antipattern>
+            <token>es</token>
+            <token postag="[NA].*" postag_regexp="yes" regexp="yes">h?[aeiou].*</token>
         </antipattern>
         <pattern>
             <token><exception postag="RG_anteposat|.*LOC_ADV.*|_GV_|SPS00|CC|UNKNOWN|V.[SI].*|_PUNCT.*|RN" postag_regexp="yes"/><exception postag="P.*" postag_regexp="yes" regexp="yes">['-].+</exception><exception inflected="yes" regexp="yes">ser|estar|semblar|parèixer|considerar</exception></token>
