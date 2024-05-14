@@ -141,6 +141,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
+    put("vorbreiten", w -> Arrays.asList("vorbereiten", "verbreiten"));
     put("Topfen", "Tropfen");
     put("frägst", "fragst");
     put("sähte", "säte");
