@@ -506,7 +506,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token regexp="yes">[a-z]</token>
                 </marker>
-                <token spacebefore="no" regexp="yes">[\)\.]|&dashes;</token>
+                <token spacebefore="no" regexp="yes">[\)\.:]|&dashes;</token>
             </pattern>
             <disambig action="add">
                 <wd pos="_enumeracio"/>
@@ -582,6 +582,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add">
                 <wd pos="_enumeracio"/>
             </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">&dashes;</token>
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">&dashes;</token>
+                <token regexp="yes">[a-z]</token>
+            </pattern>
+            <disambig action="ignore_spelling"></disambig>
         </rule>
     </rulegroup>
     <rulegroup id="tokenization_error" name="tokenization problem: Castella-la Manxa, D'Hondt">
@@ -7652,11 +7662,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filterall"/>
     </rule>
     <rule id="DONAR" name="donar">
+        <antipattern>
+            <token>la</token>
+            <token>dona</token>
+        </antipattern>
         <pattern>
             <marker>
                 <token inflected="yes" postag="V.*" postag_regexp="yes">donar</token>
             </marker>
-            <token regexp="yes">part|sentit|importància</token>
+            <token regexp="yes">part|sentit|importància|plaer|goig</token>
         </pattern>
         <disambig action="filter" postag="V.*"/>
     </rule>

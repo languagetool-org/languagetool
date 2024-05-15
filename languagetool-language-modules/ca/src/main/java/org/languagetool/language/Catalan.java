@@ -240,6 +240,7 @@ public class Catalan extends Language {
       case "CONCORDANCES_NUMERALS_DUES": return 10; // greater than CONCORDANCES_NUMERALS
       case "FALTA_CONDICIONAL": return 10; // greater than POTSER_SIGUI
       case "ACCENTUATION_CHECK": return 10;
+      case "A_PER": return 10;
       case "CONCORDANCES_NUMERALS": return 10;
       case "COMMA_IJ": return 10;
       case "AVIS": return 10;
