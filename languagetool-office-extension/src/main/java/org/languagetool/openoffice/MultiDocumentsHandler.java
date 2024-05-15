@@ -1322,6 +1322,18 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   * Call method ignoreAll for concerned document 
+   */
+  public void ignoreAll() {
+    for (SingleDocument document : documents) {
+      if (menuDocId.equals(document.getDocID())) {
+        document.ignoreAll();
+        return;
+      }
+    }
+  }
+  
+  /**
    * Call method ignorePermanent for concerned document 
    */
   public String ignorePermanent() {
@@ -1744,6 +1756,9 @@ public class MultiDocumentsHandler {
   public void trigger(String sEvent) {
     try {
 //      MessageHandler.printToLogFile("Trigger event: " + sEvent);
+      if ("noAction".equals(sEvent)) {  //  special dummy action
+        return;
+      }
       if (getCurrentDocument() == null) {
         return;
       }
@@ -1788,6 +1803,8 @@ public class MultiDocumentsHandler {
         }
       } else if ("ignoreOnce".equals(sEvent)) {
         ignoreOnce();
+      } else if ("ignoreAll".equals(sEvent)) {
+        ignoreAll();
       } else if ("ignorePermanent".equals(sEvent)) {
         ignorePermanent();
       } else if ("resetIgnorePermanent".equals(sEvent)) {

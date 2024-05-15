@@ -1075,6 +1075,14 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(enableGoalSpecificRulesBox, cons);
 
+    JCheckBox filterOverlappingMatchesBox = new JCheckBox(Tools.getLabel(messages.getString("guiFilterOverlappingMatches")));
+    filterOverlappingMatchesBox.setSelected(config.filterOverlappingMatches());
+    filterOverlappingMatchesBox.addItemListener(e -> {
+      config.setFilterOverlappingMatches(filterOverlappingMatchesBox.isSelected());
+    });
+    cons.gridy++;
+    portPanel.add(filterOverlappingMatchesBox, cons);
+
     JCheckBox noBackgroundCheckBox = new JCheckBox(Tools.getLabel(messages.getString("guiNoBackgroundCheck")));
     noBackgroundCheckBox.setSelected(config.noBackgroundCheck());
     noBackgroundCheckBox.addItemListener(e -> config.setNoBackgroundCheck(noBackgroundCheckBox.isSelected()));

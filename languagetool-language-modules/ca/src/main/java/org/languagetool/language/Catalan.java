@@ -105,7 +105,7 @@ public class Catalan extends Language {
             new SimpleReplaceAdverbsMent(messages),
             new CatalanWordRepeatBeginningRule(messages, this),
             new CompoundRule(messages, this, userConfig),
-            new CatalanRepeatedWordsRule(messages, this),
+            //new CatalanRepeatedWordsRule(messages, this),
             new SimpleReplaceDNVRule(messages, this),
             new SimpleReplaceDNVColloquialRule(messages, this),
             new SimpleReplaceDNVSecondaryRule(messages, this),
@@ -222,11 +222,12 @@ public class Catalan extends Language {
       case "CONFUSIONS": return 30;
       case "PRONOMS_FEBLES_DARRERE_VERB": return 30; // greater than PRONOMS_FEBLES_SOLTS2
       case "VERBS_NO_INCOATIUS": return 30; // greater than PRONOMS_FEBLES_SOLTS2
-      case "HAVER_SENSE_HAC": return 28; // greater than CONFUSIONS_ACCENT avia, lower than CONFUSIONS_E
       case "REEMPRENDRE": return 28; // equal to CA_SIMPLE_REPLACE_VERBS
       case "INCORRECT_WORDS_IN_CONTEXT": return 28; // similar to but lower than CONFUSIONS, greater than ES_KNOWN
       case "PRONOMS_FEBLES_SOLTS2": return 26;  // greater than PRONOMS_FEBLES_SOLTS, ES, HAVER_SENSE_HAC
       case "ES_UNKNOWN": return 25;
+      case "HAVER_SENSE_HAC": return 25; // greater than CONFUSIONS_ACCENT avia, lower than CONFUSIONS_E
+      case "HA_A": return 25; //  lower than CA_SIMPLE_REPLACE_VERBS
       case "PASSAT_PERIFRASTIC": return 25; // greater than CONFUSIONS_ACCENT
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;
@@ -239,6 +240,7 @@ public class Catalan extends Language {
       case "CONCORDANCES_NUMERALS_DUES": return 10; // greater than CONCORDANCES_NUMERALS
       case "FALTA_CONDICIONAL": return 10; // greater than POTSER_SIGUI
       case "ACCENTUATION_CHECK": return 10;
+      case "A_PER": return 10;
       case "CONCORDANCES_NUMERALS": return 10;
       case "COMMA_IJ": return 10;
       case "AVIS": return 10;

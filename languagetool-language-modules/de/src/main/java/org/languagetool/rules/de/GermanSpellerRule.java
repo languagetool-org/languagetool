@@ -131,15 +131,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern SS = compile("ss");
 
   private static final List<Pattern> PREVENT_SUGGESTION_PATTERNS = new ArrayList<>();
+  private static final Pattern EXPAND_PATTERN = compile(".*/[ESNAPFT]");
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
   private final Set<String> wordEndingsToBeProhibited   = new HashSet<>();
   private final Set<String> wordsNeedingInfixS          = new HashSet<>();
   private final Set<String> wordsWithoutInfixS          = new HashSet<>();
-  private final Set<String> germanPrefixes              = new HashSet<>();
+  private final Set<String> germanPrefixes              = new HashSet<>();  // words used as compound parts but not nouns on their own, like "Kritzel"
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
+    put("vorbreiten", w -> Arrays.asList("vorbereiten", "verbreiten"));
     put("Topfen", "Tropfen");
     put("frägst", "fragst");
     put("sähte", "säte");
@@ -1735,6 +1737,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!line.startsWith("#")) {
         set.add(line.trim());
       }
+      if (EXPAND_PATTERN.matcher(line).matches()) {
+        throw new RuntimeException("Syntax '/{X}' for expansion not supported in this file: '" + line + "' in " + fileInClasspath);
+      }
+      if (line.endsWith("_in")) {
+        throw new RuntimeException("Syntax '_in' not supported in this file: '" + line + "' in " + fileInClasspath);
+      }
     }
   }
 
@@ -2319,7 +2327,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         startsWithLowercase(part2) &&
         !part1.equals("Lass") &&  // e.g. "Lasstest" - couldn't find a more generic solution yet
         (wordsWithoutInfixS.contains(part1) || (compoundPatternSpecialEnding.matcher(part1).matches() && isNoun(part2uc))) &&
-        !isMisspelled(part1) &&
+        (!isMisspelled(part1) || germanPrefixes.contains(lowercaseFirstChar(part1))) &&
         isNoun(part2uc) // don't accept e.g. "Azubikommt"
       ) {
       //System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");

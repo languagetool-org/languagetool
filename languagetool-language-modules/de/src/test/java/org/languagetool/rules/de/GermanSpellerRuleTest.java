@@ -110,6 +110,7 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritäts-Dings"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritäts-Dings."));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Haltungs-Schäden"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Kritzelcafé"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("haltungschäden"));  // lowercase
     assertFalse(rule.ignorePotentiallyMisspelledWord("haltungs-schäden"));  // lowercase
     assertFalse(rule.ignorePotentiallyMisspelledWord("haltungs-Schäden"));  // lowercase

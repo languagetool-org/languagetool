@@ -84,6 +84,9 @@ public class SynthesizeWithDeterminerFilter extends RuleFilter {
     List<AnalyzedToken> potentialSuggestions = new ArrayList<>();
     // original word form in the first place
     AnalyzedToken originalAT = patternTokens[lemmaFrom].readingWithTagRegex(lemmaSelect);
+    if (originalAT == null) {
+      throw new RuntimeException("Cannot find analyzed token readings with postag "+lemmaSelect+" in sentence"+match.getSentence().getText());
+    }
     potentialSuggestions.add(originalAT);
     // second-best suggestion
     String secondGenderNumber = "";
