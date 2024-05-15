@@ -534,6 +534,55 @@ USA
             <example type="triggers_error">Explore releases from Ait! at Discogs.</example>
         </rule>
 
-    </category>
+        </category>
 
-</rules>
+        <rule id="YOUR_YOURE" name="Your/You're Usage">
+            <pattern>
+                <token>your</token>
+            </pattern>
+            <message>Did you mean <suggestion>you're</suggestion>?</message>
+            <example correction="you're">I think <marker>your</marker> going to love it.</example>
+        </rule>
+
+        <rule id="WORD_COLLOCATION_1" name="Inappropriate Word Collocation">
+            <pattern>
+                <token>strong</token>
+                <token>believe</token>
+            </pattern>
+            <message>Consider using <suggestion>strongly believe</suggestion> instead of 'strong believe'. "Strongly" is the adverb form of "strong" and is used to modify verbs like "believe."</message>
+            <example correction="strongly believe">I strong believe in your abilities.</example>
+        </rule>
+
+        <rule id="WORD_COLLOCATION_3" name="Inappropriate Word Collocation">
+            <pattern>
+                <token>fast</token>
+                <token>drive</token>
+            </pattern>
+            <message>Consider using <suggestion>fast driving</suggestion> instead of 'fast drive'. "Driving" is the gerund form of the verb "drive" and is used after an adjective like "fast" to describe the act of driving.</message>
+            <example correction="fast driving">He was caught for fast drive.</example>
+        </rule>
+
+        <rule id="WORD_COLLOCATION_2" name="Inappropriate Word Collocation">
+            <pattern>
+                <token>fast</token>
+                <token>meal</token>
+            </pattern>
+            <message>Consider using <suggesiton>fast food</suggestion> instead of 'fast meal'. "Fast food" is a specific type of food that is prepared and served quickly, whereas "fast meal" is not commonly used.</message>
+            <example correction="fast food">Let's grab some fast meal.</example>
+        </rule>
+
+        <rule id="Singular_Subject_Verb_Agreement" name="Singular Subject-Verb Agreement">
+            <pattern>
+                <token postag="DT" min="0" max="1"/>
+                <token postag="NN">dog</token>
+                <token postag="RB" min="0" max="1"/>
+                <token postag="VBP">run</token>
+            </pattern>
+            <message>The verb "run" does not agree with the singular subject "dog". Consider using <suggestion>runs</suggestion> to match the singular subject.</message>
+            <example correction="runs">The dog <marker>run</marker> in the park.</example>
+            <example correction="runs">The dog quickly <marker>run</marker> in the park.</example>
+            <example correction="runs">Dog <marker>run</marker> in the park.</example>
+            <example correction="runs">Dog quickly <marker>run</marker> in the park.</example>
+        </rule>
+
+        </rules>
