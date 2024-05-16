@@ -3673,6 +3673,15 @@ USA
                     <example>Estou morrendo de vontade de uma xícara de café.</example>
                     <example>Estou morrendo de vergonha dessa situação.</example>
                 </antipattern>
+                <antipattern>
+                    <token skip='4' inflected='yes' regexp='yes'>ser|estar</token>
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
+                    <token postag='VMP00.+' postag_regexp='yes'/>
+                    <example>Por favor, abram a janela. Estou morrendo sufocado.</example>
+                    <example>Vivas foi responsabilizado após um ciclista morrer decapitado em Caracas devido à tal prática.</example>
+                    <example>Nico se salvou mas Eric foi carregado pela correnteza e morreu afogado.</example>
+                    <example>O motim foi um ajuste de contas, sendo que 9 detentos morreram sufocados pela fumaça do incêndio.</example>
+                </antipattern>
                 <pattern>
                     <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception>
                         <exception regexp='no' case_sensitive='yes'>Morro</exception> <!-- Proper names -->
@@ -3726,6 +3735,14 @@ USA
                     <example>Os judeus de Hamburgo sepultavam os mortos no Cemitério Judaico de Altona.</example>
                     <example>Encontramos um cachorro morto no jardim.</example>
                     <example>Tem um gigante morto no nosso quintal.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='VMSP3.+' postag_regexp='yes'/>
+                    <token regexp='yes'>mort[ao]s?</token>
+                    <token regexp='yes'>em|n[ao]s?</token>
+                    <token min='1' max='2' postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <token postag='_PUNCT|SENT_END' postag_regexp='yes'/>
+                    <example>O batalhão vence caso os seus elementos não se encontrem mortos na totalidade.</example>
                 </antipattern>
                 <pattern>
                     <marker>
