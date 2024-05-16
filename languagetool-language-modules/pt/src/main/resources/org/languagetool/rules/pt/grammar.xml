@@ -41728,7 +41728,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rulegroup id='MULTIPLICATION_SIGN' name="Matemático: Multiplicação: x - × " tags="picky">
-            <!-- Created by Tiago F. Santos, 2017-03-27 -->
             <rule>
                 <antipattern>
                     <token regexp='yes'>x|\*</token>
@@ -41772,13 +41771,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>UHCI: a versão USB 1.x</example>
             </rule>
             <rule>
-                <regexp>(?&lt;!([a-vyz]|[a-vyz]\d|[a-vyz]\d{2}|[a-vyz]\d{3}|[a-vyz]\d{4}|[a-vyz]\d{5}))((?!(?:[,;\(\.][x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)|(?:[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*][,;\.\)\!\?]))([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+))</regexp>
+                <regexp>(?&lt;!([a-vyz]|[a-vyz]\d|[a-vyz]\d{2}|[a-vyz]\d{3}|[a-vyz]\d{4}|[a-vyz]\d{5}))((?!(?:[,;\(\.][x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)|(?:[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*][,;\.\)\!\?]))([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+[a-zA-Z]*))</regexp>
                 <message>Prefira o símbolo de multiplicação.</message>
                 <suggestion>\4×\5</suggestion>
                 <suggestion>\4·\5</suggestion>
                 <example correction='2,998×10⁸|2,998·10⁸'>c=<marker>2,998x10⁸</marker> m/s</example>
                 <example correction="6.626×10⁻³⁴|6.626·10⁻³⁴">h = <marker>6.626x10⁻³⁴</marker> J.s</example>
                 <example correction="5×2|5·2"><marker>5*2</marker> = 10</example>
+                <!-- unit spacing rule will need to apply independently, and only after this is accepted -->
+                <example correction="10,5×17,2km|10,5·17,2km">Uma área de <marker>10,5x17,2km</marker>.</example>
                 <example>a=2·x²+5</example>
                 <example>4,5×2,5=11,25</example>
                 <example>Oxihalídeos do Amerício na forma de AmVIO2X2, AmVO2X, AmIVOX2 e AmIIIOX…</example>
