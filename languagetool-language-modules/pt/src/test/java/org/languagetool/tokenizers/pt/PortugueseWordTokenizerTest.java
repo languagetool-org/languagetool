@@ -278,4 +278,11 @@ public class PortugueseWordTokenizerTest {
   public void testTokeniseComplexEmoji() {
     testTokenise("🧝🏽‍♀️", "🧝", "🏽", "‍", "♀️");
   }
+
+  @Test
+  public void testTokeniseUnitsOfMeasure() {
+    testTokenise("100mm", "100mm");
+    testTokenise("10x10mm", "10x10mm");
+    testTokenise("10×10mm", "10", "×", "10mm");
+  }
 }
