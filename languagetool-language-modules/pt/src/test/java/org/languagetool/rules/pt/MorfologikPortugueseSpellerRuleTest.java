@@ -545,6 +545,14 @@ public class MorfologikPortugueseSpellerRuleTest {
   }
 
   @Test
+  public void testPortugueseSpellerIgnoresDiceRollNotation() throws Exception {
+    // Disambiguator rule
+    assertNoErrors("1d20", ltBR, ruleBR);
+    assertNoErrors("3d6", ltBR, ruleBR);
+    assertNoErrors("20d10", ltBR, ruleBR);
+  }
+
+  @Test
   public void testPortugueseSpellerIgnoresNonstandardTimeFormat() throws Exception {
     // Disambiguator rule; this is a style/typography issue to be taken care of in XML rules
     assertNoErrors("31h40min", ltBR, ruleBR);
