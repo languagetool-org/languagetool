@@ -41302,7 +41302,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/simbolos-de-unidades/11572</url>
             <rule>
                 <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]{0,10}(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
-                <message>Deve dar um espaço entre o valor e a unidade de medida: <suggestion><match no='1' regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
+                <message>Deve-se dar um espaço entre o valor e a unidade de medida: <suggestion><match no='1' regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
                 <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/simbolos-de-unidades/11572</url>
                 <example correction="25 °C">Fazem <marker>25°C</marker>.</example>
                 <example correction="-25 °C">Fazem <marker>-25°C</marker>.</example>
@@ -41328,7 +41328,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule>
                 <regexp>((\-)?[0-9]+[0-9.,]{1,10}) (°[^CFK])</regexp>
-                <message>Não existe espaçamento a preceder o símbolo de grau. Utilize <suggestion>\1°</suggestion> ou adicione a unidade de medida térmica (p.ex. <suggestion>\1 °C</suggestion>).</message>
+                <message>Não se põe espaço antes do símbolo de grau. Utilize <suggestion>\1°</suggestion> ou adicione a unidade de medida térmica (p.ex. <suggestion>\1 °C</suggestion>).</message>
                 <example correction="25°|25 °C">O ângulo é <marker>25 ° </marker></example>
                 <example correction="-25,5°|-25,5 °C">Fazem <marker>-25,5 ° </marker>de temperatura.</example>
                 <example correction="-25°|-25 °C">Fazem <marker>-25 ° </marker>de temperatura.</example>
@@ -41337,7 +41337,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule>
                 <regexp>((\-)?[0-9]+[0-9.,]*{1,10}) (″)</regexp>
-                <message>O sinal de segundos (\2) não é espaçado.</message>
+                <message>Não se escreve espaço antes do sinal de segundos (\2).</message>
                 <suggestion>\1\2\3</suggestion>
                 <example>3°14′ 45,54″</example>
                 <example correction="45″"><marker>45 ″</marker> E</example>
@@ -41737,7 +41737,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rulegroup id='MULTIPLICATION_SIGN' name="Matemático: Multiplicação: x - × " tags="picky">
-            <!-- Created by Tiago F. Santos, 2017-03-27 -->
             <rule>
                 <antipattern>
                     <token regexp='yes'>x|\*</token>
@@ -41788,6 +41787,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='2,998×10⁸|2,998·10⁸'>c=<marker>2,998x10⁸</marker> m/s</example>
                 <example correction="6.626×10⁻³⁴|6.626·10⁻³⁴">h = <marker>6.626x10⁻³⁴</marker> J.s</example>
                 <example correction="5×2|5·2"><marker>5*2</marker> = 10</example>
+                <!-- unit spacing rule will need to apply independently, and only after this is accepted -->
+                <example correction="10,5×17,2|10,5·17,2">Uma área de <marker>10,5x17,2</marker>km.</example>
                 <example>a=2·x²+5</example>
                 <example>4,5×2,5=11,25</example>
                 <example>Oxihalídeos do Amerício na forma de AmVIO2X2, AmVO2X, AmIVOX2 e AmIIIOX…</example>

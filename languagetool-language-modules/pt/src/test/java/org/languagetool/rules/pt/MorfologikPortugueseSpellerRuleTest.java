@@ -538,6 +538,18 @@ public class MorfologikPortugueseSpellerRuleTest {
     // Disambiguator rule; this is a style/typography issue to be taken care of in XML rules
     assertNoErrors("180g", ltBR, ruleBR);
     assertNoErrors("16.2kW", ltBR, ruleBR);
+    assertNoErrors("6x6", ltBR, ruleBR);
+    assertNoErrors("100x100mm", ltBR, ruleBR);
+    assertNoErrors("5,5x6.7km", ltBR, ruleBR);
+    assertNoErrors("5×10×50cm", ltBR, ruleBR);
+  }
+
+  @Test
+  public void testPortugueseSpellerIgnoresDiceRollNotation() throws Exception {
+    // Disambiguator rule
+    assertNoErrors("1d20", ltBR, ruleBR);
+    assertNoErrors("3d6", ltBR, ruleBR);
+    assertNoErrors("20d10", ltBR, ruleBR);
   }
 
   @Test
