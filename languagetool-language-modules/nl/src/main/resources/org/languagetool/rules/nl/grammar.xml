@@ -769,6 +769,33 @@ regexp case-insensitive maken: (?i)
 				<example correction="wilde|wilden">Toch <marker>wilder</marker> de man niet weg.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="DAT_AT" name="Het is goed at je dat zegt." default="temp_off">
+			<rule>
+				<pattern>
+					<token postag_regexp="yes" postag="WKW.*|VNW:AWZ.*"></token>
+					<token postag="BNW:STL:ONV"/>
+					<marker>
+						<token>at</token>
+					</marker>
+					<token postag_regexp="yes" postag="VNW:PER.*"/>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>dat</suggestion>.</message>
+				<example correction="dat">Ik vind het fijn <marker>at</marker> je zo meeleeft.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="IK_RIJDT" name="Als ik 100 rijdt(rijd)..." default="temp_off">
+			<rule>
+				<pattern>
+					<token>als</token>
+					<token skip="1">ik</token>
+					<marker>
+						<token>rijdt</token>
+					</marker>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>rijd</suggestion>.</message>
+				<example correction="rijd">Dus als ik 100 <marker>rijdt</marker> ben ik er eerder?</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DT_CORRECTIES" name="verkeerde woordvormen" default="temp_off">
 			<rule>
 				<pattern>
@@ -929,6 +956,22 @@ regexp case-insensitive maken: (?i)
 				</pattern>
 				<message>Bedoelt u soms <suggestion>het</suggestion>?</message>
 				<example correction="het">Voor <marker>get</marker> grootste deel wel.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="OVER_VAN" name="Wat vind jij over(van) dat boek?" default="temp_off">
+			<rule>
+				<pattern>
+					<token>wat</token>
+					<token postag_regexp="yes" postag="WKW.*" inflected="yes">vinden</token>
+					<token postag_regexp="yes" postag="VNW:PER.*"></token>
+					<marker>
+						<token>over</token>
+					</marker>
+					<token postag_regexp="yes" postag="VNW:AWZ.*|VNW.*BEZ"/>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>van</suggestion>.</message>
+				<example correction="van">Wat vind jij <marker>over</marker> de nieuwe regels?</example>
 			</rule>
 		</rulegroup>
 
@@ -2622,6 +2665,20 @@ regexp case-insensitive maken: (?i)
 				<message>Wilt u een pijl plaatsen? Suggesties: <suggestion>↔</suggestion>, <suggestion>⇿</suggestion>, <suggestion>⇄</suggestion>, <suggestion>⇆</suggestion>, <suggestion>⇋</suggestion>, <suggestion>⇌</suggestion>, <suggestion>⇔</suggestion></message>
 				<example>A ⇔ B</example>
 				<example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=></marker> B</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="EXP_OUDE_WIJN" name="oude/nieuwe wijn" default="temp_off">
+			<rule>
+				<pattern>
+					<token>nieuwe</token>
+					<token>wijn</token>
+					<token>in</token>
+					<token>oude</token>
+					<token>zakken</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>\4 \2 \3 \1 \5</suggestion>.</message>
+				<example correction="oude wijn in nieuwe zakken">Het lijkt op <marker>nieuwe wijn in oude zakken</marker>.</example>
 			</rule>
 		</rulegroup>
 
@@ -12195,6 +12252,17 @@ regexp case-insensitive maken: (?i)
 				<suggestion><match no="1" regexp_match="n$" regexp_replace="'n"/></suggestion>
 				<example correction="zo'n">Het is <marker>zon</marker> vreemde fout.</example>
 				<example correction="Zo'n"><marker>Zon</marker> fout is het nu eenmaal.</example>
+			</rule>
+			<rule default="temp_off">
+				<pattern>
+					<token>met</token>
+					<marker>
+						<token>zon</token>
+					</marker>
+					<token postag="ZNW:EKV:DE_"/>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>zo'n</suggestion>.</message>
+				<example correction="zo'n">Nou, met <marker>zon</marker> houding kom je er nooit.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="AFKO_PUNT" name="dhr → dhr.">
@@ -26388,6 +26456,18 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 	</category>
 	<category id="REPETITIONS" name="Herhaling van woorden of woordgroepen." >
+		<rulegroup id="HEBBEN_HEBBEN" name="Wij hebben boeken hebben gelezen" default="temp_off">
+			<rule>
+				<pattern>
+					<token skip="1" postag_regexp="yes" postag="WKW.*" inflected="yes">hebben</token>
+					<token postag="ZNW:MRV:DE_"/>
+					<token><match no="0"/></token>
+					<token postag="WKW:VTD:VRB"/>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>\1 \2 \4</suggestion>.</message>
+				<example correction="hebben boeken gelezen">Wij <marker>hebben boeken hebben gelezen</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DUBBEL_DE" name="Dat is de de man.">
 			<rule>
 				<antipattern>
