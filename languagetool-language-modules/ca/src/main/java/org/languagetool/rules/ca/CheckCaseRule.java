@@ -59,7 +59,7 @@ public class CheckCaseRule  extends AbstractCheckCaseRule {
 
   @Override
   public String getMessage() {
-    return "Majúscules i minúscules recomanades.";
+    return "Majúscules i minúscules recomanades. Alguns llibres d'estil poden suggerir solucions diferents en alguns casos.";
   }
   
   @Override

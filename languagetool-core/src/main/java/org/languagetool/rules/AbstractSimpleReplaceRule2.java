@@ -284,6 +284,11 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       if (!repl.equals(originalStr) && !finalRepl.equals(originalStr) && !finalReplacements.contains(finalRepl)) {
         finalReplacements.add(finalRepl);
       }
+      if (finalRepl.equals(originalStr)) {
+        // the original is correct, so there is no need to fix anything
+        finalReplacements.clear();
+        break;
+      }
     }
     if (ruleHasSuggestions && finalReplacements.isEmpty()) {
       return;

@@ -137,10 +137,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordEndingsToBeProhibited   = new HashSet<>();
   private final Set<String> wordsNeedingInfixS          = new HashSet<>();
   private final Set<String> wordsWithoutInfixS          = new HashSet<>();
-  private final Set<String> germanPrefixes              = new HashSet<>();
+  private final Set<String> germanPrefixes              = new HashSet<>();  // words used as compound parts but not nouns on their own, like "Kritzel"
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
+    put("vorbreiten", w -> Arrays.asList("vorbereiten", "verbreiten"));
     put("Topfen", "Tropfen");
     put("frägst", "fragst");
     put("sähte", "säte");
@@ -2326,7 +2327,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         startsWithLowercase(part2) &&
         !part1.equals("Lass") &&  // e.g. "Lasstest" - couldn't find a more generic solution yet
         (wordsWithoutInfixS.contains(part1) || (compoundPatternSpecialEnding.matcher(part1).matches() && isNoun(part2uc))) &&
-        !isMisspelled(part1) &&
+        (!isMisspelled(part1) || germanPrefixes.contains(lowercaseFirstChar(part1))) &&
         isNoun(part2uc) // don't accept e.g. "Azubikommt"
       ) {
       //System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");
