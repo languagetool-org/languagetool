@@ -34,6 +34,7 @@ import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.OfficeTools.LoErrorType;
 import org.languagetool.openoffice.ResultCache.CacheEntry;
+import org.languagetool.openoffice.aisupport.AiErrorDetection;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
@@ -275,7 +276,7 @@ public class SingleCheck {
                 int toPos = docCache.getTextParagraph(textPara).length();
                 if (toPos > 0) {
                   errorList.add(correctRuleMatchWithFootnotes(
-                      createOOoError(myRuleMatch, -textPos, footnotePos),
+                      createOOoError(myRuleMatch, -textPos, footnotePos, docLanguage, config),
                         footnotePos, docCache.getTextParagraphDeletedCharacters(textPara)));
                 }
               }
@@ -592,7 +593,7 @@ public class SingleCheck {
                 toPos = paraText.length();
               }
               errorList.add(correctRuleMatchWithFootnotes(
-                  createOOoError(myRuleMatch, 0, footnotePos), footnotePos, deletedChars));
+                  createOOoError(myRuleMatch, 0, footnotePos, docLanguage, config), footnotePos, deletedChars));
             }
           }
           if (!errorList.isEmpty()) {
@@ -609,6 +610,8 @@ public class SingleCheck {
             paragraphsCache.get(cacheNum).put(nFPara, nextSentencePositions, new SingleProofreadingError[0]);
           }
         }
+        AiErrorDetection aiErrors = new AiErrorDetection(singleDocument, config);
+        aiErrors.addAiRuleMatchesForParagraph(nFPara);
         startSentencePos = paragraphsCache.get(cacheNum).getStartSentencePosition(nFPara, sentencePos);
         endSentencePos = paragraphsCache.get(cacheNum).getNextSentencePosition(nFPara, sentencePos);
         return paragraphsCache.get(cacheNum).getFromPara(nFPara, startSentencePos, endSentencePos, errType);
@@ -652,7 +655,8 @@ public class SingleCheck {
   /**
    * Creates a SingleGrammarError object for use in LO/OO.
    */
-  private SingleProofreadingError createOOoError(RuleMatch ruleMatch, int startIndex, int[] footnotes) {
+  public static SingleProofreadingError createOOoError(RuleMatch ruleMatch, int startIndex, int[] footnotes,
+      Language docLanguage, Configuration config) {
     SingleProofreadingError aError = new SingleProofreadingError();
     if (ruleMatch.getRule().isDictionaryBasedSpellingRule()) {
       aError.nErrorType = TextMarkupType.SPELLCHECK;
@@ -813,7 +817,7 @@ public class SingleCheck {
    * Remove footnotes from paraText
    * run cleanFootnotes if information about footnotes are not supported
    */
-  static String removeFootnotes(String paraText, int[] footnotes, List<Integer> deletedChars) {
+  public static String removeFootnotes(String paraText, int[] footnotes, List<Integer> deletedChars) {
     if (paraText == null) {
       return null;
     }
@@ -864,7 +868,7 @@ public class SingleCheck {
    * Correct SingleProofreadingError by footnote positions
    * footnotes before is the sum of all footnotes before the checked paragraph
    */
-  protected static SingleProofreadingError correctRuleMatchWithFootnotes(SingleProofreadingError pError, int[] footnotes, List<Integer> deletedChars) {
+  public static SingleProofreadingError correctRuleMatchWithFootnotes(SingleProofreadingError pError, int[] footnotes, List<Integer> deletedChars) {
     if (deletedChars == null || deletedChars.isEmpty()) {
       if (footnotes == null || footnotes.length == 0) {
         return pError;

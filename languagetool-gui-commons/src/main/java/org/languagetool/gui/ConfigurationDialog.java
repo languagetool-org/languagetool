@@ -445,14 +445,17 @@ public class ConfigurationDialog implements ActionListener {
       tabpane.addTab(specialTabNames[i], jPane);
     }
     
-//  technical options tab (only office)
     if(insideOffice) {
+      //    technical options tab (only office)
       String label = messages.getString("guiTechnicalSettings");
       if (label.endsWith(":")) {
         label = label.substring(0, label.length() - 1);
       }
       tabpane.add(label, new JScrollPane(getOfficeTechnicalElements()));
       
+      //    AI options tab (only office)
+      label = messages.getString("guiAiSupportSettings");
+      tabpane.add(label, new JScrollPane(getOfficeAiElements()));
     }
 
     Container contentPane = dialog.getContentPane();
@@ -2227,6 +2230,170 @@ public class ConfigurationDialog implements ActionListener {
       }
     });
     return ruleOptionsPanel;
+  }
+  
+  private JPanel getOfficeAiElements() {
+    JPanel aiOptionPanel = new JPanel();
+    aiOptionPanel.setLayout(new GridBagLayout());
+    GridBagConstraints cons = new GridBagConstraints();
+    cons.insets = new Insets(6, 6, 6, 6);
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.anchor = GridBagConstraints.WEST;
+    cons.fill = GridBagConstraints.NONE;
+    cons.weightx = 0.0f;
+    cons.weighty = 0.0f;
+    
+    JLabel otherUrlLabel = new JLabel(messages.getString("guiAiUrl") + ":");
+
+    JTextField aiUrlField = new JTextField(config.aiUrl() ==  null ? "" : config.aiUrl(), 25);
+    aiUrlField.setMinimumSize(new Dimension(100, 25));
+    aiUrlField.getDocument().addDocumentListener(new DocumentListener() {
+      @Override
+      public void insertUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void removeUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void changedUpdate(DocumentEvent e) {
+        String serverName = aiUrlField.getText();
+        serverName = serverName.trim();
+        if(serverName.isEmpty()) {
+          serverName = null;
+        }
+        if (config.isValidAiServerUrl(serverName)) {
+          aiUrlField.setForeground(Color.BLACK);
+          config.setAiUrl(serverName);;
+        } else {
+          aiUrlField.setForeground(Color.RED);
+        }
+      }
+    });
+
+    JLabel modelLabel = new JLabel(messages.getString("guiAiModel") + ":");
+
+    JTextField modelField = new JTextField(config.aiModel() ==  null ? "" : config.aiModel(), 25);
+    modelField.setMinimumSize(new Dimension(100, 25));
+    modelField.getDocument().addDocumentListener(new DocumentListener() {
+      @Override
+      public void insertUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void removeUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void changedUpdate(DocumentEvent e) {
+        String model = modelField.getText();
+        model = model.trim();
+        if(model.isEmpty()) {
+          model = null;
+        }
+        if (model != null) {
+          config.setAiModel(model);
+        }
+      }
+    });
+
+    JLabel apiKeyLabel = new JLabel(messages.getString("guiAiApiKey") + ":");
+
+    JTextField apiKeyField = new JTextField(config.aiApiKey() ==  null ? "" : config.aiApiKey(), 25);
+    apiKeyField.setMinimumSize(new Dimension(100, 25));
+    apiKeyField.getDocument().addDocumentListener(new DocumentListener() {
+      @Override
+      public void insertUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void removeUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void changedUpdate(DocumentEvent e) {
+        String apiKey = apiKeyField.getText();
+        apiKey = apiKey.trim();
+        if(apiKey.isEmpty()) {
+          apiKey = null;
+        }
+        if (apiKey != null) {
+          config.setAiApiKey(apiKey);
+        }
+      }
+    });
+    
+    JCheckBox autoCorrectBox = new JCheckBox(messages.getString("guiAiAutoCorrect"));
+    autoCorrectBox.setSelected(config.aiAutoCorrect());
+    autoCorrectBox.addItemListener(e -> {
+      config.setAiAutoCorrect(autoCorrectBox.isSelected());
+    });
+
+    JCheckBox overrideParagraphBox = new JCheckBox(messages.getString("guiAiOverrideParagraph"));
+    overrideParagraphBox.setSelected(config.aiOverrideParagraph());
+    overrideParagraphBox.addItemListener(e -> {
+      config.setAiOverrideParagraph(overrideParagraphBox.isSelected());
+    });
+
+    JCheckBox useAiSupportBox = new JCheckBox(messages.getString("guiUseAiSupport"));
+    useAiSupportBox.setSelected(config.useAiSupport());
+    useAiSupportBox.addItemListener(e -> {
+      config.setAiOverrideParagraph(useAiSupportBox.isSelected());
+      aiUrlField.setEnabled(useAiSupportBox.isSelected());
+      modelField.setEnabled(useAiSupportBox.isSelected());
+      apiKeyField.setEnabled(useAiSupportBox.isSelected());
+      autoCorrectBox.setEnabled(useAiSupportBox.isSelected());
+      overrideParagraphBox.setEnabled(useAiSupportBox.isSelected());
+    });
+    
+    aiUrlField.setEnabled(config.useAiSupport());
+    modelField.setEnabled(config.useAiSupport());
+    apiKeyField.setEnabled(config.useAiSupport());
+    autoCorrectBox.setEnabled(config.useAiSupport());
+    overrideParagraphBox.setEnabled(config.useAiSupport());
+
+    
+    cons.insets = new Insets(0, SHIFT2, 0, 0);
+    aiOptionPanel.add(useAiSupportBox, cons);
+
+    JPanel serverPanel = new JPanel();
+    serverPanel.setLayout(new GridBagLayout());
+    GridBagConstraints cons1 = new GridBagConstraints();
+    cons1.insets = new Insets(0, SHIFT2, 0, 0);
+    cons1.gridx = 0;
+    cons1.gridy = 0;
+    cons1.anchor = GridBagConstraints.WEST;
+    cons1.fill = GridBagConstraints.NONE;
+    cons1.weightx = 0.0f;
+    serverPanel.add(otherUrlLabel, cons1);
+    cons1.gridy++;
+    serverPanel.add(aiUrlField, cons1);
+//    JLabel serverExampleLabel = new JLabel(" " + "(https://localhost/privateai/");
+//    serverExampleLabel.setEnabled(false);
+//    cons1.gridy++;
+//    serverPanel.add(serverExampleLabel, cons1);
+    cons1.gridy++;
+    serverPanel.add(modelLabel, cons1);
+    cons1.gridy++;
+    serverPanel.add(modelField, cons1);
+    cons1.gridy++;
+    serverPanel.add(apiKeyLabel, cons1);
+    cons1.gridy++;
+    serverPanel.add(apiKeyField, cons1);
+
+    cons.gridx = 0;
+    cons.gridy++;
+    aiOptionPanel.add(serverPanel, cons);
+    
+    cons.gridy++;
+    aiOptionPanel.add(autoCorrectBox, cons);
+    
+    cons.gridy++;
+    aiOptionPanel.add(overrideParagraphBox, cons);
+    
+    return aiOptionPanel;
   }
   
 }
