@@ -136,7 +136,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern COMPOUND_END_TYPOS = compile(".*(gruße|schaf(s|en)?)$");
   private static final Pattern INFIX_S_SUFFIXES = compile(".*(heit|ion|ität|keit|ling|ung|schaft|tum)$");
   private static final Pattern WECHSELINFIX = compile("(arbeit|dienstag|donnerstag|freitag|montag|mittwoch|link|recht|samstag|sonntag|verband)s?");
-  private static final Pattern NEEDS_TO_BE_PLURAL = compile("adresse|aktie|antenne|apache|arbeitnehmerin|autor|bakterie|bauer|bisexuelle|bürge|blume|börse|buche|däne|debatte|decke|diakon(in)?|drohne|druide|ehre|eibe|emittent(in)?|elfe|elle|enge|erde|erste|esche|fassade|farbe|felge|ferien|fluor|frage|frau|förde|galle|gerät|gilde|göttin|halt|heide|historie|hose|hund|jungfer|kante|kathode|katze|kette|kid|klasse|kirche|klaue|klinge|knappe|koeffizient|kojote|kontrahent|kontrolle|krake|kralle|kranke|krähe|kraut|kuriosität|kurve|kusine|küste|laterne|laute|legende|lehne|leise|leuchte|lippe|loge|lotse|länge|läuse|löwe|lücke|made|maske|maßnahme|menge|mensch|metapher|methode|metropole|miene|miete|million|miniatur|mitte|maus|mücke|mühle|nerv|niederlage|nixe|nonne|note|obdachlose|ode|organist|panne|parzelle|pate|patient|petze|pfanne|pfeife|platte|polle|pomade|pomeranze|posse|prise|prominente|prälat|puppe|pädophile|radikale|rakete|rampe|ranke|rate|rendite|repressalie|rest|riese|rinde|rind|robbe|robe|romanist|rose|ross|route|nummer|runde|röhre|rübe|salbe|schabe|schale|scheide|schelle|schenke|schere|sphäre|dicke|kröte|schlampe|schlange|schluchte|schmiere|schnake|schnalle|schneide|schnelle|schokolade|schotte|schwabe|schwalbe|schwule|seele|seide|hölle|höhle|seite|sonne|sorge|spanne|sparte|sperre|spitze|sproße|spule|steppe|straße|streife|studie|stunde|stütze|tabelle|tinte|tote|toilette|traube|treffe|treppe|truhe|träne|tunte|tüte|urne|vene|versicherte|verwandte|virtuose|vorname|waffe|wanne|ware|watte|wehe|welle|wiese");
+  private static final Pattern NEEDS_TO_BE_PLURAL = compile("adresse|aktie|antenne|apache|arbeitnehmerin|autor|bakterie|bauer|bisexuelle|bürge|blume|börse|buche|däne|debatte|decke|diakon(in)?|drohne|druide|ehre|eibe|emittent(in)?|elfe|elle|enge|erde|erste|esche|fassade|farbe|felge|ferien|fluor|frage|frau|förde|galle|gerät|gilde|göttin|halt|heide|historie|hose|hund|jungfer|kante|kathode|katze|kette|kid|klasse|kirche|klaue|klinge|knappe|koeffizient|kojote|kontrahent|krake|kralle|kranke|krähe|kraut|kuriosität|kurve|kusine|küste|laterne|laute|legende|lehne|leise|leuchte|lippe|loge|lotse|länge|läuse|löwe|lücke|made|maske|maßnahme|menge|mensch|metapher|methode|metropole|miene|miete|million|miniatur|mitte|maus|mücke|mühle|nerv|niederlage|nixe|nonne|note|obdachlose|ode|organist|panne|parzelle|pate|patient|petze|pfanne|pfeife|platte|polle|pomade|pomeranze|posse|prise|prominente|prälat|puppe|pädophile|radikale|rakete|rampe|ranke|rate|rendite|repressalie|rest|riese|rinde|rind|robbe|robe|romanist|rose|ross|route|nummer|runde|röhre|rübe|salbe|schabe|schale|scheide|schelle|schenke|schere|sphäre|dicke|kröte|schlampe|schlange|schluchte|schmiere|schnake|schnalle|schneide|schnelle|schokolade|schotte|schwabe|schwalbe|schwule|seele|seide|hölle|höhle|seite|sonne|sorge|spanne|sparte|sperre|spitze|sproße|spule|steppe|straße|streife|studie|stunde|stütze|tabelle|tinte|tote|toilette|traube|treffe|treppe|truhe|träne|tunte|tüte|urne|vene|versicherte|verwandte|virtuose|vorname|waffe|wanne|ware|watte|wehe|welle|wiese");
+  private static final Pattern INVALID_COMP_PART = compile("kontrolle|perspektive|schule|sprache|stelle|suche");
   private static final Pattern SUBINF_SINGULAR_OBJECT = compile("putzen|rauchen|sein|spielen");
   private static final Pattern ARBEIT_COMP = compile("(gebe|nehme)(r(s|n|innen|in)?|nde[mnr]?)");
   private static final Pattern LINK_COMP = compile("element|inhalt|liste|portal|text|titel|tracking|verzeichnis");
@@ -160,6 +161,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> germanPrefixes              = new HashSet<>();
   private static Set<String> verbStems                  = new HashSet<>();
   private static Set<String> verbPrefixes               = new HashSet<>();
+  private static Set<String> otherPrefixes              = new HashSet<>();
   private static Set<String> oldSpelling                = new HashSet<>();
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
@@ -1749,6 +1751,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     loadFile("/de/german_prefix.txt", germanPrefixes);
     loadFile("/de/verb_stems.txt", verbStems);
     loadFile("/de/verb_prefixes.txt", verbPrefixes);
+    loadFile("/de/other_prefixes.txt", otherPrefixes);
     loadFile("/de/alt_neu.csv", oldSpelling);
   }
 
@@ -2465,6 +2468,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     boolean part2upcasedIsNoun = isNoun(part2upcased);
     boolean part2upcasedIsMispelled = isMisspelled(uppercaseFirstChar(part2upcased));
 
+    if (INVALID_COMP_PART.matcher(lowercaseFirstChar(part1WithoutHyphen)).matches()) {
+      return false;
+    }
+
     String part1_without_infix_s = part1upcased;
 
     // Sometimes part1 requires singular or plural
@@ -2524,8 +2531,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return true;
     }
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
-      // *part1* is acronym, e. g. "SEO-Expertinnen"
-      isAllUppercase(removeTrailingSAndHyphen(part1)) && !isMisspelled(removeTrailingSAndHyphen(part1))) {
+      // *part1* is acronym or other prefix, e. g. "SEO-Expertinnen", "Sprachvariante"
+      ((isAllUppercase(removeTrailingSAndHyphen(part1)) && !isMisspelled(removeTrailingSAndHyphen(part1))) || isOtherPrefix(part1))) {
       return true;
     }
     return false;
@@ -2759,6 +2766,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean isNounNomPlu(String word) throws IOException {
     return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM:PLU"));
+  }
+
+  private boolean isOtherPrefix(String word) throws IOException {
+    return otherPrefixes.contains(lowercaseFirstChar(word));
   }
 
   private boolean isVerbPrefix(String word) throws IOException {

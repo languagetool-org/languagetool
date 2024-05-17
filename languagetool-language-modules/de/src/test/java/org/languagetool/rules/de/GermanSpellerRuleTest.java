@@ -77,6 +77,20 @@ public class GermanSpellerRuleTest {
   @Test
   public void testIgnoreMisspelledWord() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Perspektivwechsel"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Perspektivewechsel"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Suchemaschine"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Sprachvariante"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Sprachevariante"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Sprachenvariante"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Kontrollgremiums"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Kontrollegremiums"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Kontrollengremiums"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Leuchtfunktion"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leuchtefunktion"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Schulstreit"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Schulestreit"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Stelleplätze"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Herzensanliegen"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Herzenanliegen"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Vornamensliste"));
