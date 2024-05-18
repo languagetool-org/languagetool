@@ -3885,6 +3885,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "orginales": return topMatch("originales");
       case "Rundumsorglospaket": return topMatch("Rundum-sorglos-Paket");
       case "Rundumsorglospakets": return topMatch("Rundum-sorglos-Pakets");
+      case "Fidji": return topMatch("Fidschi");
     }
     return Collections.emptyList();
   }
