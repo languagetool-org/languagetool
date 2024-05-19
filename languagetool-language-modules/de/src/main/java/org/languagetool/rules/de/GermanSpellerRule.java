@@ -2590,6 +2590,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return singletonList("Danke");
     } else if (word.equals("Zynik")) {
       return singletonList("Zynismus");
+    } else if (word.equals("pieksen")) {
+      return singletonList("piksen");
+    } else if (word.equals("piekst")) {
+      return singletonList("pikst");
+    } else if (word.equals("gepiekst")) {
+      return singletonList("gepikst");
     } else if (word.equalsIgnoreCase("email")) {
       return singletonList("E-Mail");
     } else if (word.length() > 9 && word.startsWith("Email")) {
