@@ -59,7 +59,9 @@ Copyright (C) 2011 Juan Martorell
                 <token>repera</token>
             </marker>
         </pattern>
-        <disambig action="add"><wd pos="NCFS000"/></disambig>
+        <disambig action="add">
+            <wd pos="NCFS000"/>
+        </disambig>
     </rule>
     <rulegroup id="IGNORE_ENGLISH_WORDS" name="etiqueta palabras inglesas para ignorarlas">
         <antipattern>
@@ -8261,6 +8263,18 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+    <rule id="HEXADECIMAL_NOTATION" name="notación hexadecimal">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">0x[0-9A-Fa-f]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="OCTAL_NOTATION" name="notación octal">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">0o[0-7]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rulegroup id="ignore_spelling_on_off" name="ignorar ortografía on/off">
         <rule>
             <pattern>
