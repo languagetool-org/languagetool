@@ -553,6 +553,20 @@ public class MorfologikPortugueseSpellerRuleTest {
   }
 
   @Test
+  public void testPortugueseSpellerIgnoresHexadecimalAndOctalNumbers() throws Exception {
+    // Disambiguator rule
+    assertNoErrors("0x1A", ltBR, ruleBR);
+    assertNoErrors("0x9f", ltBR, ruleBR);
+    assertNoErrors("0xdeadbeef", ltBR, ruleBR);
+    assertNoErrors("0x5F6A", ltBR, ruleBR);
+    assertNoErrors("0o23", ltBR, ruleBR);
+    assertNoErrors("0o777", ltBR, ruleBR);
+    assertSingleError("0o8", ltBR, ruleBR, new String[]{});  // bad octal
+    assertSingleError("0xQ34", ltBR, ruleBR, new String[]{});  // bad hexadecimal
+    assertNoErrors("0x34Q", ltBR, ruleBR);  // this is accepted because of stuff like "5x5m"
+  }
+
+  @Test
   public void testPortugueseSpellerIgnoresNonstandardTimeFormat() throws Exception {
     // Disambiguator rule; this is a style/typography issue to be taken care of in XML rules
     assertNoErrors("31h40min", ltBR, ruleBR);
