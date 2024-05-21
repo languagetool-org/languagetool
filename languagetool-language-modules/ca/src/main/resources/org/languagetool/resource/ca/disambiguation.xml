@@ -12092,6 +12092,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rule id="ANAA" name=" Adj + Nom + Adj">
+        <antipattern>
+            <token postag="&pronom_feble;" postag_regexp="yes"/>
+            <token postag="V.[IS].*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="nombre"/>
@@ -12107,6 +12111,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filterall"/>
     </rule>
     <rulegroup id="ANA" name=" Adj + Nom + Adj">
+        <antipattern>
+            <token postag="&pronom_feble;" postag_regexp="yes"/>
+            <token postag="V.[IS].*" postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <pattern>
                 <unify>
@@ -17919,6 +17927,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token regexp="yes">més|menys</token>
                 <token postag="[AN].*|V.P.*" postag_regexp="yes"/>
+                <token min="0" max="4" postag="[AN].*|V.P.*|CC|_PUNCT_CONT" postag_regexp="yes"/>
                 <marker>
                     <token>que</token>
                 </marker>
