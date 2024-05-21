@@ -460,7 +460,7 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("A3FT", 1);   // higher prio than NUMBERS_IN_WORDS
     id2prio.put("HYPHEN_TO_EN", 1);   // higher prio than DASH_RULE (due to one picky subrule)
     id2prio.put("EVERY_NOW_AND_THEN", 0);
-    id2prio.put("EN_DIACRITICS_REPLACE", -1);   // prefer over spell checker, less prio than ATTACHE_ATTACH
+    id2prio.put("EN_DIACRITICS_REPLACE_ORTHOGRAPHY", -1);   // prefer over spell checker, less prio than ATTACHE_ATTACH
     id2prio.put("MISSING_COMMA_BETWEEN_DAY_AND_YEAR", -1);   // less priority than DATE_WEEKDAY
     id2prio.put("FASTLY", -1);   // higher prio than spell checker
     id2prio.put("WHO_NOUN", -1);   // prefer SPECIFIC_CASE
