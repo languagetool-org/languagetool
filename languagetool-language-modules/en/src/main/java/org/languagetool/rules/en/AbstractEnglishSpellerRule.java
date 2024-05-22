@@ -202,6 +202,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern ALLRIGHT = compile("[Aa]llright");
   private static final Pattern INTRANSPARENT = compile("intransparent(ly)?");
   private static final Pattern ADDON = compile("[Aa]ddons?");
+  private static final Pattern WDYT = compile("[Ww]dyt");
   private static final Pattern UX = compile("ux");
   private static final Pattern LANGUAGETOOL = compile("[Ll]anguagetool");
   private static final Pattern UNDETERMINISTIC = compile("undeterministic");
@@ -1523,6 +1524,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (ENGLISH.matcher(word).matches()) return topMatch("English");
     if (SPANISH.matcher(word).matches()) return topMatch("Spanish");
     if (UNDETERMINISTIC.matcher(word).matches()) return topMatch("nondeterministic");
+    if (WDYT.matcher(word).matches()) return topMatch("WDYT");
     if (INTRANSPARENT.matcher(word).matches()) return topMatch(word.replaceFirst("in", "un"));
     if (UX.matcher(word).matches()) return topMatch("UX");
     if (GITLAB.matcher(word).matches()) return topMatch("GitLab");
