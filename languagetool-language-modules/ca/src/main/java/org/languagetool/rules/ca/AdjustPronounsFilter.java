@@ -244,6 +244,9 @@ public class AdjustPronounsFilter extends RuleFilter {
       case "addPronounReflexive":
         replacement = doAddPronounReflexive(firstVerb, pronounsStr, verbStr, firstVerbPersonaNumber);
         break;
+      case "addPronounReflexiveHi":
+        replacement = doAddPronounReflexive(firstVerb, pronounsStr, "hi "+verbStr, firstVerbPersonaNumber);
+        break;
       case "addPronounReflexiveImperative":
         replacement = doAddPronounReflexiveImperative(firstVerb, pronounsStr, verbStr,
             firstVerbPersonaNumberImperative);
