@@ -749,8 +749,8 @@ regexp case-insensitive maken: (?i)
 					</marker>
 					<token postag="ZNW:MRV:DE_"/>
 				</pattern>
-				<message><suggestion>\2n</suggestion>.</message>
-				<example correction="typen">Wij bieden verschillende <marker>type</marker> voertuigen aan.</example>
+				<message>Aangezien het hier om meervoud gaat, zou dit <suggestion>\2n</suggestion> of <suggestion>\2s</suggestion> moeten zijn.</message>
+				<example correction="typen|types">Wij bieden verschillende <marker>type</marker> voertuigen aan.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="WILDER_DE" name="wilder (wilde) de...">
@@ -17539,6 +17539,20 @@ regexp case-insensitive maken: (?i)
 				<message>Hier staat een dubbele spatie.</message>
 				<suggestion> </suggestion>
 				<example correction=" ">Deze zin bevat een dubbele<marker>  </marker>spatie (al valt die wellicht niet op).</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="TSW_KOMMA_NAAM" name="Foei(,) Klaas." default="temp_off">
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token postag="TSW"/>
+						<token postag="ENM:PER:FST"><exception case_sensitive="yes" regexp="yes">[A-Z]</exception></token>
+					</marker>
+					<token postag_regexp="yes" postag="ITP:PNT|SENT_END"/>
+				</pattern>
+				<message>Hier lijkt een komma te ontbreken: <suggestion>\2, \3</suggestion>.</message>
+				<example correction="Foei, Klaas"><marker>Foei Klaas</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="EINDE_KOMMA" name="Einde met puntkomma">
