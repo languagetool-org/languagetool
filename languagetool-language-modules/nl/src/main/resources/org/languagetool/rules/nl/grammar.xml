@@ -769,7 +769,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="wilde|wilden">Toch <marker>wilder</marker> de man niet weg.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="DAT_AT" name="Het is goed at je dat zegt." default="temp_off">
+		<rulegroup id="DAT_AT" name="Het is goed at je dat zegt.">
 			<rule>
 				<pattern>
 					<token postag_regexp="yes" postag="WKW.*|VNW:AWZ.*"></token>
@@ -783,7 +783,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="dat">Ik vind het fijn <marker>at</marker> je zo meeleeft.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="IK_RIJDT" name="Als ik 100 rijdt(rijd)..." default="temp_off">
+		<rulegroup id="IK_RIJDT" name="Als ik 100 rijdt(rijd)...">
 			<rule>
 				<pattern>
 					<token>als</token>
@@ -16591,7 +16591,16 @@ regexp case-insensitive maken: (?i)
 				<example>Dit is een <marker>concept</marker>.</example>
 			</rule>
 		</rulegroup>
-
+		<rulegroup id="VROUWELIJKE_DUBBELOP" name="Een (vrouwelijke) cameravrouw" default="temp_off">
+			<rule>
+				<pattern>
+					<token>vrouwelijke</token>
+					<token regexp="yes">.*vrouw</token>
+				</pattern>
+				<message>Dit lijkt dubbelop. U kunt \1 weglaten: <suggestion>\2</suggestion>.</message>
+				<example correction="cameravrouw">Een <marker>vrouwelijke cameravrouw</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="SPELDE_MOUW" name="spelde/speldde op mouw" type="misspelling" >
 			<rule>
 				<pattern case_sensitive="yes">
@@ -28140,7 +28149,21 @@ regexp case-insensitive maken: (?i)
 				<example correction="ik niet houd">Het klopt dat <marker>ik houd niet</marker> van piepers.</example>
 			</rule>
 		</rulegroup>
-
+		<rulegroup id="MINDER_ZNW_MRV" name="Zesduizend minder boetes(boetes minder)" default="temp_off">
+			<rule>
+				<antipattern>
+					<token skip="4" regexp="yes">jaar|seizoen</token>
+					<token regexp="yes">minder|meer</token>
+				</antipattern>
+				<pattern>
+					<token postag_regexp="yes" postag="GET.*MRV"><exception regexp="yes">(19|20)[0-9][0-9]</exception></token>
+					<token regexp="yes">minder|meer</token>
+					<token postag_regexp="yes" postag="ZNW:MRV:DE_"/>
+				</pattern>
+				<message>Beter is: <suggestion>\1 \3 \2</suggestion>?</message>
+				<example correction="6000 boetes minder">De politie schreef <marker>6000 minder boetes</marker> uit.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="LAGER_TOV" name="ten opzichte van/dan" >
 			<rule>
 				<pattern>
