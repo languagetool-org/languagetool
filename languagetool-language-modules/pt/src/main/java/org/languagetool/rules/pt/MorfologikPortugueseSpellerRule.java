@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.pt;
 
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
@@ -38,6 +39,8 @@ import static org.languagetool.JLanguageTool.getDataBroker;
 public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
 
   private final Language spellerLanguage;
+  // Used for suggestions to words tagged as _english_ignore_. This should be lazy-initialised or memoised somehow.
+  private static final MorfologikSpellerRule englishSpeller = loadEnglishSpeller();
   private final String dictFilepath;
   // Path, in pt/resources, where the list of words to be removed from the suggestion list is to be found.
   private static final String doNotSuggestWordsFilepath = "/pt/do_not_suggest.txt";
@@ -234,6 +237,17 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
     dialectAlternationMapping = getDialectAlternationMapping();
   }
 
+  @Nullable
+  private static MorfologikSpellerRule loadEnglishSpeller() {
+    try {
+      Language english = Languages.getLanguageForShortCode("en");
+      return (MorfologikSpellerRule) english.getDefaultSpellingRule();
+    } catch (IllegalArgumentException e) {
+      System.err.println("English is not available, so we can't use it for suggestions in the Portuguese speller.");
+      return null;
+    }
+  }
+
   @Override
   protected List<SuggestedReplacement> filterNoSuggestWords(List<SuggestedReplacement> suggestedReplacements) {
     return suggestedReplacements.stream().filter(
@@ -300,7 +314,15 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
                                         List<RuleMatch> ruleMatchesSoFar, int idx,
                                         AnalyzedTokenReadings[] tokens) throws IOException {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
-    if (tokens[idx].hasPosTag("_english_ignore_")) {
+    if (englishSpeller != null && tokens[idx].hasPosTag("_english_ignore_")) {
+      if (englishSpeller.isMisspelled(word)) {
+        List<String> englishSuggestions = englishSpeller.getSpellingSuggestions(word);
+        String msg = "Se for um termo em inglês, parece haver um erro de ortografia.";
+        RuleMatch match = ruleMatches.get(0);
+        match.setSuggestedReplacements(englishSuggestions);
+        match.setMessage(msg);
+        return Collections.singletonList(match);
+      }
       return Collections.emptyList();
     }
     if (!ruleMatches.isEmpty()) {
