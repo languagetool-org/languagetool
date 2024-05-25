@@ -12293,6 +12293,30 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rulegroup id="fi_femeni" name="fi (nom femení)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>fi</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+                <token min="0" postag="D.*" postag_regexp="yes"/>
+                <token regexp="yes">període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
+            </pattern>
+            <disambig action="replace" postag="NCFS000"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>fins</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+                <token min="0" postag="D.*" postag_regexp="yes"/>
+                <token regexp="yes">períde|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
+            </pattern>
+            <disambig action="replace" postag="NCFP000"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="part" name="part nom masculí o femení">
         <rule>
             <pattern>
