@@ -43,7 +43,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     return Arrays.asList("/ca/"+SpellingCheckRule.CUSTOM_SPELLING_FILE, SpellingCheckRule.GLOBAL_SPELLING_FILE,
       "/ca/multiwords.txt", "/ca/spelling-special.txt");
   }
-  private static final List<String> PARTICULA_INICIAL = Arrays.asList("no", "en", "a", "el", "els", "al", "als", "pel",
+  private static final List<String> PARTICULA_INICIAL = Arrays.asList("amb", "sota", "no", "en", "a", "el", "els", "al", "als", "pel",
     "pels", "del", "dels", "del", "de", "per", "un", "uns", "una", "unes", "la", "les", "teu", "meu", "seu", "teus", "meus", "seus");
   private static final List<String> PREFIX_AMB_ESPAI = Arrays.asList("pod", "ultra", "eco", "tele", "anti", "re", "des",
     "avant", "auto", "ex", "extra", "macro", "mega", "meta", "micro", "multi", "mono", "mini", "post", "retro", "semi", "super", "trans", "pro", "g", "l", "m");
