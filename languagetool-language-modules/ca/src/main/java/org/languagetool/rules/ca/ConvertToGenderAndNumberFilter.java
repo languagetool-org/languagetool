@@ -32,7 +32,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ConvertToGenderAndNumberFilter extends RuleFilter  {
+import static org.languagetool.rules.ca.ApostophationHelper.getPrepositionAndDeterminer;
+
+public class ConvertToGenderAndNumberFilter extends RuleFilter {
 
   private Pattern splitGenderNumber = Pattern.compile("(N.|A..|V.P..|D..|PX.)(.)(.)(.*)");
 
@@ -75,17 +77,28 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter  {
     int i = posWord;
     int startPos = posWord;
     int endPos = posWord;
+    String prepositionToAdd = "";
+    boolean addDeterminer = false;
     while (!stop && i > 1) {
       i--;
       AnalyzedToken atr = tokens[i].readingWithTagRegex(splitGenderNumber);
       if (atr != null) {
-        String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender, desiredNumber, synth);
-        suggestionBuilder.insert(0, s + " ");
+        if (atr.getPOSTag().startsWith("DA")) {
+          addDeterminer = true;
+        } else {
+          String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender, desiredNumber, synth);
+          suggestionBuilder.insert(0, s + " ");
+        }
         startPos = i;
       } else if (tokens[i].hasPosTag("SPS00")) {
-        suggestionBuilder.insert(0, tokens[i].getToken()+ " ");
+        if (addDeterminer) {
+          String preposition = tokens[i].readingWithTagRegex("SPS00").getLemma().toLowerCase();
+          if (preposition.equals("a") || preposition.equals("de") || preposition.equals("per")) {
+            prepositionToAdd = preposition;
+            startPos = i;
+          }
+        }
         stop = true;
-        startPos = i;
       } else if (tokens[i].hasPosTag("RG")) {
         suggestionBuilder.insert(0, tokens[i].getToken() + " ");
         startPos = i;
@@ -93,7 +106,6 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter  {
         stop = true;
       }
     }
-
     // forwards
     stop = false;
     i = posWord;
@@ -111,6 +123,11 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter  {
         stop = true;
       }
     }
+    if (addDeterminer) {
+      suggestionBuilder.insert(0, getPrepositionAndDeterminer(suggestionBuilder.toString(),desiredGender + desiredNumber, prepositionToAdd));
+    } else if (!prepositionToAdd.isEmpty()) {
+      suggestionBuilder.insert(0, prepositionToAdd + " ");
+    }
     String suggestion = StringTools.preserveCase(suggestionBuilder.toString(), tokens[startPos].getToken());
     if (endPos == posWord && startPos == posWord && tokens[posWord].getToken().equals(suggestion)) {
       return null;
@@ -123,7 +140,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter  {
   }
 
   private String[] splitGenderAndNumber(AnalyzedToken atr) {
-    String [] results = new String[4];
+    String[] results = new String[4];
     Matcher matcherSplit = splitGenderNumber.matcher(atr.getPOSTag());
     if (matcherSplit.matches()) {
       results[0] = matcherSplit.group(1);
@@ -142,17 +159,19 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter  {
     return null;
   }
 
-  private String synthesizeWithGenderAndNumber(AnalyzedToken atr, String[] splitPostag, String gender, String number, Synthesizer synth) throws IOException {
+  private String synthesizeWithGenderAndNumber(AnalyzedToken atr, String[] splitPostag, String gender, String number,
+                                               Synthesizer synth) throws IOException {
     if (splitPostag[0].startsWith("V")) {
       String keepGender = gender;
       gender = number;
       number = keepGender;
     }
     String addGender = "C";
-    if (splitPostag[0].startsWith("D")) {
+    if (splitPostag[0].startsWith("DA")) {
       addGender = "";
     }
-    String[] synhtesized = synth.synthesize(atr,splitPostag[0]+"["+gender+addGender+"]"+"["+number+"N]"+splitPostag[1], true);
+    String[] synhtesized = synth.synthesize(atr, splitPostag[0] + "[" + gender + addGender + "]" + "[" + number + "N" +
+        "]" + splitPostag[1], true);
     if (synhtesized.length > 0) {
       return synhtesized[0];
     } else {
