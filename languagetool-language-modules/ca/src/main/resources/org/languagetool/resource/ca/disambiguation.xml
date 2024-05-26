@@ -8093,7 +8093,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <marker>
                     <and>
-                        <token postag="V.*" postag_regexp="yes" regexp="yes">punta|puntes|davall|només|noms?<exception postag="_GV_"/></token>
+                        <token postag="V.*" postag_regexp="yes" regexp="yes">punta|puntes|davall|només|noms?|norma|normes<exception postag="_GV_"/></token>
                         <token postag="V.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>
@@ -12312,9 +12312,33 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token regexp="yes">de|d'</token>
                 <token min="0" postag="D.*" postag_regexp="yes"/>
-                <token regexp="yes">períde|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
+                <token regexp="yes">període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
             </pattern>
             <disambig action="replace" postag="NCFP000"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="final_masculi" name="final (nom masculí)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>final</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+                <token min="0" postag="D.*" postag_regexp="yes"/>
+                <token regexp="yes">període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
+            </pattern>
+            <disambig action="replace" postag="NCMS000"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>finals</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+                <token min="0" postag="D.*" postag_regexp="yes"/>
+                <token regexp="yes">període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
+            </pattern>
+            <disambig action="replace" postag="NCMP000"/>
         </rule>
     </rulegroup>
     <rulegroup id="part" name="part nom masculí o femení">

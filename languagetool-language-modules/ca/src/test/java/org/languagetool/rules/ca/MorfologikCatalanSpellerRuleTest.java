@@ -619,6 +619,10 @@ public class MorfologikCatalanSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("ambun"));
     assertEquals("amb un", matches[0].getSuggestedReplacements().get(0));
 
+    matches = rule.match(lt.getAnalyzedSentence("directamente"));
+    assertEquals(1, matches[0].getSuggestedReplacements().size());
+    assertEquals("directament", matches[0].getSuggestedReplacements().get(0));
+
     //diacritics
     matches = rule.match(lt.getAnalyzedSentence("literaria"));
     assertEquals("literària", matches[0].getSuggestedReplacements().get(0));
