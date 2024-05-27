@@ -22,13 +22,24 @@ import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.lang.Locale;
 import com.sun.star.linguistic2.ProofreadingResult;
+import com.sun.star.uno.XComponentContext;
 import org.junit.Test;
 import org.languagetool.openoffice.OfficeTools.LoErrorType;
 import org.languagetool.rules.Rule;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -454,6 +465,35 @@ public class MainTest {
     String input    = "Das Haus.1 Hier kommt mehr Text2. Und nochmal!3 Und schon wieder ein Satz?4 Jetzt ist aber Schluss.";
     String expected = "Das Haus.¹ Hier kommt mehr Text2. Und nochmal!¹ Und schon wieder ein Satz?¹ Jetzt ist aber Schluss.";
     assertEquals(expected, SingleCheck.cleanFootnotes(input));
+  }
+
+  @Test
+  public void testLargeTextHandling() throws IOException {
+      try {
+        // Load the large_text.txt from the classpath
+        URL url = getClass().getResource("/large_text.txt");
+        assertNotNull("large_text.txt not found in classpath", url);
+        URI uri = url.toURI();
+        Path largeTextPath = Paths.get(uri);
+        String largeText = Files.readString(largeTextPath);
+
+        // Create a Main instance and set test mode
+        Main main = new Main(null);
+        main.setTestMode(true);
+
+        // Set up the locale
+        Locale locale =  new Locale("qlt", "ES", "ca-ES-valencia");
+
+        // Perform proofreading on the large text
+        ProofreadingResult proofreadingResult = main.doProofreading("1", largeText, locale, 0, largeText.length(), new PropertyValue[0]);
+
+        // Assert that the proofreading result is not null
+        assertNotNull(proofreadingResult);
+    } catch (NoSuchFileException e) {
+        fail("File not found: " + e.getMessage());
+    } catch (URISyntaxException e) {
+        fail("Invalid URI: " + e.getMessage());
+    }
   }
 
 }
