@@ -12301,9 +12301,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token regexp="yes">de|d'</token>
                 <token min="0" postag="D.*" postag_regexp="yes"/>
-                <token regexp="yes">etapa|període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
+                <token regexp="yes">festa|etapa|període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
             </pattern>
-            <disambig action="replace"><wd lemma="fi" pos="NCFS000"/></disambig>
+            <disambig action="replace">
+                <wd lemma="fi" pos="NCFS000"/>
+            </disambig>
         </rule>
         <rule>
             <pattern>
@@ -12312,31 +12314,33 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token regexp="yes">de|d'</token>
                 <token min="0" postag="D.*" postag_regexp="yes"/>
-                <token regexp="yes">etapa|període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
+                <token regexp="yes">festa|etapa|període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
             </pattern>
-            <disambig action="replace"><wd lemma="fi" pos="NCFP000"/></disambig>
+            <disambig action="replace">
+                <wd lemma="fi" pos="NCFP000"/>
+            </disambig>
         </rule>
     </rulegroup>
     <rulegroup id="final_masculi" name="final (nom masculí)">
         <rule>
             <pattern>
                 <marker>
-                    <token>final</token>
+                    <token>final<exception postag="N.*" postag_regexp="yes" scope="previous"/></token>
                 </marker>
                 <token regexp="yes">de|d'</token>
                 <token min="0" postag="D.*" postag_regexp="yes"/>
-                <token regexp="yes">etapa|període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
+                <token regexp="yes">festa|etapa|període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
             </pattern>
             <disambig action="replace" postag="NCMS000"/>
         </rule>
         <rule>
             <pattern>
                 <marker>
-                    <token>finals</token>
+                    <token>finals<exception postag="N.*" postag_regexp="yes" scope="previous"/></token>
                 </marker>
                 <token regexp="yes">de|d'</token>
                 <token min="0" postag="D.*" postag_regexp="yes"/>
-                <token regexp="yes">etapa|període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
+                <token regexp="yes">festa|etapa|període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
             </pattern>
             <disambig action="replace" postag="NCMP000"/>
         </rule>
@@ -16815,6 +16819,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^N].*"/>
         <example type="untouched">Una obra per a dos piano.</example>
     </rule>
+    <rule id="molt_adv" name="molt (adverbi)">
+        <pattern>
+            <token postag="RG.*" postag_regexp="yes">molt</token>
+            <token postag="AQ.*" postag_regexp="yes" regexp="yes">llarg|clar</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="AdjAdv" name="adjectiu i adverbi">
         <!-- correctament primer. Excep: tant (de) mal -->
         <antipattern>
@@ -16829,7 +16840,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <antipattern>
             <!-- error de concordança -->
             <token postag="NC.*" postag_regexp="yes"/>
-            <token>llarg</token>
+            <token regexp="yes">llarg|clar</token>
         </antipattern>
         <pattern>
             <token><exception regexp="yes">tant|com|tan|més</exception><exception postag="DA.*" postag_regexp="yes"/></token>
@@ -16881,7 +16892,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="nNom2" name="no nom si no ha concordat">
         <pattern>
             <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">plena|feu|busca|busques|màgics?|màgica|màgiques|pinte|trenca|guarda|passa|salva|faig|dic|jeia|estaria|estaries|grossa|ros|suau|sobre|publicà|allò|parla|parles|deixa|deixes|torna|tornes|sabeu|seré|joves?|caus?|meritoris?|meritòri(a|es)|seca|resulta|porta|fou|grans?|surt|era|verticals?|visc<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">clara|clares|plena|feu|busca|busques|màgics?|màgica|màgiques|pinte|trenca|guarda|passa|salva|faig|dic|jeia|estaria|estaries|grossa|ros|suau|sobre|publicà|allò|parla|parles|deixa|deixes|torna|tornes|sabeu|seré|joves?|caus?|meritoris?|meritòri(a|es)|seca|resulta|porta|fou|grans?|surt|era|verticals?|visc<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 <token postag="[AVCP].*|SPS00" postag_regexp="yes"/>
             </and>
         </pattern>
