@@ -69,6 +69,14 @@
         </pattern>
         <disambig action="add"><wd pos=","/></disambig>
     </rule>
+
+    <rule id="REMOVE_NNS_GIVES" name="Remove NNS from 'gives' when it's a verb">
+        <pattern>
+            <token chunk_re=".-VP">gives</token>
+        </pattern>
+        <disambig action="remove"><wd pos="NNS"/></disambig>
+        <example type="ambiguous" inputform="gives[gif/NNS,give/NNS,give/VBZ]" outputform="gives[give/VBZ]">Next, GOPUSA <marker>gives</marker> you information on Enron and the Democrats as reported by Bob Webster, the editor of OpinioNet.com.</example>
+    </rule>
     
     <rulegroup id="CONTRACTIONS" name="contractions: special cases">
         <!--TODO: should be done before the chunker to get better results? -->
