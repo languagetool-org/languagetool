@@ -3650,10 +3650,10 @@ USA
                     <example>Tom está morrendo de rir.</example>
                 </antipattern>
                 <antipattern>
-                    <token skip='4' inflected='yes' regexp='yes'>árvore|bateria|budismo|chip|computador|cristianismo|ecrã|écran|flor|laptop|LCD|memória|motherboard|monitor|paganismo|PC|peixe|pilha|planta|portátil|satanismo|televisão|TV</token> <!-- Add exception words here -->
+                    <token skip='4' inflected='yes' regexp='yes'>andorinha|árvore|bateria|budismo|cachorro|cão|chip|computador|cristianismo|ecrã|écran|flor|gato|laptop|LCD|memória|motherboard|monitor|paganismo|papagaio|pardal|pássaro|PC|peixe|periquito|pilha|planta|portátil|satanismo|televisão|TV</token> <!-- Add exception words here -->
                     <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception>
                         <exception scope='previous' postag='P.+' postag_regexp='yes'/>
-                        <exception scope='previous' regexp='no'>para</exception>
+                        <exception scope='previous' regexp='yes'>don[ao]s?</exception>
                     </token>
                     <example>E ainda dizem a TV está morrendo, mas não é bem o que os números mostram.</example>
                     <example>Se uma árvore morrer, plante outra no seu lugar.</example>
@@ -3718,7 +3718,7 @@ USA
                 <antipattern>
                     <token inflected='yes'>morrer</token>
                     <token regexp='no'>de</token>
-                    <token regexp='yes'>alegria|cansaço|fome|inveja|saudades?|sede|tristeza|velho</token>
+                    <token regexp='yes'>alegria|amor(es)?|cansaço|ciúmes?|dor(es)?|fome|frio|inveja|medo|pânico|saudades?|sede|tristeza|velho</token>
                     <example>Onze mil prisioneiros morreram de fome.</example>
                     <example>O idoso morreu de fome.</example>
                     <example>Muitas crianças morrem de fome na África.</example>
@@ -3729,7 +3729,7 @@ USA
                 <pattern>
                     <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception>
                         <exception regexp='no' case_sensitive='yes'>Morro</exception> <!-- Proper names -->
-                        <exception scope='next' regexp='yes'>falido|miserável|pobre|rico</exception>
+                        <exception scope='next' regexp='yes'>falido|miserável|miseravelmente|pobre|rico</exception>
                     </token>
                 </pattern>
                 <message>Num contexto formal, é preferível escrever &quot;perecer&quot; ou &quot;falecer&quot;.</message>
@@ -3799,13 +3799,21 @@ USA
                 <antipattern>
                     <token regexp='yes'>mort[ao]s?</token>
                     <token regexp='no'>de</token>
-                    <token regexp='yes'>alegria|cansaço|fome|inveja|saudades?|sede|tristeza|velho</token>
+                    <token regexp='yes'>alegria|amor(es)?|cansaço|ciúmes?|dor(es)?|fome|frio|inveja|medo|pânico|saudades?|sede|tristeza|velho</token>
                     <example>Embalado pelo balanço da carroça e morto de cansaço, Tom adormeceu.</example>
                     <example>Eu me sinto morto de cansaço.</example>
                     <example>Ele ficou morto de inveja.</example>
                     <example>Ele retorna morto de fome, ou nunca mais retorna.</example>
                     <example>O pobre desgraçado abandona o seu povo... com uma família morta de fome em busca de trabalho.</example>
                     <example>A senhora nos deixará mortos de saudade.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip='4' inflected='yes' regexp='yes'>andorinha|árvore|bateria|budismo|cachorro|cão|chip|computador|cristianismo|ecrã|écran|flor|gato|laptop|LCD|memória|motherboard|monitor|paganismo|papagaio|pardal|pássaro|PC|peixe|periquito|pilha|planta|portátil|satanismo|televisão|TV</token> <!-- Add exception words here -->
+                    <token regexp='yes'>mort[ao]s?
+                        <exception scope='previous' postag='P.+' postag_regexp='yes'/>
+                        <exception scope='previous' regexp='yes'>don[ao]s?</exception>
+                    </token>
+                    <example>Plantas mortas em florestas e campos agrícolas entram em processo de decomposição através de uma cadeia trófica</example>
                 </antipattern>
                 <pattern>
                     <marker>
