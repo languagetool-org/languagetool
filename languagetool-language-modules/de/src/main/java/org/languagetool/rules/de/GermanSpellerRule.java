@@ -3892,6 +3892,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Rundumsorglospaket": return topMatch("Rundum-sorglos-Paket");
       case "Rundumsorglospakets": return topMatch("Rundum-sorglos-Pakets");
       case "Fidji": return topMatch("Fidschi");
+      case "Bautenzug": return topMatch("Bowdenzug");
+      case "Bautenzugs": return topMatch("Bowdenzugs");
+      case "Bautenzuges": return topMatch("Bowdenzuges");
+      case "Bautenzüge": return topMatch("Bowdenzüge");
+      case "Bautenzügen": return topMatch("Bowdenzügen");
     }
     return Collections.emptyList();
   }
