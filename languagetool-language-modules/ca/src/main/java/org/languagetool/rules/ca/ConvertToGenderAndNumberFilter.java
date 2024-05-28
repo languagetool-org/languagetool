@@ -88,32 +88,56 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
         int i = posWord;
         String prepositionToAdd = "";
         boolean addDeterminer = false;
+        StringBuilder conditionalAddedString = new StringBuilder();
         while (!stop && i > 1) {
           i--;
           AnalyzedToken atr = getReadingWithPriority(tokens[i]);
           if (atr != null) {
             if (atr.getPOSTag().startsWith("DA")) {
               addDeterminer = true;
+              startPos = i;
             } else {
-              String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender, desiredNumber, synth);
-              if (s.isEmpty()) {
-                ignoreThisSuggestion=true;
+              if (!addDeterminer) {
+                String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender, desiredNumber, synth);
+                if (s.isEmpty()) {
+                  ignoreThisSuggestion=true;
+                }
+                if (s.equals("bo")) {
+                  s = "bon";
+                }
+                suggestionBuilder.insert(0, conditionalAddedString);
+                conditionalAddedString.setLength(0);
+                if (tokens[i+1].isWhitespaceBefore()) {
+                  suggestionBuilder.insert(0, " ");
+                }
+                suggestionBuilder.insert(0, s);
+                startPos = i;
+                if (atr.getPOSTag().startsWith("D")) {
+                  stop = true;
+                }
+              } else {
+                stop = true;
               }
-              suggestionBuilder.insert(0, s + " ");
             }
-            startPos = i;
-          } else if (tokens[i].hasPosTag("SPS00")) {
+          } else if (tokens[i].hasPosTag("SPS00") || tokens[i].hasPosTag("LOC_PREP")) {
             if (addDeterminer) {
-              String preposition = tokens[i].readingWithTagRegex("SPS00").getLemma().toLowerCase();
+              String preposition = tokens[i].getToken().toLowerCase();
+              if (preposition.equals("pe")) {
+                preposition = "per";
+              }
+              if (preposition.equals("d'")) {
+                preposition = "de";
+              }
               if (preposition.equals("a") || preposition.equals("de") || preposition.equals("per")) {
                 prepositionToAdd = preposition;
                 startPos = i;
               }
             }
             stop = true;
-          } else if (tokens[i].hasPosTag("RG")) {
-            suggestionBuilder.insert(0, tokens[i].getToken() + " ");
-            startPos = i;
+          } else if (tokens[i].hasPosTag("RG") || tokens[i].hasPosTag("CC")) {
+            conditionalAddedString.insert(0, tokens[i].getToken() + " ");
+          } else if (tokens[i].hasPosTag("_PUNCT_CONT")) {
+            conditionalAddedString.insert(0, tokens[i].getToken() + " ");
           } else {
             stop = true;
           }
@@ -121,6 +145,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
         // forwards
         stop = false;
         i = posWord;
+        conditionalAddedString.setLength(0);
         while (!stop && i < tokens.length - 1) {
           i++;
           AnalyzedToken atr = getReadingWithPriority(tokens[i]);
@@ -129,11 +154,14 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
             if (s.isEmpty()) {
               ignoreThisSuggestion=true;
             }
+            suggestionBuilder.append(conditionalAddedString);
+            conditionalAddedString.setLength(0);
             suggestionBuilder.append(" " + s);
             endPos = i;
-          } else if (tokens[i].hasPosTag("RG")) {
-            suggestionBuilder.append(" " + tokens[i].getToken());
-            endPos = i;
+          } else if (tokens[i].hasPosTag("RG") || tokens[i].hasPosTag("CC")) {
+            conditionalAddedString.append(" " + tokens[i].getToken());
+          } else if (tokens[i].hasPosTag("_PUNCT_CONT")) {
+            conditionalAddedString.append(tokens[i].getToken());
           } else {
             stop = true;
           }
@@ -147,6 +175,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
         if (endPos == posWord && startPos == posWord && tokens[posWord].getToken().equals(suggestion)) {
           continue;
         }
+        //TODO: una d'aquests vessants; una dels vessants
         if (!ignoreThisSuggestion) {
           suggestions.add(suggestion);
         }
