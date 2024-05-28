@@ -2126,7 +2126,22 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule id="en_va1" name="en va (locució adverbial)">
             <pattern>
-                <token><exception regexp="yes">'ls|'ns|us|hi</exception></token>
+                <token><exception regexp="yes">'ls|'ns|us|hi|'t|'m</exception></token>
+                <marker>
+                    <token>en</token>
+                    <token>va</token>
+                </marker>
+                <token><exception postag="V.[NG].*|A.*|V.P.*SM.?" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="en va" pos="LOC_ADV"/>
+                <wd lemma="en va" pos="LOC_ADV"/>
+            </disambig>
+        </rule>
+        <rule id="en_va2" name="en va (locució adverbial)">
+            <pattern>
+                <token postag="V.N.*" postag_regexp="yes" regexp="yes">.*e</token>
+                <token regexp="yes">'ls|'ns|'t|'m</token>
                 <marker>
                     <token>en</token>
                     <token>va</token>
@@ -11900,6 +11915,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rulegroup id="DNA" name="Det + Nom + Adj/Possessiu/participi">
         <!--Falla amb nom neutre?: Aquest art expressa  -->
+        <antipattern>
+            <token postag="DD0FS0"/>
+            <token>era</token>
+        </antipattern>
         <rule>
             <pattern>
                 <unify>
@@ -13576,6 +13595,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <antipattern>
             <token regexp="yes">contestà|tens</token>
             <token>:</token>
+        </antipattern>
+        <antipattern>
+            <token>això</token>
+            <token postag="V...3S.." postag_regexp="yes"/>
         </antipattern>
         <pattern>
             <token><exception regexp="yes">no|que|ja|perquè|encara|com</exception><exception postag="&pronom_feble;" postag_regexp="yes"/><exception postag="PI.*" postag_regexp="yes" inflected="yes">altre</exception></token>

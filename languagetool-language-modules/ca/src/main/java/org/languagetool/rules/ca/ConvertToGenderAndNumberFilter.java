@@ -89,6 +89,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
         String prepositionToAdd = "";
         boolean addDeterminer = false;
         StringBuilder conditionalAddedString = new StringBuilder();
+        String addTot = "";
         while (!stop && i > 1) {
           i--;
           AnalyzedToken atr = getReadingWithPriority(tokens[i]);
@@ -116,6 +117,13 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
                   stop = true;
                 }
               } else {
+                if (atr.getLemma().equals("tot")) {
+                  String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender, desiredNumber, synth);
+                  if (!s.isEmpty()) {
+                    addTot = s + " ";
+                    startPos = i;
+                  }
+                }
                 stop = true;
               }
             }
@@ -171,6 +179,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
         } else if (!prepositionToAdd.isEmpty()) {
           suggestionBuilder.insert(0, prepositionToAdd + " ");
         }
+        suggestionBuilder.insert(0, addTot);
         String suggestion = StringTools.preserveCase(suggestionBuilder.toString(), tokens[startPos].getToken());
         if (endPos == posWord && startPos == posWord && tokens[posWord].getToken().equals(suggestion)) {
           continue;
