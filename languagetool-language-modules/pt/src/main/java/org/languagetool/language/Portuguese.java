@@ -294,6 +294,9 @@ public class Portuguese extends Language implements AutoCloseable {
     if (id.startsWith("AI_PT_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL")) {
       return -49;
     }
+    if (id.startsWith("AI_PT_GGEC_REPLACEMENT_OTHER")) {
+      return -4;
+    }
     if (id.startsWith("PT_MULTITOKEN_SPELLING")) {
       return -49;
     }
