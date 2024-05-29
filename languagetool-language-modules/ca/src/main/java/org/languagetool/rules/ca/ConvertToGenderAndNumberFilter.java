@@ -21,6 +21,7 @@ package org.languagetool.rules.ca;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.Synthesizer;
@@ -39,6 +40,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
 
   private Pattern splitGenderNumber = Pattern.compile("(N.|A..|V.P..|D..|PX.)(.)(.)(.*)");
   private Pattern splitGenderNumberNoNoun = Pattern.compile("(A..|V.P..|D..|PX.)(.)(.)(.*)");
+  private Pattern splitGenderNumberAdjective = Pattern.compile("(A..|V.P..|PX.)(.)(.)(.*)");
 
   @Nullable
   @Override
@@ -92,7 +94,10 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
         String addTot = "";
         while (!stop && i > 1) {
           i--;
-          AnalyzedToken atr = getReadingWithPriority(tokens[i]);
+          AnalyzedToken atr = tokens[i].readingWithTagRegex(splitGenderNumberNoNoun); //getReadingWithPriority(tokens[i]);
+          if (tokens[i].hasPosTag("_perfet") || tokens[i].hasPosTag("_GV_") || tokens[i].getChunkTags().contains(new ChunkTag("GV"))) {
+            atr = null;
+          }
           if (atr != null) {
             if (atr.getPOSTag().startsWith("DA")) {
               addDeterminer = true;
@@ -113,7 +118,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
                 }
                 suggestionBuilder.insert(0, s);
                 startPos = i;
-                if (atr.getPOSTag().startsWith("D")) {
+                if (atr.getPOSTag().startsWith("D") && !atr.getPOSTag().startsWith("DN")) {
                   stop = true;
                 }
               } else {
@@ -143,7 +148,11 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
             }
             stop = true;
           } else if (tokens[i].hasPosTag("RG") || tokens[i].hasPosTag("CC")) {
-            conditionalAddedString.insert(0, tokens[i].getToken() + " ");
+            if (posWord - i == 1) {
+              stop = true;
+            } else {
+              conditionalAddedString.insert(0, tokens[i].getToken() + " ");
+            }
           } else if (tokens[i].hasPosTag("_PUNCT_CONT")) {
             conditionalAddedString.insert(0, tokens[i].getToken() + " ");
           } else {
@@ -154,9 +163,13 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
         stop = false;
         i = posWord;
         conditionalAddedString.setLength(0);
+        boolean isThereConjunction = false;
         while (!stop && i < tokens.length - 1) {
           i++;
-          AnalyzedToken atr = getReadingWithPriority(tokens[i]);
+          AnalyzedToken atr = tokens[i].readingWithTagRegex(splitGenderNumberAdjective);
+          if (isThereConjunction && tokens[i].hasPosTagStartingWith("NC")) {
+            atr = null;
+          }
           if (atr != null) {
             String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender, desiredNumber, synth);
             if (s.isEmpty()) {
@@ -166,9 +179,12 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
             conditionalAddedString.setLength(0);
             suggestionBuilder.append(" " + s);
             endPos = i;
-          } else if (tokens[i].hasPosTag("RG") || tokens[i].hasPosTag("CC")) {
+          } else if (tokens[i].hasPosTag("RG")) {
             conditionalAddedString.append(" " + tokens[i].getToken());
-          } else if (tokens[i].hasPosTag("_PUNCT_CONT")) {
+          } else if (tokens[i].hasPosTag("CC")) {
+            isThereConjunction = true;
+            conditionalAddedString.append(" " + tokens[i].getToken());
+          }else if (tokens[i].hasPosTag("_PUNCT_CONT")) {
             conditionalAddedString.append(tokens[i].getToken());
           } else {
             stop = true;
@@ -195,6 +211,10 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
     }
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[startPos].getStartPos(),
       tokens[endPos].getEndPos(), match.getMessage(), match.getShortMessage());
+    String originalStr = match.getSentence().getText().substring(tokens[startPos].getStartPos(), tokens[endPos].getEndPos());
+    if (suggestions.contains(originalStr)) {
+      return null;
+    }
     ruleMatch.setType(match.getType());
     ruleMatch.setSuggestedReplacements(suggestions);
     return ruleMatch;
