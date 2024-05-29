@@ -3634,11 +3634,11 @@ USA
         </rule>
 
 
-        <rulegroup id='MORRER_PERECER_FALECER' name="morrer → perecer/falecer" tags='picky' tone_tags='formal' default='temp_off'>
+        <rulegroup id='MORRER_PERECER_FALECER' name="morrer → perecer/falecer" tags='picky' tone_tags='formal'>
 
             <!-- Subrule 1: not using "mort[ao]s?" -->
             <rule>
-                <antipattern>
+               <antipattern>
                     <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
                     <token regexp='yes'>a|de</token>
                     <token min="0" max="1" regexp='yes' inflected='yes'>&adverbios_de_intensidade;</token>
@@ -3650,7 +3650,7 @@ USA
                     <example>Tom está morrendo de rir.</example>
                 </antipattern>
                 <antipattern>
-                    <token skip='4' inflected='yes' regexp='yes'>andorinha|árvore|bateria|budismo|cachorro|cão|chip|computador|cristianismo|ecrã|écran|flor|gato|laptop|LCD|memória|motherboard|monitor|paganismo|papagaio|pardal|pássaro|PC|peixe|periquito|pilha|planta|portátil|satanismo|televisão|TV</token> <!-- Add exception words here -->
+                    <token skip='4' inflected='yes' regexp='yes' case_sensitive='yes'>abelha|andorinha|aranha|árvore|bateria|bode|boi|bovino|budismo|cabra|cabrito|cachorro|canídeo|cão|cavalo|chip|coelho|computador|cristianismo|ecrã|écran|égua|elefante|flor|gado|gato|h[áa]mster|insec?to|laptop|LCD|leão|melga|memória|motherboard|monitor|mosca|mosquito|ovelha|paganismo|papagaio|pardal|pássaro|PC|peixe|periquito|pilha|planta|p[óô]nei|portátil|ratazana|rato|relva|satanismo|serpente|tarântula|televisão|to[iu]ro|TV|vaca|zebra</token> <!-- Add exception words here -->
                     <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception>
                         <exception scope='previous' postag='P.+' postag_regexp='yes'/>
                         <exception scope='previous' regexp='yes'>don[ao]s?</exception>
@@ -3808,12 +3808,12 @@ USA
                     <example>A senhora nos deixará mortos de saudade.</example>
                 </antipattern>
                 <antipattern>
-                    <token skip='4' inflected='yes' regexp='yes'>andorinha|árvore|bateria|budismo|cachorro|cão|chip|computador|cristianismo|ecrã|écran|flor|gato|laptop|LCD|memória|motherboard|monitor|paganismo|papagaio|pardal|pássaro|PC|peixe|periquito|pilha|planta|portátil|satanismo|televisão|TV</token> <!-- Add exception words here -->
+                    <token skip='4' inflected='yes' regexp='yes' case_sensitive='yes'>abelha|andorinha|aranha|árvore|bateria|bode|boi|bovino|budismo|cabra|cabrito|cachorro|canídeo|cão|cavalo|chip|coelho|computador|cristianismo|ecrã|écran|égua|elefante|flor|gado|gato|h[áa]mster|insec?to|laptop|LCD|leão|melga|memória|motherboard|monitor|mosca|mosquito|ovelha|paganismo|papagaio|pardal|pássaro|PC|peixe|periquito|pilha|planta|p[óô]nei|portátil|ratazana|rato|relva|satanismo|serpente|tarântula|televisão|to[iu]ro|TV|vaca|zebra</token> <!-- Add exception words here -->
                     <token regexp='yes'>mort[ao]s?
                         <exception scope='previous' postag='P.+' postag_regexp='yes'/>
                         <exception scope='previous' regexp='yes'>don[ao]s?</exception>
                     </token>
-                    <example>Plantas mortas em florestas e campos agrícolas entram em processo de decomposição através de uma cadeia trófica</example>
+                    <example>Plantas mortas em florestas entram em processo de decomposição através de uma cadeia trófica.</example>
                 </antipattern>
                 <pattern>
                     <marker>
