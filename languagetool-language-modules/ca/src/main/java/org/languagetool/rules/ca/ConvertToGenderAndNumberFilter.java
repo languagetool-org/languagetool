@@ -147,13 +147,13 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
               }
             }
             stop = true;
-          } else if (tokens[i].hasPosTag("RG") || tokens[i].hasPosTag("CC")) {
+          } else if (tokens[i].hasPosTag("_PUNCT_CONT") || tokens[i].hasPosTag("CC")) {
             if (posWord - i == 1) {
               stop = true;
             } else {
               conditionalAddedString.insert(0, tokens[i].getToken() + " ");
             }
-          } else if (tokens[i].hasPosTag("_PUNCT_CONT")) {
+          } else if (tokens[i].hasPosTag("RG")) {
             conditionalAddedString.insert(0, tokens[i].getToken() + " ");
           } else {
             stop = true;
