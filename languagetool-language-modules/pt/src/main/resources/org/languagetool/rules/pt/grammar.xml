@@ -14111,6 +14111,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
             <!-- MARCOAGPINTO 2022-10-21 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <!-- It seems that all these words I placed here appear as nouns in the disambiguator -->
+
+            <antipattern>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token regexp='yes'>tod[ao]s</token>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='SPS00' postag_regexp='no'/>
+                <example>Fui à faculdade e fiquei com os dedos todos roxos de tanto caminhar.</example>
+            </antipattern>
+
             <antipattern>
                 <token regexp='yes'>tod[ao]s</token>
                 <token regexp='yes'>ás?|aquel[ae]s|ansios[ao]s|demos|diferentes|el[ae]s|fáceis|iguais|junt[ao]s|lind[ao]s|menos|nós|pel[ao]s|pront[ao]s|próxim[ao]s|quant[ao]s|simples</token>
@@ -21241,29 +21250,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='HOURS_ABREVIATION' name="Abreviatura de horas">
             <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-16 -->
             <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/sobre-a-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url>
-            <rule>
+            <rule> <!-- #1: single token, number + hrs/hs -->
                 <pattern>
                     <token regexp="yes">\d+&#160;?(?:hr?s|hrs?|horas?)</token>
                 </pattern>
                 <message>Abreviatura de horas incorreta – prefira sempre &quot;h&quot;.</message>
-                <suggestion><match no='1' regexp_match="(\d+)h.*" regexp_replace="$1&#160;h"/></suggestion>
+                <suggestion><match case_conversion="alllower" no='1' regexp_match="(\d+)[hH].*" regexp_replace="$1&#160;h"/></suggestion>
                 <short>Erro de abreviação</short>
                 <example correction="15&#160;h">Às <marker>15hs</marker> em ponto.</example>
+                <example correction="12&#160;h">Chegamos às <marker>12HRS</marker>.</example>
             </rule>
-            <!-- doesn't work due to sentence splitting
-      <rule>
-        <pattern>
-          <token regexp="yes">\d+&#160;?(?:hr?s|horas?)</token>
-          <token>.
-            <exception postag='SENT_END'/></token>
-        </pattern>
-        <message>Abreviatura de horas não tem ponto.</message>
-        <suggestion><match no='1' regexp_match="(\d+)h.*" regexp_replace="$1&#160;h"/></suggestion>
-        <short>Erro de abreviação</short>
-        <example correction="15&#160;h">Às <marker>15hs.</marker> em ponto.</example>
-      </rule>
-      -->
-            <rule>
+            <rule> <!-- #2: two tokens, number + hrs/hs -->
                 <pattern>
                     <token regexp="yes">\d+</token>
                     <token regexp="yes">hr?s|hrs?</token>
@@ -21273,27 +21270,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <short>Erro de abreviação</short>
                 <example correction="15&#160;h">Às <marker>15 hs</marker> em ponto.</example>
                 <example correction="1&#160;h">Vai durar <marker>1 hr</marker>.</example>
+                <example correction="22&#160;h">Começa às <marker>22 Hrs</marker>.</example>
             </rule>
-            <!-- doesn't work due to sentence splitting
-      <rule>
-        <pattern>
-          <token regexp="yes">\d+</token>
-          <token regexp="yes">hr?s</token>
-          <token>.
-            <exception postag='SENT_END'/></token>
-        </pattern>
-        <message>Abreviatura de horas não tem ponto.</message>
-        <suggestion>\1&#160;h</suggestion>
-        <short>Erro de abreviação</short>
-        <example correction="15&#160;h">Às <marker>15 hs.</marker> em ponto.</example>
-      </rule>
-      -->
-            <rule>
+            <rule> <!-- #3: with dot -->
                 <pattern>
                     <token regexp="yes">(?:[012]?\d:)?[012345]?\d</token>
                     <token>h</token>
                     <token>.
-                        <exception postag='SENT_END'/></token>
+                        <exception postag='SENT_END'/>
+                    </token>
                 </pattern>
                 <message>Se é uma indicação horária, não é pontuada.</message>
                 <suggestion>\1 h</suggestion>
@@ -21302,6 +21287,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="5:30 h">Às <marker>5:30 h.</marker> será a festa.</example>
                 <example>Chegará às 15:30 h.</example>
                 <!--example>Chegaram às 15 h. Eram de diferentes nacionalidades.</example--><!-- XXX This example works in practice but, it doesn't work in test rules. -->
+            </rule>
+            <!-- Both HH:MM and HH h MM min should be accepted, just not at the same time.  -->
+            <rule> <!-- #4: HH:MM + h/hr/hrs, single token -->
+                <pattern>
+                    <token regexp="yes">([01]?[0-9]|2[0-3]):[0-5][0-9](hr?s?|horas?)</token>
+                </pattern>
+                <message>Evite misturar formatos em indicações horárias.</message>
+                <suggestion><match no="1" regexp_match="(\d+):(\d+).+" regexp_replace="$1&#160;h&#160;$2"/></suggestion>
+                <suggestion><match no="1" regexp_match="(\d+):(\d+).+" regexp_replace="$1&#160;h&#160;$2&#160;min"/></suggestion>
+                <suggestion><match no="1" regexp_match="(\d+:\d+).+" regexp_replace="$1"/></suggestion>
+                <example correction="14&#160;h&#160;30|14&#160;h&#160;30&#160;min|14:30">Vamos às <marker>14:30h</marker>.</example>
+            </rule>
+            <rule> <!-- #5: HH:MM + h/hr/hrs, two tokens -->
+                <pattern>
+                    <token regexp="yes">([01]?[0-9]|2[0-3]):[0-5][0-9]</token>
+                    <token regexp="yes">hr?s?|horas?</token>
+                </pattern>
+                <message>Evite misturar formatos em indicações horárias.</message>
+                <suggestion><match no="1" regexp_match="(\d+):(\d+)" regexp_replace="$1&#160;h&#160;$2"/></suggestion>
+                <suggestion><match no="1" regexp_match="(\d+):(\d+)" regexp_replace="$1&#160;h&#160;$2&#160;min"/></suggestion>
+                <suggestion><match no="1" regexp_match="(\d+:\d+)" regexp_replace="$1"/></suggestion>
+                <example correction="14&#160;h&#160;30|14&#160;h&#160;30&#160;min|14:30">Vamos às <marker>14:30 hrs</marker>.</example>
+            </rule>
+            <rule> <!-- #6: simple number with a capital H, which *could* be a henry (unit of electrical inductance) -->
+                <pattern>
+                    <token regexp="yes" skip="3" inflected="yes">às?|hora|horário|chegar|começar|início|fim|terminar|acabar|término|relógio|duração|durar|demorar|levar|evento|reunião|agenda</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">\d+H</token>
+                    </marker>
+                </pattern>
+                <message>Horas devem abreviar-se com um &quot;h&quot; minúsculo.</message>
+                <suggestion><match case_conversion="alllower" no="2" regexp_match="(\d+)H" regexp_replace="$1&#160;h"/></suggestion>
+                <example correction="12&#160;h">Começa às <marker>12H</marker>.</example>
+            </rule>
+            <rule> <!-- #7: simple number with a capital H, which *could* be a henry (unit of electrical inductance) -->
+                <pattern>
+                    <token regexp="yes" skip="3" inflected="yes">às?|hora|horário|chegar|começar|início|fim|terminar|acabar|término|relógio|duração|durar|demorar|levar|evento|reunião|agenda</token>
+                    <marker>
+                        <token regexp="yes">\d+</token>
+                        <token case_sensitive="yes">H</token>
+                    </marker>
+                </pattern>
+                <message>Horas devem abreviar-se com um &quot;h&quot; minúsculo.</message>
+                <suggestion><match case_conversion="alllower" no="2" regexp_match="(\d+)" regexp_replace="$1&#160;h"/></suggestion>
+                <example correction="12&#160;h">Começa às <marker>12 H</marker>.</example>
             </rule>
         </rulegroup>
 
@@ -41293,7 +41323,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/simbolos-de-unidades/11572</url>
             <rule>
                 <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]{0,10}(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
-                <message>Deve dar um espaço entre o valor e a unidade de medida: <suggestion><match no='1' regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
+                <message>Deve-se dar um espaço entre o valor e a unidade de medida: <suggestion><match no='1' regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
                 <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/simbolos-de-unidades/11572</url>
                 <example correction="25 °C">Fazem <marker>25°C</marker>.</example>
                 <example correction="-25 °C">Fazem <marker>-25°C</marker>.</example>
@@ -41319,7 +41349,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule>
                 <regexp>((\-)?[0-9]+[0-9.,]{1,10}) (°[^CFK])</regexp>
-                <message>Não existe espaçamento a preceder o símbolo de grau. Utilize <suggestion>\1°</suggestion> ou adicione a unidade de medida térmica (p.ex. <suggestion>\1 °C</suggestion>).</message>
+                <message>Não se põe espaço antes do símbolo de grau. Utilize <suggestion>\1°</suggestion> ou adicione a unidade de medida térmica (p.ex. <suggestion>\1 °C</suggestion>).</message>
                 <example correction="25°|25 °C">O ângulo é <marker>25 ° </marker></example>
                 <example correction="-25,5°|-25,5 °C">Fazem <marker>-25,5 ° </marker>de temperatura.</example>
                 <example correction="-25°|-25 °C">Fazem <marker>-25 ° </marker>de temperatura.</example>
@@ -41328,7 +41358,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule>
                 <regexp>((\-)?[0-9]+[0-9.,]*{1,10}) (″)</regexp>
-                <message>O sinal de segundos (\2) não é espaçado.</message>
+                <message>Não se escreve espaço antes do sinal de segundos (\2).</message>
                 <suggestion>\1\2\3</suggestion>
                 <example>3°14′ 45,54″</example>
                 <example correction="45″"><marker>45 ″</marker> E</example>
@@ -41728,7 +41758,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rulegroup id='MULTIPLICATION_SIGN' name="Matemático: Multiplicação: x - × " tags="picky">
-            <!-- Created by Tiago F. Santos, 2017-03-27 -->
             <rule>
                 <antipattern>
                     <token regexp='yes'>x|\*</token>
@@ -41772,18 +41801,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>UHCI: a versão USB 1.x</example>
             </rule>
             <rule>
-                <regexp>(?&lt;!([a-vyz]|[a-vyz]\d|[a-vyz]\d{2}|[a-vyz]\d{3}|[a-vyz]\d{4}|[a-vyz]\d{5}))((?!(?:[,;\(\.][x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)|(?:[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*][,;\.\)\!\?]))([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+))</regexp>
+                <regexp>(?&lt;!([a-vyz]|[a-vyz]\d|[a-vyz]\d{2}|[a-vyz]\d{3}|[a-vyz]\d{4}|[a-vyz]\d{5}))((?!(?:[,;\(\.][x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)|(?:[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*][,;\.\)\!\?]))([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+[a-zA-Z]*))</regexp>
+                <filter class="org.languagetool.rules.patterns.RegexAntiPatternFilter" args="antipatterns:\b0x[a-fA-F0-9]{2,4}"/>
                 <message>Prefira o símbolo de multiplicação.</message>
                 <suggestion>\4×\5</suggestion>
                 <suggestion>\4·\5</suggestion>
                 <example correction='2,998×10⁸|2,998·10⁸'>c=<marker>2,998x10⁸</marker> m/s</example>
                 <example correction="6.626×10⁻³⁴|6.626·10⁻³⁴">h = <marker>6.626x10⁻³⁴</marker> J.s</example>
                 <example correction="5×2|5·2"><marker>5*2</marker> = 10</example>
+                <!-- unit spacing rule will need to apply independently, and only after this is accepted -->
+                <example correction="10,5×17,2km|10,5·17,2km">Uma área de <marker>10,5x17,2km</marker>.</example>
                 <example>a=2·x²+5</example>
                 <example>4,5×2,5=11,25</example>
                 <example>Oxihalídeos do Amerício na forma de AmVIO2X2, AmVO2X, AmIVOX2 e AmIIIOX…</example>
                 <example>Número 1Z1141X30370035113</example>
                 <example>- 1 X, 2 X, 4 X</example>
+                <example>Qualquer octeto 0x00 - 0x20 ou 0x7F - 0x9F2</example>
+                <example correction="0×5Q|0·5Q">No entanto, <marker>0x5Q</marker> não é um octal ou um hexadecimal.</example>
             </rule>
             <rule>
                 <regexp>([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})\*([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})</regexp>

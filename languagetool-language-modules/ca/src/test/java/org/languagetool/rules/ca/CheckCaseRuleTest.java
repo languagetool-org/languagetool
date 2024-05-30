@@ -58,7 +58,8 @@ public class CheckCaseRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("d'educació secundària")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Educació Secundària Obligatòria")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Educació Secundària obligatòria")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("d'educació secundària obligatòria")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Educació secundària obligatòria")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("d'educació secundària obligatòria")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("\\u2022 Intel·ligència artificial")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("● Intel·ligència artificial")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Els drets humans")).length);

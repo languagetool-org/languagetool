@@ -249,11 +249,13 @@ public class Catalan extends Language {
       case "DOS_ARTICLES": return 10; // greater than apostrophation rules
       case "MOTS_GUIONET": return 10; // greater than CONCORDANCES_DET_NOM
       case "SELS_EN_VA": return 10;
+      case "CONCORDANCES_NOUNS_PRIORITY": return 10;
       case "PREFIXOS_SENSE_GUIONET_EN_DICCIONARI": return 10; // greater than SPELLING
       case "ZERO_O": return 10; //greater than SPELLING
       case "URL": return 10; //greater than SPELLING
-      case "CONCORDANCES_DET_NOM": return 5; // greater then DE_EL_S_APOSTROFEN
-      case "CONCORDANCES_DET_ADJ": return 5; // greater then DE_EL_S_APOSTROFEN
+      case "CONCORDANCES_DET_NOM": return 5; // greater than DE_EL_S_APOSTROFEN
+      case "CONCORDANCES_DET_ADJ": return 5; // greater than DE_EL_S_APOSTROFEN
+      case "CONCORDANCES_DET_POSSESSIU": return 5; // greater than CONCORDANCES_ADJECTIUS_NEUTRES
       case "PASSAR_SE": return 5; // greater than OBLIDARSE
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
       case "SPELLING": return 5;
@@ -267,6 +269,7 @@ public class Catalan extends Language {
       case "CASING_START": return -5;
       case "CA_WORD_COHERENCY": return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE
       case "CA_WORD_COHERENCY_VALENCIA": return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE
+    // TA_DEMOSTRATIUS_ESTE
       case "ARTICLE_TOPONIM_MIN": return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM 
       case "PEL_QUE": return -10; // lesser than PEL_QUE_FA
       case "COMMA_LOCUTION": return -10;

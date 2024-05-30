@@ -101,4 +101,28 @@ public class JLanguageToolTest {
     assertEquals(true, processedMatches.get(0).getRule().getTags().contains(Tag.picky));
     assertEquals("AI_FR_GGEC_QUOTES", processedMatches.get(0).getSpecificRuleId());
   }
+  @Test
+  public void testMergingOfGrammarCorrections() throws IOException {
+    Language lang = new French();
+    JLanguageTool lt = new JLanguageTool(lang);
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Ce sont de spectateur");
+
+    // Mocking two adjacent grammar issues
+    RuleMatch ruleMatch1 = new RuleMatch(new FakeRule("AI_FR_GGEC_DES"), analyzedSentence, 9, 11, "Erreur de nombre");
+    ruleMatch1.setSuggestedReplacement("des");
+    RuleMatch ruleMatch2 = new RuleMatch(new FakeRule("AI_FR_GGEC_SPECTATEURS"), analyzedSentence, 12, 21, "Erreur de forme plurielle");
+    ruleMatch2.setSuggestedReplacement("spectateurs");
+
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    ruleMatches.add(ruleMatch1);
+    ruleMatches.add(ruleMatch2);
+
+    // Process the rule matches
+    List<RuleMatch> processedMatches = lang.mergeSuggestions(ruleMatches, null, null);
+
+    // Asserts
+    assertEquals("des spectateurs", processedMatches.get(0).getSuggestedReplacements().get(0));
+    assertEquals("AI_FR_MERGED_MATCH", processedMatches.get(0).getSpecificRuleId());
+  }
+
 }
