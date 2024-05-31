@@ -10387,10 +10387,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="contemporani" name="contemporani (no nom)">
         <pattern>
-            <token><exception postag="D[^D].FS.|SPS00|LOC_PREP" postag_regexp="yes"/></token>
-            <marker>
-                <token postag="A.*" postag_regexp="yes" inflected="yes">contemporani</token>
-            </marker>
+            <unify>
+                <feature id="nombre"/>
+                <feature id="genere"/>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                <token regexp="yes">i|o|ni|,</token>
+                <marker>
+                    <token postag="A.*" postag_regexp="yes" inflected="yes">contemporani</token>
+                </marker>
+            </unify>
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
