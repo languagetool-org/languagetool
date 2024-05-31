@@ -21248,17 +21248,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     -->
 
         <rulegroup id='HOURS_ABREVIATION' name="Abreviatura de horas">
-            <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-16 -->
-            <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/sobre-a-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url>
+            <!-- <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/sobre-a-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url> -->
             <rule> <!-- #1: single token, number + hrs/hs -->
                 <pattern>
                     <token regexp="yes">\d+&#160;?(?:hr?s|hrs?|horas?)</token>
                 </pattern>
                 <message>Abreviatura de horas incorreta – prefira sempre &quot;h&quot;.</message>
-                <suggestion><match case_conversion="alllower" no='1' regexp_match="(\d+)[hH].*" regexp_replace="$1&#160;h"/></suggestion>
+                <suggestion><match case_conversion="alllower" no='1' regexp_match="^0?(\d+)[hH].*" regexp_replace="$1&#160;h"/></suggestion>
+                <suggestion><match case_conversion="alllower" no='1' regexp_match="^0?(\d+)[hH].*" regexp_replace="$1h"/></suggestion>
                 <short>Erro de abreviação</short>
-                <example correction="15&#160;h">Às <marker>15hs</marker> em ponto.</example>
-                <example correction="12&#160;h">Chegamos às <marker>12HRS</marker>.</example>
+                <example correction="15&#160;h|15h">Às <marker>15hs</marker> em ponto.</example>
+                <example correction="12&#160;h|12h">Chegamos às <marker>12HRS</marker>.</example>
+                <example correction="8&#160;h|8h">O café da manhã começa às <marker>08Hs</marker>.</example>
             </rule>
             <rule> <!-- #2: two tokens, number + hrs/hs -->
                 <pattern>
@@ -21266,11 +21267,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes">hr?s|hrs?</token>
                 </pattern>
                 <message>Abreviatura de horas incorreta – prefira sempre &quot;h&quot;.</message>
-                <suggestion>\1&#160;h</suggestion>
+                <suggestion><match no="1" regexp_match="^0?(\d+)" regexp_replace="$1"/>&#160;h</suggestion>
+                <suggestion><match no="1" regexp_match="^0?(\d+)" regexp_replace="$1"/>h</suggestion>
                 <short>Erro de abreviação</short>
-                <example correction="15&#160;h">Às <marker>15 hs</marker> em ponto.</example>
-                <example correction="1&#160;h">Vai durar <marker>1 hr</marker>.</example>
-                <example correction="22&#160;h">Começa às <marker>22 Hrs</marker>.</example>
+                <example correction="15&#160;h|15h">Às <marker>15 hs</marker> em ponto.</example>
+                <example correction="1&#160;h|1h">Vai durar <marker>01 hr</marker>.</example>
+                <example correction="22&#160;h|22h">Começa às <marker>22 Hrs</marker>.</example>
             </rule>
             <rule> <!-- #3: with dot -->
                 <pattern>
@@ -21297,11 +21299,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes">([01]?[0-9]|2[0-3]):[0-5][0-9](hr?s?|horas?)</token>
                 </pattern>
                 <message>Evite misturar formatos em indicações horárias.</message>
-                <suggestion><match case_conversion="alllower" no="1" regexp_match="(\d+):(\d+).+" regexp_replace="$1&#160;h&#160;$2"/></suggestion>
-                <suggestion><match case_conversion="alllower" no="1" regexp_match="(\d+):(\d+).+" regexp_replace="$1&#160;h&#160;$2&#160;min"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):(\d+).+" regexp_replace="$1h$2"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):(\d+).+" regexp_replace="$1h$2min"/></suggestion>
                 <suggestion><match no="1" regexp_match="(\d+:\d+).+" regexp_replace="$1"/></suggestion>
-                <example correction="14&#160;h&#160;30|14&#160;h&#160;30&#160;min|14:30">Vamos às <marker>14:30h</marker>.</example>
-                <example correction="3&#160;h&#160;45|3&#160;h&#160;45&#160;min|3:45">Vamos às <marker>3:45H</marker>.</example>
+                <example correction="14h30|14h30min|14:30">Vamos às <marker>14:30h</marker>.</example>
+                <example correction="3h45|3h45min|03:45">Vamos às <marker>03:45H</marker>.</example>
             </rule>
             <rule> <!-- #5: HH:MM + h/hr/hrs, two tokens -->
                 <antipattern> <!-- exclude zero minutes -->
@@ -21313,21 +21315,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes">hr?s?|horas?</token>
                 </pattern>
                 <message>Evite misturar formatos em indicações horárias.</message>
-                <suggestion><match case_conversion="alllower" no="1" regexp_match="(\d+):(\d+)" regexp_replace="$1&#160;h&#160;$2"/></suggestion>
-                <suggestion><match case_conversion="alllower" no="1" regexp_match="(\d+):(\d+)" regexp_replace="$1&#160;h&#160;$2&#160;min"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):(\d+)" regexp_replace="$1h$2"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):(\d+)" regexp_replace="$1h$2min"/></suggestion>
                 <suggestion><match no="1" regexp_match="(\d+:\d+)" regexp_replace="$1"/></suggestion>
-                <example correction="14&#160;h&#160;30|14&#160;h&#160;30&#160;min|14:30">Vamos às <marker>14:30 hrs</marker>.</example>
-                <example correction="02&#160;h&#160;52|02&#160;h&#160;52&#160;min|02:52">Vamos às <marker>02:52 HRS</marker>.</example>
+                <example correction="14h30|14h30min|14:30">Vamos às <marker>14:30 hrs</marker>.</example>
+                <example correction="2h52|2h52min|02:52">Vamos às <marker>02:52 HRS</marker>.</example>
             </rule>
             <rule> <!-- #6: HH:00 + h/hr/hrs, single token -->
                 <pattern>
                     <token regexp="yes">([01]?[0-9]|2[0-3]):00(hr?s?|horas?)</token>
                 </pattern>
                 <message>Evite misturar formatos em indicações horárias.</message>
-                <suggestion><match case_conversion="alllower" no="1" regexp_match="(\d+):00.+" regexp_replace="$1&#160;h"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):00.+" regexp_replace="$1&#160;h"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):00.+" regexp_replace="$1h"/></suggestion>
                 <suggestion><match no="1" regexp_match="(\d+:\d+).+" regexp_replace="$1"/></suggestion>
-                <example correction="14&#160;h|14:00">Vamos às <marker>14:00h</marker>.</example>
-                <example correction="3&#160;h|3:00">Vamos às <marker>3:00H</marker>.</example>
+                <example correction="14&#160;h|14h|14:00">Vamos às <marker>14:00h</marker>.</example>
+                <example correction="3&#160;h|3h|03:00">Vamos às <marker>03:00H</marker>.</example>
             </rule>
             <rule> <!-- #7: HH:00 + h/hr/hrs, two tokens -->
                 <pattern>
@@ -21335,10 +21338,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes">hr?s?|horas?</token>
                 </pattern>
                 <message>Evite misturar formatos em indicações horárias.</message>
-                <suggestion><match case_conversion="alllower" no="1" regexp_match="(\d+):00" regexp_replace="$1&#160;h"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):00" regexp_replace="$1&#160;h"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):00" regexp_replace="$1h"/></suggestion>
                 <suggestion><match no="1" regexp_match="(\d+:\d+)" regexp_replace="$1"/></suggestion>
-                <example correction="14&#160;h|14:00">Vamos às <marker>14:00 hrs</marker>.</example>
-                <example correction="02&#160;h|02:00">Vamos às <marker>02:00 HRS</marker>.</example>
+                <example correction="14&#160;h|14h|14:00">Vamos às <marker>14:00 hrs</marker>.</example>
+                <example correction="2&#160;h|2h|02:00">Vamos às <marker>02:00 HRS</marker>.</example>
             </rule>
             <rule> <!-- #8: simple number with a capital H, which *could* be a henry (unit of electrical inductance) -->
                 <pattern>
@@ -21348,8 +21352,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     </marker>
                 </pattern>
                 <message>Horas devem abreviar-se com um &quot;h&quot; minúsculo.</message>
-                <suggestion><match case_conversion="alllower" no="2" regexp_match="(\d+)H" regexp_replace="$1&#160;h"/></suggestion>
-                <example correction="12&#160;h">Começa às <marker>12H</marker>.</example>
+                <suggestion><match case_conversion="alllower" no="2" regexp_match="^0?(\d+)H" regexp_replace="$1&#160;h"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="2" regexp_match="^0?(\d+)H" regexp_replace="$1h"/></suggestion>
+                <example correction="12&#160;h|12h">Começa às <marker>12H</marker>.</example>
+                <example correction="6&#160;h|6h">Começa às <marker>06H</marker>.</example>
             </rule>
             <rule> <!-- #9: simple number with a capital H, which *could* be a henry (unit of electrical inductance) -->
                 <pattern>
@@ -21360,8 +21366,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     </marker>
                 </pattern>
                 <message>Horas devem abreviar-se com um &quot;h&quot; minúsculo.</message>
-                <suggestion><match case_conversion="alllower" no="2" regexp_match="(\d+)" regexp_replace="$1&#160;h"/></suggestion>
-                <example correction="12&#160;h">Começa às <marker>12 H</marker>.</example>
+                <suggestion><match case_conversion="alllower" no="2" regexp_match="^0?(\d+)" regexp_replace="$1&#160;h"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="2" regexp_match="^0?(\d+)" regexp_replace="$1h"/></suggestion>
+                <example correction="12&#160;h|12h">Começa às <marker>12 H</marker>.</example>
+                <example correction="6&#160;h|6h">Começa às <marker>06 H</marker>.</example>
             </rule>
         </rulegroup>
 
