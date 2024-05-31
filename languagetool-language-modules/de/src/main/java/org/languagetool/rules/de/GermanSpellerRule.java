@@ -2328,6 +2328,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         !part1.equals("Lass") &&  // e.g. "Lasstest" - couldn't find a more generic solution yet
         (wordsWithoutInfixS.contains(part1) || (compoundPatternSpecialEnding.matcher(part1).matches() && isNoun(part2uc))) &&
         (!isMisspelled(part1) || germanPrefixes.contains(lowercaseFirstChar(part1))) &&
+        !isMisspelled(part2uc) &&  // needed to not accept e.g. Alkoholgenuß ("Genuß" is accepted as a noun above)
         isNoun(part2uc) // don't accept e.g. "Azubikommt"
       ) {
       //System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");
@@ -3892,6 +3893,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Rundumsorglospaket": return topMatch("Rundum-sorglos-Paket");
       case "Rundumsorglospakets": return topMatch("Rundum-sorglos-Pakets");
       case "Fidji": return topMatch("Fidschi");
+      case "Bautenzug": return topMatch("Bowdenzug");
+      case "Bautenzugs": return topMatch("Bowdenzugs");
+      case "Bautenzuges": return topMatch("Bowdenzuges");
+      case "Bautenzüge": return topMatch("Bowdenzüge");
+      case "Bautenzügen": return topMatch("Bowdenzügen");
     }
     return Collections.emptyList();
   }
