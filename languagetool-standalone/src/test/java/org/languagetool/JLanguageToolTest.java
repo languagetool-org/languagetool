@@ -526,6 +526,8 @@ public class JLanguageToolTest {
     assertEquals(0, matches.size());
     matches = lt.check("The event was successful.");
     assertEquals(0, matches.size());
+    matches = lt.check("Things To Know Before You Come.");
+    assertEquals(0, matches.size());
 
     matches = lt.check("This is the community manager.");
     assertEquals(0, matches.size());
