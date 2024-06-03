@@ -15939,61 +15939,29 @@ USA
         </rule>
 
 
-        <!-- FAZER CONJECTURAS conjecturar -->
-        <rule id='FAZER_VERBO_VERBO_INFINITIVO' name="[Simplificar] V.Fazer + V. → V.Inf." type="style" tags="picky">
+        <rule id='FAZER_VERBO_VERBO_INFINITIVO_V2' name="[Simplificar] V.Fazer + V. → V.Inf." type="style" tags="picky" default="temp_off">
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-04 (25-JUL-2022+) -->
-            <!--
-      Fazer somas é o melhor que há. → Somar é o melhor que há.
-      Mas fazer somas sobre algo é medir uma probabilidade. → Mas somar sobre algo é medir uma probabilidade.
-      Assim fazer somas é o melhor. → Assim somar é o melhor.
-      -->
-
-            <antipattern>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token postag='SPS00' postag_regexp='no'/>
-                <token>fazer</token>
-                <token postag='VMIP2S0' postag_regexp='no'/>
-                <token postag='VMIP3.+' postag_regexp='yes'/>
-                <example>...is estratégicos para a retirada dos produtos pelos próprios clientes quanto a de uso de drones para fazer entregas estão sendo avaliadas pela Diálogo Logística para serem implantadas no país.</example>
-            </antipattern>
-
-            <antipattern>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token>a</token>
-                <token>fazer</token>
-                <token postag='VMIP2S0' postag_regexp='no'/>
-                <example>Às 17h já costumo estar a fazer batalhas de xadrez.</example>
-                <example>Esse cara chega, começa a fazer consultas sem conversar comigo antes...</example>
-            </antipattern>
-
             <pattern>
                 <marker>
-                    <token>fazer</token>
-                    <token postag='VMIP2S0' postag_regexp='no'>
-                        <exception regexp='yes' inflected='yes'>drogar|buscar|nadar|recarregar|forçar|papar|entregar|tocar|programar|&verbos_muito_incomuns;|amostrar|comprar|notar|contar|curvar|dobrar|perguntar|provar|receitar|reformar|rimar|trilhar</exception> <!-- Add here exception verbs as they are found -->
-                        <exception postag_regexp='yes' postag='RG|RN|CC|CS|SPS00|DA.+|SPS00:DA.+|DI.+|SPS00:DI.+|PP.+|SPS00:PP.+|DP.+|SPS00:DP.+|AP.+|SPS00:AP.+'/>
+                    <token>fazer
+                        <exception scope='next' regexp='no'>compras</exception> <!-- Add exceptions here -->
                     </token>
+                    <token skip='4' postag='VMIP2S0' postag_regexp='no'/>
                 </marker>
-                <token>
-                    <exception postag_regexp='yes' postag='VMP00.+|NC.+|AQ.+|AP.+|DP.+'/>
-                    <exception regexp='yes'>aos?</exception>
+                <token inflected='yes'>ser
+                    <exception regexp='yes' inflected='yes'>estar|ir</exception>
+                    <exception scope='previous' regexp='yes' inflected='yes'>estar|ir</exception>
                 </token>
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion><match no='2' postag='V.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
             <example correction="Somar"><marker>Fazer somas</marker> é o melhor que há.</example>
-            <example correction="somar">Mas <marker>fazer somas</marker> sobre algo é medir uma probabilidade.</example>
+            <example correction="conjeturar">Mas <marker>fazer conjeturas</marker> sobre algo é medir uma probabilidade.</example>
             <example correction="somar">Assim <marker>fazer somas</marker> é o melhor.</example>
-            <example>Quero ir fazer compras.</example>
-            <example>Eu preferiria não ir fazer compras sozinho.</example>
-            <example>Já dizia o outro: é uma questão de fazer contas.</example>
-            <example>Ele não é inteligente o bastante para fazer contas de cabeça.</example>
-            <example>Aqui você pode fazer suas denuncias, reclamações, sugestões e elogios.</example>
-            <example>..., baseadas no fato de que não vamos viver pra dieta (embora seja necessária certa dedicação), vamos fazer juntas nossa dietinha?</example>
-            <example>Foi permitido fazer perguntas ao final da reunião.</example>
-            <example>Xangô quis saber o que poderia fazer para ver sua filha só mais uma vez, e Orunmilá lhe disse para fazer oferendas ao orixá Iku (Oniborun), o guardião da entrada do mundo dos mortos.</example>
-            <example>Fazer dobras em.</example>
+            <example correction="somar">Assim <marker>fazer somas</marker> será o melhor.</example>
+            <example>Fazer compras é uma sensação fantástica.</example>
+            <example>Quanto às sugestões de uso de drones para fazer entregas estão sendo avaliadas.</example>
+            <example>Fui com Magnus fazer compras, fomos a uma loja ótima.</example>
         </rule>
 
 
