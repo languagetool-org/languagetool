@@ -19,10 +19,8 @@
 package org.languagetool.rules.de;
 
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.LanguageSpecificTest;
-import org.languagetool.Languages;
+import org.languagetool.*;
+import org.languagetool.language.German;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
@@ -38,6 +36,10 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+
+import org.languagetool.rules.FakeRule;
+import org.languagetool.rules.RuleMatch;
+import static org.junit.Assert.assertEquals;
 
 public class GermanTest extends LanguageSpecificTest {
   
@@ -139,6 +141,30 @@ public class GermanTest extends LanguageSpecificTest {
     assertThat(lt.check("Die Datei heißt Juriest_innenausbieldung.mfgjg und ist leer.").size(), is(0));
     assertThat(lt.check("Alles richtig_stimmt.").size(), is(0)); //not treated by GermanSpellerRule.removeGenderCompoundMatches
     assertThat(lt.check("Das ist flasch_nittrichtig.").size(), is(2)); //not treated by GermanSpellerRule.removeGenderCompoundMatches
+  }
+
+  @Test
+  public void testMergingOfGrammarCorrections() throws IOException {
+    Language lang = new German();
+    JLanguageTool lt = new JLanguageTool(lang);
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Er ist sich da absolute sich");
+
+    // Mocking two adjacent grammar issues
+    RuleMatch ruleMatch1 = new RuleMatch(new FakeRule("AI_DE_GGEC_TEST"), analyzedSentence, 16, 24, "Adjektivfehler");
+    ruleMatch1.setSuggestedReplacement("absolute");
+    RuleMatch ruleMatch2 = new RuleMatch(new FakeRule("AI_DE_GGEC_TEST2"), analyzedSentence, 25, 28, "Adjektivfehler");
+    ruleMatch2.setSuggestedReplacement("sich");
+
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    ruleMatches.add(ruleMatch1);
+    ruleMatches.add(ruleMatch2);
+
+    // Process the rule matches
+    List<RuleMatch> processedMatches = lang.mergeSuggestions(ruleMatches, null, null);
+
+    // Asserts
+    assertEquals("absolute sich", processedMatches.get(0).getSuggestedReplacements().get(0));
+    assertEquals("AI_DE_MERGED_MATCH", processedMatches.get(0).getSpecificRuleId());
   }
 
   // test that patterns with 'ß' also contain that pattern with 'ss' so the rule can match for de-CH users
