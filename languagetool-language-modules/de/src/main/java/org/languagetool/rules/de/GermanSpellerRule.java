@@ -170,6 +170,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Kruks", "Krux");
     put("Filterbubble", "Filterblase");
     put("Filterbubbles", "Filterblasen");
+    put("Telefones", "Telefons");
+    putRepl(".+telefones", "telefones", "telefons");
+    putRepl(".+portrait.*", "portrait", "porträt");
+    putRepl(".+tips", "tip", "tipp");
     putRepl("Analgen.*", "Analgen", "Anlagen");
     putRepl("wiedersteh(en|st|t)", "wieder", "wider");
     putRepl("wiederstan(d|den|dest)", "wieder", "wider");
