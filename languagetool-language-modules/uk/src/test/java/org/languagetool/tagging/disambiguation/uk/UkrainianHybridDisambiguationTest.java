@@ -615,26 +615,6 @@ public class UkrainianHybridDisambiguationTest {
 
   
   @Test
-  public void testDisambiguatorRaza() throws IOException {
-
-    List<AnalyzedTokenReadings> tagged = tagger.tag(tokenizer.tokenize("На Україна — Іспанія."));
-    AnalyzedSentence disambiged = disambiguator.disambiguate(new AnalyzedSentence(tagged.toArray(new AnalyzedTokenReadings[0])));
-
-    AnalyzedTokenReadings dash = disambiged.getTokens()[4];
-    assertEquals("—", dash.getReadings().get(0).getToken());
-    assertEquals("", dash.getReadings().get(0).getLemma());
-    assertEquals("", dash.getReadings().get(0).getPOSTag());
-    assertTrue(dash.isPosTagUnknown());
-    
-//    tagged = tagger.tag(tokenizer.tokenize("1,5 раза"));
-//    disambiged = disambiguator.disambiguate(new AnalyzedSentence(tagged.toArray(new AnalyzedTokenReadings[0])));
-//    
-//    AnalyzedTokenReadings raza = disambiged.getTokens()[2];
-//    assertEquals("раз", raza.getReadings().get(0).getLemma());
-//    assertFalse(raza.isPosTagUnknown());
-  }
-
-  @Test
   public void testPluralProp() throws IOException {
 
     TestTools.myAssert("дві Франції", 

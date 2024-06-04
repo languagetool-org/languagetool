@@ -2653,28 +2653,6 @@
     <example type="untouched">Приїхав Василь Кот.</example>
   </rule>
 
-  <rule name="Пара власних імен" id="PAIR_OF_PROPER_NOUNS">
-    <pattern case_sensitive="yes">
-      <marker>
-        <token regexp="yes" postag_regexp="yes" postag="noun.*?:v_naz.*">[А-ЯІЇЄҐ][а-яіїєґ'-]+
-          <exception scope="previous" postag="SENT_START"/>
-        </token>
-        <token regexp="yes">[—–-]</token>
-        <token regexp="yes" postag_regexp="yes" postag="noun.*?:v_naz.*">[А-ЯІЇЄҐ][а-яіїєґ'-]+</token>
-      </marker>
-    </pattern>
-    <disambig action="add">
-      <wd pos="&lt;prop_noun&gt;"></wd>
-      <wd lemma="" pos=""></wd>
-      <wd pos="&lt;/prop_noun&gt;"></wd>
-    </disambig>
-    <example type="ambiguous" 
-        inputform="Україна[Україна/noun:inanim:f:v_naz:prop:geo]"
-        outputform="Україна[Україна/&lt;prop_noun&gt;,Україна/noun:inanim:f:v_naz:prop:geo]">На <marker>Україна</marker> - Іспанія</example>
-    <example type="untouched">Україна - Іспанія</example>
-    <example type="untouched">На Україна та Іспанія</example>
-    <example type="untouched">червоне - зелене</example>
-  </rule>
 
   <!-- 
         Кінець: Великі літери в середині слова + власні назви
