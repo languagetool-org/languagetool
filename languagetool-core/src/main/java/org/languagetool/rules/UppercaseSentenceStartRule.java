@@ -43,6 +43,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   private static final Pattern NUMERALS_EN =
           compile("[a-z]|(m{0,4}(c[md]|d?c{0,3})(x[cl]|l?x{0,3})(i[xv]|v?i{0,3}))$");
   private static final Pattern CONTAINS_DIGIT = compile(".*\\d.*");
+  private static final Pattern ONLY_LOWERCASE_START = compile("[a-z][A-Z].*");
   private static final Pattern WHITESPACE_OR_QUOTE = compile("[ \"'„«»‘’“”\\n]"); //only ending quote is necessary?
   private static final Pattern SENTENCE_END1 = compile("[.?!…]|");
   private static final Set<String> EXCEPTIONS = new HashSet<>(Arrays.asList(
@@ -182,6 +183,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
         String capitalized = StringTools.uppercaseFirstChar(checkToken);
         if (!capitalized.equals(checkToken) &&
           !preventError && Character.isLowerCase(firstChar)
+          && !ONLY_LOWERCASE_START.matcher(checkToken).matches()
           && !EXCEPTIONS.contains(checkToken) && !StringTools.isCamelCase(checkToken)) {
           RuleMatch ruleMatch = new RuleMatch(this, sentence,
                   pos+tokens[matchTokenPos].getStartPos(),
