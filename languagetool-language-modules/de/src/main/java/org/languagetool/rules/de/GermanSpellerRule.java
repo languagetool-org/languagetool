@@ -174,6 +174,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl(".+telefones", "telefones", "telefons");
     putRepl(".+portrait.*", "portrait", "porträt");
     putRepl(".+tips", "tip", "tipp");
+    putRepl("Hifi-.+", "Hifi", "HiFi");
     putRepl("Analgen.*", "Analgen", "Anlagen");
     putRepl("wiedersteh(en|st|t)", "wieder", "wider");
     putRepl("wiederstan(d|den|dest)", "wieder", "wider");
