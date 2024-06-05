@@ -14943,7 +14943,7 @@ regexp case-insensitive maken: (?i)
 				<example>Dit is een <marker>concept</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="VROUWELIJKE_DUBBELOP" name="Een (vrouwelijke) cameravrouw" default="temp_off">
+		<rulegroup id="VROUWELIJKE_DUBBELOP" name="Een (vrouwelijke) cameravrouw">
 			<rule>
 				<pattern>
 					<token>vrouwelijke</token>
@@ -18085,6 +18085,17 @@ regexp case-insensitive maken: (?i)
 			<rule>
 				<antipattern><token>ben</token></antipattern>
 				<antipattern><token>wordt</token><token>geint</token></antipattern>
+				<antipattern>
+					<token case_sensitive="yes" regexp="yes">[A-Z]{2,3}</token>
+					<token regexp="yes" postag="WKW:TGW:3EP">^(ge|be|ver|ont).*t$</token>
+					<example>In een filmpje van IS vertelt elke strijder wat hen dwars zit.</example>
+				</antipattern>
+				<antipattern>
+				    <token><exception postag="START_SENT"/></token>
+				    <token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
+				    <token/>
+				    <example>Van der Wouden belegt in alles.</example>
+				</antipattern>
 				<pattern>
 					<token inflected="yes" regexp="yes">worden|zijn|kunnen|willen<exception regexp="yes">zij|wil</exception></token>
 					<token regexp="yes" postag="WKW:TGW:3EP">^(ge|be|ver|ont).*t$<exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
@@ -22088,22 +22099,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 	</category>
 	<category id="OVERIG" name="Diverse regels">
-		<rulegroup id="SPATIEFOUT_KOPJE" name="Mogelijke spatiefout" default="temp_off">
-			<rule>
-				<pattern>
-					<token postag="SENT_START"/>
-					<marker>
-						<token postag="ZNW:EKV:DE_"/>
-						<token postag="ZNW:EKV:DE_"/>
-						<token postag="SENT_END">.</token>
-					</marker>
-				</pattern>
-				<message>Horen deze woorden niet aan elkaar geschreven? Is het een kopje en hoort de punt er niet?</message>
-				<suggestion>\2\3</suggestion>
-				<example correction="Oppervlakteboring"><marker>Oppervlakte boring.</marker></example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="ONVERWACHT_EINDE" name="is. / is:" default="temp_off">
+		<rulegroup id="ONVERWACHT_EINDE" name="is. / is:">
 			<rule>
 				<pattern>
 					<token postag="SENT_START"/>
@@ -24831,7 +24827,7 @@ regexp case-insensitive maken: (?i)
 		</rulegroup>
 	</category>
 	<category id="REPETITIONS" name="Herhaling van woorden of woordgroepen." >
-		<rulegroup id="HEBBEN_HEBBEN" name="Wij hebben boeken hebben gelezen" default="temp_off">
+		<rulegroup id="HEBBEN_HEBBEN" name="Wij hebben boeken hebben gelezen">
 			<rule>
 				<pattern>
 					<token skip="1" postag_regexp="yes" postag="WKW.*" inflected="yes">hebben</token>
