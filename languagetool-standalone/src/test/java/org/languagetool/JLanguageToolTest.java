@@ -603,4 +603,12 @@ public class JLanguageToolTest {
     }
   }
 
+  @Test
+  public void testIgnoringEnglishWordsInGerman() throws IOException {
+    Language lang = new GermanyGerman();
+    JLanguageTool lt = new JLanguageTool(lang);
+    List<RuleMatch> matches = lt.check("This is an English sentence.");
+    assertEquals(0, matches.size());
+  }
+
 }
