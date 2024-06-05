@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class UntrustedReferrerTest {
+public class TrustedSourcesTest {
 
   private OkHttpClient client = new OkHttpClient()
     .newBuilder()
@@ -44,35 +44,32 @@ public class UntrustedReferrerTest {
   @Test
   @Ignore("Needs a local remote-rule file")
   public void runUntrustedReferrerTest() throws Exception {
-    String[] args = {"--config","/home/stefan/Dokumente/Test-Config-Files/test-untrusted.properties"}; //contains a list of untrusted referrers and a remote rule file with 1 remote rule with option set to "onlyTrustedSources": true
+    //properties file contains trustedSources=\\b(?:workingAgent1|workingAgent2|workingAgent3)\\b
+    String[] args = {"--config","/Users/stefan/Documents/config-files/test-untrusted.properties"}; //contains a list of untrusted referrers and a remote rule file with 1 remote rule with option set to "onlyTrustedSources": true
     HTTPServerConfig serverConfig = new HTTPServerConfig(args);
     HTTPServer server = new HTTPServer(serverConfig, false, HTTPServerConfig.DEFAULT_HOST, null);
     assertFalse(server.isRunning());
     try {
       server.run();
       assertTrue(server.isRunning());
-      runRequest("http://foo.org", false);
-      runRequest("http://foo.org/something", false);
-      runRequest("https://foo.org", false);
-      runRequest("https://foo.org/something", false);
-      runRequest("foo.org", false);
-      runRequest("bar.org", false);
-      runRequest("https://foobar.org/", true);
-      runRequest("https://languagetool.org/", true);
-      runRequest("https://languagetool.org", true);
-      runRequest("http://languagetool.org/", true);
-      runRequest("languagetool", true);
-      runRequest("https://www.languagetool.org/", true);
+      runRequest("workingAgent1", true);
+      runRequest("workingAgent2", true);
+      runRequest("workingAgent2", true);
+      runRequest("notWorkingAgent", false);
+      runRequest("workingAgent", false);
+      runRequest("workingAgent", false);
+      runRequest("workingAgent", false);
+      runRequest(null, false);
     } finally {
       server.stop();
       assertFalse(server.isRunning());
     }
   }
 
-  private void runRequest(String referrer, Boolean expectedMatch) throws IOException {
+  private void runRequest(String ltAgent, Boolean expectedMatch) throws IOException {
+    String agent = ltAgent == null ? "" : "&useragent=" + ltAgent;
     Request request = new Request.Builder()
-      .url("http://localhost:8081/v2/check?text=Ich%20möchte,%20dass%20das%20funktioniert&language=de-DE") //missing punctuation
-      .addHeader("Referer", referrer)
+      .url("http://localhost:8081/v2/check?text=Ich%20möchte,%20dass%20das%20funktioniert&language=de-DE" + agent)//missing punctuation
       .build();
     try (Response response = client.newCall(request).execute()) {
       if (response.body() != null) {

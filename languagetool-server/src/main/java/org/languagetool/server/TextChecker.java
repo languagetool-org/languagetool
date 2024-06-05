@@ -380,17 +380,16 @@ abstract class TextChecker {
     Language lang = detLang.getGivenLanguage();
 
     List<Rule> userRules = TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetUserRules", Attributes.empty(), () -> getUserRules(limits, lang, finalDictGroups));
-    boolean untrustedSource = false;
-    if (referrer != null) {
-      untrustedSource = config.getUntrustedReferrers().stream().anyMatch(s -> siteMatches(referrer, s));
-    }
-    
+    String ltAgent = params.getOrDefault("useragent", "unknown");
+    Pattern trustedSourcesPattern = config.getTrustedSources();
+    boolean trustedSource = trustedSourcesPattern == null || (limits.hasPremium() || trustedSourcesPattern.matcher(ltAgent).matches());
+    System.out.println("Trusted source: " + trustedSource + ", user agent: " + ltAgent);
     UserConfig userConfig =
       new UserConfig(dictWords, userRules,
                      getRuleValues(params), config.getMaxSpellingSuggestions(),
                      limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
                      null, filterDictionaryMatches, abTest, textSessionId,
-                     !limits.hasPremium() && enableHiddenRules, preferredLangs, untrustedSource);
+                     !limits.hasPremium() && enableHiddenRules, preferredLangs, trustedSource);
 
     //print("Check start: " + text.length() + " chars, " + langParam);
 
