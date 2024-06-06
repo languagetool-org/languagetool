@@ -155,7 +155,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="_english_ignore_"/>
                 <marker>
-                    <token regexp="yes">a|to|is</token>
+                    <token regexp="yes">a|to|is|an</token>
                     <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
                 </marker>
             </pattern>
@@ -183,7 +183,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="_english_ignore_"/>
                 <marker>
-                    <token regexp="yes">a|to|is<exception postag="_english_ignore_"/></token>
+                    <token regexp="yes">a|to|is|an<exception postag="_english_ignore_"/></token>
                 </marker>
                 <token postag="_english_ignore_"/>
             </pattern>
@@ -14598,6 +14598,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!--  QUÈ PASSA: en les seves múltiples disciplines. -->
         <!-- la teva brillant llum // les seves múltiples disciplines<exception postag="A..C.*" postag_regexp="yes"></exception>  "Dura massa" -->
         <!-- les seves múltiples disciplines<exception postag="A..C.*" postag_regexp="yes"></exception> -->
+        <antipattern>
+            <token postag="&pronom_feble;" postag_regexp="yes"/>
+            <token>dic</token>
+        </antipattern>
         <rule>
             <pattern>
                 <marker>

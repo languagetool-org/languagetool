@@ -259,6 +259,7 @@ public class Catalan extends Language {
       case "PASSAR_SE": return 5; // greater than OBLIDARSE
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
       case "SPELLING": return 5;
+      case "APOSTROF_ANYS": return 5; // greater than typography options
       case "VENIR_NO_REFLEXIU": return 5;
       case "DEUS_SEUS": return 5;
       case "SON_BONIC": return 5;
@@ -452,7 +453,7 @@ public class Catalan extends Language {
   
   private final List<String> spellerExceptions = Arrays.asList("San Juan", "Copa América", "Colección Jumex", "Banco Santander",
     "San Marcos", "Santa Ana", "San Joaquín", "Naguib Mahfouz", "Rosalía", "Aristide Maillol", "Alexia Putellas",
-    "Mónica Randall");
+    "Mónica Randall", "Vicente Blasco Ibáñez");
 
   @Override
   public List<String> prepareLineForSpeller(String line) {
