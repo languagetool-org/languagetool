@@ -15939,8 +15939,15 @@ USA
         </rule>
 
 
-        <rule id='FAZER_VERBO_VERBO_INFINITIVO_V2' name="[Simplificar] V.Fazer + V. → V.Inf." type="style" tags="picky" default="temp_off">
+        <rule id='FAZER_VERBO_VERBO_INFINITIVO_V2' name="[Simplificar] V.Fazer + V. → V.Inf." type="style" tags="picky">
             <!--IDEA shorten_it-->
+            <antipattern>
+                <token>fazer</token>
+                <token postag='VMIP2S0' postag_regexp='no'/>
+                <token>para</token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <example>Quando éramos crianças gostávamos de fazer fisgas para sermos bons.</example>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>fazer
