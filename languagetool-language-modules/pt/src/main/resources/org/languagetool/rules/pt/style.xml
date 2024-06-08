@@ -3650,7 +3650,7 @@ USA
                     <example>Tom está morrendo de rir.</example>
                 </antipattern>
                 <antipattern>
-                    <token skip='4' inflected='yes' regexp='yes' case_sensitive='yes'>abelha|andorinha|aranha|árvore|bateria|bode|boi|bovino|budismo|cabra|cabrito|cachorro|canídeo|cão|cavalo|chip|coelho|computador|cristianismo|ecrã|écran|égua|elefante|flor|gado|gato|h[áa]mster|insec?to|laptop|LCD|leão|melga|memória|motherboard|monitor|mosca|mosquito|ovelha|paganismo|papagaio|pardal|pássaro|PC|peixe|periquito|pilha|planta|p[óô]nei|portátil|ratazana|rato|relva|satanismo|serpente|tarântula|televisão|to[iu]ro|TV|vaca|zebra</token> <!-- Add exception words here -->
+                    <token skip='4' inflected='yes' regexp='yes' case_sensitive='yes'>abelha|andorinha|aranha|árvore|bateria|bode|boi|bovino|budismo|cabra|cabrito|cachorro|canídeo|cão|cavalo|chip|coelho|computador|cristianismo|ecrã|écran|égua|elefante|flor|gado|gato|h[áa]mster|insec?to|laptop|LCD|leão|melga|memória|motherboard|monitor|mosca|mosquito|natureza|ovelha|paganismo|papagaio|pardal|pássaro|PC|peixe|periquito|pilha|planta|p[óô]nei|portátil|ratazana|rato|relva|satanismo|serpente|tarântula|televisão|to[iu]ro|TV|vaca|zebra</token> <!-- Add exception words here -->
                     <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception>
                         <exception scope='previous' postag='P.+' postag_regexp='yes'/>
                         <exception scope='previous' regexp='yes'>don[ao]s?</exception>
@@ -3705,7 +3705,7 @@ USA
                     <token min='0' max='1' postag='_QUOT|_PUNCT' postag_regexp='yes'/>
                     <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
                     <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
-                    <token min='0' max='1' postag='RG|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                    <token min='0' max='2' postag='RG|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
                     <token postag='SENT_END|_PUNCT_EXCLAMATION|_PUNCT_INTERROGATION' postag_regexp='yes'/>
                     <example>Morra！</example>
                     <example>Morremos.</example>
@@ -3718,13 +3718,29 @@ USA
                 <antipattern>
                     <token inflected='yes'>morrer</token>
                     <token regexp='no'>de</token>
-                    <token regexp='yes'>alegria|amor(es)?|cansaço|ciúmes?|dor(es)?|fome|frio|inveja|medo|pânico|saudades?|sede|tristeza|velho</token>
+                    <token regexp='yes'>alegria|amor(es)?|cansaço|ciúmes?|dor(es)?|fome|frio|idade|inveja|medo|pânico|saudades?|sede|tristeza|velhice|velho</token>
                     <example>Onze mil prisioneiros morreram de fome.</example>
                     <example>O idoso morreu de fome.</example>
                     <example>Muitas crianças morrem de fome na África.</example>
                     <example>Devido à falta de comida, o gado morreu de fome.</example>
                     <example>Ele morreu de sede durante a seca.</example>
                     <example>O seguro morreu de velho.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='SENT_START' postag_regexp='no'/>
+                    <token regexp='yes'>[ao]s?|de</token>
+                    <token min='0' max='3' postag='NC.+|AQ.+|NP.+|Z0.+|SPS00' postag_regexp='yes'/>
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
+                    <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+                        <exception postag_regexp='no' postag='RG'/>
+                    </token>
+                    <example>Os bons morrem jovens.</example>
+                    <example>A culpa morreu solteira.</example>
+                    <example>As mulheres bonitas morrem jovens (ou isso diz o ditado).</example>
+                    <example>Os dois velhinhos morreram juntos.</example>
+                    <example>O Tom morreu esfaqueado.</example>
+                    <example>Os dois morreram juntos em 1323, em combate.</example>
+                    <example>O casal de idosos morreu tranquilo.</example>
                 </antipattern>
                 <pattern>
                     <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception>
@@ -3756,7 +3772,7 @@ USA
                 <antipattern>
                     <token postag='V.+|RG' postag_regexp='yes'/>
                     <token min='0' max='1' postag='SPS00|Z0.+' postag_regexp='yes'/>
-                    <token postag='NC.+|AQ.+|NP.+|Z0.+' postag_regexp='yes'/>
+                    <token min='1' max='3' postag='NC.+|AQ.+|NP.+|Z0.+' postag_regexp='yes'><exception regexp='yes'>mort[ao]s?</exception></token>
                     <token regexp='yes'>mort[ao]s?</token>
                     <example>"Quem não se enamora de Deus, vendo Cristo morto na cruz, não se abrasará jamais".</example>
                     <example>A vala comum que continha os restos mortais de 14 soldados alemães mortos em agosto de 1944.</example>
@@ -3766,6 +3782,7 @@ USA
                     <example>Há mais de cem mortos na catástrofe.</example>
                     <example>Desabamento de prédio deixa mais de 1000 mortos em Bangladesh.</example>
                     <example>Corpos não identificados de mulheres mortas em Los Angeles geralmente são chamados: "Sally in the Alley"</example>
+                    <example>Hoje, PEDE DESCULPAS pelos 4,4 mil mortos na cidade.</example>
                 </antipattern>
                 <antipattern>
                     <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
@@ -3799,7 +3816,7 @@ USA
                 <antipattern>
                     <token regexp='yes'>mort[ao]s?</token>
                     <token regexp='no'>de</token>
-                    <token regexp='yes'>alegria|amor(es)?|cansaço|ciúmes?|dor(es)?|fome|frio|inveja|medo|pânico|saudades?|sede|tristeza|velho</token>
+                    <token regexp='yes'>alegria|amor(es)?|cansaço|ciúmes?|dor(es)?|fome|frio|inveja|medos?|pânico|saudades?|sede|tristeza|velho</token>
                     <example>Embalado pelo balanço da carroça e morto de cansaço, Tom adormeceu.</example>
                     <example>Eu me sinto morto de cansaço.</example>
                     <example>Ele ficou morto de inveja.</example>
@@ -3808,7 +3825,7 @@ USA
                     <example>A senhora nos deixará mortos de saudade.</example>
                 </antipattern>
                 <antipattern>
-                    <token skip='4' inflected='yes' regexp='yes' case_sensitive='yes'>abelha|andorinha|aranha|árvore|bateria|bode|boi|bovino|budismo|cabra|cabrito|cachorro|canídeo|cão|cavalo|chip|coelho|computador|cristianismo|ecrã|écran|égua|elefante|flor|gado|gato|h[áa]mster|insec?to|laptop|LCD|leão|melga|memória|motherboard|monitor|mosca|mosquito|ovelha|paganismo|papagaio|pardal|pássaro|PC|peixe|periquito|pilha|planta|p[óô]nei|portátil|ratazana|rato|relva|satanismo|serpente|tarântula|televisão|to[iu]ro|TV|vaca|zebra</token> <!-- Add exception words here -->
+                    <token skip='4' inflected='yes' regexp='yes' case_sensitive='yes'>abelha|andorinha|aranha|árvore|bateria|bode|boi|bovino|budismo|cabra|cabrito|cachorro|canídeo|cão|cavalo|chip|coelho|computador|cristianismo|ecrã|écran|égua|elefante|flor|gado|gato|h[áa]mster|insec?to|laptop|LCD|leão|melga|memória|motherboard|monitor|mosca|mosquito|natureza|ovelha|paganismo|papagaio|pardal|pássaro|PC|peixe|periquito|pilha|planta|p[óô]nei|portátil|ratazana|rato|relva|satanismo|serpente|tarântula|televisão|to[iu]ro|TV|vaca|zebra</token> <!-- Add exception words here -->
                     <token regexp='yes'>mort[ao]s?
                         <exception scope='previous' postag='P.+' postag_regexp='yes'/>
                         <exception scope='previous' regexp='yes'>don[ao]s?</exception>
@@ -3819,12 +3836,12 @@ USA
                     <marker>
                         <token regexp='yes'>mort[ao]s?
                             <exception regexp='no' case_sensitive='yes'>Mortos</exception> <!-- Proper names -->
-                            <exception scope='previous' postag='_PUNCT|VMII3.+|VMP.+|SPS00|RM' postag_regexp='yes'/>
+                            <exception scope='previous' postag='_PUNCT|VMI.3.+|VMP.+|SPS00|RM' postag_regexp='yes'/>
                         </token>
                     </marker>
                     <token min='0' max='1' postag='RM' postag_regexp='no'/>
                     <token regexp='yes'>de|em|n[ao]s?
-                        <exception scope='next' postag='Z0.+|PP.+|D.+|RG' postag_regexp='yes'/>
+                        <exception scope='next' postag='Z0.+|PP.+|D.+|RG|VMIP3.+' postag_regexp='yes'/>
                     </token>
                 </pattern>
                 <message>Num contexto formal, é preferível escrever &quot;perecer&quot; ou &quot;falecer&quot;.</message>
@@ -3853,6 +3870,9 @@ USA
                 <example>HaSeul segurando um pássaro morto em suas mãos, com o menino HaSeul em nenhuma parte para ser encontrado.</example>
                 <example>As imagens divulgadas dos corpos de 83 crianças alegadamente mortas no ataque, acreditamos serem falsas.</example>
                 <example>não identificado aparentemente morto no espaço", levando a um "evento de quatro episódios".</example>
+                <example>Os mortos nos observam?</example>
+                <example>Mesmo conseguindo fugir dos disparos de imediato, Fujimori tombou morto no meio da praça.</example>
+                <example>Com uma machadinha, desfere vários golpes na cabeça do chefe Wilmesdorf que desaba morto no chão da sala.</example>
             </rule>
         </rulegroup>
 
