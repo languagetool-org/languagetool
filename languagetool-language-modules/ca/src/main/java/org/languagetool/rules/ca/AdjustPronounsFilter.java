@@ -29,6 +29,8 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tools.StringTools;
+
 import static org.languagetool.rules.ca.PronomsFeblesHelper.*;
 
 
@@ -44,7 +46,10 @@ public class AdjustPronounsFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
-
+    /*if (match.getSentence().getText().contains("Es prepara una")) {
+      int ii=0;
+      ii++;
+    }*/
     List<String> replacements = new ArrayList<>();
     List<String> actions = Arrays.asList(getRequired("actions", arguments).split(","));
     Synthesizer synth = getSynthesizerFromRuleMatch(match);
@@ -110,6 +115,10 @@ public class AdjustPronounsFilter extends RuleFilter {
         }
       }
     }
+    if (posWord - toLeft == 0) {
+      // avoid the SENT_START token
+      toLeft--;
+    }
     if (!firstVerbValid) {
       return null;
     }
@@ -137,19 +146,19 @@ public class AdjustPronounsFilter extends RuleFilter {
       String replacement = "";
       switch (action) {
       case "addPronounEn":
-        replacement = doAddPronounEn(firstVerb, pronounsStr, verbStr);
+        replacement = doAddPronounEn(firstVerb, pronounsStr, verbStr, false);
         break;
       case "removePronounReflexive":
-        replacement = doRemovePronounReflexive(firstVerb, pronounsStr, verbStr);
+        replacement = doRemovePronounReflexive(firstVerb, pronounsStr, verbStr, false);
         break;
       case "replaceEmEn":
-        replacement = doReplaceEmEn(firstVerb, pronounsStr, verbStr);
+        replacement = doReplaceEmEn(firstVerb, pronounsStr, verbStr, false);
         break;
       case "addPronounReflexive":
-        replacement = doAddPronounReflexive(firstVerb, pronounsStr, verbStr, firstVerbPersonaNumber);
+        replacement = doAddPronounReflexive(firstVerb, pronounsStr, verbStr, firstVerbPersonaNumber, false);
         break;
       case "addPronounReflexiveHi":
-        replacement = doAddPronounReflexive(firstVerb, pronounsStr, "hi "+verbStr, firstVerbPersonaNumber);
+        replacement = doAddPronounReflexive(firstVerb, pronounsStr, "hi "+verbStr, firstVerbPersonaNumber, false);
         break;
       case "addPronounReflexiveImperative":
         replacement = doAddPronounReflexiveImperative(firstVerb, pronounsStr, verbStr,
@@ -157,7 +166,7 @@ public class AdjustPronounsFilter extends RuleFilter {
         break;
       }
       if (!replacement.isEmpty()) {
-        replacements.add(replacement);
+        replacements.add(StringTools.preserveCase(replacement, tokens[posWord - toLeft].getToken()).trim());
       }
     }
     if (replacements.isEmpty()) {
