@@ -138,19 +138,25 @@
     <example type="untouched">на росію</example>
   </rule>
 
-  <rule name="Літери у списках - noninfl" id="letters_in_lists_noninfl">
+  <rule name="Літери у списках - noninfl 2" id="letters_in_lists_noninfl_2">
     <pattern>
-      <token regexp="yes">[:;]</token>
       <marker>
-        <token case_sensitive="yes" regexp="yes">[а-яіїєґ]</token>
+        <token regexp="yes">[а-кА-К]
+          <exception scope="previous" regexp="yes">.*[а-яіїєґА-ЯІЇЄҐ0-9].*</exception>
+        </token>
       </marker>
-      <token>)</token>
+      <token spacebefore="no">)</token>
     </pattern>
-    <disambig action="replace" postag="noninfl" />
+    <disambig postag="noninfl" />
+    <example type="ambiguous"
+        inputform="в[в/prep]"
+        outputform="в[в/noninfl]"><marker>в</marker>) третій пункт</example>
     <example type="ambiguous"
         inputform="а[а/conj:coord,а/intj,а/part]"
-        outputform="а[а/noninfl]">; <marker>а</marker>).</example>
-    <example type="untouched">(10 м)</example>
+        outputform="а[а/noninfl]"> <marker>а</marker>)</example>
+    <example type="untouched">(я воно і є)</example>
+    <example type="untouched">(символ: і)</example>
+    <example type="untouched">(23 г)</example>
   </rule>
 
   <rule name="Архаїчні форми" id="archaich_words">
