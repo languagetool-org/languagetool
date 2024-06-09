@@ -21355,6 +21355,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="propaga_marca_reflexiu" name="propaga la marca de reflexiu">
+        <pattern>
+            <token chunk="GV" postag="_reflexiu"/>
+            <marker>
+                <token chunk="GV"/>
+            </marker>
+        </pattern>
+        <disambig action="add">
+            <wd pos="_reflexiu"/>
+        </disambig>
+    </rule>
     <rule id="HEXADECIMAL_NOTATION" name="notació hexadecimal">
         <pattern>
             <token regexp="yes" case_sensitive="yes">0x[0-9A-Fa-f]+</token>
