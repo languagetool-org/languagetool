@@ -43,10 +43,10 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
-    if (match.getSentence().getText().contains("Es van menjar un marró.")) {
+    /*if (match.getSentence().getText().contains("Van disfrutar")) {
       int ii=0;
       ii++;
-    }
+    }*/
     JLanguageTool lt = ((PatternRule) match.getRule()).getLanguage().createDefaultJLanguageTool();
     List<String> replacements = new ArrayList<>();
     boolean numberFromNextWords = getOptional("numberFromNextWords", arguments, "false").equalsIgnoreCase("true");
@@ -203,7 +203,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
         }
       }
       String replacement = "";
-      String verbStr = sb.toString().trim();
+      String verbStr = sb.toString().trim().toLowerCase();
       if (!firstVerbInflected) {
         pronounsStr = twoPronounsAfter[0];
       }

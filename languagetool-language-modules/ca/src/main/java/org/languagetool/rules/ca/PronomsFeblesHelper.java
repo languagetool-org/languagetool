@@ -365,7 +365,10 @@ public class PronomsFeblesHelper {
     String between = " ";
     if (pronounsReplacement != null) {
       replacement = (pronounsReplacement + between + verbStr).trim().replaceAll("' ", "'");
+    } else {
+      replacement = verbStr;
     }
+
     return replacement;
   }
 
