@@ -116,7 +116,7 @@ public class JLanguageToolTest {
     ruleMatches.add(ruleMatch2);
 
     // Process the rule matches
-    List<RuleMatch> processedMatches = lang.filterRuleMatches(ruleMatches, null, null);
+    List<RuleMatch> processedMatches = lang.filterRuleMatches(ruleMatches, null, Collections.emptySet());
 
     // Asserts
     assertEquals("des spectateurs", processedMatches.get(0).getSuggestedReplacements().get(0));

@@ -568,7 +568,7 @@ public class French extends Language implements AutoCloseable {
       rm.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
     }
     // if the typographical apostrophe rule is enabled, use the typographical apostrophe in suggestons
-    if (enabledRules.contains("APOS_TYP")) {
+    if (enabledRules != null && enabledRules.contains("APOS_TYP")) {
       List<String> newReplacements = new ArrayList<>();
       for (String s : rm.getSuggestedReplacements()) {
         if (s.length() > 1) {
