@@ -22,6 +22,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
@@ -43,7 +44,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
-    /*if (match.getSentence().getText().contains("Van disfrutar")) {
+    /*if (match.getSentence().getText().contains("Ara tocava disfrutar")) {
       int ii=0;
       ii++;
     }*/
@@ -79,8 +80,9 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
       if (isPronoun) {
         inPronouns = true;
       }
-      if (isPronoun || (isVerb && !inPronouns && !firstVerbInflected) || currentTknStr.equalsIgnoreCase("de")
-        || currentTknStr.equalsIgnoreCase("d'")) {
+      boolean isInGV =  currentTkn.getChunkTags().contains(new ChunkTag("GV"));
+
+      if (isPronoun || (isVerb && !inPronouns && !firstVerbInflected && (toLeft == 0 || isInGV)) || isInGV) {
         if (isVerb) {
           firstVerb = currentTknStr;
           firstVerbPos = toLeft;
