@@ -298,6 +298,7 @@ public class Catalan extends Language {
       case "REPETITION_ADJ_N_ADJ": return -155;
       case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
       case "PUNT_FINAL": return -200;
+      case "PUNCTUATION_PARAGRAPH_END": return -200;
       case "CA_END_PARAGRAPH_PUNCTUATION": return -250;
       case "DICENDI_QUE": return -250;
       case "UPPERCASE_SENTENCE_START": return -500;
