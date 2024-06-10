@@ -18980,6 +18980,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <antipattern>
             <token postag="CC"/>
         </antipattern>
+        <antipattern>
+            <token>s'</token>
+            <token skip="4">hi</token>
+            <token inflected="yes" regexp="yes">venir|anar|pujar</token>
+        </antipattern>
         <rule>
             <!--<antipattern>
                 <!-\- TODO: generalitzar -\->
@@ -21356,6 +21361,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rule id="propaga_marca_reflexiu" name="propaga la marca de reflexiu">
+        <antipattern>
+            <token>s'</token>
+            <token>hi</token>
+            <token chunk="GV"/>
+        </antipattern>
         <pattern>
             <token chunk="GV" postag="_reflexiu"/>
             <marker>
