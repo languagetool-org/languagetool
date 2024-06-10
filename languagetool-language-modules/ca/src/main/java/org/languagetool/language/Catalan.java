@@ -348,12 +348,28 @@ public class Catalan extends Language {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
       String errorStr = rm.getOriginalErrorStr();
-      List<SuggestedReplacement> suggestedReplacements = rm.getSuggestedReplacementObjects();
+      List<String> suggestedReplacements = rm.getSuggestedReplacements();
       List<SuggestedReplacement> newReplacements = new ArrayList<>();
-      for (SuggestedReplacement suggestedReplacement : suggestedReplacements) {
-        String newReplStr = suggestedReplacement.getReplacement();
+      for (String suggestedReplacement : suggestedReplacements) {
+        String newReplStr = suggestedReplacement;
         if (errorStr.length() > 2 && errorStr.endsWith("'") && !newReplStr.endsWith("'") && !newReplStr.endsWith("’")) {
           newReplStr = newReplStr + " ";
+        }
+        if (enabledRules.contains("EXIGEIX_ACCENTUACIO_GENERAL")) {
+          if (newReplStr.contains("é") && suggestedReplacements.contains(newReplStr.replace("é", "è"))) {
+            continue;
+          }
+          if (newReplStr.contains("É") && suggestedReplacements.contains(newReplStr.replace("É", "È"))) {
+            continue;
+          }
+        }
+        else if (enabledRules.contains("EXIGEIX_ACCENTUACIO_VALENCIANA")) {
+          if (newReplStr.contains("è") && suggestedReplacements.contains(newReplStr.replace("è", "é"))) {
+            continue;
+          }
+          if (newReplStr.contains("È") && suggestedReplacements.contains(newReplStr.replace("È", "É"))) {
+            continue;
+          }
         }
         if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && newReplStr.length() > 1) {
           newReplStr = newReplStr.replace("'", "’");
