@@ -317,7 +317,7 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
     if (englishSpeller != null && tokens[idx].hasPosTag("_english_ignore_")) {
       if (englishSpeller.isMisspelled(word)) {
         List<String> englishSuggestions = englishSpeller.getSpellingSuggestions(word);
-        String msg = "Se for um termo em inglês, parece haver um erro de ortografia.";
+        String msg = "Este parece ser um termo em inglês. Se for o caso, há um erro de ortografia.";
         RuleMatch match = ruleMatches.get(0);
         match.setSuggestedReplacements(englishSuggestions);
         match.setMessage(msg);
