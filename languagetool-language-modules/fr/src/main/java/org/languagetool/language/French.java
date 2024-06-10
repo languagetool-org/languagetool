@@ -424,39 +424,13 @@ public class French extends Language implements AutoCloseable {
     return true;
   }
 
-  @Override
-  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
-    ruleMatches = adaptAposTypSuggestions(ruleMatches, enabledRules);
-    List<RuleMatch> newRuleMatches = new ArrayList<>();
-    for (RuleMatch rm : ruleMatches) {
-      if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("MISSING_PRONOUN_LAPOSTROPHE")) {
-        if (rm.getFromPos() >= 3) {
-          String substring = rm.getSentence().getText().substring(rm.getFromPos() - 3, rm.getToPos());
-          if (substring.equalsIgnoreCase("si on")) {
-            rm.setSpecificRuleId("AI_FR_GGEC_SI_LON");
-            rm.getRule().setTags(Arrays.asList(Tag.picky));
-          }
-        }
-      }
-
-      if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("REPLACEMENT_PUNCTUATION_QUOTE")) {
-        rm.setSpecificRuleId("AI_FR_GGEC_QUOTES");
-        rm.getRule().setTags(Arrays.asList(Tag.picky));
-        rm.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
-      }
-
-      newRuleMatches.add(rm);
-    }
-    return newRuleMatches;
-  }
 
   @Override
-  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
-    List<RuleMatch> processedMatches = processOrthographyToCasing(ruleMatches, text, enabledRules);
+  public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
     List<RuleMatch> resultMatches = new ArrayList<>();
     RuleMatch previousMatch = null;
-    for (int i = 0; i < processedMatches.size(); i++) {
-      RuleMatch currentMatch = processedMatches.get(i);
+    for (int i = 0; i < ruleMatches.size(); i++) {
+      RuleMatch currentMatch = adjustFrenchRuleMatch(ruleMatches.get(i), enabledRules);
       if (previousMatch != null && previousMatch.getRule().getId().startsWith("AI_FR_GGEC") &&
               currentMatch.getRule().getId().startsWith("AI_FR_GGEC")) {
         if (previousMatch.getToPos() > currentMatch.getFromPos()) {
@@ -497,8 +471,6 @@ public class French extends Language implements AutoCloseable {
     return resultMatches;
   }
 
-
-
   private RuleMatch mergeMatches(RuleMatch match1, RuleMatch match2) {
     // Calculate separator based on position
     String separator = "";
@@ -533,7 +505,6 @@ public class French extends Language implements AutoCloseable {
     } else if (match1.getRule().getLocQualityIssueType() == ITSIssueType.Style) {
       mergedMatch.getRule().setLocQualityIssueType(ITSIssueType.Style);
     }
-
     return mergedMatch;
   }
 
@@ -565,45 +536,49 @@ public class French extends Language implements AutoCloseable {
     return FrenchMultitokenSpeller.INSTANCE;
   }
 
-  public List<RuleMatch> adaptAposTypSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
-    List<RuleMatch> newRuleMatches = new ArrayList<>();
-    for (RuleMatch rm : ruleMatches) {
-      if (enabledRules.contains("APOS_TYP")) {
-        List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
-        List<SuggestedReplacement> newReplacements = new ArrayList<>();
-        for (SuggestedReplacement s : replacements) {
-          String newReplStr = s.getReplacement().replace('\'', '’');
-          SuggestedReplacement newRepl = new SuggestedReplacement(s);
-          newRepl.setReplacement(newReplStr);
-          newReplacements.add(newRepl);
-        }
-        rm = new RuleMatch(rm, newReplacements);
+  public RuleMatch adjustFrenchRuleMatch(RuleMatch rm, Set<String> enabledRules) {
+    rm.setOriginalErrorStr();
+    String errorStr = rm.getOriginalErrorStr();
+    List<String> suggestions = rm.getSuggestedReplacements();
+    if (suggestions.size() == 1 && rm.getRule().getId().startsWith("AI_FR_GGEC")) {
+      String suggestion = suggestions.get(0);
+      // the suggestion only changes the casing
+      if (suggestion.equalsIgnoreCase(errorStr)) {
+        rm.setMessage("Un usage différent des majuscules et des minuscules est recommandé.");
+        rm.setShortMessage("Majuscules et minuscules");
+        rm.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
+        rm.getRule().setCategory(Categories.CASING.getCategory(ResourceBundleTools.getMessageBundle(this)));
+        rm.setSpecificRuleId(rm.getRule().getId().replace("ORTHOGRAPHY", "CASING"));
+        //ruleMatch.getRule().setTags(Arrays.asList(Tag.picky));
       }
-      newRuleMatches.add(rm);
     }
-    return newRuleMatches;
-  }
-
-  public List<RuleMatch> processOrthographyToCasing(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
-    List<RuleMatch> results = new ArrayList<>();
-    for (RuleMatch ruleMatch : ruleMatches) {
-      List<String> suggestions = ruleMatch.getSuggestedReplacements();
-      if (suggestions.size()==1 && ruleMatch.getRule().getId().startsWith("AI_FR_GGEC")) {
-        String suggestion = suggestions.get(0);
-        ruleMatch.setOriginalErrorStr();
-        // the suggestion only changes the casing
-        if (suggestion.equalsIgnoreCase(ruleMatch.getOriginalErrorStr())) {
-          ruleMatch.setMessage("Un usage différent des majuscules et des minuscules est recommandé.");
-          ruleMatch.setShortMessage("Majuscules et minuscules");
-          ruleMatch.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
-          ruleMatch.getRule().setCategory(Categories.CASING.getCategory(ResourceBundleTools.getMessageBundle(this)));
-          ruleMatch.setSpecificRuleId(ruleMatch.getRule().getId().replace("ORTHOGRAPHY", "CASING"));
-          //ruleMatch.getRule().setTags(Arrays.asList(Tag.picky));
+    if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("MISSING_PRONOUN_LAPOSTROPHE")) {
+      if (rm.getFromPos() >= 3) {
+        String substring = rm.getSentence().getText().substring(rm.getFromPos() - 3, rm.getToPos());
+        if (substring.equalsIgnoreCase("si on")) {
+          rm.setSpecificRuleId("AI_FR_GGEC_SI_LON");
+          rm.getRule().setTags(Arrays.asList(Tag.picky));
         }
       }
-      results.add(ruleMatch);
     }
-    return results;
+    if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("REPLACEMENT_PUNCTUATION_QUOTE"
+    )) {
+      rm.setSpecificRuleId("AI_FR_GGEC_QUOTES");
+      rm.getRule().setTags(Arrays.asList(Tag.picky));
+      rm.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
+    }
+    // if the typographical apostrophe rule is enabled, use the typographical apostrophe in suggestons
+    if (enabledRules.contains("APOS_TYP")) {
+      List<String> newReplacements = new ArrayList<>();
+      for (String s : rm.getSuggestedReplacements()) {
+        if (s.length() > 1) {
+          s = s.replace('\'', '’');
+        }
+        newReplacements.add(s);
+      }
+      rm.setSuggestedReplacements(newReplacements);
+    }
+    return rm;
   }
 
 }
