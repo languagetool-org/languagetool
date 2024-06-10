@@ -192,6 +192,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern WHATSAPP = compile("[Ww]hatsapp");
   private static final Pattern JETLAGGED = compile("jetlagged");
   private static final Pattern LIKELYHOOD = compile("[Ll]ikelyhood");
+  private static final Pattern UNECESSARY = compile("[Uu]necessary");
   private static final Pattern HUBSPOT = compile("[Hh]ubspot");
   private static final Pattern URL = compile("[Uu]rl");
   private static final Pattern TV = compile("tv");
@@ -1535,6 +1536,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (WHATSAPP.matcher(word).matches()) return topMatch("WhatsApp");
     if (JETLAGGED.matcher(word).matches()) return topMatch("jet-lagged");
     if (LIKELYHOOD.matcher(word).matches()) return topMatch(word.replaceFirst("ikelyhood", "ikelihood"));
+    if (UNECESSARY.matcher(word).matches()) return topMatch(word.replaceFirst("necessary", "nnecessary"));
     if (TV.matcher(word).matches()) {
       List<SuggestedReplacement> l = new ArrayList<>();
       l.add(new SuggestedReplacement("TV"));
