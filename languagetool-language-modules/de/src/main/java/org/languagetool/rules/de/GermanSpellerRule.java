@@ -142,6 +142,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("vorbreiten", w -> Arrays.asList("vorbereiten", "verbreiten"));
+    put("Hungen", w -> Arrays.asList("Hunger", "Hungern"));
     put("Topfen", "Tropfen");
     put("frägst", "fragst");
     put("sähte", "säte");
