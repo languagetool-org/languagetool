@@ -355,7 +355,7 @@ public class Catalan extends Language {
         if (errorStr.length() > 2 && errorStr.endsWith("'") && !newReplStr.endsWith("'") && !newReplStr.endsWith("’")) {
           newReplStr = newReplStr + " ";
         }
-        if (enabledRules.contains("EXIGEIX_ACCENTUACIO_GENERAL")) {
+        if (!newReplStr.equalsIgnoreCase("després") && enabledRules.contains("EXIGEIX_ACCENTUACIO_GENERAL")) {
           if (newReplStr.contains("é") && suggestedReplacements.contains(newReplStr.replace("é", "è"))) {
             continue;
           }
