@@ -171,7 +171,7 @@ class LORemoteLanguageTool {
           configBuilder.enabledRuleIds(tmpEnabled.toArray(new String[0]));
           configBuilder.enabledOnly();
         }
-        configBuilder.mode("allButTextLevelOnly");
+        configBuilder.mode("paragraphLevelOnly");
       }
     }
     configBuilder.level("default");
