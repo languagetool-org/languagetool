@@ -342,67 +342,61 @@ public class Catalan extends Language {
   }
   
   private static final Pattern CA_OLD_DIACRITICS = compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  
-  @Override
-  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
-    List<RuleMatch> newRuleMatches = new ArrayList<>();
-    for (RuleMatch rm : ruleMatches) {
-      String errorStr = rm.getOriginalErrorStr();
-      List<String> suggestedReplacements = rm.getSuggestedReplacements();
-      List<SuggestedReplacement> newReplacements = new ArrayList<>();
-      for (String suggestedReplacement : suggestedReplacements) {
-        String newReplStr = suggestedReplacement;
-        if (errorStr.length() > 2 && errorStr.endsWith("'") && !newReplStr.endsWith("'") && !newReplStr.endsWith("’")) {
-          newReplStr = newReplStr + " ";
+
+  private RuleMatch adjustCatalanMatch(RuleMatch ruleMatch, Set<String> enabledRules) {
+    String errorStr = ruleMatch.getOriginalErrorStr();
+    List<String> suggestedReplacements = ruleMatch.getSuggestedReplacements();
+    List<SuggestedReplacement> newReplacements = new ArrayList<>();
+    for (String suggestedReplacement : suggestedReplacements) {
+      String newReplStr = suggestedReplacement;
+      if (errorStr.length() > 2 && errorStr.endsWith("'") && !newReplStr.endsWith("'") && !newReplStr.endsWith("’")) {
+        newReplStr = newReplStr + " ";
+      }
+      if (!newReplStr.equalsIgnoreCase("després") && enabledRules.contains("EXIGEIX_ACCENTUACIO_GENERAL")) {
+        if (newReplStr.contains("é") && suggestedReplacements.contains(newReplStr.replace("é", "è"))) {
+          continue;
         }
-        if (!newReplStr.equalsIgnoreCase("després") && enabledRules.contains("EXIGEIX_ACCENTUACIO_GENERAL")) {
-          if (newReplStr.contains("é") && suggestedReplacements.contains(newReplStr.replace("é", "è"))) {
-            continue;
-          }
-          if (newReplStr.contains("É") && suggestedReplacements.contains(newReplStr.replace("É", "È"))) {
-            continue;
-          }
+        if (newReplStr.contains("É") && suggestedReplacements.contains(newReplStr.replace("É", "È"))) {
+          continue;
         }
-        else if (enabledRules.contains("EXIGEIX_ACCENTUACIO_VALENCIANA")) {
-          if (newReplStr.contains("è") && suggestedReplacements.contains(newReplStr.replace("è", "é"))) {
-            continue;
-          }
-          if (newReplStr.contains("È") && suggestedReplacements.contains(newReplStr.replace("È", "É"))) {
-            continue;
-          }
+      } else if (enabledRules.contains("EXIGEIX_ACCENTUACIO_VALENCIANA")) {
+        if (newReplStr.contains("è") && suggestedReplacements.contains(newReplStr.replace("è", "é"))) {
+          continue;
         }
-        if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && newReplStr.length() > 1) {
-          newReplStr = newReplStr.replace("'", "’");
-        }
-        if (enabledRules.contains("EXIGEIX_POSSESSIUS_U") && newReplStr.length() > 3) {
-          Matcher m = POSSESSIUS_v.matcher(newReplStr);
-          newReplStr = m.replaceAll("$1u$2");
-          Matcher m2 = POSSESSIUS_V.matcher(newReplStr);
-          newReplStr = m2.replaceAll("$1U$2");
-          newReplStr = newReplStr.replace("feina", "faena");
-          newReplStr = newReplStr.replace("feiner", "faener");
-          newReplStr = newReplStr.replace("feinera", "faenera");
-        }
-        // s = adaptContractionsApostrophes(s);
-        Matcher m5 = CA_OLD_DIACRITICS.matcher(newReplStr);
-        if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m5.matches()) {
-          SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);
-          newSuggestedReplacement.setReplacement(removeOldDiacritics(newReplStr));
-          if (!newReplacements.contains(newSuggestedReplacement)) {
-            newReplacements.add(newSuggestedReplacement);
-          }
-        } else {
-          SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);
-          newSuggestedReplacement.setReplacement(newReplStr);
-          if (!newReplacements.contains(newSuggestedReplacement)) {
-            newReplacements.add(newSuggestedReplacement);
-          }
+        if (newReplStr.contains("È") && suggestedReplacements.contains(newReplStr.replace("È", "É"))) {
+          continue;
         }
       }
-      RuleMatch newMatch = new RuleMatch(rm, newReplacements);
-      newRuleMatches.add(newMatch);
+      if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && newReplStr.length() > 1) {
+        newReplStr = newReplStr.replace("'", "’");
+      }
+      if (enabledRules.contains("EXIGEIX_POSSESSIUS_U") && newReplStr.length() > 3) {
+        Matcher m = POSSESSIUS_v.matcher(newReplStr);
+        newReplStr = m.replaceAll("$1u$2");
+        Matcher m2 = POSSESSIUS_V.matcher(newReplStr);
+        newReplStr = m2.replaceAll("$1U$2");
+        newReplStr = newReplStr.replace("feina", "faena");
+        newReplStr = newReplStr.replace("feiner", "faener");
+        newReplStr = newReplStr.replace("feinera", "faenera");
+      }
+      // s = adaptContractionsApostrophes(s);
+      Matcher m5 = CA_OLD_DIACRITICS.matcher(newReplStr);
+      if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m5.matches()) {
+        SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);
+        newSuggestedReplacement.setReplacement(removeOldDiacritics(newReplStr));
+        if (!newReplacements.contains(newSuggestedReplacement)) {
+          newReplacements.add(newSuggestedReplacement);
+        }
+      } else {
+        SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);
+        newSuggestedReplacement.setReplacement(newReplStr);
+        if (!newReplacements.contains(newSuggestedReplacement)) {
+          newReplacements.add(newSuggestedReplacement);
+        }
+      }
     }
-    return newRuleMatches;
+    RuleMatch newRuleMatch = new RuleMatch(ruleMatch, newReplacements);
+    return newRuleMatch;
   }
   
   private String removeOldDiacritics(String s) {
@@ -499,7 +493,7 @@ public class Catalan extends Language {
   }
 
   @Override
-  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+  public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
     List<RuleMatch> results = new ArrayList<>();
     for (int i=0; i<ruleMatches.size(); i++) {
       RuleMatch ruleMatch = ruleMatches.get(i);
@@ -517,7 +511,7 @@ public class Catalan extends Language {
         ruleMatches.get(i-1).getRule().getId().equals("FALTA_ELEMENT_ENTRE_VERBS")) {
       continue;
       }
-      results.add(ruleMatch);
+      results.add(adjustCatalanMatch(ruleMatch, enabledRules));
     }
     return results;
   }

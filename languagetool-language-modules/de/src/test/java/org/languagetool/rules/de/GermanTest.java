@@ -160,7 +160,7 @@ public class GermanTest extends LanguageSpecificTest {
     ruleMatches.add(ruleMatch2);
 
     // Process the rule matches
-    List<RuleMatch> processedMatches = lang.mergeSuggestions(ruleMatches, null, null);
+    List<RuleMatch> processedMatches = lang.filterRuleMatches(ruleMatches, null, null);
 
     // Asserts
     assertEquals("absolute sich", processedMatches.get(0).getSuggestedReplacements().get(0));

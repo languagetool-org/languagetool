@@ -986,15 +986,7 @@ public abstract class Language {
   public boolean hasMinMatchesRules() {
     return false;
   }
-  
-  /** 
-   * @since 5.6 
-   * Adjust suggestions depending on the enabled rules
-   */
-  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
-	  return ruleMatches;
-  }
-  
+
   /**
    * @since 6.0 
    * Adjust suggestion 
@@ -1019,7 +1011,7 @@ public abstract class Language {
    * This function is called by JLanguageTool before CleanOverlappingFilter removes overlapping ruleMatches
    * @return filtered ruleMatches
    */
-  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+  public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
     return ruleMatches;
   }
 
