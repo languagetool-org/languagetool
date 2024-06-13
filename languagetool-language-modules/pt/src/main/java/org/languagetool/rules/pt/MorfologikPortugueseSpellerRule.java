@@ -314,18 +314,18 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
                                         List<RuleMatch> ruleMatchesSoFar, int idx,
                                         AnalyzedTokenReadings[] tokens) throws IOException {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
-    if (englishSpeller != null && tokens[idx].hasPosTag("_english_ignore_")) {
-      if (englishSpeller.isMisspelled(word)) {
-        List<String> englishSuggestions = englishSpeller.getSpellingSuggestions(word);
-        String msg = "Este parece ser um termo em inglês. Se for o caso, há um erro de ortografia.";
-        RuleMatch match = ruleMatches.get(0);
-        match.setSuggestedReplacements(englishSuggestions);
-        match.setMessage(msg);
-        return Collections.singletonList(match);
-      }
-      return Collections.emptyList();
-    }
     if (!ruleMatches.isEmpty()) {
+      if (englishSpeller != null && tokens[idx].hasPosTag("_english_ignore_")) {
+        if (!StringTools.startsWithUppercase(word) && englishSpeller.isMisspelled(word)) {
+          List<String> englishSuggestions = englishSpeller.getSpellingSuggestions(word);
+          String msg = "Este parece ser um termo em inglês. Se for o caso, há um erro de ortografia.";
+          RuleMatch match = ruleMatches.get(0);
+          match.setSuggestedReplacements(englishSuggestions);
+          match.setMessage(msg);
+          return Collections.singletonList(match);
+        }
+        return Collections.emptyList();
+      }
       if (isValidCliticVerb(word)) {
         ruleMatches = Collections.emptyList();
       }
