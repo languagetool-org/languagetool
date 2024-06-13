@@ -134,7 +134,6 @@ public class Portuguese extends Language implements AutoCloseable {
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages, this, userConfig),
             new PortugueseColourHyphenationRule(messages, this, userConfig),
-            new PortugueseOrthographyReplaceRule(messages, this),
             new PortugueseReplaceRule(messages, this),
             new PortugueseBarbarismsRule(messages, "/pt/barbarisms.txt", this),
             //new PortugueseArchaismsRule(messages, "/pt/archaisms-pt.txt"),   // see https://github.com/languagetool-org/languagetool/issues/3095
@@ -289,23 +288,17 @@ public class Portuguese extends Language implements AutoCloseable {
   
   @Override
   protected int getPriorityForId(String id) {
-    // generic spelling rule
     if (id.startsWith("MORFOLOGIK_RULE")) {
       return -50;
     }
-    // simple replace spelling rule
-    if (id.startsWith("PT_SIMPLE_REPLACE_ORTHOGRAPHY")) {
-      return -49;
-    }
-    // AI spelling rule
     if (id.startsWith("AI_PT_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL")) {
-      return -48;
-    }
-    if (id.startsWith("PT_MULTITOKEN_SPELLING")) {
-      return -48;
+      return -49;
     }
     if (id.startsWith("AI_PT_GGEC_REPLACEMENT_OTHER")) {
       return -4;
+    }
+    if (id.startsWith("PT_MULTITOKEN_SPELLING")) {
+      return -49;
     }
     // enclitic diacritics always take precedence over pronoun placement
     if (id.startsWith("ACENTUAÇÃO_VOGAL_ÊNCLISE")) {
