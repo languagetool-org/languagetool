@@ -1074,12 +1074,10 @@ public class JLanguageTool {
 
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
     // no sorting: SameRuleGroupFilter sorts rule matches already
-    ruleMatches = new LanguageDependentMergeSuggestionFilter(language, rules).filter(ruleMatches, annotatedText);
+    ruleMatches = new LanguageDependentRuleMatchFilter(language, rules).filter(ruleMatches, annotatedText);
     if (cleanOverlappingMatches) {
       ruleMatches = new CleanOverlappingFilter(language, userConfig.getHidePremiumMatches()).filter(ruleMatches);
     }
-    ruleMatches = new LanguageDependentFilter(language, rules).filter(ruleMatches);
-
     return applyCustomFilters(ruleMatches, annotatedText);
   }
 

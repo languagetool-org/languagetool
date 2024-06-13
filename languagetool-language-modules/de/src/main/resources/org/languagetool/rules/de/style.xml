@@ -225,6 +225,82 @@ USA
             </rule>
         </rulegroup>-->
 
+        <rulegroup id="TWITTER_X" name="Twitter (X)" tags="picky">
+            <short>Veralteter Name</short>
+            <antipattern>
+                <token skip="-1">twitter</token>
+                <token regexp="yes">x|𝕏|.*tweet.*|x-.*|.*x\.com</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">x|𝕏|.*tweet.*|x-.*|.*x\.com</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token>twitter</token>
+                <token regexp="yes">[_.]</token>
+                <token regexp="yes" spacebefore="no">.*[a-z].*</token>
+            </antipattern>
+            <antipattern>
+                <token>#</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">gründet.*</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token>twitter</token>
+                <token regexp="yes">gegründet.*</token>
+            </antipattern>
+            <antipattern>
+                <token>bekannt</token>
+                <token>als</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">ehemals|früher</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token>ich</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token>twitter</token>
+                <token>ich</token>
+            </antipattern>
+            <antipattern>
+                <token>beim</token>
+                <token case_sensitive="yes">Twitter</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">Twitter</token>
+                    </marker>
+                </pattern>
+                <message>Diese Online-Plattform wurde 2023 umbenannt zu "X".</message>
+                <suggestion>X</suggestion>
+                <suggestion>𝕏</suggestion>
+                <suggestion>X (ehemals Twitter)</suggestion>
+                <example correction="X|𝕏|X (ehemals Twitter)">Ich habe deine Nachricht auf <marker>Twitter</marker> gesehen.</example>
+                <example>Ich habe deine Nachrichte bei Twitter (auch bekannt als 𝕏) gesehen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|auf|von</token>
+                    <marker>
+                        <token>twitter</token>
+                    </marker>
+                </pattern>
+                <message>Diese Online-Plattform wurde 2023 umbenannt zu "X".</message>
+                <suggestion>X</suggestion>
+                <suggestion>𝕏</suggestion>
+                <suggestion>X (ehemals Twitter)</suggestion>
+                <example correction="X|𝕏|X (ehemals Twitter)">Ich habe deine Nachricht auf <marker>Twitter</marker> gesehen.</example>
+                <example>Ich habe deine Nachrichte bei Twitter (auch bekannt als 𝕏) gesehen.</example>
+            </rule>
+        </rulegroup>
         <rule id="MFG" name="'MfG (Mit freundlichen Grüßen)' (abgekürzte Schlussformeln)">
             <pattern case_sensitive="yes">
                 <token postag="SENT_START"/>

@@ -142,6 +142,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("vorbreiten", w -> Arrays.asList("vorbereiten", "verbreiten"));
+    put("Hungen", w -> Arrays.asList("Hunger", "Hungern"));
     put("Topfen", "Tropfen");
     put("frägst", "fragst");
     put("sähte", "säte");
@@ -170,6 +171,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Kruks", "Krux");
     put("Filterbubble", "Filterblase");
     put("Filterbubbles", "Filterblasen");
+    put("Telefones", "Telefons");
+    putRepl(".+telefones", "telefones", "telefons");
+    putRepl(".+portrait.*", "portrait", "porträt");
+    putRepl(".+tips", "tip", "tipp");
+    putRepl("Hifi-.+", "Hifi", "HiFi");
     putRepl("Analgen.*", "Analgen", "Anlagen");
     putRepl("wiedersteh(en|st|t)", "wieder", "wider");
     putRepl("wiederstan(d|den|dest)", "wieder", "wider");
