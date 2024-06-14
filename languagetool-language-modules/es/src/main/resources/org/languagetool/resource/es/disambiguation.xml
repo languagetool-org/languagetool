@@ -4814,6 +4814,17 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="V.*"/>
         </rule>
     </rulegroup>
+    <rule id="FUERA_DE_JUEGO" name="fuera de juego">
+        <pattern>
+            <token postag="D..MP." postag_regexp="yes"/>
+            <marker>
+                <token>fuera</token>
+            </marker>
+            <token>de</token>
+            <token>juego</token>
+        </pattern>
+        <disambig action="replace" postag="NCMP000"/>
+    </rule>
     <rule id="NOMBRE_PROPIOS" name="nombres propios">
         <antipattern>
             <token postag="A.*|NC.*" postag_regexp="yes" regexp="yes">\p{Lu}+<exception>IRA</exception></token>

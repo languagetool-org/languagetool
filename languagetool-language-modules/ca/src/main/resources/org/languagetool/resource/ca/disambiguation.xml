@@ -6655,6 +6655,33 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"/>
     </rule>
+    <rulegroup id="fora_de_joc" name="fora de joc">
+        <rule>
+            <pattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <marker>
+                    <token>fora</token>
+                </marker>
+                <token>de</token>
+                <token>joc</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="fora" pos="NCMS000"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>fores</token>
+                </marker>
+                <token>de</token>
+                <token>joc</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="fora" pos="NCMP000"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rule id="articular" name="articular (infinitiu o adj)">
         <pattern>
             <token postag="V.*" postag_regexp="yes"/>
