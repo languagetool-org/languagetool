@@ -395,15 +395,20 @@ public class TokenAgreementNumrNounRule extends Rule {
           else if( DVA_3_4_PATTERN.matcher(numrToken).matches() ) {
             masterInflections.removeAll(pVnazZna);
             masterInflections.add(new Inflection("p", "v_naz", null));
-            if( PosTagHelper.hasPosTag(nounTokenReadings, Pattern.compile("(noun:inanim:p:v_zna).*")) ) {
+            if( PosTagHelper.hasPosTag(nounTokenReadings, Pattern.compile("noun:inanim:p:v_zna.*")) ) {
               masterInflections.add(new Inflection("p", "v_zna", null));
             }
-            // три цікавих міста, but not два додаткових років
-            else if( i < tokens.length - 1
-                && PosTagHelper.hasPosTag(tokens[i], Pattern.compile("(adj:p:v_zna).*"))
-                && PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("(noun:inanim:p:v_zna).*")) ) {
+            else if( PosTagHelper.hasPosTag(nounTokenReadings, Pattern.compile("adj:p:v_zna.*"))
+                && ( i == tokens.length -1 
+                  || ! PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("(noun:.*p:v_rod).*")) ) ) {
               masterInflections.add(new Inflection("p", "v_zna", null));
             }
+            // три цікавих міста, but not два додаткові років
+//            else if( i < tokens.length - 1
+//                && PosTagHelper.hasPosTag(tokens[i], Pattern.compile("(adj:p:v_zna).*"))
+//                && PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("(noun:inanim:p:v_zna).*")) ) {
+//              masterInflections.add(new Inflection("p", "v_zna", null));
+//            }
             
             if( DVI_PATTERN.matcher(numrToken).matches() ) {
               String vidm = masterInflections.size() == 2 ? "(naz|zna)" : "naz";
