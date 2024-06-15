@@ -19,6 +19,8 @@
 
 package org.languagetool.tagging.disambiguation.uk;
 
+import static java.util.regex.Pattern.compile;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,8 +45,6 @@ import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.uk.PosTagHelper;
-
-import static java.util.regex.Pattern.compile;
 
 /**
  * Hybrid chunker-disambiguator for Ukrainian.
@@ -108,7 +108,31 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     disambiguateSt(input);
     disambiguatePronPos(input);
     retagPulralProp(input);
+    removeVerbImpr(input);
     return input;
+  }
+
+  private void removeVerbImpr(AnalyzedSentence input) {
+    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
+    for (int i = 2; i < tokens.length; i++) {
+      List<AnalyzedToken> analyzedTokens = tokens[i].getReadings();
+      
+      if( PosTagHelper.hasPosTag(tokens[i], Pattern.compile("verb.*impr.*"))
+          && PosTagHelper.hasPosTag(tokens[i], Pattern.compile("noun.*"))
+          && PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile("adj.*")) ) {
+
+        List<InflectionHelper.Inflection> masterInflections = InflectionHelper.getAdjInflections(tokens[i-1].getReadings());
+        List<InflectionHelper.Inflection> slaveInflections = InflectionHelper.getNounInflections(tokens[i].getReadings(), Pattern.compile("v_zna:var"));
+
+        if( ! Collections.disjoint(masterInflections, slaveInflections) ) {
+        
+          List<AnalyzedToken> verbReadings = PosTagHelper.filter(analyzedTokens, Pattern.compile("verb.*impr.*"));
+          for(AnalyzedToken analyzedToken: verbReadings) {
+            tokens[i].removeReading(analyzedToken, "not_an_imperative_2");
+          }
+        }
+      }
+    }
   }
 
   private void retagFemNames(AnalyzedSentence input) {

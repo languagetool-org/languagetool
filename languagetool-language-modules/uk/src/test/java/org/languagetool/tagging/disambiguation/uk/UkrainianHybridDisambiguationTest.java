@@ -642,6 +642,15 @@ public class UkrainianHybridDisambiguationTest {
 //        + "/[null]null Рима/[Рим]noun:inanim:m:v_rod:prop:geo:xp1|Рима/[рим]noun:inanim:m:v_rod|Рима/[рима]noun:inanim:f:v_naz",
 //        tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
+  
+  @Test
+  public void testVerbImpr() throws IOException {
+    TestTools.myAssert("подальші суди",
+      "/[null]SENT_START"
+      + " подальші/[подальший]adj:p:v_kly|подальші/[подальший]adj:p:v_naz|подальші/[подальший]adj:p:v_zna:rinanim"
+      + "  /[null]null суди/[суд]noun:inanim:p:v_naz|суди/[суд]noun:inanim:p:v_zna",
+      tokenizer, sentenceTokenizer, tagger, disambiguator);
+  }
 }
 
 

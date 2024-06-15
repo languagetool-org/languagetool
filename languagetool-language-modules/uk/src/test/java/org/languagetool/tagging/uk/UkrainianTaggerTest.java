@@ -492,7 +492,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Джеймса-Веніка", "Джеймса-Веніка/[Джеймса-Веніка]noninfl:prop:lname", tokenizer, tagger);
     TestTools.myAssert("БАЛОГИ-КОЛЕСНІКОВА", "БАЛОГИ-КОЛЕСНІКОВА/[Балоги-Колеснікова]noninfl:prop:lname", tokenizer, tagger);
     TestTools.myAssert("Івана-Павла", "Івана-Павла/[Іван-Павло]noun:anim:m:v_rod:prop:fname|Івана-Павла/[Іван-Павло]noun:anim:m:v_zna:prop:fname", tokenizer, tagger);
-    
+
     // handled by different logic
 //    assertNotTagged("напів-люкс");
     assertNotTagged("Малишко-це");
