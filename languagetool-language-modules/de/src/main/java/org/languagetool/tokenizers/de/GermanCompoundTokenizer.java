@@ -177,8 +177,11 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Fiberglas", asList("Fiberglas"));
     wordSplitter.addException("Globus", asList("Globus"));
     wordSplitter.addException("Göttinnen", asList("Göttinnen"));
+    wordSplitter.addException("Illustration", asList("Illustration"));
     wordSplitter.addException("Muttertag", asList("Muttertag"));
     wordSplitter.addException("Muttertags", asList("Muttertags"));
+    wordSplitter.addException("Patriarchen", asList("Patriarchen"));
+    wordSplitter.addException("Phosgen", asList("Phosgen"));
     wordSplitter.addException("Vatertag", asList("Vatertag"));
     wordSplitter.addException("Vatertags", asList("Vatertags"));
     wordSplitter.addException("Vaterland", asList("Vaterland"));
