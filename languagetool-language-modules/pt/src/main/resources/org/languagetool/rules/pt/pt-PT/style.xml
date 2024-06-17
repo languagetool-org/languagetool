@@ -141,18 +141,22 @@ USA
     </rule>
 
 
-    <rule id='PRAZER_EM_CONVIDAR' name="[pt-PT] 'prazer' em convidar → 'gosto'" tone_tags="formal" default="temp_off">
+    <rule id='PRAZER_GOSTO' name="[pt-PT] 'prazer' em → 'gosto'" tone_tags="formal" default="temp_off">
         <pattern>
+            <token skip='4' regexp='yes' inflected='yes'>ser|ter</token>
             <marker>
-                <token>prazer</token>
+                <token>prazer
+                    <exception scope='previous' postag_regexp='yes' postag='V.+'/>
+                </token>
             </marker>
-            <token skip='4' regexp='yes'>em|que</token>
-            <token inflected='yes'>convidar</token>
+            <token regexp='yes'>de|em|que</token>
         </pattern>
-        <message>&informal_msg;</message>
+        <message>Se não estiver relacionado com a prática de atividades prazerosas, use &quot;gosto&quot;.</message>
         <suggestion>gosto</suggestion>
         <example correction="gosto">Terei o maior <marker>prazer</marker> em convidá-los para a festa.</example>
         <example correction="gosto">É com enorme <marker>prazer</marker> que os convido para a festa.</example>
+        <example correction="gosto">Terei o <marker>prazer</marker> de revê-lo?</example>
+        <example>Será que é possível uma mulher ter prazer em sentir-se submissa sexualmente?</example>
     </rule>
 
 

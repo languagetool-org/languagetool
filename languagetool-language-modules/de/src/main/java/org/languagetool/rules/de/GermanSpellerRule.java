@@ -2982,6 +2982,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         } else {
           return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
         }
+      case "Bohème": return topMatch("Boheme");
       case "do": return topMatch("so");
       case "Art-Nr": return topMatch("Art.-Nr.");
       case "werrden": return topMatch("werden");
