@@ -82,14 +82,11 @@ public class Configuration {
   static final boolean DEFAULT_SAVE_LO_CACHE = true;
   static final boolean DEFAULT_USE_AI_SUPPORT = false;
   static final boolean DEFAULT_AI_AUTO_CORRECT = false;
-  static final boolean DEFAULT_AI_OVERRIDE_PARAGRAPH = false;
+  static final boolean DEFAULT_AI_SHOW_STYLISTIC_CHANGES = false;
   
-  // vvv Only  for test  vvv
-  static final String DEFAULT_AI_MODEL = "gpt-35-turbo";
-  static final String DEFAULT_AI_URL = "https://aiforcause.deepnight.tech/openai/";
-  static final String DEFAULT_AI_APIKEY = "Bearer blah_blah";
-  // ^^^ Only  for test  ^^^
-  
+  static final String DEFAULT_AI_MODEL = "gpt-4";
+  static final String DEFAULT_AI_URL = "http://localhost:8080/v1/chat/completions/";
+  static final String DEFAULT_AI_APIKEY = "1234567";
 
   static final Color STYLE_COLOR = new Color(0, 175, 0);
 
@@ -152,7 +149,7 @@ public class Configuration {
   private static final String AI_MODEL_KEY = "aiModel";
   private static final String AI_USE_AI_SUPPORT_KEY = "useAiSupport";
   private static final String AI_AUTO_CORRECT_KEY = "aiAutoCorrect";
-  private static final String AI_OVERRIDE_PARAGRAPH_KEY = "aiOverrideParagraph";
+  private static final String AI_SHOW_STYLISTIC_CHANGES_KEY = "aiShowStylisticChanges";
 
   private static final String DELIMITER = ",";
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
@@ -239,7 +236,7 @@ public class Configuration {
   private String aiModel = DEFAULT_AI_MODEL;
   private boolean useAiSupport = DEFAULT_USE_AI_SUPPORT;
   private boolean aiAutoCorrect = DEFAULT_AI_AUTO_CORRECT;
-  private boolean aiOverrideParagraph = DEFAULT_AI_OVERRIDE_PARAGRAPH;
+  private boolean aiShowStylisticChanges = DEFAULT_AI_SHOW_STYLISTIC_CHANGES;
   
   /**
    * Uses the configuration file from the default location.
@@ -328,7 +325,7 @@ public class Configuration {
     aiModel = DEFAULT_AI_MODEL;
     useAiSupport = DEFAULT_USE_AI_SUPPORT;
     aiAutoCorrect = DEFAULT_AI_AUTO_CORRECT;
-    aiOverrideParagraph = DEFAULT_AI_OVERRIDE_PARAGRAPH;
+    aiShowStylisticChanges = DEFAULT_AI_SHOW_STYLISTIC_CHANGES;
     externalRuleDirectory = null;
     lookAndFeelName = null;
     currentProfile = null;
@@ -401,7 +398,7 @@ public class Configuration {
     this.aiModel = configuration.aiModel;
     this.useAiSupport = configuration.useAiSupport;
     this.aiAutoCorrect = configuration.aiAutoCorrect;
-    this.aiOverrideParagraph = configuration.aiOverrideParagraph;
+    this.aiShowStylisticChanges = configuration.aiShowStylisticChanges;
     
     this.disabledRuleIds.clear();
     this.disabledRuleIds.addAll(configuration.disabledRuleIds);
@@ -631,7 +628,7 @@ public class Configuration {
     return useAiSupport;
   }
 
-  public void getUseAiSupport(boolean useAiSupport) {
+  public void setUseAiSupport(boolean useAiSupport) {
     this.useAiSupport = useAiSupport;
   }
 
@@ -643,12 +640,12 @@ public class Configuration {
     this.aiAutoCorrect = aiAutoCorrect;
   }
 
-  public boolean aiOverrideParagraph() {
-    return aiOverrideParagraph;
+  public boolean aiShowStylisticChanges() {
+    return aiShowStylisticChanges;
   }
 
-  public void setAiOverrideParagraph(boolean aiOverrideParagraph) {
-    this.aiOverrideParagraph = aiOverrideParagraph;
+  public void setAiShowStylisticChanges(boolean aiShowStylisticChanges) {
+    this.aiShowStylisticChanges = aiShowStylisticChanges;
   }
 
   public String getRemoteApiKey() {
@@ -1540,9 +1537,9 @@ public class Configuration {
       aiAutoCorrect = Boolean.parseBoolean(aiString);
     }
     
-    aiString = (String) props.get(prefix + AI_OVERRIDE_PARAGRAPH_KEY);
+    aiString = (String) props.get(prefix + AI_SHOW_STYLISTIC_CHANGES_KEY);
     if (aiString != null) {
-      aiOverrideParagraph = Boolean.parseBoolean(aiString);
+      aiShowStylisticChanges = Boolean.parseBoolean(aiString);
     }
     
     
@@ -1784,7 +1781,7 @@ public class Configuration {
     allProfileKeys.add(AI_MODEL_KEY);
     allProfileKeys.add(AI_USE_AI_SUPPORT_KEY);
     allProfileKeys.add(AI_AUTO_CORRECT_KEY);
-    allProfileKeys.add(AI_OVERRIDE_PARAGRAPH_KEY);
+    allProfileKeys.add(AI_SHOW_STYLISTIC_CHANGES_KEY);
 
     allProfileLangKeys.add(DISABLED_RULES_KEY);
     allProfileLangKeys.add(ENABLED_RULES_KEY);
@@ -1931,8 +1928,8 @@ public class Configuration {
     if (aiAutoCorrect != DEFAULT_AI_AUTO_CORRECT) {
       props.setProperty(prefix + AI_AUTO_CORRECT_KEY, Boolean.toString(aiAutoCorrect));
     }
-    if (aiOverrideParagraph != DEFAULT_AI_OVERRIDE_PARAGRAPH) {
-      props.setProperty(prefix + AI_OVERRIDE_PARAGRAPH_KEY, Boolean.toString(aiOverrideParagraph));
+    if (this.aiShowStylisticChanges != DEFAULT_AI_SHOW_STYLISTIC_CHANGES) {
+      props.setProperty(prefix + AI_SHOW_STYLISTIC_CHANGES_KEY, Boolean.toString(aiShowStylisticChanges));
     }
     if (fontName != null) {
       props.setProperty(prefix + FONT_NAME_KEY, fontName);

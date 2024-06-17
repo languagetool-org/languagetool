@@ -18,23 +18,38 @@
  */
 package org.languagetool.openoffice.aisupport;
 
+import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
+
+import javax.imageio.ImageIO;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
+import org.languagetool.JLanguageTool;
 import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.MessageHandler;
+import org.languagetool.openoffice.MultiDocumentsHandler;
+import org.languagetool.openoffice.OfficeTools;
+
+import com.sun.star.lang.Locale;
 
 
 /**
@@ -44,17 +59,42 @@ import org.languagetool.openoffice.MessageHandler;
  */
 public class AiRemote {
   
-  boolean debugModeTm = true;
+  private static final ResourceBundle messages = JLanguageTool.getMessageBundle();
+  public final static String TRANSLATE_INSTRUCTION = "loAiTranslateInstruction";
+  public final static String CORRECT_INSTRUCTION = "loAiCorrectInstruction";
+  public final static String STYLE_INSTRUCTION = "loAiStyleInstruction";
+  public final static String EXPAND_INSTRUCTION = "loAiExpandInstruction";
+/*
+  public final static String CORRECT_INSTRUCTION = "Correct following text";
+  public final static String STYLE_INSTRUCTION = "Rephrase following text";
+  public final static String EXPAND_INSTRUCTION = "Expand following text";
+*/
+  private enum AiType { EDITS, COMPLETIONS, CHAT }
   
-  private String apiKey = "Bearer blah_blah";
-  private String model = "gpt-35-turbo";
-//  private String model = "gpt-4-turbo";
-  private String url = "https://aiforcause.deepnight.tech/openai/";
+  private final static Map<String, String> commands = new HashMap<>();
+  private static String lastLang = null;
+  
+  boolean debugModeTm = true;
+  boolean debugMode = true;
+  
+  private final String apiKey;
+  private final String model;
+  private final String url;
+  private final AiType aiType;
   
   public AiRemote(Configuration config) {
     apiKey = config.aiApiKey();
     model = config.aiModel();
     url = config.aiUrl();
+    if (url.endsWith("/edits/") || url.endsWith("/edits")) {
+      aiType = AiType.EDITS;
+    } else if (url.endsWith("/chat/completions/") || url.endsWith("/chat/completions")) {
+      aiType = AiType.CHAT;
+    } else if (url.endsWith("/completions/") || url.endsWith("/completions")) {
+      aiType = AiType.COMPLETIONS;
+    } else {
+      aiType = AiType.CHAT;
+    }
   }
   
   HttpURLConnection getConnection(byte[] postData, URL url) throws RuntimeException {
@@ -77,25 +117,52 @@ public class AiRemote {
     }
   }
 
-  public String answerQuestion(String question)  throws Throwable {
-    if (question == null) {
+  public String runInstruction(String instruction, String text, Locale locale, boolean onlyOneParagraph)  throws Throwable {
+    if (instruction == null || text == null) {
       return "";
     }
-    String text = question.trim();
+    text = text.trim();
     if (text.isEmpty()) {
+      return text;
+    }
+    instruction = instruction.trim();
+    if (instruction.isEmpty()) {
       return text;
     }
     long startTime = 0;
     if (debugModeTm) {
       startTime = System.currentTimeMillis();
-      MessageHandler.printToLogFile("Ask AI started");
+      MessageHandler.printToLogFile("Ask AI started! URL: " + url);
     }
-    text = text.replace("\n", "\r").replace("\"", "\\\"");
+    String langName = getLanguageName(locale);
+    String org = text;
+    text = text.replace("\n", "\r").replace("\r", " ").replace("\"", "\\\"");
     
-    String urlParameters = "{\"model\": \"" + model + "\", " 
-        + "\"response_format\": { \"type\": \"json_object\" }, \"messages\": [ { \"role\": \"user\", "
-        + "\"content\": \"" + text + "\" } ] }";
-    
+    String urlParameters;
+//    instruction = addLanguageName(instruction, locale);
+    if (aiType == AiType.CHAT) {
+      urlParameters = "{\"model\": \"" + model + "\", " 
+//          + "\"response_format\": { \"type\": \"json_object\" }, "
+          + "\"language\": \"" + langName + "\", "
+          + "\"messages\": [ { \"role\": \"user\", "
+          + "\"content\": \"" + instruction + ": {" + text + "}\" } ], "
+          + "\"seed\": 1, "
+          + "\"temperature\": 0.7}";
+    } else if (aiType == AiType.EDITS) {
+      urlParameters = "{\"model\": \"" + model + "\", " 
+//          + "\"response_format\": { \"type\": \"json_object\" },"
+          + "\"instruction\": \"" + instruction + "\","
+          + "\"input\": \"" + text + "\", "
+//          + "\"seed\": 1, "
+          + "\"temperature\": 0.7}";
+    } else {
+      urlParameters = "{\"model\": \"" + model + "\", " 
+//          + "\"response_format\": { \"type\": \"json_object\" },"
+          + "\"prompt\": \"" + instruction + ": {" + text + "}\", "
+//          + "\"seed\": 1, "
+          + "\"temperature\": 0.7}";
+    }
+
     byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
     
     URL checkUrl;
@@ -104,21 +171,24 @@ public class AiRemote {
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
     }
+    if (debugMode) {
+      MessageHandler.printToLogFile("AiRemote: answerQuestion: postData: " + urlParameters);
+    }
     HttpURLConnection conn = getConnection(postData, checkUrl);
     try {
       if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
         try (InputStream inputStream = conn.getInputStream()) {
-          text = readStream(inputStream, "utf-8");
-          text = parseJasonOutput(text);
-          if (text == null) {
+          String out = readStream(inputStream, "utf-8");
+          out = parseJasonOutput(out);
+          if (out == null) {
             return null;
           }
-          text = text.replace("\n", "\r").replace("\r\r", "\r").replace("\\\"", "\"");
+          out = filterOutput (out, org, onlyOneParagraph);
           if (debugModeTm) {
             long runTime = System.currentTimeMillis() - startTime;
             MessageHandler.printToLogFile("Time to generate Answer: " + runTime);
           }
-          return text;
+          return out;
         }
       } else {
         try (InputStream inputStream = conn.getErrorStream()) {
@@ -133,6 +203,33 @@ public class AiRemote {
     } finally {
       conn.disconnect();
     }
+  }
+  
+  private String removeSurroundingBrackets(String out, String org) {
+    if (out.startsWith("{") && out.endsWith("}")) {
+      if (!org.startsWith("{") || !org.endsWith("}")) {
+        return out.substring(1, out.length() - 1);
+      }
+    }
+    return out;
+  }
+  
+  private String filterOutput (String out, String org, boolean onlyOneParagraph) {
+    out = removeSurroundingBrackets(out, org);
+    out = out.replace("\n", "\r").replace("\r\r", "\r").replace("\\\"", "\"").trim();
+    if (onlyOneParagraph) {
+      String[] parts = out.split("\r");
+      out = parts[0].trim();
+      out = removeSurroundingBrackets(out, org);
+      if (out.contains(":") && !org.contains(":")) {
+        parts = out.split(":");
+        if (parts.length > 1) {
+          out = parts[1].trim();
+          out = removeSurroundingBrackets(out, org);
+        }
+      }
+    }
+    return out;
   }
   
   private String readStream(InputStream stream, String encoding) throws IOException {
@@ -158,11 +255,18 @@ public class AiRemote {
         MessageHandler.showMessage(error);
         return null;
       }
+      String content;
       JSONObject choice = choices.getJSONObject(0);
-      JSONObject message = choice.getJSONObject("message");
-      String content = message.getString("content");
-      MessageHandler.printToLogFile("text: " + text);
-      MessageHandler.printToLogFile("content: " + content);
+      if (aiType == AiType.CHAT) {
+        JSONObject message = choice.getJSONObject("message");
+        content = message.getString("content");
+      } else {
+        content = choice.getString("text");
+      }
+      if (debugMode) {
+        MessageHandler.printToLogFile("AiRemote: parseJasonOutput: text: " + text);
+        MessageHandler.printToLogFile("AiRemote: parseJasonOutput: content: " + content);
+      }
       try {
         JSONObject contentObject = new JSONObject(content);
         try {
@@ -171,14 +275,14 @@ public class AiRemote {
           int i = 0;
           for (String key : keySet) {
             if ( i == nLastObj) {
-              content = contentObject.getString(key);
+              content = getString(new JSONObject(contentObject.getString(key)));
               break;
             }
             i++;
           }
         } catch (Throwable t) {
           try {
-            content = contentObject.toString();
+            content = getString(contentObject);
           } catch (Throwable t1) {
             return content;
           }
@@ -190,8 +294,137 @@ public class AiRemote {
     } catch (Throwable t) {
       MessageHandler.showError(t);
       MessageHandler.showMessage(text);
+      return null;
+    }
+  }
+  
+  private String getString(JSONObject contentObject) {
+    try {
+      JSONObject subObject = new JSONObject(contentObject);
+      return subObject.toString();
+    } catch (Throwable t) {
+    }
+    return contentObject.toString();
+  }
+  
+  public static String getInstruction(String mess, Locale locale) {
+    if (locale == null || locale.Language == null || locale.Language.isEmpty()) {
+      locale = new Locale("en", "US", "");
+    }
+    MessageHandler.printToLogFile("Get instruction for mess: " + mess + ", locale.Language: " + locale.Language);
+    setCommands(locale);
+    String instruction = commands.get(mess);
+    if (instruction == null) {
+      MessageHandler.showMessage("getInstruction: Instruction == null");
+    }
+    return (instruction);
+//    ResourceBundle messages = JLanguageTool.getMessageBundle(MultiDocumentsHandler.getLanguage(locale));
+//    return messages.getString(mess);
+  }
+  
+  public static String getLanguageName(Locale locale) {
+    String lang = (locale == null || locale.Language == null || locale.Language.isEmpty()) ? "en" : locale.Language;
+    Locale langLocale = new Locale(lang, "", "");
+    return MultiDocumentsHandler.getLanguage(langLocale).getName();
+  }
+  
+  public static String addLanguageName(String instruction, Locale locale) {
+    String langName = getLanguageName(locale);
+    return instruction + " (language - " + langName + ")";
+  }
+  
+  /**
+   * Get Command file if exist - else default
+   */
+  private static String getCommandsFile(Locale locale) {
+    URL url = null;
+    try {
+      url = AiRemote.class.getResource("/commands/commands_" + locale.Language);
+      URI uri = new URI(url.getPath());
+      return uri.getPath();
+    } catch (Throwable e) {
+    }
+    if (url == null) {
+      try {
+        url = AiRemote.class.getResource("/commands/commands_en");
+        URI uri = new URI(url.getPath());
+        return uri.getPath();
+      } catch (Throwable e) {
+        MessageHandler.showError(e);
+      }
     }
     return null;
   }
   
+  /**
+   * Get Command file if exist - else default
+   */
+  private static InputStream getCommandsFileInputStream(Locale locale) {
+    URL url = null;
+    try {
+      return AiRemote.class.getResourceAsStream("/commands/commands_" + locale.Language);
+    } catch (Throwable e) {
+    }
+    if (url == null) {
+      try {
+        return AiRemote.class.getResourceAsStream("/commands/commands_en");
+      } catch (Throwable e) {
+        MessageHandler.showError(e);
+      }
+    }
+    return null;
+  }
+  
+  private static void setCommands(Locale locale) {
+    if (lastLang != null && lastLang.equals(locale.Language)) {
+      MessageHandler.printToLogFile("Last language: " + lastLang + ", locale.Language: " + locale.Language);
+      return;
+    }
+    lastLang = new String(locale.Language);
+/*
+    String fileName = getCommandsFile(locale);
+    if (fileName == null) {
+      MessageHandler.printToLogFile("commands file == null");
+      return;
+    }
+*/
+    InputStream input = getCommandsFileInputStream(locale);
+    if (input == null) {
+      MessageHandler.printToLogFile("commands file input == null");
+      return;
+    }
+    commands.clear();
+    BufferedReader in = null;
+//    MessageHandler.printToLogFile("commands file: " + fileName);
+    try {
+//      in = new BufferedReader(new FileReader(fileName));
+      in = new BufferedReader(new InputStreamReader(input));
+      String row = null;
+      while ((row = in.readLine()) != null) {
+        MessageHandler.printToLogFile("read row: " + row);
+        String splitted[] = row.split("=");
+        if (splitted.length == 2) {
+          MessageHandler.printToLogFile("add key: " + splitted[0] + ", command: " + splitted[1]);
+          commands.put(splitted[0].trim(), splitted[1].trim());
+        }
+      }
+    } catch (IOException e) {
+      MessageHandler.showError(e);
+    } finally {
+      if (in != null)
+        try {
+          in.close();
+        } catch (IOException e) {
+        }
+    }
+  }
+  
+/*  
+  public static String parseInstruction (String instruction, Locale locale) {
+    String lang = (locale == null || locale.Language == null || locale.Language.isEmpty()) ? "en" : locale.Language;
+    Locale langLocale = new Locale(lang, "", "");
+    String languageName = MultiDocumentsHandler.getLanguage(langLocale).getName();
+    return instruction.replace("{}", languageName);
+  }
+*/
 }

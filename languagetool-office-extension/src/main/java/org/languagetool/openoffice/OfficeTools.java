@@ -96,8 +96,9 @@ public class OfficeTools {
   public static final int PROOFINFO_UNKNOWN = 0;
   public static final int PROOFINFO_GET_PROOFRESULT = 1;
   public static final int PROOFINFO_MARK_PARAGRAPH = 2;
-  
-  public static final int NUMBER_TEXTLEVEL_CACHE = 5;     // Number of caches for matches of text level rules
+
+  public static final int NUMBER_TEXTLEVEL_CACHE = 4;     // Number of caches for matches of text level rules
+  public static final int NUMBER_CACHE = 5;               // Number of all caches
   public static final int CACHE_SINGLE_PARAGRAPH = 0;     // Cache for matches of sentences and single paragraph rules
   public static final int CACHE_N_PARAGRAPH = 1;          // Cache for matches of n paragraph rules
   public static final int CACHE_CHAPTER = 2;              // Cache for matches of chapter rules

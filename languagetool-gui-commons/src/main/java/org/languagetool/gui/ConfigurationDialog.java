@@ -2333,39 +2333,49 @@ public class ConfigurationDialog implements ActionListener {
       }
     });
     
+    JCheckBox showStylisticChangesBox = new JCheckBox(messages.getString("guiAiShowStylisticChanges"));
+    showStylisticChangesBox.setSelected(config.aiShowStylisticChanges());
+    showStylisticChangesBox.addItemListener(e -> {
+      config.setAiShowStylisticChanges(showStylisticChangesBox.isSelected());
+    });
+
     JCheckBox autoCorrectBox = new JCheckBox(messages.getString("guiAiAutoCorrect"));
     autoCorrectBox.setSelected(config.aiAutoCorrect());
     autoCorrectBox.addItemListener(e -> {
       config.setAiAutoCorrect(autoCorrectBox.isSelected());
-    });
-
-    JCheckBox overrideParagraphBox = new JCheckBox(messages.getString("guiAiOverrideParagraph"));
-    overrideParagraphBox.setSelected(config.aiOverrideParagraph());
-    overrideParagraphBox.addItemListener(e -> {
-      config.setAiOverrideParagraph(overrideParagraphBox.isSelected());
+      showStylisticChangesBox.setEnabled(autoCorrectBox.isSelected());
     });
 
     JCheckBox useAiSupportBox = new JCheckBox(messages.getString("guiUseAiSupport"));
     useAiSupportBox.setSelected(config.useAiSupport());
     useAiSupportBox.addItemListener(e -> {
-      config.setAiOverrideParagraph(useAiSupportBox.isSelected());
+      config.setUseAiSupport(useAiSupportBox.isSelected());
       aiUrlField.setEnabled(useAiSupportBox.isSelected());
       modelField.setEnabled(useAiSupportBox.isSelected());
       apiKeyField.setEnabled(useAiSupportBox.isSelected());
       autoCorrectBox.setEnabled(useAiSupportBox.isSelected());
-      overrideParagraphBox.setEnabled(useAiSupportBox.isSelected());
+      showStylisticChangesBox.setEnabled(useAiSupportBox.isSelected() && autoCorrectBox.isSelected());
     });
     
     aiUrlField.setEnabled(config.useAiSupport());
     modelField.setEnabled(config.useAiSupport());
     apiKeyField.setEnabled(config.useAiSupport());
     autoCorrectBox.setEnabled(config.useAiSupport());
-    overrideParagraphBox.setEnabled(config.useAiSupport());
+    showStylisticChangesBox.setEnabled(config.useAiSupport() && config.aiAutoCorrect());
 
-    
+    JLabel experimentalHint = new JLabel(messages.getString("guiAiExperimentalHint"));
+    experimentalHint.setForeground(Color.red);
+    cons.gridy++;
+    aiOptionPanel.add(experimentalHint, cons);
+    JLabel qualityHint = new JLabel(messages.getString("guiAiQualityHint"));
+    qualityHint.setForeground(Color.blue);
+    cons.gridy++;
+    aiOptionPanel.add(qualityHint, cons);
+    JLabel tmp = new JLabel(" ");
+    cons.gridy++;
+    aiOptionPanel.add(tmp, cons);
     cons.insets = new Insets(0, SHIFT2, 0, 0);
     aiOptionPanel.add(useAiSupportBox, cons);
-
     JPanel serverPanel = new JPanel();
     serverPanel.setLayout(new GridBagLayout());
     GridBagConstraints cons1 = new GridBagConstraints();
@@ -2378,10 +2388,6 @@ public class ConfigurationDialog implements ActionListener {
     serverPanel.add(otherUrlLabel, cons1);
     cons1.gridy++;
     serverPanel.add(aiUrlField, cons1);
-//    JLabel serverExampleLabel = new JLabel(" " + "(https://localhost/privateai/");
-//    serverExampleLabel.setEnabled(false);
-//    cons1.gridy++;
-//    serverPanel.add(serverExampleLabel, cons1);
     cons1.gridy++;
     serverPanel.add(modelLabel, cons1);
     cons1.gridy++;
@@ -2399,7 +2405,8 @@ public class ConfigurationDialog implements ActionListener {
     aiOptionPanel.add(autoCorrectBox, cons);
     
     cons.gridy++;
-    aiOptionPanel.add(overrideParagraphBox, cons);
+    cons.insets = new Insets(0, SHIFT3, 0, 0);
+    aiOptionPanel.add(showStylisticChangesBox, cons);
     
     return aiOptionPanel;
   }

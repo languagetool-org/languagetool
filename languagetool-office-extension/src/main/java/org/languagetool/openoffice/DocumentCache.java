@@ -2512,8 +2512,8 @@ public class DocumentCache implements Serializable {
   
   public static class TextParagraph implements Serializable {
     private static final long serialVersionUID = 1L;
-    int type;
-    int number;
+    public int type;
+    public int number;
 
     public TextParagraph(int type, int number) {
       this.type = type;

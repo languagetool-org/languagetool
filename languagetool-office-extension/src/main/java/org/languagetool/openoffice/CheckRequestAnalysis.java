@@ -699,6 +699,11 @@ class CheckRequestAnalysis {
             }
           }
         }
+        if (mDocHandler.getAiCheckQueue() != null) {
+          for (int n = changed.from; n < changed.to; n++) {
+            singleDocument.addAiQueueEntry(n);
+          }
+        }
         if (mDocHandler.getTextLevelCheckQueue() != null) {
           mDocHandler.getTextLevelCheckQueue().wakeupQueue(docID);;
         }
@@ -836,6 +841,9 @@ class CheckRequestAnalysis {
         singleDocument.removeResultCache(nPara, true);
         for (int i = 1; i < minToCheckPara.size(); i++) {
           singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, numLastFlPara.get(numLastFlPara.size() - 1) < 0 ? false : true);
+        }
+        if (mDocHandler.getAiCheckQueue() != null) {
+          singleDocument.addAiQueueEntry(nPara);
         }
       } else {
         singleDocument.removeResultCache(nPara, true);

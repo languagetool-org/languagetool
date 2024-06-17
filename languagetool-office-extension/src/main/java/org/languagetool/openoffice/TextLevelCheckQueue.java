@@ -43,9 +43,9 @@ public class TextLevelCheckQueue {
   private static final int HEAP_CHECK_INTERVAL = 50;
   private static final int MAX_CHECK_PER_THREAD = 50;
 
-  private List<QueueEntry> textRuleQueue = Collections.synchronizedList(new ArrayList<QueueEntry>());  //  Queue to check text rules in a separate thread
+  protected List<QueueEntry> textRuleQueue = Collections.synchronizedList(new ArrayList<QueueEntry>());  //  Queue to check text rules in a separate thread
 //  private Object queueWakeup = new Object();
-  private MultiDocumentsHandler multiDocHandler;
+  protected MultiDocumentsHandler multiDocHandler;
   private SortedTextRules sortedTextRules = null;
 
   private QueueIterator queueIterator = null;
@@ -53,8 +53,9 @@ public class TextLevelCheckQueue {
   private TextParagraph lastEnd = null;
   private int lastCache = -1;
   private String lastDocId = null;
+  protected SwJLanguageTool lt;
   private Language lastLanguage = null;
-  private boolean interruptCheck = false;
+  protected boolean interruptCheck = false;
   private boolean queueRuns = false;
 //  private boolean queueWaits = false;
   
@@ -63,7 +64,7 @@ public class TextLevelCheckQueue {
   private static boolean debugMode = false;   //  should be false except for testing
   private static boolean debugModeTm;         // time measurement should be false except for testing
   
-  TextLevelCheckQueue(MultiDocumentsHandler multiDocumentsHandler) {
+  protected TextLevelCheckQueue(MultiDocumentsHandler multiDocumentsHandler) {
     multiDocHandler = multiDocumentsHandler;
 //    queueIterator = new QueueIterator();
 //    queueIterator.start();
@@ -150,7 +151,7 @@ public class TextLevelCheckQueue {
   /**
    * wake up the waiting iteration of the queue
    */
-  private void wakeupQueue() {
+  protected void wakeupQueue() {
 //    synchronized(queueWakeup) {
       if (debugMode) {
         MessageHandler.printToLogFile("TextLevelCheckQueue: wakeupQueue: wake queue");
@@ -236,7 +237,7 @@ public class TextLevelCheckQueue {
   /**
    *  get the document by ID
    */
-  SingleDocument getSingleDocument(String docId) {
+  protected SingleDocument getSingleDocument(String docId) {
     for (SingleDocument document : multiDocHandler.getDocuments()) {
       if (docId.equals(document.getDocID())) {
         return document;
@@ -248,7 +249,7 @@ public class TextLevelCheckQueue {
   /**
    *  get language of document by ID
    */
-  Language getLanguage(String docId, TextParagraph nStart) {
+  protected Language getLanguage(String docId, TextParagraph nStart) {
     SingleDocument document = getSingleDocument(docId);
     DocumentCache docCache = null;
     if (document != null) {
@@ -278,6 +279,21 @@ public class TextLevelCheckQueue {
   }
   
   /**
+   * initialize languagetool for text level iteration
+   */
+  public void initLangtool(Language language) throws Throwable {
+    if (debugMode) {
+      MessageHandler.printToLogFile("TextLevelCheckQueue: initLangtool: language = " + (language == null ? "null" : language.getShortCodeWithCountryAndVariant()));
+    }
+    lt = multiDocHandler.initLanguageTool(language, false);
+    if (lt != null) {
+      multiDocHandler.initCheck(lt);
+      String langCode = OfficeTools.localeToString(multiDocHandler.getLocale());
+      sortedTextRules = new SortedTextRules(lt, multiDocHandler.getConfiguration(), multiDocHandler.getDisabledRules(langCode), false);
+    }
+  }
+  
+  /**
    * gives back information if queue is interrupted
    */
   public boolean isInterrupted() {
@@ -302,7 +318,7 @@ public class TextLevelCheckQueue {
   /**
    *  get an entry for the next unchecked paragraphs
    */
-  QueueEntry getNextQueueEntry(TextParagraph nPara, String docId) {
+  protected QueueEntry getNextQueueEntry(TextParagraph nPara, String docId) {
     List<SingleDocument> documents = multiDocHandler.getDocuments();
     int nDoc = 0;
     for (int n = 0; n < documents.size(); n++) {
@@ -362,7 +378,7 @@ public class TextLevelCheckQueue {
   /**
    *  run a queue entry for the specific document
    */
-  void runQueueEntry(QueueEntry qEntry, MultiDocumentsHandler multiDocHandler, SwJLanguageTool lt) throws Throwable {
+  protected void runQueueEntry(QueueEntry qEntry, MultiDocumentsHandler multiDocHandler, SwJLanguageTool lt) throws Throwable {
     if (testHeapSpace()) {
       SingleDocument document = getSingleDocument(qEntry.docId);
       if (document != null && !document.isDisposed()) {
@@ -382,16 +398,16 @@ public class TextLevelCheckQueue {
   /**
    * Internal class to store queue entries
    */
-  static class QueueEntry {
-    TextParagraph nStart;
+  protected static class QueueEntry {
+    public TextParagraph nStart;
     TextParagraph nEnd;
     int nCache;
     int nCheck;
-    String docId;
+    public String docId;
     boolean overrideRunning;
     int special = TextLevelCheckQueue.NO_FLAG;
     
-    QueueEntry(TextParagraph nStart, TextParagraph nEnd, int nCache, int nCheck, String docId, boolean overrideRunning) {
+    public QueueEntry(TextParagraph nStart, TextParagraph nEnd, int nCache, int nCheck, String docId, boolean overrideRunning) {
       this.nStart = nStart;
       this.nEnd = nEnd;
       this.nCache = nCache;
@@ -483,26 +499,10 @@ public class TextLevelCheckQueue {
    */
   private class QueueIterator extends Thread {
     
-    private SwJLanguageTool lt;
     private int numCheck = 0;
 
       
     public QueueIterator() {
-    }
-    
-    /**
-     * initialize languagetool for text level iteration
-     */
-    public void initLangtool(Language language) throws Throwable {
-      if (debugMode) {
-        MessageHandler.printToLogFile("TextLevelCheckQueue: initLangtool: language = " + (language == null ? "null" : language.getShortCodeWithCountryAndVariant()));
-      }
-      lt = multiDocHandler.initLanguageTool(language, false);
-      if (lt != null) {
-        multiDocHandler.initCheck(lt);
-        String langCode = OfficeTools.localeToString(multiDocHandler.getLocale());
-        sortedTextRules = new SortedTextRules(lt, multiDocHandler.getConfiguration(), multiDocHandler.getDisabledRules(langCode), false);
-      }
     }
     
     /**

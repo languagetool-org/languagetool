@@ -55,6 +55,9 @@ import org.languagetool.openoffice.OfficeTools.LoErrorType;
 import org.languagetool.openoffice.OfficeTools.OfficeProductInfo;
 import org.languagetool.openoffice.SingleDocument.RuleDesc;
 import org.languagetool.openoffice.SpellAndGrammarCheckDialog.LtCheckDialog;
+import org.languagetool.openoffice.aisupport.AiCheckQueue;
+import org.languagetool.openoffice.aisupport.AiErrorDetection;
+import org.languagetool.openoffice.aisupport.AiParagraphChanging;
 import org.languagetool.openoffice.stylestatistic.StatAnDialog;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
@@ -141,6 +144,7 @@ public class MultiDocumentsHandler {
 
   private String menuDocId = null;                    //  Id of document at which context menu was called 
   private TextLevelCheckQueue textLevelQueue = null;  // Queue to check text level rules
+  private AiCheckQueue aiQueue = null;                // Queue to check by AI support
   private ShapeChangeCheck shapeChangeCheck = null;   // Thread for test changes in shape texts
   private boolean doShapeCheck = false;               // do the test for changes in shape texts
   
@@ -257,8 +261,13 @@ public class MultiDocumentsHandler {
         if (initDocs) {
           initDocuments(true);
         }
-      } else if (textLevelQueue == null && useQueue) {
-        textLevelQueue = new TextLevelCheckQueue(this);
+      } else {
+        if (textLevelQueue == null && useQueue) {
+          textLevelQueue = new TextLevelCheckQueue(this);
+        }
+        if (aiQueue == null && config.getNumParasToCheck() != 0 && config.useAiSupport() && config.aiAutoCorrect()) {
+          aiQueue = new AiCheckQueue(this);
+        }
       }
     }
     if (debugMode) {
@@ -497,6 +506,10 @@ public class MultiDocumentsHandler {
               textLevelQueue.setStop();
               textLevelQueue = null;
             }
+            if (aiQueue != null) {
+              aiQueue.setStop();
+              aiQueue = null;
+            }
             isHelperDisposed = true;
           }
           document.removeDokumentListener(xComponent);
@@ -653,7 +666,7 @@ public class MultiDocumentsHandler {
   /**
    *  get Configuration
    */
-  Configuration getConfiguration() {
+  public Configuration getConfiguration() {
     try {
       if (config == null || recheck) {
         if (docLanguage == null) {
@@ -836,6 +849,10 @@ public class MultiDocumentsHandler {
       textLevelQueue.setStop();
       textLevelQueue = null;
     }
+    if (aiQueue != null && (config.getNumParasToCheck() == 0 || !config.useAiSupport() || !config.aiAutoCorrect())) {
+      aiQueue.setStop();
+      aiQueue = null;
+    }
     useQueue = noBackgroundCheck || heapLimitReached || testMode || config.getNumParasToCheck() == 0 ? false : config.useTextLevelQueue();
     for (SingleDocument document : documents) {
       if (!document.isDisposed()) {
@@ -919,6 +936,11 @@ public class MultiDocumentsHandler {
               textLevelQueue.interruptCheck(oldDocId, true);
               MessageHandler.printToLogFile("MultiDocumentsHandler: getNumDoc: Interrupt done");
             }
+            if (config.useAiSupport() && config.aiAutoCorrect() && aiQueue != null) {
+              MessageHandler.printToLogFile("MultiDocumentsHandler: getNumDoc: Interrupt AI queue for old document ID: " + oldDocId);
+              aiQueue.interruptCheck(oldDocId, true);
+              MessageHandler.printToLogFile("MultiDocumentsHandler: getNumDoc: AI Interrupt done");
+            }
             if (documents.get(i).isDisposed()) {
               documents.get(i).dispose(false);;
             }
@@ -960,6 +982,11 @@ public class MultiDocumentsHandler {
               MessageHandler.printToLogFile("MultiDocumentsHandler: removeDoc: Interrupt text level queue for document " + documents.get(i).getDocID());
               textLevelQueue.interruptCheck(documents.get(i).getDocID(), true);
               MessageHandler.printToLogFile("MultiDocumentsHandler: removeDoc: Interrupt done");
+            }
+            if (aiQueue != null) {
+              MessageHandler.printToLogFile("MultiDocumentsHandler: removeDoc: Interrupt ai queue for document " + documents.get(i).getDocID());
+              aiQueue.interruptCheck(documents.get(i).getDocID(), true);
+              MessageHandler.printToLogFile("MultiDocumentsHandler: removeDoc: AI Interrupt done");
             }
             MessageHandler.printToLogFile("Disposed document " + documents.get(i).getDocID() + " removed");
             documents.remove(i);
@@ -1156,6 +1183,16 @@ public class MultiDocumentsHandler {
         textLevelQueue.setReset();
       }
     }
+    if (config.useAiSupport() && config.aiAutoCorrect() && !noBackgroundCheck) {
+      if (aiQueue == null) {
+        aiQueue = new AiCheckQueue(this);
+      } else {
+        aiQueue.setReset();
+      }
+    } else if (aiQueue != null) {
+      aiQueue.setStop();
+      aiQueue = null;
+    }
     if (resetCache) {
       resetResultCaches(true);
     }
@@ -1216,6 +1253,13 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   * Get AI queue
+   */
+  public AiCheckQueue getAiCheckQueue() {
+    return aiQueue;
+  }
+  
+  /**
    * true, if LanguageTool is switched off
    */
   public boolean isBackgroundCheckOff() {
@@ -1241,9 +1285,15 @@ public class MultiDocumentsHandler {
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage, true);
     }
     noBackgroundCheck = !noBackgroundCheck;
-    if (!noBackgroundCheck && textLevelQueue != null) {
-      textLevelQueue.setStop();
-      textLevelQueue = null;
+    if (!noBackgroundCheck) {
+      if (textLevelQueue != null) {
+        textLevelQueue.setStop();
+        textLevelQueue = null;
+      }
+      if (aiQueue != null) {
+        aiQueue.setStop();
+        aiQueue = null;
+      }
     }
     setRecheck();
     config.saveNoBackgroundCheck(noBackgroundCheck, docLanguage);
@@ -1343,6 +1393,32 @@ public class MultiDocumentsHandler {
       }
     }
     return null;
+  }
+  
+  /**
+   * Call method Ai Support mark errors 
+   */
+  public void aiAddErrorMarks() {
+    for (SingleDocument document : documents) {
+      if (menuDocId.equals(document.getDocID())) {
+        AiErrorDetection aiError = new AiErrorDetection(document, config);
+        aiError.addAiRuleMatchesForParagraph();
+        return;
+      }
+    }
+  }
+  
+  /**
+   * Call method Ai Support run command to change paragraph
+   */
+  public void runAiChangeOnParagraph(int commandId) {
+    for (SingleDocument document : documents) {
+      if (menuDocId.equals(document.getDocID())) {
+        AiParagraphChanging aiChange = new AiParagraphChanging(document, config, commandId);
+        aiChange.start();
+        return;
+      }
+    }
   }
   
   /**
@@ -1893,6 +1969,16 @@ public class MultiDocumentsHandler {
         //  statistical analysis id not supported for this language --> do nothing
       } else if ("writeAnalyzedParagraphs".equals(sEvent)) {
         new AnalyzedParagraphsCache(this); 
+      } else if ("aiAddErrorMarks".equals(sEvent)) {
+        aiAddErrorMarks();
+      } else if ("aiCorrectErrors".equals(sEvent)) {
+        runAiChangeOnParagraph(1);
+      } else if ("aiBetterStyle".equals(sEvent)) {
+        runAiChangeOnParagraph(2);
+      } else if ("aiAdvanceText".equals(sEvent)) {
+        runAiChangeOnParagraph(3);
+      } else if ("aiGeneralCommand".equals(sEvent)) {
+        runAiChangeOnParagraph(4);
       } else if ("remoteHint".equals(sEvent)) {
         if (getConfiguration().useOtherServer()) {
           MessageHandler.showMessage(MessageFormat.format(messages.getString("loRemoteInfoOtherServer"), 
@@ -2397,12 +2483,12 @@ public class MultiDocumentsHandler {
    * class to run a dialog in a separate thread
    * closing if lost focus
    */
-  public class WaitDialogThread extends Thread {
+  public static class WaitDialogThread extends Thread {
     private final String dialogName;
     private final String text;
     private JDialog dialog = null;
     private boolean isCanceled = false;
-    JProgressBar progressBar;
+    private JProgressBar progressBar;
 
     public WaitDialogThread(String dialogName, String text) {
       this.dialogName = dialogName;
@@ -2482,9 +2568,9 @@ public class MultiDocumentsHandler {
         dialog.setAutoRequestFocus(true);
         dialog.setAlwaysOnTop(true);
         dialog.toFront();
-        if (debugMode) {
-          MessageHandler.printToLogFile("WaitDialogThread: run: Dialog is running");
-        }
+//        if (debugMode) {
+          MessageHandler.printToLogFile(dialogName + ": run: Dialog is running");
+//        }
         dialog.setVisible(true);
         if (isCanceled) {
           dialog.setVisible(false);
@@ -2505,9 +2591,9 @@ public class MultiDocumentsHandler {
     
     private void close_intern() {
       try {
-        if (debugMode) {
+//        if (debugMode) {
           MessageHandler.printToLogFile("WaitDialogThread: close: Dialog closed");
-        }
+//        }
         isCanceled = true;
         if (dialog != null) {
           dialog.setVisible(false);

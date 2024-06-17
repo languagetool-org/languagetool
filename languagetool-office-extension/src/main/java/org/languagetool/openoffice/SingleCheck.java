@@ -34,8 +34,10 @@ import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.OfficeTools.LoErrorType;
 import org.languagetool.openoffice.ResultCache.CacheEntry;
+import org.languagetool.openoffice.aisupport.AiDetectionRule;
 import org.languagetool.openoffice.aisupport.AiErrorDetection;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.RuleMatch.Type;
 import org.languagetool.tools.StringTools;
 
 import com.sun.star.beans.PropertyState;
@@ -86,6 +88,7 @@ public class SingleCheck {
   private final boolean useQueue;                   //  true: use queue to check text level rules (will be overridden by config)
   private final Language docLanguage;               //  docLanguage (usually the Language of the first paragraph)
   private final Language fixedLanguage;             //  fixed language (by configuration); if null: use language of document (given by LO/OO)
+  private final boolean runAiQueue;                 //  AI queue has to be filled
 //  private final IgnoredMatches ignoredMatches;      //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
 //  private final IgnoredMatches permanentIgnoredMatches; //  Map of matches (number of paragraph, number of character) that should be ignored permanent
 //  private DocumentCursorTools docCursor;            //  Save document cursor for the single document
@@ -122,6 +125,7 @@ public class SingleCheck {
     useQueue = numParasToCheck != 0 && !isDialogRequest && !mDocHandler.isTestMode() && config.useTextLevelQueue();
     minToCheckPara = mDocHandler.getNumMinToCheckParas();
     changedParas = new ArrayList<>();
+    runAiQueue = (config.useAiSupport() && config.aiAutoCorrect()) ? true : false;
   }
   
   /**
@@ -157,6 +161,12 @@ public class SingleCheck {
 */
     List<SingleProofreadingError[]> pErrors = checkTextRules(paraText, locale, footnotePositions, paraNum, 
                                                                       startOfSentence, lt, textIsChanged, isIntern, errType);
+    if (config.useAiSupport() && config.aiAutoCorrect()) {
+      int startSentencePos = paragraphsCache.get(0).getStartSentencePosition(paraNum, startOfSentence);
+      int endSentencePos = paragraphsCache.get(0).getNextSentencePosition(paraNum, startOfSentence);
+      SingleProofreadingError[] aiErrors = paragraphsCache.get(OfficeTools.CACHE_AI).getFromPara(paraNum, startSentencePos, endSentencePos, errType);
+      pErrors.add(aiErrors);
+    }
     SingleProofreadingError[] errors = singleDocument.mergeErrors(pErrors, paraNum);
     if (debugMode > 1) {
       MessageHandler.printToLogFile("SingleCheck: getCheckResults: paRes.aErrors.length: " + errors.length 
@@ -553,6 +563,9 @@ public class SingleCheck {
         }
         return pErrors;
       }
+      if (runAiQueue && parasToCheck == 0 && nFPara >= 0) {
+        singleDocument.addAiQueueEntry(nFPara);
+      }
       
       //  One paragraph check
       if (!isTextParagraph || parasToCheck == 0) {
@@ -610,8 +623,6 @@ public class SingleCheck {
             paragraphsCache.get(cacheNum).put(nFPara, nextSentencePositions, new SingleProofreadingError[0]);
           }
         }
-        AiErrorDetection aiErrors = new AiErrorDetection(singleDocument, config);
-        aiErrors.addAiRuleMatchesForParagraph(nFPara);
         startSentencePos = paragraphsCache.get(cacheNum).getStartSentencePosition(nFPara, sentencePos);
         endSentencePos = paragraphsCache.get(cacheNum).getNextSentencePosition(nFPara, sentencePos);
         return paragraphsCache.get(cacheNum).getFromPara(nFPara, startSentencePos, endSentencePos, errType);
@@ -758,6 +769,15 @@ public class SingleCheck {
       }
       if (ruleMatch.getRule().isDictionaryBasedSpellingRule()) {
         int ucolor = Color.red.getRGB() & 0xFFFFFF;
+        propertyValues[n] = new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE);
+        n++;
+      } else if (ruleMatch.getRule() instanceof AiDetectionRule) {
+        int ucolor;
+        if (ruleMatch.getType() == Type.Hint) {
+          ucolor = AiDetectionRule.RULE_HINT_COLOR.getRGB() & 0xFFFFFF;
+        } else {
+          ucolor = AiDetectionRule.RULE_OTHER_COLOR.getRGB() & 0xFFFFFF;
+        }
         propertyValues[n] = new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE);
         n++;
       } else {
