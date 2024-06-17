@@ -134,6 +134,7 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Fakultätsaal"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Implementierungs-pflicht"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Sachsenmeisterschaf"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Alkoholgenuß"));
     // special cases:
     assertFalse(rule.ignorePotentiallyMisspelledWord("Actionsspaß"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Jungsnamen"));

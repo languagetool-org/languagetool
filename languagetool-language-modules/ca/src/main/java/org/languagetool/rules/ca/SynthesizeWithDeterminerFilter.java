@@ -1,3 +1,21 @@
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2023 Jaume Ortolà
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
 package org.languagetool.rules.ca;
 
 import org.apache.commons.lang3.StringUtils;
@@ -8,41 +26,14 @@ import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tools.StringTools;
 
+import static org.languagetool.rules.ca.ApostophationHelper.getPrepositionAndDeterminer;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SynthesizeWithDeterminerFilter extends RuleFilter {
-
-  private static Map<String, String> prepDet = new HashMap<>();
-  static {
-    prepDet.put("MS", "el ");
-    prepDet.put("FS", "la ");
-    prepDet.put("MP", "els ");
-    prepDet.put("FP", "les ");
-    prepDet.put("MSapos", "l'");
-    prepDet.put("FSapos", "l'");
-    prepDet.put("aMS", "al ");
-    prepDet.put("aFS", "a la ");
-    prepDet.put("aMP", "als ");
-    prepDet.put("aFP", "a les ");
-    prepDet.put("aMSapos", "a l'");
-    prepDet.put("aFSapos", "a l'");
-    prepDet.put("dMS", "del ");
-    prepDet.put("dFS", "de la ");
-    prepDet.put("dMP", "dels ");
-    prepDet.put("dFP", "de les ");
-    prepDet.put("dMSapos", "de l'");
-    prepDet.put("dFSapos", "de l'");
-    prepDet.put("pMS", "pel ");
-    prepDet.put("pFS", "per la ");
-    prepDet.put("pMP", "pels ");
-    prepDet.put("pFP", "per les ");
-    prepDet.put("pMSapos", "per l'");
-    prepDet.put("pFSapos", "per l'");
-
-  }
 
   private List<String> genderNumberList = Arrays.asList ("MS", "FS", "MP", "FP");
 
@@ -53,12 +44,6 @@ public class SynthesizeWithDeterminerFilter extends RuleFilter {
     genderNumberPatterns.put("MP", Pattern.compile("(N|A.).[MC][PN].*|V.P.*PM.") );
     genderNumberPatterns.put("FP", Pattern.compile("(N|A.).[FC][PN].*|V.P.*PF.") );
   }
-
-  /** Patterns for apostrophation **/
-  private static final Pattern pMascYes = Pattern.compile("h?[aeiouàèéíòóú].*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern pMascNo = Pattern.compile("h?[ui][aeioàèéóò].+",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern pFemYes = Pattern.compile("h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern pFemNo = Pattern.compile("host|ira|inxa",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
@@ -117,20 +102,12 @@ public class SynthesizeWithDeterminerFilter extends RuleFilter {
       }
     }
     for (AnalyzedToken potentialSuggestion : potentialSuggestions) {
-      String form = potentialSuggestion.getToken();
+      String newForm = potentialSuggestion.getToken();
       for (String genderNumber : genderNumberList) {
-        String apos = ""; // s'apostrofa o no
-        if (genderNumber.equals("MS")) {
-          if (pMascYes.matcher(form).matches() && !pMascNo.matcher(form).matches()) {
-            apos = "apos";
-          }
-        } else if (genderNumber.equals("FS")) {
-          if (pFemYes.matcher(form).matches() && !pFemNo.matcher(form).matches()) {
-            apos = "apos";
-          }
-        }
         if (genderNumberPatterns.get(genderNumber).matcher(potentialSuggestion.getPOSTag()).matches()) {
-          String suggestion = prepDet.get(preposition + genderNumber + apos) + StringTools.preserveCase(form, originalWord);
+          String suggestion =
+            getPrepositionAndDeterminer(newForm, genderNumber, preposition) + StringTools.preserveCase(newForm,
+              originalWord);
           if (isSentenceStart) {
             suggestion = StringTools.uppercaseFirstChar(suggestion);
           }
@@ -139,7 +116,6 @@ public class SynthesizeWithDeterminerFilter extends RuleFilter {
           }
         }
       }
-
     }
     match.addSuggestedReplacements(suggestions);
     return match;

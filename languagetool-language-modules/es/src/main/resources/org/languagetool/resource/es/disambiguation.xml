@@ -59,7 +59,9 @@ Copyright (C) 2011 Juan Martorell
                 <token>repera</token>
             </marker>
         </pattern>
-        <disambig action="add"><wd pos="NCFS000"/></disambig>
+        <disambig action="add">
+            <wd pos="NCFS000"/>
+        </disambig>
     </rule>
     <rulegroup id="IGNORE_ENGLISH_WORDS" name="etiqueta palabras inglesas para ignorarlas">
         <antipattern>
@@ -234,6 +236,54 @@ Copyright (C) 2011 Juan Martorell
                     <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
                 </marker>
                 <token postag="_english_ignore_"/>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+|,<exception regexp="yes">&english_no;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+                <token postag="_english_ignore_|allow_saxon_genitive" postag_regexp="yes"/>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+|,<exception regexp="yes">&english_no;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+                <token postag="_english_ignore_|allow_saxon_genitive" postag_regexp="yes"/>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+|,<exception regexp="yes">&english_no;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+                <token postag="_english_ignore_|allow_saxon_genitive" postag_regexp="yes"/>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+|,<exception regexp="yes">&english_no;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+                <token postag="_english_ignore_|allow_saxon_genitive" postag_regexp="yes"/>
             </pattern>
             <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
             <disambig action="add">
@@ -1773,20 +1823,35 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
-    <rule id="habemos" name="habemos">
-        <pattern>
-            <token>nos</token>
-            <token>las</token>
-            <marker>
-                <token>habemos</token>
-            </marker>
-            <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
-            <token>con</token>
-        </pattern>
-        <disambig action="add">
-            <wd lemma="haber" pos="VMIP1P0"/>
-        </disambig>
-    </rule>
+    <rulegroup id="habemos" name="habemos">
+        <rule>
+            <pattern>
+                <token>nos</token>
+                <token>las</token>
+                <marker>
+                    <token>habemos</token>
+                </marker>
+                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token>con</token>
+            </pattern>
+            <disambig action="add">
+                <wd lemma="haber" pos="VMIP1P0"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="3">con</token>
+                <token>nos</token>
+                <token>las</token>
+                <marker>
+                    <token>habemos</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd lemma="haber" pos="VMIP1P0"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rule id="ser_infinitive" name="ser (infinitivo)">
         <pattern>
             <token><exception postag="D[^R].[MC]S." postag_regexp="yes"/></token>
@@ -4749,6 +4814,17 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="V.*"/>
         </rule>
     </rulegroup>
+    <rule id="FUERA_DE_JUEGO" name="fuera de juego">
+        <pattern>
+            <token postag="D..MP." postag_regexp="yes"/>
+            <marker>
+                <token>fuera</token>
+            </marker>
+            <token>de</token>
+            <token>juego</token>
+        </pattern>
+        <disambig action="replace" postag="NCMP000"/>
+    </rule>
     <rule id="NOMBRE_PROPIOS" name="nombres propios">
         <antipattern>
             <token postag="A.*|NC.*" postag_regexp="yes" regexp="yes">\p{Lu}+<exception>IRA</exception></token>
@@ -8261,6 +8337,18 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+    <rule id="HEXADECIMAL_NOTATION" name="notación hexadecimal">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">0x[0-9A-Fa-f]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="OCTAL_NOTATION" name="notación octal">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">0o[0-7]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rulegroup id="ignore_spelling_on_off" name="ignorar ortografía on/off">
         <rule>
             <pattern>

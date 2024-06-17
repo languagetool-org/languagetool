@@ -3634,11 +3634,11 @@ USA
         </rule>
 
 
-        <rulegroup id='MORRER_PERECER_FALECER' name="morrer → perecer/falecer" tags='picky' tone_tags='formal' default='temp_off'>
+        <rulegroup id='MORRER_PERECER_FALECER' name="morrer → perecer/falecer" tags='picky' tone_tags='formal'>
 
             <!-- Subrule 1: not using "mort[ao]s?" -->
             <rule>
-                <antipattern>
+               <antipattern>
                     <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
                     <token regexp='yes'>a|de</token>
                     <token min="0" max="1" regexp='yes' inflected='yes'>&adverbios_de_intensidade;</token>
@@ -3650,10 +3650,10 @@ USA
                     <example>Tom está morrendo de rir.</example>
                 </antipattern>
                 <antipattern>
-                    <token skip='4' inflected='yes' regexp='yes'>árvore|bateria|budismo|chip|computador|cristianismo|ecrã|écran|flor|laptop|memória|motherboard|paganismo|PC|planta|satanismo|TV</token> <!-- Add exception words here -->
+                    <token skip='4' inflected='yes' regexp='yes' case_sensitive='yes'>abelha|andorinha|aranha|árvore|bateria|bode|boi|bovino|budismo|cabra|cabrito|cachorro|canídeo|cão|cavalo|chip|coelho|computador|cristianismo|ecrã|écran|égua|elefante|flor|gado|gato|h[áa]mster|insec?to|laptop|LCD|leão|melga|memória|motherboard|monitor|mosca|mosquito|natureza|ovelha|paganismo|papagaio|pardal|pássaro|PC|peixe|periquito|pilha|planta|p[óô]nei|portátil|ratazana|rato|relva|satanismo|serpente|tarântula|televisão|to[iu]ro|TV|vaca|zebra</token> <!-- Add exception words here -->
                     <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception>
                         <exception scope='previous' postag='P.+' postag_regexp='yes'/>
-                        <exception scope='previous' regexp='no'>para</exception>
+                        <exception scope='previous' regexp='yes'>don[ao]s?</exception>
                     </token>
                     <example>E ainda dizem a TV está morrendo, mas não é bem o que os números mostram.</example>
                     <example>Se uma árvore morrer, plante outra no seu lugar.</example>
@@ -3682,15 +3682,79 @@ USA
                     <example>Nico se salvou mas Eric foi carregado pela correnteza e morreu afogado.</example>
                     <example>O motim foi um ajuste de contas, sendo que 9 detentos morreram sufocados pela fumaça do incêndio.</example>
                 </antipattern>
+                <antipattern>
+                    <token postag='SENT_START|V.+' postag_regexp='yes'/>
+                    <token min='0' max='1' postag='_QUOT' postag_regexp='no'/>
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
+                    <token min='0' max='1' postag='RG' postag_regexp='no'/>
+                    <token postag='_PUNCT' postag_regexp='no'/>
+                    <token postag='DP.+|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                    <example>Morre, inseto!</example>
+                    <example>Morre, Rui!</example>
+                    <example>Morra, seu bastardo!</example>
+                    <example>MORRA AGORA, SEU ASSASSINO!</example>
+                    <example>Morra, sua vadia!</example>
+                    <example>Se vc gosta de trekkings, pedalar morro acima, morro abaixo, Maiorca tb é uma ótima opção!</example>
+                    <example>Ela dirá para o mundo ouvir: “Fraqueza, medo e desespero morreram; força, poder e coragem nasceram”.</example>
+                    <example>É que eu não quero morrer hoje, só isso.</example>
+                    <example>"Morre, danado!"</example>
+                    <example>Por exemplo, a palavra alemã "Sterben" e outras que significam «morrer» são cognados da palavra inglesa.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='SENT_START' postag_regexp='no'/>
+                    <token min='0' max='1' postag='_QUOT|_PUNCT' postag_regexp='yes'/>
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
+                    <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
+                    <token min='0' max='2' postag='RG|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                    <token postag='SENT_END|_PUNCT_EXCLAMATION|_PUNCT_INTERROGATION' postag_regexp='yes'/>
+                    <example>Morra！</example>
+                    <example>Morremos.</example>
+                    <example>Morre logo!</example>
+                    <example>Morre Tory.</example>
+                    <example>Morrerei sozinho.</example>
+                    <example>- Morra, Omar.</example>
+                    <example>Cruïlles em Terrés lo Barbut e, depois de saqueá-la a incendiaram gritando: "Morram cavalheiros!!!</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected='yes'>morrer</token>
+                    <token regexp='no'>de</token>
+                    <token regexp='yes'>alegria|amor(es)?|cansaço|ciúmes?|dor(es)?|fome|frio|idade|inveja|medo|pânico|saudades?|sede|tristeza|velhice|velho</token>
+                    <example>Onze mil prisioneiros morreram de fome.</example>
+                    <example>O idoso morreu de fome.</example>
+                    <example>Muitas crianças morrem de fome na África.</example>
+                    <example>Devido à falta de comida, o gado morreu de fome.</example>
+                    <example>Ele morreu de sede durante a seca.</example>
+                    <example>O seguro morreu de velho.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='SENT_START' postag_regexp='no'/>
+                    <token regexp='yes'>[ao]s?|de</token>
+                    <token min='0' max='3' postag='NC.+|AQ.+|NP.+|Z0.+|SPS00' postag_regexp='yes'/>
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
+                    <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+                        <exception postag_regexp='no' postag='RG'/>
+                    </token>
+                    <example>Os bons morrem jovens.</example>
+                    <example>A culpa morreu solteira.</example>
+                    <example>As mulheres bonitas morrem jovens (ou isso diz o ditado).</example>
+                    <example>Os dois velhinhos morreram juntos.</example>
+                    <example>O Tom morreu esfaqueado.</example>
+                    <example>Os dois morreram juntos em 1323, em combate.</example>
+                    <example>O casal de idosos morreu tranquilo.</example>
+                </antipattern>
                 <pattern>
                     <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception>
                         <exception regexp='no' case_sensitive='yes'>Morro</exception> <!-- Proper names -->
+                        <exception scope='next' regexp='yes'>falido|miserável|miseravelmente|pobre|rico</exception>
                     </token>
                 </pattern>
                 <message>Num contexto formal, é preferível escrever &quot;perecer&quot; ou &quot;falecer&quot;.</message>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perecer</match></suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falecer</match></suggestion>
                 <example correction="pereceu|faleceu">O pai dele <marker>morreu</marker> no ano passado.</example>
+                <example>Talvez não fique rico, mas pra morrer pobre já basta onde estou.</example>
+                <example>Teve uma história triste: nasceu rico e morreu miserável.</example>
+                <example>É melhor viver rico, do que morrer rico.</example>
             </rule>
 
             <!-- Subrule 2: using only "mort[ao]s?" -->
@@ -3708,7 +3772,7 @@ USA
                 <antipattern>
                     <token postag='V.+|RG' postag_regexp='yes'/>
                     <token min='0' max='1' postag='SPS00|Z0.+' postag_regexp='yes'/>
-                    <token postag='NC.+|AQ.+|NP.+|Z0.+' postag_regexp='yes'/>
+                    <token min='1' max='3' postag='NC.+|AQ.+|NP.+|Z0.+' postag_regexp='yes'><exception regexp='yes'>mort[ao]s?</exception></token>
                     <token regexp='yes'>mort[ao]s?</token>
                     <example>"Quem não se enamora de Deus, vendo Cristo morto na cruz, não se abrasará jamais".</example>
                     <example>A vala comum que continha os restos mortais de 14 soldados alemães mortos em agosto de 1944.</example>
@@ -3718,6 +3782,7 @@ USA
                     <example>Há mais de cem mortos na catástrofe.</example>
                     <example>Desabamento de prédio deixa mais de 1000 mortos em Bangladesh.</example>
                     <example>Corpos não identificados de mulheres mortas em Los Angeles geralmente são chamados: "Sally in the Alley"</example>
+                    <example>Hoje, PEDE DESCULPAS pelos 4,4 mil mortos na cidade.</example>
                 </antipattern>
                 <antipattern>
                     <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
@@ -3725,7 +3790,7 @@ USA
                         <exception postag='SPS.+' postag_regexp='yes'/> <!-- Fix "entre" -->
                     </token>
                     <token postag='(SPS00:)?D.+' postag_regexp='yes'/>
-                    <token min='0' max='1' postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <token min='0' max='1' postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
                     <token regexp='yes'>mort[ao]s?</token>
                     <example>Muçulmanos enterram seus mortos em covas.</example>
                     <example>Os muçulmanos enterram seus mortos em sepulturas.</example>
@@ -3737,23 +3802,46 @@ USA
                     <example>Tem um gigante morto no nosso quintal.</example>
                 </antipattern>
                 <antipattern>
-                    <token postag='VMSP3.+' postag_regexp='yes'/>
+                    <token postag='VMSP3.+|VMN0000' postag_regexp='yes'/>
+                    <token min='0' max='1' postag='D.+' postag_regexp='yes'/>
                     <token regexp='yes'>mort[ao]s?</token>
-                    <token regexp='yes'>em|n[ao]s?</token>
-                    <token min='1' max='2' postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <token regexp='yes'>de|em|n[ao]s?</token>
+                    <token min='1' max='3' postag='NC.+|AQ.+|NP.+|Z0.+|(SPS00:)?D.+' postag_regexp='yes'/>
                     <token postag='_PUNCT|SENT_END' postag_regexp='yes'/>
                     <example>O batalhão vence caso os seus elementos não se encontrem mortos na totalidade.</example>
+                    <example>O batalhão vence caso os seus elementos não se encontrem mortos em Portugal.</example>
+                    <example>O batalhão vence caso os seus elementos não se encontrem mortos em duas cidades.</example>
+                    <example>Planeja roubar o colar de Dixie, que pode trazer os mortos de volta à vida.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp='yes'>mort[ao]s?</token>
+                    <token regexp='no'>de</token>
+                    <token regexp='yes'>alegria|amor(es)?|cansaço|ciúmes?|dor(es)?|fome|frio|inveja|medos?|pânico|saudades?|sede|tristeza|velho</token>
+                    <example>Embalado pelo balanço da carroça e morto de cansaço, Tom adormeceu.</example>
+                    <example>Eu me sinto morto de cansaço.</example>
+                    <example>Ele ficou morto de inveja.</example>
+                    <example>Ele retorna morto de fome, ou nunca mais retorna.</example>
+                    <example>O pobre desgraçado abandona o seu povo... com uma família morta de fome em busca de trabalho.</example>
+                    <example>A senhora nos deixará mortos de saudade.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip='4' inflected='yes' regexp='yes' case_sensitive='yes'>abelha|andorinha|aranha|árvore|bateria|bode|boi|bovino|budismo|cabra|cabrito|cachorro|canídeo|cão|cavalo|chip|coelho|computador|cristianismo|ecrã|écran|égua|elefante|flor|gado|gato|h[áa]mster|insec?to|laptop|LCD|leão|melga|memória|motherboard|monitor|mosca|mosquito|natureza|ovelha|paganismo|papagaio|pardal|pássaro|PC|peixe|periquito|pilha|planta|p[óô]nei|portátil|ratazana|rato|relva|satanismo|serpente|tarântula|televisão|to[iu]ro|TV|vaca|zebra</token> <!-- Add exception words here -->
+                    <token regexp='yes'>mort[ao]s?
+                        <exception scope='previous' postag='P.+' postag_regexp='yes'/>
+                        <exception scope='previous' regexp='yes'>don[ao]s?</exception>
+                    </token>
+                    <example>Plantas mortas em florestas entram em processo de decomposição através de uma cadeia trófica.</example>
                 </antipattern>
                 <pattern>
                     <marker>
                         <token regexp='yes'>mort[ao]s?
                             <exception regexp='no' case_sensitive='yes'>Mortos</exception> <!-- Proper names -->
-                            <exception scope='previous' postag='_PUNCT|VMII3.+|SPS00' postag_regexp='yes'/>
+                            <exception scope='previous' postag='_PUNCT|VMI.3.+|VMP.+|SPS00|RM' postag_regexp='yes'/>
                         </token>
                     </marker>
                     <token min='0' max='1' postag='RM' postag_regexp='no'/>
-                    <token regexp='yes'>em|n[ao]s?
-                        <exception scope='next' postag='Z0.+|PP.+' postag_regexp='yes'/>
+                    <token regexp='yes'>de|em|n[ao]s?
+                        <exception scope='next' postag='Z0.+|PP.+|D.+|RG|VMIP3.+' postag_regexp='yes'/>
                     </token>
                 </pattern>
                 <message>Num contexto formal, é preferível escrever &quot;perecer&quot; ou &quot;falecer&quot;.</message>
@@ -3776,6 +3864,15 @@ USA
                 <example>O número de mortos no terremoto italiano cresceu a 247, talvez mais.</example>
                 <example>O número total de mortos no conflito ainda é incerto.</example>
                 <example>Os clássicos sempre chamam uma atenção a mais e há vários casos de mortos em regiões mais distantes.</example>
+                <example>Taxista encontrado morto em Candeias é sepultado e... </example>
+                <example>Uma natureza morta de um pintor holandês está pendurada no quarto dele.</example>
+                <example>O morto de agora, cuja ação na propaganda bastara a popularizá-lo, era conhecido ao longe.</example>
+                <example>HaSeul segurando um pássaro morto em suas mãos, com o menino HaSeul em nenhuma parte para ser encontrado.</example>
+                <example>As imagens divulgadas dos corpos de 83 crianças alegadamente mortas no ataque, acreditamos serem falsas.</example>
+                <example>não identificado aparentemente morto no espaço", levando a um "evento de quatro episódios".</example>
+                <example>Os mortos nos observam?</example>
+                <example>Mesmo conseguindo fugir dos disparos de imediato, Fujimori tombou morto no meio da praça.</example>
+                <example>Com uma machadinha, desfere vários golpes na cabeça do chefe Wilmesdorf que desaba morto no chão da sala.</example>
             </rule>
         </rulegroup>
 
@@ -15862,61 +15959,36 @@ USA
         </rule>
 
 
-        <!-- FAZER CONJECTURAS conjecturar -->
-        <rule id='FAZER_VERBO_VERBO_INFINITIVO' name="[Simplificar] V.Fazer + V. → V.Inf." type="style" tags="picky">
+        <rule id='FAZER_VERBO_VERBO_INFINITIVO_V2' name="[Simplificar] V.Fazer + V. → V.Inf." type="style" tags="picky">
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-04 (25-JUL-2022+) -->
-            <!--
-      Fazer somas é o melhor que há. → Somar é o melhor que há.
-      Mas fazer somas sobre algo é medir uma probabilidade. → Mas somar sobre algo é medir uma probabilidade.
-      Assim fazer somas é o melhor. → Assim somar é o melhor.
-      -->
-
             <antipattern>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token postag='SPS00' postag_regexp='no'/>
                 <token>fazer</token>
                 <token postag='VMIP2S0' postag_regexp='no'/>
-                <token postag='VMIP3.+' postag_regexp='yes'/>
-                <example>...is estratégicos para a retirada dos produtos pelos próprios clientes quanto a de uso de drones para fazer entregas estão sendo avaliadas pela Diálogo Logística para serem implantadas no país.</example>
-            </antipattern>
-
-            <antipattern>
+                <token>para</token>
                 <token postag='V.+' postag_regexp='yes'/>
-                <token>a</token>
-                <token>fazer</token>
-                <token postag='VMIP2S0' postag_regexp='no'/>
-                <example>Às 17h já costumo estar a fazer batalhas de xadrez.</example>
-                <example>Esse cara chega, começa a fazer consultas sem conversar comigo antes...</example>
+                <example>Quando éramos crianças gostávamos de fazer fisgas para sermos bons.</example>
             </antipattern>
-
             <pattern>
                 <marker>
-                    <token>fazer</token>
-                    <token postag='VMIP2S0' postag_regexp='no'>
-                        <exception regexp='yes' inflected='yes'>drogar|buscar|nadar|recarregar|forçar|papar|entregar|tocar|programar|&verbos_muito_incomuns;|amostrar|comprar|notar|contar|curvar|dobrar|perguntar|provar|receitar|reformar|rimar|trilhar</exception> <!-- Add here exception verbs as they are found -->
-                        <exception postag_regexp='yes' postag='RG|RN|CC|CS|SPS00|DA.+|SPS00:DA.+|DI.+|SPS00:DI.+|PP.+|SPS00:PP.+|DP.+|SPS00:DP.+|AP.+|SPS00:AP.+'/>
+                    <token>fazer
+                        <exception scope='next' regexp='no'>compras</exception> <!-- Add exceptions here -->
                     </token>
+                    <token skip='4' postag='VMIP2S0' postag_regexp='no'/>
                 </marker>
-                <token>
-                    <exception postag_regexp='yes' postag='VMP00.+|NC.+|AQ.+|AP.+|DP.+'/>
-                    <exception regexp='yes'>aos?</exception>
+                <token inflected='yes'>ser
+                    <exception regexp='yes' inflected='yes'>estar|ir</exception>
+                    <exception scope='previous' regexp='yes' inflected='yes'>estar|ir</exception>
                 </token>
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion><match no='2' postag='V.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
             <example correction="Somar"><marker>Fazer somas</marker> é o melhor que há.</example>
-            <example correction="somar">Mas <marker>fazer somas</marker> sobre algo é medir uma probabilidade.</example>
+            <example correction="conjeturar">Mas <marker>fazer conjeturas</marker> sobre algo é medir uma probabilidade.</example>
             <example correction="somar">Assim <marker>fazer somas</marker> é o melhor.</example>
-            <example>Quero ir fazer compras.</example>
-            <example>Eu preferiria não ir fazer compras sozinho.</example>
-            <example>Já dizia o outro: é uma questão de fazer contas.</example>
-            <example>Ele não é inteligente o bastante para fazer contas de cabeça.</example>
-            <example>Aqui você pode fazer suas denuncias, reclamações, sugestões e elogios.</example>
-            <example>..., baseadas no fato de que não vamos viver pra dieta (embora seja necessária certa dedicação), vamos fazer juntas nossa dietinha?</example>
-            <example>Foi permitido fazer perguntas ao final da reunião.</example>
-            <example>Xangô quis saber o que poderia fazer para ver sua filha só mais uma vez, e Orunmilá lhe disse para fazer oferendas ao orixá Iku (Oniborun), o guardião da entrada do mundo dos mortos.</example>
-            <example>Fazer dobras em.</example>
+            <example correction="somar">Assim <marker>fazer somas</marker> será o melhor.</example>
+            <example>Fazer compras é uma sensação fantástica.</example>
+            <example>Quanto às sugestões de uso de drones para fazer entregas estão sendo avaliadas.</example>
+            <example>Fui com Magnus fazer compras, fomos a uma loja ótima.</example>
         </rule>
 
 
@@ -19316,6 +19388,14 @@ USA
             <suggestion>\2<match no="1" regexp_match="(?i)grau(s)?" regexp_replace="$1"/></suggestion>
             <url>https://pt.wikipedia.org/wiki/Kelvin</url>
             <example correction="kelvins">O sol tem a temperatura de 15,7 milhões de <marker>graus kelvin</marker>.</example>
+        </rule>
+
+        <rule id="OK_EM_MINUSCULA" name="Preferência por 'OK' em vez de 'ok'" tags="picky">
+            <pattern>
+                <token case_sensitive="yes">ok</token>
+            </pattern>
+            <message>Prefira <suggestion>OK</suggestion>.</message>
+            <example correction="OK">Está tudo <marker>ok</marker> com ela?</example>
         </rule>
     </category>
 </rules>

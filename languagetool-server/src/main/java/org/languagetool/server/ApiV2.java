@@ -169,7 +169,7 @@ class ApiV2 {
       throw new BadRequestException("Missing 'text' or 'data' parameter");
     }
     //get from config
-    if (config.logIp && aText.getPlainText().equals(config.logIpMatchingPattern)) {
+    if (config.logIp && aText.getPlainText().trim().equals(config.logIpMatchingPattern)) {
       handleIpLogMatch(httpExchange, remoteAddress);
       //no need to check text again rules
       return;

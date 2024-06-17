@@ -72,6 +72,35 @@ public class GermanCompoundTokenizer implements Tokenizer {
       // Add compound parts here so we don't need to update JWordSplitter for every missing word we find.
       // Note: adding words, especially short ones, can also cause incorrect splits. E.g. if "sport"
       // is in the list and you add "tran", without "transport" being in the list, it would split "transport".
+      words.add("controller");
+      words.add("resilienz");
+      words.add("mitführ");
+      words.add("trauma");
+      words.add("abtau");
+      words.add("normung");
+      words.add("mikroskopie");
+      words.add("bitumen");
+      words.add("erfolglosigkeit");
+      words.add("pneumatik");
+      words.add("anlasser");
+      words.add("allozierung");
+      words.add("alphabetisierung");
+      words.add("aktuator");
+      words.add("akademisierung");
+      words.add("allergiker");
+      words.add("queer");
+      words.add("filament");
+      words.add("querung");
+      words.add("curling");
+      words.add("opioid");
+      words.add("booster");
+      words.add("schmuse");
+      words.add("thrombozyten");
+      words.add("dysfunktion");
+      words.add("storchen");
+      words.add("nasch");
+      words.add("esperanto");
+      words.add("passivierung");
       words.add("radikalisierung");
       words.add("erleuchtung");
       words.add("verwalter");

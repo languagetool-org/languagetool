@@ -63,6 +63,7 @@ public class CatalanSentenceTokenizerTest {
     testSplit("(\"n. 3\".");
     testSplit("En el t. 2 de la col·lecció");
     testSplit("Llança't. ", "Fes-ho.");
+    testSplit("És professor a l'Inst. Joan Vives.");
     
     // Initials
     testSplit("A l'atenció d'A. Comes.");

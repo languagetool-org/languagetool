@@ -90,7 +90,7 @@ public class CatalanDisambiguationRuleTest {
     TestTools
     .myAssert(
         "Las Palmas de Gran Canaria",
-        "/[null]SENT_START Las/[Las Palmas de Gran Canaria]NPCNG00  /[null]null Palmas/[Las Palmas de Gran Canaria]NPCNG00|Palmas/[Palmas]_possible_nompropi  /[null]null de/[Las Palmas de Gran Canaria]NPCNG00  /[null]null Gran/[Gran]_possible_nompropi|Gran/[Las Palmas de Gran Canaria]NPCNG00  /[null]null Canaria/[Canaria]_possible_nompropi|Canaria/[Las Palmas de Gran Canaria]NPCNG00",
+        "/[null]SENT_START Las/[Las Palmas de Gran Canaria]NPCNG00  /[null]null Palmas/[Las Palmas de Gran Canaria]NPCNG00|Palmas/[Palmas]_possible_nompropi  /[null]null de/[Las Palmas de Gran Canaria]NPCNG00  /[null]null Gran/[Las Palmas de Gran Canaria]NPCNG00  /[null]null Canaria/[Canaria]_possible_nompropi|Canaria/[Las Palmas de Gran Canaria]NPCNG00",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools
     .myAssert(

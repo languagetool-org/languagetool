@@ -102,6 +102,10 @@ public class JLanguageToolTest {
     assertEquals(1, matches2.size());
     assertEquals("provar", matches2.get(0).getSuggestedReplacements().get(0));
 
+    matches = tool.check("Vull coneixer més coses.");
+    assertEquals(1, matches.size());
+    assertEquals( "conéixer", matches.get(0).getSuggestedReplacements().get(0));
+
   }
   
   @Test

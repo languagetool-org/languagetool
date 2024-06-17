@@ -387,6 +387,8 @@ public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
     
     // пара
 //    assertEmptyMatch("зіркова пара Пишняк — Толстой вирішили вивести");
+    assertEmptyMatch("матч Туреччина — Україна зіграють");
+    assertEmptyMatch("у смузі Піски—Авдіївка оперують");
     
     // latin/cyr mix
 //  assertEmptyMatch("Дівчата та їхнiй брат належать до касти");

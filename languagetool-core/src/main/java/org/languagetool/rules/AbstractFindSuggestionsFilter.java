@@ -48,7 +48,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
 
-//    if (match.getSentence().getText().contains("Faltes")) {
+//    if (match.getSentence().getText().contains("Toni Comin")) {
 //      int ii=0;
 //      ii++;
 //    }
@@ -62,11 +62,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     String priorityPostag = getOptional("priorityPostag", arguments);
     String removeSuggestionsRegexp = getOptional("removeSuggestionsRegexp", arguments);
     // suppress match if there are no suggestions
-    String suppressMatch = getOptional("suppressMatch", arguments);
-    boolean bSuppressMatch = false;
-    if (suppressMatch != null && suppressMatch.equalsIgnoreCase("true")) {
-      bSuppressMatch = true;
-    }
+    boolean bSuppressMatch = getOptional("suppressMatch", arguments, "false").equalsIgnoreCase("true");
     
     // diacriticsMode: return only changes in diacritics. If there is none, the
     // match is removed.
@@ -235,7 +231,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
         }
       }
     }
-
+    definitiveReplacements.remove(match.getOriginalErrorStr());
     if (!definitiveReplacements.isEmpty()) {
       ruleMatch.setSuggestedReplacements(definitiveReplacements.stream().distinct().collect(Collectors.toList()));
     }

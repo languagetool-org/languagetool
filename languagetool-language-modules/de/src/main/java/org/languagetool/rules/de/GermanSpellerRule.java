@@ -142,6 +142,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("vorbreiten", w -> Arrays.asList("vorbereiten", "verbreiten"));
+    put("Hungen", w -> Arrays.asList("Hunger", "Hungern"));
     put("Topfen", "Tropfen");
     put("frägst", "fragst");
     put("sähte", "säte");
@@ -170,6 +171,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Kruks", "Krux");
     put("Filterbubble", "Filterblase");
     put("Filterbubbles", "Filterblasen");
+    put("Telefones", "Telefons");
+    putRepl(".+telefones", "telefones", "telefons");
+    putRepl(".+portrait.*", "portrait", "porträt");
+    putRepl(".+tips", "tip", "tipp");
+    putRepl("Hifi-.+", "Hifi", "HiFi");
     putRepl("Analgen.*", "Analgen", "Anlagen");
     putRepl("wiedersteh(en|st|t)", "wieder", "wider");
     putRepl("wiederstan(d|den|dest)", "wieder", "wider");
@@ -2328,6 +2334,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         !part1.equals("Lass") &&  // e.g. "Lasstest" - couldn't find a more generic solution yet
         (wordsWithoutInfixS.contains(part1) || (compoundPatternSpecialEnding.matcher(part1).matches() && isNoun(part2uc))) &&
         (!isMisspelled(part1) || germanPrefixes.contains(lowercaseFirstChar(part1))) &&
+        !isMisspelled(part2uc) &&  // needed to not accept e.g. Alkoholgenuß ("Genuß" is accepted as a noun above)
         isNoun(part2uc) // don't accept e.g. "Azubikommt"
       ) {
       //System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");
@@ -2590,6 +2597,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return singletonList("Danke");
     } else if (word.equals("Zynik")) {
       return singletonList("Zynismus");
+    } else if (word.equals("pieksen")) {
+      return singletonList("piksen");
+    } else if (word.equals("piekst")) {
+      return singletonList("pikst");
+    } else if (word.equals("gepiekst")) {
+      return singletonList("gepikst");
     } else if (word.equalsIgnoreCase("email")) {
       return singletonList("E-Mail");
     } else if (word.length() > 9 && word.startsWith("Email")) {
@@ -2969,6 +2982,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         } else {
           return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
         }
+      case "Bohème": return topMatch("Boheme");
       case "do": return topMatch("so");
       case "Art-Nr": return topMatch("Art.-Nr.");
       case "werrden": return topMatch("werden");
@@ -3885,6 +3899,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "orginales": return topMatch("originales");
       case "Rundumsorglospaket": return topMatch("Rundum-sorglos-Paket");
       case "Rundumsorglospakets": return topMatch("Rundum-sorglos-Pakets");
+      case "Fidji": return topMatch("Fidschi");
+      case "Bautenzug": return topMatch("Bowdenzug");
+      case "Bautenzugs": return topMatch("Bowdenzugs");
+      case "Bautenzuges": return topMatch("Bowdenzuges");
+      case "Bautenzüge": return topMatch("Bowdenzüge");
+      case "Bautenzügen": return topMatch("Bowdenzügen");
     }
     return Collections.emptyList();
   }

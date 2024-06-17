@@ -350,7 +350,7 @@ public class Spanish extends Language implements AutoCloseable {
     "ése", "ésos", "ésta", "éstas", "éste", "éstos", "sólo");
   private Pattern voseoPostagPatern = Pattern.compile("V....V.*");
   @Override
-  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+  public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
     List<RuleMatch> results = new ArrayList<>();
     for (RuleMatch ruleMatch : ruleMatches) {
       List<String> suggestions = ruleMatch.getSuggestedReplacements();

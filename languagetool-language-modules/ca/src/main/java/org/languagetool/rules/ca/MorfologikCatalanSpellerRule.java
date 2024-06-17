@@ -43,10 +43,11 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     return Arrays.asList("/ca/"+SpellingCheckRule.CUSTOM_SPELLING_FILE, SpellingCheckRule.GLOBAL_SPELLING_FILE,
       "/ca/multiwords.txt", "/ca/spelling-special.txt");
   }
-  private static final List<String> PARTICULA_INICIAL = Arrays.asList("no", "en", "a", "el", "els", "al", "als", "pel",
+  private static final List<String> PARTICULA_INICIAL = Arrays.asList("amb", "sota", "no", "en", "a", "el", "els", "al", "als", "pel",
     "pels", "del", "dels", "del", "de", "per", "un", "uns", "una", "unes", "la", "les", "teu", "meu", "seu", "teus", "meus", "seus");
   private static final List<String> PREFIX_AMB_ESPAI = Arrays.asList("pod", "ultra", "eco", "tele", "anti", "re", "des",
     "avant", "auto", "ex", "extra", "macro", "mega", "meta", "micro", "multi", "mono", "mini", "post", "retro", "semi", "super", "trans", "pro", "g", "l", "m");
+  private static final List<String> ESPAI_AMB_SUFIX = Arrays.asList("a", "o", "i");
 
   private static final List<String> PRONOM_INICIAL = Arrays.asList("em", "et", "es", "se", "ens", "us", "vos", "li", "hi",
     "ho", "el", "la", "els", "les");
@@ -177,6 +178,10 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
         }
         // remove wrong split prefixes
         if (PREFIX_AMB_ESPAI.contains(parts[0].toLowerCase())) {
+          continue;
+        }
+        // allow only one-letter second part " a", " o", " i"
+        if (parts[1].length() == 1 && !ESPAI_AMB_SUFIX.contains(parts[1].toLowerCase())) {
           continue;
         }
       }

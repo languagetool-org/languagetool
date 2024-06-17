@@ -21248,61 +21248,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     -->
 
         <rulegroup id='HOURS_ABREVIATION' name="Abreviatura de horas">
-            <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-16 -->
-            <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/sobre-a-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url>
-            <rule>
+            <!-- <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/sobre-a-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url> -->
+            <rule> <!-- #1: single token, number + hrs/hs -->
                 <pattern>
                     <token regexp="yes">\d+&#160;?(?:hr?s|hrs?|horas?)</token>
                 </pattern>
                 <message>Abreviatura de horas incorreta – prefira sempre &quot;h&quot;.</message>
-                <suggestion><match no='1' regexp_match="(\d+)h.*" regexp_replace="$1&#160;h"/></suggestion>
+                <suggestion><match case_conversion="alllower" no='1' regexp_match="^0?(\d+)[hH].*" regexp_replace="$1&#160;h"/></suggestion>
+                <suggestion><match case_conversion="alllower" no='1' regexp_match="^0?(\d+)[hH].*" regexp_replace="$1h"/></suggestion>
                 <short>Erro de abreviação</short>
-                <example correction="15&#160;h">Às <marker>15hs</marker> em ponto.</example>
+                <example correction="15&#160;h|15h">Às <marker>15hs</marker> em ponto.</example>
+                <example correction="12&#160;h|12h">Chegamos às <marker>12HRS</marker>.</example>
+                <example correction="8&#160;h|8h">O café da manhã começa às <marker>08Hs</marker>.</example>
             </rule>
-            <!-- doesn't work due to sentence splitting
-      <rule>
-        <pattern>
-          <token regexp="yes">\d+&#160;?(?:hr?s|horas?)</token>
-          <token>.
-            <exception postag='SENT_END'/></token>
-        </pattern>
-        <message>Abreviatura de horas não tem ponto.</message>
-        <suggestion><match no='1' regexp_match="(\d+)h.*" regexp_replace="$1&#160;h"/></suggestion>
-        <short>Erro de abreviação</short>
-        <example correction="15&#160;h">Às <marker>15hs.</marker> em ponto.</example>
-      </rule>
-      -->
-            <rule>
+            <rule> <!-- #2: two tokens, number + hrs/hs -->
                 <pattern>
                     <token regexp="yes">\d+</token>
                     <token regexp="yes">hr?s|hrs?</token>
                 </pattern>
                 <message>Abreviatura de horas incorreta – prefira sempre &quot;h&quot;.</message>
-                <suggestion>\1&#160;h</suggestion>
+                <suggestion><match no="1" regexp_match="^0?(\d+)" regexp_replace="$1"/>&#160;h</suggestion>
+                <suggestion><match no="1" regexp_match="^0?(\d+)" regexp_replace="$1"/>h</suggestion>
                 <short>Erro de abreviação</short>
-                <example correction="15&#160;h">Às <marker>15 hs</marker> em ponto.</example>
-                <example correction="1&#160;h">Vai durar <marker>1 hr</marker>.</example>
+                <example correction="15&#160;h|15h">Às <marker>15 hs</marker> em ponto.</example>
+                <example correction="1&#160;h|1h">Vai durar <marker>01 hr</marker>.</example>
+                <example correction="22&#160;h|22h">Começa às <marker>22 Hrs</marker>.</example>
             </rule>
-            <!-- doesn't work due to sentence splitting
-      <rule>
-        <pattern>
-          <token regexp="yes">\d+</token>
-          <token regexp="yes">hr?s</token>
-          <token>.
-            <exception postag='SENT_END'/></token>
-        </pattern>
-        <message>Abreviatura de horas não tem ponto.</message>
-        <suggestion>\1&#160;h</suggestion>
-        <short>Erro de abreviação</short>
-        <example correction="15&#160;h">Às <marker>15 hs.</marker> em ponto.</example>
-      </rule>
-      -->
-            <rule>
+            <rule> <!-- #3: with dot -->
                 <pattern>
                     <token regexp="yes">(?:[012]?\d:)?[012345]?\d</token>
                     <token>h</token>
                     <token>.
-                        <exception postag='SENT_END'/></token>
+                        <exception postag='SENT_END'/>
+                    </token>
                 </pattern>
                 <message>Se é uma indicação horária, não é pontuada.</message>
                 <suggestion>\1 h</suggestion>
@@ -21311,6 +21289,87 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="5:30 h">Às <marker>5:30 h.</marker> será a festa.</example>
                 <example>Chegará às 15:30 h.</example>
                 <!--example>Chegaram às 15 h. Eram de diferentes nacionalidades.</example--><!-- XXX This example works in practice but, it doesn't work in test rules. -->
+            </rule>
+            <!-- Both HH:MM and HH h MM min should be accepted, just not at the same time.  -->
+            <rule> <!-- #4: HH:MM + h/hr/hrs, single token -->
+                <antipattern> <!-- exclude zero minutes -->
+                    <token regexp="yes">([01]?[0-9]|2[0-3]):00(hr?s?|horas?)</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">([01]?[0-9]|2[0-3]):[0-5][0-9](hr?s?|horas?)</token>
+                </pattern>
+                <message>Evite misturar formatos em indicações horárias.</message>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):(\d+).+" regexp_replace="$1h$2"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):(\d+).+" regexp_replace="$1h$2min"/></suggestion>
+                <suggestion><match no="1" regexp_match="(\d+:\d+).+" regexp_replace="$1"/></suggestion>
+                <example correction="14h30|14h30min|14:30">Vamos às <marker>14:30h</marker>.</example>
+                <example correction="3h45|3h45min|03:45">Vamos às <marker>03:45H</marker>.</example>
+            </rule>
+            <rule> <!-- #5: HH:MM + h/hr/hrs, two tokens -->
+                <antipattern> <!-- exclude zero minutes -->
+                    <token regexp="yes">([01]?[0-9]|2[0-3]):00</token>
+                    <token regexp="yes">hr?s?|horas?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">([01]?[0-9]|2[0-3]):[0-5][0-9]</token>
+                    <token regexp="yes">hr?s?|horas?</token>
+                </pattern>
+                <message>Evite misturar formatos em indicações horárias.</message>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):(\d+)" regexp_replace="$1h$2"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):(\d+)" regexp_replace="$1h$2min"/></suggestion>
+                <suggestion><match no="1" regexp_match="(\d+:\d+)" regexp_replace="$1"/></suggestion>
+                <example correction="14h30|14h30min|14:30">Vamos às <marker>14:30 hrs</marker>.</example>
+                <example correction="2h52|2h52min|02:52">Vamos às <marker>02:52 HRS</marker>.</example>
+            </rule>
+            <rule> <!-- #6: HH:00 + h/hr/hrs, single token -->
+                <pattern>
+                    <token regexp="yes">([01]?[0-9]|2[0-3]):00(hr?s?|horas?)</token>
+                </pattern>
+                <message>Evite misturar formatos em indicações horárias.</message>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):00.+" regexp_replace="$1&#160;h"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):00.+" regexp_replace="$1h"/></suggestion>
+                <suggestion><match no="1" regexp_match="(\d+:\d+).+" regexp_replace="$1"/></suggestion>
+                <example correction="14&#160;h|14h|14:00">Vamos às <marker>14:00h</marker>.</example>
+                <example correction="3&#160;h|3h|03:00">Vamos às <marker>03:00H</marker>.</example>
+            </rule>
+            <rule> <!-- #7: HH:00 + h/hr/hrs, two tokens -->
+                <pattern>
+                    <token regexp="yes">([01]?[0-9]|2[0-3]):00</token>
+                    <token regexp="yes">hr?s?|horas?</token>
+                </pattern>
+                <message>Evite misturar formatos em indicações horárias.</message>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):00" regexp_replace="$1&#160;h"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="1" regexp_match="^0?(\d+):00" regexp_replace="$1h"/></suggestion>
+                <suggestion><match no="1" regexp_match="(\d+:\d+)" regexp_replace="$1"/></suggestion>
+                <example correction="14&#160;h|14h|14:00">Vamos às <marker>14:00 hrs</marker>.</example>
+                <example correction="2&#160;h|2h|02:00">Vamos às <marker>02:00 HRS</marker>.</example>
+            </rule>
+            <rule> <!-- #8: simple number with a capital H, which *could* be a henry (unit of electrical inductance) -->
+                <pattern>
+                    <token regexp="yes" skip="3" inflected="yes">às?|hora|horário|chegar|começar|início|fim|terminar|acabar|término|relógio|duração|durar|demorar|levar|evento|reunião|agenda</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">\d+H</token>
+                    </marker>
+                </pattern>
+                <message>Horas devem abreviar-se com um &quot;h&quot; minúsculo.</message>
+                <suggestion><match case_conversion="alllower" no="2" regexp_match="^0?(\d+)H" regexp_replace="$1&#160;h"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="2" regexp_match="^0?(\d+)H" regexp_replace="$1h"/></suggestion>
+                <example correction="12&#160;h|12h">Começa às <marker>12H</marker>.</example>
+                <example correction="6&#160;h|6h">Começa às <marker>06H</marker>.</example>
+            </rule>
+            <rule> <!-- #9: simple number with a capital H, which *could* be a henry (unit of electrical inductance) -->
+                <pattern>
+                    <token regexp="yes" skip="3" inflected="yes">às?|hora|horário|chegar|começar|início|fim|terminar|acabar|término|relógio|duração|durar|demorar|levar|evento|reunião|agenda</token>
+                    <marker>
+                        <token regexp="yes">\d+</token>
+                        <token case_sensitive="yes">H</token>
+                    </marker>
+                </pattern>
+                <message>Horas devem abreviar-se com um &quot;h&quot; minúsculo.</message>
+                <suggestion><match case_conversion="alllower" no="2" regexp_match="^0?(\d+)" regexp_replace="$1&#160;h"/></suggestion>
+                <suggestion><match case_conversion="alllower" no="2" regexp_match="^0?(\d+)" regexp_replace="$1h"/></suggestion>
+                <example correction="12&#160;h|12h">Começa às <marker>12 H</marker>.</example>
+                <example correction="6&#160;h|6h">Começa às <marker>06 H</marker>.</example>
             </rule>
         </rulegroup>
 
@@ -41780,7 +41839,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>UHCI: a versão USB 1.x</example>
             </rule>
             <rule>
-                <regexp>(?&lt;!([a-vyz]|[a-vyz]\d|[a-vyz]\d{2}|[a-vyz]\d{3}|[a-vyz]\d{4}|[a-vyz]\d{5}))((?!(?:[,;\(\.][x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)|(?:[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*][,;\.\)\!\?]))([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+))</regexp>
+                <regexp>(?&lt;!([a-vyz]|[a-vyz]\d|[a-vyz]\d{2}|[a-vyz]\d{3}|[a-vyz]\d{4}|[a-vyz]\d{5}))((?!(?:[,;\(\.][x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)|(?:[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*][,;\.\)\!\?]))([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?)[x\*]([\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+[a-zA-Z]*))</regexp>
+                <filter class="org.languagetool.rules.patterns.RegexAntiPatternFilter" args="antipatterns:\b0x[a-fA-F0-9]{2,4}"/>
                 <message>Prefira o símbolo de multiplicação.</message>
                 <suggestion>\4×\5</suggestion>
                 <suggestion>\4·\5</suggestion>
@@ -41788,12 +41848,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="6.626×10⁻³⁴|6.626·10⁻³⁴">h = <marker>6.626x10⁻³⁴</marker> J.s</example>
                 <example correction="5×2|5·2"><marker>5*2</marker> = 10</example>
                 <!-- unit spacing rule will need to apply independently, and only after this is accepted -->
-                <example correction="10,5×17,2|10,5·17,2">Uma área de <marker>10,5x17,2</marker>km.</example>
+                <example correction="10,5×17,2km|10,5·17,2km">Uma área de <marker>10,5x17,2km</marker>.</example>
                 <example>a=2·x²+5</example>
                 <example>4,5×2,5=11,25</example>
                 <example>Oxihalídeos do Amerício na forma de AmVIO2X2, AmVO2X, AmIVOX2 e AmIIIOX…</example>
                 <example>Número 1Z1141X30370035113</example>
                 <example>- 1 X, 2 X, 4 X</example>
+                <example>Qualquer octeto 0x00 - 0x20 ou 0x7F - 0x9F2</example>
+                <example correction="0×5Q|0·5Q">No entanto, <marker>0x5Q</marker> não é um octal ou um hexadecimal.</example>
             </rule>
             <rule>
                 <regexp>([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})\*([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})</regexp>
@@ -43452,18 +43514,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <category id="MULTITOKEN_SPELLING" name="Erros ortográficos em nomes próprios" type="misspelling" default="on">
         <rulegroup id="PT_MULTITOKEN_SPELLING_FOUR" name="erros ortográficos em nomes próprios (4 tokens)" default="on">
-            <rule>
+            <rule> <!-- #1 -->
                 <pattern>
-                    <token postag="UNKNOWN"><exception regexp="yes">&particles_of;</exception></token>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&particles_of;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
                 <message>Possível erro ortográfico.</message>
                 <example correction="The Dark Knight Rises"><marker>The Derk Knight Rises</marker>.</example>
                 <!-- <example correction="Rocky Mountain National Park"><marker>Rocky Mountains National Parrk</marker>.</example> -->
                 <!-- <example correction="La Gazzetta dello Sport"><marker>La Gazzeta dello Sport</marker></example> -->
+                <example correction="The Last of Us">Você já jogou <marker>the last of us</marker>?</example>
                 <example>Tokyo Marble Chocolate.</example>
                 <example>Ctrl + Shift + R</example>
                 <example>+=n</example>
@@ -43474,9 +43537,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>=mx+p</example>
                 <example>=2Fx/ρvS</example>
             </rule>
-            <rule>
+            <rule> <!-- #2 -->
                 <pattern>
-                    <token postag="UNKNOWN"><exception regexp="yes">&particles_of;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&particles_of;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
@@ -43486,10 +43549,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="The Dark Knight Rises"><marker>The Derk Knight Rises</marker>.</example>
                 <example correction="Rocky Mountain National Park"><marker>Rocki Mountains National Park</marker>.</example>
             </rule>
-            <rule>
+            <rule> <!-- #3 -->
                 <pattern>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&particles_of;</exception></token>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
@@ -43498,11 +43561,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="The Dark Knight Rises"><marker>The Derk Knight Rises</marker>.</example>
                 <example correction="Rocky Mountain National Park"><marker>Rocki Mountains National Park</marker>.</example>
             </rule>
-            <rule>
+            <rule> <!-- #4 -->
                 <pattern>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&particles_of;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
@@ -43510,12 +43573,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="The Dark Knight Rises"><marker>The Derk Knight Rises</marker>.</example>
                 <example correction="Rocky Mountain National Park"><marker>Rocki Mountains National Park</marker>.</example>
             </rule>
-            <rule>
+            <rule> <!-- #5 -->
                 <pattern>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&particles_of;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
                 <message>Possível erro ortográfico.</message>
@@ -43525,10 +43588,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
         <rulegroup id="PT_MULTITOKEN_SPELLING_THREE" name="erros ortográficos em nomes próprios (3 tokens)" default="on">
             <antipattern>
-                <token postag="UNKNOWN"/>
-                <token postag="UNKNOWN"/>
-                <token postag="UNKNOWN"/>
-                <token postag="UNKNOWN"/>
+                <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
+                <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
+                <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
+                <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
             </antipattern>
             <antipattern>
                 <token regexp="yes">\p{Lu}.+</token>
@@ -43542,9 +43605,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token><match no="0"/></token>
                 <token><match no="0"/></token>
             </antipattern>
-            <rule>
+            <rule> <!-- #1 -->
                 <pattern>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
@@ -43554,10 +43617,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="Osama bin Laden"><marker>Ousama Bin Laden</marker></example>
                 <example correction="Johann Sebastian Bach"><marker>Johan Sebastián Bach</marker>.</example>
             </rule>
-            <rule>
+            <rule> <!-- #2 -->
                 <pattern>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
@@ -43567,36 +43630,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="Johann Sebastian Bach"><marker>Johann Sebastián Bach</marker>.</example>
                 <example correction="Osama bin Laden"><marker>Ossama bin Laden</marker></example>
             </rule>
-            <rule>
+            <rule> <!-- #3 -->
                 <antipattern>
                     <token postag="NPMSSP0"/>
                     <token postag="NPMSSP0"/>
-                    <token postag="UNKNOWN"/>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
                     <example>José María Cuevas</example>
                 </antipattern>
                 <antipattern>
                     <token postag="NPFSSP0"/>
                     <token postag="NPFSSP0"/>
-                    <token postag="UNKNOWN"/>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
                 <message>Possível erro ortográfico.</message>
                 <example correction="Yuval Noah Harari"><marker>Yuval Noha hariri</marker>.</example>
             </rule>
-            <rule>
+            <rule> <!-- #4 -->
                 <pattern>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
                 <message>Possível erro ortográfico.</message>
                 <example correction="Yuval Noah Harari"><marker>Yuvl Noha Hariri</marker>.</example>
+                <example correction="My Chemical Romance">Ela gosta de <marker>my chemical romence</marker>.</example>
+                <example correction="The Mountain Goats">Eu fui no show dos <marker>the mountain goats</marker>.</example>
                 <example>Tokyo Marble Chocolate.</example>
                 <example>Ctrl + Shift + R</example>
                 <example>+=n</example>
@@ -43605,9 +43670,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>University of the Arts London</example>
                 <example>Montse Saez | Administración | Web master: FA? | Administración |</example>
             </rule>
-            <rule>
+            <rule> <!-- #5 -->
                 <pattern>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">&particles_of;|e|&amp;</token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
@@ -43619,7 +43684,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>sierra de Sa Verdera</example>
                 <example>Rey de Roma</example>
             </rule>
-            <rule>
+            <rule> <!-- #6 -->
                 <antipattern>
                     <token postag="NPMSSP0"/>
                     <token postag="NPMSSP0"/>
@@ -43635,7 +43700,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <pattern>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">&particles_of;|e|&amp;</token>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="requireRegexp:&particles_of;"/>
                 <message>Possível erro ortográfico.</message>
@@ -43650,20 +43715,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token>-</token>
                 <token spacebefore="no"/>
             </antipattern>
-            <rule>
+            <antipattern>
+                <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
+                <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
+                <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
+            </antipattern>
+            <rule> <!-- #1 -->
                 <antipattern>
                     <token regexp="yes">\p{Lu}.*<exception postag="D.*" postag_regexp="yes"/></token>
                     <token regexp="yes">\p{Lu}.*</token>
                     <token regexp="yes">\p{Lu}.*</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="UNKNOWN"/>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
                     <token regexp="yes">\p{Lu}.*</token>
                     <token regexp="yes">\p{Lu}.*</token>
                 </antipattern>
                 <pattern>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="keepSpaces:true"/>
                 <message>Possível erro ortográfico.</message>
@@ -43673,6 +43743,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="García Márquez"><marker>Garcìa Mraquez</marker>.</example>
                 <example correction="Lluís Llach"><marker>Lluís Lach</marker>.</example>
                 <example correction="SÃO PAULO"><marker>SAO PAULO</marker></example>
+                <example correction="The Guardian">Ele lê o jornal <marker>the guardian</marker> toda manhã.</example>
+                <example>Ele disse the guardian is in the garden.</example>
                 <example>y venderlo</example>
                 <example>Massachusetts Institute of Technology</example>
                 <example>el piano inicial d'I want you back</example>
@@ -43686,7 +43758,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Notáveis são o signor Gabriele Leone, Giovanni Battista Gervasio, Pietro Denis, que viajou muito entre 1750 e 1810.</example>
                 <example>MICHAEL JORDAN</example>
             </rule>
-            <rule>
+            <rule> <!-- #2 -->
                 <antipattern>
                     <token regexp="yes">\p{Lu}.*</token>
                     <token postag="NP.*" postag_regexp="yes"/>
@@ -43703,7 +43775,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </antipattern>
                 <pattern>
                     <token postag="N[PC].*" postag_regexp="yes" regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
-                    <token postag="UNKNOWN"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception><exception regexp="yes" case_sensitive="yes">[A-Z]{1,3}</exception><exception regexp="yes">[A-Z][A-Z\d]?</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception><exception regexp="yes" case_sensitive="yes">[A-Z]{1,3}</exception><exception regexp="yes">[A-Z][A-Z\d]?</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="keepSpaces:true"/>
                 <message>Possível erro ortográfico.</message>
@@ -43734,7 +43806,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Notáveis são o signor Gabriele Leone, Giovanni Battista Gervasio, Pietro Denis, que viajou muito entre 1750 e 1810.</example>
                 <example>O MacBook é uma linha de computadores portáteis Macintosh da Apple Inc. lançada originalmente em 16 de maio de 2006 e relançada em 9 de março de 2015.</example>
             </rule>
-            <rule>
+            <rule> <!-- #3 -->
                 <antipattern>
                     <token regexp="yes">\p{Lu}.*</token>
                     <token regexp="yes">\p{Lu}.*</token>
@@ -43746,12 +43818,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp="yes">\p{Lu}.*</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="UNKNOWN"/>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_"/>
                     <token regexp="yes">\p{Lu}.*</token>
                     <token regexp="yes">\p{Lu}.*</token>
                 </antipattern>
                 <pattern>
-                    <token postag="UNKNOWN" regexp="yes">\p{L}..*<exception regexp="yes">sir|don</exception><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_" regexp="yes">\p{L}..*<exception regexp="yes">sir|don</exception><exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}\p{Ll}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="none:none"/>
@@ -43777,13 +43849,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Boo-Boo</example>
                 <example>Fei-fei</example>
             </antipattern>
-            <rule>
+            <rule> <!-- #1 -->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">\p{Lu}..*
                         <exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception>
                     </token>
                     <token>-</token>
-                    <token postag="UNKNOWN" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="requireRegexp:- keepSpaces:false"/>
                 <message>Possível erro ortográfico.</message>
@@ -43791,11 +43863,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="Sacher-Masoch"><marker>Sacher - Masoch</marker></example>
                 <!--Time-Life-->
             </rule>
-            <rule>
+            <rule> <!-- #2 -->
                 <pattern>
-                    <token postag="UNKNOWN" regexp="yes">\p{L}..*<exception regexp="yes">&prefixos;|&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_" regexp="yes">\p{L}..*<exception regexp="yes">&prefixos;|&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
                     <token>-</token>
-                    <token postag="UNKNOWN" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_" regexp="yes">\p{L}..*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.spelling.multitoken.MultitokenSpellerFilter" args="requireRegexp:- keepSpaces:false"/>
                 <message>Possível erro ortográfico.</message>
@@ -43806,9 +43878,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>sub-taça</example>
                 <example>sub-pratos</example>
             </rule>
-            <rule>
+            <rule> <!-- #3 -->
                 <pattern>
-                    <token postag="UNKNOWN" regexp="yes">\p{L}..*
+                    <token postag_regexp="yes" postag="UNKNOWN|_english_ignore_" regexp="yes">\p{L}..*
                         <exception regexp="yes">&prefixos;&exceptions_multitoken_spell;|&particles_of;|.*\d.*</exception>
                     </token>
                     <token>-</token>

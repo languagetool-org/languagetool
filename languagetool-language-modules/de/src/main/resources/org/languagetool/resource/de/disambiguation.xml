@@ -2243,6 +2243,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
+    <rule name="Zuviel als Nomen" id="DAS_ZUVIEL"><!--Ein Zuviel an Carotinen macht sich optisch als Gelbfärbung der Haut bemerkbar.-->
+        <pattern case_sensitive="yes">
+            <token postag="ART.*|PRO.*" postag_regexp="yes"/>
+            <token min="0" postag="ADJ.*" postag_regexp="yes"/>
+            <token postag_regexp="yes" postag="SUB.*SIN:NEU:INF" regexp="yes">Zuviel</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="4-gliedrig" id="ZAHL_GLIEDRIG">
         <pattern>
             <token regexp="yes">[1-9]*-gliedrig.*</token>
@@ -4807,7 +4816,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       <pattern case_sensitive="yes">
         <marker><token regexp="yes">(A[bn]|Aus|Um|Über|Unter|Auf|Hin|Nach|Vor|Zurück)-</token></marker>
           <token postag="KON:.+" postag_regexp="yes"/>
-        <token regexp="yes">(A[bn]|Aus|Um|Über|Unter|Auf|Her|Hin|Nach|Vor|Weg|Zurück)\w+</token>
+        <token regexp="yes">(A[bn]|Aus|Um|Über|Unter|Auf|Her|Hin|Nach|Vor|Weg|Zurück|Rück)\w+</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>

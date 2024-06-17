@@ -539,7 +539,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>loor</token>
                 <token>de</token>
-                <token>multitudes</token>
+                <token regexp="yes">multitudes|multitud</token>
             </pattern>
             <message>Se prefiere la expresión <suggestion>olor de multitudes</suggestion>.</message>
             <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_014.htm</url>
@@ -15028,13 +15028,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>sobre</token>
                     <token min="0">-</token>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">...+<exception regexp="yes">dich(o|a)s?|comidas?|medidas?|impuestos?</exception></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">...+<exception regexp="yes">dich(o|a)s?|comidas?|medidas?|impuestos?|bebidas?</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="sobre$1"/></suggestion>
                 <example correction="sobresalían">Ellos <marker>sobre salían</marker>.</example>
                 <example>Háblame sobre todo esto.</example>
                 <example>Al actuar sobre dichos órganos.</example>
+                <example>Un cuestionario sobre bebidas.</example>
             </rule>
             <rule default="on">
                 <pattern>
@@ -16365,6 +16366,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="SINGLE_CHARACTER" name="carácter único en minúscula">
             <!-- copied and adapted from English rule -->
+            <antipattern>
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes" inflected="yes">mayúscula|minúscula</token>
+            </antipattern>
             <antipattern>
                 <!-- A series of single characters or digits -->
                 <token regexp="yes">[a-z]|[0-9]</token>
@@ -35368,7 +35373,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- But sometimes the English transliteration is used: Vladimir Nabokov ?-->
                 <pattern>
-                    <token>vladimir</token>
+                    <token>vladimir<exception postag="NP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>La escritura adecuada de este nombre ruso es con tilde.</message>
                 <suggestion>Vladímir</suggestion>
@@ -35728,6 +35733,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="García Márquez"><marker>Garcìa Mraquez</marker>.</example>
                 <example correction="René Magritte"><marker>Rene Magrite</marker></example>
                 <example correction="One Piece">¿Cuántos episodios de <marker>One Pice</marker> has visto?</example>
+                <example correction="The Guardian">Antonio leía <marker>the guardian</marker>.</example>
                 <example>y venderlo</example>
                 <example>Massachusetts Institute of Technology</example>
                 <example>el piano inicial d'I want you back</example>

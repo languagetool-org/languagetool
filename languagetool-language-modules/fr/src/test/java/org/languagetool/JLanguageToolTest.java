@@ -79,7 +79,7 @@ public class JLanguageToolTest {
     ruleMatch.setSuggestedReplacement("madame");
     List<RuleMatch> ruleMatches = new ArrayList<>();
     ruleMatches.add(ruleMatch);
-    List<RuleMatch> filteredRuleMatches =lang.mergeSuggestions(ruleMatches, null, null);
+    List<RuleMatch> filteredRuleMatches =lang.filterRuleMatches(ruleMatches, null, null);
     assertEquals("Un usage différent des majuscules et des minuscules est recommandé.", filteredRuleMatches.get(0).getMessage());
     assertEquals("Majuscules et minuscules", filteredRuleMatches.get(0).getShortMessage());
     assertEquals(ITSIssueType.Typographical, filteredRuleMatches.get(0).getRule().getLocQualityIssueType());
@@ -90,15 +90,37 @@ public class JLanguageToolTest {
 
   @Test
   public void testQuotes() throws IOException {
-    Language lang = new French();
+    French lang = new French();
     JLanguageTool lt = new JLanguageTool(lang);
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("'elle'.");
     RuleMatch ruleMatch = new RuleMatch(new FakeRule("AI_FR_GGEC_REPLACEMENT_PUNCTUATION_QUOTE_TEST"), analyzedSentence, 0, 5, "Possible error");
-    List<RuleMatch> ruleMatches = new ArrayList<>();
-    ruleMatches.add(ruleMatch);
     Set<String> enabledRules = Collections.emptySet();
-    List<RuleMatch> processedMatches = lang.adaptSuggestions(ruleMatches, enabledRules);
-    assertEquals(true, processedMatches.get(0).getRule().getTags().contains(Tag.picky));
-    assertEquals("AI_FR_GGEC_QUOTES", processedMatches.get(0).getSpecificRuleId());
+    RuleMatch processedMatch = lang.adjustFrenchRuleMatch(ruleMatch, enabledRules);
+    assertEquals(true, processedMatch.getRule().getTags().contains(Tag.picky));
+    assertEquals("AI_FR_GGEC_QUOTES", processedMatch.getSpecificRuleId());
   }
+  @Test
+  public void testMergingOfGrammarCorrections() throws IOException {
+    Language lang = new French();
+    JLanguageTool lt = new JLanguageTool(lang);
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Ce sont de spectateur");
+
+    // Mocking two adjacent grammar issues
+    RuleMatch ruleMatch1 = new RuleMatch(new FakeRule("AI_FR_GGEC_DES"), analyzedSentence, 9, 11, "Erreur de nombre");
+    ruleMatch1.setSuggestedReplacement("des");
+    RuleMatch ruleMatch2 = new RuleMatch(new FakeRule("AI_FR_GGEC_SPECTATEURS"), analyzedSentence, 12, 21, "Erreur de forme plurielle");
+    ruleMatch2.setSuggestedReplacement("spectateurs");
+
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    ruleMatches.add(ruleMatch1);
+    ruleMatches.add(ruleMatch2);
+
+    // Process the rule matches
+    List<RuleMatch> processedMatches = lang.filterRuleMatches(ruleMatches, null, Collections.emptySet());
+
+    // Asserts
+    assertEquals("des spectateurs", processedMatches.get(0).getSuggestedReplacements().get(0));
+    assertEquals("AI_FR_MERGED_MATCH", processedMatches.get(0).getSpecificRuleId());
+  }
+
 }

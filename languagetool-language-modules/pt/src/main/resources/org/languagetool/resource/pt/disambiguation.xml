@@ -3466,6 +3466,20 @@
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule id="HEXADECIMAL_NOTATION">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">0x[0-9A-Fa-f]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="OCTAL_NOTATION">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">0o[0-7]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule id="X_AS_MULTIPLICATION_SIGN_IGNORE">
         <pattern>
             <token regexp="yes">&number_token;x&number_token;[a-zA-Z]*</token>
@@ -3513,6 +3527,13 @@
       <rule id="IGNORE_SPELLING_KKK_LAUGHTER">
           <pattern>
               <token regexp="yes">k{3,15}</token>
+          </pattern>
+          <disambig action="ignore_spelling"/>
+      </rule>
+
+      <rule id="IGNORE_SPELLING_RS_LAUGHTER">
+          <pattern>
+              <token regexp="yes">(rs){2,15}</token>
           </pattern>
           <disambig action="ignore_spelling"/>
       </rule>
@@ -3751,7 +3772,7 @@
   <rulegroup id="IGNORE_ENGLISH_WORDS" name="Label English words">
       <rule> <!-- #1 -->
           <pattern>
-              <token regexp="yes">&english_common;</token>
+              <token regexp="yes" postag="UNKNOWN">&english_common;</token>
               <token regexp="yes">\p{L}+
                   <exception regexp="yes">&english_no;|&english_forward;</exception>
               </token>
@@ -3782,7 +3803,7 @@
               <token regexp="yes">\p{L}+
                   <exception regexp="yes">&english_no;|&english_forward;</exception>
               </token>
-              <token regexp="yes">&english_common;</token>
+              <token postag="UNKNOWN" regexp="yes">&english_common;</token>
           </pattern>
           <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,2"/>
           <disambig action="add">
