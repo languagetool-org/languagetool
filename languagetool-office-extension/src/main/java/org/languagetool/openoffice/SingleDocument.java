@@ -1822,12 +1822,14 @@ public class SingleDocument {
         writeCaches();
       } else if(event.EventName.equals("OnUnfocus") && !isOnUnload) {
         mDocHandler.getCurrentDocument();
-      } else if(event.EventName.equals("OnSaveDone") && config.saveLoCache()) {
-          //  save cache after document is saved (if something goes wrong the last state of document is saved)
+      } else if(event.EventName.equals("OnSave") && config.saveLoCache()) {
+          //  save cache before document is saved (xComponent may be null after saving)
+        if (cacheIO != null && xComponent != null) {
           writeCaches();
-      } else if(event.EventName.equals("OnSaveAsDone") && config.saveLoCache()) {
+        }
+      } else if(event.EventName.equals("OnSaveAs") && config.saveLoCache()) {
         try {
-          if (cacheIO != null) {
+          if (cacheIO != null && xComponent != null) {
             cacheIO.setDocumentPath(xComponent);
             writeCaches();
           }
