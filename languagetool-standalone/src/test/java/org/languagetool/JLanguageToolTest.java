@@ -560,6 +560,17 @@ public class JLanguageToolTest {
   }
 
   @Test
+  public void testIgnoringEnglishWordsInGermanyGerman() throws IOException {
+    Language lang = new GermanyGerman();
+    JLanguageTool lt = new JLanguageTool(lang);
+
+    List<RuleMatch> matches = lt.check("Ich weiß nicht, ob today passt.");
+    assertEquals(1, matches.size());
+    matches = lt.check("Komm schon, let us do this!");
+    assertEquals(0, matches.size());
+  }
+
+  @Test
   public void testIgnoreEnglishWordsInPortuguese() throws IOException {
     JLanguageTool lt = new JLanguageTool(new BrazilianPortuguese());
     lt.disableRules(lt.getAllRules().stream().map(Rule::getId).collect(Collectors.toList()));
@@ -602,14 +613,6 @@ public class JLanguageToolTest {
       assert !matches.isEmpty();
       assertEquals(entry.getValue(), matches.get(0).getSuggestedReplacements().get(0));
     }
-  }
-
-  @Test
-  public void testIgnoringEnglishWordsInGerman() throws IOException {
-    Language lang = new GermanyGerman();
-    JLanguageTool lt = new JLanguageTool(lang);
-    List<RuleMatch> matches = lt.check("This is an English sentence.");
-    assertEquals(0, matches.size());
   }
 
 }
