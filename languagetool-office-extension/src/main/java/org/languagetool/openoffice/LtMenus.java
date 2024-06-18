@@ -506,7 +506,7 @@ public class LtMenus {
             MessageHandler.printToLogFile("LanguageToolMenus: itemSelected: AI support: " + (event.MenuId - SUBMENU_ID_AI));
 //          }
           if (event.MenuId == SUBMENU_ID_AI + 1) {
-            AiErrorDetection aiError = new AiErrorDetection(document, config);
+            AiErrorDetection aiError = new AiErrorDetection(document, config, document.getMultiDocumentsHandler().getLanguageTool());
             aiError.addAiRuleMatchesForParagraph();
           } else {
             AiParagraphChanging aiChange = new AiParagraphChanging(document, config, event.MenuId - SUBMENU_ID_AI - 1);

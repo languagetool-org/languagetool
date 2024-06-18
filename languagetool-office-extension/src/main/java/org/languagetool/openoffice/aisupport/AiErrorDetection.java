@@ -47,19 +47,21 @@ import com.sun.star.linguistic2.SingleProofreadingError;
  */
 public class AiErrorDetection {
   
-  boolean debugMode = false;
+  boolean debugMode = true;
   
   private static final ResourceBundle messages = JLanguageTool.getMessageBundle();
   private final SingleDocument document;
   private final DocumentCache docCache;
   private final Configuration config;
+  private final SwJLanguageTool lt;
   private final int minParaLength = (int) (AiRemote.CORRECT_INSTRUCTION.length() * 1.2);
   private static String lastLanguage = null;
   private static String correctCommand = null;
   
-  public AiErrorDetection(SingleDocument document, Configuration config) {
+  public AiErrorDetection(SingleDocument document, Configuration config, SwJLanguageTool lt) {
     this.document = document;
     this.config = config;
+    this.lt = lt;
     docCache = document.getDocumentCache();
   }
   
@@ -140,7 +142,6 @@ public class AiErrorDetection {
         footnotePos, deletedChars));
     List<AnalyzedSentence> analyzedSentences;
     if (nFPara < 0) {
-      SwJLanguageTool lt = document.getMultiDocumentsHandler().getLanguageTool();
       paraText = DocumentCache.fixLinebreak(SingleCheck.removeFootnotes(paraText, 
           footnotePos, deletedChars));
       analyzedSentences =  lt.analyzeText(paraText.replace("\u00AD", ""));
@@ -148,6 +149,7 @@ public class AiErrorDetection {
       analyzedSentences = docCache.getAnalyzedParagraph(nFPara);
     }
     if (analyzedSentences == null) {
+      analyzedSentences = docCache.createAnalyzedParagraph(nFPara, lt);
       if (debugMode) {
         MessageHandler.printToLogFile("AiErrorDetection: getAiRuleMatchesForParagraph: analyzedSentences == null");
       }
@@ -165,7 +167,6 @@ public class AiErrorDetection {
       }
       return null;
     }
-    SwJLanguageTool lt = document.getMultiDocumentsHandler().getLanguageTool();
     List<AnalyzedSentence> analyzedAiResult =  lt.analyzeText(result.replace("\u00AD", ""));
     AiDetectionRule aiRule = new AiDetectionRule(result, paraText, analyzedAiResult, 
         document.getMultiDocumentsHandler().getLinguisticServices(), locale , messages, config.aiShowStylisticChanges());

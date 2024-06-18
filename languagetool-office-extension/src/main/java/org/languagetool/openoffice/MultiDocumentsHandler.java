@@ -1401,7 +1401,7 @@ public class MultiDocumentsHandler {
   public void aiAddErrorMarks() {
     for (SingleDocument document : documents) {
       if (menuDocId.equals(document.getDocID())) {
-        AiErrorDetection aiError = new AiErrorDetection(document, config);
+        AiErrorDetection aiError = new AiErrorDetection(document, config, lt);
         aiError.addAiRuleMatchesForParagraph();
         return;
       }

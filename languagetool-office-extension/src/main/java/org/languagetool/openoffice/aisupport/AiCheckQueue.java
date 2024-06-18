@@ -126,35 +126,20 @@ public class AiCheckQueue extends TextLevelCheckQueue {
     return null;
   }
    
-   /**
-    *  get language of document by ID
-    *  Set to null for AI
-    */
-  @Override
-  protected Language getLanguage(String docId, TextParagraph nStart) {
-    return null;
-  }
-
-  /**
-   * initialize languagetool (set to default for AI)
-   */
-  @Override
-  public void initLangtool(Language language) throws Throwable {
-    lt = multiDocHandler.getLanguageTool();
-  }
-   
   /**
    *  run a queue entry for the specific document
    */
   @Override
   protected void runQueueEntry(QueueEntry qEntry, MultiDocumentsHandler multiDocHandler, SwJLanguageTool lt) throws Throwable {
+    MessageHandler.printToLogFile("Try to run AI Queue Entry for " + qEntry.nStart.number);
     SingleDocument document = getSingleDocument(qEntry.docId);
     TextParagraph nTPara = qEntry.nStart;
     if (document != null && !document.isDisposed() && nTPara != null) {
       DocumentCache docCache = document.getDocumentCache();
       if (docCache != null) {
         int nFPara = docCache.getFlatParagraphNumber(nTPara);
-        AiErrorDetection aiError = new AiErrorDetection(document, multiDocHandler.getConfiguration());
+        MessageHandler.printToLogFile("Run AI Queue Entry for " + qEntry.nStart.number);
+        AiErrorDetection aiError = new AiErrorDetection(document, multiDocHandler.getConfiguration(), lt);
         aiError.addAiRuleMatchesForParagraph(nFPara);
       }
     }

@@ -54,7 +54,7 @@ public class TextLevelCheckQueue {
   private int lastCache = -1;
   private String lastDocId = null;
   protected SwJLanguageTool lt;
-  private Language lastLanguage = null;
+  protected Language lastLanguage = null;
   protected boolean interruptCheck = false;
   private boolean queueRuns = false;
 //  private boolean queueWaits = false;
@@ -282,9 +282,9 @@ public class TextLevelCheckQueue {
    * initialize languagetool for text level iteration
    */
   public void initLangtool(Language language) throws Throwable {
-    if (debugMode) {
+//    if (debugMode) {
       MessageHandler.printToLogFile("TextLevelCheckQueue: initLangtool: language = " + (language == null ? "null" : language.getShortCodeWithCountryAndVariant()));
-    }
+//    }
     lt = multiDocHandler.initLanguageTool(language, false);
     if (lt != null) {
       multiDocHandler.initCheck(lt);
