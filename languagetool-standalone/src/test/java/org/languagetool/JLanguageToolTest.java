@@ -587,7 +587,18 @@ public class JLanguageToolTest {
       "E se for business?",  // "for"
       "Em português é Conduzindo a Miss Daisy, não é?",  // "a"
       "A organização Law Enforcement Agent Protection (Leap).",  // single-word parenthetical
-      "Mais sucessos seguiram, com os álbuns \"Ghetto Dictionary: The Art of War\""  // ghetto
+      "Mais sucessos seguiram, com os álbuns \"Ghetto Dictionary: The Art of War\"",  // ghetto
+      // Making sure disambiguation works properly per recent FPs
+      "A Abaddon Books, subsidiária e editora dos livros.",
+      "Smokers in Airplanes é o segundo álbum do artista brasileiro.",
+      "Obteve um doutorado em física pela American University.",
+      "O American Sociological Review é um jornal acadêmico bimensal.",
+      "Código do Bletchley Park na Inglaterra.",
+      "Sobre Batman, Broken City (apesar do Coringa).",
+      "Birmingham City Football Club.",
+      "Narra, segundo o historiador americano Will Durant, uma das maiores aventuras da história humana.",
+      "Duas décadas mais tarde, os Gipsy Kings incorporaram aquilo.",
+      "Valente teve três irmãos, um dos quais, Silvio Francesco, também esteve no show business."
     };
     for (String sentence : noErrorSentences) {
       List<RuleMatch> matches = lt.check(sentence);
