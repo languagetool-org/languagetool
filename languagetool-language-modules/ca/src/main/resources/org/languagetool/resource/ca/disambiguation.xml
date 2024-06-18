@@ -9442,7 +9442,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token>de</token>
                     <token>color</token>
-                    <token regexp="yes">vermell|verd|blau|taronja|groc|escarlata</token>
+                    <token regexp="yes">vermell|verd|blau|taronja|groc|escarlata|turquesa|crema</token>
                     <token postag="AQ.[MC][SN]." postag_regexp="yes"/>
                 </marker>
             </pattern>
@@ -9458,7 +9458,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token>de</token>
                     <token>color</token>
-                    <token regexp="yes">vermell|verd|blau|taronja|groc|escarlata</token>
+                    <token regexp="yes">vermell|verd|blau|taronja|groc|escarlata|turquesa|crema</token>
                 </marker>
             </pattern>
             <disambig action="replace">
@@ -9468,15 +9468,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
-    <rule id="color_x" name="color x">
-        <pattern>
-            <token>color</token>
-            <marker>
-                <token postag="NCFS000">panotxa</token>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="N.*"/>
-    </rule>
+    <rulegroup id="color_x" name="color x">
+        <rule>
+            <pattern>
+                <token>color</token>
+                <marker>
+                    <token postag="NCFS000">panotxa</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>color<exception postag="LOC_ADJ"/></token>
+                <marker>
+                    <token>crema</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CS00"/>
+        </rule>
+    </rulegroup>
     <rule id="el_dia_deu" name="el dia deu">
         <pattern>
             <unify>
@@ -19943,7 +19954,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd lemma="vendre"/>
         </disambig>
     </rule>
-    <!-- <rulegroup id="femeni_inusual" name="femení inusual: amor, color...">
+    <rulegroup id="femeni_inusual" name="femení inusual: amor, color...">
         <rule>
             <pattern>
                 <token regexp="yes">&femeni_inusual;<exception postag=".*_GN_.*|.*LOC.*" postag_regexp="yes"/></token>
@@ -19960,7 +19971,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd pos="_GN_MP"/>
             </disambig>
         </rule>
-    </rulegroup>-->
+    </rulegroup>
     <rulegroup id="primera_o_tercera_persona" name="3a persona, no 1a">
         <rule>
             <pattern>
