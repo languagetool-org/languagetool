@@ -277,6 +277,7 @@ public class PronomsFeblesHelper {
     addEsEn.put("ens", "se'ns en ");
     addEsEn.put("us", "se us en ");
     addEsEn.put("vos", "se vos en ");
+    addEsEn.put("els", "se'ls en ");
   }
 
   private static Map<String, String> addEsEnApostrophe = new HashMap<>();
@@ -291,6 +292,7 @@ public class PronomsFeblesHelper {
     addEsEnApostrophe.put("ens", "se'ns n'");
     addEsEnApostrophe.put("us", "se us n'");
     addEsEnApostrophe.put("vos", "se vos n'");
+    addEsEnApostrophe.put("els", "se'ls n'");
   }
 
 
