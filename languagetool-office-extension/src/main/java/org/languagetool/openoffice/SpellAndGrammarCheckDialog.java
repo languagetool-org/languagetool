@@ -575,6 +575,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
       Locale locale = null;
       List<AnalyzedSentence> analyzedSentences = docCache.getAnalyzedParagraph(nPara);
+      if (analyzedSentences == null) {
+        analyzedSentences = docCache.createAnalyzedParagraph(nPara, lt);
+      }
       int pos = 0;
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         AnalyzedTokenReadings[] tokens = analyzedSentence.getTokensWithoutWhitespace();
