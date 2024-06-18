@@ -2247,8 +2247,8 @@ public class ConfigurationDialog implements ActionListener {
     cons.insets = new Insets(6, 6, 6, 6);
     cons.gridx = 0;
     cons.gridy = 0;
-    cons.anchor = GridBagConstraints.WEST;
-    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.NORTHWEST;
+    cons.fill = GridBagConstraints.BOTH;
     cons.weightx = 0.0f;
     cons.weighty = 0.0f;
     

@@ -954,11 +954,11 @@ public class SingleDocument {
   /**
    * Add an new AI entry to queue
    */
-  public void addAiQueueEntry(int nFPara) {
+  public void addAiQueueEntry(int nFPara, boolean next) {
     if (!disposed && mDocHandler.getAiCheckQueue() != null && docCache != null) {
       TextParagraph nTPara = docCache.getNumberOfTextParagraph(nFPara);
       if (nTPara != null) {
-        mDocHandler.getAiCheckQueue().addQueueEntry(nTPara, docID); 
+        mDocHandler.getAiCheckQueue().addQueueEntry(nTPara, docID, next); 
       }
     }
   }

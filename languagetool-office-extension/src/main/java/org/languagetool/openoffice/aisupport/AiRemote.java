@@ -183,7 +183,7 @@ public class AiRemote {
           if (out == null) {
             return null;
           }
-          out = filterOutput (out, org, onlyOneParagraph);
+          out = filterOutput (out, org, instruction, onlyOneParagraph);
           if (debugModeTm) {
             long runTime = System.currentTimeMillis() - startTime;
             MessageHandler.printToLogFile("Time to generate Answer: " + runTime);
@@ -214,18 +214,22 @@ public class AiRemote {
     return out;
   }
   
-  private String filterOutput (String out, String org, boolean onlyOneParagraph) {
+  private String filterOutput (String out, String org, String instruction, boolean onlyOneParagraph) {
     out = removeSurroundingBrackets(out, org);
     out = out.replace("\n", "\r").replace("\r\r", "\r").replace("\\\"", "\"").trim();
     if (onlyOneParagraph) {
       String[] parts = out.split("\r");
       out = parts[0].trim();
       out = removeSurroundingBrackets(out, org);
-      if (out.contains(":") && !org.contains(":")) {
+      String[] inst = instruction.split("[-.:!?]");
+      if (out.contains(":") && (!org.contains(":") || out.trim().startsWith(inst[0].trim()))) {
         parts = out.split(":");
         if (parts.length > 1) {
-          out = parts[1].trim();
-          out = removeSurroundingBrackets(out, org);
+          out = parts[1];
+          for (int i = 2; i < parts.length; i++) {
+            out += ":" + parts[i];
+          }
+          out = removeSurroundingBrackets(out.trim(), org);
         }
       }
     }

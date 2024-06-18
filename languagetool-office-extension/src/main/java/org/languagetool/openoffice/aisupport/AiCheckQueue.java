@@ -49,7 +49,7 @@ public class AiCheckQueue extends TextLevelCheckQueue {
    * Add a new entry to queue
    * add it only if the new entry is not identical with the last entry or the running
    */
-   public void addQueueEntry(TextParagraph nTPara, String docId) {
+   public void addQueueEntry(TextParagraph nTPara, String docId, boolean next) {
      if (nTPara == null || nTPara.number < 0 || docId == null || interruptCheck) {
        if (debugMode) {
          MessageHandler.printToLogFile("AiCheckQueue: addQueueEntry: Return without add to queue: nCache = " + OfficeTools.CACHE_AI
@@ -74,7 +74,11 @@ public class AiCheckQueue extends TextLevelCheckQueue {
        }
      }
      synchronized(textRuleQueue) {
-       textRuleQueue.add(queueEntry);
+       if (next) {
+         textRuleQueue.add(0, queueEntry);
+       } else {
+         textRuleQueue.add(queueEntry);
+       }
        if (debugMode) {
          if (debugMode) {
            MessageHandler.printToLogFile("AiCheckQueue: addQueueEntry: Entry removed: nCache = " + OfficeTools.CACHE_AI

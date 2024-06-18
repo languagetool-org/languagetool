@@ -29,12 +29,15 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Tag;
+import org.languagetool.openoffice.LinguisticServices;
 import org.languagetool.openoffice.MessageHandler;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.RuleMatch.Type;
 import org.languagetool.rules.TextLevelRule;
+
+import com.sun.star.lang.Locale;
 
 /**
  * Rule to detect errors by a AI API
@@ -59,14 +62,19 @@ public class AiDetectionRule extends TextLevelRule {
   private final List<AnalyzedSentence> analyzedAiResult;
   private final String ruleMessage;
   private final boolean showStylisticHints;
+  private final LinguisticServices linguServices;
+  private final Locale locale;
 
   
-  AiDetectionRule(String aiResultText, String paraText, List<AnalyzedSentence> analyzedAiResult, ResourceBundle messages, boolean showStylisticHints) {
-     this.aiResultText = aiResultText;
+  AiDetectionRule(String aiResultText, String paraText, List<AnalyzedSentence> analyzedAiResult, 
+      LinguisticServices linguServices, Locale locale, ResourceBundle messages, boolean showStylisticHints) {
+    this.aiResultText = aiResultText;
     this.analyzedAiResult = analyzedAiResult;
     this.messages = messages;
     this.paraText = paraText;
     this.showStylisticHints = showStylisticHints;
+    this.linguServices = linguServices;
+    this.locale = locale;
     ruleMessage = messages.getString("loAiRuleMessage");
     
     setCategory(Categories.STYLE.getCategory(messages));
@@ -83,8 +91,12 @@ public class AiDetectionRule extends TextLevelRule {
     if (resultToken.equals("'")) {
       return SINGLE_QUOTES.matcher(paraToken).matches();
     }
-*/
+*//*
     if (resultToken.equals("\"") || resultToken.equals("'")) {
+      return QUOTES.matcher(paraToken).matches() || SINGLE_QUOTES.matcher(paraToken).matches();
+    }
+*/
+    if (QUOTES.matcher(resultToken).matches() || SINGLE_QUOTES.matcher(resultToken).matches()) {
       return QUOTES.matcher(paraToken).matches() || SINGLE_QUOTES.matcher(paraToken).matches();
     }
     if (resultToken.equals("-")) {
@@ -146,7 +158,12 @@ public class AiDetectionRule extends TextLevelRule {
     for (i = 0; i < paraTokens.size() && j < resultTokens.size(); i++) {
       if (!paraTokens.get(i).token.equals(resultTokens.get(j).token) 
           && !isIgnoredToken(paraTokens.get(i).token, resultTokens.get(j).token)) {
-        if (((i == 0 && "{".equals(resultTokens.get(j).token)) || isQuote(paraTokens.get(i).token))
+        if ((i == 0 && ("{".equals(resultTokens.get(j).token) || "\"".equals(resultTokens.get(j).token)))
+            && j + 1 < resultTokens.size() && paraTokens.get(i).token.equals(resultTokens.get(j + 1).token)) {
+          j += 2;
+          continue;
+        }
+        if (isQuote(paraTokens.get(i).token)
             && i + 1 < paraTokens.size() && paraTokens.get(i + 1).token.equals(resultTokens.get(j).token)) {
           continue;
         }
@@ -216,11 +233,13 @@ public class AiDetectionRule extends TextLevelRule {
         if (debugMode) {
           MessageHandler.printToLogFile("Match found: start: " + posStart + ", end: " + posEnd + ", suggestion: " + suggestion);
         }
-        RuleMatch ruleMatch = new RuleMatch(this, sentence, posStart, posEnd, ruleMessage);
         suggestion = sugStart >= sugEnd ? "" : aiResultText.substring(sugStart, sugEnd);
-        ruleMatch.addSuggestedReplacement(suggestion);
-        ruleMatch.setType(Type.Hint);
-        tmpMatches.add(new AiRuleMatch(ruleMatch, sugStart, sugEnd));
+        if (suggestion.isEmpty() || suggestion.contains(" ") || linguServices.isCorrectSpell(suggestion, locale)) {
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, posStart, posEnd, ruleMessage);
+          ruleMatch.addSuggestedReplacement(suggestion);
+          ruleMatch.setType(Type.Hint);
+          tmpMatches.add(new AiRuleMatch(ruleMatch, sugStart, sugEnd));
+        }
       }
       j++;
       if (i >= sentenceEnds.get(nSentence)) {
@@ -246,7 +265,7 @@ public class AiDetectionRule extends TextLevelRule {
             }
             mergeSentences = false;
           } else {
-            addAllRuleMatches (matches, tmpMatches);
+            addAllRuleMatches(matches, tmpMatches);
           }
         }
         tmpMatches.clear();
@@ -265,15 +284,8 @@ public class AiDetectionRule extends TextLevelRule {
       }
     }
     if (j < resultTokens.size() && (!paraTokens.get(i - 1).token.equals(resultTokens.get(j - 1).token)
-        || (!"}".equals(resultTokens.get(j).token) && !OPENING_BRACKETS.matcher(resultTokens.get(j).token).matches()))) {
-      int j1;
-      for (j1 = j + 1; j1 < resultTokens.size() && !OPENING_BRACKETS.matcher(resultTokens.get(j1).token).matches(); j1++);
-      String suggestion = aiResultText.substring(resultTokens.get(j - 1).startPos, resultTokens.get(j1 - 1).endPos);
-      RuleMatch ruleMatch = new RuleMatch(this, null, paraTokens.get(paraTokens.size() - 1).startPos, 
-          paraTokens.get(paraTokens.size() - 1).endPos, ruleMessage);
-      ruleMatch.addSuggestedReplacement(suggestion);
-      ruleMatch.setType(Type.Hint);
-      tmpMatches.add(new AiRuleMatch(ruleMatch, resultTokens.get(j - 1).startPos, resultTokens.get(resultTokens.size() - 1).endPos));
+        || (!"}".equals(resultTokens.get(j).token) && !"\"".equals(resultTokens.get(j).token) 
+            && !OPENING_BRACKETS.matcher(resultTokens.get(j).token).matches()))) {
       nSenTokens++;
       nSentence--;
       int allSenTokens = nSentence == 0 ? sentenceEnds.get(nSentence) : sentenceEnds.get(nSentence) - sentenceEnds.get(nSentence - 1);
@@ -281,16 +293,26 @@ public class AiDetectionRule extends TextLevelRule {
         if (showStylisticHints) {
           int startPos = tmpMatches.get(0).ruleMatch.getFromPos();
           int endPos = tmpMatches.get(tmpMatches.size() - 1).ruleMatch.getToPos();
-          ruleMatch = new RuleMatch(this, null, startPos, endPos, ruleMessage);
+          RuleMatch ruleMatch = new RuleMatch(this, null, startPos, endPos, ruleMessage);
           int suggestionStart = tmpMatches.get(0).suggestionStart;
           int suggestionEnd = tmpMatches.get(tmpMatches.size() - 1).suggestionEnd;
-          suggestion = aiResultText.substring(suggestionStart, suggestionEnd);
+          String suggestion = aiResultText.substring(suggestionStart, suggestionEnd);
           ruleMatch.addSuggestedReplacement(suggestion);
           ruleMatch.setType(Type.Other);
           matches.add(ruleMatch);
         }
       } else {
-        addAllRuleMatches (matches, tmpMatches);
+        int j1;
+        for (j1 = j + 1; j1 < resultTokens.size() && !OPENING_BRACKETS.matcher(resultTokens.get(j1).token).matches(); j1++);
+        String suggestion = aiResultText.substring(resultTokens.get(j - 1).startPos, resultTokens.get(j1 - 1).endPos);
+        if (suggestion.isEmpty() || suggestion.contains(" ") || linguServices.isCorrectSpell(suggestion, locale)) {
+          RuleMatch ruleMatch = new RuleMatch(this, null, paraTokens.get(paraTokens.size() - 1).startPos, 
+              paraTokens.get(paraTokens.size() - 1).endPos, ruleMessage);
+          ruleMatch.addSuggestedReplacement(suggestion);
+          ruleMatch.setType(Type.Hint);
+          tmpMatches.add(new AiRuleMatch(ruleMatch, resultTokens.get(j - 1).startPos, resultTokens.get(resultTokens.size() - 1).endPos));
+        }
+        addAllRuleMatches(matches, tmpMatches);
       }
 //      nParaTokens += nSenTokens;
     }

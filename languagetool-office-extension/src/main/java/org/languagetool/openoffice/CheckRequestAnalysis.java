@@ -701,7 +701,7 @@ class CheckRequestAnalysis {
         }
         if (mDocHandler.getAiCheckQueue() != null) {
           for (int n = changed.from; n < changed.to; n++) {
-            singleDocument.addAiQueueEntry(n);
+            singleDocument.addAiQueueEntry(n, true);
           }
         }
         if (mDocHandler.getTextLevelCheckQueue() != null) {
@@ -843,7 +843,7 @@ class CheckRequestAnalysis {
           singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, numLastFlPara.get(numLastFlPara.size() - 1) < 0 ? false : true);
         }
         if (mDocHandler.getAiCheckQueue() != null) {
-          singleDocument.addAiQueueEntry(nPara);
+          singleDocument.addAiQueueEntry(nPara, true);
         }
       } else {
         singleDocument.removeResultCache(nPara, true);

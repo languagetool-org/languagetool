@@ -167,7 +167,8 @@ public class AiErrorDetection {
     }
     SwJLanguageTool lt = document.getMultiDocumentsHandler().getLanguageTool();
     List<AnalyzedSentence> analyzedAiResult =  lt.analyzeText(result.replace("\u00AD", ""));
-    AiDetectionRule aiRule = new AiDetectionRule(result, paraText, analyzedAiResult, messages, config.aiShowStylisticChanges());
+    AiDetectionRule aiRule = new AiDetectionRule(result, paraText, analyzedAiResult, 
+        document.getMultiDocumentsHandler().getLinguisticServices(), locale , messages, config.aiShowStylisticChanges());
     return aiRule.match(analyzedSentences);
   }
     

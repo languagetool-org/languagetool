@@ -161,10 +161,13 @@ public class SingleCheck {
 */
     List<SingleProofreadingError[]> pErrors = checkTextRules(paraText, locale, footnotePositions, paraNum, 
                                                                       startOfSentence, lt, textIsChanged, isIntern, errType);
-    if (config.useAiSupport() && config.aiAutoCorrect()) {
+    if (config.useAiSupport() && config.aiAutoCorrect() && paraNum >= 0) {
       int startSentencePos = paragraphsCache.get(0).getStartSentencePosition(paraNum, startOfSentence);
       int endSentencePos = paragraphsCache.get(0).getNextSentencePosition(paraNum, startOfSentence);
       SingleProofreadingError[] aiErrors = paragraphsCache.get(OfficeTools.CACHE_AI).getFromPara(paraNum, startSentencePos, endSentencePos, errType);
+      if (aiErrors == null) {
+        singleDocument.addAiQueueEntry(paraNum, false);
+      }
       pErrors.add(aiErrors);
     }
     SingleProofreadingError[] errors = singleDocument.mergeErrors(pErrors, paraNum);
@@ -563,9 +566,9 @@ public class SingleCheck {
         }
         return pErrors;
       }
-      if (runAiQueue && parasToCheck == 0 && nFPara >= 0) {
-        singleDocument.addAiQueueEntry(nFPara);
-      }
+//      if (runAiQueue && parasToCheck == 0 && nFPara >= 0) {
+//        singleDocument.addAiQueueEntry(nFPara);
+//      }
       
       //  One paragraph check
       if (!isTextParagraph || parasToCheck == 0) {
