@@ -186,7 +186,7 @@ public class PatternRule extends AbstractTokenBasedRule {
   }
 
   /** Reset complex status - used for testing. **/
-  final void notComplexPhrase() {
+  public final void notComplexPhrase() {
     isMemberOfDisjunctiveSet = false;
   }
 
