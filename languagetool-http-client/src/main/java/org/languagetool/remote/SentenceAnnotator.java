@@ -300,6 +300,7 @@ public class SentenceAnnotator {
     System.out.println("Starting at line 1 of file " + cfg.inputFilePath);
     for (String line : lines) {
       numSentence++;
+      line = line.replaceAll("\u00A0" , " ");
       String[] parts = line.split("\t");
       if (parts.length < 2) {
         throw new Exception("Error: Lines from the input file should contain at least two tab-separated columns. "

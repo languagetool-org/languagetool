@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2016 Jaume Ortolà (http://www.languagetool.org)
+ * Copyright (C) 2024 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,34 +16,36 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules;
+package org.languagetool.tools;
 
 import org.languagetool.Language;
-import org.languagetool.rules.patterns.RuleSet;
+import java.util.Objects;
 
-import java.util.List;
-import java.util.Set;
+public class ConfidenceKey {
 
-/* 
- * Adjust rule suggestions for some languages  
- * 
- * @since 4.6
- */
-public class LanguageDependentFilter implements RuleMatchFilter {
+  private final Language lang;
+  private final String ruleId;
 
-  protected Language language;
-  protected Set<String> enabledRules; 
-
-  public LanguageDependentFilter(Language lang, RuleSet rules) {
-    language = lang;
-    enabledRules = rules.allRuleIds();
+  public ConfidenceKey(Language lang, String ruleId) {
+    this.lang = Objects.requireNonNull(lang);
+    this.ruleId = Objects.requireNonNull(ruleId);
   }
 
   @Override
-  public List<RuleMatch> filter(List<RuleMatch> ruleMatches) {
-	  return language.adaptSuggestions(ruleMatches, enabledRules);
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ConfidenceKey that = (ConfidenceKey) o;
+    return Objects.equals(lang, that.lang) && Objects.equals(ruleId, that.ruleId);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(lang, ruleId);
+  }
+
+  @Override
+  public String toString() {
+    return lang.getShortCodeWithCountryAndVariant() + "/" + ruleId;
   }
 }
-
-	  
-	

@@ -69,6 +69,14 @@
         </pattern>
         <disambig action="add"><wd pos=","/></disambig>
     </rule>
+
+    <rule id="REMOVE_NNS_GIVES" name="Remove NNS from 'gives' when it's a verb">
+        <pattern>
+            <token chunk_re=".-VP">gives</token>
+        </pattern>
+        <disambig action="remove"><wd pos="NNS"/></disambig>
+        <example type="ambiguous" inputform="gives[gif/NNS,give/NNS,give/VBZ]" outputform="gives[give/VBZ]">Next, GOPUSA <marker>gives</marker> you information on Enron and the Democrats as reported by Bob Webster, the editor of OpinioNet.com.</example>
+    </rule>
     
     <rulegroup id="CONTRACTIONS" name="contractions: special cases">
         <!--TODO: should be done before the chunker to get better results? -->
@@ -370,13 +378,13 @@
             <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
         </rule>
         <rule>
-            <!-- apostrophe inside a word -->
+            <!-- apostrophe inside a word, including cat-o'-nine-tails or will-o'-the-wisp -->
             <pattern>
-                <token regexp="yes">\p{L}.+</token>
+                <token regexp="yes">[\p{L}\-].+</token>
                 <marker>
                     <token regexp="yes" spacebefore="no">['’]</token>    
                 </marker>
-                <token regexp="yes" spacebefore="no">\p{L}.+</token>
+                <token regexp="yes" spacebefore="no">[\p{L}-].+</token>
             </pattern>
             <disambig action="add"><wd pos="_apostrophe_contraction_"/></disambig>
         </rule>
@@ -5137,7 +5145,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
         </pattern>
         <disambig postag="RB"/>
-        <example type="ambiguous" outputform="then[then/RB]" inputform="then[then/JJ,then/NN,then/RB]">It should be safe by <marker>then</marker>.</example>
+        <example type="ambiguous" outputform="then[then/RB]" inputform="then[then/JJ,then/NN:U,then/RB]">It should be safe by <marker>then</marker>.</example>
         <example type="untouched">For now they are having fun and learning all they can by <marker>playing</marker> with neighbors and friends.</example>
         <example type="untouched">I'll by flying.</example>
     </rule>
@@ -8295,6 +8303,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RB" />
             <token postag="VBP" />
         </antipattern>
+        <antipattern>
+            <token postag="W.*|SENT_START|PCT" postag_regexp="yes" />
+            <token postag="RB" min="0" />
+            <token postag="MD" />
+            <token postag="RB" min="0" />
+            <token postag="VBG|NN:UN?" postag_regexp="yes" />
+            <token postag="IN" />
+            <token chunk_re="B-NP.*" />
+            <token chunk_re="E-NP.*" postag="VB" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -8409,6 +8427,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Play it smart.</example><!-- #2522 -->
         <example type="untouched">Play it cool.</example>
         <example type="untouched">Use It Act.</example>
+        <example type="untouched">How will sharing of tech work?</example>
         <example type="untouched">We further wish to do it again.</example>
         <example type="untouched">Currently we email and share the stuff.</example><!-- #2539 -->
         <example type="untouched">Incorrect grammar: It sound's good.</example><!-- needed for VERB_APOSTROPHE_S -->
@@ -10738,7 +10757,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 
         <rule id="VERB_XX_BETTER_RBR" name='know/stand + xx + better => RBR'>
           <pattern>
-            <token skip="3" regexp="yes" inflected="yes">know|stand</token>
+            <token skip="3" regexp="yes" inflected="yes">
+                know|stand
+                <exception scope="next" postag="DT|VB[DZN]|CC|PCT|UNKNOWN|PRP\$" postag_regexp="yes" />
+            </token>
             <marker>
               <token>better</token>
             </marker>
@@ -17063,6 +17085,37 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_WHYS_AND_WHEREFORES" name="ignore 'whys and wherefores'">
+        <pattern>
+            <marker>
+            <token>whys</token>
+            </marker>
+            <token>and</token>
+            <token>wherefores</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="OTHER_THAN_NO_ADJECTIVE" name="'other' no adjective in 'other than'">
+        <pattern>
+            <marker>
+                <token>other</token>
+            </marker>
+            <token>than</token>
+        </pattern>
+        <disambig action="remove" postag="JJ" />
+    </rule>
+
+    <rule id="OTHER_THAN_ADVERB" name="'other' adverb in 'other than'">
+        <pattern>
+            <marker>
+                <token>other</token>
+            </marker>
+            <token>than</token>
+        </pattern>
+        <disambig action="add"><wd pos="RB"/></disambig>
     </rule>
 
 </rules>

@@ -297,6 +297,15 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     }
     return null;
   }
+
+  public AnalyzedToken readingWithTagRegex(Pattern pattern) {
+    for (AnalyzedToken reading : anTokReadings) {
+      if (reading.getPOSTag() != null && pattern.matcher(reading.getPOSTag()).matches()) {
+        return reading;
+      }
+    }
+    return null;
+  }
   
   /**
    * Returns the first reading that matches a given lemma.

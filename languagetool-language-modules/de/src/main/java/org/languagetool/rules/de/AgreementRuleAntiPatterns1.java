@@ -39,6 +39,11 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     asList(
+      token("sein"),   // "ich kann nicht dabei sein nächste Woche"
+      pos("ADV:TMP"),
+      tokenRegex("Woche|Monat|Jahr")
+    ),
+    asList(
       posRegex("(ART|PRO):.*"),   // "Wie viele Kolleg/-innen haben sie?"
       new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
       posRegex("SUB:.*"),
@@ -896,6 +901,20 @@ class AgreementRuleAntiPatterns1 {
       token("das"),
       token("Korrektur"),
       token("gelesen")
+    ),
+    asList(
+      // In einer entzückend chaotischen Partie zwischen A und B kam es zum Unentschieden.
+      posRegex("ART.*"),
+      posRegex("VER:PA[12]"),
+      posRegex("ADJ.*"),
+      posRegex("SUB.*")
+    ),
+    asList(
+      // Er lässt einen Visionen haben.
+      csRegex("lässt|lassen|ließ|ließen"),
+      token("einen"),
+      posRegex("SUB:AKK.*"),
+      posRegex("VER:INF.*")
     )
   );
 

@@ -22,13 +22,11 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Tag;
 import org.languagetool.UserConfig;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -42,6 +40,9 @@ public class LongSentenceRule extends TextLevelRule {
   private static final Pattern QUOTED_SENT_END = Pattern.compile("[?!.][\"“”„»«]", Pattern.DOTALL);
   private static final Pattern SENT_END = Pattern.compile("[?!.]");
 
+  private static List<String> OPENING_QUOTES = Arrays.asList("\"", "“", "„", "«", "(", "[", "{", "—");
+  private static List<String> CLOSING_QUOTES = Arrays.asList("\"", "”", "“", "»", ")", "]", "}", "—");
+
   private final ResourceBundle messages;
   private final int maxWords;
 
@@ -52,9 +53,9 @@ public class LongSentenceRule extends TextLevelRule {
     setTags(Collections.singletonList(Tag.picky));
     int tmpMaxWords = maxWords;
     if (userConfig != null) {
-      int confWords = userConfig.getConfigValueByID(getId());
-      if (confWords > 0) {
-        tmpMaxWords = confWords;
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null) {
+        tmpMaxWords = (int) cf[0];
       }
     }
     this.maxWords = tmpMaxWords;
@@ -72,11 +73,7 @@ public class LongSentenceRule extends TextLevelRule {
 
   private boolean isWordCount(String tokenText) {
     if (tokenText.length() > 0) {
-      char firstChar = tokenText.charAt(0);
-      if ((firstChar >= 'A' && firstChar <= 'Z') ||
-        (firstChar >= 'a' && firstChar <= 'z')) {
-        return true;
-      }
+      return !StringTools.isNotWordCharacter(tokenText.substring(0,1));
     }
     return false;
   }
@@ -106,13 +103,20 @@ public class LongSentenceRule extends TextLevelRule {
 
       AnalyzedTokenReadings fromPosToken = null;
       AnalyzedTokenReadings toPosToken = null;
+      int indexOfQuote = -1 ;
       while (i < tokens.length) {
         int numWords = 0;
         while (i < tokens.length && !tokens[i].getToken().equals(":") && !tokens[i].getToken().equals(";")
           && !tokens[i].getToken().equals("\n") && !tokens[i].getToken().equals("\r\n")
           && !tokens[i].getToken().equals("\n\r")
         ) {
-          if (isWordCount(tokens[i].getToken())) {
+          String token = tokens[i].getToken();
+          if (indexOfQuote == -1 && OPENING_QUOTES.indexOf(token) > -1) {
+            indexOfQuote = OPENING_QUOTES.indexOf(token);
+          } else if (indexOfQuote > -1 && CLOSING_QUOTES.indexOf(token) == indexOfQuote) {
+            indexOfQuote = -1;
+          }
+          if (isWordCount(token) && indexOfQuote == -1) {
             //Get first word token
             if (fromPosToken == null) {
               fromPosToken = tokens[i];
@@ -161,29 +165,13 @@ public class LongSentenceRule extends TextLevelRule {
     return 0;
   }
   
-// next functions give the user the possibility to configure the function
+  /**
+   *  give the user the possibility to configure the function
+   */
   @Override
-  public int getDefaultValue() {
-    return maxWords;
+  public RuleOption[] getRuleOptions() {
+    RuleOption[] ruleOptions = { new RuleOption(maxWords, messages.getString("guiLongSentencesText"), 5, 100) };
+    return ruleOptions;
   }
 
-  @Override
-  public boolean hasConfigurableValue() {
-    return true;
-  }
-
-  @Override
-  public int getMinConfigurableValue() {
-    return 5;
-  }
-
-  @Override
-  public int getMaxConfigurableValue() {
-    return 100;
-  }
-
-  @Override
-  public String getConfigureText() {
-    return messages.getString("guiLongSentencesText");
-  }
 }

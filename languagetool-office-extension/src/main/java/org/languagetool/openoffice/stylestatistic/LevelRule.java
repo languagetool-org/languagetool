@@ -195,7 +195,7 @@ public class LevelRule {
   }
 
   private int getDefaultRuleStep() {
-    int defValue = rule.getDefaultValue();
+    int defValue = (int)rule.getRuleOptions()[0].getDefaultValue();
     int defStep = (int) ((defValue / 3.) + 0.5);
     if (defStep < 1) {
       defStep = 1;

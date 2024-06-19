@@ -343,9 +343,6 @@ public class HTTPServerConfig {
         String ruleIdToConfidence = getOptionalProperty(props, "ruleIdToConfidenceFile", null);
         if (ruleIdToConfidence != null) {
           ruleIdToConfidenceFile = new File(ruleIdToConfidence);
-          if (!ruleIdToConfidenceFile.exists() || !ruleIdToConfidenceFile.isFile()) {
-            throw new RuntimeException("ruleIdToConfidenceFile cannot be found: " + ruleIdToConfidenceFile);
-          }
         }
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null && loadLangModel) {

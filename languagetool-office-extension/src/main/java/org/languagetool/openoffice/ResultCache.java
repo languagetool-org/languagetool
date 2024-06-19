@@ -567,27 +567,22 @@ public class ResultCache implements Serializable {
   }
 
   /**
-   * get an error from a position within a paragraph
-   * if there are more than one error at the position return the one which begins at second
-   * if there are more than one that begins at the same position return the one with the smallest size
+   * get all errors from a position within a paragraph as List
    */
-  public SingleProofreadingError getErrorAtPosition(int numPara, int numChar) {
+  public List<SingleProofreadingError> getErrorsAtPosition(int numPara, int numChar) {
     rwLock.readLock().lock();
+    List<SingleProofreadingError> errors = new ArrayList<>();
     try {
       SerialCacheEntry entry = entries.get(numPara);
       if (entry == null) {
         return null;
       }
-      SingleProofreadingError error = null;
       for (SingleProofreadingError err : entry.getErrorArray()) {
-        if (numChar >= err.nErrorStart && numChar <= err.nErrorStart + err.nErrorLength) {
-          if (error == null || error.nErrorStart < err.nErrorStart
-              || (error.nErrorStart == err.nErrorStart && error.nErrorLength > err.nErrorLength)) {
-            error = err;
-          } 
+        if (numChar >= err.nErrorStart && numChar < err.nErrorStart + err.nErrorLength) {
+          errors.add(err);
         }
       }
-      return error;
+      return errors;
     } finally {
       rwLock.readLock().unlock();
     }

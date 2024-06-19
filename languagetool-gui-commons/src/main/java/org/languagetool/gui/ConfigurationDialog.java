@@ -26,6 +26,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleOption;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -1028,19 +1029,19 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(new JLabel(" "), cons);
     
+    JCheckBox useLtSpellCheckerBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseLtSpellChecker")));
+    useLtSpellCheckerBox.setSelected(config.useLtSpellChecker());
+    useLtSpellCheckerBox.addItemListener(e -> {
+      config.setUseLtSpellChecker(useLtSpellCheckerBox.isSelected());
+    });
+    cons.gridy++;
+    portPanel.add(useLtSpellCheckerBox, cons);
+
     JCheckBox markSingleCharBold = new JCheckBox(Tools.getLabel(messages.getString("guiMarkSingleCharBold")));
     markSingleCharBold.setSelected(config.markSingleCharBold());
     markSingleCharBold.addItemListener(e -> config.setMarkSingleCharBold(markSingleCharBold.isSelected()));
     cons.gridy++;
     portPanel.add(markSingleCharBold, cons);
-
-    JCheckBox useLtDictionaryBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseLtDictionary")));
-    useLtDictionaryBox.setSelected(config.useLtDictionary());
-    useLtDictionaryBox.addItemListener(e -> {
-      config.setUseLtDictionary(useLtDictionaryBox.isSelected());
-    });
-    cons.gridy++;
-    portPanel.add(useLtDictionaryBox, cons);
 
     JCheckBox noSynonymsAsSuggestionsBox = new JCheckBox(Tools.getLabel(messages.getString("guiNoSynonymsAsSuggestions")));
     noSynonymsAsSuggestionsBox.setSelected(config.noSynonymsAsSuggestions());
@@ -1073,6 +1074,14 @@ public class ConfigurationDialog implements ActionListener {
     });
     cons.gridy++;
     portPanel.add(enableGoalSpecificRulesBox, cons);
+
+    JCheckBox filterOverlappingMatchesBox = new JCheckBox(Tools.getLabel(messages.getString("guiFilterOverlappingMatches")));
+    filterOverlappingMatchesBox.setSelected(config.filterOverlappingMatches());
+    filterOverlappingMatchesBox.addItemListener(e -> {
+      config.setFilterOverlappingMatches(filterOverlappingMatchesBox.isSelected());
+    });
+    cons.gridy++;
+    portPanel.add(filterOverlappingMatchesBox, cons);
 
     JCheckBox noBackgroundCheckBox = new JCheckBox(Tools.getLabel(messages.getString("guiNoBackgroundCheck")));
     noBackgroundCheckBox.setSelected(config.noBackgroundCheck());
@@ -2030,74 +2039,31 @@ public class ConfigurationDialog implements ActionListener {
         }
         underlineType.setSelectedIndex(getUnderlineType(category, ruleId));
       }
+      config.removeConfigurableValue(ruleId);
     });
     cons1.gridx++;
     colorPanel.add(defaultButton);
     colorPanel.setVisible(false);
     // End of Color Panel
     
-    // Start of special option panel
-    JPanel specialOptionPanel = new JPanel();
-    specialOptionPanel.setLayout(new GridBagLayout());
-    GridBagConstraints cons2 = new GridBagConstraints();
-    cons2.gridx = 0;
-    cons2.gridy = 0;
-    cons2.weightx = 2.0f;
-    cons2.anchor = GridBagConstraints.WEST;
-    
-    JLabel ruleLabel = new JLabel("");
-    specialOptionPanel.add(ruleLabel, cons2);
-
-    cons2.gridx++;
-    JTextField ruleValueField = new JTextField("   ", 3);
-    ruleValueField.setMinimumSize(new Dimension(50, 28));  // without this the box is just a few pixels small, but why?
-    specialOptionPanel.add(ruleValueField, cons2);
-
-    ruleValueField.getDocument().addDocumentListener(new DocumentListener() {
-      @Override
-      public void insertUpdate(DocumentEvent e) {
-        changedUpdate(e);
-      }
-
-      @Override
-      public void removeUpdate(DocumentEvent e) {
-        changedUpdate(e);
-      }
-
-      @Override
-      public void changedUpdate(DocumentEvent e) {
-        try {
-          if (rule != null) {
-            int num = Integer.parseInt(ruleValueField.getText());
-            if (num < rule.getMinConfigurableValue()) {
-              num = rule.getMinConfigurableValue();
-              ruleValueField.setForeground(Color.RED);
-            } else if (num > rule.getMaxConfigurableValue()) {
-              num = rule.getMaxConfigurableValue();
-              ruleValueField.setForeground(Color.RED);
-            } else {
-              ruleValueField.setForeground(null);
-            }
-            config.setConfigurableValue(rule.getId(), num);
-          }
-        } catch (Exception ex) {
-          ruleValueField.setForeground(Color.RED);
-        }
-      }
-    });
-    specialOptionPanel.setVisible(false);
-    // End of special option panel
+    List<JPanel> specialOptionPanels = new ArrayList<>();
     
     ruleOptionsPanel.add(colorPanel, cons0);
     cons0.gridx = 0;
     cons0.gridy = 1;
-    ruleOptionsPanel.add(specialOptionPanel, cons0);
-    ruleOptionsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
     
     configTree[num].addTreeSelectionListener(e -> {
       DefaultMutableTreeNode node = (DefaultMutableTreeNode)
           configTree[num].getLastSelectedPathComponent();
       if (node != null) {
+        if (specialOptionPanels.size() > 0) {
+          for (JPanel optionPanel : specialOptionPanels) {
+            optionPanel.setVisible(false);
+            ruleOptionsPanel.remove(optionPanel);
+          }
+          specialOptionPanels.clear();
+        }
+        ruleOptionsPanel.setVisible(false);
         if (node instanceof RuleNode) {
           RuleNode o = (RuleNode) node;
           rule = o.getRule();
@@ -2109,16 +2075,150 @@ public class ConfigurationDialog implements ActionListener {
             underlineType.setSelectedIndex(getUnderlineType(category, ruleId));
           }
           colorPanel.setVisible(true);
-          if (rule.hasConfigurableValue()) {
-            ruleLabel.setText(rule.getConfigureText() + " ");
-            int value = config.getConfigurableValue(rule.getId());
-            if (value < 0) {
-              value = rule.getDefaultValue();
+          RuleOption[] ruleOptions = rule.getRuleOptions();
+          if (ruleOptions != null && ruleOptions.length > 0) {
+            Object[] obj = new Object[ruleOptions.length];
+            for (int i = 0; i < ruleOptions.length; i++) {
+              // Start of special option panel
+              JPanel specialOptionPanel = new JPanel();
+              specialOptionPanels.add(specialOptionPanel);
+              specialOptionPanel.setLayout(new GridBagLayout());
+              GridBagConstraints cons2 = new GridBagConstraints();
+              cons2.gridx = 0;
+              cons2.gridy = 0;
+              cons2.weightx = 2.0f;
+              cons2.anchor = GridBagConstraints.WEST;
+              RuleOption ruleOption = ruleOptions[i];
+              int n = i;
+
+              Object defValue = ruleOption.getDefaultValue();
+              
+              if (defValue instanceof Boolean) {
+                JCheckBox isTrueBox = new JCheckBox(ruleOption.getConfigureText());
+                boolean value = config.getConfigValueByID(rule.getId(), i, Boolean.class, (Boolean) defValue);
+                isTrueBox.setSelected(value);
+                obj[n] = value;
+                isTrueBox.addItemListener(e1 -> {
+                  obj[n] = isTrueBox.isSelected();
+                  config.setConfigurableValue(rule.getId(), obj);
+                });
+                specialOptionPanel.add(isTrueBox, cons2);
+              } else {
+                JLabel ruleLabel = new JLabel(ruleOption.getConfigureText() + " ");
+                specialOptionPanel.add(ruleLabel, cons2);
+    
+                cons2.gridx++;
+                JTextField ruleValueField = new JTextField("   ", 3);
+                ruleValueField.setMinimumSize(new Dimension(50, 28));  // without this the box is just a few pixels small, but why?
+                String fieldValue;
+                if (defValue instanceof Integer) {
+                  fieldValue = Integer.toString(config.getConfigValueByID(rule.getId(), i, Integer.class, (Integer) defValue));
+                } else if (defValue instanceof Character) {
+                  fieldValue = Character.toString(config.getConfigValueByID(rule.getId(), i, Character.class, (Character) defValue));
+                } else if (defValue instanceof Double) {
+                  fieldValue = Double.toString(config.getConfigValueByID(rule.getId(), i, Double.class, (Double) defValue));
+                } else if (defValue instanceof Float) {
+                  fieldValue = Float.toString(config.getConfigValueByID(rule.getId(), i, Float.class, (Float) defValue));
+                } else {
+                  fieldValue = config.getConfigValueByID(rule.getId(), i, String.class, (String) defValue);
+                }
+                ruleValueField.setText(fieldValue);
+                obj[n] = fieldValue;
+                specialOptionPanel.add(ruleValueField, cons2);
+    
+                ruleValueField.getDocument().addDocumentListener(new DocumentListener() {
+                  @Override
+                  public void insertUpdate(DocumentEvent e) {
+                    changedUpdate(e);
+                  }
+    
+                  @Override
+                  public void removeUpdate(DocumentEvent e) {
+                    changedUpdate(e);
+                  }
+    
+                  @Override
+                  public void changedUpdate(DocumentEvent e) {
+                    try {
+                      if (rule != null) {
+                        RuleOption[] ruleOptions = rule.getRuleOptions();
+                        if (ruleOptions != null && ruleOptions.length > 0) {
+                          boolean isCorrect = false;
+                          if (defValue instanceof Integer) {
+                            int num = Integer.parseInt(ruleValueField.getText());
+                            if (num < (int) ruleOption.getMinConfigurableValue()) {
+                              num = (int) ruleOption.getMinConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else if (num > (int) ruleOption.getMaxConfigurableValue()) {
+                              num = (int) ruleOption.getMaxConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else {
+                              ruleValueField.setForeground(null);
+                              isCorrect = true;
+                              obj[n] = num;
+                            }
+                          } else if (defValue instanceof Character) {
+                            char num = ruleValueField.getText().charAt(0);
+                            if (num < (char) ruleOption.getMinConfigurableValue()) {
+                              num = (char) ruleOption.getMinConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else if (num > (char) ruleOption.getMaxConfigurableValue()) {
+                              num = (char) ruleOption.getMaxConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else {
+                              ruleValueField.setForeground(null);
+                              isCorrect = true;
+                              obj[n] = num;
+                            }
+                          } else if (defValue instanceof Double) {
+                            double num = Double.parseDouble(ruleValueField.getText());
+                            if (num < (double) ruleOption.getMinConfigurableValue()) {
+                              num = (double) ruleOption.getMinConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else if (num > (double) ruleOption.getMaxConfigurableValue()) {
+                              num = (double) ruleOption.getMaxConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else {
+                              ruleValueField.setForeground(null);
+                              isCorrect = true;
+                              obj[n] = num;
+                            }
+                          } else if (defValue instanceof Float) {
+                            float num = Float.parseFloat(ruleValueField.getText());
+                            if (num < (float) ruleOption.getMinConfigurableValue()) {
+                              num = (float) ruleOption.getMinConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else if (num > (float) ruleOption.getMaxConfigurableValue()) {
+                              num = (float) ruleOption.getMaxConfigurableValue();
+                              ruleValueField.setForeground(Color.RED);
+                            } else {
+                              ruleValueField.setForeground(null);
+                              isCorrect = true;
+                              obj[n] = num;
+                            }
+                          } else {
+                            String num = ruleValueField.getText();
+                            ruleValueField.setForeground(null);
+                            isCorrect = true;
+                            obj[n] = num;
+                          }
+                          if (isCorrect) {
+                            config.setConfigurableValue(rule.getId(), obj);
+                          }
+                        }
+                      }
+                    } catch (Exception ex) {
+                      ruleValueField.setForeground(Color.RED);
+                    }
+                  }
+                });
+              }
+              ruleOptionsPanel.add(specialOptionPanel, cons0);
+              ruleOptionsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+              ruleOptionsPanel.setVisible(true);
+              cons0.gridy++;
+              // End of special option panel
             }
-            ruleValueField.setText(Integer.toString(value));
-            specialOptionPanel.setVisible(true);
-          } else {
-            specialOptionPanel.setVisible(false);
           }
         } else if (node instanceof CategoryNode) {
           CategoryNode o = (CategoryNode) node;
@@ -2129,9 +2229,9 @@ public class ConfigurationDialog implements ActionListener {
             underlineType.setSelectedIndex(getUnderlineType(category, null));
           }
           colorPanel.setVisible(true);
-          specialOptionPanel.setVisible(false);
           rule = null;
         }
+        ruleOptionsPanel.setVisible(true);
       }
     });
     return ruleOptionsPanel;

@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.pt;
 
-import org.languagetool.rules.AbstractDateCheckFilter;
+import org.languagetool.rules.AbstractDateCheckWithSuggestionsFilter;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -27,7 +27,7 @@ import java.util.Locale;
  * @author Tiago F. Santos based on the english version
  * @since 3.6
  */
-public class DateCheckFilter extends AbstractDateCheckFilter {
+public class DateCheckFilter extends AbstractDateCheckWithSuggestionsFilter {
 
   @Override
   protected Calendar getCalendar() {
@@ -50,5 +50,10 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   @Override
   protected int getMonth(String monthStr) {
     return new DateFilterHelper().getMonth(monthStr);
+  }
+
+  @Override
+  protected String getErrorMessageWrongYear() {
+    return "Esta data está incorreta. Você está se referindo ao ano \"{currentYear}\"?";
   }
 }

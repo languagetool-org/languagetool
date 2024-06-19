@@ -19,17 +19,23 @@
 
 package org.languagetool.rules.uk;
 
-import org.languagetool.*;
-import org.languagetool.rules.SuggestedReplacement;
-import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
-import org.languagetool.tools.StringTools;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
+
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestedReplacement;
+import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.tools.StringTools;
 
 public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule {
 
@@ -38,7 +44,7 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   private static final Pattern UKRAINIAN_LETTERS = Pattern.compile(".*[а-яіїєґА-ЯІЇЄҐ].*");
   private static final Pattern DO_NOT_SUGGEST_SPACED_PATTERN = Pattern.compile(
         "(авіа|авто|анти|аудіо|відео|водо|гідро|екстра|квазі|кіно|лже|мета|моно|мото|псевдо|пост|радіо|стерео|супер|ультра|фото) .*");
-  private static final Pattern INFIX_PATTERN = Pattern.compile("-[а-яіїєґ]{1,5}-");
+//  private static final Pattern INFIX_PATTERN = Pattern.compile("-[а-яіїєґ]{1,5}-");
   private static final Pattern PATTERN = Pattern.compile("[А-ЯІЇЄҐ]");
   private static final Map<String, String> dashPrefixes2019;
 
@@ -64,14 +70,28 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   }
   
   @Override
+  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence,
+      List<RuleMatch> ruleMatchesSoFar, int idx, AnalyzedTokenReadings[] tokens) throws IOException {
+    List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
+
+    // disambig may remove v_kly leaving token with no good tags
+    if( ruleMatches.isEmpty() && ! hasGoodTag(tokens[idx]) ) {
+      ruleMatches.add(new RuleMatch(this, sentence, startPos, startPos+word.length(), startPos, startPos+word.length(), 
+          "Потенційна орфографічна помилка", "Орфографічна помилка", false, ""));
+    }
+    return ruleMatches;
+  }
+  
+  @Override
   protected boolean isMisspelled(MorfologikMultiSpeller speller, String word) {
     if( word.endsWith("-") ) {
-      return !word.startsWith("-") || !INFIX_PATTERN.matcher(word).matches();
+      return !word.startsWith("-");
     }
-  
-    if( word.endsWith("²") || word.endsWith("³") ) {
-      word = word.substring(0, word.length() - 1); 
-    }
+
+    // we're tokenizing them separately now
+//    if( word.endsWith("²") || word.endsWith("³") ) {
+//      word = word.substring(0, word.length() - 1); 
+//    }
 
     // in some places disambiguator may leave tokens with ignored characters
     // so we have to ignore them here
@@ -134,9 +154,9 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
       String posTag = analyzedToken.getPOSTag();
       if( posTag != null 
             && ! posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) 
-            && ! posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME) 
+            && ! posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME) ) 
 //            && (! posTag.contains(IPOSTag.bad.getText()) || posTag.contains(":latin"))  
-            && ! (posTag.contains(":inanim") && posTag.contains(":v_kly")) )
+//            && ! (posTag.contains(":inanim") && posTag.contains(":v_kly")) )
         return true;
     }
     return false;

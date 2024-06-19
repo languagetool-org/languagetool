@@ -19,6 +19,7 @@
 package org.languagetool.rules.ca;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.languagetool.AnalyzedTokenReadings;
@@ -27,6 +28,7 @@ import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tools.StringTools;
 
@@ -36,12 +38,11 @@ import org.languagetool.tools.StringTools;
 
 public class PortarTempsSuggestionsFilter extends RuleFilter {
 
-  static private CatalanSynthesizer synth = CatalanSynthesizer.INSTANCE;
-
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-                                   AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     int posWord = 0;
+    Synthesizer synth = getSynthesizerFromRuleMatch(match);
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     while (posWord < tokens.length
       && (tokens[posWord].getStartPos() < match.getFromPos() || tokens[posWord].isSentenceStart())) {
@@ -51,8 +52,7 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
     String verbPostag = tokens[posWord].readingWithTagRegex("V.*").getPOSTag();
     AnalyzedToken at = new AnalyzedToken("", "", "fer");
     String newPostag = verbPostag.substring(0, 4) + "[30][S0]." + verbPostag.substring(7, 8);
-    String[] synthForms = synth.synthesize(at, newPostag, true,
-      getLanguageVariantCode(match));
+    String[] synthForms = synth.synthesize(at, newPostag, true);
     if (synthForms.length == 0) {
       return null;
     }
@@ -79,7 +79,7 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
       String pronoms = result[0];
       adjustEndPos += Integer.valueOf(result[1]);
       AnalyzedToken at2 = new AnalyzedToken("", "", lastToken.readingWithTagRegex("V.G.*").getLemma());
-      String[] synthForms2 = synth.synthesize(at2, "V.I" + verbPostag.substring(3,8), true, getLanguageVariantCode(match));
+      String[] synthForms2 = synth.synthesize(at2, "V.I" + verbPostag.substring(3,8), true);
       if (synthForms2.length == 0) {
         return null;
       }
@@ -96,7 +96,7 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
       String pronoms = result[0];
       adjustEndPos += Integer.valueOf(result[1]);
       AnalyzedToken at2 = new AnalyzedToken("", "", tokens[lastTokenPos + 1].readingWithTagRegex("V.N.*").getLemma());
-      String[] synthForms2 = synth.synthesize(at2, "V.I" + verbPostag.substring(3,8), true, getLanguageVariantCode(match));
+      String[] synthForms2 = synth.synthesize(at2, "V.I" + verbPostag.substring(3,8));
       if (synthForms2.length == 0) {
         return null;
       }
@@ -111,7 +111,7 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
       || lastToken.hasPosTagStartingWith("AQ")
       || lastToken.hasPosTagStartingWith("VMP")) {
       AnalyzedToken at2 = new AnalyzedToken("", "", "estar");
-      String[] synthForms2 = synth.synthesize(at2, "V.I" + verbPostag.substring(3,8), true, getLanguageVariantCode(match));
+      String[] synthForms2 = synth.synthesize(at2, "V.I" + verbPostag.substring(3,8));
       if (synthForms2.length == 0) {
         return null;
       }

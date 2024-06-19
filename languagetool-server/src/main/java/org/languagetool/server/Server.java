@@ -140,7 +140,7 @@ abstract class Server {
     System.out.println("                 'fasttextBinary' - compiled fasttext executable for language detection (optional), see");
     System.out.println("                                    https://fasttext.cc/docs/en/support.html");
     System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");
-    System.out.println("                 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)");
+    System.out.println("                 'rulesFile' - a file containing rules configuration, such as .languagetool.cfg (optional)");
     System.out.println("                 'blockedReferrers' - a comma-separated list of HTTP referrers (and 'Origin' headers) that are blocked and will not be served (optional)");
     System.out.println("                 'premiumOnly' - activate only the premium rules (optional)");
     System.out.println("                 'disabledRuleIds' - a comma-separated list of rule ids that are turned off for this server (optional)");

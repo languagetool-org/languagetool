@@ -92,6 +92,7 @@ public class OfficeTools {
     
   public static final String EXTENSION_MAINTAINER = "Fred Kruse";
   public static final String LT_SERVICE_NAME = "org.languagetool.openoffice.Main";
+  public static final String LT_SPELL_SERVICE_NAME = "org.languagetool.openoffice.LanguageToolSpellChecker";
   public static final int PROOFINFO_UNKNOWN = 0;
   public static final int PROOFINFO_GET_PROOFRESULT = 1;
   public static final int PROOFINFO_MARK_PARAGRAPH = 2;
@@ -109,21 +110,23 @@ public class OfficeTools {
   public static final String MULTILINGUAL_LABEL = "99-";  // Label added in front of variant to indicate a multilingual paragraph (returned is the main language)
   public static final int CHECK_MULTIPLIKATOR = 40;       //  Number of minimum checks for a first check run
   public static final int CHECK_SHAPES_TIME = 1000;       //  time interval to run check for changes in text inside of shapes
+  public static final int SPELL_CHECK_MIN_HEAP = 850;     //  Minimal heap space to run LT spell check
   public static int TIME_TOLERANCE = 100;                 //  Minimal milliseconds to show message in TM debug mode
   
   public static int DEBUG_MODE_SD = 0;            //  Set Debug Mode for SingleDocument
   public static int DEBUG_MODE_SC = 0;            //  Set Debug Mode for SingleCheck
   public static int DEBUG_MODE_CR = 0;            //  Set Debug Mode for CheckRequest
-  public static boolean DEBUG_MODE_MD = false;    //  Activate Debug Mode for MultiDocumentsHandler
+  public static boolean DEBUG_MODE_CD = false;    //  Activate Debug Mode for SpellAndGrammarCheckDialog
   public static boolean DEBUG_MODE_DC = false;    //  Activate Debug Mode for DocumentCache
   public static boolean DEBUG_MODE_FP = false;    //  Activate Debug Mode for FlatParagraphTools
-  public static boolean DEBUG_MODE_LM = false;    //  Activate Debug Mode for LanguageToolMenus
-  public static boolean DEBUG_MODE_TQ = false;    //  Activate Debug Mode for TextLevelCheckQueue
-  public static boolean DEBUG_MODE_LD = false;    //  Activate Debug Mode for LtDictionary
-  public static boolean DEBUG_MODE_CD = false;    //  Activate Debug Mode for SpellAndGrammarCheckDialog
   public static boolean DEBUG_MODE_IO = false;    //  Activate Debug Mode for Cache save to file
+  public static boolean DEBUG_MODE_LD = false;    //  Activate Debug Mode for LtDictionary
+  public static boolean DEBUG_MODE_LM = false;    //  Activate Debug Mode for LanguageToolMenus
+  public static boolean DEBUG_MODE_MD = false;    //  Activate Debug Mode for MultiDocumentsHandler
+  public static boolean DEBUG_MODE_SP = false;    //  Activate Debug Mode for LtSpellChecker
   public static boolean DEBUG_MODE_SR = false;    //  Activate Debug Mode for SortedTextRules
   public static boolean DEBUG_MODE_TM = false;    //  Activate Debug Mode for time measurements
+  public static boolean DEBUG_MODE_TQ = false;    //  Activate Debug Mode for TextLevelCheckQueue
   public static boolean DEVELOP_MODE_ST = false;  //  Activate Development Mode to test sorted text IDs
   public static boolean DEVELOP_MODE = false;     //  Activate Development Mode
 
@@ -564,7 +567,7 @@ public class OfficeTools {
     return cacheDir;
   }
   
-  private static double getMaxHeapSpace() {
+  public static double getMaxHeapSpace() {
     if(MAX_HEAP_SPACE < 0) {
       MAX_HEAP_SPACE = Runtime.getRuntime().maxMemory();
     }
@@ -835,6 +838,8 @@ public class OfficeTools {
           DEBUG_MODE_IO = true;
         } else if (level.equals("sr")) {
           DEBUG_MODE_SR = true;
+        } else if (level.equals("sp")) {
+          DEBUG_MODE_SP = true;
         } else if (level.startsWith("tm")) {
           String[] levelTm = level.split(":");
           if (levelTm[0].equals("tm")) {

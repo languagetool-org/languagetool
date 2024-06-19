@@ -839,12 +839,22 @@ public abstract class Language {
   public int getRulePriority(Rule rule) {
     int categoryPriority = this.getPriorityForId(rule.getCategory().getId().toString());
     int rulePriority = this.getPriorityForId(rule.getId());
+    int rulePriorityFromRule = rule.getPriority();
     // if there is a priority defined for rule it takes precedence over category priority
     if (rulePriority != 0) {
       return rulePriority;
-    } else {
+    } else if ( rulePriorityFromRule != 0) {
+      return rulePriorityFromRule;
+    } else if (categoryPriority != 0) {
       return categoryPriority;
+    } else if (getDefaultRulePriorityForStyle() != 0 && rule.getLocQualityIssueType().equals(ITSIssueType.Style)) {
+      return getDefaultRulePriorityForStyle();
     }
+    return 0;
+  }
+
+  protected int getDefaultRulePriorityForStyle() {
+    return 0;
   }
 
   /**
@@ -976,15 +986,7 @@ public abstract class Language {
   public boolean hasMinMatchesRules() {
     return false;
   }
-  
-  /** 
-   * @since 5.6 
-   * Adjust suggestions depending on the enabled rules
-   */
-  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
-	  return ruleMatches;
-  }
-  
+
   /**
    * @since 6.0 
    * Adjust suggestion 
@@ -1009,7 +1011,7 @@ public abstract class Language {
    * This function is called by JLanguageTool before CleanOverlappingFilter removes overlapping ruleMatches
    * @return filtered ruleMatches
    */
-  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+  public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
     return ruleMatches;
   }
 

@@ -21,6 +21,7 @@ package org.languagetool.language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.GermanChunker;
 import org.languagetool.languagemodel.LanguageModel;
@@ -143,6 +144,7 @@ public class German extends Language implements AutoCloseable {
                     Example.fixed("Die Partei<marker>,</marker> die die letzte Wahl gewann."),
                     Tools.getUrl("https://languagetool.org/insights/de/beitrag/grammatik-leerzeichen/#fehler-1-leerzeichen-vor-und-nach-satzzeichen")),
             new GermanUnpairedBracketsRule(messages, this),
+            new GermanUnpairedQuotesRule(messages, this),
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Das Haus ist alt. <marker>es</marker> wurde 1950 gebaut."),
                     Example.fixed("Das Haus ist alt. <marker>Es</marker> wurde 1950 gebaut."),
@@ -434,6 +436,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("SCHOENE_WETTER", -2); // prefer more specific rules that offer a suggestion (e.g. DE_AGREEMENT)
     id2prio.put("MEIN_KLEIN_HAUS", -2); // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
     id2prio.put("UNPAIRED_BRACKETS", -2);
+    id2prio.put("DE_UNPAIRED_QUOTES", -2); // less prio than FALSCHES_ANFUEHRUNGSZEICHEN
     id2prio.put("ICH_GLAUBE_FUER_EUCH", -2); // prefer agreement rules
     id2prio.put("OBJECT_AGREEMENT", -2); // less prio than DE_AGREEMENT
     id2prio.put("ICH_INF_PREMIUM", -2); // prefer more specific rules that offer a suggestion (e.g. SUBJECT_VERB_AGREEMENT)
@@ -483,6 +486,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("PA_WAS", -12); // less prio than AI
     id2prio.put("ICH_GEHE_DU_BLEIBST", -12); // prefer ICH_GLAUBE_FUER_EUCH and less prio than AI
     id2prio.put("PROPERNOMSIN_VERIMPSIN", -12); // less prio than AI
+    id2prio.put("DIESE_HABE_ER_BELEIDIGTE", -12); // less prio than AI
     id2prio.put("VER123_VERAUXMOD_TEST1", -12); // less prio than AI to produce a single suggestion
     id2prio.put("ZUSAMMENGESETZTE_VERBEN", -12); // less prio than most more specific rules and AI
     id2prio.put("PRP_VER_PRGK", -13); // lower prio than ZUSAMMENGESETZTE_VERBEN
@@ -600,6 +604,84 @@ public class German extends Language implements AutoCloseable {
 
   public boolean hasMinMatchesRules() {
     return true;
+  }
+
+  @Override
+  public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+    List<RuleMatch> resultMatches = new ArrayList<>();
+    RuleMatch previousMatch = null;
+    for (int i = 0; i < ruleMatches.size(); i++) {
+      RuleMatch currentMatch = ruleMatches.get(i);
+      if (previousMatch != null && previousMatch.getRule().getId().startsWith("AI_DE_GGEC") &&
+        currentMatch.getRule().getId().startsWith("AI_DE_GGEC")) {
+        if (previousMatch.getToPos() > currentMatch.getFromPos()) {
+          continue;  // Skip overlapping matches
+        }
+        // Check if matches are adjacent and share the same 'picky' status
+        if ((previousMatch.getToPos() == currentMatch.getFromPos() || previousMatch.getToPos() + 1 == currentMatch.getFromPos()) &&
+          (previousMatch.getRule().getTags().contains(Tag.picky) == currentMatch.getRule().getTags().contains(Tag.picky))) {
+          // Merge if they have the same ITSIssueType
+          if (previousMatch.getRule().getLocQualityIssueType() == currentMatch.getRule().getLocQualityIssueType()) {
+            RuleMatch mergedMatch = new RuleMatch(mergeMatches(previousMatch, currentMatch));
+            previousMatch = mergedMatch;
+            continue;
+          }
+          // If matches have different ITSIssueTypes but neither is a style match, merge them
+          if (previousMatch.getRule().getLocQualityIssueType() != currentMatch.getRule().getLocQualityIssueType() &&
+            previousMatch.getRule().getLocQualityIssueType() != ITSIssueType.Style && currentMatch.getRule().getLocQualityIssueType() != ITSIssueType.Style) {
+            RuleMatch mergedMatch = new RuleMatch(mergeMatches(previousMatch, currentMatch));
+            previousMatch = mergedMatch;
+            continue;
+          }
+        }
+        // If no merge happened, add the previous match to results
+        resultMatches.add(previousMatch);
+        previousMatch = currentMatch;  // Move to next match
+      } else {
+        // Ensure current match becomes previous if no merging criteria are met
+        if (previousMatch != null) {
+          resultMatches.add(previousMatch);
+        }
+        previousMatch = currentMatch;
+      }
+    }
+    // Add the last processed match if it exists and hasn't been added yet
+    if (previousMatch != null) {
+      resultMatches.add(previousMatch);
+    }
+    return resultMatches;
+  }
+
+
+
+  private RuleMatch mergeMatches(RuleMatch match1, RuleMatch match2) {
+    // Calculate separator based on position
+    String separator = "";
+    if (match1.getToPos() + 1 == match2.getFromPos()) {
+      separator = " ";
+    }
+    // Merge original error strings and suggested replacements
+    String newErrorStr = match1.getOriginalErrorStr() + separator + match2.getOriginalErrorStr();
+    String newReplacement = match1.getSuggestedReplacements().get(0) + separator + match2.getSuggestedReplacements().get(0);
+
+    // Create a new merged RuleMatch object
+    RuleMatch mergedMatch = new RuleMatch(match1.getRule(), match1.getSentence(), match1.getFromPos(), match2.getToPos(),
+      "Hier scheint es einen Fehler zu geben.", "Potenzieller Fehler");
+    mergedMatch.setOriginalErrorStr(newErrorStr);
+    mergedMatch.setSuggestedReplacement(newReplacement);
+
+    // Create a new specific rule ID based on conditions
+    String newId = "AI_DE_MERGED_MATCH";
+    mergedMatch.setSpecificRuleId(newId);
+
+    // If issue types differ, set to Grammar unless both are Style
+    if (match1.getRule().getLocQualityIssueType() != match2.getRule().getLocQualityIssueType()) {
+      mergedMatch.getRule().setLocQualityIssueType(ITSIssueType.Grammar);
+    } else if (match1.getRule().getLocQualityIssueType() == ITSIssueType.Style && match2.getRule().getLocQualityIssueType() == ITSIssueType.Style) {
+      mergedMatch.getRule().setLocQualityIssueType(ITSIssueType.Style);
+    }
+
+    return mergedMatch;
   }
 
   @Override

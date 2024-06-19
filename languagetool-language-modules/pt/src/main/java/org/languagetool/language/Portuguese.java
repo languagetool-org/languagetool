@@ -134,6 +134,7 @@ public class Portuguese extends Language implements AutoCloseable {
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages, this, userConfig),
             new PortugueseColourHyphenationRule(messages, this, userConfig),
+            new PortugueseOrthographyReplaceRule(messages, this),
             new PortugueseReplaceRule(messages, this),
             new PortugueseBarbarismsRule(messages, "/pt/barbarisms.txt", this),
             //new PortugueseArchaismsRule(messages, "/pt/archaisms-pt.txt"),   // see https://github.com/languagetool-org/languagetool/issues/3095
@@ -251,7 +252,10 @@ public class Portuguese extends Language implements AutoCloseable {
     id2prio.put("PT_DIACRITICS_REPLACE", -45);  // prefer over spell checker
     id2prio.put("DIACRITICS", -45);
     id2prio.put("PT_COMPOUNDS_POST_REFORM", -45);
-    id2prio.put("AUX_VERBO", -45);  // HIGHER THAN SPELLER
+    id2prio.put("AUX_VERBO", -45);
+    id2prio.put("ENSINO_A_DISTANCIA", -45);
+    id2prio.put("OQ_O_QUE_ORTHOGRAPHY", -45);
+    id2prio.put("EMAIL_SEM_HIFEN", -45); // HIGHER THAN SPELLER
     // MORFOLOGIK SPELLER FITS HERE AT -50 ---------------------  // SPELLER (-50)
     id2prio.put("PRETERITO_PERFEITO", -51);  // LOWER THAN SPELLER
     id2prio.put("PT_BR_SIMPLE_REPLACE", -51);
@@ -285,12 +289,32 @@ public class Portuguese extends Language implements AutoCloseable {
   
   @Override
   protected int getPriorityForId(String id) {
+    // generic spelling rule
     if (id.startsWith("MORFOLOGIK_RULE")) {
       return -50;
     }
-    if (id.startsWith("PT_MULTITOKEN_SPELLING")) {
+    // simple replace spelling rule
+    if (id.startsWith("PT_SIMPLE_REPLACE_ORTHOGRAPHY")) {
       return -49;
     }
+    // AI spelling rule
+    if (id.startsWith("AI_PT_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL")) {
+      return -48;
+    }
+    if (id.startsWith("PT_MULTITOKEN_SPELLING")) {
+      return -48;
+    }
+    if (id.startsWith("AI_PT_GGEC_REPLACEMENT_OTHER")) {
+      return -4;
+    }
+    // enclitic diacritics always take precedence over pronoun placement
+    if (id.startsWith("ACENTUAÇÃO_VOGAL_ÊNCLISE")) {
+      return -51;
+    }
+    if (id.startsWith("COLOCACAO_PRONOMINAL_COM_ATRATOR")) {
+      return -52;
+    }
+
     Integer prio = id2prio.get(id);
     if (prio != null) {
       return prio;

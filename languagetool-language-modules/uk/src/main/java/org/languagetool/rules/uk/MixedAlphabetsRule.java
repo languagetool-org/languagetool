@@ -143,7 +143,8 @@ public class MixedAlphabetsRule extends Rule {
         if(!LATIN_ONLY.matcher(tokenString).matches() && ! LIKELY_LATIN_NUMBER.matcher(tokenString).matches()) {
           replacements.add( toCyrillic(tokenString) );
         }
-        if(!CYRILLIC_ONLY.matcher(tokenString).matches() || LIKELY_LATIN_NUMBER.matcher(tokenString).matches()) {
+        if( (tokenString.length() > 2 && ! CYRILLIC_ONLY.matcher(tokenString).matches()) 
+            || LIKELY_LATIN_NUMBER.matcher(tokenString).matches() ) {
           String converted = toLatinLeftOnly(tokenString);
           converted = adjustForInvalidSuffix(converted);
           replacements.add( converted );

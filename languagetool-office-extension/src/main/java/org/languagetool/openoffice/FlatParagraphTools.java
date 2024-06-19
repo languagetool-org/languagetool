@@ -403,7 +403,7 @@ public class FlatParagraphTools {
    * @throws IllegalArgumentException 
    */
   public static Locale getPrimaryParagraphLanguage(XFlatParagraph flatPara, int start, int len, Locale fixedLocale, 
-      Locale lastLocale, boolean onlyPrimary) throws IllegalArgumentException {
+      Locale lastLocale, boolean onlyPrimary) throws Throwable {
     isBusy++;
     try {
       if (fixedLocale != null) {
@@ -467,7 +467,7 @@ public class FlatParagraphTools {
    * Get the main language of paragraph 
    * @throws IllegalArgumentException 
    */
-  public Locale getPrimaryLanguageOfPartOfParagraph(int nPara, int start, int len, Locale lastLocale) throws IllegalArgumentException {
+  public Locale getPrimaryLanguageOfPartOfParagraph(int nPara, int start, int len, Locale lastLocale) throws Throwable {
     isBusy++;
     try {
       XFlatParagraph flatPara = getFlatParagraphAt(nPara);
@@ -475,6 +475,27 @@ public class FlatParagraphTools {
         return lastLocale;
       }
       return getPrimaryParagraphLanguage(flatPara, start, len, null, lastLocale, true);
+    } finally {
+      isBusy--;
+    }
+  }
+  
+  /**
+   * Get language of character
+   * @throws IllegalArgumentException 
+   */
+  public Locale getLanguageOfWord(int nPara, int start, int len, Locale paragraphLocale) throws Throwable {
+    try {
+      XFlatParagraph flatPara = getFlatParagraphAt(nPara);
+      isBusy++;
+      if (flatPara == null) {
+        return paragraphLocale;
+      }
+      Locale locale = flatPara.getLanguageOfText(start, len);
+      if (locale == null || locale.Language.isEmpty()) {
+        return paragraphLocale;
+      }
+      return getSaveLocale(locale.Language, locale.Country, locale.Variant);
     } finally {
       isBusy--;
     }
@@ -822,6 +843,8 @@ public class FlatParagraphTools {
         return;
       }
       addMarksToOneParagraph(xFlatPara, errorList);
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     } finally {
       isBusy--;
     }
@@ -831,7 +854,7 @@ public class FlatParagraphTools {
    * add marks to existing marks of a paragraph
    * if override: existing marks will be overridden
    */
-  private void addMarksToOneParagraph(XFlatParagraph flatPara, List<SentenceErrors> errorList) {
+  private void addMarksToOneParagraph(XFlatParagraph flatPara, List<SentenceErrors> errorList) throws Throwable {
     boolean isChecked = flatPara.isChecked(TextMarkupType.PROOFREADING);
     if (debugMode) {
       MessageHandler.printToLogFile("FlatParagraphTools: addMarksToOneParagraph: xMarkingAccess: isChecked = " + isChecked);

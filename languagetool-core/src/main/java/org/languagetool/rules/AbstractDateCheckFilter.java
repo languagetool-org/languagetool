@@ -19,6 +19,7 @@
 package org.languagetool.rules;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,7 +45,7 @@ public abstract class AbstractDateCheckFilter extends RuleFilter {
   // The day of the month may contain not only digits but also extra letters
   // such as"22nd" in English or "22-an" in Esperanto. The regexp extracts
   // the numerical part.
-  private static final Pattern DAY_OF_MONTH_PATTERN = Pattern.compile("(\\d+).*");
+  protected static final Pattern DAY_OF_MONTH_PATTERN = Pattern.compile("(\\d+).*");
 
   /**
    * Implement so that Sunday returns {@code 1}, Monday {@code 2} etc.
@@ -74,10 +75,10 @@ public abstract class AbstractDateCheckFilter extends RuleFilter {
   protected abstract Calendar getCalendar();
 
   /**
-   * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
+   * @param args           a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
    */
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     try {
       int dayOfWeekFromString = getDayOfWeek(getRequired("weekDay", args).replace("\u00AD", ""));  // replace soft hyphen
       Calendar dateFromDate = getDate(args);

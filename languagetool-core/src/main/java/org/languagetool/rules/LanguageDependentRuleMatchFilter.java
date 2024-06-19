@@ -27,17 +27,17 @@ import org.languagetool.rules.patterns.RuleSet;
 import java.util.List;
 import java.util.Set;
 
-public class LanguageDependentMergeSuggestionFilter implements RuleMatchFilter {
+public class LanguageDependentRuleMatchFilter implements RuleMatchFilter {
 
   private final Language language;
   private final Set<String> enabledRules;
-  public LanguageDependentMergeSuggestionFilter(Language language, RuleSet rules) {
+  public LanguageDependentRuleMatchFilter(Language language, RuleSet rules) {
     this.language = language;
     this.enabledRules = rules.allRuleIds();
   }
 
   @Override
   public List<RuleMatch> filter(List<RuleMatch> ruleMatches, AnnotatedText text) {
-    return language.mergeSuggestions(ruleMatches, text, enabledRules);
+    return language.filterRuleMatches(ruleMatches, text, enabledRules);
   }
 }

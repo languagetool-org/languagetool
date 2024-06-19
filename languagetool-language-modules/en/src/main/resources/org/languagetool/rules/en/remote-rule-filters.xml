@@ -149,6 +149,28 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">It <marker>is</marker>n't what I was looking for.</example>
                 <example correction="">That <marker>is</marker>n't what I was looking at.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" chunk="B-VP">do</token>
+                    <token min="0" max="2" postag="RB" chunk="I-VP" />
+                    <marker>
+                        <token postag="VB" chunk="I-VP" />
+                    </marker>
+                </pattern>
+                <example correction="">We did just <marker>see</marker> the film.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token min="1" max="3" chunk_re="[BI]-NP-singular" />
+                    <token postag="NN" chunk="E-NP-singular" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token postag="VBZ" chunk_re=".-VP" />
+                    </marker>
+                </pattern>
+                <example correction="">The bus <marker>has</marker> already departed from the station.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_AGREEMENT" name="">
             <rule>  <!-- former/latter/etc. -->
@@ -262,18 +284,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </pattern>
                     <example correction="">Neither Tom nor Mary <marker>has</marker> played a lot of basketball.</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_TENSE" name="">
             <rule>
                 <pattern>
-                    <token inflected="yes" chunk="B-VP">do</token>
-                    <token min="0" max="2" postag="RB" chunk="I-VP" />
+                    <token regexp="yes">it|s?he</token>
                     <marker>
-                        <token postag="VB" chunk="I-VP" />
+                        <token>has</token>
                     </marker>
-                    </pattern>
-                    <example correction="">We did just <marker>see</marker> the film.</example>
-                </rule>
+                </pattern>
+                <example correction="">Okay, it <marker>has</marker> changed my mind.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_LECTOR_MISSING_DETERMINER_THE" name="">
             <rule>  <!-- incorrect capitalization -->
@@ -877,6 +896,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">I would think as long as we are sending LD's back to Riverside, we are better off for the first day to just <marker>let</marker> them go to the imbalance market in Cal.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token min="1" max="3" chunk_re="[BI]-NP-singular" />
+                    <token postag="NN" chunk="E-NP-singular" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token postag="VBZ" chunk_re=".-VP" />
+                    </marker>
+                </pattern>
+                <example correction="">The bus <marker>has</marker> already departed from the station.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_CP_THE_THEY" name="">
@@ -3262,6 +3293,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Please find attached the adjustment to the price: <marker>The</marker> former shareholders will get a payment of 5001 € in total.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="QB_EN_SWAP_NN_FOR_RBSPACEUNDERSCORESPSPACERB_ERROR_IDS_000001" name="">
+            <rule><!-- superfast: https://www.merriam-webster.com/dictionary/superfast-->
+                <pattern>
+                    <marker>
+                        <token>superfast</token>
+                    </marker>
+                    <token chunk_re="[IE]-NP-.*"/>
+                </pattern>
+                <example correction="">The investment focus of many funds is on digital-economy assets, which also promise growth as demand rises for technologies such as <marker>superfast</marker> data networks and cloud computing.</example>
+                <example correction="">This durable mower provides a professional finish with its <marker>superfast</marker> blades that cleanly cut the grass, effortlessly eliminating any clumps.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_DECAPITALIZE_NN_FOR_NN_ERROR_IDS_000022" name="">
             <rule>  <!-- capital after colon is acceptable according to several style guides. Accounts for LOTS of disables... -->
                 <pattern>
@@ -3661,7 +3704,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">It's not an easy <marker>thing</marker> to meet your maker.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="QB_EN_INSERT_COMMA" name="">
+        <rulegroup id="QB_EN_INSERT_COMMA.*" name="">
             <rule>
                 <pattern>
                     <token postag="SENT_START" />
@@ -3768,6 +3811,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token chunk="B-NP-singular" />
                 </pattern>
                 <example correction="">1978 – Mike Bryan (middle name <marker>unknown),</marker> American tennis player</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_INSERT_NNP" name="">
+            <rule>  <!-- identifies sentence end incorrectly -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z][a-z]{0,3}</token>
+                        <token postag="SENT_END">.</token>
+                    </marker>
+                </pattern>
+                <example correction="">I have read and understand the whole Code of Conduct of Quillbot IT Services <marker>Pvt.</marker> Ltd., and I intend to follow it in letter and spirit. </example>
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_INSERT_PERIOD" name="">

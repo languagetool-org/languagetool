@@ -963,7 +963,7 @@ USA
                         <exception postag="N.+" postag_regexp="yes"/></token>
                     <token><match no='1' postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
                 </pattern>
-                <message>Possível redundância. Se não pretende realçar diferenças, é suficiente utilizar <suggestion><match include_skipped="following" no="4"/> <match no='5'/></suggestion>.</message>
+                <message>Possível redundância. Se não pretende realçar diferenças, é suficiente utilizar <suggestion><match no="4"/> <match no='5'/></suggestion>.</message>
                 <!--<example correction="os rapazes">Olha como se divertem <marker>as raparigas e os rapazes</marker></example>-->
                 <example correction="os amigos">Olha como se divertem <marker>as amigas e os amigos</marker></example>
             </rule>
@@ -978,7 +978,7 @@ USA
                         <exception postag="N.+" postag_regexp="yes"/></token>
                     <token><match no='1' postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"/></token>
                 </pattern>
-                <message>Possível redundância. Se não pretende realçar diferenças, é suficiente utilizar <suggestion><match include_skipped="following" no="1"/> <match no='2'/></suggestion>.</message>
+                <message>Possível redundância. Se não pretende realçar diferenças, é suficiente utilizar <suggestion><match no="1"/> <match no='2'/></suggestion>.</message>
                 <example correction="os jogadores">Devemos de ajudar <marker>os jogadores e as jogadoras</marker></example>
             </rule>
         </rulegroup>
@@ -2099,7 +2099,7 @@ USA
                 </pattern>
                 <message>&pleonasm_msg;</message>
                 <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>
-                <example correction='encarar '><marker>encarar de frente</marker></example>
+                <example correction='encarar'><marker>encarar de frente</marker></example>
                 <example correction='encararam os perigos'><marker>encararam os perigos de frente</marker></example>
             </rule>
             <rule id='REDUNDANCY_ENCARAR_2' name='Pleonasmo: Encarar cara a cara'>
@@ -2113,7 +2113,7 @@ USA
                 </pattern>
                 <message>&pleonasm_msg;</message>
                 <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>
-                <example correction='encarar '><marker>encarar cara a cara</marker>.</example>
+                <example correction='encarar'><marker>encarar cara a cara</marker>.</example>
                 <example correction='encararam a situação'><marker>encararam a situação cara a cara</marker>.</example>
             </rule>
             <rule id='REDUNDANCY_GRITAR' name="Pleonasmo: Gritar alto">
@@ -3546,21 +3546,17 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id='AVOID_ALL_PASSIVE_VOICE' name='Escrita Criativa: Evitar a Passiva (todas a formas)' type='style' default='off'>
-            <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 	-->
-            <!-- 			Synthetic Passive Voice			-->
             <rule>
                 <pattern>
-                    <token postag='V...3.+' postag_regexp='yes'>
-                        <exception inflected='yes' regexp='yes'>vestir|calçar|magoar|ferir</exception></token>
-                    <token spacebefore='no' regexp='yes'>&hifen;</token>
-                    <token spacebefore='no'>se</token>
+                    <token postag='V...3.+:PP3CNO00' postag_regexp='yes'>
+                        <exception inflected='yes' regexp='yes'>vestir|calçar|magoar|ferir</exception>
+                    </token>
                 </pattern>
                 <message>Evite a voz passiva.</message>
                 <url>https://pt.wikipedia.org/wiki/Voz_verbal#Voz_passiva</url>
                 <example type='incorrect'>O trabalho <marker>fez-se</marker>.</example>
                 <example>Alguém <marker>fez</marker> o trabalho.</example>
             </rule>
-            <!-- 		Analitic Passive Voice Complement	        -->
             <rule>
                 <pattern>
                     <token postag='V.P.+' postag_regexp='yes'/>
@@ -3621,20 +3617,264 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
-        <rule id='PAÍSES_DO_TERCEIRO_MUNDO' name="'aos/os países do terceiro mundo' → 'ao/o Terceiro Mundo'" default="temp_off">
+        <rule id='AGORA_ATUAL' name="Agora → Atual" tone_tags='formal'>
             <pattern>
+                <token inflected='yes'>ter</token>
+                <token regexp='yes'>[ao]s?</token>
+                <token postag='NC.+' postag_regexp='yes'/>
                 <marker>
-                    <token regexp='yes'>aos|os</token>
-                    <token>países</token>
-                    <token>do</token>
-                    <token>terceiro</token>
-                    <token>mundo</token>
+                    <token>que</token>
+                    <token postag_regexp='yes' postag='VMIP.+' inflected='yes'>ter</token>
+                    <token regexp='yes'>agora|atualmente|correntemente|hoje|presentemente</token>
                 </marker>
             </pattern>
-            <message>Num contexto formal pode omitir &quot;países&quot; e empregar <suggestion><match no='1' regexp_match='(.+)(s)' regexp_replace='$1'/> Terceiro Mundo</suggestion>.</message>
-            <example correction="o Terceiro Mundo">Ensine sobre <marker>os países do terceiro mundo</marker>.</example>
-            <example correction="ao Terceiro Mundo">Ele pertence <marker>aos países do terceiro mundo</marker>.</example>
+            <message>Num contexto formal empregue <suggestion><match no='3' postag='NC.(.)000' postag_replace='AQ0C$10'>atual</match></suggestion>.</message>
+            <example correction="atual">Os computadores aprenderam a jogar xadrez há muitos anos, mas nem sempre tiveram a força <marker>que têm hoje</marker>.</example>
+            <example correction="atuais">Nessa altura não tinha os conhecimentos <marker>que tenho agora</marker>.</example>
         </rule>
+
+
+        <rulegroup id='MORRER_PERECER_FALECER' name="morrer → perecer/falecer" tags='picky' tone_tags='formal'>
+
+            <!-- Subrule 1: not using "mort[ao]s?" -->
+            <rule>
+               <antipattern>
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
+                    <token regexp='yes'>a|de</token>
+                    <token min="0" max="1" regexp='yes' inflected='yes'>&adverbios_de_intensidade;</token>
+                    <token>rir</token> <!-- VMN0000 tested, only "rir" was valid -->
+                    <example>Morri de rir quando descobri que é o famoso boa noite Cinderela.</example>
+                    <example>Morri a rir.</example>
+                    <example>Morri de tanto rir.</example>
+                    <example>Eu morri de rir com esse trailer de Pets, como amo bichos estou doida pra ver!</example>
+                    <example>Tom está morrendo de rir.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip='4' inflected='yes' regexp='yes' case_sensitive='yes'>abelha|andorinha|aranha|árvore|bateria|bode|boi|bovino|budismo|cabra|cabrito|cachorro|canídeo|cão|cavalo|chip|coelho|computador|cristianismo|ecrã|écran|égua|elefante|flor|gado|gato|h[áa]mster|insec?to|laptop|LCD|leão|melga|memória|motherboard|monitor|mosca|mosquito|natureza|ovelha|paganismo|papagaio|pardal|pássaro|PC|peixe|periquito|pilha|planta|p[óô]nei|portátil|ratazana|rato|relva|satanismo|serpente|tarântula|televisão|to[iu]ro|TV|vaca|zebra</token> <!-- Add exception words here -->
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception>
+                        <exception scope='previous' postag='P.+' postag_regexp='yes'/>
+                        <exception scope='previous' regexp='yes'>don[ao]s?</exception>
+                    </token>
+                    <example>E ainda dizem a TV está morrendo, mas não é bem o que os números mostram.</example>
+                    <example>Se uma árvore morrer, plante outra no seu lugar.</example>
+                    <example>A bateria morreu.</example>
+                    <example>As plantas morreram por falta de água.</example>
+                    <example>As árvores morreram.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip='4' inflected='yes' regexp='yes'>ser|estar</token>
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
+                    <token regexp='yes'>de|para</token>
+                    <token postag='NC.+|AQ.+|NP.+|VMN0000' postag_regexp='yes'/>
+                    <example>É NECESSÁRIO MORRER PARA VIVER!</example>
+                    <example>E olha só o detalhe do chaveiro não é pra morrer de amores?!</example>
+                    <example>Estou morrendo de dor nas costas.</example>
+                    <example>Estou morrendo de fome!</example>
+                    <example>Estou morrendo de vontade de uma xícara de café.</example>
+                    <example>Estou morrendo de vergonha dessa situação.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip='4' inflected='yes' regexp='yes'>ser|estar</token>
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
+                    <token postag='VMP00.+' postag_regexp='yes'/>
+                    <example>Por favor, abram a janela. Estou morrendo sufocado.</example>
+                    <example>Vivas foi responsabilizado após um ciclista morrer decapitado em Caracas devido à tal prática.</example>
+                    <example>Nico se salvou mas Eric foi carregado pela correnteza e morreu afogado.</example>
+                    <example>O motim foi um ajuste de contas, sendo que 9 detentos morreram sufocados pela fumaça do incêndio.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='SENT_START|V.+' postag_regexp='yes'/>
+                    <token min='0' max='1' postag='_QUOT' postag_regexp='no'/>
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
+                    <token min='0' max='1' postag='RG' postag_regexp='no'/>
+                    <token postag='_PUNCT' postag_regexp='no'/>
+                    <token postag='DP.+|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                    <example>Morre, inseto!</example>
+                    <example>Morre, Rui!</example>
+                    <example>Morra, seu bastardo!</example>
+                    <example>MORRA AGORA, SEU ASSASSINO!</example>
+                    <example>Morra, sua vadia!</example>
+                    <example>Se vc gosta de trekkings, pedalar morro acima, morro abaixo, Maiorca tb é uma ótima opção!</example>
+                    <example>Ela dirá para o mundo ouvir: “Fraqueza, medo e desespero morreram; força, poder e coragem nasceram”.</example>
+                    <example>É que eu não quero morrer hoje, só isso.</example>
+                    <example>"Morre, danado!"</example>
+                    <example>Por exemplo, a palavra alemã "Sterben" e outras que significam «morrer» são cognados da palavra inglesa.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='SENT_START' postag_regexp='no'/>
+                    <token min='0' max='1' postag='_QUOT|_PUNCT' postag_regexp='yes'/>
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
+                    <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
+                    <token min='0' max='2' postag='RG|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                    <token postag='SENT_END|_PUNCT_EXCLAMATION|_PUNCT_INTERROGATION' postag_regexp='yes'/>
+                    <example>Morra！</example>
+                    <example>Morremos.</example>
+                    <example>Morre logo!</example>
+                    <example>Morre Tory.</example>
+                    <example>Morrerei sozinho.</example>
+                    <example>- Morra, Omar.</example>
+                    <example>Cruïlles em Terrés lo Barbut e, depois de saqueá-la a incendiaram gritando: "Morram cavalheiros!!!</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected='yes'>morrer</token>
+                    <token regexp='no'>de</token>
+                    <token regexp='yes'>alegria|amor(es)?|cansaço|ciúmes?|dor(es)?|fome|frio|idade|inveja|medo|pânico|saudades?|sede|tristeza|velhice|velho</token>
+                    <example>Onze mil prisioneiros morreram de fome.</example>
+                    <example>O idoso morreu de fome.</example>
+                    <example>Muitas crianças morrem de fome na África.</example>
+                    <example>Devido à falta de comida, o gado morreu de fome.</example>
+                    <example>Ele morreu de sede durante a seca.</example>
+                    <example>O seguro morreu de velho.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='SENT_START' postag_regexp='no'/>
+                    <token regexp='yes'>[ao]s?|de</token>
+                    <token min='0' max='3' postag='NC.+|AQ.+|NP.+|Z0.+|SPS00' postag_regexp='yes'/>
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception></token>
+                    <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+                        <exception postag_regexp='no' postag='RG'/>
+                    </token>
+                    <example>Os bons morrem jovens.</example>
+                    <example>A culpa morreu solteira.</example>
+                    <example>As mulheres bonitas morrem jovens (ou isso diz o ditado).</example>
+                    <example>Os dois velhinhos morreram juntos.</example>
+                    <example>O Tom morreu esfaqueado.</example>
+                    <example>Os dois morreram juntos em 1323, em combate.</example>
+                    <example>O casal de idosos morreu tranquilo.</example>
+                </antipattern>
+                <pattern>
+                    <token inflected='yes'>morrer<exception regexp='yes'>mort[ao]s?</exception>
+                        <exception regexp='no' case_sensitive='yes'>Morro</exception> <!-- Proper names -->
+                        <exception scope='next' regexp='yes'>falido|miserável|miseravelmente|pobre|rico</exception>
+                    </token>
+                </pattern>
+                <message>Num contexto formal, é preferível escrever &quot;perecer&quot; ou &quot;falecer&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perecer</match></suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falecer</match></suggestion>
+                <example correction="pereceu|faleceu">O pai dele <marker>morreu</marker> no ano passado.</example>
+                <example>Talvez não fique rico, mas pra morrer pobre já basta onde estou.</example>
+                <example>Teve uma história triste: nasceu rico e morreu miserável.</example>
+                <example>É melhor viver rico, do que morrer rico.</example>
+            </rule>
+
+            <!-- Subrule 2: using only "mort[ao]s?" -->
+            <rule>
+                <antipattern>
+                    <token skip='4' inflected='yes' regexp='yes'>ser|estar</token>
+                    <token regexp='yes'>mort[ao]s?</token>
+                    <example>Quando um dos animais é morto em seu trabalho, ele decide usá-los contra quem o atormenta.</example>
+                    <example>Ele foi morto na guerra.</example>
+                    <example>O soldado foi morto em ação.</example>
+                    <example>É uma pena, mas a sua personagem é morta no começo da peça.</example>
+                    <example>Ator é morto na varanda do hotel a facadas na noite desta quarta-feira.</example>
+                    <example>A mulher que me revelou a verdade foi encontrada morta em seu apartamento.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='V.+|RG' postag_regexp='yes'/>
+                    <token min='0' max='1' postag='SPS00|Z0.+' postag_regexp='yes'/>
+                    <token min='1' max='3' postag='NC.+|AQ.+|NP.+|Z0.+' postag_regexp='yes'><exception regexp='yes'>mort[ao]s?</exception></token>
+                    <token regexp='yes'>mort[ao]s?</token>
+                    <example>"Quem não se enamora de Deus, vendo Cristo morto na cruz, não se abrasará jamais".</example>
+                    <example>A vala comum que continha os restos mortais de 14 soldados alemães mortos em agosto de 1944.</example>
+                    <example>Os caranguejos comem pele morta nas costas da iguana e, em troca, fornecem serviço de esfoliação.</example>
+                    <example>O dia foi marcado por protestos que deixaram ao menos 60 mortos no país.</example>
+                    <example>O pintor utiliza-se apenas de cores mortas em suas obras.</example>
+                    <example>Há mais de cem mortos na catástrofe.</example>
+                    <example>Desabamento de prédio deixa mais de 1000 mortos em Bangladesh.</example>
+                    <example>Corpos não identificados de mulheres mortas em Los Angeles geralmente são chamados: "Sally in the Alley"</example>
+                    <example>Hoje, PEDE DESCULPAS pelos 4,4 mil mortos na cidade.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+                    <token skip="4" postag='DA.+|NC.+|AQ.+|NP.+|V.+' postag_regexp='yes'>
+                        <exception postag='SPS.+' postag_regexp='yes'/> <!-- Fix "entre" -->
+                    </token>
+                    <token postag='(SPS00:)?D.+' postag_regexp='yes'/>
+                    <token min='0' max='1' postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                    <token regexp='yes'>mort[ao]s?</token>
+                    <example>Muçulmanos enterram seus mortos em covas.</example>
+                    <example>Os muçulmanos enterram seus mortos em sepulturas.</example>
+                    <example>A gente encontrou um cachorro morto no jardim.</example>
+                    <example>Tom encontrou uma barata morta na comida dele.</example>
+                    <example>Obrigada por cortar a árvore morta no meu jardim.</example>
+                    <example>Os judeus de Hamburgo sepultavam os mortos no Cemitério Judaico de Altona.</example>
+                    <example>Encontramos um cachorro morto no jardim.</example>
+                    <example>Tem um gigante morto no nosso quintal.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag='VMSP3.+|VMN0000' postag_regexp='yes'/>
+                    <token min='0' max='1' postag='D.+' postag_regexp='yes'/>
+                    <token regexp='yes'>mort[ao]s?</token>
+                    <token regexp='yes'>de|em|n[ao]s?</token>
+                    <token min='1' max='3' postag='NC.+|AQ.+|NP.+|Z0.+|(SPS00:)?D.+' postag_regexp='yes'/>
+                    <token postag='_PUNCT|SENT_END' postag_regexp='yes'/>
+                    <example>O batalhão vence caso os seus elementos não se encontrem mortos na totalidade.</example>
+                    <example>O batalhão vence caso os seus elementos não se encontrem mortos em Portugal.</example>
+                    <example>O batalhão vence caso os seus elementos não se encontrem mortos em duas cidades.</example>
+                    <example>Planeja roubar o colar de Dixie, que pode trazer os mortos de volta à vida.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp='yes'>mort[ao]s?</token>
+                    <token regexp='no'>de</token>
+                    <token regexp='yes'>alegria|amor(es)?|cansaço|ciúmes?|dor(es)?|fome|frio|inveja|medos?|pânico|saudades?|sede|tristeza|velho</token>
+                    <example>Embalado pelo balanço da carroça e morto de cansaço, Tom adormeceu.</example>
+                    <example>Eu me sinto morto de cansaço.</example>
+                    <example>Ele ficou morto de inveja.</example>
+                    <example>Ele retorna morto de fome, ou nunca mais retorna.</example>
+                    <example>O pobre desgraçado abandona o seu povo... com uma família morta de fome em busca de trabalho.</example>
+                    <example>A senhora nos deixará mortos de saudade.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip='4' inflected='yes' regexp='yes' case_sensitive='yes'>abelha|andorinha|aranha|árvore|bateria|bode|boi|bovino|budismo|cabra|cabrito|cachorro|canídeo|cão|cavalo|chip|coelho|computador|cristianismo|ecrã|écran|égua|elefante|flor|gado|gato|h[áa]mster|insec?to|laptop|LCD|leão|melga|memória|motherboard|monitor|mosca|mosquito|natureza|ovelha|paganismo|papagaio|pardal|pássaro|PC|peixe|periquito|pilha|planta|p[óô]nei|portátil|ratazana|rato|relva|satanismo|serpente|tarântula|televisão|to[iu]ro|TV|vaca|zebra</token> <!-- Add exception words here -->
+                    <token regexp='yes'>mort[ao]s?
+                        <exception scope='previous' postag='P.+' postag_regexp='yes'/>
+                        <exception scope='previous' regexp='yes'>don[ao]s?</exception>
+                    </token>
+                    <example>Plantas mortas em florestas entram em processo de decomposição através de uma cadeia trófica.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>mort[ao]s?
+                            <exception regexp='no' case_sensitive='yes'>Mortos</exception> <!-- Proper names -->
+                            <exception scope='previous' postag='_PUNCT|VMI.3.+|VMP.+|SPS00|RM' postag_regexp='yes'/>
+                        </token>
+                    </marker>
+                    <token min='0' max='1' postag='RM' postag_regexp='no'/>
+                    <token regexp='yes'>de|em|n[ao]s?
+                        <exception scope='next' postag='Z0.+|PP.+|D.+|RG|VMIP3.+' postag_regexp='yes'/>
+                    </token>
+                </pattern>
+                <message>Num contexto formal, é preferível escrever &quot;perecer&quot; ou &quot;falecer&quot;.</message>
+                <suggestion><match no='1' postag='NC(.)(.)000' postag_replace='VMP00$2$1'>perecer</match></suggestion>
+                <suggestion><match no='1' postag='NC(.)(.)000' postag_replace='VMP00$2$1'>falecer</match></suggestion>
+                <example correction="perecidos|falecidos">Os militares <marker>mortos</marker> em combate foram muitos.</example>
+                <example correction="perecidos|falecidos">Os militares <marker>mortos</marker> no combate.</example>
+                <example correction="perecidos|falecidos">Os militares <marker>mortos</marker> honrosamente em combate.</example>
+                <example>Do matrimónio nasceram dois filhos, além de uma menina que nasceu morta em 1890.</example>
+                <example>Em um ofício publicado no mesmo dia da batalha, o General Labatut estimou o número de mortos em 200.</example>
+                <example>Foi um mestre de Okinawa-te, do estilo Tomari-te, nascido em 1829 e morto em 1898.</example>
+                <example>Para o acompanharem na árdua tarefa de sepultar o seu filho Larry, morto na guerra do Afeganistão.</example>
+                <example>ABERTO o testamento do âncora do noticiário ABC NEWS, PETER JENNINGS, morto em agosto de 2005.</example>
+                <example>Patton também descendia de Hugh Mercer, morto na Batalha de Princeton na Guerra da Independência.</example>
+                <example>Suely Kanayama, a "Chica", morta em fins de 1974 num confronto com militares.</example>
+                <example>os laços com a Matéria, te enchem a mente com futilidade estéreis e mortas em si, vazias de bons propósitos.</example>
+                <example>Ele jazia morto na banheira.</example>
+                <example>Em 1893, o próprio Eça o declarava morto nas "Notas Contemporâneas"</example>
+                <example>Devido à violência brutal, que resultou em milhares de mortos no país, uma intervenção militar é necessária</example>
+                <example>O número de mortos no terremoto italiano cresceu a 247, talvez mais.</example>
+                <example>O número total de mortos no conflito ainda é incerto.</example>
+                <example>Os clássicos sempre chamam uma atenção a mais e há vários casos de mortos em regiões mais distantes.</example>
+                <example>Taxista encontrado morto em Candeias é sepultado e... </example>
+                <example>Uma natureza morta de um pintor holandês está pendurada no quarto dele.</example>
+                <example>O morto de agora, cuja ação na propaganda bastara a popularizá-lo, era conhecido ao longe.</example>
+                <example>HaSeul segurando um pássaro morto em suas mãos, com o menino HaSeul em nenhuma parte para ser encontrado.</example>
+                <example>As imagens divulgadas dos corpos de 83 crianças alegadamente mortas no ataque, acreditamos serem falsas.</example>
+                <example>não identificado aparentemente morto no espaço", levando a um "evento de quatro episódios".</example>
+                <example>Os mortos nos observam?</example>
+                <example>Mesmo conseguindo fugir dos disparos de imediato, Fujimori tombou morto no meio da praça.</example>
+                <example>Com uma machadinha, desfere vários golpes na cabeça do chefe Wilmesdorf que desaba morto no chão da sala.</example>
+            </rule>
+        </rulegroup>
 
 
         <!-- VESTIR calçar -->
@@ -5195,16 +5435,14 @@ USA
             <rule id='CLICHE_18_LEVANTAR' name='Clichê: Levantar com o pé esquerdo'>
                 <pattern>
                     <token inflected='yes'>levantar</token>
-                    <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token min='0'>se</token>
                     <token>com</token>
                     <token>o</token>
                     <token>pé</token>
                     <token>esquerdo</token>
                 </pattern>
                 <message>&cliche_msg;</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match> um dia mau</suggestion>
-                <example correction='teve um dia mau'><marker>levantou-se com o pé esquerdo</marker>.</example>
+                <suggestion><match no='1' postag='(V......):PP.+' postag_regexp='yes' postag_replace="$1">ter</match> um dia ruim</suggestion>
+                <example correction='teve um dia ruim'><marker>levantou-se com o pé esquerdo</marker>.</example>
             </rule>
             <rule id='CLICHE_19_METER' name='Clichê: Meter o dedo na ferida'>
                 <pattern>
@@ -5825,17 +6063,15 @@ USA
             <rule id='CLICHE_240_ARMAR-SE' name='Clichê: Armar-se até aos dentes|armado até aos dentes|armado até os dentes'>
                 <pattern>
                     <token inflected='yes' regexp='yes'>armar|armado</token>
-                    <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token min='0'>se</token>
                     <token>até</token>
                     <token regexp='yes'>a?os</token>
                     <token>dentes</token>
                 </pattern>
                 <message>&cliche_msg;</message>
-                <suggestion>exageradamente <match no='1' postag='V.+' postag_regexp='yes'>armar</match></suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>armar</match> exageradamente</suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>preparar</match> para uma situação</suggestion>
-                <example correction='exageradamente armar|preparar para uma situação'><marker>armar-se até aos dentes</marker>.</example>
-                <example correction='exageradamente armado|preparado para uma situação'><marker>armado até aos dentes</marker>.</example>
+                <example correction='armar-se exageradamente|preparar-se para uma situação'><marker>armar-se até aos dentes</marker>.</example>
+                <example correction='armado exageradamente|preparado para uma situação'><marker>armado até aos dentes</marker>.</example>
             </rule>
             <rule id='CLICHE_242_ARREBENTAR' name='Clichê: Arrebentar a boca do balão'>
                 <pattern>
@@ -7776,9 +8012,7 @@ USA
             </rule>
             <rule id='CLICHE_449_TRAIR-SE' name='Clichê: Trair-se pela emoção'>
                 <pattern>
-                    <token inflected='yes'>trair</token>
-                    <token regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token>se</token>
+                    <token inflected='yes' postag_regexp="yes" postag="V.+:PP.+">trair</token>
                     <token>pela</token>
                     <token>emoção</token>
                 </pattern>
@@ -8116,12 +8350,10 @@ USA
         <rule id='BASEIA-SE_EM' name="Tem por base" default='off'>
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
             <pattern>
-                <token inflected='yes'>basear</token>
-                <token regexp='yes' min='0'>&tracos_de_separacao;</token>
-                <token>se</token>
+                <token inflected='yes' postag_regexp="yes" postag="V.+:PP3CNO00">basear</token>
                 <token>em</token>
             </pattern>
-            <message>Substitua por <suggestion><match no='1' postag_regexp='yes' postag='V.+'>ter</match> por base</suggestion>.</message>
+            <message>Substitua por <suggestion><match no='1' postag_regexp='yes' postag='(V.+):PP3CNO00' postag_replace="$1">ter</match> por base</suggestion>.</message>
             <example correction="tem por base">O estudo <marker>baseia-se em</marker> dados estatísticos.</example>
         </rule>
 
@@ -8422,7 +8654,7 @@ USA
     </category>
     <category id='ACADEMIC' name='Linguagem acadêmica' type='style' tone_tags="academic">
 
-        <rule id='APAGAR_INDELÉVEL' name="[Universitário][Científico] Não conseguir apagar → Indelével" tone_tags="academic" is_goal_specific="true" default="temp_off">
+        <rule id='APAGAR_INDELÉVEL' name="[Universitário][Científico] Não conseguir apagar → Indelével" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <marker>
                     <token>que
@@ -8479,7 +8711,7 @@ USA
         </rulegroup>
 
 
-       <rulegroup id='DAR_EXEMPLO_EXEMPLIFICAR' name="Simplificar: 'Dar exemplo' → exemplificar" tone_tags="academic" is_goal_specific="true" default="temp_off">
+       <rulegroup id='DAR_EXEMPLO_EXEMPLIFICAR' name="Simplificar: 'Dar exemplo' → exemplificar" tone_tags="academic" is_goal_specific="true">
 
             <!-- #1 - Without d[ao]s? -->
             <rule>
@@ -8515,7 +8747,7 @@ USA
         </rulegroup>
 
 
-       <rule id='FICAR_PARADO_TEMPO_ESTAGNAR' name="[Universitário][formal] 'Ficar parado no tempo' → estagnar" tone_tags="academic" is_goal_specific="true" default="temp_off">
+       <rule id='FICAR_PARADO_TEMPO_ESTAGNAR' name="[Universitário][formal] 'Ficar parado no tempo' → estagnar" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <marker>
                     <token inflected='yes'>ficar</token>
@@ -8644,6 +8876,33 @@ USA
                 <example>Jogam-se várias rodadas, sendo somados os pontos atingidos por cada dupla, até que se atinjam 3 000 ou 5 000 pontos.</example>
             </rule>
         </rulegroup>
+
+       <rule id='SER_CONSISTIR_RESIDIR' name="[Universitário][Científico] V.Ser → V.Consistir/V.Residir" tone_tags="academic" is_goal_specific="true">
+            <pattern>
+                <token regexp='yes' inflected='yes'>assimetria|diferença|dissemelhança|disparidade|distinção|oposição|oposto</token>
+                <token min='0' max='1' postag='NC.+|AQ.+|V.+' postag_regexp='yes'>
+                    <exception regexp='no'>entre</exception>
+                </token>
+                <token skip="-1" regexp='no'>entre</token>
+                <marker>
+                    <token inflected='yes' regexp='no'>ser
+                    <exception scope='previous' regexp='no'>como</exception>
+                    </token>
+                </marker>
+                <token min='0' max='1' postag='CC|RM' postag_regexp='yes'/>
+                <token regexp='yes'>em|n[ao]s?</token>
+            </pattern>
+            <message>Num contexto formal/universitário, é preferível escrever &quot;consistir&quot; ou &quot;residir&quot;.</message>
+            <suggestion><match no='4' postag='V.+' postag_regexp='yes'>consistir</match></suggestion>
+            <suggestion><match no='4' postag='V.+' postag_regexp='yes'>residir</match></suggestion>
+            <example correction="consiste|reside">A distinção entre A e B <marker>é</marker> apenas na complexidade.</example>
+            <example correction="consiste|reside">A diferença existente entre A e B <marker>é</marker> apenas na complexidade.</example>
+            <example correction="consiste|reside">A diferença existente entre A e B <marker>é</marker> simplesmente em bits.</example>
+            <example correction="consiste|reside">A diferença existente entre Rui e Pedro <marker>é</marker> no vestuário.</example>
+            <example correction="consiste|reside">A diferença existindo entre o Rui e o Pedro <marker>é</marker> no vestuário.</example>
+            <example correction="consiste|reside">A diferença entre ambos <marker>é</marker> na beleza.</example>
+            <example>Já que existe diferença entre monarquia parlamentarista x monarquia absolutista como é nos países do Oriente Médio totalmente ditatorial.</example>
+        </rule>
 
         <rulegroup id='IR_VERBO-A_DE-SEGUIR-SEGUIDA-INFINITIVO' name="[Simplificar] Ir_verbo + [a/de seguir/seguida] + V.Inf." type="style" tone_tags="academic">
             <!--IDEA shorten_it-->
@@ -9060,29 +9319,12 @@ USA
                 <suggestion>deliberadamente</suggestion>
                 <example correction="deliberadamente">Eles fizeram <marker>de propósito</marker>.</example>
                 <example correction="deliberadamente">Eles fizeram aquilo <marker>de propósito</marker>.</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <token inflected='yes'>fazer</token>
-                    <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-                    <token regexp='yes' spacebefore='no'>&pronomes_obliquos;</token>
-                    <marker>
-                        <token>de</token>
-                        <token>propósito</token>
-                    </marker>
-                </pattern>
-                <message>Num contexto formal/científico, é preferível escrever &quot;deliberadamente&quot;.</message>
-                <suggestion>deliberadamente</suggestion>
                 <example correction="deliberadamente">Eles fizeram-no <marker>de propósito</marker>.</example>
             </rule>
-
         </rulegroup>
 
 
-        <!-- USAR empregar -->
         <rulegroup id='CIENTÍFICO_EMPREGAR_TERMO' name="[Científico] usar → empregar" type="style" tags="picky" tone_tags="formal" is_goal_specific="true">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-31 (Enhanced) (17-MAR-2021+) *START* -->
             <rule>
                 <pattern>
                     <marker>
@@ -9095,19 +9337,6 @@ USA
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match></suggestion>
                 <example correction="empregamos">Na nossa investigação <marker>usamos</marker> o termo “terrorismo”.</example>
                 <example correction="empregamos">Na nossa investigação <marker>usamos</marker> termos caros.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token inflected='yes'>usar</token>
-                        <token regexp='yes' spacebefore='no'>&hifen;</token>
-                        <token spacebefore='no'>se</token>
-                    </marker>
-                    <token min="0" max="1" negate="yes" regexp="yes">termos?</token>
-                    <token regexp="yes">termos?</token>
-                </pattern>
-                <message>Num contexto formal, é preferível escrever &quot;empregar um termo&quot;.</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match>-se</suggestion>
                 <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> o termo “terrorismo”.</example>
                 <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> termos caros.</example>
             </rule>
@@ -10257,24 +10486,20 @@ USA
         </rule>
 
 
-        <!-- PARA AJUDAR A MELHORAR para melhorar -->
         <rule id='PHD_TESE_PARA_AJUDAR_A_VINFINITIVO_PARA_VINFINITIVO' name="[Universitário] Para Ajudar a + V.Inf. → Para V.Inf." type='style' tone_tags="academic">
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-24 (25-JUL-2022+) -->
-            <!--
-            Estas regras servem para ajudar a melhorar a gramática. → Estas regras servem para melhorar a gramática.
-            -->
             <pattern>
                 <marker>
                     <token>para</token>
-                    <token inflected='yes'>ajudar</token>
+                    <token postag="V.N.*" postag_regexp="yes" inflected='yes'>ajudar</token>
                     <token>a</token>
-                    <token postag='VMN0000' postag_regexp='no'/>
+                    <token postag='VMN0000'/>
                 </marker>
             </pattern>
-            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:2 postagSelect:V(......)* postagReplace:V[\b1]*"/>
             <message>&thesis_msg;</message>
-            <suggestion>\1 {suggestion}</suggestion>
+            <suggestion>\1 \4</suggestion>
             <example correction="para melhorar">Estas regras servem <marker>para ajudar a melhorar</marker> a gramática.</example>
+            <example correction="Para planejar"><marker>Para ajudá-la a planejar</marker> o orçamento.</example>
+            <example correction="para alcançar"><marker>para ajudar-nos a alcançar</marker> seus objetivos</example>
         </rule>
 
 
@@ -10334,6 +10559,15 @@ USA
             Vou dormir, tomei a medicação demasiado cedo.
             Vamos dormir, tomámos a medicação demasiado cedo.
             -->
+            <antipattern>
+                <token postag='SENT_START'/>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='VMN0000'/>
+                <token postag='SENT_END'/>
+                <example>A publicação está o máximo! Vou roubar!</example>
+                <example>Não sei. Vamos descobrir!</example>
+                <example>Vamos comer. Estou morrendo de fome.</example>
+            </antipattern>
             <antipattern>
                 <token skip='-1' regexp='yes'>&tracos_de_separacao;</token>
                 <token inflected="yes">ir</token>
@@ -10940,6 +11174,24 @@ USA
     </category>
 
     <category id='OBJECTIVE' name='Linguagem objetiva' type='style' tone_tags="objective">
+
+
+        <rule id='PAÍSES_DO_TERCEIRO_MUNDO' name="'aos/os países do terceiro mundo' → 'ao/o Terceiro Mundo'" tone_tags="objective">
+            <pattern>
+                <marker>
+                    <token regexp='yes'>aos|os</token>
+                    <token>países</token>
+                    <token>do</token>
+                    <token>terceiro</token>
+                    <token>mundo</token>
+                </marker>
+            </pattern>
+            <message>Para uma frase mais objetiva, considere omitir &quot;países&quot; e empregar <suggestion><match no='1' regexp_match='(.+)(s)' regexp_replace='$1'/> Terceiro Mundo</suggestion>.</message>
+            <example correction="o Terceiro Mundo">Ensine sobre <marker>os países do terceiro mundo</marker>.</example>
+            <example correction="ao Terceiro Mundo">Ele pertence <marker>aos países do terceiro mundo</marker>.</example>
+        </rule>
+
+
         <!-- DE N EM N a cada N -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-22 (21-OCT-2020+)     -->
         <rule id='DE_N_EM_N-A_CADA_N' name="A cada N" tone_tags="objective">
@@ -12261,16 +12513,14 @@ USA
 
 
         <rule id='SER_NECESSARIO_NECESSARIO_V2' name="Simplificar: Ser necessário → necessário">
-            <!-- IDEA shorten_it -->
-
             <antipattern>
-                <token postag='VMIP.+|VMSF.+|NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag="V.+|NC.+" postag_regexp='yes'/>
                 <token>que</token>
                 <token regexp='yes'>é|são</token>
                 <token regexp='yes'>necessários?</token>
-                <token postag='VMN03.+|RG|CS' postag_regexp='yes'/>
+                <token postag='VMN.+|RG|CS' postag_regexp='yes'/>
                 <token min='0' max='1' postag='SPS00'/>
-                <token postag='(SPS00:)?D[AI].+|VMN03.+' postag_regexp='yes'/>
+                <token postag='(SPS00:)?D[AI].+|VMN.+' postag_regexp='yes'/>
                 <example>Sinceramente, não recomendo esse tipo de pratica pois entendo que é necessário sempre um ambiente profissional para garantir a qualidade e a produtividade.</example>
                 <example>Todos nós sabemos que é necessário acelerar o Programa de Aceleração do Crescimento", emendou ele, usando um trocadilho para se referi...</example>
                 <example>Com a incorporação da Adequação Sociotécnica à Teoria, passa-se a entender que é necessário que um processo seja concebido nas condições em que ele acontecerá.</example>
@@ -13506,11 +13756,12 @@ USA
                         <token postag='VMII1S0|VMII3S0' postag_regexp='yes'/>
                     </and>
                     <token>a</token>
-                    <token postag='VMN0000'/>
+                    <token postag_regexp="yes" postag="VMN0000(:PP.+)?"/>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMII3S0'/></suggestion>
+                <suggestion><match no='3' postag="VMN0000(:PP.+)?" postag_regexp="yes" postag_replace="VMII3S0$1"/></suggestion>
                 <example correction="tomava">O Rui <marker>estava a tomar</marker> café.</example>
+                <example correction="Ameaçava-me"><marker>Estava a ameaçar-me</marker>?</example>
             </rule>
             <rule>
                 <pattern>
@@ -13519,11 +13770,12 @@ USA
                         <token postag='VMII3P0'/>
                     </and>
                     <token>a</token>
-                    <token postag='VMN0000'/>
+                    <token postag_regexp="yes" postag="VMN0000(:PP.+)?"/>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion><match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMII3P0|VMIM3P0|VMIS3P0'/></suggestion>
+                <suggestion><match no='3' postag="VMN0000(:PP.+)?" postag_regexp="yes" postag_replace='(VMII3P0|VMIM3P0|VMIS3P0)$1'/></suggestion>
                 <example correction="tomaram|tomavam">O Rui e Ana <marker>estavam a tomar</marker> café.</example>
+                <example correction="seguiam-me|seguiram-me">Vocês <marker>estavam a seguir-me</marker>.</example>
             </rule>
         </rulegroup>
         <!-- MAS SIM QUE ERA DEVIDO mas era devido -->
@@ -14402,14 +14654,7 @@ USA
         </rule>
 
 
-        <!-- QUANDO TEMOS DE LIDAR ao lidarmos -->
         <rule id='QUANDO_TER_DE_QUE_VINF_AO_VINF' name="[Simplificar] 'Quando V.Ter de/que V.Inf.' com → 'Ao V.Inf.'" type="style" tags="picky">
-            <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-10 (2-MAR-2023+) -->
-            <!--
-      Quando tenho de lidar com muitos elementos. → Ao lidar com muitos elementos.
-      Quando temos de lidar com muitos elementos. → Ao lidarmos com muitos elementos.
-      -->
             <pattern>
                 <marker>
                     <token>quando</token>
@@ -14422,7 +14667,7 @@ USA
                 </marker>
                 <token>com</token>
             </pattern>
-            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:2 postagSelect:VMIP(.)(.).* postagReplace:VMN0[\b1][\b2].*"/>
+            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:2 postagSelect:VMIP(.)(.). postagReplace:VMN0[\b1][\b2]."/>
             <message>&simplify_msg;</message>
             <suggestion>ao {suggestion}</suggestion>
             <example correction="Ao lidar"><marker>Quando tenho de lidar</marker> com muitos elementos.</example>
@@ -14524,7 +14769,7 @@ USA
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token postag='V.+' postag_regexp='yes'/>
-                <token postag='SPS00_?' postag_regexp='no'/>
+                <token postag='SPS00_?' postag_regexp='yes'/>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
                 <example>Eu acho que ela estava planejando ir visitar a mãe, que está no hospital.</example>
@@ -15714,61 +15959,36 @@ USA
         </rule>
 
 
-        <!-- FAZER CONJECTURAS conjecturar -->
-        <rule id='FAZER_VERBO_VERBO_INFINITIVO' name="[Simplificar] V.Fazer + V. → V.Inf." type="style" tags="picky">
+        <rule id='FAZER_VERBO_VERBO_INFINITIVO_V2' name="[Simplificar] V.Fazer + V. → V.Inf." type="style" tags="picky">
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-04 (25-JUL-2022+) -->
-            <!--
-      Fazer somas é o melhor que há. → Somar é o melhor que há.
-      Mas fazer somas sobre algo é medir uma probabilidade. → Mas somar sobre algo é medir uma probabilidade.
-      Assim fazer somas é o melhor. → Assim somar é o melhor.
-      -->
-
             <antipattern>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token postag='SPS00' postag_regexp='no'/>
                 <token>fazer</token>
                 <token postag='VMIP2S0' postag_regexp='no'/>
-                <token postag='VMIP3.+' postag_regexp='yes'/>
-                <example>...is estratégicos para a retirada dos produtos pelos próprios clientes quanto a de uso de drones para fazer entregas estão sendo avaliadas pela Diálogo Logística para serem implantadas no país.</example>
-            </antipattern>
-
-            <antipattern>
+                <token>para</token>
                 <token postag='V.+' postag_regexp='yes'/>
-                <token>a</token>
-                <token>fazer</token>
-                <token postag='VMIP2S0' postag_regexp='no'/>
-                <example>Às 17h já costumo estar a fazer batalhas de xadrez.</example>
-                <example>Esse cara chega, começa a fazer consultas sem conversar comigo antes...</example>
+                <example>Quando éramos crianças gostávamos de fazer fisgas para sermos bons.</example>
             </antipattern>
-
             <pattern>
                 <marker>
-                    <token>fazer</token>
-                    <token postag='VMIP2S0' postag_regexp='no'>
-                        <exception regexp='yes' inflected='yes'>drogar|buscar|nadar|recarregar|forçar|papar|entregar|tocar|programar|&verbos_muito_incomuns;|amostrar|comprar|notar|contar|curvar|dobrar|perguntar|provar|receitar|reformar|rimar|trilhar</exception> <!-- Add here exception verbs as they are found -->
-                        <exception postag_regexp='yes' postag='RG|RN|CC|CS|SPS00|DA.+|SPS00:DA.+|DI.+|SPS00:DI.+|PP.+|SPS00:PP.+|DP.+|SPS00:DP.+|AP.+|SPS00:AP.+'/>
+                    <token>fazer
+                        <exception scope='next' regexp='no'>compras</exception> <!-- Add exceptions here -->
                     </token>
+                    <token skip='4' postag='VMIP2S0' postag_regexp='no'/>
                 </marker>
-                <token>
-                    <exception postag_regexp='yes' postag='VMP00.+|NC.+|AQ.+|AP.+|DP.+'/>
-                    <exception regexp='yes'>aos?</exception>
+                <token inflected='yes'>ser
+                    <exception regexp='yes' inflected='yes'>estar|ir</exception>
+                    <exception scope='previous' regexp='yes' inflected='yes'>estar|ir</exception>
                 </token>
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion><match no='2' postag='V.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
             <example correction="Somar"><marker>Fazer somas</marker> é o melhor que há.</example>
-            <example correction="somar">Mas <marker>fazer somas</marker> sobre algo é medir uma probabilidade.</example>
+            <example correction="conjeturar">Mas <marker>fazer conjeturas</marker> sobre algo é medir uma probabilidade.</example>
             <example correction="somar">Assim <marker>fazer somas</marker> é o melhor.</example>
-            <example>Quero ir fazer compras.</example>
-            <example>Eu preferiria não ir fazer compras sozinho.</example>
-            <example>Já dizia o outro: é uma questão de fazer contas.</example>
-            <example>Ele não é inteligente o bastante para fazer contas de cabeça.</example>
-            <example>Aqui você pode fazer suas denuncias, reclamações, sugestões e elogios.</example>
-            <example>..., baseadas no fato de que não vamos viver pra dieta (embora seja necessária certa dedicação), vamos fazer juntas nossa dietinha?</example>
-            <example>Foi permitido fazer perguntas ao final da reunião.</example>
-            <example>Xangô quis saber o que poderia fazer para ver sua filha só mais uma vez, e Orunmilá lhe disse para fazer oferendas ao orixá Iku (Oniborun), o guardião da entrada do mundo dos mortos.</example>
-            <example>Fazer dobras em.</example>
+            <example correction="somar">Assim <marker>fazer somas</marker> será o melhor.</example>
+            <example>Fazer compras é uma sensação fantástica.</example>
+            <example>Quanto às sugestões de uso de drones para fazer entregas estão sendo avaliadas.</example>
+            <example>Fui com Magnus fazer compras, fomos a uma loja ótima.</example>
         </rule>
 
 
@@ -15894,15 +16114,7 @@ USA
         </rule>
 
 
-        <!-- VERBO_ESTAR + A + VERBO_INF verbo -->
         <rulegroup id='VERBO_ESTAR_A_VERBO_INF' name="[Simplificar] Verbo estar + a + V.Inf. → Verbo" type="style" tags="picky">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-11 (21-OCT-2020+)     -->
-            <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
-      -->
-
-            <!-- MARCOAGPINTO 2023-02-08 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <antipattern>
                 <token inflected='yes'>estar</token>
                 <token>a</token>
@@ -15915,11 +16127,8 @@ USA
                 <example>Um projecto de 3 anos (começou com AVB) que nos deu 3 campeonatos e uma liga europa está a ser trucidado.</example>
                 <example>O aparecimento “espontâneo” de vida, por outro lado, está a ser estudado.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2023-02-08 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-            <!-- Fixes false positives - Rule needs to be rewritten: 2024-01-13 -->
             <antipattern>
-                <token regexp='yes'>lhes?</token>
+                <token postag_regexp="yes" postag="V.+:PP3C.D00"/>
                 <token postag='CS'/>
                 <token inflected='yes'>estar</token>
                 <token>a</token>
@@ -15943,119 +16152,37 @@ USA
                 <example>O telemóvel está a carregar.</example>
                 <example>A dívida nacional está a aumentar.</example>
             </antipattern>
-
-            <!-- estou -->
             <rule>
                 <pattern>
                     <token negate_pos="yes" postag='SENT_START'/>
                     <marker>
-                        <token>estou</token>
+                        <token postag_regexp="yes" postag="VMIP..0" inflected="yes">estar</token>
                         <token>a</token>
-                        <token postag='VMN0000'/>
+                        <token postag_regexp="yes" postag='VMN0000(:PP.+)?'/>
                     </marker>
                 </pattern>
+                <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:2 postagSelect:V.+ postagReplace:keepPronoun"/>
                 <message>&simplify_msg;</message>
-                <suggestion><match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP1S0'/></suggestion>
-                <example correction="oriento">Temos diferentes perspetivas mediante a lógica pela qual me <marker>estou a orientar</marker>.</example>
-            </rule>
-
-            <!-- estás -->
-            <rule>
-                <pattern>
-                    <token negate_pos="yes" postag='SENT_START'/>
-                    <marker>
-                        <token>estás</token>
-                        <token>a</token>
-                        <token postag='VMN0000'/>
-                    </marker>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP2S0'/></suggestion>
-                <suggestion>\2 <match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
+                <suggestion>{suggestion}</suggestion>
+                <suggestion>\2 <match no='4' postag='VMN0000(:PP.+)?' postag_regexp="yes" postag_replace='VMG0000$1'/></suggestion>
+                <example correction="oriento|estou orientando">Temos diferentes perspetivas mediante a lógica pela qual me <marker>estou a orientar</marker>.</example>
                 <example correction="orientas|estás orientando">Temos diferentes perspetivas mediante a lógica pela qual me <marker>estás a orientar</marker>.</example>
-            </rule>
-
-            <!-- está -->
-            <rule>
-                <pattern>
-                    <token negate_pos="yes" postag='SENT_START'/>
-                    <marker>
-                        <token>está</token>
-                        <token>a</token>
-                        <token postag='VMN0000'/>
-                    </marker>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP3S0|VMM02S0'/></suggestion>
-                <suggestion>\2 <match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
                 <example correction="orienta|está orientando">Temos diferentes perspetivas mediante a lógica pela qual me <marker>está a orientar</marker>.</example>
-            </rule>
-
-            <!-- estamos -->
-            <rule>
-                <pattern>
-                    <token negate_pos="yes" postag='SENT_START'/>
-                    <marker>
-                        <token>estamos</token>
-                        <token>a</token>
-                        <token postag='VMN0000'/>
-                    </marker>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP1P0'/></suggestion>
-                <suggestion>\2 <match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
                 <example correction="orientamos|estamos orientando">Temos diferentes perspetivas mediante a lógica pela qual nos <marker>estamos a orientar</marker>.</example>
-            </rule>
-
-            <!-- estais -->
-            <rule>
-                <pattern>
-                    <token negate_pos="yes" postag='SENT_START'/>
-                    <marker>
-                        <token>estais</token>
-                        <token>a</token>
-                        <token postag='VMN0000'/>
-                    </marker>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP2P0'/></suggestion>
-                <suggestion>\2 <match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
                 <example correction="orientais|estais orientando">Temos diferentes perspetivas mediante a lógica pela qual nos <marker>estais a orientar</marker>.</example>
-            </rule>
-
-            <!-- estão -->
-            <rule>
-                <pattern>
-                    <token negate_pos="yes" postag='SENT_START'/>
-                    <marker>
-                        <token>estão</token>
-                        <token>a</token>
-                        <token postag='VMN0000'/>
-                    </marker>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP3P0'/></suggestion>
-                <suggestion>\2 <match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
                 <example correction="orientam|estão orientando">Temos diferentes perspetivas mediante a lógica pela qual nos <marker>estão a orientar</marker>.</example>
             </rule>
-
         </rulegroup>
 
 
-        <!-- PASSANDO A REDUZIR reduzindo -->
         <rule id='PASSAR_A_VERBO' name="[Simplificar] V.Passar + a + V. → V. (na forma de V.Passar)" type="style" tags="picky">
-            <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-20 (Checked/Enhanced) (25-JUL-2022+) -->
-            <!--
-      E assim passando a reduzir as perdas. → E assim reduzindo as perdas.
-      -->
             <antipattern>
                 <token inflected='yes'>passar</token>
                 <token>a</token>
-                <token postag='VMN0000'/>
+                <token postag_regexp="yes" postag='VMN0000(:PP.+)?'/>
                 <token regexp='yes'>e|ou|,</token>
                 <token min='0' postag='SPS.+' postag_regexp='yes'/>
-                <token postag='VMN0000'/>
+                <token postag_regexp="yes" postag='VMN0000(:PP.+)?'/>
                 <example>Os garotos passam a assumir e a vender os bens.</example>
             </antipattern>
             <pattern>
@@ -16069,25 +16196,20 @@ USA
                         <exception postag_regexp='yes' postag='VMP00.+|VMIS.+'/>
                     </token>
                     <token>a</token>
-                    <token postag='VMN0000'/>
+                    <token postag_regexp="yes" postag='VMN0000(:PP.+)?'/>
                 </marker>
                 <token negate_pos='yes' postag='SENT_END'/>
             </pattern>
-            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:2 postagSelect:V.*"/>
+            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:2 postagSelect:V.* postagReplace:keepPronoun"/>
             <message>&simplify_msg;</message>
             <example correction="reduzindo">E assim <marker>passando a reduzir</marker> as perdas.</example>
             <example correction="usufruindo">adquiriu a Pioneer Airlines, <marker>passando a usufruir</marker> da extensa malha desta empresa</example>
+            <example correction="designam-se">E <marker>passam a designar-se</marker> por The Meteors.</example>
+            <example correction="sentir-me-ei">E <marker>passarei a sentir-me</marker> estrangeiro no meu próprio país.</example>
         </rule>
 
 
-        <!-- FOI ÚTIL PARA serviu para -->
         <rule id='VERBO_SER_ÚTIL_PARA_SERVIR_PARA' name="[Simplificar] V.Ser útil para → V.Servir para" type="style">
-            <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-16 + 2023-01-17 (25-JUL-2022+) -->
-            <!--
-      Esta equação foi útil para ajudar a população. → Esta equação serviu para ajudar a população.
-      Esta equação foi útil NOMEADAMENTE para ajudar a população. → Esta equação serviu NOMEADAMENTE para ajudar a população.
-      -->
             <pattern>
                 <marker>
                     <token inflected='yes'>ser</token>
@@ -16104,16 +16226,7 @@ USA
         </rule>
 
 
-        <!-- TÊM SIDO DESENVOLVIDOS desenvolveram-se -->
         <rule id='TER_SIDO_PART_PASSADO_VERBO' name="[Simplificar] V.Ter + sido + V.Part.Pass. → V." type="style" tags='picky'>
-            <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-19 (2-MAR-2023+) -->
-            <!--
-      Ao longo dos anos tem sido desenvolvido um modelo. → Ao longo dos anos desenvolveu-se um modelo.
-      Ao longo dos anos têm sido desenvolvidos vários modelos. → Ao longo dos anos desenvolveram-se vários modelos.
-      Ao longo dos anos têm sido desenvolvidos modelos. → Ao longo dos anos desenvolveram-se modelos.
-      -->
-
             <antipattern>
                 <token regexp='yes'>t[eê]m</token>
                 <token>sido</token>
@@ -16176,21 +16289,17 @@ USA
         </rule>
 
 
-        <!-- VIR A VERBO verbo -->
         <rule id='VIR_A_VERBO_VERBO' name="[Simplificar] Vir + a + Verbo → Verbo" type='style'>
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-22 (25-JUN-2021+)      -->
-            <!--
-      O nosso estudo terá grande aplicabilidade caso esta ameaça se venha a concretizar. → O nosso estudo terá grande aplicabilidade caso esta ameaça se concretize.
-      -->
             <pattern>
                 <token inflected='yes'>vir<exception>vi</exception></token><!-- please remove "vi" as a form of "vir" from dict -->
                 <token>a</token>
                 <token postag='VMN.+' postag_regexp='yes'/>
             </pattern>
-            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.* postagFrom:1 postagSelect:V.*"/>
+            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.+ postagFrom:1 postagSelect:V.+ postagReplace:keepPronoun"/>
             <message>&simplify_msg;</message>
             <example correction="concretize">O nosso estudo terá grande aplicabilidade caso esta ameaça se <marker>venha a concretizar</marker>.</example>
+            <example correction="especializar-se-ia">Acho que ele <marker>viria a especializar-se</marker> nisso.</example>
+            <example correction="conheceu-a">Ele <marker>veio a conhecê-la</marker> bem.</example>
             <example>Eu vi a professora Gómez ontem.</example>
             <example>Quando eles vieram a receita quiseram fazer logo.</example>
         </rule>
@@ -17223,6 +17332,410 @@ USA
 
             <example>Tom acha que está apaixonado.</example>
             <example>Isso evita que sejam produzidos erros gramaticais em certas línguas.</example>
+        </rule>
+
+
+        <rule id='QUE_SER_ESTAR_PARTPASSADO_V2' name="Simplificar: Que + ser/estar + part. passado → Particípio passado" type='style' tags='picky' default="temp_off">
+            <!-- The rule has been completely rewritten.
+                 In my first rewrite, I used postag='VMI[IPS]3.+' for the verb "ser" and "estar".
+                 In my second rewrite, I removed the 'I' ("estava(m)") postag='VMI[PS]3.+' to avoid too many false positives.
+
+                 I have added a large number of detailed (commented) examples so that weaknesses can be easily spotted and fixed.
+
+                 For small fixes, make changes to the last two antipatterns.
+            -->
+
+            <antipattern>
+                <token skip="4" inflected='yes' regexp='yes'>haver|fazer|ser|estar|e|ou|o|de|de:o|em:o
+                    <exception scope='previous' regexp='no'>para</exception>
+                </token>
+                <token regexp='yes' inflected='yes'>&expressoes_de_tempo;</token>
+                <token>que</token>
+                <token regexp='yes' inflected='yes'>ser|estar</token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <example>O produto há anos que está esgotado na loja.</example>
+                <example>O produto há dois meses que está esgotado na loja.</example>
+                <example>O produto há bastante tempo que está esgotado na loja.</example>
+                <example>A testemunha ocular deixou um testemunho vívido do dia e hora que foram vitimados.</example>
+                <example>A lista abaixo contém o nome da série, a temporada que foi renovada e o canal que exibe o título.</example>
+                <example>É de suma importância que o candidato esteja sempre atento as datas que são discorridas no edital.</example>
+                <example>O tempo que é passado nunca voltará.</example>
+                <example>Lembra-se da primeira vez que foi preso?</example>
+                <example>Na época que foi lançado, Naturi não fazia mais parte do grupo.</example>
+                <example>Também é nessa época que é construído o salão nobre do complexo do Palácio do Itamaraty.</example>
+                <example>Que tal uma mulher de 22 anos que foi atingida por um raio, e possui implantes elétricos no cérebro?</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token regexp='yes' inflected='yes'>ser|estar</token>
+                <token postag='VMP.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='_PUNCT'/>
+                <token postag='SPS.+|[DP].+|RM|V.+|RG' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'>
+                    <exception postag='NC.+|AQ.+' postag_regexp='yes'/>
+                </token>
+                <token postag='_PUNCT|SENT_END|CC' postag_regexp='yes'/>
+                <example>Meia hora para pegar a mala que foi obrigada a despachar.</example>
+                <example>É óbvio que são usados para cavar!</example>
+                <example>Do manuscrito de que somente se mantem as cópias citadas que foram traduzidos ao copiar-los.</example>
+                <example>É uma música sobre as pessoas que são convencidas a vir e ficar na casa para uma festa juntos.</example>
+                <example>Rui, um dos motoristas que foi obrigado a trabalhar, disse que, se não fosse fazer a escala, seria detido.</example>
+                <example>Como uma ocasião que tiveram de abraçar com alegria a penitência que foram forçados a suportar.</example>
+            </antipattern>
+
+            <!-- The next two antipatterns fix FPs by detecting the change of the subject (male/female) in that part of the sentence -->
+            <antipattern>
+                <token postag='(SPS00:)?D[^DP].+|VM.P.+|AO.+|SENT_START|AQ.F.+|NCF.+|RG' postag_regexp='yes'>
+                    <exception regexp='yes'>d[ao]s?</exception>
+                    <exception scope='previous' postag='SPS00|VMM02.+' postag_regexp='yes'/>
+                    <exception scope='previous' regexp='yes'>n[ao]s?</exception>
+                </token>
+                <token postag='AQ.F.+|NCF.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token regexp='yes' inflected='yes'>ser|estar</token>
+                <token postag='VMP00.M' postag_regexp='yes'/>
+                <example>Tenho certeza que esteve ocupado.</example>
+                <example>Então não é a primeira vez que foi usado para tiro ao alvo.</example>
+                <example>Na época que foi lançado, Naturi não fazia mais parte do grupo.</example>
+                <example>É verdade que é divertido, mas ao mesmo tempo é assustador.</example>
+                <example>E o melhor são desenvolvidos para praticamente não deixar resíduos na superfície que foi aplicado.</example>
+                <example>Também é nessa época que é construído o salão nobre do complexo do Palácio do Itamaraty.</example>
+                <example>Ontem veio um cara que estava apaixonado pelos pés da moça.</example>
+                <example>Existe todo um cuidado com a seleção dos grãos, e na forma que é feito o café.</example>
+                <example>Eles tem sorte que estão presos e comendo bem.</example>
+                <example>Porém, é na jardinagem que está enraizado o prazer que poderia fazer da atividade uma profissão.</example>
+                <example>Posso recomendar o gato ruivo mais à frente nesta rua que é solto durante a tarde e é bastante amigável.</example>
+                <example>É conhecida por ter representado activistas da oposição iraniana que foram presos, após as eleições.</example>
+                <example>Talvez antes, um pouco, mas tenho certeza que é passado.</example>
+                <example>Tem certeza que é seguro, aqui?</example>
+                <example>E tenha certeza que está fervido... então os torrões não vão obstruir o aparelho.</example>
+                <example>Um general no 2º século da era cristã que foi queimado junto com sua família por converter ao Cristianismo.</example>
+            </antipattern>
+            <antipattern>
+                <token postag='(SPS00:)?D[^DP].+|VM.P.+|AO.+|SENT_START|AQ.M.+|NCM.+|RG' postag_regexp='yes'>
+                    <exception regexp='yes'>d[ao]s?</exception>
+                    <exception scope='previous' postag='SPS00|VMM02.+' postag_regexp='yes'/>
+                    <exception scope='previous' regexp='yes'>n[ao]s?</exception>
+                </token>
+                <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token regexp='yes' inflected='yes'>ser|estar</token>
+                <token postag='VMP00.F' postag_regexp='yes'/>
+                <example>Aposto que está ocupada.</example>
+                <example>Estas funções "L" são chamadas 'globais', no sentido que são definidas como produtos de Euler.</example>
+                <example>O centro da cidade está localizado em uma ilha no lago que está conectada ao continente por pontes.</example>
+                <example>Se for, são duas mulheres ligadas ao clube que foram assassinadas.</example>
+                <example>Deixe-a saber que está errada.</example>
+                <example>Esta mulher presidiu o PSDB em 1995, partido político que é filiada há mais de 20 anos.</example>
+                <example>Deu contribuições ao método histórico que foram reconhecidas posteriormente.</example>
+                <example>Eu li o flyer que foi entregue a mim.</example>
+                <example>A primeira mulher à frente de um partido político em Sorocaba, partido político que é filiada há 20 anos.</example>
+                <example>O termo tem sido aplicado a cantores de outros estilos musicais que são influenciadas pela "soul music".</example>
+            </antipattern>
+
+            <!-- This antipattern deals with small sentences that may end/break with punctuation, ideal for small fixes of false positives -->
+            <!-- WHENEVER POSSIBLE, USE THIS ANTIPATTERN FOR SMALL FIXES IN SMALL SENTENCES -->
+            <!-- Tried at the bottom the exceptions WHICH DIDN'T WORK: aos?|como|vári[ao]s -->
+            <antipattern>
+                <token postag='VMI.+|VMN0000|PP.+|DD.+|NP.+|AQ.+|NC.+|UNKNOWN|CC|SENT_START' postag_regexp='yes'/>
+                <token min='0' max='1' postag='_PUNCT'/>
+                <token min='0' max='1' postag='SPS00|(SPS00:)?D.+|Z0.+' postag_regexp='yes'>
+                    <exception regexp='yes'>d[ao]s?</exception>
+                </token>
+                <token min='0' max='1' postag='_PUNCT'/>
+                <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token regexp='yes' inflected='yes'>ser|estar</token>
+                <token postag='VMP.+' postag_regexp='yes'/>
+                <token postag='AQ.+|NC.+|SPS00|(SPS00:)?D.+|CC|SENT_END|_PUNCT|VMN0000|VMIS3.+|Z0.+' postag_regexp='yes'>
+                    <exception regexp='yes'>até|hoje|perto|segundo</exception> <!-- RG -->
+                    <exception regexp='yes'>consoante|e|ou|para</exception> <!-- CC -->
+                    <exception regexp='yes'>às?|com|de|desde|durante|em|entre|n[ao]s?|nest[ae]s?|pel[ao]s?|por|sem</exception> <!-- SPS00 + SPS00: -->
+                    <exception postag='RN' postag_regexp='no'/>
+                </token>
+                <example>É neste contexto que são criados projetos e iniciativas que a Fundação do Desporto promove.</example>
+                <example>São seus filhos que estão atrasados.</example>
+                <example>É verdade que está morta.</example>
+                <example>Tom tem uma irmã que é advogada.</example>
+                <example>É de energia que é feita a matéria.</example>
+                <example>Você não é o único que foi ferido.</example>
+                <example>É a lei que está errada.</example>
+                <example>Tem certeza que está apaixonada?</example>
+                <example>Conheço um menino que foi operado aos olhos.</example>
+                <example>Eu só bebo água que foi fervida.</example>
+                <example>Ele jura vingança pelo que lhe ocorreu e pelo amigo que foi morto.</example>
+                <example>Alguns insetos entraram na bolsa que estava aberta.</example>
+                <example>Quem era o homem que foi morto naquela colina?</example>
+                <example>Tom era o único que estava ocupado.</example>
+                <example>Eu tinha um vizinho que era cego.</example>
+                <example>Disseram a todos que estavam desconfiados.</example>
+                <example>Tom foi o único que foi preso.</example>
+                <example>Ela disse a todos que estava chateada.</example>
+                <example>Tom disse a todos que estava cansado.</example>
+                <example>Você não é o único que está morto.</example>
+                <example>Você não é o único que está ocupado.</example>
+                <example>Às vezes não é o corpo que está cansado, mas a alma.</example>
+                <example>É por providência que está prevista a conexão das coisas relativamente ao seu fim.</example>
+                <example>Eles tiveram uma filha que foi prometida a Tibério, mas o marido e a filha morreram antes.</example>
+                <example>Há oito anos teve um filho que foi roubado.</example>
+                <example>Lauso é rei etrusco que cometeu tantos excessos que foi expulso do trono por seus próprios súditos.</example>
+                <example>Renascer é avaliar todo nosso caminho já percorrido e canalizar as energias que estão reprimidas.</example>
+                <example>Adobe é uma espécie de argila usada para fazer tijolos que são secados ao sol.</example>
+                <example>Tom ajudou Mary a dobrar as roupas que foram lavadas.</example>
+                <example>Preciso dobrar as roupas que foram lavadas.</example>
+                <example>Eu não consegui entender o anúncio que foi feito.</example>
+                <example>Poderia me ajudar a dobrar as roupas que foram lavadas, por favor?</example>
+                <example>A capacidade para executar as atividades que são feitas, e no meio ambiente.</example>
+                <example>Porque você não sabe se vai ter um show que foi escolhido, eles não querem investir muito dinheiro.</example>
+                <example>Forçar as galáxias a se distanciarem à taxa de aceleração que foi observada, ela recebe este número:</example>
+                <example>Eu sou apenas um livro, mas cada palavra que está escrita, é a Palavra de Deus.</example>
+                <example>Você pensa que está acordado, mas é possível que, na verdade, esteja sonhando.</example>
+                <example>Agora é o momento de dar vida a essas toadas que foram selecionadas.</example>
+                <example>Sugiro tratar esse assunto com o mesmo grau que é tratado o Nazismo.</example>
+                <example>Este caso que foi ilustrado prova os benefícios da Terapia de Vidas Passadas para as pessoas com autismo.</example>
+                <example>Em seu primeiro caso, Yusuke deve recuperar três tesouros que foram roubados do submundo por três demônios.</example>
+                <example>Poderia este, ser o mesmo animal que foi visto a milhares de quilómetros a norte, no Texas?</example>
+                <example>Mesmo uma mulher que foi estuprada?</example>
+                <example>Esse filme é tão ruim que é engraçado.</example>
+                <example>Os pais ensinam aos filhos que é errado mentir.</example>
+                <example>A última vez que foi avistada foi no fim da década de 1990.</example>
+                <example>O tipo de vegetação em Pinhais é a Mata Araucária que é formada, majoritariamente, por Pinheiros-do-Paraná.</example>
+                <!-- NC.+|AQ.+ *START* -->
+                <example>Porque alguns professores de contratos que foram chamados, não quiseram assinar contratos.</example>
+                <example>Esses ditos milhões que foram tirados da pobreza, estão agora mergulhados na mais triste miséria.</example>
+                <example>A informação se tornou um termo poderoso que está ligado ao acesso dos cidadãos à informação</example>
+                <example>Outro item importante que é checado são as condições de trabalho dos colaboradores.</example>
+                <example>Depois da reforma trabalhista que foi aprovada?</example>
+                <example>Qual é a margem de erro em relação as arrecadações que são projetadas?</example>
+                <example>O cabedal, material que é feito o tênis, pode ser de materiais variados.</example>
+                <example>O mesmo ocorre com os backups periódicos que são realizados conforme programados.</example>
+                <example>Estou falando do aumento do IPI para carros importados que foi aumentado numa quinta-feira.</example>
+                <example>O coach é o instrutor de crossfit que está atento aos nossos movimentos e nos orienta na hora de treinar.</example>
+                <example>O que o médico acha que está errado?</example>
+                <example>Queremos ter mais do que apenas ser a mulher bonita que está sentada lá.</example>
+                <example>Ela pertencia a um grupo de bruxas que foram executadas como resultado das tramas de Drácula.</example>
+                <example>Foi também na zona sul que foi realizado o primeiro jogo noturno com iluminação.</example>
+                <example>Em tal caso A é o produto cinético que é favorecido sob controle cinético.</example>
+                <example>Incluiu o conceito do telefone enigmático que foi usado várias vezes ao longo da série.</example>
+                <example>A cabine possuí proteção contra os gases tóxicos que são exaustados dos foguetes.</example>
+                <example>Também fornece vários assuntos seculares perspicazes que foram descobertos fora da obra.</example>
+                <example>Apresenta um exterior rectangular, modelo que é considerado pouco comum entre os edifícios religiosos.</example>
+                <example>O registro do telefone mostra que foi feita uma ligação</example>
+                <example>Antes de 1900, Lily achou um grupo de bruxos que foram expulsos do clã Gemini.</example>
+                <example>Aqueles são os bangalôs privados que foram prometidos? Sim.</example>
+                <!-- NC.+|AQ.+ *END* -->
+                <example>Tenho de saber onde fica a farmácia que está aberta 24 horas.</example>
+                <example>A tradicional dança dos bonecos, bonecos que estão armados dois metros de altura. </example>
+                <!-- CC *START* -->
+                <example>É usado para descrever jogos para PC ou videogame que são jogados como esportes competitivos.</example>
+                <example>Deram um “abraço” no entorno do imóvel depois de trocarem as fechaduras e cadeados que foram arrombados.</example>
+                <example>Para shows e gravações que estão unidos, principalmente por Iris Camaa, Spa Linda e Beibl Bernhard.</example>
+                <example>Recebemos diariamente e por diversos casos e denúncias que foram solucionados após publicações neste blog.</example>
+                <example>Até em empresas, institutos e associações que são considerados inovadores, existem esses chefes.</example>
+                <example>Esses poderes e autoridades que foram estabelecidos produziram não somente os humanos.</example>
+                <example>Este travelcard vale para a data que está impressa nele até às 4h29 da madrugada seguinte.</example>
+                <example>Rui apresenta 40 canções para piano e canto, sendo duas obras inacabadas e sete que estão desaparecidas.</example>
+                <example>Ele é um bestiario de fantasmas, monstros, e espíritos que são categorizados como youkai.</example>
+                <!-- CC *END* -->
+                <example>Pessoas que são honradas como deuses aos poucos perdem seus traços humanos.</example>
+                <example>Aposto que está ocupado.</example>
+                <example>Aposto que estão ocupados.</example>
+                <example>Na parte que é dedicada ao estudo da física, os equipamentos em sua maioria possuem acesso disponível.</example>
+                <example>Artigos que foram reportados como escassos.</example>
+                <example>Dois indivíduos que foram identificados como responsáveis pelo atentado acabaram sendo mortos logo depois.</example>
+                <example>Escapulários que são reconhecidos como objetos devocionais devem conter esta parte da roupa.</example>
+                <example>Numa edição que foi considerada um fracasso financeiro pela organização.</example>
+                <example>Deu o título a seu maior ídolo - honraria que é concedida aos vascaínos com serviços prestados ao clube.</example>
+            </antipattern>
+
+            <!-- Another antipattern for small fixes -->
+            <!-- It may also be used for small fixes here and there, in a simpler way than the more complex antipattern above -->
+            <antipattern>
+                <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token regexp='yes' inflected='yes'>ser|estar</token>
+                <token postag='VMP.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='_PUNCT'/>
+                <token postag='RG|SPS00|CC|VMN0000' postag_regexp='yes'/>
+                <token postag='AO.+|SPS00|D[AIP].+|PP.+|NP.+|RG|VMN0000|VMP.+|RN' postag_regexp='yes'/>
+                <example>E peças que foram criadas para a incompleta fonte de Bartolomeo Ammannati.</example>
+                <example>Não há nenhum interesse em professores que são contratados apenas por interesse público.</example>
+                <example>As Políticas de Serviço aqui patentes regulamentam a relação que é estabelecida entre a ANA e o utilizador.</example>
+                <example>Não é atoa que foi aprovado em 1ª instância.</example>
+                <example>E um absurdo que foi feito com a ajuda da Dilma para beneficiar as empresas.</example>
+                <example>Esta é uma premissa que é assegurada desde o início do projeto em 2003.</example>
+                <example>Pronunciou e divulgou cinco de suas séries que foram renovadas para a próxima temporada.</example>
+                <example>Pegue o livro que foi deixado sobre a mesa.</example>
+                <example>Todo mundo acha que está preparado para a velhice.</example>
+                <example>Tom era o único menino que foi convidado para a festa da Mary.</example>
+                <example>Bote é um veículo pequeno que é impulsionado sobre a água por remos, velas ou um motor.</example>
+                <example>Os universitários desenvolvem trabalhos científicos que são elogiados durante a avaliação semestral.</example>
+                <example>Os edifícios que foram encontrado embaixo de suas fundações atesta uma tradição cúltica.</example>
+                <example>Simboliza os primórdios do atual Vale do Aço, município que é reputado como a "terra mãe"</example>
+                <example>Usaram pneus de 18 polegadas em vez dos de 13 polegadas que foram usados até a temporada de 2021.</example>
+                <example>As partes do corpo que foram tratados com os raios foram queimadas (...).</example>
+                <example>A irmã da Bruxa do Norte que foi morta quando o trailer de Dorothy caiu sobre ela.</example>
+                <example>A singeleza que foi perdida após a fase adulta.</example>
+                <example>Compõem um vírus com genoma de RNA simples (é a cópia que é usada para a síntese proteica).</example>
+                <example>Todos os desenvolvedores que estiveram envolvidos com o "Full Throttle" original já deixaram a LucasArts.</example>
+                <example>Ao dimensionar vigas de concreto que são fundidas com a laje.</example>
+                <example>Malawi tem um vice-presidente que é eleito com o presidente.</example>
+                <example>É um hospital onde há várias salas que são unidas junto a uma enorme multidão de pessoas doentes.</example>
+                <example>Seus ideais que foram levados até o fim, quando, por exemplo, apoia Getúlio Vargas, que havia deport...</example>
+                <example>Ela é uma garota moderna que está familiarizada com a cultura online.</example>
+                <example>Pesquisamos todos os BMWs brancos com tetos solares que foram apreendidos entre os últimos 9 e 12 meses.</example>
+                <example>Essa ligação espiritual está também presente no ideal régio que é justificado por João de Barros</example>
+                <example>O último sonho da turma que está presa em Curitiba foi o de obter do STF a anulação dos depoimentos.</example>
+                <example>Professor emérito de matemática da Universidade de Cambridge (posto que foi ocupado por Isaac Newton).</example>
+                <example>O acontecimento visa debater a melhor investigação em alterações climáticas que é realizada em Portugal.</example>
+                <example>Bush pensa que foi enviado por Deus para estabelecer a justiça na terra.</example>
+                <example>O que o médico acha que está errado com Tom?</example>
+                <example>Qual é o idioma que é falado em Omã?</example>
+                <example>Isso incluiu um cartaz que foi escrito por John Romita.</example>
+                <example>Em 1814, as pessoas que foram condecoradas por Napoleão foram reconhecidas como "nova nobreza"</example>
+                <example>Túscia era uma antiga cidade localizada na região do Lácio que foi absorvida por Roma em 381 a.C.</example>
+                <example>Foi uma revista ilustrada e com descrições botânicas que foi editada em Berlim.</example>
+                <!-- DI.+ last line *START* -->
+                <example>O Título IX não se aplicaria a uma instituição de ensino que é controlada por uma organização religiosa.</example>
+                <example>Ocorre que esse primogênito é, na verdade, uma mulher que está apaixonada por um dos rapazes.</example>
+                <example>Agora choram de crianças sob escombros, crianças que foram geradas sem nenhum prévio planejamento.</example>
+                <example>A Terra é o único planeta conhecido que é provido de uma atmosfera.</example>
+                <example>Ela analisa pontualmente o exame de sangue que é pedido em toda consulta para um acompanhamento inteiro.</example>
+                <example>Hoje conta com uma equipe com mais de 80 pessoas que estão distribuídas em várias cidades.</example>
+                <example>Percival, especificamente, encarna em um dissidente político que é transformado em um neo-humano.</example>
+                <example>Possui um amplo portfólio de produtos, composto por 1050 itens que são atualizados a cada 21 dias.</example>
+                <example>Uma casa que é feita por um homem.</example>
+                <example>Uma casa que foi feita por um homem.</example>
+                <example>Diz respeito ao estudo de ângulos e curvas, e às formas que são moldadas quando várias linhas se juntam.</example>
+                <example>O esperanto é uma língua internacional que é ensinada em muitos países.</example>
+                <example>"O Pequeno Príncipe" é um livro muito popular que foi traduzido para muitos idiomas.</example>
+                <example>As bactérias que são transferidas durante um beijo ajudam a melhorar o sistema imunológico.</example>
+                <example>Rui desenvolveu uma explicação para como se desenvolve na sociedade que é aceita por algumas escolas.</example>
+                <example>Uma função que é definida para todos os argumentos possíveis é chamada total.</example>
+                <example>Ficou conhecido pela sua lendária cavalaria que foi derrotada por poucos, mas não conseguiu derrotar o rei.</example>
+                <example>O humor da série se baseia em piadas corridas que são utilizadas em cada episódio com pequenas variações.</example>
+                <example>Dvalin, na mitologia nórdica, é um anão que é mencionado em vários contos e kennings nórdicos.</example>
+                <example>Criada em 1994, é uma das cinco categorias que foram entregue em todas as desessete edições.</example>
+                <example>Tratava-se de um prédio de pequeno porte e de arquitetura rústica que foi substituído por outro prédio.</example>
+                <example>Fora da praça de armas, mais a Sul, estava um outro imóvel que foi identificado como um paiol.</example>
+                <example>Divergem na natureza essencial da graça e da graça que é concedida sem uma experiência do Espírito Santo.</example>
+                <example>Uma série de toques que devem estar de acordo com os orixás que são evocados em cada momento da festa.</example>
+                <example>As medições podem depender de qual tipo de medidas que foram feitas em outros sistemas.</example>
+                <example>Ethel interpretou uma jovem aterrorizada que é trancafiada em um bordel.</example>
+                <example>São preservados em camadas de sedimento que foram comprimidas segundo uma direcção perpendicular ao plano.</example>
+                <!-- DI.+ last line *END* -->
+                <!-- PP.+ last line *START* -->
+                <example>Quando vamos parar de financiar a destruição do Cerrado e tudo de danoso que está associado a ela.</example>
+                <example>Não é aquela parlamentar americana de turbante na cabeça que foi acusada de se casar com o próprio irmão?</example>
+                <example>Recebi uma carta que foi escrita por ela.</example>
+                <example>É uma de suas forças que foi vista quando ela desenhou ao longo das paredes de sua cela.</example>
+                <example>Sua mãe e a melhor amiga que é apaixonada por ele, também tentam ajudá-lo de todas as formas.</example>
+                <example>Muito bem, Smiggs, esta vela que foi encontrado com você quando foi preso é feita de cera.</example>
+                <example>César... e o sonho que foi morto com ele</example>
+                <!-- PP.+ last line *END* -->
+                <!-- CC.+ added before last line *START* -->
+                <example>Os testes da vida são oportunidades que são aproveitadas consoante nós as percebemos e o que fazemos com essa percepção.</example>
+                <example>É comum circularem algumas ideias sobre dialetologia que são erradas e sem fundamento.</example>
+                <example>"vogue" foi o primeiro "single" do álbum que foi lançado e o primeiro também da Trilogia.</example>
+                <example>"d" é a diferença de pontuação entre o último elemento que foi acessado e o elemento atual sendo acessada.</example>
+                <!-- CC.+ added before last line *END* -->
+                <!-- RG.+ last line and after CC.+ *START* -->
+                <example>Excepto no caso das bibliotecas nacionais que são apresentadas em primeiro lugar.</example>
+                <example>Parabenizamos ao Servidor Associado ao Sindicato que foi contemplado e também a nossa Assessoria Jurídica.</example>
+                <example>Tenho esperança que a Direção continuasse com o bom trabalho que foi feito até aqui.</example>
+                <example>Toda a informação que é lançada desde lá no início, ela pode ser aproveitada.</example>
+                <example>São massas refratárias específicas para altas temperaturas que são aplicadas com facilidade.</example>
+                <example>A embalagem para arroz, tem algumas coisas que são vistas com bastante frequência.</example>
+                <example>Mas que furada atribuírem conversas ao procurador que esteve preso e fora do MPF.</example>
+                <example>Trouxe, ainda, a moeda que é utilizada até hoje por lá: o real brasileiro.</example>
+                <example>Aceitem minhas saudações, amigos que são vindos de tão longe.</example>
+                <example>Jud confirma que essa condição é a regra no caso de animais que foram ressuscitados desse modo.</example>
+                <example>Boruto tem 100 personagens que foram mostrados até então, mas sem dúvida terão muito mais.</example>
+                <example>É uma coleção por um artista que está sintonizado em quase todos os gêneros de música.</example>
+                <!-- RG.+ last line and after CC.+ *END* -->
+                <!-- VMN0000 last line and after CC.+ *START* -->
+                <example>Uma elegante sonda robô que é encarregada de localizar vegetação na Terra.</example>
+                <example>Pepino contém esteróis que são conhecidos por reduzir o nível do mau colesterol no sangue.</example>
+                <example>A vista na pia da churrasqueira que foi ampliada para receber um cooktop.</example>
+                <example>A nossa equipe de suporte que é treinada para tirar todas as suas dúvidas.</example>
+                <example>Parece que esta pode ser a arma que foi usada para matar Tom.</example>
+                <example>Diz a tradição que foi construído para receber o Imperador D. Pedro I.</example>
+                <example>Começaram por alterar as premissas básicas que foram desenvolvidas para promover uma maior flexibilidade.</example>
+                <example>É um princípio que é usado para controlar alguns argumentos de forcing.</example>
+                <example>A catapulta dele é do mesmo tipo de tecnologia que foi usada para prender a Voyager no quadrante Delta.</example>
+                <!-- VMN0000 last line and after CC.+ *END* -->
+                <!-- DP.+ last line and after CC.+ *START* -->
+                <example>Sua construção precisava transitar por edifícios antigos que foram derrubados e suas pedras apropriadas.</example>
+                <example>Reúne a leveza do TeamSpeak com funcionalidades importantes que foram implementados por seus concorrentes.</example>
+                <example>Já na coluna Conexão Nerd, trazemos vídeos incríveis que foram publicados em nosso canal no Youtube.</example>
+                <example>São potencialidades que estão escondidas de nosso raciocínio.</example>
+                <example>Uma celebridade é uma pessoa que é conhecida por sua qualidade de ser bem conhecida.</example>
+                <example>Tomem a decisão de reduzir a quantidade de dióxido de carbono que é lançada em nossa atmosfera.</example>
+                <example>Um bispo que está bloqueado por seus próprios peões e, portanto, tem pouca mobilidade é chamado bispo mau.</example>
+                <example>Lindon interpreta Suzanne, uma adolescente que está desencantada com seu grupo de colegas.</example>
+                <example>Um stinger que revela que Kip e LaFawnduh se casam, uma cena que foi incluída em seu lançamento amplo.</example>
+                <example>Foi agraciado com o título de conde pelo Papa Bento XV, título que foi transmitido a seu filho Alexandre.</example>
+                <example>Louise Brooks, lida com uma jovem que é expulsa de sua casa depois de ter um filho ilegítimo.</example>
+                <!-- DP.+ last line and after CC.+ *END* -->
+                <!-- VMP.+ last line and after CC.+ *START* -->
+                <example>Há carros que foram vendidos ou cedidos em uma loteria e os recursos recolhidos utilizados para os pobres.</example>
+                <example>Da estrutura e brilham por meio de gráficos de resolução que são calculados e apresentados em tempo real.</example>
+                <example>São coisas que são compradas e vendidas.</example>
+                <example>Um concreto de jasmim tem cerca de 41% de óleo essencial que é separado e isolado desta forma.</example>
+                <example>Providenciar o retorno de todos os profissionais concursados que foram cedidos ou desviados de função.</example>
+                <example>Estado corporal: um corpo que é levado e provocado pelo ambiente.</example>
+                <example>As substâncias que são conhecidas ou suspeitas de provocarem doenças.</example>
+                <example>A população mundial não tem acesso a direitos humanos básicos que são dados por garantidos em países ricos.</example>
+                <example>Sequências consonânticas que são lidas e mantidas.</example>
+                <example>É um remake filipina da série de televisão sul-coreana de mesmo nome que foi produzida e exibida em 2005.</example>
+                <example>Cidadão Brasileiro é uma telenovela brasileira que foi produzida e exibida pela RecordTV.</example>
+                <example>Minha Vida foi uma telenovela brasileira que foi produzida e exibida pela extinta TV Tupi.</example>
+                <!-- VMP.+ last line and after CC.+ *END* -->
+                <!-- _PUNCT before line of and after CC.+ *START* -->
+                <example>Quando for consertar, vai trocar somente os componentes que estão queimados, e os componentes que sofreram.</example>
+                <example>O significado de post engloba não somente o texto que é publicado, mas também o ato de publicá-lo.</example>
+                <example>Nesse caso está sendo a adoção de uma cultura de um povo que foi oprimido (e muito!)</example>
+                <example>No lugar dos programas independentes da rede que são exibidas, inclusive até igrejas evangélicas.</example>
+                <example>Ele fez o teste para um outro papel que foi cortado, mas depois de ver a fita escreveu uma participação.</example>
+                <!-- _PUNCT before line of and after CC.+ *END* -->
+                <!-- VMN0000 before line and after CC.+ *START* -->
+                <example>Mas é a favor de uma mulher que foi violada casar com seu estuprador (deut.</example>
+                <!-- VMN0000 before line and after CC.+ *END* -->
+                <!-- RN last line and after CC.+ *START* -->
+                <example>Professor que foi convocado e não recebeu ligação ou email pode reivindicar a vaga?</example>
+                <example>É armazenada permanentemente e atualizada com informações sobre áreas que foram limpas ou não.</example>
+                <!-- RN last line and after CC.+ *END* -->
+            </antipattern>
+
+            <pattern>
+                <marker>
+                    <token postag='AQ.+|NC.+' postag_regexp='yes'>
+                        <exception postag='SPS.+|NP.+' postag_regexp='yes'/>
+                    </token>
+                    <token>que</token>
+                    <token postag='VMI[PS]3.+' postag_regexp='yes' regexp='yes' inflected='yes'>ser|estar
+                        <exception postag='VMI....:.+' postag_regexp='yes'/> <!-- Exclude hyphenated verbs -->
+                    </token>
+                    <token postag='VMP.+' postag_regexp='yes'>
+                        <exception scope='next' postag='SENT_END' postag_regexp='no'/>
+                    </token>
+                </marker>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion>\1 \4</suggestion>
+            <suggestion>\1, \2 \3 \4</suggestion>
+            <suggestion>\1 em \2 \3 \4</suggestion>
+            <example correction="quantidade estimada|quantidade, que é estimada|quantidade em que é estimada">A <marker>quantidade que é estimada</marker> denomina-se 'estimativa'.</example>
+            <example>Após alguma discussão e tentativas de fuga, Decim explica as regras do jogo que foi escolhido.</example>
+            <example>Tudo o que incomoda gente como o autor das acusações que foram publicadas.</example>
+            <example>Escolhi sem ter tido nenhuma referência e me surpreendi com a qualidade dos banners que foram desenvolvidos.</example>
+            <example>Eu acho que não há quase nenhuma possibilidade de eu ver de novo minha moto que foi roubada.</example>
+            <example>A formiga pode viajar em qualquer uma das quatro direções cardeais a cada passo que é dado.</example>
+            <example>Em suas margens podem ser encontrados afloramentos com fósseis e acumulação das rochas que foram exploradas.</example>
+            <example>Irritado com a decepção, todos saem através de uma escotilha que foi destrancada.</example>
+            <example>Levantaram novamente os barracos que foram destruídos.</example>
         </rule>
 
 
@@ -18323,6 +18836,10 @@ USA
 
         <rulegroup id='VER_OBSERVAR_CONSTATAR' name="Ver → Observar/Constatar" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
             <antipattern>
+                <token case_sensitive="yes">VI</token>
+                <example>Constantino VI no ano 790 da nossa era.</example>
+            </antipattern>
+            <antipattern>
                 <token inflected='yes' skip='-1'>ver</token>
                 <token regexp='yes'>filmes?|vídeos?|séries?|mensagem|mensagens|cenas?|televisão|tv|lado</token>
             </antipattern>
@@ -18531,6 +19048,11 @@ USA
                     <token regexp='yes'>&pronomes_obliquos;</token>
                     <token inflected='yes'>ver</token>
                     <example>Te vi chegar em casa ontem.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="V.+:PP.+"/>
+                    <token inflected='yes'>ver</token>
+                    <example>Deixa-me ver isso aqui.</example>
                 </antipattern>
                 <antipattern>
                     <token inflected='yes'>ver</token>
@@ -18866,6 +19388,14 @@ USA
             <suggestion>\2<match no="1" regexp_match="(?i)grau(s)?" regexp_replace="$1"/></suggestion>
             <url>https://pt.wikipedia.org/wiki/Kelvin</url>
             <example correction="kelvins">O sol tem a temperatura de 15,7 milhões de <marker>graus kelvin</marker>.</example>
+        </rule>
+
+        <rule id="OK_EM_MINUSCULA" name="Preferência por 'OK' em vez de 'ok'" tags="picky">
+            <pattern>
+                <token case_sensitive="yes">ok</token>
+            </pattern>
+            <message>Prefira <suggestion>OK</suggestion>.</message>
+            <example correction="OK">Está tudo <marker>ok</marker> com ela?</example>
         </rule>
     </category>
 </rules>

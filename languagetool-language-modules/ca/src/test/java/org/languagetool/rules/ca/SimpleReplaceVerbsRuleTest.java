@@ -73,7 +73,7 @@ public class SimpleReplaceVerbsRuleTest {
     
     matches = rule.match(lt.getAnalyzedSentence("pringava"));
     assertEquals(1, matches.length);
-    assertEquals("enllardava", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("enfangava", matches[0].getSuggestedReplacements().get(0));
     assertEquals("empastifava", matches[0].getSuggestedReplacements().get(1));
     assertEquals("llepava", matches[0].getSuggestedReplacements().get(2));
     assertEquals("cagava", matches[0].getSuggestedReplacements().get(3));
@@ -141,9 +141,7 @@ public class SimpleReplaceVerbsRuleTest {
     assertEquals("atabalem", matches[0].getSuggestedReplacements().get(1));  
     assertEquals("angoixem", matches[0].getSuggestedReplacements().get(2));
     assertEquals("estressem", matches[0].getSuggestedReplacements().get(3));
-    assertEquals("(estar) molt a sobre", matches[0].getSuggestedReplacements().get(4));
-    assertEquals("(cansar) molt", matches[0].getSuggestedReplacements().get(5));
-    assertEquals("(ser) molt pesat", matches[0].getSuggestedReplacements().get(6));
+    assertEquals("ofeguem", matches[0].getSuggestedReplacements().get(4));
     
     matches = rule.match(lt.getAnalyzedSentence("agobiïs"));
     assertEquals(1, matches.length);
@@ -151,9 +149,10 @@ public class SimpleReplaceVerbsRuleTest {
     assertEquals("atabalis", matches[0].getSuggestedReplacements().get(1));  
     assertEquals("angoixis", matches[0].getSuggestedReplacements().get(2));
     assertEquals("estressis", matches[0].getSuggestedReplacements().get(3));
-    assertEquals("(estar) molt a sobre", matches[0].getSuggestedReplacements().get(4));
-    assertEquals("(cansar) molt", matches[0].getSuggestedReplacements().get(5));
-    assertEquals("(ser) molt pesat", matches[0].getSuggestedReplacements().get(6));
+    assertEquals("ofeguis", matches[0].getSuggestedReplacements().get(4));
+    assertEquals("estiguis molt a sobre", matches[0].getSuggestedReplacements().get(5));
+    assertEquals("cansis molt", matches[0].getSuggestedReplacements().get(6));
+    assertEquals("siguis molt pesat", matches[0].getSuggestedReplacements().get(7));
     
     matches = rule.match(lt.getAnalyzedSentence("desabasteix"));
     assertEquals("desproveeix", matches[0].getSuggestedReplacements().get(0));
@@ -168,6 +167,11 @@ public class SimpleReplaceVerbsRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("sobreseguir"));
     assertEquals("sobreseure", matches[0].getSuggestedReplacements().get(0));
 
+    matches = rule.match(lt.getAnalyzedSentence("coretgeix"));
+    assertEquals("corregeix", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("coretjit"));
+    assertEquals("corregit", matches[0].getSuggestedReplacements().get(0));
   }
 
 }

@@ -93,6 +93,10 @@ public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
     
     assertEmptyMatch("Збережені Я позбудуться необхідності");
 
+    // geo qualifier
+    assertEmptyMatch("У місті Біла Церква було сформовано");
+    assertHasError("із містом юності Ви очікувала");
+
     // unknown name
     assertEmptyMatch("Андрій Качала");
     assertEmptyMatch("Любов Євтушок зауважила");
@@ -383,6 +387,8 @@ public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
     
     // пара
 //    assertEmptyMatch("зіркова пара Пишняк — Толстой вирішили вивести");
+    assertEmptyMatch("матч Туреччина — Україна зіграють");
+    assertEmptyMatch("у смузі Піски—Авдіївка оперують");
     
     // latin/cyr mix
 //  assertEmptyMatch("Дівчата та їхнiй брат належать до касти");

@@ -1008,11 +1008,12 @@ public class JLanguageTool {
             paraMode, annotatedText, listener, mode, level, remoteRulesThreadPool == null, toneTags);
     long textCheckEnd = System.nanoTime();
 
+    Map<String, RemoteRuleResult> remoteRulesResults = null;
     try {
-      TelemetryProvider.INSTANCE.createSpan("fetch-remote-rules",
+      remoteRulesResults = TelemetryProvider.INSTANCE.createSpan("fetch-remote-rules",
         Attributes.builder().put("check.remote_rules.count", remoteRules.size()).build(),
         () -> fetchRemoteRuleResults(deadlineStartNanos, mode, level, analyzedSentences, remoteMatches, remoteRuleTasks, remoteRules, requestSize,
-        cachedResults, matchOffset, annotatedText, textSessionID, toneTags));
+          cachedResults, matchOffset, annotatedText, textSessionID, toneTags));
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -1034,7 +1035,7 @@ public class JLanguageTool {
       return res;
     }
 
-    ruleMatches = filterMatches(annotatedText, rules, ruleMatches, level, toneTags);
+    ruleMatches = filterMatches(annotatedText, rules, ruleMatches, level, toneTags, remoteRulesResults);
 
     // decide if this should be done right after performCheck, before waiting for remote rule results
     // better for latency, remote rules probably don't need resorting
@@ -1058,24 +1059,49 @@ public class JLanguageTool {
     return new CheckResults(ruleMatches, res.getIgnoredRanges(), res.getExtendedSentenceRanges());
   }
 
-  private List<RuleMatch> filterMatches(AnnotatedText annotatedText, RuleSet rules, List<RuleMatch> ruleMatches, Level level, Set<ToneTag> toneTags) {
+  private List<RuleMatch> filterMatches(AnnotatedText annotatedText, RuleSet rules, List<RuleMatch> ruleMatches, Level level,
+                                        Set<ToneTag> toneTags, Map<String, RemoteRuleResult> remoteRulesResults) {
     // rules can create matches with rule IDs different from the original rule (see e.g. RemoteRules)
     // so while we can't avoid execution of these rules, we still want disabling them to work
     // so do another pass with ignoreRule here
     ruleMatches = ruleMatches.stream().filter(match -> !ignoreRule(match.getRule())).collect(Collectors.toList());
+
+    ruleMatches = ruleMatches.stream().filter(match -> isRuleActiveForLanguageWithModel(
+      match.getRule(), language, remoteRulesResults)).collect(Collectors.toList());
 
     ruleMatches = ruleMatches.stream().filter(match -> isRuleActiveForLevelAndToneTags(
       match.getRule(), level, toneTags)).collect(Collectors.toList());
 
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
     // no sorting: SameRuleGroupFilter sorts rule matches already
-    ruleMatches = new LanguageDependentMergeSuggestionFilter(language, rules).filter(ruleMatches, annotatedText);
+    ruleMatches = new LanguageDependentRuleMatchFilter(language, rules).filter(ruleMatches, annotatedText);
     if (cleanOverlappingMatches) {
       ruleMatches = new CleanOverlappingFilter(language, userConfig.getHidePremiumMatches()).filter(ruleMatches);
     }
-    ruleMatches = new LanguageDependentFilter(language, rules).filter(ruleMatches);
-
     return applyCustomFilters(ruleMatches, annotatedText);
+  }
+
+  private boolean isRuleActiveForLanguageWithModel(Rule rule, Language language, Map<String, RemoteRuleResult> remoteRulesResults) {
+    if (language.getShortCode().equals("fr")) {
+      List<String> disableFrenchRuleGroups = Arrays.asList("OU", "OU_FIGEES", "VIRG_NON_TROUVEE", "A_A_ACCENT","A_ACCENT_A", "CONFUSION_A_AS", "AGREEMENT_POSTPONED_ADJ", "LA_OU", "CONFUSION_RULE_PREMIUM_AIRE_AIR"); // List for rule group IDs
+      List<String> disableFrenchSpecificSubrules = Arrays.asList("A_A_ACCENT2[1]", "ACCORD_SUJET_VERBE[55]", "PAS_DE_VIRGULE[42]"); // List for specific subrules
+      RemoteRuleResult remoteRulesResult = remoteRulesResults.get("AI_FR_GGEC");
+      if (remoteRulesResult != null && remoteRulesResult.isSuccess()) {
+        boolean isDisabledGroup = disableFrenchRuleGroups.contains(rule.getId());
+        boolean isDisabledSubrule = disableFrenchSpecificSubrules.contains(rule.getFullId());
+        return !(isDisabledGroup || isDisabledSubrule);
+      }
+    }
+    if (language.getShortCode().equals("es")) {
+      List<String> disableSpanishRules = Arrays.asList("AGREEMENT_POSTPONED_ADJ");
+      RemoteRuleResult remoteRulesResult = remoteRulesResults.get("AI_ES_GGEC");
+      if (remoteRulesResult != null) {
+        if (remoteRulesResult.isSuccess()) {
+          return !disableSpanishRules.contains(rule.getId());
+        }
+      }
+    }
+    return true;
   }
 
   private final Map<LevelToneTagCacheKey, RuleSet> ruleSetCache = new ConcurrentHashMap<>();
@@ -1122,13 +1148,14 @@ public class JLanguageTool {
     });
   }
 
-  protected void fetchRemoteRuleResults(long deadlineStartNanos, Mode mode, Level level, List<AnalyzedSentence> analyzedSentences, List<RuleMatch> remoteMatches,
+  protected Map<String, RemoteRuleResult> fetchRemoteRuleResults(long deadlineStartNanos, Mode mode, Level level, List<AnalyzedSentence> analyzedSentences, List<RuleMatch> remoteMatches,
                                         List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
                                         List<Integer> requestSize,
                                         Map<Integer, List<RuleMatch>> cachedResults,
                                         Map<Integer, Integer> matchOffset,
                                         AnnotatedText annotatedText, Long textSessionID,
                                         Set<ToneTag> toneTags) {
+    Map<String, RemoteRuleResult> remoteRuleResults = new HashMap<>();
     if (remoteRuleTasks != null && !remoteRuleTasks.isEmpty()) {
       int timeout = IntStream.range(0, requestSize.size()).map(i ->
         (int) remoteRules.get(i).getTimeout(requestSize.get(i))
@@ -1153,12 +1180,16 @@ public class JLanguageTool {
           RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.DOWN);
           continue;
         }
+        RemoteRuleResult remoteRuleResult = null;
         try {
           //logger.info("Fetching results for remote rule for {} chars", chars);
-          RemoteRuleMetrics.inCircuitBreaker(deadlineStartNanos, rule.circuitBreaker(), ruleKey, chars, () ->
+          remoteRuleResult = RemoteRuleMetrics.inCircuitBreaker(deadlineStartNanos, rule.circuitBreaker(), ruleKey, chars, () ->
             fetchResults(deadlineStartNanos, mode, level, analyzedSentences, remoteMatches, matchOffset, annotatedText, textSessionID, chars, deadlineEndNanos, task, rule, ruleKey, toneTags));
         } catch (InterruptedException e) {
           break;
+        }
+        if (remoteRuleResult != null) {
+          remoteRuleResults.put(ruleKey, remoteRuleResult);
         }
       }
 
@@ -1180,6 +1211,7 @@ public class JLanguageTool {
       // cancel any remaining tasks (e.g. after interrupt because request timed out)
       remoteRuleTasks.stream().filter(Objects::nonNull).forEach(t -> t.cancel(true));
     }
+    return remoteRuleResults;
   }
 
   private RemoteRuleResult fetchResults(long deadlineStartNanos, Mode mode, Level level, List<AnalyzedSentence> analyzedSentences, List<RuleMatch> remoteMatches, Map<Integer, Integer> matchOffset, AnnotatedText annotatedText, Long textSessionID, long chars, long deadlineEndNanos, FutureTask<RemoteRuleResult> task, RemoteRule rule, String ruleKey, Set<ToneTag> toneTags) throws InterruptedException, ExecutionException, TimeoutException {
@@ -1381,6 +1413,11 @@ public class JLanguageTool {
     int lineCount = 0;
     int columnCount = 1;
     List<SentenceData> result = new ArrayList<>(texts.size());
+
+    if (analyzedSentences == null || analyzedSentences.isEmpty()) {
+      return result;
+    }
+
     for (int i = 0; i < texts.size(); i++) {
       String sentence = texts.get(i);
       result.add(new SentenceData(analyzedSentences.get(i), sentence, charCount, lineCount, columnCount));
@@ -2133,7 +2170,7 @@ public class JLanguageTool {
     }
   }
 
-  public void setConfigValues(Map<String, Integer> v) {
+  public void setConfigValues(Map<String, Object[]> v) {
     userConfig.insertConfigValues(v);
   }
 

@@ -26,6 +26,7 @@ import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -58,10 +59,15 @@ public class FrenchTagger extends BaseTagger {
     super("/fr/french.dict", Locale.FRENCH, false);
   }
 
+  private List<String> ambigousTokens = Arrays.asList("-Le", "-Les", "-La", "-Elle", "-Elles", "-On", "-Tu", "-Vous",
+    "-Il", "-Ils", "-Ce");
+
   @Override
   public boolean overwriteWithManualTagger() {
     return false;
   }
+
+
 
   @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
@@ -113,22 +119,23 @@ public class FrenchTagger extends BaseTagger {
   private List<AnalyzedToken> tagWord(String word, String originalWord) {
     final List<AnalyzedToken> l = new ArrayList<>();
     final String lowerWord = word.toLowerCase(locale);
-    final boolean isLowercase = word.equals(lowerWord);
-    final boolean isMixedCase = StringTools.isMixedCase(word);
+    final boolean isStartUpper = StringTools.isCapitalizedWord(word);
     final boolean isAllUpper = StringTools.isAllUppercase(word);
+    final boolean isHyphenatedTitleCase = !ambigousTokens.contains(originalWord) &&
+      originalWord.contains("-") && originalWord.equals(StringTools.convertToTitleCaseIteratingChars(lowerWord));
     List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(word));
     // normal case:
     addTokens(taggerTokens, l);
-    // tag non-lowercase (alluppercase or startuppercase), but not mixedcase
-    // word with lowercase word tags:
-    if (!isLowercase && !isMixedCase) {
+    // tag non-lowercase (alluppercase, startuppercase, hyphenated title case),
+    // but not mixedcase word, with lowercase word tags:
+    if (isAllUpper || isStartUpper || isHyphenatedTitleCase) {
       List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord,
-          getWordTagger().tag(lowerWord));
+        getWordTagger().tag(lowerWord));
       addTokens(lowerTaggerTokens, l);
     }
     // tag all-uppercase proper nouns (ex. FRANCE)
     if (l.isEmpty() && isAllUpper) {
-      final String firstUpper = StringTools.uppercaseFirstChar(lowerWord);
+      final String firstUpper = StringTools.convertToTitleCaseIteratingChars(lowerWord);
       List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord,
           getWordTagger().tag(firstUpper));
       addTokens(firstupperTaggerTokens, l);

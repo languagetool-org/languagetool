@@ -36,7 +36,7 @@ public class SuppressIfAnyRuleMatchesFilter extends RuleFilter {
    */
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     List<String> ruleIDs = Arrays.asList(getRequired("ruleIDs", arguments).split(","));
     JLanguageTool lt = ((PatternRule) match.getRule()).getLanguage().createDefaultJLanguageTool();
     String sentence = match.getSentence().getText();

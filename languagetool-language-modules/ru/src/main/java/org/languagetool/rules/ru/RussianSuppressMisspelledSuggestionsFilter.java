@@ -26,7 +26,6 @@ import org.languagetool.rules.AbstractSuppressMisspelledSuggestionsFilter;
 public class RussianSuppressMisspelledSuggestionsFilter extends AbstractSuppressMisspelledSuggestionsFilter {
 
   public RussianSuppressMisspelledSuggestionsFilter() throws IOException {
-    super(new Russian());
   }
 
 }

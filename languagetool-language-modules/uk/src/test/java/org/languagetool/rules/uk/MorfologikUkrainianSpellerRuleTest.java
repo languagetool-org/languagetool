@@ -32,14 +32,11 @@ import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
-public class MorfologikUkrainianSpellerRuleTest {
-  private JLanguageTool lt;
-  private MorfologikUkrainianSpellerRule rule;
+public class MorfologikUkrainianSpellerRuleTest extends AbstractRuleTest {
   
   @Before
   public void init() throws IOException {
-    rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), null, Collections.emptyList());
-    lt = new JLanguageTool(new Ukrainian());
+    rule = new MorfologikUkrainianSpellerRule(TestTools.getMessages("uk"), Ukrainian.DEFAULT_VARIANT, null, Collections.emptyList());
   }
 
   @Test
@@ -92,9 +89,11 @@ public class MorfologikUkrainianSpellerRuleTest {
     assertEquals("прийдешній", matches[0].getSuggestedReplacements().get(0));
 
     // кличний для неістот
-    matches = rule.match(lt.getAnalyzedSentence("душе"));
+    assertEmptyMatch("душе");
+//    assertHasError("душе");
 
-    assertEquals(0, matches.length);
+    // incorrect v_kly could be removed by disambig with no tags left
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("польовою дружино")).length);
 
     // розмовний інфінітив
 //    matches = rule.match(langTool.getAnalyzedSentence("треба писать"));
@@ -153,13 +152,15 @@ public class MorfologikUkrainianSpellerRuleTest {
 //    assertEquals(1, Arrays.asList(match).size());
 //    assertEquals(0, match[0].getFromPos());
 //    assertEquals(sent.length(), match[0].getToPos());
+    
+    assertEmptyMatch("Добрий ранок, Україно!");
   }
 
   @Test
   public void testSuggestionOrder() throws IOException {
     RuleMatch[] match = rule.match(lt.getAnalyzedSentence("захворіває"));
     assertEquals(1, Arrays.asList(match).size());
-    assertEquals(Arrays.asList("захворів", "захворіла", "захворіє", "захворівши", "захворював"), match[0].getSuggestedReplacements());
+    assertEquals(Arrays.asList("захворів", "захворіла", "захворіє", "захворював", "захворівши"), match[0].getSuggestedReplacements());
   }
 
   @Test
@@ -186,8 +187,7 @@ public class MorfologikUkrainianSpellerRuleTest {
   
   @Test
   public void testDashedSuggestions() throws IOException {
-    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), 
-            null, Collections.emptyList());
+    MorfologikUkrainianSpellerRule rule = (MorfologikUkrainianSpellerRule) Ukrainian.DEFAULT_VARIANT.getDefaultSpellingRule();
     JLanguageTool lt = new JLanguageTool(new Ukrainian());
     
     RuleMatch[] match = rule.match(lt.getAnalyzedSentence("блоксистема"));

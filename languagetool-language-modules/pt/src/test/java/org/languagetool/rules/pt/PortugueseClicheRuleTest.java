@@ -54,6 +54,7 @@ public class PortugueseClicheRuleTest {
 
     // incorrect sentences:
     checkSimpleReplaceRule("Teste. A todo o vapor!", "O mais rápido possível");
+    checkSimpleReplaceRule("A todo o vapor!", "O mais rápido possível");
     checkSimpleReplaceRule("Teste, a todo o vapor!", "o mais rápido possível");
   }
 

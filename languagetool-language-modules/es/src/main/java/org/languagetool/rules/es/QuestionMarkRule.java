@@ -118,7 +118,7 @@ public class QuestionMarkRule extends TextLevelRule {
             }
           }
         }
-        if (firstToken != null) {
+        if (firstToken != null && !firstToken.hasPosTag("_english_ignore_")) {
           String s = null;
           if (needsInvQuestionMarkAt > 1 && needsInvExclMarkAt > 1) {
             // ignore for now, e.g. "¡¿Nunca tienes clases o qué?!"
@@ -146,7 +146,13 @@ public class QuestionMarkRule extends TextLevelRule {
     int i = tokens.length - 1;
     while (i > 0) {
       if (tokens[i].getToken().equals(ch)) {
-        return i;
+        if (i < tokens.length - 1 && !tokens[i + 1].isWhitespaceBefore()
+          && !StringTools.isPunctuationMark(tokens[i + 1].getToken())
+          && !tokens[i + 1].isWhitespace()) {
+          // ignore question marks joined to the next word, as in URLs
+        } else {
+          return i;
+        }
       }
       i--;
     }

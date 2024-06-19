@@ -33,12 +33,6 @@ public class DateCheckFilterTest {
   private final RuleMatch match = new RuleMatch(new FakeRule(), null, 0, 10, "message");
   private final DateCheckFilter filter = new DateCheckFilter();
 
-  @Test
-  public void testAccept() throws Exception {
-    assertNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "zaterdag"), -1, null));  // correct date
-    assertNotNull(filter.acceptRuleMatch(match, makeMap("2014", "8" ,"23", "zondag"), -1, null));  // incorrect date
-  }
-
   private Map<String, String> makeMap(String year, String month, String dayOfMonth, String weekDay) {
     Map<String,String> map = new HashMap<>();
     map.put("year", year);

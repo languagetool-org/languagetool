@@ -147,11 +147,13 @@ public class StatAnDialog extends Thread  {
     Language lang = document.getLanguage();
     if (lang != null) {
       try {
-        Map<String, Integer> ruleValues = new HashMap<>();
+        Map<String, Object[]> ruleValues = new HashMap<>();
         for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle(), null, lang, null)) {
           if (rule instanceof AbstractStatisticSentenceStyleRule || rule instanceof AbstractStatisticStyleRule ||
               rule instanceof ReadabilityRule || rule instanceof AbstractStyleTooOftenUsedWordRule) {
-            ruleValues.put(rule.getId(), 0);
+            Object[] o = new Object[1];
+            o[0] = 0;
+            ruleValues.put(rule.getId(), o);
           }
         }
         UserConfig userConfig = new UserConfig(ruleValues);

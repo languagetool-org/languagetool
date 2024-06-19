@@ -65,9 +65,9 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
       setDefaultOff();
     }
     if (userConfig != null) {
-      int confPercent = userConfig.getConfigValueByID(getId());
-      if(confPercent >= 0) {
-        this.minPercent = confPercent;
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null) {
+        this.minPercent = (int) cf[0];
       }
     }
     setLocQualityIssueType(ITSIssueType.Style);
@@ -87,32 +87,13 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
     return RULE_ID;
   }
 
-  @Override
-  public int getDefaultValue() {
-    return minPercent;
-  }
-
-  @Override
-  public boolean hasConfigurableValue() {
-    return true;
-  }
-
-  @Override
-  public int getMinConfigurableValue() {
-    return 0;
-  }
-
-  @Override
-  public int getMaxConfigurableValue() {
-    return 100;
-  }
-
-  /* (non-Javadoc)
-   * @see org.languagetool.rules.Rule#getConfigureText()
+  /**
+   *  give the user the possibility to configure the function
    */
   @Override
-  public String getConfigureText() {
-    return messages.getString("filler_words_rule_opt_text");
+  public RuleOption[] getRuleOptions() {
+    RuleOption[] ruleOptions = { new RuleOption(minPercent, messages.getString("filler_words_rule_opt_text"), 0, 100) };
+    return ruleOptions;
   }
 
   public String getMessage() {

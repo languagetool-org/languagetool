@@ -19,14 +19,11 @@
 package org.languagetool.rules.pt;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.BrazilianPortuguese;
-import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.synthesis.BaseSynthesizer;
-import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
 
+import java.util.List;
 import java.util.Map;
 
 public class RomanNumeralFilter extends RuleFilter {
@@ -36,7 +33,7 @@ public class RomanNumeralFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-                                   AnalyzedTokenReadings[] patternTokens) {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     String arabicSource = arguments.get("arabicSource");
     match.setSuggestedReplacement(getSynthesizer().getRomanNumber(arabicSource));
     return match;

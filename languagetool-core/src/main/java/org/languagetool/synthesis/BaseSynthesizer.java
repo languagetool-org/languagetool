@@ -59,6 +59,8 @@ public class BaseSynthesizer implements Synthesizer {
   
   private volatile Dictionary dictionary;
 
+  protected Language language = null;
+
   /**
    * @param resourceFileName The dictionary file name.
    * @param tagFileName The name of a file containing all possible tags.
@@ -66,6 +68,7 @@ public class BaseSynthesizer implements Synthesizer {
    */
   public BaseSynthesizer(String sorosFileName, String resourceFileName, String tagFileName, Language lang) {
     this(sorosFileName, resourceFileName, tagFileName, lang.getShortCode());
+    this.language = lang;
   }
 
   /**
@@ -116,6 +119,7 @@ public class BaseSynthesizer implements Synthesizer {
    */
   public BaseSynthesizer(String resourceFileName, String tagFileName, Language lang) {
     this(resourceFileName, tagFileName, lang.getShortCode());
+    this.language = lang;
   }
 
   public BaseSynthesizer(String resourceFileName, String tagFileName, String langShortCode) {

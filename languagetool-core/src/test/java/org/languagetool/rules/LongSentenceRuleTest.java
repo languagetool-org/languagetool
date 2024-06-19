@@ -54,6 +54,41 @@ public class LongSentenceRuleTest {
       "casting a warm golden glow over the tranquil valley below, where a " +
       "gentle breeze rustled the leaves of the trees, and the sound of a " +
       "distant stream provided a soothing backdrop to the peaceful scene.", 0, 249, rule, lt);
+
+    // test quotes
+    assertNoMatch("The quote “When days grow dark and nights grow dreary, we can be thankful that our God combines in " +
+      "his nature a creative synthesis of love and justice which will lead us through life’s dark valleys and into " +
+      "sunlit pathways of hope and fulfillment” (p. 9) refers to God’s nature as a combination of love and justice.",
+      rule, lt);
+    assertNoMatch("The quote \"When days grow dark and nights grow dreary, we can be thankful that our God combines in " +
+        "his nature a creative synthesis of love and justice which will lead us through life’s dark valleys and into " +
+        "sunlit pathways of hope and fulfillment\" (p. 9) refers to God’s nature as a combination of love and justice.",
+      rule, lt);
+    assertNoMatch("The quote «When days grow dark and nights grow dreary, we can be thankful that our God combines in " +
+        "his nature a creative synthesis of love and justice which will lead us through life’s dark valleys and into " +
+        "sunlit pathways of hope and fulfillment» (p. 9) refers to God’s nature as a combination of love and justice.",
+      rule, lt);
+    assertNoMatch("The quote „When days grow dark and nights grow dreary, we can be thankful that our God combines in " +
+        "his nature a creative synthesis of love and justice which will lead us through life’s dark valleys and into " +
+        "sunlit pathways of hope and fulfillment“ (p. 9) refers to God’s nature as a combination of love and justice.",
+      rule, lt);
+
+    assertMatch("The quote \"When days\" grow dark and nights grow dreary, we can be thankful that our God combines in " +
+        "his nature a creative synthesis of love and justice which will lead us through life’s dark valleys and into " +
+        "sunlit pathways of hope \"and fulfillment\" (p. 9) refers to God’s nature as a combination of love and justice.",
+      0, 253, rule, lt);
+
+    // no quotes
+    assertMatch("The quote When days grow dark and nights grow dreary, we can be thankful that our God combines in " +
+        "his nature a creative synthesis of love and justice which will lead us through life’s dark valleys and into " +
+        "sunlit pathways of hope and fulfillment (p. 9) refers to God’s nature as a combination of love and justice.",
+      0, 249, rule, lt);
+
+    // wrong or mismatched quotes: opening quote, with no closing quote
+    assertNoMatch("The quote “When days grow dark and nights grow dreary, we can be thankful that our God combines in " +
+        "his nature a creative synthesis of love and justice which will lead us through life’s dark valleys and into " +
+        "sunlit pathways of hope and fulfillment» (p. 9) refers to God’s nature as a combination of love and justice.",
+      rule, lt);
     
     LongSentenceRule shortRule = new LongSentenceRule(TestTools.getEnglishMessages(), new UserConfig(), 6);
 //    shortRule.setDefaultValue(6);
@@ -83,4 +118,6 @@ public class LongSentenceRuleTest {
     assertThat(matches[0].getFromPos(), is(from));
     assertThat(matches[0].getToPos(), is(to));
   }
+
+
 }

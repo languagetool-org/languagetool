@@ -56,6 +56,7 @@ public class ProhibitedCompoundRule extends Rule {
           // * words here must be all-lowercase
           // * no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
           // * please test using ProhibitedCompoundRuleTest.testListOfWords() before pushing a change with a new pair
+          new Pair("knoten", "Verschlingung von Fäden", "konten", "Plural von 'Konto'"),
           new Pair("schaf", "Tier", "schaft", "'-schaft' (Element zur Wortbildung, z. B. 'Freundschaft')"),
           new Pair("schafen", "Dativ Plural von 'Schaf'", "schaften", "'-schaften' (Element zur Wortbildung, z. B. 'Freundschaften')"),
           new Pair("alpen", "Hochgebirge in Mittel- und Südeuropa", "alben", "Plural von 'Album'"),
@@ -148,7 +149,7 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("verklärung", "Beschönigung, Darstellung in einem besseren Licht", "erklärung", "Darstellung, Erläuterung"),
           //new Pair("spitze", "spitzes Ende eines Gegenstandes", "spritze", "medizinisches Instrument zur Injektion"),
           new Pair("punk", "Jugendkultur", "punkt", "Satzzeichen"),
-          new Pair("reis", "Nahrungsmittel", "eis", "gefrorenes Wasser"),
+          //new Pair("reis", "Nahrungsmittel", "eis", "gefrorenes Wasser"),
           //new Pair("balkan", "Region in Südosteuropa", "balkon", "Plattform, die aus einem Gebäude herausragt"),
           new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)"),
           new Pair("stande", "zu 'Stand'", "stange", "länglicher Gegenstand")

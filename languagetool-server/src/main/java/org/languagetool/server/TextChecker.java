@@ -36,6 +36,8 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
+import org.languagetool.server.tools.AbTestService;
+import org.languagetool.server.tools.LocalAbTestService;
 import org.languagetool.tools.TelemetryProvider;
 import org.languagetool.tools.LtThreadPoolFactory;
 import org.languagetool.tools.Tools;
@@ -65,6 +67,7 @@ abstract class TextChecker {
   private static final int PINGS_MAX_SIZE = 5000;
   private static final String SPAN_NAME_PREFIX = "/v2/check-";
   private static final Pattern COMMA_WHITESPACE_PATTERN = Pattern.compile(",\\s*");
+  private static final AbTestService AB_TEST_SERVICE = new LocalAbTestService();
 
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
@@ -355,33 +358,7 @@ abstract class TextChecker {
         ", HTTP user agent: " + getHttpUserAgent(httpExchange) + ", referrer: " + getHttpReferrer(httpExchange));
     }
 
-    List<String> abTest = null;
-    if (agent != null && config.getAbTestClients() != null && config.getAbTestClients().matcher(agent).matches()) {
-      //TODO: it is not possible to have individual AbTestClients per AbTest
-      boolean testRolledOut;
-      // partial rollout; deterministic if textSessionId given to make testing easier
-      if (textSessionId != null) {
-        testRolledOut = textSessionId % 100 < config.getAbTestRollout();
-      } else {
-        testRolledOut = random.nextInt(100) < config.getAbTestRollout();
-      }
-      if (testRolledOut) {
-        abTest = Collections.unmodifiableList(config.getAbTest());
-      }
-    }
-    String paramActivatedAbTest = params.get("abtest");
-    if (paramActivatedAbTest != null) {
-      String[] abParams = paramActivatedAbTest.trim().split(",");
-      List<String> tmpAb = new ArrayList<>();
-      for (String abParam : abParams) {
-        if (config.getAbTest().contains(abParam)) {
-          tmpAb.add(abParam.trim());
-        }
-      }
-      if (!tmpAb.isEmpty()) {
-        abTest = Collections.unmodifiableList(tmpAb);
-      }
-    }
+    List<String> abTest = AB_TEST_SERVICE.getActiveAbTestForClient(params, config);
 
     boolean enableHiddenRules = "true".equals(params.get("enableHiddenRules"));
     if (limits.hasPremium()) {
@@ -683,9 +660,6 @@ abstract class TextChecker {
             //+ ", temporaryPremiumDisabledRuleMatches: " + temporaryPremiumDisabledRuleMatch //TODO activate if used
             //+ ", temporaryPremiumDisabledRuleMatchedIds: " + temporaryPremiumDisabledRuleMatchedIds //TODO activate if used
             + (limits.getPremiumUid() != null ? ", uid:" + limits.getPremiumUid() : ""));
-    if (limits.getPremiumUid() != null && limits.getPremiumUid() == 1456) { // Fernando Moon, fernando.moon@eggbun-edu.com - allows logging text in exchange for free API access (see email 2018-05-31):
-      log.info("Eggbun input: " + aText.getPlainText().replace("\n", "\\n").replace("\r", "\\r"));
-    }
     if (premiumMatchRuleIds.size() > 0) {
       for (String premiumMatchRuleId : premiumMatchRuleIds) {
         log.info("premium:" + lang.getShortCodeWithCountryAndVariant() + ":" + premiumMatchRuleId);
@@ -755,8 +729,8 @@ abstract class TextChecker {
     return ruleMatchCount;
   }
 
-  private Map<String, Integer> getRuleValues(Map<String, String> parameters) {
-    Map<String, Integer> ruleValues = new HashMap<>();
+  private Map<String, Object[]> getRuleValues(Map<String, String> parameters) {
+    Map<String, Object[]> ruleValues = new HashMap<>();
     String parameterString = parameters.get("ruleValues");
     if (parameterString == null) {
       return ruleValues;
@@ -764,7 +738,8 @@ abstract class TextChecker {
     String[] pairs = parameterString.split(",");
     for (String pair : pairs) {
       String[] ruleAndValue  = pair.split(":");
-      ruleValues.put(ruleAndValue[0], Integer.parseInt(ruleAndValue[1]));
+      Object[] objects = RuleOption.stringToObjects(ruleAndValue[1]);
+      ruleValues.put(ruleAndValue[0], objects);
     }
     return ruleValues;
   }

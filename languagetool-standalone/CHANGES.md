@@ -1,11 +1,41 @@
 # LanguageTool Change Log
 
-## 6.4-SNAPSHOT (release planned for 2024-03-28)
+## 6.5-SNAPSHOT (release planned for 2024-09-27)
 
 ...
 
+
+## 6.4 (2024-03-28)
+
+#### Asturian
+  * tagger and spelling dictionaries have been moved to an external dependency (asturian-pos-dict v 0.1)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-2.25)
+
+#### Dutch
+  * added and improved rules
+
 #### English
   * tagger and spelling dictionaries have been moved to an external dependency (english-pos-dict v 0.3)
+
+#### French
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * extended dictionary
+
+#### Polish
+  * small rule improvements
+
+#### Portuguese
+  * added and improved rules
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-2.2)
 
 #### Ukrainian
   * new words in the POS dictionary

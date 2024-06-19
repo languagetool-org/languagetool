@@ -22,6 +22,7 @@ package org.languagetool.tokenizers.pt;
 import org.junit.Test;
 
 import java.sql.Struct;
+import java.util.List;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -34,7 +35,7 @@ import static org.junit.Assert.assertEquals;
 public class PortugueseWordTokenizerTest {
   final PortugueseWordTokenizer wordTokenizer = new PortugueseWordTokenizer();
 
-  private void testTokenise(String sentence, String[] tokens) {
+  private void testTokenise(String sentence, String ...tokens) {
     assertArrayEquals(tokens, wordTokenizer.tokenize(sentence).toArray());
   }
 
@@ -72,6 +73,17 @@ public class PortugueseWordTokenizerTest {
   }
 
   @Test
+  public void testTokeniseHyphenatedSplitRegardlessOfLetterCase() {
+    testTokenise("jiu-jitsu", "jiu-jitsu");
+    testTokenise("Jiu-jitsu", "Jiu-jitsu");
+    testTokenise("JIU-JITSU", "JIU-JITSU");
+    testTokenise("Jiu-Jitsu", "Jiu-Jitsu");
+    testTokenise("franco-prussiano", "franco-prussiano");
+    testTokenise("Franco-prussiano", "Franco-prussiano");
+    testTokenise("Franco-Prussiano", "Franco-Prussiano");
+  }
+
+  @Test
   public void testTokeniseHyphenatedSplit() {
     testTokenise("Paris-São Paulo", new String[]{"Paris", "-", "São", " ", "Paulo"});
     // this word exists in the speller but not the tagger dict; this may become a problem
@@ -81,14 +93,32 @@ public class PortugueseWordTokenizerTest {
 
   @Test
   public void testTokeniseHyphenatedClitics() {
-    testTokenise("diz-se", new String[]{"diz", "-", "se"});
+    // As of dict v0.13!
+    testTokenise("diz-se", new String[]{"diz-se"});
+    testTokenise("amamo-lo", new String[]{"amamo-lo"});
+    testTokenise("fi-lo", new String[]{"fi-lo"});
+    testTokenise("pusé-lo", new String[]{"pusé-lo"});
+    testTokenise("canta-lo", new String[]{"canta-lo"}); // cantas + o, may not be in speller!
+    // pretty rare, but we need to generate these because the 'nos' in 'no-lo' triggers elision in -mos forms >:(
+    testTokenise("dar-no-lo", new String[]{"dar-no-lo"});
+    // rare contractions like these are NOT generated
+    testTokenise("dê-mo", new String[]{"dê", "-", "mo"});
   }
 
   @Test
   public void testTokeniseMesoclisis() {
-    testTokenise("fá-lo-á", new String[]{"fá", "-", "lo", "-", "á"});
-    testTokenise("dir-lhe-ia", new String[]{"dir", "-", "lhe", "-", "ia"});
-    testTokenise("banhar-nos-emos", new String[]{"banhar", "-", "nos", "-", "emos"});
+    // As of dict v0.13!
+    testTokenise("fá-lo-á", new String[]{"fá-lo-á"});
+    testTokenise("dir-lhe-ia", new String[]{"dir-lhe-ia"});
+    testTokenise("banhar-nos-emos", new String[]{"banhar-nos-emos"});
+  }
+
+  @Test
+  public void testTokeniseProductivePrefixes() {
+    // These are specifically forms that are NOT in the tagger dict (though they might be in the speller).
+    // The idea is that our word tagger should be able to tag them by identifying the prefix.
+    testTokenise("soto-pôr", new String[]{"soto-pôr"});  // speller, but not tagger
+    testTokenise("soto-trepar", new String[]{"soto-trepar"});  // neither speller nor tagger
   }
 
   @Test
@@ -110,7 +140,7 @@ public class PortugueseWordTokenizerTest {
   @Test
   public void testDoNotTokeniseUserMentions() {
     // Twitter and whatnot; same as English
-    testTokenise("@user", new String[]{"@user"});
+    testTokenise("@user", "@user");
   }
 
   @Test
@@ -123,14 +153,16 @@ public class PortugueseWordTokenizerTest {
 
   @Test
   public void testTokeniseSplitsPercent() {
-    testTokenise("50%OFF", new String[]{"50%", "OFF"});
-    testTokenise("%50", new String[]{"%", "50"});
-    testTokenise("%", new String[]{"%"});
+    testTokenise("50%", "50%");
+    testTokenise("50%%", "50%", "%"); // "%" is a right-edge character that can repeat ONCE
+    testTokenise("50%OFF", "50%", "OFF");
+    testTokenise("%50", "%", "50");
+    testTokenise("%", "%");
   }
 
   @Test
   public void testTokeniseNumberAbbreviation() {
-    testTokenise("Nº666", new String[]{"Nº666"});  // superscript 'o'
+    testTokenise("Nº666", new String[]{"Nº666"});  // ordinal indicator 'o'
     testTokenise("N°666", new String[]{"N°666"});  // degree symbol
     testTokenise("Nº 420", new String[]{"Nº", " ", "420"});
     testTokenise("N.º69", new String[]{"N", ".", "º69"});  // the '.' char splits it
@@ -207,19 +239,50 @@ public class PortugueseWordTokenizerTest {
   }
 
   @Test
-  public void testDoNotTokeniseEmoji() {
-    testTokenise("☺☺☺Só", new String[]{"☺☺☺Só"});
+  public void testTokeniseEmoji() {
+    testTokenise("☺☺☺Só", "☺", "☺", "☺", "Só");
   }
 
   @Test
   public void testDoNotTokeniseModifierDiacritics() {
     // the tilde here is a unicode modifier char; normally, the unicode a-tilde (ã) is used
-    testTokenise("Não", new String[]{"Não"});
+    testTokenise("Não", "Não");
+  }
+
+  @Test
+  public void testTokeniseExtraWordEdgeChars() {
+    // left-edge
+    testTokenise("@50", "@50");  // single char
+    testTokenise("@@50", "@", "@50");  // two chars
+    testTokenise("50@", "50", "@");  // wrong edge
+    testTokenise("666@50", "666", "@50");  // middle of the word
+    // right-edge
+    testTokenise("50‰", "50‰");  // single char
+    testTokenise("50‰‰", "50‰", "‰");  // two chars
+    testTokenise("‰50", "‰", "50");  // wrong edge
+    testTokenise("50‰666", "50‰", "666");  // middle of the word
   }
 
   @Test
   public void testTokeniseRarePunctuation() {
     testTokenise("⌈Herói⌋", new String[]{"⌈", "Herói", "⌋"});
     testTokenise("″Santo Antônio do Manga″", new String[]{"″", "Santo", " ", "Antônio", " ", "do", " ", "Manga", "″"});
+  }
+
+  @Test
+  public void testTokeniseParagraphSymbol() {
+    testTokenise("§1º", "§", "1º");
+  }
+
+  @Test
+  public void testTokeniseComplexEmoji() {
+    testTokenise("🧝🏽‍♀️", "🧝", "🏽", "‍", "♀️");
+  }
+
+  @Test
+  public void testTokeniseUnitsOfMeasure() {
+    testTokenise("100mm", "100mm");
+    testTokenise("10x10mm", "10x10mm");
+    testTokenise("10×10mm", "10", "×", "10mm");
   }
 }

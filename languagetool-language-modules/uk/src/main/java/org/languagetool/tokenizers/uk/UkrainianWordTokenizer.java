@@ -101,9 +101,6 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final String COLON_NUMBERS_REPL = "$1" + NON_BREAKING_COLON_SUBST + "$2";
 
   // dates
-  private static final Pattern DATE_PATTERN = Pattern.compile("([\\d]{2})\\.([\\d]{2})\\.([\\d]{4})|([\\d]{4})\\.([\\d]{2})\\.([\\d]{2})|([\\d]{4})-([\\d]{2})-([\\d]{2})", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final String DATE_PATTERN_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2" + NON_BREAKING_DOT_SUBST + "$3";
-
   // braces in words
   private static final Pattern BRACE_IN_WORD_PATTERN = Pattern.compile("([а-яіїєґ])\\(([а-яіїєґ']+)\\)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
@@ -132,7 +129,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_ART_PATTERN = Pattern.compile("([Аа]рт|[Мм]ал|[Рр]ис)\\.([\\h]*[0-9])");
   private static final Pattern ABBR_DOT_MAN_PATTERN = Pattern.compile("(Ман)\\.([\\h]*(Сіті|[Юю]н))");
   private static final Pattern ABBR_DOT_LAT_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]лат)\\.([\\h\\v]+[a-zA-Z])");
-  private static final Pattern ABBR_DOT_PROF_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301-])([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Аа]рх|ап|тов|вул|о|р|ім|упорядн?|др|[Пп]реп|Ів|Дж)\\.([\\h\\v]+[А-ЯІЇЄҐа-яіїєґ])");
+  private static final Pattern ABBR_DOT_PROF_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301-])([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Аа]рх|ап|тов|вул|бул|бульв|о|р|ім|упорядн?|др|[Пп]реп|Ів|Дж)\\.([\\h\\v]+[А-ЯІЇЄҐа-яіїєґ])");
   private static final Pattern ABBR_DOT_GUB_PATTERN = Pattern.compile("(.[А-ЯІЇЄҐ][а-яіїєґ'-]+[\\h\\v]+губ)\\.");
   private static final Pattern ABBR_DOT_DASH_PATTERN = Pattern.compile("\\b([А-ЯІЇЄҐ]ж?)\\.([-\u2013]([А-ЯІЇЄҐ][а-яіїєґ']{2}|[А-ЯІЇЄҐ]\\.))");
   // село, місто, річка (якщо з цифрою: секунди, метри, роки) - з роками складно
@@ -175,7 +172,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   // Сьогодні (у четвер. - Ред.), вранці.
 //  private static final Pattern ABBR_DOT_PATTERN8 = Pattern.compile("([\\s\u00A0\u202F]+[–—-][\\s\u00A0\u202F]+(?:[Рр]ед|[Аа]вт))\\.([\\)\\]])");
-  private static final Pattern ABBR_DOT_RED_AVT_PATTERN = Pattern.compile("([\\h\\v]+(?:[Рр]ед|[Аа]вт))\\.([\\)\\]])");
+  private static final Pattern ABBR_DOT_RED_AVT_PATTERN = Pattern.compile("([\\h\\v]+(?:[Рр]ед|[Аа]вт))\\.(\\h*[)\\]а-яіїєґ])");
   
   private static final String SOFT_HYPHEN_WRAP = "\u00AD\n";
   private static final String SOFT_HYPHEN_WRAP_SUBST = "\uE103";
@@ -330,7 +327,6 @@ public class UkrainianWordTokenizer implements Tokenizer {
         || (dotIndex == textRtrimmed.length()-1
             && ABBR_AT_THE_END.matcher(text).find()) ) {  // ugly - special case for тис. та ініціалів
 
-      text = DATE_PATTERN.matcher(text).replaceAll(DATE_PATTERN_REPL);
       text = DOTTED_NUMBERS_PATTERN3.matcher(text).replaceAll("$1.\uE120$2.\uE120$3");
       text = DOTTED_NUMBERS_PATTERN.matcher(text).replaceAll("$1.\uE120$2");
 

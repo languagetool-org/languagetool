@@ -44,7 +44,7 @@ public class AdaptSuggestionFilter extends RuleFilter {
 
   @Nullable
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     RuleMatch newMatch = null;
     List<String> newSugg = new ArrayList<>();
     if (patternTokenPos > 0) {

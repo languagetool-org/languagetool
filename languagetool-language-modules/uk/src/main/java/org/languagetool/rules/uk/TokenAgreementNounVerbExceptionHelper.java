@@ -183,6 +183,15 @@ public final class TokenAgreementNounVerbExceptionHelper {
       return true;
     }
     
+    // матч Туреччина — Україна зіграють
+    if( nounPos > 2
+        && PosTagHelper.hasPosTag(tokens[nounPos], Pattern.compile("noun.*:v_naz.*prop.*"))
+        && tokens[nounPos-1].getCleanToken().matches("[-\u2013\u2014]")
+        && PosTagHelper.hasPosTag(tokens[nounPos-2], Pattern.compile("noun.*:v_naz.*prop.*")) ) {
+      logException();
+      return true;
+    }
+    
 
     // невідомі прізвища, як іменник
     // Любов Євтушок зауважила
@@ -676,6 +685,15 @@ public final class TokenAgreementNounVerbExceptionHelper {
 
       if( LemmaHelper.isPossiblyProperNoun(tokens[nounPos])
           && LemmaHelper.hasLemma(tokens[nounPos-1], GEO_QUALIFIERS) ) {
+        logException();
+        return true;
+      }
+      
+      // У місті Біла Церква було сформовано
+      if( nounPos > 2
+          && LemmaHelper.isPossiblyProperNoun(tokens[nounPos])
+          && LemmaHelper.isPossiblyProperNoun(tokens[nounPos-1])
+          && LemmaHelper.hasLemma(tokens[nounPos-2], GEO_QUALIFIERS) ) {
         logException();
         return true;
       }

@@ -33,6 +33,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.RuleOption;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.rules.SuggestedReplacement;
 
@@ -58,9 +59,9 @@ public final class MorfologikRussianSpellerRule extends MorfologikSpellerRule {
                    Example.fixed("Все счастливые семьи похожи друг на друга, <marker>каждая</marker> несчастливая семья несчастлива по-своему."));
 
     if (userConfig != null) {
-      int confValue = userConfig.getConfigValueByID(getId());
-      if(confValue >= 0) {
-        this.conf_ru_Value = confValue;
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null) {
+        this.conf_ru_Value = (int) cf[0];
       }
     }
 
@@ -102,29 +103,15 @@ public final class MorfologikRussianSpellerRule extends MorfologikSpellerRule {
     return false;
   }
   
-  
-  @Override
-  public int getDefaultValue() {
-    return DEFAULT_MIN_RU_VALUE;
-  }
-
-  @Override
-  public boolean hasConfigurableValue() {
-    return true;
-  }
-
-  @Override
-  public int getMinConfigurableValue() {
-    return 0;
-  }
-
-  @Override
-  public int getMaxConfigurableValue() {
-    return 1;
-  }
-  
-    @Override
   public String getConfigureText() {
     return  "Проверять слова на латинице, только термины (0/1)";
   }
+    
+  @Override
+  public RuleOption[] getRuleOptions() {
+    RuleOption[] ruleOptions = { new RuleOption(DEFAULT_MIN_RU_VALUE, getConfigureText(), 0, 1) };
+    return ruleOptions;
+  }
+
+    
 }

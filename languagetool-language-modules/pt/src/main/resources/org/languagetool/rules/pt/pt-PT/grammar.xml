@@ -482,7 +482,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               </marker>
           </pattern>
           <message>Em escrita formal não se começa uma frase com pronome átono. Coloque o pronome após o verbo.</message>
-          <suggestion><match no='3' case_conversion='startupper' postag="VMIP1P0" postag_regexp="yes" postag_replace="VMIP1P0X"/>-<match no='2' case_conversion='startlower'/></suggestion>
+          <suggestion><match no='3' case_conversion='startupper' postag="VMIP1P0" postag_regexp="yes" postag_replace="VMIP1P0:PP1CPO00"/></suggestion>
           <suggestion><match no='2' regexp_match="o" regexp_replace="ó"/> \3</suggestion>
           <example correction="Acostumamo-nos|Nós acostumamos"><marker>Nos acostumamos</marker> com tudo.</example>
       </rule>
@@ -966,7 +966,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
       <!-- Whole antipatterns must be rewritten: 2024+ -->
       <antipattern>
-          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag_regexp="yes" postag="V.+:PP.+"/>
           <token regexp='yes'>comigo|con[st]igo|con[nv]osco</token>
           <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
           <token postag='DP1..S' postag_regexp='yes'/>
@@ -2818,15 +2818,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             -->
             <pattern>
                 <marker>
-                    <token postag='VMIP2S0'/>
-                    <token regexp='yes' spacebefore='no'>&hifen;</token>
-                    <token spacebefore='no'>te</token>
+                    <token postag='VMIP2S0:PP2CSO00'/>
                 </marker>
                 <token postag='SPS.+|PD0FS.+|PP3FSA.+' postag_regexp='yes'/>
                 <token postag='AQ0.+|NC.+|V.+|DD.+' postag_regexp='yes'/>
             </pattern>
             <message>Caso se trate de uma forma do pretérito perfeito, escreve-se sem hífen.</message>
-            <suggestion>\1\3</suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="V.+" postag_replace="VMIS2S0"/></suggestion>
             <example correction="trocaste">Hoje <marker>trocas-te</marker> de computador?</example>
             <example>Hoje andaste a cantar?</example>
             <example>Hoje andaste à procura da chave?</example>
@@ -2862,39 +2860,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </token>
                 <marker>
                     <token postag_regexp='yes' postag='VMSI.+' regexp='yes'>.+sse
-                    <exception negate_pos='yes' postag_regexp='yes' postag='VMSI.+'/></token>
-            </marker>
-        </pattern>
-        <message>O conjuntivo é utilizado em condicionais ('se...'). Será que pretende utilizar a forma reflexiva?</message>
-        <suggestion><match no='2' regexp_match='(.+)sse' regexp_replace='$1-se'/></suggestion>
-        <example correction='chega-se'>Ela <marker>chegasse</marker> mais perto, a cada palavra.</example>
-    </rule>
-    <rule>
-        <pattern>
-            <token regexp='yes' skip='-1'>&separadores_de_oracoes;
-            <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception>
-            <exception scope='next' regexp='yes'>&introduz_conjuntivo;</exception></token>
-        <marker>
-            <token postag_regexp='yes' postag='VMSI.+' regexp='yes'>.+sse
-            <exception negate_pos='yes' postag_regexp='yes' postag='VMSI.+'/></token>
-    </marker>
-</pattern>
-<message>O conjuntivo é utilizado em condicionais ('se...'). Será que pretende utilizar a forma reflexiva?</message>
-<suggestion><match no='2' regexp_match='(.+)sse' regexp_replace='$1-se'/></suggestion>
-<example correction='chega-se'>A cada palavra, ela <marker>chegasse</marker> mais perto.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token skip='-1' postag_regexp='yes' postag='C.+' regexp='yes'>se|embora
-                    <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception></token>
+                        <exception negate_pos='yes' postag_regexp='yes' postag='VMSI.+'/>
+                    </token>
+                </marker>
+            </pattern>
+            <message>O conjuntivo é utilizado em condicionais ('se...'). Será que pretende utilizar a forma reflexiva?</message>
+            <suggestion><match no='2' regexp_match='(.+)sse' regexp_replace='$1-se'/></suggestion>
+            <example correction='chega-se'>Ela <marker>chegasse</marker> mais perto, a cada palavra.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp='yes' skip='-1'>&separadores_de_oracoes;
+                    <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception>
+                    <exception scope='next' regexp='yes'>&introduz_conjuntivo;</exception>
+                </token>
                 <marker>
-                    <token postag_regexp='yes' postag='V.+'/>
-                    <token spacebefore='no' regexp='yes'>&hifen;</token>
-                    <token spacebefore='no'>se</token>
+                    <token postag_regexp='yes' postag='VMSI.+' regexp='yes'>.+sse
+                        <exception negate_pos='yes' postag_regexp='yes' postag='VMSI.+'/>
+                    </token>
+                </marker>
+            </pattern>
+            <message>O conjuntivo é utilizado em condicionais ('se...'). Será que pretende utilizar a forma reflexiva?</message>
+            <suggestion><match no='2' regexp_match='(.+)sse' regexp_replace='$1-se'/></suggestion>
+            <example correction='chega-se'>A cada palavra, ela <marker>chegasse</marker> mais perto.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip='-1' postag_regexp='yes' postag='C.+' regexp='yes'>se|embora
+                    <exception scope='next' regexp='yes'>&separadores_de_oracoes;</exception>
+                </token>
+                <marker>
+                    <token postag_regexp='yes' postag='V.+:PP3CNO00'/>
                 </marker>
             </pattern>
             <message>O conjuntivo no pretérito imperfeito é utilizado em orações condicionais. Considere se esta não é uma dessas situações.</message>
-            <suggestion>\2sse</suggestion>
+            <suggestion><match no="2" postag_regexp="yes" postag="V.+" postag_replace="VMSI3S0"/></suggestion>
             <example correction='lavasse'>Se <marker>lava-se</marker> os pratos, é que era bom.</example>
             <example correction='trabalhasse'>Embora Tchecov  <marker>trabalha-se</marker> como médico, enriqueceu a sua escrita com…</example>
         </rule>
@@ -4138,7 +4138,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
 
 
-    <rule id='AUTO-FALANTE' name="[pt-PT] Confusão: Auto-falante/Altifalante" default="temp_off">
+    <rule id='AUTO-FALANTE' name="[pt-PT] Confusão: Auto-falante/Altifalante">
         <pattern>
             <token>auto</token>
             <token regexp='yes' min='0'>&tracos_de_separacao;</token>
@@ -4152,7 +4152,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
 
 
-    <rule id='CRIAR_QUERER' name="[pt-PT] Confusão: Criar/Querer" default="temp_off">
+    <rule id='CRIAR_QUERER' name="[pt-PT] Confusão: Criar/Querer">
         <pattern>
             <marker>
                 <token regexp='yes'>cria[ms]?|criamos</token>

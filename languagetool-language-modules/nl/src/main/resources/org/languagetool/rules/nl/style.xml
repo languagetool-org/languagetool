@@ -3374,7 +3374,7 @@ USA
 	<category id="COLLOQUIALISMS" name="Informeel" type="style" tone_tags="formal">
 		<rulegroup id="AAN_DE_RECYCLE" name="aan de recycle" type="style">
 			<rule>
-				<pattern>
+				<pattern >
 					<marker>
 						<token>aan</token>
 						<token>de</token>
@@ -3386,9 +3386,10 @@ USA
 				<example correction="aan het recyclen">Ik ben <marker>aan de recycle</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="VOOR_DE_RECYCLE" name="aan de recycle" type="style">
+		<rulegroup id="VOOR_DE_RECYCLE" name="aan de recycle" type="style" default="off">
+			<!-- Disabled, almost no applies -->
 			<rule>
-				<pattern>
+				<pattern >
 					<marker>
 						<token>voor</token>
 						<token>de</token>
@@ -3933,6 +3934,7 @@ USA
 				<!-- 24-2-2023 remove amateur -->
 				<antipattern><token regexp="yes">a-b|moeder-overste|rekening-courant|zwart-wit|up-to-date|make-up|try-out|pop-up|time-out|all-in|avant-garde</token></antipattern>
 				<antipattern><token regexp="yes">(meester|leerling)-.*</token></antipattern>
+				<antipattern><token>jagers-verzamelaars</token></antipattern>
 				<pattern>
 					<marker>
 						<token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*</token>
@@ -3951,7 +3953,7 @@ USA
 				<example>De <marker>back-up</marker> is mislukt.</example>
 			</rule>
 			<rule>
-				<antipattern><token regexp="yes">rood-groene?</token></antipattern>
+				<antipattern><token regexp="yes">(rood|paars)-groene?</token></antipattern>
 				<pattern>
 					<token regexp="yes">(paars|rood|geel|grijs|oranje|blauw|groen)-(paarse?|rood|rode|geel|gele|grijs|grijze|oranje|blauwe?|groene?)<exception postag="UNKNOWN"/></token>
 				</pattern><!-- afwisseled gekleurd -->
@@ -4711,7 +4713,7 @@ USA
 				<example correction="geeft akkoord|geeft toestemming">De ministerraad <marker>geeft groen licht</marker> voor de aankoop van 477 pantservoertuigen van het type Scorpion.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="HANDDOEK_RING" name="De handdoek in de ring gooien">
+		<rulegroup id="HANDDOEK_RING" name="De handdoek in de ring gooien" tags="picky">
 			<rule>
 				<pattern>
 					<token>handdoek</token>
@@ -4947,7 +4949,7 @@ USA
 				<example correction="">Internationaal <marker>groeit deze applicatie als kool</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="SCHRIL_CONTRAST" name="In schril contrast met">
+		<rulegroup id="SCHRIL_CONTRAST" name="In schril contrast met" tags="picky">
 			<rule>
 				<pattern>
 					<token>schril</token>
@@ -5082,7 +5084,7 @@ USA
 				<example correction="">Italië luidde eerder al <marker>de noodklok</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="DOORN_OOG" name="Door in het oog">
+		<rulegroup id="DOORN_OOG" name="Door in het oog" tags="picky">
 			<rule>
 				<pattern>
 					<token>doorn</token>
@@ -5107,6 +5109,20 @@ USA
 		</rulegroup>
 	</category>
 	<category id="BE_NL" name="Verschil België en Nederland" type="style" tone_tags="clarity">
+		<rulegroup id="DOORHEEN_DE" name="Doorheen de jaren(Door de jaren heen)...">
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>doorheen</token>
+						<token regexp="yes">de|het|een</token>
+						<token regexp="yes">[a-z].*</token>
+					</marker>
+				</pattern>
+				<message>'Doorheen de...' is geen Standaardnederlands. Wellicht past hier beter: <suggestion>Door \3 \4 heen</suggestion>.</message>
+				<example correction="Door de jaren heen"><marker>Doorheen de jaren</marker> ben ik zelfverzekerder geworden.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="ZO_N_MEERVOUD" name="Zo'n vingers/zulke vingers">
 			<rule>
 				<antipattern><token>zo'n</token><token postag="BNW:STF"/><token postag_regexp="yes" postag="ZNW:EKV.*"/></antipattern>
@@ -10500,21 +10516,22 @@ USA
 				<example correction="begon">Het comité P <marker>initieerde</marker> vervolgens een onderzoek.</example>
 			</rule>
 		</rulegroup>
+
 		<rulegroup id="INNOVATIE" name="innovatie">
 			<rule>
 				<pattern>
 					<token inflected="yes">innovatie</token>
 				</pattern>
-				<message>&vlotter_mess; <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">vernieuwing</match></suggestion>.</message>
+				<message>&vlotter_mess; <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">vernieuwing</match></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="vernieuwing">Ook dat is <marker>innovatie</marker>.</example>
-				<example correction="vernieuwingen">Geen enorme <marker>innovaties</marker>.</example>
 				<example correction="Vernieuwing"><marker>Innovatie</marker> vergt creativiteit.</example>
 				<example correction="vernieuwing">4 vacatures voor onderzoek naar <marker>innovatie</marker> in middenveld.</example>
 				<example correction="vernieuwing">Die schakel is <marker>innovatie</marker>.</example>
 				<example correction="vernieuwing">Voor versnelde <marker>innovatie</marker> is het beter om te fuseren.</example>
 			</rule>
 		</rulegroup>
+
 		<rulegroup id="INSTITUEREN" name="institueren">
 			<rule>
 				<pattern>
@@ -16897,7 +16914,7 @@ USA
 			<rule>
 				<!-- november 2022 R. Baars -->
 				<pattern>
-					<token>hey</token>
+					<token>hey<exception postag="_english_ignore_"/></token>
 				</pattern>
 				<message>&leenwoord_mess;</message>
 				<suggestion>Hee</suggestion>

@@ -297,4 +297,12 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestionsContain("saperçoit", "sa perçoit", "s'aperçoit");
     assertSuggestionsContain("saperçu", "sa perçu", "aperçu");
   }
+
+  @Test
+  public void testMultitokens() throws IOException {
+    assertNoMatches("MERCEDES-BENZ");
+    assertNoMatches("Walt Disney Animation Studios");
+    assertNoMatches("MÉTÉO-FRANCE");
+    assertNoMatches("CLERMONT-FERRAND");
+  }
 }

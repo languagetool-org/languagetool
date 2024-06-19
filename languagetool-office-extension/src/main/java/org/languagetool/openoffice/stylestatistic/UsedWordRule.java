@@ -199,7 +199,7 @@ public class UsedWordRule {
   }
 
   private int getDefaultRuleStep() {
-    int defValue = rule.getDefaultValue();
+    int defValue = (int) rule.getRuleOptions()[0].getDefaultValue();
     int defStep = (int) ((defValue / 3.) + 0.5);
     if (defStep < 1) {
       defStep = 1;
@@ -291,8 +291,7 @@ public class UsedWordRule {
   
   /**
    * set the Cache for one paragraph
-   * @throws IOException 
-   */  
+   */
   public void setCacheForParagraph(int nFPara, int nTPara, StatAnCache cache) {
     ResultCache statAnalysisCache = new ResultCache();
     List<AnalyzedSentence> analyzedSentences = cache.getAnalysedParagraph(nTPara);

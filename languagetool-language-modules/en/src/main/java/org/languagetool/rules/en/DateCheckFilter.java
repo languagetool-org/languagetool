@@ -19,6 +19,8 @@
 package org.languagetool.rules.en;
 
 import org.languagetool.rules.AbstractDateCheckFilter;
+import org.languagetool.rules.AbstractDateCheckWithSuggestionsFilter;
+import org.languagetool.tools.StringTools;
 
 import java.util.Calendar;
 
@@ -26,13 +28,18 @@ import java.util.Calendar;
  * English localization of {@link AbstractDateCheckFilter}.
  * @since 2.7
  */
-public class DateCheckFilter extends AbstractDateCheckFilter {
+public class DateCheckFilter extends AbstractDateCheckWithSuggestionsFilter {
 
   private final DateFilterHelper dateFilterHelper = new DateFilterHelper();
 
   @Override
   protected Calendar getCalendar() {
     return dateFilterHelper.getCalendar();
+  }
+
+  @Override
+  protected String getErrorMessageWrongYear() {
+    return "This date is wrong. Did you mean \"{currentYear}\"?";
   }
 
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
@@ -52,4 +59,24 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     return dateFilterHelper.getMonth(monthStr);
   }
 
+  @Override
+  protected String getDayStrLikeOriginal(String day, String original) {
+    if (StringTools.isNumeric(original)) {
+      return day;
+    }
+    int number = Integer.parseInt(day);
+    if (number >= 11 && number <= 13) {
+      return number + "th";
+    }
+    switch (number % 10) {
+      case 1:
+        return number + "st";
+      case 2:
+        return number + "nd";
+      case 3:
+        return number + "rd";
+      default:
+        return number + "th";
+    }
+  }
 }

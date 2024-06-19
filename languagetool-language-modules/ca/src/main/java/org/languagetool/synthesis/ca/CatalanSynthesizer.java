@@ -19,6 +19,8 @@
 package org.languagetool.synthesis.ca;
 
 import org.languagetool.AnalyzedToken;
+import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 import java.io.IOException;
@@ -53,23 +55,21 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   
   private static final Pattern pLemmaSpace = Pattern.compile("([^ ]+) (.+)");
 
-  public static final CatalanSynthesizer INSTANCE = new CatalanSynthesizer();
+  public static final CatalanSynthesizer INSTANCE_CAT = new CatalanSynthesizer(Languages.getLanguageForShortCode("ca-ES"));
+  public static final CatalanSynthesizer INSTANCE_VAL = new CatalanSynthesizer(Languages.getLanguageForShortCode("ca-ES-valencia"));
+  public static final CatalanSynthesizer INSTANCE_BAL = new CatalanSynthesizer(Languages.getLanguageForShortCode("ca-ES-balear"));
   
 //  /** @deprecated use {@link #INSTANCE} */
 //  public CatalanSynthesizer(Language lang) {
 //    this();
 //  }
 
-  protected CatalanSynthesizer() {
-    super("/ca/ca.sor", "/ca/ca-ES-valencia_synth.dict", "/ca/ca-ES-valencia_tags.txt", "ca");
+  private CatalanSynthesizer(Language language) {
+    super("/ca/ca.sor", "/ca/ca-ES-valencia_synth.dict", "/ca/ca-ES-valencia_tags.txt", language);
   }
 
   @Override
-  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {    
-    return synthesize(token, posTag, "ca-ES");
-  }
-  
-  public String[] synthesize(AnalyzedToken token, String posTag, String langVariantCode) throws IOException {    
+  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
     if (posTag.startsWith(SPELLNUMBER_TAG)) {
       return super.synthesize(token, posTag);
     }
@@ -94,18 +94,15 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     }
     // if not found, try verbs from a regional variant
     if (results.isEmpty() && posTag.startsWith("V")) {
-      return synthesize(token, posTag.substring(0, posTag.length() - 1).concat(verbTags.get(langVariantCode)), true);
+      return synthesize(token,
+        posTag.substring(0, posTag.length() - 1).concat(verbTags.get(language.getShortCodeWithCountryAndVariant())),
+        true);
     }
     return addWordsAfter(results, toAddAfter).toArray(new String[0]);
   }
   
-  
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
-    return synthesize(token, posTag, posTagRegExp, "ca-ES");
-  }
-    
-  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp, String langVariantCode) throws IOException {
     if (posTag.startsWith(SPELLNUMBER_TAG)) {
       return synthesize(token, posTag);
     }
@@ -143,7 +140,8 @@ public class CatalanSynthesizer extends BaseSynthesizer {
       if (results.isEmpty()) {
         Matcher mVerb = pVerb.matcher(posTag);
         if (mVerb.matches()) {
-          p = Pattern.compile(posTag.substring(0, posTag.length() - 1).concat(verbTags.get(langVariantCode)));
+          p = Pattern.compile(posTag.substring(0, posTag.length() - 1)
+            .concat(verbTags.get(language.getShortCodeWithCountryAndVariant())));
           for (String tag : possibleTags) {
             Matcher m = p.matcher(tag);
             if (m.matches()) {

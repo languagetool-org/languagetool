@@ -42,6 +42,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<String> EXCEPTIONS = Arrays.asList(
       // Use all-lowercase, matches will be case-insensitive.
       // See https://github.com/languagetool-org/languagetool/issues/1678
+      "he messages",   // vs the
+      "your invite",   // vs you
       "on a bye",   // vs buy
       "your (",   // ... so your (English) signature gets ...
       "your slack profile",

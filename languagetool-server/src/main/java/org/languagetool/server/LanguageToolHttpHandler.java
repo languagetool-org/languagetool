@@ -102,6 +102,8 @@ class LanguageToolHttpHandler implements HttpHandler {
     MDC.MDCCloseable mdcRequestID = MDC.putCloseable("rID", requestId);
     Attributes attributes = Attributes.builder()
                   .put(SemanticAttributes.HTTP_METHOD, httpExchange.getRequestMethod())
+                  .put(SemanticAttributes.HTTP_ROUTE, httpExchange.getRequestURI().getRawPath())
+                  .put("http.path_group", httpExchange.getRequestURI().getRawPath())
                   .put("request.id", requestId)
                   .build();
     Span globalSpan = TelemetryProvider.INSTANCE.createSpan("handle-http-request", attributes);

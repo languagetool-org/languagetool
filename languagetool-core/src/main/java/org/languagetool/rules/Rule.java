@@ -74,6 +74,7 @@ public abstract class Rule {
   private boolean officeDefaultOff = false;
   private int minPrevMatches = 0; // minimum number of previous matches to show the rule
   private int distanceTokens = -1; // distance (number of tokens) between matches to consider a repetition
+  private int priority = 0;
 
   public Rule() {
     this(null);
@@ -175,43 +176,11 @@ public abstract class Rule {
   }
 
   /**
-   * Overwrite this to return true, if a value may be configured by option panel
-   * @since 4.2
+   * Overwrite this to return configurable options for option panel
+   * @since 6.5
    */
-  public boolean hasConfigurableValue() {
-    return false;
-  }
-
-  /**
-   * Overwrite this to get a default Integer value by option panel
-   * @since 4.1
-   */
-  public int getDefaultValue() {
-    return 0;
-  }
-
-  /**
-   * Overwrite this to define the minimum of a configurable value
-   * @since 4.2
-   */
-  public int getMinConfigurableValue() {
-    return 0;
-  }
-
-  /**
-   * Overwrite this to define the maximum of a configurable value
-   * @since 4.2
-   */
-  public int getMaxConfigurableValue() {
-    return 100;
-  }
-
-  /**
-   * Overwrite this to define the Text in the option panel for the configurable value
-   * @since 4.2
-   */
-  public String getConfigureText() {
-    return "";
+  public RuleOption[] getRuleOptions() {
+    return null;
   }
 
   /**
@@ -619,5 +588,13 @@ public abstract class Rule {
 
   public void setGoalSpecific(boolean goalSpecific) {
     isGoalSpecific = goalSpecific;
+  }
+
+  public int getPriority() {
+    return priority;
+  }
+
+  public void setPriority(int priority) {
+    this.priority = priority;
   }
 }

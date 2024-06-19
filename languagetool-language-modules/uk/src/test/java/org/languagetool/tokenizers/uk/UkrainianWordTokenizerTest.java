@@ -126,6 +126,9 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("відбулася 17.8.1245");
     assertEquals(Arrays.asList("відбулася", " ", "17.8.1245"), testList);
+    
+    testList = w.tokenize("1814.03.09");
+    assertEquals(Arrays.asList("1814.03.09"), testList);
   }
 
   @Test
@@ -437,6 +440,12 @@ public class UkrainianWordTokenizerTest {
  
     testList = w.tokenize("Fair trade [«Справедлива торгівля». –    Авт.], який стежить за тим, щоб у країнах");
     assertTrue(testList.toString(), testList.contains("Авт."));
+
+    testList = w.tokenize("яку авт. устиг");
+    assertEquals(Arrays.asList("яку", " ", "авт.", " ", "устиг"), testList);
+    
+    testList = w.tokenize("пише ред. Бойків");
+    assertEquals(Arrays.asList("пише", " ", "ред.", " ", "Бойків"), testList);
     
     testList = w.tokenize("диво з див.");
     assertEquals(Arrays.asList("диво", " ", "з", " ", "див", "."), testList);

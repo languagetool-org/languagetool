@@ -52,7 +52,7 @@ public class InterrogativeVerbFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     /*if (match.getSentence().getText().contains("Peut je")) {
       int ii=0;
       ii++;

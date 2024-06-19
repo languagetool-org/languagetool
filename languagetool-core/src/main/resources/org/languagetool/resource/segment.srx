@@ -1108,6 +1108,10 @@
 </languagerule>
 <languagerule languagerulename="English">
 <rule break="no">
+<beforebreak>\b[1-9]\.[\s\u00A0]</beforebreak>
+<afterbreak>[a-z]</afterbreak>
+</rule>
+<rule break="no">
 <beforebreak>[\u00A0\s]</beforebreak>
 <afterbreak>\n</afterbreak>
 </rule>
@@ -1164,7 +1168,7 @@
 <afterbreak>D\.?</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b([Aa]vg|[Ee]d|pp|[Vv]iz|i\.?[\s\u00A0]*e|[Vvol]|[Rr]col|maj|Lt|[Ff]ig|[Ff]igs|[Vv]iz|[Vv]ols|[Aa]pprox|[Aa]cq|[Ii]ncl?|[Aa]cc|Pres|[Cc]orp|[Ee]x|[Cc]onn|[Dd]ept|[Ll]tda|[Mm]in|[Mm]ax|[Gg]ovt|[Rr]etd|Ing|lb|lbf|ft|c\.?[\s\u00A0]*f|vs|dia|lbs|\d+-(:?oz|kc|in|h[rp]|ml)|M?sec)\.[\s\u00A0]</beforebreak>
+<beforebreak>\b([Aa]vg|[Ee]d|pp|[Vv]iz|i\.?[\s\u00A0]*e|[Vvol]|[Rr]col|maj|Lt|[Ff]ig|[Ee]xt|[Ff]igs|[Vv]iz|[Vv]ols|[Aa]pprox|[Aa]cq|[Ii]ncl?|[Ee]xcl|[Aa]cc|Pres|[Cc]orp|[Ee]x|[Cc]onn|[Dd]ept|[Ll]tda|[Mm]in|[Mm]ax|[Gg]ovt|[Rr]etd|Ing|lb|lbf|ft|c\.?[\s\u00A0]*f|vs|dia|lbs|\d+-(:?oz|kc|in|h[rp]|ml)|M?sec)\.[\s\u00A0]</beforebreak>
 <afterbreak>[^\p{Lu}]|I</afterbreak>
 </rule>
 <rule break="no">
@@ -1273,7 +1277,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bLL\.[\s\u00A0]?[BM]\.[\s\u00A0]</beforebreak>
+<beforebreak>\bLL\.[\s\u00A0]?[BMD]\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -1282,7 +1286,7 @@
 </rule>
 <rule break="no">
 <beforebreak>\bLL\.[\s\u00A0]?</beforebreak>
-<afterbreak>[BM]\.?</afterbreak>
+<afterbreak>[BMD]\.?</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b[BM]\.[\s\u00A0]?</beforebreak>
@@ -1329,7 +1333,11 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bCorp\.[\s\u00A0]</beforebreak>
+<beforebreak>\b[cC]orp\.[\s\u00A0]</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[Rr]eg\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -4756,7 +4764,7 @@
 </rule>
 <!-- Abbreviations that cannot finish sentences-->
 <rule break="no">
-<beforebreak>\b(dc|(?iu)(n|Mr|C|Dr|Dra|Dra\. Ma|Sta\. Ma|E|Emm|Emma|Excm|Excma|Hble|I|Il·lm|Il·lma|Il·ltre|Im|Ima|Mgfc|Mgfca|Mn|R|Rev|Sr|Sra|Sres|Srs|St|Sta|a|abr|abs|acad|add|adj|adm|admdor|admdora|admtiu|admtiva|adv|ag|agl|agr|agron|agròn|aj|ajud|al|alim|amb|ampl|ant|ap|apmt|apnt|apr|aprox|apt|arm|arq|arqueol|arquit|assign|assoc|atm|aut|aux|av|b|batx|bda|bibl|bl|bnc|butll|bxs|c|calef|cartogr|cat|catedr|catol|cf|cia|cin|cint|circul|cit|climat|col|col·l|compt|cons|constr|cont|contr|conv|corp|corr|cpl|cpt|cró|ct|cte|ctra|cts|d|dept|derog|des|desp|dg|dip|disp|distr|div|dj|dl|doc|drec|ds|dt|dta|dte|dupl|dv|e|econ|ed|ef|entl|esc|esp|espf|esq|ex|exc|exp|exped|ext|f|fac|fca|febr|fig|figs|fra|gen|gov|gral|i|imp|impr|impt|inc|insp|inst|int|inv|j|jul|jur|jurispr|leg|llic|loc|ltda|làm|merc|mil·l|màx|mín|neg|nov|nre|núm|o|oct|op|p|pàg|pàgs|paq|par|pda|pg|pl|pobl|pol|ppda|ppt|pral|prev|prof|progr|prov|pta|ptes|ptge|pvt|pàg|quadr|quint|r|rbla|ref|reg|rev|secr|serv|sgt|sotsp|subsp|supl|supt|t|tel|telegr|tit|trad|trans|transcr|transf|trav|tripl|trv|tt|tèc|univ|urb|v|var|veg|venc|vid|vig|vocab|vs|x|àt|íd))\.[\s\u00A0]</beforebreak>
+<beforebreak>\b(dc|inst|(?iu)(n|Mr|C|Dr|Dra|Dra\. Ma|Sta\. Ma|E|Emm|Emma|Excm|Excma|Hble|I|Il·lm|Il·lma|Il·ltre|Im|Ima|Mgfc|Mgfca|Mn|R|Rev|Sr|Sra|Sres|Srs|St|Sta|a|abr|abs|acad|add|adj|adm|admdor|admdora|admtiu|admtiva|adv|ag|agl|agr|agron|agròn|aj|ajud|al|alim|amb|ampl|ant|ap|apmt|apnt|apr|aprox|apt|arm|arq|arqueol|arquit|assign|assoc|atm|aut|aux|av|b|batx|bda|bibl|bl|bnc|butll|bxs|c|calef|cartogr|cat|catedr|catol|cf|cia|cin|cint|circul|cit|climat|col|col·l|compt|cons|constr|cont|contr|conv|corp|corr|cpl|cpt|cró|ct|cte|ctra|cts|d|dept|derog|des|desp|dg|dip|disp|distr|div|dj|dl|doc|drec|ds|dt|dta|dte|dupl|dv|e|econ|ed|ef|entl|esc|esp|espf|esq|ex|exc|exp|exped|ext|f|fac|fca|febr|fig|figs|fra|gen|gov|gral|i|imp|impr|impt|inc|insp|inst|int|inv|j|jul|jur|jurispr|leg|llic|loc|ltda|làm|merc|mil·l|màx|mín|neg|nov|nre|núm|o|oct|op|p|pàg|pàgs|paq|par|pda|pg|pl|pobl|pol|ppda|ppt|pral|prev|prof|progr|prov|pta|ptes|ptge|pvt|pàg|quadr|quint|r|rbla|ref|reg|rev|secr|serv|sgt|sotsp|subsp|supl|supt|t|tel|telegr|tit|trad|trans|transcr|transf|trav|tripl|trv|tt|tèc|univ|urb|v|var|veg|venc|vid|vig|vocab|vs|x|àt|íd))\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Abbreviations that can finish sentences -->
@@ -4811,12 +4819,12 @@
 </rule>
 <!-- Ellipsis: ... lowercase -->
 <rule break="no">
-<beforebreak>[^\s\u00A0](\Q...\E|…)[\s\u00A0]</beforebreak>
+<beforebreak>[^\s\u00A0](\.\.\.|…)[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- (enum...) -->
 <rule break="no">
-<beforebreak>\b(\Q...\E|…)[\p{Pe}»"’”][\s\u00A0]</beforebreak>
+<beforebreak>\b(\.\.\.|…)[\p{Pe}»"’”][\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- pero ¡ah! no estaba
@@ -4863,12 +4871,12 @@
 </rule>
 <!-- Ellipsis: ... lowercase -->
 <rule break="no">
-<beforebreak>[^\s\u00A0](\Q...\E|…)[\s\u00A0]</beforebreak>
+<beforebreak>[^\s\u00A0](\.\.\.|…)[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- (enum...) -->
 <rule break="no">
-<beforebreak>\b(\Q...\E|…)[\p{Pe}»"’”][\s\u00A0]</beforebreak>
+<beforebreak>\b(\.\.\.|…)[\p{Pe}»"’”][\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Abbreviations that can finish sentences -->
@@ -5127,7 +5135,7 @@
 </rule>
 <!-- German abbreviations -->
 <rule break="no">
-<beforebreak>\b(betr|Geb|Stk|ggü|Mag|mtl|Flgh?|[Pp]arl|Bsp|versch|[Dd]iesbzgl|[Zz]ykl|[Dd]bzgl[Ss]tellv|d|Übers|usw|[Bb]zw|Ab[hkst]|[Ee]ig|[Aa]bzü?gl|\d+-tlg|tlg|[Gg]gfls|[Ff]achspr|[Ll]tda|[Ee]inschl|[Vv]mtl|[Ss]tellv|Ev|[Bb]ezgl|lit|Abzw|[Vv]sl|ahd|Akk|aktual|[Öö]ffentl|prof|allg|alltagsspr|altdt|alttest|amerikan|Anh|Ank|Anm|Art|[Aa]utom|Auftragsnr|Az|Bat|bayr|Bde?|bearb|Bed|Bem|bes|bez|Bez|Bhf|Blvd|[Bb]spw|btto|bw|Dtl|[Gg]esetzl|Dez|[Jj]gdfr|[Ee]ff)\.[\u00A0\s]{1,2}</beforebreak>
+<beforebreak>\b(betr|Geb|Stk|ggü|Mag|mtl|Flgh?|[Pp]arl|Bsp|versch|[Dd]iesbzgl|[Zz]ykl|[Dd]bzgl[Ss]tellv|d|Übers|usw|[Bb]zw|Ab[hkst]|[Ee]ig|[Aa]bzü?gl|\d+-tlg|tlg|[Gg]gfls|[Ff]achspr|[Ll]tda|[Ee]inschl|[Vv]mtl|[Ss]tellv|Ev|[Bb]ezgl|lit|Abzw|[Vv]sl|ahd|Akk|aktual|[Öö]ffentl|prof|allg|alltagsspr|altdt|alttest|amerikan|Anh|Ank|Anm|Art|[Aa]utom|Auftragsnr|Az|Bat|bayr|Bde?|bearb|Bed|Bem|bes|bez|wsl|vsl|Bez|Bhf|Blvd|[Bb]spw|btto|bw|Dtl|[Gg]esetzl|Dez|[Jj]gdfr|[Ee]ff)\.[\u00A0\s]{1,2}</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5288,7 +5296,7 @@
 </rule>
 <rule break="no">
 <beforebreak>\bLL\.\s?</beforebreak>
-<afterbreak>[BM]\.?</afterbreak>
+<afterbreak>[BMD]\.?</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b[BM]\.\s?</beforebreak>
@@ -5587,7 +5595,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bLL\.[\s\u00A0]?[BM]\.[\s\u00A0]</beforebreak>
+<beforebreak>\bLL\.[\s\u00A0]?[BMD]\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5596,7 +5604,7 @@
 </rule>
 <rule break="no">
 <beforebreak>\bLL\.[\s\u00A0]?</beforebreak>
-<afterbreak>[BM]\.?</afterbreak>
+<afterbreak>[BMD]\.?</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b[BM]\.[\s\u00A0]?</beforebreak>
@@ -5860,7 +5868,11 @@
 <!-- статус правових держав. — Авт.). -->
 <rule break="no">
 <beforebreak></beforebreak>
-<afterbreak>[\h\v]*[‐-―-][\h\v]*([Рр]ед|[Аа]вт)[\h\v]*\.[\)\]]</afterbreak>
+<afterbreak>[\h\v]*[‐-―-][\h\v]*([Рр]ед|[Аа]вт)\.[\h\v]*[\)\]]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b([Рр]ед)\.[\h\v]*</beforebreak>
+<afterbreak>[А-ЯІЇЄҐ]</afterbreak>
 </rule>
 <!-- Цензор.НЕТ -->
 <rule break="no">
@@ -6351,7 +6363,7 @@
 </rule>
 <!-- Not break for ellipses (...) -->
 <rule break="no">
-<beforebreak>[^\s](\Q...\E|…)\s</beforebreak>
+<beforebreak>[^\s](\.\.\.|…)\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- z.B. "bla (...) blubb" -> without ending sentence -->

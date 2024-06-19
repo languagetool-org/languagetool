@@ -83,35 +83,25 @@ public abstract class AbstractStyleTooOftenUsedWordRule extends TextLevelRule {
    */
   protected abstract String getLimitMessage(int minPercent);
   
-  /* (non-Javadoc)
-   * @see org.languagetool.rules.Rule#getConfigureText()
-   */
-  @Override
   public abstract String getConfigureText();
 
   private int getMinPercent(UserConfig userConfig, int minPercentDefault) {
     if (userConfig != null) {
-      int confPercent = userConfig.getConfigValueByID(getId());
-      if (confPercent >= 0) {
-        return confPercent;
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null) {
+        return (int) cf[0];
       }
     }
     return minPercentDefault;
   }
 
+  /**
+   *  give the user the possibility to configure the function
+   */
   @Override
-  public boolean hasConfigurableValue() {
-    return true;
-  }
-
-  @Override
-  public int getDefaultValue() {
-    return defaultMinPercent;
-  }
-
-  @Override
-  public int getMinConfigurableValue() {
-    return 1;
+  public RuleOption[] getRuleOptions() {
+    RuleOption[] ruleOptions = { new RuleOption(defaultMinPercent, getConfigureText(), 1, 100) };
+    return ruleOptions;
   }
 
   public Map<String, Integer> getWordMap() {

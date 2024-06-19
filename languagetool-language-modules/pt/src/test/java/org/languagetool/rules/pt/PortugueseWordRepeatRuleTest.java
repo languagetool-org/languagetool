@@ -37,7 +37,8 @@ public class PortugueseWordRepeatRuleTest {
     assertTrue(ignore("blá blá", lt, rule, 2));
     assertTrue(ignore("Aaptos aaptos", lt, rule, 2));
     assertTrue(ignore("Logo logo vamos ao mercado", lt, rule, 2));
-    assertTrue(ignore("Coloquem-na na sala.", lt, rule, 4)); // the hyphen is a token
+    // as of the v0.13 dict, the following is not a repetition, since 'coloquem-na' is a single token <3
+    assertFalse(ignore("Coloquem-na na sala.", lt, rule, 2));
   }
 
   private boolean ignore(String input, JLanguageTool lt, PortugueseWordRepeatRule rule, int position) throws IOException {

@@ -45,15 +45,15 @@ public class LongParagraphRuleTest {
     String text1 = "This is a short paragraph.\n\nHere's some text as filler. This is a long paragraph by unit test standards.";
     RuleMatch[] matches1 = rule.match(lt.analyzeText(text1));
     assertThat(matches1.length, is(1));
-    assertThat(matches1[0].getFromPos(), is(48));  // "filler"
+    assertThat(matches1[0].getFromPos(), is(45));  // "filler"
     assertThat(matches1[0].getToPos(), is(54));
 
     String text2 = "Here's some text as filler. This is a long paragraph by unit test standards.\n\nAnother paragraph.\n\nHere's some text as morefiller - this is a long paragraph by unit test standards.";
     RuleMatch[] matches2 = rule.match(lt.analyzeText(text2));
     assertThat(matches2.length, is(2));
-    assertThat(matches2[0].getFromPos(), is(20));  // "filler"
+    assertThat(matches2[0].getFromPos(), is(17));  // "filler"
     assertThat(matches2[0].getToPos(), is(26));
-    assertThat(matches2[1].getFromPos(), is(118));  // "morefiller"
+    assertThat(matches2[1].getFromPos(), is(115));  // "morefiller"
     assertThat(matches2[1].getToPos(), is(128));
   }
 

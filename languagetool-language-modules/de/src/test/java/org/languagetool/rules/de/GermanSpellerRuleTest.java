@@ -161,6 +161,7 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritäts-Dings"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritäts-Dings."));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Haltungs-Schäden"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Kritzelcafé"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("haltungschäden"));  // lowercase
     assertFalse(rule.ignorePotentiallyMisspelledWord("haltungs-schäden"));  // lowercase
     assertFalse(rule.ignorePotentiallyMisspelledWord("haltungs-Schäden"));  // lowercase
@@ -208,6 +209,7 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Ireland"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Karnevalmuseum"));
     //assertTrue(rule.ignorePotentiallyMisspelledWord("Karnevalsmuseum"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Alkoholgenuß"));
     // special cases:
     assertFalse(rule.ignorePotentiallyMisspelledWord("Actionsspaß"));
     //assertTrue(rule.ignorePotentiallyMisspelledWord("Jungsnamen")); // 'Jungs' is colloquial for 'Jungen'

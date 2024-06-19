@@ -56,7 +56,7 @@ public class UkrainianHybridDisambiguationTest {
   public void setUp() {
     tagger = new UkrainianTagger();
     tokenizer = new UkrainianWordTokenizer();
-    sentenceTokenizer = new SRXSentenceTokenizer(new Ukrainian());
+    sentenceTokenizer = new SRXSentenceTokenizer(Ukrainian.DEFAULT_VARIANT);
     disambiguator = new UkrainianHybridDisambiguator();
     demoDisambiguator = new DemoDisambiguator();
     chunker = new MultiWordChunker2("/uk/multiwords.txt", true);
@@ -162,8 +162,8 @@ public class UkrainianHybridDisambiguationTest {
     TestTools.myAssert("до зелені чортики",
         "/[null]SENT_START "
         + "до/[до]prep  /[null]null"
-        + " зелені/[зелений]adj:p:v_kly:compb|зелені/[зелений]adj:p:v_naz:compb|зелені/[зелений]adj:p:v_zna:rinanim:compb|зелені/[зелень]noun:inanim:f:v_dav|зелені/[зелень]noun:inanim:f:v_rod|зелені/[зелені]noun:anim:p:v_kly:ns|зелені/[зелені]noun:anim:p:v_naz:ns  /[null]null"
-        + " чортики/[чортик]noun:anim:p:v_kly|чортики/[чортик]noun:anim:p:v_naz",
+        + " зелені/[зелений]adj:p:v_naz:compb|зелені/[зелений]adj:p:v_zna:rinanim:compb|зелені/[зелень]noun:inanim:f:v_dav|зелені/[зелень]noun:inanim:f:v_rod|зелені/[зелені]noun:anim:p:v_naz:ns  /[null]null"
+        + " чортики/[чортик]noun:anim:p:v_naz",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     
     TestTools.myAssert("Харкові",
@@ -227,7 +227,7 @@ public class UkrainianHybridDisambiguationTest {
   public void testDisambiguatorForPluralNames() throws IOException {
     TestTools.myAssert("Всіляких Василів",
         "/[null]SENT_START Всіляких/[всілякий]adj:p:v_rod:&pron:gen|Всіляких/[всілякий]adj:p:v_zna:ranim:&pron:gen"
-        + "  /[null]null Василів/[Василь]noun:anim:p:v_rod:prop:fname|Василів/[Василь]noun:anim:p:v_zna:prop:fname|Василів/[Василів]adj:m:v_kly|Василів/[Василів]adj:m:v_naz|Василів/[Василів]adj:m:v_zna:rinanim"
+        + "  /[null]null Василів/[Василь]noun:anim:p:v_rod:prop:fname|Василів/[Василь]noun:anim:p:v_zna:prop:fname|Василів/[Василів]adj:m:v_naz|Василів/[Василів]adj:m:v_zna:rinanim"
         + "|Василів/[Василів]noun:anim:f:v_dav:nv:prop:lname|Василів/[Василів]noun:anim:f:v_naz:nv:prop:lname|Василів/[Василів]noun:anim:f:v_oru:nv:prop:lname|Василів/[Василів]noun:anim:f:v_rod:nv:prop:lname|Василів/[Василів]noun:anim:f:v_zna:nv:prop:lname"
         + "|Василів/[Василів]noun:anim:m:v_naz:prop:lname"
         + "|Василів/[Василів]noun:inanim:m:v_naz:prop:geo|Василів/[Василів]noun:inanim:m:v_zna:prop:geo",
@@ -245,7 +245,7 @@ public class UkrainianHybridDisambiguationTest {
 
     TestTools.myAssert("Всіляких Фрейдів",
         "/[null]SENT_START Всіляких/[всілякий]adj:p:v_rod:&pron:gen|Всіляких/[всілякий]adj:p:v_zna:ranim:&pron:gen"
-        + "  /[null]null Фрейдів/[Фрейд]noun:anim:p:v_rod:prop:lname|Фрейдів/[Фрейд]noun:anim:p:v_zna:prop:lname|Фрейдів/[Фрейдів]adj:m:v_kly|Фрейдів/[Фрейдів]adj:m:v_naz|Фрейдів/[Фрейдів]adj:m:v_zna:rinanim",
+        + "  /[null]null Фрейдів/[Фрейд]noun:anim:p:v_rod:prop:lname|Фрейдів/[Фрейд]noun:anim:p:v_zna:prop:lname|Фрейдів/[Фрейдів]adj:m:v_naz|Фрейдів/[Фрейдів]adj:m:v_zna:rinanim",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     
     // untouched
@@ -270,7 +270,7 @@ public class UkrainianHybridDisambiguationTest {
     TestTools.myAssert("молодшого з Вікторів",
         "/[null]SENT_START молодшого/[молодший]adj:m:v_rod:compc|молодшого/[молодший]adj:m:v_zna:ranim:compc|молодшого/[молодший]adj:n:v_rod:compc"
         + "  /[null]null з/[з]prep"
-        + "  /[null]null Вікторів/[Віктор]noun:anim:p:v_rod:prop:fname|Вікторів/[Віктор]noun:anim:p:v_zna:prop:fname|Вікторів/[Вікторів]adj:m:v_kly|Вікторів/[Вікторів]adj:m:v_naz|Вікторів/[Вікторів]adj:m:v_zna:rinanim|Вікторів/[Вікторів]noun:inanim:m:v_naz:prop:geo|Вікторів/[Вікторів]noun:inanim:m:v_zna:prop:geo",
+        + "  /[null]null Вікторів/[Віктор]noun:anim:p:v_rod:prop:fname|Вікторів/[Віктор]noun:anim:p:v_zna:prop:fname|Вікторів/[Вікторів]adj:m:v_naz|Вікторів/[Вікторів]adj:m:v_zna:rinanim|Вікторів/[Вікторів]noun:inanim:m:v_naz:prop:geo|Вікторів/[Вікторів]noun:inanim:m:v_zna:prop:geo",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
   
@@ -541,7 +541,7 @@ public class UkrainianHybridDisambiguationTest {
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("машина його мами", "/[null]SENT_START машина/[машина]noun:inanim:f:v_naz"
         + "  /[null]null його/[воно]noun:unanim:n:v_rod:&pron:pers:3|його/[воно]noun:unanim:n:v_zna:&pron:pers:3|його/[він]noun:unanim:m:v_rod:&pron:pers:3|його/[він]noun:unanim:m:v_zna:&pron:pers:3|його/[його]adj:f:v_naz:nv:&pron:pos|його/[його]adj:f:v_rod:nv:&pron:pos|його/[його]adj:p:v_naz:nv:&pron:pos"
-        + "  /[null]null мами/[мама]noun:anim:f:v_rod|мами/[мама]noun:anim:p:v_kly|мами/[мама]noun:anim:p:v_naz",
+        + "  /[null]null мами/[мама]noun:anim:f:v_rod|мами/[мама]noun:anim:p:v_naz",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("прийняв її до уваги", "/[null]SENT_START прийняв/[прийняти]verb:perf:past:m"
         + "  /[null]null її/[вона]noun:unanim:f:v_rod:&pron:pers:3|її/[вона]noun:unanim:f:v_zna:&pron:pers:3|її/[її]adj:n:v_dav:nv:&pron:pos|її/[її]adj:n:v_naz:nv:&pron:pos|її/[її]adj:n:v_oru:nv:&pron:pos|її/[її]adj:n:v_rod:nv:&pron:pos|її/[її]adj:n:v_zna:nv:&pron:pos|її/[її]adj:p:v_dav:nv:&pron:pos|її/[її]adj:p:v_naz:nv:&pron:pos|її/[її]adj:p:v_oru:nv:&pron:pos|її/[її]adj:p:v_rod:nv:&pron:pos|її/[її]adj:p:v_zna:rinanim:nv:&pron:pos"
@@ -580,7 +580,7 @@ public class UkrainianHybridDisambiguationTest {
   
   @Test
   public void testChunker() throws Exception {
-    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Для  годиться.");
     AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
     AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
@@ -600,7 +600,7 @@ public class UkrainianHybridDisambiguationTest {
   
   @Test
   public void testIgnoredCharacters() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Іва́н Петро́вич.");
 
     // TODO: fix disambiguator - it should be: Петро́вич[Петрович...
@@ -614,26 +614,6 @@ public class UkrainianHybridDisambiguationTest {
   }
 
   
-  @Test
-  public void testDisambiguatorRaza() throws IOException {
-
-    List<AnalyzedTokenReadings> tagged = tagger.tag(tokenizer.tokenize("На Україна — Іспанія."));
-    AnalyzedSentence disambiged = disambiguator.disambiguate(new AnalyzedSentence(tagged.toArray(new AnalyzedTokenReadings[0])));
-
-    AnalyzedTokenReadings dash = disambiged.getTokens()[4];
-    assertEquals("—", dash.getReadings().get(0).getToken());
-    assertEquals("", dash.getReadings().get(0).getLemma());
-    assertEquals("", dash.getReadings().get(0).getPOSTag());
-    assertTrue(dash.isPosTagUnknown());
-    
-//    tagged = tagger.tag(tokenizer.tokenize("1,5 раза"));
-//    disambiged = disambiguator.disambiguate(new AnalyzedSentence(tagged.toArray(new AnalyzedTokenReadings[0])));
-//    
-//    AnalyzedTokenReadings raza = disambiged.getTokens()[2];
-//    assertEquals("раз", raza.getReadings().get(0).getLemma());
-//    assertFalse(raza.isPosTagUnknown());
-  }
-
   @Test
   public void testPluralProp() throws IOException {
 

@@ -55,7 +55,7 @@ public class UkrainianTagger extends BaseTagger {
   private static final Pattern HASHTAG = Pattern.compile("#[а-яіїєґa-z_][а-яіїєґa-z0-9_]*", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   private static final Pattern DATE = Pattern.compile("[\\d]{1,2}\\.[\\d]{1,2}\\.[\\d]{4}");
-  private static final Pattern TIME = Pattern.compile("([01]?[0-9]|2[0-3])[.:][0-5][0-9]");
+  private static final Pattern TIME = Pattern.compile("([01]?[0-9]|2[0-3])[.:][0-5][0-9]|([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]");
   private static final Pattern ALT_DASHES_IN_WORD = Pattern.compile("[а-яіїєґ0-9a-z]\u2013[а-яіїєґ]|[а-яіїєґ]\u2013[0-9]", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern COMPOUND_WITH_QUOTES_REGEX = Pattern.compile("[-\u2013][«\"„]");
   private static final Pattern COMPOUND_WITH_QUOTES_REGEX2 = Pattern.compile("[»\"“][-\u2013]");
@@ -88,9 +88,20 @@ public class UkrainianTagger extends BaseTagger {
     }
 
     if ( LATIN_NUMBER_CYR.matcher(word).matches() ) {
-      List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
-      additionalTaggedTokens.add(new AnalyzedToken(word, "number:latin:bad", word));
-      return additionalTaggedTokens;
+
+      boolean ordinal = false;
+      int dashIdx = word.lastIndexOf('-');
+      if( dashIdx > 0 ) {
+        String left = word.substring(0, dashIdx);
+        String right = word.substring(dashIdx+1);
+        ordinal = LetterEndingForNumericHelper.isPossibleAdjAdjEnding(left, right);
+      }
+      
+      if( dashIdx == -1 || ordinal ) {
+        List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
+        additionalTaggedTokens.add(new AnalyzedToken(word, "number:latin:bad", word));
+        return additionalTaggedTokens;
+      }
     }
 
     if ( TIME.matcher(word).matches() ) {
@@ -308,18 +319,49 @@ public class UkrainianTagger extends BaseTagger {
     // Івано-Франківська as adj from івано-франківський
     List<AnalyzedToken> analyzedTokens = analyzeAllCapitamizedAdj(word);
     if( analyzedTokens.size() > 0 ) {
-          if( tokens.get(0).hasNoTag() ) {
-            tokens = analyzedTokens;
+      if( tokens.get(0).hasNoTag() ) {
+        tokens = analyzedTokens;
+      }
+      else {
+        // compound tagging has already been performed and may have added tokens
+        for(AnalyzedToken token: analyzedTokens) {
+          if( ! tokens.contains(token) ) {
+            tokens.add(token);
           }
-          else {
-            // compound tagging has already been performed and may have added tokens
-            for(AnalyzedToken token: analyzedTokens) {
-              if( ! tokens.contains(token) ) {
-                tokens.add(token);
-              }
-            }
-          }
+        }
+      }
     }
+    
+    // бл*ть, нах#й
+    // приголосні: на#уй
+//    if( word.matches(".*[*#].*") ) {
+//      try {
+//        MorfologikUkrainianSpellerRule morfologikSpellerRule = (MorfologikUkrainianSpellerRule)Ukrainian.DEFAULT_VARIANT.getDefaultSpellingRule();
+//        Field field = morfologikSpellerRule.getClass().getSuperclass().getDeclaredField("speller1");
+//        field.setAccessible(true);
+//        MorfologikMultiSpeller speller1 = (MorfologikMultiSpeller) field.get(morfologikSpellerRule);
+//        Tagger tagger = Ukrainian.DEFAULT_VARIANT.getTagger();
+//        List<String> suggestions = speller1.getSuggestions(word);
+//        List<AnalyzedToken> tagged = suggestions.stream()
+//            .map(s -> {
+//              try {
+//                return tagger.tag(Arrays.asList(s)).get(0).getReadings();
+//              } catch (IOException e) {
+//                throw new RuntimeException(e);
+//              }
+//            })
+//            .filter(r -> PosTagHelper.hasPosTag(r, Pattern.compile(".*:(vulg|obsc).*")))
+//            .flatMap(Collection::stream)
+//            .collect(Collectors.toList());
+//        
+//        for(AnalyzedToken tagg:tagged) {
+//          tokens.add(new AnalyzedToken(word, tagg.getPOSTag() + ":alt", tagg.getLemma()));
+//        }
+//      }
+//      catch (Exception e) {
+//        logger.warn("Failed to tag {}", word);
+//      }
+//    }
 
     return tokens;
   }

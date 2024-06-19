@@ -71,7 +71,6 @@ public abstract class AbstractStatisticSentenceStyleRule extends TextLevelRule {
    */
   protected abstract String getLimitMessage(int limit, double percent);
   
-  @Override
   public abstract String getConfigureText();
 
   public AbstractStatisticSentenceStyleRule(ResourceBundle messages, Language lang, UserConfig userConfig, int minPercent, boolean defaultActive) {
@@ -88,9 +87,9 @@ public abstract class AbstractStatisticSentenceStyleRule extends TextLevelRule {
 
   private int getMinPercent(UserConfig userConfig, int minPercentDefault) {
     if (userConfig != null) {
-      int confPercent = userConfig.getConfigValueByID(getId());
-      if (confPercent >= 0) {
-        return confPercent;
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null) {
+        return (int) cf[0];
       }
     }
     return minPercentDefault;
@@ -115,24 +114,13 @@ public abstract class AbstractStatisticSentenceStyleRule extends TextLevelRule {
     return 100.0;
   }
   
+  /**
+   *  give the user the possibility to configure the function
+   */
   @Override
-  public boolean hasConfigurableValue() {
-    return true;
-  }
-
-  @Override
-  public int getDefaultValue() {
-    return defaultMinPercent;
-  }
-
-  @Override
-  public int getMinConfigurableValue() {
-    return 0;
-  }
-
-  @Override
-  public int getMaxConfigurableValue() {
-    return 100;
+  public RuleOption[] getRuleOptions() {
+    RuleOption[] ruleOptions = { new RuleOption(defaultMinPercent, getConfigureText(), 0, 100) };
+    return ruleOptions;
   }
 
   public int getSentenceCount() {

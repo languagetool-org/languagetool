@@ -1189,6 +1189,12 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Aus 1 <marker>mach</marker> 2.</example>
             </rule>
+            <rule><!--14-->
+                <pattern>
+                    <token postag_regexp="yes" postag="ADJ:PRD:GRU"/>
+                </pattern>
+                <example correction="">Folgende Abbildung stellt das <marker>visuell</marker> dar.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_NOUN_SPACE" name="">
             <rule>
@@ -1812,6 +1818,40 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Das ist <marker>Osama</marker> bin Ladens Frau.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="SUB.*|UNKNOWN" postag_regexp="yes" />
+                    </marker>
+                    <token>wie</token>
+                    <token>z</token>
+                    <token min="0">.</token>
+                    <token>B</token>
+                </pattern>
+                <example correction="">Oft regeln diese Vereinbarungen auch variable <marker>Vergütungen</marker> wie z. B. Bonuszahlungen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="SUB.*|UNKNOWN" postag_regexp="yes" />
+                    </marker>
+                    <token>wie</token>
+                    <token>zum</token>
+                    <token>Beispiel</token>
+                </pattern>
+                <example correction="">Oft regeln diese Vereinbarungen auch variable <marker>Vergütungen</marker> wie zum Beispiel Bonuszahlungen.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_MISSING_PUNCTUATION_SETDASHUP" name="">
+            <rule><!--1-->
+                <pattern>
+                    <marker>
+                        <token>Setup</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ein <marker>Setup</marker> ist erforderlich.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_PERIOD" name="">
@@ -1841,7 +1881,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ADPOSITION">
-            <rule><!--1-->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>in</token>
+                    </marker>
+                    <token>den</token>
+                    <token regexp="yes">Januar|Jänner|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember</token>
+                    <token inflected="yes">fallen</token>
+                </pattern>
+                <example correction="">Als Grund nannte Volkswagen am Freitag das chinesische Neujahrsfest, das in diesem Jahr <marker>in</marker> den Februar fiel.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <marker>
                         <token>im</token>
@@ -1852,6 +1903,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Das ist <marker>im</marker> Welten besser als vorher.</example>
                 <example correction="">Und natürlich <marker>im</marker> Längen besser als der Futtermittel-Anbau.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Liebe</token>
+                    <marker>
+                        <token>zu</token>
+                    </marker>
+                    <token postag=".*DAT.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Man unterschätzt den Einfluss der Liebe <marker>zu</marker> einer Person.</example>
             </rule>
         </rulegroup>
 
@@ -1879,10 +1940,10 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
 
-        <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL">
+        <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL.*">
             <rule><!--1 single words that should be ignored by gGEC can be added here-->
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Lieschens?|kleenesche[rn]?|Stratokratien?|Handstreiche?|Buchstabieralphabets?|Zaineisens?|Villmergerkrieg(en?)?|Schwangerenberatung|Oration|Schönstattbewegung|Soteriologie|Ursünden?|Patrozinium|Pontifikalien|Altardiener|papperlapapp|Lemongrass|Sommeliere|Sergey|Spüli|Sträflingskolonien?|Neoromanik|Tonfunkensender(s|n)?|Traktrix|Unärsystem(e|s)?|Heptarchie|Applikaten?|Chaldäer|Seminolenkriege?|Kopialbuch|Daleminzier|Entkulakisierung|Awarenmark|Hammelbeine?|Aaltreppe|Aasinsekt|Aasseite|Abartigkeit|Abartung|Abbedingung|Abdampf(heizung|rohr|schale|turbine|(vor)?wärmer?|rückstand|leitung|verwertung|ung|apparat|austritt)|Abfallsackgebühr|Abfahrtshang|Abendgeselligkeit|Abdachung|Abgeordneten(diäten|hauswahl)|Abgunst|Abitur(aufgabe|aufsatz)|Absolutiva|Abteufung|Abtreppung|Abtrift|Gallseife|Mikwe|Minoriten|Gegröle</token>
+                    <token case_sensitive="yes" regexp="yes">Lieschens?|kleenesche[rn]?|bekifft(e[rsnm]?)?|Stratokratien?|Handstreiche?|Buchstabieralphabets?|Zaineisens?|Villmergerkrieg(en?)?|Schwangerenberatung|Oration|Schönstattbewegung|Soteriologie|Ursünden?|Patrozinium|Pontifikalien|Altardiener|papperlapapp|Lemongrass|Sommeliere|Sergey|Spüli|Sträflingskolonien?|Neoromanik|Tonfunkensender(s|n)?|Traktrix|Unärsystem(e|s)?|Heptarchie|Applikaten?|Chaldäer|Seminolenkriege?|Kopialbuch|Daleminzier|Entkulakisierung|Awarenmark|Hammelbeine?|Aaltreppe|Aasinsekt|Aasseite|Abartigkeit|Abartung|Abbedingung|Abdampf(heizung|rohr|schale|turbine|(vor)?wärmer?|rückstand|leitung|verwertung|ung|apparat|austritt)|Abfallsackgebühr|Abfahrtshang|Abendgeselligkeit|Abdachung|Abgeordneten(diäten|hauswahl)|Abgunst|Abitur(aufgabe|aufsatz)|Absolutiva|Abteufung|Abtreppung|Abtrift|Gallseife|Mikwe|Minoriten|Gegröle|Polyethylenterephthalats?</token>
                 </pattern>
                 <example correction="">Das ist doch <marker>papperlapapp</marker></example>
                 <example correction=""><marker>Lemongrass</marker> ist ein aromatisches Gras, das als traditionelles Gewürz in der asiatischen Küche bekannt ist.</example>
@@ -1965,18 +2026,48 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ADJECTIVE">
-            <rule><!--1-->
+            <rule>
                 <pattern>
                     <token postag="ADJ.*" postag_regexp="yes" regexp="yes">adrett.*</token>
                 </pattern>
                 <example correction="">Sie trug die gleiche <marker>adrette</marker> Jacke.</example>
             </rule>
-            <rule><!--2-->
+            <rule>
                 <pattern>
-                    <token regexp="yes">asbachuralt.*|gelingsicher.*|auskultatorisch.*</token>
+                    <token regexp="yes">asbachuralt.*|gelingsicher.*|auskultatorisch.*|isländisch.+</token>
                 </pattern>
                 <example correction="">Das ist doch echt <marker>asbachuralt</marker>!</example>
                 <example correction="">Ist <marker>gelingsicher</marker>, kann nicht anbrennen, ist immer saftig und zart!!</example>
+                <example correction=""><marker>Isländischen</marker> Medienberichten zufolge ...</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ADJECTIVE_FORM">
+            <rule>
+                <pattern>
+                    <token skip="3">für</token>
+                    <token postag="SUB:AKK.*" postag_regexp="yes"/>
+                    <token inflected="yes">sein</token>
+                    <token>das</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="ADJ:NOM:SIN:NEU.*"/>
+                    </marker>
+                    <token postag="SUB:NOM:SIN:NEU"/>
+                </pattern>
+                <example correction="">Für die italienische Mafia ist das <marker>heiliges</marker> Gebiet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>für</token>
+                    <token skip="3" postag="PRO:PER:AKK.*" postag_regexp="yes"/>
+                    <token inflected="yes">sein</token>
+                    <token>das</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="ADJ:NOM:SIN:NEU.*"/>
+                    </marker>
+                    <token postag="SUB:NOM:SIN:NEU"/>
+                </pattern>
+                <example correction="">Für uns alle hier ist das <marker>heiliges</marker> Gebiet.</example>
             </rule>
         </rulegroup>
 
@@ -1997,6 +2088,31 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">• Als „Trinkgeld“ bezeichnete Zahlungen von 50.000 Euro bzw. 1,3 Mio. Euro an Prokuristen einer GmbH nicht <marker>steuerfrei</marker></example>
+            </rule>
+            <rule>
+                <!-- German example text in the Editor -->
+                <pattern>
+                    <token>Willkommen</token>
+                    <token>im</token>
+                    <marker>
+                        <token postag="SENT_END">Editor</token>
+                    </marker>
+                </pattern>
+                <example correction="">Willkommen im <marker>Editor</marker></example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup name="" id="AI_DE_GGEC_UNNECESSARY_DETERMINER">
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <marker>
+                        <token>den</token>
+                    </marker>
+                    <token regexp="yes">Januar|Jänner|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember</token>
+                    <token inflected="yes">fallen</token>
+                </pattern>
+                <example correction="">Als Grund nannte Volkswagen am Freitag das chinesische Neujahrsfest, das in diesem Jahr in <marker>den</marker> Februar fiel.</example>
             </rule>
         </rulegroup>
 
@@ -2069,12 +2185,13 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_OTHER" name="">
             <rule><!--1-->
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">Korrektur|Hubertusorden|plemplem|Abbitte|Abessiv|Abhitze|Ablativ|Abtestat|obzwar|asbachuralt.*</token>
+                    <token regexp="yes" case_sensitive="yes">lose|Korrektur|Hubertusorden|plemplem|Abbitte|Abessiv|Abhitze|Ablativ|Abtestat|obzwar|asbachuralt.*</token>
                 </pattern>
                 <example correction="">Du bist doch echt <marker>plemplem</marker>!</example>
                 <example correction=""><marker>Abbitte</marker></example>
                 <example correction="">Das ist doch echt <marker>asbachuralt</marker>.</example>
                 <example correction="">Wir lasen das noch schnell <marker>Korrektur</marker>, bevor wir gehen mussten.</example>
+                <example correction="">Der Türbelag ist über der Ambientebeleeuchtung <marker>lose</marker>.</example>
             </rule>
             <rule><!--2-->
                 <pattern>
@@ -2277,6 +2394,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Ich kann in 10 <marker>std.</marker> vorbeikommen.</example>
             </rule>
+            <rule><!--3-->
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token regexp="yes">[a-z][A-Z]{2,6}|[a-z][A-Z]{2,6}\-[A-Z].*</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>mRNA-Impfstoffe</marker> sind wichtig.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_UPPERCASE" name="">
@@ -2304,6 +2430,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Er hat das <marker>Grüne</marker> Trikot an.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">Dunkle[rn]?</token>
+                    </marker>
+                    <token regexp="yes">Materien?|Energien?</token>
+                </pattern>
+                <example correction="">Verbindung zu <marker>Dunkler</marker> Materie.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN_FORM" name="">
@@ -2318,6 +2453,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>Interessenausgleiches</token><!--list can be extended with similar cases-->
                 </pattern>
                 <example correction="">Das Verfahren zur Herbeiführung des <marker>Interessenausgleiches</marker> ist beendet.</example><!--both genitive variants (Interessenausgleich(e)s) are ok-->
+            </rule>
+            <rule><!--colloq. saying-->
+                <pattern>
+                    <token>Butter</token>
+                    <token>bei</token>
+                    <token>die</token>
+                    <marker>
+                        <token>Fische</token>
+                    </marker>
+                </pattern>
+                <example correction="">Jetzt aber mal Butter bei die <marker>Fische</marker>.</example>
             </rule>
         </rulegroup>
 
@@ -2347,7 +2493,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_DETERMINER_FORM" name="">
-            <rule><!--1-->
+            <rule>
                 <pattern>
                     <token inflected="yes">lesen</token>
                     <marker>
@@ -2357,7 +2503,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Ich lese <marker>das</marker> Korrektur.</example>
             </rule>
-            <rule><!--2-->
+            <rule>
                 <pattern>
                     <token>auf</token>
                     <marker>
@@ -2368,7 +2514,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Das hat auch er auf <marker>die</marker> harte Tour gelernt.</example>
             </rule>
-            <rule><!--3-->
+            <rule>
                 <pattern>
                     <token>ob</token>
                     <marker>
@@ -2378,6 +2524,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag_regexp="yes" postag="VER.*3:PLU.*" />
                 </pattern>
                 <example correction="">Er fragte, ob <marker>das</marker> Frauen auch so gerne mögen.</example>
+            </rule>
+            <rule><!--colloq. saying-->
+                <pattern>
+                    <token>Butter</token>
+                    <token>bei</token>
+                    <marker>
+                        <token>die</token>
+                    </marker>
+                    <token>Fische</token>
+                </pattern>
+                <example correction="">Jetzt aber mal Butter bei <marker>die</marker> Fische.</example>
             </rule>
         </rulegroup>
 
@@ -2550,7 +2707,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_COMMA" name="">
-            <rule><!--1-->
+            <rule>
                 <pattern>
                     <token regexp="yes">Gerne?</token>
                     <marker>
@@ -2562,6 +2719,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Gerne<marker>,</marker> würde mich freuen.</example>
                 <!--gGEC wants to remove the comma-->
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_VERB_FORM" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="VER:3:SIN:KJ1:NON"/>
+                    </marker>
+                        <token postag="PRO:PER:NOM:SIN:FEM"/>
+                </pattern>
+                <example correction="">Selten <marker>nehme</marker> sie sich dafür Zeit, sagte sie.</example>
             </rule>
         </rulegroup>
 

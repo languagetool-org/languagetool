@@ -36,7 +36,7 @@ public class SimpleReplaceSoftRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
     SimpleReplaceSoftRule rule = new SimpleReplaceSoftRule(TestTools.getEnglishMessages(), lt.getLanguage());
 
     RuleMatch[] matches;
