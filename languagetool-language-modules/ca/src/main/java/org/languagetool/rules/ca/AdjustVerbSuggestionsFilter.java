@@ -44,7 +44,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
-    /*if (match.getSentence().getText().contains("Ara tocava disfrutar")) {
+    /*if (match.getSentence().getText().contains("Marxar les ganes")) {
       int ii=0;
       ii++;
     }*/
@@ -130,7 +130,10 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
         desiredNumber = "S";
       }
       String action = "removePronounReflexive";
-      if (newLemma.endsWith("-se")) {
+      if (newLemma.endsWith("-se'n")) {
+        newLemma = newLemma.substring(0, newLemma.length() - 5);
+        action = "addPronounReflexiveEn";
+      } else if (newLemma.endsWith("-se")) {
         newLemma = newLemma.substring(0, newLemma.length() - 3);
         action = "addPronounReflexive";
       } else if (newLemma.endsWith("-hi")) {
@@ -216,6 +219,9 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
           break;
         case "removePronounReflexive":
           replacement = doRemovePronounReflexive(firstVerb, pronounsStr, verbStr, !firstVerbInflected);
+          break;
+        case "addPronounReflexiveEn":
+          replacement = doAddPronounReflexiveEn(firstVerb, pronounsStr, verbStr, firstVerbPersonaNumber, !firstVerbInflected);
           break;
         case "replaceEmEn":
           replacement = doReplaceEmEn(firstVerb, pronounsStr, verbStr, !firstVerbInflected);

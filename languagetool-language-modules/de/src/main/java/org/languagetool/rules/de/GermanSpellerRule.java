@@ -281,6 +281,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("näste[mnrs]?$", "^näs", "nächs");
     putRepl("Erdogans?$", "^Erdogan", "Erdoğan");
     put("Germanistiker[ns]", "Germanisten");
+    put("Sodastream", "SodaStream");
+    put("Soda-Stream", "SodaStream");
+    put("Sodastreams", "SodaStreams");
+    put("Soda-Streams", "SodaStreams");
     putRepl("Germanistikerin(nen)?", "Germanistiker", "Germanist");
     putRepl("[iI]ns?z[ie]nie?rung(en)?", "[iI]ns?z[ie]nie?", "Inszenie");
     putRepl("[eE]rhöherung(en)?", "[eE]rhöherung", "Erhöhung");

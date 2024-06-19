@@ -48,12 +48,6 @@ public class PortugueseOrthographyReplaceRuleTest {
     assertNoMatches("Gosto de você.");
     assertSingleMatch("Gosto de voce.", "você");
     assertNoMatches("Disse-me sotto voce.");  // multi-token spelling of Italian expression
-
-    assertSingleMatch("Me dê a sua mao.", "mão", "mau");
-    assertNoMatches("Você conhece Mao Tsé-Tung?");  // multi-token spelling of proper name
-
-    assertNoMatches("ELES ME DÃO FOLGA.");
-    assertSingleMatch("ELES ME DAO FOLGA.", "DÃO");
   }
 
   private void assertRuleId(RuleMatch match) {

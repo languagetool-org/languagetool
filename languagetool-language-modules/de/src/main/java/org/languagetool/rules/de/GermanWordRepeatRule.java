@@ -201,6 +201,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("nicht"),
       token("kommunizieren")
     ),
+    Arrays.asList( // Dee Dee Ramone
+      token("Dee"),
+      tokenRegex("Dees?")
+    ),
     Arrays.asList( // Phi Phi Islands
       token("Phi"),
       token("Phi")

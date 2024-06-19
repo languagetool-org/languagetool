@@ -607,7 +607,7 @@ public class German extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+  public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
     List<RuleMatch> resultMatches = new ArrayList<>();
     RuleMatch previousMatch = null;
     for (int i = 0; i < ruleMatches.size(); i++) {

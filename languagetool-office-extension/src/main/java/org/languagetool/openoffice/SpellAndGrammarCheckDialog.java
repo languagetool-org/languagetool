@@ -575,6 +575,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
       Locale locale = null;
       List<AnalyzedSentence> analyzedSentences = docCache.getAnalyzedParagraph(nPara);
+      if (analyzedSentences == null) {
+        analyzedSentences = docCache.createAnalyzedParagraph(nPara, lt);
+      }
       int pos = 0;
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         AnalyzedTokenReadings[] tokens = analyzedSentence.getTokensWithoutWhitespace();
@@ -767,8 +770,16 @@ public class SpellAndGrammarCheckDialog extends Thread {
                 if (error.nErrorStart >= x) {
                   if (error.nErrorType == TextMarkupType.SPELLCHECK) {
                     String word = text.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength);
-                    if (word.contains(" ") || documents.getLinguisticServices().isCorrectSpell(word, 
-                        document.getFlatParagraphTools().getLanguageOfWord(nFPara, error.nErrorStart, word.length(), locale))) {
+                    if (word.contains(" ")) {
+                      continue;
+                    }
+                    Locale wordLocale;
+                    if (document.getDocumentType() == DocumentType.WRITER) {
+                      wordLocale = document.getFlatParagraphTools().getLanguageOfWord(nFPara, error.nErrorStart, word.length(), locale);
+                    } else {
+                      wordLocale = locale;
+                    }
+                    if (documents.getLinguisticServices().isCorrectSpell(word, wordLocale)) {
                       continue;
                     }
                   }

@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.RemoteRuleConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -89,7 +90,7 @@ public class SwissGerman extends German {
   }
 
   @Override
-  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
+  public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
       //TODO: replace this by supporting remote-rule-filter for language variants
