@@ -608,7 +608,8 @@ public class JLanguageToolTest {
       "Birmingham City Football Club.",
       "Narra, segundo o historiador americano Will Durant, uma das maiores aventuras da história humana.",
       "Duas décadas mais tarde, os Gipsy Kings incorporaram aquilo.",
-      "Valente teve três irmãos, um dos quais, Silvio Francesco, também esteve no show business."
+      "Valente teve três irmãos, um dos quais, Silvio Francesco, também esteve no show business.",
+      "O lema do estado de Nova Hampshire é Livre Free or Die"
     };
     for (String sentence : noErrorSentences) {
       List<RuleMatch> matches = lt.check(sentence);
@@ -621,6 +622,7 @@ public class JLanguageToolTest {
     errorSentences.put("A comunidade do ghetto de Veneza.", "gueto");  // in isolation, it is not tagged with _english_ignore_
     // because "as" is blocked and "Endeavour" is not in the list of 'common' English words, we don't tag with _english_ignore_
     errorSentences.put("Acho que se chamava As Endeavour.", "EndeavourOS");
+    errorSentences.put("Clique settings e veja o que acontece.", "sétimas");  // "settings" is isolated; "clique" is English but specifically blocked
     for (Map.Entry<String, String> entry : errorSentences.entrySet()) {
       List<RuleMatch> matches = lt.check(entry.getKey());
       assert !matches.isEmpty();
