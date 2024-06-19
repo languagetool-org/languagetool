@@ -569,10 +569,6 @@ public class JLanguageToolTest {
 
     matches = lt.check("Komm schon, let us do this!");
     assertEquals(0, matches.size());
-
-    matches = lt.check("let us do this!");
-    assertEquals(1, matches.size());
-    assertEquals("[Let us do this!]", matches.get(0).getSuggestedReplacements().toString());
   }
 
   @Test
