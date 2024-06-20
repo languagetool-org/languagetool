@@ -137,9 +137,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern COMPOUND_END_TYPOS = compile(".*(gruße|schaf(s|en)?)$");
   private static final Pattern INFIX_S_SUFFIXES = compile(".*(heit|ion|ität|keit|ling|ung|schaft|tum)$");
   private static final Pattern WECHSELINFIX = compile("(arbeit|dienstag|donnerstag|freitag|montag|mittwoch|link|recht|samstag|sonntag|verband)s?");
-  private static final Pattern NEEDS_TO_BE_PLURAL = compile("adresse|aktie|antenne|apache|arbeitnehmer(in)?|ärztin|astronom(in)?|autor(in)?|azteke|bakterie|ballade|bauer|billion|bisexuelle|blume|börse|buche|bürg(e|in)|bürokrat(in)?|chrysantheme|dän(e|in)?|debatte|decke|diakon(in)?|domäne|drohne|druid(e|in)?|düne|ehre|eibe|ellipse|emittent(in)?|elfe|elle|enge|erbse|eremit|erde|erste|esche|fabrikant(in)?|falke|fassade|farbe|felge|ferien|figur|fluor|frage|frau|förde|galle|gerät|gezeit|gilde|göttin|halt|heid(e|in)?|herde|historie|hölle|höhle|hose|hund|jesuit|jungfer|kante|kaskade|kathode|katze|kette|kid|klasse|kirche|klaue|klinge|knappe|koeffizient|kojote|komödie|kontrahent|konfirmand(in)?|krake|kralle|kranke|krähe|kraut|krippe|kuriosität|kurve|kusine|küste|laie|laterne|laute|legende|lehne|leise|lerche|leuchte|lippe|loge|lotse|länge|läuse|löwe|lücke|luke|made|maske|maßnahme|matriarchin|menge|mensch|metapher|methode|metropole|miene|miete|million|mineral|miniatur|mitte|maus|monarch(in)?|mormone|mücke|mühle|musikant(in)?|mysterium|nerv|niederlage|nixe|nonne|note|obdachlose|ode|organist|panne|parzelle|pate|patient|patriarch(in)?|petze|pfanne|pfeife|platte|polle|pomade|pomeranze|posse|praktikant(in)?|prise|prominente|prototyp|prälat|puppe|pädophile|rabe|radikale|rakete|rampe|ranke|rate|raupe|rendite|repressalie|rest|riese|rinde|rind|robbe|robe|romanist|rose|ross|route|nummer|runde|röhre|rübe|salbe|schabe|schale|scheide|schelle|schenke|schere|sphäre|dicke|kröte|schlampe|schlange|schluchte|schmiere|schnake|schnalle|schneide|schnelle|schokolade|schotte|schurke|schwabe|schwalbe|schwede|schwule|seele|seide|seite|serie|silbe|sonne|sorge|sorte|spanne|sparte|sperre|spitze|sproße|spule|steppe|straße|streife|studie|stunde|stütze|tabelle|tinte|tote|toilette|torte|traube|treffe|treppe|truhe|träne|tunte|tüte|urne|vene|versicherte|verwandte|virtuose|vorname|waffe|wanne|ware|watte|wehe|welle|wiese|zentrum");
-  private static final Pattern SUBNOMPLUFEM_EXCEPTIONS = compile("aufnahme|kontrolle|melodie|nässe|sprache|suche|theorie|therapie|wiederaufnahme");
-  private static final Pattern INVALID_COMP_PART = compile("kontrolle|norden|osten|perspektive|schule|sprache|suche|süden|westen");
+  private static final Pattern NEEDS_TO_BE_PLURAL = compile("aktie|antenne|apache|arbeitnehmer(in)?|ärztin|astronom(in)?|autor(in)?|azteke|bakterie|ballade|bauer|billion|bisexuelle|blume|börse|buche|bürg(e|in)|bürokrat(in)?|chrysantheme|dän(e|in)?|debatte|decke|diakon(in)?|domäne|drohne|druid(e|in)?|düne|ehre|eibe|ellipse|emittent(in)?|elfe|elle|enge|erbse|eremit|erde|erste|esche|fabrikant(in)?|falke|fassade|farbe|felge|ferien|figur|fluor|frage|frau|förde|galle|gerät|gezeit|gilde|göttin|halt|heid(e|in)?|herde|historie|hölle|höhle|hose|hund|jesuit|jungfer|kante|kaskade|kathode|katze|kette|kid|klasse|kirche|klaue|klinge|knappe|koeffizient|kojote|komödie|kontrahent|konfirmand(in)?|krake|kralle|kranke|krähe|kraut|krippe|kuriosität|kurve|kusine|küste|laie|laterne|laute|legende|lehne|leise|lerche|lippe|loge|lotse|länge|läuse|löwe|lücke|luke|made|maske|maßnahme|matriarchin|menge|mensch|metapher|methode|metropole|miene|miete|million|mitte|maus|monarch(in)?|mormone|mücke|mühle|musikant(in)?|mysterium|nerv|niederlage|nixe|nonne|note|obdachlose|ode|organist|panne|parzelle|pate|patient|patriarch(in)?|petze|pfanne|pfeife|platte|polle|pomade|pomeranze|posse|praktikant(in)?|prise|prominente|prototyp|prälat|puppe|pädophile|rabe|radikale|rakete|rampe|ranke|rate|raupe|rendite|repressalie|rest|riese|rinde|rind|robbe|robe|romanist|rose|ross|route|nummer|runde|röhre|rübe|salbe|schabe|schale|scheide|schelle|schenke|schere|sphäre|dicke|kröte|schlampe|schlange|schluchte|schmiere|schnake|schnalle|schneide|schnelle|schokolade|schotte|schurke|schwabe|schwalbe|schwede|schwule|seele|seide|seite|serie|silbe|sonne|sorge|sorte|spanne|sparte|sperre|spitze|sproße|spule|steppe|straße|streife|studie|stunde|stütze|tabelle|tinte|tote|toilette|torte|traube|treffe|treppe|truhe|träne|tunte|tüte|urne|vene|versicherte|verwandte|virtuose|vorname|waffe|wanne|ware|watte|wehe|welle|wiese|zentrum");
+  private static final Pattern INVALID_COMP_PART = compile("adresse|kontrolle|leuchte|norden|osten|perspektive|schule|sprache|stelle|suche|süden|westen");
   private static final Pattern SUBINF_SINGULAR_OBJECT = compile("putzen|rauchen|sein|spielen");
   private static final Pattern ARBEIT_COMP = compile("(gebe|nehme)(r(s|n|innen|in)?|nde[mnr]?)");
   private static final Pattern LINK_COMP = compile("element|inhalt|liste|portal|text|titel|tracking|verzeichnis");
@@ -150,6 +149,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern VERBAND_COMP = compile("klammer|kasten|kiste|mull|material|päckchen|platz|raum|schere|zeug|zimmer");
   private static final Pattern VERBANDS_COMP = compile("chef(in)?|flug|funktionär(in)?|kasse|klage|leben|leitung|leiter(in)?|ligist(in)|material|päckchen|präsident(in)?|presse|spiel|vertreter(in)|vorsitzender?|vorstand|wechsel|zeichen|zeit(schrift|ung)");
   private static final Pattern WOCHENTAG_COMP = compile("abend|mittag|morgen|nachmittag|vormittag");
+
+  private static final Pattern POTENTIAL_BINNEN_I = compile(".*((?<=(\\w))In).*");
+  private static final Pattern GENDER_NEUTRAL_SPECIAL_CHRS_SIN = compile(".*[\\*:_/]in$");
+  private static final Pattern GENDER_NEUTRAL_SPECIAL_CHRS_PLU = compile(".*[\\*:_/]in.+");
+  private static final Pattern GENDER_NEUTRAL_SLASH_HYPHEN = compile(".*/-in.+");
 
   private static final Pattern WECHSELNUMERUS = compile("wort");
   private static final Pattern WELTEN_COMP = compile("Brand|Bummler(in)?|Drama|Wende");
@@ -2420,19 +2424,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         // e. g. AktienIndex
         return false;
       }
-      if (to_check.matches(".*((?<=(\\w))In).*")) {
+      if (POTENTIAL_BINNEN_I.matcher(to_check).matches()) {
         if (isMisspelled(to_check.replaceFirst("((?<=(\\w))In)", "in"))
             || (!to_check.endsWith("In") && !to_check.endsWith("Innen"))) {
           return false;
         }
       }
-      if (to_check.matches(".*[\\*:_/]in$")) {
+      if (GENDER_NEUTRAL_SPECIAL_CHRS_SIN.matcher(to_check).matches()) {
         if (isMisspelled(to_check.replaceFirst("[\\*:_/]in", "in"))) {
           return false;
         }
         end ++;
       }
-      if (to_check.matches(".*[\\*:_/]in.+")) {
+      if (GENDER_NEUTRAL_SPECIAL_CHRS_PLU.matcher(to_check).matches()) {
         if (end < word.length()) {
           end++;
           to_check = word.substring(start, end);
@@ -2442,7 +2446,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           return false;
         }
       }
-      if (to_check.matches(".*/-in.+")) {
+      if (GENDER_NEUTRAL_SLASH_HYPHEN.matcher(to_check).matches()) {
         if (end + 1 < word.length()) {
           end += 2;
           to_check = word.substring(start, end);
@@ -2783,11 +2787,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean needsToBePlural(String lemma) throws IOException {
     if (NEEDS_TO_BE_PLURAL.matcher(lemma).matches()) {
-      return true;
-    }
-    if (getTagger().tag(singletonList(uppercaseFirstChar(lemma))).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM:SIN:FE"))
-        && lemma.endsWith("e")
-        && !SUBNOMPLUFEM_EXCEPTIONS.matcher(lemma).matches()) {
       return true;
     }
     if (PERSON_SUFFIXES.matcher(lemma).matches()) {

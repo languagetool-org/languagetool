@@ -205,7 +205,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Habitat", asList("Habitat"));
     wordSplitter.addException("Augarten", asList("Augarten"));
     wordSplitter.addException("Auszeit", asList("Auszeit"));
-    wordSplitter.addException("Bewegtbild", asList("Bewegtbild"));
+    wordSplitter.addException("Bewegtbild", asList("Bewegt", "bild"));
     wordSplitter.addException("Bigband", asList("Bigband"));
     wordSplitter.addException("Bisexuelle", asList("Bisexuelle"));
     wordSplitter.addException("Bisexuellen", asList("Bisexuellen"));
