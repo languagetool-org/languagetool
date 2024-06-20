@@ -2419,40 +2419,40 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     for (String part : parts) {
       int end = start + part.length();
 
-      String to_check = word.substring(start, end);
-      if (to_check.startsWith("I") && start > 0) {
+      String toCheck = word.substring(start, end);
+      if (toCheck.startsWith("I") && start > 0) {
         // e. g. AktienIndex
         return false;
       }
-      if (POTENTIAL_BINNEN_I.matcher(to_check).matches()) {
-        if (isMisspelled(to_check.replaceFirst("((?<=(\\w))In)", "in"))
-            || (!to_check.endsWith("In") && !to_check.endsWith("Innen"))) {
+      if (POTENTIAL_BINNEN_I.matcher(toCheck).matches()) {
+        if (isMisspelled(toCheck.replaceFirst("((?<=(\\w))In)", "in"))
+            || (!toCheck.endsWith("In") && !toCheck.endsWith("Innen"))) {
           return false;
         }
       }
-      if (GENDER_NEUTRAL_SPECIAL_CHRS_SIN.matcher(to_check).matches()) {
-        if (isMisspelled(to_check.replaceFirst("[\\*:_/]in", "in"))) {
+      if (GENDER_NEUTRAL_SPECIAL_CHRS_SIN.matcher(toCheck).matches()) {
+        if (isMisspelled(toCheck.replaceFirst("[\\*:_/]in", "in"))) {
           return false;
         }
         end ++;
       }
-      if (GENDER_NEUTRAL_SPECIAL_CHRS_PLU.matcher(to_check).matches()) {
+      if (GENDER_NEUTRAL_SPECIAL_CHRS_PLU.matcher(toCheck).matches()) {
         if (end < word.length()) {
           end++;
-          to_check = word.substring(start, end);
+          toCheck = word.substring(start, end);
         }
-        if (isMisspelled(to_check.replaceFirst("[\\*:_/]in", "in"))
-          || (!to_check.endsWith("in") && !to_check.endsWith("innen"))) {
+        if (isMisspelled(toCheck.replaceFirst("[\\*:_/]in", "in"))
+          || (!toCheck.endsWith("in") && !toCheck.endsWith("innen"))) {
           return false;
         }
       }
-      if (GENDER_NEUTRAL_SLASH_HYPHEN.matcher(to_check).matches()) {
+      if (GENDER_NEUTRAL_SLASH_HYPHEN.matcher(toCheck).matches()) {
         if (end + 1 < word.length()) {
           end += 2;
-          to_check = word.substring(start, end);
+          toCheck = word.substring(start, end);
         }
-        if (isMisspelled(to_check.replaceFirst("/-in", "in"))
-          || (!to_check.endsWith("in") && !to_check.endsWith("innen"))) {
+        if (isMisspelled(toCheck.replaceFirst("/-in", "in"))
+          || (!toCheck.endsWith("in") && !toCheck.endsWith("innen"))) {
           return false;
         }
       }
