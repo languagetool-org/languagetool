@@ -123,6 +123,7 @@ public class OfficeTools {
   public static int DEBUG_MODE_SD = 0;            //  Set Debug Mode for SingleDocument
   public static int DEBUG_MODE_SC = 0;            //  Set Debug Mode for SingleCheck
   public static int DEBUG_MODE_CR = 0;            //  Set Debug Mode for CheckRequest
+  public static boolean DEBUG_MODE_AI = false;    //  Activate Debug Mode for AI support
   public static boolean DEBUG_MODE_CD = false;    //  Activate Debug Mode for SpellAndGrammarCheckDialog
   public static boolean DEBUG_MODE_DC = false;    //  Activate Debug Mode for DocumentCache
   public static boolean DEBUG_MODE_FP = false;    //  Activate Debug Mode for FlatParagraphTools
@@ -422,7 +423,7 @@ public class OfficeTools {
   /**
    *  Get a String from local
    */
-  static String localeToString(Locale locale) {
+  public static String localeToString(Locale locale) {
     if (locale == null) {
       return null;
     }
@@ -847,6 +848,8 @@ public class OfficeTools {
           DEBUG_MODE_SR = true;
         } else if (level.equals("sp")) {
           DEBUG_MODE_SP = true;
+        } else if (level.equals("ai")) {
+          DEBUG_MODE_AI = true;
         } else if (level.startsWith("tm")) {
           String[] levelTm = level.split(":");
           if (levelTm[0].equals("tm")) {

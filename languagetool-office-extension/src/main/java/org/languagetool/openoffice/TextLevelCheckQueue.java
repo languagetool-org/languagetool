@@ -263,7 +263,8 @@ public class TextLevelCheckQueue {
           return MultiDocumentsHandler.getLanguage(locale);
         }
         MessageHandler.printToLogFile("TextLevelCheckQueue: getLanguage: return null: locale = " 
-            + (locale == null ? "null" : OfficeTools.localeToString(locale)));
+            + (locale == null ? "null" : OfficeTools.localeToString(locale))
+            + ", nStart.type = " + nStart.type + ", nStart.number = " + nStart.number);
       }
     }
     if (debugMode) {
@@ -282,9 +283,9 @@ public class TextLevelCheckQueue {
    * initialize languagetool for text level iteration
    */
   public void initLangtool(Language language) throws Throwable {
-//    if (debugMode) {
+    if (debugMode) {
       MessageHandler.printToLogFile("TextLevelCheckQueue: initLangtool: language = " + (language == null ? "null" : language.getShortCodeWithCountryAndVariant()));
-//    }
+    }
     lt = multiDocHandler.initLanguageTool(language, false);
     if (lt != null) {
       multiDocHandler.initCheck(lt);

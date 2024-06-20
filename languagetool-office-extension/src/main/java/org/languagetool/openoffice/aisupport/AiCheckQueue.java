@@ -27,7 +27,10 @@ import org.languagetool.openoffice.OfficeTools;
 import org.languagetool.openoffice.SingleDocument;
 import org.languagetool.openoffice.SwJLanguageTool;
 import org.languagetool.openoffice.TextLevelCheckQueue;
+import org.languagetool.openoffice.ViewCursorTools;
 import org.languagetool.openoffice.DocumentCache;
+import org.languagetool.openoffice.DocumentCursorTools;
+import org.languagetool.openoffice.FlatParagraphTools;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 
@@ -38,7 +41,7 @@ import org.languagetool.openoffice.OfficeTools.DocumentType;
  */
 public class AiCheckQueue extends TextLevelCheckQueue {
 
-  private static boolean debugMode = false;   //  should be false except for testing
+  private boolean debugMode = OfficeTools.DEBUG_MODE_AI;   //  should be false except for testing
 
   public AiCheckQueue(MultiDocumentsHandler multiDocumentsHandler) {
     super(multiDocumentsHandler);
@@ -50,7 +53,7 @@ public class AiCheckQueue extends TextLevelCheckQueue {
    * add it only if the new entry is not identical with the last entry or the running
    */
    public void addQueueEntry(TextParagraph nTPara, String docId, boolean next) {
-     if (nTPara == null || nTPara.number < 0 || docId == null || interruptCheck) {
+     if (nTPara == null || nTPara.type < 0  || nTPara.number < 0 || docId == null || interruptCheck) {
        if (debugMode) {
          MessageHandler.printToLogFile("AiCheckQueue: addQueueEntry: Return without add to queue: nCache = " + OfficeTools.CACHE_AI
              + ", nTPara = " + (nTPara == null ? "null" : ("(" + nTPara.number + "/" + nTPara.type + ")")) + ", docId = " + docId);
@@ -80,10 +83,8 @@ public class AiCheckQueue extends TextLevelCheckQueue {
          textRuleQueue.add(queueEntry);
        }
        if (debugMode) {
-         if (debugMode) {
-           MessageHandler.printToLogFile("AiCheckQueue: addQueueEntry: Entry removed: nCache = " + OfficeTools.CACHE_AI
-               + ", nTPara = (" + nTPara.number + "/" + nTPara.type + "), docId = " + docId);
-         }
+         MessageHandler.printToLogFile("AiCheckQueue: addQueueEntry: Entry added: nCache = " + OfficeTools.CACHE_AI
+             + ", nTPara = (" + nTPara.number + "/" + nTPara.type + "), docId = " + docId);
        }
      }
      interruptCheck = false;
@@ -125,20 +126,43 @@ public class AiCheckQueue extends TextLevelCheckQueue {
     }
     return null;
   }
-   
+  
+  /**
+   *  get language of document by ID
+   *//*
+  @Override
+  protected Language getLanguage(String docId, TextParagraph nStart) {
+    Language lang = super.getLanguage(docId, nStart);
+    while (lang == null) {
+      try {
+        Thread.sleep(50);
+      } catch (InterruptedException e) {
+        lang = lastLanguage;
+        MessageHandler.printException(e);
+      }
+    }
+    return lang;
+  }
+*/   
   /**
    *  run a queue entry for the specific document
    */
   @Override
   protected void runQueueEntry(QueueEntry qEntry, MultiDocumentsHandler multiDocHandler, SwJLanguageTool lt) throws Throwable {
-    MessageHandler.printToLogFile("Try to run AI Queue Entry for " + qEntry.nStart.number);
+    if (debugMode) {
+      MessageHandler.printToLogFile("Try to run AI Queue Entry for " + qEntry.nStart.number);
+    }
     SingleDocument document = getSingleDocument(qEntry.docId);
     TextParagraph nTPara = qEntry.nStart;
     if (document != null && !document.isDisposed() && nTPara != null) {
       DocumentCache docCache = document.getDocumentCache();
       if (docCache != null) {
         int nFPara = docCache.getFlatParagraphNumber(nTPara);
-        MessageHandler.printToLogFile("Run AI Queue Entry for " + qEntry.nStart.number);
+//        if (debugMode) {
+          MessageHandler.printToLogFile("Run AI Queue Entry for " 
+              + ", nTPara = (" + nTPara.number + "/" + nTPara.type + "), docId = " + qEntry.docId
+              + ", nFPara = " + nFPara);
+//        }
         AiErrorDetection aiError = new AiErrorDetection(document, multiDocHandler.getConfiguration(), lt);
         aiError.addAiRuleMatchesForParagraph(nFPara);
       }

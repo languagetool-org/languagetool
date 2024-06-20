@@ -30,12 +30,14 @@ public class AiToken {
   final AnalyzedSentence sentence;
   final int startPos;
   final int endPos;
+  final boolean isNonWord;
   
-  AiToken(String token, int startPos, AnalyzedSentence sentence) {
+  AiToken(String token, int startPos, AnalyzedSentence sentence, boolean isNonWord) {
     this.sentence = sentence;
     this.token = token;
     this.startPos = startPos;
     this.endPos = startPos + token.length();
+    this.isNonWord = isNonWord;
   }
 
 }

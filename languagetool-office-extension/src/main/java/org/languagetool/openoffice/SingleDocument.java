@@ -938,7 +938,7 @@ public class SingleDocument {
     if (!disposed && docCache != null) {
       int nFPara = nPara == null ? 0 : docCache.getFlatParagraphNumber(nPara);
       for (int i = nFPara; i < docCache.size(); i++) {
-        if (docCache.isFinished() && paragraphsCache.get(OfficeTools.CACHE_AI).getCacheEntry(i) == null) {
+        if (docCache.isFinished() && i >= 0 && paragraphsCache.get(OfficeTools.CACHE_AI).getCacheEntry(i) == null) {
           return createAiQueueEntry(i);
         }
       }

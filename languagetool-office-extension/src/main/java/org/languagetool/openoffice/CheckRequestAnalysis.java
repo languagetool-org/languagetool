@@ -832,6 +832,7 @@ class CheckRequestAnalysis {
       }
   //    boolean checkOnlyPara = (docCache.getFlatParagraph(nPara).isEmpty() ? false : true);
       docCache.setFlatParagraph(nPara, chPara, locale);
+      MessageHandler.printToLogFile("setFlatParagraph: " + nPara + ", locale: " + OfficeTools.localeToString(locale));
       docCache.setFlatParagraphFootnotes(nPara, footnotePos);
       docCache.setFlatParagraphDeletedCharacters(nPara, deletedChars);
   //    mDocHandler.handleLtDictionary(chPara, locale);

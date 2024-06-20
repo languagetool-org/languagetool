@@ -75,7 +75,7 @@ public class AiRemote {
   private static String lastLang = null;
   
   boolean debugModeTm = true;
-  boolean debugMode = true;
+  boolean debugMode = OfficeTools.DEBUG_MODE_AI;
   
   private final String apiKey;
   private final String model;
@@ -123,16 +123,20 @@ public class AiRemote {
     }
     text = text.trim();
     if (text.isEmpty()) {
+      MessageHandler.printToLogFile("AiRemote: runInstruction: text is empty");
       return text;
     }
     instruction = instruction.trim();
     if (instruction.isEmpty()) {
+      MessageHandler.printToLogFile("AiRemote: runInstruction: instruction is empty");
       return text;
     }
     long startTime = 0;
     if (debugModeTm) {
       startTime = System.currentTimeMillis();
-      MessageHandler.printToLogFile("Ask AI started! URL: " + url);
+    }
+    if (debugMode) {
+      MessageHandler.printToLogFile("AiRemote: runInstruction: Ask AI started! URL: " + url);
     }
     String langName = getLanguageName(locale);
     String org = text;
@@ -172,7 +176,7 @@ public class AiRemote {
       throw new RuntimeException(e);
     }
     if (debugMode) {
-      MessageHandler.printToLogFile("AiRemote: answerQuestion: postData: " + urlParameters);
+      MessageHandler.printToLogFile("AiRemote: runInstruction: postData: " + urlParameters);
     }
     HttpURLConnection conn = getConnection(postData, checkUrl);
     try {
@@ -186,7 +190,7 @@ public class AiRemote {
           out = filterOutput (out, org, instruction, onlyOneParagraph);
           if (debugModeTm) {
             long runTime = System.currentTimeMillis() - startTime;
-            MessageHandler.printToLogFile("Time to generate Answer: " + runTime);
+            MessageHandler.printToLogFile("AiRemote: runInstruction: Time to generate Answer: " + runTime);
           }
           return out;
         }
@@ -218,10 +222,14 @@ public class AiRemote {
     out = removeSurroundingBrackets(out, org);
     out = out.replace("\n", "\r").replace("\r\r", "\r").replace("\\\"", "\"").trim();
     if (onlyOneParagraph) {
-      String[] parts = out.split("\r");
-      out = parts[0].trim();
-      out = removeSurroundingBrackets(out, org);
       String[] inst = instruction.split("[-.:!?]");
+      String[] parts = out.split("\r");
+      if (parts.length > 1 &&  parts[0].trim().startsWith(inst[0].trim())) {
+        out = parts[1].trim();
+      } else {
+        out = parts[0].trim();
+      }
+      out = removeSurroundingBrackets(out, org);
       if (out.contains(":") && (!org.contains(":") || out.trim().startsWith(inst[0].trim()))) {
         parts = out.split(":");
         if (parts.length > 1) {
@@ -315,7 +323,7 @@ public class AiRemote {
     if (locale == null || locale.Language == null || locale.Language.isEmpty()) {
       locale = new Locale("en", "US", "");
     }
-    MessageHandler.printToLogFile("Get instruction for mess: " + mess + ", locale.Language: " + locale.Language);
+//    MessageHandler.printToLogFile("Get instruction for mess: " + mess + ", locale.Language: " + locale.Language);
     setCommands(locale);
     String instruction = commands.get(mess);
     if (instruction == null) {
@@ -381,7 +389,7 @@ public class AiRemote {
   
   private static void setCommands(Locale locale) {
     if (lastLang != null && lastLang.equals(locale.Language)) {
-      MessageHandler.printToLogFile("Last language: " + lastLang + ", locale.Language: " + locale.Language);
+//      MessageHandler.printToLogFile("Last language: " + lastLang + ", locale.Language: " + locale.Language);
       return;
     }
     lastLang = new String(locale.Language);
@@ -405,10 +413,10 @@ public class AiRemote {
       in = new BufferedReader(new InputStreamReader(input));
       String row = null;
       while ((row = in.readLine()) != null) {
-        MessageHandler.printToLogFile("read row: " + row);
+//        MessageHandler.printToLogFile("read row: " + row);
         String splitted[] = row.split("=");
         if (splitted.length == 2) {
-          MessageHandler.printToLogFile("add key: " + splitted[0] + ", command: " + splitted[1]);
+//          MessageHandler.printToLogFile("add key: " + splitted[0] + ", command: " + splitted[1]);
           commands.put(splitted[0].trim(), splitted[1].trim());
         }
       }

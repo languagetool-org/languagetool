@@ -27,6 +27,7 @@ import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.DocumentCache;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.MessageHandler;
+import org.languagetool.openoffice.OfficeTools;
 import org.languagetool.openoffice.MultiDocumentsHandler.WaitDialogThread;
 import org.languagetool.openoffice.SingleDocument;
 import org.languagetool.openoffice.ViewCursorTools;
@@ -64,6 +65,9 @@ public class AiParagraphChanging extends Thread {
   private final static String EXPAND_COMMAND = "Erweitere den Text";
 */
   private static final ResourceBundle messages = JLanguageTool.getMessageBundle();
+
+  private boolean debugMode = OfficeTools.DEBUG_MODE_AI;   //  should be false except for testing
+
   private final static String WAIT_TITLE = messages.getString("loAiWaitDialogTitle");
   private final static String WAIT_MESSAGE = messages.getString("loAiWaitDialogMessage");
 
@@ -86,7 +90,9 @@ public class AiParagraphChanging extends Thread {
   
   private void runAiChangeOnParagraph() {
     try {
-      MessageHandler.printToLogFile("AiParagraphChanging: runAiChangeOnParagraph: commandId: " + commandId);
+      if (debugMode) {
+        MessageHandler.printToLogFile("AiParagraphChanging: runAiChangeOnParagraph: commandId: " + commandId);
+      }
       XComponent xComponent = document.getXComponent();
       ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
       TextParagraph tPara = viewCursor.getViewCursorParagraph();
@@ -120,9 +126,13 @@ public class AiParagraphChanging extends Thread {
       waitDialog = new WaitDialogThread(WAIT_TITLE, WAIT_MESSAGE);
       waitDialog.start();
       AiRemote aiRemote = new AiRemote(config);
-      MessageHandler.printToLogFile("AiParagraphChanging: runInstruction: instruction: " + instruction + ", text: " + text);
+      if (debugMode) {
+        MessageHandler.printToLogFile("AiParagraphChanging: runInstruction: instruction: " + instruction + ", text: " + text);
+      }
       String output = aiRemote.runInstruction(instruction, text, locale, onlyPara);
-      MessageHandler.printToLogFile("AiParagraphChanging: runAiChangeOnParagraph: output: " + output);
+      if (debugMode) {
+        MessageHandler.printToLogFile("AiParagraphChanging: runAiChangeOnParagraph: output: " + output);
+      }
       if (output != null) {
         insertText(output, xComponent, true);
       }

@@ -47,14 +47,15 @@ import com.sun.star.linguistic2.SingleProofreadingError;
  */
 public class AiErrorDetection {
   
-  boolean debugMode = true;
+  boolean debugModeTm = true;
+  boolean debugMode = OfficeTools.DEBUG_MODE_AI;
   
   private static final ResourceBundle messages = JLanguageTool.getMessageBundle();
   private final SingleDocument document;
   private final DocumentCache docCache;
   private final Configuration config;
   private final SwJLanguageTool lt;
-  private final int minParaLength = (int) (AiRemote.CORRECT_INSTRUCTION.length() * 1.2);
+//  private final int minParaLength = (int) (AiRemote.CORRECT_INSTRUCTION.length() * 1.2);
   private static String lastLanguage = null;
   private static String correctCommand = null;
   
@@ -86,7 +87,10 @@ public class AiErrorDetection {
       String paraText = docCache.getFlatParagraph(nFPara);
       int[] footnotePos = docCache.getFlatParagraphFootnotes(nFPara);
       List<Integer> deletedChars = docCache.getFlatParagraphDeletedCharacters(nFPara);
-      if (paraText.length() < minParaLength) {
+      if (paraText == null || paraText.trim().isEmpty()) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("AiErrorDetection: addAiRuleMatchesForParagraph: nFPara " + nFPara + " is empty: return");
+        }
         addMatchesByAiRule(nFPara, null, footnotePos, deletedChars);
         return;
       }
@@ -150,10 +154,12 @@ public class AiErrorDetection {
     }
     if (analyzedSentences == null) {
       analyzedSentences = docCache.createAnalyzedParagraph(nFPara, lt);
-      if (debugMode) {
-        MessageHandler.printToLogFile("AiErrorDetection: getAiRuleMatchesForParagraph: analyzedSentences == null");
+      if (analyzedSentences == null) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("AiErrorDetection: getAiRuleMatchesForParagraph: analyzedSentences == null");
+        }
+        return null;
       }
-      return null;
     }
     return getMatchesByAiRule(nFPara, paraText, analyzedSentences, locale, footnotePos, deletedChars);
   }
@@ -167,10 +173,25 @@ public class AiErrorDetection {
       }
       return null;
     }
+    if (debugMode) {
+      MessageHandler.printToLogFile("\nAiErrorDetection: getMatchesByAiRule: result: " + result + "\n");
+    }
+    long startTime = 0;
+    if (debugModeTm) {
+      startTime = System.currentTimeMillis();
+    }
     List<AnalyzedSentence> analyzedAiResult =  lt.analyzeText(result.replace("\u00AD", ""));
     AiDetectionRule aiRule = new AiDetectionRule(result, paraText, analyzedAiResult, 
         document.getMultiDocumentsHandler().getLinguisticServices(), locale , messages, config.aiShowStylisticChanges());
-    return aiRule.match(analyzedSentences);
+    RuleMatch[] matches = aiRule.match(analyzedSentences);
+    if (debugModeTm) {
+      long runTime = System.currentTimeMillis() - startTime;
+      MessageHandler.printToLogFile("AiErrorDetection: getMatchesByAiRule: Time to run AI detection rule: " + runTime);
+    }
+    if (debugMode) {
+      MessageHandler.printToLogFile("AiErrorDetection: getMatchesByAiRule: matches: " + matches.length);
+    }
+    return matches;
   }
     
   private void addMatchesByAiRule(int nFPara, RuleMatch[] ruleMatches,
