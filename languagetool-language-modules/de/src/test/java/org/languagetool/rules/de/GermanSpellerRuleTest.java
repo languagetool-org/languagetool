@@ -315,6 +315,7 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.ignorePotentiallyMisspelledWord("Grünschloss")); // new spelling
     assertFalse(rule.ignorePotentiallyMisspelledWord("Bewußtseinswandels")); // old spelling
     assertTrue(rule.ignorePotentiallyMisspelledWord("Bewusstseinswandels")); // new spelling
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Meerweine"));
     //
   }
 
