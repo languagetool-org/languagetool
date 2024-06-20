@@ -666,6 +666,10 @@ public class English extends Language implements AutoCloseable {
     if (id.equals("QB_EN_OXFORD")) {
       return -51; // MISSING_COMMA_AFTER_YEAR
     }
+    if (id.startsWith("EN_SIMPLE_REPLACE") &&
+      (id.endsWith("GRAMME") || id.endsWith("GRAMMES"))) {
+      return -49; // Higher prio than Oxford rule
+    }
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
       if (id.equals("AI_HYDRA_LEO_MISSING_COMMA")) {
         return -51; // prefer comma style rules.
@@ -740,6 +744,10 @@ public class English extends Language implements AutoCloseable {
         }
       }
       RuleMatch newMatch = new RuleMatch(rm, newReplacements);
+      if (newMatch.getSpecificRuleId().startsWith("EN_SIMPLE_REPLACE") &&
+        (newMatch.getSpecificRuleId().endsWith("GRAMME") || newMatch.getSpecificRuleId().endsWith("GRAMMES"))) {
+        newMatch.getRule().setLocQualityIssueType(ITSIssueType.Style);
+      }
       newRuleMatches.add(newMatch);
     }
     return newRuleMatches;
