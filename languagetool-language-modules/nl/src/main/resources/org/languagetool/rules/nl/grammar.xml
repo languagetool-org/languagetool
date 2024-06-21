@@ -288,7 +288,7 @@ regexp case-insensitive maken: (?i)
 				<example>Is het angst dat je voelt?</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="HET_RESULTATEN" name="Het(De) resultaten" default="temp_off">
+		<rulegroup id="HET_RESULTATEN" name="Het(De) resultaten">
 			<rule>
 				<antipattern>
 					<token>het</token>
@@ -296,10 +296,18 @@ regexp case-insensitive maken: (?i)
 					<example>Het Macromedia Flash-SWF-bestandsformaat.</example>
 				</antipattern>
 				<antipattern>
+				    <!-- let another rule pick this up -->
 					<token>het</token>
 					<token postag="ZNW:MRV:DE_"/>
 					<token postag="ZNW:EKV:HET"/>
 					<example>Het vrouwen tennis deed het goed.</example>
+				</antipattern>
+				<antipattern>
+				    <token>het</token>
+				    <token postag="ZNW:MRV:DE_"/>
+				    <token spacebefore="no">/</token>
+				    <token spacebefore="no" postag_regexp="yes" postag="ZNW.*"/>
+				    <example>Het gaming/cosplayevenement.</example>
 				</antipattern>
 				<pattern>
 					<token postag="SENT_START"/>
@@ -307,9 +315,24 @@ regexp case-insensitive maken: (?i)
 						<token>het</token>
 						<token postag="ZNW:MRV:DE_"><exception negate_pos="yes" postag="ZNW:MRV:DE_"/></token>
 					</marker>
+					<token><exception>en</exception></token>
 				</pattern>
 				<message>Bedoelt u soms <suggestion>De \3</suggestion>?</message>
 				<example correction="De resultaten"><marker>Het resultaten</marker> waren niet goed.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup>
+			<rule id="VAAN_VAN" name="Een taakstraf vaan(van) zeshonderd uur." default="temp_off">
+				<pattern>
+					<token>een</token>
+					<token postag_regexp="yes" postag="ZNW:EKV.*"></token>
+					<marker>
+						<token>vaan</token>
+					</marker>
+					<token><exception postag_regexp="yes" postag="VRZ|VGW"/></token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>van</suggestion>.</message>
+				<example correction="van">Een taakstraf <marker>vaan</marker> zeshonderd uur.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="DEF_ART_PLUS_NOUN" name="de/het congruentie" default="off">
