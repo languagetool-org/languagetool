@@ -609,11 +609,19 @@ public class JLanguageToolTest {
       "Narra, segundo o historiador americano Will Durant, uma das maiores aventuras da história humana.",
       "Duas décadas mais tarde, os Gipsy Kings incorporaram aquilo.",
       "Valente teve três irmãos, um dos quais, Silvio Francesco, também esteve no show business.",
-      "O lema do estado de Nova Hampshire é Livre Free or Die"
+      "O lema do estado de Nova Hampshire é Livre Free or Die",
+      // English-language toponyms that may not be in the PT speller, but we can verify that they're valid
+      // based on proximity with state/province/county names.
+      // Note that this does not fact-check whether the toponym actually belongs in the state/province/whatever :p
+      "Aconteceu na cidade de Victor Harbor, Austrália Meridional.",  // just comma, and PT name of state
+      "Aconteceu no distrito de Tamworth, no condado de Staffordshire.",  // "no condado de"
+      "A pequena cidade de Bethany Beach, em Delaware.",  // "em"
+      "O vilarejo de Goose Bay, na província de Terra Nova e Labrador.",  // "na província de"
+      "Morava, na época, em Keene, estado de Nova Hampshire.",  // "estado de"
     };
     for (String sentence : noErrorSentences) {
       List<RuleMatch> matches = lt.check(sentence);
-      assert matches.isEmpty();
+      assert matches.isEmpty() : "Unexpected match in: " + sentence;
     }
     HashMap<String, String> errorSentences = new HashMap<>();
     errorSentences.put("Foi uma melhora substantial.", "substancial");  // single word
