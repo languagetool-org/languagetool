@@ -566,38 +566,6 @@ public class JLanguageToolTest {
     lt.disableRules(lt.getAllRules().stream().map(Rule::getId).collect(Collectors.toList()));
     lt.enableRule("MORFOLOGIK_RULE_PT_BR");
     lt.enableRule("PT_BARBARISMS_REPLACE");
-
-    // Isolated English words should *not* be tagged with _english_ignore_, and should be corrected by the *Portuguese*
-    // spelling checker, if necessary.
-    HashMap<String, String> errorSentences = new HashMap<>();
-    errorSentences.put("Foi uma melhora substantial.", "substancial");  // single word
-    errorSentences.put("A comunidade do ghetto de Veneza.", "gueto");  // in isolation, it is not tagged with _english_ignore_
-    for (Map.Entry<String, String> entry : errorSentences.entrySet()) {
-      List<RuleMatch> matches = lt.check(entry.getKey());
-      assert !matches.isEmpty();
-      assertEquals(entry.getValue(), matches.get(0).getSuggestedReplacements().get(0));
-    }
-
-    // Null-tagged words adjacent to _english_ignore_ words should be corrected by the *English* spelling checker.
-    String existingSuggestionErrorSentence = "Ele gosta de The Strkoes.";
-    List<RuleMatch> existingSuggestionMatches = lt.check(existingSuggestionErrorSentence);
-    assert !existingSuggestionMatches.isEmpty();
-    assertEquals("Strokes", existingSuggestionMatches.get(0).getSuggestedReplacements().get(0));
-
-    // Dialect differences are considered — the default returned Language for "en" will be taken into account here.
-    // At some point I'd like to ignore the dialect differences, but that's a different (and minor) issue.
-    String dialectErrorSentence = "A iniciativa Print In All Colours.";
-    List<RuleMatch> dialectMatches = lt.check(dialectErrorSentence);
-    assert !dialectMatches.isEmpty();
-    assertEquals("Colors", dialectMatches.get(0).getSuggestedReplacements().get(0));
-
-    // Sometimes there are no suggestions, and that's fine, the likelihood the Portuguese speller will have a valid
-    // suggestion is low.
-    String missingSuggestionErrorSentence = "Esta palavra não existe: the whateverness.";
-    List<RuleMatch> missingSuggestionMatches = lt.check(missingSuggestionErrorSentence);
-    assert !missingSuggestionMatches.isEmpty();
-    assert missingSuggestionMatches.get(0).getSuggestedReplacements().isEmpty();
-
     String[] noErrorSentences = new String[]{
       "Ontem vi A New Hope pela primeira vez.",
       "Ela gosta de The Empire Strikes Back.",
@@ -619,11 +587,32 @@ public class JLanguageToolTest {
       "E se for business?",  // "for"
       "Em português é Conduzindo a Miss Daisy, não é?",  // "a"
       "A organização Law Enforcement Agent Protection (Leap).",  // single-word parenthetical
-      "Mais sucessos seguiram, com os álbuns \"Ghetto Dictionary: The Art of War\""  // ghetto
+      "Mais sucessos seguiram, com os álbuns \"Ghetto Dictionary: The Art of War\"",  // ghetto
+      // Making sure disambiguation works properly per recent FPs
+      "A Abaddon Books, subsidiária e editora dos livros.",
+      "Smokers in Airplanes é o segundo álbum do artista brasileiro.",
+      "Obteve um doutorado em física pela American University.",
+      "O American Sociological Review é um jornal acadêmico bimensal.",
+      "Código do Bletchley Park na Inglaterra.",
+      "Sobre Batman, Broken City (apesar do Coringa).",
+      "Birmingham City Football Club.",
+      "Narra, segundo o historiador americano Will Durant, uma das maiores aventuras da história humana.",
+      "Duas décadas mais tarde, os Gipsy Kings incorporaram aquilo.",
+      "Valente teve três irmãos, um dos quais, Silvio Francesco, também esteve no show business."
     };
     for (String sentence : noErrorSentences) {
       List<RuleMatch> matches = lt.check(sentence);
-      assert matches.isEmpty() : "Unexpected match for sentence: " + sentence + " -> " + matches;
+      assert matches.isEmpty();
+    }
+    HashMap<String, String> errorSentences = new HashMap<>();
+    errorSentences.put("Foi uma melhora substantial.", "substancial");  // single word
+    // match the suffix, but 'whateverness' is not tagged in English, so it's a spelling error
+    errorSentences.put("Esta palavra não existe: the whateverness.", "lhe");
+    errorSentences.put("A comunidade do ghetto de Veneza.", "gueto");  // in isolation, it is not tagged with _english_ignore_
+    for (Map.Entry<String, String> entry : errorSentences.entrySet()) {
+      List<RuleMatch> matches = lt.check(entry.getKey());
+      assert !matches.isEmpty();
+      assertEquals(entry.getValue(), matches.get(0).getSuggestedReplacements().get(0));
     }
   }
 

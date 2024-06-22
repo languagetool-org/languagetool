@@ -264,7 +264,7 @@ public abstract class AbstractPatternRule extends Rule {
     suggestionMatchesOutMsg.add(m);
   }
   
-  List<Match> getSuggestionMatches() {
+  public List<Match> getSuggestionMatches() {
     return suggestionMatches == null ? Collections.emptyList() : suggestionMatches;
   }
 

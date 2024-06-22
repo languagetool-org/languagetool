@@ -106,6 +106,10 @@ public class JLanguageToolTest {
     assertEquals(1, matches.size());
     assertEquals( "conéixer", matches.get(0).getSuggestedReplacements().get(0));
 
+    matches = tool.check("Durant l\u0092estiu.");
+    assertEquals(1, matches.size());
+    assertEquals( "l'estiu", matches.get(0).getSuggestedReplacements().get(0));
+
   }
   
   @Test

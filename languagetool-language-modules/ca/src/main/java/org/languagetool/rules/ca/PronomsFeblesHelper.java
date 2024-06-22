@@ -157,23 +157,23 @@ public class PronomsFeblesHelper {
 
   private static Map<String, String> addEn = new HashMap<>();
   static {
-    addEn.put("em", "me'n");
-    addEn.put("et", "te'n");
-    addEn.put("es", "se'n");
-    addEn.put("se", "se'n");
-    addEn.put("ens", "ens en");
-    addEn.put("us", "us en");
-    addEn.put("li", "li'n");
-    addEn.put("els", "els en");
-    addEn.put("se'm", "se me'n");
-    addEn.put("se't", "se te'n");
-    addEn.put("se li", "se li'n");
-    addEn.put("se'ns", "se'ns en");
-    addEn.put("se us", "se us en");
-    addEn.put("se vos", "se vos en");
-    addEn.put("se'ls", "se'ls en");
-    addEn.put("hi", "n'hi");
-    addEn.put("", "en");
+    addEn.put("em", "me'n ");
+    addEn.put("et", "te'n ");
+    addEn.put("es", "se'n ");
+    addEn.put("se", "se'n ");
+    addEn.put("ens", "ens en ");
+    addEn.put("us", "us en ");
+    addEn.put("li", "li'n ");
+    addEn.put("els", "els en ");
+    addEn.put("se'm", "se me'n ");
+    addEn.put("se't", "se te'n ");
+    addEn.put("se li", "se li'n ");
+    addEn.put("se'ns", "se'ns en ");
+    addEn.put("se us", "se us en ");
+    addEn.put("se vos", "se vos en ");
+    addEn.put("se'ls", "se'ls en ");
+    addEn.put("hi", "n'hi ");
+    addEn.put("", "en ");
   }
 
   private static Map<String, String> addHi = new HashMap<>();
@@ -265,6 +265,37 @@ public class PronomsFeblesHelper {
     addReflexiveImperative.put("3P", "-se");
   }
 
+  private static Map<String, String> addEsEn = new HashMap<>();
+  static {
+    addEsEn.put("m'", "se me'n ");
+    addEsEn.put("em", "se me'n ");
+    addEsEn.put("me", "se me'n ");
+    addEsEn.put("t'", "se te'n ");
+    addEsEn.put("et", "se te'n ");
+    addEsEn.put("te", "se te'n ");
+    addEsEn.put("li", "se li'n ");
+    addEsEn.put("ens", "se'ns en ");
+    addEsEn.put("us", "se us en ");
+    addEsEn.put("vos", "se vos en ");
+    addEsEn.put("els", "se'ls en ");
+  }
+
+  private static Map<String, String> addEsEnApostrophe = new HashMap<>();
+  static {
+    addEsEnApostrophe.put("m'", "se me n'");
+    addEsEnApostrophe.put("em", "se me n'");
+    addEsEnApostrophe.put("me", "se me n'");
+    addEsEnApostrophe.put("t'", "se te n'");
+    addEsEnApostrophe.put("et", "se te n'");
+    addEsEnApostrophe.put("te", "se te n'");
+    addEsEnApostrophe.put("li", "se li n'");
+    addEsEnApostrophe.put("ens", "se'ns n'");
+    addEsEnApostrophe.put("us", "se us n'");
+    addEsEnApostrophe.put("vos", "se vos n'");
+    addEsEnApostrophe.put("els", "se'ls n'");
+  }
+
+
   PronomsFeblesHelper() {
   }
 
@@ -333,7 +364,7 @@ public class PronomsFeblesHelper {
       transform = addEnApostrophe;
     } else {
       transform = addEn;
-      between = " ";
+      //between = " ";
     }
     String pronounsReplacement = transform.get(pronounsStr.toLowerCase());
     if (pronounsReplacement != null) {
@@ -372,6 +403,7 @@ public class PronomsFeblesHelper {
     return replacement;
   }
 
+
   private static Pattern containsReflexivePronoun = Pattern.compile(".*([mts][e']|[e'][mts]|vos|us|ens).*");
 
   public static String doAddPronounReflexive(String firstVerb, String pronounsStr, String verbStr,
@@ -381,7 +413,7 @@ public class PronomsFeblesHelper {
       if (containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()) {
         return verbStr + pronounsStr;
       }
-      return transformDarrere(verbStr, "-se");
+      return verbStr + transformDarrere("-se", verbStr);
     }
     String pronounToAdd = "";
     if (pronounsStr.isEmpty()) {
@@ -397,6 +429,43 @@ public class PronomsFeblesHelper {
       //TODO: add reflexive pronoun to another pronoun
       // containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()
       replacement = (pronounsStr + " " + verbStr).trim().replaceAll("' ", "'");
+    }
+    return replacement;
+  }
+
+  public static String doAddPronounReflexiveEn(String firstVerb, String pronounsStr, String verbStr,
+                                             String firstVerbPersonaNumber, boolean pronounsAfter) {
+    String replacement = "";
+    if (pronounsAfter) {
+      if (containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()) {
+        return verbStr + transformDarrere(pronounsStr + "'n", verbStr); // no sempre correcte
+      }
+      return verbStr + transformDarrere("-se'n", verbStr);
+    }
+    String pronounToAdd = "";
+    boolean needsApostrophe = pApostropheNeeded.matcher(verbStr).matches();
+    if (pronounsStr.isEmpty()) {
+      if (needsApostrophe) {
+        pronounToAdd = addEnApostrophe.get(addReflexiveVowel.get(firstVerbPersonaNumber).trim());
+      } else {
+        pronounToAdd = addEn.get(addReflexiveConsonant.get(firstVerbPersonaNumber).trim());
+      }
+      if (pronounToAdd != null) {
+        replacement = (pronounToAdd + verbStr).trim().replaceAll("' ", "'");
+      }
+    } else {
+      if (needsApostrophe) {
+        pronounToAdd = addEsEnApostrophe.get(pronounsStr);
+      } else {
+        pronounToAdd = addEsEn.get(pronounsStr);
+      }
+      if (pronounToAdd != null) {
+        replacement = (pronounToAdd + verbStr).trim().replaceAll("' ", "'");
+      } else {
+        replacement = (pronounsStr + " " + verbStr).trim().replaceAll("' ", "'");
+      }
+      //TODO: add reflexive pronoun to another pronoun
+      // containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()
     }
     return replacement;
   }
