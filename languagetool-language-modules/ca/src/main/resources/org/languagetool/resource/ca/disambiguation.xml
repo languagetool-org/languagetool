@@ -5076,6 +5076,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"/>
     </rule>
+    <rule id="portar_fent" name="portar fent">
+        <pattern>
+            <token>en</token>
+            <marker>
+                <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">portar|dur</token>
+            </marker>
+            <token postag="V.G.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="N.*"/>
+    </rule>
     <rule id="vares" name="vares + infinitiu">
         <pattern>
             <token postag="VA.*" postag_regexp="yes" inflected="yes">anar</token>
@@ -15332,6 +15342,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <!-- "en contacte" és verb o nom?  -->
     <rulegroup id="EN_VerbNom" name="verb/nom darrere de preposició en">
+        <antipattern>
+            <token>duc</token>
+            <token postag="V.G.*" postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <antipattern>
                 <token>no</token>
