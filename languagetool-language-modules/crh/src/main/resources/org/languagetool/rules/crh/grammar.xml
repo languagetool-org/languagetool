@@ -66,7 +66,7 @@ USA
           <example correction="Тереклер"><marker>Тереклар</marker> корьдим.</example>
         </rule>
       </rulegroup>
-      <rulegroup id="MIDDLE_VOWEL_EXCLUSIOON" name="Orta sozuq sesiniñ tüşmesi">
+      <rulegroup id="MIDDLE_VOWEL_EXCLUSION" name="Orta sozuq sesiniñ tüşmesi">
         <rule> 
           <pattern>
             <token regexp="yes">ağızı.*</token>
@@ -219,6 +219,71 @@ USA
           </pattern>
           <message>İsimler sızıq ile yazılmalı: <suggestion ><match no="1"/>-<match no="2"/></suggestion></message>
           <example correction="aman-aman">Ahtem uçurımdan özenge <marker>aman aman</marker> tüşti.</example>
+        </rule>
+      </rulegroup>
+
+      <rulegroup id="NUMBER_DOUBLING" name="Sayı ekileşmesi">
+        <rule>
+          <pattern>
+            <token>bir</token>
+            <token>eki</token>
+          </pattern>
+          <message>Ekileşmeli sayılar sızıq ile yazılmalı: <suggestion ><match no="1"/>-<match no="2"/></suggestion></message>
+          <example correction="bir-eki">Evde <marker>bir eki</marker> adam bar.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>eki</token>
+            <token>üç</token>
+          </pattern>
+          <message>Ekileşmeli sayılar sızıq ile yazılmalı: <suggestion ><match no="1"/>-<match no="2"/></suggestion></message>
+          <example correction="eki-üç">Evde <marker>eki üç</marker> adam bar.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>üç</token>
+            <token>dört</token>
+          </pattern>
+          <message>Ekileşmeli sayılar sızıq ile yazılmalı: <suggestion ><match no="1"/>-<match no="2"/></suggestion></message>
+          <example correction="üç-dört">Evde <marker>üç dört</marker> adam bar.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>dört</token>
+            <token>beş</token>
+          </pattern>
+          <message>Ekileşmeli sayılar sızıq ile yazılmalı: <suggestion ><match no="1"/>-<match no="2"/></suggestion></message>
+          <example correction="dört-beş">Evde <marker>dört beş</marker> adam bar.</example>
+        </rule>
+      </rulegroup>
+      <rulegroup id="LASTING_ADVERB_AFFIX" name="Soñki zarf afiksi hatası">
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[ıuoa]+[şçfhkpst]+kence</token>
+          </pattern>
+          <message>Soñki zarf afiksi hatası: <suggestion ><match no="1" regexp_match="(.*[ıuoa]+[şçfhkpst]+)?(kence)" regexp_replace="$1qanca"/></suggestion></message>
+          <example correction="qışqanca"><marker>qışkence</marker></example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[ıuoa]+[bcdğjlmnñrvyzuoa]+gence</token>
+          </pattern>
+          <message>Soñki zarf afiksi hatası: <suggestion ><match no="1" regexp_match="(.*[ıuoa]+[bcdğjlmnñrvyzuoa]+)?(gence)" regexp_replace="$1ğanca"/></suggestion></message>
+          <example correction="olğanca"><marker>olgence</marker></example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[ieüöâ]+[şçfhkpst]+qanca</token>
+          </pattern>
+          <message>Soñki zarf afiksi hatası: <suggestion ><match no="1" regexp_match="(.*[eüöâi]+[şçfhkpst]+)(qanca)" regexp_replace="$1kence"/></suggestion></message>
+          <example correction="pişkence"><marker>pişqanca</marker></example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[ieüöâ]+[bcdğjlmnñrvyzeüöâ]+ğanca</token>
+          </pattern>
+          <message>Soñki zarf afiksi hatası: <suggestion ><match no="1" regexp_match="(.*[eüöâi]+[bcdğjlmnñrvyzeüöâ]+)(ğanca)" regexp_replace="$1gence"/></suggestion></message>
+          <example correction="ölgence"><marker>ölğanca</marker></example>
         </rule>
       </rulegroup>
     </category>
@@ -394,6 +459,30 @@ USA
           </message>
           <example correction="Terekke"><marker>Terekniñ</marker> qarşı oturdı.</example>
         </rule> 
+        <rule>
+          <pattern>
+            <marker>
+              <token postag_regexp="yes" postag="(NOUN|ADJF|NUMR|PRTF).*(nomn|gent|accs|loct|datv).*"></token>
+            </marker>
+            <token regexp="yes">ğayrı|başqa|soñ|sebep|berli|evel|burun|ögüne</token>
+          </pattern>
+          <message>Munasebetçi kelişi şöyle uyğulaşmalı: 
+            <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)(nomn|gent|accs|loct|datv)(.*)?" postag_replace="$1exod$4"/></suggestion>
+          </message>
+          <example correction="zamandan">Çoq <marker>zaman</marker> berli.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <marker>
+              <token postag_regexp="yes" postag="(NOUN|ADJF|NUMR|PRTF).*(exod|accs|loct|datv).*"></token>
+            </marker>
+            <token regexp="yes">içün|ile|dayın|kibi|aqqında</token>
+          </pattern>
+          <message>Munasebetçi kelişi şöyle uyğulaşmalı: 
+            <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)(exod|accs|loct|datv)(.*)?" postag_replace="$1nomn$4"/></suggestion>
+          </message>
+          <example correction="Dost"><marker>Dostqa</marker> dayın.</example>
+        </rule> 
       </rulegroup>
 
       <rule id="EXODIVE_VERB_CASE_COLLOCATION" name="Fiildeki çıqış kelişi uyğulaşması">
@@ -477,5 +566,27 @@ USA
         </rule> 
       </rulegroup>
 
+      <rulegroup id="PERCENTAGE_COORDINATION" name="Faiz uyğulaşması">
+        <rule>
+          <pattern>
+            <token postag="NUMR:subst:sing:nomn"></token>
+            <token>faiz</token>
+          </pattern>
+          <message>Faiz uyğulaşması: 
+            <suggestion>yüzde <match no="1"/></suggestion>
+          </message>
+          <example correction="yüzde elli"><marker>elli faiz</marker>.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <token postag="NUMR:subst:sing:nomn"></token>
+            <token>fayız</token>
+          </pattern>
+          <message>Faiz uyğulaşması: 
+            <suggestion>yüzde <match no="1"/></suggestion>
+          </message>
+          <example correction="yüzde elli"><marker>elli fayız</marker>.</example>
+        </rule> 
+      </rulegroup>
     </category>
 </rules>
