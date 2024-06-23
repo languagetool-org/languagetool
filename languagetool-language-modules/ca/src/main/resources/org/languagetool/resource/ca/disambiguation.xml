@@ -8103,6 +8103,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
     </rule>
+    <rule id="la_porta" name="la pora">
+        <pattern>
+            <token postag="V.[SINGM].*|_GV_" postag_regexp="yes"/>
+            <token>la</token>
+            <marker>
+                <token>porta</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
+    </rule>
     <rule id="venir_gerundi" name="venir gerundi (construcció incorrecta)">
         <antipattern>
             <token postag="SPS00"/>
