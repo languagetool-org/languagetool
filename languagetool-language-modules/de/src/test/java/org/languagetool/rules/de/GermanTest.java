@@ -147,7 +147,7 @@ public class GermanTest extends LanguageSpecificTest {
   public void testMergingOfGrammarCorrections() throws IOException {
     Language lang = new German();
     JLanguageTool lt = new JLanguageTool(lang);
-    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Er ist sich da absolute sich");
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Diese Mail ist z Hd Frau Müllers.");
 
     // Mocking two adjacent grammar issues
     RuleMatch ruleMatch1 = new RuleMatch(new FakeRule("AI_DE_GGEC_TEST"), analyzedSentence, 16, 24, "Adjektivfehler");
