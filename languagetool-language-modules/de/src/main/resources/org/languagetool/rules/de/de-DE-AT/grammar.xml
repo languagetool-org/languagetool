@@ -62,6 +62,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Weißt"><marker>Weist</marker> du, ob das richtig ist?</example>
             <example correction="Weißt"><marker>Weist</marker> du, dass ich dich wirklich gern hab?</example>
         </rule>
+        <rule id="GRUESSE_SPELLING_RULE" name="Gruesse (Grüße)">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[Gg]rue(ss|ß)en?</token>
+            </pattern>
+            <message>Möglicher Tippfehler gefunden.</message>
+            <suggestion><match no="1" regexp_match="[Gg]rue(ss|ß)" regexp_replace="Grüß" /></suggestion>
+            <example correction="Grüßen">Mit freundlichen <marker>Gruessen</marker>.</example>
+            <example correction="Grüße">Viele liebe <marker>Grueße</marker>.</example>
+        </rule>
         <rule id="WEISS_SPELLING_RULE" name="weiss (weiß)">
             <antipattern>
                 <token regexp="yes">Herrn?|Frau|Fräulein|Gebrüder</token>
