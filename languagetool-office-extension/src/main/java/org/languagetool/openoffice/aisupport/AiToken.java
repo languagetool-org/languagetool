@@ -21,7 +21,7 @@ package org.languagetool.openoffice.aisupport;
 import org.languagetool.AnalyzedSentence;
 
 /**
- * Defines a easy token
+ * Defines an easy token
  * @since 6.5
  * @author Fred Kruse
  */

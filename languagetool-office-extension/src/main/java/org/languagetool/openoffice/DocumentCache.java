@@ -1511,6 +1511,9 @@ public class DocumentCache implements Serializable {
       if (textParagraph.type == CURSOR_TYPE_UNKNOWN || textParagraph.number < 0) {
         return new String("");
       }
+      if (textParagraph.type >= toParaMapping.size() || textParagraph.number >= toParaMapping.get(textParagraph.type).size()) {
+        return new String("");
+      }
       int nFPara = toParaMapping.get(textParagraph.type).get(textParagraph.number);
       return nFPara < 0 ? new String("") : paragraphs.get(nFPara);
     } finally {

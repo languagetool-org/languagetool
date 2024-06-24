@@ -58,6 +58,7 @@ import org.languagetool.openoffice.SpellAndGrammarCheckDialog.LtCheckDialog;
 import org.languagetool.openoffice.aisupport.AiCheckQueue;
 import org.languagetool.openoffice.aisupport.AiErrorDetection;
 import org.languagetool.openoffice.aisupport.AiParagraphChanging;
+import org.languagetool.openoffice.aisupport.AiRemote.AiCommand;
 import org.languagetool.openoffice.stylestatistic.StatAnDialog;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
@@ -1414,7 +1415,7 @@ public class MultiDocumentsHandler {
   public void runAiChangeOnParagraph(int commandId) {
     for (SingleDocument document : documents) {
       if (menuDocId.equals(document.getDocID())) {
-        AiParagraphChanging aiChange = new AiParagraphChanging(document, config, commandId);
+        AiParagraphChanging aiChange = new AiParagraphChanging(document, config, AiCommand.GeneralAi);
         aiChange.start();
         return;
       }

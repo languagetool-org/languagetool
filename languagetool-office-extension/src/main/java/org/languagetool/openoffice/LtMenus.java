@@ -30,6 +30,8 @@ import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.aisupport.AiErrorDetection;
 import org.languagetool.openoffice.aisupport.AiParagraphChanging;
+import org.languagetool.openoffice.aisupport.AiRemote;
+import org.languagetool.openoffice.aisupport.AiRemote.AiCommand;
 import org.languagetool.openoffice.stylestatistic.StatAnDialog;
 
 import com.sun.star.awt.MenuEvent;
@@ -296,8 +298,26 @@ public class LtMenus {
       }
       int nProfileItems = setProfileItems();
       setActivateRuleMenu((short)(switchOffPos + 3), (short)(switchOffId + 11), (short)(switchOffId + SUBMENU_ID_DIFF + nProfileItems));
-      if (config.useAiSupport()) {
-        setAIMenu((short)(switchOffPos + 3), SUBMENU_ID_AI, (short)(SUBMENU_ID_AI + 1));
+      short nId = (short)(SUBMENU_ID_AI + 1);
+      short nPos = (short)(switchOffPos + 3);
+      short aiPos = ltMenu.getItemPos((short)(nId + 1));
+      short aiAutoPos = ltMenu.getItemPos(nId);
+      if (config.useAiSupport() && !config.aiAutoCorrect() && aiAutoPos < 1) {
+        ltMenu.insertItem(nId, MESSAGES.getString("loMenuAiAddErrorMarks"), (short) 0, nPos);
+        ltMenu.setCommand(nId, LT_AI_MARK_ERRORS);
+        ltMenu.enableItem(nId , true);
+        nPos++;
+      } else if ((!config.useAiSupport() || config.aiAutoCorrect()) && aiAutoPos > 0) {
+        ltMenu.removeItem(aiAutoPos, (short)1);
+      }
+      if (config.useAiSupport() && aiPos < 1) {
+//        setAIMenu((short)(switchOffPos + 3), SUBMENU_ID_AI, (short)(SUBMENU_ID_AI + 1));
+        nId++;
+        ltMenu.insertItem(nId, MESSAGES.getString("loMenuAiGeneralCommand"), (short) 0, nPos);
+        ltMenu.setCommand(nId, LT_AI_GENERAL_COMMAND);
+        ltMenu.enableItem(nId , true);
+      } else if (!config.useAiSupport() && aiPos > 0) {
+        ltMenu.removeItem(aiPos, (short)1);
       }
     }
       
@@ -413,7 +433,7 @@ public class LtMenus {
 
     /**
      * Set AI Submenu
-     */
+     *//*
     private void setAIMenu(short pos, short id, short submenuStartId) throws Throwable {
       if (config.useAiSupport()) {
         if (ltMenu.getItemPos(id) < 1) {
@@ -461,7 +481,7 @@ public class LtMenus {
         xAiSupportMenu = null;
       }
     }
-
+*/
     @Override
     public void disposing(EventObject event) {
     }
@@ -509,7 +529,7 @@ public class LtMenus {
             AiErrorDetection aiError = new AiErrorDetection(document, config, document.getMultiDocumentsHandler().getLanguageTool());
             aiError.addAiRuleMatchesForParagraph();
           } else {
-            AiParagraphChanging aiChange = new AiParagraphChanging(document, config, event.MenuId - SUBMENU_ID_AI - 1);
+            AiParagraphChanging aiChange = new AiParagraphChanging(document, config, AiCommand.GeneralAi);
             aiChange.start();
           }
         } else if (event.MenuId == switchOffId + SUBMENU_ID_DIFF) {
@@ -951,6 +971,23 @@ public class LtMenus {
       if (!config.useAiSupport()) {
         return;
       }
+      XPropertySet xNewMenuEntry;
+      int j = nId;
+      if (!config.aiAutoCorrect()) {
+        xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+        xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loMenuAiAddErrorMarks"));
+        xNewMenuEntry.setPropertyValue("CommandURL", LT_AI_MARK_ERRORS);
+        xContextMenu.insertByIndex(j, xNewMenuEntry);
+        j++;
+      }
+      xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+          xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+      xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loMenuAiGeneralCommand"));
+      xNewMenuEntry.setPropertyValue("CommandURL", LT_AI_GENERAL_COMMAND);
+      xContextMenu.insertByIndex(j, xNewMenuEntry);
+
+/*
       XIndexContainer xSubMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
         xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerContainer"));
       XPropertySet xNewSubMenuEntry;
@@ -993,6 +1030,7 @@ public class LtMenus {
       xNewMenuEntry.setPropertyValue("CommandURL", LT_AI_GENERAL_COMMAND);
       xNewMenuEntry.setPropertyValue("SubContainer", (Object)xSubMenuContainer);
       xContextMenu.insertByIndex(nId, xNewMenuEntry);
+*/
    }
       
    private XPropertySet createActivateRuleProfileItems(Map<String, String> deactivatedRulesMap, 

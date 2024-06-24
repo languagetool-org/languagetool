@@ -64,6 +64,9 @@ public class AiRemote {
   public final static String CORRECT_INSTRUCTION = "loAiCorrectInstruction";
   public final static String STYLE_INSTRUCTION = "loAiStyleInstruction";
   public final static String EXPAND_INSTRUCTION = "loAiExpandInstruction";
+  
+  public static enum AiCommand { CorrectGrammar, ImproveStyle, ExpandText, GeneralAi };
+
 /*
   public final static String CORRECT_INSTRUCTION = "Correct following text";
   public final static String STYLE_INSTRUCTION = "Rephrase following text";
@@ -121,15 +124,16 @@ public class AiRemote {
     if (instruction == null || text == null) {
       return "";
     }
-    text = text.trim();
-    if (text.isEmpty()) {
-      MessageHandler.printToLogFile("AiRemote: runInstruction: text is empty");
-      return text;
-    }
     instruction = instruction.trim();
+    text = text.trim();
     if (instruction.isEmpty()) {
-      MessageHandler.printToLogFile("AiRemote: runInstruction: instruction is empty");
-      return text;
+      if (text.isEmpty()) {
+        return text;
+      }
+      instruction = text;
+      text = null;
+    } else if (text.isEmpty()) {
+      text = null;
     }
     long startTime = 0;
     if (debugModeTm) {
@@ -138,7 +142,8 @@ public class AiRemote {
     if (debugMode) {
       MessageHandler.printToLogFile("AiRemote: runInstruction: Ask AI started! URL: " + url);
     }
-    String langName = getLanguageName(locale);
+//    String langName = getLanguageName(locale);
+    String langName = locale.Language;
     String org = text;
     text = text.replace("\n", "\r").replace("\r", " ").replace("\"", "\\\"");
     
@@ -149,7 +154,7 @@ public class AiRemote {
 //          + "\"response_format\": { \"type\": \"json_object\" }, "
           + "\"language\": \"" + langName + "\", "
           + "\"messages\": [ { \"role\": \"user\", "
-          + "\"content\": \"" + instruction + ": {" + text + "}\" } ], "
+          + "\"content\": \"" + instruction + (text == null ? "" : ": {" + text + "}") + "\" } ], "
           + "\"seed\": 1, "
           + "\"temperature\": 0.7}";
     } else if (aiType == AiType.EDITS) {
@@ -323,6 +328,7 @@ public class AiRemote {
     if (locale == null || locale.Language == null || locale.Language.isEmpty()) {
       locale = new Locale("en", "US", "");
     }
+/*
 //    MessageHandler.printToLogFile("Get instruction for mess: " + mess + ", locale.Language: " + locale.Language);
     setCommands(locale);
     String instruction = commands.get(mess);
@@ -330,8 +336,10 @@ public class AiRemote {
       MessageHandler.showMessage("getInstruction: Instruction == null");
     }
     return (instruction);
-//    ResourceBundle messages = JLanguageTool.getMessageBundle(MultiDocumentsHandler.getLanguage(locale));
-//    return messages.getString(mess);
+*/
+    ResourceBundle messages = JLanguageTool.getMessageBundle(MultiDocumentsHandler.getLanguage(locale));
+    String instruction = messages.getString(mess) + " (language: " + locale.Language + ")"; 
+    return instruction;
   }
   
   public static String getLanguageName(Locale locale) {
@@ -343,29 +351,6 @@ public class AiRemote {
   public static String addLanguageName(String instruction, Locale locale) {
     String langName = getLanguageName(locale);
     return instruction + " (language - " + langName + ")";
-  }
-  
-  /**
-   * Get Command file if exist - else default
-   */
-  private static String getCommandsFile(Locale locale) {
-    URL url = null;
-    try {
-      url = AiRemote.class.getResource("/commands/commands_" + locale.Language);
-      URI uri = new URI(url.getPath());
-      return uri.getPath();
-    } catch (Throwable e) {
-    }
-    if (url == null) {
-      try {
-        url = AiRemote.class.getResource("/commands/commands_en");
-        URI uri = new URI(url.getPath());
-        return uri.getPath();
-      } catch (Throwable e) {
-        MessageHandler.showError(e);
-      }
-    }
-    return null;
   }
   
   /**
@@ -393,13 +378,6 @@ public class AiRemote {
       return;
     }
     lastLang = new String(locale.Language);
-/*
-    String fileName = getCommandsFile(locale);
-    if (fileName == null) {
-      MessageHandler.printToLogFile("commands file == null");
-      return;
-    }
-*/
     InputStream input = getCommandsFileInputStream(locale);
     if (input == null) {
       MessageHandler.printToLogFile("commands file input == null");

@@ -31,6 +31,7 @@ import org.languagetool.openoffice.OfficeTools;
 import org.languagetool.openoffice.MultiDocumentsHandler.WaitDialogThread;
 import org.languagetool.openoffice.SingleDocument;
 import org.languagetool.openoffice.ViewCursorTools;
+import org.languagetool.openoffice.aisupport.AiRemote.AiCommand;
 
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
@@ -73,11 +74,11 @@ public class AiParagraphChanging extends Thread {
 
   private final SingleDocument document;
   private final Configuration config;
-  private final int commandId;
+  private final AiCommand commandId;
   
   private WaitDialogThread waitDialog = null;
   
-  public AiParagraphChanging(SingleDocument document, Configuration config, int commandId) {
+  public AiParagraphChanging(SingleDocument document, Configuration config, AiCommand commandId) {
     this.document = document;
     this.config = config;
     this.commandId = commandId;
@@ -90,6 +91,12 @@ public class AiParagraphChanging extends Thread {
   
   private void runAiChangeOnParagraph() {
     try {
+      if (commandId == AiCommand.GeneralAi) {
+        waitDialog = new WaitDialogThread(WAIT_TITLE, WAIT_MESSAGE);
+        AiDialog aiDialog = new AiDialog(document, waitDialog, messages);
+        aiDialog.start();
+        return;
+      }
       if (debugMode) {
         MessageHandler.printToLogFile("AiParagraphChanging: runAiChangeOnParagraph: commandId: " + commandId);
       }
@@ -105,15 +112,15 @@ public class AiParagraphChanging extends Thread {
       }
       String instruction = null;
       boolean onlyPara = false;
-      if (commandId == 1) {
+      if (commandId == AiCommand.CorrectGrammar) {
         instruction = AiRemote.getInstruction(AiRemote.CORRECT_INSTRUCTION, locale);
 //        instruction = AiRemote.CORRECT_INSTRUCTION;
         onlyPara = true;
-      } else if (commandId == 2) {
+      } else if (commandId == AiCommand.ImproveStyle) {
         instruction = AiRemote.getInstruction(AiRemote.STYLE_INSTRUCTION, locale);
 //        instruction = AiRemote.STYLE_INSTRUCTION;
         onlyPara = true;
-      } else if (commandId == 3) {
+      } else if (commandId == AiCommand.ExpandText) {
         instruction = AiRemote.getInstruction(AiRemote.EXPAND_INSTRUCTION, locale);
 //        instruction = AiRemote.EXPAND_INSTRUCTION;
       } else {
@@ -225,7 +232,7 @@ public class AiParagraphChanging extends Thread {
   /** 
    * Inserts a Text to cursor position
    */
-  private static void insertText(String text, XComponent xComponent, boolean override) {
+  public static void insertText(String text, XComponent xComponent, boolean override) {
     if (text != null && xComponent != null) {
       try {
         XText xText = getXText(xComponent);
