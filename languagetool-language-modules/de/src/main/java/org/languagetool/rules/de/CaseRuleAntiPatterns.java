@@ -1763,6 +1763,16 @@ class CaseRuleAntiPatterns {
       csRegex("Universität|Bibel")
     ),
     Arrays.asList(
+      // "Es wurde 1784 in das Allgemeine Krankenspital umgewandelt."
+      csRegex("Allgemeine[ns]?"),
+      csRegex("Kranken(spitale?s?|haus(es)?)?")
+    ),
+    Arrays.asList(
+      // "Die bei der Katholischen Spitalstiftung angesiedelte Vermittlungsstelle informiert über Hilfsangebote."
+      csRegex("Katholischen?"),
+      csRegex("Spitalstiftung?")
+    ),
+    Arrays.asList(
       csRegex("[A-ZÄÖÜ].+stereotypen?")
     ),
     Arrays.asList(
