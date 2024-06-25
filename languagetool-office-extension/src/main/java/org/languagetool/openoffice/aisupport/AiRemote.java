@@ -120,12 +120,15 @@ public class AiRemote {
     }
   }
 
-  public String runInstruction(String instruction, String text, Locale locale, boolean onlyOneParagraph)  throws Throwable {
+  public String runInstruction(String instruction, String text, Locale locale, boolean onlyOneParagraph) {
     if (instruction == null || text == null) {
-      return "";
+      return null;
     }
     instruction = instruction.trim();
     text = text.trim();
+    if (onlyOneParagraph && (instruction.isEmpty() || text.isEmpty())) {
+      return "";
+    }
     if (instruction.isEmpty()) {
       if (text.isEmpty()) {
         return text;
@@ -144,9 +147,10 @@ public class AiRemote {
     }
 //    String langName = getLanguageName(locale);
     String langName = locale.Language;
-    String org = text;
-    text = text.replace("\n", "\r").replace("\r", " ").replace("\"", "\\\"");
-    
+    String org = text == null ? instruction : text;
+    if (text != null) {
+      text = text.replace("\n", "\r").replace("\r", " ").replace("\"", "\\\"");
+    }
     String urlParameters;
 //    instruction = addLanguageName(instruction, locale);
     if (aiType == AiType.CHAT) {
@@ -178,7 +182,8 @@ public class AiRemote {
     try {
       checkUrl = new URL(url);
     } catch (MalformedURLException e) {
-      throw new RuntimeException(e);
+      MessageHandler.showError(e);
+      return null;
     }
     if (debugMode) {
       MessageHandler.printToLogFile("AiRemote: runInstruction: postData: " + urlParameters);
@@ -202,16 +207,18 @@ public class AiRemote {
       } else {
         try (InputStream inputStream = conn.getErrorStream()) {
           String error = readStream(inputStream, "utf-8");
-          throw new RuntimeException("Got error: " + error + " - HTTP response code " + conn.getResponseCode());
+          MessageHandler.showMessage("Got error: " + error + " - HTTP response code " + conn.getResponseCode());
         }
       }
     } catch (ConnectException e) {
-      throw new RuntimeException("Could not connect to server at: " + url, e);
+      MessageHandler.showMessage("Could not connect to server at: " + url);
+      MessageHandler.showError(e);
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      MessageHandler.showError(e);
     } finally {
       conn.disconnect();
     }
+    return null;
   }
   
   private String removeSurroundingBrackets(String out, String org) {
