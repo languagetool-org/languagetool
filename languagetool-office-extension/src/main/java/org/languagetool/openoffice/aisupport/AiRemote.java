@@ -229,10 +229,11 @@ public class AiRemote {
     if (onlyOneParagraph) {
       String[] inst = instruction.split("[-.:!?]");
       String[] parts = out.split("\r");
-      if (parts.length > 1 &&  parts[0].trim().startsWith(inst[0].trim())) {
+      String firstPart = parts[0].trim();
+      if (parts.length > 1 && firstPart.endsWith(":") || firstPart.startsWith(inst[0].trim())) {
         out = parts[1].trim();
       } else {
-        out = parts[0].trim();
+        out = firstPart;
       }
       out = removeSurroundingBrackets(out, org);
       if (out.contains(":") && (!org.contains(":") || out.trim().startsWith(inst[0].trim()))) {
@@ -355,7 +356,7 @@ public class AiRemote {
   
   /**
    * Get Command file if exist - else default
-   */
+   *//*
   private static InputStream getCommandsFileInputStream(Locale locale) {
     URL url = null;
     try {
@@ -408,7 +409,7 @@ public class AiRemote {
         }
     }
   }
-  
+*/  
 /*  
   public static String parseInstruction (String instruction, Locale locale) {
     String lang = (locale == null || locale.Language == null || locale.Language.isEmpty()) ? "en" : locale.Language;

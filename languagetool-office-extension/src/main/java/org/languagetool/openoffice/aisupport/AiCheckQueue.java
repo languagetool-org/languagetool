@@ -158,11 +158,11 @@ public class AiCheckQueue extends TextLevelCheckQueue {
       DocumentCache docCache = document.getDocumentCache();
       if (docCache != null) {
         int nFPara = docCache.getFlatParagraphNumber(nTPara);
-//        if (debugMode) {
+        if (debugMode) {
           MessageHandler.printToLogFile("Run AI Queue Entry for " 
               + ", nTPara = (" + nTPara.number + "/" + nTPara.type + "), docId = " + qEntry.docId
               + ", nFPara = " + nFPara);
-//        }
+        }
         AiErrorDetection aiError = new AiErrorDetection(document, multiDocHandler.getConfiguration(), lt);
         aiError.addAiRuleMatchesForParagraph(nFPara);
       }
