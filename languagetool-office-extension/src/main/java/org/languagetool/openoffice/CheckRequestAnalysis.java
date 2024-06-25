@@ -699,6 +699,11 @@ class CheckRequestAnalysis {
             }
           }
         }
+        if (mDocHandler.getAiCheckQueue() != null) {
+          for (int n = changed.from; n < changed.to; n++) {
+            singleDocument.addAiQueueEntry(n, true);
+          }
+        }
         if (mDocHandler.getTextLevelCheckQueue() != null) {
           mDocHandler.getTextLevelCheckQueue().wakeupQueue(docID);;
         }
@@ -827,6 +832,7 @@ class CheckRequestAnalysis {
       }
   //    boolean checkOnlyPara = (docCache.getFlatParagraph(nPara).isEmpty() ? false : true);
       docCache.setFlatParagraph(nPara, chPara, locale);
+      MessageHandler.printToLogFile("setFlatParagraph: " + nPara + ", locale: " + OfficeTools.localeToString(locale));
       docCache.setFlatParagraphFootnotes(nPara, footnotePos);
       docCache.setFlatParagraphDeletedCharacters(nPara, deletedChars);
   //    mDocHandler.handleLtDictionary(chPara, locale);
@@ -836,6 +842,9 @@ class CheckRequestAnalysis {
         singleDocument.removeResultCache(nPara, true);
         for (int i = 1; i < minToCheckPara.size(); i++) {
           singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, numLastFlPara.get(numLastFlPara.size() - 1) < 0 ? false : true);
+        }
+        if (mDocHandler.getAiCheckQueue() != null) {
+          singleDocument.addAiQueueEntry(nPara, true);
         }
       } else {
         singleDocument.removeResultCache(nPara, true);

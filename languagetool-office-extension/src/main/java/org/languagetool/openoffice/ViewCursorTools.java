@@ -270,10 +270,10 @@ public class ViewCursorTools {
   }
   
   /** 
-   * Returns Paragraph number under ViewCursor 
-   * Returns a negative value if it fails
+   * Returns Paragraph Text under ViewCursor 
+   * Returns null if it fails
    */
-  String getViewCursorParagraphText() {
+  public String getViewCursorParagraphText() {
     isBusy++;
     try {
       XParagraphCursor xParagraphCursor = getParagraphCursorFromViewCursor();
@@ -291,6 +291,36 @@ public class ViewCursorTools {
     }
   }
   
+  /** 
+   * Returns Paragraph under ViewCursor 
+   * Paragraph is selected
+   */
+  public String getAndSelectViewCursorParagraph() {
+    try {
+      XTextViewCursor xVCursor = getViewCursor();
+      if (xVCursor == null) {
+        MessageHandler.printToLogFile("xVCursor == null");
+        return null;
+      }
+      XText xVCursorText = xVCursor.getText();
+      XTextCursor xTCursor = xVCursorText.createTextCursorByRange(xVCursor.getStart());
+      XParagraphCursor xPCursor = UnoRuntime.queryInterface(XParagraphCursor.class, xTCursor);
+      if (xPCursor == null) {
+        MessageHandler.showMessage("xPCursor == null");
+        return null;
+      }
+      xPCursor.gotoStartOfParagraph(false);
+      xPCursor.collapseToStart();
+      xVCursor.gotoRange(xPCursor, false);
+      xPCursor.gotoEndOfParagraph(false);
+      xPCursor.collapseToEnd();
+      xVCursor.gotoRange(xPCursor, true);
+      return xVCursor.getString();
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return null;           // Return null as method failed
+    }
+  }
   /** 
    * Change view cursor selection
    */
@@ -318,7 +348,7 @@ public class ViewCursorTools {
   /** 
    * Replace a part of Paragraph under ViewCursor 
    */
-  void setViewCursorParagraphText(int nStart, int nLength, String replace) {
+  public void setViewCursorParagraphText(int nStart, int nLength, String replace) {
     isBusy++;
     try {
       XParagraphCursor xParagraphCursor = getParagraphCursorFromViewCursor();
@@ -338,6 +368,36 @@ public class ViewCursorTools {
     }
   }
   
+  /** 
+   * Inserts a Text to cursor position
+   * if override == true: Override the selected text 
+   */
+  public void insertText(String text, boolean override) {
+    isBusy++;
+    try {
+      if (text != null && xComponent != null) {
+        XTextDocument curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
+        if (curDoc == null) {
+          return;
+        }
+        XText xText =  curDoc.getText();
+        if (xText == null) {
+          return;
+        }
+        XTextViewCursor xVCursor = getViewCursor();
+        if (xVCursor == null) {
+          MessageHandler.printToLogFile("ViewCursorTool: insertText: xVCursor == null");
+          return;
+        }
+        xText.insertString(xVCursor, text, override);
+      }
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } finally {
+      isBusy--;
+    }
+  }
+
   /** 
    * Returns the text document for the current document
    */

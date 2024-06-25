@@ -831,7 +831,7 @@ public class StatAnDialog extends Thread  {
   public void run() {
     try {
       WaitDialogThread waitdialog = 
-          document.getMultiDocumentsHandler().new WaitDialogThread("Please wait", MESSAGES.getString("loWaitMessage"));
+          new WaitDialogThread("Please wait", MESSAGES.getString("loWaitMessage"));
       waitdialog.start();
       runDialog(waitdialog);
       waitdialog.close();
