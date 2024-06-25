@@ -588,6 +588,16 @@ public class JLanguageToolTest {
       "Em português é Conduzindo a Miss Daisy, não é?",  // "a"
       "A organização Law Enforcement Agent Protection (Leap).",  // single-word parenthetical
       "Mais sucessos seguiram, com os álbuns \"Ghetto Dictionary: The Art of War\"",  // ghetto
+      "Costumava assistir a Queer As Folk",  // "as"
+      "Sempre gostei muito de As If",  // "as"; cf. "As Endeavour" below
+      "Mas The Endeavour, por outro lado, detesto.",  // cf. "As Endeavour" below
+      "A instituição Children's Hospital.",  // possessive "'s"
+      "O filme não se chama Good, Bad, Ugly.",  // only intervening commas, all common words
+      "O livro se chama Bad, Grisly Murders.",  // intervening commas, last one relies on tagging (not common)
+      "Ele estava lendo Astrology Acrobatics.",  // -logy
+      "Seu grupo de Democracy Saviours.",  // -cracy
+      "Acho que ele era somewhat overzealous.",  // over-
+      "Sempre me pareceu um tremendous underachiever.",  // under-
       // Making sure disambiguation works properly per recent FPs
       "A Abaddon Books, subsidiária e editora dos livros.",
       "Smokers in Airplanes é o segundo álbum do artista brasileiro.",
@@ -598,7 +608,8 @@ public class JLanguageToolTest {
       "Birmingham City Football Club.",
       "Narra, segundo o historiador americano Will Durant, uma das maiores aventuras da história humana.",
       "Duas décadas mais tarde, os Gipsy Kings incorporaram aquilo.",
-      "Valente teve três irmãos, um dos quais, Silvio Francesco, também esteve no show business."
+      "Valente teve três irmãos, um dos quais, Silvio Francesco, também esteve no show business.",
+      "O lema do estado de Nova Hampshire é Livre Free or Die"
     };
     for (String sentence : noErrorSentences) {
       List<RuleMatch> matches = lt.check(sentence);
@@ -609,6 +620,9 @@ public class JLanguageToolTest {
     // match the suffix, but 'whateverness' is not tagged in English, so it's a spelling error
     errorSentences.put("Esta palavra não existe: the whateverness.", "lhe");
     errorSentences.put("A comunidade do ghetto de Veneza.", "gueto");  // in isolation, it is not tagged with _english_ignore_
+    // because "as" is blocked and "Endeavour" is not in the list of 'common' English words, we don't tag with _english_ignore_
+    errorSentences.put("Acho que se chamava As Endeavour.", "EndeavourOS");
+    errorSentences.put("Clique settings e veja o que acontece.", "sétimas");  // "settings" is isolated; "clique" is English but specifically blocked
     for (Map.Entry<String, String> entry : errorSentences.entrySet()) {
       List<RuleMatch> matches = lt.check(entry.getKey());
       assert !matches.isEmpty();
