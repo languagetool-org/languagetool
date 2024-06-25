@@ -237,7 +237,7 @@ public class AiRemote {
       String[] inst = instruction.split("[-.:!?]");
       String[] parts = out.split("\r");
       String firstPart = parts[0].trim();
-      if (parts.length > 1 && firstPart.endsWith(":") || firstPart.startsWith(inst[0].trim())) {
+      if (parts.length > 1 && (firstPart.endsWith(":") || firstPart.startsWith(inst[0].trim()))) {
         out = parts[1].trim();
       } else {
         out = firstPart;
