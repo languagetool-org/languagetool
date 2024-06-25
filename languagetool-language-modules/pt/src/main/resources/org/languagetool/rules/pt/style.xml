@@ -3634,6 +3634,23 @@ USA
         </rule>
 
 
+        <rule id='DIFICULDADES_PROVAÇÕES' name="Passar 'dificuldades' → 'provações'" tags='picky' tone_tags='formal' default='temp_off'>
+            <pattern>
+                <token skip='4' inflected='yes'>passar</token>
+                <marker>
+                    <token regexp='yes'>dificuldades?
+                        <exception scope='previous' regexp='yes' inflected='yes'>ter</exception>
+                        <exception scope='next' regexp='yes'>acrescidas?</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal empregue <suggestion><match no='2' postag='NCF(.)000' postag_replace='NCF$1000'>provação</match></suggestion>.</message>
+            <example correction="provações">Eles passaram muitas <marker>dificuldades</marker> ao longo da vida.</example>
+            <example>Para aqueles que passaram por muitos anos tiveram dificuldades na colaboração entre projetos.</example>
+            <example>Tomava esteroides para ganhar massa muscular e foi por isso que passou a ter dificuldades para emagrecer.</example>
+         </rule>
+
+
         <rulegroup id='MORRER_PERECER_FALECER' name="morrer → perecer/falecer" tags='picky' tone_tags='formal'>
 
             <!-- Subrule 1: not using "mort[ao]s?" -->
