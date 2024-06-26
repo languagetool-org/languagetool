@@ -238,6 +238,8 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Abstimmungbeschluss"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Dorfstrasse"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Kitasausbau"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Linkelemente"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Linksdrehung"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Linkpartei"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Linksportal"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Muttertagskarte"));

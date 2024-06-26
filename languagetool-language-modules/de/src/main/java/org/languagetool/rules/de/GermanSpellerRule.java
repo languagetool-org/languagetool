@@ -2510,7 +2510,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         (!isSubVerInf(part2upcased) ||
         (isSubVerInf(part2upcased) && SUBINF_SINGULAR_OBJECT.matcher(lowercaseFirstChar(part2)).matches())) &&
         !needsToBePlural(lowercaseFirstChar(part1Lemma)) &&
-        !WECHSELNUMERUS.matcher(lowercaseFirstChar(part1Lemma)).matches()) {
+        !WECHSELNUMERUS.matcher(lowercaseFirstChar(part1Lemma)).matches() &&
+        !WECHSELINFIX.matcher(lowercaseFirstChar(removeTrailingS(part1Lemma))).matches()) {
        return false;
     }
     // ... part1 always needs to be plural or...
