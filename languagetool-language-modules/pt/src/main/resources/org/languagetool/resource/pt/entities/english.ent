@@ -16,7 +16,7 @@
 <!ENTITY english_forward "as?|no|[cs]ome|for|(?-i)I|[td]o">
 
 <!-- Portuguese-specific -->
-<!ENTITY english_suffixes "((ing|hood|ship|ction)s?|(ness)(es)?|ed|ly|ity|ary|ish|logy|nomy|cracy|less|ful)">
+<!ENTITY english_suffixes "((ing|hood|ship|ction|land)s?|(ness)(es)?|ed|ly|ity|ary|ish|logy|nomy|cracy|shire|less|ful)">
 <!ENTITY english_suffixed_word "\p{L}+&english_suffixes;">
 
 <!ENTITY english_prefixes "(over|under|out|after|with|through)">
@@ -29,6 +29,58 @@
 <!ENTITY english_contracted_have "I|you|we|they|who|would|could">
 <!ENTITY english_contracted_will "I|you|s?he|we|they|who|what">
 <!ENTITY english_contracted_would "I|you|s?he|we|they|who|that|what">
+
+<!-- Uses Portuguese-language names if they exist, since otherwise we are dealing with a misspelling. -->
+<!-- <!ENTITY state_abbrev_us "AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY"> -->
+<!ENTITY us_states
+  "Alabama|Alasca|Arizona|Arkansas|Califórnia|Colorado|Connecticut|Delaware|Flórida|
+   Geórgia|Havaí|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Luisiana|Maine|Maryland|
+   Massachussetts|Michigan|Minnesota|Missouri|Mississippi|Montana|Nebraska|Nevada|
+   Ohio|Oklahoma|Oregon|Pensivâlnia|Tennessee|Texas|Utah|Vermont|Virgínia|Washington|
+   Wisconsin|Wyoming
+  ">
+
+<!-- multi-token: Nova Hamsphire, Nova Jersey, Novo México, Nova Iorque, Rhode Island,
+     Carolinas, Dakotas, Virgínia Ocidental -->
+
+<!-- Canadian provinces -->
+<!ENTITY canadian_provinces "Yukon|Nunavut|Alberta|Saskatchewan|Ontário|Quebec|Manitoba">
+
+<!-- multi-token: Nova Escócia, Novo Brunswick, Colúmbia Birtânica, Ilha do Príncipe Eduardo, Terra Nova e Labrador -->
+
+<!-- Austrialian states -->
+<!ENTITY australian_states "Vitória|Tasmânia|Queensland">
+
+<!-- multi-token: Nova Gales do Sul, Austrália Meridional/Ocidental, Território do Norte -->
+
+<!-- UK counties; only 'Cornualha' has a PT name; either way, all of these must be accepted by the speller! -->
+<!-- This list contains Scottish council areas and other toponyms that are not really technically counties and whatnot; -->
+<!-- for the purposes of what this entity is for as of 21 Jun 2024, that's not an issue... If someone needs to -->
+<!-- make this more *accurately* reflect current counties, council areas, ceremonial counties, and whatnot, be my guest. -->
+<!-- Also the Welsh ones are in English, not Welsh. And a bunch of them might be historical only. -->
+<!ENTITY uk_counties
+  "Avon|Bedfordshire|Berkshire|Buckinghamshire|Cambridgeshire|Cheshire|Cornualha|Cumberland|Cumbria|
+   Derbyshire|Devon|Dorset|Durham|Suffolk|Sussex|Essex|Gloucestershire|Hampshire|Herefordshire|
+   Hertfordshire|Huntingdonshire|Kent|Lancashire|Leicestershire|Lincolnshire|Merseyside|Middlesex|
+   Norfolk|Northamptonshire|Northumberland|Nottinghamshire|Oxfordshire|Rutland|Shropshire|Somerset|
+   Staffordshire|Suffolk|Surrey|Yorkshire|Warwickshire|Westmorland|Wiltshire|Worcestershire|
+   Inverclyde|Dunbartonshire|Glasgow|Renfrewshire|Lanarkshire|Falkirk|Edimburgo|Midlothian|Lothian
+   Clackmannanshire|Fife|Dundee|Angus|Monmouthshire|Glamorgan|Carmarthenshire|Pembrokeshire|
+   Cardiganshire|Brecknockshire|Radnorshire|Montgomeryshire|Denbighshire|Flintshire|Merionethshire|
+   Caernarvonshire|Anglesey|Borders|Strathclyde|Dumfries|Galloway|Grampian|Highland|Shetland|
+   Caithness|Ross|Cromarty|Aberdeenshire|Banffshire|Kincardineshire|Forfarshire|Perthshire|
+   Argyll|Ayrshire|Stirlingshire|Clackmannanshire|Kinross|Peeblesshire|Selkirkshire|Berwickshire|
+   Roxburghshire|Kirkcudbrightshire|Wigtownshire|Orkney
+">
+
+<!-- I'm not including here those that actually begin with "North/South/East/West" even in their customary Portuguese names, -->
+<!-- since those words are already english_ignore triggers. Here we have only the ones that are single-token or whose -->
+<!-- names in PT are entirely translated or contain Portuguese terms (e.g. "do Sul", "Meridional", etc.). -->
+
+<!ENTITY english_subnational_toponyms "(&us_states;|&canadian_provinces;|&australian_states;|&uk_counties;)">
+<!ENTITY english_subnational_toponyms_new "(Hampshire|Jersey|Jérsia|México|Iorque|Escócia|Brunswick|Gales)">
+<!ENTITY english_subnational_toponyms_north_south "(Carolina|Dakota|Território)">
+<!ENTITY english_subnational_toponyms_with_adj "(Virgínia|Austrália)">
 
 
 <!-- Largely taken from French, but some words have been removed and others added -->
