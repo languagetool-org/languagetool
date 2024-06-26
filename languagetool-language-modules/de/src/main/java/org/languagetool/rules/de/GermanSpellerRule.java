@@ -165,12 +165,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
   private final Set<String> wordEndingsToBeProhibited   = new HashSet<>();
   private final Set<String> wordsNeedingInfixS          = new HashSet<>();
-  private final Set<String> wordsWithoutInfixS          = new HashSet<>();
   private static Set<String> verbStems                  = new HashSet<>();
   private static Set<String> verbPrefixes               = new HashSet<>();
   private static Set<String> otherPrefixes              = new HashSet<>();
   private static Set<String> oldSpelling                = new HashSet<>();
-  private final Set<String> germanPrefixes              = new HashSet<>();  // words used as compound parts but not nouns on their own, like "Kritzel"
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
@@ -1770,8 +1768,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     nonStrictCompoundTokenizer = GermanCompoundTokenizer.getNonStrictInstance();
     synthesizer = language.getSynthesizer();
     loadFile("/de/words_infix_s.txt", wordsNeedingInfixS);
-    loadFile("/de/words_no_infix_s.txt", wordsWithoutInfixS);
-    loadFile("/de/german_prefix.txt", germanPrefixes);
     loadFile("/de/verb_stems.txt", verbStems);
     loadFile("/de/verb_prefixes.txt", verbPrefixes);
     loadFile("/de/other_prefixes.txt", otherPrefixes);
