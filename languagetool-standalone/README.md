@@ -46,19 +46,6 @@ https://languagetool.org/http-api/swagger-ui/#/default
 See https://dev.languagetool.org/java-api
 
 
-## Source code history
-
-On 2013-08-08 we moved our source code from Subversion at Sourceforge to
-git at github (https://github.com/languagetool-org/languagetool). Most
-history has been preserved. History in git is lost for:
-
-* binary files
-* branches and tags
-
-If you need this history, the old subversion repository is still available
-at http://svn.code.sf.net/p/languagetool/code/trunk/languagetool/.
-
-
 ## License
  
 Unless otherwise noted, this software is distributed under
