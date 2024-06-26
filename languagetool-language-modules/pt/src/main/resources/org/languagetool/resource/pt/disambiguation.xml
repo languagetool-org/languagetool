@@ -4141,27 +4141,39 @@
               <wd pos="_english_ignore_"/>
           </disambig>
       </rule>
-      <rule> <!-- #16, foward, risky -->
+      <rule> <!-- #16, foward, risky: assume title -->
           <pattern>
-              <token regexp="yes">&english_forward;
-                  <exception postag="_english_ignore_"/>
-              </token>
-              <token regexp="yes" negate_pos="yes" postag="_english_ignore_">&english_common;</token>
+              <token postag="_english_ignore_" negate_pos="yes"/>
+              <marker>
+                  <and>
+                      <token regexp="yes" case_sensitive="yes">\p{Lu}.*</token>
+                      <token regexp="yes">&english_forward;
+                          <exception postag="_english_ignore_"/>
+                      </token>
+                  </and>
+                  <token regexp="yes" negate_pos="yes" postag="_english_ignore_">&english_common;</token>
+              </marker>
           </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2,3"/>
           <disambig action="add">
               <wd pos="_english_ignore_"/>
               <wd pos="_english_ignore_"/>
           </disambig>
       </rule>
-      <rule> <!-- #17, foward, risky -->
+      <rule> <!-- #17, foward, risky: assume title -->
           <pattern>
+              <token postag="_english_ignore_" negate_pos="yes"/>
               <marker>
-                  <token regexp="yes">&english_forward;
-                      <exception postag="_english_ignore_"/>
-                  </token>
+                  <and>
+                      <token regexp="yes" case_sensitive="yes">\p{Lu}.*</token>
+                      <token regexp="yes">&english_forward;
+                          <exception postag="_english_ignore_"/>
+                      </token>
+                  </and>
               </marker>
               <token postag="_english_ignore_"/>
           </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2"/>
           <disambig action="add"><wd pos="_english_ignore_"/></disambig>
       </rule>
       <rule> <!-- #18, with possessive -->
@@ -4201,13 +4213,13 @@
               <wd pos="_english_ignore_"/>
           </disambig>
       </rule>
-      <rule> <!-- #20, with intervening commas -->
+      <rule> <!-- #20, with intervening commas or ampersands -->
           <pattern>
               <token regexp="yes">&english_common;
                   <exception regexp="yes">&english_no;|&english_forward;</exception>
                   <exception postag="_english_ignore_"/>
               </token>
-              <token postag="_PUNCT_COMMA"/>
+              <token regexp="yes">,|&amp;</token>
               <token regexp="yes">&english_common;
                   <exception regexp="yes">&english_no;|&english_forward;</exception>
                   <exception postag="_english_ignore_"/>
@@ -4220,7 +4232,7 @@
               <wd pos="_english_ignore_"/>
           </disambig>
       </rule>
-      <rule> <!-- #21, with intervening commas -->
+      <rule> <!-- #21, with intervening commas or ampersands -->
           <pattern>
               <marker>
                   <token regexp="yes">&english_common;
@@ -4228,7 +4240,7 @@
                       <exception postag="_english_ignore_"/>
                   </token>
               </marker>
-              <token postag="_PUNCT_COMMA"/>
+              <token regexp="yes">,|&amp;</token>
               <token postag="_english_ignore_"/>
           </pattern>
           <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
@@ -4236,10 +4248,10 @@
               <wd pos="_english_ignore_"/>
           </disambig>
       </rule>
-      <rule> <!-- #22, with intervening commas -->
+      <rule> <!-- #22, with intervening commas or ampersands -->
           <pattern>
               <token postag="_english_ignore_"/>
-              <token postag="_PUNCT_COMMA"/>
+              <token regexp="yes">,|&amp;</token>
               <marker>
                   <token regexp="yes">&english_common;
                       <exception regexp="yes">&english_no;|&english_forward;</exception>
@@ -4251,6 +4263,33 @@
           <disambig action="add">
               <wd pos="_english_ignore_"/>
           </disambig>
+      </rule>
+      <rule> <!-- #23, foward, risky: in English context -->
+          <pattern>
+              <token postag="_english_ignore_"/>
+              <marker>
+                  <token regexp="yes">&english_forward;
+                      <exception postag="_english_ignore_"/>
+                  </token>
+                  <token regexp="yes" negate_pos="yes" postag="_english_ignore_">&english_common;</token>
+              </marker>
+          </pattern>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #24, foward, risky: assume title -->
+          <pattern>
+              <token postag="_english_ignore_" negate_pos="yes"/>
+              <marker>
+                  <token regexp="yes">&english_forward;
+                      <exception postag="_english_ignore_"/>
+                  </token>
+              </marker>
+              <token postag="_english_ignore_"/>
+          </pattern>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
       </rule>
   </rulegroup>
 
@@ -4281,21 +4320,23 @@
           <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
           <disambig action="add"><wd pos="_english_ignore_"/></disambig>
       </rule>
-      <rule> <!-- #3 with intervening comma -->
+      <rule> <!-- #3 with intervening comma or ampersand -->
           <pattern>
               <token postag="_english_ignore_"/>
-              <token postag="_PUNCT_COMMA"/>
+              <token regexp="yes">,|&amp;</token>
               <marker>
                   <token regexp="yes" postag="UNKNOWN">\p{L}+|'s
                       <exception regexp="yes">&english_no;|&english_forward;</exception>
                       <exception postag="_english_ignore_"/>
+                      <!-- make sure we don't accept "San Diego, California" and whatnot (must correct to Califórnia!) -->
+                      <exception regexp="yes" case_sensitive="yes">&english_subnational_toponyms_with_pt_equiv;</exception>
                   </token>
               </marker>
           </pattern>
           <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:3"/>
           <disambig action="add"><wd pos="_english_ignore_"/></disambig>
       </rule>
-      <rule> <!-- #4 with intervening comma -->
+      <rule> <!-- #4 with intervening comma or ampersand -->
           <pattern>
               <marker>
                   <token regexp="yes" postag="UNKNOWN">\p{L}+
@@ -4303,7 +4344,7 @@
                       <exception postag="_english_ignore_"/>
                   </token>
               </marker>
-              <token postag="_PUNCT_COMMA"/>
+              <token regexp="yes">,|&amp;</token>
               <token postag="_english_ignore_"/>
           </pattern>
           <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
