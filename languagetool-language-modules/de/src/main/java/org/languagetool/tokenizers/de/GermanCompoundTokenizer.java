@@ -209,7 +209,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Bigband", asList("Bigband"));
     wordSplitter.addException("Bisexuelle", asList("Bisexuelle"));
     wordSplitter.addException("Bisexuellen", asList("Bisexuellen"));
-    wordSplitter.addException("Bunsenbrenner", asList("Bunsenbrenner"));
+    wordSplitter.addException("Bunsenbrenner", asList("Bunsenbrenner"));  // avoid "Bunsenweisheit"
     wordSplitter.addException("Carbon", asList("Carbon"));
     wordSplitter.addException("Carsharing", asList("Carsharing"));
     wordSplitter.addException("Castor", asList("Castor"));
@@ -221,16 +221,16 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Emittenten", asList("Emittenten"));
     wordSplitter.addException("Express", asList("Express"));
     wordSplitter.addException("Fairness", asList("Fairness"));
-    wordSplitter.addException("Fiberglas", asList("Fiberglas"));
+    wordSplitter.addException("Fiberglas", asList("Fiberglas"));  // avoid "Fiberthermometer"
     wordSplitter.addException("Globus", asList("Globus"));
     wordSplitter.addException("Göttinnen", asList("Göttinnen"));
     wordSplitter.addException("Illustration", asList("Illustration"));
-    wordSplitter.addException("Muttertag", asList("Muttertag"));
-    wordSplitter.addException("Muttertags", asList("Muttertags"));
+    wordSplitter.addException("Muttertag", asList("Muttertag"));  // "Muttertag" needs infix s
+    wordSplitter.addException("Muttertags", asList("Muttertags"));  // "Muttertag" needs infix s
     wordSplitter.addException("Patriarchen", asList("Patriarchen"));
     wordSplitter.addException("Phosgen", asList("Phosgen"));
-    wordSplitter.addException("Vatertag", asList("Vatertag"));
-    wordSplitter.addException("Vatertags", asList("Vatertags"));
+    wordSplitter.addException("Vatertag", asList("Vatertag"));  // "Vatertag" needs infix s
+    wordSplitter.addException("Vatertags", asList("Vatertags"));  // "Vatertag" needs infix s
     wordSplitter.addException("Vaterland", asList("Vaterland"));
     wordSplitter.addException("Vaterlands", asList("Vaterlands"));
     wordSplitter.addException("Wehrmacht", asList("Wehrmacht"));
