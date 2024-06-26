@@ -3731,7 +3731,24 @@ USA
     <category id='FORMAL_SPEECH_PT_PT' name='[pt-PT] Linguagem Formal' type='register' tone_tags="formal">
 
 
-        <rule id='É_IGUAL_AO_LITRO' name="'igual ao litro' → 'indiferente'" tone_tags="formal">
+        <rule id='DIFICULDADES_PROVAÇÕES' name="[pt-PT][Formal] Passar 'dificuldades' → 'provações'" tags='picky' tone_tags='formal' default='temp_off'>
+            <pattern>
+                <token skip='4' inflected='yes'>passar</token>
+                <marker>
+                    <token regexp='yes'>dificuldades?
+                        <exception scope='previous' regexp='yes' inflected='yes'>ter</exception>
+                        <exception scope='next' regexp='yes'>acrescidas?</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal empregue <suggestion><match no='2' postag='NCF(.)000' postag_replace='NCF$1000'>provação</match></suggestion>.</message>
+            <example correction="provações">Eles passaram muitas <marker>dificuldades</marker> ao longo da vida.</example>
+            <example>Para aqueles que passaram por muitos anos tiveram dificuldades na colaboração entre projetos.</example>
+            <example>Tomava esteroides para ganhar massa muscular e foi por isso que passou a ter dificuldades para emagrecer.</example>
+         </rule>
+
+
+        <rule id='É_IGUAL_AO_LITRO' name="[pt-PT][Formal] 'igual ao litro' → 'indiferente'" tone_tags="formal">
             <pattern>
                 <token>é</token>
                 <marker>
