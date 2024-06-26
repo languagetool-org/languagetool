@@ -93,10 +93,6 @@ Test the result in `languagetool-standalone/target/`.
 
 Test the result in `languagetool-wikipedia/target`.
 
-    ./build.sh languagetool-office-extension package -DskipTests
-
-Test the result in `languagetool-office-extension/target`, rename the `*.zip` to `*.oxt` to install it in LibreOffice/OpenOffice.
-
 Now you can use the bleeding edge development copy of LanguageTool `*.jar` files, be aware that it might contain regressions.
 
 
