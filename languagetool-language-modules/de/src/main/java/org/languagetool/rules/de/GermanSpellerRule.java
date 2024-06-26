@@ -155,7 +155,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern GENDER_NEUTRAL_SPECIAL_CHRS_PLU = compile(".*[\\*:_/]in.+");
   private static final Pattern GENDER_NEUTRAL_SLASH_HYPHEN = compile(".*/-in.+");
 
-  private static final Pattern WECHSELNUMERUS = compile("wort");
+  private static final Pattern WECHSELNUMERUS = compile("wort|welt");
   private static final Pattern WELTEN_COMP = compile("Brand|Bummler(in)?|Drama|Wende");
   private static final Pattern WOERTER_COMP = compile("Buch|Liste|Verzeichnis");
 
@@ -2476,14 +2476,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean isNoun(String word) throws IOException {
     return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:"));
-  }
-
-  private boolean isPluralNoun(String word) throws IOException {
-    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM:PLU:"));
-  }
-
-  private boolean isOnlyPluralNoun(String word) throws IOException {
-    return isPluralNoun(word) && word.endsWith("en") && isOnlyNoun(word);
   }
 
   private boolean processTwoPartCompounds(String part1, String part2) throws IOException {

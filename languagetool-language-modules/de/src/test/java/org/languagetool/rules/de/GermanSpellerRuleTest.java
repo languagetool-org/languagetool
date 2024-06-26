@@ -100,6 +100,9 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.ignorePotentiallyMisspelledWord("Vornamensliste"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Wörterbuch"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Wortgrenze"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Weltklimaveränderung"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Weltbummler"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Demokratenversammlung"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Zahnbürsten"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Zähnebürsten"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Zähnebürste"));
@@ -196,6 +199,7 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert:innen"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert_innen"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert/-innen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Bürge*in"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("ArbeitnehmerInnenschutzgesetz"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Arbeitnehmer*innenschutzgesetz"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Arbeitnehmer:innenschutzgesetz"));
