@@ -135,7 +135,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern SS = compile("ss");
   private static final Pattern COMPOUND_TYPOS = compile("([Ee]mail|[Ii]reland|[Kk]reissaal|[Mm]akeup|[Ss]tandart).*");
   private static final Pattern COMPOUND_END_TYPOS = compile(".*(gruße|schaf(s|en)?)$");
-  private static final Pattern INFIX_S_SUFFIXES = compile(".*(heit|ion|ität|keit|ling|ung|schaft|tum)$");
+  private static final Pattern INFIX_S_SUFFIXES = compile(".*(heit|[^c]tion|ität|keit|ling|ung|schaft|tum)$");
   private static final Pattern WECHSELINFIX = compile("(arbeit|dienstag|donnerstag|freitag|montag|mittwoch|link|recht|samstag|sonntag|verband)s?");
   private static final Pattern NEEDS_TO_BE_PLURAL = compile("aktie|antenne|apache|arbeitnehmer(in)?|ärztin|astronom(in)?|autor(in)?|azteke|bakterie|ballade|bauer|billion|bisexuelle|blume|börse|buche|bürg(e|in)|bürokrat(in)?|chrysantheme|dän(e|in)?|debatte|decke|diakon(in)?|domäne|drohne|druid(e|in)?|düne|ehre|eibe|ellipse|emittent(in)?|elfe|elle|enge|erbse|eremit|erde|erste|esche|fabrikant(in)?|falke|fassade|farbe|felge|ferien|figur|fluor|frage|frau|förde|galle|gerät|gezeit|gilde|göttin|halt|heid(e|in)?|herde|historie|hölle|höhle|hose|hund|jesuit|jungfer|kante|kaskade|kathode|katze|kette|kid|klasse|kirche|klaue|klinge|knappe|koeffizient|kojote|komödie|kontrahent|konfirmand(in)?|krake|kralle|kranke|krähe|kraut|krippe|kuriosität|kurve|kusine|küste|laie|laterne|laute|legende|lehne|leise|lerche|lippe|loge|lotse|länge|läuse|löwe|lücke|luke|made|maske|maßnahme|matriarchin|menge|mensch|metapher|methode|metropole|miene|miete|million|mitte|maus|monarch(in)?|mormone|mücke|mühle|musikant(in)?|mysterium|nerv|niederlage|nixe|nonne|note|obdachlose|ode|organist|panne|parzelle|pate|patient|patriarch(in)?|petze|pfanne|pfeife|platte|polle|pomade|pomeranze|posse|praktikant(in)?|prise|prominente|prototyp|prälat|puppe|pädophile|rabe|radikale|rakete|rampe|ranke|rate|raupe|rendite|repressalie|rest|riese|rinde|rind|robbe|robe|romanist|rose|ross|route|nummer|runde|röhre|rübe|salbe|schabe|schale|scheide|schelle|schenke|schere|sphäre|dicke|kröte|schlampe|schlange|schluchte|schmiere|schnake|schnalle|schneide|schnelle|schokolade|schotte|schurke|schwabe|schwalbe|schwede|schwule|seele|seide|seite|serie|silbe|sonne|sorge|sorte|spanne|sparte|sperre|spitze|sproße|spule|steppe|straße|streife|studie|stunde|stütze|tabelle|tinte|tote|toilette|torte|traube|treffe|treppe|truhe|träne|tunte|tüte|urne|vene|versicherte|verwandte|virtuose|vorname|waffe|wanne|ware|watte|wehe|welle|wiese|zentrum");
   private static final Pattern INVALID_COMP_PART = compile("adresse|kontrolle|leuchte|norden|osten|perspektive|schule|sprache|stelle|suche|süden|westen");
@@ -2542,21 +2542,21 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // 's' is the last character in *part1* and is probably not an infix
       part1WithoutHyphen.endsWith("s") && (isNounNom(part1upcased) || isVerbStem(part1)) &&
       // check if infix 's' is required or not allowed
-      (!hasNoInfixS(removeTrailingS(part1upcased)) && !needsInfixS(removeTrailingS(part1upcased)))) {
+      (!needsInfixS(removeTrailingS(part1upcased)))) {
       return true;
     }
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
       // 's' is the last character in *part1* and is probably an infix
       part1WithoutHyphen.endsWith("s") && isNounNom(removeTrailingSAndHyphen(part1upcased)) &&
       // check if infix 's' is required or not allowed
-      (!hasNoInfixS(removeTrailingSAndHyphen(part1upcased)) && needsInfixS(removeTrailingSAndHyphen(part1upcased)))) {
+      (needsInfixS(removeTrailingSAndHyphen(part1upcased)))) {
       return true;
     }
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
       // *part1* does not end with 's' and is noun or verb stem
       (!part1WithoutHyphen.endsWith("s")) && (isNounNom(part1upcased) || isVerbStem(part1)) &&
       // check if infix 's' is required or not allowed
-      (hasNoInfixS(part1upcased) || !needsInfixS(part1upcased))) {
+      (!needsInfixS(part1upcased))) {
       return true;
     }
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
@@ -2779,10 +2779,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return true;
     }
     return wordsNeedingInfixS.contains(word);
-  }
-
-  private boolean hasNoInfixS(String word) throws IOException {
-    return wordsWithoutInfixS.contains(word);
   }
 
   private boolean needsToBePlural(String lemma) throws IOException {
