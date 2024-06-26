@@ -158,7 +158,7 @@ public class SingleDocument {
     runningParas = new HashSet<>();
     setDokumentListener(xComponent);
     List<ResultCache> paraCache = new ArrayList<>();
-    for (int i = 0; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
+    for (int i = 0; i < OfficeTools.NUMBER_CACHE; i++) {
       paraCache.add(new ResultCache());
     }
     paragraphsCache = Collections.unmodifiableList(paraCache);
@@ -514,14 +514,14 @@ public class SingleDocument {
   /**
    * get type of document
    */
-  DocumentType getDocumentType() {
+  public DocumentType getDocumentType() {
     return docType;
   }
   
   /**
    * get number of current paragraph
    */
-  boolean isDisposed() {
+  public boolean isDisposed() {
     return disposed;
   }
   
@@ -606,7 +606,7 @@ public class SingleDocument {
   /**
    *  Get ID of the document
    */
-  String getDocID() {
+  public String getDocID() {
     return docID;
   }
   
@@ -711,6 +711,9 @@ public class SingleDocument {
       if (cacheExist) {
         docCache.put(cacheIO.getDocumentCache());
         for (int i = 0; i < cacheIO.getParagraphsCache().size(); i++) {
+//        if (debugMode > 0) {
+          MessageHandler.printToLogFile("SingleDocument: readCaches: Copy ResultCache " + i + ": Size: " + cacheIO.getParagraphsCache().get(i).size());
+//        }
           paragraphsCache.get(i).replace(cacheIO.getParagraphsCache().get(i));
         }
         permanentIgnoredMatches = new IgnoredMatches(cacheIO.getIgnoredMatches());
@@ -734,9 +737,9 @@ public class SingleDocument {
         DocumentCache docCache = new DocumentCache(this.docCache);
         List<ResultCache> paragraphsCache = new ArrayList<ResultCache>();
         for (int i = 0; i < this.paragraphsCache.size(); i++) {
-          if (debugMode > 0) {
-            MessageHandler.printToLogFile("SingleDocument: writeCaches: Copy ResultCache " + i);
-          }
+//          if (debugMode > 0) {
+            MessageHandler.printToLogFile("SingleDocument: writeCaches: Copy ResultCache " + i + ": Size: " + this.paragraphsCache.get(i).size());
+//          }
           paragraphsCache.add(new ResultCache(this.paragraphsCache.get(i)));
         }
         if (cacheIO != null) {
@@ -757,7 +760,7 @@ public class SingleDocument {
    * Reset all caches of the document
    */
   void resetResultCache(boolean withSingleParagraph) {
-    for (int i = withSingleParagraph ? 0 : 1; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
+    for (int i = withSingleParagraph ? 0 : 1; i < OfficeTools.NUMBER_CACHE; i++) {
       paragraphsCache.get(i).removeAll();
     }
   }
@@ -921,6 +924,45 @@ public class SingleDocument {
     return null;
   }
 
+  /**
+   * create a queue entry for AI queue
+   */
+  QueueEntry createAiQueueEntry(int nFPara) {
+    TextParagraph nPara = docCache.getNumberOfTextParagraph(nFPara);
+    return mDocHandler.getTextLevelCheckQueue().createQueueEntry(nPara, nPara, OfficeTools.CACHE_AI, 0, docID, false);
+  }
+  /**
+   * get the next queue entry which is the next empty cache entry
+   */
+  public QueueEntry getNextAiQueueEntry(TextParagraph nPara) {
+    if (!disposed && docCache != null) {
+      int nFPara = nPara == null ? 0 : docCache.getFlatParagraphNumber(nPara);
+      for (int i = nFPara; i < docCache.size(); i++) {
+        if (docCache.isFinished() && i >= 0 && paragraphsCache.get(OfficeTools.CACHE_AI).getCacheEntry(i) == null) {
+          return createAiQueueEntry(i);
+        }
+      }
+      for (int i = 0; i < nFPara; i++) {
+        if (docCache.isFinished() && paragraphsCache.get(OfficeTools.CACHE_AI).getCacheEntry(i) == null) {
+          return createAiQueueEntry(i);
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Add an new AI entry to queue
+   */
+  public void addAiQueueEntry(int nFPara, boolean next) {
+    if (!disposed && mDocHandler.getAiCheckQueue() != null && docCache != null) {
+      TextParagraph nTPara = docCache.getNumberOfTextParagraph(nFPara);
+      if (nTPara != null) {
+        mDocHandler.getAiCheckQueue().addQueueEntry(nTPara, docID, next); 
+      }
+    }
+  }
+  
   /**
    * get the queue entry for the first changed paragraph in document cache
    */
@@ -1461,7 +1503,8 @@ public class SingleDocument {
         SingleProofreadingError error2 = errors[j];
         if (k != j) {
           if (error2.nErrorStart == error1.nErrorStart && error2.nErrorLength < error1.nErrorLength) {
-            error1.nErrorStart = error2.nErrorStart + error2.nErrorLength;
+            error1.nErrorStart = error2.nErrorStart + error2.nErrorLength + 1;
+            error1.nErrorLength -= error1.nErrorStart;
           } else if (error2.nErrorStart > error1.nErrorStart && error2.nErrorStart < error1.nErrorStart + error1.nErrorLength) {
             if (error2.nErrorStart + error2.nErrorLength < error1.nErrorStart + error1.nErrorLength) {
               SingleProofreadingError tmpError = duplicateSingleProofreadingError(error1);
@@ -1672,7 +1715,7 @@ public class SingleDocument {
     paRes.nStartOfSentencePosition = 0;
     paRes.nStartOfNextSentencePosition = para.length();
     paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
-    for (int cacheNum = 0; cacheNum < mDocHandler.getNumMinToCheckParas().size(); cacheNum++) {
+    for (int cacheNum = 0; cacheNum < OfficeTools.NUMBER_CACHE; cacheNum++) {
       errors.add(paragraphsCache.get(cacheNum).getMatches(nFPara, LoErrorType.GRAMMAR));
     }
     paRes.aErrors = mergeErrors(errors, nFPara);

@@ -588,6 +588,16 @@ public class JLanguageToolTest {
       "Em português é Conduzindo a Miss Daisy, não é?",  // "a"
       "A organização Law Enforcement Agent Protection (Leap).",  // single-word parenthetical
       "Mais sucessos seguiram, com os álbuns \"Ghetto Dictionary: The Art of War\"",  // ghetto
+      "Costumava assistir a Queer As Folk",  // "as"
+      "Sempre gostei muito de As If",  // "as"; cf. "As Endeavour" below
+      "Mas The Endeavour, por outro lado, detesto.",  // cf. "As Endeavour" below
+      "A instituição Children's Hospital.",  // possessive "'s"
+      "O filme não se chama Good, Bad, Ugly.",  // only intervening commas, all common words
+      "O livro se chama Bad, Grisly Murders.",  // intervening commas, last one relies on tagging (not common)
+      "Ele estava lendo Astrology Acrobatics.",  // -logy
+      "Seu grupo de Democracy Saviours.",  // -cracy
+      "Acho que ele era somewhat overzealous.",  // over-
+      "Sempre me pareceu um tremendous underachiever.",  // under-
       // Making sure disambiguation works properly per recent FPs
       "A Abaddon Books, subsidiária e editora dos livros.",
       "Smokers in Airplanes é o segundo álbum do artista brasileiro.",
@@ -598,17 +608,29 @@ public class JLanguageToolTest {
       "Birmingham City Football Club.",
       "Narra, segundo o historiador americano Will Durant, uma das maiores aventuras da história humana.",
       "Duas décadas mais tarde, os Gipsy Kings incorporaram aquilo.",
-      "Valente teve três irmãos, um dos quais, Silvio Francesco, também esteve no show business."
+      "Valente teve três irmãos, um dos quais, Silvio Francesco, também esteve no show business.",
+      "O lema do estado de Nova Hampshire é Livre Free or Die",
+      // English-language toponyms that may not be in the PT speller, but we can verify that they're valid
+      // based on proximity with state/province/county names.
+      // Note that this does not fact-check whether the toponym actually belongs in the state/province/whatever :p
+      "Aconteceu na cidade de Victor Harbor, Austrália Meridional.",  // just comma, and PT name of state
+      "Aconteceu no distrito de Tamworth, no condado de Staffordshire.",  // "no condado de"
+      "A pequena cidade de Bethany Beach, em Delaware.",  // "em"
+      "O vilarejo de Goose Bay, na província de Terra Nova e Labrador.",  // "na província de"
+      "Morava, na época, em Keene, estado de Nova Hampshire.",  // "estado de"
     };
     for (String sentence : noErrorSentences) {
       List<RuleMatch> matches = lt.check(sentence);
-      assert matches.isEmpty();
+      assert matches.isEmpty() : "Unexpected match in: " + sentence;
     }
     HashMap<String, String> errorSentences = new HashMap<>();
     errorSentences.put("Foi uma melhora substantial.", "substancial");  // single word
     // match the suffix, but 'whateverness' is not tagged in English, so it's a spelling error
     errorSentences.put("Esta palavra não existe: the whateverness.", "lhe");
     errorSentences.put("A comunidade do ghetto de Veneza.", "gueto");  // in isolation, it is not tagged with _english_ignore_
+    // because "as" is blocked and "Endeavour" is not in the list of 'common' English words, we don't tag with _english_ignore_
+    errorSentences.put("Acho que se chamava As Endeavour.", "EndeavourOS");
+    errorSentences.put("Clique settings e veja o que acontece.", "sétimas");  // "settings" is isolated; "clique" is English but specifically blocked
     for (Map.Entry<String, String> entry : errorSentences.entrySet()) {
       List<RuleMatch> matches = lt.check(entry.getKey());
       assert !matches.isEmpty();

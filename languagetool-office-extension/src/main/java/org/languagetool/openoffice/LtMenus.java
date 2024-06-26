@@ -28,6 +28,10 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
+import org.languagetool.openoffice.aisupport.AiErrorDetection;
+import org.languagetool.openoffice.aisupport.AiParagraphChanging;
+import org.languagetool.openoffice.aisupport.AiRemote;
+import org.languagetool.openoffice.aisupport.AiRemote.AiCommand;
 import org.languagetool.openoffice.stylestatistic.StatAnDialog;
 
 import com.sun.star.awt.MenuEvent;
@@ -91,12 +95,18 @@ public class LtMenus {
   public static final String LT_PROFILES_COMMAND = "service:org.languagetool.openoffice.Main?profiles";
   public static final String LT_PROFILE_COMMAND = "service:org.languagetool.openoffice.Main?profileChangeTo_";
   public static final String LT_NONE_COMMAND = "service:org.languagetool.openoffice.Main?noAction";
+  public static final String LT_AI_MARK_ERRORS = "service:org.languagetool.openoffice.Main?aiAddErrorMarks";
+  public static final String LT_AI_CORRECT_ERRORS = "service:org.languagetool.openoffice.Main?aiCorrectErrors";
+  public static final String LT_AI_BETTER_STYLE = "service:org.languagetool.openoffice.Main?aiBetterStyle";
+  public static final String LT_AI_EXPAND_TEXT = "service:org.languagetool.openoffice.Main?aiAdvanceText";
+  public static final String LT_AI_GENERAL_COMMAND = "service:org.languagetool.openoffice.Main?aiGeneralCommand";
   
 //  public static final String LT_MENU_REPLACE_COLON = "__|__";
   public static final String LT_MENU_REPLACE_COLON = ":";
 
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
   private static final int SUBMENU_ID_DIFF = 21;
+  private static final short SUBMENU_ID_AI = 1000;
 //  private static final String LT_TOOLBAR_URL = "private:resource/toolbar/addon_org.languagetool.openoffice.Main.toolbar";
   
   // If anything on the position of LT menu is changed the following has to be changed
@@ -176,6 +186,7 @@ public class LtMenus {
     private XPopupMenu toolsMenu = null;
     private XPopupMenu xProfileMenu = null;
     private XPopupMenu xActivateRuleMenu = null;
+    private XPopupMenu xAiSupportMenu = null;
     private List<String> definedProfiles = null;
     private String currentProfile = null;
     
@@ -287,6 +298,27 @@ public class LtMenus {
       }
       int nProfileItems = setProfileItems();
       setActivateRuleMenu((short)(switchOffPos + 3), (short)(switchOffId + 11), (short)(switchOffId + SUBMENU_ID_DIFF + nProfileItems));
+      short nId = (short)(SUBMENU_ID_AI + 1);
+      short nPos = (short)(switchOffPos + 3);
+      short aiPos = ltMenu.getItemPos((short)(nId + 1));
+      short aiAutoPos = ltMenu.getItemPos(nId);
+      if (config.useAiSupport() && !config.aiAutoCorrect() && aiAutoPos < 1) {
+        ltMenu.insertItem(nId, MESSAGES.getString("loMenuAiAddErrorMarks"), (short) 0, nPos);
+        ltMenu.setCommand(nId, LT_AI_MARK_ERRORS);
+        ltMenu.enableItem(nId , true);
+        nPos++;
+      } else if ((!config.useAiSupport() || config.aiAutoCorrect()) && aiAutoPos > 0) {
+        ltMenu.removeItem(aiAutoPos, (short)1);
+      }
+      if (config.useAiSupport() && aiPos < 1) {
+//        setAIMenu((short)(switchOffPos + 3), SUBMENU_ID_AI, (short)(SUBMENU_ID_AI + 1));
+        nId++;
+        ltMenu.insertItem(nId, MESSAGES.getString("loMenuAiGeneralCommand"), (short) 0, nPos);
+        ltMenu.setCommand(nId, LT_AI_GENERAL_COMMAND);
+        ltMenu.enableItem(nId , true);
+      } else if (!config.useAiSupport() && aiPos > 0) {
+        ltMenu.removeItem(aiPos, (short)1);
+      }
     }
       
     /**
@@ -368,11 +400,10 @@ public class LtMenus {
     /**
      * Set Activate Rule Submenu
      */
-    
     private void setActivateRuleMenu(short pos, short id, short submenuStartId) throws Throwable {
       Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap(null);
       if (!deactivatedRulesMap.isEmpty()) {
-        if (ltMenu.getItemId(pos) != id) {
+        if (ltMenu.getItemPos(id) < 1) {
           ltMenu.insertItem(id, MESSAGES.getString("loContextMenuActivateRule"), MenuItemStyle.AUTOCHECK, pos);
           xActivateRuleMenu = OfficeTools.getPopupMenu(xContext);
           if (xActivateRuleMenu == null) {
@@ -393,15 +424,68 @@ public class LtMenus {
           nPos++;
         }
       } else if (xActivateRuleMenu != null) {
+        pos = ltMenu.getItemPos(id);
         ltMenu.removeItem(pos, (short)1);
         xActivateRuleMenu.removeItem((short) 0, xActivateRuleMenu.getItemCount());
         xActivateRuleMenu = null;
       }
     }
 
+    /**
+     * Set AI Submenu
+     *//*
+    private void setAIMenu(short pos, short id, short submenuStartId) throws Throwable {
+      if (config.useAiSupport()) {
+        if (ltMenu.getItemPos(id) < 1) {
+          ltMenu.insertItem(id, MESSAGES.getString("loMenuAiSupport"), MenuItemStyle.AUTOCHECK, pos);
+          xAiSupportMenu = OfficeTools.getPopupMenu(xContext);
+          if (xAiSupportMenu == null) {
+            MessageHandler.printToLogFile("LanguageToolMenus: setAIMenu: AI support menu == null");
+            return;
+          }
+          xAiSupportMenu.addMenuListener(this);
+          ltMenu.setPopupMenu(id, xAiSupportMenu);
+        }
+        xAiSupportMenu.removeItem((short) 0, xAiSupportMenu.getItemCount());
+        short nId = submenuStartId;
+        short nPos = 0;
+        if (!config.aiAutoCorrect()) {
+          xAiSupportMenu.insertItem(nId, MESSAGES.getString("loMenuAiAddErrorMarks"), (short) 0, nPos);
+          xAiSupportMenu.setCommand(nId, LT_AI_MARK_ERRORS);
+          xAiSupportMenu.enableItem(nId , true);
+          nPos++;
+        }
+        nId++;
+        xAiSupportMenu.insertItem(nId, MESSAGES.getString("loMenuAiCorrectErrors"), (short) 0, nPos);
+        xAiSupportMenu.setCommand(nId, LT_AI_CORRECT_ERRORS);
+        xAiSupportMenu.enableItem(nId , true);
+        nId++;
+        nPos++;
+        xAiSupportMenu.insertItem(nId, MESSAGES.getString("loMenuAiBetterStyle"), (short) 0, nPos);
+        xAiSupportMenu.setCommand(nId, LT_AI_BETTER_STYLE);
+        xAiSupportMenu.enableItem(nId , true);
+        nId++;
+        nPos++;
+        xAiSupportMenu.insertItem(nId, MESSAGES.getString("loMenuAiExpandText"), (short) 0, nPos);
+        xAiSupportMenu.setCommand(nId, LT_AI_EXPAND_TEXT);
+        xAiSupportMenu.enableItem(nId , true);
+        nId++;
+        nPos++;
+        xAiSupportMenu.insertItem(nId, MESSAGES.getString("loMenuAiGeneralCommand"), (short) 0, nPos);
+        xAiSupportMenu.setCommand(nId, LT_AI_GENERAL_COMMAND);
+        xAiSupportMenu.enableItem(nId , true);
+      } else if (xAiSupportMenu != null) {
+        pos = ltMenu.getItemPos(id);
+        ltMenu.removeItem(pos, (short)1);
+        xAiSupportMenu.removeItem((short) 0, xActivateRuleMenu.getItemCount());
+        xAiSupportMenu = null;
+      }
+    }
+*/
     @Override
     public void disposing(EventObject event) {
     }
+
     @Override
     public void itemActivated(MenuEvent event) {
       if (event.MenuId == 0) {
@@ -412,17 +496,20 @@ public class LtMenus {
         }
       }
     }
+
     @Override
     public void itemDeactivated(MenuEvent event) {
     }
+
     @Override
     public void itemHighlighted(MenuEvent event) {
     }
+
     @Override
     public void itemSelected(MenuEvent event) {
       try {
         if (debugMode) {
-          MessageHandler.printToLogFile("LanguageToolMenus: setActivateRuleMenu: event id: " + ((int)event.MenuId));
+          MessageHandler.printToLogFile("LanguageToolMenus: itemSelected: event id: " + ((int)event.MenuId));
         }
         if (event.MenuId == switchOffId) {
           if (document.getMultiDocumentsHandler().toggleNoBackgroundCheck()) {
@@ -434,6 +521,17 @@ public class LtMenus {
           StatAnDialog statAnDialog = new StatAnDialog(document);
           statAnDialog.start();
           return;
+        } else if (event.MenuId > SUBMENU_ID_AI && event.MenuId < SUBMENU_ID_AI + 10) {
+//          if (debugMode) {
+            MessageHandler.printToLogFile("LanguageToolMenus: itemSelected: AI support: " + (event.MenuId - SUBMENU_ID_AI));
+//          }
+          if (event.MenuId == SUBMENU_ID_AI + 1) {
+            AiErrorDetection aiError = new AiErrorDetection(document, config, document.getMultiDocumentsHandler().getLanguageTool());
+            aiError.addAiRuleMatchesForParagraph();
+          } else {
+            AiParagraphChanging aiChange = new AiParagraphChanging(document, config, AiCommand.GeneralAi);
+            aiChange.start();
+          }
         } else if (event.MenuId == switchOffId + SUBMENU_ID_DIFF) {
           runProfileAction(null);
         } else if (event.MenuId > switchOffId + SUBMENU_ID_DIFF && event.MenuId <= switchOffId + SUBMENU_ID_DIFF + definedProfiles.size()) {
@@ -444,7 +542,7 @@ public class LtMenus {
           for (String ruleId : deactivatedRulesMap.keySet()) {
             if(event.MenuId == j) {
               if (debugMode) {
-                MessageHandler.printToLogFile("LanguageToolMenus: setActivateRuleMenu: activate rule: " + ruleId);
+                MessageHandler.printToLogFile("LanguageToolMenus: itemSelected: activate rule: " + ruleId);
               }
               document.getMultiDocumentsHandler().activateRule(ruleId);
               return;
@@ -666,6 +764,10 @@ public class LtMenus {
         nId++;
 
         addLTMenuEntry(nId, xContextMenu, xMenuElementFactory, true);
+        if (config.useAiSupport()) {
+          nId++;
+          addAIMenuEntry(nId, xContextMenu, xMenuElementFactory);
+        }
 /*        
         XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
             xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
@@ -769,6 +871,8 @@ public class LtMenus {
         nId++;
       }
       addLTMenuEntry(nId, xContextMenu, xMenuElementFactory, false);
+      nId++;
+      addAIMenuEntry(nId, xContextMenu, xMenuElementFactory);
       
       XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
           xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
@@ -863,7 +967,73 @@ public class LtMenus {
       xContextMenu.insertByIndex(nId, xNewMenuEntry);
     }
     
-    private XPropertySet createActivateRuleProfileItems(Map<String, String> deactivatedRulesMap, 
+    private void addAIMenuEntry(int nId, XIndexContainer xContextMenu, XMultiServiceFactory xMenuElementFactory) throws Throwable {
+      if (!config.useAiSupport()) {
+        return;
+      }
+      XPropertySet xNewMenuEntry;
+      int j = nId;
+      if (!config.aiAutoCorrect()) {
+        xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+        xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loMenuAiAddErrorMarks"));
+        xNewMenuEntry.setPropertyValue("CommandURL", LT_AI_MARK_ERRORS);
+        xContextMenu.insertByIndex(j, xNewMenuEntry);
+        j++;
+      }
+      xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+          xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+      xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loMenuAiGeneralCommand"));
+      xNewMenuEntry.setPropertyValue("CommandURL", LT_AI_GENERAL_COMMAND);
+      xContextMenu.insertByIndex(j, xNewMenuEntry);
+
+/*
+      XIndexContainer xSubMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
+        xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerContainer"));
+      XPropertySet xNewSubMenuEntry;
+      int j = 0;
+      if (!config.aiAutoCorrect()) {
+        xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+        xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("loMenuAiAddErrorMarks"));
+        xNewSubMenuEntry.setPropertyValue("CommandURL", LT_AI_MARK_ERRORS);
+        xSubMenuContainer.insertByIndex(j, xNewSubMenuEntry);
+        j++;
+      }
+      xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+          xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+      xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("loMenuAiCorrectErrors"));
+      xNewSubMenuEntry.setPropertyValue("CommandURL", LT_AI_CORRECT_ERRORS);
+      xSubMenuContainer.insertByIndex(j, xNewSubMenuEntry);
+      j++;
+      xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+        xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+      xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("loMenuAiBetterStyle"));
+      xNewSubMenuEntry.setPropertyValue("CommandURL", LT_AI_BETTER_STYLE);
+      xSubMenuContainer.insertByIndex(j, xNewSubMenuEntry);
+      j++;
+      xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+        xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+      xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("loMenuAiExpandText"));
+      xNewSubMenuEntry.setPropertyValue("CommandURL", LT_AI_EXPAND_TEXT);
+      xSubMenuContainer.insertByIndex(j, xNewSubMenuEntry);
+      j++;
+      xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+          xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+      xNewSubMenuEntry.setPropertyValue("Text", MESSAGES.getString("loMenuAiGeneralCommand"));
+      xNewSubMenuEntry.setPropertyValue("CommandURL", LT_AI_GENERAL_COMMAND);
+      xSubMenuContainer.insertByIndex(j, xNewSubMenuEntry);
+      
+      XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+        xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+      xNewMenuEntry.setPropertyValue("Text",  MESSAGES.getString("loMenuAiSupport"));
+      xNewMenuEntry.setPropertyValue("CommandURL", LT_AI_GENERAL_COMMAND);
+      xNewMenuEntry.setPropertyValue("SubContainer", (Object)xSubMenuContainer);
+      xContextMenu.insertByIndex(nId, xNewMenuEntry);
+*/
+   }
+      
+   private XPropertySet createActivateRuleProfileItems(Map<String, String> deactivatedRulesMap, 
         XMultiServiceFactory xMenuElementFactory) throws Throwable {
       XPropertySet xNewSubMenuEntry;
       XIndexContainer xRuleMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,

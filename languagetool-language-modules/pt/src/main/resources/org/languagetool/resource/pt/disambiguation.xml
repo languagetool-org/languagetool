@@ -3769,6 +3769,152 @@
       </rule>
   </rulegroup>
 
+  <rulegroup id="IGNORE_PROBABLE_ENGLISH_TOPONYMS" name="Ignore words with a high likelihood of being English-language toponyms">
+      <rule> <!-- #1: US state abbreviations -->
+          <pattern>
+              <marker>
+                  <token regexp="yes" postag="UNKNOWN" case_sensitive="yes">\p{Lu}.+</token>
+              </marker>
+              <token spacebefore="no" postag="_PUNCT_COMMA"/>
+              <token regexp="yes" case_sensitive="yes">&state_abbrev_us;</token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+
+      <rule> <!-- #2: single-token names of states, counties, provinces -->
+          <pattern>
+              <marker>
+                  <token regexp="yes" postag="UNKNOWN" case_sensitive="yes">\p{Lu}.+</token>
+              </marker>
+              <token spacebefore="no" postag="_PUNCT_COMMA"/>
+              <token regexp="yes" min="0">em|n[oa]s?</token>
+              <token regexp="yes" min="0">estado|província|condado|ducado</token>
+              <token regexp="yes" min="0">d([oa]s?|e)</token>
+              <token regexp="yes" case_sensitive="yes">&english_subnational_toponyms;</token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+
+      <rule> <!-- #3: multi-token names of states, counties, provinces; "new" -->
+          <pattern>
+              <marker>
+                  <token regexp="yes" postag="UNKNOWN" case_sensitive="yes">\p{Lu}.+</token>
+              </marker>
+              <token spacebefore="no" postag="_PUNCT_COMMA"/>
+              <token regexp="yes" min="0">em|n[oa]s?</token>
+              <token regexp="yes" min="0">estado|província|condado|ducado</token>
+              <token regexp="yes" min="0">d([oa]s?|e)</token>
+              <token regexp="yes" case_sensitive="yes">Nov[oa]</token>
+              <token regexp="yes" case_sensitive="yes">&english_subnational_toponyms_new;</token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+
+      <rule> <!-- #4: multi-token names of states, counties, provinces; with "do Norte/Sul" -->
+          <pattern>
+              <marker>
+                  <token regexp="yes" postag="UNKNOWN" case_sensitive="yes">\p{Lu}.+</token>
+              </marker>
+              <token spacebefore="no" postag="_PUNCT_COMMA"/>
+              <token regexp="yes" min="0">em|n[oa]s?</token>
+              <token regexp="yes" min="0">estado|província|condado|ducado</token>
+              <token regexp="yes" min="0">d([oa]s?|e)</token>
+              <token regexp="yes" case_sensitive="yes">&english_subnational_toponyms_north_south;</token>
+              <token>do</token>
+              <token regexp="yes" case_sensitive="yes">Norte|Sul</token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+
+      <rule> <!-- #5: multi-token names of states, counties, provinces; with other geographical adjectives -->
+          <pattern>
+              <marker>
+                  <token regexp="yes" postag="UNKNOWN" case_sensitive="yes">\p{Lu}.+</token>
+              </marker>
+              <token spacebefore="no" postag="_PUNCT_COMMA"/>
+              <token regexp="yes" min="0">em|n[oa]s?</token>
+              <token regexp="yes" min="0">estado|província|condado|ducado</token>
+              <token regexp="yes" min="0">d([oa]s?|e)</token>
+              <token regexp="yes" case_sensitive="yes">&english_subnational_toponyms_with_adj;</token>
+              <token regexp="yes" case_sensitive="yes">Setentrional|Meridional|Ocidental|Oriental</token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+
+      <rule> <!-- #6: multi-token names of states, counties, provinces; Rhode Island -->
+          <pattern>
+              <marker>
+                  <token regexp="yes" postag="UNKNOWN" case_sensitive="yes">\p{Lu}.+</token>
+              </marker>
+              <token spacebefore="no" postag="_PUNCT_COMMA"/>
+              <token regexp="yes" min="0">em|n[oa]s?</token>
+              <token regexp="yes" min="0">estado|província|condado|ducado</token>
+              <token regexp="yes" min="0">d([oa]s?|e)</token>
+              <token case_sensitive="yes">Rhode</token>
+              <token case_sensitive="yes">Island</token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+
+      <rule> <!-- #7: multi-token names of states, counties, provinces; Newfoundland and Labrador (jesus canada, relax) -->
+          <pattern>
+              <marker>
+                  <token regexp="yes" postag="UNKNOWN" case_sensitive="yes">\p{Lu}.+</token>
+              </marker>
+              <token spacebefore="no" postag="_PUNCT_COMMA"/>
+              <token regexp="yes" min="0">em|n[oa]s?</token>
+              <token regexp="yes" min="0">estado|província|condado|ducado</token>
+              <token regexp="yes" min="0">d([oa]s?|e)</token>
+              <token case_sensitive="yes">Terra</token>
+              <token case_sensitive="yes">Nova</token>
+              <token case_sensitive="yes">e</token>
+              <token case_sensitive="yes">Labrador</token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+
+      <rule> <!-- #8: multi-token names of states, counties, provinces; British Columbia -->
+          <pattern>
+              <marker>
+                  <token regexp="yes" postag="UNKNOWN" case_sensitive="yes">\p{Lu}.+</token>
+              </marker>
+              <token spacebefore="no" postag="_PUNCT_COMMA"/>
+              <token regexp="yes" min="0">em|n[oa]s?</token>
+              <token regexp="yes" min="0">estado|província|condado|ducado</token>
+              <token regexp="yes" min="0">d([oa]s?|e)</token>
+              <token case_sensitive="yes">Colúmbia</token>
+              <token case_sensitive="yes">Britânica</token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+
+      <rule> <!-- #9: multi-token names of states, counties, provinces; Prince Edward Island -->
+          <pattern>
+              <marker>
+                  <token regexp="yes" postag="UNKNOWN" case_sensitive="yes">\p{Lu}.+</token>
+              </marker>
+              <token spacebefore="no" postag="_PUNCT_COMMA"/>
+              <token regexp="yes" min="0">em|n[oa]s?</token>
+              <token regexp="yes" min="0">estado|província|condado|ducado</token>
+              <token regexp="yes" min="0">d([oa]s?|e)</token>
+              <token case_sensitive="yes">Ilha</token>
+              <token case_sensitive="yes">do</token>
+              <token case_sensitive="yes">Príncipe</token>
+              <token case_sensitive="yes">Eduardo</token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+  </rulegroup>
+
   <rulegroup id="IGNORE_ENGLISH_WORDS" name="Label English words">
       <rule> <!-- #1 -->
           <pattern>
@@ -3825,7 +3971,7 @@
                       <exception postag="_english_ignore_"/>
                   </token>
               </marker>
-              <token postag="_english_ignore_|allow_saxon_genitive" postag_regexp="yes"/>
+              <token postag="_english_ignore_" postag_regexp="yes"/>
           </pattern>
           <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
           <disambig action="add">
@@ -3995,8 +4141,7 @@
               <wd pos="_english_ignore_"/>
           </disambig>
       </rule>
-
-      <rule> <!-- #16, risky -->
+      <rule> <!-- #16, foward, risky -->
           <pattern>
               <token regexp="yes">&english_forward;
                   <exception postag="_english_ignore_"/>
@@ -4008,7 +4153,7 @@
               <wd pos="_english_ignore_"/>
           </disambig>
       </rule>
-      <rule> <!-- #17, risky -->
+      <rule> <!-- #17, foward, risky -->
           <pattern>
               <marker>
                   <token regexp="yes">&english_forward;
@@ -4018,6 +4163,94 @@
               <token postag="_english_ignore_"/>
           </pattern>
           <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+      <rule> <!-- #18, with possessive -->
+          <pattern>
+              <token regexp="yes">&english_common;
+                  <exception postag="_english_ignore_"/>
+              </token>
+              <token regexp="yes">&apostrophes;
+                  <exception postag="_english_ignore_"/>
+              </token>
+              <token>s
+                  <exception postag="_english_ignore_"/>
+              </token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #19, with possessive -->
+          <pattern>
+              <token postag="_english_ignore_"/>
+              <marker>
+                  <token regexp="yes">&apostrophes;
+                      <exception postag="_english_ignore_"/>
+                  </token>
+                  <token>s
+                      <exception postag="_english_ignore_"/>
+                  </token>
+              </marker>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #20, with intervening commas -->
+          <pattern>
+              <token regexp="yes">&english_common;
+                  <exception regexp="yes">&english_no;|&english_forward;</exception>
+                  <exception postag="_english_ignore_"/>
+              </token>
+              <token postag="_PUNCT_COMMA"/>
+              <token regexp="yes">&english_common;
+                  <exception regexp="yes">&english_no;|&english_forward;</exception>
+                  <exception postag="_english_ignore_"/>
+              </token>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,3"/>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #21, with intervening commas -->
+          <pattern>
+              <marker>
+                  <token regexp="yes">&english_common;
+                      <exception regexp="yes">&english_no;|&english_forward;</exception>
+                      <exception postag="_english_ignore_"/>
+                  </token>
+              </marker>
+              <token postag="_PUNCT_COMMA"/>
+              <token postag="_english_ignore_"/>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+          </disambig>
+      </rule>
+      <rule> <!-- #22, with intervening commas -->
+          <pattern>
+              <token postag="_english_ignore_"/>
+              <token postag="_PUNCT_COMMA"/>
+              <marker>
+                  <token regexp="yes">&english_common;
+                      <exception regexp="yes">&english_no;|&english_forward;</exception>
+                      <exception postag="_english_ignore_"/>
+                  </token>
+              </marker>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:3"/>
+          <disambig action="add">
+              <wd pos="_english_ignore_"/>
+          </disambig>
       </rule>
   </rulegroup>
 
@@ -4048,7 +4281,36 @@
           <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
           <disambig action="add"><wd pos="_english_ignore_"/></disambig>
       </rule>
-      <rule> <!-- #3, unknown single-word parenthetical -->
+      <rule> <!-- #3 with intervening comma -->
+          <pattern>
+              <token postag="_english_ignore_"/>
+              <token postag="_PUNCT_COMMA"/>
+              <marker>
+                  <token regexp="yes" postag="UNKNOWN">\p{L}+|'s
+                      <exception regexp="yes">&english_no;|&english_forward;</exception>
+                      <exception postag="_english_ignore_"/>
+                  </token>
+              </marker>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:3"/>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+      <rule> <!-- #4 with intervening comma -->
+          <pattern>
+              <marker>
+                  <token regexp="yes" postag="UNKNOWN">\p{L}+
+                      <exception regexp="yes">&english_no;|&english_forward;</exception>
+                      <exception postag="_english_ignore_"/>
+                  </token>
+              </marker>
+              <token postag="_PUNCT_COMMA"/>
+              <token postag="_english_ignore_"/>
+          </pattern>
+          <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+          <disambig action="add"><wd pos="_english_ignore_"/></disambig>
+      </rule>
+
+      <rule> <!-- #5, unknown single-word parenthetical -->
           <!-- This is for when we have a bunch of English words and then a single word in parenthesis,
                99% of the time it's also English or it's some kind of English acronym. -->
           <pattern>
