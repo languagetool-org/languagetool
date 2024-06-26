@@ -214,7 +214,8 @@ public class JLanguageToolTest {
     assertThat(cache.hitCount(), is(2L));
 
     JLanguageTool ltGerman = new JLanguageTool(new GermanyGerman(), null, cache);
-    assertTrue(ltGerman.check("This is an test").size() >= 3);
+    // only one error because English words are ignored
+    assertTrue(ltGerman.check("This is an test.").size() >= 1);
     assertThat(cache.hitCount(), is(2L));
 
     assertThat(ltEnglish.check("This is an test").size(), is(1));
@@ -557,6 +558,18 @@ public class JLanguageToolTest {
     assertEquals("[After Effects]", matches.get(0).getSuggestedReplacements().toString());
 
     matches = lt.check("House of Entrepreneurship");
+    assertEquals(0, matches.size());
+  }
+
+  @Test
+  public void testIgnoringEnglishWordsInGermanyGerman() throws IOException {
+    Language lang = new GermanyGerman();
+    JLanguageTool lt = new JLanguageTool(lang);
+
+    List<RuleMatch> matches = lt.check("Ich weiß nicht, ob today passt.");
+    assertEquals(1, matches.size());
+
+    matches = lt.check("Komm schon, let us do this!");
     assertEquals(0, matches.size());
   }
 

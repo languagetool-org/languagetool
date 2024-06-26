@@ -457,7 +457,8 @@ public class HunspellRule extends SpellingCheckRule {
     AnalyzedTokenReadings[] sentenceTokens = getSentenceWithImmunization(sentence).getTokens();
     for (int i = 1; i < sentenceTokens.length; i++) {
       String token = sentenceTokens[i].getToken();
-      if (sentenceTokens[i].isImmunized() || sentenceTokens[i].isIgnoredBySpeller() || isUrl(token) || isEMail(token) || isQuotedCompound(sentence, i, token)) {
+      if (sentenceTokens[i].isImmunized() || sentenceTokens[i].isIgnoredBySpeller() || isUrl(token) || isEMail(token)
+        || isQuotedCompound(sentence, i, token) || sentenceTokens[i].hasPosTag("_english_ignore_")) {
         if (isQuotedCompound(sentence, i, token)) {
           sb.append(' ').append(token.substring(1));
         }
