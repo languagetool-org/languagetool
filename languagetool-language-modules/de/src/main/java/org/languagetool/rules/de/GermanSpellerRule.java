@@ -2399,14 +2399,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean isOldSpelling(List<String> parts) {
     for (String part: parts) {
-      String cleaned_part = removeTrailingSAndHyphen(part);
+      String cleanedPart = removeTrailingSAndHyphen(part);
       if (part.endsWith("s")) {
-        if (oldSpelling.contains(uppercaseFirstChar(part)) || oldSpelling.contains(uppercaseFirstChar(cleaned_part))
-          || oldSpelling.contains(lowercaseFirstChar(part)) ||oldSpelling.contains(lowercaseFirstChar(cleaned_part))) {
+        if (oldSpelling.contains(uppercaseFirstChar(part)) || oldSpelling.contains(uppercaseFirstChar(cleanedPart))
+          || oldSpelling.contains(lowercaseFirstChar(part)) ||oldSpelling.contains(lowercaseFirstChar(cleanedPart))) {
           return true;
         }
       } else {
-        if (oldSpelling.contains(uppercaseFirstChar(cleaned_part)) || oldSpelling.contains(lowercaseFirstChar(cleaned_part))) {
+        if (oldSpelling.contains(uppercaseFirstChar(cleanedPart)) || oldSpelling.contains(lowercaseFirstChar(cleanedPart))) {
           return true;
         }
       }
@@ -2501,32 +2501,32 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return false;
     }
 
-    String part1_without_infix_s = part1upcased;
+    String part1WithoutInfixS = part1upcased;
 
     // Sometimes part1 requires singular or plural
-    String part1_lemma = findLemmaForNoun(removeTrailingHyphen(part1));
+    String part1Lemma = findLemmaForNoun(removeTrailingHyphen(part1));
     //
-    if (part1_lemma.equals("") && removeTrailingHyphen(part1).endsWith("s")) {
-      part1_lemma = findLemmaForNoun(removeTrailingSAndHyphen(part1));
-      part1_without_infix_s = removeTrailingS(part1upcased);
+    if (part1Lemma.equals("") && removeTrailingHyphen(part1).endsWith("s")) {
+      part1Lemma = findLemmaForNoun(removeTrailingSAndHyphen(part1));
+      part1WithoutInfixS = removeTrailingS(part1upcased);
     }
 
     // Allow part1 to be a plural noun if...
 
     // ... part2 is a nominalized verb or...
-    if (isNounNomPlu(part1_without_infix_s) && !isNounNomSin(part1_without_infix_s) &&
+    if (isNounNomPlu(part1WithoutInfixS) && !isNounNomSin(part1WithoutInfixS) &&
         (!isSubVerInf(part2upcased) ||
         (isSubVerInf(part2upcased) && SUBINF_SINGULAR_OBJECT.matcher(lowercaseFirstChar(part2)).matches())) &&
-        !needsToBePlural(lowercaseFirstChar(part1_lemma)) &&
-        !WECHSELNUMERUS.matcher(lowercaseFirstChar(part1_lemma)).matches()) {
+        !needsToBePlural(lowercaseFirstChar(part1Lemma)) &&
+        !WECHSELNUMERUS.matcher(lowercaseFirstChar(part1Lemma)).matches()) {
        return false;
     }
     // ... part1 always needs to be plural or...
-    if (needsToBePlural(lowercaseFirstChar(part1_lemma)) && isNounNomSin(part1_without_infix_s)) {
+    if (needsToBePlural(lowercaseFirstChar(part1Lemma)) && isNounNomSin(part1WithoutInfixS)) {
       return false;
     }
     // ... part1
-    if (WECHSELNUMERUS.matcher(lowercaseFirstChar(part1_lemma)).matches()) {
+    if (WECHSELNUMERUS.matcher(lowercaseFirstChar(part1Lemma)).matches()) {
       if (!checkPluralForPart1Part2Combination(part1, part2)) {
         return false;
       }
@@ -2596,9 +2596,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean checkInfixSForPart1Part2Combination(String part1, String part2) throws IOException {
     // For some part1-and-part2 combinations an infix s is correct or incorrect
-    String part2_lemma = findLemmaForNoun(removeTrailingHyphen(part2));
-    if (part2_lemma.equals("") && removeTrailingHyphen(part2).endsWith("s")) {
-      part2_lemma = findLemmaForNoun(removeTrailingSAndHyphen(part2));
+    String part2Lemma = findLemmaForNoun(removeTrailingHyphen(part2));
+    if (part2Lemma.equals("") && removeTrailingHyphen(part2).endsWith("s")) {
+      part2Lemma = findLemmaForNoun(removeTrailingSAndHyphen(part2));
     }
 
     if (part1.equals("Arbeit") && (ARBEIT_COMP.matcher(part2).matches())) {
@@ -2609,32 +2609,32 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // e. g. "Arbeitsgeber"
       return true;
     }
-    if (part1.equals("Link") && LINK_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+    if (part1.equals("Link") && LINK_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
       return true;
     }
-    if (part1.equals("Links") && LINKS_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+    if (part1.equals("Links") && LINKS_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
       return true;
     }
-    if (part1.equals("Recht") && RECHT_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+    if (part1.equals("Recht") && RECHT_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
       // e. g. "Rechtanwälte"
       return true;
     }
-    if (part1.equals("Rechts") && RECHTS_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+    if (part1.equals("Rechts") && RECHTS_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
       // e. g. "Rechtsfertigung"
       return true;
     }
-    if (part1.equals("Verband") && VERBAND_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+    if (part1.equals("Verband") && VERBAND_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
       // e. g. "Verbandgemeinde"
       return true;
     }
-    if (part1.equals("Verbands") && VERBANDS_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+    if (part1.equals("Verbands") && VERBANDS_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
       // e. g. "Verbandszeug"
       return true;
     }
-    if (WOCHENTAGE.matcher(part1).matches() && WOCHENTAG_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+    if (WOCHENTAGE.matcher(part1).matches() && WOCHENTAG_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
       return true;
     }
-    if (WOCHENTAGE_S.matcher(part1).matches() && !WOCHENTAG_COMP.matcher(lowercaseFirstChar(part2_lemma)).matches()) {
+    if (WOCHENTAGE_S.matcher(part1).matches() && !WOCHENTAG_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
       return true;
     }
     return false;
@@ -2642,23 +2642,23 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean checkPluralForPart1Part2Combination(String part1, String part2) throws IOException {
     // For some part1-and-part2 combinations part1 needs to be singular or plural
-    String part2_lemma = findLemmaForNoun(removeTrailingHyphen(part2));
-    if (part2_lemma.equals("") && removeTrailingHyphen(part2).endsWith("s")) {
-      part2_lemma = findLemmaForNoun(removeTrailingSAndHyphen(part2));
+    String part2Lemma = findLemmaForNoun(removeTrailingHyphen(part2));
+    if (part2Lemma.equals("") && removeTrailingHyphen(part2).endsWith("s")) {
+      part2Lemma = findLemmaForNoun(removeTrailingSAndHyphen(part2));
     }
-    if (part1.equals("Welt") && (!WELTEN_COMP.matcher(part2_lemma).matches())) {
+    if (part1.equals("Welt") && (!WELTEN_COMP.matcher(part2Lemma).matches())) {
       // e. g. "Weltklima"
       return true;
     }
-    if (part1.equals("Welten") && (WELTEN_COMP.matcher(part2_lemma).matches())) {
+    if (part1.equals("Welten") && (WELTEN_COMP.matcher(part2Lemma).matches())) {
       // e. g. "Weltenbummler"
       return true;
     }
-    if (part1.equals("Wort") && (!WOERTER_COMP.matcher(part2_lemma).matches())) {
+    if (part1.equals("Wort") && (!WOERTER_COMP.matcher(part2Lemma).matches())) {
       // e. g. "Wortgrenze"
       return true;
     }
-    if (part1.equals("Wörter") && (WOERTER_COMP.matcher(part2_lemma).matches())) {
+    if (part1.equals("Wörter") && (WOERTER_COMP.matcher(part2Lemma).matches())) {
       // e. g. "Wörterbuch"
       return true;
     }
@@ -2719,13 +2719,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private List<String> avoidInfixSAsSingleToken(List<String> parts) {
     // If a part equals "s", append it to its predecessor
     //   example: "Priorität", "s", "ding" -> "Prioritäts", "ding"
-    List<String> fixed_parts = new ArrayList<String>();
-    List<Integer> indexes_of_s = indexOfInfixS(parts);
+    List<String> fixedParts = new ArrayList<String>();
+    List<Integer> indexesOfS = indexOfInfixS(parts);
 
     // Sort indexes in descending order to avoid shifting issues while removing elements
-    Collections.sort(indexes_of_s, Collections.reverseOrder());
+    Collections.sort(indexesOfS, Collections.reverseOrder());
 
-    for (Integer index : indexes_of_s) {
+    for (Integer index : indexesOfS) {
       if (index > 0 && index < parts.size()) { // Ensure index is within bounds and not the first element
         String toAppend = parts.remove((int) index); // Remove the element at position i and store it
         parts.set(index - 1, parts.get(index - 1) + toAppend); // Append the removed string to the element at i-1
