@@ -36,6 +36,11 @@ class CaseRuleAntiPatterns {
   // also see case_rule_exceptions.txt:
   static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      csRegex("[1-9]{2,4}"),
+      csRegex(":"),
+      csRegex("[A-ZÜÄÖ][a-züäö].*")
+    ),
+    Arrays.asList(
       csRegex("In"),
       csRegex(":"),
       csRegex("[A-ZÜÄÖ][a-züäö].*")
