@@ -160,11 +160,10 @@ USA
     </rule>
 
 
-    <rule id='PÔR_FIM_À_VIDA' name="[pt-PT] pôr 'fim' à vida → 'termo'" tone_tags="formal" default="temp_off">
+    <rule id='PÔR_FIM_À_VIDA' name="[pt-PT][Formal] pôr 'fim' à vida → 'termo/término'" tone_tags="formal" default="temp_off">
         <pattern>
-            <token inflected='yes'>pôr</token>
+            <token skip='4' inflected='yes'>pôr</token>
             <marker>
-                <token min='0' max='1' regexp='yes'>o|um</token>
                 <token>fim</token>
             </marker>
             <token skip='4' regexp='yes'>à</token>
@@ -172,9 +171,10 @@ USA
         </pattern>
         <message>&informal_msg;</message>
         <suggestion>termo</suggestion>
-        <example correction="termo">O Rui pôs <marker>fim</marker> à vida.</example>
-        <example correction="termo">O Rui pôs <marker>um fim</marker> à vida.</example>
-        <example correction="termo">O Rui pôs <marker>fim</marker> à sua trágica vida.</example>
+        <suggestion>término</suggestion>
+        <example correction="termo|término">O Rui pôs <marker>fim</marker> à vida.</example>
+        <example correction="termo|término">O Rui pôs um <marker>fim</marker> à vida.</example>
+        <example correction="termo|término">O Rui pôs <marker>fim</marker> à sua trágica vida.</example>
     </rule>
 
 
