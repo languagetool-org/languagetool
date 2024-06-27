@@ -133,6 +133,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern WOCHENTAGE = compile("Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag");
   private static final Pattern WOCHENTAGE_S = compile("(Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag)s");
   private static final Pattern SS = compile("ss");
+  private static final Pattern CAMEL_CASE = compile(".*(\\p{Ll}\\p{Lu}|\\p{Lu}{2,}\\p{Ll}).*");
   private static final Pattern COMPOUND_TYPOS = compile("([Ee]mail|[Ii]reland|[Kk]reissaal|[Mm]akeup|[Ss]tandart).*");
   private static final Pattern COMPOUND_END_TYPOS = compile(".*(gruße|schaf(s|en)?)$");
   private static final Pattern INFIX_S_SUFFIXES = compile(".*(heit|[^c]tion|ität|keit|ling|ung|schaft|tum)$");
@@ -2672,9 +2673,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean isValidCamelCase(String input) {
     // Check if the string contains any instance of camel casing
-    // TODO Is this already implemented in StringTools::isCamelCase?
-
-    return !input.matches(".*(\\p{Ll}\\p{Lu}|\\p{Lu}{2,}\\p{Ll}).*");
+    return !CAMEL_CASE.matcher(input).matches();
   }
 
   private List<String> restoreRemovedHyphens(List<String> parts, String word) {
