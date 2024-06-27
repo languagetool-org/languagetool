@@ -33,6 +33,10 @@ class AgreementRuleAntiPatterns1 {
 
   static final List<List<PatternToken>> ANTI_PATTERNS = asList(
     asList(
+      tokenRegex("der|die|das"),
+      posRegex("_english_ignore_")
+    ),
+    asList(
       tokenRegex("der|des"),   // "Übernahme der früher selbständigen Gesellschaft"
       token("früher"),
       posRegex("ADJ:.*"),

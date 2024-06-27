@@ -24,15 +24,17 @@ package org.languagetool.rules;
  * @since 6.5
  */
 public class RuleOption {
+
   public final static String DEFAULT_VALUE = "defaultValue";
   public final static String DEFAULT_TYPE = "defaultType";
   public final static String MIN_CONF_VALUE = "minConfigurableValue";
   public final static String MAX_CONF_VALUE = "maxConfigurableValue";
   public final static String CONF_TEXT = "configureText";
+
   private final Object defaultValue;
   private final String configureText;
-  private Object minConfigurableValue;
-  private Object maxConfigurableValue;
+  private final Object minConfigurableValue;
+  private final Object maxConfigurableValue;
   
   public RuleOption(Object defaultValue, String configureText, Object minConfigurableValue, Object maxConfigurableValue) {
     this.defaultValue = defaultValue;
@@ -160,8 +162,4 @@ public class RuleOption {
     return o;
   }
 
-
-
-  
-  
 }

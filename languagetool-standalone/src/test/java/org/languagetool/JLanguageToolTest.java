@@ -214,7 +214,8 @@ public class JLanguageToolTest {
     assertThat(cache.hitCount(), is(2L));
 
     JLanguageTool ltGerman = new JLanguageTool(new GermanyGerman(), null, cache);
-    assertTrue(ltGerman.check("This is an test").size() >= 3);
+    // only one error because English words are ignored
+    assertTrue(ltGerman.check("This is an test.").size() >= 1);
     assertThat(cache.hitCount(), is(2L));
 
     assertThat(ltEnglish.check("This is an test").size(), is(1));
@@ -561,6 +562,18 @@ public class JLanguageToolTest {
   }
 
   @Test
+  public void testIgnoringEnglishWordsInGermanyGerman() throws IOException {
+    Language lang = new GermanyGerman();
+    JLanguageTool lt = new JLanguageTool(lang);
+
+    List<RuleMatch> matches = lt.check("Ich weiß nicht, ob today passt.");
+    assertEquals(1, matches.size());
+
+    matches = lt.check("Komm schon, let us do this!");
+    assertEquals(0, matches.size());
+  }
+
+  @Test
   public void testIgnoreEnglishWordsInPortuguese() throws IOException {
     JLanguageTool lt = new JLanguageTool(new BrazilianPortuguese());
     lt.disableRules(lt.getAllRules().stream().map(Rule::getId).collect(Collectors.toList()));
@@ -584,7 +597,6 @@ public class JLanguageToolTest {
       "Ou teria sido Luke I am looking for your father?",  // "for"
       "Algo mais estranho: I am providing for Mother, talvez?",  // "for"
       "Mas mandou mensagem que she is waiting for your brother.",  // "for"
-      "E se for business?",  // "for"
       "Em português é Conduzindo a Miss Daisy, não é?",  // "a"
       "A organização Law Enforcement Agent Protection (Leap).",  // single-word parenthetical
       "Mais sucessos seguiram, com os álbuns \"Ghetto Dictionary: The Art of War\"",  // ghetto
@@ -618,6 +630,9 @@ public class JLanguageToolTest {
       "A pequena cidade de Bethany Beach, em Delaware.",  // "em"
       "O vilarejo de Goose Bay, na província de Terra Nova e Labrador.",  // "na província de"
       "Morava, na época, em Keene, estado de Nova Hampshire.",  // "estado de"
+      "O episódio se chamava Do Something.",  // uppercase "Do" followed by English, assume it's a title; cf. "do Castle" below
+      "Ele escreveu: in San Diego, California we were at our best.",  // "California" in proper English context
+      "O prêmio The Academy of Science Fiction & Fantasy."  // english tag must carry across ampersand
     };
     for (String sentence : noErrorSentences) {
       List<RuleMatch> matches = lt.check(sentence);
@@ -631,6 +646,11 @@ public class JLanguageToolTest {
     // because "as" is blocked and "Endeavour" is not in the list of 'common' English words, we don't tag with _english_ignore_
     errorSentences.put("Acho que se chamava As Endeavour.", "EndeavourOS");
     errorSentences.put("Clique settings e veja o que acontece.", "sétimas");  // "settings" is isolated; "clique" is English but specifically blocked
+    errorSentences.put("Point Loma High School em San Diego, California.", "Califórnia");  // "California" must be corrected, but cf. "California above"
+    errorSentences.put("Ele foi foi descartado por Carroll, mas os proprietários não gostaram.", "Carrol");  // "mas" must be blocked
+    errorSentences.put("Não é bem como imaginei baseada na descrição do Castle.", "Castel");  // lowercase "do" must be blocked; cf. "Do Something" above
+    errorSentences.put("Onde está a Cat?", "Cat.");  // "a" must be blocked
+    errorSentences.put("E se for business?", "Business");  // "for" blocks, not preceded by English *and* lowercase (i.e. not in English context, and not likely to be title)
     for (Map.Entry<String, String> entry : errorSentences.entrySet()) {
       List<RuleMatch> matches = lt.check(entry.getKey());
       assert !matches.isEmpty();

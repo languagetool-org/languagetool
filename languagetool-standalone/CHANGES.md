@@ -2,7 +2,8 @@
 
 ## 6.5-SNAPSHOT (release planned for 2024-09-27)
 
-...
+The add-on for LibreOffice/OpenOffice is not part of this repository
+anymore. Find it at https://github.com/languagetool-org/languagetool-for-libreoffice.
 
 
 ## 6.4 (2024-03-28)
