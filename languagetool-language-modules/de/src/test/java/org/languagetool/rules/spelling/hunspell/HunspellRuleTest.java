@@ -195,10 +195,16 @@ public class HunspellRuleTest {
   @Test
   public void testRuleWithSwissGerman() throws Exception {
     HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), Languages.getLanguageForShortCode("de-CH"), null);
-    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-CH"));
     commonGermanAsserts(rule, lt);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);  // ss is used instead of ß
+
+    // suggestions with ss, not ß, in Swiss German
+    List<RuleMatch> matches = lt.check("Mit freundlichen Gruessen");
+    assertEquals("Grüssen", matches.get(0).getSuggestedReplacements().get(0));
+    matches = lt.check("schließen");
+    assertEquals("schliessen", matches.get(0).getSuggestedReplacements().get(0));
   }
 
   private void commonGermanAsserts(HunspellRule rule, JLanguageTool lt) throws IOException {
