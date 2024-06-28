@@ -138,7 +138,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordsNeedingInfixS          = new HashSet<>();
   private final Set<String> wordsWithoutInfixS          = new HashSet<>();
   private final Set<String> germanPrefixes              = new HashSet<>();  // words used as compound parts but not nouns on their own, like "Kritzel"
-  private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
+  private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new LinkedHashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("vorbreiten", w -> Arrays.asList("vorbereiten", "verbreiten"));
