@@ -81,8 +81,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
         inPronouns = true;
       }
       boolean isInGV =  currentTkn.getChunkTags().contains(new ChunkTag("GV"));
-
-      if (isPronoun || (isVerb && !inPronouns && !firstVerbInflected && (toLeft == 0 || isInGV)) || isInGV) {
+      if (isPronoun || (isVerb && !inPronouns && !firstVerbInflected && (toLeft == 0 || isInGV)) || (isInGV && !firstVerbInflected)) {
         if (isVerb) {
           firstVerb = currentTknStr;
           firstVerbPos = toLeft;
