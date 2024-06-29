@@ -104,14 +104,17 @@ class LightRuleMatch {
     return suggestions;
   }
 
+  @Nullable
   String getRuleSource() {
     return ruleSource;
   }
-  
+
+  @Nullable
   String getTitle() {
     return title;
   }
 
+  @Nullable
   String getServer() {
     return server;
   }
