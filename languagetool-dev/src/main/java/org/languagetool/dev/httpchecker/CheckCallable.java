@@ -115,6 +115,7 @@ class CheckCallable implements Callable<File> {
             //  System.out.println(text);
             //}
             ((ObjectNode)jsonNode).put("title", pseudoFileName);  // needed for MatchKey to be specific enough
+            ((ObjectNode)jsonNode).put("server", result.backendServer);
             fw.write(jsonNode + "\n");
             break;
           } catch (ApiErrorException e) {

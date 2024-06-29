@@ -241,8 +241,14 @@ public class RuleMatchDiffFinder {
     if (oldMatch != null && !Objects.equals(oldMatch.getSubId(), newMatch.getSubId())) {
       fw.write(oldMatch.getRuleId());
       fw.write("[" + oldMatch.getSubId() + " => " + newMatch.getSubId() + "]");
+      if (oldMatch.getServer() != null) {
+        fw.write(" <span class='inv'>" + oldMatch.getServer() + "</span>");
+      }
     } else {
       fw.write(newMatch.getRuleId() + "[" + (newMatch.getSubId() != null ? newMatch.getSubId() : "") + "]");
+      if (newMatch.getServer() != null) {
+        fw.write(" <span class='inv'>" + newMatch.getServer() + "</span>");
+      }
     }
     if (newMatch.getStatus() != LightRuleMatch.Status.on) {
       fw.write("  <br><span class='status'>[" + newMatch.getStatus() + "]</span>");
@@ -575,6 +581,8 @@ public class RuleMatchDiffFinder {
     fw.write("    .id { color: #666; }\n");
     fw.write("    .msg { color: #666; }\n");
     fw.write("    .meta { color: #666; }\n");
+    fw.write("    .inv { color: transparent; }\n");
+    fw.write("    .inv::selection { color: black; }\n");
     fw.write("  </style>\n");
     fw.write("</head>\n");
     fw.write("<body>\n\n");

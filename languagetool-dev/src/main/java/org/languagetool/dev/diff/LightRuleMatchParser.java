@@ -64,7 +64,8 @@ class LightRuleMatchParser {
         String buildDate = software != null ? software.get("buildDate").asText() : "unknown";
         buildDates.add(buildDate);
         for (JsonNode match : matches) {
-          ruleMatches.add(nodeToLightMatch(node.get("title").asText(), match));
+          ruleMatches.add(nodeToLightMatch(node.get("title").asText(),
+            node.get("server") != null ? node.get("server").asText() : null, match));
         }
         lineCount++;
       }
@@ -75,7 +76,7 @@ class LightRuleMatchParser {
   }
 
   @NotNull
-  private LightRuleMatch nodeToLightMatch(String title, JsonNode match) {
+  private LightRuleMatch nodeToLightMatch(String title, String server, JsonNode match) {
     int offset = match.get("offset").asInt();
     JsonNode rule = match.get("rule");
     String ruleId = rule.get("id").asText();
@@ -142,7 +143,7 @@ class LightRuleMatchParser {
         tags.add(tag.asText());
       }
     }
-    return new LightRuleMatch(0, offset, fullRuleId, message, category, context, coveredText, replacementList, ruleSource, title, status, tags, isPremium);
+    return new LightRuleMatch(0, offset, fullRuleId, message, category, context, coveredText, replacementList, ruleSource, title, server, status, tags, isPremium);
   }
 
   JsonParseResult parseOutput(Reader reader) {
@@ -224,7 +225,7 @@ class LightRuleMatchParser {
   private LightRuleMatch makeMatch(int line, int column, String ruleId, String cleanId, String message, List<String> suggestions,
                                    String context, String coveredText, String title, String source, List<String> tags , boolean isPremium) {
     LightRuleMatch.Status s = ruleId.contains("[temp_off]") ? LightRuleMatch.Status.temp_off : LightRuleMatch.Status.on;
-    return new LightRuleMatch(line, column, cleanId, message, "", context, coveredText, suggestions, source, title, s, tags, isPremium);
+    return new LightRuleMatch(line, column, cleanId, message, "", context, coveredText, suggestions, source, title, null, s, tags, isPremium);
   }
 
   static class JsonParseResult {
