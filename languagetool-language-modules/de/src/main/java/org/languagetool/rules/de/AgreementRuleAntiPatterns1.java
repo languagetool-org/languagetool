@@ -33,6 +33,14 @@ class AgreementRuleAntiPatterns1 {
 
   static final List<List<PatternToken>> ANTI_PATTERNS = asList(
     asList(
+      tokenRegex("bring(s?t|en?)"),
+      token("das"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*PLU.*"),
+      token("mit"),
+      token("sich")
+    ),
+    asList(
       tokenRegex("der|die|das"),
       posRegex("_english_ignore_")
     ),

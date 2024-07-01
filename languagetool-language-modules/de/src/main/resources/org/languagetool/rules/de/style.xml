@@ -6178,11 +6178,15 @@ USA
             </rule>
             <rule><!--3-->
                 <antipattern>
+                    <token regexp="yes" case_sensitive="yes" postag="_english_ignore_">[\wäöüÄÖÜß-]*[gG]raph[\wäöüÄÖÜß-]*</token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">graphic|GraphQL|.*pho[nt]ograph.*|monograph|palaeontograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[\wäöüÄÖÜß-]*[gG]raph[\wäöüÄÖÜß-]*
                         <exception regexp="yes">.*[Pp]h.*ph.*</exception>
+                        <exception postag="_english_ignore_"/>
                     </token>
                 </pattern>
                 <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="(.)(.*)raph(.*)" regexp_replace="$1$2raf$3"/></suggestion> verwenden?</message>
