@@ -371,6 +371,34 @@ USA
         </category>
 
         <category id="PUNCTUATION" name="Punctuation" type="typographical">
+            <rule id="PERIOD_QUOTE_PERIOD" name="spell checker.”. (checker.”)" default="temp_off">
+            <!-- Fix outcome of QB rule -->
+                <antipattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]</token>
+                    <token>.</token>
+                    <token regexp="yes">["”]</token>
+                    <token postag="SENT_END">.</token>
+                    <example>Oh, and the term "jewfro" definitely predates "The O.C.".</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">co(rp)?|inc|ste</token>
+                    <token>.</token>
+                    <token regexp="yes">["”]</token>
+                    <token postag="SENT_END">.</token>
+                    <example>Adchem Corp. ". </example>
+                </antipattern>
+                <pattern>
+                    <token><exception>.</exception></token>
+                    <token>.</token>
+                    <token regexp="yes">["”]</token>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>There are two periods here.</message>
+                <suggestion>\1\2\3</suggestion>
+                <short>Error</short>
+                <example correction="checker.”">It turned out that Google was promoting this app every time someone searched for a “spell <marker>checker.”.</marker></example>
+                <example>My boss was like "ohhh sh.....".</example>
+            </rule>
             <rulegroup id="MISSING_PERIOD_AFTER_ABBREVIATION" name="Missing period after an abbreviation" tags="picky">
                 <url>https://www.quickanddirtytips.com/education/grammar/when-you-need-periods-after-abbreviations</url>
                 <short>Missing period</short>
