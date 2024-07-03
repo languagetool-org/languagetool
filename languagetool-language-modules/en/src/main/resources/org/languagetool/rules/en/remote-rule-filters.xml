@@ -3135,6 +3135,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- ====================================================================== -->
         <!-- QuillBot Antipatterns -->
         <!-- ====================================================================== -->
+        <rulegroup id="QB_EN_INSERT_PERIOD_ERROR_IDS_000049" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token />
+                    </marker>
+                    <token regexp="yes">["”]</token>
+                    <token regexp="yes" postag="SENT_END">[\?\!]</token>
+                </pattern>
+                <example correction="">It turned out that Google was promoting this app every time someone searched for a “spell <marker>checker</marker>”?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN" name="">
             <rule>  <!-- curly to straight quotes - opening  pt. I -->
                 <pattern>
