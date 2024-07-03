@@ -8,7 +8,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.50.2)",
+    value = "by gRPC proto compiler (version 1.56.1)",
     comments = "Source: ml_server.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class PostProcessingServerGrpc {
@@ -98,34 +98,38 @@ public final class PostProcessingServerGrpc {
    * for e.g. resorting suggestions
    * </pre>
    */
-  public static abstract class PostProcessingServerImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      */
-    public void process(org.languagetool.rules.ml.MLServerProto.PostProcessingRequest request,
+    default void process(org.languagetool.rules.ml.MLServerProto.PostProcessingRequest request,
         io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.MatchResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getProcessMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getProcessMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                org.languagetool.rules.ml.MLServerProto.PostProcessingRequest,
-                org.languagetool.rules.ml.MLServerProto.MatchResponse>(
-                  this, METHODID_PROCESS)))
-          .build();
     }
   }
 
   /**
+   * Base class for the server implementation of the service PostProcessingServer.
    * <pre>
    * for e.g. resorting suggestions
    * </pre>
    */
-  public static final class PostProcessingServerStub extends io.grpc.stub.AbstractAsyncStub<PostProcessingServerStub> {
+  public static abstract class PostProcessingServerImplBase
+      implements io.grpc.BindableService, AsyncService {
+
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return PostProcessingServerGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service PostProcessingServer.
+   * <pre>
+   * for e.g. resorting suggestions
+   * </pre>
+   */
+  public static final class PostProcessingServerStub
+      extends io.grpc.stub.AbstractAsyncStub<PostProcessingServerStub> {
     private PostProcessingServerStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -147,11 +151,13 @@ public final class PostProcessingServerGrpc {
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service PostProcessingServer.
    * <pre>
    * for e.g. resorting suggestions
    * </pre>
    */
-  public static final class PostProcessingServerBlockingStub extends io.grpc.stub.AbstractBlockingStub<PostProcessingServerBlockingStub> {
+  public static final class PostProcessingServerBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<PostProcessingServerBlockingStub> {
     private PostProcessingServerBlockingStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -172,11 +178,13 @@ public final class PostProcessingServerGrpc {
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service PostProcessingServer.
    * <pre>
    * for e.g. resorting suggestions
    * </pre>
    */
-  public static final class PostProcessingServerFutureStub extends io.grpc.stub.AbstractFutureStub<PostProcessingServerFutureStub> {
+  public static final class PostProcessingServerFutureStub
+      extends io.grpc.stub.AbstractFutureStub<PostProcessingServerFutureStub> {
     private PostProcessingServerFutureStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -204,10 +212,10 @@ public final class PostProcessingServerGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final PostProcessingServerImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(PostProcessingServerImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -234,6 +242,18 @@ public final class PostProcessingServerGrpc {
           throw new AssertionError();
       }
     }
+  }
+
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getProcessMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              org.languagetool.rules.ml.MLServerProto.PostProcessingRequest,
+              org.languagetool.rules.ml.MLServerProto.MatchResponse>(
+                service, METHODID_PROCESS)))
+        .build();
   }
 
   private static abstract class PostProcessingServerBaseDescriptorSupplier
