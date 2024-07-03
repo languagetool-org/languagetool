@@ -8672,15 +8672,7 @@ USA
         </rule>
 
 
-        <rulegroup id='BÁSICO_ELEMENTAR' name="[Universitário][Científico] Básico → Elementar" tone_tags="academic" is_goal_specific="true" default="temp_off">
-            <!--
-                TO-DO:
-                1. Look at the next diff results and add the words to the 2nd subrule;
-                2. Replace the "min" & "max" with "skip" like in the "furto de identidade" rule;
-                3. Replace the exception with the words from subrule 2 and check my PhD thesis for more words.
-                : It will provide less results, but they will be more accurate.
-            -->
-
+        <rule id='BÁSICO_ELEMENTAR' name="[Universitário][Científico] Básico → Elementar" tone_tags="academic" is_goal_specific="true" default="temp_off">
             <antipattern>
                 <token regexp='yes'>unidades?</token>
                 <token regexp='yes'>básicas?</token>
@@ -8689,26 +8681,26 @@ USA
                 <example>IND-0295/2018 Indica a reforma completa da UBS (Unidade Básica de Saúde) da Vila Cretti.</example>
                 <example>Existem na cidade Unidades Básicas de Saúde e Unidade de Serviço de Apoio de Diagnose e Terapia.</example>
             </antipattern>
-
-            <rule>
-                <pattern>
-                    <!-- Triggering (good) words below. Add more as found -->
-                    <token regexp='yes' inflected='yes'>abordagem|adição|algo|algoritmo|aritmética|aspec?to|cálculo|catástrofe|coisa|componente|comportamento|compreensão|conceito|conhecimento|conjunto|constituinte|diferença|disciplina|divisão|elemento|equação|erro|expressão|fac?to|ferramenta|forma|fórmula|função|fundamento|informação|interpretação|medida|método|métrica|motivo|multiplicação|noção|norma|obra|operação|palavra|prevenção|produto|questão|razão|regra|subtração|subunidade|suporte|técnica|tipo|unidade|valor|versão</token>
-                    <token min='0' max='2' postag='Z0.+|RM|RG|NC.+|AQ.+' postag_regexp='yes'>
-                        <exception regexp='yes'>básic[ao]s?</exception>
+            <pattern>
+                <!-- Triggering (good) words below. Add more as found -->
+                <token skip='4' regexp='yes' inflected='yes'>abordagem|adição|algo|algoritmo|aritmética|aspec?to|biologia|cálculo|catástrofe|coisa|componente|comportamento|compreensão|conceito|conhecimento|conjunto|constituinte|diferença|disciplina|divisão|elemento|equação|erro|expressão|fac?to|ferramenta|física|forma|fórmula|função|fundamento|informação|interpretação|matemática|medida|método|métrica|motivo|multiplicação|noção|norma|obra|operação|palavra|prevenção|produto|questão|química|razão|regra|subtração|subunidade|suporte|técnica|tipo|unidade|valor|versão</token>
+                <marker>
+                    <token regexp='yes'>básic[ao]s?
+                        <exception scope='previous' inflected='yes' regexp="yes">a:o|necessidade|princípio|saneamento</exception>
                     </token>
-                    <marker>
-                        <token regexp='yes'>básic[ao]s?</token>
-                    </marker>
-                </pattern>
-                <message>Num contexto formal/científico, é preferível escrever &quot;elementar&quot;.</message>
-                <suggestion><match no='3' postag='AQ0.(.)0' postag_replace='AQ0C$10'>elementar</match></suggestion>
-                <example correction="elementar">O Ana tem uma noção <marker>básica</marker> do assunto.</example>
-                <example correction="elementares">O Rui possui conhecimentos <marker>básicos</marker> de informática.</example>
-                <example correction="elementar">Esta é a forma mais <marker>básica</marker> do conhecimento.</example>
-                <example correction="elementares">Os bits são as unidades mais <marker>básicas</marker> dos dados.</example>
-            </rule>
-        </rulegroup>
+                </marker>
+            </pattern>
+            <message>Num contexto formal/científico, é preferível escrever &quot;elementar&quot;.</message>
+            <suggestion><match no='2' postag='AQ0.(.)0' postag_replace='AQ0C$10'>elementar</match></suggestion>
+            <example correction="elementar">O Ana tem uma noção <marker>básica</marker> do assunto.</example>
+            <example correction="elementares">O Rui possui conhecimentos <marker>básicos</marker> de informática.</example>
+            <example correction="elementar">Esta é a forma mais <marker>básica</marker> do conhecimento.</example>
+            <example correction="elementares">Os bits são as unidades mais <marker>básicas</marker> dos dados.</example>
+            <example>Newton também deu andamento a obras de saneamento básico no Jequitinhonha.</example>
+            <example>Assim despertando a criatividade e a compreensão das necessidades básicas para o desenvolvimento de jogos.</example>
+            <example>A partir desses valores, possui como princípios básicos: "feedback" rápido e presumir simplicidade.</example>
+            <example>Para mim não chegam as palavras despojadas e reduzidas ao básico: os taninos, os citrinos.</example>
+        </rule>
 
 
        <rulegroup id='DAR_EXEMPLO_EXEMPLIFICAR' name="Simplificar: 'Dar exemplo' → exemplificar" tone_tags="academic" is_goal_specific="true">
