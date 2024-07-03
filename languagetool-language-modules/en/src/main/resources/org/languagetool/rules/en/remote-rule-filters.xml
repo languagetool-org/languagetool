@@ -621,6 +621,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_FORM" name="">
+            <rule>
+                <pattern>
+                    <token inflected="yes">have</token>
+                    <token min="0" max="2" postag="RB" />
+                    <marker>
+                        <token postag="VBN" chunk="I-VP" />
+                    </marker>
+                </pattern>
+                <example correction="">I feel a bit stupid because I have not <marker>thought</marker> of buying some eggs yesterday.</example>
+                <example correction="">I feel a bit stupid because I have not <marker>seen</marker> him buying some eggs yesterday.</example>
+            </rule>
             <rule>  <!-- former/latter/etc. -->
                 <pattern>
                     <token regexp="yes" chunk="E-NP-singular">&plural_singular_nouns_2;</token>
