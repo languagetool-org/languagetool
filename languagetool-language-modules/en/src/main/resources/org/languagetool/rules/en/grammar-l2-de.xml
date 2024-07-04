@@ -223,24 +223,5 @@ USA
             </rule>
         </rulegroup>
     </category>
-    <!-- ====================================================================== -->
-    <!-- Possible typo -->
-    <!-- ====================================================================== -->
-    <category id="TYPOS" name="Possible Typo" type="misspelling">
-        <rule id="UND_AND" name="He likes water und (and) lemonade" default="temp_off">
-        <!-- possibly make a rule group for non- NOUN und NOUN structures -->
-        <!-- how to exclude from valid German language text? -->
-            <pattern>
-                <token chunk_re=".-NP-.*"/>
-                <marker>
-                    <token>und</token>
-                </marker>
-                <token chunk_re=".-NP-.*"/>
-            </pattern>
-            <message>Did you mean <suggestion>and</suggestion>?</message>
-            <example correction="and">danswer config improvements, speed-ups <marker>und</marker> small fixes</example>
-            <example correction="and">He likes water <marker>und</marker> lemonade.</example>
-        </rule>
-    </category>
 
 </rules>
