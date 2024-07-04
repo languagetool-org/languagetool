@@ -2538,6 +2538,20 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
 
+        <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION__" name="">
+            <rule>
+                <pattern>
+                    <token>In</token>
+                    <marker>
+                        <token>–</token>
+                    </marker>
+                    <token regexp="yes">und|oder</token>
+                    <token regexp="yes">Ex.+|Aus.+</token>
+                </pattern>
+                <example correction="">In <marker>–</marker> und Export</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_EXCLAMATION" name="">
              <rule>
                 <regexp mark="1">(!)(!)</regexp>
