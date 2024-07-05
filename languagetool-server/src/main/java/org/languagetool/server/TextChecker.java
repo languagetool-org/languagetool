@@ -383,7 +383,6 @@ abstract class TextChecker {
     String ltAgent = params.getOrDefault("useragent", "unknown");
     Pattern trustedSourcesPattern = config.getTrustedSources();
     boolean trustedSource = trustedSourcesPattern == null || (limits.hasPremium() || trustedSourcesPattern.matcher(ltAgent).matches());
-    System.out.println("Trusted source: " + trustedSource + ", user agent: " + ltAgent);
     UserConfig userConfig =
       new UserConfig(dictWords, userRules,
                      getRuleValues(params), config.getMaxSpellingSuggestions(),
