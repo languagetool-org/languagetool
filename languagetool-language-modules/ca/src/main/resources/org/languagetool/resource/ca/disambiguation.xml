@@ -5603,7 +5603,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" inflected="yes">pantalla|televisió|televisor|bombeta</token>
+                <token regexp="yes" inflected="yes">TV|monitor|pantalla|televisió|televisor|bombeta|llum|llumeta|llumet</token>
                 <marker>
                     <token>led</token>
                 </marker>
@@ -10293,7 +10293,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="SENT_START|CC|_PUNCT.*" postag_regexp="yes"/>
             <marker>
                 <and>
-                    <token postag="V.[IS].*" postag_regexp="yes"><exception regexp="yes">surts?</exception></token>
+                    <token postag="V.[IS].*" postag_regexp="yes"><exception regexp="yes">surts?|posa|poses</exception></token>
                     <token postag="NC.*" postag_regexp="yes"/>
                 </and>
             </marker>
@@ -21624,6 +21624,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="addchunk">
                 <wd pos="GV"/>
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">deixar</token>
+                <token postag="V.N.*" postag_regexp="yes" regexp="yes">fer|passar</token>
+            </pattern>
+            <disambig action="addchunk">
                 <wd pos="GV"/>
                 <wd pos="GV"/>
             </disambig>
