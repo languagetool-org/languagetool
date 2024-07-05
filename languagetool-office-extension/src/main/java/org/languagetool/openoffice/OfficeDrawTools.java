@@ -644,15 +644,17 @@ public class OfficeDrawTools {
         xTextCursor.goRight((short)1, false);
       }
     } else {
-      xTextCursor.goRight((short)(undoMarkUp.nStart), false);
-      for (int i = 0; i < undoMarkUp.underline.length; i++) {
-        xTextCursor.goRight((short)1, true);
-        XPropertySet xPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
-        xPropertySet.setPropertyValue("CharUnderlineColor", undoMarkUp.underline[i].color);
-        xPropertySet.setPropertyValue("CharUnderlineHasColor", undoMarkUp.underline[i].hasColor);
-        xPropertySet.setPropertyValue("CharUnderline", undoMarkUp.underline[i].font);
-        xTextCursor.goLeft((short)1, false);
-        xTextCursor.goRight((short)1, false);
+      if (undoMarkUp.underline != null) {
+        xTextCursor.goRight((short)(undoMarkUp.nStart), false);
+        for (int i = 0; i < undoMarkUp.underline.length; i++) {
+          xTextCursor.goRight((short)1, true);
+          XPropertySet xPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
+          xPropertySet.setPropertyValue("CharUnderlineColor", undoMarkUp.underline[i].color);
+          xPropertySet.setPropertyValue("CharUnderlineHasColor", undoMarkUp.underline[i].hasColor);
+          xPropertySet.setPropertyValue("CharUnderline", undoMarkUp.underline[i].font);
+          xTextCursor.goLeft((short)1, false);
+          xTextCursor.goRight((short)1, false);
+        }
       }
     }
   }
