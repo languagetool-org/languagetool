@@ -23,10 +23,12 @@ package org.languagetool.server;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertFalse;
@@ -42,11 +44,17 @@ public class TrustedSourcesTest {
     .build();
 
   @Test
-  @Ignore("Needs a local remote-rule file")
   public void runUntrustedReferrerTest() throws Exception {
-    //properties file contains trustedSources=\\b(?:workingAgent1|workingAgent2|workingAgent3)\\b
-    String[] args = {"--config","/Users/stefan/Documents/config-files/test-untrusted.properties"}; //contains a list of untrusted referrers and a remote rule file with 1 remote rule with option set to "onlyTrustedSources": true
-    HTTPServerConfig serverConfig = new HTTPServerConfig(args);
+    StringBuilder propertiesFile = new StringBuilder();
+    String remoteRuleFile = HTTPSServerConfigTest.class.getResource("remote_ts.json").getFile();
+    propertiesFile.append("trustedSources=").append("\\\\b(?:workingAgent1|workingAgent2|workingAgent3)\\\\b");
+    propertiesFile.append("\n");
+    propertiesFile.append("remoteRulesFile=").append(remoteRuleFile);
+
+    Path tempFile = Files.createTempFile("test_ts", ".properties");
+    Files.write(tempFile, propertiesFile.toString().getBytes(), StandardOpenOption.WRITE);
+
+    HTTPServerConfig serverConfig = new HTTPServerConfig(("--public --config " + tempFile.toAbsolutePath().toString()).split(" "));
     HTTPServer server = new HTTPServer(serverConfig, false, HTTPServerConfig.DEFAULT_HOST, null);
     assertFalse(server.isRunning());
     try {
@@ -76,9 +84,9 @@ public class TrustedSourcesTest {
         String body = response.body().string();
         System.out.println(body);
         if (expectedMatch) {
-          assertTrue(body.contains("AI_DE_GGEC"));
+          assertTrue(body.contains("Test match"));
         } else {
-          assertFalse(body.contains("AI_DE_GGEC"));
+          assertFalse(body.contains("Test match"));
         }
       }
     }
