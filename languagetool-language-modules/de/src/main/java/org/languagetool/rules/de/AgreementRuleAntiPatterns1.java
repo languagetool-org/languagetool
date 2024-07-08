@@ -927,6 +927,13 @@ class AgreementRuleAntiPatterns1 {
       token("einen"),
       posRegex("SUB:AKK.*"),
       posRegex("VER:INF.*")
+    ),
+    asList(
+      // Eine Initialzündung war der Bericht „Grenzen des Wachstums“ des Club of Rome, ...
+      token("des"),
+      token("Club"),
+      token("of"),
+      token("Rome")
     )
   );
 
