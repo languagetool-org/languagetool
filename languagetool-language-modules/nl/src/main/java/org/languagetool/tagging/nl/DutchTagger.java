@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableSet;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.nl.CompoundAcceptor;
+import org.languagetool.rules.nl.DutchInflector;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 import org.languagetool.language.Dutch;
@@ -94,6 +95,7 @@ public class DutchTagger extends BaseTagger {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
     CompoundAcceptor compoundAcceptor = Dutch.getCompoundAcceptor();
+    DutchInflector inflector = Dutch.getDutchInflector();
 
     for (String word : sentenceTokens) {
       boolean ignoreSpelling = false;
@@ -228,7 +230,8 @@ public class DutchTagger extends BaseTagger {
       word = originalWord;
 
       if (l.isEmpty()) {
-        l.add(new AnalyzedToken(originalWord, null, null));
+        List<String> newValue = inflector.getPOSTag(originalWord);
+        l.add(new AnalyzedToken(originalWord, newValue.get(0), newValue.get(1)));
       }
 
       AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);

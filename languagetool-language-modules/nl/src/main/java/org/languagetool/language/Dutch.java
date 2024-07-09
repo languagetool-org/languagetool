@@ -75,6 +75,10 @@ public class Dutch extends Language {
     return DutchSynthesizer.INSTANCE;
   }
 
+  public static DutchInflector getDutchInflector() {
+    return DutchInflector.INSTANCE;
+  }
+
   public static CompoundAcceptor getCompoundAcceptor() {
     return CompoundAcceptor.INSTANCE;
   }
