@@ -42,6 +42,7 @@ public class MultitokenSpeller {
   private static final Pattern WHITESPACE_AND_SEP = compile("\\p{Zs}+");
   private static final Pattern DASH_SPACE = compile("- ");
   private static final Pattern SPACE_DASH = compile(" -");
+  private static final Pattern SPACE = compile(" ");
 
   private final SpellingCheckRule spellingRule;
   private final Language language;
@@ -74,7 +75,7 @@ public class MultitokenSpeller {
     String normalizedWord = getNormalizeKey(word);
     List<WeightedSuggestion> weightedCandidates = new ArrayList<>();
     // try searching the key
-    String normalizedWordNoSpaces = normalizedWord.replaceAll(" ","");
+    String normalizedWordNoSpaces = normalizedWord.replace(" ","");
     if (suggestionsMapNoSpacesKey.containsKey(normalizedWordNoSpaces)) {
       List<String> candidates = suggestionsMapNoSpacesKey.get(normalizedWordNoSpaces);
       if (stopSearching(candidates, originalWord)) {
@@ -95,8 +96,8 @@ public class MultitokenSpeller {
         if (Math.abs(normalizedCandidate.length() - word.length()) > MAX_LENGTH_DIFF) {
           continue;
         }
-        String[] candidateParts = normalizedCandidate.split(" ");
-        String[] wordParts = normalizedWord.split(" ");
+        String[] candidateParts = SPACE.split(normalizedCandidate);
+        String[] wordParts = SPACE.split(normalizedWord);
         List<Integer> distances = distancesPerWord(candidateParts, wordParts, normalizedCandidate, normalizedWord);
         int totalDistance = distances.stream().reduce(0, Integer::sum);
         if (totalDistance < 1) {
@@ -196,8 +197,8 @@ public class MultitokenSpeller {
 
   private List<Float> firstCharacterDistances(String s1, String s2) {
     List<Float> distances = new ArrayList<>();
-    String[] parts1 = s1.split(" ");
-    String[] parts2 = s2.split(" ");
+    String[] parts1 = SPACE.split(s1);
+    String[] parts2 = SPACE.split(s2);
     // for now, only phrase with two tokens
     if (parts1.length == parts2.length && parts1.length == 2) {
       for (int i=0; i<parts1.length; i++) {
@@ -227,27 +228,28 @@ public class MultitokenSpeller {
   }
 
   private int levenshteinDistance(String s1, String s2) {
-    if (s1.replaceAll(" ","").equals(s2.replaceAll(" ",""))) {
+    if (s1.replace(" ","").equals(s2.replace(" ",""))) {
       return 0;
     }
     int distance = LevenshteinDistance.getDefaultInstance().apply(s1, s2);
     String ns1= normalizeSimilarChars(s1);
     String ns2= normalizeSimilarChars(s2);
     if (!s1.equals(ns1) || !s2.equals(ns2)) {
-      distance = Math.min(distance, LevenshteinDistance.getDefaultInstance().apply(normalizeSimilarChars(s1), normalizeSimilarChars(s2)));
+      distance = Math.min(distance, LevenshteinDistance.getDefaultInstance().apply(ns1, ns2));
     }
+    boolean anagram = StringTools.isAnagram(s1,s2);
     // consider transpositions without having a Damerau-Levenshtein method
-    if (distance > 1 && StringTools.isAnagram(s1,s2)) {
+    if (distance > 1 && anagram) {
       distance--;
     }
-    if (distance > 0 && s1.length()==s2.length() && StringTools.isAnagram(s1,s2)) {
+    if (distance > 0 && s1.length()==s2.length() && anagram) {
       distance = 1;
     }
     return distance;
   }
 
   private String normalizeSimilarChars(String s) {
-    return s.replaceAll("y", "i").replaceAll("ko", "co").replaceAll("ka", "ca");
+    return s.replace("y", "i").replace("ko", "co").replace("ka", "ca");
   }
 
   private int numberOfCorrectChars(String s1, String s2) {
@@ -290,7 +292,7 @@ public class MultitokenSpeller {
             Character firstChar = normalizedKey.charAt(0);
             HashMap<String, List<String>> suggestionsMapByChar = suggestionsMap.computeIfAbsent(firstChar, k -> new HashMap<>());
             addToMap(suggestionsMapByChar, normalizedKey, line);
-            addToMap(suggestionsMapNoSpacesKey, normalizedKey.replaceAll(" ",""), line);
+            addToMap(suggestionsMapNoSpacesKey, normalizedKey.replace(" ",""), line);
           }
         }
       } catch (IOException e) {
@@ -307,11 +309,11 @@ public class MultitokenSpeller {
   }
 
   private static String getNormalizeKey(String word) {
-    return StringTools.removeDiacritics(word.toLowerCase()).replaceAll("-", " ");
+    return StringTools.removeDiacritics(word.toLowerCase()).replace("-", " ");
   }
 
   private boolean discardRunOnWords(String underlinedError) throws IOException {
-    String[] parts = underlinedError.split(" ");
+    String[] parts = SPACE.split(underlinedError);
     if (parts.length == 2) {
       if (StringTools.isCapitalizedWord(parts[1])) {
         return false;

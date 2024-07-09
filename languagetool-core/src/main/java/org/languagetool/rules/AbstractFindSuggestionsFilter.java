@@ -170,11 +170,12 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
         }
       }
     }
-
-    if (diacriticsMode && replacements.size() == 0) {
+    boolean matchContainsSomeFinishedSuggestion =
+      match.getSuggestedReplacements().stream().anyMatch(k -> !k.toLowerCase().contains("{suggestion}"));
+    if (diacriticsMode && replacements.size() == 0 && !matchContainsSomeFinishedSuggestion) {
       return null;
     }
-    if (replacements.size() + replacements2.size() == 0 && bSuppressMatch) {
+    if (replacements.size() + replacements2.size() == 0 && bSuppressMatch && !matchContainsSomeFinishedSuggestion) {
       return null;
     }
     String message = match.getMessage();

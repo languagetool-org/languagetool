@@ -194,6 +194,8 @@ public class WordListValidatorTest {
           "Pÿur",
           "Subašić",
           "Wałęsa",
+          "Çalhanoğlu",
+          "Çalhanoğlu/S",
           "celebrytę", // for PL
           "antybiotykoterapię", // for PL
           "elektromobilność", // for PL
