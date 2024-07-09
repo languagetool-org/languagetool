@@ -34,17 +34,4 @@ public class DutchInflector {
         }
         return result;
     }
-
-    public String getLemma(String word) {
-        if (nouns_de.contains(word)) {
-            //logic to check for DE nouns
-            return "ZNW:EKV:DE_";
-        } else if (nouns_het.contains(word)) {
-            //logic to check for HET nouns
-            return "ZNW:EKV:HET";
-        }
-        return null;
-    }
-
-
 }
