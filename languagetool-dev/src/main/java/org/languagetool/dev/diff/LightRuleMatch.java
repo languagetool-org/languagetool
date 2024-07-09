@@ -40,13 +40,12 @@ class LightRuleMatch {
   private final List<String> suggestions;
   private final String ruleSource;  // e.g. grammar.xml
   private final String title;
-  private final String server;
   private final Status status;
   private final List<String> tags;
   private final boolean isPremium;
   
   LightRuleMatch(int line, int column, String ruleId, String message, String category, String context, String coveredText,
-                 List<String> suggestions, String ruleSource, String title, String server, Status status, List<String> tags, boolean isPremium) {
+                 List<String> suggestions, String ruleSource, String title, Status status, List<String> tags, boolean isPremium) {
     this.line = line;
     this.column = column;
     this.fullRuleId = Objects.requireNonNull(ruleId);
@@ -57,7 +56,6 @@ class LightRuleMatch {
     this.suggestions = suggestions == null ? Arrays.asList() : suggestions;
     this.ruleSource = ruleSource;
     this.title = title;
-    this.server = server;
     this.status = Objects.requireNonNull(status);
     this.tags = Objects.requireNonNull(tags);
     this.isPremium = isPremium;
@@ -112,11 +110,6 @@ class LightRuleMatch {
   @Nullable
   String getTitle() {
     return title;
-  }
-
-  @Nullable
-  String getServer() {
-    return server;
   }
 
   Status getStatus() {
