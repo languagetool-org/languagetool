@@ -19299,40 +19299,26 @@ USA
             <example>Estou determinado a realizar este plano.</example>
         </rule>
 
-        <!-- QUE TER COMO/POR NOME/ADJETIVO cujo(a) Nome/Adjetivo ser -->
-        <rulegroup id='QUE_TER_COMO_POR_NOME_ADJ' name="cujo(a) + Nome/Adjetivo + Ser">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-19 (Enhanced) (17-MAR-2021+)      -->
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>que</token>
-                        <token postag='VM[IS][IPFSCM]3S0' postag_regexp='yes' inflected='yes'>ter</token>
-                        <token regexp='yes'>como|por</token>
-                        <token postag='AQ0MS0|NCMS000' postag_regexp='yes'/>
-                    </marker>
-                    <token postag='VMN0000'/>
-                </pattern>
-                <message>Com o pronome ‘cujo’, o seu texto poderia ficar mais claro e elegante.</message>
-                <suggestion>cujo \4 <match no='2' postag="VM[IS][IPFSCM]3S0" postag_regexp="yes">ser</match></suggestion>
-                <example correction="cujo objetivo é">Assim surgiu o Estado Islâmico <marker>que tem como objetivo</marker> criar um califado mundial.</example>
-                <example correction="cujo objetivo era">Assim surgiu o Estado Islâmico <marker>que tinha como objetivo</marker> criar um califado mundial.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>que</token>
-                        <token postag='VM[IS][IPFSCM]3S0' postag_regexp='yes' inflected='yes'>ter</token>
-                        <token regexp='yes'>como|por</token>
-                        <token postag='AQ0FS0|NCFS000' postag_regexp='yes'/>
-                    </marker>
-                    <token postag='VMN0000'/>
-                </pattern>
-                <message>Com o pronome ‘cuja’, o seu texto poderia ficar mais claro e elegante.</message>
-                <suggestion>cuja \4 <match no='2' postag="VM[IS][IPFSCM]3S0" postag_regexp="yes">ser</match></suggestion>
-                <example correction="cuja meta é">Assim surgiu o Estado Islâmico <marker>que tem como meta</marker> criar um califado mundial.</example>
-                <example correction="cuja meta era">Assim surgiu o Estado Islâmico <marker>que tinha como meta</marker> criar um califado mundial.</example>
-            </rule>
-        </rulegroup>
+
+        <rule id='QUE_TER_COMO_POR_NOME_ADJ' name="cujo(a) + substantivo + verbo ser" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>que</token>
+                    <token postag='VM..3.0' postag_regexp='yes' inflected='yes'>ter</token>
+                    <token regexp='yes'>como|por</token>
+                    <token postag='NC[^C].+' postag_regexp='yes'/>
+                </marker>
+                <token postag='VMN0000'/>
+            </pattern>
+            <message>Com o pronome relativo &quot;cujo&quot;, o seu texto poderia ficar mais claro e elegante.</message>
+            <suggestion><match no='4' postag='NC(..)000' postag_replace='PR0$1000'>cujo</match> \4 <match no='2' postag='V(...)3(.)0' postag_replace='V$13S0'>ser</match></suggestion>
+            <example correction="cuja meta é">Assim surgiu o ISIS <marker>que tem como meta</marker> criar um califado.</example>
+            <example correction="cuja meta era">Assim surgiu o ISIS <marker>que tinha como meta</marker> criar um califado.</example>
+            <example correction="cujo objetivo é">Assim surgiu o ISIS <marker>que tem como objetivo</marker> criar um califado.</example>
+            <example correction="cujo objetivo era">Assim surgiu o ISI <marker>que tinha como objetivo</marker> criar um califado.</example>
+        </rule>
+
+
     </category>
     <category id="INFORMAL" name="Linguagem informal" type="style" tone_tags="informal">
         <rulegroup id='ARCHAISMS' name='1. Arcaísmos (Palavras que caíram em desuso)' default='off' tone_tags="informal">
