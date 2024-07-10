@@ -230,8 +230,8 @@ public class DutchTagger extends BaseTagger {
       word = originalWord;
 
       if (l.isEmpty()) {
-        List<String> newValue = inflector.getPOSTag(originalWord);
-        l.add(new AnalyzedToken(originalWord, newValue.get(0), newValue.get(1)));
+        List<String> inflectorOutput = inflector.getPOSTag(originalWord);
+        l.add(new AnalyzedToken(originalWord, inflectorOutput.get(0), inflectorOutput.get(1)));
       }
 
       AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);

@@ -63,8 +63,15 @@ public class DutchTaggerTest {
     TestTools.myAssert("beoordelingsgeschiedenisje", "beoordelingsgeschiedenisje/[beoordelingsgeschiedenis]ZNW:EKV:VRK:HET", tokenizer, tagger);
     TestTools.myAssert("Beoordelingsgeschiedenisjes", "Beoordelingsgeschiedenisjes/[beoordelingsgeschiedenis]ZNW:MRV:VRK:DE_", tokenizer, tagger);
 
+    TestTools.myAssert("schriebelkaasje", "schriebelkaasje/[schriebelkaas]ZNW:EKV:VRK:HET", tokenizer, tagger);
     TestTools.myAssert("schriebelkaas", "schriebelkaas/[schriebelkaas]ZNW:EKV:DE_", tokenizer, tagger);
-    TestTools.myAssert("bouwvakkersgebed", "bouwvakkersgebed/[bouwvakkersgebed]ZNW:EKV:HET", tokenizer, tagger);
+    TestTools.myAssert("giraffenboekjes", "giraffenboekjes/[giraffenboek]ZNW:MRV:VRK:DE_", tokenizer, tagger);
+    TestTools.myAssert("gedruikelden", "gedruikelden/[druikelen]WKW:VTD:ZNW:MRV:DE_", tokenizer, tagger);
+    TestTools.myAssert("briekst", "briekst/[brieksen]WKW:TGW:3EP", tokenizer, tagger);
+    TestTools.myAssert("gedruikelden", "gedruikelden/[druikelen]WKW:VTD:ZNW:MRV:DE_", tokenizer, tagger);
+    TestTools.myAssert("capibaramotieven", "capibaramotieven/[capibaramotief]ZNW:MRV:DE_", tokenizer, tagger);
+    TestTools.myAssert("oogzalfsponsje", "oogzalfsponsje/[oogzalfspons]ZNW:EKV:VRK:HET", tokenizer, tagger);
+    TestTools.myAssert("zweetkuiven", "zweetkuiven/[zweetkuif]ZNW:MRV:DE_", tokenizer, tagger);
 
     // Test regions
     TestTools.myAssert("Zuidoost-Gouda", "Zuidoost-Gouda/[Gouda]ENM:LOC:PTS", tokenizer, tagger);
