@@ -44,7 +44,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -67,6 +69,7 @@ public class HunspellRule extends SpellingCheckRule {
   private static final Logger logger = LoggerFactory.getLogger(HunspellRule.class);
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
+  private static final Pattern NON_ALPHABETIC_PATTERN = Pattern.compile(NON_ALPHABETIC);
   private static final Pattern STARTS_WITH_TWO_UPPERCASE_CHARS = Pattern.compile("[A-Z][A-Z]\\p{javaLowerCase}+");
 
   private static final boolean monitorRules = System.getProperty("monitorActiveRules") != null;
@@ -76,11 +79,15 @@ public class HunspellRule extends SpellingCheckRule {
   private final List<String> commonGermanWords = Arrays.asList("-", "das", "sein", "mein", "meine", "meinen", "meines", "meiner", "haben", "kein", "keine", "keinen", "keinem", "keines", "keiner", "ein", "eines", "eins", "einen", "einem", "eine", "einer", "rund", "sehr", "mach", "noch", "nein", "ja", "hallo", "hi", "das", "die", "der", "den", "dem", "des", "nacht", "diesen", "dieser", "dies", "dieses", "diesem", "zum", "zur", "beim", "noch", "nichts", "aufs", "aufm", "aufn", "ausn", "ausm", "aus", "fürs", "für", "osten", "rein", "raus", "namen", "shippen", "amt", "wir");
   private final Pattern MINUS_PLUS = Pattern.compile("-+");
 
+  private static final ConcurrentMap<URL, List<String>> ignoreFileContents = new ConcurrentHashMap<>();
+  private static final ConcurrentMap<Path, Pattern> nonWordPatterns = new ConcurrentHashMap<>();
+
   public static Queue<String> getActiveChecks() {
     return activeChecks;
   }
 
   private static final String[] WHITESPACE_ARRAY = new String[20];
+
   static {
     for (int i = 0; i < 20; i++) {
       WHITESPACE_ARRAY[i] = StringUtils.repeat(' ', i);
@@ -500,7 +507,6 @@ public class HunspellRule extends SpellingCheckRule {
       langCountry += "_" + language.getCountries()[0];
     }
     String shortDicPath = getDictFilenameInResources(langCountry);
-    String wordChars = "";
     // set dictionary only if there are dictionary files:
     Path affPath = null;
     if(!Tools.isExternSpeller()) {    //  use of external speller for OO extension (32-bit)
@@ -519,21 +525,30 @@ public class HunspellRule extends SpellingCheckRule {
         affPath = Paths.get(shortDicPath + ".aff");
         hunspell = Hunspell.getDictionary(Paths.get(shortDicPath + ".dic"), affPath);
       }
-      if (affPath != null) {
-        try (Scanner sc = new Scanner(affPath)) {
-          while (sc.hasNextLine()) {
-            String line = sc.nextLine();
-            if (line.startsWith("WORDCHARS ")) {
-              String wordCharsFromAff = line.substring("WORDCHARS ".length());
-              //System.out.println("#" + wordCharsFromAff+ "#");
-              wordChars = "(?![" + wordCharsFromAff.replace("-", "\\-") + "])";
-              break;
+    }
+    if (affPath != null) {
+      nonWordPattern = nonWordPatterns.computeIfAbsent(affPath, (path) -> {
+        String wordChars = "";
+        if (path != null) {
+          try (Scanner sc = new Scanner(path)) {
+            while (sc.hasNextLine()) {
+              String line = sc.nextLine();
+              if (line.startsWith("WORDCHARS ")) {
+                String wordCharsFromAff = line.substring("WORDCHARS ".length());
+                //System.out.println("#" + wordCharsFromAff+ "#");
+                wordChars = "(?![" + wordCharsFromAff.replace("-", "\\-") + "])";
+                break;
+              }
             }
+          } catch (IOException e) {
+            logger.error("Could not read aff file: " + path, e);
           }
         }
-      }
+        return Pattern.compile(wordChars + NON_ALPHABETIC);
+      });
+    } else {
+      nonWordPattern = NON_ALPHABETIC_PATTERN;
     }
-    nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
   }
 
   @NotNull
@@ -543,12 +558,16 @@ public class HunspellRule extends SpellingCheckRule {
 
   private void addIgnoreWords() throws IOException {
     URL ignoreUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getIgnoreFileName());
-    List<String> ignoreLines = Resources.readLines(ignoreUrl, StandardCharsets.UTF_8);
-    for (String ignoreLine : ignoreLines) {
-      if (!ignoreLine.startsWith("#")) {
-        wordsToBeIgnored.add(ignoreLine);
+    wordsToBeIgnored.addAll(ignoreFileContents.computeIfAbsent(ignoreUrl, (url) -> {
+      try  {
+        return Resources.readLines(url, StandardCharsets.UTF_8).stream()
+                .filter(line -> !line.startsWith("#"))
+                .collect(Collectors.toList());
+      } catch(IOException e) {
+        logger.error("Could not read ignore file: " + url, e);
+        return Collections.emptyList();
       }
-    }
+    }));
   }
 
   @Override

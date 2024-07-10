@@ -621,6 +621,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_FORM" name="">
+            <rule>
+                <pattern>
+                    <token inflected="yes">have</token>
+                    <token min="0" max="2" postag="RB" />
+                    <marker>
+                        <token postag="VBN" chunk="I-VP" />
+                    </marker>
+                </pattern>
+                <example correction="">I feel a bit stupid because I have not <marker>thought</marker> of buying some eggs yesterday.</example>
+                <example correction="">I feel a bit stupid because I have not <marker>seen</marker> him buying some eggs yesterday.</example>
+            </rule>
             <rule>  <!-- former/latter/etc. -->
                 <pattern>
                     <token regexp="yes" chunk="E-NP-singular">&plural_singular_nouns_2;</token>
@@ -3124,6 +3135,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- ====================================================================== -->
         <!-- QuillBot Antipatterns -->
         <!-- ====================================================================== -->
+        <rulegroup id="QB_EN_INSERT_PERIOD_ERROR_IDS_000049" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token />
+                    </marker>
+                    <token regexp="yes">["”]</token>
+                    <token regexp="yes" postag="SENT_END">[\?\!]</token>
+                </pattern>
+                <example correction="">It turned out that Google was promoting this app every time someone searched for a “spell <marker>checker</marker>”?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN" name="">
             <rule>  <!-- curly to straight quotes - opening  pt. I -->
                 <pattern>

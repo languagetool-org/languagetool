@@ -761,6 +761,20 @@ regexp case-insensitive maken: (?i)
 				<example correction="gemeentehuizen">Hoeveel <marker>gemeentehuize</marker> heb je gevonden?</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="DIE_MENEN_MENSEN" name="ontbrekende letter" default="temp_off">
+			<rule>
+				<pattern>
+					<token postag_regexp="yes" postag="WKW.*INF"/>
+					<token regexp="yes">die|de</token>
+					<marker>
+						<token>menen</token>
+					</marker>
+					<token><exception>dat</exception></token>
+				</pattern>
+				<message>U bedoelt vast <suggestion>mensen</suggestion>.</message>
+				<example correction="mensen">Daardoor zitten die <marker>menen</marker> met een trauma.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="TYPE_MEERVOUD" name="Alle type(typen) mensen.">
 			<rule>
 				<pattern>

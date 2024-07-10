@@ -171,7 +171,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static Set<String> verbPrefixes               = new HashSet<>();
   private static Set<String> otherPrefixes              = new HashSet<>();
   private static Set<String> oldSpelling                = new HashSet<>();
-  private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
+  private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new LinkedHashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("vorbreiten", w -> Arrays.asList("vorbereiten", "verbreiten"));
@@ -4347,6 +4347,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Rundumsorglospaket": return topMatch("Rundum-sorglos-Paket");
       case "Rundumsorglospakets": return topMatch("Rundum-sorglos-Pakets");
       case "Fidji": return topMatch("Fidschi");
+      case "tschüß": return topMatch("tschüss");
       case "Bautenzug": return topMatch("Bowdenzug");
       case "Bautenzugs": return topMatch("Bowdenzugs");
       case "Bautenzuges": return topMatch("Bowdenzuges");
