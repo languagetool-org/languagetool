@@ -156,6 +156,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern GENDER_NEUTRAL_SPECIAL_CHRS_SIN = compile(".*[\\*:_/]in$");
   private static final Pattern GENDER_NEUTRAL_SPECIAL_CHRS_PLU = compile(".*[\\*:_/]in.+");
   private static final Pattern GENDER_NEUTRAL_SLASH_HYPHEN = compile(".*/-in.+");
+  private static final Pattern GENDER_STAR = Pattern.compile("((?<=(\\w))In|[\\*:_]in|/-in)");
+  private static final Pattern GENDER2_STAR2 = Pattern.compile(".*((?<=(\\w))In|[\\*:_]in|/-in).*");
 
   private static final Pattern WECHSELNUMERUS = compile("wort|welt");
   private static final Pattern WELTEN_COMP = compile("Brand|Bummler(in)?|Drama|Wende");
@@ -2298,7 +2300,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String wordNoDotOrg = wordNoDot;
     // "Expert*innen" -> "Expertinnen"
     // "ExpertInnen"  -> "Expertinnen"
-    wordNoDot = wordNoDot.replaceFirst("((?<=(\\w))In|[\\*:_]in|/-in)", "in");
+    wordNoDot = GENDER_STAR.matcher(wordNoDot).replaceFirst("in");
 
     // Return false if a word is written in CamelCase
     if (!isValidCamelCase(wordNoDot)) {
@@ -2321,7 +2323,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // and preprocess further
     if (wordNoDot.contains("-")) {
       //Split original word by hyphen
-      List<String> splitByHyphen = new ArrayList<String>(Arrays.asList(wordNoDot.split("-")));
+      List<String> splitByHyphen = new ArrayList<>(Arrays.asList(wordNoDot.split("-")));
       String lastPart = splitByHyphen.get(splitByHyphen.size() - 1);
 
       if (!isNoun(lastPart) &&  isNoun(uppercaseFirstChar(lastPart))) {
@@ -2344,7 +2346,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       parts = restoreRemovedHyphens(parts, wordNoDot);
     }
 
-
     // Make sure that the individual parts of the compound have appropriate length.
     // Short words can also be typos.
     if (!isValidPartLength(parts)) {
@@ -2362,7 +2363,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     //   we can use this information to check,
     //   if a part matching '(?<=(\w))In|[\*:_]in|/-in'
     //   is actually gender-neutral language
-    if (wordNoDotOrg.matches(".*((?<=(\\w))In|[\\*:_]in|/-in).*")) {
+    if (GENDER2_STAR2.matcher(wordNoDotOrg).matches()) {
       if (!isValidGenderNeutralWord(parts, wordNoDotOrg)) {
         return false;
       }
