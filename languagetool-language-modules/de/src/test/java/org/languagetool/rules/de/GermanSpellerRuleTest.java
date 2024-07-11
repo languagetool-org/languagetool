@@ -77,7 +77,10 @@ public class GermanSpellerRuleTest {
   @Test
   public void testIgnoreMisspelledWord() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    assertTrue(rule.ignorePotentiallyMisspelledWord("Wendeplatte")); 
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Journalistendramas"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Bürokratieaufbau"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Bestangebotsklauseln"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Wendeplatte"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Tassentrio")); 
     assertTrue(rule.ignorePotentiallyMisspelledWord("Ausbiegemöglichkeit"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Lipochrom"));
