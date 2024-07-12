@@ -934,6 +934,24 @@ class AgreementRuleAntiPatterns1 {
       token("Club"),
       token("of"),
       token("Rome")
+    ),
+    asList(
+      // Entwickelt wurde das Session Initiation Protocol von der IETF.
+      csRegex("das|ein"),
+      token("Session"),
+      token("Initiation"),
+      token("Protocol")
+    ),
+    asList(
+      // Ähnliches gilt im Norden der Insel für die George-Washington-Bridge.
+      token("die"),
+      token("George-Washington-Bridge")
+    ),
+    asList(
+      // Die Zeit begann mit der Gründung der englischen Football Association.
+      csRegex("[Ee]nglischen?"),
+      token("Football"),
+      token("Assosiation")
     )
   );
 

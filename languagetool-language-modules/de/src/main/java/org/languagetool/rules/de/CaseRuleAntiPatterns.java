@@ -1795,6 +1795,10 @@ class CaseRuleAntiPatterns {
       // Allerdings gibt es im Französischen und im Spanischen Ausnahmen.
       csToken("im"),
       csRegex("(Afrikanisch|Alt(arabisch|chinesisch|griechisch|persisch)|Amerikanisch|Arabisch|Chinesisch|Dänisch|Deutsch|Plattdeutsch|Englisch|Finnisch|Französisch|Frühneuhochdeutsch|Germanisch|Griechisch|Hocharabisch|Hochchinesisch|Hochdeutsch|Holländisch|Italienisch|Japanisch|Jiddisch|Jugoslawisch|Koreanisch|Kroatisch|Lateinisch|Luxemburgisch|Mittelhochdeutsch|Neuhochdeutsch|Niederländisch|Norwegisch|Persisch|Polnisch|Portugiesisch|Russisch|Schwedisch|Schweizerisch|Semitisch|Serbisch|Serbokroatisch|Slawisch|Spanisch|Tschechisch|Türkisch|Ukrainisch|Ungarisch|Wei[sß]russisch|Hebräisch|Katalanisch)en")
-    )
-  );
+    ),
+    Arrays.asList(
+      // Aljos Farjon unterscheidet folgende Arten: die Europäische Eibe, Pazifische Eibe, Kanadische Eibe  und Chinesische Eibe.
+      csRegex("Pazifischen?|Chinesischen?|Europäischen?|Kanadischen?"),
+      csRegex("Eiben?")
+    )  );
 }
