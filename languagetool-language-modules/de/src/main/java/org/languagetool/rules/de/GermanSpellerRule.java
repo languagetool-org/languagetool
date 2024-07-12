@@ -2313,8 +2313,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       parts = nonStrictCompoundTokenizer.tokenize(wordNoDot);
       nonStrictMode = true;
     }
-    String part1;
-    String part2;
 
     // If at least one element in *parts* at position i equals "s", then append "s" to element at i-1
     parts = avoidInfixSAsSingleToken(parts);
@@ -2370,9 +2368,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
 
     if (parts.size() == 2) {
-      part1 = parts.get(0);
-      part2 = parts.get(1);
-      return processTwoPartCompounds(part1, part2);
+      return processTwoPartCompounds(parts.get(0), parts.get(1));
     } else if (parts.size() == 3) {
       return processThreePartCompound(parts);
     } else {
