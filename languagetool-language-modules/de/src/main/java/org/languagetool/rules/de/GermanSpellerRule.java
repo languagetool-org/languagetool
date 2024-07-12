@@ -138,11 +138,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern COMPOUND_END_TYPOS = compile(".*(gruße|schaf(s|en)?)$");
   private static final Pattern INFIX_S_SUFFIXES = compile(".*(heit|(s|[^c]t|x)ion|ität|keit|ling|ung|schaft|tum)$");
   private static final Pattern WECHSELINFIX = compile("(arbeit|dienstag|donnerstag|freitag|montag|mittwoch|link|recht|samstag|sonntag|verband)s?");
+  private static final Pattern CONFUSED_PREFIXES = compile("bade?|wi(e)?der");
   private static final Pattern NEEDS_TO_BE_PLURAL = compile("absolvent(in)?|adressat|aktie|antenne|apache|arbeitnehmer(in)?|ärztin|assistent(in)?|astronom(in)?|asylant(in)?|autor(in)?|azteke|bakterie|ballade|bauer|billion|bisexuelle|blume|bonze|börse|bot(e|in)|buche|bürg(e|in)|bürokrat(in)?|chrysantheme|dän(e|in)?|debatte|debitor(in)?|decke|diakon(in)?|diktator(in)?|direktor(in)?|doktorand(in)?|domäne|dozent(in)?|drohne|druid(e|in)?|düne|ehre|eibe|elefant|elektron|ellipse|emittent(in)?|elfe|elle|enge|erbse|eremit|erde|erste|esche|exot(e|in)?|expert(e|in)?|extremist(in)?|fabrikant(in)?|falke|fassade|farbe|fasan|favorit(in)?|felge|ferien|figur|fluor|frage|franz(ose|ösin)|frau|frisur|förde|galle|gatt(e|in)?|gerät|gepard|gezeit|gigant|gilde|göttin|griech(e|in)?|halt|heid(e|in)?|herde|historie|hölle|höhle|hose|hugenott(e|in)?|hund|hündin|immigrant(in)?|investor(in)?|irokes(e|in)|islamist(in)?|jesuit(in)?|jungfer|jungfrau|junggesell(e|in)|juror(in)?|kadett|kante|kaskade|kathode|katholik(in)?|katze|kette|kid|klasse|kirche|klaue|klient(in)?|klinge|knappe|koeffizient|kojote|komet|kommentator(in)?|komödie|kompliz(e|in)|konkurrent(in)?|konfirmand(in)?|konsonant|kontrahent(in)?|krake|kralle|kranke|krähe|kraut|krippe|kurd(e|in)|kuriosität|kurve|kusine|küste|laie|laterne|laute|legende|lehne|leise|lektor(in)?|leopard|lerche|leser(in)?|lieferant(in)?|lippe|loge|lotse|länge|läuse|löwe|lücke|luke|made|mädel|maske|maßnahme|matriarchin|menge|mensch|metapher|methode|metropole|miene|miete|million|mitte|maus|moderator(in)?|monarch(in)?|mongol(e|in)|mormone|mücke|mühle|musikant(in)?|mysterium|nerv|niederlage|nixe|nonne|note|obdachlose|ode|organist|panne|papagei|parzelle|pastor(in)?|pate|patient|patriarch(in)?|petze|pfadfinderin|pfanne|pfaffe|pfau|pfeife|platte|polle|pomade|pomeranze|posse|praktikant(in)?|prinz(essin)?|prise|prominente|prophet(in)?|prototyp|prälat|psychopath(in)?|puppe|pädophile|pygmäe|rabe|radikale|rakete|rampe|ranke|rassist(in)?|rate|raupe|rendite|repressalie|rest|riese|rinde|rind|robbe|robe|romanist|rose|ross|route|nummer|runde|russ(e|in)?|röhre|rübe|salbe|schabe|schale|scheide|schelle|schenke|schere|sphäre|dicke|kröte|schauspieler(in)?|schimpans(e|in)|schlampe|schlange|schluchte|schmiere|schnake|schnalle|schneide|schnelle|schokolade|schotte|schurke|schwabe|schwalbe|schwede|schwule|seele|seide|seite|senator(in)?|serb(e|in)?|serie|silbe|skulptur|sonne|sorge|sorte|spanne|sparte|spatz|sperre|spitze|sproße|spule|stalaktit|steppe|straße|streife|studie|stunde|stütze|tabelle|therapeut(in)?|tinte|tote|toilette|torte|traube|treffe|treppe|truhe|träne|tunte|tüte|tyrann|urne|utensil|vandal(e|in)|vasall(in)?|vene|versicherte|verwandte|veteran(in)?|virtuose|vorname|waffe|wanne|ware|watte|wehe|welle|welpe|wiese|wirtin|zar(in)?|zentrum|zutat");
   private static final Pattern SUBNOMPLUFEM_EXCEPTIONS = compile(".+(kratie|lyse|metrie|sophie|omie)|absage|allergie|analogie|anästhesie|anatomie|anomalie|archäologie|aufnahme|balance|batterie|creme|deponie|dürre|einlage|energie|folklore|franchise|gemeinde|glu[ck]ose|gülle|hanse|hefe|hirse|infanterie|kolonie|kontrolle|lounge|massage|mathe|melodie|nässe|parfümerie|pharmazie|pipeline|poesie|psychotherapie|regie|renaissance|säure|single|sprache|stärke|suche|teilnahme|theorie|therapie|vanille|wiederaufnahme|wende");
   private static final Pattern INVALID_COMP_PART = compile("adresse|kontrolle|leuchte|norden|osten|perspektive|schule|sprache|stelle|suche|süden|westen");
   private static final Pattern SUBINF_SINGULAR_OBJECT = compile("putzen|rauchen|sein|spielen");
   private static final Pattern ARBEIT_COMP = compile("(gebe|nehme)(r(s|n|innen|in)?|nde[mnr]?)");
+  private static final Pattern BAD_COMP = compile("fenster|konzpet|besitzer(in)?|nutzer(in)?|straße|tür");
   private static final Pattern LINK_COMP = compile("element|inhalt|liste|portal|text|titel|tracking|verzeichnis");
   private static final Pattern LINKS_COMP = compile("abbieger(in)?|abweichler(in)?|anwalt|anwältin|anwaltschaft|ausfall|auslage|ausleger(in)?|au(ss|ß)en|bündnis|drall|drehung|extremer?|extremis(t|tin|mus)|faschis(t|tin|mus)|fraktion|galopp|gewinde|händ(er|erin|igkeit)|hörnchen|innen|intellektueller?|katholizis(t|tin|mus)|koalition|konter|kurs|kurve|lastigkeit|lenker|nationalis(t|tin|mus)|opposition|orientierung|partei|populis(t|tin|mus)|radikal(e|er|ismus|ist|istin)|regierung|ruck|rutsch|schnitt|schuss|schwenk(ung)?|sektierer(in)?|steuerung|terror(t|tin|ismus)|verbinder(in)?|verkehr|wendung|wichser");
   private static final Pattern PERSON_SUFFIXES = compile(".+([dlrt]ant(in)?|arch(in)?|graf(in)?|gog(e|in)|([bdfghnoptuvxyz]|he|([inrt]a|o)(l)|(for|ga|i)m|[^f]r)(ist)(in)?|krat(in)?|man(e|in)|naut(in)?|olog(e|in)|(d|[pt]i|r|z)ent(in)?|seur(in)?|soph(in)?|tit(in)?|.+[^b]urg(in)?)$");
@@ -150,6 +152,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern RECHTS_COMP = compile("abbieger(in)?|abteilung|akt|akte|angelegenheit|ansicht|anspruch|anwalt|anwalts|anwaltschaft|anwendung|anwältin|auffassung|aufsicht|auskunft|ausleger(in)?|ausschuss|au(ss|ß)en|begehren|begriff|behelf|beistand|berater|beratung|bereich|beschwerde|beugung|beziehung|brecher|bruch|dienst|drall|durchsetzung|empfinden|entwicklung|setzung|experte|experten|extremer?|extremis(t|tin|mus)|fall|fehler|folge|form|fortbildung|frage|fähigkeit|gebiet|gebieten|gelehrte|gelehrter|geschichte|geschäft|gewinde|gleichheit|grund|grundlage|grundsatz|gründen|gut|gutachten|gültigkeit|güter|handlung|hilfe|händ(er|erin|igkeit)|hängigkeit|inhaber|institut|katholizis(t|tin|mus)|klick|konformität|kraft|kreis|kurve|lage|lastigkeit|lehre|lenker|medizin|mediziner|meinung|missbrauch|mittel|mitteln|mängel|nachfolge|nachfolger|nachfolgerin|nationalis(t|tin|mus)|natur|norm|ordnung|persönlichkeit|pflege|pfleger|pflicht|philosophie|politik|populis(t|tin|mus)|position|praxis|problem|quelle|radikal(e|er|ismus|ist|istin)|rahmen|rat|ratgeber(in)?|ruck|rutsch|sache|sachen|satz|schutz|sicherheit|sinn|sprache|soziologie|sprechung|staat|staatlichkeit|stand|status|stellung|streit|streitigkeit|system|terroris(t|tin|ismus)|texte|texter|thema|theorie|tipp|titel|träger|unsicherheit|verfolgung|vergleichung|verhältnis|verkehr|verletzung|verletzungen|verordnung|verstoß|verständnis|verteidiger|verteidigung|vertreter|vertretung|vorschrift|wahl|weg|wesen|widrigkeit|wirksamkeit|wirkung|wissenschaft|wissenschaften|wissenschaftler|zug|änderung");
   private static final Pattern VERBAND_COMP = compile("klammer|kasten|kiste|mull|material|päckchen|platz|raum|schere|zeug|zimmer");
   private static final Pattern VERBANDS_COMP = compile("chef(in)?|flug|funktionär(in)?|kasse|klage|leben|leitung|leiter(in)?|ligist(in)|material|päckchen|präsident(in)?|presse|spiel|vertreter(in)|vorsitzender?|vorstand|wechsel|zeichen|zeit(schrift|ung)");
+  private static final Pattern WIDER_COMP = compile("hall|haken|klage|klang|lager|rechtliche|ruf|spiel|spruch|sehen|stand|streit|wille");
   private static final Pattern WOCHENTAG_COMP = compile("abend|mittag|morgen|nachmittag|vormittag");
 
   private static final Pattern POTENTIAL_BINNEN_I = compile(".*((?<=(\\w))In).*");
@@ -2525,6 +2528,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return checkInfixSForPart1Part2Combination(part1, part2);
     }
 
+    // Check for easily confused prefixes (e. g. wieder vs wider)
+    if (CONFUSED_PREFIXES.matcher(lowercaseFirstChar(part1)).matches()) {
+      return checkConfusionForPart1Part2Combination(part1, part2);
+    }
+
     // TODO distinguish more cases with hyphens
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
       // 's' is the last character in *part1* and is probably not an infix
@@ -2623,6 +2631,23 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return true;
     }
     if (WOCHENTAGE_S.matcher(part1).matches() && !WOCHENTAG_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
+      return true;
+    }
+    return false;
+  }
+
+  private boolean checkConfusionForPart1Part2Combination(String part1, String part2) throws IOException {
+    String part2Lemma = findLemmaForNoun(removeTrailingHyphen(part2));
+    if (part1.equals("Bad") && (BAD_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches())) {
+      return true;
+    }
+    if (part1.equals("Bade") && (!BAD_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches())) {
+      return true;
+    }
+    if (part1.equals("Wider") && (WIDER_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches())) {
+      return true;
+    }
+    if (part1.equals("Wieder") && (!WIDER_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches())) {
       return true;
     }
     return false;
