@@ -16,12 +16,12 @@ version 2.1 of the License, or (at your option) any later version.
 
 This library is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
 USA
 -->
 
@@ -48,6 +48,21 @@ USA
     %postal;
     %chars;
 
+<!-- Declared the three sets of entities below separed with one line since the imported ones were causing conflicts with certain pt-PT rules -->
+<!ENTITY meses_ano_abrev_pt_pt "abr|ago|dez|fev|jan|jul|jun|mai|mar|nov|out|set">
+<!ENTITY meses_ano_pt_pt "abril|agosto|dezembro|fevereiro|janeiro|julho|junho|maio|março|novembro|outubro|setembro">
+
+<!ENTITY introduz_proclise_pt_pt "ainda|apenas|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|para|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez"><!-- XXX Excluded ali|aqui|acolá -->
+
+<!ENTITY pronomes_obliquos_pt_pt "[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
+<!ENTITY pronomes_obliquos_sem_a_as_o_os_pt_pt "l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
+<!ENTITY pronomes_retos_pt_pt "ela|elas|ele|eles|eu|nós|tu|você|vocês|vós">
+<!ENTITY pronomes_ambiguos_pt_pt "a|as|mas|nos|o|os|se">
+<!ENTITY pronomes_nao_ambiguos_pt_pt "lha|lhas|lhe|lhes|lho|lhos|ma|me|mo|mos|ta|tas|te|to|tos|vos">
+<!ENTITY pronomes_informais_pt_pt "contigo|t[ao]s?|teus?|tuas?|t[uie]|vocês?">
+<!ENTITY pronomes_possessivos_pt_pt "del[ae]s?|meus?|noss[ao]s?|seus?|suas?|teus?|tuas?|voss[ao]s?">
+
+
 <!ENTITY gerundio_verbos "acabar|acontecer|afundar|ajudar|aumentar|criar|degradar|diminuir|disparar|elaborar|fazer|fluir|instalar|ir|lesar|quebrar|ser|travar|vir">
 <!ENTITY gerundio_excecoes "abandonando|acelerando|acrescentando|acumulando|adicionando|alimentando|alterando|alternando|aperfeiçoando|apresentando|armazenando|atribuindo|aumentando|baixando|bebendo|beneficiando|caindo|causando|chegando|comendo|conquistando|conseguindo|consolidando|consumindo|convergindo|crescendo|criando|decrescendo|desaparecendo|emergindo|empregando|envolvendo|fazendo|ficando|ganhando|habituando|havendo|indo|jogando|levantando|libertando|matando|morrendo|mudando|originando|partindo|passando|perdendo|permitindo|pressionando|procurando|progredindo|propagando|publicando|querendo|recorrendo|reduzindo|repetindo|revendo|sabendo|safando|saindo|sendo|subindo|surgindo|usando">
 
@@ -61,8 +76,6 @@ USA
 
 <!-- Termos depreciativos específicos pt_PT - the rule uses inflected='yes' to get all forms -->
 <!ENTITY depreciativo "alarve|badalhoco|badameco|baianada|bandalho|bimbalhada|bimbo|bosta|brasuca|brega|bumbo|chacha|caguinchas|campónio|chico-esperto|china|chinoca|chulo|chunga|chungaria|chunguice|ciganada|ciganagem|coirão|crápula|cretino|escarumba|escória|escumalha|espertalhão|espertinho|fufa|gagá|gandulo|generaleco|gentalha|gentiaga|gordalhão|imbecil|indigente|japa|labrego|larilas?|lorpa|maldito|maltrapilho|maricão|mariconço|mentecapto|mitra|molenga|molengão|monhé|morcão|negralhada|nhurrice|nhurro|otário|pacóvio|palerma|panasca|panilas|parolo|patego|pelintra|pindérico|portuga|pretalhada|pretaria|pulha|rabeta|ralé|reles|sacana|tanso|tuga|velhaco">
-
-<!ENTITY pronomes_informais "contigo|t[ao]s?|teus?|tuas?|t[uie]|vocês?">
 
 <!ENTITY verbos_informais "és|estás|tens|tenhas">
 
@@ -3787,11 +3800,11 @@ USA
         <antipattern>
             <token postag='NC.+|AQ.+|NP.+|VMN0000|VMN03.+|VMG0000' postag_regexp='yes'/>
             <token min="0" max="1" postag='CC|RG|SPS00|(SPS00:)?[DP][ADIPRT].+|_PUNCT|VMP00.+|VMIP3.+' postag_regexp='yes'>
-                <exception regexp='yes'>&pronomes_informais;</exception> <!-- To fix informalities 2023-02-27 (27-FEB-2023+) -->
+                <exception regexp='yes'>&pronomes_informais_pt_pt;</exception> <!-- To fix informalities 2023-02-27 (27-FEB-2023+) -->
             </token>
             <token postag='RM' postag_regexp='no'/>
             <token min="0" max="1" postag='CC|RG|SPS00|(SPS00:)?[DP][ADIPRT].+|_PUNCT|VMP00.+|VMIP3.+' postag_regexp='yes'>
-                <exception regexp='yes'>&pronomes_informais;</exception> <!-- To fix informalities 2023-02-27 (27-FEB-2023+) -->
+                <exception regexp='yes'>&pronomes_informais_pt_pt;</exception> <!-- To fix informalities 2023-02-27 (27-FEB-2023+) -->
             </token>
             <token postag='VM[IS]P2S0|VMM02S0|VMII2S0' postag_regexp='yes'> <!-- Verbs to fix informalities 2023-02-27 (27-FEB-2023+) -->
                 <exception regexp='yes'>&verbos_informais;</exception>
@@ -3827,11 +3840,11 @@ USA
             <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
             <token postag='DP3.PS|SPS00|SPS00:DI.+|NC.+|AQ.+|NP.+' postag_regexp='yes'>
                 <exception postag_regexp='yes' postag='V.+|PP.+|RG'/>
-                <exception regexp='yes'>&pronomes_informais;</exception> <!-- To fix informalities 2023-02-27 (27-FEB-2023+) -->
+                <exception regexp='yes'>&pronomes_informais_pt_pt;</exception> <!-- To fix informalities 2023-02-27 (27-FEB-2023+) -->
             </token>
             <token>
                 <exception postag_regexp='yes' postag='V.+|RG|SENT_END'/>
-                <exception regexp='yes'>&pronomes_informais;</exception> <!-- To fix informalities 2023-02-27 (27-FEB-2023+) -->
+                <exception regexp='yes'>&pronomes_informais_pt_pt;</exception> <!-- To fix informalities 2023-02-27 (27-FEB-2023+) -->
             </token>
             <example>Aprendi a conhecer as pessoas, não pelas suas palavras, mas pelas suas ações.</example>
             <example>...décadas passou a representar a comunicação digital (talvez consequência do céu e do mar, principais vias de troca à longas distâncias).</example>
