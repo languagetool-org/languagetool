@@ -203,6 +203,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Knoblauch", asList("Knoblauch"));
     wordSplitter.addException("Kollagen", asList("Kollagen"));
     wordSplitter.addException("Kommerz", asList("Kommerz"));
+    wordSplitter.addException("Mentoring", asList("Mentoring"));
     wordSplitter.addException("Monarchen", asList("Monarchen"));
     wordSplitter.addException("Oligarchen", asList("Oligarchen"));
     wordSplitter.addException("Optimal", asList("Optimal"));
