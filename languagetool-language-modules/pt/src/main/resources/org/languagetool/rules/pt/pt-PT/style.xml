@@ -3378,35 +3378,51 @@ USA
     </rule>
 
 
-    <rulegroup id='SIMPLIFICAR_A_XXX_DE_VOCÊS' name="[pt-PT][Simplificar] A XXX de vocês → a vossa XXX" tone_tags="objective">
+    <rule id='SIMPLIFICAR_A_XXX_DE_VOCÊS' name="[pt-PT][Simplificar] A XXX de vocês → a vossa XXX" tone_tags="objective" default="temp_off"> 
         <!-- IDEA shorten_it -->
-        <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-10 (Checked/Enhanced) (25-JUL-2022+) -->
-        <rule>
-            <pattern>
-                <token>a</token>
-                <token postag='NP[FC].+|NC[FC].+|AQ.[FC].+' postag_regexp='yes'/> <!-- "a vossa" followed by female noun/adj -->
-                <token>de</token>
+        <antipattern>
+            <token regexp='yes'>[ao]s?</token>
+            <token postag='N[CP].+|AQ.+' postag_regexp='yes'/>
+            <token inflected='yes' regexp='no'>ser</token>
+            <token>de</token>
+            <token>vocês</token>
+            <token postag='_PUNCT|SENT_END' postag_regexp='yes'/>
+            <example>A água é de vocês.</example>
+            <example>A culpa é de vocês.</example>
+            <example>A culpa são de vocês.</example>
+            <example>A escolha é de vocês.</example>
+        </antipattern>
+        <antipattern>
+            <token regexp='yes'>[ao]</token>
+            <token postag='N[CP].S.+|AQ..S.+' postag_regexp='yes'/>
+            <token>de</token>
+            <token>vocês</token>
+            <token postag='VM[IN].3P0' postag_regexp='yes'/>
+            <example>É o momento de vocês ouvirem esta informação em sua totalidade.</example>
+            <example>Acha a pessoa mais durona, você quebra essa pessoa, e o resto de vocês entram na linha.</example>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token regexp='yes'>[ao]s?</token>
+                <token skip='1' postag='N[CP].+|AQ.+' postag_regexp='yes'/> <!-- skip=1 is the ideal to avoid weird results -->
+                <token>de<exception scope='previous' postag_regexp='yes' postag='SPS.+|DI.+|Z0.+|VMI.3P0'/></token>
                 <token>vocês</token>
-            </pattern>
-            <message>Esta perífrase poderá ser simplificada.</message>
-            <suggestion>\1 vossa \2</suggestion>
-            <example correction="A vossa opinião"><marker>A opinião de vocês</marker> é importante.</example>
-        </rule>
-
-        <rule>
-            <pattern>
-                <token>a</token>
-                <token postag='NP[FC].+|NC[FC].+|AQ.[FC].+' postag_regexp='yes'/> <!-- "a vossa" followed by female noun/adj -->
-                <token postag='NP.+|NC.+|AQ.+' postag_regexp='yes'/>
-                <token>de</token>
-                <token>vocês</token>
-            </pattern>
-            <message>Esta perífrase poderá ser simplificada.</message>
-            <suggestion>\1 vossa \2 \3</suggestion>
-            <example correction="A vossa opinião sincera"><marker>A opinião sincera de vocês</marker> é importante.</example>
-        </rule>
-
-    </rulegroup>
+            </marker>
+            <token><exception postag_regexp='yes' postag='Z0.+'/></token>
+        </pattern>
+        <message>&simplify_msg;</message>
+        <suggestion>\1 voss<match no='1' case_conversion='alllower'/> <match no='2' include_skipped='all'/></suggestion>
+        <example correction="A vossa opinião"><marker>A opinião de vocês</marker> é importante.</example>
+        <example correction="As vossas opiniões sinceras"><marker>As opiniões sinceras de vocês</marker> são importantes.</example>
+        <example correction="O vosso carro"><marker>O carro de vocês</marker> é bonito.</example>
+        <example correction="Os vossos carros novos"><marker>Os carros novos de vocês</marker> são bonitos.</example>
+        <example>Fechem a porta atrás de vocês.</example>
+        <example>Talvez os três de vocês precisem se separar por hoje.</example>
+        <example>Acaso disse eu sequer uma palavra a algum de vocês dois?</example>
+        <example>Posso contar com a ajuda de vocês dois?</example>
+        <example>As pessoas rirão de vocês.</example>
+        <example>As pessoas gostam de vocês.</example>
+    </rule>
 
 
     <!-- ESTRANGEIRISMOS ESPECÍFICOS pt_PT -->
