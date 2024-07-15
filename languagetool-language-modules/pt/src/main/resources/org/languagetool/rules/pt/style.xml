@@ -8703,20 +8703,22 @@ USA
         </rule>
 
 
-        <rule id='MUITO_BASTANTE_EXTENSIVAMENTE' name="[Universitário][Científico] Muito/bastante/enormemente → Extensivamente" tone_tags="academic" is_goal_specific="true" default="temp_off">
+        <rule id='MUITO_BASTANTE_EXTENSIVAMENTE' name="[Universitário][Científico] Muito/bastante/enormemente → Extensivamente/amplamente" tone_tags="academic" is_goal_specific="true" tags="picky" default="temp_off">
             <pattern>
-                <token inflected='yes'>ter</token>
-                <token>sido</token>
+                <token inflected='yes' regexp='yes'>ter|ser</token>
+                <token min='0'>sido</token>
                 <marker>
                     <token regexp='yes'>muito|bastante|enormemente</token>
                 </marker>
-                <token regexp='yes'>analisad[ao]s?|debatid[ao]s?|desenvolvid[ao]s?|discutid[ao]s?|documentad[ao]s?|empregad[ao]s?|empregues?|estudad[ao]s?|examinad[ao]s?|explorad[ao]s?|investigad[ao]s?|pesquisad[ao]s?|refinad[ao]s?|testad[ao]s?|usad[ao]s?|utilizad[ao]s?</token> <!-- Add more words as found -->
+                <token regexp='yes'>analisad[ao]s?|aplicad[ao]s?|debatid[ao]s?|desenvolvid[ao]s?|discutid[ao]s?|documentad[ao]s?|empregad[ao]s?|empregues?|estudad[ao]s?|examinad[ao]s?|explorad[ao]s?|investigad[ao]s?|pesquisad[ao]s?|refinad[ao]s?|testad[ao]s?|usad[ao]s?|utilizad[ao]s?</token> <!-- Add more words as found -->
             </pattern>
-            <message>Num contexto formal/científico, é preferível escrever &quot;extensivamente&quot;.</message>
+            <message>Num contexto formal/científico, é preferível escrever &quot;extensivamente&quot; ou &quot;amplamente&quot;.</message>
             <suggestion>extensivamente</suggestion>
-            <example correction="extensivamente">A fórmula tem sido <marker>bastante</marker> analisada pelos matemáticos.</example>
-            <example correction="extensivamente">As equações têm sido <marker>muito</marker> estudadas por cientistas.</example>
-            <example correction="extensivamente">As equações têm sido <marker>enormemente</marker> estudadas.</example>
+            <suggestion>amplamente</suggestion>
+            <example correction="extensivamente|amplamente">A fórmula tem sido <marker>bastante</marker> analisada pelos matemáticos.</example>
+            <example correction="extensivamente|amplamente">As equações têm sido <marker>muito</marker> estudadas por cientistas.</example>
+            <example correction="extensivamente|amplamente">As equações têm sido <marker>enormemente</marker> estudadas.</example>
+            <example correction="extensivamente|amplamente">O termo é <marker>enormemente</marker> aplicado em contextos académicos.</example>
         </rule>
 
 
