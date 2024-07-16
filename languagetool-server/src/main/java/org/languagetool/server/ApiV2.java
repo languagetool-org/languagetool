@@ -243,13 +243,20 @@ class ApiV2 {
     ensurePostMethod(httpExchange, "/words/delete");
     UserLimits limits = getUserLimits(parameters, config);
     DatabaseAccess db = DatabaseAccess.getInstance();
+    String dict = parameters.get("dict");
+    if(dict == null &&
+      limits.getAccount() != null &&
+      limits.getAccount().getDefaultDictionary() != null &&
+      !limits.getAccount().getDefaultDictionary().isEmpty()) {
+      dict = limits.getAccount().getDefaultDictionary();
+    }
     boolean deleted;
     if("batch".equals(parameters.get("mode"))) { //Experimental
       List<String> words = Arrays.asList(parameters.get("words").split("\\s+"));
-      deleted = db.deleteWordBatch(words, limits.getPremiumUid(),parameters.get("dict"));
+      deleted = db.deleteWordBatch(words, limits.getPremiumUid(),dict);
       writeResponse("deleted", deleted, httpExchange);
     } else {
-      deleted = db.deleteWord(parameters.get("word"), limits.getPremiumUid(), parameters.get("dict"));
+      deleted = db.deleteWord(parameters.get("word"), limits.getPremiumUid(), dict);
       writeResponse("deleted", deleted, httpExchange);
     }
   }
