@@ -511,6 +511,7 @@ For more detailed information, including tag definitions, please check out our d
             </rule>
         </rulegroup>
         <rulegroup id="TWITTER_X" name="Twitter (X)" tags="picky">
+            <url>https://en.wikipedia.org/wiki/Twitter</url>
             <short>Outdated Name</short>
             <antipattern>
                 <token skip="-1">twitter</token>
@@ -569,6 +570,55 @@ For more detailed information, including tag definitions, please check out our d
                 <suggestion>X</suggestion>
                 <suggestion>𝕏</suggestion>
                 <example correction="X|𝕏"><marker>Twitter</marker>'s owner is Elon Musk.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token chunk_re="E-NP.*" />
+                    <token>twitter</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="MD|PRP_S.*" postag_regexp="yes" />
+                    <token postag="RB" min="0" />
+                    <token>twitter</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>twitter</token>
+                    </marker>
+                    <token postag="RB" min="0">
+                        <exception postag="IN|EX" postag_regexp="yes" />
+                    </token>
+                    <token postag="VBZ|MD" postag_regexp="yes" chunk_re=".-VP">
+                        <exception regexp="yes">&uncommon_verbs;</exception>
+                    </token>
+                </pattern>
+                <message>This popular online platform has been renamed to "X".</message>
+                <suggestion>X</suggestion>
+                <suggestion>𝕏</suggestion>
+                <suggestion>X (formerly known as Twitter)</suggestion>
+                <example correction="X|𝕏|X (formerly known as Twitter)"><marker>Twitter</marker> is my favorite social media app.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token chunk_re="E-NP.*" />
+                    <token>twitter</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="MD|PRP_S.*|TO" postag_regexp="yes" />
+                    <token postag="RB" min="0" />
+                    <token>twitter</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>twitter</token>
+                    </marker>
+                    <token regexp="yes">feed|profiles?|messages?|dms?|logins?|usernames?|threads?|accounts?|ceos?|founders?</token>
+                </pattern>
+                <message>This popular online platform has been renamed to "X".</message>
+                <suggestion>X</suggestion>
+                <suggestion>𝕏</suggestion>
+                <suggestion>X (formerly known as Twitter)</suggestion>
+                <example correction="X|𝕏|X (formerly known as Twitter)">Check my <marker>Twitter</marker> account.</example>
             </rule>
         </rulegroup>
         <rule id="BUSSES" name="busses (buses)">
