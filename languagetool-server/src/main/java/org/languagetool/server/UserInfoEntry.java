@@ -63,7 +63,7 @@ class UserInfoEntry {
 
   @Nullable
   @Getter
-  private final String defaultDictionaryGroup;
+  private final String defaultDictionary;
 
   UserInfoEntry(long id, String email, @Nullable Long userDictCacheSize, @Nullable Long requestsPerDay, @Nullable Integer limitEnforcement, @Nullable Long managedAccounts,
                 @Nullable String passwordHash, @Nullable java.sql.Date premiumFrom, @Nullable java.sql.Date premiumTo, String addonToken, String apiKey,
@@ -73,7 +73,7 @@ class UserInfoEntry {
 
   UserInfoEntry(long id, String email, @Nullable Long userDictCacheSize, @Nullable Long requestsPerDay, @Nullable Integer limitEnforcement, @Nullable Long managedAccounts,
                 @Nullable String passwordHash, @Nullable java.sql.Date premiumFrom, @Nullable java.sql.Date premiumTo, String addonToken, @Nullable String apiKey,
-                @Nullable Long userGroup, @Nullable UUID groupId, @Nullable String groupRole, @Nullable String defaultDictionaryGroup) {
+                @Nullable Long userGroup, @Nullable UUID groupId, @Nullable String groupRole, @Nullable String defaultDictionary) {
     this.id = id;
     this.email = email;
     this.addonToken = addonToken;
@@ -88,7 +88,7 @@ class UserInfoEntry {
     this.userGroup = userGroup;
     this.groupId = groupId;
     this.groupRole = groupRole;
-    this.defaultDictionaryGroup = defaultDictionaryGroup;
+    this.defaultDictionary = defaultDictionary;
   }
 
 
