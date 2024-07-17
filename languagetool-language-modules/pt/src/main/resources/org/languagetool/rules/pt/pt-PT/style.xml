@@ -3404,7 +3404,7 @@ USA
         <pattern>
             <marker>
                 <token regexp='yes'>[ao]s?</token>
-                <token skip='1' postag='N[CP].+|AQ.+' postag_regexp='yes'/> <!-- skip=1 is the ideal to avoid weird results -->
+                <token skip='1' postag='N[CP].+|AQ.+' postag_regexp='yes'><exception postag_regexp='yes' postag='[DP].+'/></token> <!-- skip=1 is the ideal to avoid weird results -->
                 <token>de<exception scope='previous' postag_regexp='yes' postag='SPS.+|DI.+|Z0.+|VMI.3P0'/></token>
                 <token>vocês</token>
             </marker>
@@ -3422,6 +3422,7 @@ USA
         <example>Posso contar com a ajuda de vocês dois?</example>
         <example>As pessoas rirão de vocês.</example>
         <example>As pessoas gostam de vocês.</example>
+        <example>Contem-nos algo sobre o seu (de vocês) passado!</example>
     </rule>
 
 
