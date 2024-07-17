@@ -211,6 +211,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Oligarchen", asList("Oligarchen"));
     wordSplitter.addException("Optimal", asList("Optimal"));
     wordSplitter.addException("Saunieren", asList("Saunieren"));
+    wordSplitter.addException("Schiessen", asList("Schiessen"));
     wordSplitter.addException("Spielgeleier", asList("Spielgeleier"));
     wordSplitter.addException("Halleschen", asList("Halleschen"));
     wordSplitter.addException("Reinigungstab", asList("Reinigungs", "tab"));
