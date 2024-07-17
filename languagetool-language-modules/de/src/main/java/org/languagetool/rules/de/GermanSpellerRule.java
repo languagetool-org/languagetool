@@ -3900,6 +3900,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "genausogut": return topMatch("genauso gut");
       case "Sylvester": return topMatch("Silvester");
       case "Außerden": return topMatch("Außerdem");
+      case "Irish-Pub": return topMatch("Irish Pub");
+      case "Irish-Pubs": return topMatch("Irish Pubs");
       case "ausserhalb": return topMatch("außerhalb");
       case "Ausserhalb": return topMatch("Außerhalb");
       case "Add-On": return topMatch("Add-on");
