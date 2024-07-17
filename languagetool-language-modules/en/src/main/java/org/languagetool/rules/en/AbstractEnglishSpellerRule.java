@@ -191,6 +191,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern WHEREEVER = compile("[Ww]hereever");
   private static final Pattern WHATSAPP = compile("[Ww]hatsapp");
   private static final Pattern JETLAGGED = compile("jetlagged");
+  private static final Pattern MACBOOK = compile("[Mm]acbooks?");
   private static final Pattern LIKELYHOOD = compile("[Ll]ikelyhood");
   private static final Pattern UNECESSARY = compile("[Uu]necessary");
   private static final Pattern HUBSPOT = compile("[Hh]ubspot");
@@ -1535,6 +1536,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (WHEREEVER.matcher(word).matches()) return topMatch(word.replaceFirst("hereever", "herever"));
     if (WHATSAPP.matcher(word).matches()) return topMatch("WhatsApp");
     if (JETLAGGED.matcher(word).matches()) return topMatch("jet-lagged");
+    if (MACBOOK.matcher(word).matches()) return topMatch(word.replaceFirst("acbook", "acBook"));
     if (LIKELYHOOD.matcher(word).matches()) return topMatch(word.replaceFirst("ikelyhood", "ikelihood"));
     if (UNECESSARY.matcher(word).matches()) return topMatch(word.replaceFirst("necessary", "nnecessary"));
     if (TV.matcher(word).matches()) {
