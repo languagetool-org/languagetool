@@ -22,6 +22,7 @@ import org.languagetool.Language;
 import org.languagetool.Tag;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
 import java.util.*;
@@ -37,6 +38,7 @@ public class SimpleReplaceProfanityRule extends AbstractSimpleReplaceRule2 {
   public SimpleReplaceProfanityRule(ResourceBundle messages, Language language) {
     super(messages, language);
     //useSubRuleSpecificIds();
+    setLocQualityIssueType(ITSIssueType.Style); // needs ITS issue to be 'Style' in order to get purple underline + lower prio
     setCategory(Categories.STYLE.getCategory(messages));
     this.setUrl(Tools.getUrl("https://en.wiktionary.org/wiki/Category:English_offensive_terms"));
     setTags(Collections.singletonList(Tag.picky));
