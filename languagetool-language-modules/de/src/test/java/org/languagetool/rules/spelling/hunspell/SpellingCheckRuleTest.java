@@ -77,4 +77,10 @@ public class SpellingCheckRuleTest {
     assertThat(lt.check("Groß Oessingen").size(), is(1));
     assertThat(lt.check("Eching am Ammerse").size(), is(2));
   }
+
+  @Test
+  public void testProhibitedWordFollowedByDot() throws IOException {
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    assertThat(lt.check("Bestanteil.").size(), is(1));
+  }
 }

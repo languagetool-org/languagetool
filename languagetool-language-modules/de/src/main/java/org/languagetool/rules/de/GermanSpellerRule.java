@@ -2286,7 +2286,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected boolean ignorePotentiallyMisspelledWord(String word) throws IOException {
-    if (isValidWordLength(word) || startsWithLowercase(word) || isProhibited(word)) {
+    // Remove dot
+    String wordNoDot = word.endsWith(".") ? word.substring(0, word.length()-1) : word;
+
+    if (isValidWordLength(word) || startsWithLowercase(word) || isProhibited(word) || isProhibited(wordNoDot)) {
       // Exclude cases like weird/irrelevant words and very long words that can cause crashes
       return false;
     }
@@ -2294,8 +2297,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (isProbablyTypo(word)) {
       return false;
     }
-    // Remove dot
-    String wordNoDot = word.endsWith(".") ? word.substring(0, word.length()-1) : word;
 
     // Format gender neutral forms here to make splitting easier, but
     //   we need to double-check the word later to avoid words in camel case
