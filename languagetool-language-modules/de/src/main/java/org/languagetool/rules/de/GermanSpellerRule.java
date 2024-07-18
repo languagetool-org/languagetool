@@ -2585,8 +2585,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // e.g. "Aus" + "leih" + "stelle"
       return true;
     }
-    if (isNounNomSin(part1) && isVerbStem(part2) && isNoun(compound2)) {
+    if (isNounNom(part1) && isVerbStem(part2) && isNoun(compound2)) {
       // e.g. "Wein" + "kühl" + "schrank"
+      return true;
+    }
+    if (isOtherPrefix(part1) && isVerbStem(part2) && isNoun(compound2)) {
+      // e.g. "Horizontal" + "bohr" + "technik"
       return true;
     }
     return false;
