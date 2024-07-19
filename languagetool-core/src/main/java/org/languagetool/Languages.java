@@ -116,9 +116,8 @@ public final class Languages {
     List<Language> staticLanguages = new ArrayList<>();
     Set<String> languageClassNames = new HashSet<>();
     try {
-      Enumeration<URL> propertyFiles = Language.class.getClassLoader().getResources(PROPERTIES_PATH);
-      while (propertyFiles.hasMoreElements()) {
-        URL url = propertyFiles.nextElement();
+      List<URL> propertyFiles = JLanguageTool.getDataBroker().getAsURLs(PROPERTIES_PATH);
+      for (URL url: propertyFiles) {
         try (InputStream inputStream = url.openStream()) {
           // We want to be able to read properties file with duplicate key, as produced by
           // Maven when merging files:
