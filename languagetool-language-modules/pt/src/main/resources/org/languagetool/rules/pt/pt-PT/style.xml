@@ -529,16 +529,16 @@ USA
 <example>O estabelecimento é de Ensino Superior.</example>
 <example>Um homem que nunca foi à escola pode roubar de um vagão de carga; mas, se ele tiver educação superior, ele pode roubar toda a ferrovia.</example>
         </rule>
-        <rule id='FAZER_DESPORTO' name='Fazer desporto → Praticar' tone_tags="formal">
-            <!--      Created by Marco A.G.Pinto     -->
+
+
+        <rule id='FAZER_DESPORTO' name="[pt-PT] 'Fazer' desporto → Praticar" tone_tags="formal" default="temp_off">
             <pattern>
                 <marker>
-                    <token inflected='yes'>fazer</token>
+                    <token skip='4' inflected='yes'>fazer</token>
                 </marker>
-                <token min="0" regexp="yes">muito|pouco|algum|bastante|nenhum|mais|menos</token>
                 <token>desporto</token>
             </pattern>
-            <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>.</message>
+            <message>&informal_msg;</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>
             <example correction="praticar">Vou <marker>fazer</marker> muito desporto.</example>
         </rule>
