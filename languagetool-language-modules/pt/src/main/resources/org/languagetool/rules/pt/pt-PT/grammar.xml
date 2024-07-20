@@ -2745,7 +2745,7 @@ USA
     </rule>
 
     <!-- TROCAS-TE trocaste -->
-    <rulegroup id='HIFEN_INTRUSIVO' name="Verbo com hífen intrusivo">
+    <rulegroup id='HIFEN_INTRUSIVO' name="[pt-PT] Verbo com hífen intrusivo">
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-30 + 2021-03-31 + 2021-05-31 (17-MAR-2021+)      -->
         <rule>
             <!--
@@ -2787,7 +2787,7 @@ USA
 
     </rulegroup>
 
-    <rulegroup id='REFLEXIVO_CONJUNTIVO' name='Confusão de Tempo Verbal: Conjuntivo - Reflexivo' default='off'><!-- XXX rethink rule. too many false positives -->
+    <rulegroup id='REFLEXIVO_CONJUNTIVO' name='[pt-PT] Confusão de Tempo Verbal: Conjuntivo - Reflexivo' default='off'><!-- XXX rethink rule. too many false positives -->
         <!-- Created by Tiago F. Santos, 2017-08-25 -->
         <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/as-formas-verbais-com-sse-ou-com--se/11603</url>
         <rule>
@@ -4049,7 +4049,7 @@ USA
 
 <category id='CONFUSED_WORDS_PT_PT' name="[pt-PT] Confusão de Palavras">
 
-    <rule id='PARONYM_PREMIO_252_PT' name='Parónimo: premio'>
+    <rule id='PARONYM_PREMIO_252_PT' name='[pt-PT] Parónimo: premio'>
         <pattern>
             <token regexp='yes'>&art_detecao_paronimos;</token>
             <token min='0' postag='A.+' postag_regexp='yes'/>
@@ -4061,7 +4061,7 @@ USA
         <example correction='no prémio'><marker>no premio</marker>.</example>
         <example correction='nos prémios'><marker>nos premios</marker>.</example>
     </rule>
-    <rule id='PARONYM_PREMIO_252_PT2' name='Parónimo: premio'>
+    <rule id='PARONYM_PREMIO_252_PT2' name='[pt-PT] Parónimo: premio'>
         <pattern>
             <token regexp='yes' inflected="yes">&verbos_auxiliares_part_passado;|dever|poder|querer|costumar</token>
             <marker>
@@ -4155,8 +4155,8 @@ USA
 
 
 
-<category id="TYPOGRAPHY" name="Tipografia">
-    <rule type="locale-violation" id='CURRENCY_PLACEMENT_PT_FOREIGN' name="Posição dos símbolos de moeda: '100£ (£100)">
+<category id="TYPOGRAPHY" name="[pt-PT] Tipografia">
+    <rule type="locale-violation" id='CURRENCY_PLACEMENT_PT_FOREIGN' name="[pt-PT] Posição dos símbolos de moeda: '100£ (£100)">
         <pattern>
             <token regexp="yes">\d+([,.]\d+)*</token>
             <token regexp="yes">&currency_symbols;
@@ -4172,7 +4172,7 @@ USA
     <example>Preciso de 400€.</example>
 </rule>
 
-<rule type="locale-violation" id='CURRENCY_PLACEMENT_EUR' name="Posição do símbolo do euro: '€100 (100 €)">
+<rule type="locale-violation" id='CURRENCY_PLACEMENT_EUR' name="[pt-PT] Posição do símbolo do euro: '€100 (100 €)">
     <pattern>
         <token>€</token>
         <token regexp="yes">\d+([,.]\d+)*</token>
@@ -4184,7 +4184,7 @@ USA
     <example correction="100&nbsp;€">Deve <marker>€100</marker>.</example>
 </rule>
 
-<rule type="locale-violation" id='CURRENCY_SPACE_PT_FOREIGN' name="Espaçamento entre símbolos e valores monetários: '$ 100' ($100)">
+<rule type="locale-violation" id='CURRENCY_SPACE_PT_FOREIGN' name="[pt-PT] Espaçamento entre símbolos e valores monetários: '$ 100' ($100)">
     <pattern>
         <token regexp="yes">&currency_symbols;
         <exception>€</exception>
@@ -4198,7 +4198,7 @@ USA
 <example correction="R$100">Custa <marker>R$ 100</marker>.</example>
       </rule>
 
-      <rule type="locale-violation" id='CURRENCY_SPACE_EUR' name="Espaçamento entre o símbolo do euro e valores monetários: '100€' (100 €)">
+      <rule type="locale-violation" id='CURRENCY_SPACE_EUR' name="[pt-PT] Espaçamento entre o símbolo do euro e valores monetários: '100€' (100 €)">
           <pattern>
               <token regexp="yes">\d+([,.]\d+)*</token>
               <token spacebefore="no">€</token>
