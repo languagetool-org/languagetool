@@ -4863,25 +4863,22 @@ USA
         </rulegroup>
 
 
-        <!-- PERANTE O MESMO perante idêntico -->
-        <rule id='PERANTE_O_MESMO_IDENTICO' name="[pt-PT][Formal] Perante 'o mesmo' → idêntico">
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-07 (2-MAR-2023+) -->
-            <!--
-                A ciência responde diferentemente perante o mesmo conjunto de dados. → A ciência responde diferentemente perante idêntico conjunto de dados.
-                Estamos perante a mesma categoria de dados. → Estamos perante idêntica categoria de dados.
-            -->
+        <rule id='PERANTE_O_MESMO_IDENTICO' name="[pt-PT][Formal] Perante 'o mesmo' → idêntico" default="temp_off">
             <pattern>
-                <token regexp='yes'>perante|ante|diante</token>
+                <token regexp='yes'>ante|diante|perante</token>
                 <marker>
-                    <token regexp='yes'>d?[ao]s?</token>
+                    <token regexp='yes'>d?[ao]s?|uma?</token>
                     <token regexp='yes'>mesm[ao]s?</token>
                 </marker>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
             </pattern>
-            <message>Num contexto formal, é preferível escrever:</message>
+            <message>&informal_msg;</message>
             <suggestion><match no='3' postag='DD0(..)0' postag_replace='AQ0$10'>idêntico</match></suggestion>
-            <example correction="idêntico">A ciência responde diferentemente perante <marker>o mesmo</marker> conjunto de dados.</example>
-            <example correction="idêntica">Estamos perante <marker>a mesma</marker> categoria de dados.</example>
+            <suggestion><match no='3' postag='DD0(..)0' postag_replace='DI0$10'>um</match> <match no='3' postag='DD0(..)0' postag_replace='AQ0$10'>idêntico</match></suggestion>
+            <example correction="idêntico|um idêntico">Perante <marker>o mesmo</marker> conjunto de dados avaliamos a média.</example>
+            <example correction="idêntico|um idêntico">Estamos perante <marker>um mesmo</marker> conjunto de dados.</example>
+            <example correction="idêntica|uma idêntica">Perante <marker>a mesma</marker> categoria de dados avaliamos a média.</example>
+            <example correction="idêntica|uma idêntica">Estamos perante <marker>uma mesma</marker> categoria de dados.</example>
         </rule>
 
 
