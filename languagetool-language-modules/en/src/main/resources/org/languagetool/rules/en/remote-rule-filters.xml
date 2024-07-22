@@ -1980,6 +1980,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
             <rule>
                 <pattern>
+                    <token>neither</token>
+                    <token min="0" max="3" chunk_re="[BI]-NP.*" />
+                    <marker>
+                        <token chunk_re="E-NP.*" />
+                    </marker>
+                    <token>nor</token>
+                    <token chunk_re=".-NP.*" />
+                </pattern>
+                <example correction="">But neither <marker>deployment</marker> nor the local development flow, is containerized yet.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="SENT_START|CC|PCT|TO" postag_regexp="yes" />
                     <token regexp="yes">an?|another|more|one</token>
                     <token min="0" max="2" chunk="I-NP-singular" />
