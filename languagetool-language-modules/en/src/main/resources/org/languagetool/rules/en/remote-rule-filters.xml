@@ -1956,6 +1956,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_HYDRA_LEO_MISSING_TO" name="">
             <rule>
                 <pattern>
+                    <token>to</token>
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token postag="VB" />
+                    </marker>
+                </pattern>
+                <example correction="">➡️To <marker>have</marker> a better view of the current state of knowledge quality, we could also create a questionnaire so we can gather information.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>send</token>
                     <token postag_regexp="yes" postag="PRP|NNP"/>
                     <marker>
