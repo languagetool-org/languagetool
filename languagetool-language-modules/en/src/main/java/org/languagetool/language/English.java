@@ -746,7 +746,7 @@ public class English extends Language implements AutoCloseable {
       RuleMatch newMatch = new RuleMatch(rm, newReplacements);
       if (newMatch.getSpecificRuleId().startsWith("EN_SIMPLE_REPLACE") &&
         (newMatch.getSpecificRuleId().endsWith("GRAMME") || newMatch.getSpecificRuleId().endsWith("GRAMMES"))) {
-        newMatch.getRule().setLocQualityIssueType(ITSIssueType.Style);
+        newMatch.getRule().setLocQualityIssueType(ITSIssueType.LocaleViolation);
       }
       newRuleMatches.add(newMatch);
     }
