@@ -3459,6 +3459,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
         }
       case "do": return topMatch("so");
+      case "Weisglut": return topMatch("Weißglut");
+      case "Wehrwolf": return topMatch("Werwolf");
+      case "Wehrwolfs": return topMatch("Werwolfs");
+      case "Wehrwölfe": return topMatch("Werwölfe");
+      case "Wehrwölfen": return topMatch("Werwölfen");
       case "Art-Nr": return topMatch("Art.-Nr.");
       case "werrden": return topMatch("werden");
       case "erkäre": return topMatch("erkläre");
