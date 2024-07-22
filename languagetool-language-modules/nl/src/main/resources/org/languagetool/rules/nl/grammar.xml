@@ -850,6 +850,32 @@ regexp case-insensitive maken: (?i)
 				<example correction="rijd">Dus als ik 100 <marker>rijdt</marker> ben ik er eerder?</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="WORDT_OMHULT" name="DT-correctie na wordt" default="temp_off">
+			<rule>
+				<antipattern>
+					<token skip="2">wordt</token>
+					<token skip="1" postag="WKW:VTD.*" postag_regexp="yes"></token>
+					<token postag="WKW:TGW:3EP" regexp="yes">&VTD_3EP_VERWAR_T_D;t</token>
+					<example>Hoe universitaire autonomie wordt gedefinieerd verschilt per land.</example>
+				</antipattern>
+				<antipattern>
+					<token postag="BNW:STL:ONV"/>
+					<token>wordt</token>
+					<token postag="WKW:TGW:3EP" regexp="yes">&VTD_3EP_VERWAR_T_D;t</token>
+					<example>De leeftijd waarop de blauwvintonijn geslachtsrijp wordt verschilt per populatie.</example>
+				</antipattern>
+				<pattern>
+					<token><exception postag="WKW:VTD.*" postag_regexp="yes"/></token>
+					<token skip="3">wordt</token>
+					<marker>
+						<token postag="WKW:TGW:3EP" regexp="yes">&VTD_3EP_VERWAR_T_D;t</token>
+					</marker>
+					<token postag="VRZ"></token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion><match no="3" postag="WKW:VTD:ONV"/></suggestion>.</message>
+				<example correction="omhuld">Dat wordt dan altijd <marker>omhult</marker> met andere zaken.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DT_CORRECTIES" name="verkeerde woordvormen">
 			<rule>
 			    <antipattern>
