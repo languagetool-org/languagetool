@@ -75,7 +75,7 @@ USA
 <!ENTITY barbarismos_rev3 "afición|aficiones|blockchains?|bodyboarders?|bolds?|buffers?|bugs?|builds?|bunkai|cents?|check-ins?|chipsets?|clusters?|cookie-cutters?|cover-ups?|crowdfundings?|crowdsourcings?|default|desktops?|drafts?|emojis?|emoticons?|fanzines?|feedbacks?|flags?|footnotes?|frameworks?|friendly|futons?|gaps?|geocachers?|geocaching|gilberts?|health|heights?|hotspots?|hoverboards?|icebergs?|input-output|interfaces?|jetpacks?|knowing-doing|logs?|LEDs?|likes?|marketplaces?|nudes?|open-source|overclockings?|pidgins?|podcasts?|previews?|rankings?|rap|reviews?|scams?|scammers?|scripts?|skippers?|smileys?|snipers?|spoofing|spreads?|sticks?|sudokus?|takeovers?|tatamis?|tokens?|top-down|trackpads?|thrashers?|trackings?|tweets?|underground|Unicode|uploads?|walkie-talkies?|warm-ups?|webcams?|webinars?|webmail|webmasters?|whalewatching|widths?|woks?|yeah|yes-man|zen|zooms?">
 
 <!-- Termos depreciativos específicos pt_PT - the rule uses inflected='yes' to get all forms -->
-<!ENTITY depreciativo "alarve|badalhoco|badameco|baianada|bandalho|bimbalhada|bimbo|bosta|brasuca|brega|bumbo|chacha|caguinchas|campónio|chico-esperto|china|chinoca|chulo|chunga|chungaria|chunguice|ciganada|ciganagem|coirão|crápula|cretino|escarumba|escória|escumalha|espertalhão|espertinho|fufa|gagá|gandulo|generaleco|gentalha|gentiaga|gordalhão|imbecil|indigente|japa|labrego|larilas?|lorpa|maldito|maltrapilho|maricão|mariconço|mentecapto|mitra|molenga|molengão|monhé|morcão|negralhada|nhurrice|nhurro|otário|pacóvio|palerma|panasca|panilas|parolo|patego|pelintra|pindérico|portuga|pretalhada|pretaria|pulha|rabeta|ralé|reles|sacana|tanso|tuga|velhaco">
+<!ENTITY depreciativo_pt_pt "alarve|badalhoco|badameco|baianada|bandalho|betinho|bimbalhada|bimbo|bosta|brasuca|brega|bumbo|chacha|caguinchas|campónio|chico-esperto|china|chinoca|choninhas|chulo|chunga|chungaria|chunguice|ciganada|ciganagem|coirão|coninhas|crápula|cretino|escarumba|escória|escumalha|espertalhão|espertinho|fufa|gagá|gandulo|generaleco|gentalha|gentiaga|gordalhão|imbecil|indigente|japa|labrego|lamechas|larilas?|lorpa|maldito|maltrapilho|maniento|maricão|mariconço|mariquinhas|mentecapto|mitra|molenga|molengão|monhé|morcão|negralhada|nhurrice|nhurro|otário|pacóvio|palerma|panasca|panilas|parolo|patego|pelintra|pindérico|portuga|pretalhada|pretaria|pulha|rabeta|ralé|reles|sacana|tanso|tótó|tuga|velhaco|Zé-ninguém">
 
 <!ENTITY verbos_informais "és|estás|tens|tenhas">
 
@@ -2227,23 +2227,16 @@ USA
         </rule>
 
 
-        <!-- TERMOS DEPRECIATIVOS -->
         <rule id='FORMAL_DEPRECIATIVO' name="[pt-PT][Formal] Termos depreciativos">
             <!-- IDEA inclusive -->
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-18/19 + 2022-08-17 (1-JAN-2022+)      -->
-            <!--
-                Vou à loja do monhé. → Vou à loja do indiano.
-            -->
             <pattern>
-                <token regexp='yes' inflected="yes">&depreciativo;
-                <exception postag_regexp='yes' postag='NP.+'/>
-            </token>
-        </pattern>
-        <message>Este termo é depreciativo, pondere empregar um termo alternativo.</message>
-        <example type="incorrect">Vou à loja do <marker>monhé</marker>.</example>
-        <example>Vou à loja do <marker>indiano</marker>.</example>
-        <example>Foi iniciada na China e rapidamente disseminada.</example>
-    </rule>
+                <token regexp='yes' inflected="yes">&depreciativo_pt_pt;<exception postag_regexp='yes' postag='NP.+'/></token>
+            </pattern>
+            <message>Este termo é depreciativo, pondere empregar um termo alternativo.</message>
+            <example type="incorrect">Vou à loja do <marker>monhé</marker>.</example>
+            <example>Vou à loja do <marker>indiano</marker>.</example>
+            <example>Foi iniciada na China e rapidamente disseminada.</example>
+        </rule>
 
 
     <!-- TODO Add antipattern for dash and quotations -->
