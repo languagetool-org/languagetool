@@ -4101,6 +4101,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "langzugehen": return topMatch("entlangzugehen");
       case "langgehe": return topMatch("entlanggehe");
       case "langging": return topMatch("entlangging");
+      case "Macbook": return topMatch("MacBook");
+      case "Macbooks": return topMatch("MacBooks");
       case "langgegangen": return topMatch("entlanggegangen");
       case "lustigmachen": return topMatch("lustig machen");
       case "lustigmache": return topMatch("lustig mache");
