@@ -3460,6 +3460,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         }
       case "do": return topMatch("so");
       case "Weisglut": return topMatch("Weißglut");
+      case "Anstossbreite": return topMatch("Anstoßbreite");
+      case "Elfmeterschiessen": return topMatch("Elfmeterschießen");
+      case "Feldschiessen": return topMatch("Feldschießen");
+      case "Flössgräben": return topMatch("Flößgräben");
+      case "Schiessen": return topMatch("Schießen");
+      case "Außländer": return topMatch("Ausländer");
+      case "Außländern": return topMatch("Ausländern");
+      case "Außländers": return topMatch("Ausländers");
+      case "Außländerin": return topMatch("Ausländerin");
+      case "Außländerinnen": return topMatch("Ausländerinnen");
       case "Wehrwolf": return topMatch("Werwolf");
       case "Wehrwolfs": return topMatch("Werwolfs");
       case "Wehrwölfe": return topMatch("Werwölfe");
