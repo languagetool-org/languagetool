@@ -103,7 +103,7 @@ public class WordRepeatBeginningRule extends TextLevelRule {
               shortMsg = "";
             }
             if (!shortMsg.isEmpty()) {
-              String msg = shortMsg + " " + messages.getString("desc_repetition_beginning_thesaurus");
+              String msg = messages.getString("desc_repetition_beginning_thesaurus");
               int startPos = analyzedToken.getStartPos();
               int endPos = startPos + token.length();
               RuleMatch ruleMatch = new RuleMatch(this, sentence, pos + startPos, pos + endPos, msg, shortMsg);
