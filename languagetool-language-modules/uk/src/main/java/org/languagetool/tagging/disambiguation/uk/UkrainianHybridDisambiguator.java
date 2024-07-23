@@ -489,7 +489,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 //          }
         }
 
-        AnalyzedToken newToken = new AnalyzedToken(tokens[i].getToken(), "noninf:abbr", null);
+        AnalyzedToken newToken = new AnalyzedToken(tokens[i].getToken(), "noninfl:abbr", null);
         tokens[i].addReading(newToken, "dis_unknown_initials");
       }
     }
