@@ -1214,6 +1214,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("hardgecode[dt](e[mnrs]?)?", "gehardcode", "hartkodier");
     putRepl("Flektion(en)?", "Flektion", "Flexion");
     putRepl("Off-[Ss]hore-[A-Z].+", "Off-[Ss]hore-", "Offshore");
+    putRepl("[Vv]ermißt.*", "ermißt", "ermisst");
+    putRepl("EUfeindlich.*", "EUfeindlich", "Eu-feindlich");
     put("Deis", "Dies");
     put("fr", "für");
     put("abe", w -> Arrays.asList("habe", "aber", "ab"));
@@ -3460,6 +3462,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         }
       case "do": return topMatch("so");
       case "Weisglut": return topMatch("Weißglut");
+      case "Türahmen": return topMatch("Türrahmen");
+      case "Unglückzahl": return topMatch("Unglückszahl");
+      case "Unglückzahlen": return topMatch("Unglückszahlen");
       case "Anstossbreite": return topMatch("Anstoßbreite");
       case "Elfmeterschiessen": return topMatch("Elfmeterschießen");
       case "Feldschiessen": return topMatch("Feldschießen");
