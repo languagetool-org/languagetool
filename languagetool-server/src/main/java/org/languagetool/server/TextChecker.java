@@ -255,6 +255,37 @@ abstract class TextChecker {
     long timeStart = System.currentTimeMillis();
     UserLimits limits = ServerTools.getUserLimits(params, config);
 
+    if (Premium.isPremiumStatusCheck(aText)) {
+      Language premiumStatusCheckLang = Languages.getLanguageForShortCode("en-US");
+      List<RuleMatch> matches = new ArrayList<>();
+      if (limits.hasPremium()) {
+        matches.add(new RuleMatch(new Rule() {
+          @Override
+          public String getId() {
+            return "PREMIUM_FAKE_RULE";
+          }
+
+          @Override
+          public String getDescription() {
+            return "PREMIUM_FAKE_RULE";
+          }
+
+          @Override
+          public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+            return RuleMatch.EMPTY_ARRAY;
+          }
+        }, null,0,1,""));
+      }
+      DetectedLanguage detectedLanguage = new DetectedLanguage(premiumStatusCheckLang, premiumStatusCheckLang, 0.99999076F, "ngram");
+      int compactMode = Integer.parseInt(params.getOrDefault("c", "0"));
+      String response = getResponse(aText, premiumStatusCheckLang, detectedLanguage, premiumStatusCheckLang, Collections.singletonList(new CheckResults(matches, Collections.emptyList())), Collections.emptyList(), null, compactMode,
+        !limits.hasPremium(), JLanguageTool.Mode.ALL);
+      setHeaders(httpExchange);
+      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
+      httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+      return;
+    }
+
     String requestId = httpExchange.getRequestHeaders().getFirst("X-Request-ID");
 
     // logging information
@@ -664,42 +695,39 @@ abstract class TextChecker {
       }
     }
 
-    if (!Premium.isPremiumStatusCheck(aText)) { // exclude status checks from add-on from metrics
-      ServerMetricsCollector.getInstance().logCheck(
-        lang, computationTime, textSize, matchCount, mode);
 
-      if (!config.isSkipLoggingChecks()) {
-        // NOTE: Java/DB (not sure) can't keep up with logging the volume of new entries we've reached,
-        // so we limit it to enterprise customers where we actually pay attention to the request limits
-        if (limits.getRequestsPerDay() != null) {
-          DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
-            lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
-          databaseLogger.log(logEntry);
-        }
+    ServerMetricsCollector.getInstance().logCheck(
+      lang, computationTime, textSize, matchCount, mode);
+
+    if (!config.isSkipLoggingChecks()) {
+      // NOTE: Java/DB (not sure) can't keep up with logging the volume of new entries we've reached,
+      // so we limit it to enterprise customers where we actually pay attention to the request limits
+      if (limits.getRequestsPerDay() != null) {
+        DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
+          lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
+        databaseLogger.log(logEntry);
       }
+    }
 
-      if (databaseLogger.isLogging()) {
-        if (System.currentTimeMillis() - pingsCleanDateMillis > PINGS_CLEAN_MILLIS && pings.size() < PINGS_MAX_SIZE) {
-          log.info("Cleaning pings DB (" + pings.size() + " items)");
-          pings.clear();
-          pingsCleanDateMillis = System.currentTimeMillis();
-        }
-        if (agentId != null && userId != null) {
-          DatabasePingLogEntry ping = new DatabasePingLogEntry(agentId, userId);
-          if (!pings.contains(ping)) {
-            databaseLogger.log(ping);
-            if (pings.size() >= PINGS_MAX_SIZE) {
-              // prevent pings taking up unlimited amounts of memory
-              log.warn("Pings DB has reached max size: " + pings.size());
-            } else {
-              pings.add(ping);
-            }
+    if (databaseLogger.isLogging()) {
+      if (System.currentTimeMillis() - pingsCleanDateMillis > PINGS_CLEAN_MILLIS && pings.size() < PINGS_MAX_SIZE) {
+        log.info("Cleaning pings DB (" + pings.size() + " items)");
+        pings.clear();
+        pingsCleanDateMillis = System.currentTimeMillis();
+      }
+      if (agentId != null && userId != null) {
+        DatabasePingLogEntry ping = new DatabasePingLogEntry(agentId, userId);
+        if (!pings.contains(ping)) {
+          databaseLogger.log(ping);
+          if (pings.size() >= PINGS_MAX_SIZE) {
+            // prevent pings taking up unlimited amounts of memory
+            log.warn("Pings DB has reached max size: " + pings.size());
+          } else {
+            pings.add(ping);
           }
         }
       }
-
     }
-
   }
 
   public boolean checkerQueueAlmostFull() {
