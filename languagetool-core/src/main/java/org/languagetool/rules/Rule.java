@@ -72,6 +72,7 @@ public abstract class Rule {
   private boolean defaultTempOff;
   private boolean officeDefaultOn = false;
   private boolean officeDefaultOff = false;
+  private boolean includedInHiddenMatches = true;
   private int minPrevMatches = 0; // minimum number of previous matches to show the rule
   private int distanceTokens = -1; // distance (number of tokens) between matches to consider a repetition
   private int priority = 0;
@@ -596,5 +597,24 @@ public abstract class Rule {
 
   public void setPriority(int priority) {
     this.priority = priority;
+  }
+
+  /**
+   * @since 6.5
+   * @return whether this rule should be run when hidden rules are enabled
+   * when Rule.isPremium is true and QueryParams.premium is false,
+   * this rule will only be run when both Rule.isIncludedInHiddenMatches and QueryParams.enableHiddenRules are true
+   * No effect otherwise
+   */
+  public boolean isIncludedInHiddenMatches() {
+    return includedInHiddenMatches;
+  }
+
+/**
+ * @since 6.5
+ * @param includedInHiddenMatches whether this rule should be run when hidden rules are enabled (if it's a Premium rule)
+ */
+  public void setIncludedInHiddenMatches(boolean includedInHiddenMatches) {
+    this.includedInHiddenMatches = includedInHiddenMatches;
   }
 }
