@@ -277,7 +277,8 @@ abstract class TextChecker {
         }, null,0,1,""));
       }
       DetectedLanguage detectedLanguage = new DetectedLanguage(premiumStatusCheckLang, premiumStatusCheckLang, 0.99999076F, "ngram");
-      String response = getResponse(aText, premiumStatusCheckLang, detectedLanguage, premiumStatusCheckLang, Collections.singletonList(new CheckResults(matches, Collections.emptyList())), Collections.emptyList(), null, 1,
+      int compactMode = Integer.parseInt(params.getOrDefault("c", "0"));
+      String response = getResponse(aText, premiumStatusCheckLang, detectedLanguage, premiumStatusCheckLang, Collections.singletonList(new CheckResults(matches, Collections.emptyList())), Collections.emptyList(), null, compactMode,
         !limits.hasPremium(), JLanguageTool.Mode.ALL);
       setHeaders(httpExchange);
       httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
