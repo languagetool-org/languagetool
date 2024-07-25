@@ -4090,27 +4090,21 @@ USA
     </rulegroup>
 
 
-<rule id='DEPOIS_É_QUE_VERBO_DEPOIS_VERBO_PT_PT' name="[pt-PT][Simplificar] Depois é que + Verbo → Depois + Verbo" type='style' tone_tags="objective">
-    <!-- IDEA shorten_it -->
-    <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-05 (25-JUL-2022+) -->
-    <!--
-        Estava a fazer exercício e só/somente/apenas/unicamente depois é que li o texto dela. → Estava a fazer exercício e só/somente/apenas/unicamente depois li o texto dela.
-        Estava a fazer exercício e só/somente/apenas/unicamente depois é que eu li o texto dela. → Estava a fazer exercício e só/somente/apenas/unicamente depois eu li o texto dela.
-    -->
+<rule id='DEPOIS_É_QUE_VERBO_DEPOIS_VERBO_PT_PT' name="[pt-PT][Simplificar] Depois é que + Verbo → Depois + Verbo" type='style' tone_tags="objective" default="temp_off">
     <pattern>
         <token postag='RM|RG' postag_regexp='yes'/>
         <marker>
             <token>depois</token>
             <token>é</token>
-            <token>que</token>
+            <token skip='4'>que</token>
         </marker>
-        <token min="0" max="1" postag='PP.+' postag_regexp='yes'/>
         <token postag='V.+' postag_regexp='yes'/>
     </pattern>
     <message>&simplify_msg;</message>
     <suggestion>\2</suggestion>
     <example correction="depois">Estava a fazer exercício e só <marker>depois é que</marker> li o texto dela.</example>
-    <example correction="depois">Estava a fazer exercício e só <marker>depois é que</marker> eu li o texto dela.</example>
+    <example correction="depois">Estava a fazer exercício e apenas <marker>depois é que</marker> eu li o texto dela.</example>
+    <example correction="depois">Estava a fazer exercício e somente <marker>depois é que</marker> o Rui leu o texto dela.</example>
 </rule>
 
 
@@ -4192,7 +4186,6 @@ USA
 
 
     <rule id='SIMPLIFICAR_É_NECESSÁRIO_TER_REQUER' name="[pt-PT][Simplificar] é necessário ter → requer" type='style'>
-        <!-- IDEA shorten_it -->
         <pattern>
             <marker>
                 <token>para</token>
