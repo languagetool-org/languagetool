@@ -2589,6 +2589,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // e.g. "Wein" + "kühl" + "schrank"
       return true;
     }
+    if (isNounNom(part1) && isOtherPrefix(part2) && isNoun(compound2)) {
+      // e.g. "Erwachsenen" + "intensiv" + "kurse"
+      return true;
+    }
     if (isOtherPrefix(part1) && isVerbStem(part2) && isNoun(compound2)) {
       // e.g. "Horizontal" + "bohr" + "technik"
       return true;
