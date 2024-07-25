@@ -4054,18 +4054,10 @@ USA
     </rule>
 
 
-    <rulegroup id='SIMPLIFICAR_DE_VOCÊS_VOSSA_VOSSAS_VOSSO_VOSSOS' name="[pt-PT][Simplificar] de você(s) → vossa(s)/vosso(s)/sua(s)/seu(s)" type='style' tone_tags="objective">
-    <!-- IDEA shorten_it -->
-    <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-16 (Checked/Enhanced) (25-JUL-2022+) -->
-    <!--
-        A sorte é de você. → A sorte é sua.
-        As casas são de você. → As casas são suas.
-        O cão é de você. → O cão é seu.
-        Os cães são de você. → Os cães são seus.
-    -->
+    <rulegroup id='SIMPLIFICAR_DE_VOCÊS_VOSSA_VOSSAS_VOSSO_VOSSOS' name="[pt-PT][Simplificar] de você(s) → vosso(s)/seu(s)" type='style' tone_tags="objective">
         <rule>
             <pattern>
-                <token postag='NC[FM].+' postag_regexp='yes'/>
+                <token postag='NC[^C].+' postag_regexp='yes'/>
                 <token inflected='yes'>ser</token>
                 <marker>
                     <token>de</token>
@@ -4079,16 +4071,9 @@ USA
             <example correction="seu">O cão é <marker>de você</marker>.</example>
             <example correction="seus">Os cães são <marker>de você</marker>.</example>
         </rule>
-
-        <!--
-            A sorte é de vocês. → A sorte é vossa.
-            As casas são de vocês. → As casas são vossas.
-            O cão é de vocês. → O cão é vosso.
-            Os cães são de vocês. → Os cães são vossos.
-        -->
         <rule>
             <pattern>
-                <token postag='NC[FM].+' postag_regexp='yes'/>
+                <token postag='NC[^C].+' postag_regexp='yes'/>
                 <token inflected='yes'>ser</token>
                 <marker>
                     <token>de</token>
