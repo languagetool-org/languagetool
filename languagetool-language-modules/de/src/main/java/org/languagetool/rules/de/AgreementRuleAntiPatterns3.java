@@ -757,6 +757,21 @@ class AgreementRuleAntiPatterns3 {
       tokenRegex("diese[sr]?"),
       token("weite"),
       token("Teile")
+    ),
+    asList(
+      // Laut Charlie XCX selbst sind das Personen, die vielleicht eine ...
+      tokenRegex("sind|w[äa]ren"),
+      token("das"),
+      posRegex("SUB.*PLU.*"),
+      tokenRegex("die|welche|ohne|mit")
+    ),
+    asList(
+      // Laut Charlie XCX selbst sind das Personen, die vielleicht eine ...
+      tokenRegex("sind|w[äa]ren"),
+      token("das"),
+      posRegex("SUB.*PLU.*"),
+      token(","),
+      tokenRegex("die|welche|ohne|mit")
     )
   );
 

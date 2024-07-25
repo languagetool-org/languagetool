@@ -5067,6 +5067,11 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="KLEINE_-CHEN" name="'kleines Häuschen' etc." tone_tags="clarity">
+            <antipattern><!-- https://de.wikipedia.org/wiki/Die_drei_kleinen_Schweinchen -->
+                <token regexp="yes">3|drei</token>
+                <token regexp="yes">klein.*</token>
+                <token>Schweinchen</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">kleine[ns]?</token>

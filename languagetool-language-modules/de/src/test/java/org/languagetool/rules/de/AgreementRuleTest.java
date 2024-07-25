@@ -667,6 +667,7 @@ public class AgreementRuleTest {
     assertBad("Einen Dämonen wird er nicht aufhalten.");
     assertBad("Das versetzte den Kronprinz in Schrecken.");
     assertGood("Erst später wurde Kritik hauptsächlich an den Plänen zu einem Patriot Act II laut.");
+    assertGood("Laut Charlie XCX selbst sind das Personen, die vielleicht eine ...");
     // TODO:
     // assertBad("Solch hartes Worte!");
     // unsure:
