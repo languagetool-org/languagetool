@@ -2393,7 +2393,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return parts.get(0).length() >= 3 && parts.get(1).length() >= 4;
     }
     if (parts.size() == 3) {
-      return parts.get(0).length() >= 3 && parts.get(1).length() >= 4 && parts.get(2).length() >= 4;
+      return parts.get(0).length() >= 3 && parts.get(1).length() >= 3 && parts.get(2).length() >= 4;
     }
     return false;
   }
