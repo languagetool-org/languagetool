@@ -3043,6 +3043,21 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="MOIE_MOOIE" name="Moie vrouw, zeg!" default="temp_off">
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token case_sensitive="yes">Moie</token>
+					</marker>
+					<token postag_regexp="yes" postag="ZNW.*|BNW.*"/>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>Mooie</suggestion></message>
+				<example correction="Mooie"><marker>Moie</marker> nieuwe schoenen.</example>
+				<example><marker>Moie</marker> is een plaats in de Italiaanse gemeente Maiolati Spontini.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="LIJDT_LEIDT" name="waarschuwing bij gebruik lijdt i.p.v. leidt">
 			<rule>
 				<antipattern>
@@ -24903,6 +24918,19 @@ regexp case-insensitive maken: (?i)
 				<message>U bedoelt vast: <suggestion><match no="1" regexp_match="mand" regexp_replace="maand"/> geldig</suggestion>.</message>
 				<example correction="maand geldig">De offerte is een <marker>mand geldig</marker>.</example>
 				<example>De aanbieding is een <marker>maand geldig</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="ONDER_EEN_LAAG_BEDEKT" name="onder(met) een laag sneeuw bedekt" default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token>onder</token>
+					</marker>
+					<token skip="2">een</token>
+					<token>bedekt</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>met</suggestion>.</message>
+				<example correction="met">Het werd <marker>onder</marker> een laag aarde bedekt.</example>
 			</rule>
 		</rulegroup>
 	</category>
