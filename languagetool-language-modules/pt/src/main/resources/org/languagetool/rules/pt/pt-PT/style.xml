@@ -4014,18 +4014,12 @@ USA
     </rule>
 
 
-    <rule id='AVIÃO_DE_COMBATE_PT_PT' name="[pt-PT][Simplificar] Avião(ões) de combate → caça(s)" tone_tags="objective">
-        <!-- IDEA shorten_it -->
-        <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-01 (25-JUL-2022+) -->
-        <!--
-            O avião de combate é muito rápido. → O caça é muito rápido.
-            Os aviões de combate são muito rápidos. → Os caças são muito rápidos.
-        -->
+    <rule id='AVIÃO_DE_COMBATE_PT_PT' name="[pt-PT][Simplificar] Avião de combate → caça" tone_tags="objective" default="temp_off">
         <pattern>
             <marker>
-                <token regexp='yes'>avião|aviões</token>
+                <token regexp='yes'>avi(ão|ões)|aeroplanos?</token>
                 <token>de</token>
-                <token>combate</token>
+                <token regexp='yes'>combate|guerra</token>
             </marker>
         </pattern>
         <message>&simplify_msg;</message>
