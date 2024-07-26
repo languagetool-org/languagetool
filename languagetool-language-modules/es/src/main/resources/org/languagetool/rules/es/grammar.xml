@@ -9211,7 +9211,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>mí</token>
                     </marker>
-                    <token postag="NC.S000|A...S." postag_regexp="yes"><exception inflected="yes" regexp="yes">mismo|solo|solito</exception></token>
+                    <token postag="NC.S000|A...S." postag_regexp="yes"><exception inflected="yes" regexp="yes">mismo|solo|solito</exception><exception>toca</exception></token>
                 </pattern>
                 <message>Si es un posesivo o un nombre, se escribe sin tilde. Puede que falte una coma. Es correcto como pronombre.</message>
                 <suggestion>mi</suggestion>
@@ -9228,6 +9228,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Eso hizo despertar en mí otro tipo de ambiciones.</example>
                 <example>¿Podrías hacerlo por mí otra vez? </example>
                 <example>¿Lo harás tú solito?</example>
+                <example>Por lo que a mí toca, esto es imposible.</example>
                 <!-- ambiguous: -->
                 <example>Por mí bien.</example>
                 <!-- ambiguous: que de vuestros llagas descienda sobre mí fuerza y vigor
@@ -29580,7 +29581,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>te<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
+                    <token>te<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">tomar|beber|preparar|servir|calentar</exception></token>
                     <token/>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.[SI].*"/>
