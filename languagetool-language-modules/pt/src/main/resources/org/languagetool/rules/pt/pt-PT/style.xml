@@ -4565,32 +4565,25 @@ USA
     </rulegroup>
 
 
-    <rule id='SIMPLIFICAR_QUE_VERBO_A_VERBOINFINITIVO' name="[pt-PT][Simplificar] Que + V. → A + V. Infinitivo" type="style">
-        <!-- IDEA shorten_it -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -->
-        <!--
-            Isto resume todas as forças que atuam sobre o objeto. → Isto resume todas as forças a atuar sobre o objeto.
-        -->
+    <rule id='SIMPLIFICAR_QUE_VERBO_A_VERBOINFINITIVO' name="[pt-PT][Simplificar] Que + V. → A + V. Infinitivo" type="style" default="temp_off">
         <pattern>
-            <token postag='NC.+|AQ.+|DD.+' postag_regexp='yes'/>
+            <token postag='NC.+|AQ.+' postag_regexp='yes'/>
             <marker>
                 <token>que</token>
-                <token postag='VMIP3.+' postag_regexp='yes'>
-                    <exception postag_regexp='yes' postag='VMM02.+'/>
+                <token skip='2' postag='VMIP3P0' postag_regexp='no'> <!-- It only works with plural, using singular generates lots of FPs -->
+                    <exception postag_regexp='yes' postag='NP.+'/>
                     <exception inflected='yes' regexp='yes'>haver|estar|existir|ser|ter</exception>
                 </token>
             </marker>
-            <and>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token postag='SPS.+' postag_regexp='yes'/>
-            </and>
+            <token regexp='yes'>conforme|sobre <!-- Obtained with: NC.+ AND SPS00 -->
+                <exception scope='previous' postag_regexp='yes' postag='VMN000.+'/>
+            </token>
         </pattern>
         <message>&simplify_msg;</message>
         <suggestion>a <match no='3' postag='VMIP3.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
         <example correction="a atuar">Isto resume todas as forças <marker>que atuam</marker> sobre o objeto.</example>
-        <example>O disco vermelho representa o sol a nascer sobre Bengala e também simboliza o sangue dos que tombaram pela independência do Bangladesh.</example>
-        <example>É a parte da Física que analisa o movimento, as variações de energia e as forças a atuar sobre um corpo.</example>
-        <example>Quanto maior é o valor que dão ao dinheiro, tanto menor é o apreço que têm pela virtude.</example>
+        <example>Em cujas ruas se localizam casas que parecem despenhar-se sobre o Cantábrico.</example>
+        <example>Principalmente sobre o impacto que podem causar sobre a natureza colaborativa da internet.</example>
     </rule>
 
 
