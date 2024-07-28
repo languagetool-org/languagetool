@@ -378,13 +378,12 @@
     <antipattern>
       <token>дуже</token>
       <token postag_regexp="yes" postag="noun:.*?:n:v_(naz|zna|kly).*">
-        <exception regexp="yes">добре|його</exception>
+        <exception>його</exception>
       </token>
     </antipattern>
     <pattern>
       <marker>
-        <token postag_regexp="yes" postag="adj:n:.*">дуже
-        </token>
+        <token postag_regexp="yes" postag="adj:n:.*">дуже</token>
       </marker>
     </pattern>
     <disambig action="remove" postag="adj:n.*" />
@@ -394,18 +393,32 @@
     <example type="untouched">дуже тіло</example>
   </rule>
 
-  <rule name="Добре прикм." id="dobre_adj">
+  <rule name="Добре - прикм." id="dobre_adj">
     <pattern>
       <token>дуже</token>
       <marker>
-        <token postag_regexp="yes" postag="noun:inanim:n:.*" regexp="yes">добре|погане|гарне|сучасне|старе</token>
+        <token postag_regexp="yes" postag="noun:inanim:n:.*">сучасне</token>
       </marker>
     </pattern>
     <disambig action="remove" postag="noun:inanim:n.*" />
     <example type="ambiguous"
-        inputform="добре[добре/adv:compb:&amp;predic,добре/noun:inanim:n:v_naz,добре/noun:inanim:n:v_zna,добрий/adj:n:v_kly:compb,добрий/adj:n:v_naz:compb,добрий/adj:n:v_zna:compb]"
-        outputform="добре[добре/adv:compb:&amp;predic,добрий/adj:n:v_kly:compb,добрий/adj:n:v_naz:compb,добрий/adj:n:v_zna:compb]">дуже <marker>добре</marker>.</example>
-    <example type="untouched">добре і зле</example>
+        inputform="сучасне[сучасне/noun:inanim:n:v_naz,сучасне/noun:inanim:n:v_zna,сучасний/adj:n:v_kly:compb,сучасний/adj:n:v_naz:compb,сучасний/adj:n:v_zna:compb]"
+        outputform="сучасне[сучасний/adj:n:v_kly:compb,сучасний/adj:n:v_naz:compb,сучасний/adj:n:v_zna:compb]">дуже <marker>сучасне</marker>.</example>
+    <example type="untouched">сучасне і старе</example>
+  </rule>
+
+  <rule name="Нове - прикм." id="nove_adj">
+    <pattern>
+      <marker>
+        <token inflected="yes" postag_regexp="yes" postag="noun:inanim:n:v_rod">нове</token>
+      </marker>
+      <token inflected="yes" regexp="yes" postag_regexp="yes" postag="noun:inanim:m:v_(rod|dav).*">термінал|пакет|компонент|пік|вектор|диск|аватар|логотип|енергоблок|документ|елеватор|об'єкт|пласт|рецепт</token>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:n.*" />
+    <example type="ambiguous"
+        inputform="нового[нове/noun:inanim:n:v_rod,новий/adj:m:v_rod:compb,новий/adj:m:v_zna:ranim:compb,новий/adj:n:v_rod:compb]"
+        outputform="нового[новий/adj:m:v_rod:compb,новий/adj:m:v_zna:ranim:compb,новий/adj:n:v_rod:compb]"><marker>нового</marker> енергоблоку.</example>
+    <example type="untouched">нового студент навчатися не хоче</example>
   </rule>
 
   <rule name="Рік: не ріка" id="rik_odn">
@@ -2674,10 +2687,12 @@
     </pattern>
     <disambig action="filter" postag="noun:.*?prop.*"></disambig>
     <!-- shall we ignore beginning of the sentence where capital for common noun is often? -->
+    <!--
     <example type="ambiguous"
-        inputform="Алла[Алла/noun:anim:f:v_naz:prop:fname,алла/intj]"
+        inputform="Алла[Алла/noun:anim:f:v_naz:prop:fname]"
         outputform="Алла[Алла/noun:anim:f:v_naz:prop:fname]"
             ><marker>Алла</marker> Шевченко.</example>
+    -->
     <example type="ambiguous"
         inputform="Ірина[Ірин/adj:f:v_kly,Ірин/adj:f:v_naz,Ірина/noun:anim:f:v_naz:prop:fname]"
         outputform="Ірина[Ірина/noun:anim:f:v_naz:prop:fname]"

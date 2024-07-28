@@ -360,6 +360,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("ам. долл");
     assertEquals(Arrays.asList("ам.", " ", "долл"), testList);
 
+    testList = w.tokenize("4 дол.");
+    assertEquals(Arrays.asList("4", " ", "дол."), testList);
+
     testList = w.tokenize("св. ап. Петра");
     assertEquals(Arrays.asList("св.", " ", "ап.", " ", "Петра"), testList);
 

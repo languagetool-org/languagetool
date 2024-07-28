@@ -2848,7 +2848,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="адреса">дав йому свій <marker>адрес</marker>.</example>
         <example>дав йому свою адресу</example>
       </rule>
-
+<!--
       <rule>
         <pattern>
           <token regexp="yes">домашній|електронний|поштовий|зворотний|теперішній</token>
@@ -2860,13 +2860,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="адреса">дав йому домашній <marker>адрес</marker>.</example>
         <example>дав йому поштових адрес</example>
       </rule>
-<!-- TODO: needs dictionary update
+-->
+
       <rule>
         <pattern>
           <unify>
             <feature id="gender"/>
             <feature id="case"/>
-            <token postag_regexp="yes" postag="adj:m:(?!.*pron:pos).*"/>
+            <token postag_regexp="yes" postag="adj:m:(?!.*pron:pos).*">
+              <exception inflected="yes" regexp="yes">(при)?вітальний|(по|в)дячний</exception>
+            </token>
             <marker>
               <token inflected="yes">адрес</token>
             </marker>
@@ -2876,7 +2879,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="адреса">дав йому домашній <marker>адрес</marker>.</example>
         <example>на домашній <marker>адресі</marker>.</example>
       </rule>
--->
+
     </rulegroup>
 
     <rulegroup id="na_vylit_vs_navylit" name="На виліт і навиліт">

@@ -283,6 +283,8 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
 
     assertEmptyMatch("з 11-ма годинами");
 
+    // нічого нового
+    assertEmptyMatch("ще чого доброго ціна впаде");
     
     // площею, об'ємом...
     assertEmptyMatch("чотирициліндровий об’ємом 1000 куб. см.");

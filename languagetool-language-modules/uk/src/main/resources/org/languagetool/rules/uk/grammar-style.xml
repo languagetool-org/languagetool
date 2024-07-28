@@ -1650,7 +1650,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
-        <example correction="прейскуранту"><marker>прейскуранту цін</marker>.</example>
+        <suggestion>цінник</suggestion>
+        <example correction="прейскуранту|цінник"><marker>прейскуранту цін</marker>.</example>
       </rule>
 
       <rule>
@@ -2282,6 +2283,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="рідкісний">за <marker>рідкими</marker> випадками</example>
     </rule>
 
+    <rule id="seroznyi_sryoznyi" name="Серозний і серйозний">
+      <pattern>
+        <token inflected="yes">серозний
+          <exception inflected="yes" regexp="yes" scope="next">менінгіт|покрив|порожнина|оболонка|виділення|рідина</exception>
+        </token>
+      </pattern>
+      <message>Можливо ви мали на увазі: <suggestion><match no="1" postag_regexp="yes" postag="adj.*" postag_replace="$0.*">серйозний</match></suggestion></message>
+      <example correction="серйозними">за <marker>серозними</marker> випадками</example>
+      <example>серозного менінгіту</example>
+      <!--
+      <example>(серозного) менінгіту</example>
+      -->
+    </rule>
+
     <rule id="konoplya" name="Конопля - множинний іменник">
       <pattern>
         <marker>
@@ -2294,6 +2309,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="">отруєння <marker>коноплею</marker>.</example>
       <example>різні коноплі</example>
     </rule>
+
+    <!--
+    <rule id="taktychnyi_taktovnyi" name="тактичний і тактовний">
+      <pattern>
+        <marker>
+          <token inflected="yes" postag_regexp="yes" postag="adj.*" regexp="yes">(не)?тактичний</token>
+        </marker>
+        <token inflected="yes" regexp="yes">людина|жінка|чоловік|хлопець|дівчина</token>
+      </pattern>
+      <message>Можливо ви мали на увазі <suggestion>тактовний</suggestion>?</message>
+      <example correction="тактовний"><marker>тактична</marker> людина.</example>
+      <example>тактичний хід</example>
+    </rule>
+    -->
 
     <rule id="za_stanom_na" name="За станом на">
       <pattern>

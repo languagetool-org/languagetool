@@ -89,6 +89,14 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
+    // (ні)чого доброго
+    if( adjPos > 1
+        && tokens[adjPos].getCleanToken().equalsIgnoreCase("доброго")
+        && tokens[adjPos-1].getCleanToken().matches("(ні)?чого") ) {
+      logException();
+      return true;
+    }
+
     if( LemmaHelper.hasLemma(tokens[adjPos], Arrays.asList("бережений"), Pattern.compile("adj:m:v_rod.*") )
         && LemmaHelper.hasLemma(tokens[nounPos], Arrays.asList("бог"), Pattern.compile("noun:anim:m:v_naz.*") )) {
       logException();
