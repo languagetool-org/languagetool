@@ -1584,19 +1584,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="унікального|єдиний у своєму роді"><marker>унікального у своєму роді</marker>.</example>
       </rule>
 
-<!--
       <rule>
         <pattern>
+          <token inflected="yes" regexp="yes">(не)?тривалий|деякий|короткий|довгий</token>
           <marker>
             <token inflected="yes">період</token>
             <token>часу</token>
           </marker>
         </pattern>
-        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <suggestion>час</suggestion>
         <suggestion>проміжок часу</suggestion>
-        <example correction="період|проміжок часу"><marker>період часу</marker>.</example>
+        <example correction="період|час|проміжок часу">тривалий <marker>період часу</marker>.</example>
       </rule>
--->
 
       <rule>
         <pattern>
@@ -3033,6 +3033,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="мати на меті|ставити собі (мати) за мету">команди <marker>переслідують одну мету</marker> в чемпіонаті</example>
     </rule>
 
+    <rule id="skladova_vs_skladnyk" name="Складова і складник">
+      <pattern>
+        <token inflected="yes">складова
+          <exception scope="next" inflected="yes" regexp="yes">частина|елемент|станція</exception>
+        </token>
+      </pattern>
+      <message>Як іменник краще: <suggestion>складник</suggestion></message>
+      <suggestion>частина</suggestion>
+      <suggestion>компонент</suggestion>
+      <example correction="складник|частина|компонент">обов'язкової <marker>складової</marker> економіки</example>
+      <example>складова частина</example>
+      <example>складовий</example>
+    </rule>
+
     <rule id="khalatnyi_vs_nedbalyi" name="Халатний і недбалий">
       <pattern>
         <token inflected="yes" regexp="yes">халатн(ий|ість|о)</token>
@@ -3049,6 +3063,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>халатні рукави</example>
       -->
     </rule>
+
+    <rulegroup id="vzhyvaty_zakhody" name="Вживати заходи і заходів">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">вживати|вжити|вживаючи|вживши</token>
+          <token min="0" postag_regexp="yes" postag="adj:p:v_zna:rinanim.*"/>
+          <marker>
+            <token>заходи</token>
+          </marker>
+        </pattern>
+        <message>Приавльно: <suggestion>заходів</suggestion></message>
+        <example correction="заходів">вжили <marker>заходи</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>заходи</token>
+          </marker>
+          <token min="0">не</token>
+          <token inflected="yes" regexp="yes">вживати|вжити</token>
+        </pattern>
+        <message>Приавльно: <suggestion>заходів</suggestion></message>
+        <example correction="заходів"><marker>заходи</marker> не вжили.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="gluzuvaty_nad" name="Глузувати над і з">
+      <rule>
+        <pattern>
+          <token inflected="yes">глузувати</token>
+          <marker>
+            <token>над</token>
+            <token postag_regexp="yes" postag=".*v_oru.*"/>
+          </marker>
+        </pattern>
+        <message>Приавльно: <suggestion>з <match no="3"  postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_rod$2"/></suggestion></message>
+        <example correction="з опонента">глузували <marker>над опонентом</marker>.</example>
+      </rule>
+    </rulegroup>
+
 
     <!-- "задавати питання" є в АС та словнику Виргана, Пилинської -->
     <rulegroup id="ZADAVATY_PYTANNIA" name="Задавати питання">

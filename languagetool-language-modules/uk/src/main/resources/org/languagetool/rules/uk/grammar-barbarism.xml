@@ -1501,7 +1501,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <marker>
-            <token>виняток</token>
+            <token regexp="yes">виняток|більшість|меншість</token>
             <token inflected="yes">складати</token>
           </marker>
           <token/>
@@ -1515,7 +1515,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token inflected="yes">складати</token>
           <token postag_regexp="yes" postag="adj:m:v_zna:rinanim.*|numr:m:v_zna.*" min="0" max="2"/>
-          <token inflected="yes">виняток</token>
+          <token inflected="yes" regexp="yes">виняток|більшість|меншість</token>
         </pattern>
         <message>Правильно: <suggestion><match no="1" postag=".*">становити</match> <match no="2"/> <match no="3"/></suggestion></message>
         <suggestion>є винятком</suggestion>
@@ -2471,6 +2471,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="мешкати за адресою|проживати на вулиці"><marker>проживати по вулиці</marker> Ушакова.</example>
     </rule>
 
+    <rule id="zastavliyaty" name="Заставляти і примушувати">
+      <pattern>
+        <marker>
+          <token inflected="yes" regexp="yes">заставити|заставляти</token>
+        </marker>
+        <token postag_regexp="yes" postag="verb:.*inf.*"/>
+      </pattern>
+      <message>Правильно: <suggestion>примушувати</suggestion></message>
+      <suggestion>примусити</suggestion>
+      <example correction="примушувати|примусити"><marker>заставляв</marker> їсти сир</example>
+    </rule>
+
     <rulegroup id="prystupyty_do_roboty" name="Приступити і стати до роботи">
       <rule>
         <pattern>
@@ -3194,6 +3206,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="rozhidna_chatyna" name="Розхідна частина">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" postag_regexp="yes" postag="adj:[fp].*">розхідний</token>
+          </marker>
+          <token inflected="yes">частина</token>
+        </pattern>
+        <message>Приавльно: <suggestion><match no="1" postag_regexp="yes" postag="adj:.*">видатковий</match></suggestion></message>
+        <example correction="видаткової"><marker>розхідної</marker> частини.</example>
+      </rule>
+    </rulegroup>
+
     <rule id="vyscha_mira_pokarannya" name="Вища міра покарання">
       <pattern>
         <token inflected="yes">вищий</token>
@@ -3671,6 +3696,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="кінець кінцем|зрештою|у кінцевому (в остаточному) результаті (підсумку)|у загальному підсумку"><marker>в кінцевому рахунку</marker> він лишився ні з чим</example>
       <example>в кінцевому підсумку він лишився ні з чим</example>
     </rule>
+
+    <rulegroup id="V_KINCI_KINCIV" name="В кінці кінців">
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>кінці-кінців</token>
+        </pattern>
+        <message>Правильно: <suggestion>кінець кінцем</suggestion>, <suggestion>зрештою</suggestion>, <suggestion>врешті</suggestion></message>
+        <example correction="кінець кінцем|зрештою|врешті"><marker>в кінці-кінців</marker> я здався</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>кінці</token>
+          <token>кінців</token>
+        </pattern>
+        <message>Правильно: <suggestion>кінець кінцем</suggestion>, <suggestion>зрештою</suggestion>, <suggestion>врешті</suggestion></message>
+        <example correction="кінець кінцем|зрештою|врешті"><marker>в кінці кінців</marker> я здався</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>кінець</token>
+          <token>кінців</token>
+        </pattern>
+        <message>Правильно: <suggestion>кінець кінцем</suggestion>, <suggestion>зрештою</suggestion>, <suggestion>врешті</suggestion></message>
+        <example correction="кінець кінцем|зрештою|врешті"><marker>кінець кінців</marker> я здався</example>
+      </rule>
+    </rulegroup>
 
     <rule id="DACHA_VS_DAVANNIA" name="Дача і давання">
       <pattern>
@@ -4704,26 +4757,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Правильно: <suggestion>на втіках</suggestion>, <suggestion>в мандрах</suggestion></message>
       <example correction="на втіках|в мандрах">він був <marker>у бігах</marker></example>
     </rule>
-
-    <rulegroup id="V_KINCI_KINCIV" name="В кінці кінців">
-      <rule>
-        <pattern>
-          <token regexp="yes">[ву]</token>
-          <token>кінці-кінців</token>
-        </pattern>
-        <message>Правильно: <suggestion>кінець кінцем</suggestion>, <suggestion>зрештою</suggestion>, <suggestion>урешті</suggestion></message>
-        <example correction="кінець кінцем|зрештою|урешті"><marker>в кінці-кінців</marker> я здався</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">[ву]</token>
-          <token>кінці</token>
-          <token>кінців</token>
-        </pattern>
-        <message>Правильно: <suggestion>кінець кінцем</suggestion>, <suggestion>зрештою</suggestion>, <suggestion>урешті</suggestion></message>
-        <example correction="кінець кінцем|зрештою|урешті"><marker>в кінці кінців</marker> я здався</example>
-      </rule>
-    </rulegroup>
 
     <rule id="mizh_tym_vs_tym_chasom" name="Між тим і тим часом">
       <antipattern>

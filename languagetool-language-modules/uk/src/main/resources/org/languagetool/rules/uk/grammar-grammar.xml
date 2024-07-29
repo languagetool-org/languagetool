@@ -1002,12 +1002,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
     <rulegroup id="NA_TAKIY_MOVI" name="На (такій) мові - (такою) мовою">
+      <antipattern>
+        <token regexp="yes" inflected="yes">базуватися|базований|вихований|ґрунтуватися|заробляти|зав'язаний|зекономити|знатися|зосередитися|зупинитися|позначитися|розумітися|сфокусуватися</token>
+        <token postag_regexp="yes" postag="noun.*?:v_dav.*" min="0"/>
+        <token>на</token>
+      </antipattern>
+
       <rule>
-        <antipattern>
-          <token regexp="yes" inflected="yes">базуватися|базований|вихований|ґрунтуватися|заробляти|зав'язаний|зекономити|знатися|зосередитися|зупинитися|позначитися|розумітися|сфокусуватися</token>
-          <token postag_regexp="yes" postag="noun.*?:v_dav.*" min="0"/>
-          <token>на</token>
-        </antipattern>
         <antipattern>
           <token>мові</token>
           <token regexp="yes" inflected="yes">базуватися|вихований|ґрунтуватися|заробляти|зав'язаний|зекономити|знатися|зосередитися|зупинитися|позначитися|розумітися|сфокусуватися</token>
@@ -1024,6 +1025,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>давати заробляти росіянам на українській мові</example>
         <example>котрий розуміється на їхній мові</example>
         <example>У прийнятті рішення, на якій мові зупинитися</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">(за)?говорити|спілкуватись|балакати|розмовляти</token>
+          <marker>
+            <token>на</token>
+            <!-- note: some languages we have as nouns in the dictionary but the rest are generic adj -->
+            <token inflected="yes" postag_regexp="yes" postag="(adj|noun:inanim):f:v_mis.*" regexp="yes">українська|російська|англійська|німецька|іспанська|французька|польська</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion><match no="3" postag_regexp="yes" postag="(adj|noun:inanim):f:v_mis(.*)" postag_replace="$1:f:v_oru.*"/></suggestion></message>
+        <example correction="англійською">говорив <marker>на англійській</marker>.</example>
+        <example>в українській</example>
+        <example>ґрунтується на німецькій</example>
+        <example>на українській військовій базі</example>
+        <example>на українській же військовій базі</example>
       </rule>
 
       <rule>
@@ -2358,6 +2376,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Можливо: <suggestion>від</suggestion>?</message>
       <example correction="від">і залежно <marker>він</marker> результату</example>
     </rule>
+
+    <rulegroup id="pamiatnyk_chogo" name="Пам'ятник чого і чому">
+      <rule>
+        <pattern>
+          <token inflected="yes">пам'ятник</token>
+          <marker>
+            <token postag_regexp="yes" postag="noun:anim:.:v_rod.*prop:lname.*">
+              <exception postag_regexp="yes" postag="noun:anim:.:v_dav.*prop:lname.*"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(noun:anim:.:)v_rod(.*prop:lname.*)" postag_replace="$1v_dav$2"/></suggestion></message>
+        <example correction="Франкові|Франку">Пам'ятник <marker>Франка</marker></example>
+        <example>пам'ятник Роналду</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes">пам'ятник</token>
+          <marker>
+            <token postag_regexp="yes" postag="noun:anim:.:v_rod.*prop:fname.*">
+              <exception postag_regexp="yes" postag="noun:anim:.:v_dav.*prop:fname.*"/>
+            </token>
+            <token postag_regexp="yes" postag="noun:anim:.:v_rod.*prop:lname.*">
+              <exception postag_regexp="yes" postag="noun:anim:.:v_dav.*prop:lname.*"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(noun:anim:.:)v_rod(.*prop:fname.*)" postag_replace="$1v_dav$2"/> <match no="3" postag_regexp="yes" postag="(noun:anim:.:)v_rod(.*prop:lname.*)" postag_replace="$1v_dav$2"/></suggestion></message>
+        <example correction="Іванові Франкові|Іванові Франку|Івану Франкові|Івану Франку">Пам'ятник <marker>Івана Франка</marker></example>
+        <example>пам'ятник Кріштіану Роналду</example>
+      </rule>
+    </rulegroup>
 
     <rule id="NEDILYA_VS_TYZHDEN" name="Неділя і тиждень">
       <pattern>
