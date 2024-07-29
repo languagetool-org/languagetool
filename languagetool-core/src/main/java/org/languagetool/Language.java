@@ -252,7 +252,13 @@ public abstract class Language {
       .forEach(rules::add);
     rules.removeIf(rule -> {
       String activeRemoteRuleAbTest = ((RemoteRule) rule).getServiceConfiguration().getOptions().get("abtest"); //abtest option value must match the abtest value from server.properties
+      // allow disabling based on A/B test flags to compare multiple models
+      String excludeABTest = ((RemoteRule) rule).getServiceConfiguration().getOptions().get("excludeABTest");
       List<String> activeAbTestsForUser = userConfig.getAbTest();
+      if (excludeABTest != null && activeAbTestsForUser != null &&
+        activeAbTestsForUser.stream().anyMatch(flag -> flag.matches(excludeABTest))) {
+        return true;
+      }
       if (activeRemoteRuleAbTest != null && !activeRemoteRuleAbTest.trim().isEmpty()) { // A/B-Test active for remote rule
         if (activeAbTestsForUser == null) {
           return true; // No A/B-Tests are not active for user
