@@ -258,7 +258,7 @@ abstract class TextChecker {
     if (Premium.isPremiumStatusCheck(aText)) {
       Language premiumStatusCheckLang = Languages.getLanguageForShortCode("en-US");
       List<RuleMatch> matches = new ArrayList<>();
-      if (limits.hasPremium()) {
+      if (limits.hasPremium() || config.isPremiumAlways()) {
         matches.add(new RuleMatch(new Rule() {
           @Override
           public String getId() {
