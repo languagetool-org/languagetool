@@ -16337,6 +16337,20 @@ USA
 						de prospect
 						de search
 		-->
+		<rulegroup id="EXCUSES_MAKEN" name="Je moet nu je excuses maken(aanbieden)">
+			<rule>
+				<pattern>
+					<token>excuses</token>
+					<marker>
+						<token inflected="yes">maken</token>
+					</marker>
+					<token><exception postag_regexp="yes" postag=".*EKV:HET"/></token>
+				</pattern>
+				<message>'Excuses maken' is een anglicisme, in het Nederlands is <suggestion><match no="2" postag_regexp="yes" postag="WKW.*">aanbieden</match></suggestion> beter.</message>
+				<example correction="aanbieden">Je moet direct je excuses <marker>maken</marker>.</example>
+				<example correction="aangeboden">Oscar heeft ook geen excuses <marker>gemaakt</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="BRANDING" name="branding" default="off">
 			<!-- omdat de branding van de zee frequent voorkomt, dit weghalen aan de hand van andere woorden -->
 			<rule>

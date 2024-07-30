@@ -57,6 +57,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   public static final String RULE_ID = "GERMAN_SPELLER_RULE";
 
+  private static final int MIN_WORD_LENGTH   = 5;
+  private static final int MAX_WORD_LENGTH   = 40;
   private static final int MAX_EDIT_DISTANCE = 2;
 
   private static final String adjSuffix = "(affin|basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
@@ -128,7 +130,41 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern ZB = compile("z[bB]");
   private static final Pattern STARTS_WITH_ZB = compile("z[bB].");
   private static final Pattern DIRECTION = compile("nord|ost|süd|west");
+  private static final Pattern WOCHENTAGE = compile("Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag");
+  private static final Pattern WOCHENTAGE_S = compile("(Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag)s");
   private static final Pattern SS = compile("ss");
+  private static final Pattern CAMEL_CASE = compile(".*(\\p{Ll}\\p{Lu}|\\p{Lu}{2,}\\p{Ll}).*");
+  private static final Pattern COMPOUND_TYPOS = compile("([Ee]mail|[Ii]reland|[Kk]reissaal|[Mm]akeup|[Ss]tandart).*");
+  private static final Pattern COMPOUND_END_TYPOS = compile(".*(gruße|schaf(s|en)?)$");
+  private static final Pattern INFIX_S_SUFFIXES = compile(".*(heit|(s|[^c]t|x)ion|ität|keit|ling|ung|schaft|tum)$");
+  private static final Pattern WECHSELINFIX = compile("(arbeit|dienstag|donnerstag|freitag|montag|mittwoch|link|recht|samstag|sonntag|verband)s?");
+  private static final Pattern CONFUSED_PREFIXES = compile("bade?|wi(e)?der");
+  private static final Pattern NEEDS_TO_BE_PLURAL = compile("absolvent(in)?|adressat|aktie|antenne|apache|arbeitnehmer(in)?|ärztin|assistent(in)?|astronom(in)?|asylant(in)?|autor(in)?|azteke|bakterie|ballade|bauer|billion|bisexuelle|blume|bonze|börse|bot(e|in)|buche|bürg(e|in)|bürokrat(in)?|chrysantheme|dän(e|in)?|debatte|debitor(in)?|decke|diakon(in)?|diktator(in)?|direktor(in)?|doktorand(in)?|domäne|dozent(in)?|drohne|druid(e|in)?|düne|ehre|eibe|elefant|elektron|ellipse|emittent(in)?|elfe|elle|enge|erbse|eremit|erde|erste|esche|exot(e|in)?|expert(e|in)?|extremist(in)?|fabrikant(in)?|falke|fassade|farbe|fasan|favorit(in)?|felge|ferien|figur|fluor|frage|franz(ose|ösin)|frau|frisur|förde|galle|gatt(e|in)?|gerät|gepard|gezeit|gigant|gilde|göttin|griech(e|in)?|halt|heid(e|in)?|herde|historie|hölle|höhle|hose|hugenott(e|in)?|hund|hündin|immigrant(in)?|investor(in)?|irokes(e|in)|islamist(in)?|jesuit(in)?|jungfer|jungfrau|junggesell(e|in)|juror(in)?|kadett|kante|kaskade|kathode|katholik(in)?|katze|kette|kid|klasse|kirche|klaue|klient(in)?|klinge|knappe|koeffizient|kojote|komet|kommentator(in)?|komödie|kompliz(e|in)|konkurrent(in)?|konfirmand(in)?|konsonant|kontrahent(in)?|krake|kralle|kranke|krähe|kraut|krippe|kurd(e|in)|kuriosität|kurve|kusine|küste|laie|laterne|laute|legende|lehne|leise|lektor(in)?|leopard|lerche|leserin|lieferant(in)?|lippe|loge|lotse|länge|läuse|löwe|lücke|luke|made|mädel|maske|maßnahme|matriarchin|menge|mensch|metapher|methode|metropole|miene|miete|migrant(in)?|million|mitte|maus|moderator(in)?|monarch(in)?|mongol(e|in)|mormone|mücke|mühle|musikant(in)?|mysterium|nerv|niederlage|nixe|nonne|note|obdachlose|ode|organist|panne|papagei|parzelle|pastor(in)?|pate|patient|patriarch(in)?|petze|pfadfinderin|pfanne|pfaffe|pfau|pfeife|platte|polle|pomade|pomeranze|posse|praktikant(in)?|prinz(essin)?|prise|produzent(in)?|prominente|prophet(in)?|prototyp|prälat|psychopath(in)?|puppe|pädophile|pygmäe|rabe|radikale|rakete|rampe|ranke|rassist(in)?|rate|raupe|rendite|repressalie|rest|riese|rinde|rind|robbe|robe|romanist|rose|ross|route|nummer|runde|russ(e|in)?|röhre|rübe|salbe|schabe|schale|scheide|schelle|schenke|schere|sphäre|dicke|kröte|schauspielerin|schimpans(e|in)|schlampe|schlange|schluchte|schmiere|schnake|schnalle|schneide|schnelle|schokolade|schotte|schurke|schwabe|schwalbe|schwede|schwule|seele|seide|seite|senator(in)?|serb(e|in)?|serie|silbe|skulptur|sonne|sorge|sorte|spanne|sparte|spatz|sperre|spitze|sproße|spule|stalaktit|steppe|straße|streife|studie|stunde|stütze|tabelle|therapeut(in)?|tinte|tote|toilette|torte|traube|treffe|treppe|truhe|träne|tunte|tüte|tyrann|urne|utensil|vandal(e|in)|vasall(in)?|vene|versicherte|verwandte|veteran(in)?|virtuose|vorname|waffe|wanne|ware|watte|wehe|welle|welpe|wiese|wirtin|zar(in)?|zentrum|zutat");
+  private static final Pattern SUBNOMPLUFEM_EXCEPTIONS = compile(".+(atie|lyse|metrie|sophie|omie)|absage|accessoire|allergie|analogie|anästhesie|anatomie|anomalie|archäologie|aufnahme|balance|barriere|batterie|creme|deponie|dürre|einlage|energie|folklore|franchise|gemeinde|glu[ck]ose|gülle|hanse|hefe|hirse|infanterie|kolonie|kontrolle|lounge|massage|mathe|melodie|nässe|parfümerie|pharmazie|pipeline|poesie|psychotherapie|regie|renaissance|säure|single|sprache|stärke|suche|teilnahme|theorie|therapie|vanille|wiederaufnahme|wende");
+  private static final Pattern INVALID_COMP_PART = compile("adresse|kontrolle|leuchte|norden|osten|perspektive|schule|sprache|stelle|suche|süden|westen");
+  private static final Pattern SUBINF_SINGULAR_OBJECT = compile("putzen|rauchen|sein|spielen");
+  private static final Pattern ARBEIT_COMP = compile("(gebe|nehme)(r(s|n|innen|in)?|nde[mnr]?)");
+  private static final Pattern BAD_COMP = compile("accessoire|architektur|besitzer(in)?|design|eintritt|fenster|größe|grund|kollektion|konzept|lösung|maß|möbel|nutzer(in)?|regal|spezialist(in)?|spiegel|straße|tür|utensil");
+  private static final Pattern LINK_COMP = compile("element|inhalt|liste|portal|text|titel|tracking|verzeichnis");
+  private static final Pattern LINKS_COMP = compile("abbieger(in)?|abweichler(in)?|anwalt|anwältin|anwaltschaft|ausfall|auslage|ausleger(in)?|au(ss|ß)en|bündnis|drall|drehung|extremer?|extremis(t|tin|mus)|faschis(t|tin|mus)|fraktion|galopp|gewinde|händ(er|erin|igkeit)|hörnchen|innen|intellektueller?|katholizis(t|tin|mus)|koalition|konter|kurs|kurve|lastigkeit|lenker|nationalis(t|tin|mus)|opposition|orientierung|partei|populis(t|tin|mus)|radikal(e|er|ismus|ist|istin)|regierung|ruck|rutsch|schnitt|schuss|schwenk(ung)?|sektierer(in)?|steuerung|terror(t|tin|ismus)|verbinder(in)?|verkehr|wendung|wichser");
+  private static final Pattern PERSON_SUFFIXES = compile(".+([dlt]ant(in)?|arch(in)?|graf(in)?|gog(e|in)|([bdfghnoptuvxyz]|he|([inrt]a|o)(l)|(for|ga|i)m|[^f]r)(ist)(in)?|krat(in)?|man(e|in)|naut(in)?|olog(e|in)|(d|[pt]i|r)ent(in)?|seur(in)?|soph(in)?|tit(in)?|.+[^b]urg(in)?)$");
+  private static final Pattern RECHT_COMP = compile("bank|eck|fertigung|gläubigkeit|haber|haberei|leitung|losigkeit|mäßigkeit|winkligkeit|zeitigkeit");
+  private static final Pattern RECHTS_COMP = compile("abbieger(in)?|abteilung|akt|akte|angelegenheit|ansicht|anspruch|anwalt|anwalts|anwaltschaft|anwendung|anwältin|auffassung|aufsicht|auskunft|ausleger(in)?|ausschuss|au(ss|ß)en|begehren|begriff|behelf|beistand|berater|beratung|bereich|beschwerde|beugung|beziehung|brecher|bruch|dienst|drall|durchsetzung|empfinden|entwicklung|setzung|experte|experten|extremer?|extremis(t|tin|mus)|fall|fehler|folge|form|fortbildung|frage|fähigkeit|gebiet|gebieten|gelehrte|gelehrter|geschichte|geschäft|gewinde|gleichheit|grund|grundlage|grundsatz|gründen|gut|gutachten|gültigkeit|güter|handlung|hilfe|händ(er|erin|igkeit)|hängigkeit|inhaber|institut|katholizis(t|tin|mus)|klick|konformität|kraft|kreis|kurve|lage|lastigkeit|lehre|lenker|medizin|mediziner|meinung|missbrauch|mittel|mitteln|mängel|nachfolge|nachfolger|nachfolgerin|nationalis(t|tin|mus)|natur|norm|ordnung|persönlichkeit|pflege|pfleger|pflicht|philosophie|politik|populis(t|tin|mus)|position|praxis|problem|quelle|radikal(e|er|ismus|ist|istin)|rahmen|rat|ratgeber(in)?|ruck|rutsch|sache|sachen|satz|schutz|sicherheit|sinn|sprache|soziologie|sprechung|staat|staatlichkeit|stand|status|stellung|streit|streitigkeit|system|terroris(t|tin|ismus)|texte|texter|thema|theorie|tipp|titel|träger|unsicherheit|verfolgung|vergleichung|verhältnis|verkehr|verletzung|verletzungen|verordnung|verstoß|verständnis|verteidiger|verteidigung|vertreter|vertretung|vorschrift|wahl|weg|wesen|widrigkeit|wirksamkeit|wirkung|wissenschaft|wissenschaften|wissenschaftler|zug|änderung");
+  private static final Pattern VERBAND_COMP = compile("klammer|kasten|kiste|mull|material|päckchen|platz|raum|schere|zeug|zimmer");
+  private static final Pattern VERBANDS_COMP = compile("chef(in)?|flug|funktionär(in)?|kasse|klage|leben|leitung|leiter(in)?|ligist(in)|material|päckchen|präsident(in)?|presse|spiel|vertreter(in)|vorsitzender?|vorstand|wechsel|zeichen|zeit(schrift|ung)");
+  private static final Pattern WIDER_COMP = compile("glanz|hall|haken|klage|klang|lager|rechtliche|ruf|spiel|spruch|sehen|stand|streit|wille");
+  private static final Pattern WOCHENTAG_COMP = compile("abend|mittag|morgen|nachmittag|vormittag");
+
+  private static final Pattern POTENTIAL_BINNEN_I = compile(".*((?<=(\\w))In).*");
+  private static final Pattern GENDER_NEUTRAL_SPECIAL_CHRS_SIN = compile(".*[\\*:_/]in$");
+  private static final Pattern GENDER_NEUTRAL_SPECIAL_CHRS_PLU = compile(".*[\\*:_/]in.+");
+  private static final Pattern GENDER_NEUTRAL_SLASH_HYPHEN = compile(".*/-in.+");
+  private static final Pattern GENDER_STAR = Pattern.compile("((?<=(\\w))In|[\\*:_]in|/-in)");
+  private static final Pattern GENDER2_STAR2 = Pattern.compile(".*((?<=(\\w))In|[\\*:_]in|/-in).*");
+
+  private static final Pattern WECHSELNUMERUS = compile("wort|welt");
+  private static final Pattern WELTEN_COMP = compile("Brand|Bummler(in)?|Drama|Wende");
+  private static final Pattern WOERTER_COMP = compile("Buch|Liste|Verzeichnis");
 
   private static final List<Pattern> PREVENT_SUGGESTION_PATTERNS = new ArrayList<>();
   private static final Pattern EXPAND_PATTERN = compile(".*/[ESNAPFT]");
@@ -136,9 +172,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
   private final Set<String> wordEndingsToBeProhibited   = new HashSet<>();
   private final Set<String> wordsNeedingInfixS          = new HashSet<>();
-  private final Set<String> wordsWithoutInfixS          = new HashSet<>();
-  private final Set<String> germanPrefixes              = new HashSet<>();  // words used as compound parts but not nouns on their own, like "Kritzel"
-  private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
+  private static Set<String> verbStems                  = new HashSet<>();
+  private static Set<String> verbPrefixes               = new HashSet<>();
+  private static Set<String> otherPrefixes              = new HashSet<>();
+  private static Set<String> oldSpelling                = new HashSet<>();
+  private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new LinkedHashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("vorbreiten", w -> Arrays.asList("vorbereiten", "verbreiten"));
@@ -1176,6 +1214,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("hardgecode[dt](e[mnrs]?)?", "gehardcode", "hartkodier");
     putRepl("Flektion(en)?", "Flektion", "Flexion");
     putRepl("Off-[Ss]hore-[A-Z].+", "Off-[Ss]hore-", "Offshore");
+    putRepl("[Vv]ermißt.*", "ermißt", "ermisst");
+    putRepl("EUfeindlich.*", "EUfeindlich", "EU-feindlich");
     put("Deis", "Dies");
     put("fr", "für");
     put("abe", w -> Arrays.asList("habe", "aber", "ab"));
@@ -1737,15 +1777,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     nonStrictCompoundTokenizer = GermanCompoundTokenizer.getNonStrictInstance();
     synthesizer = language.getSynthesizer();
     loadFile("/de/words_infix_s.txt", wordsNeedingInfixS);
-    loadFile("/de/words_no_infix_s.txt", wordsWithoutInfixS);
-    loadFile("/de/german_prefix.txt", germanPrefixes);
+    loadFile("/de/verb_stems.txt", verbStems);
+    loadFile("/de/verb_prefixes.txt", verbPrefixes);
+    loadFile("/de/other_prefixes.txt", otherPrefixes);
+    loadFile("/de/alt_neu.csv", oldSpelling);
   }
 
   private void loadFile(String fileInClasspath, Set<String> set) {
     List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(fileInClasspath);
     for (String line : lines) {
       if (!line.startsWith("#")) {
-        set.add(line.trim());
+        set.add(line.trim().split(";")[0]);
       }
       if (EXPAND_PATTERN.matcher(line).matches()) {
         throw new RuntimeException("Syntax '/{X}' for expansion not supported in this file: '" + line + "' in " + fileInClasspath);
@@ -2246,106 +2288,188 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected boolean ignorePotentiallyMisspelledWord(String word) throws IOException {
-    if (word.length() <= 5 || word.length() >= 40 || startsWithLowercase(word) || isProhibited(word)) {
-      // exclude weird/irrelevant cases (also the splitter can crash on VERY long words)
-      return false;
-    }
-    if (word.endsWith("gruße") ||   // too big chance of a "...grüße" typo
-        word.endsWith("schaf") ||  // too big chance of a "...schaft" typo
-        word.endsWith("schafs") ||
-        word.endsWith("schafen")
-    ) {
-      return false;
-    }
-    // Accept compounds with infix-s if both parts are known to the speller AND the first part
-    // ends with some specific chars, which indicate the need for the infix-s.
-    // Example: Müdigkeitsanzeichen = Müdigkeit + s + Anzeichen
-    // Deals with two-part compounds only and could be extended.
+    // Remove dot
     String wordNoDot = word.endsWith(".") ? word.substring(0, word.length()-1) : word;
+
+    if (isValidWordLength(word) || startsWithLowercase(word) || isProhibited(word) || isProhibited(wordNoDot)) {
+      // Exclude cases like weird/irrelevant words and very long words that can cause crashes
+      return false;
+    }
+    // Check for words that are likely to be typos
+    if (isProbablyTypo(word)) {
+      return false;
+    }
+
+    // Format gender neutral forms here to make splitting easier, but
+    //   we need to double-check the word later to avoid words in camel case
+    //   that look similar to gender-neutral language (e. g. AktienIndex).
+    String wordNoDotOrg = wordNoDot;
+    // "Expert*innen" -> "Expertinnen"
+    // "ExpertInnen"  -> "Expertinnen"
+    wordNoDot = GENDER_STAR.matcher(wordNoDot).replaceFirst("in");
+
+    // Return false if a word is written in CamelCase
+    if (!isValidCamelCase(wordNoDot)) {
+      return false;
+    }
+
     List<String> parts = compoundTokenizer.tokenize(wordNoDot);
     boolean nonStrictMode = false;
     if (parts.size() == 1) {
       parts = nonStrictCompoundTokenizer.tokenize(wordNoDot);
       nonStrictMode = true;
     }
-    String part1;
-    String part2;
-    boolean hasInfixS = false;
+
+    // If at least one element in *parts* at position i equals "s", then append "s" to element at i-1
+    parts = avoidInfixSAsSingleToken(parts);
+
+    // Handle cases for hyphenated compounds that don't depend on tokenization
+    // and preprocess further
+    if (wordNoDot.contains("-")) {
+      //Split original word by hyphen
+      List<String> splitByHyphen = new ArrayList<>(Arrays.asList(wordNoDot.split("-")));
+      String lastPart = splitByHyphen.get(splitByHyphen.size() - 1);
+
+      if (!isNoun(lastPart) &&  isNoun(uppercaseFirstChar(lastPart))) {
+        // Make sure that last part is uppercase, if it is probably a noun
+        // e.g. "Implementierungs-pflicht"
+        return false;
+      }
+
+      for (String w : splitByHyphen) {
+        if (isMisspelled(w) && isMisspelled(removeTrailingSAndHyphen(w))) {
+          return false;
+        }
+      }
+
+      // Split tokenized parts that contain hyphens
+      // example: "Wacht" + "ums-pistole" -> "Wacht" + "ums" + "pistole"
+      parts = splitPartsByHyphen(parts);
+
+      // Hyphens are often removed by the tokenizer. Restore them to determine later if a compound is correct
+      parts = restoreRemovedHyphens(parts, wordNoDot);
+    }
+
+    // Make sure that the individual parts of the compound have appropriate length.
+    // Short words can also be typos.
+    if (!isValidPartLength(parts)) {
+      return false;
+    }
+
+    // Make sure that compound is not written in old spelling
+    if (parts.size() >= 2) {
+      if (isOldSpelling(parts)) {
+        return false;
+      }
+    }
+
+    // Now that the compound has probably been split correctly,
+    //   we can use this information to check,
+    //   if a part matching '(?<=(\w))In|[\*:_]in|/-in'
+    //   is actually gender-neutral language
+    if (GENDER2_STAR2.matcher(wordNoDotOrg).matches()) {
+      if (!isValidGenderNeutralWord(parts, wordNoDotOrg)) {
+        return false;
+      }
+    }
+
     if (parts.size() == 2) {
-      part1 = parts.get(0);
-      part2 = parts.get(1);
-      if (nonStrictMode && part2.startsWith("s") && isMisspelled(part2) && !isMisspelled(uppercaseFirstChar(part2.substring(1)))) {
-        // nonStrictSplitter case, it splits like "[Priorität, sdings]", we fix that here to match the strict splitter case:
-        part1 = part1 + "s";
-        part2 = part2.substring(1);
-        hasInfixS = true;
-      }
-    } else if (parts.size() == 3 && parts.get(1).equals("s") && word.contains("-") && startsWithUppercase(parts.get(2))) {
-      // e.g. "Prioritäts-Dings" gets split like "Priorität", "s", "dings" -> treat it as if there was no "-":
-      part1 = parts.get(0) + "s";
-      part2 = lowercaseFirstChar(parts.get(2));
-      hasInfixS = true;
-    } else if (parts.size() == 3 && !word.contains("-")) {
-      // e.g. Hundefutterschachtel = Hunde, Futter, Schachtel
-      part1 = parts.get(0);
-      part2 = parts.get(1);
-      String compound1 = parts.get(0) + parts.get(1);
-      String compound1noS = compound1.replaceFirst("s$", "");
-      String compound2 = uppercaseFirstChar(parts.get(1)) + parts.get(2);
-      boolean compound1ok = false;
-      if (germanPrefixes.contains(part2)) {
-        compound1ok = 
-          (((!isMisspelled(part1) && !isMisspelled(part1+parts.get(2))) ||  // Weinkühlschrank gets split into Wein, kühl, schrank
-          ignorePotentiallyMisspelledWord(part1+parts.get(2))) &&
-          parts.get(2).length() >= 3) ||  //Vorraus --> Vor, rau, s
-          (!isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||   //Menschenrechtsdemos as 'rechts' is in germanPrefixes
-          !isMisspelled(compound1noS) || ignorePotentiallyMisspelledWord(compound1noS)); 
-      } else {
-        compound1ok =
-          !isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||
-          !isMisspelled(compound1noS) || ignorePotentiallyMisspelledWord(compound1noS);
-      }
-      boolean compound2ok =
-        (!isMisspelled(compound2) || ignorePotentiallyMisspelledWord(compound2)) && isNoun(compound2);
-      return compound1ok && compound2ok;
+      return processTwoPartCompounds(parts.get(0), parts.get(1));
+    } else if (parts.size() == 3) {
+      return processThreePartCompound(parts);
     } else {
       // more than three parts can be supported later
       return false;
     }
-    if (word.contains("-" + part2)) {
-      // don't accept e.g. "Implementierungs-pflicht"
-      return false;
-    }
+  }
+
+  private boolean isValidWordLength(String word) {
+    return word.length() <= MIN_WORD_LENGTH || word.length() >= MAX_WORD_LENGTH;
+  }
+
+  private boolean isValidPartLength(List<String> parts) {
     // don't assume very short parts (like "Ei") are correct, these can easily be typos:
-    if ((hasInfixS || part1.endsWith("s")) && part1.length() >= 4 /* includes 's' */ && part2.length() >= 3 && startsWithLowercase(part2)) {
-      String part1noInfix = part1.substring(0, part1.length()-1);
-      String part2uc = uppercaseFirstChar(part2);
-      if ((compoundPatternWithHeit.matcher(part1).matches() || wordsNeedingInfixS.contains(part1noInfix)) &&
-          isNoun(part2uc)) {
-        if (compoundPatternWithAction.matcher(part1noInfix).matches() ||
-            compoundPatternWithFirst.matcher(part2uc).matches() ||
-            part1.endsWith("schwungs") || part1.endsWith("sprungs") || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
-          return false;
-        }
-        return true;
-      }
+    if (parts.size() == 2) {
+      return parts.get(0).length() >= 3 && parts.get(1).length() >= 4;
     }
-    String part2uc = uppercaseFirstChar(part2);
-    if (!hasInfixS &&
-        part1.length() >= 3 && part2.length() >= 4 &&
-        !part2.contains("-") &&
-        startsWithLowercase(part2) &&
-        !part1.equals("Lass") &&  // e.g. "Lasstest" - couldn't find a more generic solution yet
-        (wordsWithoutInfixS.contains(part1) || (compoundPatternSpecialEnding.matcher(part1).matches() && isNoun(part2uc))) &&
-        (!isMisspelled(part1) || germanPrefixes.contains(lowercaseFirstChar(part1))) &&
-        !isMisspelled(part2uc) &&  // needed to not accept e.g. Alkoholgenuß ("Genuß" is accepted as a noun above)
-        isNoun(part2uc) // don't accept e.g. "Azubikommt"
-      ) {
-      //System.out.println("compound: " + part1 + " " + part2 + " (" + word + ")");
-      return true;
+    if (parts.size() == 3) {
+      return parts.get(0).length() >= 3 && parts.get(1).length() >= 4 && parts.get(2).length() >= 4;
     }
     return false;
   }
+
+  private boolean isOldSpelling(List<String> parts) {
+    for (String part: parts) {
+      String cleanedPart = removeTrailingSAndHyphen(part);
+      if (part.endsWith("s")) {
+        if (oldSpelling.contains(uppercaseFirstChar(part)) || oldSpelling.contains(uppercaseFirstChar(cleanedPart))
+          || oldSpelling.contains(lowercaseFirstChar(part)) ||oldSpelling.contains(lowercaseFirstChar(cleanedPart))) {
+          return true;
+        }
+      } else {
+        if (oldSpelling.contains(uppercaseFirstChar(cleanedPart)) || oldSpelling.contains(lowercaseFirstChar(cleanedPart))) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean isValidGenderNeutralWord(List<String> parts, String word) {
+    int start = 0;
+    for (String part : parts) {
+      int end = start + part.length();
+
+      String toCheck = word.substring(start, end);
+      if (toCheck.startsWith("I") && start > 0) {
+        // e. g. AktienIndex
+        return false;
+      }
+      if (POTENTIAL_BINNEN_I.matcher(toCheck).matches()) {
+        if (isMisspelled(toCheck.replaceFirst("((?<=(\\w))In)", "in"))
+            || (!toCheck.endsWith("In") && !toCheck.endsWith("Innen"))) {
+          return false;
+        }
+      }
+      if (GENDER_NEUTRAL_SPECIAL_CHRS_SIN.matcher(toCheck).matches()) {
+        if (isMisspelled(toCheck.replaceFirst("[\\*:_/]in", "in"))) {
+          return false;
+        }
+        end ++;
+      }
+      if (GENDER_NEUTRAL_SPECIAL_CHRS_PLU.matcher(toCheck).matches()) {
+        if (end < word.length()) {
+          end++;
+          toCheck = word.substring(start, end);
+        }
+        if (isMisspelled(toCheck.replaceFirst("[\\*:_/]in", "in"))
+          || (!toCheck.endsWith("in") && !toCheck.endsWith("innen"))) {
+          return false;
+        }
+      }
+      if (GENDER_NEUTRAL_SLASH_HYPHEN.matcher(toCheck).matches()) {
+        if (end + 1 < word.length()) {
+          end += 2;
+          toCheck = word.substring(start, end);
+        }
+        if (isMisspelled(toCheck.replaceFirst("/-in", "in"))
+          || (!toCheck.endsWith("in") && !toCheck.endsWith("innen"))) {
+          return false;
+        }
+      }
+
+      start = end;
+    }
+    return true;
+  }
+
+  private String removeTrailingS(String part1) {
+    return part1.replaceFirst("s?$", "");
+  }
+
+  private String removeTrailingHyphen(String part1) { return part1.replaceFirst("-?$", ""); }
+
+  private String removeTrailingSAndHyphen(String part1) { return part1.replaceFirst("s?-?$", ""); }
 
   private boolean isAdjective(String word) throws IOException {
     return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("ADJ:"));
@@ -2355,13 +2479,363 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:"));
   }
 
-  private boolean isPluralNoun(String word) throws IOException {
-    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM:PLU:"));
+  private boolean processTwoPartCompounds(String part1, String part2) throws IOException {
+    // Expects two parts of a compound and checks
+    //  if their POS tags are correct,
+    //  if an infix s is missing or
+    //  if an infix s is incorrect
+    String part1upcased = uppercaseFirstChar(part1);
+    String part2upcased = uppercaseFirstChar(part2);
+    String part1WithoutHyphen = removeTrailingHyphen(part1);
+    boolean part2upcasedIsNoun = isNoun(part2upcased);
+    boolean part2upcasedIsMispelled = isMisspelled(uppercaseFirstChar(part2upcased));
+
+    if (INVALID_COMP_PART.matcher(lowercaseFirstChar(part1WithoutHyphen)).matches()) {
+      return false;
+    }
+
+    String part1WithoutInfixS = part1upcased;
+
+    // Sometimes part1 requires singular or plural
+    String part1Lemma = findLemmaForNoun(removeTrailingHyphen(part1));
+    //
+    if (part1Lemma.equals("") && removeTrailingHyphen(part1).endsWith("s")) {
+      part1Lemma = findLemmaForNoun(removeTrailingSAndHyphen(part1));
+      part1WithoutInfixS = removeTrailingS(part1upcased);
+    }
+
+    // Allow part1 to be a plural noun if...
+
+    // ... part2 is a nominalized verb or...
+    if (isNounNomPlu(part1WithoutInfixS) && !isNounNomSin(part1WithoutInfixS) &&
+        (!isSubVerInf(part2upcased) ||
+        (isSubVerInf(part2upcased) && SUBINF_SINGULAR_OBJECT.matcher(lowercaseFirstChar(part2)).matches())) &&
+        !needsToBePlural(lowercaseFirstChar(part1Lemma)) &&
+        !WECHSELNUMERUS.matcher(lowercaseFirstChar(part1Lemma)).matches() &&
+        !WECHSELINFIX.matcher(lowercaseFirstChar(removeTrailingS(part1Lemma))).matches()) {
+       return false;
+    }
+    // ... part1 always needs to be plural or...
+    if (needsToBePlural(lowercaseFirstChar(part1Lemma)) && isNounNomSin(part1WithoutInfixS)) {
+      return false;
+    }
+    // ... part1
+    if (WECHSELNUMERUS.matcher(lowercaseFirstChar(part1Lemma)).matches()) {
+      if (!checkPluralForPart1Part2Combination(part1, part2)) {
+        return false;
+      }
+    }
+
+    // For some part1-and-part2 combinations an infix s is correct or incorrect
+    if (WECHSELINFIX.matcher(lowercaseFirstChar(part1)).matches()) {
+      return checkInfixSForPart1Part2Combination(part1, part2);
+    }
+
+    // Check for easily confused prefixes (e. g. wieder vs wider)
+    if (CONFUSED_PREFIXES.matcher(lowercaseFirstChar(part1)).matches() && !part2upcasedIsMispelled
+        && part2upcasedIsNoun) {
+      return checkConfusionForPart1Part2Combination(part1, part2);
+    }
+
+    // TODO distinguish more cases with hyphens
+    if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
+      // 's' is the last character in *part1* and is probably not an infix
+      part1WithoutHyphen.endsWith("s") && (isNounNom(part1upcased) || isVerbStem(part1)) &&
+      // check if infix 's' is required or not allowed
+      (!needsInfixS(removeTrailingS(part1upcased)))) {
+      return true;
+    }
+    if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
+      // 's' is the last character in *part1* and is probably an infix
+      part1WithoutHyphen.endsWith("s") && isNounNom(removeTrailingSAndHyphen(part1upcased)) &&
+      // check if infix 's' is required or not allowed
+      (needsInfixS(removeTrailingSAndHyphen(part1upcased)))) {
+      return true;
+    }
+    if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
+      // *part1* does not end with 's' and is noun or verb stem
+      (!part1WithoutHyphen.endsWith("s")) && (isNounNom(part1upcased) || isVerbStem(part1)) &&
+      // check if infix 's' is required or not allowed
+      (!needsInfixS(part1upcased))) {
+      return true;
+    }
+    if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
+      // *part1* is acronym or other prefix, e. g. "SEO-Expertinnen", "Sprachvariante"
+      ((isAllUppercase(removeTrailingSAndHyphen(part1)) && !isMisspelled(removeTrailingSAndHyphen(part1))) || isOtherPrefix(part1))) {
+      return true;
+    }
+    return false;
   }
 
-  private boolean isOnlyPluralNoun(String word) throws IOException {
-    return isPluralNoun(word) && word.endsWith("en") && isOnlyNoun(word);
+  protected boolean processThreePartCompound(List<String> parts) throws IOException {
+    String part1 = parts.get(0);
+    String part2 = parts.get(1);
+    String part3 = parts.get(2);
+    String compound1 = part1 + part2;
+    String compound2 = uppercaseFirstChar(part2) + parts.get(2);
+
+    if (isNoun(compound1) && isNoun(compound2)) {
+      // If part1part2 and part2part3 are compounds, then so is part1part2part3
+      return (processTwoPartCompounds(part1, removeTrailingHyphen(part2)) && processTwoPartCompounds(part2, part3));
+    }
+    if (compound1.endsWith("s") || compound1.endsWith("s-")) {
+      String part2NoInfixSNoHyphen = removeTrailingSAndHyphen(part2);
+      // If part1part2NoInfixSNoHyphen and part2part3 are compounds, then so is part1part2part3
+      return (processTwoPartCompounds(part1, part2NoInfixSNoHyphen) && processTwoPartCompounds(part2, part3));
+    }
+    if (isVerbPrefix(part1) && isVerbStem(part2) && isNoun(compound2)) {
+      // e.g. "Aus" + "leih" + "stelle"
+      return true;
+    }
+    if (isNounNomSin(part1) && isVerbStem(part2) && isNoun(compound2)) {
+      // e.g. "Wein" + "kühl" + "schrank"
+      return true;
+    }
+    return false;
   }
+
+  private boolean checkInfixSForPart1Part2Combination(String part1, String part2) throws IOException {
+    // For some part1-and-part2 combinations an infix s is correct or incorrect
+    String part2Lemma = findLemmaForNoun(removeTrailingHyphen(part2));
+    if (part2Lemma.equals("") && removeTrailingHyphen(part2).endsWith("s")) {
+      part2Lemma = findLemmaForNoun(removeTrailingSAndHyphen(part2));
+    }
+
+    if (part1.equals("Arbeit") && (ARBEIT_COMP.matcher(part2).matches())) {
+      // e. g. "Arbeitplatz"
+      return true;
+    }
+    if (part1.equals("Arbeits") && !(ARBEIT_COMP.matcher(part2).matches())) {
+      // e. g. "Arbeitsgeber"
+      return true;
+    }
+    if (part1.equals("Link") && LINK_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
+      return true;
+    }
+    if (part1.equals("Links") && LINKS_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
+      return true;
+    }
+    if (part1.equals("Recht") && RECHT_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
+      // e. g. "Rechtanwälte"
+      return true;
+    }
+    if (part1.equals("Rechts") && RECHTS_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
+      // e. g. "Rechtsfertigung"
+      return true;
+    }
+    if (part1.equals("Verband") && VERBAND_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
+      // e. g. "Verbandgemeinde"
+      return true;
+    }
+    if (part1.equals("Verbands") && VERBANDS_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
+      // e. g. "Verbandszeug"
+      return true;
+    }
+    if (WOCHENTAGE.matcher(part1).matches() && WOCHENTAG_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
+      return true;
+    }
+    if (WOCHENTAGE_S.matcher(part1).matches() && !WOCHENTAG_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches()) {
+      return true;
+    }
+    return false;
+  }
+
+  private boolean checkConfusionForPart1Part2Combination(String part1, String part2) throws IOException {
+    String part2Lemma = findLemmaForNoun(removeTrailingHyphen(part2));
+    if (part1.equals("Bad") && (BAD_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches())) {
+      return true;
+    }
+    if (part1.equals("Bade") && (!BAD_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches())) {
+      return true;
+    }
+    if (part1.equals("Wider") && (WIDER_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches())) {
+      return true;
+    }
+    if (part1.equals("Wieder") && (!WIDER_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches())) {
+      return true;
+    }
+    return false;
+  }
+
+  private boolean checkPluralForPart1Part2Combination(String part1, String part2) throws IOException {
+    // For some part1-and-part2 combinations part1 needs to be singular or plural
+    String part2Lemma = findLemmaForNoun(removeTrailingHyphen(part2));
+    if (part2Lemma.equals("") && removeTrailingHyphen(part2).endsWith("s")) {
+      part2Lemma = findLemmaForNoun(removeTrailingSAndHyphen(part2));
+    }
+    if (part1.equals("Welt") && (!WELTEN_COMP.matcher(part2Lemma).matches())) {
+      // e. g. "Weltklima"
+      return true;
+    }
+    if (part1.equals("Welten") && (WELTEN_COMP.matcher(part2Lemma).matches())) {
+      // e. g. "Weltenbummler"
+      return true;
+    }
+    if (part1.equals("Wort") && (!WOERTER_COMP.matcher(part2Lemma).matches())) {
+      // e. g. "Wortgrenze"
+      return true;
+    }
+    if (part1.equals("Wörter") && (WOERTER_COMP.matcher(part2Lemma).matches())) {
+      // e. g. "Wörterbuch"
+      return true;
+    }
+    return false;
+  }
+
+  private String findLemmaForNoun(String word) throws IOException {
+    String lemma = "";
+    List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(uppercaseFirstChar(word)));
+    for (AnalyzedTokenReadings reading : readings) {
+      if (reading.hasPosTagStartingWith("SUB")) {
+        lemma = reading.getReadings().get(0).getLemma();
+      }
+    }
+    return lemma;
+  }
+
+  private boolean isProbablyTypo(String word) {
+    return COMPOUND_TYPOS.matcher(word).matches() || COMPOUND_END_TYPOS.matcher(word).matches();
+  }
+
+  private boolean isValidCamelCase(String input) {
+    // Check if the string contains any instance of camel casing
+    return !CAMEL_CASE.matcher(input).matches();
+  }
+
+  private List<String> restoreRemovedHyphens(List<String> parts, String word) {
+      // Restore hyphens that were removed by the tokenizer by appending them to
+      //   individual tokens
+      List<String> tokensWithHyphens = new ArrayList<>();
+
+      // Find and store the positions of hyphens in the original word
+      List<Integer> hyphenPositions = new ArrayList<>();
+      for (int i = 0; i < word.length(); i++) {
+        if (word.charAt(i) == '-') {
+          hyphenPositions.add(i);
+        }
+      }
+
+      int currentPos = 0;
+      for (String token : parts) {
+        // Check if the next hyphen is within the current token
+        for (int hyphenPos : hyphenPositions) {
+          if (hyphenPos >= currentPos && hyphenPos == currentPos + token.length()) {
+            // Insert hyphen at the end of this token
+            token += "-";
+            break; // Move to the next token after adding a hyphen
+          }
+        }
+        tokensWithHyphens.add(token);
+        currentPos += token.length();
+      }
+      return tokensWithHyphens;
+    }
+
+  private List<String> avoidInfixSAsSingleToken(List<String> parts) {
+    // If a part equals "s", append it to its predecessor
+    //   example: "Priorität", "s", "ding" -> "Prioritäts", "ding"
+    List<String> fixedParts = new ArrayList<String>();
+    List<Integer> indexesOfS = indexOfInfixS(parts);
+
+    // Sort indexes in descending order to avoid shifting issues while removing elements
+    Collections.sort(indexesOfS, Collections.reverseOrder());
+
+    for (Integer index : indexesOfS) {
+      if (index > 0 && index < parts.size()) { // Ensure index is within bounds and not the first element
+        String toAppend = parts.remove((int) index); // Remove the element at position i and store it
+        parts.set(index - 1, parts.get(index - 1) + toAppend); // Append the removed string to the element at i-1
+      }
+    }
+    return parts;
+  }
+
+  private List<String> splitPartsByHyphen(List<String> originalParts) {
+    List<String> parts = new ArrayList<>(originalParts);
+
+    // Iterate through the list using indices to safely modify it while iterating
+    for (int i = 0; i < parts.size(); i++) {
+      String element = parts.get(i);
+
+      if (element.contains("-")) {
+        String[] splitWords = element.split("-");
+
+        // Remove the original element
+        parts.remove(i);
+
+        // Insert the split parts back into the list at the current position
+        // Insert in reverse order to maintain the original order after insertion
+        for (int j = splitWords.length - 1; j >= 0; j--) {
+          parts.add(i, splitWords[j]);
+        }
+
+        // Adjust the index to account for the newly inserted elements
+        // Subtracting 1 because the loop increment will add 1 back
+        i += splitWords.length - 1;
+      }
+    }
+    return parts;
+  }
+
+  private List<Integer> indexOfInfixS(List<String> parts) {
+    List<Integer> indexList = new ArrayList<>();
+    for (int i = 0; i < parts.size(); i++) {
+      if ("s".equals(parts.get(i))) {
+        indexList.add(i);
+      }
+    }
+    return indexList;
+  }
+
+  private boolean needsInfixS(String word) throws IOException {
+    // check for cases like Rivalität, Freiheit, Expedition...
+    if (INFIX_S_SUFFIXES.matcher(word).matches() &&
+        // make sure the POS tag is correct to avoid cases like "Jungs"
+        getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM:SIN:FEM"))) {
+      return true;
+    }
+    return wordsNeedingInfixS.contains(word);
+  }
+
+  private boolean needsToBePlural(String lemma) throws IOException {
+    if (NEEDS_TO_BE_PLURAL.matcher(lemma).matches()) {
+      return true;
+    }
+    if (getTagger().tag(singletonList(uppercaseFirstChar(lemma))).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM:SIN:FE"))
+    && lemma.endsWith("e")
+    && !SUBNOMPLUFEM_EXCEPTIONS.matcher(lemma).matches()) {
+      return true;
+    }
+    if (PERSON_SUFFIXES.matcher(lemma).matches()) {
+      return true;
+    }
+    return false;
+  }
+
+  private boolean isNounNom(String word) throws IOException {
+    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM"));
+  }
+
+  private boolean isNounNomSin(String word) throws IOException {
+    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM:SIN"));
+  }
+
+  private boolean isNounNomPlu(String word) throws IOException {
+    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM:PLU"));
+  }
+
+  private boolean isOtherPrefix(String word) throws IOException {
+    return otherPrefixes.contains(lowercaseFirstChar(word));
+  }
+
+  private boolean isVerbPrefix(String word) throws IOException {
+    return verbPrefixes.contains(lowercaseFirstChar(word));
+  }
+
+  private boolean isVerbStem(String word) throws IOException {
+    return verbStems.contains(lowercaseFirstChar(word));
+  }
+
+
 
   @Override
   protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word) throws IOException {
@@ -2987,6 +3461,25 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
         }
       case "do": return topMatch("so");
+      case "Weisglut": return topMatch("Weißglut");
+      case "Vorbescheidverfahren": return topMatch("Vorbescheidsverfahren");
+      case "Türahmen": return topMatch("Türrahmen");
+      case "Unglückzahl": return topMatch("Unglückszahl");
+      case "Unglückzahlen": return topMatch("Unglückszahlen");
+      case "Anstossbreite": return topMatch("Anstoßbreite");
+      case "Elfmeterschiessen": return topMatch("Elfmeterschießen");
+      case "Feldschiessen": return topMatch("Feldschießen");
+      case "Flössgräben": return topMatch("Flößgräben");
+      case "Schiessen": return topMatch("Schießen");
+      case "Außländer": return topMatch("Ausländer");
+      case "Außländern": return topMatch("Ausländern");
+      case "Außländers": return topMatch("Ausländers");
+      case "Außländerin": return topMatch("Ausländerin");
+      case "Außländerinnen": return topMatch("Ausländerinnen");
+      case "Wehrwolf": return topMatch("Werwolf");
+      case "Wehrwolfs": return topMatch("Werwolfs");
+      case "Wehrwölfe": return topMatch("Werwölfe");
+      case "Wehrwölfen": return topMatch("Werwölfen");
       case "Art-Nr": return topMatch("Art.-Nr.");
       case "werrden": return topMatch("werden");
       case "erkäre": return topMatch("erkläre");
@@ -3429,6 +3922,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "genausogut": return topMatch("genauso gut");
       case "Sylvester": return topMatch("Silvester");
       case "Außerden": return topMatch("Außerdem");
+      case "Irish-Pub": return topMatch("Irish Pub");
+      case "Irish-Pubs": return topMatch("Irish Pubs");
       case "ausserhalb": return topMatch("außerhalb");
       case "Ausserhalb": return topMatch("Außerhalb");
       case "Add-On": return topMatch("Add-on");
@@ -3612,6 +4107,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "langzugehen": return topMatch("entlangzugehen");
       case "langgehe": return topMatch("entlanggehe");
       case "langging": return topMatch("entlangging");
+      case "Macbook": return topMatch("MacBook");
+      case "Macbooks": return topMatch("MacBooks");
       case "langgegangen": return topMatch("entlanggegangen");
       case "lustigmachen": return topMatch("lustig machen");
       case "lustigmache": return topMatch("lustig mache");
@@ -3852,10 +4349,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "fuer": return topMatch("für");
       case "Fuer": return topMatch("Für");
       case "Gruss": return topMatch("Gruß");
-      case "Gruesse": return topMatch("Grüße");
-      case "Gruessen": return topMatch("Grüßen");
-      case "Grueße": return topMatch("Grüße");
-      case "Grueßen": return topMatch("Grüßen");
       case "nciht": return topMatch("nicht");
       case "heutejournal": return topMatch("heute journal");
       case "wikipedia": return topMatch("Wikipedia");
@@ -3903,6 +4396,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Rundumsorglospaket": return topMatch("Rundum-sorglos-Paket");
       case "Rundumsorglospakets": return topMatch("Rundum-sorglos-Pakets");
       case "Fidji": return topMatch("Fidschi");
+      case "tschüß": return topMatch("tschüss");
       case "Bautenzug": return topMatch("Bowdenzug");
       case "Bautenzugs": return topMatch("Bowdenzugs");
       case "Bautenzuges": return topMatch("Bowdenzuges");

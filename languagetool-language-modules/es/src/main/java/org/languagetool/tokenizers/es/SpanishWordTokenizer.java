@@ -80,31 +80,29 @@ public class SpanishWordTokenizer extends WordTokenizer {
   /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. */
   private List<String> wordsToAdd(String s) {
     final List<String> l = new ArrayList<>();
-    synchronized (this) { // speller is not thread-safe
-      if (!s.isEmpty()) {
-        if (!s.contains("-")) {
+    if (!s.isEmpty()) {
+      if (!s.contains("-")) {
+        l.add(s);
+      } else {
+        // words containing hyphen (-) are looked up in the dictionary
+        if (SpanishTagger.INSTANCE.tag(Arrays.asList(SOFT_HYPHEN.matcher(s).replaceAll("").replace('’', '\''))).get(0).isTagged()) {
+          l.add(s);
+        }
+        // some camel-case words containing hyphen (is there any better fix?)
+        else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill")
+            || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") || s.equalsIgnoreCase("ph-metre")
+            || s.equalsIgnoreCase("ph-metres")) {
           l.add(s);
         } else {
-          // words containing hyphen (-) are looked up in the dictionary
-          if (SpanishTagger.INSTANCE.tag(Arrays.asList(SOFT_HYPHEN.matcher(s).replaceAll("").replace('’', '\''))).get(0).isTagged()) {
-            l.add(s);
-          }
-          // some camel-case words containing hyphen (is there any better fix?)
-          else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill")
-              || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") || s.equalsIgnoreCase("ph-metre")
-              || s.equalsIgnoreCase("ph-metres")) {
-            l.add(s);
-          } else {
-            // if not found, the word is split
-            final StringTokenizer st2 = new StringTokenizer(s, "-", true);
-            while (st2.hasMoreElements()) {
-              l.add(st2.nextToken());
-            }
+          // if not found, the word is split
+          final StringTokenizer st2 = new StringTokenizer(s, "-", true);
+          while (st2.hasMoreElements()) {
+            l.add(st2.nextToken());
           }
         }
       }
-      return l;
     }
+    return l;
   }
 
 }

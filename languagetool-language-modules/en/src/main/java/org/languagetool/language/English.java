@@ -555,8 +555,6 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("GIMME", -4);  // prefer over spelling rules
     id2prio.put("LEMME", -4);  // prefer over spelling rules
     id2prio.put("ID_CASING", -4);  // prefer over spelling rules but not over ID_IS
-    id2prio.put("EN_GB_SIMPLE_REPLACE", -5);  // higher prio than Speller
-    id2prio.put("EN_US_SIMPLE_REPLACE", -5);  // higher prio than Speller
     id2prio.put("MORFOLOGIK_RULE_EN_US", -10);  // more specific rules (e.g. L2 rules) have priority
     id2prio.put("MORFOLOGIK_RULE_EN_GB", -10);  // more specific rules (e.g. L2 rules) have priority
     id2prio.put("MORFOLOGIK_RULE_EN_CA", -10);  // more specific rules (e.g. L2 rules) have priority
@@ -663,6 +661,12 @@ public class English extends Language implements AutoCloseable {
     if (id.startsWith("EN_MULTITOKEN_SPELLING_")) {
       return -9; // higher than MORFOLOGIK_*
     }
+    if (id.startsWith("EN_GB_SIMPLE_REPLACE")) {
+      return -5; // higher than MORFOLOGIK_*
+    }
+    if (id.startsWith("EN_US_SIMPLE_REPLACE")) {
+      return -5; // higher than MORFOLOGIK_*
+    }
     if (id.equals("QB_EN_OXFORD")) {
       return -51; // MISSING_COMMA_AFTER_YEAR
     }
@@ -746,7 +750,7 @@ public class English extends Language implements AutoCloseable {
       RuleMatch newMatch = new RuleMatch(rm, newReplacements);
       if (newMatch.getSpecificRuleId().startsWith("EN_SIMPLE_REPLACE") &&
         (newMatch.getSpecificRuleId().endsWith("GRAMME") || newMatch.getSpecificRuleId().endsWith("GRAMMES"))) {
-        newMatch.getRule().setLocQualityIssueType(ITSIssueType.Style);
+        newMatch.getRule().setLocQualityIssueType(ITSIssueType.LocaleViolation);
       }
       newRuleMatches.add(newMatch);
     }

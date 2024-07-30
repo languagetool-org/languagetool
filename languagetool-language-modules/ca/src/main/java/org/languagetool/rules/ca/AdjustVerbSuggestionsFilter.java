@@ -44,7 +44,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
-    /*if (match.getSentence().getText().contains("Marxar les ganes")) {
+    /*if (match.getSentence().getText().contains("calor apretarà")) {
       int ii=0;
       ii++;
     }*/
@@ -81,8 +81,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
         inPronouns = true;
       }
       boolean isInGV =  currentTkn.getChunkTags().contains(new ChunkTag("GV"));
-
-      if (isPronoun || (isVerb && !inPronouns && !firstVerbInflected && (toLeft == 0 || isInGV)) || isInGV) {
+      if (isPronoun || (isVerb && !inPronouns && !firstVerbInflected && (toLeft == 0 || isInGV)) || (isInGV && !firstVerbInflected)) {
         if (isVerb) {
           firstVerb = currentTknStr;
           firstVerbPos = toLeft;
@@ -151,10 +150,13 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
       for (AnalyzedToken reading : tokens[posWord]) {
         if (reading.getPOSTag() != null && reading.getPOSTag().startsWith("V")) {
           String postag = reading.getPOSTag();
+          if (newLemma.equals("haver")) {
+            postag = "VA" + postag.substring(2);
+          }
+          if (newLemma.equals("ser")) {
+            postag = "VS" + postag.substring(2);
+          }
           if (!desiredNumber.isEmpty()) {
-            if (newLemma.equals("haver")) {
-              postag = "VA" + postag.substring(2);
-            }
             if (!postag.substring(2, 3).equals("P") && (postag.substring(5, 6).equals("S") || postag.substring(5
               , 6).equals("P"))) {
               postag = postag.substring(0, 5) + desiredNumber + postag.substring(6);

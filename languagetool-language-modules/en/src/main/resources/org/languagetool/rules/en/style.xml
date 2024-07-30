@@ -494,6 +494,61 @@ For more detailed information, including tag definitions, please check out our d
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rule id="ELLIPSIS" name="Smart ellipsis (…)" tags="picky">
+            <antipattern>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+            </antipattern>
+            <pattern>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+            </pattern>
+            <message>Consider using the typographical ellipsis character here instead.</message>
+            <suggestion>…</suggestion>
+            <url>https://languagetool.org/insights/post/grammar-ellipsis/</url>
+            <!--<example correction="…">This is important <marker>. . .</marker> as far as I know.</example> doesn't work due to way sentence splitting works -->
+            <example>This is important – as far as I know.</example>
+            <example correction="…">This is important<marker>...</marker> as far as I know.</example>
+            <example>1. Introduction .................................... 3</example>
+        </rule>
+        <rulegroup id="GOOGLE_PRODUCTS_STYLE" name="Google product names (style rules)">
+            <rule>
+                <pattern>
+                    <token>Google</token>
+                    <token min="0">'s</token>
+                    <token>AdWords</token>
+                </pattern>
+                <message>Google renamed their advertising platform to <suggestion><match no="1" case_conversion="startupper" />\2 Ads</suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/Google_Ads</url>
+                <example correction="Google Ads">We use <marker>Google Adwords</marker>.</example>
+                <example correction="Google's Ads">The city is also home to the headquarters of <marker>Google's AdWords</marker> program.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MICROSOFT_PRODUCTS_STYLE" name="Microsoft product names (style rules)">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">Microsoft|MS</token>
+                    <token skip="-1">Ads</token>
+                    <token>Bing</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">Bing</token>
+                    <token regexp="yes">Microsoft|MS</token>
+                    <token>Ads</token>
+                </antipattern>
+                <pattern>
+                    <token>Bing</token>
+                    <token case_sensitive="yes">Ads</token>
+                </pattern>
+                <message>"Bing Ads" has been renamed to <suggestion>Microsoft Ads</suggestion>.</message>
+                <short>Outdated Name</short>
+                <example correction="Microsoft Ads">We are using <marker>Bing Ads</marker> in our advertising strategy.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LIGHTYEAR" name="Light-year as a unit of time" tags="picky">
             <rule>
                 <regexp>\b(light[- ]?years? ago)\b</regexp>
@@ -511,6 +566,7 @@ For more detailed information, including tag definitions, please check out our d
             </rule>
         </rulegroup>
         <rulegroup id="TWITTER_X" name="Twitter (X)" tags="picky">
+            <url>https://en.wikipedia.org/wiki/Twitter</url>
             <short>Outdated Name</short>
             <antipattern>
                 <token skip="-1">twitter</token>
@@ -569,6 +625,55 @@ For more detailed information, including tag definitions, please check out our d
                 <suggestion>X</suggestion>
                 <suggestion>𝕏</suggestion>
                 <example correction="X|𝕏"><marker>Twitter</marker>'s owner is Elon Musk.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token chunk_re="E-NP.*" />
+                    <token>twitter</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="MD|PRP_S.*" postag_regexp="yes" />
+                    <token postag="RB" min="0" />
+                    <token>twitter</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>twitter</token>
+                    </marker>
+                    <token postag="RB" min="0">
+                        <exception postag="IN|EX" postag_regexp="yes" />
+                    </token>
+                    <token postag="VBZ|MD" postag_regexp="yes" chunk_re=".-VP">
+                        <exception regexp="yes">&uncommon_verbs;</exception>
+                    </token>
+                </pattern>
+                <message>This popular online platform has been renamed to "X".</message>
+                <suggestion>X</suggestion>
+                <suggestion>𝕏</suggestion>
+                <suggestion>X (formerly known as Twitter)</suggestion>
+                <example correction="X|𝕏|X (formerly known as Twitter)"><marker>Twitter</marker> is my favorite social media app.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token chunk_re="E-NP.*" />
+                    <token>twitter</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="MD|PRP_S.*|TO" postag_regexp="yes" />
+                    <token postag="RB" min="0" />
+                    <token>twitter</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>twitter</token>
+                    </marker>
+                    <token regexp="yes">feed|profiles?|messages?|dms?|logins?|usernames?|threads?|accounts?|ceos?|founders?</token>
+                </pattern>
+                <message>This popular online platform has been renamed to "X".</message>
+                <suggestion>X</suggestion>
+                <suggestion>𝕏</suggestion>
+                <suggestion>X (formerly known as Twitter)</suggestion>
+                <example correction="X|𝕏|X (formerly known as Twitter)">Check my <marker>Twitter</marker> account.</example>
             </rule>
         </rulegroup>
         <rule id="BUSSES" name="busses (buses)">

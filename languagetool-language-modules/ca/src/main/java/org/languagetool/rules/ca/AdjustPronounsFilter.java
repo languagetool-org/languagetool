@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.Synthesizer;
@@ -68,7 +69,7 @@ public class AdjustPronounsFilter extends RuleFilter {
     String replacementVerb = "";
     int firstVerbPos = 0;
     boolean inPronouns = false;
-    boolean firstVerbValid = false;
+    boolean firstVerbInflected = false;
     while (!done && posWord - toLeft > 0) {
       AnalyzedTokenReadings currentTkn = tokens[posWord - toLeft];
       String currentTknStr = currentTkn.getToken();
@@ -94,13 +95,13 @@ public class AdjustPronounsFilter extends RuleFilter {
       if (isPronoun) {
         inPronouns = true;
       }
-      if (isPronoun || (isVerb && !inPronouns && !firstVerbValid) || currentTknStr.equalsIgnoreCase("de")
-          || currentTknStr.equalsIgnoreCase("d'")) {
+      boolean isInGV =  currentTkn.getChunkTags().contains(new ChunkTag("GV"));
+      if (isPronoun || (isVerb && !inPronouns && !firstVerbInflected && (toLeft == 0 || isInGV)) || (isInGV && !firstVerbInflected)) {
         if (isVerb) {
           firstVerb = currentTknStr;
           firstVerbPos = toLeft;
-          firstVerbValid = currentTkn.matchesPosTagRegex("V.[SI].*");
-          if (firstVerbValid) {
+          firstVerbInflected = currentTkn.matchesPosTagRegex("V.[SI].*");
+          if (firstVerbInflected) {
             firstVerbPersonaNumber = currentTkn.readingWithTagRegex("V.[SI].*").getPOSTag().substring(4, 6);
           }
           if (currentTkn.matchesPosTagRegex("V.M.*")) {
@@ -119,7 +120,7 @@ public class AdjustPronounsFilter extends RuleFilter {
       // avoid the SENT_START token
       toLeft--;
     }
-    if (!firstVerbValid) {
+    if (!firstVerbInflected) {
       return null;
     }
     StringBuilder sb = new StringBuilder();

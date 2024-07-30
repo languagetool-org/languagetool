@@ -173,6 +173,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_AGREEMENT" name="">
+            <rule>
+                <pattern>
+                    <token postag="WRB" />
+                    <token inflected="yes">do</token>
+                    <token min="1" max="3" chunk_re="[BI]-NP.*" />
+                    <marker>
+                        <token postag="VB" />
+                    </marker>
+                </pattern>
+                <example correction="">I want to understand how does permission mapping <marker>work</marker> for bind mounts of a rootless Docker container running on Windows 11 using Docker Desktop.</example>
+            </rule>
             <rule>  <!-- former/latter/etc. -->
                 <pattern>
                     <token regexp="yes" chunk="E-NP-singular">&plural_singular_nouns_2;</token>
@@ -621,6 +632,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_FORM" name="">
+            <rule>
+                <pattern>
+                    <token inflected="yes">have</token>
+                    <token min="0" max="2" postag="RB" />
+                    <marker>
+                        <token postag="VBN" chunk="I-VP" />
+                    </marker>
+                </pattern>
+                <example correction="">I feel a bit stupid because I have not <marker>thought</marker> of buying some eggs yesterday.</example>
+                <example correction="">I feel a bit stupid because I have not <marker>seen</marker> him buying some eggs yesterday.</example>
+            </rule>
             <rule>  <!-- former/latter/etc. -->
                 <pattern>
                     <token regexp="yes" chunk="E-NP-singular">&plural_singular_nouns_2;</token>
@@ -1945,6 +1967,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_HYDRA_LEO_MISSING_TO" name="">
             <rule>
                 <pattern>
+                    <token>to</token>
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token postag="VB" />
+                    </marker>
+                </pattern>
+                <example correction="">➡️To <marker>have</marker> a better view of the current state of knowledge quality, we could also create a questionnaire so we can gather information.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>send</token>
                     <token postag_regexp="yes" postag="PRP|NNP"/>
                     <marker>
@@ -1967,6 +1999,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
+            <rule>
+                <pattern>
+                    <token>neither</token>
+                    <token min="0" max="3" chunk_re="[BI]-NP.*" />
+                    <marker>
+                        <token chunk_re="E-NP.*" />
+                    </marker>
+                    <token>nor</token>
+                    <token chunk_re=".-NP.*" />
+                </pattern>
+                <example correction="">But neither <marker>deployment</marker> nor the local development flow, is containerized yet.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START|CC|PCT|TO" postag_regexp="yes" />
@@ -3124,6 +3168,33 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- ====================================================================== -->
         <!-- QuillBot Antipatterns -->
         <!-- ====================================================================== -->
+        <rulegroup id="QB_EN_MERGED_MATCH" name="">
+            <rule>
+                <pattern>
+                    <token postag="WRB" />
+                    <token inflected="yes">do</token>
+                    <token min="1" max="3" chunk_re="[BI]-NP.*" />
+                    <marker>
+                        <token postag="VB" />
+                        <token>for</token>
+                        <token chunk_re="B-NP.*" />
+                    </marker>
+                </pattern>
+                <example correction="">I want to understand how does permission mapping <marker>work for bind</marker> mounts of a rootless Docker container running on Windows 11 using Docker Desktop.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_INSERT_PERIOD_ERROR_IDS_000049" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token />
+                    </marker>
+                    <token regexp="yes">["”]</token>
+                    <token regexp="yes" postag="SENT_END">[\?\!]</token>
+                </pattern>
+                <example correction="">It turned out that Google was promoting this app every time someone searched for a “spell <marker>checker</marker>”?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN" name="">
             <rule>  <!-- curly to straight quotes - opening  pt. I -->
                 <pattern>

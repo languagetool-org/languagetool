@@ -78,7 +78,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
       AnalyzedTokenReadings atrWord;
       if (wordFrom.equals("inmarker")) {
         match.setOriginalErrorStr();
-        atrWord = new AnalyzedTokenReadings(new AnalyzedToken(match.getOriginalErrorStr().replaceAll(" ",""),
+        atrWord = new AnalyzedTokenReadings(new AnalyzedToken(preProcessWrongWord(match.getOriginalErrorStr()),
           "", ""));
       } else {
         atrWord = patternTokens[getPosition(wordFrom, patternTokens, match)];
@@ -170,11 +170,12 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
         }
       }
     }
-
-    if (diacriticsMode && replacements.size() == 0) {
+    boolean matchContainsSomeFinishedSuggestion =
+      match.getSuggestedReplacements().stream().anyMatch(k -> !k.toLowerCase().contains("{suggestion}"));
+    if (diacriticsMode && replacements.size() == 0 && !matchContainsSomeFinishedSuggestion) {
       return null;
     }
-    if (replacements.size() + replacements2.size() == 0 && bSuppressMatch) {
+    if (replacements.size() + replacements2.size() == 0 && bSuppressMatch && !matchContainsSomeFinishedSuggestion) {
       return null;
     }
     String message = match.getMessage();
@@ -274,6 +275,10 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
       }
       return d1 - d2;
     }
+  }
+
+  protected String preProcessWrongWord (String word) {
+    return word = word.replaceAll(" ","");
   }
 
 }

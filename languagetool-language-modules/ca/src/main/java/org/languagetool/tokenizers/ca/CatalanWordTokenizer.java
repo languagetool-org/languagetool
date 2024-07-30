@@ -60,8 +60,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
   //Patterns to avoid splitting words in certain special cases
   // allows correcting typographical errors in "ela geminada"
-  private static final Pattern ELA_GEMINADA = Pattern.compile("([aeiouàéèíóòúïüAEIOUÀÈÉÍÒÓÚÏÜ])l[.\u2022\u22C5\u2219\uF0D7]l([aeiouàéèíóòúïü])",Pattern.UNICODE_CASE);
-  private static final Pattern ELA_GEMINADA_UPPERCASE = Pattern.compile("([AEIOUÀÈÉÍÒÓÚÏÜ])L[.\u2022\u22C5\u2219\uF0D7]L([AEIOUÀÈÉÍÒÓÚÏÜ])",Pattern.UNICODE_CASE);
+  private static final Pattern ELA_GEMINADA = Pattern.compile("([aeiouàéèíóòúïüAEIOUÀÈÉÍÒÓÚÏÜ])l[\\.\u2022\u22C5\u2219\uF0D7]l([aeiouàéèíóòúïü])",Pattern.UNICODE_CASE);
+  private static final Pattern ELA_GEMINADA_UPPERCASE = Pattern.compile("([AEIOUÀÈÉÍÒÓÚÏÜ])L[\\.\u2022\u22C5\u2219\uF0D7]L([AEIOUÀÈÉÍÒÓÚÏÜ])",Pattern.UNICODE_CASE);
   // apostrophe 
   private static final Pattern APOSTROF_RECTE = Pattern.compile("([\\p{L}])'([\\p{L}\"‘“«])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_RODO = Pattern.compile("([\\p{L}])’([\\p{L}\"‘“«])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -208,47 +208,45 @@ public class CatalanWordTokenizer extends WordTokenizer {
    * Split apostrophe in the last char */
   private List<String> wordsToAdd(String s) {
     final List<String> l = new ArrayList<>();
-    synchronized (this) { //speller is not thread-safe
-      if (!s.isEmpty()) {
-        if (!s.contains("-") && !s.endsWith("'") && !s.endsWith("’")) {
+    if (!s.isEmpty()) {
+      if (!s.contains("-") && !s.endsWith("'") && !s.endsWith("’")) {
+        l.add(s);
+      } else {
+        // words containing hyphen (-) are looked up in the dictionary
+        if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(CURLY_SINGLE_QUOTE.matcher(SOFT_HYPHEN.matcher(s).replaceAll("")).replaceAll("'"))).get(0).isTagged()) {
           l.add(s);
+        }
+        // some camel-case words containing hyphen (is there any better fix?)
+        else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill") 
+            || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") 
+            || s.equalsIgnoreCase("ph-metre") || s.equalsIgnoreCase("ph-metres")) {
+          l.add(s);
+        }
+        // words with "ela geminada" with typo: col-legi (col·legi)
+        else if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(LL.matcher(SOFT_HYPHEN.matcher(s).replaceAll("")).replaceAll("l·l"))).get(0).isTagged()) {
+          l.add(s);
+        // apostrophe in the last char
+        } else if ((s.endsWith("'") || s.endsWith("’")) && s.length() > 1) {
+          l.addAll(wordsToAdd(s.substring(0, s.length() - 1)));
+          l.add(s.substring(s.length() - 1));
         } else {
-          // words containing hyphen (-) are looked up in the dictionary
-          if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(CURLY_SINGLE_QUOTE.matcher(SOFT_HYPHEN.matcher(s).replaceAll("")).replaceAll("'"))).get(0).isTagged()) {
-            l.add(s);
-          }
-          // some camel-case words containing hyphen (is there any better fix?)
-          else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill") 
-              || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") 
-              || s.equalsIgnoreCase("ph-metre") || s.equalsIgnoreCase("ph-metres")) {
-            l.add(s);
-          }
-          // words with "ela geminada" with typo: col-legi (col·legi)
-          else if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(LL.matcher(SOFT_HYPHEN.matcher(s).replaceAll("")).replaceAll("l·l"))).get(0).isTagged()) {
-            l.add(s);
-          // apostrophe in the last char
-          } else if ((s.endsWith("'") || s.endsWith("’")) && s.length() > 1) {
-            l.addAll(wordsToAdd(s.substring(0, s.length() - 1)));
-            l.add(s.substring(s.length() - 1));
+          Matcher matcher = HYPHEN_L.matcher(s);
+          if (matcher.matches()) {
+            for (int i = 1; i <= matcher.groupCount(); i++) {
+              String groupStr = matcher.group(i);
+              l.addAll(wordsToAdd(groupStr));
+            }
           } else {
-            Matcher matcher = HYPHEN_L.matcher(s);
-            if (matcher.matches()) {
-              for (int i = 1; i <= matcher.groupCount(); i++) {
-                String groupStr = matcher.group(i);
-                l.addAll(wordsToAdd(groupStr));
-              }
-            } else {
-              // if not found, the word is split
-              final StringTokenizer st2 = new StringTokenizer(s, "-", true);
-              while (st2.hasMoreElements()) {
-                l.add(st2.nextToken());
-              }
+            // if not found, the word is split
+            final StringTokenizer st2 = new StringTokenizer(s, "-", true);
+            while (st2.hasMoreElements()) {
+              l.add(st2.nextToken());
             }
           }
         }
       }
-      return l;
     }
+    return l;
   }
 
 }

@@ -296,6 +296,17 @@ regexp case-insensitive maken: (?i)
 					<example>Het Macromedia Flash-SWF-bestandsformaat.</example>
 				</antipattern>
 				<antipattern>
+				    <token>het</token>
+				    <token>jaren</token>
+				    <example>Het jaren 40 boek.</example>
+				</antipattern>
+				<antipattern>
+				    <token>het</token>
+				    <token postag="ZNW:MRV:DE_"/>
+				    <token postag="WKW:ODW:VRB"/>
+				    <example>Het miljoenen kostende project.</example>
+				</antipattern>
+				<antipattern>
 				    <!-- let another rule pick this up -->
 					<token>het</token>
 					<token postag="ZNW:MRV:DE_"/>
@@ -309,6 +320,12 @@ regexp case-insensitive maken: (?i)
 				    <token spacebefore="no" postag_regexp="yes" postag="ZNW.*"/>
 				    <example>Het gaming/cosplayevenement.</example>
 				</antipattern>
+				<antipattern>
+				    <token>het</token>
+				    <token postag="ZNW:MRV:DE_"/>
+				    <token>van</token>
+				    <example>Het voorschrijven van geneesmiddelen.</example>
+				</antipattern>
 				<pattern>
 					<token postag="SENT_START"/>
 					<marker>
@@ -321,7 +338,7 @@ regexp case-insensitive maken: (?i)
 				<example correction="De resultaten"><marker>Het resultaten</marker> waren niet goed.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="VAAN_VAN" name="Een taakstraf vaan(van) zeshonderd uur." default="temp_off">
+		<rulegroup id="VAAN_VAN" name="Een taakstraf vaan(van) zeshonderd uur.">
 			<rule>
 				<pattern>
 					<token>een</token>
@@ -761,6 +778,20 @@ regexp case-insensitive maken: (?i)
 				<example correction="gemeentehuizen">Hoeveel <marker>gemeentehuize</marker> heb je gevonden?</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="DIE_MENEN_MENSEN" name="ontbrekende letter">
+			<rule>
+				<pattern>
+					<token postag_regexp="yes" postag="WKW.*INF"/>
+					<token regexp="yes">die|de</token>
+					<marker>
+						<token>menen</token>
+					</marker>
+					<token><exception>dat</exception></token>
+				</pattern>
+				<message>U bedoelt vast <suggestion>mensen</suggestion>.</message>
+				<example correction="mensen">Daardoor zitten die <marker>menen</marker> met een trauma.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="TYPE_MEERVOUD" name="Alle type(typen) mensen.">
 			<rule>
 				<pattern>
@@ -817,6 +848,32 @@ regexp case-insensitive maken: (?i)
 				</pattern>
 				<message>U bedoelt vast: <suggestion>rijd</suggestion>.</message>
 				<example correction="rijd">Dus als ik 100 <marker>rijdt</marker> ben ik er eerder?</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="WORDT_OMHULT" name="DT-correctie na wordt">
+			<rule>
+				<antipattern>
+					<token skip="2">wordt</token>
+					<token skip="1" postag="WKW:VTD.*" postag_regexp="yes"></token>
+					<token postag="WKW:TGW:3EP" regexp="yes">&VTD_3EP_VERWAR_T_D;t</token>
+					<example>Hoe universitaire autonomie wordt gedefinieerd verschilt per land.</example>
+				</antipattern>
+				<antipattern>
+					<token postag="BNW:STL:ONV"/>
+					<token>wordt</token>
+					<token postag="WKW:TGW:3EP" regexp="yes">&VTD_3EP_VERWAR_T_D;t</token>
+					<example>De leeftijd waarop de blauwvintonijn geslachtsrijp wordt verschilt per populatie.</example>
+				</antipattern>
+				<pattern>
+					<token><exception postag="WKW:VTD.*" postag_regexp="yes"/></token>
+					<token skip="3">wordt</token>
+					<marker>
+						<token postag="WKW:TGW:3EP" regexp="yes">&VTD_3EP_VERWAR_T_D;t</token>
+					</marker>
+					<token postag="VRZ"></token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion><match no="3" postag="WKW:VTD:ONV"/></suggestion>.</message>
+				<example correction="omhuld">Dat wordt dan altijd <marker>omhult</marker> met andere zaken.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="DT_CORRECTIES" name="verkeerde woordvormen">
@@ -963,7 +1020,7 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="OVER_VAN" name="Wat vind jij over(van) dat boek?" default="temp_off">
+		<rulegroup id="OVER_VAN" name="Wat vind jij over(van) dat boek?">
 			<rule>
 				<pattern>
 					<token>wat</token>
@@ -2983,6 +3040,21 @@ regexp case-insensitive maken: (?i)
 				</pattern>
 				<message>U bedoelt vast: <suggestion>rond</suggestion>. Rondt is een vorm van het werkwoord 'ronden' (bocht om gaan) of 'afronden'.</message>
 				<example correction="rond">Hij loopt maar wat <marker>rondt</marker> het gebouw.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="MOIE_MOOIE" name="Moie vrouw, zeg!">
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token case_sensitive="yes">Moie</token>
+					</marker>
+					<token postag_regexp="yes" postag="ZNW.*|BNW.*"/>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>Mooie</suggestion></message>
+				<example correction="Mooie"><marker>Moie</marker> nieuwe schoenen.</example>
+				<example><marker>Moie</marker> is een plaats in de Italiaanse gemeente Maiolati Spontini.</example>
 			</rule>
 		</rulegroup>
 
@@ -24846,6 +24918,19 @@ regexp case-insensitive maken: (?i)
 				<message>U bedoelt vast: <suggestion><match no="1" regexp_match="mand" regexp_replace="maand"/> geldig</suggestion>.</message>
 				<example correction="maand geldig">De offerte is een <marker>mand geldig</marker>.</example>
 				<example>De aanbieding is een <marker>maand geldig</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="ONDER_EEN_LAAG_BEDEKT" name="onder(met) een laag sneeuw bedekt">
+			<rule>
+				<pattern>
+					<marker>
+						<token>onder</token>
+					</marker>
+					<token skip="2">een</token>
+					<token>bedekt</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>met</suggestion>.</message>
+				<example correction="met">Het werd <marker>onder</marker> een laag aarde bedekt.</example>
 			</rule>
 		</rulegroup>
 	</category>

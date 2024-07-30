@@ -91,6 +91,8 @@ public class SwissGerman extends German {
 
   @Override
   public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+    //First, use the filter in German.java
+    ruleMatches = super.filterRuleMatches(ruleMatches, text, enabledRules);
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
       //TODO: replace this by supporting remote-rule-filter for language variants

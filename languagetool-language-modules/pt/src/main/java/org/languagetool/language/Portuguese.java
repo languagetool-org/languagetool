@@ -153,7 +153,8 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseUnitConversionRule(messages),
             new PortugueseReadabilityRule(messages, this, userConfig, true),
             new PortugueseReadabilityRule(messages, this, userConfig, false),
-            new DoublePunctuationRule(messages)
+            new DoublePunctuationRule(messages),
+            new EnglishContractionSpellingRule(messages, this)
     );
   }
 
@@ -255,6 +256,7 @@ public class Portuguese extends Language implements AutoCloseable {
     id2prio.put("AUX_VERBO", -45);
     id2prio.put("ENSINO_A_DISTANCIA", -45);
     id2prio.put("OQ_O_QUE_ORTHOGRAPHY", -45);
+    id2prio.put("PT_ENGLISH_CONTRACTION_ORTHOGRAPHY", -45);
     id2prio.put("EMAIL_SEM_HIFEN", -45); // HIGHER THAN SPELLER
     // MORFOLOGIK SPELLER FITS HERE AT -50 ---------------------  // SPELLER (-50)
     id2prio.put("PRETERITO_PERFEITO", -51);  // LOWER THAN SPELLER

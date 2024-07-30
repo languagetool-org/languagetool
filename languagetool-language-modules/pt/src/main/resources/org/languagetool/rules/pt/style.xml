@@ -8672,15 +8672,7 @@ USA
         </rule>
 
 
-        <rulegroup id='BÁSICO_ELEMENTAR' name="[Universitário][Científico] Básico → Elementar" tone_tags="academic" is_goal_specific="true" default="temp_off">
-            <!--
-                TO-DO:
-                1. Look at the next diff results and add the words to the 2nd subrule;
-                2. Replace the "min" & "max" with "skip" like in the "furto de identidade" rule;
-                3. Replace the exception with the words from subrule 2 and check my PhD thesis for more words.
-                : It will provide less results, but they will be more accurate.
-            -->
-
+        <rule id='BÁSICO_ELEMENTAR' name="[Universitário][Científico] Básico → Elementar" tone_tags="academic" is_goal_specific="true" default="temp_off">
             <antipattern>
                 <token regexp='yes'>unidades?</token>
                 <token regexp='yes'>básicas?</token>
@@ -8689,26 +8681,45 @@ USA
                 <example>IND-0295/2018 Indica a reforma completa da UBS (Unidade Básica de Saúde) da Vila Cretti.</example>
                 <example>Existem na cidade Unidades Básicas de Saúde e Unidade de Serviço de Apoio de Diagnose e Terapia.</example>
             </antipattern>
-
-            <rule>
-                <pattern>
-                    <!-- Triggering (good) words below. Add more as found -->
-                    <token regexp='yes' inflected='yes'>abordagem|adição|algo|algoritmo|aritmética|aspec?to|cálculo|catástrofe|coisa|componente|comportamento|compreensão|conceito|conhecimento|conjunto|constituinte|diferença|disciplina|divisão|elemento|equação|erro|expressão|fac?to|ferramenta|forma|fórmula|função|fundamento|informação|interpretação|medida|método|métrica|motivo|multiplicação|noção|norma|obra|operação|palavra|prevenção|produto|questão|razão|regra|subtração|subunidade|suporte|técnica|tipo|unidade|valor|versão</token>
-                    <token min='0' max='2' postag='Z0.+|RM|RG|NC.+|AQ.+' postag_regexp='yes'>
-                        <exception regexp='yes'>básic[ao]s?</exception>
+            <pattern>
+                <!-- Triggering (good) words below. Add more as found -->
+                <token skip='4' regexp='yes' inflected='yes'>abordagem|adição|algo|algoritmo|aritmética|aspec?to|biologia|cálculo|catástrofe|coisa|componente|comportamento|compreensão|conceito|conhecimento|conjunto|constituinte|diferença|disciplina|divisão|elemento|equação|erro|expressão|fac?to|ferramenta|física|forma|fórmula|função|fundamento|informação|interpretação|matemática|medida|método|métrica|motivo|multiplicação|noção|norma|obra|operação|palavra|prevenção|produto|questão|química|razão|regra|subtração|subunidade|suporte|técnica|tipo|unidade|valor|versão</token>
+                <marker>
+                    <token regexp='yes'>básic[ao]s?
+                        <exception scope='previous' inflected='yes' regexp="yes">a:o|necessidade|princípio|saneamento</exception>
                     </token>
-                    <marker>
-                        <token regexp='yes'>básic[ao]s?</token>
-                    </marker>
-                </pattern>
-                <message>Num contexto formal/científico, é preferível escrever &quot;elementar&quot;.</message>
-                <suggestion><match no='3' postag='AQ0.(.)0' postag_replace='AQ0C$10'>elementar</match></suggestion>
-                <example correction="elementar">O Ana tem uma noção <marker>básica</marker> do assunto.</example>
-                <example correction="elementares">O Rui possui conhecimentos <marker>básicos</marker> de informática.</example>
-                <example correction="elementar">Esta é a forma mais <marker>básica</marker> do conhecimento.</example>
-                <example correction="elementares">Os bits são as unidades mais <marker>básicas</marker> dos dados.</example>
-            </rule>
-        </rulegroup>
+                </marker>
+            </pattern>
+            <message>Num contexto formal/científico, é preferível escrever &quot;elementar&quot;.</message>
+            <suggestion><match no='2' postag='AQ0.(.)0' postag_replace='AQ0C$10'>elementar</match></suggestion>
+            <example correction="elementar">O Ana tem uma noção <marker>básica</marker> do assunto.</example>
+            <example correction="elementares">O Rui possui conhecimentos <marker>básicos</marker> de informática.</example>
+            <example correction="elementar">Esta é a forma mais <marker>básica</marker> do conhecimento.</example>
+            <example correction="elementares">Os bits são as unidades mais <marker>básicas</marker> dos dados.</example>
+            <example>Newton também deu andamento a obras de saneamento básico no Jequitinhonha.</example>
+            <example>Assim despertando a criatividade e a compreensão das necessidades básicas para o desenvolvimento de jogos.</example>
+            <example>A partir desses valores, possui como princípios básicos: "feedback" rápido e presumir simplicidade.</example>
+            <example>Para mim não chegam as palavras despojadas e reduzidas ao básico: os taninos, os citrinos.</example>
+        </rule>
+
+
+        <rule id='MUITO_BASTANTE_EXTENSIVAMENTE' name="[Universitário][Científico] Muito/bastante/enormemente → Extensivamente/amplamente" tone_tags="academic" is_goal_specific="true" tags="picky" default="temp_off">
+            <pattern>
+                <token inflected='yes' regexp='yes'>ter|ser</token>
+                <token min='0' regexp='yes'>sido|es[st][ae]s?|aquel[ae]s?</token>
+                <marker>
+                    <token regexp='yes'>muito|bastante|enormemente</token>
+                </marker>
+                <token regexp='yes'>analisad[ao]s?|aplicad[ao]s?|debatid[ao]s?|desenvolvid[ao]s?|discutid[ao]s?|documentad[ao]s?|empregad[ao]s?|empregues?|estudad[ao]s?|examinad[ao]s?|explorad[ao]s?|investigad[ao]s?|pesquisad[ao]s?|refinad[ao]s?|testad[ao]s?|usad[ao]s?|utilizad[ao]s?</token> <!-- Add more words as found -->
+            </pattern>
+            <message>Num contexto formal/científico, é preferível escrever &quot;extensivamente&quot; ou &quot;amplamente&quot;.</message>
+            <suggestion>extensivamente</suggestion>
+            <suggestion>amplamente</suggestion>
+            <example correction="extensivamente|amplamente">A fórmula tem sido <marker>bastante</marker> analisada pelos matemáticos.</example>
+            <example correction="extensivamente|amplamente">As equações têm sido <marker>muito</marker> estudadas por cientistas.</example>
+            <example correction="extensivamente|amplamente">As equações têm sido <marker>enormemente</marker> estudadas.</example>
+            <example correction="extensivamente|amplamente">O termo é <marker>enormemente</marker> aplicado em contextos académicos.</example>
+        </rule>
 
 
        <rulegroup id='DAR_EXEMPLO_EXEMPLIFICAR' name="Simplificar: 'Dar exemplo' → exemplificar" tone_tags="academic" is_goal_specific="true">
@@ -15451,6 +15462,17 @@ USA
       Eu acho que é perigoso subir aquela montanha sozinho. → Eu acho ser perigoso subir aquela montanha sozinho.
       -->
             <antipattern>
+                <token>que</token>
+                <token>é</token>
+                <token postag='VMSF3.+|VMN0000' postag_regexp='yes'/>
+                <example>Agora faço o que mais gosto, que é usar o meu conhecimento nos projetos open-source.</example>
+                <example>Desse critério tão subjetivo (e maluco) que é classificar filmes.</example>
+                <example>Desse critério tão subjetivo (e maluco) que é classificar filmes.</example>
+                <example>Além disso, tenho uma outra sugestão, que é trocar o suco de limão por vinagre (maçã ou de vinho tinto).</example>
+                <example>Apenas continuam o que já fazem normalmente, que é botar ovos.</example>
+                <example>Não estou de marcação com ninguém. Apenas cumpro o meu trabalho, que é supervisioná-los.</example>
+            </antipattern>
+            <antipattern>
                 <token>sem</token>
                 <token>contar</token>
                 <token>que</token>
@@ -16207,24 +16229,6 @@ USA
             <example correction="designam-se">E <marker>passam a designar-se</marker> por The Meteors.</example>
             <example correction="sentir-me-ei">E <marker>passarei a sentir-me</marker> estrangeiro no meu próprio país.</example>
         </rule>
-
-
-        <rule id='VERBO_SER_ÚTIL_PARA_SERVIR_PARA' name="[Simplificar] V.Ser útil para → V.Servir para" type="style">
-            <pattern>
-                <marker>
-                    <token inflected='yes'>ser</token>
-                    <token>útil</token>
-                </marker>
-                <token min="0" max="1" postag='RM' postag_regexp='no'/>
-                <token>para</token>
-                <token postag='V.+' postag_regexp='yes'/>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>servir</match></suggestion>
-            <example correction="serviu">Esta equação <marker>foi útil</marker> para ajudar a população.</example>
-            <example correction="serviu">Esta equação <marker>foi útil</marker> nomeadamente para ajudar a população.</example>
-        </rule>
-
 
         <rule id='TER_SIDO_PART_PASSADO_VERBO' name="[Simplificar] V.Ter + sido + V.Part.Pass. → V." type="style" tags='picky'>
             <antipattern>
@@ -19296,40 +19300,26 @@ USA
             <example>Estou determinado a realizar este plano.</example>
         </rule>
 
-        <!-- QUE TER COMO/POR NOME/ADJETIVO cujo(a) Nome/Adjetivo ser -->
-        <rulegroup id='QUE_TER_COMO_POR_NOME_ADJ' name="cujo(a) + Nome/Adjetivo + Ser">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-19 (Enhanced) (17-MAR-2021+)      -->
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>que</token>
-                        <token postag='VM[IS][IPFSCM]3S0' postag_regexp='yes' inflected='yes'>ter</token>
-                        <token regexp='yes'>como|por</token>
-                        <token postag='AQ0MS0|NCMS000' postag_regexp='yes'/>
-                    </marker>
-                    <token postag='VMN0000'/>
-                </pattern>
-                <message>Com o pronome ‘cujo’, o seu texto poderia ficar mais claro e elegante.</message>
-                <suggestion>cujo \4 <match no='2' postag="VM[IS][IPFSCM]3S0" postag_regexp="yes">ser</match></suggestion>
-                <example correction="cujo objetivo é">Assim surgiu o Estado Islâmico <marker>que tem como objetivo</marker> criar um califado mundial.</example>
-                <example correction="cujo objetivo era">Assim surgiu o Estado Islâmico <marker>que tinha como objetivo</marker> criar um califado mundial.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>que</token>
-                        <token postag='VM[IS][IPFSCM]3S0' postag_regexp='yes' inflected='yes'>ter</token>
-                        <token regexp='yes'>como|por</token>
-                        <token postag='AQ0FS0|NCFS000' postag_regexp='yes'/>
-                    </marker>
-                    <token postag='VMN0000'/>
-                </pattern>
-                <message>Com o pronome ‘cuja’, o seu texto poderia ficar mais claro e elegante.</message>
-                <suggestion>cuja \4 <match no='2' postag="VM[IS][IPFSCM]3S0" postag_regexp="yes">ser</match></suggestion>
-                <example correction="cuja meta é">Assim surgiu o Estado Islâmico <marker>que tem como meta</marker> criar um califado mundial.</example>
-                <example correction="cuja meta era">Assim surgiu o Estado Islâmico <marker>que tinha como meta</marker> criar um califado mundial.</example>
-            </rule>
-        </rulegroup>
+
+        <rule id='QUE_TER_COMO_POR_NOME_ADJ' name="cujo(a) + substantivo + verbo ser" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>que</token>
+                    <token postag='VM..3.0' postag_regexp='yes' inflected='yes'>ter</token>
+                    <token regexp='yes'>como|por</token>
+                    <token postag='NC[^C].+' postag_regexp='yes'/>
+                </marker>
+                <token postag='VMN0000'/>
+            </pattern>
+            <message>Com o pronome relativo &quot;cujo&quot;, o seu texto poderia ficar mais claro e elegante.</message>
+            <suggestion><match no='4' postag='NC(..)000' postag_replace='PR0$1000'>cujo</match> \4 <match no='2' postag='V(...)3(.)0' postag_replace='V$13S0'>ser</match></suggestion>
+            <example correction="cuja meta é">Assim surgiu o ISIS <marker>que tem como meta</marker> criar um califado.</example>
+            <example correction="cuja meta era">Assim surgiu o ISIS <marker>que tinha como meta</marker> criar um califado.</example>
+            <example correction="cujo objetivo é">Assim surgiu o ISIS <marker>que tem como objetivo</marker> criar um califado.</example>
+            <example correction="cujo objetivo era">Assim surgiu o ISI <marker>que tinha como objetivo</marker> criar um califado.</example>
+        </rule>
+
+
     </category>
     <category id="INFORMAL" name="Linguagem informal" type="style" tone_tags="informal">
         <rulegroup id='ARCHAISMS' name='1. Arcaísmos (Palavras que caíram em desuso)' default='off' tone_tags="informal">

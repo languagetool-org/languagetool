@@ -61,7 +61,7 @@ public class UserConfig {
   private final List<String> abTest;
   private final String preferredLanguages;
   @Getter
-  private boolean untrustedSource;
+  private boolean trustedSource;
 
   public UserConfig() {
     this(new ArrayList<>(), new HashMap<>());
@@ -109,7 +109,7 @@ public class UserConfig {
                     LinguServices linguServices, boolean filterDictionaryMatches,
                     @Nullable List<String> abTest, @Nullable Long textSessionId,
                     boolean hidePremiumMatches, List<String> preferredLanguages,
-                    boolean untrustedSource) {
+                    boolean trustedSource) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     this.userSpecificRules = Objects.requireNonNull(userSpecificRules);
     for (Map.Entry<String, Object[]> entry : ruleValues.entrySet()) {
@@ -126,7 +126,7 @@ public class UserConfig {
     this.hidePremiumMatches = hidePremiumMatches;
     this.acceptedPhrases = buildAcceptedPhrases();
     this.preferredLanguages = removeAllButMainLanguagesAndSort(preferredLanguages);
-    this.untrustedSource = untrustedSource;
+    this.trustedSource = trustedSource;
   }
 
   private String removeAllButMainLanguagesAndSort(List<String> preferredLanguages) {
@@ -245,7 +245,7 @@ public class UserConfig {
       .append(abTest, other.abTest)
       .append(hidePremiumMatches, other.hidePremiumMatches)
       .append(preferredLanguages, other.preferredLanguages)
-      .append(untrustedSource, other.untrustedSource)
+      .append(trustedSource, other.trustedSource)
       .isEquals();
   }
 
@@ -264,7 +264,7 @@ public class UserConfig {
       .append(filterDictionaryMatches)
       .append(hidePremiumMatches)
       .append(preferredLanguages)
-      .append(untrustedSource)
+      .append(trustedSource)
       .toHashCode();
   }
 

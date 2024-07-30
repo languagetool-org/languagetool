@@ -9211,7 +9211,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>mí</token>
                     </marker>
-                    <token postag="NC.S000|A...S." postag_regexp="yes"><exception inflected="yes" regexp="yes">mismo|solo|solito</exception></token>
+                    <token postag="NC.S000|A...S." postag_regexp="yes"><exception inflected="yes" regexp="yes">mismo|solo|solito</exception><exception>toca</exception></token>
                 </pattern>
                 <message>Si es un posesivo o un nombre, se escribe sin tilde. Puede que falte una coma. Es correcto como pronombre.</message>
                 <suggestion>mi</suggestion>
@@ -9228,6 +9228,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Eso hizo despertar en mí otro tipo de ambiciones.</example>
                 <example>¿Podrías hacerlo por mí otra vez? </example>
                 <example>¿Lo harás tú solito?</example>
+                <example>Por lo que a mí toca, esto es imposible.</example>
                 <!-- ambiguous: -->
                 <example>Por mí bien.</example>
                 <!-- ambiguous: que de vuestros llagas descienda sobre mí fuerza y vigor
@@ -15997,6 +15998,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">\p{P}</token>
                     <token>halla</token>
                 </antipattern>
                 <pattern>
@@ -16014,6 +16016,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">\p{P}</token>
                     <marker>
                         <token>halla</token>
                     </marker>
@@ -16026,7 +16029,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">\p{P}</token>
                     <token>hallan</token>
+                    <example>«Hallan muerto a reo que cumplía condena por robo.»</example>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -19558,74 +19563,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="se te">¡Como te agarre, <marker>te se</marker> cae el pelo!</example>
             <example>Lo agarraron y se le cayó el pelo.</example>
         </rule>
-        <rulegroup id="MAS_BUENO_MALO" name="más + bueno/malo (mejor/peor)" tags="picky">
-            <antipattern>
-                <token>más</token>
-                <token inflected="yes" regexp="yes">bueno|malo</token>
-                <token>!</token>
-            </antipattern>
-            <antipattern>
-                <token>más</token>
-                <token regexp="yes">buen[oa]s?</token>
-                <token>que</token>
-                <token>el</token>
-                <token>pan</token>
-                <example>Madre mía, ¡está más bueno que el pan!</example>
-            </antipattern>
-            <antipattern>
-                <token>más</token>
-                <token regexp="yes">buen[oa]s?</token>
-                <token regexp="yes">,|y|e|que</token>
-                <token min="0">más</token>
-                <token postag="AQ.*" postag_regexp="yes"/>
-                <example>Es el monstruo más bueno y adorable que conozco.</example>
-                <example>Es el monstruo más bueno, más adorable que conozco.</example>
-                <example>Es más bueno que sabio.</example>
-            </antipattern>
-            <antipattern>
-                <token postag="AQ.*" postag_regexp="yes"/>
-                <token regexp="yes">,|y</token>
-                <token>más</token>
-                <token regexp="yes">buen[oa]s?</token>
-                <example>Es la chica más amable y más buena del mundo.</example>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">mal[oa]s?</token>
-                <token>más</token>
-                <token regexp="yes">buen[oa]s?</token>
-                <example>El malo más bueno.</example>
-            </antipattern>
-            <antipattern>
-                <token skip="-1" regexp="yes">buen[oa]s?</token>
-                <token>que</token>
-                <token regexp="yes">mal[oa]s?</token>
-                <example>Obtuvo más buenos resultados que malos.</example>
-            </antipattern>
-            <!--MAS_BUENA más buena = mejor-->
-            <rule id="MAS_BUENA">
-                <pattern>
-                    <token>más</token>
-                    <token inflected="yes" postag="AQ.*" postag_regexp="yes">bueno</token>
-                </pattern>
-                <message>Es preferible usar <suggestion><match no="2" postag="AQ.{2}(.)." postag_replace="AQ0C$10">mejor</match></suggestion>, excepto cuando se alude a la bondad de una persona o a un sabor.</message>
-                <url>https://www.rae.es/dpd/buena</url>
-                <example correction="mejor">Este pan está <marker>más bueno</marker> que el otro</example>
-                <example>Cuando una solución es la más simple es mejor que cualquier otra.</example>
-                <example>¡Qué cosa más buena!</example>
-            </rule>
-            <!--MAS_MALA más mala = peor-->
-            <rule id="MAS_MALA">
-                <pattern>
-                    <token>más</token>
-                    <token inflected="yes" postag="AQ.*" postag_regexp="yes">malo</token>
-                </pattern>
-                <message>Es preferible usar <suggestion><match no="2" postag="AQ.{2}(.)." postag_replace="AQ0C$10">peor</match></suggestion>, excepto cuando se alude a la maldad de una persona o a un sabor.</message>
-                <url>https://www.rae.es/dpd/mala</url>
-                <example correction="peor">Este pan está <marker>más malo</marker> que el otro</example>
-                <example>Cuando una solución es la más complicada es peor que cualquier otra.</example>
-                <example>¡Qué cosa más mala!</example>
-            </rule>
-        </rulegroup>
         <rule id="GROSSO_MODO" name="a grosso modo → grosso modo">
             <pattern>
                 <token postag="SP.*" postag_regexp="yes"/>
@@ -29576,7 +29513,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>te<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
+                    <token>te<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">tomar|beber|preparar|servir|calentar</exception></token>
                     <token/>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.[SI].*"/>

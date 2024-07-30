@@ -59,7 +59,7 @@ public class Configuration {
   public final static short UNDERLINE_BOLDWAVE = 18;
   public final static short UNDERLINE_BOLD = 12;
   public final static short UNDERLINE_DASH = 5;
-
+  
   static final int DEFAULT_SERVER_PORT = 8081;  // should be HTTPServerConfig.DEFAULT_PORT but we don't have that dependency
   static final int DEFAULT_NUM_CHECK_PARAS = -1;  //  default number of parameters to be checked by TextLevelRules in LO/OO 
   static final int FONT_STYLE_INVALID = -1;
@@ -80,6 +80,13 @@ public class Configuration {
   static final boolean DEFAULT_ENABLE_GOAL_SPECIFIC_RULES = false;
   static final boolean DEFAULT_FILTER_OVERLAPPING_MATCHES = true;
   static final boolean DEFAULT_SAVE_LO_CACHE = true;
+  static final boolean DEFAULT_USE_AI_SUPPORT = false;
+  static final boolean DEFAULT_AI_AUTO_CORRECT = false;
+  static final boolean DEFAULT_AI_SHOW_STYLISTIC_CHANGES = false;
+  
+  static final String DEFAULT_AI_MODEL = "gpt-4";
+  static final String DEFAULT_AI_URL = "http://localhost:8080/v1/chat/completions/";
+  static final String DEFAULT_AI_APIKEY = "1234567";
 
   static final Color STYLE_COLOR = new Color(0, 175, 0);
 
@@ -137,6 +144,12 @@ public class Configuration {
   private static final String FILTER_OVERLAPPING_MATCHES_KEY = "filterOverlappingMatches";
   private static final String SAVE_LO_CACHE_KEY = "saveLoCache";
   private static final String LT_VERSION_KEY = "ltVersion";
+  private static final String AI_URL_KEY = "aiUrl";
+  private static final String AI_APIKEY_KEY = "aiApiKey";
+  private static final String AI_MODEL_KEY = "aiModel";
+  private static final String AI_USE_AI_SUPPORT_KEY = "useAiSupport";
+  private static final String AI_AUTO_CORRECT_KEY = "aiAutoCorrect";
+  private static final String AI_SHOW_STYLISTIC_CHANGES_KEY = "aiShowStylisticChanges";
 
   private static final String DELIMITER = ",";
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
@@ -218,6 +231,12 @@ public class Configuration {
   private boolean switchOff = false;
   private boolean isOffice = false;
   private boolean isOpenOffice = false;
+  private String aiUrl = DEFAULT_AI_URL;
+  private String aiApiKey = DEFAULT_AI_APIKEY;
+  private String aiModel = DEFAULT_AI_MODEL;
+  private boolean useAiSupport = DEFAULT_USE_AI_SUPPORT;
+  private boolean aiAutoCorrect = DEFAULT_AI_AUTO_CORRECT;
+  private boolean aiShowStylisticChanges = DEFAULT_AI_SHOW_STYLISTIC_CHANGES;
   
   /**
    * Uses the configuration file from the default location.
@@ -301,6 +320,12 @@ public class Configuration {
     enableGoalSpecificRules = DEFAULT_ENABLE_GOAL_SPECIFIC_RULES;
     filterOverlappingMatches = DEFAULT_FILTER_OVERLAPPING_MATCHES;
     saveLoCache = DEFAULT_SAVE_LO_CACHE;
+    aiUrl = DEFAULT_AI_URL;
+    aiApiKey = DEFAULT_AI_APIKEY;
+    aiModel = DEFAULT_AI_MODEL;
+    useAiSupport = DEFAULT_USE_AI_SUPPORT;
+    aiAutoCorrect = DEFAULT_AI_AUTO_CORRECT;
+    aiShowStylisticChanges = DEFAULT_AI_SHOW_STYLISTIC_CHANGES;
     externalRuleDirectory = null;
     lookAndFeelName = null;
     currentProfile = null;
@@ -368,6 +393,12 @@ public class Configuration {
     this.isOffice = configuration.isOffice;
     this.isOpenOffice = configuration.isOpenOffice;
     this.ltVersion = configuration.ltVersion;
+    this.aiUrl = configuration.aiUrl;
+    this.aiApiKey = configuration.aiApiKey;
+    this.aiModel = configuration.aiModel;
+    this.useAiSupport = configuration.useAiSupport;
+    this.aiAutoCorrect = configuration.aiAutoCorrect;
+    this.aiShowStylisticChanges = configuration.aiShowStylisticChanges;
     
     this.disabledRuleIds.clear();
     this.disabledRuleIds.addAll(configuration.disabledRuleIds);
@@ -567,6 +598,54 @@ public class Configuration {
 
   public void setRemoteApiKey(String remoteApiKey) {
     this.remoteApiKey = remoteApiKey;
+  }
+
+  public String aiUrl() {
+    return aiUrl;
+  }
+
+  public void setAiUrl(String aiUrl) {
+    this.aiUrl = aiUrl;
+  }
+
+  public String aiModel() {
+    return aiModel;
+  }
+
+  public void setAiModel(String aiModel) {
+    this.aiModel = aiModel;
+  }
+
+  public String aiApiKey() {
+    return aiApiKey;
+  }
+
+  public void setAiApiKey(String aiApiKey) {
+    this.aiApiKey = aiApiKey;
+  }
+
+  public boolean useAiSupport() {
+    return useAiSupport;
+  }
+
+  public void setUseAiSupport(boolean useAiSupport) {
+    this.useAiSupport = useAiSupport;
+  }
+
+  public boolean aiAutoCorrect() {
+    return aiAutoCorrect;
+  }
+
+  public void setAiAutoCorrect(boolean aiAutoCorrect) {
+    this.aiAutoCorrect = aiAutoCorrect;
+  }
+
+  public boolean aiShowStylisticChanges() {
+    return aiShowStylisticChanges;
+  }
+
+  public void setAiShowStylisticChanges(boolean aiShowStylisticChanges) {
+    this.aiShowStylisticChanges = aiShowStylisticChanges;
   }
 
   public String getRemoteApiKey() {
@@ -1200,6 +1279,13 @@ public class Configuration {
     return true;
   }
 
+  public boolean isValidAiServerUrl(String url) {
+    if (!Pattern.matches("https?://.+(:\\d+)?.*", url)) {
+      return false;
+    }
+    return true;
+  }
+
   private void loadConfiguration() throws IOException {
     loadConfiguration(null);
   }
@@ -1425,6 +1511,37 @@ public class Configuration {
     if (saveLoCacheString != null) {
       saveLoCache = Boolean.parseBoolean(saveLoCacheString);
     }
+    
+    String aiString = (String) props.get(prefix + AI_URL_KEY);
+    if (aiString != null) {
+      aiUrl = aiString;
+    }
+    
+    aiString = (String) props.get(prefix + AI_MODEL_KEY);
+    if (aiString != null) {
+      aiModel = aiString;
+    }
+    
+    aiString = (String) props.get(prefix + AI_APIKEY_KEY);
+    if (aiString != null) {
+      aiApiKey = aiString;
+    }
+    
+    aiString = (String) props.get(prefix + AI_USE_AI_SUPPORT_KEY);
+    if (aiString != null) {
+      useAiSupport = Boolean.parseBoolean(aiString);
+    }
+    
+    aiString = (String) props.get(prefix + AI_AUTO_CORRECT_KEY);
+    if (aiString != null) {
+      aiAutoCorrect = Boolean.parseBoolean(aiString);
+    }
+    
+    aiString = (String) props.get(prefix + AI_SHOW_STYLISTIC_CHANGES_KEY);
+    if (aiString != null) {
+      aiShowStylisticChanges = Boolean.parseBoolean(aiString);
+    }
+    
     
     String rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier);
     if (rulesValuesString == null) {
@@ -1659,6 +1776,12 @@ public class Configuration {
     allProfileKeys.add(ENABLE_GOAL_SPECIFIC_RULES_KEY);
     allProfileKeys.add(FILTER_OVERLAPPING_MATCHES_KEY);
     allProfileKeys.add(SAVE_LO_CACHE_KEY);
+    allProfileKeys.add(AI_URL_KEY);
+    allProfileKeys.add(AI_APIKEY_KEY);
+    allProfileKeys.add(AI_MODEL_KEY);
+    allProfileKeys.add(AI_USE_AI_SUPPORT_KEY);
+    allProfileKeys.add(AI_AUTO_CORRECT_KEY);
+    allProfileKeys.add(AI_SHOW_STYLISTIC_CHANGES_KEY);
 
     allProfileLangKeys.add(DISABLED_RULES_KEY);
     allProfileLangKeys.add(ENABLED_RULES_KEY);
@@ -1789,6 +1912,24 @@ public class Configuration {
     }
     if (remoteApiKey != null) {
       props.setProperty(prefix + REMOTE_APIKEY_KEY, remoteApiKey);
+    }
+    if (aiUrl != null) {
+      props.setProperty(prefix + AI_URL_KEY, aiUrl);
+    }
+    if (aiModel != null) {
+      props.setProperty(prefix + AI_MODEL_KEY, aiModel);
+    }
+    if (aiApiKey != null) {
+      props.setProperty(prefix + AI_APIKEY_KEY, aiApiKey);
+    }
+    if (useAiSupport != DEFAULT_USE_AI_SUPPORT) {
+      props.setProperty(prefix + AI_USE_AI_SUPPORT_KEY, Boolean.toString(useAiSupport));
+    }
+    if (aiAutoCorrect != DEFAULT_AI_AUTO_CORRECT) {
+      props.setProperty(prefix + AI_AUTO_CORRECT_KEY, Boolean.toString(aiAutoCorrect));
+    }
+    if (this.aiShowStylisticChanges != DEFAULT_AI_SHOW_STYLISTIC_CHANGES) {
+      props.setProperty(prefix + AI_SHOW_STYLISTIC_CHANGES_KEY, Boolean.toString(aiShowStylisticChanges));
     }
     if (fontName != null) {
       props.setProperty(prefix + FONT_NAME_KEY, fontName);

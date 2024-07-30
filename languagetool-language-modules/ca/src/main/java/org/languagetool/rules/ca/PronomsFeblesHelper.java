@@ -295,6 +295,9 @@ public class PronomsFeblesHelper {
     addEsEnApostrophe.put("els", "se'ls n'");
   }
 
+  private static Pattern pronomFeble = Pattern.compile("P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP[123]CP000|PP3CSD00");
+  private static Pattern infinitiuGerundiImperatiu = Pattern.compile("V.[GNM].*");
+
 
   PronomsFeblesHelper() {
   }
@@ -338,13 +341,13 @@ public class PronomsFeblesHelper {
     int numPronouns = 0;
     String pronoms = "";
     if (from < tokens.length && !tokens[from].isWhitespaceBefore()) {
-      AnalyzedToken pronom = tokens[from].readingWithTagRegex("P[P0].*");
+      AnalyzedToken pronom = tokens[from].readingWithTagRegex(pronomFeble);
       if (pronom != null) {
         pronoms = pronom.getToken();
         numPronouns++;
       }
       if (from + 1 < tokens.length && !tokens[from + 1].isWhitespaceBefore()) {
-        AnalyzedToken pronom2 = tokens[from + 1].readingWithTagRegex("P[P0].*");
+        AnalyzedToken pronom2 = tokens[from + 1].readingWithTagRegex(pronomFeble);
         if (pronom2 != null) {
           pronoms = pronoms + pronom2.getToken();
           numPronouns++;
@@ -352,6 +355,44 @@ public class PronomsFeblesHelper {
       }
     }
     result[0] = pronoms;
+    result[1] = String.valueOf(numPronouns);
+    return result;
+  }
+
+  public static String[] getPreviousPronouns(AnalyzedTokenReadings[] tokens, int toIndex) {
+    String[] result = new String[2];
+    int numPronouns = 0;
+    StringBuilder pronouns = new StringBuilder();
+    int fromIndex = toIndex;
+    boolean done = false;
+    while (fromIndex > 0 && !done) {
+      AnalyzedToken pronom = tokens[fromIndex].readingWithTagRegex(pronomFeble);
+      if (pronom != null) {
+        if (fromIndex - 1 > 0 && !tokens[fromIndex].isWhitespaceBefore() && tokens[fromIndex - 1].readingWithTagRegex(infinitiuGerundiImperatiu) != null) {
+          done = true;
+        } else if (fromIndex - 2 > 0 && !tokens[fromIndex].isWhitespaceBefore() && !tokens[fromIndex - 1].isWhitespaceBefore()
+          && tokens[fromIndex - 1].readingWithTagRegex(pronomFeble) != null && tokens[fromIndex - 2].readingWithTagRegex(infinitiuGerundiImperatiu) != null) {
+          done = true;
+        }
+        if (!done) {
+          fromIndex--;
+          numPronouns++;
+        }
+      } else {
+        done = true;
+      }
+    }
+    if (numPronouns > 0) {
+      for (int j = fromIndex + 1; j <= toIndex; j++) {
+        if (j > fromIndex + 1 && j <= toIndex) {
+          if (tokens[j].isWhitespaceBefore()) {
+            pronouns.append(" ");
+          }
+        }
+        pronouns.append(tokens[j].getToken());
+      }
+    }
+    result[0] = pronouns.toString();
     result[1] = String.valueOf(numPronouns);
     return result;
   }

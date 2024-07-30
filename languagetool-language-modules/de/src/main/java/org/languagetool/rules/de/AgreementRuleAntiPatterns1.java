@@ -33,6 +33,18 @@ class AgreementRuleAntiPatterns1 {
 
   static final List<List<PatternToken>> ANTI_PATTERNS = asList(
     asList(
+      tokenRegex("bring(s?t|en?)"),
+      token("das"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*PLU.*"),
+      token("mit"),
+      token("sich")
+    ),
+    asList(
+      tokenRegex("der|die|das"),
+      posRegex("_english_ignore_")
+    ),
+    asList(
       tokenRegex("der|des"),   // "Übernahme der früher selbständigen Gesellschaft"
       token("früher"),
       posRegex("ADJ:.*"),
@@ -915,6 +927,31 @@ class AgreementRuleAntiPatterns1 {
       token("einen"),
       posRegex("SUB:AKK.*"),
       posRegex("VER:INF.*")
+    ),
+    asList(
+      // Eine Initialzündung war der Bericht „Grenzen des Wachstums“ des Club of Rome, ...
+      token("des"),
+      token("Club"),
+      token("of"),
+      token("Rome")
+    ),
+    asList(
+      // Entwickelt wurde das Session Initiation Protocol von der IETF.
+      csRegex("das|ein"),
+      token("Session"),
+      token("Initiation"),
+      token("Protocol")
+    ),
+    asList(
+      // Ähnliches gilt im Norden der Insel für die George-Washington-Bridge.
+      token("die"),
+      token("George-Washington-Bridge")
+    ),
+    asList(
+      // Die Zeit begann mit der Gründung der englischen Football Association.
+      csRegex("[Ee]nglischen?"),
+      token("Football"),
+      token("Assosiation")
     )
   );
 

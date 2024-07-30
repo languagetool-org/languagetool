@@ -5067,6 +5067,11 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="KLEINE_-CHEN" name="'kleines Häuschen' etc." tone_tags="clarity">
+            <antipattern><!-- https://de.wikipedia.org/wiki/Die_drei_kleinen_Schweinchen -->
+                <token regexp="yes">3|drei</token>
+                <token regexp="yes">klein.*</token>
+                <token>Schweinchen</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">kleine[ns]?</token>
@@ -6069,17 +6074,37 @@ USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Gg]epatched|[Gg]eremixed|[Gg]escreened|[Gg]ebiked|[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled|[Gg]ecoached|[Gg]eblogged|[Gg]ebeamed|[Gg]echipped|[Pp]erformed|[Gg]eswiped|[Mm]atched|[Gg]eschocked|[Gg]epitched|[Pp]itched|[Gg]emapped|[Oo]utgesourced|[Ii]nterviewed|[Gg]efixed|[Gg]eflashed|[Gg]ehyped|[Gg]eshopped|[Gg]elabeled|[Gg]edoped</token>
+                    <token case_sensitive="yes" regexp="yes">[Gg]epatched|[Gg]eremixed|[Gg]escreened|[Gg]ebiked|[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled|[Gg]ecoached|[Gg]eblogged|[Gg]ebeamed|[Gg]echipped|[Pp]erformed|[Gg]eswiped|[Mm]atched|[Gg]eschocked|[Gg]epitched|[Pp]itched|[Gg]emapped|[Oo]utgesourced|[Ii]nterviewed|[Gg]efixed|[Gg]eflashed|[Gg]ehyped|[Gg]eshopped|[Gg]elabeled|[Gg]edoped
+                        <exception case_sensitive="yes" regexp="yes">[Gg]ebiked|[Gg]eteased|[Gg]eshuffeled|[Gg]eskyped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]efaked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Gg]etuned|[Gg]egoogled|[Gg]eswiped|[Oo]utgesourced|[Gg]ehyped|[Gg]edoped</exception>    
+                    </token>
                 </pattern>
                 <message>Die empfohlene und eingedeutschte Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
-                <example correction="gefeaturt">Wir wurden auf der Startseite des App Stores <marker>gefeatured</marker>.</example>
+                <example correction="getrackt">Wir haben alle Zeiten <marker>getracked</marker></example>
+                <example>Wir wurden auf der Startseite des App Stores <marker>gefeatured</marker>.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Gg]eouted|[Gg]ekited|[Gg]edated|[Gg]ecasted|[Gg]evested|[Gg]eshorted|[Gg]eshooted|[Gg]ehighlighted|[Ss]upported|[Gg]efighted|[Gg]eframed</token>
+                    <token case_sensitive="yes" regexp="yes">[Gg]eouted|[Gg]ekited|[Gg]edated|[Gg]ecasted|[Gg]evested|[Gg]eshorted|[Gg]eshooted|[Gg]ehighlighted|[Ss]upported|[Gg]efighted|[Gg]eframed
+                        <exception case_sensitive="yes" regexp="yes">[Gg]ekited|[Gg]edated|[Gg]eframed</exception>
+                    </token>
                 </pattern>
                 <message>Die empfohlene und eingedeutschte Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="et" /></suggestion>.</message>
-                <example correction="gedatet">Sie haben sich 2 Wochen lang <marker>gedated</marker>.</example>
+                <example correction="gehighlightet">Sie haben bereits alle wichtigen Stellen im Text <marker>gehighlighted</marker>.</example>
+                <example>Sie haben sich 2 Wochen lang <marker>gedated</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">([Gg]ebiked|[Gg]eteased|[Gg]eshuffeled|[Gg]eskyped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]efaked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Gg]etuned|[Gg]egoogled|[Gg]eswiped|[Oo]utgesourced|[Gg]ehyped|[Gg]edoped)e[mnrs]?</token>
+                </pattern>
+                <message>Die empfohlene und eingedeutschte Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed(e[mnrs]?)$" regexp_replace="t$1" /></suggestion>.</message>
+                <example correction="gefeaturte">Die <marker>gefeaturede</marker> App gefällt uns sehr gut.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">([Gg]ekited|[Gg]edated|[Gg]eframed)e[mnrs]?</token>
+                </pattern>
+                <message>Die empfohlene und eingedeutschte Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed(e[mnrs]?)$" regexp_replace="et$1" /></suggestion>.</message>
+                <example correction="gedateten">Die von ihm <marker>gedateden</marker> Personen waren unzufrieden.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BZGL_ABK" name="Schreibweise der Abkürzung 'bzgl.'" tone_tags="formal">
@@ -6178,11 +6203,15 @@ USA
             </rule>
             <rule><!--3-->
                 <antipattern>
+                    <token regexp="yes" case_sensitive="yes" postag="_english_ignore_">[\wäöüÄÖÜß-]*[gG]raph[\wäöüÄÖÜß-]*</token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">graphic|GraphQL|.*pho[nt]ograph.*|monograph|palaeontograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[\wäöüÄÖÜß-]*[gG]raph[\wäöüÄÖÜß-]*
                         <exception regexp="yes">.*[Pp]h.*ph.*</exception>
+                        <exception postag="_english_ignore_"/>
                     </token>
                 </pattern>
                 <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="(.)(.*)raph(.*)" regexp_replace="$1$2raf$3"/></suggestion> verwenden?</message>

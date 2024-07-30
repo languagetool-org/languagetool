@@ -109,6 +109,7 @@ public class GrammalecteRule extends Rule {
     "g0__imp_verbes_composés_impératifs__b12_a2_1",
     "g0__imp_verbes_composés_impératifs__b12_a3_1",
     "g0__imp_verbes_composés_impératifs__b5_a2_1",
+    "g0__virg_virgule_après_point__b1_a1_1",
     "g2__date_journée_jour_mois_année_",
     "g2__date_journée_jour_mois_année__b1_a1_2",
     "g2__date_journée_jour_mois_année__b1_a1_1",

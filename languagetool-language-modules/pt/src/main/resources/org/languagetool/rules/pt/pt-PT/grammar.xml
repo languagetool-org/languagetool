@@ -5,10 +5,9 @@
 
 Portuguese (Portugal - postreform) - Grammar and Typo Rules for LanguageTool.
 
-© 2016-2023 Tiago F. Santos (tiagofsantos81@sapo.pt)
-© 2016-2023 Marco A.G.Pinto (www.marcoagpinto.com)
-© 2022-2023 Ricardo Joseh Lima
-© 2022-2023 Susana Boatto
+See tagset.txt for the meaning of the POS tags
+Copyright (C) 2001-2024 Daniel Naber (http://www.danielnaber.de),
+Marcin Miłkowski, and the LanguageTool contributors.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -22,116 +21,55 @@ Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
-
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
 -->
 
-<!-- Contribuintes open-source, deem uma olhada aqui: https://dev.languagetool.org/#portuguese -->
+<!-- Contribuidores open-source, leiam isto: https://dev.languagetool.org/#portuguese -->
+
 
 <!DOCTYPE rules [
-        <!ENTITY % messages  SYSTEM "../../../resource/pt/entities/messages.ent" >
-        <!ENTITY % languages SYSTEM "../../../resource/pt/entities/languages.ent">
+        <!ENTITY % messages   SYSTEM "../../resource/pt/entities/messages.ent" >
+        <!ENTITY % datetime   SYSTEM "../../resource/pt/entities/datetime.ent" >
+        <!ENTITY % misc       SYSTEM "../../resource/pt/entities/misc.ent"     >
+        <!ENTITY % abbrev     SYSTEM "../../resource/pt/entities/abbrev.ent"   >
+        <!ENTITY % paronyms   SYSTEM "../../resource/pt/entities/paronyms.ent" >
+        <!ENTITY % verbs      SYSTEM "../../resource/pt/entities/verbs.ent"    >
+        <!ENTITY % languages  SYSTEM "../../resource/pt/entities/languages.ent">
+        <!ENTITY % postal     SYSTEM "../../resource/pt/entities/postal.ent"   >
+        <!ENTITY % hyphenised SYSTEM "../../resource/pt/entities/hyphenised.ent"   >
+        <!ENTITY % chars      SYSTEM "../../resource/pt/entities/chars.ent"    >
         %messages;
+        %datetime;
+        %misc;
+        %abbrev;
+        %paronyms;
+        %verbs;
         %languages;
+        %postal;
+        %hyphenised;
+        %chars;
 
-<!ENTITY currency_symbols "\p{Lu}*[฿₿₵¢₡$₫֏€ƒ₲₴₭₾₺₼₦₱£៛₽₹₪৳₸₮₩¥¤]">
-<!ENTITY nbsp "&#x00A0;"> <!-- no-break space -->
+<!-- Declared the three sets of entities below separed with one line since the imported ones were causing conflicts with certain pt-PT rules -->
+<!ENTITY meses_ano_abrev_pt_pt "abr|ago|dez|fev|jan|jul|jun|mai|mar|nov|out|set">
+<!ENTITY meses_ano_pt_pt "abril|agosto|dezembro|fevereiro|janeiro|julho|junho|maio|março|novembro|outubro|setembro">
 
-<!ENTITY palavras_estrangeiras "up|at|mother|cher|cherie|chérie|POV|father|nothing|press|dead|selected|left|width|height|within|love|life|loser?s?|secret|influential|most|king|week|function|length|yeah|welcome|these|but|top|too|in|return|go|goes|baby|shop|appeal|trade|toys?|or|who|of|years?|from|about|there|also|be|boom|why|this|drink|flash|revival|not|what|with|wasn?|hasn?|hadn?|few|must|through|try|off|out|cut|sessions?|ya|spot|games?|are|by|couldn?|can|wouldn?|might|the|is|and|for|your|back|that|you|he|she|its?|we|they|him|her|them|good|bad|les?|chicos?|novi[oa]s?|herman[oa]s?|ballo|y|del|abrazo|una|besot?e?|con|placer|on|peut|dans|tout|vous|je|chaque|lui|avec|pas|du|aus|den|der|die|écoles?|une|ont|féderations?|thêatres?|des|qui|au|societés?|académies?|pour|notre|sur|institute?|ich|sie|weil|wir|mio?|degli|della|di|tuo|tra">
+<!ENTITY introduz_proclise_pt_pt "ainda|apenas|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|para|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez"><!-- XXX Excluded ali|aqui|acolá -->
 
-<!ENTITY meses_ano_abrev "abr|ago|dez|fev|jan|jul|jun|mai|mar|nov|out|set">
-<!ENTITY meses_ano "abril|agosto|dezembro|fevereiro|janeiro|julho|junho|maio|março|novembro|outubro|setembro">
-<!ENTITY dias_semana_abrev "seg|sex|sáb|dom|qui|ter">
-<!ENTITY dias_semana "domingo|quarta|quinta|sábado|segunda|sexta|terça">
-<!ENTITY partes_do_dia "madrugada|manhã|matina|noite|tarde">
-<!ENTITY expressoes_de_tempo_simples "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
-<!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|amanhãs?|datas?|eras?|horários?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes|manhãs?|tardes?|noites?">
-<!ENTITY verbos_auxiliares_part_passado "(?:ser|estar|ter|haver|ficar)">
-<!ENTITY paises_com_artigo "(?:Afeganistão|Albânia|Alemanha|Arábia|Argélia|Argentina|Austrália|Áustria|Barbados|Bélgica|Belize|Benim|Bielorrússia|Birmânia|Bolívia|Bósnia|Botsuana|Brasil|Bulgária|Burúndi|Butão|Camarões|Camboja|Canadá|Catar|Cazaquistão|Chade|Chile|China|Chipre|Colômbia|Comores|Congo|Coreia|Croácia|Dinamarca|Egito|Emirados|Equador|Eslováquia|Etiópia|EUA|Fiji|Filipinas|Finlândia|Gabão|Gâmbia|Gana|Geórgia|Grécia|Guatemala|Guiana|Guiné|Haiti|Honduras|Hungria|Ilhas|Índia|Indonésia|Irão|Iraque|Irlanda|Islândia|Jamaica|Japão|Jordânia|Laos|Lesoto|Líbano|Libéria|Líbia|Lituânia|Luxemburgo|Malásia|Malaui|Maldivas|Mali|Mauritânia|México|Micronésia|Moldávia|Mongólia|Namíbia|Nepal|Nicarágua|Nigéria|Noruega|Palestina|Panamá|Papua|Paquistão|Paraguai|Peru|Perú|Quirguistão|República|Ruanda|Rússia|Samoa|Seicheles|Senegal|Sérvia|Síria|Somália|Sri|Suazilândia|Sudão|Suécia|Suíça|Suriname|Tailândia|Tajiquistão|Tanzânia|Togo|Tonga|Tunísia|Turcomenistão|Turquia|Ucrânia|Uruguai|Usbequistão|Vaticano|Venezuela|Vietname|Zâmbia)">
-<!ENTITY paises_com_artigo_marcoagpinto_na "Espanha|França|Inglaterra|Itália|Madagáscar|Marrocos|Moçambique">
-<!ENTITY outros_toponimos_com_artigo "(?:Alameda|Algarve|Amadora|Avenida|Cairo|Caldas|Covilhã|Europa|Figueira|Furadouro|Guarda|Largo|Porto|Praceta|Rua|Terreiro)">
-<!ENTITY toponimos_sem_artigo "(?:Alagoas|Angola|Aragão|Braga|Castela|Coimbra|Cuba|Espanha|Faro|França|Goiás|Havana|Inglaterra|Itália|Júpiter|Lisboa|Madagáscar|Marrocos|Marte|Mercúrio|Moçambique|Neptuno|Paris|Pernambuco|Plutão|Portugal|Roraima|Saturno|Sergipe|Taiwan|Timor|Urano|Vénus)">
-
-<!ENTITY localidades_postais "(?:S(?:ÃO (?:M(?:A(?:R(?:TINHO (?:D(?:E (?:AN(?:GUEIRA|TAS)|SARDOURA|ÁRVORE|MOUROS)|A(?: (?:CORTIÇ|GÂNDAR)A|S (?:MOITA|CHÃ)S)|O P(?:ORT|ES)O)|S(?:ILVARES|ANDE|EI)|VAL(?:BOM|E)|RECEZINHOS|ESCARIZ|CAMPO|ASL)|COS DA (?:ATABOEI|SER)RA)|MEDE(?: (?:(?:RECEZINH|NEGREL)OS|DE (?:INFEST|RIBATU)A|ES(?:CARIZ|TE)|CORONADO))?|T(?:EUS (?:DA CALHETA|MAD|SCG)|IAS (?:BJA|NIS))|NÇOS)|IGUEL (?:D(?:O (?:(?:(?:PINH|OUT)EIR|RIO TORT)O|MATO (?:ARC|VZL))|E (?:(?:A(?:LCAINÇ|CH)|VILA BO)A|MACHEDE|POIARES))|CARREIRAS|JARMELO|SEIDE))|J(?:O(?:ÃO (?:D(?:A(?: (?:(?:(?:PESQU|CORV|MAD|RIB)EI|SER)R|(?:BOA VI|FRE)ST|TALH)A|S LAMPAS)|E (?:(?:FONTOUR|TAROUC)A|(?:NEGRILHO|AREIA)S|LOURE|REI|VER)|O(?: (?:(?:CAMP|PES)O|MONTE)|S (?:CALDEIREIRO|MONTE)S))|BAPTISTA AIRÃO|LGP|OVR)|ANINHO (?:CDR|SCD)|RGE (?:AVV|STN)|SÉ DA LAMAROSA|MIL)|ULIÃO (?:D(?:E (?:MONTENEGRO|PALÁCIOS)|O TOJAL)|PTG|VLN)|ACINTO)|P(?:EDRO(?: (?:D(?:E (?:A(?:GOSTEM|RCOS|LVA)|S(?:ERRACENO|OLI)S|RIO SECO|FRANCE|TOMAR)|A (?:C(?:ADEIR|OV)A|TORRE)|O (?:ESTEVA|SU)L)|(?:NORDESTINH|JARMEL)O|(?:GAFANHO|OLIV)EIRA|V(?:ALBOM|ELHO)|MERELIM))?|AIO (?:DE (?:(?:GRAMAÇ|OLEIR)OS|MONDEGO)|(?:VIZEL|JOLD|GV)A|M(?:ERELIM|LG)|SEIDE))|B(?:AR(?:TOLOMEU D(?:E REGATOS|O OUTEIRO|A SERRA)|NABÉ)|R(?:ÁS (?:D(?:E ALPORTEL|OS MATOS)|RGR|VPV)|ISSOS)|ENTO(?: D(?:O (?:AMEIXIAL|CORTIÇO)|E ANA LOURA))?)|C(?:RIST(?:OVÃO D(?:E (?:NOGUEIRA|LAFÕES)|O DOURO)|ÓVÃO)|OSM(?:E (?:E SÃO DAMIÃO|VALE)|ADO)|LEMENTE S(?:ILVARES|ANDE)|IPRIANO (?:RSD|VIS)|AETANO (?:CNT|MAD))|S(?:A(?:LVADOR(?: (?:D(?:(?:E VIVEIR|O CAMP)O|A ARAMENHA)|SOUTO))?|TURNINO)|I(?:MÃO(?: (?:DE LITÉM|GOUVEIA))?|LVESTRE)|EBASTIÃO(?: D(?:OS CARROS|A FEIRA))?)|VICENTE(?: (?:D(?:O P(?:IGEIRO|AUL)|E LAFÕES|A BEIRA)|(?:(?:FERREI|TÁVO)R|E VENTOS)A|PENSO|CHV))?|T(?:O(?:MÉ (?:D(?:E COVELAS|O CASTELO)|NEGRELOS|ABAÇÃO)|RCATO)|EOTÓNIO)|RO(?:MÃO (?:DE AREGOS|CORONADO|AMM|SEI)|QUE(?: DO (?:FAIAL|PICO))?)|F(?:RANCISCO(?: DA SERRA)?|A(?:USTIN|CUND)O|ELIX DA MARINHA|ÉLIX)|L(?:OURENÇO (?:D(?:O (?:BAIR|DOU)R|E MAMPORCÃ)O|SANDE)|UÍS)|DOMINGOS(?: DE (?:ANA LOUR|RAN)A)?|G(?:REGÓRIO (?:ARL|CLD)|ENS|IÃO))|A(?:N(?:T(?:A(?: (?:C(?:RUZ(?: (?:D(?:A(?: (?:GRACIOS|TRAP)A|S FLORES)|O (?:(?:BISP|DOUR)O|LIMA))|A(?:DV|MM)|STC|VNH)|-TRINDADE)?|OMB(?:A (?:D(?:E (?:VILARIÇA|ROSSAS)|ÃO)|PTL|SEI|VLF)|INHA)|LARA(?:-A-(?:VELH|NOV)A| DE LOUREDO)|ATARINA (?:DA SERRA|CLD|VGS))|MAR(?:I(?:A (?:D(?:E (?:(?:EMERE|LAMA)S|SARDOURA)|A FEIRA)|(?:A(?:RNOS|IRÃ)|SOUT)O|REBORDÕES|OLIVEIRA)|NHA (?:DO ZÊZERE|RPN|SEI))|TA(?: DE PENAGUIÃO)?|GARIDA DA SERRA)|L(?:U(?:ZIA (?:ORQ|SRP|TVR)|CRÉCIA DE ALGERIZ)|EOCÁDIA (?:BRITEIROS|CHV|TBC))|EU(?:LÁLIA (?:AR(?:NOSO|C)|ELV|SEI|VIZ)|FÉMIA(?: PRAZINS)?|GÉNIA)|BÁRBARA (?:(?:AG|LN)H|DE PADRÕES|PDL|RGR|VPT)|(?:(?:IRIA DE AZÓ|OVA)I|SUSAN|JUST)A|V(?:ITÓRIA(?: DO AMEIXIAL)?|ALHA))|NA(?: (?:D(?:A (?:AZINH|SERR)A|E CAMBAS|O MATO)|N(?:IS|RD)|FIG|PRL))?|R(?: (?:AVV|NLS)|ÉM)|LHA)|O(?: (?:A(?:N(?:T(?:ÓNIO (?:D(?:A(?: CHARNECA|S AREIAS)|E (?:MONFORTE|VAGOS))|NORDESTINHO|CAVALEIROS|PDL|SRP)|ÃO(?: DO TOJAL)?)|DRÉ(?: D(?:AS TOJEIRA|E VAGO)S)?)|MA(?:RO (?:S(?:RP|SL)|VL[FS])|DOR)|DRIÃO(?: VIZELA)?|LEIXO)|E(?:S(?:TEVÃO (?:B(?:(?:RITEIRO|ARROSA)S|NV)|DAS GALÉS|CHV|ETZ|SBG|TVR)|PÍRITO)|MILIÃO)|ISID(?:ORO M(?:CN|FR)|RO DE PEGÕES)|TIRSO(?: PRAZINS)?|VARÃO)|S EVOS)|IAGO (?:D(?:E (?:(?:(?:CASSURR|PI)ÃE|BESTEIRO)S|SUBARRIFANA|MONTALEGRE|RIBA-UL|LITÉM)|O(?: (?:ESCOURAL|CACÉM)|S VELHOS)|A GUARDA)|RIBEIRA ALHARIZ|CARREIRAS|MAIOR|AMM|SEI)|(?:ULH)?ÃO)|FINS (?:D(?:E FERREIRA|O DOURO)|V(?:L[NP]|FR)|CHV)|D(?:E (?:LMG|MCN|VVD)|I(?:ÃES|M)|OMIL)|G(?:U(?:INHEIRA|EDO)|ALHOS)|HOANE (?:MGD|SMP)|CHE)|L(?:VA(?:D(?:OR(?: (?:BRITEIROS|DO MONTE))?|A)|TERRA D(?:O EXTREMO|E MAGOS))|G(?:UEIR(?:(?:O DO CAMP)?O|AIS)|A)|IR(?: D(?:E MATOS|O PORTO))?|(?:S(?:EL)?|ZED)AS|D[AO]NHA|AMONDE|[ÃT]O|REU)|R(?:(?:ILHOS (?:PEQUENO|GRANDE)|RAQUINHO)S|ZED(?:O (?:AGN|CVL|MBR)|AS?)|NADAS DE (?:SÃO SIM|RÓD)ÃO|DOAL)|B(?:UG(?:UEIRO (?:ARL|SEI)|OSA|AL)|ROS(?:O DE AGUIAR|A)|A(?:CHEIRA|DIM|RIZ)|ÓIA)|M(?:O(?:RA CORREIA|DÃES|UCO)|P(?:AIO|RIZ)|EI(?:CE|RO)|BADE|ÕES|UEL)|ZES D(?:O LORVÃO|A BEIRA)|F(?:URDÃO|ARA)|P(?:ARD|IÃ)OS|G(?:RES|O)|CAVÉM)|E(?:R(?:R(?:A(?: D(?:E (?:SANTO ANTÓNIO|ÁGUA)|O BOURO|'EL REI)|ZES)?|E(?:LEIS|TA)|O VENTOSO)|ZED(?:ELO (?:GMR|PVL)|O (?:GMR|VNG))|A(?:PICOS (?:BGC|VLP)|FÃO|MIL)|(?:NAN(?:CELH|D)|MOND)E|P(?:INS|A)|DEDELO|OA|TÃ)|I(?:X(?:O(?: (?:D(?:E (?:MANHOS|ANSIÃ|GATÕ)ES|(?:A BEIR|O CO)A)|AMARELO))?|A(?:S (?:CMN|VLF)|L(?: PMZ)?)|EZELO)|DÕES|Ç?A)|N(?:H(?:OR(?:A (?:GRAÇA DE PADRÕES|DA HORA)|IM)|AREI)|D(?:IM(?: (?:DA (?:RIBEI|SER)RA|FLG|TBC))?|AS)|OURAS)|B(?:A(?:DELHE(?: DA SERRA)?|L)|OLIDO)|QUE(?:IR(?:[ÓA]|OS A(?:GB|MR))|ADE)|G(?:(?:ADÃ|Õ)ES|U(?:DE|RA))|Z(?:URES (?:PCT|VNF)|ELHE)|VER (?:DO VOUGA|MBR|SMP)|L(?:(?:OR|M)ES|HARIZ)|T(?:E CIDADES|ÚBAL)|(?:CARIA|JÃE|PIN)S|S(?:IMBRA|ULFE)|AR(?:A VELH)?A|D(?:IELOS|A)|MIDE)|O(?:U(?:T(?:O (?:D(?:E (?:AGUIAR DA BEIRA|LAFÕES)|A (?:CA(?:RPALHO)?S|VELH)A)|MAIOR (?:SBR|TCS)|(?:TB|VF)R|A(?:BT|VV)|REBORDÕES|PND|SBG)|EL(?:O (?:D(?:E AGUIAR|O DOURO)|M(?:OURISCO|GD)|V(?:RM|VD)|CHV)|INHO DA RAIA))|S(?:EL(?:AS?|O)?|A)|R(?:O PIRES|E))|BR(?:A(?:L(?: (?:D(?:A (?:A(?:BELHEIR|DIÇ)|LAGO|SERR)A|E (?:MONTE AGRAÇO|SÃO MIGUEL)|O CAMPO)|PICHORRO|CRS|MRT|OLR)|INHO)|D(?:ELO DA GOMA|O))|E(?:IR(?:(?:A FORMOS)?A|O DE BAIXO)|(?:TÂMEG|POST|D)A)|OSA)|A(?:LH(?:EIRA|ÃES)|JO)|R(?:TE(?:LHA|S)|VAL)|E(?:I[MR]A|NGAS)|(?:LVEIR|Z)A|NIM|PO)| (?:(?:BARTOLOMEU D(?:E MESSINE|OS GALEGO)|MARTINHO DAS AMOREIRA)S|(?:PEDRO DE VEIGA DE LIL|SEBASTIÃO DA GIESTEIR)A|VICENTE DE PEREIRA JUSÃ|LOURENÇO DE RIBAPINHÃO)|T(?:O A(?:LEIXO D(?:A RESTAURAÇÃO|E ALÉM-TAMEGA)|NTÓNIO DA SERRA (?:MCH|SCR))|A (?:IRIA RIBEIRA SANTARÉM|CATARINA FONTE BISPO|MARGARIDA DA COUTADA))|I(?:L(?:V(?:A(?: (?:ESCURA|BCL|MDR|VLN)|RES [FT]ND)|E(?:IR(?:AS?|OS)|S)|Ã DE CIMA)|GUEIROS)|N(?:TRA|DE|ES)|STELO)|Á(?: (?:AVV|MNC|PTL)|TÃO)|U(?:BPORTELA|ÇÃES|L))|C(?:A(?:R(?:V(?:A(?:LH(?:A(?:L (?:B(?:ENFEITO|BR|CL)|DE VERMILHAS|M(?:EÃO|DA)|(?:AB|SR)T|REDONDO|GDL)|IS (?:MDL|SPS))|O(?: (?:DE (?:EGAS|REI)|CBT|PCV)|S(?: BCL|A))|EIRA))?|OEIR(?:O (?:LGA|MAC|VCT)|A (?:MFR|TVD))|I(?:ÇAIS|DE))|R(?:A(?:ZED(?:O (?:DE MONTENEGRO|AMR|BGC)|A DE ANSIÃES)|(?:GO(?:ZEL|S)|LCOV)A|P(?:ICHANA|ATAS))|E(?:G(?:A(?:(?:L DO SA)?L|DO)|UEIR(?:OS|A)|OSA)|IRA(?: (?:BCL|LRA|VNF)|S)|ÇO)|IÇO)|A(?:P(?:I(?:NH(?:EIR)?A|TO)|E(?:LH|Ç)OS)|M(?:ULO|OS)|NGUEJEIRA|VELAS)|N(?:I(?:CÃES|DE)|AXIDE|EIRO|OTA)|D(?:(?:I(?:EL|G)O|OSA)S|ANHA)|(?:CAVELO|MÕE)S|(?:[LÇ]Ã|TAX)O|IA (?:BMT|MBR))|S(?:T(?:E(?:L(?:O (?:D(?:E (?:P(?:ENAL|AI)VA|VIDE)|O NEIVA)|B(?:RANCO(?: (?:HRT|MGD))?|OM)|M(?:E(?:LHOR|NDO)|BR)|(?:RODRIG|NOV)O|VIEGAS|SRT)|ÕES (?:[PV]NF|GMR|TND)|E(?:IR|J)O|ÃOS)|DO (?:ALJ|TMC)|IÇÃO)|A(?:NHEIR(?:A (?:D(?:O (?:RIBATEJO|VOUGA)|E PÊRA)|(?:GR|MG)D|PCR|TCS)|O(?: DO SUL)?)|INÇO)|R(?:O (?:(?:V(?:ICENT|ERD)|DAIR)E|LABOREIRO|MARIM)|ELOS))|A(?:L (?:D(?:E (?:C(?:AMBR|INZ)A|LOIVOS|ERMIO)|OS BERNARDOS)|COMBA|VASCO)|IS (?:LSD|TMR)|S DO SOEIRO| BRANCA)|ÉVEL (?:CV|ST)R|(?:CAI|EGA)S)|B(?:A(?:N(?:A(?:S DE (?:T(?:AVIRA|ORRES)|VIRIATO)| MAIOR)|ELAS (?:MDL|VVD))|ÇOS (?:MBR|PTL))|E(?:Ç(?:A(?: (?:GORD|SANT|BO)A)?|O DE VIDE|UDOS?|ÃO)|CEIRAS DE BASTO)|R(?:E(?:IR(?:O(?:S (?:ARC|BRG))?|A)|LA)|IL (?:(?:CD|MT)R|PPS)|AÇÃO)|O(?: DA PRAIA|UCO))|N(?:D(?:E(?:LÁRIA (?:MAD|PDL)|MIL (?:AMT|VNC)|DO (?:MUR|VNH))|OS[AO]|AL)|E(?:LAS (?:P(?:NF|RG)|ARC|ETR|VNG)|DO (?:DE BASTO|RPN|VFR)|ÇAS)|I(?:Ç(?:A(?:DA|L)|O)|DELO VCD)|A(?:S DE SENHORIM|VESES|DELO)|T(?:ANHEDE|ELÃES)|H(?:ESTROS|AS?)|O)|M(?:P(?:O(?: (?:D(?:E (?:BESTEIRO|VÍBORA)|O GERÊ)S|MAIOR|BCL|RMZ|VLG)|S (?:V(?:NC|RM)|PVL))|AN(?:ÁRIO|HÓ)|E(?:LOS?|Ã)|I(?:NHO|A))|B(?:ESES (?:DO RIO|BCL|MNC)|R(?:ES|A)|AS)|A(?:R(?:NEIRA|ATE)|CHA)|INHA)|L(?:V(?:ÃO (?:CHV|VGS)|OS (?:GMR|PVL)|ARIA DE CIMA|EL(?:HE|O))|D(?:AS D(?:A(?:S TAIPAS| RAINHA)|E SÃO JORGE)|E(?:LAS)?)|H(?:E(?:TA(?: DE NESQUIM|S)?|IROS)|ANDRIZ))|P(?:EL(?:(?:UDO|IN)S|AS?|O)|(?:AR(?:ROS|IC)|INH)A)|D(?:A(?:FA(?:Z (?:CLB|GOI)|IS)|VAL)|IMA)|V(?:E(?:RNÃES|IRA|Z)|A(?:DOUDE|LÕES))|(?:X(?:AR)?IA|TIVELO|IRE)S|C(?:HO(?:EIRAS|PO)|IA)|ÇAR(?:ELHOS|ILHE)|ÍDE DE REI|FEDE)|O(?:R(?:T(?:I(?:Ç(?:ADA(?:S DE LAVRE)?|Ô(?: DA SERRA)?|OS)|CEIRO DE CIMA)|E(?:GAÇA (?:MRT|OVR)|S(?: DO MEIO)?| DO PINTO))|U(?:CHE(?: AGB)?|J(?:EIRA|AS))|V(?:ITE|AL|O)|(?:ROIO|NE)S|ISCADA|DINHÃ|GO)|V(?:EL(?:O (?:D(?:E PAIVÓ|O GEREZ)|GDM|TBU)|AS (?:PVL|TRF)|(?:INHA|ÃE)S)|A(?:S (?:DO (?:BARROS|DOUR|RI)O|V(?:NC|VD)|LSD|TBU))?|I(?:LHÃ|DE)|ÃO DO LOBO|ÕES)|U(?:T(?:O (?:D(?:E (?:ESTEVES|BAIXO|CIMA)|O MOSTEIRO)|AVV|BCL)|ADA)|R(?:A (?:AMM|PCR)|EL)|(?:CIEIR|SS|Ç)O)|N(?:ST(?:AN(?:TIM (?:MDR|VRL)|CE)|ÂNCIA)|C(?:EIÇÃO (?:ORQ|TVR)|AVADA)|DE(?:IXA-A-(?:VELH|NOV)A)?|TIM)|L(?:ME(?:AL (?:DA TORRE|FCR|GOI)|IAS)|(?:ARE|O)S)|S(?:SOURADO (?:BCL|PCR)|TA DE CAPARICA)|D(?:E(?:SS(?:EIRO|OSO?)|CEDA|ÇOSO)|AL)|(?:M(?:PORT|END)|GUL|J)A|I(?:MBR(?:ÃO|A)|NA)|E(?:LHOSO|NTRAL)|T(?:AS|O)|BRO|Z)|E(?:R(?:C(?:AL (?:(?:DO ALENTEJ|VN)O|CDV)|OSA)|NA(?:CHE(?: DO BONJARDIM)?|DELO)|D(?:E(?:IRA (?:AGN|SBG)|DO)|AL)|V(?:(?:ÃE|O)S|A)|EJ(?:AIS|O))|L(?:ORICO D(?:A BEIRA|E BASTO)|A(?: (?:ACB|CHV)|VISA|S)|EIRÓS (?:BRG|SBR))|P(?:ÕES (?:LMG|PTL|VIS)|(?:(?:EL)?O|ÃE)S)|D(?:R(?:OS (?:HRT|SCF)|IM)|OVIM|ÃES)|BOLAIS DE CIMA|I(?:VÃES|RA)|(?:NDUF|T)E|SAR)|H(?:A(?:(?:RNECA DA CAPARIC|INÇ|P)A|V(?:Ã(?:ES|O)|IÃES|ES?)|NCELARIA (?:ALT|TNV)|M(?:USCA|OIM)|CIM|FÉ)|Ã(?:(?:S DE TAVARE)?S|O(?: DE COUCE|S))?|O(?:(?:SEND|UT)O|REN[ST]E)|ELEIROS)|U(?:R(?:R(?:AL DAS FREIRAS|OS (?:BTC|VLP))|(?:OP|V)OS|ALHA)|NH(?:A (?:B(?:AIXA|RG)|ALTA|PCR|SRN)|EIRA)|M(?:E(?:EIR|AD)|IEIR)A|STÓIAS (?:MTS|VLF)|IDE DE VILA VERDE|BA(?:LHÃO)?|JÓ)|R(?:I(?:ST(?:ELO (?:C(?:OVO|MN)|P(?:CR|RD)|BCL)|OVAL)|AÇÃO VELHA)|E(?:S(?:TUMA|POS)|IXOMIL)|UZ(?: QUEBRADA-DAFUNDO)?|AS?TO|OCA)|I(?:(?:N(?:CO (?:RIBEIR|VIL)A|FÃE)|LADA)S|M(?:O VILA DE CASTANHEIRA|BRES)|DADELHE (?:MSF|PNH)|B(?:ORRO|ÕES)|COURO)|(?:ÂMARA DE LOB|ÓTIM)OS|ÁRQUERE|ÔTA)|A(?:L(?:D(?:EIA(?: (?:D(?:E (?:(?:JO(?:ÃO PIR|AN)|PAIO PIR)ES|SANT(?:A MARGARIDA|O ANTÓNIO)|NACOMBA)|O(?: (?:BISPO (?:GRD|PNC|SBG)|(?:SOU|MA)TO)|S FERNANDES)|A(?: (?:(?:RIBEIR|MAT)A|PONTE)|S DEZ))|GA(?:LEGA DA MERCEAN|VINH)A|V(?:ELHA (?:AVS|SBG)|IÇOSA)|NOVA (?:DO CABO|ALD|TCS)|S FRANCISCO ASSIS)|S (?:AMM|GVA))|REU)|V(?:A(?:R(?:E(?:LHOS (?:TRF|VLP)|NGA (?:ARC|LSD)|DOS?|S)|ÃES)|(?:IÁZER|LAD)E|ÇÕES DO CORGO|D(?:IA|OS))?|I(?:T(?:E(?: (?:CBC|MBR)|S)|O(?: DA BEIRA)?)|OBEIRA)|O(?:CO DA(?:S VÁRZEAS| SERRA)|R(?:(?:NINH)?A|GE)?)|E(?:RCA D(?:O RIBATEJO|A BEIRA)|NDRE|LOS|GA)|ÃO)|C(?:A(?:R(?:IA (?:RUIVA|FND|PMS)|AVELA)|N(?:E(?:DE|NA)|TARILHA|HÕES)|F(?:ACHE|OZES)|I(?:DE|NS)|BIDECHE)|O(?:(?:CHET|ENTR)E|B(?:ERTAS|AÇA)|(?:NGOST|FR)A|ROCHEL|UTIM)|Á(?:CER DO SAL|ÇOVAS)|ÓRREGO)|M(?:A(?:GREIRA (?:PBL|VPT)|(?:(?:CE)?D|Ç)A|RGEM DO BISPO|LAGUÊS|NCIL)|O(?:(?:FALA (?:CD|FC)|DÔVA)R|STER (?:AVZ|STR))|E(?:I(?:RIM|DA)|NDRA))|F(?:A(?:REL(?:A DE JALE|O)S|I(?:ATES|ÃO))|E(?:IZERÃO|RCE|NA)|ÂNDEGA DA FÉ|UNDÃO)|B(?:ER(?:GARIA(?: D(?:A SERRA|OS DOZE)|-A-VELHA)|NOA)|U(?:FEIRA|RITEL)|ARDO)|T(?:O ESTANQUEIRO-JARDIA|URA(?:S DO BARROSO)?|E(?:R DO CHÃO)?|ARES)|P(?:E(?:NDURADA E MATOS|DRI(?:NHA|Z))|ALHÃO|IARÇA)|G(?:O(?:DRES F(?:AG|CR)|SO|Z)|ARVIA|UBER|ÉS)|H(?:(?:OS VEDRO|ÕE)S|A(?:NDRA|IS)|EIRA)|QUE(?:IDÃO(?: DA SERRA)?|RUBIM|VA)|J(?:U(?:BARROTA|STREL)|EZUR)|A(?:NDROAL|GOA)?|E(?:GRETE|NQUER)|ÉM DA RIBEIRA|IJÓ)|R(?:C(?:O(?:S(?: (?:(?:DE VALDEVE|ET)Z|TBC|VCD)|SÓ)|ZELO(?: (?:V(?:NG|VD)|DAS MAIAS|GVA)|S)| D(?:E (?:SÃO JORG|BAÚLH)E|A CALHETA))|AS?)|R(?:(?:UDA DOS (?:PISÕE|VINHO)|O(?:UQUELA|NCHE))S|I(?:FANA (?:GRD|PRS|VFR)|MAL)|A(?:IOLOS|BAL|NHÓ)|EIGADA)|G(?:A(?: DE (?:(?:SÃO JOÃ|BAIX)O|CIMA)|NIL)|O(?:NCILHE|ZELO)|E(?:RIZ|LA)|IVAI)|E(?:IAS (?:DE VILAR|BCL|FZZ|STS)|NTIM|GA|Z)|N(?:(?:EIRO DAS MILHARIÇ)?AS|O(?:ZEL|I)A)|M(?:A(?:ÇÃO DE PÊRA|MAR)|IL)|D(?:EGÃO (?:FAF|PTL)|ÃOS)|I(?:Z M(?:BR|CN)|CERA)|(?:O(?:UC|S)|ZIL)A|A(?:NHAS|ZEDE|DA)|ÕES|ÃO)|B(?:O(?:IM (?:DA(?: NÓBREGA|S CHOÇAS)|AMT|FAF)|(?:BOREIR|ADEL)A|RIM)|R(?:(?:UNH(?:OSA-A-VELH|EIR)|IGAD)A|A(?:NTES|GÃO)|EIRO|Ã)|A(?:D(?:E DE (?:VERMOIM|NEIVA)|IM)|(?:MBRE|ÇA)S)|I(?:TUREIRAS|UL)|E(?:DIM|LA))|V(?:E(?:L(?:ÃS D(?:E (?:C(?:AMINHO|IMA)|AMBOM)|A RIBEIRA)|EDA (?:(?:LS|VC)D|B(?:GC|RG))|A(?:[LR]|NOSO)|OSO)|IR(?:AS DE (?:BAIXO|CIMA)|O)|(?:SSADA)?S)|(?:I(?:D(?:AG)?O|NTE)?|ÕE)S|AN(?:TOS|CA)|Ô)|N(?:T(?:A(?:S (?:P(?:CT|ND)|EPS)|NHOL)|IME|ES)|G(?:RA DO HEROÍSMO|(?:UEIR|EJ)A)|(?:(?:DRÃ|HÕ)E|JO)S|C(?:E(?:RIZ|DE)|AS)|(?:READ|ELH)E|A(?:DIA|IS)|SIÃ(?:ES|O)|ISSÓ|OBRA|ÇÃ)|M(?:O(?:R(?:EIRA (?:(?:AL|OB)D|DA GÂNDARA)|IM|A)?|NDE)|I(?:EIR(?:A (?:DO TEJO|OLR|PRL)|O)|AIS DE BAIXO)|A(?:R(?:E(?:LEJA|S)|ANTE)|DORA)|E(?:(?:IXI)?AL|NDOEIRA|DO)|ÊNDOA)|G(?:U(?:I(?:[ÃM]|AR (?:D(?:A BEIR|E SOUS)A|BCL|VNT)|EIRAS?)|A(?:L(?:VA(?:-CACÉM)?|ONGA)|DA DE (?:BAIXO|CIMA))|DA)|R(?:ELA (?:FAF|STS)|O(?:CHÃO|BOM))|ADÃO|ILDE)|Z(?:I(?:NH(?:(?: BARROS S MAM SÁDÃ|OS)O|A(?:L (?:ALD|CTM)|GA))|AS)|(?:A(?:MBUJ(?:EIR)?|RUJ)|U(?:EI|RA)R)A|OIA DE (?:BAIXO|CIMA)|E(?:V(?:ED)?|ITÃ)O|ÕES)|T(?:ALAIA (?:DO CAMPO|[LP]NH|GAV|MTJ|VNB)|OUGU(?:IA DA BALE)?IA|ÃES (?:GMR|VVD)|E(?:NOR|I)|IÃES)|S(?:S(?:E(?:NTIZ (?:RMR|TNV)|ICEIRA [RT]MR)|A(?:FARGE|RES)|UMAR)|TROMIL)|D(?:O(?:RIGO|UFE)|E(?:GANHA)?|Ã(?:ES|O)|AÚFE)|CH(?:AD(?:A(?:S DA CRUZ)?|INHA)|ETE)| DOS (?:CUNHAD|FRANC|NEGR)OS|JUD(?:A DA BRETANHA|E)|I(?:R(?:ÃES|Ó)|ÃO)|P(?:ELAÇÃO|ÚLIA)|ÇORE(?:IRA|S)|FIFE)|V(?:I(?:L(?:A(?: (?:N(?:OVA (?:D(?:E (?:(?:C(?:ERVEIR|ACEL)|OLIVEIRINH|GAI)A|S(?:ÃO (?:BENT|PEDR)O|ANTO ANDRÉ)|M(?:(?:ILFONTE|ONSARRO)S|UIA)|F(?:AMALICÃO|OZ CÔA)|P(?:OIARES|AIVA)|AN(?:ÇOS|HA)|TAZEM)|(?:A (?:BAR(?:QUINH|ONI|C)|RAINH)|O CEIR)A)|S(?:OUTO D'EL-REI|ANDE)|(?:MC|VP)V)|UNE)|C(?:O(?:VA (?:D(?:E (?:PERRINHO|CARROS|ALVA)|O COVELO)|À COELHEIRA (?:SEI|VNP)|(?:BC|VR)L|(?:FA|PN)F)|RT(?:ÊS DO MONDEGO|ES DA SERRA))|HÃ(?: (?:D(?:E (?:BRACIOSA|OURIQUE)|A BEIRA|O MARÃO)|ALJ|EPS|FAG|VCD))?|AIZ|Ã)|F(?:R(?:ANCA(?: D(?:A(?: (?:BEI|SER)RA|S NAVES)|O (?:ROSÁRI|CAMP|DEÃ)O|E XIRA))?|IA (?:FLG|VCT))|ERNANDO (?:ELV|GRD)|ACAIA|LOR)|D(?:E (?:(?:CUCUJÃ|FRAD)ES|P(?:RADO|UNHE)|SÃO SEBASTIÃO|ALA|REI)|O (?:(?:P(?:ORT|AÇ)|BISP|TOUR)O|CONDE)|A PONTE (?:MTR|SRN))|V(?:E(?:RDE(?: (?:D(?:OS FRANCOS|E FICALHO|A RAIA)|ALJ|FLG|MDL|VNH))?|LHA DE RÓDÃO)|IÇOSA)|BO(?:A (?:D(?:E (?:OUSILHÃO|QUIRES)|O (?:MONDEG|BISP)O)|MDL|SBG)|IM)|M(?:A(?:IOR (?:SPS|VFR)|RIM)|O(?:REIRA|U)|EÃ(?: VNC)?)|P(?:OUCA D(?:E AGUIAR|A BEIRA)|RAIA DE ÂNCORA)|R(?:EAL(?: SANTO ANTÓNIO)?|UIVA (?:CUB|FAG))|S(?:ECA (?:AMM|BCL|CDN)|OEIR(?:O DO CHÃ)?O)|GARCIA (?:AMT|GRD|TCS)|(?:LONG|ALV)A)|R(?: (?:D(?:E (?:(?:(?:F(?:ERREIR|IG)|BESTEIR|OSS)O|CUNHA)S|M(?:(?:URTE|AÇA)DA|OUROS)|P(?:EREGRINOS|INHEIRO)|AMARGO|LOMBA|REI)|O (?:MONTE (?:(?:BC|PT)L|MCD)|TORNO E ALENTÉM)|AS ALMAS)|SECO (?:(?:NL|VM)S|DE LOMBA)|C(?:HÃO (?:AFE|VRM)|DV)|B(?:ARROCO|TC)|T(?:ORPIM|BR)|M(?:AIO|B)R|PERDIZES|FORMOSO|VCD)|INHO (?:D(?:A(?:S (?:PARANHEIR|AZENH|CAMB)AS| (?:CASTANHEIRA|SAMARDÃ))|O(?:S (?:FREIRE|GALEGO)S| (?:BAIRRO|MONTE))|E (?:(?:SÃO ROM|AGROCH)ÃO|COTAS))|LSA|STS|VVD)|E(?:S (?:DE VILARIÇA|MUR|TCS)|LHO(?: DA RAIA|S)?)|(?:ANDEL|OUC)O)|S BOAS (?:CHV|VFL)|MAR|ÇA)|E(?:LA (?:(?:DO TÂMEG|SEC)A|A(?:MR|VV)|P(?:RD|VL)))?| DE (?:MATOS|SOUTO))|A(?:(?:NA DO (?:ALENTEJ|CASTEL)|DE DE BAIX)O|LONGA|TODOS|RIZ)|D(?:E(?: ENTRE VINHAS|MONTE)?|A(?:GO|IS)|IGUEIRA|UAL)|M(?:I(?:EIRO (?:ARL|BRG|SCD)|OSO)|EIRO (?:ACB|LNH))|NH(?:Ó(?:S (?:FAF|PRG))?|A(?: DA RAINHA|I?S))|TORINO D(?:AS DONA|OS PIÃE)S|EIRA D(?:E LEIRIA|O MINHO)|ZELA|SEU)|A(?:L(?:E(?: (?:D(?:E (?:A(?:(?:ZAR|SN)ES|FONSINHO|MOREIRA|ÇOR)|F(?:IGUEIRA (?:S(?:JP|TR)|TBC)|RADES)|(?:(?:JANEI|BOU)R|REMÍGI|VARG)O|(?:(?:GOUVIN|TEL)H|NOGUEIR)AS|SA(?:NT(?:ARÉM|IAGO)|LGUEIRO)|C(?:A(?:VALOS|MBRA)|OELHA)|P(?:RA(?:ZERE|DO)S|ORCO)|ES(?:PINHO|TRELA)|M(?:ADEIRA|ENDIZ)|ÁGUA)|A(?: (?:(?:P(?:EDR|INT|ORC)|SENHORA DA PÓVO|AMOREIR)A|M(?:ADRE|ULA))|S (?:FONTE|ÉGUA|MÓ)S)|O (?:P(?:ARAÍ|E)S|SEIX)O)|(?:BENFEIT|PEREIR|LONG|COV)O|F(?:(?:RECH|ORM)OSO|LOR)|V(?:ERDE|FR)|AVV)|S (?:DO RIO|AFE|VLP)|NÇA(?: DO DOURO)?|ZIM)|O(?:NGO(?: (?:D(?:O(?:S AZEITES| VOUGA)|E MILHAIS)|AVS))?|URA)|AD(?:A(?:RES (?:BAO|MNC|SPS))?|O DOS FRADES)|VERDE (?:A(?:FE|GB)|M(?:DL|GD)|FND)|D(?:OSENDE|IGEM|REU|UJO)|(?:H(?:ASCO|ELHA)|ÕE)S|BOM (?:GDM|PNH)|P(?:AÇOS|EDRE)|MAIOR|TORNO)|S(?:C(?:OVEIRO|ÕES)|SAL)|QUEIROS (?:ACT|STR)|I(?:AMONTE|RÃO)|CA(?:RIÇA|LAR)|RZIELAS?|NDOMA|GOS|DE|U)|E(?:N(?:TO(?:SA (?:V(?:RM|ZL)|DO BAIRRO|ALQ|TVD)|ZELO)|DA(?: (?:DO PINHEIRO|NOVA)|S NOVAS)|ADE)|R(?:M(?:I(?:OSA|L)|OI[LM]|ELHA)|D(?:ELHOS|OEJO)|A CRUZ|RIDE|IM)|I(?:GA DE LILA|ROS ET[RZ])|L(?:AS?|OSA)|STIARIA|ADE)|Á(?:RZEA (?:D(?:E (?:(?:T(?:AVAR|REVÕ)E|ABRUNHAI)S|MERUGE)|O(?:S CAVALEIROS| DOURO)|A SERRA)|(?:OVELHA E ALIVIAD|COV)A|A(?:MT|RC)|S(?:PS|TR)|BCL)|LEGA)|REIA DE (?:BORN|JAL)ES|(?: FRESCAINH|OUZEL)A)|P(?:A(?:R(?:A(?:D(?:A(?: (?:D(?:E (?:T(?:IBÃES|ODEIA)|G(?:ATIM|ONTA)|MONTEIROS|PINHÃO|ESTER)|O (?:B(?:ISP|OUR)O|MONTE))|(?:BG|MN)C|A(?:FE|LD)|CRS|PCR|VCD)|NÇA)|ELA (?:(?:CH|PC|SV)V|M(?:[DT]R|GD)|DE GUIÃES|BCL|TBC)|INH(?:A NOV)?A)|NHOS (?:AMR|SEI)|MBOS|ÍSO)|EDE(?:S(?: (?:D(?:E (?:VIADORES|COURA)|O BAIRRO|A BEIRA)|SECAS|PNF))?)?|C(?:EIROS DE IGREJA|HAL)|D(?:(?:ELHA|AI)S|ILHÓ)|REIRA|ÂMIO)|Ç(?:O(?:S (?:D(?:E (?:(?:BRANDÃ|GAIOL)O|VILHARIGUES|FERREIRA)|A SERRA)|MLG|SBR)| (?:DE (?:ARCOS|SOUSA)|VEDRO DE MAGALHÃES))|Ó)|L(?:M(?:E(?:IRA (?:DE FARO|BRG|STS)|LA)?|AZ)|H(?:A(?:IS (?:BRR|SRT|TCS)|ÇA)|EIROS)|A(?: (?:MRT|PNH)|ÇOULO))|D(?:R(?:O(?:SO (?:AVV|MTR)|NELO)|E(?:LA E TÁZEM|IRO))|ERNE (?:ABF|MLG)|IM DA GRAÇA|ORNELOS?)|I(?:N(?:ZELA|HO)|(?:ALV|Ã)O|O MENDES| PENELA)|N(?:OIAS (?:DE CIMA|BRG|ORQ)|CHORRA|QUE)|SS(?:[ÓÔ]|OS(?: (?:CBC|FAF|MDL))?)|(?:MPILHOS(?:A DA SERR)?|VI)A|U(?:L(?: DO MAR)?|S)|(?:PÍZIO|TAIA)S)|E(?:N(?:A(?:LVA D(?:O CASTELO|E ALVA)| (?:VERDE|LOBO)|S(?: ROIA|CAI)S|COVA(?: FLG)?|MA[CI]OR|FIEL|JÓIA)?|HA(?: (?:(?:DE ÁGU|GARC)I|LONG)A|S(?: JUNTAS|COSO))|S(?:O(?: (?:MLG|SRN))?|ALVOS)|E(?:L(?:A DA BEIR)?A|DONO)|(?:(?:DIL|IC)H|UD)E)|R(?:E(?:IR(?:O(?: (?:DE PALHACANA|ACT|PNH|TBC)|S (?:CRZ|SJP))|A(?: (?:M(?:DL|MV)|BCL)|S-GARE))|DO(?: D(?:OS CASTELHANOS|A BEMPOSTA))?|LHAL)|O(?:(?: PINHEIR|SINH|ZEL)O|GUARDA)|A(?:L (?:CD|PN)V|(?:FIT|BO)A|IS)|NES|RE)|D(?:R(?:ÓGÃO (?:(?:DE SÃO PEDR|PEQUEN)O|GRANDE|TNV|VDG)|E(?:IRA(?: (?:FLG|TMR)|S)|GAIS)|A(?:(?: FURAD|LV|Ç)A|ÍDO)|O(?: MIGUEL|SO))|O(?:RIDO|ME))|S(?:SEGUEIRO(?: DO VOUGA)?|O(?: DA RÉGUA)?)|G(?:A(?:RINHOS)?|ÕES|O)|VA (?:ALD|MBR)|L(?:ARIGA|MÁ)|PIM)|O(?:R(?:T(?:O(?: (?:D(?:E (?:OVELHA|MÓS)|A C(?:ARNE|RUZ))|(?:SA(?:LV|NT)|FORMOS|COV)O|M(?:ARTINS|ONIZ)|JUDEU))?|EL(?:A (?:D(?:AS CABRAS|O FOJO)|A(?:MR|VV)|[PV]NF|SUSÃ|LRS|MNC))?|ALEGRE|UNHOS|IMÃO)|(?:REIRA|CHE)S)|N(?:T(?:A (?:D(?:ELGADA(?: S(?:CF|VC))?|O (?:PARGO|SOL))|GARÇA)|E (?:D(?:E (?:VAGOS|LIMA|SOR)|A BARCA|O ROL)|GMR|VVD)|ÉVEL|INHA)|DRAS)|M(?:B(?:A(?:L(?:INHO (?:GLG|SRE)| (?:AFE|CRZ))?|RES)|EIRO D(?:E RIBAVIZEL|A BEIR)A)|ARES (?:AGN|PNH))|USA(?:DA (?:DE SARAMAGOS|BRG|GRD)|F(?:OLES DO BISPO|LORES))?|IARES (?:P(?:RG|TL)|FEC)|D(?:EN(?:TES|CE)|AME)|C(?:ARIÇA|EIRÃO)|VO(?:AÇÃO|LIDE)|ÇO DO CANTO|SSACOS)|I(?:N(?:H(?:E(?:IRO(?: (?:D(?:E (?:ÁZERE|COJA)|A BEMPOSTA)|G(?:RANDE|MR)|(?:CD|OF)R|NOVO|AGB|FLG|PNF|VRM)|S (?:MN|TB)C)|L)|A(?:L (?:DO NORTE|NOVO)|NÇOS)|O (?:BTC|SPS)|ÃO)|D(?:ELO(?: DOS MILAGRES)?|O)|EL[AO])|C(?:O(?: D(?:E REGALADOS|A PEDRA)|TE)?|ÃO)|(?:TÕES DAS JUNIA|GEIRO)S|AS (?:FZZ|LSD|MNC|SRP)|LAR DA BRETANHA|EDADE|ÓDÃO)|R(?:A(?:I(?:A D(?:O (?:(?:ALMOXARIF|NORT)E|RIBATEJO)|(?:A VITÓRI|E MIR)A)|NHA)|ZERES|DOS?)|O(?:ENÇA-A-(?:VELH|NOV)A|ZELO A(?:MR|VV)|V(?:ESENDE|A))|I(?:OR VELHO|SCOS)|ETAROUCA|ÉSTIMO)|Ó(?:VOA(?: D(?:E (?:S(?:ANT(?:A(?: IRIA|RÉM)|O ADRIÃO)|ÃO MIGUEL)|(?:(?:CERVÃ|MIDÕ)E|RIO DE MOINHO)S|A(?:GRAÇÕES|TALAIA)|LANHOSO|EL-REI|PENELA|VARZIM)|O CONCELHO|A ISENTA))?|PULO)?|ÊR(?:A(?: (?:DO MOÇO|VELHA))?|O (?:SOARES|MONIZ|VISEU))|ÍNZIO|USSOS)|M(?:O(?:N(?:T(?:E(?: (?:D(?:E FRALÃES|A PEDRA|O TRIGO)|RE(?:DONDO (?:AVV|LRA|TVD)|AL)|(?:PEROBOLÇ|GORD)O|MARGARIDA|FAF|TBR)|MOR-O-(?:VELH|NOV)O|S(?: DA SENHORA)?|LAVAR|IRAS)|A(?:L(?:EGRE|VÃ?O)|R(?:GIL|IA))|(?:O[IU]T|IJ)O)|D(?:IM D(?:A BEIRA|E BASTO)|RÕES)|S(?:A(?:NTO (?:AC|ID)N|RAZ)|UL)|FORT(?:E(?: DA BEIRA)?|INHO)|C(?:ARAPACHO|HIQUE)|ÇÃO)|I(?:MENT(?:A (?:D(?:A (?:BEI|SER)RA|E MACEIRA DÃO)|CNF|VNH)|INHA)|TA(?: (?:DOS FERREIROS|MGR|SBG)|S VENDA)?|NHOS DA GÂNDARA)|R(?:EIRA(?: (?:D(?:E (?:GERAZ DO LIMA|CÓNEGOS|REI)|O (?:CASTELO|LIMA|REI))|MNC|NLS)|S)|(?:REIR|TÁGU)A|A(?:IS)?|GADE)|U(?:R(?:A(?: (?:MORTA (?:CDR|PRG)|DA SERRA))?|E (?:(?:BC|PV)L|VVD)|I(?:SCAS|LHE|Z)|ÃO(?: VFL)?|ONHO)|QUIM)|S(?:TEIR(?:O(?: (?:DE FRÁGUAS|LGF|OLR|VRM)|S (?:ARR|PDL))|Ó V(?:CD|FR)|INHO)|CAVIDE)|L(?:EDO (?:C(?:DR|MN)|LNH)|(?:AR|D)ES)|G(?:O(?: DE MALTA|FORES)|ADOURO|EGE)|(?:FREIT|ÇARRI|MBEJ)A|ZELOS (?:PC|VF)R|D(?:ELO|IVA)S)|A(?:R(?:MEL(?:E(?:IR(?:A (?:MRT|RMR)|O (?:GRD|SRT))|TE)|OS)|T(?:I(?:N(?:GANÇA|CHEL)|M(?: LONGO)?)|ELEIRA)|I(?:NHA(?: (?:DAS ONDAS|GRANDE)|IS)|ALVA|Z)|(?:CO DE CANAVESE|RANCO)S|(?:ANH|ZAG|V)ÃO|ECOS?|GEM)?|C(?:I(?:EIRA (?:D(?:E (?:(?:SARN|RAT)ES|ALCOBA)|A (?:LIX|MAI)A)|LSD|SRN)|NHATA D(?:A SEIX|O VOUG)A)|E(?:D(?:O D(?:E CAVALEIROS|O MATO)|A)|IRA (?:FAG|LRA|TVD))|HIC?O)|N(?:(?:(?:TEIG|AD)A|CELO|SORE)S|I(?:QUE DO INTENDENTE|GOTO)|H(?:(?:ENT|OUC)E|UNCELOS)|GUALDE(?: DA SERRA)?)|T(?:A(?: (?:D(?:A RAINHA|E LOBOS)|MOURISCA)|(?:CÃE)?S|NÇA)?|ELA (?:PCT|VMS)|O(?:SINHOS)?)|Ç(?:Ã(?:S DE (?:DONA MARIA|CAMINHO)|O)|A(?:ÍNHAS (?:BMT|GRD)|L DO CHÃO)|ORES|USSA)|L(?:H(?:ADA(?: SORDA|S)|OU)|P(?:ICA DO TEJO|ARTIDA)|(?:(?:CA)?T|VEIR)A|AQUEIJO)|D(?:A(?:LENA(?: DO MAR)?|IL)|EIRÃ)|Z(?:(?:OUC|ED)O|AREFES)|I(?:(?:OR[CG])?A|ROS)|(?:SCARENHA|URELE)S|M(?:ARROSA|OUROS)|G(?:RELOS|UEIJA)|XIAL|FRA)|E(?:I(?:X(?:EDO (?:BGC|MTR|VCT)|OMIL|IDE)|(?:(?:JINH)?O|RINH[AO])S|M(?:ÃO|OA)|A VIA|NEDO)?|S(?:QUI(?:TELA (?:ALD|CLB|MGL)|NHATA)|SE(?:GÃES|JANA)|ÃO FRIO)|D(?:A(?:(?: DE MOURO)?S)?|EL(?:IM|O)|RÕES)|L(?:(?:CÕ|ID|R)ES|(?:GAÇ)?O)|(?:XILHOEIRA GRAND|RU[FG])E|(?:ÃS DO CAMP|ZI)O|M(?: MARTINS|ÓRIA)|N(?:TRESTIDO|DIGA)|(?:ALHAD|C)A)|I(?:R(?:A(?:ND(?:A(?: DO (?:CORV|DOUR)O)?|ELA)| DE AIRE|GAIA)?|E DE TIBÃES)|LH(?:(?:EIRÓS DE POIARE|UNDO)S|A(?:RADO|ZES)|ÃO)|N(?:AS DA PANASQUEIRA|HO(?:TÃES|CAL)|DE(?:LO)?)|D(?:ÕES (?:BCL|TBU)|O)|(?:ZAR|UZ)ELA|OM(?:ÃES|A))|U(?:R(?:Ç(?:A(?: VLF)?|ÓS)|T(?:EDE|OSA)|O)|XAGATA (?:FAG|VLF)|JÃES|GE)|ÓS (?:(?:BG|TM)C|V(?:LF|VD))|(?:ÚRIA|ÕE)S|ÉRTOLA)|F(?:O(?:R(?:N(?:O(?:S (?:D(?:E (?:MACEIRA DÃO|ALGODRES)|O PINHAL)|CPV|FEC|VFR)| TELHEIRO)|ELO(?:S (?:(?:BC|PT)L|(?:CN|FA)F|SMP)| DO MONTE)?|INHOS)|OS DE (?:(?:VALE DE FIGUEI|SALVATER)RA|ARRÃO)|(?:(?:JÃ|L)E|CALHO)S|T(?:E DA CASA|IOS)|M(?:IGAIS|ARIZ))|NT(?:E(?: (?:ARCADA (?:P(?:NF|VL)|SRN)|D(?:O BASTARD|E ANGEÃ)O|LONGA (?:CRZ|MDA)|(?:COBERT|BO)A)|S (?:ABT|SMP)|L(?:AS|O))|INHAS|OURA|ÃO)|L(?:GOS(?:INHO|A)|HAD(?:OS)?A|QUES)|Z D(?:O (?:ARELHO|SOUSA)|E AROUCE)|JO LOBAL|IOS)|R(?:E(?:I(?:X(?:O (?:D(?:E (?:(?:ESPADA À CINT|CIM)A|(?:BAIX|NUMÃ)O)|A SERRA)|ALD|PTL)|I(?:E(?:IRO DE SOUTELO|L)|A(?:L DO CAMPO|NDA)|NHO|OSA)|EDA(?: DO TORRÃO|S)?)|RI[AZ]|NEDA|GIL|TAS)|(?:(?:AMU)?ND|SULF)E|CH[AE]S|GIM)|A(?:D(?:E(?:LOS (?:BRG|VNF)|S)|IZELA)|(?:GOS|ZÃ)O|N(?:CO|ÇA)|TEL)|I(?:A(?:NDE (?:FLG|PVL)|STELAS)|(?:E(?:ST|L)A|(?:ÚM|Õ)E)S|DÃO)|ÁGUAS (?:RMR|VNP)|O(?:NTEIRA|SSOS))|E(?:R(?:R(?:E(?:IR(?:A(?: (?:D(?:O (?:ALENTEJO|ZÊZERE)|E AVES)|P[CF]R|MCD)|-A-NOVA|S)|OS (?:DE (?:TENDAI|AVÕE)S|AMR|PVL)|Ó(?:S DO DÃO)?|IM (?:LMG|SRN))|L)|A(?:DOSA|GUDO|L)|O)|NÃO (?:JOANES|FERRO)|ME(?:NTELOS|DO|LÃ)|V(?:IDELAS|ENÇA))|LG(?:UEIRAS(?: (?:FAF|RSD|TMC))?|AR)|NAIS DA (?:AJUDA|LUZ)|I(?:T(?:AL|OS)|RÃO)|TEIRA (?:AGH|HRT)|BRES)|A(?:I(?:A(?: (?:CBC|GRD|SRN)|L(?: DA TERRA)?)|L(?:DE)?|ÕES)|J(?:Ã(?: (?:DA OVELHA|GRANDE)|ZINHA|O)|(?:OZ|Õ)ES|ARDA)|R(?:(?:(?:O DO ALENTEJ)?|MINHÃ)O|(?:EJ|I)A)|M(?:ALICÃO (?:GRD|NZR)|ÕES)|ZENDA(?:S DE ALMEIRIM)?|(?:V(?:AIO|ÕE)|NHÕE)S|T(?:AÚNÇOS|ELA)|CHA|FE)|I(?:GUEIR(?:A(?: (?:D(?:OS CAVALEIROS|E LORVÃO|A FOZ)|CASTELO RODRIGO|E BARROS|LMG|PNF)|S)|Ó(?: D(?:O(?:S VINHOS| CAMPO)|A (?:GRANJ|SERR)A))?|EDO (?:D(?:AS DONAS|E ALVA)|[AG]MR|BRG|SRT)|OS)|ÃES (?:DO (?:TAMEGA|RIO)|V(?:FR|LP)|MLG|TCS)|OLHOSO|SCAL)|U(?:N(?:D(?:ADA|ÃO)|CHAL)|R(?:ADOURO|NAS)|INHAS|SETA)|L(?:OR DA ROSA|AMENGOS)|ÂNZERES|ÁTIMA|ÃO)|B(?:A(?:R(?:R(?:EIR(?:O(?:S (?:V(?:IS|LP)|AMR)| DE BESTEIROS)?|A)|O(?:S(?:ELAS|A)?|ÇAS E TAIAS|CA)|Ô (?:AG|RS)D|IL DE ALVA|ANCOS)|C(?:O(?: (?:CVL|GMR)|UÇO|S)|EL(?:OS)?|ARENA)|ÃO DE SÃO (?:MIGUEL|JOÃO)|B(?:(?:ACEN|EIT)A|UDO)|QUEIROS (?:BCL|MSF)|AÇAL (?:CLB|SBG))|L(?:A(?:ZAR (?:GMR|PVZ)|NÇA)|(?:UGÃE|DO)S|EIZÃO|TAR)|I(?:RR(?:ADAS|OS?)|XA DA BANHEIRA|ÕES|ÃO)|(?:GU(?:(?:IM DO MO)?NT|EIX)|B)E|N(?:HO E CARVALHOSA|DEIRAS)|(?:JOUC|TALH)A|D(?:AMALOS|IM)|ST(?:UÇ)?O|ÇAL)|E(?:N(?:F(?:ICA DO RIBATEJO|EITA)|(?:E(?:SPER|DIT)|DAD)A|A(?:V(?:ENTE|ILA)|FIM)|QUERENÇAS?|LHEVAI|SAFRIM|CATEL|TE)|L(?:A(?:ZAIMA DO CHÃO|S)?|VER (?:CRZ|GAV)|I(?:NHO|DE)|MONTE)|I(?:R(?:[ÃE]|A(?:L DO LIMA| GRANDE))|JÓS)|S(?:TEIROS (?:AMR|PRD)|ELGA (?:PND|TMR))|M(?:POSTA (?:ABT|MGD|PNC)| DA FÉ)|R(?:TIANDOS|INGEL)|[JÇ]A|CO)|O(?:R(?:BA(?: DE (?:MONTANHA|GODIM))?|D(?:A DO CAMPO|ONHOS|EIRA)|NES(?: DE AGUIAR)?|RALHA)|A(?:(?: (?:VENTUR|ALDEI)|LHOS)A|VISTA DOS PINHEIROS)|GA(?:S DE (?:BAIXO|CIMA)|LHAL)|U(?:Ç(?:(?:A COV)?A|OÃES)|RO)|BADELA (?:BTC|CHV|LRS|OHP)|M(?: SUCESSO|BARRAL)|I(?:VÃ(?:ES|O)|M)|L(?:IQUEIME|HO)|T(?:ICAS|ÃO)|DIOSA|ELHE)|R(?:A(?:N(?:CA (?:ALB|CCH)|DARA)|(?:SFEM|VÃ)ES|GA(?:NÇA|DO)?)|U(?:NH(?:OS(?:INH)?O|(?:AI|Ó)S)|FE (?:TBR|VNF)|ÇÓ)|I(?:T(?:(?:EL)?O|IANDE)|NCHES)|O(?:GUEIRA|TAS))|U(?:ST(?:ELO (?:C(?:HV|NF)|AMT|PNF)|OS)|(?:C(?:ELA|O)|GALHO|DEN)S|NHEIRO|RG[AO])|I(?:S(?:C(?:AÍNHO|OITOS)|MULA)|DOEIRA DE CIMA|CO (?:AM|PC)R|TARÃES|GORNE|LHÓ)|ÁRRIO (?:ACB|PTL))|R(?:I(?:B(?:EIR(?:A(?: (?:D(?:E (?:FR(?:ÁGUA|ADE)S|(?:NIS|PEN)A|SÃO JOÃO)|O(?:S CARINHOS| FÁRRIO)|A(?:S TAINHAS| JANELA))|(?:GRAND|QUENT)E|SECA (?:CHT|RGR)|BRA(?:NC|V)A|CHÃ)|DIO|S)?|INHA (?:AGH|HRT|LGP|RGR)|ÃO|OS)|A(?: DE (?:ÂNCORA|MOURO|AVE)|LONGA (?:ALJ|CRZ)|M(?:ONDEGO|AR)|F(?:EIT|RI)A|DOURO|S)|OLHOS)|O(?: (?:D(?:E (?:M(?:O(?:INHOS (?:A(?:[BJ]T|VV)|BRB|PNF|SAT)|URO)|EL)|COUROS|ONOR)|OURO)|T(?:ORTO (?:GVA|VLP)|INTO(?: EPS)?)|M(?:A(?:U (?:V[CV]D|PNF)|IOR)|EÃO)|C(?:A(?:BRÃ|LD)|OV)O|FRIO (?:AVV|BGC)|VIDE)|DADES)|ACHOS)|E(?:G(?:UE(?:NG(?:O(?: (?:DO FETAL|GRANDE)|S DE MONSARAZ)?|A)|IRA DE PONTES)|O(?: DA MURTA)?|ADAS|ILDE)|BO(?:R(?:D(?:(?:(?:AINH|Ã)O|ÕE)S|ELO(?: AMT)?|OSA)|EDA)|L(?:EIRO|OSA))|F(?:O(?:JOS DE RIBA DE AVE|NTOURA)|ÓIOS DO LIMA)|ND(?:UF(?:E (?:[AG]MR|PTL)|INHO)|O)|M(?:(?:O(?:ND|Ã)E|ÉDIO)S|ELHE)|IG(?:OSO (?:MT|OF)R|ADA)|D(?:OND(?:EL)?O|INHA)|V(?:INHAD|ELH)E|AL (?:CPV|PCT)|CAR(?:DÃES|EI)|SENDE(?: PCR)?|QU(?:EIX|IÃ)O|T(?:ORTA|AXO)|LÍQUIAS|RIZ)|A(?:(?:P(?:O(?:S(?:EIR)?|ULA DO CO))?|I(?:MOND|V))A|B(?:A(?:ÇAL (?:MDA|PNL)|L)|O DE PEIXE)|M(?:A(?:LHAL|DA)|I(?:NHO|RES)|ELA)|N(?:(?:HADO)?S|DE)|T(?:OEIRA|ES))|O(?:S(?:SAS (?:ARC|VRM)|MANINHAL|ÁRIO|AIS|ÉM)|M(?:ARI(?:GÃES|Z)|E(?:IRA|U)|ÃS)|C(?:A(?:S DO VOUGA|MONDO)|HOSO)|RIZ (?:BCL|CHV|STS)|(?:USSA|IO)S|LIÇA|GIL|NFE)|U(?:IV(?:ÃES V(?:NF|RM)|[ÓO]S)|(?:(?:VI)?N)?A|BIÃES|ÍLHE)|ÔGE)|L(?:A(?:M(?:A(?:S (?:D(?:E (?:O(?:RELHÃ|L)|MOUR)O|O VOUGA)|MC[DV]|BRG|CDV)| (?:(?:DE ARCO|ST)S|BCL)|R(?:OSA|ES)|LONGA)|E(?:(?:IR|L)AS|G(?:AL|O))|OS[AO])|G(?:O(?:A(?: (?:MCD|VNF)|ÇA)?|S(?: DA BEIRA)?)?|AR(?:ES (?:OHP|PNF)|INHOS|TEIRA)|E)|JE(?:S (?:D(?:AS FLORES|O PICO)|SEI|VPV)|OSA (?:DO MONDEGO|OHP|SBG|TND)|DO)|V(?:R(?:A(?:D(?:AS|IO))?|E)|A(?:COLHOS|NDEIRA)|(?:EGADA|O)S)|N(?:H(?:(?:E(?:LA|SE)|A)S|OSO)|D(?:EIRA|AL|IM))|P(?:A(?: DO(?:S DINHEIROS| LOBO))?|ELA)|R(?:(?:DOS)?A|INHO)|BRU(?:J[ÓA]|GE)|(?:ZAR|L)IM|DOEIRO|UNDOS)|O(?:U(?:R(?:E(?:D(?:O (?:P(?:RD|VL)|V(?:FR|RM)|AMT|SMP)|A)|IR(?:O (?:OAZ|PRG)|A)|S)|I(?:ÇAL(?: DO CAMPO)?|CEIRA|NHÃ)|O(?:SA(?: OHP)?)?)|S(?:A(?: (?:CTB|LRS|TMC)|D[AO])|Ã)|LÉ)|MB(?:A (?:D(?:A (?:FAZEND|MAI)A|E SÃO PEDRO)|AMT|GDM|LGF|SBG)|O)|NG(?:O(?:(?:S VALE)?S|MEL)|UEIRA-ALMOGRAVE|(?:ROIV)?A)|R(?:D(?:ELO (?:FLG|GMR|MNC|PRD)|OSA)|IGA|VÃO)|IVO(?:S(?: D(?:A RIBEIRA|O MONTE))?)?|B(?:(?:ELHE DO MAT|Ã)O|RIGOS)|D(?:AR|Õ)ES|VELHE)|I(?:N(?:HARES (?:C(?:LB|RZ)|PCR)|D(?:A A VELHA|OSO))|(?:CEI|SBO|X)A|(?:GAR|MÕ)ES|JÓ)|U(?:Z(?: (?:LGS|MOU|SCG|TVR)|I(?:[MO]|ANES-GARE))|S(?:INDE|TOSA|O)|FREI)|E(?:(?:ÇA DO BALI|BUÇÃ)O|OMIL (?:ALD|MBR)|I(?:TÕES|RIA)|MENHE|VER))|G(?:O(?:N(?:D(?:O(?:M(?:AR(?: (?:GMR|VVD))?|IL)|RIZ (?:AVV|TBR))|A(?:R(?: (?:AMT|CMN|VNC)|ÉM)|LÃES)|I(?:ÃES (?:CBC|VVD)|FELOS)|E(?:MARIA|SENDE)|UFE)|ÇA(?:LO(?: BOCAS)?)?|TIM)|U(?:V(?:EIA(?: (?:AFE|PNH))?|ÃES DO DOURO|I(?:NHA|ÃE)S)|JOIM)|M(?:I(?:NHÃES|DE)|ES AIRES)|L(?:PILHEIRA|ÃES|EGÃ)|ÃES (?:AMR|VVD)|DI(?:NHAÇOS|M)|(?:SEND|V)E|IOS)|A(?:FANH(?:A D(?:A (?:ENCARNAÇÃO|BOA HORA|NAZARÉ)|O CARMO)|ÃO)|N(?:D(?:RA (?:P(?:RD|TL)|VLN)|ARELA)|ÇARIA|FEI)|L(?:EGOS(?: P(?:NF|VL))?|AFURA|VEIAS)|V(?:I(?:EIRA|ÃO)|E)|I(?:O-ROSÁRIO|FAR)|GOS (?:CBT|GRD)|R(?:VÃO|FE)|T(?:ÕES|ÃO)|EIRAS|MIL|ULA)|R(?:A(?:N(?:J(?:A(?: (?:DO (?:ULMEIR|TED)O|NOVA|BTC|MOU|PND|TCS)|L)|INHA)|HO)|LH(?:EIRA|AS)|D(?:I[LZ]|E)|ÇA)|I(?:JÓ (?:DE PARADA|MCD|VNG)|MANCELOS|LO)|ÂNDOLA|OVELAS)|U(?:I(?:LH(?:ABREU|OFREI|EIRO|UFE)|(?:(?:MAR)?Ã|[DF]Õ)ES|SANDE (?:BRG|VFR)|A (?:ABF|PBL))|A(?:RD(?:IZEL)?A|DALUPE)|ERAL)|E(?:R(?:AZ (?:DO MINHO|LIMA)|MIL P(?:CT|TB)|ÊS)|M(?:E(?:SES)?|IEIRA)|ST(?:EIRA|AÇÔ)|BELIM|NÍSIO)|I(?:(?:(?:NET|Õ)E|RABOLHO)S|ÃO V(?:CD|FR)|L?MONDE)|LÓRIA(?: DO RIBATEJO)?|ÉMEOS (?:CBT|GMR)|(?:ÂNDARA|ÓI)S|ÁFETE)|T(?:R(?:A(?:VA(?:NC(?:A(?: (?:D(?:E (?:TAVARE|LAGO)S|O MONDEGO)|V(?:FR|NH)|AMT|CNF|MGD|OAZ)|S)|INHA)|SS(?:ÓS (?:FAF|VVD)|OS|Ô))|N(?:CO(?:ZELOS|SO)|DEIRAS)|MAGAL?|FARIA)|O(?:VISC(?:AL (?:OBR|SRT)|OSO)|P(?:ORIZ|EÇO)|FA(?: AGD)?|NCO)|E(?:(?:S(?:MIN|OUR)A|VÕE|MÊ)S|IXEDO|GOSA|ZÓI)|I(?:N(?:DADE (?:BJA|VFL)|TA)|GACHES)|UTE)|O(?:R(?:R(?:E(?: (?:D(?:E (?:V(?:ALE DE TODOS|ILELA)|COELHEIROS|DONA CHAMA|MONCORVO)|O (?:TERRENH|PINHÃ)O)|AMR|VCT)|S(?: (?:VEDR|NOV)AS)?|(?:DEIT|IR)A)|ÃO(?: MCN)?|OZELO|ADOS)|(?:TOSEND|N)O|GUEDA)|U(?:R(?:(?:IG)?O|AIS|ÉM)|GU(?:INH[ÓA]|ES)|(?:TOS|Ç)A|LÕES|VEDO)|(?:NDEL|LOS|CH)A|MAR|PO)|E(?:R(?:R(?:A(?:S DE BOURO| CHÃ)|UGEM (?:ELV|SNT)|(?:ENH|OS)O)|ENA)|L(?:HADO (?:FND|VNF)|ÕES (?:AMT|VPA))|IX(?:EIR(?:A (?:AGN|BAO|SEI)|Ó)|OSO)|N(?:TÚGAL|DAIS)|BOSA)|A(?:B(?:UA(?:D(?:EL)?O|Ç(?:AS|O))?|AÇÔ)|(?:LH(?:(?:AD)?|INH)A|PÉU)S|M(?:E(?:NGOS|L)|ANHOS)|ROU(?:QUEL|C)A|V(?:EIRO|IRA)|N(?:COS|GIL)|(?:GIL|Í)DE|DIM|IÃO)|U(?:R(?:(?:CIFA|QUE)L|IZ)|IZELO|NES)|IN(?:ALHAS|HELA)|Á(?:VOR|BU)A|ÕES|ÔR|Ó)|E(?:S(?:P(?:I(?:NH(?:O(?: M(?:GL|RT)|S(?:EL)?A)?|E(?:IRO|L)|AL)|UNCA|TE)|A(?:DANEDO (?:CNF|MCD)|R(?:GO|IZ))|ERANÇA (?:ARR|PVL)|O(?:SENDE|RÕES)|ÍRITO SANTO)|T(?:RE(?:ITO(?: (?:CÂMARA DE LOBOS|DA CALHETA))?|MOZ)|O(?:R(?:ÃOS (?:FAF|PTL)|IL)|MBAR)|E(?:LA|R)|ARREJA)|C(?:A(?:L(?:OS DE (?:BAIXO|CIMA)|HÃO)|RI(?:GO F(?:CR|ND)|Z)|PÃES)|U(?:DEIROS|RQUELA))|M(?:O(?:LFE|RIZ)|ERIZ)|QUEIROS)|R(?:V(?:ED(?:OSA (?:DO DOURO|[PV]NH)|AL (?:AVS|OHP)|EDO)|(?:AS TENRA|ÕE)S|IDEL)|M(?:IDA(?: (?:CDR|PTB|SRT|VRL)|S-SADO)|E(?:LO (?:AVV|MDB)|SINDE))|(?:(?:ICEI)?R|AD)A|EIRA (?:CTX|MMV))|N(?:TR(?:(?:E(?: AMBOS)?-OS-RIO|ADA)S|ONCAMENTO)|XA(?:RA DO BISPO|MES)|C(?:ARNAÇÃO|OURADOS)|VENDOS)|I(?:R(?:A(?:S (?:AV|CH)V| VEDRA|DO)|IZ|OL)|XO)|DR(?:OS[AO]|AL)|(?:UCISI|G)A|XTREMO|LVAS)|N(?:O(?:GUEIRA (?:D(?:A (?:REGEDOUR|MONTANH)A|O CRAVO O(?:AZ|HP))|V(?:CT|NC|RL)|BGC|LSD|PTB)|SSA SENHORA D(?:A(?: (?:TOUREGA|BOA FÉ)|S NEVES)|E FÁTIMA)|R(?:TE (?:PEQUENO|GRANDE)|DESTE)|(?:V(?:ELA|AI)|ZELO)S|URA)| S(?:ENHORA (?:D(?:E (?:GUADALUP|MACHED)E|OS REMÉDIOS)|GRAÇA D(?:EGOLADOS|O DIVOR))|RA GRAÇA PÓVOA MEADAS)|A(?:V(?:E(?: DE HAVER|S)?|A(?:LHO|RRA|IS)|IÓ)|GOS(?:EL(?:O DO DOURO|A)|A)|B(?:AIS|O)|DADOURO|ZARÉ|RIZ)|E(?:SPER(?:EIRA (?:G(?:MR|VA)|CNF|LSD)|AL)|(?:GR(?:EIRO|ÕE)|LA)S|VOGILDE (?:LS|VV)D|IVA)|I(?:N(?:HO DO AÇOR|E)|SA)|U(?:MÃO|NES))|O(?:L(?:IV(?:EIR(?:A(?: (?:D(?:O (?:(?:(?:BAIR|DOU)R|MONDEG)O|HOSPITAL)|E (?:AZEMÉI|FRADE)S)|(?:BC|PV)L|AVV|MSF))?|INHA)|AL (?:VN[GO]|BASTO))|E(?:IROS(?: (?:GMR|PTB|VVD))?|DO)|(?:H(?:O MARINH|ALV|Ã))?O|(?:DRÕE|MO)S|A(?:LHAS|IA))|U(?:T(?:EIRO (?:D(?:A C(?:ORTIÇAD|ABEÇ)A|E GATOS)|M(?:AIO|T)R|(?:BG|CB)C|SECO|VCT)|I[LZ])|R(?:O(?:ZINH|ND)O|I(?:LH|QU)E|ENTÃ|ÉM|A)|C(?:IDRES|A)|SILHÃO)|R(?:(?:TIG(?:OS)?|AD|C)A|(?:BACÉ|DE)M|I(?:OLA|Z)|VALHO|JAIS)|D(?:I(?:VELAS(?: FAL)?|ÁXERE)|E(?:(?:CEIX|LEIT)E|MIRA))|V(?:A(?:DAS|R)|IL)|(?:SSEL|T)A|EIRAS|IÃ)|QU(?:I(?:N(?:T(?:A(?: (?:DO (?:CONDE|ANJO)|GRANDE)|S DE SÃO BARTOLOMEU|NILHA)?|ELA(?: DE (?:LAMPAÇAS|AZURARA))?|(?:Ã DE PÊRO MARTIN|IÃE|O)S)|CHÃES)|RÁS)|E(?:I(?:MAD(?:ELA (?:AMM|FAF)|A)|R(?:I(?:GA|Z)|Ã)|JA(?:DA|S))|RENÇA|LUZ)|A(?:(?:TRO RIBEIRA|DRAZAI)S|RTEIRA))|D(?:O(?:RNE(?:LAS (?:A(?:GB|MR)|DO ZÊZERE|BTC|SVV)|S)|(?:(?:IS PORT|SSÃ)O|ZE RIBEIRA)S|N(?:(?:ÕE|A)S|IM)|MINGUIZO)|E(?:(?:(?:IL)?Ã|CERMIL)O|(?:GRACIA|LÃE)S|S(?:EJOSA|TRIZ)|OCRISTE|M)|U(?:AS IGREJAS (?:P(?:NF|RD)|MDR|VVD)|RRÃES)|ALVARES)|J(?:U(?:N(?:C(?:A(?:L(?: DO CAMPO)?|IS)|EIRA)|QUEIRA V(?:CD|LC)|ÇA)|(?:GUEIRO|STE)S|ROMENHA)|A(?:N(?:EIRO DE (?:BAIXO|CIMA)|ARDE)|RDIM D(?:A SERRA|O MAR)|ZENTE)|O(?:ÃO ANTÃO|ANE|LDA|VIM|U)|ESUFREI)|Á(?:GU(?:A(?:S(?: (?:B(?:ELAS (?:FZZ|SBG)|OAS)|(?:SANT|FRI|VIV)AS|DE MOURA))?| (?:RE(?:VÊS E CRASTO|TORTA)|DE (?:P(?:ENA|AU)|ALTO)|LONGA))|EDA)|ZERE (?:AVV|TBU)|LVARO|RVORE)|I(?:N(?:F(?:ESTA (?:CBT|PCR)|IAS FAG|ANTAS)|GUIAS|SALDE)|GREJ(?:A NOVA (?:(?:DO SOBRA|BC)L|MFR)|INHA)|D(?:ANHA-A-(?:VELH|NOV)A|ÃES)|LHA (?:PBL|STN)|(?:ZED|SN)A|FANES|RIVO)|U(?:R(?:R(?:Ô (?:ARC|PNF)|[ÓO]S)|(?:QUEIR|ZELIN)A)|NH(?:AIS(?: DA SERRA|-O-VELHO)|ÃO|OS)|(?:C(?:AN)?H|SSEIR|V)A|L(?:ME)?)|Z(?:AMBUJ(?:EIRA DO MAR|AL)|E(?:BREIRA|DES)|IBREIRA|OIO)|Ó(?:IS D(?:A RIBEIRA|O BAIRRO)|BIDOS|VOA)|HORTA(?: (?:DA VILARIÇA|VLF))?|Í(?:NFIAS VIZ|LHAVO)|ÉVORA(?: MONTE)?|ÂNCORA)">
-
-<!ENTITY hifen "[-‑]">
-<!ENTITY tracos_de_separacao "[-‑]|–|—">
-<!ENTITY art_detecao_paronimos "(?:(?:[mts](?:eu|ua)|minha|[nv]oss[ao])|(?:d|n|pel)?(?:outr)?[ao]|à|ao)s?|com|de(?:sde)?|em|entre|mediante|p(?:ara|erante|or)|s(em|obre)|trás|(alg|d|n)?(um(as?)?|uns)">
-
-
-<!ENTITY pontos_cardeais "este|nascente|nordeste|noroeste|norte|ocidente|oeste|oriente|poente|sudeste|sul">
-<!ENTITY pontos_cardeais_capitalizados "Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste">
-
-
-<!ENTITY contracoes_MS "algum|ao|daquele|daquilo|dele|desse|deste|disso|disto|do|doutro|dum|lho|mo|naquele|naquilo|nele|nesse|neste|nisso|nisto|no|noutro|num|pelo|to">
-<!ENTITY contracoes_FS "à|alguma|da|daquela|dela|dessa|desta|doutra|duma|lha|ma|na|naquela|nela|noutra|numa|pela|ta">
-<!ENTITY contracoes_MP "alguns|aos|daqueles|deles|desses|destes|dos|doutros|duns|lhos|mos|naqueles|neles|nesses|nestes|nos|noutros|nuns|pelos|tos">
-<!ENTITY contracoes_FP "algumas|às|daquelas|das|delas|dessas|destas|doutras|dumas|lhas|mas|naquelas|nas|nelas|nessas|nestas|noutras|numas|pelas|tas">
-<!ENTITY expressao_invariavel_com_DE "antes|apesar|capacidade|depois|expectativa|expectativas|expetativa|expetativas|facto|intenção|invés|necessidade|objectivo|objetivo|possibilidade|risco">
-
-
-<!ENTITY numero_por_extenso "bilião|biliões|catorze|cem|cento|centos|cinco|cinquenta|dez|dezanove|dezasseis|dezassete|dezena|dezenas|dezesseis|dezessete|dezoito|dois|doze|duas|duzentos|mil|milhão|milhões|nove|novecentos|noventa|oitenta|oito|oitocentos|onze|quarenta|quatro|quatrocentos|quinhentos|quinze|seis|seiscentos|sessenta|sete|setecentos|setenta|três|treze|trezentos|trilião|triliões|trinta|um|uma|vinte">
-<!ENTITY unidades_de_medida_por_extenso "centigrama|centigramas|centilitro|centilitros|centímetro|centímetros|decigrama|decigramas|decilitro|decilitros|decímetro|decímetros|grama|gramas|grau|graus|hectares|litro|litros|metro|metros|micrograma|microgramas|microlitro|microlitros|micrometro|micrómetro|micrómetros|milha|milhas|miligrama|miligramas|mililitro|mililitros|milimetro|milímetro|milímetros|quilograma|quilogramas|quilolitro|quilolitros|quilometro|quilómetro|quilómetros|quilotonelada|quilotoneladas|segundo|segundos|tonelada|toneladas">
-
-
-<!ENTITY pronomes_obliquos "[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
-<!ENTITY pronomes_obliquos_sem_a_as_o_os "l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
-<!ENTITY pronomes_retos "ela|elas|ele|eles|eu|nós|tu|você|vocês|vós">
-<!ENTITY pronomes_ambiguos "a|as|mas|nos|o|os|se">
-<!ENTITY pronomes_nao_ambiguos "lha|lhas|lhe|lhes|lho|lhos|ma|me|mo|mos|ta|tas|te|to|tos|vos">
-<!ENTITY pronomes_informais "contigo|t[ao]s?|teus?|tuas?|t[uie]|vocês?">
-<!ENTITY pronomes_possessivos "del[ae]s?|meus?|noss[ao]s?|seus?|suas?|teus?|tuas?|voss[ao]s?">
-
-
-<!ENTITY verbos_informais "és|estás|tens|tenhas">
-<!ENTITY verbos_de_ligacao "andar|assemelhar|continuar|estar|ficar|parecer|permanecer|semelhar|ser|virar">
-<!ENTITY verbos_pronominais "apelidar|chamar|denominar">
-<!ENTITY negacoes "jamais|nada|não|nem|nenhum|nenhuma|nenhumas|nenhuns|ninguém|nunca|sem|tampouco">
-<!ENTITY introduz_proclise "ainda|apenas|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|para|pois|porque|portanto|quais|qual|quando|quão|quant[ao]s?|que|quem|se|sempre|talvez"><!-- XXX Excluded ali|aqui|acolá -->
-
-
-<!ENTITY prefixos_i "anti|auri|bi|hemi|maxi|mini|multi|peri|pluri|poli|semi|tri|uni">
-<!ENTITY prefixos_o "agro|auto|eletro|endo|fisio|gastro|geo|hidro|hipo|homo|idio|macro|micro|morfo|neo|neuro|orto|proto|pseudo|psico|quilo|retro|rino|socio|xanto|xilo">
-<!ENTITY prefixos_o_2 "anarco|bio|paleo">
-<!ENTITY prefixos_o_ambiguos "astro|bronco|centro|ego|euro|filo|foto|ido|mono|sacro|termo|turbo|vaso|zoo">
-<!ENTITY prefixos_hifenizados_h "arqui|circum|co|extra|hexa|hiper|infra|inter|intra|mega|pan|penta|pre|pro|re|sub|super|supra|tele|tetra|ultra">
-<!ENTITY pronomes_de_tratamento "Altezas?|Beatitudes?|Divindades?|Eminências?|Excelências?|Graças?|Magnificências?|Majestades?|Paternidades?|Realezas?|Reverências?|Reverendíssimas?|Reverendíssimos?|Santidades?|Senhorias?">
-
-
-<!ENTITY naipes "o[iu]ros|copas|espadas|paus|trunfos?">
-
-
-<!ENTITY gerundio_verbos "acabar|acontecer|afundar|ajudar|aumentar|criar|degradar|diminuir|disparar|elaborar|fazer|fluir|instalar|ir|lesar|quebrar|ser|travar|vir">
-<!ENTITY gerundio_excecoes "abandonando|acelerando|acrescentando|acumulando|adicionando|alimentando|alterando|alternando|aperfeiçoando|apresentando|armazenando|aumentando|baixando|bebendo|beneficiando|caindo|causando|chegando|conquistando|conseguindo|consolidando|consumindo|crescendo|criando|decrescendo|desaparecendo|emergindo|empregando|envolvendo|fazendo|ficando|ganhando|habituando|havendo|jogando|levantando|libertando|matando|morrendo|mudando|originando|partindo|passando|perdendo|permitindo|pressionando|procurando|progredindo|propagando|publicando|querendo|recorrendo|reduzindo|repetindo|revendo|sabendo|saindo|sendo|subindo|surgindo|usando">
-
-
-<!ENTITY cores_invariaveis "açafrão|água|alizarina|âmbar|ameixa|amêndoa|ametista|aspargo|bordô|borgonha|brasil|bronze|caqui|caramelo|cardo|carmesim|carmim|cenoura|cereja|chocolate|ciano|cinza|cobre|concha|creme|dainise|ébano|eminência|esmeralda|eucalipto|feldspato|ferrugem|fúchsia|fuligem|gainsboro|gelo|glitter|goiaba|grená|heliotrópio|independência|índigo|iris|jade|jambo|jasmine|kiwi|kobi|kobicha|laranja|lavanda|lemon|lilás|lima|linho|madeira|magenta|malva|mamão|maná|marfim|milho|mocassim|mostarda|neve|nyanza|ocre|oliva|orquídea|ouro|pêssego|prata|púrpura|quantum|quartz|renda|rosa|salmão|sépia|siena|tangerina|terracota|tijolo|tomate|triássico|trigo|turquesa|ube|urucum|vinho|violeta|xanadu|zaffre">
-<!ENTITY cores "açafrão|água|alizarina|amarelo|âmbar|ameixa|amêndoa|ametista|aspargo|azul|bege|bordô|borgonha|branco|brasil|bronze|caqui|caramelo|cardo|carmesim|carmim|castanho|cenoura|cereja|chocolate|ciano|cinza|cobre|concha|coral|creme|dainise|dourado|ébano|eminência|encarnado|escarlate|esmeralda|eucalipto|fandango|feldspato|ferrugem|flerte|fúchsia|fuligem|gainsboro|gelo|glitter|goiaba|grená|heliotrópio|herbal|independência|índigo|iris|jade|jambo|jasmine|kiwi|kobi|kobicha|laranja|lavanda|lemon|lilás|lima|linho|madeira|magenta|malva|mamão|maná|marfim|marrom|milho|mocassim|mostarda|naval|neve|nyanza|ocre|oliva|orquídea|ouro|pardo|pêssego|prata|preto|púrpura|quantum|quartz|renda|rosa|roxo|rútilo|salmão|sépia|siena|tangerina|terracota|tijolo|tomate|triássico|trigo|turquesa|ube|urucum|verde|vermelho|vinho|violeta|xanadu|zaffre">
-<!-- Taken from: https://pt.wikipedia.org/wiki/Lista_de_cores -->
-
-
-<!-- Termos informais específicos pt_PT - the rule also tests with adding a "s" (plural) at the end of each word -->
-<!ENTITY informal "abébias?|abéculas?|ajavardar|anhar|anjinhos?|bacan[ao]s?|badalos?|baita|baixinh[ao]s?|balof[ao]s?|baril|barracadas?|batelada|baza|bazam|bazas|bazaste|bazei|bazámos|bazamos|beijoqueir[ao]s?|bejecas?|bichan[ao]s?|bichinh[ao]s?|biscates?|bitaites?|blablablá|boazonas?|bonz(ão|ões)|bófias?|bonzudos?|bora|borgas?|bués?|cadê|calhamaços?|camandros?|camisinhas?|caraças|carago|caramba|carangos?|carradas?|casinhas?|casórios?|caxamolas?|certinh[ao]s?|chaval[ao]s?|chiça|chilindrós?|cocó|coisar|copião|cornear|cum|cuscar|cusc[ao]s?|cuzinhos?|danad[ao]s?|drunfos?|encrencas?|engonhanço|engonhar|epa|esbardalhar|estrambótic[ao]s?|estrilho|fartazanas?|festarolas?|fezadas?|fixes|fixolas|fofinh[ao]s?|fónix|gabarolas?|gaj[ao]s?|garinas?|gatunar|gentinhas?|gosmas?|guit[ao]|gunas?|janad[ao]s?|javardices?|jolas?|larachas?|lelés?|mãezinhas?|mag[ao]nos?|mamalhud[ao]s?|mamocas?|man[ao]s?|marad[ao]s?|maralhas?|marimbar|melgar|milhent[ao]s?|modernaç[ao]s?|moinas?|motoqueir[ao]s?|népias?|oi|olhómetros?|paizinhos?|papão|papo|passarocas?|peid[ao]s?|peidar|petiza?|piadolas?|piegas|porrada|porras?|porre|porreiros?|poxa|poucochinhos?|prenhas?|putos?|quecas?|queridinh[ao]s?|rabiosques?|rapaziadas?|tabefes?|tadinh[ao]s?|tanas|trampas?|transar|traques?|tretas?|trouxas?|vaquinhas?|velhot[ae]s?|vó|vô|xi|xixi|zilh(ão|ões)">
-
-
-<!-- Termos depreciativos específicos pt_PT - the rule uses inflected='yes' to get all forms -->
-<!ENTITY depreciativo "alarve|badalhoco|badameco|baianada|bandalho|bimbalhada|bimbo|bosta|brasuca|brega|bumbo|chacha|caguinchas|campónio|chico-esperto|china|chinoca|chulo|chunga|chungaria|chunguice|ciganada|ciganagem|coirão|crápula|cretino|escarumba|escória|escumalha|espertalhão|espertinho|fufa|gagá|gandulo|generaleco|gentalha|gentiaga|gordalhão|imbecil|indigente|japa|labrego|larilas?|lorpa|maldito|maltrapilho|maricão|mariconço|mentecapto|mitra|molenga|molengão|monhé|morcão|negralhada|nhurrice|nhurro|otário|pacóvio|palerma|panasca|panilas|parolo|patego|pelintra|pindérico|portuga|pretalhada|pretaria|pulha|rabeta|ralé|reles|sacana|tanso|tuga|velhaco">
-
-
-<!-- Estrangeirismos específicos pt_PT - the rule also tests with adding a "s" (plural) at the end of each word -->
-<!ENTITY barbarismos "accelerandos?|agitato|allegretto|allegro|amabile|apfelstrudel|backups?|badine|bavaroise|beagle|becquerel|bip|blague|blister|boate|bonsai|breakdance|brie|cache-sexe|calzone|camber|campus|caniche|cânon|cantabile|cantata|carpaccio|chaise-longue|charleston|chartreuse|cheddar|clarke|clear|clearance|cloisonné|códex|coloratura|continuum|cookies?|cordon-bleu|corpus|coulomb|crevasse|croissant|cumbia|czarina|datcha|debye|deficit|design|designers?|doping|doppler|drives?|duce|duplex|ecstasy|ensalada|ensemble|entente|evasé|fait-divers|fanfreluche|farads?|fatwa|fax|fermata|flamenco|flash|flashes|fondue|forint|fortran|fox|freeware|fugato|funk|gay|glamour|glide|gospel|gouda|grunge|guaracha|habanera|habitat|habitus|hip-hop|hippies?|homo|horseball|hype|ibidem|id|impedimenta|influenza|in-octavo|interferon|internet|item|jacuzzi|jamboree|jazz|joint-venture|joule|junkies?|kamikazes?|karaoke|karting|kasba|ketchup|kina|kitchenette|kuna|kwacha|kwanza|lamé|larghetto|leasing|legato|lingerie|locus|maestoso|majorette|mambo|managers?|maquis|marketing|maser|matrioska|maxwell|microfarad|milcurie|miserere|misters?|modems?|moderato|modus|mohair|muesli|mvdol|napalm|necessaire|net|new-age|noir|nomenklatura|nuance|nylon|offshores?|opus|origami|ossobuco|ouguiya|paanga|pahoehoe|paparazzi|parsec|patchouli|pecorino|pence|perestroika|petit-suisse|pianoforte|pickles?|piercing|pilé|pince-nez|pinscher|playboys?|poche|pogrom|poise|poodle|pop|posteriori|pot-pourri|práxis|priori|prise|promenade|punks?|putter|puzzle|quantum|quark|quiche|ralenti|rallentando|rave|ready-made|reggae|régie|reprise|reps|réveillon|rickettsia|rinforzando|ritardando|rocaille|rodeo|roentgen|rookie|rubato|samples?|sashimi|scherzando|scherzo|scone|set|setter|sexy|sfogato|sforzando|shareware|shar-pei|shiatsu|shopping|sic|sidecar|sievert|single|skates?|slalom|smorzando|socialite|sottovoce|soul|spas?|spins?|sprays?|sprue|staccato|stands?|stilb|stock|stop|stress|strippers?|superstars?|surf|sushi|tai-chi|tandem|tavolatura|techno|teflon|telex|terylene|tickets?|timeshare|tiramisu|tofu|toner|tópos|tops?|tori|trailer|tremolo|trial|triplex|tsunami|tupperware|tutilimúndi|tutti|tutu|vaudeville|velcro|vernissage|vibrato|vide|vides|vintage|vitae|vitrine|vivace|volte-face|waffle|web|weber|yang|yeti|yin|yuppie">
-<!ENTITY barbarismos_rev2 "abstracts?|apartheids?|applets?|apps?|baby-dolls?|backbones?|backdoors?|baconburgers?|banners?|bear|bestsellers?|bitcoins?|bloggers?|blueprints?|blues?|bluetooth|bogies?|boids?|boneheads?|boosts?|bots?|bottom-up|brainstorms?|bull|bullying|burnouts?|cameraman|carjacking|chairman|commodit(y|ies)|contactless|crackers?|cracking|cyberbullying|debugging|demands?|developers?|dildos?|dojos?|downgrades?|downloads?|downtimes?|drones?|drugstores?|e-bullying|e-commerce|e-learning|e-manuals?|e-newsletters?|e-readers?|exploits?|fair-plays?|feeders?|flats?|flyers?|forwarding|forwards?|führers?|gaming|gangbang|geeks?|goals?|gold|hardwares?|hits?|homebanking|homepages?|idem|idle|inputs?|items?|hacks?|hackers?|hacking|kits?|know-hows?|KOs?|lasers?|layers?|legacy|lags?|line-ups?|lob|logins?|loops?|lossless|mailbombings?|marines?|marketeers?|mayday|milkshakes?|mindsets?|nerds?|netiquette|networking|newsgroups?|off-label|offline|offsides?|on-label|outputs?|overbooking|overflows?|p-values?|palmiers?|papers?|patch(es)?|pens?|players?|ransomwares?|reboots?|red|reggaeton|restarts?|réveillons?|roadmaps?|royalt(y|ies)|screenshots?|scroll|seals?|shell|shelters?|shows?|slogans?|smartphones?|snobs?|sockets?|softwares?|spam|spammers?|sprites?|stalking|standards?|stealth|steps?|streaming|strogonoffs?|strings?|suspenses?|swarms?|tablets?|tagging|task-forces?|telemarketing|thresholds?|time-sharing|tips?|toolkits?|topless|triggers?|trolls?|tweeters?|on-line|online|underscores?|updates?|upgrades?|uptimes?|users?|wannabes|wargames?|webpages?|westerns?|wikis?|wireless|woofers?">
-<!ENTITY barbarismos_rev3 "afición|aficiones|blockchains?|bodyboarders?|bolds?|buffers?|bugs?|builds?|bunkai|cents?|check-ins?|chipsets?|clusters?|cookie-cutters?|cover-ups?|crowdfundings?|crowdsourcings?|default|desktops?|drafts?|emojis?|emoticons?|fanzines?|flags?|footnotes?|frameworks?|franchisings?|friendly|frontman|futons?|gaps?|geocachers?|geocaching|gilberts?|health|heights?|hotspots?|hoverboards?|icebergs?|input-output|interfaces?|jetpacks?|knowing-doing|logs?|LEDs?|likes?|marketplaces?|nudes?|open-source|overclockings?|pidgins?|podcasts?|previews?|rankings?|rap|reviews?|rockstars?|scams?|scammers?|scripts?|skippers?|smileys?|snipers?|spoofing|spreads?|sticks?|sudokus?|takeovers?|tatamis?|tokens?|top-down|trackpads?|thrashers?|trackings?|tweets?|underground|Unicode|uploads?|walkie-talkies?|warm-ups?|webcams?|webinars?|webmail|webmasters?|whalewatching|widths?|woks?|yeah|yes-man|zen|zooms?">
+<!ENTITY pronomes_obliquos_pt_pt "[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
+<!ENTITY pronomes_obliquos_sem_a_as_o_os_pt_pt "l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
+<!ENTITY pronomes_retos_pt_pt "ela|elas|ele|eles|eu|nós|tu|você|vocês|vós">
+<!ENTITY pronomes_ambiguos_pt_pt "a|as|mas|nos|o|os|se">
+<!ENTITY pronomes_nao_ambiguos_pt_pt "lha|lhas|lhe|lhes|lho|lhos|ma|me|mo|mos|ta|tas|te|to|tos|vos">
+<!ENTITY pronomes_informais_pt_pt "contigo|t[ao]s?|teus?|tuas?|t[uie]|vocês?">
+<!ENTITY pronomes_possessivos_pt_pt "del[ae]s?|meus?|noss[ao]s?|seus?|suas?|teus?|tuas?|voss[ao]s?">
 
 
 <!ENTITY expressoes_invariaveis_pt_pt "algema|afazere|alvíssara|anai|antolho|apetrecho|arra|arredore|boda|brócol[io]|cã|calça|calenda|ceroula|cócega|condolência|confin|endoença|esponsai|esposório|exéquia|fasto|féria|feze|finança|hemorróida|mane|núpcia|óculo|olheira|pantalona|parabén|pêsame|petrecho|pi[ck]le|primícia|reticência|suspensório|treva|víscera|vívere">
 
+<!ENTITY pontos_cardeais_capitalizados "Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste">
 
-<!ENTITY MSG_ECV "Possível erro de concordância verbal.">
-
-<!ENTITY separadores_de_oracoes "(?:[,;:…–—\(\)«“]|\-|\[\]\{\})">
-<!ENTITY introduz_conjuntivo "(?:caso|conquanto|embora|que|quando|se|talvez|tomara)">
-]>
+        ]>
 
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -980,7 +918,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <antipattern>
           <token regexp='yes' inflected='yes'>apresentar|querer|ter</token> <!-- Add verbs here when found -->
           <token regexp='yes'>como|por</token>
-          <token regexp='yes'>&pronomes_possessivos;</token>
+          <token regexp='yes'>&pronomes_possessivos_pt_pt;</token>
           <token postag='VMP00.+|NC.+|AQ.+' postag_regexp='yes'/>
           <example>... Lee, coreano radicado no EUA no ano de 1989, professa um estilo de Taekwondo chamado Hangil, tendo como seu maior representante e Presidente o Mestre Faixa Preta 8o Dan Agustin Garay Ramirez, na cidade de La...</example>
           <example>Quem respeita a natureza e a tem como sua aliada.</example>
@@ -991,7 +929,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- MARCOAGPINTO 2023-04-11 (Checked/Enhanced) (2-MAR-2023+) *START* -->
       <antipattern>
           <token regexp='no'>de</token>
-          <token regexp='yes'>&pronomes_possessivos;</token>
+          <token regexp='yes'>&pronomes_possessivos_pt_pt;</token>
           <token regexp='yes'>alcunhas?|apelidos?|nomes?|sobrenomes?|títulos?</token> <!-- Add nouns here when found -->
           <token postag='NP.+' postag_regexp='yes'/>
           <example>Eles tiveram uma vocalista, de seu nome Célia.</example>
@@ -1004,7 +942,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='RG|CC' postag_regexp='yes'>
               <exception regexp='yes'>assim|como|quando</exception> <!-- Add exceptions here when found -->
           </token>
-          <token regexp='yes'>&pronomes_possessivos;</token>
+          <token regexp='yes'>&pronomes_possessivos_pt_pt;</token>
           <token><exception postag_regexp='yes' postag='AQ.+'/></token>
           <example>A verdade é sempre tua, e ninguém pode mudar isso.</example>
           <example>A tua verdade é só tua.</example>
@@ -1761,7 +1699,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag='RG' postag_regexp='no'/>
         <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
         <token postag='NC.+|AQ.+|NP.+|V.+' postag_regexp='yes'/>
-        <token regexp='yes'>&pronomes_obliquos;</token>
+        <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
         <token postag='VMI[MPS]3.+|VMM03.+' postag_regexp='yes'/>
         <example>Aproveitando para agradecer pois os kits me ajudaram bastante.</example>
         <example>...ezes… Ele queria fazer uma coisa romântica e eu estragava os planos hehehe e um dia antes uma amiga me mandou mensagem perguntando do anel (detalhe: ela não sabia).</example>
@@ -1778,7 +1716,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <antipattern>
         <token regexp='yes'>nem|mas</token> <!-- Add words as found. Hardcoded because the POSes would remove valid results -->
         <token postag='NC.+|AQ.+|NP.+|V.+' postag_regexp='yes'/>
-        <token regexp='yes'>&pronomes_obliquos;</token>
+        <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
         <token postag='VMI[MPS]3.+' postag_regexp='yes'/>
         <example>Não preciso de favores especiais, nem falta me fizeram.</example>
         <example>Não preciso de favores especiais, mas falta me fizeram.</example>
@@ -1794,7 +1732,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *START* -->
     <antipattern>
         <token postag='RG' postag_regexp='no'/>
-        <token regexp='yes'>&pronomes_obliquos;</token>
+        <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
         <token postag='V.+' postag_regexp='yes'/>
         <token postag='CS|V.+' postag_regexp='yes'>
             <exception postag_regexp='yes' postag='RG|VMN0000'/>
@@ -1825,7 +1763,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag='SENT_START' postag_regexp='no'/>
         <token postag='V.+' postag_regexp='yes'/>
         <token postag='SPS00' postag_regexp='no'/>
-        <token regexp='yes'>&pronomes_obliquos;</token>
+        <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
         <token postag='VMN0000' postag_regexp='no'/>
         <example>Pare de me pedir um drinque! Vá e pegue um você mesmo.</example>
         <example>Acabei de te encaminhar no seu email!</example>
@@ -1852,7 +1790,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag='CS|RG' postag_regexp='yes'/>
         <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'/>
         <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-        <token regexp='yes'>&pronomes_obliquos;</token>
+        <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
         <token postag='V.+' postag_regexp='yes'>
             <exception scope='next' postag_regexp='yes' postag='RG|SPS00|RM'/> <!-- Can't add "CC" here as it removes "e", the CC must be added below as words. -->
             <exception scope='next' regexp='yes'>para|tão</exception>
@@ -1878,7 +1816,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception postag_regexp='yes' postag='Z0.+'/>
         </token>
         <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-        <token regexp='yes'>&pronomes_obliquos;</token>
+        <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
         <token postag='V.+' postag_regexp='yes'/>
         <token postag='_PUNCT|SPS00|VMN0000|VMG0000|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'>
             <exception postag_regexp='no' postag='CC'/> 
@@ -1907,7 +1845,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!-- MARCOAGPINTO 2022-09-26 (Checked/Enhanced) (25-JUL-2022+) *START* -->
     <antipattern>
         <token postag='SPS00' postag_regexp='no'/>
-        <token regexp='yes'>&pronomes_obliquos;</token>
+        <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
         <token postag='V.+' postag_regexp='yes'>
             <exception postag_regexp='yes' postag='NC.+|AQ.+|NP.+'/>
         </token>
@@ -1925,7 +1863,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!-- MARCOAGPINTO 2022-10-24 (Checked/Enhanced) (25-JUL-2022+) *START* -->
     <antipattern>
         <token postag='RG' postag_regexp='no'/>
-        <token regexp='yes'>&pronomes_obliquos;</token>
+        <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
         <token postag='V.+' postag_regexp='yes'>
             <exception postag_regexp='yes' postag='NC.+|AQ.+|NP.+|VMG0000|VMIP1S0'/>
         </token>
@@ -1943,7 +1881,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag='PP.+' postag_regexp='yes'>
             <exception postag_regexp='no' postag='CC'/>
         </token>
-        <token regexp='yes'>&pronomes_obliquos;
+        <token regexp='yes'>&pronomes_obliquos_pt_pt;
         <exception postag_regexp='yes' postag='PD.+'/>
     </token>
     <token postag='V.+' postag_regexp='yes'>
@@ -1972,7 +1910,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 <!-- "também" (RG) works with all sentences (no false positives, although kind of hardcoded. -->
 <antipattern>
     <token regexp='no'>também</token>
-    <token regexp='yes'>&pronomes_obliquos;</token>
+    <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
     <token postag='V.+' postag_regexp='yes'/>
     <example>Também me tornei parceira da Thaylane e estou ansiosa para ler os livros dela.</example>
     <example>Além das ricas informações que lí neste blog, também me deparei com um dos os motivos que fizeram o ser humano estar em Guerra por tantos anos.</example>
@@ -1990,7 +1928,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 <!-- MARCOAGPINTO 2022-11-01 (Checked/Enhanced) (25-JUL-2022+) *START* -->
 <antipattern>
     <token postag='SPS00' postag_regexp="no"/>
-    <token regexp='yes'>&pronomes_obliquos;</token>
+    <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
     <token postag='V.+' postag_regexp="yes"/>
     <token postag='SPS00|CC|CS|RG|I|RM|RN' postag_regexp="yes"/>
     <example>Então, a pergunta é: Será que a forma como usas o dinheiro está a impedir Deus de te abençoar com mais?</example>
@@ -2013,7 +1951,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 <antipattern>
     <token postag='SPS00' postag_regexp="no"/>
     <token postag='PP.+' postag_regexp="yes"/>
-    <token regexp='yes'>&pronomes_obliquos;
+    <token regexp='yes'>&pronomes_obliquos_pt_pt;
     <exception regexp='no'>se</exception>
 </token>
 <token postag='V.+' postag_regexp="yes"/>
@@ -2037,14 +1975,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <!-- MARCOAGPINTO 2022-12-04 (Checked/Enhanced) (25-JUL-2022+) *START* -->
         <antipattern>
             <token>
-                <exception regexp='yes'>&pronomes_obliquos;</exception>
+                <exception regexp='yes'>&pronomes_obliquos_pt_pt;</exception>
                 <exception postag_regexp='yes' postag='V.+'/>
             </token>
             <token postag='V.+' postag_regexp='yes'>
                 <exception postag_regexp='no' postag='RN'/>
             </token>
             <token postag='SPS00' postag_regexp='no'/>
-            <token regexp='yes'>&pronomes_obliquos;</token>
+            <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
             <token postag='V.+' postag_regexp='yes'/>
             <example>Ele acabara de lhe frustrar as esperanças.</example>
             <example>Não deixes de me visitar, um destes dias.</example>
@@ -2067,7 +2005,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <exception scope="previous" postag_regexp='yes' postag='SENT_START|_PUNCT|RG'/>
             </token>
             <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-            <token regexp='yes'>&pronomes_obliquos;
+            <token regexp='yes'>&pronomes_obliquos_pt_pt;
             <exception regexp='no'>se</exception>
         </token>
         <token postag='V.+' postag_regexp='yes'/>
@@ -2086,7 +2024,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <antipattern>
         <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
         <token postag='SPS00' postag_regexp='no'/>
-        <token regexp='yes'>&pronomes_obliquos;
+        <token regexp='yes'>&pronomes_obliquos_pt_pt;
         <exception regexp='no'>se</exception>
     </token>
     <token postag='V.+' postag_regexp='yes'/>
@@ -2118,7 +2056,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <token postag='DI.+|SPS00:DI.+|V.+' postag_regexp='yes'/>
     <token min="1" max="2" postag='NC.+|AQ.+|NP.+|RG' postag_regexp='yes'/>
     <token postag='SPS00' postag_regexp='no'/>
-    <token regexp='yes'>&pronomes_obliquos;</token>
+    <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
     <token postag='VMN0000|VMN0.+' postag_regexp='yes'/>
     <example>Perdoem-me a linguagem, mas não vejo outra forma de me exprimir.</example>
     <example>...saltos aos bolsos dos que ainda neles creem,o fazem entrando na poitica,que também é uma maneira de me roubar!!Safados!</example>
@@ -2159,7 +2097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 <antipattern>
     <token postag='NP.+|NC.+|AQ.+|PP.+|RM|PD.+|SPS00:PD.+|CC' postag_regexp='yes'/>
     <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-    <token regexp='yes'>&pronomes_obliquos;</token>
+    <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
     <token postag='VMI[CF].+|RG|CC' postag_regexp='yes'/>
     <example>Ela o fará em 24 horas.</example>
     <example>Eu te darei esse livro.</example>
@@ -2192,7 +2130,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <token postag='SENT_START|_PUNCT|CS|CC' postag_regexp='yes'/>
     <token postag='NP.+|NC.+|AQ.+|PP.+|RM|PD.+|SPS00:PD.+|CC' postag_regexp='yes'/>
     <token postag='VMI[CF].+' postag_regexp='yes'/>
-    <token regexp='yes'>&pronomes_obliquos;</token>
+    <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
     <token postag='V.+|DA.+|SPS00:DA.+|DI.+|SPS00:DI.+' postag_regexp='yes'/>
     <example>Se eu soubesse disso, eu teria lhe contado.</example>
     <example>Você poderia me levar ao hospital, por favor?</example>
@@ -2212,7 +2150,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 <antipattern>
     <token postag='SENT_START|_PUNCT|CS|CC' postag_regexp='yes'/>
     <token min="0" max="2" postag='V.+|RG' postag_regexp='yes'/>
-    <token regexp='yes'>&pronomes_obliquos;</token>
+    <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
     <token postag='VMI[CF].+' postag_regexp='yes'/>
     <example>Te levarei ao hospital.</example>
     <example>Vos telefonarei dentro de uma semana.</example>
@@ -2292,7 +2230,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <token postag='CC' postag_regexp='no'>
         <exception postag_regexp='yes' postag='PP.+'/> <!-- "mas" -->
     </token>
-    <token regexp='yes'>&pronomes_obliquos;</token>
+    <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
     <token postag='V.+' postag_regexp='yes'/>
     <token postag='_PUNCT|SPS00|CS|NC.+|NP.+|AQ.+' postag_regexp='yes'/>
     <example>Enquanto falavam sobre isso, o próprio Jesus apresentou-se entre eles e lhes disse: "Paz seja com vocês! "</example>
@@ -2313,7 +2251,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 <antipattern>
     <token postag='SPS00:DA.+' postag_regexp='yes'/>
     <token min="1" max="2" postag='NC.+|NP.+|AQ.+' postag_regexp='yes'/>
-    <token regexp='yes'>&pronomes_obliquos;</token>
+    <token regexp='yes'>&pronomes_obliquos_pt_pt;</token>
     <token postag='V.+' postag_regexp='yes'/>
     <token postag='CC|_PUNCT|SPS00:D[AI].+|CS|Z0.+' postag_regexp='yes'>
         <exception scope="next" postag_regexp='yes' postag='V.+|PP.+|DP.+'/>
@@ -2379,38 +2317,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token regexp='yes' skip='-1'>(?:algum|nenhum)a?
         <exception scope='next' postag='V.+' postag_regexp='yes'/>
         <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-    <token regexp='yes' min='0'>&pronomes_retos;</token>
-    <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+    <token regexp='yes' min='0'>&pronomes_retos_pt_pt;</token>
+    <token regexp='yes'>&pronomes_nao_ambiguos_pt_pt;|&pronomes_ambiguos_pt_pt;</token>
     <token postag='V.+' postag_regexp='yes'/>
 </antipattern>
 <antipattern>
     <token regexp='yes' skip='-1'>&negacoes;
     <exception scope='next' postag='V.+' postag_regexp='yes'/>
     <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-<token regexp='yes' min='0'>&pronomes_retos;</token>
-<token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+<token regexp='yes' min='0'>&pronomes_retos_pt_pt;</token>
+<token regexp='yes'>&pronomes_nao_ambiguos_pt_pt;|&pronomes_ambiguos_pt_pt;</token>
 <token postag='V.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
           <token regexp='yes'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo<!-- TODO Review algu[mn]a?s? --></token>
-          <token regexp='yes' min='0'>&pronomes_retos;</token>
-          <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+          <token regexp='yes' min='0'>&pronomes_retos_pt_pt;</token>
+          <token regexp='yes'>&pronomes_nao_ambiguos_pt_pt;|&pronomes_ambiguos_pt_pt;</token>
           <token postag='V.+' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
-          <token regexp='yes' skip='-1'>&introduz_proclise;
+          <token regexp='yes' skip='-1'>&introduz_proclise_pt_pt;
           <exception scope='next' postag='V.+' postag_regexp='yes'/>
           <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-      <token regexp='yes' min='0'>&pronomes_retos;</token>
-      <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+      <token regexp='yes' min='0'>&pronomes_retos_pt_pt;</token>
+      <token regexp='yes'>&pronomes_nao_ambiguos_pt_pt;|&pronomes_ambiguos_pt_pt;</token>
       <token postag='V.+' postag_regexp='yes'/>
   </antipattern>
   <antipattern>
       <token regexp='yes' skip='-1'>só|ora|quer<!-- TODO Review ou -->
           <exception scope='next' postag='V.+' postag_regexp='yes'/>
           <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-      <token regexp='yes' min='0'>&pronomes_retos;</token>
-      <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+      <token regexp='yes' min='0'>&pronomes_retos_pt_pt;</token>
+      <token regexp='yes'>&pronomes_nao_ambiguos_pt_pt;|&pronomes_ambiguos_pt_pt;</token>
       <token postag='V.+' postag_regexp='yes'/>
   </antipattern>
 
@@ -2481,13 +2419,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token regexp='yes'>&pronomes_nao_ambiguos_pt_pt;</token>
           <token postag='V.[PG].*' postag_regexp='yes'/>
       </antipattern>
       <pattern>
           <token postag='V.+' postag_regexp='yes'>
               <exception regexp='yes'>como|para|casa|nada</exception></token>
-          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token regexp='yes'>&pronomes_nao_ambiguos_pt_pt;</token>
           <token postag='V.+' postag_regexp='yes'/>
           <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
           false positives (Determinants & Contractions)  -->
@@ -2507,20 +2445,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
   <rule>
       <antipattern>
           <token regexp='yes'>-|–</token>
-          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token regexp='yes'>&pronomes_nao_ambiguos_pt_pt;</token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>nenhu[mn]a?s?</token>
           <token postag_regexp='yes' postag='N.+'/>
-          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token regexp='yes'>&pronomes_nao_ambiguos_pt_pt;</token>
           <token postag_regexp='yes' postag='V.[^N].+'/>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token regexp='yes'>&pronomes_nao_ambiguos_pt_pt;</token>
           <token postag='V.[PG].*' postag_regexp='yes'/>
       </antipattern>
       <pattern>
-          <token regexp='yes'>&pronomes_nao_ambiguos;
+          <token regexp='yes'>&pronomes_nao_ambiguos_pt_pt;
           <exception scope='previous'>Deus</exception></token>
       <token postag='V.+' postag_regexp='yes'>
           <exception regexp='yes'>mortos?</exception></token>
@@ -2546,7 +2484,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <pattern>
               <token postag='V.+' postag_regexp='yes'>
                   <exception regexp='yes'>como|para|casa|nada|mortos?</exception></token>
-              <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+              <token regexp='yes'>&pronomes_nao_ambiguos_pt_pt;</token>
               <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
               false positives (Determinants & Contractions)  -->
           </pattern>
@@ -2559,12 +2497,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
       <rule>
           <antipattern>
-              <token regexp='yes'>&pronomes_retos;</token>
+              <token regexp='yes'>&pronomes_retos_pt_pt;</token>
               <token regexp='yes'>[ao]s?</token>
               <token postag='V.+' postag_regexp='yes' regexp='yes'>.+[rsz]$</token>
           </antipattern>
           <antipattern>
-              <token regexp='yes'>&pronomes_retos;</token>
+              <token regexp='yes'>&pronomes_retos_pt_pt;</token>
               <token regexp='yes'>[ao]s?</token>
               <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(?:am|ão|õe)$</token>
           </antipattern>
@@ -2578,7 +2516,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <!-- "Havia vários cursos de água em Xangai, entre eles o rio Zhaojia." -->
           <antipattern>
               <token regexp='yes'>em|entre|por</token>
-              <token regexp='yes'>&pronomes_retos;|mim|ti|si</token>
+              <token regexp='yes'>&pronomes_retos_pt_pt;|mim|ti|si</token>
               <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
               <token postag='V.+|AQ0[CFM][SP]0|NC[CFM][SP]000|NP[CFM][SP][0GS]00' postag_regexp='yes'/>
               <token negate="yes" regexp='yes'>nas?|nos?|em|pelos?|pelas?|como|tal|tais</token>
@@ -2586,7 +2524,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           </antipattern>
           <!-- MARCOAGPINTO 2020-07-26 (2-JUL-2020+) *END* -->
           <pattern>
-              <token regexp='yes'>&pronomes_retos;</token>
+              <token regexp='yes'>&pronomes_retos_pt_pt;</token>
               <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
               <token postag='V.+' postag_regexp='yes'/>
           </pattern>
@@ -2609,19 +2547,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <token regexp='yes'>forma|jeito|modo</token>
               <token regexp='yes' skip='-1'>(?:algum|nenhum)a?
               <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-          <token regexp='yes'>&pronomes_retos;</token>
+          <token regexp='yes'>&pronomes_retos_pt_pt;</token>
           <token regexp='yes'>[ao]s?</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes' skip='-1'>&negacoes;|&introduz_proclise;
+          <token regexp='yes' skip='-1'>&negacoes;|&introduz_proclise_pt_pt;
           <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-      <token regexp='yes'>&pronomes_retos;</token>
+      <token regexp='yes'>&pronomes_retos_pt_pt;</token>
       <token regexp='yes'>[ao]s?</token>
   </antipattern>
   <antipattern>
       <token inflected='yes'>dar</token>
       <token>por</token>
-      <token regexp='yes'>&pronomes_retos;|mim|ti|si</token>
+      <token regexp='yes'>&pronomes_retos_pt_pt;|mim|ti|si</token>
       <token>a</token>
   </antipattern>
   <antipattern>
@@ -2638,7 +2576,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
   <!-- "Havia vários cursos de água em Xangai, entre eles o rio Zhaojia." -->
   <antipattern>
       <token regexp='yes'>em|entre|por</token>
-      <token regexp='yes'>&pronomes_retos;|mim|ti|si</token>
+      <token regexp='yes'>&pronomes_retos_pt_pt;|mim|ti|si</token>
       <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
       <token postag='V.+|AQ0[CFM][SP]0|NC[CFM][SP]000|NP[CFM][SP][0GS]00' postag_regexp='yes'/>
       <token negate="yes" regexp='yes'>nas?|nos?|em|pelos?|pelas?|como|tal|tais</token>
@@ -2646,7 +2584,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
   </antipattern>
   <!-- MARCOAGPINTO 2020-07-26 (2-JUL-2020+) *END* -->
   <pattern>
-      <token regexp='yes'>&pronomes_retos;</token>
+      <token regexp='yes'>&pronomes_retos_pt_pt;</token>
       <token regexp='yes'>[ao]s?</token>
       <token postag='V.+' postag_regexp='yes' regexp='yes'>.+[rsz]$</token>
   </pattern>
@@ -2674,17 +2612,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <token regexp='yes'>forma|jeito|modo</token>
               <token regexp='yes' skip='-1'>(?:algum|nenhum)a?
               <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-          <token regexp='yes'>&pronomes_retos;</token>
+          <token regexp='yes'>&pronomes_retos_pt_pt;</token>
           <token regexp='yes'>[ao]s?</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes' skip='-1'>&negacoes;|&introduz_proclise;
+          <token regexp='yes' skip='-1'>&negacoes;|&introduz_proclise_pt_pt;
           <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-      <token regexp='yes'>&pronomes_retos;</token>
+      <token regexp='yes'>&pronomes_retos_pt_pt;</token>
       <token regexp='yes'>[ao]s?</token>
   </antipattern>
   <pattern>
-      <token regexp='yes'>&pronomes_retos;</token>
+      <token regexp='yes'>&pronomes_retos_pt_pt;</token>
       <token regexp='yes'>[ao]s?</token>
       <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(?:am|ão|õe)$</token>
   </pattern>
@@ -2734,7 +2672,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <pattern>
           <token postag='SENT_START'/>
           <marker>
-              <token regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;
+              <token regexp='yes'>&pronomes_obliquos_sem_a_as_o_os_pt_pt;
               <exception regexp='no'>se</exception>
           </token>
           <token postag='VMIP[13]S0|VMM02S0' postag_regexp='yes'>
@@ -2807,7 +2745,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
 
     <!-- TROCAS-TE trocaste -->
-    <rulegroup id='HIFEN_INTRUSIVO' name="Verbo com hífen intrusivo">
+    <rulegroup id='HIFEN_INTRUSIVO' name="[pt-PT] Verbo com hífen intrusivo">
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-30 + 2021-03-31 + 2021-05-31 (17-MAR-2021+)      -->
         <rule>
             <!--
@@ -2849,7 +2787,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     </rulegroup>
 
-    <rulegroup id='REFLEXIVO_CONJUNTIVO' name='Confusão de Tempo Verbal: Conjuntivo - Reflexivo' default='off'><!-- XXX rethink rule. too many false positives -->
+    <rulegroup id='REFLEXIVO_CONJUNTIVO' name='[pt-PT] Confusão de Tempo Verbal: Conjuntivo - Reflexivo' default='off'><!-- XXX rethink rule. too many false positives -->
         <!-- Created by Tiago F. Santos, 2017-08-25 -->
         <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/as-formas-verbais-com-sse-ou-com--se/11603</url>
         <rule>
@@ -4010,12 +3948,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 </category>
 
 
-<category id="AO45_RULES_PT_PT" name="[pt-PT][AO45] Regras do Acordo Ortográfico de 45 (pré-AO90)" type="misspelling" default='off'>
+<category id="AO45_RULES_PT_PT" name="[pt-PT] Regras do Acordo Ortográfico de 45 (pré-AO90)" type="misspelling" default='off'>
 
     <rule id='AO45_MONTHS_CASING' type='grammar' name='[pt-PT][AO45] Capitalização de Meses e Estações do Ano'>
         <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->
         <pattern case_sensitive='yes'>
-            <token regexp='yes'>(?:&meses_ano;)s?|(?:&meses_ano_abrev;)|invernos?|primaveras?|ver(?:ão|ões)|estios?|outonos?
+            <token regexp='yes'>(?:&meses_ano_pt_pt;)s?|(?:&meses_ano_abrev_pt_pt;)|invernos?|primaveras?|ver(?:ão|ões)|estios?|outonos?
             <exception regexp='yes'>mar|dez</exception></token>
     </pattern>
     <message>Segundo o Acordo Ortográfico de 45, os meses e as estações do ano devem ser capitalizados.</message>
@@ -4111,7 +4049,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 <category id='CONFUSED_WORDS_PT_PT' name="[pt-PT] Confusão de Palavras">
 
-    <rule id='PARONYM_PREMIO_252_PT' name='Parónimo: premio'>
+    <rule id='PARONYM_PREMIO_252_PT' name='[pt-PT] Parónimo: premio'>
         <pattern>
             <token regexp='yes'>&art_detecao_paronimos;</token>
             <token min='0' postag='A.+' postag_regexp='yes'/>
@@ -4123,7 +4061,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example correction='no prémio'><marker>no premio</marker>.</example>
         <example correction='nos prémios'><marker>nos premios</marker>.</example>
     </rule>
-    <rule id='PARONYM_PREMIO_252_PT2' name='Parónimo: premio'>
+    <rule id='PARONYM_PREMIO_252_PT2' name='[pt-PT] Parónimo: premio'>
         <pattern>
             <token regexp='yes' inflected="yes">&verbos_auxiliares_part_passado;|dever|poder|querer|costumar</token>
             <marker>
@@ -4217,8 +4155,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-<category id="TYPOGRAPHY" name="Tipografia">
-    <rule type="locale-violation" id='CURRENCY_PLACEMENT_PT_FOREIGN' name="Posição dos símbolos de moeda: '100£ (£100)">
+<category id="TYPOGRAPHY" name="[pt-PT] Tipografia">
+    <rule type="locale-violation" id='CURRENCY_PLACEMENT_PT_FOREIGN' name="[pt-PT] Posição dos símbolos de moeda: '100£ (£100)">
         <pattern>
             <token regexp="yes">\d+([,.]\d+)*</token>
             <token regexp="yes">&currency_symbols;
@@ -4234,7 +4172,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <example>Preciso de 400€.</example>
 </rule>
 
-<rule type="locale-violation" id='CURRENCY_PLACEMENT_EUR' name="Posição do símbolo do euro: '€100 (100 €)">
+<rule type="locale-violation" id='CURRENCY_PLACEMENT_EUR' name="[pt-PT] Posição do símbolo do euro: '€100 (100 €)">
     <pattern>
         <token>€</token>
         <token regexp="yes">\d+([,.]\d+)*</token>
@@ -4246,7 +4184,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <example correction="100&nbsp;€">Deve <marker>€100</marker>.</example>
 </rule>
 
-<rule type="locale-violation" id='CURRENCY_SPACE_PT_FOREIGN' name="Espaçamento entre símbolos e valores monetários: '$ 100' ($100)">
+<rule type="locale-violation" id='CURRENCY_SPACE_PT_FOREIGN' name="[pt-PT] Espaçamento entre símbolos e valores monetários: '$ 100' ($100)">
     <pattern>
         <token regexp="yes">&currency_symbols;
         <exception>€</exception>
@@ -4260,7 +4198,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 <example correction="R$100">Custa <marker>R$ 100</marker>.</example>
       </rule>
 
-      <rule type="locale-violation" id='CURRENCY_SPACE_EUR' name="Espaçamento entre o símbolo do euro e valores monetários: '100€' (100 €)">
+      <rule type="locale-violation" id='CURRENCY_SPACE_EUR' name="[pt-PT] Espaçamento entre o símbolo do euro e valores monetários: '100€' (100 €)">
           <pattern>
               <token regexp="yes">\d+([,.]\d+)*</token>
               <token spacebefore="no">€</token>

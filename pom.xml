@@ -72,7 +72,6 @@
         <module>languagetool-gui-commons</module>
         <module>languagetool-commandline</module>
         <module>languagetool-standalone</module>
-        <module>languagetool-office-extension</module>
         <module>languagetool-wikipedia</module>
         <module>languagetool-server</module>
         <module>languagetool-http-client</module>
@@ -223,7 +222,7 @@
         <optimaize.languagedetector.language-detector.version>0.6</optimaize.languagedetector.language-detector.version>
         <!-- see https://github.com/languagetool-org/languagetool/issues/4088 before you upgrade this -->
         <spanish-pos-dict.version>2.2</spanish-pos-dict.version>
-        <portuguese-pos-dict.version>1.1.0</portuguese-pos-dict.version>
+        <portuguese-pos-dict.version>1.2.0</portuguese-pos-dict.version>
         <dutch-pos-dict.version>0.1</dutch-pos-dict.version>
         <english-pos-dict.version>0.3</english-pos-dict.version>
         <belarusian-pos-dict.version>1.0.2</belarusian-pos-dict.version>
@@ -238,6 +237,7 @@
         <hsqldb.version>2.7.1</hsqldb.version>
         <rest-assured.version>5.1.1</rest-assured.version>
         <org.awaitility.version>4.1.1</org.awaitility.version>
+        <okhttp3.version>4.12.0</okhttp3.version>
     </properties>
 
     <dependencyManagement>
@@ -926,11 +926,6 @@
             </dependency>
             <dependency>
                 <groupId>org.languagetool</groupId>
-                <artifactId>languagetool-office-extension</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.languagetool</groupId>
                 <artifactId>languagetool-server</artifactId>
                 <version>${revision}</version>
             </dependency>
@@ -1138,6 +1133,12 @@
                 <artifactId>unoil</artifactId>
                 <version>${org.openoffice.version}</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp3.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>io.rest-assured</groupId>
