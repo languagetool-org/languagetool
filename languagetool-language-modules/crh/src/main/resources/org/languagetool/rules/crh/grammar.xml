@@ -33,6 +33,8 @@ USA
 
 <rules lang="crh" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+    <!-- COMMON TYPOGRAPHY -->
+
     <category id="TYPOS" name="Possible Typo" type="misspelling">
       <rulegroup id="PLURAL_AFFIX_CONFUSION" name="Cemi afiksi hatası">
         <rule>
@@ -286,7 +288,137 @@ USA
           <example correction="ölgence"><marker>ölğanca</marker></example>
         </rule>
       </rulegroup>
+      <rulegroup id="COLLOQUIAL_TYPOS" name="Minnetdarlıq hataları">
+        <rule>
+          <pattern>
+            <token>elbetteki</token>
+          </pattern>
+          <message>Minnetdarliilq formas: <suggestion>elbette ki</suggestion></message>
+          <example correction="elbette ki">O <marker>elbetteki</marker> evdedir.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <token regexp="yes">[sS]alam</token>
+            <token regexp="yes">aleyk[uü]m</token>
+          </pattern>
+          <message>Toponimika hataları: <suggestion><match no="1" regexp_match="([sS]alam)" regexp_replace="Selâm"/> <match no="2"/></suggestion></message>
+          <example correction="Selâm aleykum"><marker>Salam aleykum</marker> dostum.</example>
+        </rule> 
+      </rulegroup>
+      <rulegroup id="TOPONOMY_TYPOS" name="Toponimika hataları">
+        <rule>
+          <pattern>
+            <token regexp="yes">Qrım.*</token>
+          </pattern>
+          <message>Toponimika hataları: <suggestion><match no="1" regexp_match="(Qrım)(.*)" regexp_replace="Qırım$2"/></suggestion></message>
+          <example correction="Qırımda"><marker>Qrımda</marker> yaşamız.</example>
+        </rule> 
+      </rulegroup>
     </category>
+
+
+
+    <!-- NUMBER TYPOGRAPHY -->
+
+    <category id="NUMBER_TYPOS" name="Possible Number Typo" type="misspelling">
+      <rulegroup id="NUMBER_AFTER_DEFIS_MISSING" name="Defis ya da boşluq yoqtur">
+        <rule>
+          <pattern>
+            <token regexp="yes">[$+-]?[0-9,-]*[0-9][a-zñğüşöçâ\.]+</token>
+          </pattern>
+          <message>Söz ve sayı arasında defis yoqtur: <suggestion><match no="1" regexp_match="([$+-]?[0-9,-]*[0-9])([a-zñğüşöçâ\.]+)" regexp_replace="$1-$2"/></suggestion></message>
+          <example correction="1981-s"><marker>1981s</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">[$+-]?[0-9,-]*[0-9][a-zñğüşöçâ\.]+</token>
+          </pattern>
+          <message>Söz ve sayı arasında defis yoqtur: <suggestion><match no="1" regexp_match="([$+-]?[0-9,-]*[0-9])([a-zñğüşöçâ\.]+)" regexp_replace="$1 $2"/></suggestion></message>
+          <example correction="1981 s"><marker>1981s</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">[$+-]?[0-9,-]*[0-9][а-яё\.]+</token>
+          </pattern>
+          <message>Сёз ве сайы арасында дефис ёкътур: <suggestion><match no="1" regexp_match="([$+-]?[0-9,-]*[0-9])([а-яё\.]+)" regexp_replace="$1-$2"/></suggestion></message>
+          <example correction="1981-с"><marker>1981с</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">[$+-]?[0-9,-]*[0-9][а-яё\.]+</token>
+          </pattern>
+          <message>Сёз ве сайы арасында дефис ёкътур: <suggestion><match no="1" regexp_match="([$+-]?[0-9,-]*[0-9])([а-яё\.]+)" regexp_replace="$1 $2"/></suggestion></message>
+          <example correction="1981 с"><marker>1981с</marker>.</example>
+        </rule>
+      </rulegroup>
+      <rulegroup id="NUMBER_BEFORE_DEFIS_MISSING" name="Defis ya da boşluq yoqtur">
+        <rule>
+          <pattern>
+            <token regexp="yes">[A-Za-zñğüşöçâ\.]+[0-9][0-9.,:–—-]*%?</token>
+          </pattern>
+          <message>Söz ve sayı arasında defis yoqtur: <suggestion><match no="1" regexp_match="([A-Za-zñğüşöçâ\.]+)([0-9][0-9.,:–—-]*%?)" regexp_replace="$1-$2"/></suggestion></message>
+          <example correction="F-32"><marker>F32</marker> savaş uçağı.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">[A-Za-zñğüşöçâ\.]+[0-9][0-9.,:–—-]*%?</token>
+          </pattern>
+          <message>Söz ve sayı arasında defis yoqtur: <suggestion><match no="1" regexp_match="([A-Za-zñğüşöçâ\.]+)([0-9][0-9.,:–—-]*%?)" regexp_replace="$1 $2"/></suggestion></message>
+          <example correction="menim 1">Ve <marker>menim1</marker> kitabım.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">[А-Яа-яё\.]+[0-9][0-9.,:–—-]*%?</token>
+          </pattern>
+          <message>Сёз ве сайы арасында дефис ёкътур: <suggestion><match no="1" regexp_match="([А-Яа-яё\.]+)([0-9][0-9.,:–—-]*%?)" regexp_replace="$1-$2"/></suggestion></message>
+          <example correction="Ф-32"><marker>Ф32</marker> саваш учагъы.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">[А-Яа-яё\.]+[0-9][0-9.,:–—-]*%?</token>
+          </pattern>
+          <message>Сёз ве сайы арасында дефис ёкътур: <suggestion><match no="1" regexp_match="([А-Яа-яё\.]+)([0-9][0-9.,:–—-]*%?)" regexp_replace="$1 $2"/></suggestion></message>
+          <example correction="меним 1">Ве <marker>меним1</marker> китабым.</example>
+        </rule>
+      </rulegroup>
+      <rulegroup id="COMPLEX_NUMBER_DEFIS_MISSING" name="Cemi afiksi hatası">
+        <rule>
+          <pattern>
+            <marker>
+            <token regexp="yes">[$+-]?[0-9,-]*[0-9,][A-Za-zñğüşöçâ][A-Za-zñğüşöçâ-]*[.²³]?
+              <exception case_sensitive="yes">1С</exception>
+              <exception regexp="yes">[0-9]+'|[0-9]+k</exception>
+              <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>
+              <!-- both lat and cyr o and C, taken care by rule below -->
+            </token>
+            </marker>
+          </pattern>
+          <message>Söz ve sayı arasında defis yoqtur: </message>
+          <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([A-Za-zñğüşöçâ-])" regexp_replace="$1 $2"/></suggestion>
+          <example correction="21 fayız"><marker>21fayız</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <marker>
+            <token regexp="yes">[$+-]?[0-9,-]*[0-9,][A-Za-zñğüşöçâ][A-Za-zñğüşöçâ-]*[.²³]?
+              <exception case_sensitive="yes">1С</exception>
+              <exception regexp="yes">[0-9]+'|[0-9]+k</exception>
+              <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>
+              <!-- both lat and cyr o and C, taken care by rule below -->
+            </token>
+            </marker>
+          </pattern>
+          <message>Söz ve sayı arasında defis yoqtur: </message>
+          <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([A-Za-zñğüşöçâ-])" regexp_replace="$1-$2"/></suggestion>
+          <example correction="5-nci"><marker>5nci</marker>.</example>
+        </rule>
+      </rulegroup>
+
+    </category>
+
+
+    <!-- GRAMMAR RULES -->
+
 
     <category id="GRAMMAR" name="Grammar mistakes" type="grammar">
 
