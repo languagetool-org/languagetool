@@ -34,13 +34,13 @@ For more technical details, see [our dev pages](https://dev.languagetool.org).
 
 ## Scripted installation and building
 To install or build using a script, simply type:
-```
+```bash
 curl -L https://raw.githubusercontent.com/languagetool-org/languagetool/master/install.sh | sudo bash <options>
 ```
 
 If you wish to have more options, download the `install.sh` script. Usage options follow:
 
-```
+```bash
 sudo bash install.sh <options>
 
 Usage: install.sh <option> <package>
