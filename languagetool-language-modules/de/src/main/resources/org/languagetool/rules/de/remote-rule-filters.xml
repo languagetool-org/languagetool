@@ -227,6 +227,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_HYDRA_LEO_MISSING_COMMA.*" name="">
             <rule>
                 <pattern>
+                    <token postag="PA2.*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token/>
+                    <marker>
+                        <token/>
+                    </marker>
+                    <token postag="KON:UNT"/>
+                </pattern>
+                <example correction="">Ein Passant hatte bereits Risse in den Pfeilern der Brücke bemerkt, zwei <marker>Tage</marker> bevor sie zusammenbrach.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">ge?rade</token>
                     <marker>
                         <token>einmal</token>
