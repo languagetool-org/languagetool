@@ -132,38 +132,6 @@ USA
     </rule>
 
 
-    <rule id='TIVER_ESTIVER' name='[pt-PT][Confusão] tiver/estiver' tone_tags="formal">
-        <antipattern>
-            <token postag='NC.+|AQ.+|CS|RG' postag_regexp='yes'/>
-            <token regexp='yes'>teve|tiveste|tiver|tiveres|tiverem|tivermos|tiveram</token>
-            <token regexp='no'>a</token>
-            <token postag='VMN0000' postag_regexp='no'/>
-            <token postag='SPS00|CS' postag_regexp='yes'/>
-            <example>Quando tiver a ver com isso.</example>
-            <example>Faz o que tiveres a fazer com o documento.</example>
-            <example>Faz o que tiveres a fazer que isso basta.</example>
-            <example>Faz o que tiveres a fazer desde que seja o certo.</example>
-            <example>Alguns dos meus filmes tiveram a ver com lares desfeitos.</example>
-        </antipattern>
-        <pattern>
-            <marker>
-                <token regexp='yes'>teve|tiveste|tiver|tiveres|tiverem|tivermos|tiveram</token>
-            </marker>
-            <token regexp='no'>a</token>
-            <token postag='VMN0000' postag_regexp='no'/>
-        </pattern>
-        <message>Possível confusão de termos.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match></suggestion>
-        <example correction="esteve">Ele <marker>teve</marker> a ver TV.</example>
-        <example correction="estiveste">Quando <marker>tiveste</marker> a ver TV.</example>
-        <example correction="estiver">Quando <marker>tiver</marker> a ver TV.</example>
-        <example correction="estiveres">Quando <marker>tiveres</marker> a ver TV.</example>
-        <example correction="estiverem">Quando <marker>tiverem</marker> a ver TV.</example>
-        <example correction="estivermos">Quando <marker>tivermos</marker> a ver TV.</example>
-        <example correction="estiveram">Elas <marker>tiveram</marker> a ver TV.</example>
-    </rule>
-
-
     <rulegroup id='AVOID_GERUND' name='[pt-PT] Evitar o Gerúndio (perifrásico)' default='on' type='style' tone_tags="objective">
         <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
         <url>https://pt.wikipedia.org/wiki/Gerundismo</url>
@@ -3330,6 +3298,38 @@ USA
             <example correction="idêntica|uma idêntica">Perante <marker>a mesma</marker> categoria de dados avaliamos a média.</example>
             <example correction="idêntica|uma idêntica">Estamos perante <marker>uma mesma</marker> categoria de dados.</example>
         </rule>
+
+
+    <rule id='TIVER_ESTIVER' name='[pt-PT][Formal] tiver/estiver' tone_tags="formal">
+        <antipattern>
+            <token postag='NC.+|AQ.+|CS|RG' postag_regexp='yes'/>
+            <token regexp='yes'>teve|tiveste|tiver|tiveres|tiverem|tivermos|tiveram</token>
+            <token regexp='no'>a</token>
+            <token postag='VMN0000' postag_regexp='no'/>
+            <token postag='SPS00|CS' postag_regexp='yes'/>
+            <example>Quando tiver a ver com isso.</example>
+            <example>Faz o que tiveres a fazer com o documento.</example>
+            <example>Faz o que tiveres a fazer que isso basta.</example>
+            <example>Faz o que tiveres a fazer desde que seja o certo.</example>
+            <example>Alguns dos meus filmes tiveram a ver com lares desfeitos.</example>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token regexp='yes'>teve|tiveste|tiver|tiveres|tiverem|tivermos|tiveram</token>
+            </marker>
+            <token regexp='no'>a</token>
+            <token postag='VMN0000' postag_regexp='no'/>
+        </pattern>
+        <message>Possível confusão de termos.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match></suggestion>
+        <example correction="esteve">Ele <marker>teve</marker> a ver TV.</example>
+        <example correction="estiveste">Quando <marker>tiveste</marker> a ver TV.</example>
+        <example correction="estiver">Quando <marker>tiver</marker> a ver TV.</example>
+        <example correction="estiveres">Quando <marker>tiveres</marker> a ver TV.</example>
+        <example correction="estiverem">Quando <marker>tiverem</marker> a ver TV.</example>
+        <example correction="estivermos">Quando <marker>tivermos</marker> a ver TV.</example>
+        <example correction="estiveram">Elas <marker>tiveram</marker> a ver TV.</example>
+    </rule>
 
 
     </category>
