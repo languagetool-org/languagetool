@@ -124,7 +124,7 @@ public class PatternRuleQueryBuilder {
     } else {
       Set<Term> terms = new HashSet<>();
       try {
-        indexSearcher.createWeight(query.getQuery(), false).extractTerms(terms);
+        indexSearcher.createWeight(query.getQuery(), ScoreMode.COMPLETE_NO_SCORES, 1.0f).extractTerms(terms);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }

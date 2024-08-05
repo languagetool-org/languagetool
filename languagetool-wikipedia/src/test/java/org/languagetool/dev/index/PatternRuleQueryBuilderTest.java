@@ -271,11 +271,11 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     assertMatches(makeRule("<token>How</token> <token negate='yes'>do</token> <token negate='yes'>you</token>"), 1); // known overmatching
   }
 
-  private void assertMatches(AbstractPatternRule patternRule, int expectedMatches) throws Exception {
+  private void assertMatches(AbstractPatternRule patternRule, long expectedMatches) throws Exception {
     PatternRuleQueryBuilder queryBuilder = new PatternRuleQueryBuilder(language, searcher);
     Query query = queryBuilder.buildRelaxedQuery(patternRule);
     //System.out.println("QUERY: " + query);
-    int matches = searcher.search(query, 1000).totalHits;
+    long matches = searcher.search(query, 1000).totalHits.value;
     assertEquals("Query failed: " + query, expectedMatches, matches);
   }
 

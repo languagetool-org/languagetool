@@ -33,6 +33,7 @@ import java.util.List;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.search.Query;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.SimpleFSDirectory;
@@ -101,7 +102,7 @@ public class Searcher {
   private int getDocCount(IndexSearcher indexSearcher) throws IOException {
     Term searchTerm = new Term(MAX_DOC_COUNT_FIELD, MAX_DOC_COUNT_FIELD_VAL);
     TopDocs search = indexSearcher.search(new TermQuery(searchTerm), 1);
-    if (search.totalHits != 1) {
+    if (search.totalHits.value != 1) {
       return -1;
     }
     ScoreDoc scoreDoc = search.scoreDocs[0];
@@ -334,7 +335,7 @@ public class Searcher {
     private List<MatchingSentence> matchingSentences;
     private Exception exception;
     private boolean tooManyLuceneMatches;
-    private int luceneMatchCount;
+    private long luceneMatchCount;
     private int maxDocChecked;
     private int docsChecked;
     private int numDocs;
@@ -356,7 +357,7 @@ public class Searcher {
         PossiblyLimitedTopDocs limitedTopDocs = getTopDocs(query);
         long luceneTime = System.currentTimeMillis() - t2;
         long t3 = System.currentTimeMillis();
-        luceneMatchCount = limitedTopDocs.topDocs.totalHits;
+        luceneMatchCount = limitedTopDocs.topDocs.totalHits.value;
         tooManyLuceneMatches = limitedTopDocs.topDocs.scoreDocs.length >= maxHits;
         MatchingSentencesResult res = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);
         matchingSentences = res.matchingSentences;
@@ -382,7 +383,7 @@ public class Searcher {
       return tooManyLuceneMatches;
     }
 
-    int getLuceneMatchCount() {
+    long getLuceneMatchCount() {
       return luceneMatchCount;
     }
 

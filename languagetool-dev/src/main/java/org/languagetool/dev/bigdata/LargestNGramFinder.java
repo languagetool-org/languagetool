@@ -47,10 +47,9 @@ final class LargestNGramFinder {
     FSDirectory fsDir = FSDirectory.open(new File(args[0]).toPath());
     IndexReader reader = DirectoryReader.open(fsDir);
     IndexSearcher searcher = new IndexSearcher(reader);
-    Fields fields = MultiFields.getFields(reader);
+    Terms terms = MultiTerms.getTerms(reader, "ngram");
     long max = 0;
     String maxTerm = "";
-    Terms terms = fields.terms("ngram");
     TermsEnum termsEnum = terms.iterator();
     int count = 0;
     BytesRef next;
@@ -71,5 +70,6 @@ final class LargestNGramFinder {
     }
     System.out.println("Max: " + max + " for " + maxTerm);
   }
+
   
 }

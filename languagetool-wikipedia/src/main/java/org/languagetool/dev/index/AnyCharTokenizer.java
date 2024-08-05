@@ -20,8 +20,8 @@ package org.languagetool.dev.index;
 
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+import org.apache.lucene.analysis.CharacterUtils;
 import org.apache.lucene.analysis.Tokenizer;
-import org.apache.lucene.analysis.util.CharacterUtils;
 import org.apache.lucene.util.AttributeFactory;
 
 import java.io.IOException;
@@ -36,7 +36,6 @@ public final class AnyCharTokenizer extends Tokenizer {
   private static final int MAX_WORD_LEN = Integer.MAX_VALUE; // extend the word length!
 
   private final CharacterUtils.CharacterBuffer ioBuffer = CharacterUtils.newCharacterBuffer(4096);
-  private final CharacterUtils charUtils = CharacterUtils.getInstance();
   private final CharTermAttribute termAtt = this.addAttribute(CharTermAttribute.class);
   private final OffsetAttribute offsetAtt = this.addAttribute(OffsetAttribute.class);
 
@@ -83,7 +82,7 @@ public final class AnyCharTokenizer extends Tokenizer {
     while(true) {
       if(this.bufferIndex >= this.dataLen) {
         this.offset += this.dataLen;
-        this.charUtils.fill(this.ioBuffer, this.input);
+        CharacterUtils.fill(this.ioBuffer, this.input);
         if(this.ioBuffer.getLength() == 0) {
           this.dataLen = 0;
           if(length <= 0) {
@@ -97,7 +96,7 @@ public final class AnyCharTokenizer extends Tokenizer {
         this.bufferIndex = 0;
       }
 
-      int c = this.charUtils.codePointAt(this.ioBuffer.getBuffer(), this.bufferIndex, this.ioBuffer.getLength());
+      int c = Character.codePointAt(this.ioBuffer.getBuffer(), this.bufferIndex);
       int charCount = Character.charCount(c);
       this.bufferIndex += charCount;
       if(this.isTokenChar(c)) {

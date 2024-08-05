@@ -58,8 +58,7 @@ final class NeededNGramCounter {
     String ngramIndexDir = args[0];
     FSDirectory fsDir = FSDirectory.open(new File(ngramIndexDir).toPath());
     IndexReader reader = DirectoryReader.open(fsDir);
-    Fields fields = MultiFields.getFields(reader);
-    Terms terms = fields.terms("ngram");
+    Terms terms = MultiTerms.getTerms(reader, "ngram");
     TermsEnum termsEnum = terms.iterator();
     int i = 0;
     int needed = 0;
