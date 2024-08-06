@@ -26521,6 +26521,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="ETA_ESTA" name="eta -> esta, esa" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">eta|Eta</token>
+                </marker>
+                <token postag="NC[FC][SN]000" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Quería decir <suggestion>esta</suggestion> o <suggestion>esa</suggestion>?</message>
+            <example correction="Esta|Esa"><marker>Eta</marker> situación es insostenible.</example>
+        </rule>
         <rule id="CONFUSION_I_EXCLAMACION" name="confusión i -> ¡">
             <pattern>
                 <marker>
