@@ -201,7 +201,7 @@ public class Searcher {
   }
 
   private PossiblyLimitedTopDocs getTopDocs(Query query) throws IOException {
-    TopScoreDocCollector topCollector = TopScoreDocCollector.create(maxHits);
+    TopScoreDocCollector topCollector = TopScoreDocCollector.create(maxHits, Integer.MAX_VALUE);
     Counter clock = Counter.newCounter(true);
     int waitMillis = 1000;
     // TODO: if we interrupt the whole thread anyway, do we still need the TimeLimitingCollector?

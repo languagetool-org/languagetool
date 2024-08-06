@@ -146,10 +146,10 @@ public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
     try {
       RegexpQuery query = new RegexpQuery(new Term("totalTokenCount", ".*"));
       TopDocs docs = luceneSearcher.searcher.search(query, 1000);  // Integer.MAX_VALUE might cause OOE on wrong index
-      if (docs.totalHits == 0) {
+      if (docs.totalHits.value == 0) {
         throw new RuntimeException("Expected 'totalTokenCount' meta documents not found in 1grams index: " + luceneSearcher.directory);
-      } else if (docs.totalHits > 1000) {
-        throw new RuntimeException("Did not expect more than 1000 'totalTokenCount' meta documents: " + docs.totalHits + " in " + luceneSearcher.directory);
+      } else if (docs.totalHits.value > 1000) {
+        throw new RuntimeException("Did not expect more than 1000 'totalTokenCount' meta documents: " + docs.totalHits.value + " in " + luceneSearcher.directory);
       } else {
         long result = 0;
         for (ScoreDoc scoreDoc : docs.scoreDocs) {
@@ -194,9 +194,9 @@ public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
     long result = 0;
     try {
       TopDocs docs = luceneSearcher.searcher.search(new TermQuery(term), 2000);
-      if (docs.totalHits > 2000) {
+      if (docs.totalHits.value > 2000) {
         throw new RuntimeException("More than 2000 matches for '" + term + "' not supported for performance reasons: " +
-                                   docs.totalHits + " matches in " + luceneSearcher.directory);
+                                   docs.totalHits.value + " matches in " + luceneSearcher.directory);
       }
       for (ScoreDoc scoreDoc : docs.scoreDocs) {
         String countStr = luceneSearcher.reader.document(scoreDoc.doc).get("count");
