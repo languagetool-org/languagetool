@@ -3354,40 +3354,29 @@ USA
         </rule>
 
 
-        <!-- CONCEITOS MAIS IMPORTANTES conceitos-chave -->
-        <rule id='CIENTÍFICO_MAIS_IMPORTANTE_CHAVE_V3' name="[pt-PT][Científico] mais conhecidos/importantes → -chave" type="style">
-        <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-23 (2-MAR-2023+) -->
-        <!--
-            A entropia é um dos conceitos mais conhecidos na teoria. → A entropia é um dos conceitos-chave na teoria.
-        -->
+        <rule id='CIENTÍFICO_MAIS_IMPORTANTE_CHAVE_V3' name="[pt-PT][Científico] mais conhecidos/importantes → -chave" type="style" default="temp_off">
             <pattern>
                 <marker>
-                    <and>
-                        <token regexp='yes' inflected='yes'>adversário|área|aspecto|atividade|autor|batalha|caraterística|categoria|cientista|cineasta|conceito|contribuição|decisão|descoberta|detalhe|domínio|elemento|escritor|escultor|etapa|evento|exemplo|fato|facto|fator|factor|feito|ferramenta|figura|homem|ideia|indústria|informação|instituição|investigador|jogador|jornalista|líder|local|lugar|membro|momento|movimento|mulher|objetivo|objeto|palavra|papel|peça|pergunta|período|pessoa|pesquisador|ponto|problema|questão|setor|sector|tarefa|tema|tópico|trabalho|vitória</token>
-                        <token postag='NC.+' postag_regexp='yes'/>
-                    </and>
+                    <token postag='NC.+' postag_regexp='yes' regexp='yes' inflected='yes'>adversário|área|aspec?to|ac?tividade|autor|batalha|carac?terística|categoria|cientista|cineasta|conceito|contribuição|decisão|descoberta|detalhe|domínio|elemento|escritor|escultor|etapa|evento|exemplo|fac?to|fac?tor|feito|ferramenta|figura|homem|ideia|indústria|informação|instituição|investigador|jogador|jornalista|líder|local|lugar|membro|momento|movimento|mulher|objec?tivo|objec?to|palavra|papel|peça|pergunta|período|pessoa|pesquisador|ponto|problema|questão|sec?tor|tarefa|tema|tópico|trabalho|vitória</token>
                     <token>mais</token>
                     <token regexp='yes'>conhecidos?|importantes?</token>
                 </marker>
             </pattern>
-            <message>Num contexto formal/científico, é preferível escrever '-chave'.</message>
+            <message>Num contexto formal/científico, é preferível escrever &quot;-chave&quot;.</message>
             <suggestion>\1-chave</suggestion>
             <example correction="conceitos-chave">A entropia é um dos <marker>conceitos mais conhecidos</marker> na teoria.</example>
         </rule>
-        <!-- HABILITAÇÕES LITERÁRIAS habilitações académicas -->
-        <rule id='HABILITAÇÕES_LITERÁRIAS_ACADÉMICAS' name="[pt-PT] Habilitações 'literárias' → 'académicas'" type="style">
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-25 (25-JUL-2022+) -->
-            <!--
-                Quais são as suas habilitações literárias? → Quais são as suas habilitações académicas?
-            -->
+
+
+        <rule id='HABILITAÇÕES_LITERÁRIAS_ACADÉMICAS' name="[pt-PT] Habilitações 'literárias' → 'académicas'" type="style" default="temp_off">
             <pattern>
-                <token case_sensitive="no">Habilitações</token>
+                <token skip='4'>habilitações</token>
                 <marker>
-                    <token case_sensitive="no">Literárias</token>
+                    <token>literárias</token>
                 </marker>
             </pattern>
-            <message>É mais corrente empregar o termo 'académicas'.</message>
-            <suggestion>académicas</suggestion>
+            <message>É mais corrente empregar o termo &quot;académicas&quot;.</message>
+            <suggestion><match no='2' postag='NCFP000' postag_regexp='yes'>académica</match></suggestion>
             <example correction="académicas">Quais são as suas habilitações <marker>literárias</marker>?</example>
         </rule>
 
