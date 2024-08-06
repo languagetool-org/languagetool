@@ -18,9 +18,9 @@
  */
 package org.languagetool.dev.index;
 
+import org.apache.lucene.analysis.CharacterUtils;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
-import org.apache.lucene.analysis.CharacterUtils;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.util.AttributeFactory;
 
