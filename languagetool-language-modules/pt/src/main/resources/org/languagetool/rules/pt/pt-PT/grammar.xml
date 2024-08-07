@@ -4032,6 +4032,21 @@ USA
     </rulegroup>
 
 
+    <rule id='AO45_HAVER_DE' name='[pt-PT][AO45] Haver-de' default="temp_off">
+        <pattern>
+            <marker>
+                <token regexp='yes'>heis?|hás?|hão</token>
+                <token>de</token>
+            </marker>
+            <token postag='VMN000.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Segundo o Acordo Ortográfico de 45, esta forma é hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
+        <example correction='Hás-de'><marker>Hás de</marker> comprar uma casa.</example>
+        <example correction='Hei-de'><marker>Hei de</marker> ir ao Congo.</example>
+    </rule>
+
+
     <rule id="AO45_PELO_PÊLO" name="[pt-PT][AO45] pelo/pêlo" default="off">
     <!-- Created by Marco A.G. Pinto   -->
         <pattern>
