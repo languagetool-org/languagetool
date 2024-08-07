@@ -192,8 +192,12 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Alkoholabstinenz", asList("Alkohol", "abstinenz"));
     wordSplitter.addException("Androgen", asList("Androgen"));
     wordSplitter.addException("Auberginen", asList("Auberginen"));
+    wordSplitter.addException("Auckland", asList("Auckland"));
+    wordSplitter.addException("Boston", asList("Boston"));
+    wordSplitter.addException("Brandenburg", asList("Brandenburg"));
     wordSplitter.addException("Broadcast", asList("Broadcast"));
     wordSplitter.addException("Buchsbaum", asList("Buchsbaum"));
+    wordSplitter.addException("Chiemsee", asList("Chiemsee"));
     wordSplitter.addException("Coffein", asList("Coffein"));
     wordSplitter.addException("Drohnen", asList("Drohnen"));
     wordSplitter.addException("Eiben", asList("Eiben"));
@@ -211,6 +215,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Kolleggen", asList("Kolleggen"));
     wordSplitter.addException("Karstadt", asList("Karstadt"));
     wordSplitter.addException("Kartier", asList("Kartier"));
+    wordSplitter.addException("Kaukasus", asList("Kaukasus"));
     wordSplitter.addException("Knoblauch", asList("Knoblauch"));
     wordSplitter.addException("Kollagen", asList("Kollagen"));
     wordSplitter.addException("Kommerz", asList("Kommerz"));
