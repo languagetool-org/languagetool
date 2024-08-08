@@ -994,10 +994,10 @@ class CompoundTagger {
 
           // 100-річчя
           
-          String tryPrefix = getTryPrefix(rightWord);
+          String tryPrefix = getTryPrefix(rightWord.toLowerCase());
           
           if( tryPrefix != null ) {
-            List<TaggedWord> rightWdList = wordTagger.tag(tryPrefix + rightWord);
+            List<TaggedWord> rightWdList = wordTagger.tag(tryPrefix + rightWord.toLowerCase());
             
             if( rightWdList == null )
               return null;
