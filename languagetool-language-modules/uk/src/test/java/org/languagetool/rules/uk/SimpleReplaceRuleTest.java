@@ -102,6 +102,14 @@ public class SimpleReplaceRuleTest {
   }
 
   @Test
+  public void testDerivat() throws IOException {
+    // derivat
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("перелиставши."));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("перегорнувши", "прогортавши"), matches[0].getSuggestedReplacements());
+  }
+
+  @Test
   public void testRulePartOfMultiword() throws IOException {
     SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule, lt.getLanguage());
 
