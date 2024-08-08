@@ -64,6 +64,36 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </equivalence>
     </unification>
 
+    <rulegroup id="FUEGUNGEN" name="anderssprachige Fügungen">
+        <rule>
+            <pattern>
+                <token case_sensitive="yes">à</token>
+                <marker>
+                    <token case_sensitive="yes">discrétion</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token case_sensitive="yes">in</token>
+                <marker>
+                    <token case_sensitive="yes">nuce</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token case_sensitive="yes">last</token>
+                <marker>
+                    <token case_sensitive="yes">minute</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
     <rule id="BINDESTRICH" name="Bindestrich">
         <pattern>
             <token postag="UNKNOWN">[a-z]+-</token>
