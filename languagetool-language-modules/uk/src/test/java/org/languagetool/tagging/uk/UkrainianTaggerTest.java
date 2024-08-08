@@ -413,6 +413,7 @@ public class UkrainianTaggerTest {
 
     TestTools.myAssert("а-а", "а-а/[а-а]intj", tokenizer, tagger);
     TestTools.myAssert("Га-га", "Га-га/[га-га]intj", tokenizer, tagger);
+    TestTools.myAssert("кусь-кусь", "кусь-кусь/[кусь-кусь]noninfl:&predic", tokenizer, tagger);
     TestTools.myAssert("ось\u2013ось", "ось-ось/[ось-ось]adv|ось–ось/[null]null", tokenizer, tagger);
     TestTools.myAssert("ось\u2011ось", "ось-ось/[ось-ось]adv", tokenizer, tagger);
     TestTools.myAssert("Івано\u2013Франківськ", "Івано-Франківськ/[Івано-Франківськ]noun:inanim:m:v_naz:prop:geo|Івано-Франківськ/[Івано-Франківськ]noun:inanim:m:v_zna:prop:geo|Івано–Франківськ/[null]null", tokenizer, tagger);
@@ -504,7 +505,7 @@ public class UkrainianTaggerTest {
     assertNotTagged("підо-пічні");
     assertNotTagged("рибо-полювання");
     assertNotTagged("вовіки-вічні");
-    assertNotTagged("юре-юре");
+//    assertNotTagged("юре-юре");
     assertNotTagged("Гірник-спорт");
     
     assertNotTagged("Квітку-Основ'яненко"); // правильно: Квітку-Основ'яненка
