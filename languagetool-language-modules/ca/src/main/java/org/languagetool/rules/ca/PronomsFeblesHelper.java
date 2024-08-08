@@ -454,7 +454,11 @@ public class PronomsFeblesHelper {
       if (containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()) {
         return verbStr + pronounsStr;
       }
-      return verbStr + transformDarrere("-se", verbStr);
+      if (verbStr.endsWith("r") || verbStr.endsWith("re")) {
+        return verbStr + transformDarrere("-se", verbStr);
+      } else {
+        return verbStr;
+      }
     }
     String pronounToAdd = "";
     if (pronounsStr.isEmpty()) {
