@@ -2622,15 +2622,13 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE" name="">
             <rule>
                 <pattern>
-                    <token postag="PRO:PER:DAT.*"/>
-                    <token inflected="yes">werden|sein</token>
-                    <token min="0" postag="ADV.*|ADJ.*" postag_regexp="yes"/>
-                    <token min="0" postag="ADV.*|ADJ.*" postag_regexp="yes"/>
+                    <token postag="PRO:PER:DAT.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">werden|sein</token>
                     <marker>
-                        <token regexp="yes">angst|gram</token>
+                        <token regexp="yes" case_sensitive="yes">angst|gram</token>
                     </marker>
                 </pattern>
-                <example correction="">Mir wird schon ganz <marker>angst</marker>.</example>
+                <example correction="">Mir wird <marker>angst</marker>.</example>
             </rule>
             <rule>
                 <pattern>
