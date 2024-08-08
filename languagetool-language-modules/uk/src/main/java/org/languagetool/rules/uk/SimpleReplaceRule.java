@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
@@ -194,7 +195,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
           .findAny()
           .orElse(t)
         )
-        .toList();
+        .collect(Collectors.toList());
 
     return suggestions;
   }
