@@ -34,13 +34,13 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.de.SwissGermanTagger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.languagetool.rules.de.SwissGermanSalutationRule;
 
 import java.io.IOException;
 import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class SwissGerman extends German {
-
   private static final Logger logger = LoggerFactory.getLogger(SwissGerman.class);
 
   @NotNull
@@ -62,7 +62,11 @@ public class SwissGerman extends German {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
+
+    // Add custom SwissGermanSalutationRule
+    rules.add(new SwissGermanSalutationRule(messages));
     rules.add(new SwissCompoundRule(messages, this, userConfig));
+
     return rules;
   }
 
@@ -74,8 +78,7 @@ public class SwissGerman extends German {
   @Override
   public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, globalConfig, userConfig, motherTongue, altLanguages));
-    rules.add(new SwissGermanSpellerRule(messages, this,
-      userConfig, languageModel));
+    rules.add(new SwissGermanSpellerRule(messages, this, userConfig, languageModel));
     return rules;
   }
 
@@ -91,14 +94,17 @@ public class SwissGerman extends German {
 
   @Override
   public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
-    //First, use the filter in German.java
+    // First, use the filter in German.java
     ruleMatches = super.filterRuleMatches(ruleMatches, text, enabledRules);
     List<RuleMatch> newRuleMatches = new ArrayList<>();
+
     for (RuleMatch rm : ruleMatches) {
-      //TODO: replace this by supporting remote-rule-filter for language variants
+      // TODO: replace this by supporting remote-rule-filter for language variants
       String ruleId = rm.getRule().getId();
+
       if (ruleId.equals("AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL") || ruleId.equals("AI_DE_GGEC_REPLACEMENT_ADJECTIVE_FORM")) {
         String matchingString = null;
+
         if (rm.getSentence() != null) {
           if (rm.getFromPos() > -1 && rm.getToPos() > -1) {
             String sentenceStr = rm.getSentence().getText();
@@ -107,6 +113,7 @@ public class SwissGerman extends German {
             }
           }
         }
+
         String finalMatchingString = matchingString;
         if (finalMatchingString != null && finalMatchingString.contains("ss") && rm.getSuggestedReplacements().stream().anyMatch(suggestion -> suggestion.equals(finalMatchingString.replace("ss", "ß")))) {
           logger.info("Remove match with ruleID: {} ({} -> {})", ruleId, matchingString, rm.getSuggestedReplacements());
@@ -116,15 +123,18 @@ public class SwissGerman extends German {
 
       List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
       List<SuggestedReplacement> newReplacements = new ArrayList<>();
+
       for (SuggestedReplacement s : replacements) {
         String newReplStr = s.getReplacement().replaceAll("ß", "ss");
         SuggestedReplacement newRepl = new SuggestedReplacement(s);
         newRepl.setReplacement(newReplStr);
         newReplacements.add(newRepl);
       }
+
       RuleMatch newMatch = new RuleMatch(rm, newReplacements);
       newRuleMatches.add(newMatch);
     }
+
     return newRuleMatches;
   }
 

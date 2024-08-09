@@ -25,8 +25,10 @@ import java.util.Objects;
  * @since 3.3
  */
 public class CategoryId {
-  
   private final String id;
+
+  // Predefined category ids
+  public static final CategoryId PUNCTUATION = new CategoryId("PUNCTUATION");
 
   public CategoryId(String id) {
     Objects.requireNonNull(id, "Category id must not be null.");
