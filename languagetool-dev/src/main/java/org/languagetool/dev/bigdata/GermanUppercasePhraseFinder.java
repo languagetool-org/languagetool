@@ -34,7 +34,9 @@ import org.languagetool.tools.StringTools;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Prototype to find potential upper-only phrases like "Persischer Golf".
@@ -57,47 +59,48 @@ final class GermanUppercasePhraseFinder {
     FSDirectory fsDir = FSDirectory.open(new File(args[0]).toPath());
     IndexReader reader = DirectoryReader.open(fsDir);
     IndexSearcher searcher = new IndexSearcher(reader);
-    Fields fields = MultiFields.getFields(reader);
-    Terms terms = fields.terms("ngram");
-    TermsEnum termsEnum = terms.iterator();
-    int count = 0;
-    BytesRef next;
-    while ((next = termsEnum.next()) != null) {
-      String term = next.utf8ToString();
-      count++;
-      //term = "persischer Golf";  // for testing
-      String[] parts = term.split(" ");
-      boolean useful = true;
-      int lcCount = 0;
-      List<String> ucParts = new ArrayList<>();
-      for (String part : parts) {
-        if (part.length() < MIN_TERM_LEN) {
-          useful = false;
-          break;
+    for (String field: FieldInfos.getIndexedFields(reader)) {
+      Terms terms = MultiTerms.getTerms(reader, field);
+      TermsEnum termsEnum = terms.iterator();
+      int count = 0;
+      BytesRef next;
+      while ((next = termsEnum.next()) != null) {
+        String term = next.utf8ToString();
+        count++;
+        //term = "persischer Golf";  // for testing
+        String[] parts = term.split(" ");
+        boolean useful = true;
+        int lcCount = 0;
+        List<String> ucParts = new ArrayList<>();
+        for (String part : parts) {
+          if (part.length() < MIN_TERM_LEN) {
+            useful = false;
+            break;
+          }
+          String uc = StringTools.uppercaseFirstChar(part);
+          if (!part.equals(uc)) {
+            lcCount++;
+          }
+          ucParts.add(uc);
         }
-        String uc = StringTools.uppercaseFirstChar(part);
-        if (!part.equals(uc)) {
-          lcCount++;
+        if (!useful || lcCount == 0 || lcCount == 2) {
+          continue;
         }
-        ucParts.add(uc);
-      }
-      if (!useful || lcCount == 0 || lcCount == 2) {
-        continue;
-      }
-      String uppercase = String.join(" ", ucParts);
-      if (term.equals(uppercase)){
-        continue;
-      }
-      long thisCount = getOccurrenceCount(reader, searcher, term);
-      long thisUpperCount = getOccurrenceCount(reader, searcher, uppercase);
-      if (count % 10_000 == 0) {
-        System.err.println(count + " @ " + term);
-      }
-      if (thisCount > LIMIT || thisUpperCount > LIMIT) {
-        if (thisUpperCount > thisCount) {
-          if (isRelevant(lt, term)) {
-            float factor = (float)thisUpperCount / thisCount;
-            System.out.printf("%.2f " + thisUpperCount + " " + uppercase + " " + thisCount + " " + term + "\n", factor);
+        String uppercase = String.join(" ", ucParts);
+        if (term.equals(uppercase)) {
+          continue;
+        }
+        long thisCount = getOccurrenceCount(reader, searcher, term);
+        long thisUpperCount = getOccurrenceCount(reader, searcher, uppercase);
+        if (count % 10_000 == 0) {
+          System.err.println(count + " @ " + term);
+        }
+        if (thisCount > LIMIT || thisUpperCount > LIMIT) {
+          if (thisUpperCount > thisCount) {
+            if (isRelevant(lt, term)) {
+              float factor = (float) thisUpperCount / thisCount;
+              System.out.printf("%.2f " + thisUpperCount + " " + uppercase + " " + thisCount + " " + term + "\n", factor);
+            }
           }
         }
       }
@@ -117,7 +120,7 @@ final class GermanUppercasePhraseFinder {
 
   private static long getOccurrenceCount(IndexReader reader, IndexSearcher searcher, String term) throws IOException {
     TopDocs topDocs = searcher.search(new TermQuery(new Term("ngram", term)), 5);
-    if (topDocs.totalHits == 0) {
+    if (topDocs.totalHits.value == 0) {
       return 0;
     }
     int docId = topDocs.scoreDocs[0].doc;

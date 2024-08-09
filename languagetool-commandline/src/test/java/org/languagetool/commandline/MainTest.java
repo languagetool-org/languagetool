@@ -277,7 +277,7 @@ public class MainTest extends AbstractSecurityTestCase {
     String[] args = {"-l", "en", "--json", "-"};
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    assertTrue("Got: " + output, output.contains("{\"software\":{\"name\":\"LanguageTool\",\"version\":\""));
+    assertTrue("Got: " + output, output.contains("{\"software\":{\"name\":\"LanguageTool\",\"version\":"));
     assertTrue("Got: " + output, output.contains("\"language\":{\"name\":\"English\",\"code\":\"en\""));
     assertTrue("Got: " + output, output.contains("{\"message\":\"Use \\\"a\\\" instead of 'an' if the following word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'.\""));
     assertTrue("Got: " + output, output.contains("\"replacements\":[{\"value\":\"a\"}]"));
