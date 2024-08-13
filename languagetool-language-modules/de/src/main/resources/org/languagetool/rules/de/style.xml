@@ -156,6 +156,84 @@ USA
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
 
+        <rulegroup id="ADJEKTIVE_ZU_ADVERBIEN" name="'bisherig, seitherig etc.'">
+            <rule>
+                <pattern>
+                    <token>vorherig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>vorher</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example correction="Vorher|Vorherige"><marker>Vorherig</marker> waren wir ein Bier trinken.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>bisherig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>bisher</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example correction="Bisher|Bisherige"><marker>Bisherig</marker> ist noch nichts passiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>seitherig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>seither</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example correction="Seither|Seitherige"><marker>Seitherig</marker> ist noch nichts passiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>jetzig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>jetzt</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example correction="jetzt|jetzige">Bis <marker>jetzig</marker> ist noch nichts passiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>obig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>oben</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example correction="oben|obige">Wie <marker>obig</marker> ausgeführt, ist noch nichts passiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>jeweilig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>jeweils</suggestion>?</message>
+                <example correction="jeweils">Das <marker>jeweilig</marker> Adäquate wird unternommen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>sofortig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>sofort</suggestion> oder <suggestion>unverzüglich</suggestion>?</message>
+                <example>Die Wirkung tritt <marker>sofort</marker> ein.</example>
+                <example>Das gilt mit <marker>sofortiger</marker> Wirkung.</example>
+                <example correction="sofort|unverzüglich">Die Wirkung ist <marker>sofortig</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>sonstig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>sonst</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example>Die <marker>sonstigen</marker> Bewohner leben in Reservaten.</example>
+                <example correction="sonst|sonstige">Die Welt war <marker>sonstig</marker> nur von wilden Tieren bewohnt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>einstig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion><match no="1" regexp_match="^.+$" regexp_replace="einst" case_conversion="alllower" /></suggestion>, das Adverb <suggestion><match no="1" regexp_match="^.+$" regexp_replace="ehemalig" case_conversion="alllower" /></suggestion> oder das Nomen <suggestion>Einstieg</suggestion>?</message>
+                <example>Die Nachfahren der <marker>einstigen</marker> Bewohner leben in Reservaten.</example>
+                <example correction="einst|ehemalig|Einstieg">Die Welt war <marker>einstig</marker> von wilden Wesen bevölkert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>etwaig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>etwa</suggestion> oder das Adverb <suggestion>eventuell</suggestion>?</message>
+                <example>Bei <marker>etwaigen</marker> Verstößen</example>
+                <example correction="etwa|eventuell">Sollte dagegen <marker>etwaig</marker> verstoßen werden</example>
+            </rule>
+        </rulegroup>
+
         <!--<rulegroup id="TEST_UMLAUTE" name="fuer (für)" default="off" tone_tags="general" tags="picky">
         #Test showed this rule to bring more effort than benefit and not to be user-friendly
         #e.g., when adding words to the personal dict ("Monroe") the style rule would still trigger and give wrong suggestions ("Monrö")
@@ -6393,7 +6471,7 @@ USA
                 <example correction='verloren gegangen'>Weil die Papiere <marker>verlorengegangen</marker> waren, konnte er die Uhr nicht mehr verkaufen.</example>
                 <example correction='verloren geht'>Wenn er <marker>verlorengeht</marker>, haben wir ein Problem.</example>
             </rule>
-            <rule>
+            <rule default="off">
                 <pattern case_sensitive="yes">
                     <token inflected="yes" regexp="yes">bekannt(geben|machen)</token>
                 </pattern>
