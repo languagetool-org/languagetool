@@ -71,5 +71,4 @@ final class LargestNGramFinder {
     System.out.println("Max: " + max + " for " + maxTerm);
   }
 
-  
 }
