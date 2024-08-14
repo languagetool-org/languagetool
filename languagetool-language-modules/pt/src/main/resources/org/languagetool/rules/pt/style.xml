@@ -3634,6 +3634,21 @@ USA
         </rule>
 
 
+        <rule id='ESTAR_AQUI_PARA_INF_VIR_INF' name="'Estar aqui para' Inf. → 'Vir Inf.'" tone_tags='formal' default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected='yes'>estar</token>
+                    <token>aqui</token>
+                    <token>para</token>
+                    <token regexp='yes' inflected='yes'>ajudar|apresentar|buscar|debater|defender|discutir|entregar|esclarecer|negociar|oferecer|participar|propor|reclamar|resolver|solicitar</token> <!-- Add verbs as they are found. -->
+                </marker>
+            </pattern>
+            <message>&informal_msg;</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>vir</match> \4</suggestion>
+            <example correction="venho defender">Bom dia, <marker>estou aqui para defender</marker> a minha tese.</example>
+        </rule>
+
+
         <rulegroup id='MORRER_PERECER_FALECER' name="morrer → perecer/falecer" tags='picky' tone_tags='formal'>
 
             <!-- Subrule 1: not using "mort[ao]s?" -->
