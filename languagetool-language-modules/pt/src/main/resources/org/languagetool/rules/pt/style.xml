@@ -3634,18 +3634,21 @@ USA
         </rule>
 
 
-        <rule id='ESTAR_AQUI_PARA_INF_VIR_INF' name="'Estar aqui para' Inf. → 'Vir Inf.'" tone_tags='formal'>
+        <rule id='ESTAR_AQUI_PARA_INF_VIR_INF' name="'Estar aqui para' Inf. → 'Vir Inf.'" tone_tags='formal' default="temp_off">
             <pattern>
                 <marker>
-                    <token inflected='yes'>estar</token>
+                    <token postag='VMIP.+' postag_regexp='yes' inflected='yes'>estar<exception scope='previous' postag_regexp='no' postag='RG'/></token>
                     <token>aqui</token>
                     <token>para</token>
                     <token regexp='yes' inflected='yes'>ajudar|apresentar|buscar|debater|defender|discutir|entregar|esclarecer|negociar|oferecer|participar|propor|reclamar|resolver|solicitar</token> <!-- Add verbs as they are found. -->
                 </marker>
             </pattern>
             <message>&informal_msg;</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>vir</match> \4</suggestion>
-            <example correction="venho defender">Bom dia, <marker>estou aqui para defender</marker> a minha tese.</example>
+            <suggestion><match no='1' postag='VMIP(...)' postag_replace='VMIS$1'>vir</match> \4</suggestion>
+            <example correction="vim defender">Bom dia, <marker>estou aqui para defender</marker> a minha tese.</example>
+            <example correction="vim ajudar">Eu <marker>estou aqui para ajudar</marker>.</example>
+            <example correction="viemos ajudar">Nós <marker>estamos aqui para ajudar</marker>.</example>
+            <example>Nós sempre estamos aqui para ajudar.</example>
         </rule>
 
 
