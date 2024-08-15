@@ -660,6 +660,7 @@ public class AgreementRuleTest {
     assertBad("Die Idee des Werbekaufmann kam gut an.");
     assertGood("Die Idee des Werbekaufmanns kam gut an.");
     assertGood("Solch harte Worte!");
+    assertGood("Ich habe es an unseren amerikanischen Commercial Lawyer geschickt.");
     assertGood("Dieser eine Schritt hat gedauert.");
     assertGood("Es besteht durchaus die Gefahr, dass die Telekom eine solch starke monopolistische Stellung auf dem Markt hat, dass sich kaum Wettbewerb entfalten kann.");
     assertBad("Ich habe keine Zeit für solche kleinlichen Belangen.");
