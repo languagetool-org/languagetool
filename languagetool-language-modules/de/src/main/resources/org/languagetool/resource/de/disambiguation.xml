@@ -8447,6 +8447,25 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rulegroup id="RUE_DE_IGNORE_SPELLING" name="ignore spelling of French street names">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Rue|Avenue|Boulevard|Place</token>
+                <token regexp="yes">[Dd]es?|[Dd]u</token>
+                <token regexp="yes" min="0">\p{Lu}.*</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Rue|Avenue|Boulevard|Place</token>
+                <token regexp="yes">\p{Lu}.*|[Dd]&apostrophe;\p{Lu}.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
     <rulegroup id="TRADE_REPUBLIC_KEIN_VERB" name="'Trade' kein Verb in Eigennamen (e.g. Trade Republic)">
         <rule>
             <pattern>
