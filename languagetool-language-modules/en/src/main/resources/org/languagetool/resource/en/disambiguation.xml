@@ -17124,4 +17124,22 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="add"><wd pos="RB"/></disambig>
     </rule>
 
+    <rulegroup id="RUE_DE_IGNORE_SPELLING" name="ignore spelling of French street names">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Rue|Avenue|Boulevard|Place</token>
+                <token regexp="yes">[Dd]es?|[Dd]u</token>
+                <token regexp="yes" min="0">\p{Lu}.*</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Rue|Avenue|Boulevard|Place</token>
+                <token regexp="yes">\p{Lu}.*|[Dd]&apostrophe;\p{Lu}.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>
