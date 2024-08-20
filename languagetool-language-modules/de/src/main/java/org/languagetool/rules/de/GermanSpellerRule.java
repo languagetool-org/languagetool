@@ -173,10 +173,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
   private final Set<String> wordEndingsToBeProhibited   = new HashSet<>();
   private final Set<String> wordsNeedingInfixS          = new HashSet<>();
-  private static Set<String> verbStems                  = new HashSet<>();
-  private static Set<String> verbPrefixes               = new HashSet<>();
-  private static Set<String> otherPrefixes              = new HashSet<>();
-  private static Set<String> oldSpelling                = new HashSet<>();
+  private static final Set<String> verbStems                  = new HashSet<>();
+  private static final Set<String> verbPrefixes               = new HashSet<>();
+  private static final Set<String> otherPrefixes              = new HashSet<>();
+  private static final Set<String> oldSpelling                = new HashSet<>();
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new LinkedHashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
@@ -2315,12 +2315,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
 
     List<String> parts = compoundTokenizer.tokenize(wordNoDot);
-    boolean nonStrictMode = false;
     if (parts.size() == 1) {
       parts = nonStrictCompoundTokenizer.tokenize(wordNoDot);
-      nonStrictMode = true;
     }
-
     // If at least one element in *parts* at position i equals "s", then append "s" to element at i-1
     parts = avoidInfixSAsSingleToken(parts);
 
@@ -2748,7 +2745,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private List<String> avoidInfixSAsSingleToken(List<String> parts) {
     // If a part equals "s", append it to its predecessor
     //   example: "Priorität", "s", "ding" -> "Prioritäts", "ding"
-    List<String> fixedParts = new ArrayList<String>();
     List<Integer> indexesOfS = indexOfInfixS(parts);
 
     // Sort indexes in descending order to avoid shifting issues while removing elements
