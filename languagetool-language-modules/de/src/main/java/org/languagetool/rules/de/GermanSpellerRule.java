@@ -3480,6 +3480,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         }
       case "do": return topMatch("so");
       case "Weisglut": return topMatch("Weißglut");
+      case "SuperGAU": return topMatch("Super-GAU");
+      case "SuperGau": return topMatch("Super-Gau");
       case "Vorbescheidverfahren": return topMatch("Vorbescheidsverfahren");
       case "Türahmen": return topMatch("Türrahmen");
       case "Unglückzahl": return topMatch("Unglückszahl");
@@ -3489,6 +3491,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Feldschiessen": return topMatch("Feldschießen");
       case "Flössgräben": return topMatch("Flößgräben");
       case "Schiessen": return topMatch("Schießen");
+      case "Gasterra": return topMatch("GasTerra");
+      case "Gasterras": return topMatch("GasTerras");
+      case "Bestwater": return topMatch("BestWater");
+      case "Bestwaters": return topMatch("BestWaters");
       case "Außländer": return topMatch("Ausländer");
       case "Außländern": return topMatch("Ausländern");
       case "Außländers": return topMatch("Ausländers");
