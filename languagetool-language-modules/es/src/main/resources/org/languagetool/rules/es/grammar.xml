@@ -19804,18 +19804,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>-->
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
+        <rulegroup id="PRIMERO_PRIMER" name="primero ministro -> primer ministro" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="AO0MS0" regexp="yes">.*(primero|tercero)</token>
+                    </marker>
+                    <token postag="NC[MC][SN].*|AQ.[MC][SN].|V.P..SM" postag_regexp="yes"/>
+                </pattern>
+                <message>La forma adecuada de este adjetivo delante de un sustantivo es <suggestion><match no="1" regexp_match="o$" regexp_replace=""/></suggestion>.</message>
+                <suggestion>\2a</suggestion>
+                <example correction="primer">El <marker>primero</marker> ministro de Japón.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRIMER_PRIMERA" name="la primer vez -> la primera vez" default="temp_off">
             <rule>
-            <pattern>
-                <token postag="D..FS." postag_regexp="yes"/>
-                <marker>
-                    <token postag="AO0MS0" regexp="yes">.*(primer|tercer)</token>
-                </marker>
-                <token postag="N.[FC][SN].*|AQ.[FC][SN].|V.P..SF" postag_regexp="yes"/>
-            </pattern>
-            <message>Error de concordancia</message>
-            <suggestion>\2a</suggestion>
-            <example correction="primera">La <marker>primer</marker> vez que vino.</example>
+                <pattern>
+                    <token postag="D..FS." postag_regexp="yes"/>
+                    <marker>
+                        <token postag="AO0MS0" regexp="yes">.*(primer|tercer)</token>
+                    </marker>
+                    <token postag="N.[FC][SN].*|AQ.[FC][SN].|V.P..SF" postag_regexp="yes"/>
+                </pattern>
+                <message>Error de concordancia</message>
+                <suggestion>\2a</suggestion>
+                <example correction="primera">La <marker>primer</marker> vez que vino.</example>
             </rule>
             <rule>
                 <pattern>
@@ -19825,8 +19838,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.[FC][SN].*|AQ.[FC][SN].|V.P..SF" postag_regexp="yes"/>
                 </pattern>
                 <message>Error de concordancia</message>
-                <suggestion>\2a</suggestion>
+                <suggestion>\1a</suggestion>
                 <example correction="Primera"><marker>Primer</marker> vez que lo veo.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="AO0MS0" regexp="yes">.*(primer|tercer)</token>
+                    <token postag="N.[MC][SN].*|AQ.[MC][SN].|V.P..SM" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="D..FS." postag_regexp="yes"/>
+                    <marker>
+                        <token postag="AO0MS0" regexp="yes">.*(primer|tercer)</token>
+                    </marker>
+                </pattern>
+                <message>Error de concordancia</message>
+                <suggestion>\2a</suggestion>
+                <example correction="primera">La <marker>primer</marker> que veo.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCIA_ADJECTIVOS_NEUTROS" name="concordancias con adjetivos neutros">
