@@ -222,6 +222,7 @@ public class Spanish extends Language implements AutoCloseable {
     id2prio.put("MUCHO_NF", 25); // greater than AGREEMENT_DET_NOUN
     id2prio.put("AGREEMENT_DET_NOUN_EXCEPTIONS", 25); // greater than AGREEMENT_DET_NOUN
     id2prio.put("TYPOGRAPHY", 20); // greater than AGREEMENT_DET_NOUN
+    id2prio.put("PRIMER_PRIMERA", 20); // greater than AGREEMENT_DET_ADJ
     id2prio.put("AGREEMENT_DET_NOUN", 15);
     //id2prio.put("PRONOMBRE_SIN_VERBO", 20);
     id2prio.put("AGREEMENT_DET_ADJ", 10);

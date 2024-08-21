@@ -19804,6 +19804,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>-->
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
+        <rulegroup id="PRIMER_PRIMERA" name="la primer vez -> la primera vez" default="temp_off">
+            <rule>
+            <pattern>
+                <token postag="D..FS." postag_regexp="yes"/>
+                <marker>
+                    <token postag="AO0MS0" regexp="yes">.*(primer|tercer)</token>
+                </marker>
+                <token postag="N.[FC][SN].*|AQ.[FC][SN].|V.P..SF" postag_regexp="yes"/>
+            </pattern>
+            <message>Error de concordancia</message>
+            <suggestion>\2a</suggestion>
+            <example correction="primera">La <marker>primer</marker> vez que vino.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="AO0MS0" regexp="yes">.*(primer|tercer)</token>
+                    </marker>
+                    <token postag="N.[FC][SN].*|AQ.[FC][SN].|V.P..SF" postag_regexp="yes"/>
+                </pattern>
+                <message>Error de concordancia</message>
+                <suggestion>\2a</suggestion>
+                <example correction="Primera"><marker>Primer</marker> vez que lo veo.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONCORDANCIA_ADJECTIVOS_NEUTROS" name="concordancias con adjetivos neutros">
             <antipattern>
                 <!-- aposición -->
@@ -26521,7 +26546,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="ETA_ESTA" name="eta -> esta, esa" default="temp_off">
+        <rule id="ETA_ESTA" name="eta -> esta, esa">
             <pattern>
                 <marker>
                     <token regexp="yes" case_sensitive="yes">eta|Eta</token>
