@@ -3706,10 +3706,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "zzgl": return topMatch("zzgl.");
       case "Zzgl": return topMatch("Zzgl.");
       case "aufgehangen": return topMatch("aufgehängt");
-      case "Pieks": return topMatch("Piks");
-      case "Piekse": return topMatch("Pikse");
-      case "Piekses": return topMatch("Pikses");
-      case "Pieksen": return topMatch("Piksen");
       case "Annektion": return topMatch("Annexion");
       case "Annektionen": return topMatch("Annexionen");
       case "unkonsistent": return topMatch("inkonsistent");
