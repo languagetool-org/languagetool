@@ -19807,16 +19807,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="PRIMERO_PRIMER" name="primero ministro -> primer ministro" default="temp_off">
             <rule>
                 <pattern>
+                    <token postag="DA0MS0|SP:DA" postag_regexp="yes"/>
                     <marker>
                         <token postag="AO0MS0" regexp="yes">.*(primero|tercero)</token>
                     </marker>
                     <token postag="NC[MC][SN].*|AQ.[MC][SN].|V.P..SM" postag_regexp="yes"/>
                 </pattern>
-                <message>La forma adecuada de este adjetivo delante de un sustantivo es <suggestion><match no="1" regexp_match="o$" regexp_replace=""/></suggestion>.</message>
+                <message>La forma adecuada de este ordinal delante de un sustantivo es <suggestion><match no="2" regexp_match="(?iu)o$" regexp_replace=""/></suggestion>.</message>
                 <example correction="primer">El <marker>primero</marker> ministro de Japón.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PRIMER_PRIMERA" name="la primer vez -> la primera vez" default="temp_off">
+        <rulegroup id="PRIMER_PRIMERA" name="la primer vez -> la primera vez">
             <rule>
                 <pattern>
                     <token postag="D..FS." postag_regexp="yes"/>
@@ -19826,19 +19827,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.[FC][SN].*|AQ.[FC][SN].|V.P..SF" postag_regexp="yes"/>
                 </pattern>
                 <message>Error de concordancia</message>
-                <suggestion>\2a</suggestion>
+                <suggestion><match no="2" regexp_match="^(.*)$" regexp_replace="$1a" case_conversion="preserve"/></suggestion>
                 <example correction="primera">La <marker>primer</marker> vez que vino.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <marker>
-                        <token postag="AO0MS0" regexp="yes">.*(primer|tercer)</token>
+                        <token postag="AO0MS0" regexp="yes">.*(primer|tercer)<exception scope="previous" postag="D..MS." postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="N.[FC][SN].*|AQ.[FC][SN].|V.P..SF" postag_regexp="yes"/>
+                    <token postag="N.F[SN].*|AQ.F[SN].|V.P..SF" postag_regexp="yes"><exception postag="N.[MC][SN].*|AQ.[MC][SN].|V.P..SM" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Error de concordancia</message>
-                <suggestion>\1a</suggestion>
+                <suggestion><match no="1" regexp_match="^(.*)$" regexp_replace="$1a" case_conversion="preserve"/></suggestion>
                 <example correction="Primera"><marker>Primer</marker> vez que lo veo.</example>
+                <example correction="primera">Mi <marker>primer</marker> fiesta.</example>
+                <example>Mi primer cliente</example>
             </rule>
             <rule>
                 <antipattern>
@@ -19852,7 +19855,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Error de concordancia</message>
-                <suggestion>\2a</suggestion>
+                <suggestion><match no="2" regexp_match="^(.*)$" regexp_replace="$1a" case_conversion="preserve"/></suggestion>
                 <example correction="primera">La <marker>primer</marker> que veo.</example>
             </rule>
         </rulegroup>
