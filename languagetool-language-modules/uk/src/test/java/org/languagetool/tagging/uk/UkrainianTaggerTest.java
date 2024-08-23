@@ -54,7 +54,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Ізюму", "Ізюму/[Ізюм]noun:inanim:m:v_dav:prop:geo|Ізюму/[Ізюм]noun:inanim:m:v_mis:prop:geo|Ізюму/[Ізюм]noun:inanim:m:v_rod:prop:geo:ua_2019|Ізюму/[ізюм]noun:inanim:m:v_dav:bad|Ізюму/[ізюм]noun:inanim:m:v_mis:bad|Ізюму/[ізюм]noun:inanim:m:v_rod:bad", tokenizer, tagger);
     TestTools.myAssert("віл", "віл/[віл]noun:anim:m:v_naz", tokenizer, tagger);
     TestTools.myAssert("Віл", "Віл/[віл]noun:anim:m:v_naz", tokenizer, tagger);
-    TestTools.myAssert("ВІЛ", "ВІЛ/[ВІЛ]noun:inanim:m:v_dav:nv:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_kly:nv:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_mis:nv:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_naz:nv:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_oru:nv:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_rod:nv:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_zna:nv:abbr|ВІЛ/[віл]noun:anim:m:v_naz", tokenizer, tagger);
+    TestTools.myAssert("ВІЛ", "ВІЛ/[ВІЛ]noun:inanim:m:v_dav:nv:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_mis:nv:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_naz:nv:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_oru:nv:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_rod:nv:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_zna:nv:abbr|ВІЛ/[віл]noun:anim:m:v_naz", tokenizer, tagger);
     TestTools.myAssert("далі", "далі/[даль]noun:inanim:f:v_dav|далі/[даль]noun:inanim:f:v_mis|далі/[даль]noun:inanim:f:v_rod|далі/[даль]noun:inanim:p:v_kly|далі/[даль]noun:inanim:p:v_naz|далі/[даль]noun:inanim:p:v_zna|далі/[далі]adv:compc:&predic", tokenizer, tagger);
     TestTools.myAssert("Далі", "Далі/[Даль]noun:anim:m:v_mis:prop:lname|Далі/[Даля]noun:anim:f:v_dav:prop:fname|Далі/[Даля]noun:anim:f:v_mis:prop:fname|Далі/[Даля]noun:anim:f:v_rod:prop:fname|Далі/[Даля]noun:anim:p:v_kly:prop:fname|Далі/[Даля]noun:anim:p:v_naz:prop:fname"
         + "|Далі/[Далі]noun:anim:m:v_dav:nv:prop:lname|Далі/[Далі]noun:anim:m:v_kly:nv:prop:lname|Далі/[Далі]noun:anim:m:v_mis:nv:prop:lname|Далі/[Далі]noun:anim:m:v_naz:nv:prop:lname|Далі/[Далі]noun:anim:m:v_oru:nv:prop:lname"
@@ -834,8 +834,8 @@ public class UkrainianTaggerTest {
 
   @Test
   public void testM2() throws IOException {
-    TestTools.myAssert("км2", "км/[км]noun:inanim:m:v_dav:nv:abbr|км/[км]noun:inanim:m:v_kly:nv:abbr|км/[км]noun:inanim:m:v_mis:nv:abbr|км/[км]noun:inanim:m:v_naz:nv:abbr|км/[км]noun:inanim:m:v_oru:nv:abbr|км/[км]noun:inanim:m:v_rod:nv:abbr|км/[км]noun:inanim:m:v_zna:nv:abbr|км/[км]noun:inanim:p:v_dav:nv:abbr|км/[км]noun:inanim:p:v_kly:nv:abbr|км/[км]noun:inanim:p:v_mis:nv:abbr|км/[км]noun:inanim:p:v_naz:nv:abbr|км/[км]noun:inanim:p:v_oru:nv:abbr|км/[км]noun:inanim:p:v_rod:nv:abbr|км/[км]noun:inanim:p:v_zna:nv:abbr -- 2/[2]number", tokenizer, tagger);
-    TestTools.myAssert("м3", "м/[м]noun:inanim:m:v_dav:nv:abbr|м/[м]noun:inanim:m:v_kly:nv:abbr|м/[м]noun:inanim:m:v_mis:nv:abbr|м/[м]noun:inanim:m:v_naz:nv:abbr|м/[м]noun:inanim:m:v_oru:nv:abbr|м/[м]noun:inanim:m:v_rod:nv:abbr|м/[м]noun:inanim:m:v_zna:nv:abbr|м/[м]noun:inanim:p:v_dav:nv:abbr|м/[м]noun:inanim:p:v_kly:nv:abbr|м/[м]noun:inanim:p:v_mis:nv:abbr|м/[м]noun:inanim:p:v_naz:nv:abbr|м/[м]noun:inanim:p:v_oru:nv:abbr|м/[м]noun:inanim:p:v_rod:nv:abbr|м/[м]noun:inanim:p:v_zna:nv:abbr -- 3/[3]number", tokenizer, tagger);
+    TestTools.myAssert("км2", "км/[км]noun:inanim:m:v_dav:nv:abbr|км/[км]noun:inanim:m:v_mis:nv:abbr|км/[км]noun:inanim:m:v_naz:nv:abbr|км/[км]noun:inanim:m:v_oru:nv:abbr|км/[км]noun:inanim:m:v_rod:nv:abbr|км/[км]noun:inanim:m:v_zna:nv:abbr|км/[км]noun:inanim:p:v_dav:nv:abbr|км/[км]noun:inanim:p:v_mis:nv:abbr|км/[км]noun:inanim:p:v_naz:nv:abbr|км/[км]noun:inanim:p:v_oru:nv:abbr|км/[км]noun:inanim:p:v_rod:nv:abbr|км/[км]noun:inanim:p:v_zna:nv:abbr -- 2/[2]number", tokenizer, tagger);
+    TestTools.myAssert("м3", "м/[м]noun:inanim:m:v_dav:nv:abbr|м/[м]noun:inanim:m:v_mis:nv:abbr|м/[м]noun:inanim:m:v_naz:nv:abbr|м/[м]noun:inanim:m:v_oru:nv:abbr|м/[м]noun:inanim:m:v_rod:nv:abbr|м/[м]noun:inanim:m:v_zna:nv:abbr|м/[м]noun:inanim:p:v_dav:nv:abbr|м/[м]noun:inanim:p:v_mis:nv:abbr|м/[м]noun:inanim:p:v_naz:nv:abbr|м/[м]noun:inanim:p:v_oru:nv:abbr|м/[м]noun:inanim:p:v_rod:nv:abbr|м/[м]noun:inanim:p:v_zna:nv:abbr -- 3/[3]number", tokenizer, tagger);
 //    TestTools.myAssert("км2", "км2/[км2]noninfl", tokenizer, tagger);
 //    TestTools.myAssert("мм²", "мм²/[мм²]noninfl", tokenizer, tagger);
 //    TestTools.myAssert("7а", "7а/[7а]noninfl", tokenizer, tagger);
@@ -845,6 +845,11 @@ public class UkrainianTaggerTest {
   public void testBracketedWord() throws IOException {
     TestTools.myAssert("д[окто]р[ом]", "д[окто]р[ом]/[доктор]noun:anim:m:v_oru:alt", tokenizer, tagger);
     TestTools.myAssert("Акад[емія]", "Акад[емія]/[академія]noun:inanim:f:v_naz:alt", tokenizer, tagger);
+  }
+  
+  @Test
+  public void testOldSpelling() throws IOException {
+    TestTools.myAssert("дївчини", "дївчини/[дівчина]noun:anim:f:v_rod:alt|дївчини/[дівчина]noun:anim:p:v_kly:alt|дївчини/[дівчина]noun:anim:p:v_naz:alt|дївчини/[дівчина]noun:anim:p:v_zna:alt", tokenizer, tagger);
   }
   
 //  @Test
