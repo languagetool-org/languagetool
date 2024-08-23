@@ -19804,17 +19804,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>-->
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
-        <rulegroup id="PRIMERO_PRIMER" name="primero ministro -> primer ministro" default="temp_off">
+        <rulegroup id="PRIMERO_PRIMER" name="primero ministro -> primer ministro">
             <rule>
                 <pattern>
                     <token postag="DA0MS0|SP:DA" postag_regexp="yes"/>
                     <marker>
                         <token postag="AO0MS0" regexp="yes">.*(primero|tercero)</token>
                     </marker>
-                    <token postag="NC[MC][SN].*|AQ.[MC][SN].|V.P..SM" postag_regexp="yes"/>
+                    <token postag="NC[MC][SN].*|AQ.[MC][SN]." postag_regexp="yes"/>
+                    <!-- |V.P..SM -->
                 </pattern>
                 <message>La forma adecuada de este ordinal delante de un sustantivo es <suggestion><match no="2" regexp_match="(?iu)o$" regexp_replace=""/></suggestion>.</message>
                 <example correction="primer">El <marker>primero</marker> ministro de Japón.</example>
+                <example>fue el primero edificado en el Cubillo</example>
+                <example type="triggers_error">El primero paso de decirlo.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRIMER_PRIMERA" name="la primer vez -> la primera vez">
@@ -19830,7 +19833,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" regexp_match="^(.*)$" regexp_replace="$1a" case_conversion="preserve"/></suggestion>
                 <example correction="primera">La <marker>primer</marker> vez que vino.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token postag="AO0MS0" regexp="yes">.*(primer|tercer)<exception scope="previous" postag="D..MS." postag_regexp="yes"/></token>
