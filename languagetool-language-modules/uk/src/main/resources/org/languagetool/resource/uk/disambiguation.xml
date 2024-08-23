@@ -410,7 +410,7 @@
   <rule name="Нове - прикм." id="nove_adj">
     <pattern>
       <marker>
-        <token inflected="yes" postag_regexp="yes" postag="noun:inanim:n:v_rod">нове</token>
+        <token inflected="yes" postag="noun:inanim:n:v_rod">нове</token>
       </marker>
       <token inflected="yes" regexp="yes" postag_regexp="yes" postag="noun:inanim:m:v_(rod|dav).*">термінал|пакет|компонент|пік|вектор|диск|аватар|логотип|енергоблок|документ|елеватор|об'єкт|пласт|рецепт</token>
     </pattern>
@@ -578,8 +578,9 @@
         <exception regexp="yes">та|любий|люба|любі</exception>
       </token>
       <marker>
-        <token postag_regexp="yes" postag=".*v_kly.*">
-          <exception scope="next">!</exception>
+        <token postag_regexp="yes" postag=".*v_kly(?!.*name).*">
+          <exception scope="next" regexp="yes">[!?]</exception>
+          <exception regexp="yes">мамо|любонько|містере|Україно</exception>
         </token>
       </marker>
     </pattern>
@@ -596,6 +597,9 @@
     <example type="untouched">та панове журналісти!</example>
     <example type="untouched">пане Іване</example>
     <example type="untouched">і Іване</example>
+    <example type="untouched">Вельмишановний Миколо Яновичу!</example>
+    <example type="untouched">що хотів сказати мені Миколо?</example>
+    <example type="untouched">дай нам Мамо</example>
     <!-- теоретично мала би бути кома
     <example type="untouched">Вірте мені ваше достойносте!</example>
     -->
@@ -654,6 +658,8 @@
       <example type="untouched">Шановний Арсенію Петровичу!</example>
       <example type="untouched">Шановний пане Андрію Садовий</example>
       <example type="untouched">Моя люба Олю,</example>
+      <example type="untouched">Вельмишановний Миколо Яновичу!</example>
+      <example type="untouched">що ти хотів сказати мені Миколо?</example>
       <!-- TODO:
       <example type="untouched">Шановні Арсенію Кравчук, Ігорю Марков!</example>
       <example type="untouched">Сергію Нігоян, спасибі за все</example>

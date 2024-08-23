@@ -374,6 +374,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Це слово пишеться через дефіс: <suggestion>Нью-\2</suggestion></message>
         <example correction="Нью-Йорк">у <marker>Нью Йорк</marker>.</example>
       </rule>
+
+      <rule>
+        <pattern>
+          <token>де</token>
+          <token regexp="yes">факто|юре</token>
+        </pattern>
+        <message>Це слово пишеться через дефіс: <suggestion>\1-\2</suggestion></message>
+        <example correction="де-факто"><marker>де факто</marker>.</example>
+      </rule>
     </rulegroup>
 
     <rule id="dva_prizvyscha" name="Два прізвища через дефіс">

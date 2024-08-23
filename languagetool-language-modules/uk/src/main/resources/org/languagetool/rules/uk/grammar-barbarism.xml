@@ -4718,6 +4718,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="становище">потрапив у безнадійне <marker>положення</marker></example>
     </rule>
 
+    <rule id="vytoky_vs_dzherela" name="Витоки і джерела">
+      <antipattern>
+        <marker>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:p:.*">витік</token>
+        </marker>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0" />
+          <token inflected="yes" regexp="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*">інформація|дані|газ|повітря|кисень|гелій|пропан|бутан|азот|аміак|вода|пальне|паливо|рідина|фекалії|радіація|тепло|документ</token>
+        </unify>
+      </antipattern>
+      <antipattern>
+        <token inflected="yes" postag_regexp="yes" postag="noun:inanim:p:.*">витік</token>
+        <token regexp="yes">на|і?з|зі|[ув]</token>
+        <token inflected="yes" regexp="yes">газопровід|будинок|ЗМІ|преса|cховище|труба</token>
+      </antipattern>
+      <antipattern>
+        <token inflected="yes" postag_regexp="yes" postag="noun:inanim:p:.*">витік</token>
+        <token inflected="yes" regexp="yes">ставатися|статися|(ви)?рости</token>
+      </antipattern>
+      <antipattern>
+        <token inflected="yes" regexp="yes">контролювати|усувати|усування|уникати|уникнути|уникання|допускати|допустити|ліквідувати|ліквідація|каналізаційний|інсайдерський|неконтрольований|попередній|недавній|незаконний|територія|фігурант|зменшення|ряд|об'єм|обсяг</token>
+        <token inflected="yes" postag_regexp="yes" postag="noun:inanim:p:.*">витік</token>
+      </antipattern>
+      <antipattern>
+        <token postag_regexp="yes" postag=".*num.*"/>
+        <token inflected="yes" postag_regexp="yes" postag="noun:inanim:p:.*">витік</token>
+      </antipattern>
+
+      <pattern>
+        <token inflected="yes" postag_regexp="yes" postag="noun:inanim:p:.*">витоки</token>
+      </pattern>
+      <message>У значенні «початок» правильно: <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:.*):ns:bad" postag_replace="$1">джерело</match></suggestion></message>
+      <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:.*):ns:bad" postag_replace="$1:xp2">початок</match></suggestion>
+      <example correction="джерел|початків">стояли у <marker>витоків</marker></example>
+      <example>витоки природного газу</example>
+      <example>попередні витоки</example>
+      <example>витоки стаються</example>
+      <example>4 694 витоків</example>
+    </rule>
+
+
     <!-- group: сталі сполуки -->
 
     <rule id="NE_PO_SOBI" name="Не по собі">
@@ -5622,13 +5665,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">&punct_std;</token>
         </pattern>
         <message>Правильно: <suggestion>щобільше</suggestion></message>
+        <suggestion>ба більше</suggestion>
         <suggestion>мало того</suggestion>
         <suggestion>на додаток</suggestion>
         <suggestion>до того</suggestion>
         <suggestion>ще й надто</suggestion>
-        <example correction="щобільше|мало того|на додаток|до того|ще й надто">Шухевич знав про це, <marker>більше того</marker>, він допоміг виробити</example>
-        <example correction="щобільше|мало того|на додаток|до того|ще й надто">мене, чесно кажучи, заскочило, <marker>більше того</marker> - обурило…</example>
-        <example correction="Щобільше|Мало того|На додаток|До того|Ще й надто"><marker>Більш того</marker>, він все знав…</example>
+        <example correction="щобільше|ба більше|мало того|на додаток|до того|ще й надто">Шухевич знав про це, <marker>більше того</marker>, він допоміг виробити</example>
+        <example correction="щобільше|ба більше|мало того|на додаток|до того|ще й надто">мене, чесно кажучи, заскочило, <marker>більше того</marker> - обурило…</example>
+        <example correction="Щобільше|Ба більше|Мало того|На додаток|До того|Ще й надто"><marker>Більш того</marker>, він все знав…</example>
         <example>...процесу в Україні, і не більше того.</example>
         <example>щораз більше того самого.</example>
         <example>не в стані більше того витримувати фізично</example>
