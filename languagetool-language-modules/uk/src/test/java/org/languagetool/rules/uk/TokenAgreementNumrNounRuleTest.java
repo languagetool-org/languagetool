@@ -81,6 +81,9 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("2 лютого їжака забрали");
     assertEmptyMatch("Ту-154 президента");
     
+    // prep
+    assertEmptyMatch("до 4 секунд");
+    
     // двоїна
     assertEmptyMatch("2 сонця");
     // different apostrophes
@@ -95,6 +98,13 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("пів ковбаси");
     
     assertEmptyMatch("Вісімдесят Геннадію Терентійовичу");
+
+    assertEmptyMatch("3 подолянина");
+    assertEmptyMatch("два подолянина");
+    assertEmptyMatch("три рабини");
+    // обидва (є) волиняни
+    assertEmptyMatch("Обидва волиняни");
+    assertEmptyMatch("Обидва волинянина");
 
 
     // odd plurals
@@ -192,6 +202,14 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("один-два громадянини");
     assertEmptyMatch("Обидві ходи");
     assertEmptyMatch("обидва атентати");
+    
+    assertHasError("два подоляни", "два подолянина");
+    assertHasError("33 подоляни", "33 подолянина");
+    assertHasError("три рабина");
+
+    //TODO:
+//    assertHasError("3 Механістична");
+    
     // TOOD:
 //  assertEmptyMatch("місяців зо два заготовки для них роблять");
     // по гектарів два капусти
