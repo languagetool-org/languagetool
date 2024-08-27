@@ -903,6 +903,18 @@ USA
       <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
 
       <!-- Whole antipatterns must be rewritten: 2024+ -->
+
+      <antipattern>
+          <token>nada</token>
+          <token>de</token>
+          <token postag='DP.+' postag_regexp='yes'><exception scope='next' postag_regexp='yes' postag='N.+|AQ.+'/></token>
+          <example>O Rui não podia ter nada de teu.</example>
+          <example>O Rui não podia ter nada de meu.</example>
+          <example>Não possuia nada de meu.</example>
+          <example>O Rui nada de meu tinha.</example>
+          <example>Não queria nada de meu.</example>
+      </antipattern>
+
       <antipattern>
           <token postag_regexp="yes" postag="V.+:PP.+"/>
           <token regexp='yes'>comigo|con[st]igo|con[nv]osco</token>
