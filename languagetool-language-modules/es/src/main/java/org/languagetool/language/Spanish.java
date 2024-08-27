@@ -357,6 +357,13 @@ public class Spanish extends Language implements AutoCloseable {
       List<String> suggestions = ruleMatch.getSuggestedReplacements();
       if (suggestions.size()==1 && ruleMatch.getRule().getId().startsWith("AI_ES_GGEC")) {
         String suggestion = suggestions.get(0);
+        // ignore adding punctuation at the sentence end
+        if (ruleMatch.getRule().getId().equals("AI_ES_GGEC_MISSING_PUNCTUATION")) {
+          int sentenceLength = ruleMatch.getSentence().getText().replaceAll("\\s+$", "").length();
+          if (ruleMatch.getToPos() == sentenceLength) {
+            continue;
+          }
+        }
         // avoid obsolete diacritics
         if (suggestionsToAvoid.contains(suggestion.toLowerCase())) {
           continue;
