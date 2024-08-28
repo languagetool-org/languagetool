@@ -15928,6 +15928,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="a cabo|al cabo">Lo llevó <marker>acabo</marker> con solvencia.</example>
             <example correction="a cabo|al cabo">Hay que llevarlo <marker>acabo</marker> con solvencia.</example>
         </rule>
+        <rulegroup id="CABA" name="llevar *a caba/a cabo">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">llevar|echar</token>
+                    <marker>
+                        <token>a</token>
+                        <token>caba</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>a cabo</suggestion>?</message>
+                <example correction="a cabo">Lo llevó <marker>a caba</marker> con solvencia.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">zona|región|ciudad|provincia</token>
+                    <marker>
+                        <token case_sensitive="yes">caba</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>CABA</suggestion> (Ciudad Autónoma de Buenos Aires)?</message>
+                <example correction="CABA">Esto ocurre en la zona <marker>caba</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="DAR_ABASTO" name="dar *a basto/abasto">
             <pattern>
                 <token inflected="yes" skip="2">dar</token>
