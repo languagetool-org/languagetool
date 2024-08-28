@@ -15950,6 +15950,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>CABA</suggestion> (Ciudad Autónoma de Buenos Aires)?</message>
                 <example correction="CABA">Esto ocurre en la zona <marker>caba</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token case_sensitive="yes">caba</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>acaba</suggestion>?</message>
+                <example correction="acaba">Ahora <marker>a caba</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">caba</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>CABA</suggestion> (Ciudad Autónoma de Buenos Aires), <suggestion>cabo</suggestion>, <suggestion>acaba</suggestion> (v. 'acabar') o <suggestion>quepa</suggestion> (subjuntivo del v. 'caber')?</message>
+                <example correction="CABA|cabo|acaba|quepa">Ahora <marker>caba</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="DAR_ABASTO" name="dar *a basto/abasto">
             <pattern>
