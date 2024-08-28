@@ -20,9 +20,13 @@ package org.languagetool;
 
 import org.junit.Test;
 import org.languagetool.language.Spanish;
+import org.languagetool.rules.FakeRule;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.Match;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -97,4 +101,26 @@ public class JLanguageToolTest {
 
   }
 
+  @Test
+  public void testFilterRuleMatches() throws IOException {
+    Language lang = new Spanish();
+    JLanguageTool lt = new JLanguageTool(lang);
+    FakeRule rule = new FakeRule("AI_ES_GGEC_MISSING_PUNCTUATION");
+
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Frase sin puntuación al final");
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    RuleMatch match = new RuleMatch(rule, analyzedSentence, 24, 29, "Falta puntuación.");
+    match.addSuggestedReplacement("final.");
+    ruleMatches.add(match);
+    List<RuleMatch> filteredRuleMatches = lang.filterRuleMatches(ruleMatches, null, null);
+    assertEquals(0, filteredRuleMatches.size());
+
+    ruleMatches = new ArrayList<>();
+    analyzedSentence = lt.getAnalyzedSentence("Frase sin puntuación al final   ");
+    match = new RuleMatch(rule, analyzedSentence, 24, 29, "Falta puntuación.");
+    match.addSuggestedReplacement("final.");
+    ruleMatches.add(match);
+    filteredRuleMatches = lang.filterRuleMatches(ruleMatches, null, null);
+    assertEquals(0, filteredRuleMatches.size());
+  }
 }
