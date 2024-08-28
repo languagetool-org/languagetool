@@ -25,6 +25,10 @@ USA
 Filter for remote matches.
 To ignore a remote rule match, set the <marker> so that it exactly covers the text underlined by the remote rule.
 -->
+<!DOCTYPE rules [
+    <!ENTITY % entities  SYSTEM "../../resource/es/entities.ent" >
+    %entities;
+]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
         <rule id="AI_ES_GGEC_MISSING_PRONOUN" name="">
@@ -789,6 +793,42 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token regexp="yes">perfecto|imperfecto|simple</token>
                 </pattern>
                 <example correction="">En concreto, se trata de la primera y tercera persona del singular del <marker>pretérito</marker> imperfecto o indefinido del modo indicativo del verbo ir</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="AO0MS0" regexp="yes" inflected="yes">&ordinales_decenas;</token>
+                    </marker>
+                    <token postag="AO0MS0" postag_regexp="yes" regexp="yes" inflected="yes">&ordinales_unidades;</token>
+                </pattern>
+                <example correction=""><marker>vigésimo</marker> primero</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="AO0FS0" regexp="yes" inflected="yes">&ordinales_decenas;</token>
+                    </marker>
+                    <token postag="AO0FS0" postag_regexp="yes" regexp="yes" inflected="yes">&ordinales_unidades;</token>
+                </pattern>
+                <example correction=""><marker>vigésima</marker> primera</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="AO0MP0" regexp="yes" inflected="yes">&ordinales_decenas;</token>
+                    </marker>
+                    <token postag="AO0MP0" postag_regexp="yes" regexp="yes" inflected="yes">&ordinales_unidades;</token>
+                </pattern>
+                <example correction=""><marker>vigésimos</marker> primeros</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="AO0FP0" regexp="yes" inflected="yes">&ordinales_decenas;</token>
+                    </marker>
+                    <token postag="AO0FP0" postag_regexp="yes" regexp="yes" inflected="yes">&ordinales_unidades;</token>
+                </pattern>
+                <example correction=""><marker>vigésimas</marker> primeras</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_ES_HYDRA_LEO_CP_SITILDE_SI" name="">
