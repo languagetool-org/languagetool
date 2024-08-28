@@ -4769,10 +4769,36 @@ USA
 
     On 2023-01-17 I came up with a better approach for a future rule rewriting: place in the patterns to only accept the valid verbs,
     this way it will remove tons of antipatterns, placing the valid verbs in an entity to be easily improved and used.
+    Or create an antipattern for all V.+ and use exception_negate_validverbs to avoid using an entity.
 -->
     <!--
         MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
     -->
+
+    <!-- Quick fix: 2024-08-28: When rewriting the rule, remember to add "V......:.+" as an exception, or use these two APs for all subrules-->
+    <antipattern>
+        <token postag='V......:.+|VMP00P.+' postag_regexp='yes'/>
+        <token>para</token>
+        <token postag='PP.+' postag_regexp='yes'/>
+        <example>Os mais especiais estão sempre guardados para mim.</example>
+        <example>Ela virou-se para ele e sorriu.</example>
+        <example>Segure-o para mim.</example>
+        <example>Tom não pode dá-lo para você agora.</example>
+        <example>Vou pegá-lo para você.</example>
+        <example>Você pode explicá-lo para mim?</example>
+    </antipattern>
+    <antipattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token>para</token>
+        <token postag='PP.+' postag_regexp='yes'/>
+        <token postag='VMN0000' postag_regexp='no'/>
+        <example>O médico dele disse para ele descansar.</example>
+        <example>Eu implorei para ele parar.</example>
+        <example>Deve ser por isso que pediu para ela morar com você.</example>
+        <example>Ela está de pé firme. Eu geralmente pode conduzi-la onde quiser para ela ir, mas não desta vez.</example>
+        <example>Quantas vezes preciso dizer para você acreditar?</example>
+        <example>Tom fez exatamente tudo que pedimos para ele fazer.</example>
+    </antipattern>
 
     <!-- Quick fix - 2023-04-05 -->
     <antipattern>
@@ -5007,14 +5033,6 @@ USA
             <example>...te ordem: Daqui em diante não mais fornecereis palha ao povo para fazer tijolos. Eles que tratem de ajuntar para si a palha.</example>
         </antipattern>
 
-        <!-- Quick fix - 2023-03-19 -->
-        <antipattern>
-            <token postag='VMP00P.+' postag_regexp='yes'/>
-            <token>para</token>
-            <token regexp='yes'>mim|tu|ti|si|você|el[ae]|nós|vocês|vós|el[ae]s?</token>
-            <example>Os mais especiais estão sempre guardados para mim.</example>
-        </antipattern>
-
         <!-- EU -->
         <rule>
             <pattern>
@@ -5029,7 +5047,7 @@ USA
             <example correction="Telefona-me"><marker>Telefona para mim</marker>.</example>
         </rule>
 
-        <!-- TU -->
+        <!-- TU/VOCÊ -->
         <rule>
             <pattern>
                 <marker>
