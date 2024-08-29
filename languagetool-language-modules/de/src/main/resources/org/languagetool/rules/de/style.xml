@@ -6461,7 +6461,7 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="EMPFOHLENE_GETRENNTSCHREIBUNG" name="Empfohlene Getrenntschreibung" tone_tags="formal">
-            <rule>
+            <rule><!--1-->
                 <pattern case_sensitive="yes">
                     <token regexp="yes">verloreng(eh(en?|s?t)|ing(en)?|egangen(e[nrs]?)?)</token>
                 </pattern>
@@ -6471,7 +6471,7 @@ USA
                 <example correction='verloren gegangen'>Weil die Papiere <marker>verlorengegangen</marker> waren, konnte er die Uhr nicht mehr verkaufen.</example>
                 <example correction='verloren geht'>Wenn er <marker>verlorengeht</marker>, haben wir ein Problem.</example>
             </rule>
-            <rule default="off">
+            <rule default="off"><!--2-->
                 <pattern case_sensitive="yes">
                     <token inflected="yes" regexp="yes">bekannt(geben|machen)</token>
                 </pattern>
@@ -6483,7 +6483,7 @@ USA
                 <example correction='bekannt gemacht'>Sie hat ihre Verlobung <marker>bekanntgemacht</marker>.</example>
                 <example correction='bekannt machte'>Als er es <marker>bekanntmachte</marker>, achtete niemand darauf.</example>
             </rule>
-            <rule>
+            <rule><!--3-->
                 <antipattern>
                     <token><exception postag="SENT_START"/></token>
                     <token case_sensitive="yes">Zuhause</token>
@@ -6502,7 +6502,7 @@ USA
                 <example>Es war ihr Zuhause.</example>
                 <example>Wenn du etwas früher von Zuhause aufgebrochen wärst, wärst du punktlich gewesen.</example>
             </rule>
-            <rule>
+            <rule><!--4-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">hilfesuchende?[mnrs]?</token>
                 </pattern>
@@ -6511,7 +6511,7 @@ USA
                 <example correction="Hilfe suchend">Sie sah <marker>hilfesuchend</marker> zu ihm hinüber.</example>
                 <example>Auch hier dürfen die Hilfesuchenden die Lager erst verlassen, wenn ihr Asylverfahren genehmigt ist.</example>
             </rule>
-            <rule>
+            <rule><!--5-->
                 <pattern>
                     <token regexp="yes">rot(lackiert|geschminkt|kariert|gestreift|gefroren|glühend|geädert|unterlaufen|geweint)(e[nmrs]?)?|(gelb|blau|grün)(gestreift|kariert|(ge)?färbt?)(e[nmrs]?)?|schwarz(gerändert|gestreift|gekleidet|gelockt|(ge)?färbt?)(e[nmrs]?)?|wei(ß|ss)(gekleidet|(ge)?(färb|kalk|tünch)t?|gestreift|lackiert|gestrichen|gedeckt|glühend)(e[nmrs]?)?</token>
                 </pattern>
