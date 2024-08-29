@@ -360,7 +360,7 @@ public class Spanish extends Language implements AutoCloseable {
         // ignore adding punctuation at the sentence end
         if (ruleMatch.getRule().getId().equals("AI_ES_GGEC_MISSING_PUNCTUATION")) {
           int sentenceLength = ruleMatch.getSentence().getText().replaceAll("\\s+$", "").length();
-          if (ruleMatch.getToPos() == sentenceLength) {
+          if (Math.abs(ruleMatch.getToPos() - sentenceLength) < 3) {
             continue;
           }
         }
