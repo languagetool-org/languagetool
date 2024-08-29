@@ -948,6 +948,18 @@ class AgreementRuleAntiPatterns1 {
       token("George-Washington-Bridge")
     ),
     asList(
+      // Wie kann ich das zu Wege bringen?
+      token("das"),
+      token("zu"),
+      token("Wege")
+    ),
+    asList(
+      // Erst in der zweiten Hälfte des 4. Jahrhunderts ging die alte aristokratische Ordnung durch Machtkämpfe zwischen diesen zu Grunde.
+      csRegex("diese[mnrs]?"),
+      token("zu"),
+      token("Grunde")
+    ),
+    asList(
       // Die Zeit begann mit der Gründung der englischen Football Association.
       csRegex("[Ee]nglischen?"),
       token("Football"),
