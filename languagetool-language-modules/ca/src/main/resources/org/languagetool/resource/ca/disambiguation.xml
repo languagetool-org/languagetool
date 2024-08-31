@@ -363,6 +363,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="peca_fem" name="peça (femení)">
+        <rule>
+            <pattern>
+                <token><exception postag="D..MS." postag_regexp="yes"/></token>
+                <marker>
+                    <token>peça</token>    
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="NCFS000"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="D..MP." postag_regexp="yes"/></token>
+                <marker>
+                    <token>peces</token>    
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="NCFP000"></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="PUNTUACIO" name="signes de puntuació">
         <rule>
             <pattern>
@@ -5523,6 +5543,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
+                <token regexp="yes" inflected="yes">adreça|domini|pàgina|plana|lloc|aplicació</token>
+                <marker>
+                    <token>web</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes" inflected="yes">govern|president|governant</token>
                 <marker>
                     <token>titella</token>
@@ -5949,7 +5978,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">línia|esdeveniment|escola|planta|centre|projecte|proposta|pis|apartament|casa|prova|capítol|habitatge|vivenda|fase|programa</token>
+                <token inflected="yes" regexp="yes">línia|esdeveniment|escola|planta|centre|projecte|proposta|pis|apartament|casa|prova|capítol|habitatge|vivenda|fase|programa|episodi</token>
                 <marker>
                     <token>pilot</token>
                 </marker>
