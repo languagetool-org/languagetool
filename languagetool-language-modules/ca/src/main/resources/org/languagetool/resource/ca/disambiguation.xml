@@ -368,19 +368,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token><exception postag="D..MS." postag_regexp="yes"/></token>
                 <marker>
-                    <token>peça</token>    
+                    <token>peça</token>
                 </marker>
             </pattern>
-            <disambig action="replace" postag="NCFS000"></disambig>
+            <disambig action="replace" postag="NCFS000"/>
         </rule>
         <rule>
             <pattern>
                 <token><exception postag="D..MP." postag_regexp="yes"/></token>
                 <marker>
-                    <token>peces</token>    
+                    <token>peces</token>
                 </marker>
             </pattern>
-            <disambig action="replace" postag="NCFP000"></disambig>
+            <disambig action="replace" postag="NCFP000"/>
         </rule>
     </rulegroup>
     <rulegroup id="PUNTUACIO" name="signes de puntuació">
@@ -19118,21 +19118,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token inflected="yes" regexp="yes">anar|venir|pujar</token>
         </antipattern>
         <antipattern>
-            <token inflected="yes">venir</token>
-            <token>a</token>
-            <token postag="V.N.*" postag_regexp="yes"/>
-        </antipattern>
-        <antipattern>
             <token postag="_GV_"/>
             <token inflected="yes">venir</token>
             <token>a</token>
             <token postag="V.N.*" postag_regexp="yes"/>
         </antipattern>
-        <antipattern>
+        <!--<antipattern>
             <token inflected="yes">venir</token>
             <token>a</token>
             <token postag="V.N.*" postag_regexp="yes"/>
-        </antipattern>
+        </antipattern>-->
         <antipattern>
             <token postag="_GV_"/>
             <token inflected="yes">venir</token>
@@ -20087,22 +20082,53 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd lemma="endurar"/>
         </disambig>
     </rule>
-    <rule id="venir_vendre" name="venir/vendre">
-        <pattern>
-            <marker>
-                <and>
-                    <token postag="_reflexiu"/>
-                    <token inflected="yes">venir</token>
-                    <token inflected="yes">vendre</token>
-                </and>
-            </marker>
-            <token min="0">a</token>
-            <token regexp="yes">sobre|damunt</token>
-        </pattern>
-        <disambig action="remove">
-            <wd lemma="vendre"/>
-        </disambig>
-    </rule>
+    <rulegroup id="venir_vendre" name="venir/vendre">
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="_reflexiu"/>
+                        <token inflected="yes">venir</token>
+                        <token inflected="yes">vendre</token>
+                    </and>
+                </marker>
+                <token min="0">a</token>
+                <token regexp="yes">sobre|damunt</token>
+            </pattern>
+            <disambig action="remove">
+                <wd lemma="vendre"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token inflected="yes">venir</token>
+                        <token inflected="yes">vendre</token>
+                    </and>
+                </marker>
+                <token>a</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove">
+                <wd lemma="vendre"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token inflected="yes">venir</token>
+                        <token inflected="yes">vendre</token>
+                    </and>
+                </marker>
+                <token>amb</token>
+            </pattern>
+            <disambig action="remove">
+                <wd lemma="vendre"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="femeni_inusual" name="femení inusual: amor, color...">
         <rule>
             <pattern>
@@ -20405,7 +20431,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <marker>
                     <token regexp="yes">seguit|bunga</token>
-                    <token><match no="0"></match></token>
+                    <token><match no="0"/></token>
                 </marker>
             </pattern>
             <disambig action="add">
