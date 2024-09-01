@@ -3652,6 +3652,55 @@ USA
         </rule>
 
 
+        <rulegroup id='OS_DOIS_AS_DUAS_AMBOS_AMBAS' name="os dois → ambos" tone_tags='formal' tags='picky' default='temp_off'>
+            <!-- TODO: in 2025 expand the rule to accept: CC|RM|SENT_START|_PUNCT because they produce too many hits. -->
+
+            <!-- Subrule 1: NOT using nouns/adjectives after "as duas"/"os dois" -->
+            <rule>
+                <pattern>
+                    <token postag='V.+|RG|CS' postag_regexp='yes'><exception postag_regexp='yes' postag='SPS.+'/></token>
+                    <marker>
+                        <token regexp='yes'>[ao]s</token>
+                        <token regexp='yes'>duas|dois<exception scope='next' postag_regexp='yes' postag='N.+|AQ.+|AO.+'/></token>
+                    </marker>
+                </pattern>
+                <message>&informal_msg;</message>
+                <suggestion><match no='2' postag='DA0(..)0' postag_replace='DI0$10'>ambos</match></suggestion>
+                <example correction="ambas">O Rui quer <marker>as duas</marker> provavelmente!</example>
+                <example correction="ambos">O Rui quer <marker>os dois</marker>!</example>
+                <example>Vamos cantar aquela música, omitindo os dois últimos versos.</example>
+            </rule>
+
+            <!-- Subrule 2: USING nouns/adjectives after "as duas"/"os dois" -->
+            <rule>
+                <pattern>
+                    <token postag='V.+|RG|CS' postag_regexp='yes'><exception postag_regexp='yes' postag='SPS.+'/></token>
+                    <marker>
+                        <token regexp='yes'>[ao]s</token>
+                        <token regexp='yes'>duas|dois</token>
+                    </marker>
+                    <token postag='N.+|AQ.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='AO.+'/>
+                        <exception regexp='yes'>junt[ao]s|homens|mulheres|&expressoes_de_tempo;</exception> <!-- Postags remove valid sentences -->
+                    </token>
+                </pattern>
+                <message>&informal_msg;</message>
+                <suggestion><match no='2' postag='DA0(..)0' postag_replace='DI0$10'>ambos</match> <match no='2' postag='DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
+                <example correction="ambas as">O Rui quer <marker>as duas</marker> cadernetas.</example>
+                <example correction="ambos os">O Rui quer <marker>os dois</marker> livros.</example>
+                <example>Em dezembro, apresentaram as duas últimas canções no "Teletón".</example>
+                <example>Mas quem disse que não podemos unir as duas juntas e na mesma janela?</example>
+                <example>As novas festas podem colocar os dois juntos para resolverem as situações que ficaram pendentes.</example>
+                <example>O policial separou os dois homens que estavam brigando.</example>
+                <example>Foi muito engraçado ao vermos as duas mulheres usando o mesmo vestido.</example>
+                <example>Viveu esta etapa entre os séculos XI a XIII, passando os dois séculos seguintes a ser objeto da cobiça</example>
+                <example>Findos os dois anos, retornou à Europa.</example>
+                <example>No terceiro ano, transferiu-se para a Universidade de Tulsa, onde jogou os dois anos seguintes na NCAA.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <rulegroup id='MORRER_PERECER_FALECER' name="morrer → perecer/falecer" tags='picky' tone_tags='formal'>
 
             <!-- Subrule 1: not using "mort[ao]s?" -->
