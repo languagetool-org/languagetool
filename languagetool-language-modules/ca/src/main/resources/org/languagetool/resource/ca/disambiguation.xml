@@ -11106,6 +11106,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token>l</token>
             <token>màxim</token>
         </antipattern>
+        <antipattern>
+            <token>gràcies</token>
+            <token skip="10">,</token>
+            <token>,</token>
+            <token>a</token>
+        </antipattern>
         <pattern>
             <marker>
                 <token postag="AQ.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|màxim|mínim|major|menor|possible</token>
@@ -11114,6 +11120,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="N.*"/>
         <example type="untouched">Delegarà al màxim funcions i responsabilitats.</example>
+    </rule>
+    <rule id="resultat" name="resultat nom">
+        <pattern>
+            <unify>
+                <feature id="nombre"/>
+                <feature id="genere"/>
+                <token postag="AQ.*" postag_regexp="yes" inflected="yes" regexp="yes"/>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">resultat</token>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="remove" postag="V.P.*"/>
     </rule>
     <rule id="vessant" name="vessant: gerundi">
         <pattern>
@@ -19123,11 +19142,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token>a</token>
             <token postag="V.N.*" postag_regexp="yes"/>
         </antipattern>
-        <!--<antipattern>
-            <token inflected="yes">venir</token>
+        <antipattern>
+            <token>es</token>
+            <token postag="V...3P.." postag_regexp="yes" inflected="yes">venir</token>
             <token>a</token>
             <token postag="V.N.*" postag_regexp="yes"/>
-        </antipattern>-->
+        </antipattern>
         <antipattern>
             <token postag="_GV_"/>
             <token inflected="yes">venir</token>
@@ -20123,6 +20143,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     </and>
                 </marker>
                 <token>amb</token>
+                <token regexp="yes">jo|mi|tu|ell|ella|nosaltres|vosaltres|ells|elles</token>
             </pattern>
             <disambig action="remove">
                 <wd lemma="vendre"/>
