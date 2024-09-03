@@ -3661,14 +3661,23 @@ USA
                     <token postag='V.+|RG|CS' postag_regexp='yes'><exception postag_regexp='yes' postag='SPS.+'/></token>
                     <marker>
                         <token regexp='yes'>[ao]s</token>
-                        <token regexp='yes'>duas|dois<exception scope='next' postag_regexp='yes' postag='N.+|AQ.+|AO.+'/></token>
+                        <token regexp='yes'>duas|dois
+                            <exception postag_regexp='no' postag='RG'/> <!-- Removes "duas vezes" false positive -->
+                        </token>
                     </marker>
+                    <token min='0' postag='_QUOT' postag_regexp='no'/>
+                    <token>
+                        <exception postag_regexp='yes' postag='N.+|AQ.+|AO.+'/>
+                        <exception regexp='yes'>mais|menos</exception> <!-- RG -->
+                    </token>
                 </pattern>
                 <message>&informal_msg;</message>
                 <suggestion><match no='2' postag='DA0(..)0' postag_replace='DI0$10'>ambos</match></suggestion>
                 <example correction="ambas">O Rui quer <marker>as duas</marker> provavelmente!</example>
                 <example correction="ambos">O Rui quer <marker>os dois</marker>!</example>
                 <example>Vamos cantar aquela música, omitindo os dois últimos versos.</example>
+                <example>Tento trocar os dois mais ou menos no mesmo horário, para lembrar na próxima vez.</example>
+                <example>Cantuária e Winchester eram as duas mais ricas Sés na Inglaterra.</example>
             </rule>
 
             <!-- Subrule 2: USING nouns/adjectives after "as duas"/"os dois" -->
@@ -3679,8 +3688,10 @@ USA
                         <token regexp='yes'>[ao]s</token>
                         <token regexp='yes'>duas|dois</token>
                     </marker>
+                    <token min='0' postag='_QUOT' postag_regexp='no'/>
                     <token postag='N.+|AQ.+' postag_regexp='yes'>
                         <exception postag_regexp='yes' postag='AO.+'/>
+                        <exception regexp='yes'>mais|menos</exception> <!-- RG -->
                         <exception regexp='yes'>junt[ao]s|homens|mulheres|&expressoes_de_tempo;</exception> <!-- Postags remove valid sentences -->
                     </token>
                 </pattern>
@@ -3696,6 +3707,7 @@ USA
                 <example>Viveu esta etapa entre os séculos XI a XIII, passando os dois séculos seguintes a ser objeto da cobiça</example>
                 <example>Findos os dois anos, retornou à Europa.</example>
                 <example>No terceiro ano, transferiu-se para a Universidade de Tulsa, onde jogou os dois anos seguintes na NCAA.</example>
+                <example>Muitos apostavam que disputariam a final, foram os dois menos votados no top 04.</example>
             </rule>
 
         </rulegroup>
