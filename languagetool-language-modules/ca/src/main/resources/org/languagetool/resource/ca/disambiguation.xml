@@ -16719,6 +16719,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="remove" postag="[AN].*"/>
         </rule>
     </rulegroup>
+    <rule id="emissor" name="emissor (nom)">
+        <pattern>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">emissor<exception postag="_GN_.*" postag_regexp="yes"/></token>
+            </marker>
+            <token>de</token>
+            <token regexp="yes">ràdio|televisió|radiotelevisió|notícia</token>
+        </pattern>
+        <disambig action="remove" postag="AQ.*"/>
+    </rule>
     <rule id="corrent_per_gerundi" name="corrent per (gerundi)">
         <pattern>
             <marker>
