@@ -390,7 +390,7 @@ public final class PosTagHelper {
         .filter(t -> 
           t.getPOSTag() != null && postag.matcher(t.getPOSTag()).matches() 
             && t.getToken() != null && token.matcher(t.getToken()).matches())
-        .toList();
+        .collect(Collectors.toList());
   }
 
   public static boolean hasMaleUA(AnalyzedTokenReadings tokenReadings) {
