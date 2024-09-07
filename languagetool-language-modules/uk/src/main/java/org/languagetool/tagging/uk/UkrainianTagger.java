@@ -137,7 +137,18 @@ public class UkrainianTagger extends BaseTagger {
         return asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
       }
     }
-    
+
+    if ( word.length() > 5 && word.matches("(?iu)з[кптфх].+") ) {
+      String newWord = word.replaceFirst("^з", "с").replaceFirst("^З", "С");
+      List<TaggedWord> wdList = compoundTagger.tagBothCases(newWord, null);
+      if( wdList.size() > 0 ) {
+          wdList = wdList.stream()
+              .map(w -> new TaggedWord(w.getLemma().replaceFirst("^с", "з").replaceFirst("^С", "З"), PosTagHelper.addIfNotContains(w.getPosTag(), ":alt")))
+              .collect(Collectors.toList());
+          return asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
+      }
+    }
+
     // дївчина
     if( word.length() > 3 && word.contains("ї") ) {
       String word2 = YI_PATTERN.matcher(word).replaceAll("$1і");

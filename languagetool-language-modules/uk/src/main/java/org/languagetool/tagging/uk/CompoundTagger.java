@@ -1148,11 +1148,12 @@ class CompoundTagger {
         // noun-noun
         else if ( leftPosTag.startsWith(IPOSTag.noun.getText()) && rightPosTag.startsWith(IPOSTag.noun.getText()) ) {
 
-        	// discard чорний-чорний as noun:anim
-        	if( leftAnalyzedToken.getToken().equalsIgnoreCase(rightAnalyzedToken.getToken())
-        			&& leftPosTag.contains(TAG_ANIM) && rightPosTag.contains(TAG_ANIM) )
-        		continue;
-        	
+          // discard чорний-чорний as noun:anim
+          // but allow дівчинка-дівчинка
+//          if( leftAnalyzedToken.getToken().equalsIgnoreCase(rightAnalyzedToken.getToken())
+//              && leftPosTag.contains(TAG_ANIM) && rightPosTag.contains(TAG_ANIM) )
+//            continue;
+
           String agreedPosTag = getAgreedPosTag(leftPosTag, rightPosTag, leftNv, word);
 
           if( agreedPosTag == null 
@@ -1595,7 +1596,7 @@ class CompoundTagger {
     return word.substring(0, 1).toUpperCase(conversionLocale) + word.substring(1);
   }
 
-  private List<TaggedWord> tagBothCases(String leftWord, Pattern posTagMatcher) {
+  List<TaggedWord> tagBothCases(String leftWord, Pattern posTagMatcher) {
     List<TaggedWord> leftWdList = wordTagger.tag(leftWord);
     
     String leftLowerCase = leftWord.toLowerCase(conversionLocale);
