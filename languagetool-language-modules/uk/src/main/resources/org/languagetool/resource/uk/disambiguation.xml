@@ -220,6 +220,9 @@
     <example type="ambiguous"
         inputform="Москву-ріку[Москва-ріка/noun:inanim:f:v_zna:prop:geo,москва-ріка/noun:inanim:f:v_zna:prop:geo:alt]"
         outputform="Москву-ріку[Москва-ріка/noun:inanim:f:v_zna:prop:geo]">на <marker>Москву-ріку</marker>.</example>
+    <example type="ambiguous"
+        inputform="УКРАЇНУ[Україна/noun:inanim:f:v_zna:prop:geo,україна/noun:inanim:f:v_zna:prop:geo:alt,україна/noun:inanim:f:v_zna:prop:geo:alt]"
+        outputform="УКРАЇНУ[Україна/noun:inanim:f:v_zna:prop:geo]">на <marker>УКРАЇНУ</marker>.</example>
     <example type="untouched">на росію</example>
   </rule>
 
@@ -2762,9 +2765,9 @@
 
   <rule name="Кім Чен Ір" id="kim_chen_ir">
     <pattern case_sensitive="yes">
-      <token>Чен</token>
+      <token regexp="yes">Ч[еоа]н</token>
       <marker>
-        <token case_sensitive="yes" regexp="yes">Ір(а|у|і)?</token>
+        <token regexp="yes">Ір(а|у|і)?</token>
       </marker>
     </pattern>
     <disambig action="filter" postag="noun:anim:m:.*lname.*"/>
@@ -2784,6 +2787,20 @@
     <example type="ambiguous" 
         inputform="Іра[Ір/noun:anim:m:v_rod:prop:lname,Ір/noun:anim:m:v_zna:prop:lname,Іра/noun:anim:f:v_naz:prop:fname]" 
         outputform="Іра[Іра/noun:anim:f:v_naz:prop:fname]">Приїхала <marker>Іра</marker>.</example>
+  </rule>
+
+  <rule name="Кім Чен Нам" id="kim_chen_nam">
+    <pattern case_sensitive="yes">
+      <token regexp="yes">Ч[еоа]н</token>
+      <marker>
+        <token>Нам</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:.*pron.*"/>
+    <example type="ambiguous" 
+        inputform="Нам[ми/noun:anim:p:v_dav:&amp;pron:pers:1]" 
+        outputform="Нам[Нам]">сам Кім Чен <marker>Нам</marker>.</example>
+    <example type="untouched">Нам усім</example>
   </rule>
 
   <rule name="Кім Ір Сен" id="kim_ir_sen">
@@ -4939,10 +4956,10 @@
       </marker>
       <token>,</token>
     </pattern>
-    <disambig action="filter" postag="adv.*" />
+    <disambig action="filter" postag=".*insert" />
     <example type="ambiguous"
-      inputform="власне[власне/adv:&amp;insert,власний/adj:n:v_kly,власний/adj:n:v_naz,власний/adj:n:v_zna]"
-      outputform="власне[власне/adv:&amp;insert]">, і <marker>власне</marker>, на них.
+      inputform="власне[власне/part:&amp;insert,власний/adj:n:v_kly,власний/adj:n:v_naz,власний/adj:n:v_zna]"
+      outputform="власне[власне/part:&amp;insert]">, і <marker>власне</marker>, на них.
     </example>
     <example type="untouched">, власне життя</example>
   </rule>
@@ -4956,12 +4973,27 @@
       </marker>
       <token>,</token>
     </pattern>
-    <disambig action="filter" postag="adv.*" />
+    <disambig action="filter" postag=".*insert" />
     <example type="ambiguous"
-      inputform="власне[власне/adv:&amp;insert,власний/adj:n:v_naz,власний/adj:n:v_zna]"
-      outputform="власне[власне/adv:&amp;insert]">Як <marker>власне</marker>, й трапляється.
+      inputform="власне[власне/part:&amp;insert,власний/adj:n:v_naz,власний/adj:n:v_zna]"
+      outputform="власне[власне/part:&amp;insert]">Як <marker>власне</marker>, й трапляється.
     </example>
     <example type="untouched">власне життя</example>
+  </rule>
+
+  <rule name="тд - т.д." id="td_bad">
+    <pattern>
+      <token regexp="yes">[ій]</token>
+      <marker>
+        <token>тд</token>
+      </marker>
+    </pattern>
+    <disambig postag="noninfl:bad" />
+    <example type="ambiguous"
+      inputform="тд[тд]"
+      outputform="тд[тд/noninfl:bad]">і <marker>тд</marker>.
+    </example>
+    <example type="untouched">4 тд</example>
   </rule>
 
   <rule name="Оглядів - іменник" id="ogliadiv_noun">

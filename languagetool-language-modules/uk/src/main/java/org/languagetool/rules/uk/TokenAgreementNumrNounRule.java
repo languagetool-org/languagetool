@@ -308,11 +308,6 @@ public class TokenAgreementNumrNounRule extends Rule {
       }
       else if( state.number ) {
 
-        // у 2002 році
-        if( state.numrPos > 1 && PosTagHelper.hasPosTagStart(tokens[state.numrPos-1], "prep") ) {
-
-        }
-
         if( _5_5.matcher(numrCleanToken).matches() ) {
           masterInflections.add(new Inflection("p", "v_rod", null));
           masterInflections.add(new Inflection("m", "v_rod", null));

@@ -184,6 +184,9 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("сьома вода на киселі");
     assertEmptyMatch("років п'ять люди");
     assertEmptyMatch("років через десять Литва");
+    
+    assertEmptyMatch("у 2020 мати надійний фундамент");
+    assertEmptyMatch("тижнів зо два мати горшком воду носила");
   }
 
   @Test
@@ -207,6 +210,9 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
     assertHasError("33 подоляни", "33 подолянина");
     assertHasError("три рабина");
 
+    // може бути як adj "до 3-ї секунди"
+//    assertHasError("до 3 секунди");
+    
     //TODO:
 //    assertHasError("3 Механістична");
     
