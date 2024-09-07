@@ -8351,6 +8351,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token inflected="yes">haver</token>
                 </marker>
+                <token>,</token>
+                <token regexp="yes" min="1" max="5">així|d'|aquesta|esta|eixa|aqueixa|manera|forma</token>
+                <token>,</token>
+                <token regexp="yes">de|d'</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_obligacio" lemma="haver"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes">haver</token>
+                </marker>
                 <token skip="3">hagut<exception scope="next" postag="V.N.*|VA.*|V.[IS].*" postag_regexp="yes"/></token>
                 <token regexp="yes">de|d'<exception scope="previous" postag="N.*|_GN_.*" postag_regexp="yes"/></token>
                 <token postag="V.N.*" postag_regexp="yes"/>
@@ -8849,6 +8864,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="filter" postag="V.*V|_GV_"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>què</token>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">vista|vistes</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
         </rule>
         <rule>
             <pattern>
