@@ -3658,7 +3658,9 @@ USA
             <!-- Subrule 1: NOT using nouns/adjectives after "as duas"/"os dois" -->
             <rule>
                 <pattern>
-                    <token postag='V.+|RG|CS' postag_regexp='yes'><exception postag_regexp='yes' postag='SPS.+'/></token>
+                    <token postag='V.+|RG|CS' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='SPS.+'/>
+                        <exception regexp='no' inflected='yes'>precisar</exception></token>
                     <marker>
                         <token regexp='yes'>[ao]s</token>
                         <token regexp='yes'>duas|dois
@@ -3680,12 +3682,15 @@ USA
                 <example>Cantuária e Winchester eram as duas mais ricas Sés na Inglaterra.</example>
                 <example>Este livro contém as duas mil palavras mais comuns na língua portuguesa.</example>
                 <example>Algumas pessoas na cidade têm os dois mil.</example>
+                <example>Bem, agora você precisa as duas.</example>
             </rule>
 
             <!-- Subrule 2: USING nouns/adjectives after "as duas"/"os dois" -->
             <rule>
                 <pattern>
-                    <token postag='V.+|RG|CS' postag_regexp='yes'><exception postag_regexp='yes' postag='SPS.+'/></token>
+                    <token postag='V.+|RG|CS' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='SPS.+'/>
+                        <exception regexp='no' inflected='yes'>precisar</exception></token>
                     <marker>
                         <token regexp='yes'>[ao]s</token>
                         <token regexp='yes'>duas|dois</token>
