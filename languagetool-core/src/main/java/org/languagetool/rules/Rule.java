@@ -190,12 +190,14 @@ public abstract class Rule {
    * @since 3.1
    */
   protected AnalyzedSentence getSentenceWithImmunization(AnalyzedSentence sentence) {
-    if (!getAntiPatterns().isEmpty()) {
+    List<DisambiguationPatternRule> antiPatterns = getAntiPatterns();
+    if (!antiPatterns.isEmpty()) {
       //we need a copy of the sentence, not reference to the old one
       AnalyzedSentence immunizedSentence = sentence.copy(sentence);
-      for (DisambiguationPatternRule patternRule : getAntiPatterns()) {
+      //noinspection ForLoopReplaceableByForEach
+      for (int i = 0; i < antiPatterns.size(); i++) {
         try {
-          immunizedSentence = patternRule.replace(immunizedSentence);
+          immunizedSentence = antiPatterns.get(i).replace(immunizedSentence);
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
