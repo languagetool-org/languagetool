@@ -14423,6 +14423,56 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="un_cert" name="un cert">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>un</token>
+                </marker>
+                <token postag="_GN_MS">cert</token>
+                <token postag="_GN_MS"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GN_MS"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>una</token>
+                </marker>
+                <token postag="_GN_FS">certa</token>
+                <token postag="_GN_FS"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GN_FS"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>uns</token>
+                </marker>
+                <token postag="_GN_MP">certs</token>
+                <token postag="_GN_MP"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GN_MP"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>unes</token>
+                </marker>
+                <token postag="_GN_FP">certes</token>
+                <token postag="_GN_FP"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GN_FP"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="nom_neutre" name="desambigua nom neutre o masculí i femení alhora">
         <!-- Desambigua un nom neutre o masculí i femení alhora. El llum, els alumnes. Excepció: L'intel·lectual -->
         <rule>
@@ -15402,7 +15452,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
             <token><exception postag="V.[MSI].*" postag_regexp="yes"/></token>
         </pattern>
-        <disambig action="filter" postag="SP.*|RG.*|CS|_obligacio"/>
+        <disambig action="filter" postag="SP.*|RG.*|CS|_obligacio|LOC_.*"/>
     </rule>
     <rule id="PARTICIPI_PREPOSICIO" name="verb compost (participi) + preposició">
         <pattern>
