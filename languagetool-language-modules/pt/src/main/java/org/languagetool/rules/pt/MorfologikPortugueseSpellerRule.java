@@ -27,7 +27,7 @@ import org.languagetool.synthesis.pt.PortugueseSynthesizer;
 import org.languagetool.tagging.pt.PortugueseTagger;
 import org.languagetool.tools.StringTools;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Predicate;

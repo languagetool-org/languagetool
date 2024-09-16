@@ -205,28 +205,30 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
             // the first part is the verb
             String[] parts = replacementInfinitive.split(" "); 
             AnalyzedToken infinitiveAsAnTkn = new AnalyzedToken(parts[0], "V.*", parts[0]);
+            List<String> posTags = new ArrayList<>();
             for (AnalyzedToken analyzedToken : analyzedTokenReadings) {
-              try {
-                String posTag = analyzedToken.getPOSTag();
-                if (infinitiveAsAnTkn.getLemma().equals("haver")) {
-                  posTag = "VA" + posTag.substring(2);
-                }
-                if (infinitiveAsAnTkn.getLemma().equals("ser")) {
-                  posTag = "VS" + posTag.substring(2);
-                }
-                synthesized = synth.synthesize(infinitiveAsAnTkn, posTag);
-              } catch (IOException e) {
-                throw new RuntimeException(
-                    "Could not synthesize: " + infinitiveAsAnTkn + " with tag " + analyzedToken.getPOSTag(), e);
+              posTags.add(analyzedToken.getPOSTag());
+            }
+            String posTag = synth.getTargetPosTag(posTags, null);
+            try {
+              if (infinitiveAsAnTkn.getLemma().equals("haver")) {
+                posTag = "VA" + posTag.substring(2);
               }
-              for (String s : synthesized) {
-                for (int j = 1; j < parts.length; j++) {
-                  s = s.concat(" ").concat(parts[j]);
-                }
-                String ps = StringTools.preserveCase(s, originalTokenStr);
-                if (!possibleReplacements.contains(ps)) {
-                  possibleReplacements.add(ps);
-                }
+              if (infinitiveAsAnTkn.getLemma().equals("ser")) {
+                posTag = "VS" + posTag.substring(2);
+              }
+              synthesized = synth.synthesize(infinitiveAsAnTkn, posTag);
+            } catch (IOException e) {
+              throw new RuntimeException(
+                  "Could not synthesize: " + infinitiveAsAnTkn + " with tag " + posTag, e);
+            }
+            for (String s : synthesized) {
+              for (int j = 1; j < parts.length; j++) {
+                s = s.concat(" ").concat(parts[j]);
+              }
+              String ps = StringTools.preserveCase(s, originalTokenStr);
+              if (!possibleReplacements.contains(ps)) {
+                possibleReplacements.add(ps);
               }
             }
           }

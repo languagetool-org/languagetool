@@ -44,7 +44,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
-    /*if (match.getSentence().getText().contains("calor apretarà")) {
+    /*if (match.getSentence().getText().contains("-se el gat a l'aigua")) {
       int ii=0;
       ii++;
     }*/
@@ -237,7 +237,13 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
             !firstVerbInflected);
           break;
         case "addPronounReflexiveHo":
-          replacement = doAddPronounReflexive(firstVerb, pronounsStr, "ho " + verbStr, firstVerbPersonaNumber,
+          String newVerbStr = verbStr;
+          if (firstVerbInflected) {
+            newVerbStr = "ho " + verbStr;
+          } else if (!pronounsStr.isEmpty()){
+            pronounsStr = pronounsStr+"-ho";
+          }
+          replacement = doAddPronounReflexive(firstVerb, pronounsStr, newVerbStr, firstVerbPersonaNumber,
             !firstVerbInflected);
           break;
         case "addPronounHi":

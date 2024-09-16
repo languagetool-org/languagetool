@@ -64,6 +64,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </equivalence>
     </unification>
 
+    <rule id="UNKNOWN_BINDESTRICH" name="porto- und spesenfrei">
+        <pattern>
+            <marker>
+                <token regexp="yes" postag="UNKNOWN">(porto)-</token>
+            </marker>
+            <token regexp="yes">und|oder|aber|sowie</token>
+            <token regexp="yes" postag="ADJ.*" postag_regexp="yes">.+(frei|los|arm)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule id="ZWEIPFÜNDER" name="2-Pfünder">
         <pattern>
             <marker>
