@@ -113,6 +113,8 @@ public class CatalanSentenceTokenizerTest {
     testSplit("{Impren. Disss}");
     testSplit("{Impren. 188-disss}");
     testSplit("(Impren. Disss. Ioo)");
+    testSplit("Impren. ", "\nDisss");
+    testSplit("(Impren. ", "\nDisss)");
 
     // Exception to abbreviations
     testSplit("Ell és el número u. ", "Jo el dos.");
