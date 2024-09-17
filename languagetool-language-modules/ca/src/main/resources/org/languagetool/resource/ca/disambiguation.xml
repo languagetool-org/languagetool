@@ -5331,6 +5331,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="ploure_impersonal" name="ploure (impersonal)">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="V...1S.." postag_regexp="yes"/>
+                    <token postag="V...3S.." postag_regexp="yes"/>
+                </and>
+                <token inflected="yes">ploure</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V...1S.."></disambig>
+    </rule>
     <rule id="TRET_PARTICIPI" name="tret, salvat (participi, no preposició)">
         <antipattern>
             <token regexp="yes">de|una|lletra|la</token>
@@ -7604,7 +7616,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <feature id="nombre"/>
                     <token postag="V.[NISM].*" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|venir</token>
                     <marker>
-                        <token postag="V.P.*" postag_regexp="yes"><exception>després</exception></token>
+                        <token postag="V.P.*" postag_regexp="yes"><exception regexp="yes">després|mesos</exception></token>
                     </marker>
                 </unify>
             </pattern>
@@ -7618,7 +7630,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|venir</token>
                     </marker>
-                    <token postag="V.P.*" postag_regexp="yes"><exception>després</exception></token>
+                    <token postag="V.P.*" postag_regexp="yes"><exception regexp="yes">després|mesos</exception></token>
                 </unify>
             </pattern>
             <disambig action="filter" postag="V.*"/>
@@ -7642,7 +7654,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <feature id="nombre"/>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|venir<exception postag="V.P.*" postag_regexp="yes"/></token>
-                        <token postag="V.P.*" postag_regexp="yes"><exception>després</exception></token>
+                        <token postag="V.P.*" postag_regexp="yes"><exception regexp="yes">després|mesos</exception></token>
                     </marker>
                 </unify>
             </pattern>

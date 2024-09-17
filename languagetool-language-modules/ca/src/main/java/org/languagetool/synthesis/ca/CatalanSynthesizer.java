@@ -185,10 +185,10 @@ public class CatalanSynthesizer extends BaseSynthesizer {
       int len0 = arg0.length();
       int len1 = arg1.length();
       if (len0 > 4 && len1 > 4) {
-        if (arg0.equals("VMIS3S00") && arg1.equals("VMIS1S00")) {
+        if (arg0.contains("3S") && arg1.equals("1S")) {
           return 150;
         }
-        if (arg0.equals("VMIS1S00") && arg1.equals("VMIS3S00")) {
+        if (arg0.contains("1S") && arg1.contains("3S")) {
           return -150;
         }
         if (arg0.equals("VMIP2P00") && arg1.equals("VMIS3S00")) {
