@@ -4865,6 +4865,19 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Spanish">
+<!-- unknown abbreviations inside parentheses -->
+<rule break="no">
+<beforebreak>\([^\)]*\.[\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\[[^\]]*\.[\s\u00A0]</beforebreak>
+<afterbreak>[^\]\r\n]*\]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\{[^\}]*\.[\s\u00A0]</beforebreak>
+<afterbreak>[^\}\r\n]*\}</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>¿[^?]+:[\s\u00A0]</beforebreak>
 <afterbreak>.</afterbreak>
