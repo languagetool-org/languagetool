@@ -436,6 +436,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rulegroup id="ROMPIDO_ROTO" name="se ha rompido -> se ha roto" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes">haber</token>
+                    <marker>
+                        <token>rompido</token>
+                    </marker>
+                </pattern>
+                <message>El participio adecuado del verbo 'romper' es <suggestion>roto</suggestion>.</message>
+                <example correction="roto">Se me ha <marker>rompido</marker> la camisa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>rompido</token>
+                    </marker>
+                </pattern>
+                <message>Como participio o adjetivo, hay que decir <suggestion>roto</suggestion>. "Rompido" es la tierra que se rompe para cultivarla.</message>
+                <example correction="roto">El ordenador estaba <marker>rompido</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>rompidos</token>
+                    </marker>
+                </pattern>
+                <message>Como participio o adjetivo, hay que decir <suggestion>rotos</suggestion>. "Rompido" es la tierra que se rompe para cultivarla.</message>
+                <example correction="rotos">Los coches estaban <marker>rompidos</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="MOTO_GP" name="MotoGP">
             <pattern>
                 <token>moto</token>
