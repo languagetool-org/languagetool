@@ -1863,6 +1863,19 @@ USA
         <short>Coloquialismo</short>
         <example correction=''><marker>à coisa de</marker></example>
     </rule>
+   <rule default='temp_off'>
+        <pattern>
+            <token inflected='yes'>valer</token>
+            <token>de</token>
+            <token>pouco</token>
+        </pattern>
+        <message>Esta é uma expressão oral. Reveja.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match> pouco valor</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match> pouca importância</suggestion>
+        <short>Coloquialismo</short>
+        <example correction='tem pouco valor|tem pouca importância'>O que ele disse <marker>vale de pouco</marker>.</example>
+        <example correction='tem pouco valor|tem pouca importância'>Essa opinião <marker>vale de pouco</marker> no contexto atual.</example>
+    </rule>
 </rulegroup>
 
 
