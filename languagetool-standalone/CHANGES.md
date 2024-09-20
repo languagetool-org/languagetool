@@ -5,6 +5,9 @@
 The add-on for LibreOffice/OpenOffice is not part of this repository
 anymore. Find it at https://github.com/languagetool-org/languagetool-for-libreoffice.
 
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.26)
 
 ## 6.4 (2024-03-28)
 
@@ -13,7 +16,7 @@ anymore. Find it at https://github.com/languagetool-org/languagetool-for-libreof
 
 #### Catalan
   * added and improved rules
-  * updated dictionary (spanish-pos-dict-2.25)
+  * updated dictionary (catalan-pos-dict-2.25)
 
 #### Dutch
   * added and improved rules
