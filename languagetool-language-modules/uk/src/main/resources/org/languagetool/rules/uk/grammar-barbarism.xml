@@ -434,20 +434,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <exception scope="previous" regexp="yes" inflected="yes">вступ.*|(по)?вірити|вірячи|(по)?віривши|(зне)?віра</exception>
         </token>
         <token>силу</token>
-        <token postag_regexp="yes" postag="noun:inanim:.:v_rod.*">
-          <exception scope="next" regexp="yes" inflected="yes">закон|вступ.*|(по)?вірити</exception>
-        </token>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0" />
+          <token postag_regexp="yes" postag="noun:inanim:.:v_rod(?!.*abbr).*">
+            <exception scope="next" regexp="yes" inflected="yes">закон|вступ.*|(по)?вірити</exception>
+            <exception regexp="yes">армії|зброї|закону</exception>
+          </token>
+        </unify>
         <!--
         <token regexp="yes">цього|того|обставин|переконань|обмеженості|закритості|низки</token>
         -->
       </pattern>
-      <message>Правильно: <suggestion>через <match no="3" postag_regexp="yes" postag="(noun.*?)v_rod(.*)" postag_replace="$1v_zna$2"/></suggestion></message>
-      <example correction="через обставини"><marker>в силу обставин</marker></example>
+      <message>Коли цей зворот вказує на причину, то правильно: <suggestion>через <match no="3" postag_regexp="yes" postag="(adj.*?)v_rod(.*)" postag_replace="$1v_zna(:r(in)?anim)?$2"/> <match no="4" postag_regexp="yes" postag="(noun.*?)v_rod(.*)" postag_replace="$1v_zna$2"/></suggestion></message>
+      <suggestion>внаслідок \3 \4</suggestion>
+      <suggestion>залежно від \3 \4</suggestion>
+      <suggestion>з огляду на <match no="3" postag_regexp="yes" postag="(adj.*?)v_rod(.*)" postag_replace="$1v_zna(:r(in)?anim)?$2"/> <match no="4" postag_regexp="yes" postag="(noun.*?)v_rod(.*)" postag_replace="$1v_zna$2"/></suggestion>
+      <example correction="через обставини|внаслідок обставин|залежно від обставин|з огляду на обставини"><marker>в силу обставин</marker></example>
+      <example correction="через різних обставини|через різні обставини|внаслідок різних обставин|залежно від різних обставин|з огляду на різних обставини|з огляду на різні обставини"><marker>в силу різних обставин</marker></example>
       <example>вступив в силу великого часу</example>
       <example>віра в силу ідей</example>
+      <example>вірю в силу любові</example>
       <example>як не вірити в силу долі</example>
       <example>дістав силу закону</example>
       <example>ви в силу талісманів вірите?</example>
+      <example>в силу встановленої ст. 204 ЦК України</example>
     </rule>
 
     <rule id="nakazuvaty_karaty" name="Наказувати і карати">
@@ -5405,12 +5417,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="SPRAVA_V_TOMU" name="Справа в тому і річ у тім">
       <pattern>
         <token>справа</token>
+        <token min="0">не</token>
         <token regexp="yes">[ву]</token>
         <token regexp="yes">тому|тім</token>
       </pattern>
-      <message>Правильно: <suggestion>річ у тому</suggestion>, <suggestion>річ у тім</suggestion></message>
+      <message>Правильно: <suggestion>річ \2 у тому</suggestion>, <suggestion>річ \2 у тім</suggestion></message>
       <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
       <example correction="Річ у тому|Річ у тім"><marker>Справа в тому</marker>, що його немає.</example>
+      <example correction="Річ не у тому|Річ не у тім"><marker>Справа не в тому</marker>, що його немає.</example>
       <example>Річ у тім, що його немає.</example>
     </rule>
 
