@@ -13,6 +13,11 @@ anymore. Find it at https://github.com/languagetool-org/languagetool-for-libreof
   * added and improved rules
   * updated dictionary (spanish-pos-dict-2.3)
 
+#### Ukrainian
+  * new words in the POS dictionary
+  * new rules
+  * tagging and disambiguation improvements
+
 ## 6.4 (2024-03-28)
 
 #### Asturian
