@@ -437,6 +437,8 @@ public class Catalan extends Language {
       Pattern.UNICODE_CASE);
   private static final Pattern POSSESSIUS_V = compile("\\b([MTS]E)V(A|ES)\\b",
       Pattern.UNICODE_CASE);
+  private static final Pattern CA_REMOVE_SPACES = compile("\\b(a|de|pe) (ls? )",
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   @Override
   public String adaptSuggestion(String s) {
@@ -458,6 +460,8 @@ public class Catalan extends Language {
     s = m6.replaceAll("se'$1");
     Matcher m7 = CA_APOSTROPHES7.matcher(s);
     s = m7.replaceAll("$1 l'$2");
+    Matcher m8 = CA_REMOVE_SPACES.matcher(s);
+    s = m8.replaceAll("$1$2");
     if (capitalized) {
       s = StringTools.uppercaseFirstChar(s);
     }
