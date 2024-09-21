@@ -5341,7 +5341,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token inflected="yes">ploure</token>
             </marker>
         </pattern>
-        <disambig action="remove" postag="V...1S.."></disambig>
+        <disambig action="remove" postag="V...1S.."/>
     </rule>
     <rule id="TRET_PARTICIPI" name="tret, salvat (participi, no preposició)">
         <antipattern>
@@ -16007,6 +16007,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="remove">
                 <wd lemma="vanar"/>
             </disambig>
+        </rule>
+        <rule>
+            <!-- fuita -->
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="V.P....B" postag_regexp="yes"/>
+                        <token postag="[NA].*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.P....B"/>
         </rule>
         <rule>
             <pattern>
