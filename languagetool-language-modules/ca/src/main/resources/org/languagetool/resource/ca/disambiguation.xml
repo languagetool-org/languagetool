@@ -4018,6 +4018,33 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="remove" postag="NP.*"/>
         </rule>
         <rule>
+            <pattern>
+                <marker>
+                    <token postag="A.*" postag_regexp="yes" inflected="yes">benvingut</token>
+                </marker>
+                <token inflected="yes">ser</token>
+            </pattern>
+            <disambig action="remove" postag="NP.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="A.*" postag_regexp="yes">petit</token>
+                </marker>
+                <token postag="(N.|A..)[MC][SN].*|V.P..SM." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="NP.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="A.*" postag_regexp="yes">gran</token>
+                </marker>
+                <token postag="(N.|A..)[FMC][SN].*|V.P..S[MF]." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="NP.*"/>
+        </rule>
+        <rule>
             <!-- exception: Podem dir -->
             <pattern>
                 <marker>
@@ -4094,7 +4121,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
-                    <token postag="NP.*" postag_regexp="yes" skip="3"><exception postag="RG|CC|DD.*|AO.*" postag_regexp="yes"/><exception scope="next" postag="V.P.*|SPS00|D[AI].*|C.*" postag_regexp="yes"/><exception scope="next" postag="P.*" postag_regexp="yes" regexp="yes">['-].+</exception></token>
+                    <token postag="NP.*" postag_regexp="yes" skip="3"><exception postag="RG|CC|DD.*|AO.*" postag_regexp="yes"/><exception scope="next" postag="V.P.*|SPS00|D[AI].*|C.*" postag_regexp="yes"/><exception scope="next" postag="P.*" postag_regexp="yes" regexp="yes">['-].+</exception><exception>Déu</exception></token>
                 </marker>
                 <token postag="V.[MSI].3.*" postag_regexp="yes"/>
             </pattern>
@@ -5576,6 +5603,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="replace" postag="NPCSG00"/>
     </rule>
     <rulegroup id="noms_aposicio" name="noms en aposició">
+        <rule>
+            <pattern>
+                <token postag="NP..G.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag_regexp="yes" postag="NCMS000">centre</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NCMS000"/>
+        </rule>
         <rule>
             <pattern>
                 <token regexp="yes" inflected="yes">adreça|domini|pàgina|plana|lloc|aplicació</token>
@@ -15148,7 +15184,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="A.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </and>
             </marker>
-            <token postag="N.*" postag_regexp="yes"><exception postag="V.[SI].*" postag_regexp="yes"/></token>
+            <token postag="N.*" postag_regexp="yes"><exception postag="V.[SI].*|RG|SPS00" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="filter" postag="V.*"/>
     </rule>
