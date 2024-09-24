@@ -2145,6 +2145,20 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
 
+        <rulegroup name="" id="AI_DE_GGEC_UNNECESSARY_SPACE.*"><!--gGEC wants to remove space after listing character-->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">-|\*|\+</token>
+                    </marker>
+                    <token spacebefore="yes" regexp="yes">.+</token>
+                </pattern>
+                <example correction=""><marker>- </marker>Aufzählung</example>
+                <example correction=""><marker>+ </marker>Aufzählung</example>
+                <example correction=""><marker>* </marker>Aufzählung</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup name="" id="AI_DE_GGEC_UNNECESSARY_DETERMINER">
             <rule>
                 <pattern>
