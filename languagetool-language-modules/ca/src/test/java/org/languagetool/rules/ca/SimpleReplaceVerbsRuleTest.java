@@ -176,6 +176,9 @@ public class SimpleReplaceVerbsRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("encandilen"));
     assertEquals("[enlluernen, esbalaeixen, fascinen, enceguen, al·lucinen, espurnegen, resten enlluernat]", 
         matches[0].getSuggestedReplacements().toString());
+    
+    matches = rule.match(lt.getAnalyzedSentence("permitisc"));
+    assertEquals("permeto", matches[0].getSuggestedReplacements().get(0));
   }
 
 }
