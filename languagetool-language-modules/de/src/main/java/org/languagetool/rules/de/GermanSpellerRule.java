@@ -2826,15 +2826,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   private boolean isNounNom(String word) throws IOException {
-    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM"));
+    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.matchesPosTagRegex("SUB:NOM.+(ADJ|MAS|FEM|NEU)"));
   }
 
   private boolean isNounNomSin(String word) throws IOException {
-    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM:SIN"));
+    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.matchesPosTagRegex("SUB:NOM:SIN:(ADJ|MAS|FEM|NEU)"));
   }
 
   private boolean isNounNomPlu(String word) throws IOException {
-    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM:PLU"));
+    return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.matchesPosTagRegex("SUB:NOM:PLU:(ADJ|MAS|FEM|NEU)"));
   }
 
   private boolean isCountryOrRegionNomSin(String word) throws IOException {
