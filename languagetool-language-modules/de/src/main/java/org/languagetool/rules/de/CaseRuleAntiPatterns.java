@@ -1808,6 +1808,11 @@ class CaseRuleAntiPatterns {
       csRegex("Eiben?")
     ),
     Arrays.asList(
+      // unter dem Motto Music Released
+      csToken("Music"),
+      csToken("Released")
+    ),
+    Arrays.asList(
       // Die Stadt ist Sitz des Kirchenbezirks Freudenstadt der Evangelischen Landeskirche in Württemberg.
       csRegex("Evangelischen?"),
       csToken("Landeskirche")
