@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 6.5-SNAPSHOT (release planned for 2024-09-27)
+## 6.5 (2024-09-27)
 
 The add-on for LibreOffice/OpenOffice is not part of this repository
 anymore. Find it at https://github.com/languagetool-org/languagetool-for-libreoffice.
@@ -8,6 +8,23 @@ anymore. Find it at https://github.com/languagetool-org/languagetool-for-libreof
 #### Catalan
   * added and improved rules
   * updated dictionary (catalan-pos-dict-2.26)
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+  * extended dictionary
+
+#### French
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * extended dictionary
+
+#### Portuguese
+  * added and improved rules
 
 #### Spanish
   * added and improved rules
@@ -18,6 +35,7 @@ anymore. Find it at https://github.com/languagetool-org/languagetool-for-libreof
   * new rules
   * tagging and disambiguation improvements
 
+
 ## 6.4 (2024-03-28)
 
 #### Asturian
@@ -26,6 +44,9 @@ anymore. Find it at https://github.com/languagetool-org/languagetool-for-libreof
 #### Catalan
   * added and improved rules
   * updated dictionary (catalan-pos-dict-2.25)
+
+### Crimean Tatar
+  * initial support
 
 #### Dutch
   * added and improved rules
