@@ -132,7 +132,7 @@ public class GermanSpellerRuleTest {
     //assertFalse(rule.ignorePotentiallyMisspelledWord("Nasenputzen"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Abbiegemöglichkeit"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Cholesterinwiederaufnahmehemmer"));
-    //assertTrue(rule.ignorePotentiallyMisspelledWord("Kennenlernmöglichkeit"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Kennenlernmöglichkeit"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Konstruktionsverfahren"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Wölkchenbildung"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Abschlussgruße"));  // probably "...grüße"
