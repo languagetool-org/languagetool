@@ -4,7 +4,7 @@
 French, Portuguese, Dutch, Ukrainian
 and [more languages](https://dev.languagetool.org/languages)**
 
-Version 6.5-SNAPSHOT (2024-xx-yy)  
+Version 6.5 (2024-09-27)  
 Copyright (C) 2005-2024 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 https://languagetool.org
 
