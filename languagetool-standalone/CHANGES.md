@@ -1,5 +1,11 @@
 # LanguageTool Change Log
 
+## 6.6-SNAPSHOT (release planned for 2025-03-27)
+
+...
+
+
+
 ## 6.5 (2024-09-27)
 
 The add-on for LibreOffice/OpenOffice is not part of this repository
