@@ -73,7 +73,6 @@ public final class RuleOverview {
     System.out.println("  <th align=\"left\" width=\"60\">Confusion<br/>pairs</th>");
     //System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
     System.out.println("  <th valign='bottom' align=\"left\" width=\"90\">Activity</th>");
-    System.out.println("  <th valign='bottom' align=\"left\">Rule Maintainers</th>");
     System.out.println("</tr>");
     System.out.println("</thead>");
     System.out.println("<tbody>");
@@ -155,22 +154,7 @@ public final class RuleOverview {
       }
       images += "<img title='" + commits + " commits in the last 6 months' src='images/bar.png' width='" + width + "' height='10'/>";
       System.out.print("<td valign=\"top\" align=\"right\"><span style='display:none'>" + commits + "</span>" + images + "</td>");
-      
-      // maintainer information:
-      String maintainerInfo = getMaintainerInfo(lang);
-      String maintainerText;
-      boolean greyOutMaintainer = false;
-      if (lang.getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
-        maintainerText = "<span class='maintainerNeeded'><a href='https://dev.languagetool.org/tasks-for-language-maintainers'>Looking for maintainer</a></span> - ";
-        greyOutMaintainer = true;
-      } else {
-        maintainerText = "";
-      }
-      if (greyOutMaintainer) {
-        maintainerInfo = "<span class='previousMaintainer'><br>previous maintainer: " + maintainerInfo + "</span>";
-      }
-      System.out.print("<td valign=\"top\" align=\"left\">" + maintainerText + maintainerInfo + "</td>");
-      
+
       System.out.println("</tr>");    
     }
       
