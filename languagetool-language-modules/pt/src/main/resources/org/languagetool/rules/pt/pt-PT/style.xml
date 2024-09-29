@@ -5144,83 +5144,30 @@ USA
     </rulegroup>
 
 
-    <rulegroup id='VERBO_PRONOMINAL_DE_V2' name="[pt-PT][Simplificar] V. Pronominal + de → V. Pronominal" type="style" tone_tags="formal">
+    <rule id='VERBO_PRONOMINAL_DE_V3' name="[pt-PT][Simplificar] 'V. Pronominal + de' → V. Pronominal" type="style" tone_tags="formal" default='temp_off'>
         <!-- IDEA shorten_it -->
-        <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-02 (25-JUL-2022+) -->
-        <!--
-            Temos uma teoria denominada de matemática. → Temos uma teoria denominada matemática.
-            A teoria, denominaram-lha de matemática. → A teoria, denominaram-lha matemática.
-        -->
-        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-regencia-dos-verbos-chamar-e-denominar-ii/34550</url>
-
-        <!--
-            MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
-        -->
-
-        <antipattern>
-            <token regexp='yes' inflected='yes' postag_regexp="yes" postag="V......">alterar|banir|bloquear|efetuar|enviar|fazer|modificar|pedir|querer|realizar|receber|requerer|ser|solicitar</token>
-            <token min="0" max="1" postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
-            <token regexp='yes'>chamad[ao]s?|chamares</token>
-            <token>de</token>
-            <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
-            <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'/>
-            <example>Recebi uma chamada de vídeo.</example>
-            <example>Recebi uma chamada de áudio.</example>
-            <example>Recebi a chamada de telefone.</example>
-            <example>É possível fazer chamadas de vídeo no WhatsApp.</example>
-            <example>Simão recebe chamada de Augusto para ir a um jantar mais logo.</example>
-            <example>Tom recebeu uma chamada de Mary.</example>
-            <example>APIs também estão disponíveis para permitir que aplicativos no modo de núcleo filtrem e modifiquem chamadas de registro feitas por outros aplicativos.</example>
-            <example>Meu primo recebeu o chamado de Deus e se tornou padre.</example>
-            <example>Meu primo recebeu o chamado de Deus e virou padre.</example>
-            <example>Queremos os chamares de Marco.</example>
-            <example>Em alguns casos, as sequências com termos positivos são chamadas de sequências positivas.</example>
-            <example>Atualmente, são chamados de “gigantes” os indivíduos que apresentam o dobro do tamanho da média para aquele gênero.</example>
-            <example>Fiz uma chamada de atenção ao Pedro</example>
-        </antipattern>
-
-        <antipattern>
-            <token regexp='yes' inflected='yes'>alterar|banir|bloquear|chamar|efetuar|enviar|fazer|modificar|pedir|querer|realizar|receber|requerer|ser|solicitar</token>
-            <token>de</token>
-            <token regexp='yes'>áudio|regresso|retorno|telefone|vídeo|volta</token>
-            <example>Ele foi chamado de volta, em meio à sua viagem.</example>
-            <example>Chamaram-no de volta, em meio à sua viagem.</example>
-            <example>O médico o chamou de volta.</example>
-            <example>Certifique-se de me chamar de volta.</example>
-            <example>Depois da pandemia de COVID-19, as chamadas de vídeo se tornaram fundamentais no espaço de trabalho.</example>
-        </antipattern>
-
-        <rule>
-            <pattern> <!-- most cases -->
-                <marker>
-                    <token regexp='yes' inflected='yes' postag_regexp="yes" postag="V.+">&verbos_pronominais;</token>
-                    <token>de</token>
-                </marker>
-                <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
-                <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'/>
-            </pattern>
-            <message>Este verbo é pronominal, a redação correta é sem a preposição 'de'.</message>
-            <suggestion>\1</suggestion>
-            <example correction="denominada">Temos uma teoria <marker>denominada de</marker> matemática.</example>
-        </rule>
-
-        <rule> <!-- weird pt-PT contractions -->
-            <pattern>
-                <marker>
-                    <token regexp='yes' inflected='yes'>&verbos_pronominais;</token>
-                    <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-                    <token regexp='yes' spacebefore='no'>lh[oa]s?|[tm][oa]</token>
-                    <token>de</token>
-                </marker>
-                <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
-                <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'/>
-            </pattern>
-            <message>Este verbo é pronominal, a redação correta é sem a preposição 'de'.</message>
-            <suggestion>\1\2\3</suggestion>
-            <example correction="denominaram-lha">A teoria, <marker>denominaram-lha de</marker> matemática.</example>
-        </rule>
-
-    </rulegroup>
+        <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
+        <pattern>
+            <marker>
+                 <token regexp='yes' inflected='yes'>apelidar|chamar|classificar|cognominar|denominar|designar|intitular</token>
+                 <token>de</token>
+            </marker>
+            <token min='0' postag='_QUOT' postag_regexp='no'/>
+            <token postag='NC.+|AQ.+' postag_regexp='yes'>
+                <exception postag_regexp='yes' postag='NP.+'/>
+                <exception regexp='yes' inflected='yes'>ac?ção|acesso|acontecimento|ajuda|alerta|análise|ansiedade|assistência|atenção|atitude|áudio|ausência|aviso|base|capacidade|cara|causa|cautela|chamada|chance|circunstância|comando|competência|condição|conhecimento|consciência|consequência|consideração|conta|contagem|crédito|cuidado|custo|desejo|deslocação|destaque|dica|dinheiro|direc?ção|direito|dúvida|efeito|emprego|entrada|escolha|esforço|estado|estima|estudo|eventualidade|exame|experiência|facto|falta|fato|fac?tura|finalidade|forma|frente|fronteira|função|fundamento|habilidade|homenagem|honra|imagem|importância|incerteza|indicação|indício|intenção|jeito|justificação|lembrança|liderança|limite|localização|maneira|medida|meio|melhoria|memória|menção|mérito|modo|momento|motivo|movimento|necessidade|notificação|objec?tivo|observação|opção|opinião|oportunidade|ordem|papel|parecer|parte|porção|posição|possibilidade|posto|precaução|preço|prémio|preocupação|prevenção|princípio|privilégio|progresso|propósito|prova|razão|recompensa|recordação|referência|regresso|relevância|respeito|resposta|resultado|retorno|retribuição|sabedoria|significância|situação|solução|telefone|tempo|tentativa|teste|trabalho|troco|urgência|uso|utilização|valor|vídeo|volta|vontade</exception>
+                <exception regexp='yes' inflected='yes'>ac?tuação|aflição|alarme|amparo|ânsia|aparência|aptidão|assento|ac?tividade|auxílio|avaliação|barreira|capital|carência|cargo|celeridade|celular|certeza|citação|clima|cobrança|controle|controlo|decisão|deferência|defesa|desenvolvimento|deslocamento|destreza|determinação|distinção|encargo|ensaio|evidência|exemplo|face|firmeza|frac?ção|fronte|fundação|ganho|gasto|gesto|incidência|influência|ingresso|início|intercâmbio|intuito|ligação|local|manejo|meta|moral|movimentação|ocupação|orgulho|orientação|pagamento|pago|passagem|percepção|peso|pressa|presságio|presunção|procedimento|protec?ção|prudência|realce|regressão|reversão|rosto|segurança|significado|som|sugestão|talento|técnica|tributo|trocado|vantagem|vigilância|vulto|zelo</exception>
+            </token>
+        </pattern>
+        <message>Para certos verbos que indicam nomeação, designação ou categorização, o uso da preposição &quot;de&quot; é opcional, mas a sua omissão confere maior formalidade ou concisão à frase.</message>
+        <suggestion>\1</suggestion>
+        <example correction="denominada">Temos uma teoria <marker>denominada de</marker> matemática.</example>
+        <example>Ele foi denominado de João.</example>
+        <example>A cidade foi denominada de Lisboa.</example>
+        <example>Ele foi chamado de volta, em meio à sua viagem.</example>
+        <example>O que chamamos de efeito Joule pode ser facilmente entendido com o exemplo do chuveiro.</example>
+        <example>É possível fazer chamadas de vídeo no WhatsApp.</example>
+    </rule>
 
 
     <rule id='VERBO_SER_ÚTIL_PARA_SERVIR_PARA' name="[pt-PT][Simplificar] V.Ser útil para → V.Servir para" type="style">
