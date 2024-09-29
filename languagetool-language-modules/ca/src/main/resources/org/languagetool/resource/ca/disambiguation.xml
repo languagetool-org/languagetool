@@ -4003,6 +4003,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="VAIP3P00"/>
     </rule>
+    <rule id="mans_enlaire" name="mans enlaire">
+        <pattern>
+            <token postag="NCFP000">mans</token>
+            <token postag="RG">enlaire</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rulegroup id="Nom_propi" name="noms propis">
         <antipattern>
             <token postag="V.M.*" postag_regexp="yes"/>
@@ -4020,7 +4027,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="A.*" postag_regexp="yes" inflected="yes">benvingut</token>
+                    <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">benvingut|bo</token>
                 </marker>
                 <token inflected="yes">ser</token>
             </pattern>
