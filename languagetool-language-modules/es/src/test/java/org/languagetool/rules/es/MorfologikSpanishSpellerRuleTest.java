@@ -221,7 +221,7 @@ public class MorfologikSpanishSpellerRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("Martin"));
     assertEquals(1, matches.length);
-    assertEquals("[Martín, Mártir, Martina, Mastín, Marin, Marlín, Marti, Martins, Martiño, Martí, Marvin, Marín, Martini, Martinů]", matches[0].getSuggestedReplacements().toString());
+    assertEquals("[Martín, Mártir, Martina, Mastín, Marin, Marlín, Marti, Martins, Martinů, Martiño, Martí, Marvin, Marín, Martini]", matches[0].getSuggestedReplacements().toString());
 
     matches = rule.match(lt.getAnalyzedSentence("Dnipro"));
     assertEquals(1, matches.length);

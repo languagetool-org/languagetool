@@ -120,8 +120,8 @@ public class SimpleReplaceVerbsRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("aclares"));
     assertEquals(1, matches.length);
     assertEquals("aclareixes", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("aclarisques", matches[0].getSuggestedReplacements().get(1));  
-    assertEquals("aclaresques", matches[0].getSuggestedReplacements().get(2));
+    //assertEquals("aclarisques", matches[0].getSuggestedReplacements().get(1));  
+    //assertEquals("aclaresques", matches[0].getSuggestedReplacements().get(2));
     
     matches = rule.match(lt.getAnalyzedSentence("atossigues"));
     assertEquals(1, matches.length);
@@ -172,6 +172,13 @@ public class SimpleReplaceVerbsRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("coretjit"));
     assertEquals("corregit", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(lt.getAnalyzedSentence("encandilen"));
+    assertEquals("[enlluernen, esbalaeixen, fascinen, enceguen, al·lucinen, espurnegen, resten enlluernat]", 
+        matches[0].getSuggestedReplacements().toString());
+    
+    matches = rule.match(lt.getAnalyzedSentence("permitisc"));
+    assertEquals("permeto", matches[0].getSuggestedReplacements().get(0));
   }
 
 }

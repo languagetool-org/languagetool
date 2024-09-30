@@ -83,6 +83,7 @@ public class CatalanSentenceTokenizerTest {
     testSplit("Vegeu el cap. 24 del llibre.");
     testSplit("Vegeu el cap. IX del llibre.");
     testSplit("Viu al núm. 24 del carrer de l'Hort.");
+    testSplit("Viu al núm. vint-i-quatre del carrer de l'Hort.");
     testSplit("El Dr. Joan no vindrà.");
     testSplit("Distingit Sr. Joan,");
     testSplit("Molt Hble. Sr. President");
@@ -103,6 +104,17 @@ public class CatalanSentenceTokenizerTest {
     testSplit("Aprovació (ca. 2010), suspensió (c. 2011), segle (ca. XIX)");
     testSplit("La Dra. Ma. Victòria.");
     testSplit("la projectada Sta. Ma. de Gàllecs");
+    
+    // Unknown abbreviations inside parentheses
+    testSplit("(Impren. Disss)");
+    testSplit("(Impren. 188-disss)");
+    testSplit("[Impren. Disss]");
+    testSplit("[Impren. 188-disss]");
+    testSplit("{Impren. Disss}");
+    testSplit("{Impren. 188-disss}");
+    testSplit("(Impren. Disss. Ioo)");
+    testSplit("Impren. ", "\nDisss");
+    testSplit("(Impren. ", "\nDisss)");
 
     // Exception to abbreviations
     testSplit("Ell és el número u. ", "Jo el dos.");

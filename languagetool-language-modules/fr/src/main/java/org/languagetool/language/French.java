@@ -552,13 +552,11 @@ public class French extends Language implements AutoCloseable {
         //ruleMatch.getRule().setTags(Arrays.asList(Tag.picky));
       }
     }
-    if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("MISSING_PRONOUN_LAPOSTROPHE")) {
-      if (rm.getFromPos() >= 3) {
-        String substring = rm.getSentence().getText().substring(rm.getFromPos() - 3, rm.getToPos());
-        if (substring.equalsIgnoreCase("si on")) {
-          rm.setSpecificRuleId("AI_FR_GGEC_SI_LON");
-          rm.getRule().setTags(Arrays.asList(Tag.picky));
-        }
+    if (suggestions.size() == 1 &&  rm.getRule().getId().startsWith("AI_FR_GGEC")
+      && rm.getRule().getId().contains("MISSING_PRONOUN_LAPOSTROPHE")) {
+      if (errorStr.equals("on") && suggestions.get(0).equals("l'on") && rm.getSentence().getText().toLowerCase().contains("si on")) {
+        rm.setSpecificRuleId("AI_FR_GGEC_SI_LON");
+        rm.getRule().setTags(Arrays.asList(Tag.picky));
       }
     }
     if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("REPLACEMENT_PUNCTUATION_QUOTE"

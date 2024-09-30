@@ -20,11 +20,10 @@ package org.languagetool.rules.spelling.hunspell;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.TestTools;
+import org.languagetool.*;
 import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.de.GermanSpellerRule;
@@ -34,12 +33,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class HunspellRuleTest {
 
@@ -239,6 +238,35 @@ public class HunspellRuleTest {
       long endTime = System.currentTimeMillis();
       System.out.println((endTime-startTime) + "ms for " + language);
     }
+  }
+
+  @Ignore("just for internal performance testing, thus ignored by default")
+  @Test
+  public void testSeparateCorrectWordPerformance() throws Exception {
+    String[] words = {"Rechtschreibreform", "Theaterkasse", "Zoobesuch", "Handelsvertreter", "Mückenstich", "gewöhnlich", "Autoverkehr"};
+
+    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+    // make sure everything is initialized when actually testing
+    for (String word : words) {
+      lt.check(word);
+    }
+    Rule rule = lt.getAllRules().stream().filter(r -> r instanceof HunspellRule).findFirst().orElse(null);
+    assertNotNull(rule);
+    List<AnalyzedSentence> analyzed = Arrays.stream(words).map(sentence -> {
+      try {
+        return lt.getAnalyzedSentence(sentence);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }).collect(Collectors.toList());
+    long startTime = System.currentTimeMillis();
+    for (int i = 0; i < 1000; i++) {
+      for (AnalyzedSentence s : analyzed) {
+        assertEquals(0, rule.match(s).length);
+      }
+    }
+    long endTime = System.currentTimeMillis();
+    System.out.println((endTime - startTime) + "ms");
   }
 
   @Ignore("just for internal performance testing, thus ignored by default")

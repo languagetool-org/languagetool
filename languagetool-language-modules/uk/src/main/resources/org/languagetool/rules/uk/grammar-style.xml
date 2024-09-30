@@ -2375,7 +2375,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Слово «освідчений» вживають у сенсі «обстежений» (Водій освідчений у поліції), а в значенні «обізнаний», «культурний» правильним є «освічений».</message>
       <suggestion><match no="1" postag_regexp="yes" postag="(adj.*)" postag_replace="$1.*">освічений</match></suggestion>
-      <example correction="освічений"><marker>освідчений</marker> політик</example>
+      <suggestion><match no="1" postag_regexp="yes" postag="(adj:.*?):&amp;adjp.*" postag_replace="$1.*">обізнаний</match></suggestion>
+      <example correction="освічений|обізнаний"><marker>освідчений</marker> політик</example>
     </rule>
 
     <rulegroup id="knyzhnyi_knyzhkovyi" name="Книжний і книжковий">

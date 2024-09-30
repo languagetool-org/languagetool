@@ -960,6 +960,12 @@ class AgreementRuleAntiPatterns1 {
       token("Grunde")
     ),
     asList(
+      // acht Passionsszenen Christi sowie das Jüngste Gericht
+      csRegex("das|dem|des"),
+      csRegex("Jüngsten?"),
+      csRegex("Gerichts?")
+    ),
+    asList(
       // Die Zeit begann mit der Gründung der englischen Football Association.
       csRegex("[Ee]nglischen?"),
       token("Football"),

@@ -64,7 +64,8 @@ public class UkrainianTagger extends BaseTagger {
   private static final Pattern CAPS_INSIDE_WORD = Pattern.compile("[а-яіїєґ'-]*[а-яіїєґ][А-ЯІЇЄҐ][а-яіїєґ][а-яіїєґ'-]*");
   private static final Pattern PATTERN_MD = Pattern.compile("[MD]+");
   private static final Pattern QUOTES = Pattern.compile("[«»\"„“]");
-
+  private static final Pattern YI_PATTERN = Pattern.compile("([бвгґджзклмнпрстфхцчшщ])ї", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  
 
   private final CompoundTagger compoundTagger = new CompoundTagger(this, wordTagger, locale);
 //  private BufferedWriter taggedDebugWriter;
@@ -136,6 +137,28 @@ public class UkrainianTagger extends BaseTagger {
         return asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
       }
     }
+
+    if ( word.length() > 5 && word.matches("(?iu)з[кптфх].+") ) {
+      String newWord = word.replaceFirst("^з", "с").replaceFirst("^З", "С");
+      List<TaggedWord> wdList = compoundTagger.tagBothCases(newWord, null);
+      if( wdList.size() > 0 ) {
+          wdList = wdList.stream()
+              .map(w -> new TaggedWord(w.getLemma().replaceFirst("^с", "з").replaceFirst("^С", "З"), PosTagHelper.addIfNotContains(w.getPosTag(), ":alt")))
+              .collect(Collectors.toList());
+          return asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
+      }
+    }
+
+    // дївчина
+    if( word.length() > 3 && word.contains("ї") ) {
+      String word2 = YI_PATTERN.matcher(word).replaceAll("$1і");
+      List<TaggedWord> wdList = wordTagger.tag(word2);
+      if( wdList.size() > 0 ) {
+        wdList = PosTagHelper.adjust(wdList, null, null, ":alt");
+        return asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
+      }
+    }
+
 
     if ( word.length() > 4 ) {
       Matcher matcher = MISSING_APO.matcher(word);
