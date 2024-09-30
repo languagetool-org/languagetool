@@ -6549,16 +6549,25 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace" postag="AQ0FP0"/>
         </rule>
     </rulegroup>
-    <rule id="CAP" name="cap">
-        <pattern>
-            <marker>
+    <rulegroup id="CAP" name="cap">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="NCCS000">cap</token>
+                </marker>
+                <token>d'</token>
+                <token>estudis</token>
+            </pattern>
+            <disambig action="filter" postag="NCCS000"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="DA0MS0">el</token>
                 <token postag="NCCS000">cap</token>
-            </marker>
-            <token>d'</token>
-            <token>estudis</token>
-        </pattern>
-        <disambig action="filter" postag="NCCS000"/>
-    </rule>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
     <rule id="els_CAP" name="els CAP">
         <pattern>
             <token postag="D..M.*" postag_regexp="yes"/>
