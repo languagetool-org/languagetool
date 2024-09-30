@@ -4269,6 +4269,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="вагаючись">стрибнув не <marker>коливаючись</marker>.</example>
         <example>коливаючись на вітру</example>
       </rule>
+
+      <rule>
+        <antipattern>
+          <token inflected="yes">коливатися</token>
+          <token regexp="yes" min="0">наразі|зазвичай</token>
+          <token regexp="yes">між|від|на|в|уразом|залежно|туди-сюди</token>
+        </antipattern>
+        <pattern>
+          <token postag_regexp="yes" postag="noun(:anim:.:v_naz.*|:unanim.*v_naz.*pron.*pers.*)">
+            <exception postag_regexp="yes" postag="noun:inanim:.:v_naz.*"/>
+          </token>
+          <marker>
+            <token inflected="yes">коливатися
+              <exception scope="next" regexp="yes">між|від|на|в|у|разом|залежно|поміж|туди-сюди</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Коли йдеться про сумніви, нерішучість, говоримо: <suggestion>вагатися</suggestion></message>
+        <example correction="вагатися">він <marker>коливався</marker>.</example>
+        <example correction="вагатися">Ігор <marker>коливався</marker>.</example>
+        <example>я коливався між одни й іншим</example>
+        <example>гойдалка коливалася</example>
+        <example>вони коливалися в діапазоні</example>
+        <example>вони коливалися в значному діапазоні</example>
+        <example>над нею коливалися</example>
+        <example>голова коливалася</example>
+      </rule>
     </rulegroup>
 
     <rule id="LYCE_OSOBA" name="Лице і особа">
@@ -4708,7 +4735,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <feature id="gender"/>
           <feature id="case"/>
 
-          <token inflected="yes" regexp="yes">бакалійний|виновий|сувенірний|купецький|книжковий|різноманітний|в|у</token>
+          <token inflected="yes" regexp="yes">бакалійний|виновий|сувенірний|купецький|книжковий|різноманітний|торговий|в|у</token>
           <marker>
             <token inflected="yes">лавка</token>
           </marker>
