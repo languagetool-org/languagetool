@@ -233,9 +233,11 @@ publishing {
 //        mavenLocal()
 
         maven {
-            credentials {
-                username = getProperty('ossrhUsername')
-                password = getProperty('ossrhPassword')
+            if( hasProperty('ossrhUsername') ) {
+                credentials {
+                    username = getProperty('ossrhUsername')
+                    password = getProperty('ossrhPassword')
+                }
             }
 
          url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2"

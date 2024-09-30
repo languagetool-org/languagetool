@@ -135,8 +135,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="3" regexp_match="^(.).*$" regexp_replace="$1"/><match no="3" regexp_match="^.(.*$)" regexp_replace="$1" case_conversion="alllower"/></suggestion>
             <short>&shortmessage_casing;</short>
             <example correction="La"><marker>LA</marker> semana pasada no vino.</example>
-            <example correction="El"><marker>EL</marker> 2 de dicimebre.</example>
-            <example correction="Un"><marker>UN</marker> 2 de dicimebre.</example>
+            <example correction="El"><marker>EL</marker> 2 de diciembre.</example>
+            <example correction="Un"><marker>UN</marker> 2 de diciembre.</example>
             <example correction="No"><marker>NO</marker> lo veo.</example>
             <example correction="Es"><marker>ES</marker> lo más importante.</example>
             <example>EL 2 DE DICIEMBRE.</example>
@@ -436,6 +436,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rulegroup id="ROMPIDO_ROTO" name="se ha rompido -> se ha roto">
+            <rule>
+                <pattern>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes">haber</token>
+                    <marker>
+                        <token>rompido</token>
+                    </marker>
+                </pattern>
+                <message>El participio adecuado del verbo 'romper' es <suggestion>roto</suggestion>.</message>
+                <example correction="roto">Se me ha <marker>rompido</marker> la camisa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>rompido</token>
+                    </marker>
+                </pattern>
+                <message>Como participio o adjetivo, hay que decir <suggestion>roto</suggestion>. "Rompido" es la tierra que se rompe para cultivarla.</message>
+                <example correction="roto">El ordenador estaba <marker>rompido</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>rompidos</token>
+                    </marker>
+                </pattern>
+                <message>Como participio o adjetivo, hay que decir <suggestion>rotos</suggestion>. "Rompido" es la tierra que se rompe para cultivarla.</message>
+                <example correction="rotos">Los coches estaban <marker>rompidos</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="MOTO_GP" name="MotoGP">
             <pattern>
                 <token>moto</token>
@@ -819,7 +849,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Error de ortografía.</message>
                 <suggestion>Hola, ¿qué tal</suggestion>
-                <example correction="Hola, ¿qué tal"><marker>hola que tal</marker> amigos.</example>
+                <example correction="Hola, ¿qué tal"><marker>hola que tal</marker> amigos?</example>
             </rule>
         </rulegroup>
         <rulegroup id="HOLA_COMO_ESTAS" name="Hola, ¿cómo estás?">
@@ -2670,7 +2700,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Si es adjetivo o nombre, se escribe con tile. Correcto como forma en pasado del v. 'piar'.</message>
             <suggestion><match no="1" regexp_match="(?iu)i" regexp_replace="í" case_conversion="preserve"/></suggestion>
-            <example correction="pío">Es una personaje muy <marker>pio</marker>.</example>
+            <example correction="pío">Es un personaje muy <marker>pio</marker>.</example>
             <example>El gorrión pio.</example>
         </rule>
         <rule id="PRACTICA" name="practica/práctica">
@@ -4586,7 +4616,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
-                <example correction="qué">Ni si quiera sabía <marker>que</marker> había en la caja.</example>
+                <example correction="qué">Ni siquiera sabía <marker>que</marker> había en la caja.</example>
                 <example correction="qué">Veamos <marker>que</marker> hay al otro lado.</example>
                 <example correction="qué">Me muero de curiosidad por saber <marker>que</marker> hay en aquella enorme caja azul. </example>
                 <example correction="qué">No sé <marker>que</marker> hay ahí dentro.</example>
@@ -6486,6 +6516,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>cual</token>
                     <token postag="NC.S.*" postag_regexp="yes"/>
                     <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>cual</token>
+                    <token skip="30">si</token>
+                    <token inflected="yes">tratar</token>
+                    <example>Cual si de un cohete se tratara.</example>
+                </antipattern>
+                <antipattern>
+                    <token>cual</token>
+                    <token>si</token>
+                    <token inflected="yes">ser</token>
+                    <example>Cual si fuera un cohete.</example>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">cual(es)?</token>

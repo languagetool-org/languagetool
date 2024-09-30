@@ -6810,6 +6810,20 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="remove" postag="V.[SI].*"/>
         </rule>
+        <rule>
+            <pattern>
+                <token>por</token>
+                <token>favor</token>
+                <token min="0" max="1" regexp="yes">\p{P}</token>
+                <marker>
+                    <and>
+                        <token postag="V.[SI].*" postag_regexp="yes"/>
+                        <token postag="V.M.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.[SI].*"/>
+        </rule>
     </rulegroup>
     <rulegroup id="allowed_repetitions" name="allowed repetitions">
         <rule>

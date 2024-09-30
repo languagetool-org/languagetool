@@ -52,6 +52,17 @@ public class CompoundAcceptorTest {
 
     assertTrue(acceptor.acceptCompound("webschoolboek"));
     assertFalse(acceptor.acceptCompound("gezondheidsomlijningssvervangingsinfluencers"));
+    assertTrue(acceptor.acceptCompound("cryptodebacle"));
+    assertTrue(acceptor.acceptCompound("bakfietsbedrijf"));
+    assertTrue(acceptor.acceptCompound("campustheater"));
+    assertTrue(acceptor.acceptCompound("tramschutter"));
+    assertTrue(acceptor.acceptCompound("zeespiegelonderzoeker"));
+    assertTrue(acceptor.acceptCompound("nepsupporters"));
+    assertTrue(acceptor.acceptCompound("hidjabverplichting"));
+    assertTrue(acceptor.acceptCompound("faillissementspoging"));
+    assertTrue(acceptor.acceptCompound("spoedaanwijzingen"));
+    assertTrue(acceptor.acceptCompound("vaccinatieorganisaties"));
+    assertTrue(acceptor.acceptCompound("aanjaagpartij"));
 
     // test areas
     assertTrue(acceptor.acceptCompound("Zuidoost-Turkije"));

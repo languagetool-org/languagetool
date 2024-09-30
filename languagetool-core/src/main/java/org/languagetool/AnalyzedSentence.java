@@ -164,6 +164,14 @@ public final class AnalyzedSentence {
   }
 
   /**
+   * Get the length of the array returned by {@link #getTokensWithoutWhitespace()} without additional allocations.
+   */
+  @ApiStatus.Internal
+  public int getNonWhitespaceTokenCount() {
+    return nonBlankTokens.length;
+  }
+
+  /**
    * @since 4.5
    */
   public AnalyzedTokenReadings[] getPreDisambigTokensWithoutWhitespace() {
