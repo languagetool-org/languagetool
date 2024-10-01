@@ -34,9 +34,7 @@ import org.languagetool.tools.StringTools;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Prototype to find potential upper-only phrases like "Persischer Golf".
@@ -59,8 +57,15 @@ final class GermanUppercasePhraseFinder {
     FSDirectory fsDir = FSDirectory.open(new File(args[0]).toPath());
     IndexReader reader = DirectoryReader.open(fsDir);
     IndexSearcher searcher = new IndexSearcher(reader);
-    for (String field: FieldInfos.getIndexedFields(reader)) {
-      Terms terms = MultiTerms.getTerms(reader, field);
+    FieldInfos fieldInfos = FieldInfos.getMergedFieldInfos(reader);
+    for (FieldInfo fieldInfo: fieldInfos) {
+      if (fieldInfo.getIndexOptions() == IndexOptions.NONE) {
+        continue;
+      }
+      Terms terms = MultiTerms.getTerms(reader, fieldInfo.name);
+      if (terms == null) {
+        continue;
+      }
       TermsEnum termsEnum = terms.iterator();
       int count = 0;
       BytesRef next;
