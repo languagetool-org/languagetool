@@ -19,11 +19,11 @@ import org.languagetool.tagging.uk.PosTagHelper;
 public class CaseGovernmentHelper {
 
   public static final Map<String, Set<String>> CASE_GOVERNMENT_MAP = loadMap("/uk/case_government.txt");
+  public static final Map<String, Set<String>> DERIVATIVES_MAP = loadMap("/uk/derivats.txt");
 
   static {
     CASE_GOVERNMENT_MAP.put("згідно з", new HashSet<>(Arrays.asList("v_oru")));
     
-    Map<String, Set<String>> DERIVATIVES_MAP = loadMap("/uk/derivats.txt");
     for(Entry<String, Set<String>> entry: DERIVATIVES_MAP.entrySet()) {
       HashSet<String> set = new HashSet<>();
       CASE_GOVERNMENT_MAP.put(entry.getKey(), set);

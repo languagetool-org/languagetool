@@ -110,7 +110,7 @@
     </repositories>
 
     <properties>
-        <revision>6.5-SNAPSHOT</revision>
+        <revision>6.6-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -130,9 +130,9 @@
         <git-commit-id-plugin-17.version>5.0.0</git-commit-id-plugin-17.version>
         <git-commit-id-plugin-8.version>4.0.0</git-commit-id-plugin-8.version>
         <!-- grpc related plugins check for updates if grpc is updated -->
-        <kr.motd.maven.os-maven-plugin.version>1.6.2</kr.motd.maven.os-maven-plugin.version>
+        <kr.motd.maven.os-maven-plugin.version>1.7.1</kr.motd.maven.os-maven-plugin.version>
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
-        <dependency-check-maven.pluging.version>7.4.4</dependency-check-maven.pluging.version>
+        <dependency-check-maven.pluging.version>10.0.3</dependency-check-maven.pluging.version>
         <flatten.version>1.4.1</flatten.version>
         <sortpom-maven.plugin.version>3.2.1</sortpom-maven.plugin.version>
         <!-- Dependency Versions -->
@@ -149,8 +149,8 @@
         <org.apache.commons.commons-compress.version>1.26.0</org.apache.commons.commons-compress.version>
         <!-- No update available TODO: Check for replacement-->
         <edu.washington.cs.knowitall.opennlp.version>1.5</edu.washington.cs.knowitall.opennlp.version>
-        <io.grpc.version>1.61.1</io.grpc.version>
-        <protoc.version>3.17.3</protoc.version>
+        <io.grpc.version>1.66.0</io.grpc.version>
+        <protoc.version>3.25.3</protoc.version>
         <!-- TODO check for update see server  & dev -->
         <!-- Updated from 2.2.3 -->
         <org.mariadb.jdbc.version>2.7.6</org.mariadb.jdbc.version>
@@ -162,8 +162,8 @@
 
         <com.carrotsearch.hppc.version>0.8.2</com.carrotsearch.hppc.version>
         <com.gitlab.dumonts.hunspell.version>2.1.2</com.gitlab.dumonts.hunspell.version>
-        <com.github.lucene-gosen.version>6.2.1</com.github.lucene-gosen.version>
         <org.omegat.lucene.lucene-gosen.version>8.11.0</org.omegat.lucene.lucene-gosen.version>
+        <com.google.protobuf.version>3.25.5</com.google.protobuf.version>
         <com.hankcs.aho-corasick-double-array-trie.version>1.2.2</com.hankcs.aho-corasick-double-array-trie.version>
         <com.hankcs.hanlp.version>portable-1.8.2</com.hankcs.hanlp.version>
         <com.ibm.icu.version>70.1</com.ibm.icu.version>
@@ -209,20 +209,20 @@
         <org.mybatis.version>3.5.9</org.mybatis.version>
         <org.openoffice.version>4.1.2</org.openoffice.version>
         <org.slf4j.version>2.0.7</org.slf4j.version>
-        <org.softcatala.catalan-pos-dict.version>2.25</org.softcatala.catalan-pos-dict.version>
+        <org.softcatala.catalan-pos-dict.version>2.26</org.softcatala.catalan-pos-dict.version>
         <org.languagetool.asturian-pos-dict.version>0.1</org.languagetool.asturian-pos-dict.version>
         <org.tukaani.version>1.8</org.tukaani.version>
 
         <french-pos-dict.version>0.6</french-pos-dict.version>
         <guava.version>32.1.1-jre</guava.version>
-        <jackson.version>2.16.1</jackson.version>
+        <jackson.version>2.17.2</jackson.version>
         <languagetool-ga-dicts.version>0.02</languagetool-ga-dicts.version>
         <lombok.version>1.18.30</lombok.version>
         <lucene.version>8.11.3</lucene.version>
         <morfologik.version>2.1.9</morfologik.version>
         <optimaize.languagedetector.language-detector.version>0.6</optimaize.languagedetector.language-detector.version>
         <!-- see https://github.com/languagetool-org/languagetool/issues/4088 before you upgrade this -->
-        <spanish-pos-dict.version>2.2</spanish-pos-dict.version>
+        <spanish-pos-dict.version>2.3</spanish-pos-dict.version>
         <portuguese-pos-dict.version>1.2.0</portuguese-pos-dict.version>
         <dutch-pos-dict.version>0.1</dutch-pos-dict.version>
         <english-pos-dict.version>0.3</english-pos-dict.version>
@@ -320,6 +320,11 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${com.google.protobuf.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.hankcs</groupId>
@@ -482,6 +487,10 @@
                     <exclusion>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>animal-sniffer-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.google.protobuf</groupId>
+                        <artifactId>protobuf-java</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>

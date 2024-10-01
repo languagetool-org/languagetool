@@ -3375,6 +3375,12 @@ For more detailed information, including tag definitions, please check out our d
                 <example correction=", or">Just got this Legendary, however, I have no clue if he is good, great<marker> or</marker> average?</example>
             </rule>
             <rule><!-- 3 adjectives, same as above, only that B-VP does not match contractions -->
+                <antipattern>
+                    <token>first</token>
+                    <token>and</token>
+                    <token>foremost</token>
+                    <example>The children of such marriages were Choctaw, first and foremost.</example>
+                </antipattern>
                 <antipattern case_sensitive="yes"><!-- They quarreled as to which was easier, French or German. -->
                     <token postag="JJ.*" postag_regexp="yes" regexp="yes">[a-z].+</token>
                     <token>,</token>
@@ -3782,6 +3788,10 @@ For more detailed information, including tag definitions, please check out our d
                 <token>sure</token>
                 <token>that</token>
                 <token regexp="yes">there|then|before|after</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="3">which|that</token>
+                <token>not</token>
             </antipattern>
             <rule>
                 <pattern>

@@ -226,6 +226,29 @@
   </rule>
   <rulegroup id="RARE_POS" name="rare POS tags">
     <rule>
+      <pattern>
+        <token postag="Z0[FM]P0" postag_regexp="yes"/>
+        <marker>
+          <and>
+            <token postag="VMIP2S0|VMN02S0|VMSF2S0" postag_regexp="yes"/>
+            <token postag="NC.+" postag_regexp="yes"/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="V.*"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V.+" postag_regexp="yes"/>
+        <token min='1' max='2' postag="[DP].+" postag_regexp="yes"/>
+        <token postag="Z0[FM]P0" postag_regexp="yes"/>
+        <marker>
+          <token regexp="yes">como|logo</token>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="[NV].*"/>
+    </rule>
+    <rule>
       <antipattern>
         <token>damos</token>
         <token postag="NC.+"/>

@@ -27,6 +27,25 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 -->
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_DE_GGEC_MISSING_PUNCTUATION_L_DOUBLE_QUOT" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" postag="SENT_END">[!?….]</token>
+                    </marker>
+                </pattern>
+                <example correction="">„Hallo<marker>.</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*[a-z0-9].*</token>
+                        <token regexp="yes" postag="SENT_END">[!?….]</token>
+                    </marker>
+                </pattern>
+                <example correction="">„<marker>Hallo.</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="AI_DE_HYDRA_LEO_CPT_MIT_MIR" name="">
             <pattern>
                 <token skip="-1" inflected="yes" regexp="yes">arbeiten|bekommen|benutzen|benützen|bestimmen|bieten|bringen|denken|dürfen|empfinden|erleben|essen|fahren|finanzieren|fliegen|fühlen|führen|geben|gehen|gestalten|haben|halten|helfen|hören|kämpfen|klingen|kommen|können|kriegen|lassen|laufen|leiden|lesen|liefern|machen|marschieren|mischen|müssen|nehmen|pfeifen|rauchen|rechnen|reden|regieren|reisen|reißen|reissen|schicken|schleifen|schleppen|schneiden|schreiben|schwimmen|schwingen|singen|sollen|spielen|sprechen|teilen|tun|verdienen|wirken|wollen|zählen|ziehen
@@ -1812,7 +1831,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">Barbarazweige?</token>
+                        <token regexp="yes">Barbarazweige?|obengenannt</token>
                     </marker>
                 </pattern>
                 <example correction=""><marker>Barbarazweige</marker> sind Zweige von Obstbäumen.</example>
@@ -2622,13 +2641,23 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE" name="">
             <rule>
                 <pattern>
+                    <token postag="PRO:PER:DAT.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">werden|sein</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">angst|gram</token>
+                    </marker>
+                </pattern>
+                <example correction="">Mir wird <marker>angst</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token case_sensitive="yes">sie</token>
                 </pattern>
                 <example correction="">Wenn <marker>sie</marker> die Qualität der Vorschläge in den Griff kriegen, hat das sicher Potenzial.</example>
             </rule>
             <rule><!-- gGEC wants to capitalize the word, but the brand name is lowercase -->
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">mydays|essie|backstage</token><!-- can be extended by other words-->
+                    <token regexp="yes">mydays|essie|backstage|babysitten.</token><!-- can be extended by other words-->
                 </pattern>
                 <example correction="">Finde bei <marker>mydays</marker> eine riesige Auswahl an originellen Geschenkideen für alle Anlässe.</example>
             </rule>

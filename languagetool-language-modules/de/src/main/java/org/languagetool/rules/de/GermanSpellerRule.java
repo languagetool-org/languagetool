@@ -138,12 +138,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern COMPOUND_END_TYPOS = compile(".*(gruße|schaf(s|en)?)$");
   private static final Pattern INFIX_S_SUFFIXES = compile(".*(heit|(s|[^c]t|x)ion|ität|keit|ling|ung|schaft|tum)$");
   private static final Pattern WECHSELINFIX = compile("(arbeit|dienstag|donnerstag|freitag|montag|mittwoch|link|recht|samstag|sonntag|verband)s?");
-  private static final Pattern CONFUSED_PREFIXES = compile("bade?|wi(e)?der");
+  private static final Pattern CONFUSED_PREFIXES = compile("bach|bade?|wi(e)?der");
   private static final Pattern NEEDS_TO_BE_PLURAL = compile("absolvent(in)?|adressat|aktie|antenne|apache|arbeitnehmer(in)?|ärztin|assistent(in)?|astronom(in)?|asylant(in)?|autor(in)?|azteke|bakterie|ballade|bauer|billion|bisexuelle|blume|bonze|börse|bot(e|in)|buche|bürg(e|in)|bürokrat(in)?|chrysantheme|dän(e|in)?|debatte|debitor(in)?|decke|diakon(in)?|diktator(in)?|direktor(in)?|doktorand(in)?|domäne|dozent(in)?|drohne|druid(e|in)?|düne|ehre|eibe|elefant|elektron|ellipse|emittent(in)?|elfe|elle|enge|erbse|eremit|erde|erste|esche|exot(e|in)?|expert(e|in)?|extremist(in)?|fabrikant(in)?|falke|fassade|farbe|fasan|favorit(in)?|felge|ferien|figur|fluor|frage|franz(ose|ösin)|frau|frisur|förde|galle|gatt(e|in)?|gerät|gepard|gezeit|gigant|gilde|göttin|griech(e|in)?|halt|heid(e|in)?|herde|historie|hölle|höhle|hose|hugenott(e|in)?|hund|hündin|immigrant(in)?|investor(in)?|irokes(e|in)|islamist(in)?|jesuit(in)?|jungfer|jungfrau|junggesell(e|in)|juror(in)?|kadett|kante|kaskade|kathode|katholik(in)?|katze|kette|kid|klasse|kirche|klaue|klient(in)?|klinge|knappe|koeffizient|kojote|komet|kommentator(in)?|komödie|kompliz(e|in)|konkurrent(in)?|konfirmand(in)?|konsonant|kontrahent(in)?|krake|kralle|kranke|krähe|kraut|krippe|kurd(e|in)|kuriosität|kurve|kusine|küste|laie|laterne|laute|legende|lehne|leise|lektor(in)?|leopard|lerche|leserin|lieferant(in)?|lippe|loge|lotse|länge|läuse|löwe|lücke|luke|made|mädel|maske|maßnahme|matriarchin|menge|mensch|metapher|methode|metropole|miene|miete|migrant(in)?|million|mitte|maus|moderator(in)?|monarch(in)?|mongol(e|in)|mormone|mücke|mühle|musikant(in)?|mysterium|nerv|niederlage|nixe|nonne|note|obdachlose|ode|organist|panne|papagei|parzelle|pastor(in)?|pate|patient|patriarch(in)?|petze|pfadfinderin|pfanne|pfaffe|pfau|pfeife|platte|polle|pomade|pomeranze|posse|praktikant(in)?|prinz(essin)?|prise|produzent(in)?|prominente|prophet(in)?|prototyp|prälat|psychopath(in)?|puppe|pädophile|pygmäe|rabe|radikale|rakete|rampe|ranke|rassist(in)?|rate|raupe|rendite|repressalie|rest|riese|rinde|rind|robbe|robe|romanist|rose|ross|route|nummer|runde|russ(e|in)?|röhre|rübe|salbe|schabe|schale|scheide|schelle|schenke|schere|sphäre|dicke|kröte|schauspielerin|schimpans(e|in)|schlampe|schlange|schluchte|schmiere|schnake|schnalle|schneide|schnelle|schokolade|schotte|schurke|schwabe|schwalbe|schwede|schwule|seele|seide|seite|senator(in)?|serb(e|in)?|serie|silbe|skulptur|sonne|sorge|sorte|spanne|sparte|spatz|sperre|spitze|sproße|spule|stalaktit|steppe|straße|streife|studie|stunde|stütze|tabelle|therapeut(in)?|tinte|tote|toilette|torte|traube|treffe|treppe|truhe|träne|tunte|tüte|tyrann|urne|utensil|vandal(e|in)|vasall(in)?|vene|versicherte|verwandte|veteran(in)?|virtuose|vorname|waffe|wanne|ware|watte|wehe|welle|welpe|wiese|wirtin|zar(in)?|zentrum|zutat");
-  private static final Pattern SUBNOMPLUFEM_EXCEPTIONS = compile(".+(atie|lyse|metrie|sophie|omie)|absage|accessoire|allergie|analogie|anästhesie|anatomie|anomalie|archäologie|aufnahme|balance|barriere|batterie|creme|deponie|dürre|einlage|energie|folklore|franchise|gemeinde|glu[ck]ose|gülle|hanse|hefe|hirse|infanterie|kolonie|kontrolle|lounge|massage|mathe|melodie|nässe|parfümerie|pharmazie|pflege|pipeline|poesie|psychotherapie|regie|renaissance|säure|single|sprache|stärke|suche|teilnahme|theorie|therapie|vanille|wiederaufnahme|wende");
-  private static final Pattern INVALID_COMP_PART = compile("adresse|kontrolle|leuchte|norden|osten|perspektive|schule|sprache|stelle|suche|süden|westen");
+  private static final Pattern SUBNOMPLUFEM_EXCEPTIONS = compile(".+(atie|lyse|metrie|sophie|omie)|absage|accessoire|allergie|analogie|anästhesie|anatomie|anomalie|archäologie|aufnahme|balance|barriere|batterie|creme|deponie|dürre|einlage|energie|folklore|franchise|gemeinde|glu[ck]ose|gülle|hanse|hefe|hirse|infanterie|kolonie|kontrolle|lounge|massage|mathe|melodie|nässe|parfümerie|pharmazie|pflege|pipeline|poesie|psychotherapie|regie|renaissance|säure|single|sprache|spree|stärke|suche|teilnahme|theorie|therapie|vanille|wiederaufnahme|wende");
+  private static final Pattern CITIES_EXCEPTIONS = compile("bahnhof|flughafen|haupt");
+  private static final Pattern INVALID_COMP_PART = compile("adresse|ahmen|kontrolle|leuchte|norden|osten|perspektive|schule|sprache|stelle|suche|süden|westen");
   private static final Pattern SUBINF_SINGULAR_OBJECT = compile("putzen|rauchen|sein|spielen");
   private static final Pattern ARBEIT_COMP = compile("(gebe|nehme)(r(s|n|innen|in)?|nde[mnr]?)");
+  private static final Pattern BACH_COMP = compile("aue|bett|biograph(ie|in)?|chor|forelle|gesellschaft|kantate|lauf|niederung|stelze|tal|verein");
   private static final Pattern BAD_COMP = compile("accessoire|architektur|besitzer(in)?|design|eintritt|fenster|größe|grund|kollektion|konzept|lösung|maß|möbel|nutzer(in)?|regal|spezialist(in)?|spiegel|straße|tür|utensil");
   private static final Pattern LINK_COMP = compile("element|inhalt|liste|portal|text|titel|tracking|verzeichnis");
   private static final Pattern LINKS_COMP = compile("abbieger(in)?|abweichler(in)?|anwalt|anwältin|anwaltschaft|ausfall|auslage|ausleger(in)?|au(ss|ß)en|bündnis|drall|drehung|extremer?|extremis(t|tin|mus)|faschis(t|tin|mus)|fraktion|galopp|gewinde|händ(er|erin|igkeit)|hörnchen|innen|intellektueller?|katholizis(t|tin|mus)|koalition|konter|kurs|kurve|lastigkeit|lenker|nationalis(t|tin|mus)|opposition|orientierung|partei|populis(t|tin|mus)|radikal(e|er|ismus|ist|istin)|regierung|ruck|rutsch|schnitt|schuss|schwenk(ung)?|sektierer(in)?|steuerung|terror(t|tin|ismus)|verbinder(in)?|verkehr|wendung|wichser");
@@ -172,10 +174,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
   private final Set<String> wordEndingsToBeProhibited   = new HashSet<>();
   private final Set<String> wordsNeedingInfixS          = new HashSet<>();
-  private static Set<String> verbStems                  = new HashSet<>();
-  private static Set<String> verbPrefixes               = new HashSet<>();
-  private static Set<String> otherPrefixes              = new HashSet<>();
-  private static Set<String> oldSpelling                = new HashSet<>();
+  private static final Set<String> verbStems                  = new HashSet<>();
+  private static final Set<String> verbPrefixes               = new HashSet<>();
+  private static final Set<String> otherPrefixes              = new HashSet<>();
+  private static final Set<String> oldSpelling                = new HashSet<>();
   private static final Map<StringMatcher, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new LinkedHashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
@@ -2314,12 +2316,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
 
     List<String> parts = compoundTokenizer.tokenize(wordNoDot);
-    boolean nonStrictMode = false;
     if (parts.size() == 1) {
       parts = nonStrictCompoundTokenizer.tokenize(wordNoDot);
-      nonStrictMode = true;
     }
-
     // If at least one element in *parts* at position i equals "s", then append "s" to element at i-1
     parts = avoidInfixSAsSingleToken(parts);
 
@@ -2507,7 +2506,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     // Allow part1 to be a plural noun if...
 
     // ... part2 is a nominalized verb or...
-    if (isNounNomPlu(part1WithoutInfixS) && !isNounNomSin(part1WithoutInfixS) &&
+    if (isNounNomPlu(part1WithoutInfixS) && !isNounNomSin(part1WithoutInfixS) && !isCountryOrRegionNomSin(part1WithoutInfixS) &&
         (!isSubVerInf(part2upcased) ||
         (isSubVerInf(part2upcased) && SUBINF_SINGULAR_OBJECT.matcher(lowercaseFirstChar(part2)).matches())) &&
         !needsToBePlural(lowercaseFirstChar(part1Lemma)) &&
@@ -2562,6 +2561,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
       // *part1* is acronym or other prefix, e. g. "SEO-Expertinnen", "Sprachvariante"
       ((isAllUppercase(removeTrailingSAndHyphen(part1)) && !isMisspelled(removeTrailingSAndHyphen(part1))) || isOtherPrefix(part1))) {
+      return true;
+    }
+    if (part2upcasedIsNoun && !part2upcasedIsMispelled &&
+      //e. g. Schwedenreise
+      isCountryOrRegionNomSin(part1) && !CITIES_EXCEPTIONS.matcher(lowercaseFirstChar(part2)).matches()) {
       return true;
     }
     return false;
@@ -2650,6 +2654,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean checkConfusionForPart1Part2Combination(String part1, String part2) throws IOException {
     String part2Lemma = findLemmaForNoun(removeTrailingHyphen(part2));
+    if (part1.equals("Bad") && (BACH_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches())) {
+      return true;
+    }
     if (part1.equals("Bad") && (BAD_COMP.matcher(lowercaseFirstChar(part2Lemma)).matches())) {
       return true;
     }
@@ -2742,7 +2749,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private List<String> avoidInfixSAsSingleToken(List<String> parts) {
     // If a part equals "s", append it to its predecessor
     //   example: "Priorität", "s", "ding" -> "Prioritäts", "ding"
-    List<String> fixedParts = new ArrayList<String>();
     List<Integer> indexesOfS = indexOfInfixS(parts);
 
     // Sort indexes in descending order to avoid shifting issues while removing elements
@@ -2829,6 +2835,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean isNounNomPlu(String word) throws IOException {
     return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:NOM:PLU"));
+  }
+
+  private boolean isCountryOrRegionNomSin(String word) throws IOException {
+    return  getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.matchesPosTagRegex("EIG:NOM:SIN.+(COU|GEB|STD|WAT)"));
   }
 
   private boolean isOtherPrefix(String word) throws IOException {
@@ -3470,6 +3480,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         }
       case "do": return topMatch("so");
       case "Weisglut": return topMatch("Weißglut");
+      case "SuperGAU": return topMatch("Super-GAU");
+      case "SuperGau": return topMatch("Super-Gau");
       case "Vorbescheidverfahren": return topMatch("Vorbescheidsverfahren");
       case "Türahmen": return topMatch("Türrahmen");
       case "Unglückzahl": return topMatch("Unglückszahl");
@@ -3479,6 +3491,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Feldschiessen": return topMatch("Feldschießen");
       case "Flössgräben": return topMatch("Flößgräben");
       case "Schiessen": return topMatch("Schießen");
+      case "Gasterra": return topMatch("GasTerra");
+      case "Gasterras": return topMatch("GasTerras");
+      case "Bestwater": return topMatch("BestWater");
+      case "Bestwaters": return topMatch("BestWaters");
       case "Außländer": return topMatch("Ausländer");
       case "Außländern": return topMatch("Ausländern");
       case "Außländers": return topMatch("Ausländers");
@@ -3694,10 +3710,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "zzgl": return topMatch("zzgl.");
       case "Zzgl": return topMatch("Zzgl.");
       case "aufgehangen": return topMatch("aufgehängt");
-      case "Pieks": return topMatch("Piks");
-      case "Piekse": return topMatch("Pikse");
-      case "Piekses": return topMatch("Pikses");
-      case "Pieksen": return topMatch("Piksen");
       case "Annektion": return topMatch("Annexion");
       case "Annektionen": return topMatch("Annexionen");
       case "unkonsistent": return topMatch("inkonsistent");

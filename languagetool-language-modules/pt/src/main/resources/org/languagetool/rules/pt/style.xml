@@ -3634,6 +3634,114 @@ USA
         </rule>
 
 
+        <rule id='ESTAR_AQUI_PARA_INF_VIR_INF' name="'Estar aqui para' Inf. → 'Vir Inf.'" tone_tags='formal'>
+            <pattern>
+                <marker>
+                    <token postag='VMIP.+' postag_regexp='yes' inflected='yes'>estar<exception scope='previous' postag_regexp='no' postag='RG'/></token>
+                    <token>aqui</token>
+                    <token>para</token>
+                    <token regexp='yes' inflected='yes'>ajudar|apresentar|buscar|debater|defender|discutir|entregar|esclarecer|negociar|oferecer|participar|propor|reclamar|resolver|solicitar</token> <!-- Add verbs as they are found. -->
+                </marker>
+            </pattern>
+            <message>&informal_msg;</message>
+            <suggestion><match no='1' postag='VMIP(...)' postag_replace='VMIS$1'>vir</match> \4</suggestion>
+            <example correction="vim defender">Bom dia, <marker>estou aqui para defender</marker> a minha tese.</example>
+            <example correction="vim ajudar">Eu <marker>estou aqui para ajudar</marker>.</example>
+            <example correction="viemos ajudar">Nós <marker>estamos aqui para ajudar</marker>.</example>
+            <example>Nós sempre estamos aqui para ajudar.</example>
+        </rule>
+
+
+        <rulegroup id='OS_DOIS_AS_DUAS_AMBOS_AMBAS' name="os dois → ambos" tone_tags='formal' tags='picky'>
+            <!-- TODO: in 2025 expand the rule to accept: CC|RM|SENT_START|_PUNCT because they produce too many hits. -->
+
+            <antipattern>
+                <token skip='-1' regexp='yes'>quem|quando|aonde|onde|como</token>
+                <token postag='PUNCT_INTERROGATION'/>
+                <example>Quem escreveu ambas as cartas?</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>[ao]s</token>
+                <token regexp='yes'>duas|dois</token>
+                <token min='1' max='2' postag='V.+|N.+|AQ.+' postag_regexp='yes'>
+                    <exception regexp='yes'>mais|menos|melhor(es)?|pior(es)?|maior(es)?|menor(es)?</exception></token>
+                <token regexp='yes'>mais|menos|melhor(es)?|pior(es)?|maior(es)?|menor(es)?</token>
+                <example>Diz-se que as duas capitais mais próximas uma da outra são Viena (Áustria) e Bratislava (Eslováquia).</example>
+                <example>No entanto, a Airbus equipou os dois motores mais próximos da fuselagem com reversos.</example>
+                <example>Scott e Reeves se tornaram os dois astros mais conceituados deste gênero.</example>
+                <example>Uma fase de qualificatórias onde as duas melhores duplas de cada uma seguiram para as semifinais.</example>
+            </antipattern>
+
+            <!-- Subrule 1: NOT using nouns/adjectives after "as duas"/"os dois" -->
+            <rule>
+                <pattern>
+                    <token postag='V.+|RG|CS' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='SPS.+'/>
+                        <exception regexp='yes' inflected='yes'>formar|precisar|só</exception></token> <!-- "ser" removed in rule #1 -->
+                    <marker>
+                        <token regexp='yes'>[ao]s</token>
+                        <token regexp='yes'>duas|dois
+                            <exception postag_regexp='no' postag='RG'/></token> <!-- Removes "duas vezes" false positive -->
+                    </marker>
+                    <token min='0' postag='_QUOT' postag_regexp='no'/>
+                    <token>
+                        <exception postag_regexp='yes' postag='N.+|AQ.+|AO.+|Z0.+|PE.+'/>
+                        <exception regexp='yes'>mais|menos|melhor(es)?|pior(es)?|maior(es)?|menor(es)?</exception></token>
+                </pattern>
+                <message>&informal_msg;</message>
+                <suggestion><match no='2' postag='DA0(..)0' postag_replace='DI0$10'>ambos</match></suggestion>
+                <example correction="ambas">O Rui quer <marker>as duas</marker> provavelmente!</example>
+                <example correction="ambos">O Rui quer <marker>os dois</marker>!</example>
+                <example>Vamos cantar aquela música, omitindo os dois últimos versos.</example>
+                <example>Tento trocar os dois mais ou menos no mesmo horário, para lembrar na próxima vez.</example>
+                <example>Cantuária e Winchester eram as duas mais ricas Sés na Inglaterra.</example>
+                <example>Este livro contém as duas mil palavras mais comuns na língua portuguesa.</example>
+                <example>Algumas pessoas na cidade têm os dois mil.</example>
+                <example>Bem, agora você precisa as duas.</example>
+                <example>Em uma partida de futebol os árbitros assistentes são os dois que ficam bem à margem do campo.</example>
+            </rule>
+
+            <!-- Subrule 2: USING nouns/adjectives after "as duas"/"os dois" -->
+            <rule>
+                <pattern>
+                    <token postag='V.+|RG|CS' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='SPS.+'/>
+                        <exception regexp='yes' inflected='yes'>formar|precisar|ser|só</exception></token>
+                    <marker>
+                        <token regexp='yes'>[ao]s</token>
+                        <token regexp='yes'>duas|dois</token>
+                    </marker>
+                    <token min='0' postag='_QUOT' postag_regexp='no'/>
+                    <token postag='N.+|AQ.+' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='AO.+|Z0.+|CS'/>
+                        <exception regexp='yes'>mais|menos|melhor(es)?|pior(es)?|maior(es)?|menor(es)?</exception>
+                        <exception regexp='yes'>junt[ao]s|homens|mulheres|&expressoes_de_tempo;</exception> <!-- Postags remove valid sentences -->
+                    </token>
+                </pattern>
+                <message>&informal_msg;</message>
+                <suggestion><match no='2' postag='DA0(..)0' postag_replace='DI0$10'>ambos</match> <match no='2' postag='DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
+                <example correction="ambas as">O Rui quer <marker>as duas</marker> cadernetas.</example>
+                <example correction="ambos os">O Rui quer <marker>os dois</marker> livros.</example>
+                <example>Em dezembro, apresentaram as duas últimas canções no "Teletón".</example>
+                <example>Mas quem disse que não podemos unir as duas juntas e na mesma janela?</example>
+                <example>As novas festas podem colocar os dois juntos para resolverem as situações que ficaram pendentes.</example>
+                <example>O policial separou os dois homens que estavam brigando.</example>
+                <example>Foi muito engraçado ao vermos as duas mulheres usando o mesmo vestido.</example>
+                <example>Viveu esta etapa entre os séculos XI a XIII, passando os dois séculos seguintes a ser objeto da cobiça</example>
+                <example>Findos os dois anos, retornou à Europa.</example>
+                <example>No terceiro ano, transferiu-se para a Universidade de Tulsa, onde jogou os dois anos seguintes na NCAA.</example>
+                <example>Muitos apostavam que disputariam a final, foram os dois menos votados no top 04.</example>
+                <example>Só as duas fábricas ocupam juntas uma superfície de mais de 60.000m2 de área construída.</example>
+                <example>O tétum e o português formam as duas línguas oficiais do país.</example>
+                <example>Essas foram as duas melhores HQs de 2015, na minha opinião.</example>
+                <example>Os filhos eram os dois únicos homens a quem ela se dedicava.</example>
+                <example>Estas são as duas únicas palavras que não compreendemos.</example>
+                <example>Já em 1904 seriam as duas maiores ferrovias da República, da central e nacional através da cidade.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <rulegroup id='MORRER_PERECER_FALECER' name="morrer → perecer/falecer" tags='picky' tone_tags='formal'>
 
             <!-- Subrule 1: not using "mort[ao]s?" -->
@@ -8672,7 +8780,7 @@ USA
         </rule>
 
 
-        <rule id='BÁSICO_ELEMENTAR' name="[Universitário][Científico] Básico → Elementar" tone_tags="academic" is_goal_specific="true" default="temp_off">
+        <rule id='BÁSICO_ELEMENTAR' name="[Universitário][Científico] Básico → Elementar" tone_tags="academic" is_goal_specific="true">
             <antipattern>
                 <token regexp='yes'>unidades?</token>
                 <token regexp='yes'>básicas?</token>
@@ -8703,7 +8811,7 @@ USA
         </rule>
 
 
-        <rule id='MUITO_BASTANTE_EXTENSIVAMENTE' name="[Universitário][Científico] Muito/bastante/enormemente → Extensivamente/amplamente" tone_tags="academic" is_goal_specific="true" tags="picky" default="temp_off">
+        <rule id='MUITO_BASTANTE_EXTENSIVAMENTE' name="[Universitário][Científico] Muito/bastante/enormemente → Extensivamente/amplamente" tone_tags="academic" is_goal_specific="true" tags="picky">
             <pattern>
                 <token inflected='yes' regexp='yes'>ter|ser</token>
                 <token min='0' regexp='yes'>sido|es[st][ae]s?|aquel[ae]s?</token>
@@ -17931,12 +18039,13 @@ USA
 
             <antipattern>
                 <token inflected='yes'>ir</token>
-                <token postag='SPS00|DA.+|DI.+' postag_regexp='yes'/>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='SPS00|D[AI].+' postag_regexp='yes'/>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
                 <token regexp='yes'>e|para</token>
                 <token postag='V.+' postag_regexp='yes'/>
-                <token postag='SENT_END'/>
+                <token postag='SENT_END|SPS00:DA.+' postag_regexp='yes'/>
                 <example>Havia colegas que gozavam por eu estar sempre a ir a orais para passar.</example>
+                <example>As idas ao hospital só dá para ir de táxi para chegar à morada.</example>
             </antipattern>
 
             <pattern>
@@ -19301,7 +19410,7 @@ USA
         </rule>
 
 
-        <rule id='QUE_TER_COMO_POR_NOME_ADJ' name="cujo(a) + substantivo + verbo ser" default="temp_off">
+        <rule id='QUE_TER_COMO_POR_NOME_ADJ' name="cujo(a) + substantivo + verbo ser">
             <pattern>
                 <marker>
                     <token>que</token>

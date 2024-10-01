@@ -445,7 +445,7 @@ public class PronomsFeblesHelper {
   }
 
 
-  private static Pattern containsReflexivePronoun = Pattern.compile(".*([mts][e']|[e'][mts]|vos|us|ens).*");
+  private static Pattern containsReflexivePronoun = Pattern.compile(".*([mts][e']|[e'][mts]|vos|us|ens|-nos|-vos).*");
 
   public static String doAddPronounReflexive(String firstVerb, String pronounsStr, String verbStr,
                                        String firstVerbPersonaNumber, boolean pronounsAfter) {
@@ -454,7 +454,11 @@ public class PronomsFeblesHelper {
       if (containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()) {
         return verbStr + pronounsStr;
       }
-      return verbStr + transformDarrere("-se", verbStr);
+      if (verbStr.endsWith("r") || verbStr.endsWith("re")) {
+        return verbStr + transformDarrere("-se", verbStr);
+      } else {
+        return verbStr;
+      }
     }
     String pronounToAdd = "";
     if (pronounsStr.isEmpty()) {
@@ -550,6 +554,8 @@ public class PronomsFeblesHelper {
     Pattern.CASE_INSENSITIVE);
   private static Pattern pronoun_missing_apostrophation = Pattern.compile("(.*)\\be([stm]) (h?[aeiouh].*)",
     Pattern.CASE_INSENSITIVE);
+  private static Pattern pronoun_wrong_hypphen = Pattern.compile("(.*)(-[stm])e-(h[oi])",
+    Pattern.CASE_INSENSITIVE);
 
   public static String fixApostrophes(String s) {
     if (de_wrong_apostrophation.matcher(s).matches()) {
@@ -562,6 +568,10 @@ public class PronomsFeblesHelper {
     matcher = pronoun_wrong_apostrophation.matcher(s);
     if (matcher.matches()) {
       s = "e" + matcher.group(1) + " " + matcher.group(2);
+    }
+    matcher = pronoun_wrong_hypphen.matcher(s);
+    if (matcher.matches()) {
+      s = matcher.group(1) + matcher.group(2) + "'" + matcher.group(3);
     }
     return s;
   }

@@ -903,6 +903,18 @@ USA
       <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
 
       <!-- Whole antipatterns must be rewritten: 2024+ -->
+
+      <antipattern>
+          <token>nada</token>
+          <token>de</token>
+          <token postag='DP.+' postag_regexp='yes'><exception scope='next' postag_regexp='yes' postag='N.+|AQ.+'/></token>
+          <example>O Rui não podia ter nada de teu.</example>
+          <example>O Rui não podia ter nada de meu.</example>
+          <example>Não possuia nada de meu.</example>
+          <example>O Rui nada de meu tinha.</example>
+          <example>Não queria nada de meu.</example>
+      </antipattern>
+
       <antipattern>
           <token postag_regexp="yes" postag="V.+:PP.+"/>
           <token regexp='yes'>comigo|con[st]igo|con[nv]osco</token>
@@ -1679,6 +1691,39 @@ USA
     -->
     <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
     <short>Erro de colocação pronominal</short>
+
+    <!-- I must create an AP just with exception verbs, to do in 2025+ KEEP THIS AP ABOVE ALL OTHERS FOR AN EASY VIEW-->
+    <antipattern>
+        <token postag='CC' postag_regexp='no'/>
+        <token>se</token>
+        <token regexp='yes' inflected='yes'>acontecer|correr|estar|faltar|haver|ser</token>
+        <token postag='N.+|AQ.+|RG' postag_regexp='yes'/>
+        <example>Será uma das suas raras aparições públicas e se correr bem avançamos.</example>
+        <example>Verifique as medidas, e se é necessário contratar o serviço de um profissional qualificado.</example>
+        <example>Nao sei como é o clima em Portugual ou se houveram mortes devido a gripe. mas onde moro</example>
+        <example>Não é necessário que o público reconheça se estou brincando ou se estou sério.</example>
+        <example>E se faltarem cinco aos cinquenta justos? Destruirás toda a cidade por causa de cinco?</example>
+        <example>Vão até lá, vejam se foi vista com alguém ou se aconteceu algo incomum.</example>
+    </antipattern>
+
+
+    <antipattern>
+        <token>se</token>
+        <token postag='V......:.+' postag_regexp='yes'/>
+        <example>O Cruzeiro venceu o Olimpia por 1 a 0 com gol de Marcelo Ramos e se sagrou-se campeão.</example>
+        <example>É comum se denominá-los como enrolamento primário e secundário,</example>
+    </antipattern>
+
+    <antipattern>
+        <token postag='N.+|AQ.+|V.+|PP.+' postag_regexp='yes'/>
+        <token>a</token>
+        <token postag='VMN0000:.+' postag_regexp='yes'/>
+        <example>Ela estava toda zangada e eu a borrifar-me.</example>
+        <example>Hoje, temos a satisfação de compartilhar nossa nova página inicial e convidar você a acessá-la.</example>
+        <example>O Tom e a Mary juram que não foram eles a fazê-lo.</example>
+        <example>"Eu posso ajudar vocês a encontrá-los."</example>
+    </antipattern>
+
     <antipattern>
         <token postag='V.+' postag_regexp='yes'>
             <exception postag_regexp='yes' postag='VMP00.+|VMIS.+|RG|VM[NG]0000|NC.+|AQ.+'/>
@@ -4030,6 +4075,21 @@ USA
     <example correction='A Este da'><marker>A este da</marker> Europa, os biomas são mais diversos.</example>
 </rule>
     </rulegroup>
+
+
+    <rule id='AO45_HAVER_DE' name='[pt-PT][AO45] Haver-de'>
+        <pattern>
+            <marker>
+                <token regexp='yes'>heis?|hás?|hão</token>
+                <token>de</token>
+            </marker>
+            <token postag='VMN000.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Segundo o Acordo Ortográfico de 45, esta forma é hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
+        <example correction='Hás-de'><marker>Hás de</marker> comprar uma casa.</example>
+        <example correction='Hei-de'><marker>Hei de</marker> ir ao Congo.</example>
+    </rule>
 
 
     <rule id="AO45_PELO_PÊLO" name="[pt-PT][AO45] pelo/pêlo" default="off">

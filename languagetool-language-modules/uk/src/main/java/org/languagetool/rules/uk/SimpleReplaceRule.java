@@ -19,12 +19,20 @@
 package org.languagetool.rules.uk;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-import org.languagetool.*;
+import org.apache.commons.lang3.StringUtils;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.uk.IPOSTag;
@@ -124,25 +132,38 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
         matches.add(match);
       }
       else {
+        List<String> derivatSuggestions = findInDeriv(tokenReadings.getCleanToken().toLowerCase());
+
+        if( derivatSuggestions.size() > 0 ) {
+          String msg = "Неправильне слово.";
+
+          RuleMatch match = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getStartPos()
+              + tokenReadings.getToken().length(), msg, getShort());
+
+          match.setSuggestedReplacements(derivatSuggestions);
+          matches.add(match);
+          return matches;
+        }
+
         if( PosTagHelper.hasPosTagPart(tokenReadings, ":bad") 
             && ! PosTagHelper.hasPosTagStart(tokenReadings, "number") ) {
-            String msg = "Неправильно написане слово.";
+          String msg = "Неправильно написане слово.";
 
-            RuleMatch match = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getStartPos()
-                + tokenReadings.getToken().length(), msg, getShort());
-            
-            List<String> suggestions = morfologikSpellerRule.getSpeller1().getSuggestionsFromDefaultDicts(tokenReadings.getToken());
-            suggestions.removeIf(s -> s.contains(" "));
-            match.setSuggestedReplacements(suggestions);
-//            RuleMatch[] spellerMatches = morfologikSpellerRule.match(new AnalyzedSentence(new AnalyzedTokenReadings[] {tokenReadings}));
-//            if( spellerMatches.length > 0 ) {
-//              match.setSuggestedReplacements(spellerMatches[0].getSuggestedReplacements());
-//            }
-            matches.add(match);
+          RuleMatch match = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getStartPos()
+              + tokenReadings.getToken().length(), msg, getShort());
+
+          List<String> suggestions = morfologikSpellerRule.getSpeller1().getSuggestionsFromDefaultDicts(tokenReadings.getToken());
+          suggestions.removeIf(s -> s.contains(" "));
+          match.setSuggestedReplacements(suggestions);
+          //            RuleMatch[] spellerMatches = morfologikSpellerRule.match(new AnalyzedSentence(new AnalyzedTokenReadings[] {tokenReadings}));
+          //            if( spellerMatches.length > 0 ) {
+          //              match.setSuggestedReplacements(spellerMatches[0].getSuggestedReplacements());
+          //            }
+          matches.add(match);
         }
       }
     }
-//    else {
+    //    else {
 //      if( PosTagHelper.hasPosTag(tokenReadings, Pattern.compile("(?!verb).*:subst")) ) {
 //        for(int i=0; i<matches.size(); i++) {
 //          RuleMatch match = matches.get(i);
@@ -153,6 +174,30 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 //      }
 //    }
     return matches;
+  }
+
+  private List<String> findInDeriv(String w) {
+    
+    Set<String> derivats = CaseGovernmentHelper.DERIVATIVES_MAP.get(w);
+    if ( derivats == null ) 
+      return new ArrayList<>();
+
+    String ending = StringUtils.right(w, 3);
+
+    List<String> suggestions = 
+        derivats.stream()
+        .map(d -> getWrongWords().get(d))
+        .flatMap(c -> c.stream())
+        .map(t ->
+          CaseGovernmentHelper.DERIVATIVES_MAP.entrySet().stream()
+          .filter(e -> e.getValue().contains(t) && e.getKey().endsWith(ending)) // filter -ючи vs -вши
+          .map(e -> e.getKey())
+          .findAny()
+          .orElse(t)
+        )
+        .collect(Collectors.toList());
+
+    return suggestions;
   }
 
   private boolean isGoodPosTag(String posTag) {

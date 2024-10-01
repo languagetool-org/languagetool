@@ -135,8 +135,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="3" regexp_match="^(.).*$" regexp_replace="$1"/><match no="3" regexp_match="^.(.*$)" regexp_replace="$1" case_conversion="alllower"/></suggestion>
             <short>&shortmessage_casing;</short>
             <example correction="La"><marker>LA</marker> semana pasada no vino.</example>
-            <example correction="El"><marker>EL</marker> 2 de dicimebre.</example>
-            <example correction="Un"><marker>UN</marker> 2 de dicimebre.</example>
+            <example correction="El"><marker>EL</marker> 2 de diciembre.</example>
+            <example correction="Un"><marker>UN</marker> 2 de diciembre.</example>
             <example correction="No"><marker>NO</marker> lo veo.</example>
             <example correction="Es"><marker>ES</marker> lo más importante.</example>
             <example>EL 2 DE DICIEMBRE.</example>
@@ -353,7 +353,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://languagetool.org/insights/es/publicacion/escritura-dias-de-la-semana-minuscula/</url>
             <!--<url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>-->
             <short>&shortmessage_casing;</short>
-            <example correction="lunes" type="incorrect">Todos los <marker>Lunes</marker> son tristes.</example>
+            <example correction="lunes">Todos los <marker>Lunes</marker> son tristes.</example>
             <example type="correct">Los <marker>martes</marker> juego un partido de tenis.</example>
             <example type="correct">Este <marker>Viernes</marker> de Dolores estaremos fuera.</example>
             <example type="correct">El <marker>Jueves</marker> Santo habrá procesión.</example>
@@ -391,7 +391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match case_conversion="alllower" no="1"/></suggestion>
             <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
             <short>&shortmessage_casing;</short>
-            <example correction="verano" type="incorrect">Este <marker>Verano</marker> me voy de vacaciones.</example>
+            <example correction="verano">Este <marker>Verano</marker> me voy de vacaciones.</example>
             <example type="correct">Ha sido el <marker>invierno</marker> más frío que recuerdo.</example>
             <example>Feria de Primavera.</example>
             <example>Palacio de Invierno.</example>
@@ -436,6 +436,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rulegroup id="ROMPIDO_ROTO" name="se ha rompido -> se ha roto">
+            <rule>
+                <pattern>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes">haber</token>
+                    <marker>
+                        <token>rompido</token>
+                    </marker>
+                </pattern>
+                <message>El participio adecuado del verbo 'romper' es <suggestion>roto</suggestion>.</message>
+                <example correction="roto">Se me ha <marker>rompido</marker> la camisa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>rompido</token>
+                    </marker>
+                </pattern>
+                <message>Como participio o adjetivo, hay que decir <suggestion>roto</suggestion>. "Rompido" es la tierra que se rompe para cultivarla.</message>
+                <example correction="roto">El ordenador estaba <marker>rompido</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>rompidos</token>
+                    </marker>
+                </pattern>
+                <message>Como participio o adjetivo, hay que decir <suggestion>rotos</suggestion>. "Rompido" es la tierra que se rompe para cultivarla.</message>
+                <example correction="rotos">Los coches estaban <marker>rompidos</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="MOTO_GP" name="MotoGP">
             <pattern>
                 <token>moto</token>
@@ -819,7 +849,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Error de ortografía.</message>
                 <suggestion>Hola, ¿qué tal</suggestion>
-                <example correction="Hola, ¿qué tal"><marker>hola que tal</marker> amigos.</example>
+                <example correction="Hola, ¿qué tal"><marker>hola que tal</marker> amigos?</example>
             </rule>
         </rulegroup>
         <rulegroup id="HOLA_COMO_ESTAS" name="Hola, ¿cómo estás?">
@@ -1317,9 +1347,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Error ortográfico.</message>
             <suggestion>prêt-à-porter</suggestion>
-            <example correction="prêt-à-porter"><marker>pret-a porter</marker>.</example>
-            <example correction="prêt-à-porter"><marker>prèt a porté</marker>.</example>
-            <example correction="prêt-à-porter"><marker>prêt- à-porter</marker>.</example>
+            <example correction="prêt-à-porter">El <marker>pret-a porter</marker>.</example>
+            <example correction="prêt-à-porter">El <marker>prèt a porté</marker>.</example>
+            <example correction="prêt-à-porter">El <marker>prêt- à-porter</marker>.</example>
             <example>prêt-à-porter</example>
         </rule>
         <rule id="MENAGE_A_TROIS" name="ménage à trois">
@@ -1337,9 +1367,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Error ortográfico.</message>
             <suggestion>ménage à trois</suggestion>
-            <example correction="ménage à trois"><marker>menage a trois</marker>.</example>
-            <example correction="ménage à trois"><marker>ménage a tróis</marker>.</example>
-            <example correction="ménage à trois"><marker>ménagé-â-trois</marker>.</example>
+            <example correction="ménage à trois">Un <marker>menage a trois</marker>.</example>
+            <example correction="ménage à trois">Un <marker>ménage a tróis</marker>.</example>
+            <example correction="Ménage à trois"><marker>Ménagé-â-trois</marker>.</example>
             <example>ménage à trois</example>
         </rule>
         <rule id="PEARL_HARBOR" name="Pearl Harbor">
@@ -1851,13 +1881,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="médico">Del <marker>medico</marker>.</example>
                 <example correction="páginas">No. de <marker>paginas</marker> 1.</example>
                 <example correction="página">Entra en la <marker>pagina</marker> oficial.</example>
-                <example correction="género">en el <marker>genero</marker> urbano.</example>
-                <example correction="número">con <marker>numero</marker> de identificación</example>
+                <example correction="género">En el <marker>genero</marker> urbano.</example>
+                <example correction="número">Con <marker>numero</marker> de identificación.</example>
                 <example correction="línea">sin <marker>linea</marker></example>
                 <example correction="líneas">El 0234 entre <marker>lineas</marker> fijas</example>
                 <example correction="último">Por <marker>ultimo</marker></example>
-                <example correction="diagnóstico">del <marker>diagnostico</marker></example>
-                <example correction="línea">Le espera en <marker>linea</marker></example>
+                <example correction="diagnóstico">Del <marker>diagnostico</marker></example>
+                <example correction="línea">Le espera en <marker>linea</marker>.</example>
                 <example correction="sólido">De vapor a <marker>solido</marker>.</example>
                 <example correction="rayas">Con <marker>rallas</marker> blancas.</example>
                 <example correction="París">Nos vamos a <marker>parís</marker>.</example>
@@ -1910,9 +1940,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="el diálogo">En <marker>el dialogo</marker>.</example>
                 <example correction="El petróleo"><marker>El petroleo</marker>.</example>
                 <example correction="El límite"><marker>El limite</marker>.</example>
-                <example correction="el término">y adoptar <marker>el termino</marker> «compartir la responsabilidad»</example>
-                <example correction="el médico">y de entrada <marker>el medico</marker> diagnosticó que</example>
-                <example correction="el crítico"><marker>el critico</marker> más conocido</example>
+                <example correction="el término">Y adoptar <marker>el termino</marker> «compartir la responsabilidad».</example>
+                <example correction="el médico">Y de entrada <marker>el medico</marker> diagnosticó que era esto.</example>
+                <example correction="el crítico">Es <marker>el critico</marker> más conocido.</example>
                 <example correction="El árbitro"><marker>El arbitro</marker> se equivocó.</example>
                 <example correction="El público"><marker>El publico</marker> deberá tener.</example>
                 <example correction="el auténtico">Se puede observar <marker>el autentico</marker> y sincero compromiso.</example>
@@ -1938,13 +1968,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es adjetivo o nombre, se escribe con tilde.</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="término">Un <marker>termino</marker>.</example>
-                <example correction="término">de este <marker>termino</marker>.</example>
-                <example correction="ánima">con una <marker>anima</marker>.</example>
-                <example correction="ánima">de esta <marker>anima</marker>.</example>
-                <example correction="árboles">con unos <marker>arboles</marker>.</example>
-                <example correction="árboles">de estos <marker>arboles</marker>.</example>
-                <example correction="autocríticas">con unas <marker>autocriticas</marker>.</example>
-                <example correction="autocríticas">de estas <marker>autocriticas</marker>.</example>
+                <example correction="término">De este <marker>termino</marker>.</example>
+                <example correction="ánima">Con una <marker>anima</marker>.</example>
+                <example correction="ánima">De esta <marker>anima</marker>.</example>
+                <example correction="árboles">Va con unos <marker>arboles</marker>.</example>
+                <example correction="árboles">Detrás de estos <marker>arboles</marker>.</example>
+                <example correction="autocríticas">Se reconforta con unas <marker>autocriticas</marker>.</example>
+                <example correction="autocríticas">Huye de estas <marker>autocriticas</marker>.</example>
                 <example correction="módulo">Organizar un <marker>modulo</marker> sobre capacitación.</example>
                 <example correction="fábricas">Salía de esas <marker>fabricas</marker> a un precio bajo.</example>
                 <example correction="filósofo">Fue un <marker>filosofo</marker> estrambótico</example>
@@ -2167,7 +2197,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="una magnífica">Hizo <marker>una magnifica</marker> interpretación.</example>
                 <example correction="La última"><marker>La ultima</marker> consideración.</example>
                 <example correction="El magnífico"><marker>El magnifico</marker> trabajo realizado.</example>
-                <example correction="la célebre">Debe vañer <marker>la celebre</marker> máxima de Voltaire.</example>
+                <example correction="la célebre">Debe valer <marker>la celebre</marker> máxima de Voltaire.</example>
             </rule>
             <rule>
                 <!-- Las ordenes recibidas -->
@@ -2670,7 +2700,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Si es adjetivo o nombre, se escribe con tile. Correcto como forma en pasado del v. 'piar'.</message>
             <suggestion><match no="1" regexp_match="(?iu)i" regexp_replace="í" case_conversion="preserve"/></suggestion>
-            <example correction="pío">Es una personaje muy <marker>pio</marker>.</example>
+            <example correction="pío">Es un personaje muy <marker>pio</marker>.</example>
             <example>El gorrión pio.</example>
         </rule>
         <rule id="PRACTICA" name="practica/práctica">
@@ -3248,7 +3278,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es adjetivo o nombre, se escribe con tilde.</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="Crítica"><marker>Critica</marker> de cine.</example>
-                <example correction="límite">la fecha <marker>limite</marker></example>
+                <example correction="límite">La fecha <marker>limite</marker> es el viernes.</example>
                 <example correction="LÍMITE">LA FECHA <marker>LIMITE</marker></example>
                 <example>que piensa, siente y critica</example>
                 <example>El cínico critica y los ganadores analizan</example>
@@ -4586,7 +4616,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
-                <example correction="qué">Ni si quiera sabía <marker>que</marker> había en la caja.</example>
+                <example correction="qué">Ni siquiera sabía <marker>que</marker> había en la caja.</example>
                 <example correction="qué">Veamos <marker>que</marker> hay al otro lado.</example>
                 <example correction="qué">Me muero de curiosidad por saber <marker>que</marker> hay en aquella enorme caja azul. </example>
                 <example correction="qué">No sé <marker>que</marker> hay ahí dentro.</example>
@@ -5309,9 +5339,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si el verbo está en pasado, se escribe con tilde.</message>
                 <suggestion><match no="3" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
-                <example correction="vengó|vino">Él <marker>vengo</marker></example>
-                <example correction="habló">Ella <marker>hablo</marker></example>
-                <example correction="habló">Usted <marker>hablo</marker></example>
+                <example correction="vengó|vino">Él <marker>vengo</marker> la ofensa.</example>
+                <example correction="habló">Ella <marker>hablo</marker>.</example>
+                <example correction="habló">Usted <marker>hablo</marker> tarde.</example>
                 <example correction="trabajó">Él <marker>trabajo</marker> varias horas.</example>
                 <example correction="limpió">Él <marker>limpio</marker> la herida.</example>
                 <example correction="habló">Él no le <marker>hablo</marker> claramente.</example>
@@ -5349,7 +5379,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si el verbo está en pasado, se escribe con tilde.</message>
                 <suggestion><match no="4" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
-                <example correction="determinó">Nos lo <marker>determino</marker></example>
+                <example correction="determinó">Nos lo <marker>determino</marker> el resultado.</example>
                 <example correction="determinó">Nos <marker>determino</marker> el resultado.</example>
             </rule>
         </rulegroup>
@@ -5374,7 +5404,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="4" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0" case_conversion="alllower"/></suggestion>
                 <example correction="colaboró">La policía <marker>colaboro</marker> con el juez</example>
                 <example correction="habló">Juan <marker>hablo</marker> con ella.</example>
-                <example correction="tomó">Mary <marker>tomo</marker> la píldora</example>
+                <example correction="tomó">Mary <marker>tomo</marker> la píldora.</example>
                 <example correction="enseñó">Jesús nunca <marker>enseño</marker> esto.</example>
                 <example correction="cantó">El niño <marker>canto</marker> hoy.</example>
                 <example correction="catalogó">La misma revista también <marker>catalogo</marker> la campaña como loca.</example>
@@ -5773,7 +5803,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si es del v. 'saber' o 'ser' se escribe con tilde.</message>
                 <suggestion>sé</suggestion>
-                <example correction="sé">Yo lo <marker>se</marker> desde hace tiempo</example>
+                <example correction="sé">Yo lo <marker>se</marker> desde hace tiempo.</example>
                 <example correction="Sé"><marker>Se</marker> de qué hablo.</example>
                 <example correction="Sé"><marker>Se</marker> amable con todos.</example>
                 <example correction="sé">Hay quien programa, pero yo no <marker>se</marker>.</example>
@@ -6293,7 +6323,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es del v. 'ver', lleva tilde. Puede ser un sustantivo sin tilde.</message>
                 <suggestion>verás</suggestion>
                 <example correction="Verás"><marker>Veras</marker> lo que quieres.</example>
-                <example correction="verás">Ya <marker>veras</marker> cómo tarde o temprano te das cuenta de tu error</example>
+                <example correction="verás">Ya <marker>veras</marker> cómo tarde o temprano te das cuenta de tu error.</example>
                 <example>Por estas veras.</example>
                 <example>¡Era de veras un dinosaurio!</example>
             </rule>
@@ -6412,7 +6442,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es interrogativo, se escribe con tilde. Se escribe sin tilde (más raramente), si equivale a 'como, de la misma manera que'.</message>
                 <suggestion>él cuál</suggestion>
                 <suggestion>el cual</suggestion>
-                <example correction="él cuál|el cual">según <marker>él cual</marker> pueden reconocerse cinco periodos</example>
+                <example correction="él cuál|el cual">El sistema según <marker>él cual</marker> pueden reconocerse cinco periodos.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6486,6 +6516,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>cual</token>
                     <token postag="NC.S.*" postag_regexp="yes"/>
                     <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>cual</token>
+                    <token skip="30">si</token>
+                    <token inflected="yes">tratar</token>
+                    <example>Cual si de un cohete se tratara.</example>
+                </antipattern>
+                <antipattern>
+                    <token>cual</token>
+                    <token>si</token>
+                    <token inflected="yes">ser</token>
+                    <example>Cual si fuera un cohete.</example>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">cual(es)?</token>
@@ -7763,8 +7805,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">formulas?<exception postag="_english_ignore_"/></token>
                 </pattern>
                 <message>Si es sustantivo, lleva tilde. Correcto si es del v. 'formular'.</message>
-                <suggestion><match no="1" regexp_match="(?i)o" regexp_replace="ó"/></suggestion>
-                <example correction="fórmulas"><marker>formulas</marker> magistrales</example>
+                <suggestion><match no="1" regexp_match="(?iu)o" regexp_replace="ó"/></suggestion>
+                <example correction="Fórmulas"><marker>Formulas</marker> magistrales.</example>
                 <example>La oposición formula preguntas incómodas.</example>
             </rule>
             <rule>
@@ -7950,12 +7992,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es adjetivo, se escribe con tilde.</message>
                 <suggestion><match no="1" regexp_match="(?i)(v)a(.*)" regexp_replace="$1á$2"/></suggestion>
                 <example correction="válidas">Son <marker>validas</marker>.</example>
-                <example correction="válida">una de las tres opciones es la <marker>valida</marker></example>
-                <example correction="válida">explica de una forma muy acertada y <marker>valida</marker> las características</example>
+                <example correction="válida">Una de las tres opciones es la <marker>valida</marker>.</example>
+                <example correction="válida">Explica de una forma muy acertada y <marker>valida</marker> las características.</example>
                 <example correction="válida">Aceptará como <marker>valida</marker> cualquier cosa.</example>
                 <example correction="válida">Proporciona una solución <marker>valida</marker> y satisfactoria.</example>
-                <example correction="válida">que dan por <marker>valida</marker> una tendencia</example>
-                <example correction="válida">No creemos que una relación <marker>valida</marker> y edificante pueda ser obtenida</example>
+                <example correction="válida">Las ideas que dan por <marker>valida</marker> una tendencia.</example>
+                <example correction="válida">No creemos que una relación <marker>valida</marker> y edificante pueda ser obtenida.</example>
                 <example>Cuando les validas la cuenta.</example>
                 <example>justifica y valida lo que sea</example>
                 <example>la ajusta y la valida.</example>
@@ -8445,7 +8487,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
                 <suggestion>sería</suggestion>
                 <example correction="sería">En la prisión <marker>seria</marker> mucho más dura.</example>
-                <example correction="sería">qué miserable <marker>seria</marker> yo</example>
+                <example correction="sería">¡Qué miserable <marker>seria</marker> yo!</example>
             </rule>
             <rule>
                 <antipattern>
@@ -8473,7 +8515,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sería">Una sola persona <marker>seria</marker> mejor.</example>
                 <example correction="sería">Una sola persona <marker>seria</marker> lo mejor.</example>
                 <example correction="sería">Una persona española <marker>seria</marker> hispana.</example>
-                <example correction="sería">intentan esclarecer cuál <marker>seria</marker> el centro</example>
+                <example correction="sería">Intentan esclarecer cuál <marker>seria</marker> el centro.</example>
                 <example>Me había convertido en una niña seria, demasiado madura para mi edad.</example>
                 <example>Es una persona seria la que buscamos.</example>
                 <example>Es una persona seria lo que buscamos.</example>
@@ -8674,7 +8716,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>el</suggestion>
                 <example correction="El"><marker>Él</marker> coche lo he dejado en el taller.</example>
                 <example correction="el">Después de haber cantado, <marker>él</marker> pájaro se fue volando.</example>
-                <example correction="el">debe ser declarada por el Congreso con <marker>él</marker> voto de dos terceras partes</example>
+                <example correction="el">Debe ser declarada por el Congreso con <marker>él</marker> voto de dos terceras partes.</example>
                 <example correction="el">Se fue con <marker>él</marker> apuesto caballero.</example>
                 <example correction="el">Baila <marker>él</marker> tango.</example>
                 <example correction="el">Lo haremos como quiera <marker>él</marker> profesor.</example>
@@ -8848,7 +8890,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="él">¿Por qué <marker>el</marker> no vino con nosotros?</example>
                 <example correction="él">Esto queda entre <marker>el</marker> y yo.</example>
                 <example correction="él">Vivimos en <marker>el</marker> pero hay que saber respetar al resto.</example>
-                <example correction="él">El que dice permanecer en <marker>el</marker> debe andar como él anduvo</example>
+                <example correction="él">El que dice permanecer en <marker>el</marker> debe andar como él anduvo.</example>
                 <example correction="él">Necesita que se ejerza sobre <marker>el</marker> una fuerza.</example>
                 <example correction="él">Hizo con <marker>el</marker> cuatro películas.</example>
                 <example>El cuatro veces campeón del mundo.</example>
@@ -8918,7 +8960,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>el</suggestion>
                 <suggestion>un</suggestion>
                 <example correction="Él un|El|Un"><marker>El un</marker> día se fue.</example>
-                <example correction="él un|el|un">Adquirió gracias a <marker>el un</marker> gran prestigio</example>
+                <example correction="él un|el|un">Adquirió gracias a <marker>el un</marker> gran prestigio.</example>
                 <example>Es nuestra obligación ayudarnos el uno al otro.</example>
             </rule>
             <rule>
@@ -9038,7 +9080,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mí">A <marker>mi</marker> la comida me gusta salada.</example>
                 <example correction="mí">Por lo que a <marker>mi</marker> toca, señores, se acabó.</example>
                 <example correction="mí">Aparta de <marker>mi</marker> este cáliz.</example>
-                <example correction="mí">no se me haga a <marker>mi</marker> hablar del tiempo</example>
+                <example correction="mí">No se me haga a <marker>mi</marker> hablar del tiempo.</example>
                 <example correction="mí">¿Acaso no he notado alguna vez en <marker>mi</marker> misma esa inclinación</example>
                 <example correction="mí">Se ha apartado de <marker>mi</marker> tres veces.</example>
                 <example correction="mí">No hay nada en <marker>mi</marker>, nada culpable.</example>
@@ -9962,22 +10004,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No estoy seguro de ganar esta partida.</example>
                 <example>Esta llamada a revisión solo se ha llevado a cabo en Estados Unidos.</example>
                 <example>Esta lavadora me ha dado un sinfín de problemas.</example>
-                <example correction="está"><marker>esta</marker> licenciada y examinada por la agencia Texas Office</example>
-                <example correction="está">es afiliada al IESS y <marker>esta</marker> embarazada</example>
-                <example correction="está">cuando se <marker>esta</marker> embarazada todo cambia </example>
-                <example correction="está"><marker>esta</marker> pedida por su madre </example>
+                <example correction="Está"><marker>Esta</marker> licenciada y examinada por la agencia Texas Office.</example>
+                <example correction="está">Es afiliada al IESS y <marker>esta</marker> embarazada.</example>
+                <example correction="está">Cuando se <marker>esta</marker> embarazada todo cambia.</example>
+                <example correction="Está"><marker>Esta</marker> pedida por su madre.</example>
                 <example correction="está">Cada transformación de energía <marker>esta</marker> asociada con una pérdida de energía en forma de calor.</example>
                 <example correction="Está"><marker>Esta</marker> llamada a ser la mejor.</example>
-                <example correction="está">la cual <marker>esta</marker> basada en Papá corazón</example>
+                <example correction="está">Una parte de la cual <marker>esta</marker> basada en Papá corazón.</example>
                 <example correction="Está">¿<marker>Esta</marker> lista?</example>
                 <example correction="está">Para saber cuando <marker>esta</marker> lista, tienes que notar que el líquido deja de transparentarse</example>
                 <example>Esta lista es mi lista de la compra.</example>
-                <example correction="está">la mitad de mi uña que <marker>esta</marker> pegada al dedo</example>
-                <example correction="está">su nueva novela <marker>esta</marker> basada en sus experiencias personales.</example>
-                <example correction="está"><marker>esta</marker> subida en la silla</example>
-                <example correction="está"><marker>esta</marker> subida a la silla</example>
+                <example correction="está">La mitad de mi uña que <marker>esta</marker> pegada al dedo.</example>
+                <example correction="está">Su nueva novela <marker>esta</marker> basada en sus experiencias personales.</example>
+                <example correction="Está"><marker>Esta</marker> subida en la silla.</example>
+                <example correction="Está"><marker>Esta</marker> subida a la silla.</example>
                 <example>Esta subida en los precios es inexplicable.</example>
-                <example correction="está"><marker>esta</marker> partida por la mitad</example>
+                <example correction="Está"><marker>Esta</marker> partida por la mitad.</example>
                 <example correction="está">¡Piscis <marker>esta</marker> enamorada!</example>
                 <example>Esta lista no está en orden alfabético y por eso es difícil de leer.</example>
                 <example>Los que integran esta lista, pero no pueden venir.</example>
@@ -10924,7 +10966,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="4" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
-                <example correction="estás">Vieno lo moreno que <marker>estas</marker>, parece que hayas estado en la playa.</example>
+                <example correction="estás">Viendo lo moreno que <marker>estas</marker>, parece que hayas estado en la playa.</example>
             </rule>
             <rule>
                 <pattern>
@@ -15928,6 +15970,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="a cabo|al cabo">Lo llevó <marker>acabo</marker> con solvencia.</example>
             <example correction="a cabo|al cabo">Hay que llevarlo <marker>acabo</marker> con solvencia.</example>
         </rule>
+        <rulegroup id="CABA" name="llevar *a caba/a cabo">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">llevar|echar</token>
+                    <marker>
+                        <token>a</token>
+                        <token>caba</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>a cabo</suggestion>?</message>
+                <example correction="a cabo">Lo llevó <marker>a caba</marker> con solvencia.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">zona|región|ciudad|provincia</token>
+                    <marker>
+                        <token case_sensitive="yes">caba</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>CABA</suggestion> (Ciudad Autónoma de Buenos Aires)?</message>
+                <example correction="CABA">Esto ocurre en la zona <marker>caba</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token case_sensitive="yes">caba</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>acaba</suggestion>?</message>
+                <example correction="acaba">Ahora <marker>a caba</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">caba</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>CABA</suggestion> (Ciudad Autónoma de Buenos Aires), <suggestion>cabo</suggestion>, <suggestion>acaba</suggestion> (v. 'acabar') o <suggestion>quepa</suggestion> (subjuntivo del v. 'caber')?</message>
+                <example correction="CABA|cabo|acaba|quepa">Ahora <marker>caba</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="DAR_ABASTO" name="dar *a basto/abasto">
             <pattern>
                 <token inflected="yes" skip="2">dar</token>
@@ -18546,8 +18628,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="porque|por qué" type="triggers_error">Los premios <marker>por que</marker> competían eran atractivos.</example>
                 <example>Yo estaba impaciente por que el juego comenzara.</example>
                 <example>No tienes nada por que preocuparte.</example>
-                <example correction="porque|por qué"> No puedo responder <marker>por que</marker> él es un deshonesto.</example>
-                <example correction="porque|por qué"> No puedo responder <marker>por que</marker> él sea un deshonesto.</example>
+                <example correction="porque|por qué">No puedo responder <marker>por que</marker> él es un deshonesto.</example>
+                <example correction="porque|por qué">No puedo responder <marker>por que</marker> él sea un deshonesto.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
@@ -19804,6 +19886,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>-->
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
+        <rulegroup id="PRIMERO_PRIMER" name="primero ministro -> primer ministro">
+            <rule>
+                <pattern>
+                    <token postag="DA0MS0|SP:DA" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="AO0MS0" regexp="yes">.*(primero|tercero)</token>
+                    </marker>
+                    <token postag="NC[MC][SN].*|AQ.[MC][SN]." postag_regexp="yes"/>
+                    <!-- |V.P..SM -->
+                </pattern>
+                <message>La forma adecuada de este ordinal delante de un sustantivo es <suggestion><match no="2" regexp_match="(?iu)o$" regexp_replace=""/></suggestion>.</message>
+                <example correction="primer">El <marker>primero</marker> ministro de Japón.</example>
+                <example>fue el primero edificado en el Cubillo</example>
+                <example type="triggers_error">El primero paso de decirlo.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PRIMER_PRIMERA" name="la primer vez -> la primera vez">
+            <rule>
+                <pattern>
+                    <token postag="D..FS." postag_regexp="yes"/>
+                    <marker>
+                        <token postag="AO0MS0" regexp="yes">.*(primer|tercer)</token>
+                    </marker>
+                    <token postag="N.[FC][SN].*|AQ.[FC][SN].|V.P..SF" postag_regexp="yes"/>
+                </pattern>
+                <message>Error de concordancia</message>
+                <suggestion><match no="2" regexp_match="^(.*)$" regexp_replace="$1a" case_conversion="preserve"/></suggestion>
+                <example correction="primera">La <marker>primer</marker> vez que vino.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="AO0MS0" regexp="yes">.*(primer|tercer)<exception scope="previous" postag="D..MS." postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="N.F[SN].*|AQ.F[SN].|V.P..SF" postag_regexp="yes"><exception postag="N.[MC][SN].*|AQ.[MC][SN].|V.P..SM" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Error de concordancia</message>
+                <suggestion><match no="1" regexp_match="^(.*)$" regexp_replace="$1a" case_conversion="preserve"/></suggestion>
+                <example correction="Primera"><marker>Primer</marker> vez que lo veo.</example>
+                <example correction="primera">Mi <marker>primer</marker> fiesta.</example>
+                <example>Mi primer cliente</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="AO0MS0" regexp="yes">.*(primer|tercer)</token>
+                    <token postag="N.[MC][SN].*|AQ.[MC][SN].|V.P..SM" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="D..FS." postag_regexp="yes"/>
+                    <marker>
+                        <token postag="AO0MS0" regexp="yes">.*(primer|tercer)</token>
+                    </marker>
+                </pattern>
+                <message>Error de concordancia</message>
+                <suggestion><match no="2" regexp_match="^(.*)$" regexp_replace="$1a" case_conversion="preserve"/></suggestion>
+                <example correction="primera">La <marker>primer</marker> que veo.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONCORDANCIA_ADJECTIVOS_NEUTROS" name="concordancias con adjetivos neutros">
             <antipattern>
                 <!-- aposición -->
@@ -22100,7 +22240,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Error de concordancia.</message>
                 <suggestion>{suggestion} \2</suggestion>
                 <example correction="una media">Es de <marker>un media</marker> alta.</example>
-                <example correction="un sustantivo">«Miles» es <marker>una sustantivo</marker> masculino</example>
+                <example correction="un sustantivo">«Miles» es <marker>una sustantivo</marker> masculino.</example>
                 <example correction="algunas ideas">Ted tiene <marker>alguna ideas</marker> brillantes para este lugar.</example>
                 <example correction="algún otro">¿Me aconsejas <marker>alguna otro</marker> elemento?</example>
                 <example correction="muchas otras">y <marker>muchos otras</marker> cosas</example>
@@ -26521,6 +26661,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="ETA_ESTA" name="eta -> esta, esa">
+            <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">eta|Eta</token>
+                </marker>
+                <token postag="NC[FC][SN]000" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Quería decir <suggestion>esta</suggestion> o <suggestion>esa</suggestion>?</message>
+            <example correction="Esta|Esa"><marker>Eta</marker> situación es insostenible.</example>
+        </rule>
         <rule id="CONFUSION_I_EXCLAMACION" name="confusión i -> ¡">
             <pattern>
                 <marker>
@@ -27615,7 +27765,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="variando">Se tiene que estar <marker>variado</marker>.</example>
                 <example correction="variando">Se ha de estar <marker>variado</marker>.</example>
                 <example correction="mirando">Te he estado <marker>mirado</marker>.</example>
-                <example correction="buscando"> La ha estado <marker>buscado</marker> durante cinco horas.</example>
+                <example correction="buscando">La ha estado <marker>buscado</marker> durante cinco horas.</example>
             </rule>
             <rule>
                 <pattern>
@@ -29047,7 +29197,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Posible confusión. ¿Quería decir <suggestion><match no="1"/>s</suggestion>, en concordancia con "\2"? O revise la puntuación.</message>
             <suggestion>\1,</suggestion>
             <example correction="esos|eso,">Porque <marker>eso</marker> puntos son válidos.</example>
-            <example correction="estos|esto,">Asi que hay que discernir <marker>esto</marker> hermanos.</example>
+            <example correction="estos|esto,">Así que hay que discernir <marker>esto</marker> hermanos.</example>
             <example>Y todo esto gracias al ojo de Pedro.</example>
             <example>Y no afirmamos esto guiados solamente por un conjunto de formas externas.</example>
             <example>Y no afirmamos esto guiados por un conjunto de formas externas.</example>

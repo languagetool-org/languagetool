@@ -58,7 +58,8 @@ public class UpperCaseNgramRule extends Rule {
   private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
     "Bin", "Spot",  // names
     "Go",           // common usage, as in "Go/No Go decision"
-    "French", "Roman", "Hawking", "Square", "Japan", "Premier", "Allied"
+    "French", "Roman", "Hawking", "Square", "Japan", "Premier", "Allied",
+    "Counsel" // legal
   ));
   private static final Pattern TYPICAL_LOWERCASE = Pattern.compile("and|or|the|of|on|with|to|it|in|for|as|at|his|her|its|into|&|/");
 

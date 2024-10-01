@@ -528,6 +528,50 @@ regexp case-insensitive maken: (?i)
 	</category>
 
 	<category id="GRAMMAR" name="Grammaticaregels">
+		<rulegroup id="EEN_VOORDELIGERE_PRIJZEN" name="een voordeligere prijzen(prijs)">
+			<rule>
+				<antipattern>
+					<token>en</token>
+					<token>een</token>
+					<token postag="BNW:VGR:VRB"/>
+					<token postag="ZNW:MRV:DE_"/>
+					<example>Een oudere schrijver en een jongere werken nauw samen.</example>
+				</antipattern>
+				<antipattern>
+					<token>een</token>
+					<token postag="BNW:VGR:VRB"/>
+					<token postag_regexp="yes" postag="ZNW:EKV.*|BNW.*"/>
+					<example>Er is een kleinere keten bekend.</example>
+				</antipattern>
+				<pattern>
+					<token>een</token>
+					<token postag="BNW:VGR:VRB"/>
+					<marker>
+						<token postag="ZNW:MRV:DE_"/>
+					</marker>
+				</pattern>
+				<message>U bedoelt vast: <suggestion><match no="3" postag_regexp="yes" postag="ZNW:EKV:(DE_|HET)"/></suggestion>.</message>
+				<example correction="prijs">Die heb ik voor een voordeligere <marker>prijzen</marker> op de kop getikt.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="JAAR_GELDEN" name="jaar gel(e)den">
+			<rule>
+				<antipattern>
+					<token>gelden</token>
+					<token postag="VGW"/>
+					<example>Het verdrag zou 5 jaar gelden en nadien verlengd kunnen worden.</example>
+				</antipattern>
+				<pattern>
+					<token>jaar</token>
+					<marker>
+						<token skip="4">gelden</token>
+					</marker>
+					<token postag_regexp="yes" postag="WKW:VTD.*"/>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>geleden</suggestion>.</message>
+				<example correction="geleden">Dat is ook alweer vier jaar <marker>gelden</marker> uitgevonden.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="ANTWOORD_ANTWOORDT" name="...of iemand antwoord(t).">
 			<rule>
 				<pattern>
@@ -17657,6 +17701,10 @@ regexp case-insensitive maken: (?i)
 				<antipattern><token>zou</token><token>zo</token><token>maar</token><token>kunnen</token></antipattern>
 				<antipattern><token>zoveel</token><token>je</token><token>maar</token><token postag="WKW:TGW:3EP/"/></antipattern>
 				<antipattern><token>zullen</token><token>we</token><token>maar</token><token postag="WKW:TGW:INF"/></antipattern>
+				<antipattern><token>maar</token><token>zelden</token><token>voor</token></antipattern>
+				<antipattern><token>al</token><token>maar</token><token postag_regexp="yes" postag="BNW:STL.*"/></antipattern>
+				<antipattern><token inflected="yes">houden</token><token>maar</token><token>niet</token><token>op</token></antipattern>
+				<antipattern><token postag="VGW"/><token>het</token><token>maar</token></antipattern>
 				<antipattern><token postag="VNW:PER.*" postag_regexp="yes"/><token>maar</token><token min="0" max="2" postag_regexp="yes" postag="BYW.*"/><token postag="WKW:.*" postag_regexp="yes"/></antipattern>
 				<antipattern>
 					<token postag_regexp="yes" postag="ZNW.*"></token>

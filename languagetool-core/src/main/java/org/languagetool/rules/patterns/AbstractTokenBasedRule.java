@@ -39,6 +39,8 @@ public abstract class AbstractTokenBasedRule extends AbstractPatternRule {
   @Nullable
   final TokenHint anchorHint;
 
+  private final byte minTokenCount;
+
   protected AbstractTokenBasedRule(String id, String description, Language language, List<PatternToken> patternTokens, boolean getUnified) {
     super(id, description, language, patternTokens, getUnified);
 
@@ -46,8 +48,12 @@ public abstract class AbstractTokenBasedRule extends AbstractPatternRule {
     TokenHint anchorHint = null;
 
     boolean fixedOffset = true;
+    int minTokenCount = patternTokens.isEmpty() || canMatchSentenceStart(patternTokens.get(0)) ? 0 : 1;
     for (int i = 0; i < patternTokens.size(); i++) {
       PatternToken token = patternTokens.get(i);
+      if (token.getMinOccurrence() > 0) {
+        minTokenCount++;
+      }
 
       boolean inflected = false;
       Set<String> hints = token.calcFormHints();
@@ -74,6 +80,11 @@ public abstract class AbstractTokenBasedRule extends AbstractPatternRule {
         .thenComparing(th -> -Arrays.stream(th.lowerCaseValues).mapToInt(String::length).min().orElse(0))
       ).toArray(TokenHint[]::new);
     this.anchorHint = anchorHint;
+    this.minTokenCount = (byte) Math.min(minTokenCount, Byte.MAX_VALUE);
+  }
+
+  private static boolean canMatchSentenceStart(PatternToken token) {
+    return token.isSentenceStart() || token.getNegation() || !token.hasStringThatMustMatch();
   }
 
   /**
@@ -82,6 +93,7 @@ public abstract class AbstractTokenBasedRule extends AbstractPatternRule {
    */
   @ApiStatus.Internal
   public boolean canBeIgnoredFor(AnalyzedSentence sentence) {
+    if (sentence.getNonWhitespaceTokenCount() < minTokenCount) return true;
     if (tokenHints == null) return false;
     for (TokenHint th : tokenHints) {
       if (th.canBeIgnoredFor(sentence)) {

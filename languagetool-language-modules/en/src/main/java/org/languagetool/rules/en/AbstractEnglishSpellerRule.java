@@ -200,11 +200,13 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern HTTP = compile("[Hh]ttp");
   private static final Pattern HTTPS = compile("[Hh]ttps");
   private static final Pattern FYI = compile("[Ff]yi");
+  private static final Pattern MICROSOFT = compile("microsoft");
   private static final Pattern DEVOPS = compile("[Dd]evops");
   private static final Pattern ALLRIGHT = compile("[Aa]llright");
   private static final Pattern INTRANSPARENT = compile("intransparent(ly)?");
   private static final Pattern ADDON = compile("[Aa]ddons?");
   private static final Pattern WDYT = compile("[Ww]dyt");
+  private static final Pattern UNCOMPLIANT = compile("[UuIi]ncompliant");
   private static final Pattern UX = compile("ux");
   private static final Pattern LANGUAGETOOL = compile("[Ll]anguagetool");
   private static final Pattern UNDETERMINISTIC = compile("undeterministic");
@@ -1514,6 +1516,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (HTTPS.matcher(word).matches()) return topMatch("HTTPS");
     if (FYI.matcher(word).matches()) return topMatch("FYI");
     if (DEVOPS.matcher(word).matches()) return topMatch("DevOps");
+    if (MICROSOFT.matcher(word).matches()) return topMatch("Microsoft");
     if (LANGUAGETOOL.matcher(word).matches()) return topMatch("LanguageTool");
     if (HONGKONG.matcher(word).matches()) return topMatch("Hong Kong");
     if (OCTOBER.matcher(word).matches()) return topMatch("October");
@@ -1528,6 +1531,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (UNDETERMINISTIC.matcher(word).matches()) return topMatch("nondeterministic");
     if (WDYT.matcher(word).matches()) return topMatch("WDYT");
     if (INTRANSPARENT.matcher(word).matches()) return topMatch(word.replaceFirst("in", "un"));
+    if (UNCOMPLIANT.matcher(word).matches()) return topMatch("non-compliant");
     if (UX.matcher(word).matches()) return topMatch("UX");
     if (GITLAB.matcher(word).matches()) return topMatch("GitLab");
     if (BONAFIDE.matcher(word).matches()) return topMatch(word.replaceFirst("onafide", "ona fide"));

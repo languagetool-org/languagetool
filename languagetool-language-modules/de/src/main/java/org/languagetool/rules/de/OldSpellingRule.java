@@ -53,7 +53,8 @@ public class OldSpellingRule extends Rule {
     "Telephone Line",
     "World Telephone",
     "Tip Top",
-    "Hans Joachim Blaß"
+    "Hans Joachim Blaß",
+    "kurz fassen"
   );
   private static final Supplier<SpellingData> DATA = Suppliers.memoize(() -> new SpellingData(FILE_PATH));
   private static final Pattern CHARS = Pattern.compile("[a-zA-Zöäüß]");

@@ -617,18 +617,6 @@ USA
         </rule> 
       </rulegroup>
 
-      <rule id="EXODIVE_VERB_CASE_COLLOCATION" name="Fiildeki çıqış kelişi uyğulaşması">
-        <pattern>
-          <marker>
-            <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF).*accs.*"></token>
-          </marker>
-          <token regexp="yes" postag_regexp="yes" postag="VERB.*">sora.*</token>
-        </pattern>
-        <message>Fiildeki çıqış kelişi şöyle uyğulaşmalı: 
-          <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)accs(.*)" postag_replace="$1exod$3"/></suggestion>
-        </message>
-        <example correction="Dostumdan"><marker>Dostumnı</marker> soradım.</example>
-      </rule> 
 
       <rule id="EXODIVE_VERB_ADVB_COLLOCATION" name="Soñ sözündeki çıqış kelişi uyğulaşması">
         <pattern>
@@ -647,6 +635,7 @@ USA
         <pattern>
           <token postag_regexp="yes" postag="NUMR.*">
             <exception regexp="yes">.*(ci|cı)</exception>
+            <exception regexp="yes">.*(джи|джы)</exception>
             <exception>bir</exception>
           </token>
           <marker>
@@ -718,6 +707,247 @@ USA
             <suggestion>yüzde <match no="1"/></suggestion>
           </message>
           <example correction="yüzde elli"><marker>elli fayız</marker>.</example>
+        </rule> 
+      </rulegroup>
+      <rulegroup id="PERCENTAGE_COORDINATION_CYR" name="Фаиз уйгъуламасы">
+        <rule>
+          <pattern>
+            <token postag="NUMR:subst:sing:nomn"></token>
+            <token>фаиз</token>
+          </pattern>
+          <message>Фаиз уйгъуламасы: 
+            <suggestion>юзьде <match no="1"/></suggestion>
+          </message>
+          <example correction="юзьде элли"><marker>элли фаиз</marker>.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <token postag="NUMR:subst:sing:nomn"></token>
+            <token>файыз</token>
+          </pattern>
+          <message>Фаиз уйгъуламасы: 
+            <suggestion>юзьде <match no="1"/></suggestion>
+          </message>
+          <example correction="юзьде элли"><marker>элли файыз</marker>.</example>
+        </rule> 
+      </rulegroup>
+      <rulegroup id="PHRASEOLOGY" name="Halq ibarelerini qullanuv şartları">
+        <rule>
+          <pattern>
+            <token>sözni</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">al.*</token>
+          </pattern>
+          <message>Halq ibarelerini qullanuv hatası: <suggestion>söz <match no="2"/></suggestion></message>
+          <example correction="söz aldı">Asan <marker>sözni aldı</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>örnekni</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">al.*</token>
+          </pattern>
+          <message>Halq ibarelerini qullanuv hatası: <suggestion>örnek <match no="2"/></suggestion></message>
+          <example correction="örnek ala">Asan Memetten daima <marker>örnekni ala</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>ateşni</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">tüş.*</token>
+          </pattern>
+          <message>Halq ibarelerini qullanuv hatası: <suggestion>ateş <match no="2"/></suggestion></message>
+          <example correction="ateş tüşti">İçinde apansızdan <marker>ateşni tüşti</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>yolnı</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">al.*</token>
+          </pattern>
+          <message>Halq ibarelerini qullanuv hatası: <suggestion>yol <match no="2"/></suggestion></message>
+          <example correction="yol almadıq">Kezlevge <marker>yolnı almadıq</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>aqılnı</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">ögret.*</token>
+          </pattern>
+          <message>Halq ibarelerini qullanuv hatası: <suggestion>aqıl <match no="2"/></suggestion></message>
+          <example correction="aqıl ögretmek">Asan yeniden <marker>aqılnı ögretmek</marker> başladı.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>başnı</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">et.*</token>
+          </pattern>
+          <message>Halq ibarelerini qullanuv hatası: <suggestion>baş <match no="2"/></suggestion></message>
+          <example correction="baş etmek">Asan bu işnen <marker>başnı etmek</marker> başladı.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>başnı</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">eg.*</token>
+          </pattern>
+          <message>Halq ibarelerini qullanuv hatası: <suggestion>baş <match no="2"/></suggestion></message>
+          <example correction="baş egmey">Asan iç bir vaqıt <marker>başnı egmey</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>babalıqnı</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">et.*</token>
+          </pattern>
+          <message>Halq ibarelerini qullanuv hatası: <suggestion>babalıq <match no="2"/></suggestion></message>
+          <example correction="babalıq ete">Asan çoq diqqat ile <marker>babalıqnı ete</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>başnı</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">köterme.*</token>
+          </pattern>
+          <message>Halq ibarelerini qullanuv hatası: <suggestion>baş <match no="2"/></suggestion></message>
+          <example correction="baş kötermey">Asan kün künden işinden <marker>başnı kötermey</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>başnı</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">qoş.*</token>
+          </pattern>
+          <message>Halq ibarelerini qullanuv hatası: <suggestion>baş <match no="2"/></suggestion></message>
+          <example correction="baş qoşa">Asan kene de <marker>başnı qoşa</marker>.</example>
+        </rule>
+      </rulegroup>
+      <rulegroup id="PHRASEOLOGY_CYR" name="Halq ibarelerini qullanuv şartları">
+        <rule>
+          <pattern>
+            <token>сёзни</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">ал.*</token>
+          </pattern>
+          <message>Халкъ ибарелерини къулланув хатасы: <suggestion>сёз <match no="2"/></suggestion></message>
+          <example correction="сёз алды">Asan <marker>сёзни алды</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>орьнекни</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">ал.*</token>
+          </pattern>
+          <message>Халкъ ибарелерини къулланув хатасы: <suggestion>орьнек <match no="2"/></suggestion></message>
+          <example correction="орьнек ала">Асан Меметтен даима <marker>орьнекни ала</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>атешни</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">тюш.*</token>
+          </pattern>
+          <message>Халкъ ибарелерини къулланув хатасы: <suggestion>атеш <match no="2"/></suggestion></message>
+          <example correction="атеш тюшти">Ичинде апансыздан <marker>атешни тюшти</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>ёлны</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">ал.*</token>
+          </pattern>
+          <message>Халкъ ибарелерини къулланув хатасы: <suggestion>ёл <match no="2"/></suggestion></message>
+          <example correction="ёл алмадыкъ">Кезлевге <marker>ёлны алмадыкъ</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>акъылны</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">огрет.*</token>
+          </pattern>
+          <message>Халкъ ибарелерини къулланув хатасы: <suggestion>акъыл <match no="2"/></suggestion></message>
+          <example correction="акъыл огретмек">Асан ениден <marker>акъылны огретмек</marker> башлады.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>башны</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">эт.*</token>
+          </pattern>
+          <message>Халкъ ибарелерини къулланув хатасы: <suggestion>баш <match no="2"/></suggestion></message>
+          <example correction="баш этмек">Асан бу ишнен <marker>башны этмек</marker> башлады.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>башны</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">эг.*</token>
+          </pattern>
+          <message>Халкъ ибарелерини къулланув хатасы: <suggestion>баш <match no="2"/></suggestion></message>
+          <example correction="баш эгмей">Асан ич бир вакъыт <marker>башны эгмей</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>бабалыкъны</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">эт.*</token>
+          </pattern>
+          <message>Халкъ ибарелерини къулланув хатасы: <suggestion>бабалыкъ <match no="2"/></suggestion></message>
+          <example correction="бабалыкъ эте">Асан чокъ дикъкъат иле <marker>бабалыкъны эте</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>башны</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">котерме.*</token>
+          </pattern>
+          <message>Халкъ ибарелерини къулланув хатасы: <suggestion>баш <match no="2"/></suggestion></message>
+          <example correction="баш котермей">Асан кунь куньден ишинден <marker>башны котермей</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token>башны</token>
+            <token regexp="yes" postag_regexp="yes" postag="(VERB|INFN).*">къош.*</token>
+          </pattern>
+          <message>Халкъ ибарелерини къулланув хатасы: <suggestion>баш <match no="2"/></suggestion></message>
+          <example correction="баш къоша">Асан кене де <marker>башны къоша</marker>.</example>
+        </rule>
+      </rulegroup>
+
+
+      
+      <rulegroup id="VERB_CASE_COLLOCATION" name="Fiildeki keliş uyğulaşması">
+        <rule>
+          <pattern>
+            <marker>
+              <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF).*accs.*"></token>
+            </marker>
+            <token regexp="yes" postag_regexp="yes" postag="VERB.*">sora.*</token>
+          </pattern>
+          <message>Fiildeki çıqış kelişi şöyle uyğulaşmalı: 
+            <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)accs(.*)" postag_replace="$1exod$3"/></suggestion>
+          </message>
+          <example correction="Dostumdan"><marker>Dostumnı</marker> soradım.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <marker>
+              <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF).*accs.*"></token>
+            </marker>
+            <token regexp="yes" postag_regexp="yes" postag="VERB.*">evlen.*</token>
+          </pattern>
+          <message>Fiildeki keliş şöyle uyğulaşmalı: 
+            <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)accs(.*)" postag_replace="$1datv$3"/></suggestion>
+          </message>
+          <example correction="qomşuğa">Dostum <marker>qomşunı</marker> evlendi.</example>
+        </rule> 
+      </rulegroup>
+      <rulegroup id="VERB_CASE_COLLOCATION_CYR" name="Fiildeki keliş uyğulaşması (cyr)">
+        <rule>
+          <pattern>
+            <marker>
+              <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF).*accs.*"></token>
+            </marker>
+            <token regexp="yes" postag_regexp="yes" postag="VERB.*">сора.*</token>
+          </pattern>
+          <message>Фиильдеки келиш шойле уйгъулашмалы: 
+            <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)accs(.*)" postag_replace="$1exod$3"/></suggestion>
+          </message>
+          <example correction="Достумдан"><marker>Достумны</marker> сорадым.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <marker>
+              <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF).*accs.*"></token>
+            </marker>
+            <token regexp="yes" postag_regexp="yes" postag="VERB.*">эвлен.*</token>
+          </pattern>
+          <message>Фиильдеки келиш шойле уйгъулашмалы: 
+            <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)accs(.*)" postag_replace="$1datv$3"/></suggestion>
+          </message>
+          <example correction="къомшугъа">Достум <marker>къомшуны</marker> эвленди.</example>
         </rule> 
       </rulegroup>
     </category>

@@ -222,6 +222,7 @@ public class Spanish extends Language implements AutoCloseable {
     id2prio.put("MUCHO_NF", 25); // greater than AGREEMENT_DET_NOUN
     id2prio.put("AGREEMENT_DET_NOUN_EXCEPTIONS", 25); // greater than AGREEMENT_DET_NOUN
     id2prio.put("TYPOGRAPHY", 20); // greater than AGREEMENT_DET_NOUN
+    id2prio.put("PRIMER_PRIMERA", 20); // greater than AGREEMENT_DET_ADJ
     id2prio.put("AGREEMENT_DET_NOUN", 15);
     //id2prio.put("PRONOMBRE_SIN_VERBO", 20);
     id2prio.put("AGREEMENT_DET_ADJ", 10);
@@ -356,6 +357,12 @@ public class Spanish extends Language implements AutoCloseable {
       List<String> suggestions = ruleMatch.getSuggestedReplacements();
       if (suggestions.size()==1 && ruleMatch.getRule().getId().startsWith("AI_ES_GGEC")) {
         String suggestion = suggestions.get(0);
+        // ignore adding punctuation at the sentence end
+        if (ruleMatch.getRule().getId().equals("AI_ES_GGEC_MISSING_PUNCTUATION") && suggestion.endsWith(".")) {
+          if (ruleMatch.getSentence().getText().replaceAll("\\s+$", "").endsWith(suggestion.substring(0,suggestion.length()-1))) {
+            continue;
+          }
+        }
         // avoid obsolete diacritics
         if (suggestionsToAvoid.contains(suggestion.toLowerCase())) {
           continue;

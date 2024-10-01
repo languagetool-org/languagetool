@@ -156,6 +156,84 @@ USA
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
 
+        <rulegroup id="ADJEKTIVE_ZU_ADVERBIEN" name="'bisherig, seitherig etc.'">
+            <rule>
+                <pattern>
+                    <token>vorherig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>vorher</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example correction="Vorher|Vorherige"><marker>Vorherig</marker> waren wir ein Bier trinken.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>bisherig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>bisher</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example correction="Bisher|Bisherige"><marker>Bisherig</marker> ist noch nichts passiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>seitherig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>seither</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example correction="Seither|Seitherige"><marker>Seitherig</marker> ist noch nichts passiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>jetzig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>jetzt</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example correction="jetzt|jetzige">Bis <marker>jetzig</marker> ist noch nichts passiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>obig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>oben</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example correction="oben|obige">Wie <marker>obig</marker> ausgeführt, ist noch nichts passiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>jeweilig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>jeweils</suggestion>?</message>
+                <example correction="jeweils">Das <marker>jeweilig</marker> Adäquate wird unternommen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>sofortig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>sofort</suggestion> oder <suggestion>unverzüglich</suggestion>?</message>
+                <example>Die Wirkung tritt <marker>sofort</marker> ein.</example>
+                <example>Das gilt mit <marker>sofortiger</marker> Wirkung.</example>
+                <example correction="sofort|unverzüglich">Die Wirkung ist <marker>sofortig</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>sonstig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>sonst</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example>Die <marker>sonstigen</marker> Bewohner leben in Reservaten.</example>
+                <example correction="sonst|sonstige">Die Welt war <marker>sonstig</marker> nur von wilden Tieren bewohnt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>einstig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion><match no="1" regexp_match="^.+$" regexp_replace="einst" case_conversion="alllower" /></suggestion>, das Adverb <suggestion><match no="1" regexp_match="^.+$" regexp_replace="ehemalig" case_conversion="alllower" /></suggestion> oder das Nomen <suggestion>Einstieg</suggestion>?</message>
+                <example>Die Nachfahren der <marker>einstigen</marker> Bewohner leben in Reservaten.</example>
+                <example correction="einst|ehemalig|Einstieg">Die Welt war <marker>einstig</marker> von wilden Wesen bevölkert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>etwaig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>etwa</suggestion> oder das Adverb <suggestion>eventuell</suggestion>?</message>
+                <example>Bei <marker>etwaigen</marker> Verstößen</example>
+                <example correction="etwa|eventuell">Sollte dagegen <marker>etwaig</marker> verstoßen werden</example>
+            </rule>
+        </rulegroup>
+
         <!--<rulegroup id="TEST_UMLAUTE" name="fuer (für)" default="off" tone_tags="general" tags="picky">
         #Test showed this rule to bring more effort than benefit and not to be user-friendly
         #e.g., when adding words to the personal dict ("Monroe") the style rule would still trigger and give wrong suggestions ("Monrö")
@@ -6383,7 +6461,7 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="EMPFOHLENE_GETRENNTSCHREIBUNG" name="Empfohlene Getrenntschreibung" tone_tags="formal">
-            <rule>
+            <rule><!--1-->
                 <pattern case_sensitive="yes">
                     <token regexp="yes">verloreng(eh(en?|s?t)|ing(en)?|egangen(e[nrs]?)?)</token>
                 </pattern>
@@ -6393,7 +6471,7 @@ USA
                 <example correction='verloren gegangen'>Weil die Papiere <marker>verlorengegangen</marker> waren, konnte er die Uhr nicht mehr verkaufen.</example>
                 <example correction='verloren geht'>Wenn er <marker>verlorengeht</marker>, haben wir ein Problem.</example>
             </rule>
-            <rule>
+            <rule default="off"><!--2-->
                 <pattern case_sensitive="yes">
                     <token inflected="yes" regexp="yes">bekannt(geben|machen)</token>
                 </pattern>
@@ -6405,7 +6483,7 @@ USA
                 <example correction='bekannt gemacht'>Sie hat ihre Verlobung <marker>bekanntgemacht</marker>.</example>
                 <example correction='bekannt machte'>Als er es <marker>bekanntmachte</marker>, achtete niemand darauf.</example>
             </rule>
-            <rule>
+            <rule><!--3-->
                 <antipattern>
                     <token><exception postag="SENT_START"/></token>
                     <token case_sensitive="yes">Zuhause</token>
@@ -6424,7 +6502,7 @@ USA
                 <example>Es war ihr Zuhause.</example>
                 <example>Wenn du etwas früher von Zuhause aufgebrochen wärst, wärst du punktlich gewesen.</example>
             </rule>
-            <rule>
+            <rule><!--4-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">hilfesuchende?[mnrs]?</token>
                 </pattern>
@@ -6433,17 +6511,16 @@ USA
                 <example correction="Hilfe suchend">Sie sah <marker>hilfesuchend</marker> zu ihm hinüber.</example>
                 <example>Auch hier dürfen die Hilfesuchenden die Lager erst verlassen, wenn ihr Asylverfahren genehmigt ist.</example>
             </rule>
-            <rule>
+            <rule><!--5-->
                 <pattern>
-                    <token regexp="yes">rot(lackiert|geschminkt|kariert|gestreift|gefroren|glühend|geädert|unterlaufen|geweint)(e[nmrs]?)?|(gelb|blau|grün)(gestreift|kariert|(ge)?färbt?)(e[nmrs]?)?|schwarz(gerändert|gestreift|gekleidet|gelockt|(ge)?färbt?)(e[nmrs]?)?|wei(ß|ss)(gekleidet|(ge)?(färb|kalk|tünch)t?|gestreift|lackiert|gestrichen|gedeckt|glühend)(e[nmrs]?)?</token>
+                    <token regexp="yes">rot(lackiert|geschminkt|kariert|gestreift|gefroren|glühend|geädert|unterlaufen|geweint)(e[nmrs]?)?|(gelb|blau|grün)(gestreift|kariert|(ge)?färbt?)(e[nmrs]?)?|schwarz(gerändert|gestreift|gekleidet|gelockt|(ge)?färbt?)(e[nmrs]?)?|wei(ß|ss)((ge)?(färb|kalk)t?|gestreift|lackiert|gestrichen|gedeckt|glühend)(e[nmrs]?)?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.)(ot|elb|lau|rün|chwarz|eiß)(.*)" regexp_replace="$1$2 $3"/></suggestion> verwenden?</message>
                 <url>https://languagetool.org/insights/de/beitrag/farben-sprichworter/#kategorie-1-verben-mit-farben</url>
                 <example correction="Rot lackierte"><marker>Rotlackierte</marker> Autos gefallen ihr ganz besonders.</example>
-                <example correction="weiß getünchte">In dieser Gegend fiel das <marker>weißgetünchte</marker> Haus sofort ins Auge.</example>
                 <example>Der typische rosafarbene Ton verschwindet in Richtung zu einer starken Gelbfärbung.</example>
             </rule>
-            <rule>
+            <rule><!--6-->
                 <pattern>
                     <token regexp="yes">tief((dring|blick|häng|sitz|steh|reich)end|beleidigt|betroffen|verschneit|bewegt|empfunden|gekränkt|erschüttert|betrübt).*</token>
                 </pattern>
@@ -6452,7 +6529,7 @@ USA
                 <example correction="Tief hängende"><marker>Tiefhängende</marker> Früchte sollte man zuerst ernten.</example>
                 <example correction="tief betrübt">Er war <marker>tiefbetrübt</marker>.</example>
             </rule>
-            <rule>
+            <rule><!--7-->
                 <pattern>
                     <token regexp="yes">hoch((technis|dot|motiv|industralis|spezialis|qualifiz|kompliz|dos)iert|acht|schätz|besteuert|bezahlt|verschuldet|radioaktiv|spannend|liegend|gespannt|aufgeschossen|entwickelt|beansprucht|gelegen|angesehen|konzentriert)(e[nrs]?)?</token>
                 </pattern>
@@ -6460,7 +6537,7 @@ USA
                 <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
                 <example correction="hoch komplizierte">Es handelt sich um eine <marker>hochkomplizierte</marker> Angelegenheit.</example>
             </rule>
-            <rule>
+            <rule><!--8-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">viel(geliebt|genannt|besucht|gereist|gefragt|umjubelt|besungen|gebraucht|beachtet|umworben|umstritten|gescholten|gelobt|gepriesen|gelesen|beschworen|gekauft|zitiert|befahren|gerühmt|diskutiert|beschäftigt|besprochen|geschmäht).*</token>
                 </pattern>
@@ -6469,19 +6546,19 @@ USA
                 <example correction="viel beschäftigten">Er zählt zu den <marker>vielbeschäftigten</marker> Stars.</example>
                 <example>Ernährungsberatung für Vielbeschäftigte.</example>
             </rule>
-            <rule>
+            <rule><!--9-->
                 <antipattern>
                     <token case_sensitive="yes" regexp="yes">Nicht(deutsch(sprachl|sprech)?|organisiert|berufstätig|behindert)e[nr]?</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">nicht(christlich|staatlich|deutsch|leitend|organisiert|rostend|zielend|flektierbar|amtlich|berufstätig|ehelich|öffentlich|kommerziell|behindert|euklidisch|kommunistisch|selb(st)?ständig|linear)(e|en|er|es|em)?</token>
+                    <token regexp="yes">nicht(christlich|staatlich|deutsch|leitend|organisiert|rostend|zielend|flektierbar|amtlich|kommerziell|behindert|euklidisch|kommunistisch|selb(st)?ständig|linear)(e|en|er|es|em)?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.)icht(.*)" regexp_replace="$1icht $2"/></suggestion> verwenden?</message>
                 <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
                 <example correction="nicht rostendem">Der Träger besteht aus <marker>nichtrostendem</marker> Stahl.</example>
                 <example>NEhelG – Nichtehelichengesetz</example>
             </rule>
-            <rule>
+            <rule><!--10-->
                 <pattern>
                     <token regexp="yes">frisch((ge)?macht?|gebacken)(e[mnrs]?)?</token>
                 </pattern>
@@ -6489,7 +6566,7 @@ USA
                 <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
                 <example correction="frisch gebackenes">Er kaufte ein <marker>frischgebackenes</marker> Brot.</example>
             </rule>
-            <rule>
+            <rule><!--11-->
                 <pattern>
                     <token regexp="yes">frei(finanziert|laufend|lebend|stehend|werdend)(e[mnrs]?)?</token>
                 </pattern>
@@ -6497,7 +6574,7 @@ USA
                 <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
                 <example correction="frei stehendes">Der Makler bot ihnen ein <marker>freistehendes</marker> Haus an.</example>
             </rule>
-            <rule>
+            <rule><!--12-->
                 <antipattern>
                     <token regexp="yes">fertigzu(lesen|kochen)</token>
                 </antipattern>
@@ -6508,7 +6585,7 @@ USA
                 <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
                 <example correction="fertig gekocht">Sie wartete, bis er das Gericht <marker>fertiggekocht</marker> hatte.</example>
             </rule>
-            <rule>
+            <rule><!--13-->
                 <pattern>
                     <token regexp="yes">fertigzu(lesen|kochen)</token>
                 </pattern>
@@ -6516,11 +6593,11 @@ USA
                 <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
                 <example correction="fertig zu kochen">Es dauerte lange das Gericht <marker>fertigzukochen</marker>.</example>
             </rule>
-            <rule>
-                <regexp>neu(bekehrt|bearbeitet|geschaffen|eröffnet)e?[nmrs]?</regexp>
+            <rule><!--14-->
+                <regexp>neu(bekehrt|geschaffen)e?[nmrs]?</regexp>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="0" regexp_match="(.)eu(.*)" regexp_replace="$1eu $2"/></suggestion> verwenden?</message>
                 <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
-                <example correction="neu eröffnete">Ich habe mir das <marker>neueröffnete</marker> Museum angeschaut.</example>
+                <example correction="neu bekehrt">Er wurde gestern <marker>neubekehrt</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EMPFOHLENE_ZUSAMMENSCHREIBUNG" name="Empfohlene Zusammenschreibung" tone_tags="formal">
@@ -6607,7 +6684,7 @@ USA
                 <example>Ich suche günstige Flüge immer auf Seiten wie Bing Flights oder Kanoo.</example>
                 <example>Auf Seiten, die eine ungerade Zahl haben, ist der linke Rand schmaler.</example>
             </rule>
-            <rule><!--5-->
+            <rule default="off"><!--5-->
                 <antipattern>
                     <token>von</token>
                     <token>Tag</token>
@@ -6820,7 +6897,7 @@ USA
                 <example correction="Mithilfe"><marker>Mit Hilfe</marker> von Freunden organisierte er eine große Feier.</example>
                 <example correction="mithilfe">Er konnte sich nur <marker>mit Hilfe</marker> von Krücken fortbewegen.</example>
             </rule>
-            <rule><!--24-->
+            <rule default="off"><!--24-->
                 <pattern>
                     <marker>
                         <token>zufrieden</token>

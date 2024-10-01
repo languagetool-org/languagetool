@@ -382,9 +382,15 @@ public final class PosTagHelper {
   }
 
   public static boolean hasPosTagAndToken(AnalyzedTokenReadings tokens, Pattern postag, Pattern token) {
-    return tokens.getReadings().stream().anyMatch(t -> 
-      t.getPOSTag() != null && postag.matcher(t.getPOSTag()).matches() 
-      && t.getToken() != null && token.matcher(t.getToken()).matches());
+    return filter(tokens, postag, token).size() > 0;
+  }
+
+  public static List<AnalyzedToken> filter(AnalyzedTokenReadings tokens, Pattern postag, Pattern token) {
+    return tokens.getReadings().stream()
+        .filter(t -> 
+          t.getPOSTag() != null && postag.matcher(t.getPOSTag()).matches() 
+            && t.getToken() != null && token.matcher(t.getToken()).matches())
+        .collect(Collectors.toList());
   }
 
   public static boolean hasMaleUA(AnalyzedTokenReadings tokenReadings) {
