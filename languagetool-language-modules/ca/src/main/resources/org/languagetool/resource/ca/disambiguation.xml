@@ -2083,6 +2083,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd lemma="a baix" pos="LOC_ADV"/>
         </disambig>
     </rule>
+    <rule id="DE_PRIMER" name="de primer">
+        <pattern>
+            <marker>
+            <token>de</token>
+            <token>primer</token>
+            </marker>
+            <token><exception postag="N.[MC][SN].*|A..[MC][SN].|V.P..SM." postag_regexp="yes"/></token>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="de primer" pos="LOC_ADV"/>
+            <wd lemma="de primer" pos="LOC_ADV"/>
+        </disambig>
+    </rule>
     <rule id="A_DALT" name="a dalt">
         <pattern>
             <token>a</token>
@@ -11689,7 +11702,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="causar_baixa" name=" causar baixes">
         <pattern>
-            <token postag="V.*" postag_regexp="yes" inflected="yes">causar</token>
+            <token postag="V.*|_GV_" postag_regexp="yes" inflected="yes">causar</token>
             <token postag="N.*" postag_regexp="yes" inflected="yes">baixa</token>
         </pattern>
         <disambig action="filterall"/>
