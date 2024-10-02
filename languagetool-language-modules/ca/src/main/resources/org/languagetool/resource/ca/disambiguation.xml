@@ -22018,6 +22018,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rulegroup id="HORES" name="hores">
+        <rule>
+            <pattern>
+                <token regexp="yes">\d?\d</token>
+                <token>:</token>
+                <token regexp="yes">\d\d</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">UTC|CET|ET|EST|EDT|MEZ|RST|CEST|WAT</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\d?\d\.\d\d</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">UTC|CET|ET|EST|EDT|MEZ|RST|CEST|WAT</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="MATEMATIQUES" name="notació matemàtica">
         <rule>
             <pattern>
