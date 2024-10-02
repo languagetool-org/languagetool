@@ -2086,8 +2086,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="DE_PRIMER" name="de primer">
         <pattern>
             <marker>
-            <token>de</token>
-            <token>primer</token>
+                <token>de</token>
+                <token>primer</token>
             </marker>
             <token><exception postag="N.[MC][SN].*|A..[MC][SN].|V.P..SM." postag_regexp="yes"/></token>
         </pattern>
@@ -18722,6 +18722,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add">
                 <wd pos="comparatiu"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="10">no</token>
+                <token inflected="yes" regexp="yes">cap|altre</token>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <marker>
+                    <token>que</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"/>
+                <token><exception postag_regexp="yes" postag="_PUNCT.*"/></token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="comparatiu" lemma="que"/>
             </disambig>
         </rule>
     </rulegroup>
