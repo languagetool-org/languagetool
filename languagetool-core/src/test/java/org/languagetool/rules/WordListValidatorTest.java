@@ -196,6 +196,7 @@ public class WordListValidatorTest {
           "Wałęsa",
           "Çalhanoğlu",
           "Çalhanoğlu/S",
+          "Szczęsny",
           "celebrytę", // for PL
           "antybiotykoterapię", // for PL
           "elektromobilność", // for PL
