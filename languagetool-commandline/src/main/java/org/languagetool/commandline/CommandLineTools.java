@@ -179,7 +179,7 @@ public final class CommandLineTools {
       }
       if (verbose && rule instanceof AbstractPatternRule) {
         AbstractPatternRule pRule = (AbstractPatternRule) rule;
-        output += " line=" + pRule.getXmlLineNumber();
+        output += " (line " + pRule.getXmlLineNumber()+")";
       }
       System.out.println(output);
       String msg = lang.toAdvancedTypography(match.getMessage()); //.replaceAll("<suggestion>", lang.getOpeningDoubleQuote()).replaceAll("</suggestion>", lang.getClosingDoubleQuote())
