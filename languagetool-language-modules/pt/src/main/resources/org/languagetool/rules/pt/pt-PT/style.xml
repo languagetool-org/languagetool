@@ -3192,6 +3192,31 @@ USA
         </rule>
 
 
+        <rule id='PARA_NADA_DESNECESSARIAMENTE' name="[pt-PT][Formal] Para nada → desnecessariamente" tone_tags='formal'>
+            <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
+            <antipattern>
+                <token>não</token>
+                <token regexp='yes' inflected='yes'>conceder|concluir|determinar|esperar|finalizar|obter</token> <!-- Exceptions for below -->
+                <token min='0' max='1' postag='V.+' postag_regexp='yes'/>
+                <token min='0' regexp='yes'>[ao]s?|u(m|ns)|umas?|nu(m|ns)|numas?</token>
+                <token postag='N.[MF].+' postag_regexp='yes'/>
+                <example>Quando você vai para o treinamento de futebol, não espera conseguir nomeações presidenciais para nada.</example>
+            </antipattern>
+            <pattern>
+                <token regexp='yes' inflected='yes'>adjudicar|administrar|afligir|aguardar|ajudar|analisar|antecipar|aplicar|arranjar|assentar|assistir|assumir|atuar|atribuir|auxiliar|avaliar|causar|coagir|comandar|completar|complicar|conceder|concluir|conduzir|conseguir|conservar|considerar|consumir|coordenar|criar|decidir|delegar|desenvolver|desenhar|desencadear|despender|desperdiçar|determinar|dirigir|dispor|dissipar|efec?tuar|elaborar|embaralhar|embaraçar|empregar|encarregar|entregar|entravar|esbanjar|esculpir|esperar|estimular|estruturar|exercer|executar|explicar|ficar|finalizar|forçar|formular|funcionar|gerar|gerenciar|gerir|governar|guiar|incentivar|induzir|iniciar|insistir|justificar|lidar|liderar|manipular|manusear|misturar|modelar|moldar|motivar|obrigar|obter|operar|optar|organizar|originar|permanecer|performar|persuadir|planear|planejar|praticar|preservar|preparar|prever|produzir|programar|projec?tar|provocar|realizar|reafirmar|resolver|reiterar|solucionar|suportar|suscitar|teimar|terminar|tratar|utilizar|usar</token>
+                <token min='0' regexp='yes'>[ao]s?|u(m|ns)|umas?|nu(m|ns)|numas?</token>
+                <token skip='4' postag='N.[MF].+' postag_regexp='yes'/>
+                <marker>
+                    <token>para</token>
+                    <token>nada</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal empregue <suggestion>desnecessariamente</suggestion>.</message>
+            <example correction="desnecessariamente">A Ana utiliza equações complicadas <marker>para nada</marker>.</example>
+            <example correction="desnecessariamente">O Pedro cria os mapas com demasiadas cores <marker>para nada</marker>.</example>
+        </rule>
+
+
         <rulegroup id='PASSAR_TEMPO_DECORRER_TEMPO' name="[pt-PT][Formal] 'passar' tempo → decorrer">
 
             <antipattern>
