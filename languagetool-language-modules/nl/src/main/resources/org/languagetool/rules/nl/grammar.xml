@@ -5459,7 +5459,8 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="LOC_LOK" name="waarschuwing bij gebruik lok i.p.v. loc">
+		<rulegroup id="LOC_LOK" name="waarschuwing bij gebruik lok i.p.v. loc" default="off">
+			<!-- disabled, no applies in 6 months -->
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">haar|.*blond.*</token><token postag="SENT_END"/></antipattern>
 				<antipattern><token>lok</token><token>je</token></antipattern>
@@ -12045,7 +12046,8 @@ regexp case-insensitive maken: (?i)
 				<example correction="vijfhonderd miljoen">Het gaat om een massa van één miljard <marker>vijfhonderdmiljoen</marker> mensen.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="JOEN_JARD" name="-jard is onduidelijk">
+		<rulegroup id="JOEN_JARD" name="-jard is onduidelijk" default="off">
+			<!-- no applies -->
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
 				<antipattern><token regexp="yes" >^biljard(tafel|bal|laken|kamer)</token></antipattern>
@@ -16299,12 +16301,19 @@ regexp case-insensitive maken: (?i)
 					<token spacebefore="no">.</token>
 					<token spacebefore="no" case_sensitive="yes" regexp="yes">[a-z]{3,20}</token>
 				</antipattern>
-				<!-- meer websites -->
+				<!-- websites -->
 				<antipattern>
-				    <token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
+				    <token regexp="yes">[a-z0-9.-]+</token>
 				    <token spacebefore="no">.</token>
-				    <token regexp="yes">com|nu|nl|be|org|eu|net</token>
-				    <example>Hij staat niet meer op Booking.com.</example>
+				    <token spacebefore="no" regexp="yes">com|nu|nl|fm|js|app|it|be|org|eu|es|sh|net|uk|gov|edu|info|biz|tv|cc|us|ca|au|fr|za</token>
+				    <example>Hij staat niet meer op booking.com.</example>
+				</antipattern>
+				<!-- meer websites en domeinen -->
+				<antipattern>
+				    <token>.</token>
+				    <token spacebefore="no" regexp="yes">[a-z].*</token>
+				    <token spacebefore="no">.</token>
+				    <example>Dat staat in my.package.EventController.</example>
 				</antipattern>
 				<antipattern>
 					<token case_sensitive="yes">o</token>
@@ -19555,7 +19564,7 @@ regexp case-insensitive maken: (?i)
 				<antipattern><token>van</token><token>dien</token></antipattern>
 				<antipattern><token>in</token><token>zwijm</token></antipattern>
 				<antipattern><token>op</token><token>zoek</token></antipattern>
-				<antipattern><token postag_regexp="yes" postag="SENT_START|UNKNOWN"/><token postag="WKW:TGW:1EP"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|UNKNOWN|START"/><token postag="WKW:TGW:1EP"/></antipattern>
 				<antipattern><token regexp="yes">en|of|maar|dus|ben|[,;:"'‘]</token><token postag="WKW:TGW:1EP"/></antipattern>
 				<antipattern>
 					<token inflected="yes" skip="-1" postag_regexp="yes" postag="WKW.*">zijn</token><token>zoek</token>
@@ -19573,11 +19582,14 @@ regexp case-insensitive maken: (?i)
 				</pattern>
 				<message>De vorm van het werkwoord is verkeerd, er ontbreekt een leesteken, of er staat een spatie te veel.</message>
 				<suggestion>\1 <match no="2" postag="WKW:TGW:3EP"/></suggestion>
+				<suggestion>\1 <match no="2" postag="WKW:TGW:INF"/></suggestion>
 				<suggestion>\1, \2</suggestion>
 				<suggestion>\1 en \2</suggestion>
-				<example correction="Het gaat|Het, ga|Het en ga"><marker>Het ga</marker> vaak fout.</example>
-				<example correction="Vriend doet|Vriend, doe|Vriend en doe"><marker>Vriend doe</marker> eens rustig.</example>
+				<example correction="Het gaat|Het gaan|Het, ga|Het en ga"><marker>Het ga</marker> vaak fout.</example>
+				<example correction="Vriend doet|Vriend doen|Vriend, doe|Vriend en doe"><marker>Vriend doe</marker> eens rustig.</example>
+			    <example correction="Vandaag gaat|Vandaag gaan|Vandaag, ga|Vandaag en ga"><marker>Vandaag ga</marker> we vissen.</example>
 			    <example>In de winter wil ze ook nog op skivakantie.</example>
+			    <example>• verwarm de olie in een pan.</example>
 			    <example>Engelsen zeggen to help.</example>
 			    <example>Woorden die schuil gaan achter het lemma.</example>
 			</rule>

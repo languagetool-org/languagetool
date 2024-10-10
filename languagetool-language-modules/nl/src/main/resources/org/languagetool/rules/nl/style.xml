@@ -752,6 +752,19 @@ USA
 				<example correction="tachtig">Ik ben daar al <marker>80</marker> keer geweest.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="GOED_WAREN_GEKEURD" name="Goed waren gekeurd (waren goedgekeurd)" default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+					    <token>goed</token>
+						<token inflected="yes">zijn</token>
+						<token>gekeurd</token>
+					</marker>
+				</pattern>
+				<message>Beter is: <suggestion>\2 goedgekeurd</suggestion>.</message>
+				<example correction="waren goedgekeurd">Jammer dat ze niet <marker>goed waren gekeurd</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="WOUDEN" name="wilden of wouden" tone_tags="general">
 			<rule>
 				<pattern>
@@ -4394,7 +4407,7 @@ USA
 				<example correction="">Na lange onderhandelingen is de <marker>kogel door de kerk</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="STEKKER_ER_UIT" name="De stekker er uit trekken">
+		<rulegroup id="STEKKER_ER_UIT" name="De stekker er uit trekken" tags="picky">
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token>stopcontact</token></antipattern>
 				<pattern>
@@ -4539,7 +4552,7 @@ USA
 				<example>Er is geen correct voorbeeld van.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="NEUZEN_KANT" name="De neuzen dezelfde kant op">
+		<rulegroup id="NEUZEN_KANT" name="De neuzen dezelfde kant op" tags="picky">
 			<rule>
 				<pattern>
 					<token>neuzen</token>
@@ -5211,7 +5224,7 @@ USA
 			<!-- MB@2023-07-13 - MOD: added antipattern for common words that caused high disable rates -->
 			<rule>
 				<antipattern>
-					<token regexp="yes">.*verzekering.*|.*activiteit.*|.*systeem|.*systemen|.*maatschappij.*|.*mogelijkhe.*</token>
+					<token regexp="yes">.*herkennings.*|.*commissie|.*technologie|.*tevredenheids.*|.*verzekering.*|.*activiteit.*|.*systeem|.*systemen|.*maatschappij.*|.*mogelijkhe.*</token>
 					<example>Ze doen beroep op hun aansprakelijkheidsverzekeringen.</example>
 				</antipattern>
 				<pattern>
