@@ -46,7 +46,7 @@ public class HTTPServerConfig {
   public static final String DEFAULT_HOST = "localhost";
 
   /** The default port on which the server is running (8081). */
-  public static final int DEFAULT_PORT = 8081;
+  public static final int DEFAULT_PORT = 80;
   
   static final String LANGUAGE_MODEL_OPTION = "--languageModel";
 
