@@ -10445,6 +10445,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="A.*"/>
     </rule>
+    <rule id="que_tant_pregona" name="que tant pregona">
+        <pattern>
+            <token regexp="yes">que|qui|què</token>
+            <token>tant</token>
+            <marker>
+                <token postag="V.[IS].*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="[AN].*"/>
+    </rule>
     <rule id="adv_adjverb" name="adverbi + adjectiu/verb">
         <!-- tan complexa, tant planes de sabana com regions de jungla; tan baixa com, tan seré -->
         <pattern>
