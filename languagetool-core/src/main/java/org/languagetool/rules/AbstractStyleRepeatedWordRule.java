@@ -56,6 +56,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     setDefaultOff();
+    setOfficeDefaultOn();  // Default for LO/OO is always On
     this.lang = lang;
     if (userConfig != null) {
       linguServices = userConfig.getLinguServices();
