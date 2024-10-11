@@ -67,11 +67,6 @@
             <version>6.5.0.RC1</version>
         </dependency>
         <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-core-http-netty</artifactId>
-            <version>1.15.5</version>
-        </dependency>
-        <dependency>
             <!-- monitoring via prometheusMonitoring -->
             <!-- client and guava bindings in languagetool-core -->
             <!-- Hotspot JVM metrics-->
@@ -177,6 +172,36 @@
                     <skip>false</skip>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.microsoft.azure</groupId>
+                <artifactId>azure-webapp-maven-plugin</artifactId>
+                <version>2.13.0</version>
+                <configuration>
+                    <schemaVersion>v2</schemaVersion>
+                    <subscriptionId>e865a2ac-e828-4bcb-abef-3b8a025b367b</subscriptionId>
+                    <resourceGroup>rg-dpdc-services-dev-gwc</resourceGroup>
+                    <appName>app-language-tool-java-dev-gwc</appName>
+                    <pricingTier>P1v3</pricingTier>
+                    <region>germanywestcentral</region>
+                    <appServicePlanName>plan-lanaguagetool-poc-dev-gwc</appServicePlanName>
+                    <appServicePlanResourceGroup>rg-dpdc-services-dev-gwc</appServicePlanResourceGroup>
+                    <runtime>
+                        <os>Linux</os>
+                        <javaVersion>Java 17</javaVersion>
+                        <webContainer>Java SE</webContainer>
+                    </runtime>
+                    <deployment>
+                        <resources>
+                            <resource>
+                                <directory>${project.basedir}/target</directory>
+                                <includes>
+                                    <include>*.jar</include>
+                                </includes>
+                            </resource>
+                        </resources>
+                    </deployment>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <profiles>
@@ -202,11 +227,11 @@
                                         <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                             <mainClass>org.languagetool.server.HTTPServer</mainClass>
                                         </transformer>
-                                        <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"></transformer>
+                                        <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                         <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                             <resource>META-INF/org/languagetool/language-module.properties</resource>
                                         </transformer>
-                                        <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"></transformer>
+                                        <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"/>
                                         <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
                                             <addHeader>false</addHeader>
                                         </transformer>
