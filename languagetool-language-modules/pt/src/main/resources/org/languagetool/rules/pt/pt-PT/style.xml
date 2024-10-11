@@ -2243,6 +2243,19 @@ USA
         <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
 
         <!-- Inserted global antipatterns for all subrules on top. -->
+
+        <!-- ChatGPT 4o: "All these verbs are related to absence, need, or lack and are, therefore, exceptions to the proposed rule." -->
+        <antipattern>
+            <token regexp='yes' inflected='yes' postag_regexp='yes' postag='VM.....:PP.C.+'>ausentar|carecer|definhar|desaparecer|descurar|escassear|_esquecer|faltar|fugir|minguar|negligenciar|omitir|precisar<exception postag_regexp='yes' postag='VMN0000:.+|VM.....:(PP2CSO00|PP3..A00)'/></token>
+            <example>A música deles é demasiado comercial, falta-lhe a "alma".</example>
+            <example>As músicas deles são demasiado comerciais, falta-lhes a "alma".</example>
+            <example>Falta-nos claramente um elemento para substituir o Rinaudo.</example>
+            <example>Falta-me um martelo.</example>
+            <example>Falta-me prática.</example>
+            <example>Falta-nos tempo.</example>
+            <example>Falta-nos claramente um elemento para substituir o Rinaudo.</example>
+        </antipattern>
+
         <antipattern>
             <token postag='DI.+|Z0.+' postag_regexp='yes'/>
             <token min='1' max='3' postag='NC.+|AQ.+|RM' postag_regexp='yes'/>
