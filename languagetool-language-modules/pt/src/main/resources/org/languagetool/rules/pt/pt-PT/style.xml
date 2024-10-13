@@ -332,30 +332,6 @@ USA
     </rule>
 
 </rulegroup>
-<!-- EDUCAÇÃO SUPERIOR Ensino Superior -->
-<rule id='ENSINO_SUPERIOR' name="[pt-PT] 'Educação' Superior → 'Ensino'" type="style" tone_tags="academic">
-    <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-13/16 (Checked/Enhanced) (25-JUL-2022+) -->
-    <!--
-        O ISCTE é uma instituição de Educação Superior. → O ISCTE é uma instituição de Ensino Superior.
-    -->
-    <pattern>
-        <marker>
-            <token case_sensitive="no">Educação
-            <exception scope='previous' regexp='yes' inflected='yes'>ter</exception>
-        </token>
-        <token case_sensitive="no">Superior</token>
-    </marker>
-</pattern>
-<message>Se estiver a referir-se a uma instituição/ramo universitário, opte por:</message>
-<suggestion>ensino \2</suggestion>
-<suggestion>Ensino Superior</suggestion>
-<example correction="ensino superior|Ensino Superior">O ISCTE é uma instituição de <marker>educação superior</marker>.</example>
-<example>A Ana tem educação superior.</example>
-<example>Eu tenho educação superior.</example>
-<example>Se ele tiver educação superior, tudo bem.</example>
-<example>O estabelecimento é de Ensino Superior.</example>
-<example>Um homem que nunca foi à escola pode roubar de um vagão de carga; mas, se ele tiver educação superior, ele pode roubar toda a ferrovia.</example>
-        </rule>
 
 
         <rule id='FAZER_DESPORTO' name="[pt-PT] 'Fazer' desporto → Praticar" tone_tags="formal">
@@ -3421,6 +3397,54 @@ USA
 
 
     <category id='ACADEMIC_SCIENTIFIC_PT_PT' name="[pt-PT] Regras académicas e científicas" type="other">
+
+
+        <rulegroup id='ENSINO_SUPERIOR_V2' name="[pt-PT][Científico] 'Educação' Superior → 'Ensino'" type="style" tone_tags="academic" default="temp_off">
+        <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
+
+            <rule> <!-- à -->
+                <pattern>
+                    <marker>
+                        <token>à</token>
+                        <token case_sensitive="no">Educação</token>
+                        <token case_sensitive="no">Superior</token>
+                    </marker>
+                </pattern>
+                <message>Substituir &quot;educação superior&quot; por &quot;ensino superior&quot;, pois este é o termo correto e mais usado em português europeu para se referir ao nível de ensino após o secundário.</message>
+                <suggestion>ao ensino \3</suggestion>
+                <suggestion>ao Ensino Superior</suggestion>
+                <example correction="ao ensino superior|ao Ensino Superior">Avaliar o acesso <marker>à educação superior</marker>.</example>
+            </rule>
+
+            <rule> <!-- da -->
+                <pattern>
+                    <marker>
+                        <token>da</token>
+                        <token case_sensitive="no">Educação</token>
+                        <token case_sensitive="no">Superior</token>
+                    </marker>
+                </pattern>
+                <message>Substituir &quot;educação superior&quot; por &quot;ensino superior&quot;, pois este é o termo correto e mais usado em português europeu para se referir ao nível de ensino após o secundário.</message>
+                <suggestion>do ensino \3</suggestion>
+                <suggestion>do Ensino Superior</suggestion>
+                <example correction="do ensino superior|do Ensino Superior">A melhoria <marker>da educação superior</marker>.</example>
+            </rule>
+
+            <rule> <!-- de -->
+                <pattern>
+                    <token>de</token>
+                    <marker>
+                        <token case_sensitive="no">Educação</token>
+                        <token case_sensitive="no">Superior</token>
+                    </marker>
+                </pattern>
+                <message>Substituir &quot;educação superior&quot; por &quot;ensino superior&quot;, pois este é o termo correto e mais usado em português europeu para se referir ao nível de ensino após o secundário.</message>
+                <suggestion>ensino \3</suggestion>
+                <suggestion>Ensino Superior</suggestion>
+                <example correction="ensino superior|Ensino Superior">O ISCTE é uma instituição de <marker>educação superior</marker>.</example>
+            </rule>
+
+        </rulegroup>
 
 
         <rule id='CIENTÍFICO_DETERMINADAS_ESPECÍFICAS' name="[pt-PT][Científico] Determinados → Específicos" type="style" tone_tags="academic">
