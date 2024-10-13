@@ -371,7 +371,286 @@ USA
         </rule>
 
 
-        <rulegroup id='INFORMALITIES' name="[pt-PT] Linguagem informal" default="on" tags="picky" tone_tags="formal">
+    <!-- VELHA ESCOLA velha guarda -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-27 (21-OCT-2020+)     -->
+    <rule id='VELHA_ESCOLA_VELHA_GUARDA' name="[pt-PT] Velha escola → Velha guarda" tone_tags="formal">
+        <pattern>
+            <token inflected='yes'>ser</token>
+            <token>da</token>
+            <token>velha</token>
+            <marker>
+                <token>escola</token>
+            </marker>
+        </pattern>
+        <message>Se for uma frase idiomática, utilize <suggestion>guarda</suggestion>.</message>
+        <example correction="guarda">O Rui é da velha <marker>escola</marker>.</example>
+    </rule>
+    <rulegroup id="PORTUGUESE_ADDRESSES" name="[pt-PT] Formato de endereços em Portugal" type="style" tone_tags="formal">
+        <!--  Localized from French, by Tiago F. Santos, 2017-10-01      -->
+        <rule>
+            <regexp type="exact" mark="1">\b(?:Rua|R\.|Arruamento|Avenida|Av\.|Praça|Pr\.|Cruzamento|Caminho|Via|Estrada|Piso)[  ][^,\n]+\s*[,\n]\s*(\p{Lu}[^,%\d\n]+[  ]\d{4}(?:\-\d{3})?)\s*[,\n]\s*(?:PORTUGAL|PORTOGALLO|PORTOGALIA)\b</regexp>
+            <message>Se é um código postal português, o código postal deve estar antes do nome da localidade.</message>
+            <example type="incorrect">Rua da Igreja 5, <marker>PORTO 2920</marker>, PORTUGAL</example>
+            <example>Rua da Igreja 5, <marker>2920 PORTO</marker>, PORTUGAL</example>
+            <example type="incorrect">Rua da Igreja 5, <marker>PORTO 2920-292</marker>, PORTUGAL</example>
+            <example>Rua da Igreja 5, <marker>2920-292 PORTO</marker>, PORTUGAL</example>
+        </rule>
+        <rule>
+            <!-- When country is not specified, we can still guess that the address
+                is in Portugal for some biggest well known cities.
+            for the biggest cities per departement -->
+            <regexp>\b(?:(?:&localidades_postais;) \d{4})\b</regexp>
+            <message>Se é um código postal português, deve ser escrito antes da localidade postal</message>
+            <example type="incorrect">5 Rua da Igreja, <marker>Porto 2920</marker>.</example>
+            <example>5 Rua da Igreja, 2920 Porto.</example>
+        </rule>
+        <rule>
+            <regexp type='exact'>\b(?:\d[  \.·,-]\d\d\d (?:&localidades_postais;))\b</regexp>
+            <message>Se é um código postal, deve ser escrito sem separadores.</message>
+            <example type="incorrect">Rua da Igreja, <marker>2 200 Porto</marker>.</example>
+            <example type="incorrect">Rua da Igreja, <marker>2 200 Porto</marker>.</example>
+            <example type="incorrect">Rua da Igreja, <marker>2,200 Porto</marker>.</example>
+            <example type="incorrect">Rua da Igreja, <marker>2.200 Porto</marker>.</example>
+            <example type="incorrect">Rua da Igreja, <marker>2·200 Porto</marker>.</example>
+        </rule>
+    </rulegroup>
+
+
+    <rule id='ALUGAR_CASA' name="[pt-PT] 'alugar' imóvel → 'arrendar'" type='style' tone_tags="objective">
+        <pattern>
+            <marker>
+                <token skip='4' inflected='yes'>alugar</token>
+            </marker>
+            <token regexp='yes' inflected='yes'>apartamento|casa|habitação|imóvel|moradia|vivenda</token>
+        </pattern>
+        <message>Se não pretende realçar o tipo de imóvel, considere <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arrendar</match></suggestion>.</message>
+        <example correction="arrendar">Vou <marker>alugar</marker> uma casa em Lisboa.</example>
+        <example correction="Arrendei"><marker>Aluguei</marker> um apartamento em Lisboa.</example>
+    </rule>
+
+
+    <rule id='CONCLUIR_UM_CURSO' name="[pt-PT] 'acabar/terminar' um curso → 'concluir'" type='style' tone_tags="academic">
+        <pattern>
+            <marker>
+                <token regexp="yes" inflected='yes'>acabar|terminar</token>
+            </marker>
+            <token min="1" max="3" postag='(SPS00:)?D.+|NC.+|AQ.+|RG' postag_regexp='yes'>
+                <exception inflected='yes' regexp='yes'>bacharela[dt]o|curso|doutorado|doutoramento|especialização|faculdade|graduação|licenciatura|mestrado|PhD|pós-doutoramento|pós-graduação|universidade</exception>
+                <exception postag_regexp='yes' postag='V.+'/>
+            </token>
+            <token inflected='yes' regexp="yes">bacharela[dt]o|curso|doutorado|doutoramento|especialização|faculdade|graduação|licenciatura|mestrado|PhD|pós-doutoramento|pós-graduação|universidade</token>
+        </pattern>
+        <message>Relativamente a cursos e a graus universitários, é mais formal escrever &quot;concluir&quot;.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>concluir</match></suggestion>
+        <example correction="concluir">Vou <marker>acabar</marker> o meu doutoramento.</example>
+        <example correction="concluiu">Ele <marker>terminou</marker> um mestrado em gestão.</example>
+        <example correction="concluiu">A Ana <marker>terminou</marker> o seu grande PhD em gestão.</example>
+        <example correction="concluiu">O Rui <marker>acabou</marker> hoje o PhD.</example>
+        <example>Desativada no final dos anos 40, a escola acabou ocupada pela Faculdade de Medicina de Ribeirão Preto.</example>
+    </rule>
+
+
+    <!-- ESTRANGEIRISMOS ESPECÍFICOS pt_PT -->
+    <rule id='BARBARISMS_PT_PT_V3' name="[pt-PT] Estrangeirismos específicos pt_PT" type="style">
+        <!-- IDEA foreign_terms -->
+        <!--      Created by Tiago F. Santos (2017-02-09) and improved by Marco A.G.Pinto and Ricardo Joseh Lima, Portuguese rule 2022-07-26 + 2022-10-03 (Checked/Enhanced) (25-JUL-2022+)      -->
+        <!--
+            This rule is only available to pt-PT. Dissertations, theses and academic papers in European Portuguese use this.
+        -->
+
+        <antipattern>
+            <token postag='_QUOT'/>
+            <token regexp='yes' spacebefore='no'>(?:&barbarismos;|&barbarismos_rev2;|&barbarismos_rev3;)s?</token>
+            <token spacebefore='no' postag='_QUOT'/>
+        </antipattern>
+
+        <antipattern>
+            <token>curriculum</token>
+            <token>vitae</token>
+        </antipattern>
+
+        <antipattern>
+            <token/>
+            <token regexp='yes'>&tracos_de_separacao;</token>
+            <token spacebefore="no" regexp="yes">(?:&barbarismos;|&barbarismos_rev2;|&barbarismos_rev3;)s?</token>
+            <example>Para se ter ideia do poder do estilo, o Brasil foi o sexto País que mais falou sobre k-pop no Twitter em 2019.</example>
+            <example>O que é Eco-Drive?</example>
+            <example>Aceitar cartões de crédito a partir do seu próprio site e se completa no-show e cancelamento Protection.</example>
+        </antipattern>
+
+        <antipattern>
+            <token regexp='yes'>\d\d?</token>
+            <token min='0' max="1">de</token>
+            <token regexp='yes'>&meses_ano_abrev;</token>
+            <token min='0' max="1" spacebefore='no' regexp='yes'>[.]</token>
+            <token min='0' max="1">de</token>
+            <token postag='Z0.+' postag_regexp='yes'/>
+            <example>Acesso em: 10 set 2007.</example>
+            <example>Acesso em: 10 set. 2007.</example>
+            <example>Acesso em: 10 de set 2007.</example>
+            <example>Acesso em: 10 de set. 2007.</example>
+            <example>Acesso em: 10 de set de 2007.</example>
+            <example>Acesso em: 10 de set. de 2007.</example>
+            <example>Acesso em: 10 out 2007.</example>
+            <example>Acesso em: 10 out. 2007.</example>
+            <example>Acesso em: 10 de out 2007.</example>
+            <example>Acesso em: 10 de out. 2007.</example>
+            <example>Acesso em: 10 de out de 2007.</example>
+            <example>Acesso em: 10 de out. de 2007.</example>
+        </antipattern>
+
+        <antipattern>
+            <token>Red</token>
+            <token>Bull</token>
+            <example>...de Mercedes e Ferrari praticamente durante toda a transmissão por conta das atuais brigas com a Red Bull foi ridículo.</example>
+            <example>Ainda assim, nenhum outro piloto do programa de desenvolvimento da Red Bull tinha o mesmo nível de experiência e o mesmo gabarito que o ibérico.</example>
+        </antipattern>
+
+        <antipattern>
+            <token regexp="yes">Tickets?</token>
+            <token>Refeição</token>
+            <example>...ovavelmente é um dos únicos a não aceitarem cartões de bandeiras diferentes da Cielo, como o famoso Ticket Refeição.</example>
+        </antipattern>
+
+        <antipattern>
+            <token>Reality</token>
+            <token>Show</token>
+            <example>Agora ela começa depois do reality show global, ou seja, aproximadamente, uma hora mais cedo.</example>
+            <example>Com dificuldades de fazer amigos, para ele a vida não passa de um grande reality show, onde ele é mais um espectador.</example>
+            <example>... uma condição mental marcada pela crença de um paciente de que ele ou ela é a estrela de um reality show imaginário.</example>
+        </antipattern>
+
+        <antipattern>
+            <token>top</token>
+            <token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+            <token postag='Z0.+' postag_regexp='yes'/>
+            <example>Bahia (132) e Avaí (131) também estão entre os top-20.</example>
+            <example>Colabore com o seu time do coração e faça sua doação ao TOP 100 da Tuna.</example>
+            <example>Top 3 merecido, né?</example>
+            <example>Desta vez, cada integrante do Top 10 vem com sua respectiva crítica por este que vos escreve.</example>
+            <example>E, novamente, o top 10 comentado tenta captar um pouco da percepção sobre estes filmes e sobre o cinema contemporâneo.</example>
+            <example>É com base nas recomendações que vi/li esse ano que monto esse top 5.</example>
+            <example>O Top 3 da semana é especial Esquenta Carnavrau.</example>
+            <example>Tom não chegou ao top 20.</example>
+        </antipattern>
+
+        <pattern>
+            <token regexp='yes'>(?:&barbarismos;|&barbarismos_rev2;|&barbarismos_rev3;)s?
+            <exception postag_regexp='yes' postag='NP.+'/> <!-- "A Internet." -->
+            <exception regexp='yes'>(?:bit|kilo(?:bit|byte|volt|watt)|giga(?:byte|watt)|quilohertz|out)s?|DNAs?|INSS|RNAs?</exception> <!-- XXX remove after regenerating regexp -->
+        </token>
+    </pattern>
+    <message>Os estrangeirismos (português europeu) devem estar entre aspas ou ser italizados.</message>
+    <suggestion>‘\1’</suggestion>
+    <suggestion>“\1”</suggestion>
+    <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/estrangeirismos-em-italico-ou-entre-aspas/7785</url>
+    <example correction='‘software’|“software”'>O <marker>software</marker> é poderoso.</example>
+    <example correction='‘softwares’|“softwares”'>Os <marker>softwares</marker> são poderosos.</example>
+    <example>Ainda estão a debater se adquirem ou não acesso à Internet.</example> <!-- "Internet" in uppercase is a NP thus ignored. -->
+    <example>O “suspense” é imenso.</example>
+    <example>Ao navegar ou utilizar os nossos serviços, aceita o uso que fazemos das 'cookies'.</example>
+    <example>Deu à sorveteria o nome "Iceberg".</example>
+    <example>Uma amiga gosta de chamar nossa casa de "vintage".</example>
+    <example>Pra mim é um tema bastante universal, faz parte da natureza humana tanto praticar o “bullying”, quanto sofrer com ele.</example>
+    <example>À chegada a Yerevan é só entrar na fila para o “check-in” e aguardar pela vez.</example>
+    <example>Os “hackers” pedem o resgate em moeda virtual para devolverem o acesso ao usuário-vítima.</example>
+    <example>No caso das objectivas AF, principalmente nas de gama média e de “kit”, essa utilização é duma maneira geral, pouco usual.</example>
+</rule>
+
+
+<rulegroup id='ORDINAL_ABREVIATION' name="[pt-PT] Abreviatura de ordinais: 1º → 1.º" tone_tags="formal">
+    <!--  Created by Tiago F. Santos, 20-07-2017 -->
+    <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/ainda-sobre-a-abreviatura-do-numeral-ordinal-com-ou-sem-o-sobrescrito-sublinhado/2680</url>
+    <antipattern>
+        <token postag="SENT_START"/>
+        <token regexp="yes">\d+a</token>
+        <token postag="_PUNCT" spacebefore="no"/>
+        <example> 2a. Sistemas.</example>
+    </antipattern>
+    <antipattern>
+        <token postag="SENT_START"/>
+        <token regexp="yes">(?:\d+)\.[a]</token>
+        <token postag="_PUNCT" spacebefore="no"/>
+        <token regexp="yes">\p{L}+</token>
+        <example>2.a. Sistemas.</example>
+    </antipattern>
+    <antipattern>
+        <token postag="_PUNCT" spacebefore="no"/>
+        <token regexp="yes">(?:\d+)\p{L}</token>
+        <token postag="_PUNCT" spacebefore="no"/>
+        <example>-895a-</example>
+    </antipattern>
+    <rule>
+        <pattern>
+            <token regexp='yes'>(?:\d+)[ºo]\.?([sˢ]?)
+            <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception></token>
+            <!--token min='0' spacebefore='no'>.</token-->
+    </pattern>
+    <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)[ºo]\.?([sˢ]?)\.?' regexp_replace='$1.º$2'/></suggestion>. Note que graus não são ordinais.</message>
+    <example correction="12.º">O premiado é o <marker>12o</marker> da lista.</example>
+    <example>Temperatura máxima prevista de 38º C.</example><!-- formatting of degrees done by DEGREE_SYMBOL -->
+</rule>
+<rule>
+    <pattern>
+        <token regexp='yes' case_sensitive='yes'>(?:\d+)\.o(?:[sˢ]?)</token>
+        <!--token min='0' spacebefore='no'>.</token-->
+</pattern>
+<message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)\.o([sˢ]?)\.?' regexp_replace='$1.º$2'/></suggestion>.</message>
+<example correction="12.º">A entrada é a <marker>12.o</marker> da lista.</example>
+<example correction="12.º">A entrada é a <marker>12.o</marker>. da lista.</example>
+<example correction="12.ºs">A entrada é a <marker>12.os</marker>. da lista.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes' case_sensitive='yes'>(?:\d+)[ªa]\.?([sˢ]?)</token>
+                    <!--token min='0' spacebefore='no'>.</token-->
+            </pattern>
+            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)[ªa]\.?([sˢ]?)\.?' regexp_replace='$1.ª$2'/></suggestion>.</message>
+            <example correction="12.ª">A entrada é a <marker>12ª</marker> da lista.</example>
+            <example correction="12.ª">A entrada é a <marker>12a</marker>. da lista.</example>
+            <example correction="12.ªs">A entrada é a <marker>12as</marker> da lista.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp='yes' case_sensitive='yes'>(?:\d+)\.a(?:[sˢ]?)</token>
+                <!--token min='0' spacebefore='no'>.</token-->
+        </pattern>
+        <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)\.a([sˢ]?)\.?' regexp_replace='$1.ª$2'/></suggestion>.</message>
+        <example correction="12.ª">A entrada é a <marker>12.a</marker> da lista.</example>
+        <example correction="12.ª">A entrada é a <marker>12.a</marker>. da lista.</example>
+        <example correction="12.ªs">A entrada é a <marker>12.as</marker>. da lista.</example>
+    </rule>
+    <rule>
+        <pattern>
+            <token regexp='yes' case_sensitive='yes'>(?:\d+\.[aoªº])s</token>
+        </pattern>
+        <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='s' regexp_replace='ˢ'/></suggestion>.</message>
+        <example correction="12.ªˢ">A entrada é a <marker>12.ªs</marker> da lista.</example>
+    </rule>
+    <rule>
+        <pattern>
+            <marker>
+                <token regexp='yes' case_sensitive='yes'>(?:\d+\.?[aoªº])[sˢ]?</token>
+                <token>.</token>
+            </marker>
+            <token regexp='yes' case_sensitive='yes'>\p{Ll}+|[,;]</token>
+        </pattern>
+        <message>A abreviatura deste ordinal é: <suggestion>\1</suggestion>.</message>
+        <example correction="12o">O premiado é o <marker>12o.</marker> da lista.</example>
+    </rule>
+
+
+</rulegroup>
+
+
+    </category>
+
+
+
+    <category id='FORMAL_SPEECH_PT_PT' name='[pt-PT] Linguagem Formal' type='register' tone_tags="formal">
+
+
+        <rulegroup id='INFORMALITIES' name="[pt-PT][Formal] Linguagem informal" default="on" tags="picky" tone_tags="formal">
             <!-- Created by Tiago F. Santos, Portuguese rule, 2017-05-09 -->
             <url>https://pt.wiktionary.org/wiki/Categoria:Coloquialismo_(Portugu%C3%AAs)</url>
             <rule>
@@ -1890,285 +2169,6 @@ USA
         <example correction=''>Vai <marker>dar uma volta ao bilhar grande</marker>.</example>
     </rule>
 </rulegroup>
-
-
-    <!-- VELHA ESCOLA velha guarda -->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-27 (21-OCT-2020+)     -->
-    <rule id='VELHA_ESCOLA_VELHA_GUARDA' name="[pt-PT] Velha escola → Velha guarda" tone_tags="formal">
-        <pattern>
-            <token inflected='yes'>ser</token>
-            <token>da</token>
-            <token>velha</token>
-            <marker>
-                <token>escola</token>
-            </marker>
-        </pattern>
-        <message>Se for uma frase idiomática, utilize <suggestion>guarda</suggestion>.</message>
-        <example correction="guarda">O Rui é da velha <marker>escola</marker>.</example>
-    </rule>
-    <rulegroup id="PORTUGUESE_ADDRESSES" name="[pt-PT] Formato de endereços em Portugal" type="style" tone_tags="formal">
-        <!--  Localized from French, by Tiago F. Santos, 2017-10-01      -->
-        <rule>
-            <regexp type="exact" mark="1">\b(?:Rua|R\.|Arruamento|Avenida|Av\.|Praça|Pr\.|Cruzamento|Caminho|Via|Estrada|Piso)[  ][^,\n]+\s*[,\n]\s*(\p{Lu}[^,%\d\n]+[  ]\d{4}(?:\-\d{3})?)\s*[,\n]\s*(?:PORTUGAL|PORTOGALLO|PORTOGALIA)\b</regexp>
-            <message>Se é um código postal português, o código postal deve estar antes do nome da localidade.</message>
-            <example type="incorrect">Rua da Igreja 5, <marker>PORTO 2920</marker>, PORTUGAL</example>
-            <example>Rua da Igreja 5, <marker>2920 PORTO</marker>, PORTUGAL</example>
-            <example type="incorrect">Rua da Igreja 5, <marker>PORTO 2920-292</marker>, PORTUGAL</example>
-            <example>Rua da Igreja 5, <marker>2920-292 PORTO</marker>, PORTUGAL</example>
-        </rule>
-        <rule>
-            <!-- When country is not specified, we can still guess that the address
-                is in Portugal for some biggest well known cities.
-            for the biggest cities per departement -->
-            <regexp>\b(?:(?:&localidades_postais;) \d{4})\b</regexp>
-            <message>Se é um código postal português, deve ser escrito antes da localidade postal</message>
-            <example type="incorrect">5 Rua da Igreja, <marker>Porto 2920</marker>.</example>
-            <example>5 Rua da Igreja, 2920 Porto.</example>
-        </rule>
-        <rule>
-            <regexp type='exact'>\b(?:\d[  \.·,-]\d\d\d (?:&localidades_postais;))\b</regexp>
-            <message>Se é um código postal, deve ser escrito sem separadores.</message>
-            <example type="incorrect">Rua da Igreja, <marker>2 200 Porto</marker>.</example>
-            <example type="incorrect">Rua da Igreja, <marker>2 200 Porto</marker>.</example>
-            <example type="incorrect">Rua da Igreja, <marker>2,200 Porto</marker>.</example>
-            <example type="incorrect">Rua da Igreja, <marker>2.200 Porto</marker>.</example>
-            <example type="incorrect">Rua da Igreja, <marker>2·200 Porto</marker>.</example>
-        </rule>
-    </rulegroup>
-
-
-    <rule id='ALUGAR_CASA' name="[pt-PT] 'alugar' imóvel → 'arrendar'" type='style' tone_tags="objective">
-        <pattern>
-            <marker>
-                <token skip='4' inflected='yes'>alugar</token>
-            </marker>
-            <token regexp='yes' inflected='yes'>apartamento|casa|habitação|imóvel|moradia|vivenda</token>
-        </pattern>
-        <message>Se não pretende realçar o tipo de imóvel, considere <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arrendar</match></suggestion>.</message>
-        <example correction="arrendar">Vou <marker>alugar</marker> uma casa em Lisboa.</example>
-        <example correction="Arrendei"><marker>Aluguei</marker> um apartamento em Lisboa.</example>
-    </rule>
-
-
-    <rule id='CONCLUIR_UM_CURSO' name="[pt-PT] 'acabar/terminar' um curso → 'concluir'" type='style' tone_tags="academic">
-        <pattern>
-            <marker>
-                <token regexp="yes" inflected='yes'>acabar|terminar</token>
-            </marker>
-            <token min="1" max="3" postag='(SPS00:)?D.+|NC.+|AQ.+|RG' postag_regexp='yes'>
-                <exception inflected='yes' regexp='yes'>bacharela[dt]o|curso|doutorado|doutoramento|especialização|faculdade|graduação|licenciatura|mestrado|PhD|pós-doutoramento|pós-graduação|universidade</exception>
-                <exception postag_regexp='yes' postag='V.+'/>
-            </token>
-            <token inflected='yes' regexp="yes">bacharela[dt]o|curso|doutorado|doutoramento|especialização|faculdade|graduação|licenciatura|mestrado|PhD|pós-doutoramento|pós-graduação|universidade</token>
-        </pattern>
-        <message>Relativamente a cursos e a graus universitários, é mais formal escrever &quot;concluir&quot;.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>concluir</match></suggestion>
-        <example correction="concluir">Vou <marker>acabar</marker> o meu doutoramento.</example>
-        <example correction="concluiu">Ele <marker>terminou</marker> um mestrado em gestão.</example>
-        <example correction="concluiu">A Ana <marker>terminou</marker> o seu grande PhD em gestão.</example>
-        <example correction="concluiu">O Rui <marker>acabou</marker> hoje o PhD.</example>
-        <example>Desativada no final dos anos 40, a escola acabou ocupada pela Faculdade de Medicina de Ribeirão Preto.</example>
-    </rule>
-
-
-    <!-- ESTRANGEIRISMOS ESPECÍFICOS pt_PT -->
-    <rule id='BARBARISMS_PT_PT_V3' name="[pt-PT] Estrangeirismos específicos pt_PT" type="style">
-        <!-- IDEA foreign_terms -->
-        <!--      Created by Tiago F. Santos (2017-02-09) and improved by Marco A.G.Pinto and Ricardo Joseh Lima, Portuguese rule 2022-07-26 + 2022-10-03 (Checked/Enhanced) (25-JUL-2022+)      -->
-        <!--
-            This rule is only available to pt-PT. Dissertations, theses and academic papers in European Portuguese use this.
-        -->
-
-        <antipattern>
-            <token postag='_QUOT'/>
-            <token regexp='yes' spacebefore='no'>(?:&barbarismos;|&barbarismos_rev2;|&barbarismos_rev3;)s?</token>
-            <token spacebefore='no' postag='_QUOT'/>
-        </antipattern>
-
-        <antipattern>
-            <token>curriculum</token>
-            <token>vitae</token>
-        </antipattern>
-
-        <antipattern>
-            <token/>
-            <token regexp='yes'>&tracos_de_separacao;</token>
-            <token spacebefore="no" regexp="yes">(?:&barbarismos;|&barbarismos_rev2;|&barbarismos_rev3;)s?</token>
-            <example>Para se ter ideia do poder do estilo, o Brasil foi o sexto País que mais falou sobre k-pop no Twitter em 2019.</example>
-            <example>O que é Eco-Drive?</example>
-            <example>Aceitar cartões de crédito a partir do seu próprio site e se completa no-show e cancelamento Protection.</example>
-        </antipattern>
-
-        <antipattern>
-            <token regexp='yes'>\d\d?</token>
-            <token min='0' max="1">de</token>
-            <token regexp='yes'>&meses_ano_abrev;</token>
-            <token min='0' max="1" spacebefore='no' regexp='yes'>[.]</token>
-            <token min='0' max="1">de</token>
-            <token postag='Z0.+' postag_regexp='yes'/>
-            <example>Acesso em: 10 set 2007.</example>
-            <example>Acesso em: 10 set. 2007.</example>
-            <example>Acesso em: 10 de set 2007.</example>
-            <example>Acesso em: 10 de set. 2007.</example>
-            <example>Acesso em: 10 de set de 2007.</example>
-            <example>Acesso em: 10 de set. de 2007.</example>
-            <example>Acesso em: 10 out 2007.</example>
-            <example>Acesso em: 10 out. 2007.</example>
-            <example>Acesso em: 10 de out 2007.</example>
-            <example>Acesso em: 10 de out. 2007.</example>
-            <example>Acesso em: 10 de out de 2007.</example>
-            <example>Acesso em: 10 de out. de 2007.</example>
-        </antipattern>
-
-        <antipattern>
-            <token>Red</token>
-            <token>Bull</token>
-            <example>...de Mercedes e Ferrari praticamente durante toda a transmissão por conta das atuais brigas com a Red Bull foi ridículo.</example>
-            <example>Ainda assim, nenhum outro piloto do programa de desenvolvimento da Red Bull tinha o mesmo nível de experiência e o mesmo gabarito que o ibérico.</example>
-        </antipattern>
-
-        <antipattern>
-            <token regexp="yes">Tickets?</token>
-            <token>Refeição</token>
-            <example>...ovavelmente é um dos únicos a não aceitarem cartões de bandeiras diferentes da Cielo, como o famoso Ticket Refeição.</example>
-        </antipattern>
-
-        <antipattern>
-            <token>Reality</token>
-            <token>Show</token>
-            <example>Agora ela começa depois do reality show global, ou seja, aproximadamente, uma hora mais cedo.</example>
-            <example>Com dificuldades de fazer amigos, para ele a vida não passa de um grande reality show, onde ele é mais um espectador.</example>
-            <example>... uma condição mental marcada pela crença de um paciente de que ele ou ela é a estrela de um reality show imaginário.</example>
-        </antipattern>
-
-        <antipattern>
-            <token>top</token>
-            <token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-            <token postag='Z0.+' postag_regexp='yes'/>
-            <example>Bahia (132) e Avaí (131) também estão entre os top-20.</example>
-            <example>Colabore com o seu time do coração e faça sua doação ao TOP 100 da Tuna.</example>
-            <example>Top 3 merecido, né?</example>
-            <example>Desta vez, cada integrante do Top 10 vem com sua respectiva crítica por este que vos escreve.</example>
-            <example>E, novamente, o top 10 comentado tenta captar um pouco da percepção sobre estes filmes e sobre o cinema contemporâneo.</example>
-            <example>É com base nas recomendações que vi/li esse ano que monto esse top 5.</example>
-            <example>O Top 3 da semana é especial Esquenta Carnavrau.</example>
-            <example>Tom não chegou ao top 20.</example>
-        </antipattern>
-
-        <pattern>
-            <token regexp='yes'>(?:&barbarismos;|&barbarismos_rev2;|&barbarismos_rev3;)s?
-            <exception postag_regexp='yes' postag='NP.+'/> <!-- "A Internet." -->
-            <exception regexp='yes'>(?:bit|kilo(?:bit|byte|volt|watt)|giga(?:byte|watt)|quilohertz|out)s?|DNAs?|INSS|RNAs?</exception> <!-- XXX remove after regenerating regexp -->
-        </token>
-    </pattern>
-    <message>Os estrangeirismos (português europeu) devem estar entre aspas ou ser italizados.</message>
-    <suggestion>‘\1’</suggestion>
-    <suggestion>“\1”</suggestion>
-    <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/estrangeirismos-em-italico-ou-entre-aspas/7785</url>
-    <example correction='‘software’|“software”'>O <marker>software</marker> é poderoso.</example>
-    <example correction='‘softwares’|“softwares”'>Os <marker>softwares</marker> são poderosos.</example>
-    <example>Ainda estão a debater se adquirem ou não acesso à Internet.</example> <!-- "Internet" in uppercase is a NP thus ignored. -->
-    <example>O “suspense” é imenso.</example>
-    <example>Ao navegar ou utilizar os nossos serviços, aceita o uso que fazemos das 'cookies'.</example>
-    <example>Deu à sorveteria o nome "Iceberg".</example>
-    <example>Uma amiga gosta de chamar nossa casa de "vintage".</example>
-    <example>Pra mim é um tema bastante universal, faz parte da natureza humana tanto praticar o “bullying”, quanto sofrer com ele.</example>
-    <example>À chegada a Yerevan é só entrar na fila para o “check-in” e aguardar pela vez.</example>
-    <example>Os “hackers” pedem o resgate em moeda virtual para devolverem o acesso ao usuário-vítima.</example>
-    <example>No caso das objectivas AF, principalmente nas de gama média e de “kit”, essa utilização é duma maneira geral, pouco usual.</example>
-</rule>
-
-
-<rulegroup id='ORDINAL_ABREVIATION' name="[pt-PT] Abreviatura de ordinais: 1º → 1.º" tone_tags="formal">
-    <!--  Created by Tiago F. Santos, 20-07-2017 -->
-    <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/ainda-sobre-a-abreviatura-do-numeral-ordinal-com-ou-sem-o-sobrescrito-sublinhado/2680</url>
-    <antipattern>
-        <token postag="SENT_START"/>
-        <token regexp="yes">\d+a</token>
-        <token postag="_PUNCT" spacebefore="no"/>
-        <example> 2a. Sistemas.</example>
-    </antipattern>
-    <antipattern>
-        <token postag="SENT_START"/>
-        <token regexp="yes">(?:\d+)\.[a]</token>
-        <token postag="_PUNCT" spacebefore="no"/>
-        <token regexp="yes">\p{L}+</token>
-        <example>2.a. Sistemas.</example>
-    </antipattern>
-    <antipattern>
-        <token postag="_PUNCT" spacebefore="no"/>
-        <token regexp="yes">(?:\d+)\p{L}</token>
-        <token postag="_PUNCT" spacebefore="no"/>
-        <example>-895a-</example>
-    </antipattern>
-    <rule>
-        <pattern>
-            <token regexp='yes'>(?:\d+)[ºo]\.?([sˢ]?)
-            <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception></token>
-            <!--token min='0' spacebefore='no'>.</token-->
-    </pattern>
-    <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)[ºo]\.?([sˢ]?)\.?' regexp_replace='$1.º$2'/></suggestion>. Note que graus não são ordinais.</message>
-    <example correction="12.º">O premiado é o <marker>12o</marker> da lista.</example>
-    <example>Temperatura máxima prevista de 38º C.</example><!-- formatting of degrees done by DEGREE_SYMBOL -->
-</rule>
-<rule>
-    <pattern>
-        <token regexp='yes' case_sensitive='yes'>(?:\d+)\.o(?:[sˢ]?)</token>
-        <!--token min='0' spacebefore='no'>.</token-->
-</pattern>
-<message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)\.o([sˢ]?)\.?' regexp_replace='$1.º$2'/></suggestion>.</message>
-<example correction="12.º">A entrada é a <marker>12.o</marker> da lista.</example>
-<example correction="12.º">A entrada é a <marker>12.o</marker>. da lista.</example>
-<example correction="12.ºs">A entrada é a <marker>12.os</marker>. da lista.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp='yes' case_sensitive='yes'>(?:\d+)[ªa]\.?([sˢ]?)</token>
-                    <!--token min='0' spacebefore='no'>.</token-->
-            </pattern>
-            <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)[ªa]\.?([sˢ]?)\.?' regexp_replace='$1.ª$2'/></suggestion>.</message>
-            <example correction="12.ª">A entrada é a <marker>12ª</marker> da lista.</example>
-            <example correction="12.ª">A entrada é a <marker>12a</marker>. da lista.</example>
-            <example correction="12.ªs">A entrada é a <marker>12as</marker> da lista.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp='yes' case_sensitive='yes'>(?:\d+)\.a(?:[sˢ]?)</token>
-                <!--token min='0' spacebefore='no'>.</token-->
-        </pattern>
-        <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)\.a([sˢ]?)\.?' regexp_replace='$1.ª$2'/></suggestion>.</message>
-        <example correction="12.ª">A entrada é a <marker>12.a</marker> da lista.</example>
-        <example correction="12.ª">A entrada é a <marker>12.a</marker>. da lista.</example>
-        <example correction="12.ªs">A entrada é a <marker>12.as</marker>. da lista.</example>
-    </rule>
-    <rule>
-        <pattern>
-            <token regexp='yes' case_sensitive='yes'>(?:\d+\.[aoªº])s</token>
-        </pattern>
-        <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='s' regexp_replace='ˢ'/></suggestion>.</message>
-        <example correction="12.ªˢ">A entrada é a <marker>12.ªs</marker> da lista.</example>
-    </rule>
-    <rule>
-        <pattern>
-            <marker>
-                <token regexp='yes' case_sensitive='yes'>(?:\d+\.?[aoªº])[sˢ]?</token>
-                <token>.</token>
-            </marker>
-            <token regexp='yes' case_sensitive='yes'>\p{Ll}+|[,;]</token>
-        </pattern>
-        <message>A abreviatura deste ordinal é: <suggestion>\1</suggestion>.</message>
-        <example correction="12o">O premiado é o <marker>12o.</marker> da lista.</example>
-    </rule>
-
-
-</rulegroup>
-
-
-    </category>
-
-
-
-    <category id='FORMAL_SPEECH_PT_PT' name='[pt-PT] Linguagem Formal' type='register' tone_tags="formal">
 
 
         <rule id='DIFICULDADES_PROVAÇÕES' name="[pt-PT][Formal] Passar 'dificuldades' → 'provações'" tags='picky' tone_tags='formal'>
