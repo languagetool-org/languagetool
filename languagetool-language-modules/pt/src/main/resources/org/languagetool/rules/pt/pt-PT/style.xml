@@ -86,12 +86,12 @@ USA
     <category id="STYLE" name="[pt-PT] Regras de Estilo" type="style">
 
 
-    <rule id='CONFUSÃO_CAIXA_EMBALAGEM' name="[pt-PT] Confusão: Caixa/embalagem" tone_tags="objective">
+    <rule id='CONFUSÃO_CAIXA_EMBALAGEM' name="[pt-PT] Confusão: Caixa/embalagem" tone_tags="objective" default="temp_off">
+        <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
         <pattern>
-            <token skip='4' inflected='yes'>tomar</token>
+            <token skip='4' regexp='yes' inflected='yes'>administrar|dosar|ingerir|injec?tar|prescrever|ministrar|tomar</token>
             <marker>
-                <token regexp='yes'>caixas?
-                    <exception scope='previous' postag='_PUNCT'/></token>
+                <token regexp='yes'>caixas?<exception scope='previous' postag='_PUNCT'/></token>
             </marker>
         </pattern>
         <message>Se estiver a referir-se a fármacos ou afins, empregue o termo &quot;embalagem&quot;.</message>
@@ -105,9 +105,7 @@ USA
         <pattern>
             <token skip='4' regexp='yes' inflected='yes'>ser|ter</token>
             <marker>
-                <token>prazer
-                    <exception scope='previous' postag_regexp='yes' postag='V.+'/>
-                </token>
+                <token>prazer<exception scope='previous' postag_regexp='yes' postag='V.+'/></token>
             </marker>
             <token regexp='yes'>de|em|que</token>
         </pattern>
