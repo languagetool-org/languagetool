@@ -4834,11 +4834,38 @@ USA
 <rulegroup id='VERBO_PARA_PRONOME_PESSOAL_V2' name="[pt-PT][Simplificar] Verbo + para + pronome pessoal → Verbo + -me/te/lhe/nos/vos/lhes" type="style" tone_tags="formal" default="temp_off">
         <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
 
-        <antipattern>
+        <antipattern> <!-- Limit the rule to specific verbs (ChatGPT 4o) -->
             <token postag='V.+' postag_regexp='yes'>
                 <exception inflected='yes' regexp='yes'>agradecer|anunciar|apresentar|atribuir|avisar|cobrar|comunicar|confessar|confiar|contar|dar|devolver|dizer|emprestar|ensinar|entregar|enviar|escrever|explicar|informar|ligar|mostrar|oferecer|pagar|pedir|perguntar|prometer|propor|recomendar|responder|telefonar</exception></token>
             <token>para</token>
             <token regexp='yes'>mim|tu|ti|si|vocês?|el[ae]s?|nós|vós</token>
+        </antipattern>
+
+        <antipattern> <!-- The gerund doesn't sound very fluid or natural in European Portuguese -->
+            <token postag='VMG0000' postag_regexp='no'/>
+            <token>para</token>
+            <token regexp='yes'>mim|tu|ti|si|vocês?|el[ae]s?|nós|vós</token>
+            <example>Justamente agora estou telefonando para você.</example>
+            <example>Estive ligando para você a noite toda.</example>
+            <example>Eu realmente não entendo o que você está dizendo para mim.</example>
+            <example>Estou escrevendo para ela.</example>
+            <example>O que você está pedindo para nós exatamente?</example>
+            <example>Estão ligando para você.</example>
+            <example>O que ela está dando para você?</example>
+        </antipattern>
+
+        <antipattern>
+            <token postag='VMSP3.+|VMIS1.+' postag_regexp='yes'/>
+            <token>para</token>
+            <token regexp='yes'>ti|si|vocês?|vós</token>
+            <token postag='RN|DD.+|PI.+|NC.+|AQ.+' postag_regexp='yes'><exception postag='RG|PD.+' postag_regexp='yes'/></token>
+            <example>"Eu quero esse livro", disse para si mesmo.</example>
+            <example>Eu disse para vocês não se mexerem.</example>
+            <example>Tom, eu disse para você não me ligar.</example>
+            <example>Diga algumas palavras sábias. Se ninguém estiver por perto para ouvi-las, então as diga para si mesmo.</example>
+            <example>Flavia disse para si mesma que não devia esperar mais para instalar o interfone.</example>
+            <example>"O que eu devo fazer agora?" Ela disse para si própria.</example>
+            <example>Ela disse para si mesma que não havia motivo para pânico.</example>
         </antipattern>
 
         <antipattern>
@@ -4888,7 +4915,7 @@ USA
         </antipattern>
 
         <antipattern>
-            <token postag='VMP00.+|VMI[FS]3.+' postag_regexp='yes'/>
+            <token postag='VMP00.+|VMI[FS].+' postag_regexp='yes'/>
             <token postag='VMP00.+' postag_regexp='yes'/>
             <token>para</token>
             <token postag='PP.+' postag_regexp='yes'/>
