@@ -119,12 +119,13 @@ USA
 
 
     <rule id='CICLO_VICIOSO' name="[pt-PT] Calinada: Círculo vicioso" tags="picky" tone_tags="objective">
-        <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-        <pattern>
+       <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
+       <pattern>
             <token regexp='yes'>ciclos?</token>
             <token regexp='yes'>viciosos?</token>
         </pattern>
-        <message>Substitua por <suggestion>círculo vicioso</suggestion>.</message>
+        <message>A expressão &quot;círculo vicioso&quot; é a mais consagrada para descrever uma situação repetitiva negativa sem solução aparente.</message>
+        <suggestion><match no='1' postag='NC(..)000' postag_replace='NC$1000'>círculo</match> \2</suggestion>
         <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-circulo-vicioso-e-nao-ciclo-vicioso/33313</url>
         <example correction="círculo vicioso">O <marker>ciclo vicioso</marker> da pobreza.</example>
     </rule>
