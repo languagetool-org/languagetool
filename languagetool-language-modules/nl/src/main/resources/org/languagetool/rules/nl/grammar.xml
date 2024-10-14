@@ -10951,6 +10951,21 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="VOOR_DE_MOORD_VAN" name="Veroordeeld voor de moord van(op) de leider." default="temp_off">
+			<rule>
+				<pattern>
+					<token>voor</token>
+					<token>de</token>
+					<token>moord</token>
+					<marker>
+						<token>van</token>
+					</marker>
+				</pattern>
+				<message>Did you mean <suggestion>op</suggestion>?</message>
+				<example correction="op">Veroordeeld voor de moord <marker>van</marker> de leider.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="VREEMD_VRZ_HIJ" name="Vreemd voorzetsel" default="off">
 			<!-- needs to be improved, near 0 applies -->
 			<rule>
