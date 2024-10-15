@@ -131,13 +131,13 @@ public class Dutch extends Language {
     );
   }
 
-  /** @since 4.5 */
-  @Override
+  // commented out as long as there are not enough entries in nl/confusion_sets.txt
+  /*@Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new DutchConfusionProbabilityRule(messages, languageModel, this)
     );
-  }
+  }*/
 
   /** @since 4.5 */
   @Override
