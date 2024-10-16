@@ -594,7 +594,7 @@ USA
     <category id='FORMAL_SPEECH_PT_PT' name='[pt-PT] Linguagem Formal' type='register' tone_tags="formal">
 
 
-        <rulegroup id='INFORMALITIES' name="[pt-PT][Formal] Linguagem informal" default="on" tags="picky" tone_tags="formal">
+        <rulegroup id='INFORMALITIES' name="[pt-PT][Formal] Evitar linguagem informal" default="on" tags="picky" tone_tags="formal">
             <!-- Created by Tiago F. Santos, Portuguese rule, 2017-05-09 -->
             <url>https://pt.wiktionary.org/wiki/Categoria:Coloquialismo_(Portugu%C3%AAs)</url>
             <rule>
@@ -618,7 +618,7 @@ USA
                     <token regexp="yes">(?:&informal;)s?
                     <exception regexp='yes' case_sensitive='yes'>[Vv]ós|Times?|X[Ii]</exception></token> <!-- "[Vv]ós" added by MARCOAGPINTO suggested by Ricardo Joseh Lima 2021-11-09 -->
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <example type="incorrect">Passei o dia a <marker>anhar</marker>.</example>
             <example type="correct">Passei o dia a <marker>procrastinar</marker>.</example>
             <example>Actua ao bloquear alguns metabólitos pró-inflamatórios que aceleram e agravam o processo.</example>
@@ -632,7 +632,7 @@ USA
                     <token regexp="yes">pás?</token>
                 </marker>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <example type="incorrect">Oh <marker>pá</marker>!</example>
             <example type="incorrect">Os <marker>pás</marker> lá da terra passam o dia a fumar.</example>
             <example type="correct">Os <marker>jovens</marker> lá da terra passam o dia a fumar.</example>
@@ -654,7 +654,7 @@ USA
             <exception regexp='yes'>(?:burrito|ca(?:pita|[mn]arinh[ao])|finit[ao]|p(?:erita|intainho)|r(?:etinha|atinho)|sozinh[ao]|tainha)s?|quadrinhos?|covinhas?</exception></token>
             <!-\- TODO Improve tagger so that it recognizes missing aumentatives and diminutives -\->
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <example type="incorrect">O peixe era <marker>grandinho</marker>, mas não bati nenhum recorde.</example>
             <example type="correct">O peixe era <marker>muito grande</marker>, mas não bati nenhum recorde.</example>
             <example type="correct">água límpida da nascente brota entre as pedras e <marker>caminha</marker> por entre as árvores que agradecem.</example>
@@ -736,7 +736,7 @@ USA
                 <token>o</token>
                 <token>sofrimento</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>matar</match></suggestion>
             <example correction='matar'><marker>acabar com o sofrimento</marker>.</example>
         </rule>
@@ -747,7 +747,7 @@ USA
                 <token>,</token>
                 <token>vá</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>ah, vá</marker>.</example>
         </rule>
@@ -757,7 +757,7 @@ USA
                 <token inflected='yes'>bater</token>
                 <token>bem</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>bater bem</marker>.</example>
         </rule>
@@ -767,7 +767,7 @@ USA
                 <token inflected='yes'>bater</token>
                 <token regexp='yes'>papos?</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falar</match></suggestion>
             <example correction='falar'><marker>bater papo</marker>.</example>
         </rule>
@@ -777,7 +777,7 @@ USA
                 <token regexp='yes'>bichos?</token>
                 <token regexp='yes'>geográficos?</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>bicho geográfico</marker>.</example>
         </rule>
@@ -788,7 +788,7 @@ USA
                 <token>do</token>
                 <token>estômago</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>boca do estômago</marker>.</example>
         </rule>
@@ -798,7 +798,7 @@ USA
                 <token>boca</token>
                 <token>livre</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>boca livre</marker>.</example>
         </rule>
@@ -809,7 +809,7 @@ USA
                 <token regexp='yes'>pa?ra</token>
                 <token>frente</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>bola pra frente</marker>.</example>
         </rule>
@@ -819,7 +819,7 @@ USA
             <token>do</token>
             <token>cidadão</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion>bilhete de identidade</suggestion>
             <example correction='bilhete de identidade'><marker>cartão do cidadão</marker>.</example>
         </rule-->
@@ -830,7 +830,7 @@ USA
                 <token>e</token>
                 <token>tal</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>coisa e tal</marker>.</example>
         </rule>
@@ -843,7 +843,7 @@ USA
                 <token>a</token>
                 <token regexp='yes'>zeros?</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>dar dez a zero</marker>.</example>
         </rule>
@@ -854,7 +854,7 @@ USA
                 <token>uma</token>
                 <token>de</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>dar uma de</marker>.</example>
         </rule>
@@ -864,7 +864,7 @@ USA
                 <token>de</token>
                 <token>borla</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion>grátis</suggestion>
             <example correction='grátis'><marker>de borla</marker>.</example>
         </rule>
@@ -874,7 +874,7 @@ USA
                 <token>de</token>
                 <token>rachar</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>de rachar</marker>.</example>
         </rule>
@@ -884,7 +884,7 @@ USA
                 <token>do</token>
                 <token>balacobaco</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>do balacobaco</marker>.</example>
         </rule>
@@ -894,7 +894,7 @@ USA
                 <token>e</token>
                 <token>aí</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion>e</suggestion>
             <suggestion>e, nessa altura</suggestion>
             <example correction='e|e, nessa altura'><marker>e aí</marker>.</example>
@@ -906,7 +906,7 @@ USA
                 <token regexp='yes'>olh[ae]</token>
                 <token>lá</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>e olhe lá</marker>.</example>
         </rule>
@@ -920,7 +920,7 @@ USA
                 <token>
                     <exception>como</exception></token><!-- XXX Handled by wordiness rule -->
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>e tal</marker>.</example>
         </rule>
@@ -931,7 +931,7 @@ USA
                 <token>o</token>
                 <token>saco</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>aborrecer</match></suggestion>
             <example correction='aborrecer'><marker>encher o saco</marker>.</example>
         </rule>
@@ -941,7 +941,7 @@ USA
                 <token>fala</token>
                 <token>aí</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion>\1</suggestion>
             <example correction='fala'><marker>fala aí</marker>.</example>
         </rule>
@@ -951,7 +951,7 @@ USA
                 <token inflected='yes'>falar</token>
                 <token>mal</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion><match no='1' postag='V.[SI].+' postag_regexp='yes'>maldizer</match></suggestion>
             <example correction='maldiz'>Ele <marker>fala mal</marker>.</example>
         </rule>
@@ -960,7 +960,7 @@ USA
             <token>falas</token>
             <token>português</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>falas português</marker>.</example>
         </rule-->
@@ -971,7 +971,7 @@ USA
                 <token>nas</token>
                 <token>coxas</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion>\1 apressadamente</suggestion>
             <example correction='feito apressadamente'><marker>feito nas coxas</marker>.</example>
         </rule>
@@ -982,7 +982,7 @@ USA
                 <token>no</token>
                 <token>220</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>ligado no 220</marker>.</example>
         </rule>
@@ -993,7 +993,7 @@ USA
                 <token>com</token>
                 <token>açúcar</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>mamão com açúcar</marker>.</example>
         </rule>
@@ -1004,7 +1004,7 @@ USA
                 <token>,</token>
                 <token>né</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>mas, né</marker>.</example>
         </rule>
@@ -1015,7 +1015,7 @@ USA
                 <token>na</token>
                 <token>chupeta</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>mel na chupeta</marker>.</example>
         </rule>
@@ -1026,7 +1026,7 @@ USA
                 <token>de</token>
                 <token>rir</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>morrer de rir</marker>.</example>
         </rule>
@@ -1037,7 +1037,7 @@ USA
                 <token>na</token>
                 <token>cara</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion><match no='1' postag='V.[^M]....' postag_regexp='yes'>ser</match> óbvio</suggestion>
             <example correction='é óbvio'><marker>está na cara</marker>.</example>
         </rule>
@@ -1049,7 +1049,7 @@ USA
                 <token>das</token>
                 <token>quantas</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>não sei das quantas</marker>.</example>
         </rule>
@@ -1060,7 +1060,7 @@ USA
                 <token>de</token>
                 <token>pitibiribas</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>necas de pitibiribas</marker>.</example>
         </rule>
@@ -1071,7 +1071,7 @@ USA
                 <token>no</token>
                 <token>ar</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>estar no ar</marker>.</example>
         </rule>
@@ -1080,7 +1080,7 @@ USA
                 <token>no</token>
                 <token>geral</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion>geralmente</suggestion>
             <example correction='geralmente'><marker>no geral</marker>.</example>
         </rule>
@@ -1090,7 +1090,7 @@ USA
                 <token regexp='yes'>vamos?</token>
                 <token>ver</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>no vamo ver</marker>.</example>
         </rule>
@@ -1099,7 +1099,7 @@ USA
                 <token>noves</token>
                 <token>fora</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>noves fora</marker>.</example>
         </rule>
@@ -1112,7 +1112,7 @@ USA
                 <token>
                     <exception postag_regexp='yes' postag='N.+'/></token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion>bem</suggestion>
             <example correction='bem'><marker>numa boa</marker>.</example>
             <example>É mais fácil acreditar numa boa mentira do que numa verdade.</example>
@@ -1122,7 +1122,7 @@ USA
                 <token regexp='yes'>papos?</token>
                 <token regexp='yes'>furados?</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>papo furado</marker>.</example>
         </rule>
@@ -1134,7 +1134,7 @@ USA
                 <token>da</token>
                 <token>bezerra</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>pensar na morte da bezerra</marker>.</example>
         </rule>
@@ -1146,7 +1146,7 @@ USA
                 </marker>
                 <token regexp='yes'>[.,!?]</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>pois é</marker>.</example>
         </rule>
@@ -1156,7 +1156,7 @@ USA
                 <token>do</token>
                 <token>cavalo</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>porta do cavalo</marker>.</example>
         </rule>
@@ -1166,7 +1166,7 @@ USA
                 <token>com</token>
                 <token>açúcar</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>português com açúcar</marker>.</example>
         </rule>
@@ -1176,7 +1176,7 @@ USA
                 <token>por</token>
                 <token>querer</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>querer por querer</marker>.</example>
         </rule>
@@ -1186,7 +1186,7 @@ USA
                 <token>de</token>
                 <token>biblioteca</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>rato de biblioteca</marker>.</example>
         </rule>
@@ -1195,7 +1195,7 @@ USA
                 <token min='0'>se</token>
                 <token inflected='yes'>bobear</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>se bobear</marker>.</example>
         </rule>
@@ -1203,7 +1203,7 @@ USA
             <pattern>
                 <token inflected='yes'>bobear</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>bobear-se</marker>.</example>
         </rule>
@@ -1214,7 +1214,7 @@ USA
                 </marker>
                 <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion>parecido com</suggestion>
             <suggestion>semelhante a</suggestion>
             <example correction="parecido com|semelhante a">Tem uma consistência <marker>tipo</marker> água.</example>
@@ -1226,7 +1226,7 @@ USA
                 <token>do</token>
                 <token>joelho</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>tirar água do joelho</marker>.</example>
         </rule>
@@ -1236,7 +1236,7 @@ USA
                 <token>de</token>
                 <token>cachorro</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>tosse de cachorro</marker>.</example>
         </rule>
@@ -1245,7 +1245,7 @@ USA
                 <token>um</token>
                 <token>bocado</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion>um pouco</suggestion>
             <example correction='um pouco'><marker>um bocado</marker>.</example>
         </rule>
@@ -1254,7 +1254,7 @@ USA
                 <token>vapt</token>
                 <token>vupt</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>vapt vupt</marker>.</example>
         </rule>
@@ -1264,10 +1264,15 @@ USA
                 <token>e</token>
                 <token inflected='yes'>mexer</token>
             </pattern>
-            <message>Linguagem informal. Considere as alternativas.</message>
+            <message>&informal_msg;</message>
             <suggestion/>
             <example correction=''><marker>vira e mexe</marker>.</example>
         </rule>
+</rulegroup>
+
+
+    <rulegroup id='COLOQUIALISMOS_PT_PT' name="[Formal] Coloquialismos: evitar expressões orais" default="on" tone_tags="formal">
+
         <rule>
             <pattern>
                 <token inflected='yes'>o</token>
@@ -1316,6 +1321,7 @@ USA
             <short>Coloquialismo</short>
             <example correction=''><marker>advogado de porta de xadrez</marker></example>
         </rule>
+
         <rule>
             <pattern>
                 <token inflected='yes'>aqui</token>
@@ -1341,6 +1347,7 @@ USA
             <short>Coloquialismo</short>
             <example correction=''><marker>aspa virada</marker></example>
         </rule>
+
         <rule>
             <pattern>
                 <token inflected='yes'>assentar</token>
@@ -1601,7 +1608,7 @@ USA
         <short>Coloquialismo</short>
         <example correction=''><marker>estar apertado da brocha</marker></example>
     </rule>
-    <rule>
+        <rule>
         <pattern>
             <token inflected='yes'>estar</token>
             <token>fora</token>
@@ -2112,7 +2119,7 @@ USA
         <short>Coloquialismo</short>
         <example correction=''>Vai <marker>dar uma volta ao bilhar grande</marker>.</example>
     </rule>
-</rulegroup>
+    </rulegroup>
 
 
         <rule id='DIFICULDADES_PROVAÇÕES' name="[pt-PT][Formal] Passar 'dificuldades' → 'provações'" tags='picky' tone_tags='formal'>
