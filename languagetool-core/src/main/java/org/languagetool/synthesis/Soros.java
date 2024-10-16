@@ -74,7 +74,7 @@ public class Soros {
             s2 = s2.replaceAll("^\\[[$](\\d\\d?|\\([^\\)]+\\))", "\\$(\uE00A\uE00A|\\$$1\uE00A") // add "|"
                 .replaceAll("\\[([^$\\[\\\\]*)[$](\\d\\d?|\\([^\\)]+\\))", "\\$(\uE00A$1\uE00A\\$$2\uE00A")
                 .replaceAll("\uE00A\\]$","|\uE00A)") // add "|" in terminating position
-                .replaceAll("\\]", ")")
+                .replace("]", ")")
                 .replaceAll("(\\$\\d|\\))\\|\\$", "$1||\\$"); // $()|$() -> $()||$()
             s2 = translate(s2, c, m, "");       // \uE000..\uE003-> \, ", ;, #
             s2 = translate(s2, m2.substring(0, c.length()), c, "");      // $, (, ), | -> \uE000..\uE003

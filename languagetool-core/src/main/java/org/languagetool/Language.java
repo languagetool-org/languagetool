@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.broker.ResourceDataBroker;
@@ -77,20 +78,18 @@ public abstract class Language {
   private static final Pattern APOSTROPHE = compile("([\\p{L}\\d-])'([\\p{L}«])",
     CASE_INSENSITIVE | UNICODE_CASE);
 
-  private static final Pattern SUGGESTION_OPEN_TAG = compile("<suggestion>");
-  private static final Pattern SUGGESTION_CLOSE_TAG = compile("</suggestion>");
+  private static final String SUGGESTION_OPEN_TAG = "<suggestion>";
+  private static final String SUGGESTION_CLOSE_TAG = "</suggestion>";
 
   private static final Pattern ELLIPSIS = compile("\\.\\.\\.");
   private static final Pattern NBSPACE1 = compile("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)");
   private static final Pattern NBSPACE2 = compile("\\b([a-zA-Z]\\.) ");
 
   private static final Map<Class<Language>, JLanguageTool> languagetoolInstances = new ConcurrentHashMap<>();
-  private static final Pattern SINGLE_QUOTE_PATTERN = compile("'");
   private static final Pattern QUOTED_CHAR_PATTERN = compile(" '(.)'");
   private static final Pattern TYPOGRAPHY_PATTERN_1 = compile("([\\u202f\\u00a0 «\"\\(])'");
   private static final Pattern TYPOGRAPHY_PATTERN_2 = compile("'([\u202f\u00a0 !\\?,\\.;:\"\\)])");
   private static final Pattern TYPOGRAPHY_PATTERN_3 = compile("‘s\\b([^’])");
-  private static final Pattern DOUBLE_QUOTE_PATTERN = compile("\"");
   private static final Pattern TYPOGRAPHY_PATTERN_4 = compile("([ \\(])\"");
   private static final Pattern TYPOGRAPHY_PATTERN_5 = compile("\"([\\u202f\\u00a0 !\\?,\\.;:\\)])");
 
@@ -908,9 +907,8 @@ public abstract class Language {
   /** @since 5.1 */
   public String toAdvancedTypography(String input) {
     if (!isAdvancedTypographyEnabled()) {
-      return SUGGESTION_CLOSE_TAG.matcher(
-        SUGGESTION_OPEN_TAG.matcher(input).replaceAll(getOpeningDoubleQuote())
-      ).replaceAll(getClosingDoubleQuote());
+      return input.replace(SUGGESTION_OPEN_TAG, getOpeningDoubleQuote())
+        .replace(SUGGESTION_CLOSE_TAG, getClosingDoubleQuote());
     }
     String output = input;
    
@@ -939,7 +937,7 @@ public abstract class Language {
     
     // single quotes
     if (output.startsWith("'")) { 
-      output = SINGLE_QUOTE_PATTERN.matcher(output).replaceFirst(getOpeningSingleQuote());
+      output = getOpeningSingleQuote() + output.substring(1);
     }
     if (output.endsWith("'")) { 
       output = output.substring(0, output.length() - 1 ) + getClosingSingleQuote();
@@ -951,7 +949,7 @@ public abstract class Language {
     
     // double quotes
     if (output.startsWith("\"")) { 
-      output = DOUBLE_QUOTE_PATTERN.matcher(output).replaceFirst(getOpeningDoubleQuote());
+      output = getOpeningDoubleQuote() + output.substring(1);
     }
     if (output.endsWith("\"")) { 
       output = output.substring(0, output.length() - 1 ) + getClosingDoubleQuote();
@@ -964,9 +962,8 @@ public abstract class Language {
       output = output.replaceFirst("\\\\" + i, getOpeningDoubleQuote() + Matcher.quoteReplacement(preservedStrings.get(i)) + getClosingDoubleQuote() );
     }
 
-    return SUGGESTION_CLOSE_TAG.matcher(
-      SUGGESTION_OPEN_TAG.matcher(output).replaceAll(getOpeningDoubleQuote())
-    ).replaceAll(getClosingDoubleQuote());
+    return output.replace(SUGGESTION_OPEN_TAG, getOpeningDoubleQuote())
+      .replace(SUGGESTION_CLOSE_TAG, getClosingDoubleQuote());
   }
 
   /**

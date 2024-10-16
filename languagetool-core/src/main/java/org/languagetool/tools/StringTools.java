@@ -879,10 +879,10 @@ public final class StringTools {
   }
 
   /*
-   * Number of ocurreces of string t inside string s
+   * Number of occurrences of string t inside string s
    */
   public static int numberOf(String s, String t) {
-    return s.length() - s.replaceAll(t, "").length();
+    return s.length() - s.replace(t, "").length();
   }
 
   public static String convertToTitleCaseIteratingChars(String text) {
