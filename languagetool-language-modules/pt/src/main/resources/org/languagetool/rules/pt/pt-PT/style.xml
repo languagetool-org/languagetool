@@ -64,7 +64,7 @@ USA
 
 
 <!ENTITY gerundio_verbos "acabar|acontecer|afundar|ajudar|aumentar|criar|degradar|diminuir|disparar|elaborar|fazer|fluir|instalar|ir|lesar|quebrar|ser|travar|vir">
-<!ENTITY gerundio_excecoes "abandonando|acelerando|acrescentando|acumulando|adicionando|alimentando|alterando|alternando|aperfeiçoando|apresentando|armazenando|atribuindo|aumentando|baixando|bebendo|beneficiando|caindo|causando|chegando|comendo|conquistando|conseguindo|consolidando|consumindo|convergindo|crescendo|criando|decrescendo|desaparecendo|emergindo|empregando|envolvendo|fazendo|ficando|ganhando|habituando|havendo|indo|jogando|levantando|libertando|matando|morrendo|mudando|originando|partindo|passando|perdendo|permitindo|pressionando|procurando|progredindo|propagando|publicando|querendo|recorrendo|reduzindo|repetindo|revendo|sabendo|safando|saindo|sendo|subindo|surgindo|usando">
+<!ENTITY gerundio_excecoes "abandonando|acelerando|acrescentando|acumulando|adicionando|alimentando|alterando|alternando|aperfeiçoando|apresentando|armazenando|assimilando|atribuindo|aumentando|baixando|bebendo|beneficiando|caindo|causando|chegando|comendo|conquistando|conseguindo|consolidando|consumindo|convergindo|crescendo|criando|decrescendo|desaparecendo|emergindo|empregando|envolvendo|fazendo|ficando|ganhando|habituando|havendo|indo|jogando|levantando|libertando|matando|morrendo|mudando|originando|partindo|passando|perdendo|permitindo|pressionando|procurando|progredindo|propagando|publicando|querendo|recorrendo|reduzindo|repetindo|revendo|sabendo|safando|saindo|sendo|subindo|surgindo|usando">
 
 <!-- Termos informais específicos pt_PT - the rule also tests with adding a "s" (plural) at the end of each word -->
 <!ENTITY informal "abéculas?|ajavardar|anhar|anjinhos?|bacan[ao]s?|badalos?|baita|baixinh[ao]s?|balof[ao]s?|baril|barracadas?|batelada|baza|bazam|bazas|bazaste|bazei|bazámos|bazamos|beijoqueir[ao]s?|bejecas?|bichan[ao]s?|bichinh[ao]s?|biscates?|bitaites?|blablablá|boazonas?|bonz(ão|ões)|bófias?|bonzudos?|bora|bués?|cadê|calhamaços?|camandros?|camisinhas?|caraças|carago|caramba|carangos?|carradas?|casinhas?|casórios?|caxamolas?|certinh[ao]s?|chaval[ao]s?|chilindrós?|cocó|coisar|copião|cornear|cum|cuscar|cusc[ao]s?|cuzinhos?|danad[ao]s?|drunfos?|encrencas?|engonhanço|engonhar|epa|esbardalhar|estrambótic[ao]s?|estrilho|fartazanas?|festarolas?|fezadas?|fixes|fixolas|fofinh[ao]s?|fónix|gabarolas?|gaj[ao]s?|garinas?|gatunar|gentinhas?|gosmas?|guit[ao]|gunas?|janad[ao]s?|javardices?|jolas?|larachas?|lelés?|mãezinhas?|mamalhud[ao]s?|mamocas?|man[ao]s?|marad[ao]s?|maralhas?|marimbar|milhent[ao]s?|moinas?|motoqueir[ao]s?|népias?|oi|olhómetros?|paizinhos?|papão|papo|passarocas?|peid[ao]s?|peidar|petiza?|piegas|porrada|porre|porreiros?|poucochinhos?|prenhas?|putos?|quecas?|queridinh[ao]s?|rabiosques?|rapaziadas?|tabefes?|tadinh[ao]s?|tanas|trampas?|transar|traques?|tretas?|trouxas?|vaquinhas?|velhot[ae]s?|vó|vô|xi|xixi|zilh(ão|ões)">
@@ -135,60 +135,47 @@ USA
         <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
         <url>https://pt.wikipedia.org/wiki/Gerundismo</url>
         <short>Possível gerundismo.</short>
-        <!-- MARCOAGPINTO 2021-03-17 (17-MAR-2021+) *START* -->
-        <!--
-            Ao fazê-lo vão saindo resultados cada vez mais inesperados.
-            Na época eram basicamente feitos usando pequenos objetos.
-            Em França existe um limite que é aumentado usando carregadores de munição.
-            E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.
-            O número de desenvolvedores vem aumentando.
-        -->
-        <antipattern>
-            <token/>
-            <token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
-            <token regexp='yes'>&gerundio_excecoes;</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-03-17 (17-MAR-2021+) *END* -->
 
-        <!-- MARCOAGPINTO 2021-03-19 (17-MAR-2021+) *START* -->
-        <!--
-            Com efeito, vinham-se acumulando estudos e testemunhos.
-        -->
+        <!-- Later revise the whole "&gerundio_verbos;" and "&gerundio_excecoes;" -->
         <antipattern>
-            <token/>
-            <token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
-            <token regexp='yes' spacebefore='no'>&hifen;</token>
-            <token/>
-            <token regexp='yes'>&gerundio_excecoes;</token>
+            <token postag='SENT_START|_PUNCT|N.+|AQ.+|VMP00.+|CS|RM|RG|Z0.+|AO.+|VMN000.+|RN|CC|[DP].+|VMSI.+|UNKNOWN' postag_regexp='yes'/>
+            <token min='0' max='1' postag='_QUOT' postag_regexp='no'/>
+            <token min='0' max='1' inflected='yes' regexp='yes'>&gerundio_verbos;</token>
+            <token regexp='yes'>&gerundio_excecoes;<exception scope='previous' postag_regexp='yes' postag='VMN000.+'/></token>
+            <example>Com efeito, vinham-se acumulando estudos e testemunhos.</example>
+            <example>Na época eram basicamente feitos usando pequenos objetos.</example>
+            <example>Em França existe um limite que é aumentado usando carregadores de munição.</example>
+            <example>E mesmo que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.</example>
+            <example>O número de desenvolvedores vem aumentando.</example>
+            <example>Os terroristas agem contra os Estados recorrendo à força militar.</example> <!-- "Estados" appears as verb - bug -->
+            <example>Lentamente vão caindo as folhas.</example>
+            <example>Rapidamente fomos subindo o leito do Ribeirão, galgando rochas e mudando de margem várias vezes.</example>
+            <example>Ao fazê-lo vão saindo resultados cada vez mais inesperados.</example>
+            <example>Então, nasceu o povoado e as casas foram subindo a colina.</example>
+            <example>Pra botar a muda na roça sem a lagarta, a gente ia passando aquele Orthene.</example>
+            <example>Devagarinho as folhas vão caindo.</example>
+            <example>Mas foram utilizadas também em outros templos por toda a Antiguidade, e vêm sendo utilizadas até hoje.</example>
+            <example>Com as mãos mesmo, pegue um pouco da tapioca e vá jogando dentro da frigideira.</example>
+            <example>É assim que vou conquistando minhas metas”, explica.</example>
+            <example>E ele foi abandonando uma a uma.</example>
+            <example>Votei no Jair Bolsonaro, e revelo que eu vinha fazendo propaganda para ele desde 2016.</example>
+            <example>Eles iam chegando às centenas.</example>
+            <example>Ao decorrer do sonho como se o tempo passasse fomos ficando mais intimos.</example>
+            <example>O gato preto ronronou como se estivesse sendo acariciado.</example>
+            <example>Eu pensei que estivesse fazendo o que você queria.</example>
+            <example>Eu me sinto como se estivesse sendo sempre seguido.</example>
+            <example>Pensei que estivesse indo.</example>
+            <example>Você sente como se estivesse repetindo um padrão?</example>
         </antipattern>
-        <!-- MARCOAGPINTO 2021-03-19 (17-MAR-2021+) *END* -->
-
-        <!-- MARCOAGPINTO 2022-06-08 (5-JUN-2022+) *START* -->
-        <antipattern>
-            <token postag='NP.+|NC.+|AQ.+|VMP00.+' postag_regexp='yes'/>
-            <token regexp='yes'>&gerundio_excecoes;</token>
-            <example>Os terroristas agem contra os Estados recorrendo à força militar.</example>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-06-08 (5-JUN-2022+) *END* -->
 
         <rule>
             <pattern>
                 <token inflected='yes' regexp='yes' postag_regexp="yes" postag="V.+:PP.+">estar|andar|ir|vir</token><!-- TODO Review all cases and confirm it can be safely expanded to more cases-->
-                <token postag='V.G0+' postag_regexp='yes'>
-                    <exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/>
-                </token>
+                <token postag='V.G0+' postag_regexp='yes'><exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
             </pattern>
             <message>Se possível, evite o gerúndio.</message>
             <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
             <example correction='iam-se a acender'>As luzes <marker>iam-se acendendo</marker> à medida que ela passava.</example>
-
-            <example type='correct'>Ao fazê-lo <marker>vão saindo</marker> resultados cada vez mais inesperados.</example>
-            <example>Na época eram basicamente feitos usando pequenos objetos.</example>
-            <example>Em França existe um limite que é aumentado usando carregadores de munição.</example>
-            <example>E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.</example>
-            <example>O número de desenvolvedores vem aumentando.</example>
-
-            <example type='correct'>Com efeito, <marker>vinham-se acumulando</marker> estudos e testemunhos.</example>
         </rule>
         <rule>
             <pattern>
@@ -197,42 +184,24 @@ USA
             </pattern>
             <message>Se possível, evite o gerúndio.</message>
             <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
-            <example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example>
-            <example>As regras foram sendo melhoradas ao longo do tempo.</example>
-
-            <example type='correct'>Ao fazê-lo <marker>vão saindo</marker> resultados cada vez mais inesperados.</example>
-            <example>Na época eram basicamente feitos usando pequenos objetos.</example>
-            <example>Em França existe um limite que é aumentado usando carregadores de munição.</example>
-            <example>E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.</example>
-            <example>O número de desenvolvedores vem aumentando.</example>
-
-            <example type='correct'>Com efeito, <marker>vinham-se acumulando</marker> estudos e testemunhos.</example>
+            <example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example> <!-- TODO This may be correct in some circunstances. REVIEW -->
         </rule>
-
         <rule>
             <pattern>
                 <token postag='V.+' postag_regexp='yes' inflected="yes" regexp="yes">continuar|estar|ir|ficar
                 <exception inflected='yes' regexp='yes'>medida|votar</exception>
                 <exception negate_pos='yes' postag='V.+' postag_regexp='yes'/></token>
-            <token postag='V.G0+' postag_regexp='yes'>
-                <exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
-        </pattern>
-        <message>Se possível, evite o gerúndio.</message>
-        <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
-        <example correction='continua a ser'>O processo básico <marker>continua sendo</marker> o mesmo.</example>
-        <example correction='está a soprar'>...ventos do oeste, <marker>está soprando</marker> por cima das águas...</example>
-        <example>As regras foram sendo melhoradas ao longo do tempo.</example>
-        <example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example><!-- TODO This may be correct in some circunstances. REVIEW -->
+                <token postag='V.G0+' postag_regexp='yes'><exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
+            </pattern>
+            <message>Se possível, evite o gerúndio.</message>
+            <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
+            <example correction='continua a ser'>O processo básico <marker>continua sendo</marker> o mesmo.</example>
+            <example correction='está a soprar'>...ventos do oeste, <marker>está soprando</marker> por cima das águas...</example>
+            <example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example> <!-- TODO This may be correct in some circunstances. REVIEW -->
+        </rule>
 
-        <example type='correct'>Ao fazê-lo <marker>vão saindo</marker> resultados cada vez mais inesperados.</example>
-        <example>Na época eram basicamente feitos usando pequenos objetos.</example>
-        <example>Em França existe um limite que é aumentado usando carregadores de munição.</example>
-        <example>E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.</example>
-        <example>O número de desenvolvedores vem aumentando.</example>
-        <example>A expedição recebeu a visita de duas nave não-tripuladas trazendo mantimentos e eletrônica.</example>
-        <example type='correct'>Com efeito, <marker>vinham-se acumulando</marker> estudos e testemunhos.</example>
-    </rule>
-</rulegroup>
+    </rulegroup>
+
 
 <!-- EVITAR O GERÚNDIO Evitar o gerúndio em pt-PT	       -->
 <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
