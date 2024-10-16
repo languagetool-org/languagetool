@@ -394,7 +394,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
       }
     } else { // if masculine, remove teh marbuta
       if (word.endsWith(Character.toString(TEH_MARBUTA))) {
-        newword = word.replaceAll(Character.toString(TEH_MARBUTA), "");
+        newword = word.replace(Character.toString(TEH_MARBUTA), "");
       } else {
         newword += Character.toString(FATHATAN) + ALEF;
       }

@@ -179,7 +179,7 @@ public class GermanTagger extends BaseTagger {
 
   private static List<String> toPA2(List<String> tags) {
     return tags.stream().
-      map(k -> k.replaceAll("ADJ:", "PA2:")).
+      map(k -> k.replace("ADJ:", "PA2:")).
       map(k -> k + ":VER").
       collect(Collectors.toList());
   }

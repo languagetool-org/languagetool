@@ -112,7 +112,7 @@ public class PolishSynthesizer extends BaseSynthesizer implements Synthesizer {
       }
 
       if (isNegated) {
-        posTag = posTag.replaceAll(NEGATION_TAG, POTENTIAL_NEGATION_TAG + "?");
+        posTag = posTag.replace(NEGATION_TAG, POTENTIAL_NEGATION_TAG + "?");
       }
 
       try {
