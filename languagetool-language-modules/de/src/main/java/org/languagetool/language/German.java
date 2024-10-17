@@ -616,7 +616,7 @@ public class German extends Language implements AutoCloseable {
       // ignore adding punctuation at the sentence end
       if (suggestions.size()==1 && currentMatch.getRule().getId().startsWith("AI_DE_GGEC")) {
         String suggestion = suggestions.get(0);
-        if (currentMatch.getRule().getId().equals("AI_DE_GGEC_MISSING_PUNCTUATION") && suggestion.endsWith(".")) {
+        if (currentMatch.getRule().getId().equals("AI_DE_GGEC_MISSING_PUNCTUATION_PERIOD") && suggestion.endsWith(".")) {
           if (currentMatch.getSentence().getText().replaceAll("\\s+$", "").endsWith(suggestion.substring(0, suggestion.length() - 1))) {
             continue;
           }
