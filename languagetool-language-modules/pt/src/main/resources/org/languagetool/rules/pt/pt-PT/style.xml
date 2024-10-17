@@ -302,19 +302,6 @@ USA
 </rulegroup>
 
 
-        <rule id='FAZER_DESPORTO' name="[pt-PT] 'Fazer' desporto → Praticar" tone_tags="formal">
-            <pattern>
-                <marker>
-                    <token skip='4' inflected='yes'>fazer</token>
-                </marker>
-                <token>desporto</token>
-            </pattern>
-            <message>&informal_msg;</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>
-            <example correction="praticar">Vou <marker>fazer</marker> muito desporto.</example>
-        </rule>
-
-
     <!-- VELHA ESCOLA velha guarda -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-27 (21-OCT-2020+)     -->
     <rule id='VELHA_ESCOLA_VELHA_GUARDA' name="[pt-PT] Velha escola → Velha guarda" tone_tags="formal">
@@ -3312,6 +3299,21 @@ USA
             <example correction="idêntica|uma idêntica">Perante <marker>a mesma</marker> categoria de dados avaliamos a média.</example>
             <example correction="idêntica|uma idêntica">Estamos perante <marker>uma mesma</marker> categoria de dados.</example>
         </rule>
+
+
+    <rule id='FAZER_DESPORTO' name="[pt-PT][Formal] 'Fazer' desporto → Praticar" tone_tags="formal">
+        <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
+        <pattern>
+            <marker>
+                <token skip='4' inflected='yes'>fazer</token>
+            </marker>
+            <token regexp='yes'>desportos?</token>
+        </pattern>
+        <message>O termo &quot;praticar desporto&quot; é mais formal e transmite uma ideia de frequência e seriedade, enquanto &quot;fazer desporto&quot; é mais casual e generalista.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>
+        <example correction="praticar">Vou <marker>fazer</marker> muito desporto.</example>
+        <example correction="praticar">Vou <marker>fazer</marker> desportos de combate.</example>
+    </rule>
 
 
     <rule id='TIVER_ESTIVER' name='[pt-PT][Formal] tiver/estiver' tone_tags="formal">
