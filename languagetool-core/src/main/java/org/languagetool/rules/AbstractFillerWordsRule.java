@@ -18,18 +18,11 @@
  */
 package org.languagetool.rules;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
-import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
-import org.languagetool.rules.Category.Location;
-import org.languagetool.tools.Tools;
 
 /**
  * A rule that gives hints about the use of filler words.
@@ -39,17 +32,14 @@ import org.languagetool.tools.Tools;
  * @author Fred Kruse
  * @since 4.2
  */
-public abstract class AbstractFillerWordsRule extends TextLevelRule {
+public abstract class AbstractFillerWordsRule extends AbstractStatisticStyleRule {
   
   public static final String RULE_ID = "FILLER_WORDS";
   
   private static final int DEFAULT_MIN_PERCENT = 8;
-  private static final Pattern OPENING_QUOTES = Pattern.compile("[\"“„”»«]");
-  private static final Pattern ENDING_QUOTES = Pattern.compile("[\"“”»«]");
   private static final boolean DEFAULT_ACTIVATION = false;
 
   private int minPercent = DEFAULT_MIN_PERCENT;
-  private final Language lang;
 
   /*
    * Override this to detect filler words in the specified language
@@ -57,20 +47,7 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
   protected abstract boolean isFillerWord(String token);
   
   public AbstractFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean defaultActive) {
-    super(messages);
-    super.setCategory(new Category(new CategoryId("CREATIVE_WRITING"), 
-        messages.getString("category_creative_writing"), Location.INTERNAL, false));
-    this.lang = lang;
-    if (!defaultActive) {
-      setDefaultOff();
-    }
-    if (userConfig != null) {
-      Object[] cf = userConfig.getConfigValueByID(getId());
-      if (cf != null) {
-        this.minPercent = (int) cf[0];
-      }
-    }
-    setLocQualityIssueType(ITSIssueType.Style);
+    super(messages, lang, userConfig, DEFAULT_MIN_PERCENT);
   }
 
   public AbstractFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
@@ -104,72 +81,42 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see org.languagetool.rules.TextLevelRule#match(java.util.List)
-   */
   @Override
-  public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
-    List<RuleMatch> ruleMatches = new ArrayList<>();
-    String msg = getMessage();
-    List<Integer> startPos = new ArrayList<>();
-    List<Integer> endPos = new ArrayList<>();
-    List<AnalyzedSentence> relevantSentences = new ArrayList<>();
-    double percent;
-    int pos = 0;
-    int wordCount = 0;
-    boolean isDirectSpeech = false;
-    for (int nSentence = 0; nSentence < sentences.size(); nSentence++) {
-      AnalyzedSentence sentence = sentences.get(nSentence);
-      AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-      for (int n = 1; n < tokens.length; n++) {
-        AnalyzedTokenReadings token = tokens[n];
-        String sToken = token.getToken();
-        if (!isDirectSpeech && OPENING_QUOTES.matcher(sToken).matches() && n < tokens.length -1 && !tokens[n + 1].isWhitespaceBefore()) {
-          isDirectSpeech = true;
-        }
-        else if (isDirectSpeech && ENDING_QUOTES.matcher(sToken).matches() && n > 1 && !tokens[n].isWhitespaceBefore()) {
-          isDirectSpeech = false;
-        }
-        else if ((!isDirectSpeech || minPercent == 0) && !token.isWhitespace() && !token.isNonWord()) {
-          wordCount++;
-          if (isFillerWord(sToken) && !isException(tokens, n)) {
-            startPos.add(token.getStartPos() + pos);
-            endPos.add(token.getEndPos() + pos);
-            relevantSentences.add(sentence);
-          }
-        }
-      }
-      if (Tools.isParagraphEnd(sentences, nSentence, lang)) {
-        if(wordCount > 0) {
-          percent = startPos.size() * 100.0 / wordCount;
-        } else {
-          percent = 0;
-        }
-        if (percent > minPercent) {
-          for (int i = 0; i < startPos.size(); i++) {
-            RuleMatch ruleMatch = new RuleMatch(this, relevantSentences.get(i), startPos.get(i), endPos.get(i), msg);
-            ruleMatches.add(ruleMatch);
-          }
-        }
-        wordCount = 0;
-        startPos = new ArrayList<>();
-        endPos = new ArrayList<>();
-        relevantSentences = new ArrayList<>();
-      }
-      pos += sentence.getCorrectedTextLength();
-    }
-    if (wordCount > 0) {
-      percent = startPos.size() * 100.0 / wordCount;
-    } else {
-      percent = 0;
-    }
-    if (percent > minPercent) {
-      for (int i = 0; i < startPos.size(); i++) {
-        RuleMatch ruleMatch = new RuleMatch(this, relevantSentences.get(i), startPos.get(i), endPos.get(i), msg);
-        ruleMatches.add(ruleMatch);
-      }
-    }
-    return toRuleMatchArray(ruleMatches);
+  protected int conditionFulfilled(AnalyzedTokenReadings[] tokens, int nAnalysedToken) {
+    if (isFillerWord(tokens[nAnalysedToken].getToken()) && !isException(tokens, nAnalysedToken)) {
+     return nAnalysedToken;
+   }
+   return -1;
+  }
+
+  @Override
+  protected boolean sentenceConditionFulfilled(AnalyzedTokenReadings[] tokens, int nAnalysedToken) {
+    return false;
+  }
+
+  @Override
+  protected boolean excludeDirectSpeech() {
+    return true;
+  }
+
+  @Override
+  protected String getLimitMessage(int limit, double percent) {
+    return getMessage();
+  }
+
+  @Override
+  protected String getSentenceMessage() {
+    return null;
+  }
+
+  @Override
+  public String getConfigurePercentText() {
+    return null;
+  }
+
+  @Override
+  public String getConfigureWithoutDirectSpeachText() {
+    return null;
   }
   
   @Override

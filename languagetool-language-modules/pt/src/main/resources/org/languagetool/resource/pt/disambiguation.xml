@@ -227,7 +227,7 @@
   <rulegroup id="RARE_POS" name="rare POS tags">
     <rule>
       <pattern>
-        <token postag="Z0[FM]P0" postag_regexp="yes"/>
+        <token postag="Z0.[PN].+" postag_regexp="yes"/>
         <marker>
           <and>
             <token postag="VMIP2S0|VMN02S0|VMSF2S0" postag_regexp="yes"/>
@@ -240,10 +240,13 @@
     <rule>
       <pattern>
         <token postag="V.+" postag_regexp="yes"/>
-        <token min='1' max='2' postag="[DP].+" postag_regexp="yes"/>
-        <token postag="Z0[FM]P0" postag_regexp="yes"/>
+        <token min='1' max='2' postag="SPS00|(SPS00:)?[DP].+|RG|CS|VMG0000|VMN0000" postag_regexp="yes"/>
+        <token postag="Z0.[PN].+" postag_regexp="yes"/>
         <marker>
-          <token regexp="yes">como|logo</token>
+          <and>
+            <token postag="VMIP1S0" postag_regexp="no"/>
+            <token postag="RG" postag_regexp="no"/>
+          </and>
         </marker>
       </pattern>
       <disambig action="remove" postag="[NV].*"/>

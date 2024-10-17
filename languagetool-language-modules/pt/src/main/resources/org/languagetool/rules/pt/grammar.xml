@@ -1060,7 +1060,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id='DEMASIADO_INVARIAVEL' name="Demasiada → demasiado" default='temp_off'>
+        <rule id='DEMASIADO_INVARIAVEL' name="Demasiada → demasiado">
             <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
             <pattern>
                 <token regexp='yes' inflected='yes'>andar|continuar|estar|ficar|manter|parecer|revelar|ser|soar|tornar</token>
@@ -8787,6 +8787,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
         <rulegroup id="CONCORDANCIA_SER_GENERO" name="Erro de concordância" default="temp_off">
+
+            <antipattern>
+                <token postag="SENT_START|_PUNCT" postag_regexp="yes"/>
+                <token min='0' postag="CS|RG" postag_regexp="yes"/>
+                <token min='0' postag="_PUNCT_COMMA" postag_regexp="no"/>
+                <token min='1' postag="[DP]..[CM].+|Z0[CM].+" postag_regexp="yes"/>
+                <token skip='-1' postag="NC[CM].+|AQ.[CM].+|VMN0000" postag_regexp="yes"/>
+                <token inflected="yes" regexp="yes">ser|ficar|estar</token>
+                <token min='0' postag="RM" postag_regexp="no"/>
+                <token postag="VMP00.M" postag_regexp="yes"/>
+                <example>O adivinhar no passado era considerado uma ciência.</example>
+                <example>O pico na curva da entropia é alcançado a cerca de 36% de baixas.</example>
+                <example>Meu computador ficou ligado a noite inteira fazendo download.</example>
+                <example>O ladrão foi pego esta manhã</example>
+                <example>O supermercado está aberto esta noite?</example>
+                <example>Quinze minutos antes do término do jogo é entregue um envelope com os sorteados para os delegados no campo</example>
+                <example>Quem cometer o crime está sujeito a pena de 4 a 10 anos de reclusão, além da multa.</example>
+                <example>Este conjunto é considerado a obra-prima da estatuária do período Severo.</example>
+                <example>Este site é integrado a Plataforma de Negócios Vista.</example>
+                <example>Parágrafo Único: O tamanho das camisetas está sujeito a alteração, de acordo com a disponibilidade.</example>
+                <example>Na comunidade de Toki Pona, o Brasil era considerado uma terra "fácil".</example>
+                <example>No xadrez, um peão que atinja a última fila à sua frente será promovido a rainha (dama).</example>
+                <example>Sob Caracala , um equestre foi sentenciado a morte por levar uma moeda com a silhueta do imperador num bordel.</example>
+                <example>Uma sede nova e exclusiva foi construída em 1915, um prédio que por si mesmo foi considerado uma obra de arte.</example>
+                <example>No futuro, o termo "Pago" seria incorporado a designação da localidade que daria o nome ao Partido.</example>
+                <example>Em 1998, o ator-diretor Jonathan Frakes também foi anexado a produção.</example>
+                <example>Estava desaparecido há mais de um mês, o corpo foi encontrado esta manhã às 8h30 nesta trilha isolada.</example>
+                <example>Assim, o feudalismo está nitidamente ligado a crise do Império Romano bem como às Invasões Bárbaras.</example>
+                <example>O 109o. dia de audiências em Stammheim estava incrivelmente lotado esta manhã.</example>
+                <example>O templo de Ramanathaswamy, dedicado a Xiva, situa-se no centro da cidade e está intimamente associado a Rama.</example>
+                <example>Quando o bispo foi chamado a Lisboa, ficou como governador do bispado o deão José de Bettencourt Vasconcelos.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START" postag_regexp="no"/>
+                <token skip='-1' postag="N.[CM].+|AQ.[CM].+|Z0[CM].+|[DP]..[CM].+" postag_regexp="yes"><exception postag_regexp='yes' postag='RG|CS|SPS.+'/></token>
+                <token inflected="yes" regexp="yes">ser|ficar|estar</token>
+                <token min='0' postag="RM" postag_regexp="no"/>
+                <token postag="VMP00.M" postag_regexp="yes"/>
+                <example>Quinze de Agosto, dia de Nossa Senhora da Graça era considerado a altura limite para as primeiras chuvas.</example>
+                <example>Tom ficou acordado a noite toda.</example>
+                <example>Tom foi apresentado a Mary há três anos.</example>
+                <example>Sami foi sentenciado a prisão perpértua.</example>
+                <example>Tom diz que ficou acordado a noite inteira estudando.</example>
+                <example>Considerado como uma subespécie de "Artibeus jamaicensis", foi elevado a categoria de espécie distinta.</example>
+                <example>Ele ficou acordado a noite toda.</example>
+                <example>O "ñ" é considerado uma letra em espanhol?</example>
+                <example>O outro lado do microscópio possuía um alfinete, onde era fixado uma amostra, para ser ampliada e analisada.</example>
+                <example>Seu primeiro gol foi marcado uma semana depois, em 7 de julho, aos 78 minutos e de cabeça.</example>
+                <example>Eu fui preso esta manhã.</example>
+                <example>O nagpuri é considerado a segunda língua oficial no estado indiano de Jharkhand.</example>
+            </antipattern>
+
             <rule><!--1-->
                 <pattern>
                     <token postag="VMI..S." inflected="yes" postag_regexp="yes" regexp="yes">ser|ficar|estar</token>
