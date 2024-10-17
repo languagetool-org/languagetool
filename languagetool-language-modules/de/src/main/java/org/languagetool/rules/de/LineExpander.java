@@ -36,8 +36,6 @@ import java.util.regex.Pattern;
  */
 public class LineExpander implements org.languagetool.rules.LineExpander {
 
-  private static final Pattern ESCAPE_REGEX = Pattern.compile("\\\\");
-
   private static final LoadingCache<String, String[]> verbFormCache = CacheBuilder.newBuilder()
     .expireAfterAccess(10, TimeUnit.MINUTES)
     .build(new CacheLoader<String, String[]>() {
@@ -166,6 +164,6 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
     if (idx != -1) {
       s = s.substring(0, idx);
     }
-    return ESCAPE_REGEX.matcher(s).replaceAll("").trim();
+    return s.replace("\\", "").trim();
   }
 }

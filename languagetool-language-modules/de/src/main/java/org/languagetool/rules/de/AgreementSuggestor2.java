@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedToken;
@@ -59,9 +60,6 @@ class AgreementSuggestor2 {
   private final static List<String> nounCases = Arrays.asList("NOM", "AKK", "DAT", "GEN");
   private final static Set<String> skipSuggestions =
     new HashSet<>(Arrays.asList("unsren", "unsrem", "unsres", "unsre", "unsern", "unserm", "unsrer"));
-  private static final Pattern sinPlu = Pattern.compile("SIN/PLU");
-  private static final Pattern masFemNeu = Pattern.compile("MAS/FEM/NEU");
-  private static final Pattern nomAkkDatGen = Pattern.compile("NOM/AKK/DAT/GEN");
 
   private final Synthesizer synthesizer;
   private final AnalyzedTokenReadings determinerToken;
@@ -382,9 +380,9 @@ class AgreementSuggestor2 {
   }
 
   private String replaceVars(String template, String num, String gen, String aCase) {
-    template = sinPlu.matcher(template).replaceFirst(num);
-    template = masFemNeu.matcher(template).replaceFirst(gen);
-    template = nomAkkDatGen.matcher(template).replaceFirst(aCase);
+    template = StringUtils.replaceOnce(template, "SIN/PLU", num);
+    template = StringUtils.replaceOnce(template, "MAS/FEM/NEU", gen);
+    template = StringUtils.replaceOnce(template, "NOM/AKK/DAT/GEN", aCase);
     return template;
   }
 

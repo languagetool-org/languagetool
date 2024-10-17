@@ -66,7 +66,7 @@ public class TokenizeMultiwordsTest {
         throw new RuntimeException(e);
       }
       for (String word : wordList) {
-        if (!multiwords.contains(word.replaceAll("’", "'"))) {
+        if (!multiwords.contains(word.replace("’", "'"))) {
           List<String> tokens = wordTokenizer.tokenize(word);
           List<String> tokensBySpace = Arrays.asList(word.split(" "));
           if (tokens.size() > 1 && !tokens.stream().filter(k -> !k.equals(" ")).collect(Collectors.toList()).equals(tokensBySpace)) {
