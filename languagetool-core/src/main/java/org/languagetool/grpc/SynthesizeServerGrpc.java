@@ -5,14 +5,14 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 /**
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.50.2)",
+    value = "by gRPC proto compiler (version 1.68.0)",
     comments = "Source: synthesizer.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class SynthesizeServerGrpc {
 
   private SynthesizeServerGrpc() {}
 
-  public static final String SERVICE_NAME = "lt_ml_server.SynthesizeServer";
+  public static final java.lang.String SERVICE_NAME = "lt_ml_server.SynthesizeServer";
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<org.languagetool.grpc.Synthesizer.SynthesizeRequest,
@@ -92,31 +92,32 @@ public final class SynthesizeServerGrpc {
 
   /**
    */
-  public static abstract class SynthesizeServerImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      */
-    public void synthesize(org.languagetool.grpc.Synthesizer.SynthesizeRequest request,
+    default void synthesize(org.languagetool.grpc.Synthesizer.SynthesizeRequest request,
         io.grpc.stub.StreamObserver<org.languagetool.grpc.Synthesizer.SynthesizeResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getSynthesizeMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getSynthesizeMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                org.languagetool.grpc.Synthesizer.SynthesizeRequest,
-                org.languagetool.grpc.Synthesizer.SynthesizeResponse>(
-                  this, METHODID_SYNTHESIZE)))
-          .build();
     }
   }
 
   /**
+   * Base class for the server implementation of the service SynthesizeServer.
    */
-  public static final class SynthesizeServerStub extends io.grpc.stub.AbstractAsyncStub<SynthesizeServerStub> {
+  public static abstract class SynthesizeServerImplBase
+      implements io.grpc.BindableService, AsyncService {
+
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return SynthesizeServerGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service SynthesizeServer.
+   */
+  public static final class SynthesizeServerStub
+      extends io.grpc.stub.AbstractAsyncStub<SynthesizeServerStub> {
     private SynthesizeServerStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -138,8 +139,10 @@ public final class SynthesizeServerGrpc {
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service SynthesizeServer.
    */
-  public static final class SynthesizeServerBlockingStub extends io.grpc.stub.AbstractBlockingStub<SynthesizeServerBlockingStub> {
+  public static final class SynthesizeServerBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<SynthesizeServerBlockingStub> {
     private SynthesizeServerBlockingStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -160,8 +163,10 @@ public final class SynthesizeServerGrpc {
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service SynthesizeServer.
    */
-  public static final class SynthesizeServerFutureStub extends io.grpc.stub.AbstractFutureStub<SynthesizeServerFutureStub> {
+  public static final class SynthesizeServerFutureStub
+      extends io.grpc.stub.AbstractFutureStub<SynthesizeServerFutureStub> {
     private SynthesizeServerFutureStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -189,10 +194,10 @@ public final class SynthesizeServerGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final SynthesizeServerImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(SynthesizeServerImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -221,6 +226,18 @@ public final class SynthesizeServerGrpc {
     }
   }
 
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getSynthesizeMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              org.languagetool.grpc.Synthesizer.SynthesizeRequest,
+              org.languagetool.grpc.Synthesizer.SynthesizeResponse>(
+                service, METHODID_SYNTHESIZE)))
+        .build();
+  }
+
   private static abstract class SynthesizeServerBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
     SynthesizeServerBaseDescriptorSupplier() {}
@@ -244,9 +261,9 @@ public final class SynthesizeServerGrpc {
   private static final class SynthesizeServerMethodDescriptorSupplier
       extends SynthesizeServerBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
-    private final String methodName;
+    private final java.lang.String methodName;
 
-    SynthesizeServerMethodDescriptorSupplier(String methodName) {
+    SynthesizeServerMethodDescriptorSupplier(java.lang.String methodName) {
       this.methodName = methodName;
     }
 
