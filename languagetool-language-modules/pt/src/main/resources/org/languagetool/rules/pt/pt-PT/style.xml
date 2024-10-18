@@ -4107,27 +4107,32 @@ USA
     </rule>
 
 
-    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="[pt-PT][Simplificar] Chegar ao fim → findar/terminar/acabar" type="style" tone_tags="objective">
-    <!-- IDEA shorten_it -->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-07-03 (Checked/Enhanced) (5-JUN-2022+)      -->
-    <!--
-        Outro ano que chega ao fim. → Outro ano que finda/termina.
-        Outro ano a chegar ao fim. → Outro ano a findar/terminar.
-    -->
+    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="[pt-PT][Simplificar] Chegar ao fim → findar/terminar/acabar" type="style" tone_tags="objective" default="temp_off">
+        <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
+        <antipattern>
+            <token postag='V.+|N.+|AQ.+|UNKNOWN|RN|SPS00' postag_regexp='yes'/>
+            <token skip='4' regexp='yes'>a|por|que|se</token>
+            <token inflected='yes'>chegar</token>
+            <token>ao</token>
+            <token>fim</token>
+            <token regexp='yes'>d[ao]s?|de</token>
+            <example>Nossos irmãos dizem que não chega ao fim da estação, e que chama pelos filhos.</example>
+            <example>Kinako se recusa, explicando que ela está chegando ao fim de sua vida útil natural.</example>
+            <example>Reformas variadas (e demasiadas, não se chegando ao fim de nenhuma, o que também é recorrente).</example>
+            <example>Há diversos caminhos para se chegar ao fim de um estágio e uma infinidade de segredos bem escondidos.</example>
+        </antipattern>
         <pattern>
-            <token/>
-            <token regexp='yes'>a|que</token>
-            <token min="0" max="1"><exception regexp='no' inflected='yes'>chegar</exception></token>
+            <token skip='4' regexp='yes'>a|por|que|se</token>
             <marker>
                 <token inflected='yes'>chegar</token>
                 <token>ao</token>
                 <token>fim</token>
             </marker>
         </pattern>
-        <message>Enriqueça a linguagem para causar mais impacto ao leitor.</message>
-        <suggestion><match no='4' postag='V.+' postag_regexp='yes'>findar</match></suggestion>
-        <suggestion><match no='4' postag='V.+' postag_regexp='yes'>terminar</match></suggestion>
-        <suggestion><match no='4' postag='V.+' postag_regexp='yes'>acabar</match></suggestion>
+        <message>Substitua &quot;chegar ao fim&quot; por uma expressão equivalente, mantendo a concordância e o sentido da frase.</message>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>findar</match></suggestion>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>terminar</match></suggestion>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>acabar</match></suggestion>
         <example correction="finda|termina|acaba">Outro ano que <marker>chega ao fim</marker>.</example>
     </rule>
 
