@@ -132,7 +132,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern DIRECTION = compile("nord|ost|süd|west");
   private static final Pattern WOCHENTAGE = compile("Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag");
   private static final Pattern WOCHENTAGE_S = compile("(Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag)s");
-  private static final Pattern SS = compile("ss");
   private static final Pattern CAMEL_CASE = compile(".*(\\p{Ll}\\p{Lu}|\\p{Lu}{2,}\\p{Ll}).*");
   private static final Pattern COMPOUND_TYPOS = compile("([Ee]mail|[Ii]reland|[Kk]reissaal|[Mm]akeup|[Ss]tandart).*");
   private static final Pattern COMPOUND_END_TYPOS = compile(".*(gruße|schaf(s|en)?)$");
@@ -1826,7 +1825,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   protected String getMessage(String origWord, SuggestedReplacement firstSuggestion) {
     // Note: will not work for words like "Abgasausstoss" where there's more than one string of "ss"
     // and the first one is not the one we're looking for
-    if (SS.matcher(origWord).replaceFirst("ß").equals(firstSuggestion.getReplacement())) {
+    if (StringUtils.replaceOnce(origWord, "ss", "ß").equals(firstSuggestion.getReplacement())) {
       int firstSz = origWord.indexOf("ss");
       if (firstSz >= 2) {
         char prevPrevChar = origWord.charAt(firstSz-2);

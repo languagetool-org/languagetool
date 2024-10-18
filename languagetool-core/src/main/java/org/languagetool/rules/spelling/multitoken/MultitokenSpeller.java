@@ -20,6 +20,7 @@ package org.languagetool.rules.spelling.multitoken;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.similarity.LevenshteinDistance;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -40,8 +41,6 @@ public class MultitokenSpeller {
 
   private static final int MAX_LENGTH_DIFF = 3;
   private static final Pattern WHITESPACE_AND_SEP = compile("\\p{Zs}+");
-  private static final Pattern DASH_SPACE = compile("- ");
-  private static final Pattern SPACE_DASH = compile(" -");
   private static final Pattern SPACE = compile(" ");
 
   private final SpellingCheckRule spellingRule;
@@ -67,8 +66,7 @@ public class MultitokenSpeller {
 
   public List<String> getSuggestions(String originalWord, boolean areTokensAcceptedBySpeller) throws IOException {
     originalWord = WHITESPACE_AND_SEP.matcher(originalWord).replaceAll(" ");
-    String word = DASH_SPACE.matcher(originalWord).replaceAll("-");
-    word = SPACE_DASH.matcher(word).replaceAll("-");
+    String word = originalWord.replace("- ", "-").replace(" -", "-");
     if (discardRunOnWords(word)) {
      return Collections.emptyList();
     }
@@ -96,8 +94,8 @@ public class MultitokenSpeller {
         if (Math.abs(normalizedCandidate.length() - word.length()) > MAX_LENGTH_DIFF) {
           continue;
         }
-        String[] candidateParts = SPACE.split(normalizedCandidate);
-        String[] wordParts = SPACE.split(normalizedWord);
+        String[] candidateParts = splitBySpace(normalizedCandidate);
+        String[] wordParts = splitBySpace(normalizedWord);
         List<Integer> distances = distancesPerWord(candidateParts, wordParts, normalizedCandidate, normalizedWord);
         int totalDistance = distances.stream().reduce(0, Integer::sum);
         if (totalDistance < 1) {
@@ -197,8 +195,8 @@ public class MultitokenSpeller {
 
   private List<Float> firstCharacterDistances(String s1, String s2) {
     List<Float> distances = new ArrayList<>();
-    String[] parts1 = SPACE.split(s1);
-    String[] parts2 = SPACE.split(s2);
+    String[] parts1 = splitBySpace(s1);
+    String[] parts2 = splitBySpace(s2);
     // for now, only phrase with two tokens
     if (parts1.length == parts2.length && parts1.length == 2) {
       for (int i=0; i<parts1.length; i++) {
@@ -313,7 +311,7 @@ public class MultitokenSpeller {
   }
 
   private boolean discardRunOnWords(String underlinedError) throws IOException {
-    String[] parts = SPACE.split(underlinedError);
+    String[] parts = splitBySpace(underlinedError);
     if (parts.length == 2) {
       if (StringTools.isCapitalizedWord(parts[1])) {
         return false;
@@ -332,6 +330,10 @@ public class MultitokenSpeller {
       return !spellingRule.isMisspelled(sugg2a) && !spellingRule.isMisspelled(sugg2b);
     }
     return false;
+  }
+
+  private static String [] splitBySpace(String underlinedError) {
+    return StringUtils.split(underlinedError, ' ');
   }
 
   protected boolean isException(String original, String candidate) {

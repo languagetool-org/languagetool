@@ -43,8 +43,8 @@ public class PortugueseWordTokenizer extends WordTokenizer {
   private static final char NON_BREAKING_SPACE_SUBST = '\uE002';
   private static final char NON_BREAKING_DOT_SUBST = '\uE003'; // some unused character to hide dot in date temporary for tokenizer run
   private static final char NON_BREAKING_COLON_SUBST = '\uE004';
-  private static final Pattern CURLY_QUOTE = compile("’");
-  private static final Pattern HYPHEN_SUBST = compile("\u0001\u0001PT_HYPHEN\u0001\u0001");
+  private static final String HYPHEN_SUBST_TEXT = "\u0001\u0001PT_HYPHEN\u0001\u0001";
+  private static final Pattern HYPHEN_SUBST = compile(HYPHEN_SUBST_TEXT);
 
   // decimal comma between digits
   private static final Pattern DECIMAL_COMMA_PATTERN = compile("([\\d]),([\\d])", CASE_INSENSITIVE| UNICODE_CASE);
@@ -152,7 +152,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
       token = token.replace(NON_BREAKING_SPACE_SUBST, ' ');
       // outside of if as we also replace back sentence-ending abbreviations
       token = token.replace(NON_BREAKING_DOT_SUBST, '.');
-      token = HYPHEN_SUBST.matcher(token).replaceAll("-");
+      token = token.replace(HYPHEN_SUBST_TEXT, "-");
       tokenList.addAll(wordsToAdd(token));
     }
 
@@ -169,7 +169,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
         l.add(s);
       } else {
         // words containing hyphen (-) are looked up in the dictionary
-        if (tagger.tag(Arrays.asList(CURLY_QUOTE.matcher(s).replaceAll("'"))).get(0).isTagged()) {
+        if (tagger.tag(Arrays.asList(s.replace("’", "'"))).get(0).isTagged()) {
           // In the current POS tag, most apostrophes are curly: to be fixed
           l.add(s);
         }

@@ -170,13 +170,17 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     if (aMatcher.matches() && bMatcher.matches()) {
       for (int i = 1; i <= aMatcher.groupCount(); i++) {
         String groupStr = aMatcher.group(i);
-        String toReplace = "\\\\a" + i;
-        result = result.replaceAll(toReplace, groupStr);
+        if( groupStr != null){
+          String toReplace = "\\a" + i;
+          result = result.replace(toReplace, groupStr);
+        }
       }
       for (int i = 1; i <= bMatcher.groupCount(); i++) {
         String groupStr = bMatcher.group(i);
-        String toReplace = "\\\\b" + i;
-        result = result.replaceAll(toReplace, groupStr);
+        if( groupStr != null){
+          String toReplace = "\\b" + i;
+          result = result.replace(toReplace, groupStr);
+        }
       }
     }
     return result;
