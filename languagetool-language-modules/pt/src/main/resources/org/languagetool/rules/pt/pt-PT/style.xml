@@ -4093,14 +4093,16 @@ USA
 
 
     <rule id='AVIÃO_DE_COMBATE_PT_PT' name="[pt-PT][Simplificar] Avião de combate → caça" tone_tags="objective">
+        <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
+        <!-- With "aeronave" there was the problem of it being a female word messing the suggestions -->
         <pattern>
             <marker>
-                <token regexp='yes'>avi(ão|ões)|aeroplanos?</token>
+                <token regexp='yes'>avi(ão|ões)|aeroplanos?|caças?|jac?tos?</token>
                 <token>de</token>
                 <token regexp='yes'>combate|guerra</token>
             </marker>
         </pattern>
-        <message>&simplify_msg;</message>
+        <message>Substitua o termo por &quot;caça&quot; apenas quando se referir a aeronaves de combate aéreo.</message>
         <suggestion><match no='1' postag='NC.(.)000' postag_replace='NCC$1000'>caça</match></suggestion>
         <example correction="caça">O <marker>avião de combate</marker> é muito rápido.</example>
         <example correction="caças">Os <marker>aviões de combate</marker> são muito rápidos.</example>
