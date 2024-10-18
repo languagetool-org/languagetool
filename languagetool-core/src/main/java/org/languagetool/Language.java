@@ -81,7 +81,6 @@ public abstract class Language {
   private static final String SUGGESTION_OPEN_TAG = "<suggestion>";
   private static final String SUGGESTION_CLOSE_TAG = "</suggestion>";
 
-  private static final Pattern ELLIPSIS = compile("\\.\\.\\.");
   private static final Pattern NBSPACE1 = compile("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)");
   private static final Pattern NBSPACE2 = compile("\\b([a-zA-Z]\\.) ");
 
@@ -920,13 +919,13 @@ public abstract class Language {
     while (m.find(offset)) {
       String group = m.group(1);
       preservedStrings.add(group);
-      output = output.replaceFirst("<suggestion>" + quote(group) + "</suggestion>", "\\\\" + countPreserved);
+      output = StringUtils.replaceOnce(output, "<suggestion>" + group + "</suggestion>", "\\" + countPreserved);
       countPreserved++;
       offset = m.end();
     }
     
     // Ellipsis (for all languages?)
-    output = ELLIPSIS.matcher(output).replaceAll("…");
+    output = output.replace("...", "…");
     
     // non-breaking space
     output = NBSPACE1.matcher(output).replaceAll("$1\u00a0$2");
@@ -959,7 +958,7 @@ public abstract class Language {
     
     //restore suggestions
     for (int i = 0; i < preservedStrings.size(); i++) {
-      output = output.replaceFirst("\\\\" + i, getOpeningDoubleQuote() + Matcher.quoteReplacement(preservedStrings.get(i)) + getClosingDoubleQuote() );
+      output = StringUtils.replaceOnce(output, "\\" + i, getOpeningDoubleQuote() + preservedStrings.get(i) + getClosingDoubleQuote() );
     }
 
     return output.replace(SUGGESTION_OPEN_TAG, getOpeningDoubleQuote())
