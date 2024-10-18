@@ -121,7 +121,7 @@ public class RuleMatchDiffFinder {
   }
 
   private String cleanSpan(String s) {
-    return s.replaceFirst(MARKER_START, "").replaceFirst("</span>", "");
+    return StringUtils.replaceOnce(StringUtils.replaceOnce(s, MARKER_START, ""), "</span>", "");
   }
 
   private void debugList(String title, List<LightRuleMatch> l1) {
@@ -475,7 +475,7 @@ public class RuleMatchDiffFinder {
         fw.write("<td " + (removed > 0 ? "style='background-color: #ffd2d8'" : "") + ">" + removed + "</td>");
         fw.write("<td>" + outputFile.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.MODIFIED).count() + "</td>");
         fw.write("<td>");
-        fw.write(file.replaceFirst("result_", "").replaceFirst("_.*", ""));
+        fw.write(StringUtils.replaceOnce(file, "result_", "").replaceFirst("_.*", ""));
         fw.write("</td>");
         if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {
           fw.write("<td>" + (outputFile.items.get(0).getNewMatch().getTags().contains("picky") ? "p" : "") + "</td>");

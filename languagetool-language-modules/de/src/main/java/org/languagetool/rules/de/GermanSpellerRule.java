@@ -270,7 +270,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Allalei", "Allerlei");
     put("geupdate[dt]$", "upgedatet");
     //put("gefaked", "gefakt");  -- don't suggest
-    put("[pP]roblemhaft(e[nmrs]?)?", w -> Arrays.asList(w.replaceFirst("haft", "behaftet"), w.replaceFirst("haft", "atisch")));
+    put("[pP]roblemhaft(e[nmrs]?)?", w -> Arrays.asList(StringUtils.replaceOnce(w,"haft", "behaftet"), StringUtils.replaceOnce(w,"haft", "atisch")));
     put("rosane[mnrs]?$", w -> Arrays.asList("rosa", w.replaceFirst("^rosan", "rosafarben")));
     put("Erbung", w -> Arrays.asList("Vererbung", "Erbschaft"));
     put("Energiesparung", w -> Arrays.asList("Energieeinsparung", "Energieersparnis"));
@@ -384,7 +384,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Aug", w -> Arrays.asList("Aug.", "Auge"));
     put("Erstsemesterin", w -> Arrays.asList("Erstsemester", "Erstsemesters", "Erstsemesterstudentin"));
     put("Erstsemesterinnen", w -> Arrays.asList("Erstsemesterstudentinnen", "Erstsemester", "Erstsemestern"));
-    put("kreativlos(e[nmrs]?)?", w -> Arrays.asList(w.replaceFirst("kreativ", "fantasie"), w.replaceFirst("kreativ", "einfalls"), w.replaceFirst("kreativlos", "unkreativ"), w.replaceFirst("kreativlos", "uninspiriert")));
+    put("kreativlos(e[nmrs]?)?", w -> Arrays.asList(StringUtils.replaceOnce(w,"kreativ", "fantasie"), StringUtils.replaceOnce(w,"kreativ", "einfalls"), StringUtils.replaceOnce(w,"kreativlos", "unkreativ"), StringUtils.replaceOnce(w,"kreativlos", "uninspiriert")));
     put("Kreativlosigkeit", "Unkreativität");
     put("hinund?her", "hin und her");
     put("[lL]ymph?trie?nasche", "Lymphdrainage");
@@ -468,7 +468,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Singel", "Single");
     put("legen[td]lich", "lediglich");
     put("ein[ua]ndhalb", "eineinhalb");
-    put("[mM]illion(en)?mal", w -> singletonList(uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
+    put("[mM]illion(en)?mal", w -> singletonList(uppercaseFirstChar(StringUtils.replaceOnce(w,"mal", " Mal"))));
     put("Mysql", "MySQL");
     put("MWST", "MwSt");
     put("Opelarena", "Opel Arena");
@@ -496,7 +496,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[cC]asemana?ge?ment", "Case Management");
     put("[aA]nn?[ou]ll?ie?rung", "Annullierung");
     put("[sS]charm", "Charme");
-    put("[zZ]auberlich(e[mnrs]?)?", w -> Arrays.asList(w.replaceFirst("lich", "isch"), w.replaceFirst("lich", "haft")));
+    put("[zZ]auberlich(e[mnrs]?)?", w -> Arrays.asList(StringUtils.replaceOnce(w,"lich", "isch"), StringUtils.replaceOnce(w,"lich", "haft")));
     put("[eE]rledung", "Erledigung");
     put("erledigigung", "Erledigung");
     put("woltest", "wolltest");
@@ -668,7 +668,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Dutzen", w -> Arrays.asList("Duzen", "Dutzend"));
     put("patien", w -> Arrays.asList("Partien", "Patient"));
     put("Teammitgliederinnen", w -> Arrays.asList("Teammitgliedern", "Teammitglieder"));
-    put("beidige[mnrs]?", w -> Arrays.asList(w.replaceFirst("ig", ""), w.replaceFirst("beid", "beiderseit"), "beeidigen")); //beide, beiderseitige, beeidigen
+    put("beidige[mnrs]?", w -> Arrays.asList(StringUtils.replaceOnce(w,"ig", ""), StringUtils.replaceOnce(w,"beid", "beiderseit"), "beeidigen")); //beide, beiderseitige, beeidigen
     put("Wissbegierigkeit", w -> Arrays.asList("Wissbegier", "Wissbegierde"));
     put("Nabend", "'n Abend");
     put("gie?bts", "gibt's");
@@ -706,7 +706,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[pP]reisnachlassung", "Preisnachlass");
     put("[mM]edikamentation", "Medikation");
     put("[nN][ei]gliche", "Negligé");
-    put("palletten?", w -> Arrays.asList(w.replaceFirst("pall", "Pal"), w.replaceFirst("pa", "Pai")));
+    put("palletten?", w -> Arrays.asList(StringUtils.replaceOnce(w,"pall", "Pal"), StringUtils.replaceOnce(w,"pa", "Pai")));
     put("[pP]allete", "Palette");
     put("Geräuch", w -> Arrays.asList("Geräusch", "Gesträuch"));
     put("Eon", w -> Arrays.asList("Ein", "E.ON", "Von"));
@@ -813,7 +813,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[vV]erziehr(t(e[mnrs]?)?|en?)", "ieh", "ie");
     putRepl("^[pP]iek(s?t|en?)", "iek", "ik");
     putRepl("[mM]atschscheiben?", "[mM]atschsch", "Mattsch");
-    put("schafen?", w -> Arrays.asList(w.replaceFirst("sch", "schl"), w.replaceFirst("af", "arf"), w.replaceFirst("af", "aff")));
+    put("schafen?", w -> Arrays.asList(StringUtils.replaceOnce(w,"sch", "schl"), StringUtils.replaceOnce(w,"af", "arf"), StringUtils.replaceOnce(w,"af", "aff")));
     put("zuschafen", "zu schaffen");
     putRepl("[hH]ofen?", "of", "off");
     putRepl("[sS]ommerverien?", "[sS]ommerverien?", "Sommerferien");
@@ -857,7 +857,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[uU]nbequemlich(st)?e[nmrs]?", "lich", "");
     putRepl("[uU][nm]bekweh?m(e[nmrs]?)?", "[nm]bekweh?m", "nbequem");
     putRepl("[dD]esatör(s|en?)?", "satör", "serteur");
-    put("Panelen?", w -> Arrays.asList(w.replaceFirst("Panel", "Paneel"), "Panels"));
+    put("Panelen?", w -> Arrays.asList(StringUtils.replaceOnce(w,"Panel", "Paneel"), "Panels"));
     put("D[eèé]ja-?[vV]o?ue?", "Déjà-vu");
     put("Cr[eèé]me-?fra[iî]che", "Crème fraîche");
     put("[aA]rr?an?gemont", "Arrangement");
@@ -2261,13 +2261,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         } else if (!isMisspelled(firstPart) &&
                   !SPECIAL_CASE.matcher(firstPart).matches()) {
                    //System.out.println("will not accept: " + word);
-        } else if (firstPart.endsWith("s") && !isMisspelled(firstPart.replaceFirst("s$", "")) &&
+        } else if (firstPart.endsWith("s") && !isMisspelled(firstPart.substring(0, firstPart.length()-1)) &&
                    SPECIAL_CASE_WITH_S.matcher(firstPart).matches() &&
-                   isOnlyNoun(firstPart.replaceFirst("s$", "")) &&
+                   isOnlyNoun(firstPart.substring(0, firstPart.length()-1)) &&
                    !isMisspelled(firstPart + "test")) {  // does hunspell accept this? takes infex-s into account automatically
           //System.out.println("will accept: " + word);
           return true;
-        } else if (firstPart.endsWith("s") && !isMisspelled(firstPart.replaceFirst("s$", "")) &&
+        } else if (firstPart.endsWith("s") && !isMisspelled(firstPart.substring(0, firstPart.length()-1)) &&
                    SPECIAL_CASE.matcher(firstPart).matches()) {
           //System.out.println("will not accept: " + word);
         }
@@ -2462,12 +2462,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   private String removeTrailingS(String part1) {
-    return part1.replaceFirst("s?$", "");
+    return StringUtils.removeEnd(part1, "s");
   }
 
-  private String removeTrailingHyphen(String part1) { return part1.replaceFirst("-?$", ""); }
+  private String removeTrailingHyphen(String part1) { return StringUtils.removeEnd(part1,"-"); }
 
-  private String removeTrailingSAndHyphen(String part1) { return part1.replaceFirst("s?-?$", ""); }
+  private String removeTrailingSAndHyphen(String part1) { return removeTrailingS(removeTrailingHyphen(part1)); }
 
   private boolean isAdjective(String word) throws IOException {
     return getTagger().tag(singletonList(word)).stream().anyMatch(k -> k.hasPosTagStartingWith("ADJ:"));
@@ -2930,7 +2930,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         return singletonList(suggestion);
       }
     } else if (word.endsWith("entfehlung")) {
-      suggestion = word.replaceFirst("ent", "emp");
+      suggestion = StringUtils.replaceOnce(word, "ent", "emp");
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
@@ -2960,7 +2960,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         return singletonList(suggestion);
       }
     } else if (STARTS_WITH_RESCHASCHIER.matcher(word).matches()) {
-      suggestion = word.replaceFirst("schaschier", "cherchier");
+      suggestion = StringUtils.replaceOnce(word, "schaschier", "cherchier");
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
@@ -3442,28 +3442,28 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected List<SuggestedReplacement> getOnlySuggestions(String word) {
     if (SYMPHATISCH.matcher(word).matches()) {
-      return topMatch(word.replaceFirst("symphatisch", "sympathisch"));
+      return topMatch(StringUtils.replaceOnce(word,"symphatisch", "sympathisch"));
     }
     if (AUTENTISCH_WITH_CASES.matcher(word).matches()) {
-      return topMatch(word.replaceFirst("utent", "uthent"));
+      return topMatch(StringUtils.replaceOnce(word,"utent", "uthent"));
     }
     if (BRILLIANT_WITH_CASES.matcher(word).matches()) {
-      return topMatch(word.replaceFirst("brilliant", "brillant"));
+      return topMatch(StringUtils.replaceOnce(word,"brilliant", "brillant"));
     }
     if (RECHTMASIG_WITH_CASES.matcher(word).matches()) {
-      return topMatch(word.replaceFirst("mässig", "mäßig"));
+      return topMatch(StringUtils.replaceOnce(word,"mässig", "mäßig"));
     }
     if (CONTAINS_MASZNAME.matcher(word).matches()) {
       return topMatch(word.replaceFirst("a(ss|ß)name", "aßnahme"));
     }
     if (HOLZ_SPIEGEL_PANEL_COMPOUND.matcher(word).matches()){
-      return topMatch(word.replaceFirst("panel", "paneel"));
+      return topMatch(StringUtils.replaceOnce(word,"panel", "paneel"));
     }
     if (SBHAN_PREFIX.matcher(word).matches()) {
-      return topMatch(word.replaceFirst("SBahn", "S-Bahn"));
+      return topMatch(StringUtils.replaceOnce(word,"SBahn", "S-Bahn"));
     }
     if (UBAHN_PREFIX.matcher(word).matches()) {
-      return topMatch(word.replaceFirst("UBahn", "U-Bahn"));
+      return topMatch(StringUtils.replaceOnce(word,"UBahn", "U-Bahn"));
     }
     switch (word) {
       case "Büffet":

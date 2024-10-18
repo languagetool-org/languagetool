@@ -20,6 +20,7 @@ package org.languagetool.synthesis.ar;
 
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -153,7 +154,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     String correctStem = stem;
     if (postag == null) return stem;
     if (tagmanager.isAttached(postag)) {
-      correctStem = correctStem.replaceAll("ه$", "");
+      correctStem = StringUtils.removeEnd(correctStem, "ه");
     }
 
     if (tagmanager.isDefinite(postag)) {
@@ -227,7 +228,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
             else
               newWord = "";
           } else if (stem.endsWith("ه")) {
-            stem = stem.replaceAll("ه$", "");
+            stem = StringUtils.removeEnd(stem, "ه");
             newWord = procletic + stem + suffix;
           } else {
             newWord = procletic + stem + suffix;
@@ -310,14 +311,13 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     if (newwordList.length != 0) {
       stem = newwordList[0];
       if (tagmanager.hasPronoun(newposTag)) {
-        stem = stem.replaceAll("ه$", "");
+        stem = StringUtils.removeEnd(stem, "ه");
       }
     } else {
       // no word generated
       stem = "(" + word + ")";
     }
-    String newWord = prefix + stem + enclitic;
-    return newWord;
+    return prefix + stem + enclitic;
   }
 
   /* generate a new form according to a specific postag, this form is Attached*/
