@@ -46,7 +46,7 @@ jobs:
   security-scan:
     resource_class: medium
     executor:
-      name: docker-openjdk11
+      name: docker-openjdk17
     environment:
       MAVEN_OPTS: -Xmx3500m
     steps:
@@ -60,7 +60,7 @@ jobs:
   test-and-deploy-full:
     resource_class: medium+
     executor:
-      name: docker-openjdk11
+      name: docker-openjdk17
     environment:
       MAVEN_OPTS: -Xmx3500m
     steps:
@@ -82,7 +82,7 @@ jobs:
   test-and-deploy-partial:
     resource_class: medium+
     executor: 
-      name: docker-openjdk11
+      name: docker-openjdk17
     environment: 
       MAVEN_OPTS: -Xmx3500m
     steps:
@@ -196,6 +196,6 @@ commands:
           command: |
             cd $CIRCLE_WORKING_DIRECTORY && .circleci/kick_off_premium.sh
 executors:
-  docker-openjdk11:
+  docker-openjdk17:
     docker:
-      - image: cimg/openjdk:11.0
+      - image: cimg/openjdk:17.0
