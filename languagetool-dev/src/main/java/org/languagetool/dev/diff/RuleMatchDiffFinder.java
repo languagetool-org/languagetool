@@ -363,10 +363,10 @@ public class RuleMatchDiffFinder {
   }
 
   private String showTrimSpace(String s) {
-    s = s.replaceAll("\n", "<span class='whitespace'>\\\\n</span>");
+    s = s.replace("\n", "<span class='whitespace'>\\\\n</span>");
     s = s.replaceFirst("^\\s", "<span class='whitespace'>&nbsp;</span>");
     s = s.replaceFirst("\\s$", "<span class='whitespace'>&nbsp;</span>");
-    s = s.replaceAll("\u00A0", "<span class='nbsp' title='non-breaking space'>&nbsp;</span>");
+    s = s.replace("\u00A0", "<span class='nbsp' title='non-breaking space'>&nbsp;</span>");
     return s;
   }
 
@@ -419,7 +419,7 @@ public class RuleMatchDiffFinder {
     Map<String, List<RuleMatchDiff>> keyToDiffs = groupDiffs(diffs);
     List<OutputFile> outputFiles = new ArrayList<>();
     for (Map.Entry<String, List<RuleMatchDiff>> entry : keyToDiffs.entrySet()) {
-      String filename = "result_" + entry.getKey().replaceAll("/", "_").replaceAll("[\\s_]+", "_") + ".html";
+      String filename = "result_" + entry.getKey().replace("/", "_").replaceAll("[\\s_]+", "_") + ".html";
       /*if (filename.length() > 100) {
         System.out.println("WARN: Skipping " + filename);
         continue;

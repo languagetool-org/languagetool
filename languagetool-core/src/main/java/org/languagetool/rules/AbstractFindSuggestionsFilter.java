@@ -278,7 +278,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
   }
 
   protected String preProcessWrongWord (String word) {
-    return word = word.replaceAll(" ","");
+    return word.replace(" ","");
   }
 
 }

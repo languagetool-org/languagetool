@@ -78,7 +78,7 @@ public class ConvertToSentenceCaseFilter extends RuleFilter {
   private String normalizedCase(AnalyzedTokenReadings atr) {
     String tokenLowercase = atr.getToken().toLowerCase();
     if (atr.hasTypographicApostrophe()) {
-      tokenLowercase = tokenLowercase.replaceAll("'", "’");
+      tokenLowercase = tokenLowercase.replace("'", "’");
     }
     if (tokenIsException(tokenLowercase)) {
       // exception: the lemma is "I"

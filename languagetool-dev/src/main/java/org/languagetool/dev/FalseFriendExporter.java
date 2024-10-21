@@ -45,7 +45,7 @@ public class FalseFriendExporter {
     int i = 1;
     for (AbstractPatternRule rule : rules) {
       System.out.println(i + ". " + rule.getMessage().
-              replaceFirst("Hinweis: ", "").replaceAll("<suggestion>", "'").replaceAll("</suggestion>", "'"));
+              replaceFirst("Hinweis: ", "").replace("<suggestion>", "'").replace("</suggestion>", "'"));
       i++;
     }
   }
