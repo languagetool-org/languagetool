@@ -5744,7 +5744,7 @@
 </rule>
 <!-- Наші в... Лос-Анджелесі -->
 <rule break="no">
-<beforebreak>\b(в|у|на|за|з|із|зі|зо)(\.\.\.|…)[\h\v]*</beforebreak>
+<beforebreak>(?U)\b(в|у|на|за|з|із|зі|зо)(\.\.\.|…)[\h\v]*</beforebreak>
 <afterbreak>\p{Lu}</afterbreak>
 </rule>
 <rule break="no">
@@ -5757,12 +5757,12 @@
 </rule>
 <!-- Digit as a point number: 1. перший пункт -->
 <rule break="no">
-<beforebreak>\b\d{1,3}\.[\h]+</beforebreak>
+<beforebreak>(?U)\b\d{1,3}\.[\h]+</beforebreak>
 <afterbreak>\p{Ll}|\p{Lu}{2,}</afterbreak>
 </rule>
 <!-- various punctuation between lowercase letters -->
 <rule break="no">
-<beforebreak>\b\p{Ll}+[.!?][\h\v]*</beforebreak>
+<beforebreak>(?U)\b\p{Ll}+[.!?][\h\v]*</beforebreak>
 <afterbreak>\h*(([\(«]|[\[‐-―-][\h\v]*)?\p{Ll})</afterbreak>
 </rule>
 <rule break="no">
@@ -5771,17 +5771,17 @@
 </rule>
 <!-- lowercase letter abbreviations together: н.е., кв.м. -->
 <rule break="no">
-<beforebreak>\b\p{L}{1,2}\.</beforebreak>
+<beforebreak>(?U)\b\p{L}{1,2}\.</beforebreak>
 <afterbreak>\p{L}{1,2}\.</afterbreak>
 </rule>
 <!-- latin capital char abbreviations A. B. C. -->
 <rule break="no">
-<beforebreak>\b[\u00A0\u202F]?[A-Z]\.[\h\v]?</beforebreak>
+<beforebreak>(?U)\b[\u00A0\u202F]?[A-Z]\.[\h\v]?</beforebreak>
 <afterbreak>[A-Z][a-zA-Z'’.-]|[А-ЯІЇЄҐ]\.</afterbreak>
 </rule>
 <!-- capital char abbreviations А. Б. В. -->
 <rule break="no">
-<beforebreak>(^[\h\v]*|\([\h\v]*|[«„"]|(\b[А-ЯІЇЄҐACEIHOPX]\.-))[А-ЯІЇЄҐA-Z]\.[\h\v]*</beforebreak>
+<beforebreak>(?U)(^[\h\v]*|\([\h\v]*|[«„"]|(\b[А-ЯІЇЄҐACEIHOPX]\.-))[А-ЯІЇЄҐA-Z]\.[\h\v]*</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Іван Ч. (1914 р. н.) -->
@@ -5805,12 +5805,12 @@
     а до лютого 2020 р. — затвердити
 -->
 <rule break="no">
-<beforebreak>\b([0-9]{2}|[0-9]{4})[\h\v]+р\.[\h\v]+</beforebreak>
+<beforebreak>(?U)\b([0-9]{2}|[0-9]{4})[\h\v]+р\.[\h\v]+</beforebreak>
 <afterbreak>[\h\v]*[№0-9‐-―-]</afterbreak>
 </rule>
 <!-- річка - р. Дніпро -->
 <rule break="no">
-<beforebreak>(?&lt;!\d[\h]*)\bр\.[\h\v]*</beforebreak>
+<beforebreak>(?U)(?&lt;!\d[\h]*)\bр\.[\h\v]*</beforebreak>
 <afterbreak>[\h]*(?!(На|Але|Так?)[\h\v]+)[А-ЯІЇЄҐA-Z][^\h]</afterbreak>
 </rule>
 <!-- У травні 1949 р. Грушківський район -->
@@ -5825,29 +5825,29 @@
 </rule>
 <!-- Years: рр. -->
 <rule break="no">
-<beforebreak>\b([0-9]0|[0-9]{3}0)(-[мх])?рр\.[\h\v]*</beforebreak>
+<beforebreak>(?U)\b([0-9]0|[0-9]{3}0)(-[мх])?рр\.[\h\v]*</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- млн./млрд./грн. — frequent mistake -->
 <rule break="no">
-<beforebreak>\b(тис|млн|млрд|грн)\.[\h\v]*</beforebreak>
+<beforebreak>(?U)\b(тис|млн|млрд|грн)\.[\h\v]*</beforebreak>
 <afterbreak>[\h\v]*(\d|[КМ]Вт)</afterbreak>
 </rule>
 <!-- усталені скорочення, що не збігаються з нескороченими словами -->
 <rule break="no">
-<beforebreak>\b(укр|рос|англ?|амер|італ|ісп|нім|фр(анц)?|лат|грец(ьк)?)\.[\h\v]*</beforebreak>
+<beforebreak>(?U)\b(укр|рос|англ?|амер|італ|ісп|нім|фр(анц)?|лат|грец(ьк)?)\.[\h\v]*</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(абз|арк|ауд|бл|буд|бульв|вул|держ|дод|зав|зб|зв|зовн|екон|к|кв|канд|кн|напр|нпр|нац|обл|оп|пл|пол|поч|пп|пор|просп|розд|стор|табл|[Тт]]ел|ч|част)\.[\h\v]*</beforebreak>
+<beforebreak>(?U)\b(абз|арк|ауд|бл|буд|бульв|вул|держ|дод|зав|зб|зв|зовн|екон|к|кв|канд|кн|напр|нпр|нац|обл|оп|пл|пол|поч|пп|пор|просп|розд|стор|табл|[Тт]]ел|ч|част)\.[\h\v]*</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(кін)\.[\h\v]*</beforebreak>
+<beforebreak>(?U)\b(кін)\.[\h\v]*</beforebreak>
 <afterbreak>[а-яіїєґ0-9IXV]|[ІХ]+\b</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b[сС]т\.[\h\v]</beforebreak>
+<beforebreak>(?U)\b[сС]т\.[\h\v]</beforebreak>
 <afterbreak>[\h]*(?!([АВУОІЄ]|На|Але|Так?)[\h\v])</afterbreak>
 </rule>
 <!-- нар. 1945 р. | (1966 р. нар.) | 1975 — нар. Осипчук -->
@@ -5856,21 +5856,21 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bнар\.[\h\v]*</beforebreak>
+<beforebreak>(?U)\bнар\.[\h\v]*</beforebreak>
 <afterbreak>([0-9]|бл\.|арт\.)</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bдол\.[\h\v]*</beforebreak>
+<beforebreak>(?U)\bдол\.[\h\v]*</beforebreak>
 <afterbreak>США</afterbreak>
 </rule>
 <!-- п. 10 від 11.10.1933, д. Василь -->
 <rule break="no">
-<beforebreak>(?&lt;!т\.[\h\v]?)\b[пд]\.[\h\v]*</beforebreak>
+<beforebreak>(?U)(?&lt;!т\.[\h\v]?)\b[пд]\.[\h\v]*</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- усталені скорочення, що збігаються з нескороченими словами -->
 <rule break="no">
-<beforebreak>\b(див)\.[\h\v]</beforebreak>
+<beforebreak>(?U)\b(див)\.[\h\v]</beforebreak>
 <afterbreak>[\h\v]*[^А-ЯІЇЄҐ]</afterbreak>
 </rule>
 <!-- Верховний орган, див. Африканський національний конгрес -->
@@ -5882,20 +5882,20 @@
     України (див. Зимові походи)
 -->
 <rule break="no">
-<beforebreak>(\([^)]*|\[[^\]]*|,[\h\v]*)\b(див)\.[\h\v]*</beforebreak>
+<beforebreak>(?U)(\([^)]*|\[[^\]]*|,[\h\v]*)\b(див)\.[\h\v]*</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- abbreviation with proper noun: проф. Грицько, о. Лісове -->
 <rule break="no">
-<beforebreak>\b(ап|[Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Рр]еж|[Аа]рх|[Сс]вв?|о|оз|ім|інж|дир|тов|упоряд|тт|чл\.-кор|[Пп]реп|[сС]вт)\.[\h\v]*</beforebreak>
+<beforebreak>(?U)\b(ап|[Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Рр]еж|[Аа]рх|[Сс]вв?|о|оз|ім|інж|дир|тов|упоряд|тт|чл\.-кор|[Пп]реп|[сС]вт)\.[\h\v]*</beforebreak>
 <afterbreak>[\h\v]*[А-ЯІЇЄҐA-Z]</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>(?&lt;![іи]\s+)\bдр\.[\h\v]*</beforebreak>
+<beforebreak>(?U)(?&lt;![іи]\s+)\bдр\.[\h\v]*</beforebreak>
 <afterbreak>[\h\v]*[А-ЯІЇЄҐ]</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bМан\.[\h\v]*</beforebreak>
+<beforebreak>(?U)\bМан\.[\h\v]*</beforebreak>
 <afterbreak>[\h\v]*([Сс]іті|[Юю]н)</afterbreak>
 </rule>
 <!-- смерть гр. Болтаровича, but not "9 гр." -->
@@ -5905,7 +5905,7 @@
 </rule>
 <!-- TODO: арт. - артист -->
 <rule break="no">
-<beforebreak>\b([Аа]рт|[Мм]ал|[Рр]ис|[Сс]пр)\.[\h\v]*</beforebreak>
+<beforebreak>(?U)\b([Аа]рт|[Мм]ал|[Рр]ис|[Сс]пр)\.[\h\v]*</beforebreak>
 <afterbreak>[\h\v]*(№[\h\v]*)?[0-9]</afterbreak>
 </rule>
 <!-- ХІІ р., 3-6 арт., 2-3 тт. -->
@@ -5915,7 +5915,7 @@
 </rule>
 <!-- але розбиваємо «всього 20 м. Почалося» -->
 <rule break="no">
-<beforebreak>(?&lt;!\d[\h\v]*)\bм\.[\h\v]*</beforebreak>
+<beforebreak>(?U)(?&lt;!\d[\h\v]*)\bм\.[\h\v]*</beforebreak>
 <afterbreak>[А-ЯІЇЄҐ][а-яіїєґ']</afterbreak>
 </rule>
 <!-- село/сторінка/місто, але щоб не збігалося з секундами/метрами -->
@@ -5939,7 +5939,7 @@
 <afterbreak>[\h\v]*[‐-―-][\h\v]*([Рр]ед|[Аа]вт)\.[\h\v]*[\)\]]</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b([Рр]ед)\.[\h\v]*</beforebreak>
+<beforebreak>(?U)\b([Рр]ед)\.[\h\v]*</beforebreak>
 <afterbreak>[А-ЯІЇЄҐ]</afterbreak>
 </rule>
 <!-- Цензор.НЕТ -->
@@ -5967,6 +5967,7 @@
 <afterbreak>([‐-―-][\h\v]*)?\p{Lu}[^\p{Lu}]</afterbreak>
 </rule>
 </languagerule>
+
 <languagerule languagerulename="Belarusian">
 <rule break="no">
 <beforebreak>\b\d+\.\s</beforebreak>
