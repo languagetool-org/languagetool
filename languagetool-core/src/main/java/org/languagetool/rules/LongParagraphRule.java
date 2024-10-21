@@ -46,6 +46,7 @@ public class LongParagraphRule extends TextLevelRule {
     super.setCategory(Categories.STYLE.getCategory(messages));
     this.lang = lang;
     setDefaultOff();
+    setOfficeDefaultOn();  // Default for LO/OO is always On
     if (defaultWords > 0) {
       this.maxWords = defaultWords;
     }

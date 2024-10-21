@@ -3704,6 +3704,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Dnake": return topMatch("Danke");
       case "Muehe": return topMatch("Mühe");
       case "Muehen": return topMatch("Mühen");
+      case "Kuhdamm": return topMatch("Ku’damm");
       case "Torschusspanik": return topMatch("Torschlusspanik");
       case "ggf": return topMatch("ggf.");
       case "Ggf": return topMatch("Ggf.");

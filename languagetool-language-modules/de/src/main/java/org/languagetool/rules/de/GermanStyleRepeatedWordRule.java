@@ -33,6 +33,7 @@ import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractStyleRepeatedWordRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.RuleOption;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tools.StringTools;
 
@@ -50,12 +51,19 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
   private static final Pattern LETTERS = Pattern.compile("^[A-Za-zÄÖÜäöüß]+$");
 
   private Speller speller = null;
+  private boolean testCompoundWords = false;
 
   public GermanStyleRepeatedWordRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
     super(messages, lang, userConfig);
     super.setCategory(Categories.STYLE.getCategory(messages));
     addExamplePair(Example.wrong("Ich gehe zum Supermarkt, danach <marker>gehe</marker> ich nach Hause."),
                    Example.fixed("Ich gehe zum Supermarkt, danach nach Hause."));
+    if (userConfig != null) {
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null && cf.length > 1) {
+        testCompoundWords = (boolean) cf[1];
+      }
+    }
   }
 
   @Override
@@ -84,17 +92,27 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
   }
 
   /**
+   *  give the user the possibility to configure the function
+   */
+  @Override
+  public RuleOption[] getRuleOptions() {
+    RuleOption[] ruleOptions = { 
+        new RuleOption(maxDistanceOfSentences, messages.getString("guiStyleRepeatedWordText"), 0, 5),
+        new RuleOption(testCompoundWords, "Auch zusammengesetzte Wörter prüfen")
+    };
+    return ruleOptions;
+  }
+
+  /**
    * is a correct spelled word
    */
   private boolean isCorrectSpell(String word) {
     word = StringTools.uppercaseFirstChar(word);
-//    if (linguServices == null && speller == null) {
     if (speller == null) {
       // speller can not initialized by constructor because of temporary initialization of LanguageTool in other rules,
       // which leads to problems in LO/OO extension
       speller = new Speller(MorfologikSpeller.getDictionaryWithCaching("/de/hunspell/de_DE.dict"));
     }
-//    if (linguServices == null && speller != null) {
     if (speller != null) {
       return !speller.isMisspelled(word);
     } else if (linguServices != null) {
@@ -145,39 +163,6 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
     }
     return false;
   }
-/*
- * TODO: Remove after testing
- * 
-  private boolean isFalsePair(String token1, String token2, String equalWord, String containedWord) {
-    token1 = token1.toLowerCase();
-    token2 = token2.toLowerCase();
-    equalWord = equalWord.toLowerCase();
-    containedWord = containedWord.toLowerCase();
-    return ((token1.equals(equalWord) && token2.contains(containedWord)) || (token2.equals(equalWord) && token1.contains(containedWord)));
-  }
-/*
- * TODO: Remove after testing
- * 
-  @Override
-  protected boolean isPartOfWord(String testTokenText, String tokenText) {
-    return (
-          testTokenText.length() > 2 && tokenText.length() > 2 &&
-          (testTokenText.startsWith(tokenText) || testTokenText.endsWith(tokenText)
-          || tokenText.startsWith(testTokenText) || tokenText.endsWith(testTokenText))
-          && (!isFalsePair(testTokenText, tokenText, "lang", "klang"))
-          && (!isFalsePair(testTokenText, tokenText, "lag", "schlag"))
-          && (!isFalsePair(testTokenText, tokenText, "lagen", "schlagen"))
-          && (!isFalsePair(testTokenText, tokenText, "Art", "Artefakt"))
-          && (!isFalsePair(testTokenText, tokenText, "kommen", "kommentier"))
-          && (!isFalsePair(testTokenText, tokenText, "weit", "weiter"))
-          && (!isFalsePair(testTokenText, tokenText, "weite", "weiter"))
-          && (!isFalsePair(testTokenText, tokenText, "Wand", "Wander"))
-          && (testTokenText.length() == tokenText.length() || testTokenText.length() < tokenText.length() - 3
-          || testTokenText.length() > tokenText.length() + 3)
-          || testTokenText.equals(tokenText + "s") || tokenText.equals(testTokenText + "s")
-        );
-  }
-*/
 
   private boolean isSecondPartofWord(String testTokenText, String tokenText) {
     if (testTokenText.length() - tokenText.length() < 3) {
@@ -199,7 +184,6 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
           return true;
         }
       }
-//      throw new IllegalStateException("Kein Wort 2. Teil gefunden: " + testTokenText + ", Wort: " + word);
       return false;
     } else if (testTokenText.endsWith(lowerTokenText)) {
       String word = testTokenText.substring(0, testTokenText.length() - tokenText.length());
@@ -211,7 +195,6 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
           return true;
         }
       }
-//      throw new IllegalStateException("Kein Wort 1. Teil gefunden: " + testTokenText + ", Wort: " + word);
       return false;
     }
     return false;
@@ -219,7 +202,7 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
   
   @Override
   protected boolean isPartOfWord(String testTokenText, String tokenText) {
-    if (testTokenText.length() < 3 || tokenText.length() < 3) {
+    if (!testCompoundWords || testTokenText.length() < 3 || tokenText.length() < 3) {
       return false;
     }
     if (testTokenText.length() > tokenText.length()) {

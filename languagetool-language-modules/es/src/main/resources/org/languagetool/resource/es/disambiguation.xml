@@ -739,6 +739,24 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="filter" postag="RG"/>
         </rule>
+        <rule id="cualquieras" name="unos cualquieras">
+            <pattern>
+                <token regexp="yes">unos|unas|un|una</token>
+                <marker>
+                    <token>cualquieras</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd lemma="cualquiera" pos="NCCP000"/></disambig>
+        </rule>
+        <rule id="cualquiera" name="unos cualquieras">
+            <pattern>
+                <token regexp="yes">unos|unas|un|una</token>
+                <marker>
+                    <token>cualquiera</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd lemma="cualquiera" pos="NCCS000"/></disambig>
+        </rule>
         <rule id="dado_que" name="dado que">
             <pattern>
                 <token><exception postag="D..[MC][SN]." postag_regexp="yes"/></token>

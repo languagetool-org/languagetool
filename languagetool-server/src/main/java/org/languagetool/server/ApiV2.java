@@ -170,17 +170,17 @@ class ApiV2 {
     }
     //get from config
     if (config.logIp && aText.getPlainText().trim().equals(config.logIpMatchingPattern)) {
-      handleIpLogMatch(httpExchange, remoteAddress);
+      handleIpLogMatch(httpExchange, remoteAddress, parameters);
       //no need to check text again rules
       return;
     }
     textChecker.checkText(aText, httpExchange, parameters, errorRequestLimiter, remoteAddress);
   }
 
-  private void handleIpLogMatch(HttpExchange httpExchange, String remoteAddress) {
+  private void handleIpLogMatch(HttpExchange httpExchange, String remoteAddress, Map<String, String> parameters) {
     Logger logger = LoggerFactory.getLogger(ApiV2.class);
     InetSocketAddress localAddress = httpExchange.getLocalAddress();
-    logger.info(String.format("Found log-my-IP text in request from: %s to: %s", remoteAddress, localAddress.toString()));
+    logger.info(String.format("Found log-my-IP text in request from: %s to: %s, requestParams: %s", remoteAddress, localAddress.toString(), parameters));
   }
 
   private void handleWordsRequest(HttpExchange httpExchange, Map<String, String> params, HTTPServerConfig config) throws Exception {

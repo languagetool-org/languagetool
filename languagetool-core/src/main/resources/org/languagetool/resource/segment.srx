@@ -4761,9 +4761,26 @@
 <beforebreak>\.\[\d+\][\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<!-- 1. Punt primer-->
+<rule break="no">
+<beforebreak>^\d+\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{L}</afterbreak>
+</rule>
 <!-- unknown abbreviations inside parentheses -->
 <rule break="no">
-<beforebreak>\([^\)]*\.[\s\u00A0]</beforebreak>
+<beforebreak>\([^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
 <afterbreak>[^\)\r\n]*\)</afterbreak>
 </rule>
 <rule break="no">
@@ -4821,7 +4838,7 @@
 </rule>
 <!-- max min etc -->
 <rule break="no">
-<beforebreak>\b([Ee]tc|m[aáà]x|m[ií]n|aprox|\d+o)\.[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
+<beforebreak>\b([Ee]tc|m[aáà]x|m[ií]n|aprox|long|\d+o)\.[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Composed abbrev. -->
@@ -4865,10 +4882,27 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Spanish">
+<!-- 1. Punto primero-->
+<rule break="no">
+<beforebreak>^\d+\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{L}</afterbreak>
+</rule>
 <!-- unknown abbreviations inside parentheses -->
 <rule break="no">
-<beforebreak>\([^\)]*\.[\s\u00A0]</beforebreak>
+<beforebreak>\([^\)]*?[\.:][\s\u00A0]</beforebreak>
 <afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+  <beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+  <afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+  <beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+  <afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+  <beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+  <afterbreak>[^\)\r\n]*\)</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\[[^\]]*\.[\s\u00A0]</beforebreak>
@@ -4984,7 +5018,7 @@
 </rule>
 <!-- max min etc -->
 <rule break="no">
-<beforebreak>\b([Ee]tc|m[aá]x|m[ií]n|aprox|\d+o)\.[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
+<beforebreak>\b([Ee]tc|m[aá]x|m[ií]n|aprox|long|\d+o)\.[\p{Pe}\p{Pf}\p{Pd}"']*[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Composed abbrev. -->
@@ -6671,7 +6705,7 @@
 
 Не раздвајати после наводника осим ако нису праћени
 великим словом. На пример:
-	"Тако је!", рече он.-->
+    "Тако је!", рече он.-->
 <rule break="no">
 <beforebreak>["'“],\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
