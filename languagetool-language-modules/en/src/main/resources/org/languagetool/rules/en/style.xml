@@ -3350,6 +3350,11 @@ For more detailed information, including tag definitions, please check out our d
                 <example>... yields are around 2 t/ha, African under 1 t/ha, <marker>Egypt and</marker> Arabia up to 3.5 to 4 t/ha with irrigation.</example>
             </rule>
             <rule><!-- 3 adjectives -->
+                <antipattern>
+                    <token>first</token>
+                    <token>and</token>
+                    <token>foremost</token>
+                </antipattern>
                 <pattern>
                     <token chunk_re=".-VP" postag="VB.*" postag_regexp="yes" />
                     <token postag="RB" min="0" chunk_re=".-AD.*" />
@@ -3385,6 +3390,11 @@ For more detailed information, including tag definitions, please check out our d
                     <token postag="JJ.*" postag_regexp="yes" regexp="yes">[a-z].+</token>
                     <token>,</token>
                     <token postag="JJ.*" postag_regexp="yes" regexp="yes">[A-Z].+</token>
+                </antipattern>
+                <antipattern>
+                    <token>first</token>
+                    <token>and</token>
+                    <token>foremost</token>
                 </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">be|seem|appear|look</token>
