@@ -3430,8 +3430,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup default='on' id='A_WORD' name="Concordância: A + palavra">
             <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
 
-            <antipattern> <!-- Fix disambiguator changes: Verbs to Nouns 1/3 -->
-                <token inflected='yes' regexp='no'>estar</token>
+            <antipattern> <!-- Fix disambiguator changes: Verbs to Nouns 1/4 -->
+                <token skip='4' inflected='yes' regexp='no'>estar</token>
                 <token>a</token>
                 <token postag='N.M.+|AQ.M.+' postag_regexp='yes'/>
                 <example>Não estás a passeio, tampouco para ser mira dos holofotes que momentaneamente iludem.</example>
@@ -3445,13 +3445,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Não poderemos dizer a ela até estarmos a caminho.</example>
                 <example>Diz-lhe que estou a caminho de uma reunião e que lhe ligo quando acabar.</example>
                 <example>Seria extremamente impressionante se estar a ponto de parar esta loucura.</example>
+                <example>Você está aqui a negócio ou por prazer?</example>
+                <example>- Estou aqui a negócio.</example>
+                <example>embora os cogumelos hospedeiros possam estar decaídos a ponto de serem difíceis de reconhecer.</example>
             </antipattern>
-            <antipattern> <!-- Fix disambiguator changes: Verbs to Nouns 2/3 -->
+            <antipattern> <!-- Fix disambiguator changes: Verbs to Nouns 2/4 -->
                 <token case_sensitive='yes'>A</token>
                 <token regexp='yes'>positivo|negativo|neutro</token>
                 <example>Meu grupo sanguíneo é A positivo.</example>
             </antipattern>
-            <antipattern> <!-- Fix disambiguator changes: Verbs to Nouns 3/3 -->
+            <antipattern> <!-- Fix disambiguator changes: Verbs to Nouns 3/4 -->
                 <token postag='VMP00S.+' postag_regexp='yes'/>
                 <token>a</token>
                 <token postag='N.+|AQ.+' postag_regexp='yes'/>
@@ -3472,6 +3475,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Nem tudo está ligado a sexo.</example>
                 <example>Este bolero foi feito a pedido de minha filha estudante de moda.</example>
             </antipattern>
+            <antipattern> <!-- Fix disambiguator changes: Verbs to Nouns 4/4 -->
+                <token postag='SPS00|CS' postag_regexp='yes'/>
+                <token postag='PP.+' postag_regexp='yes'/>
+                <token>a</token>
+                <token postag='N.MS.+|AQ.MS.+' postag_regexp='yes'/>
+                <example>Confirmou não ter gostado da atitude e ter conversado com ele a respeito.</example>
+                <example>Ela se apaixonou por ele a ponto de perder completamente a razão.</example>
+            </antipattern>
+
 
             <antipattern>
                 <token regexp='yes'>a</token>
