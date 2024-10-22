@@ -29,7 +29,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
     <!ENTITY apostrophe "['’`´‘ʻ]">
     <!ENTITY quote '["“”„]'>
     <!ENTITY hyphen "(?:[–\-—])">
-    <!ENTITY non_english '[ĀāĂăĄąĆćĈĉĊċČčÇçĎďĐđĒēĔĕĖėĘęĚěëĜĝĞğĠġĢģĤĥĦħİĨĩĪīĬĭĮįıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋŌōŎŏŐőÖöŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя]'>
+    <!ENTITY non_english '[ÀàÁáÅåĀāĂăĄąÆĆćĈĉĊċČčÇçĎďĐđĒēĔĕĖėĘęĚěëĜĝĞğĠġĢģĤĥĦħİĨĩĪīĬĭĮįıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒòÓóØøŌōŎŏŐőÖöŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя]'>
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
     <!ENTITY weekdays "Monday|Wednesday|T(ue|hur)sday|Friday|S(atur|un)day">
@@ -3181,6 +3181,37 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- ====================================================================== -->
         <!-- QuillBot Antipatterns -->
         <!-- ====================================================================== -->
+        <rulegroup id="QB_EN_OTHER_ERROR_IDS_000051" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes" min="0" max="2">[^A-Za-z0-9]</token>
+                        <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>Alberta</marker> boomed once again during the 2003-2008 oil price spike.</example>
+                <example correction=""><marker>Algiers</marker> is densely populated.</example>
+                <example correction=""><marker>Clobbered</marker> him.</example>
+            </rule>
+            <rule> <!-- non-English characters -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">.*&non_english;.*</token>
+                    </marker>
+                </pattern>
+                <example correction="">The combined area is known as the <marker>Øresund</marker> Region.</example>
+                <example correction="">1777 – Hans Christian <marker>Ørsted</marker>, Danish physicist and chemist (d. 1851)</example>
+                <example correction="">An <marker>ångström</marker> is smaller than a nanometer.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_OTHER_ERROR_IDS_000044" name="">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[←→]</token>
+                </pattern>
+                <example correction="">Ivan <marker>→</marker> Vànkata</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_MERGED_MATCH" name="">
             <rule>
                 <pattern>
@@ -3194,6 +3225,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">I want to understand how does permission mapping <marker>work for bind</marker> mounts of a rootless Docker container running on Windows 11 using Docker Desktop.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QB_EN_MERGED_MATCH_PICKY" name="">
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes" max="2">[A-Z].*</token>
+                    <token>/</token>
+                    <token regexp="yes" case_sensitive="yes" max="2">[A-Z].*</token>
+                </pattern>
+                <example correction="">Dear Nick, We are happy to provide gift funds of $100,000 per year, over three years, to support a program in your research group, related to <marker>Bandwidth Markets/Trading</marker> and Networking Technologies.</example>
+                <example correction="">Coldcut created the Energy Union show for the tour, a one hour <marker>Audio/Visual</marker> montage on the theme of Intelligent Energy.</example>
+                <example correction="">Due to the current state of affairs we are canceling all of the <marker>Associate / Analyst</marker> recruiting.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_SWAP_VBP_FOR_VBZ" name="">
@@ -3356,6 +3399,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_DECAPITALIZE" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" max="30">[\{~¶♪âª]</token>
+                        <token regexp="yes" case_sensitive="yes">[A-Z][a-z]*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Who the machine has been reassigned to <marker>{Contact</marker> name}, the new contact phone # AND the location of the machine.</example>
+                <example correction=""><marker>~ But</marker>... one of them gets hit by lightning.</example>
+                <example correction="">For more information on advertising in The Industry Standard West Coast East Coast FEEDBACK AND PROBLEMS <marker>~~~~~~~~~~~~~~~~~~~~~ Send</marker> letters to the editor to letters@thestandard.com.</example>
+                <example correction=""><marker>♪ ♪ Through</marker> rampaging vikings and cannibal elves</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
