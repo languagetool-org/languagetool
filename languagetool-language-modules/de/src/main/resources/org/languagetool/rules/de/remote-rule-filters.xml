@@ -2351,6 +2351,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Er hat es <marker>zu was</marker> gebracht.</example>
             </rule>
+            <rule><!--14-->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[0-9].+</token>
+                        <token>.</token>
+                        <token regexp="yes">[0-9]{2}|–</token>
+                    </marker>
+                    <token regexp="yes">CHF|s?Fr\.?|Franken?|Schweizerfranken?|Schwiizerfranken?|Rappen?|Rp\.?|JPY|Yen|¥</token>
+                </pattern>
+                <example correction="">Es kostet <marker>11.90</marker> Franken pro Jahr.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN.*" name="">
