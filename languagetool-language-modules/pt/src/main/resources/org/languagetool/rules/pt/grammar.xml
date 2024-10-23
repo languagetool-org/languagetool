@@ -3429,6 +3429,70 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rulegroup default='on' id='A_WORD' name="Concordância: A + palavra">
             <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
+
+            <antipattern> <!-- Fix disambiguator changes: Verbs to Nouns 1/4 -->
+                <token skip='4' inflected='yes' regexp='no'>estar</token>
+                <token>a</token>
+                <token postag='N.M.+|AQ.M.+' postag_regexp='yes'/>
+                <example>Não estás a passeio, tampouco para ser mira dos holofotes que momentaneamente iludem.</example>
+                <example>Várias são as drogas à disposição, e novas estão a caminho.</example>
+                <example>O filme está a ponto de começar.</example>
+                <example>O Sol está a ponto de ocultar-se a oeste.</example>
+                <example>Estou a caminho.</example>
+                <example>Não se preocupe, estamos a caminho.</example>
+                <example>Estamos a ponto de nos colocarmos à caminho.</example>
+                <example>Estou a ponto de perder a venda de 500 cartões de vídeo.</example>
+                <example>Não poderemos dizer a ela até estarmos a caminho.</example>
+                <example>Diz-lhe que estou a caminho de uma reunião e que lhe ligo quando acabar.</example>
+                <example>Seria extremamente impressionante se estar a ponto de parar esta loucura.</example>
+                <example>Você está aqui a negócio ou por prazer?</example>
+                <example>- Estou aqui a negócio.</example>
+                <example>embora os cogumelos hospedeiros possam estar decaídos a ponto de serem difíceis de reconhecer.</example>
+            </antipattern>
+            <antipattern> <!-- Fix disambiguator changes: Verbs to Nouns 2/4 -->
+                <token case_sensitive='yes'>A</token>
+                <token regexp='yes'>positivo|negativo|neutro</token>
+                <example>Meu grupo sanguíneo é A positivo.</example>
+            </antipattern>
+            <antipattern> <!-- Fix disambiguator changes: Verbs to Nouns 3/4 -->
+                <token postag='VMP00.+' postag_regexp='yes'/>
+                <token>a</token>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+                <example>A tracção é atribuída a locomotivas da Série 5600.</example>
+                <example>A zona dedicada a bicicletas fica mais frequentemente na traseira do trem.</example>
+                <example>A Cruz de Voo Distinto é uma condecoração militar concedido a integrantes da Força Aérea Real do Reino Unido.</example>
+                <example>Exposição crônica ao clorometano foi relacionada a doenças congênitas em camundongos.</example>
+                <example>A violência atual na região já é mais amena, se comparada a décadas atrás.</example>
+                <example>Larkin foi cético, mas a BMG Hamburg estava aberta a novas idéias.</example>
+                <example>Este bolero foi feito a pedido de minha filha estudante de moda.</example>
+                <example>Nada foi feito a respeito?</example>
+                <example>Este homem é metido a sabichão, comporta-se como se soubesse tudo.</example>
+                <example>Você está errado a respeito disso.</example>
+                <example>O meu carro é movido a álcool.</example>
+                <example>Quando estiveres absolutamente seguro a respeito desse assunto, voltarás a Paris.</example>
+                <example>O APS-95 foi desenvolvido a pedido do exército croata.</example>
+                <example>Filiou-se a um partido político aos 17 anos e, aos 24 anos, foi eleito a vereador.</example>
+                <example>Nem tudo está ligado a sexo.</example>
+                <example>Este bolero foi feito a pedido de minha filha estudante de moda.</example>
+                <example>As informações e regras deste regulamento estão sujeitas a alterações pelos organizadores sem aviso prévio.</example>
+                <example>As jaquetas são limpas a seco.</example>
+                <example>Atuam no setor onde predominam atividades que por sua natureza não podem ser delegadas a instituições.</example>
+                <example>No pensamento de Zenão, as seguintes características são por ele atribuídas a deus:</example>
+                <example>Exemplos de grupos multilaterais orientados a finanças:</example>
+                <example>Dos denunciados, cinco foram presos a pedido do MPF.</example>
+                <example>A pobreza, o racismo e a bestialidade dos homens são aqui postas a nu, despindo a sociedade americana.</example>
+                <example>As cores dos fundos estão sujeitas a variações nas fotografias devido à qualidade das câmeras.</example>
+            </antipattern>
+            <antipattern> <!-- Fix disambiguator changes: Verbs to Nouns 4/4 -->
+                <token postag='SPS00|CS|RG|RM' postag_regexp='yes'/>
+                <token postag='PP.+' postag_regexp='yes'/>
+                <token>a</token>
+                <token postag='N.MS.+|AQ.MS.+' postag_regexp='yes'/>
+                <example>Confirmou não ter gostado da atitude e ter conversado com ele a respeito.</example>
+                <example>Ela se apaixonou por ele a ponto de perder completamente a razão.</example>
+            </antipattern>
+
+
             <antipattern>
                 <token regexp='yes'>a</token>
                 <token regexp='yes'>\p{Lu}\p{L}+</token>
