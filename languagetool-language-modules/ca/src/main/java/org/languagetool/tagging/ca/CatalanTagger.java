@@ -72,7 +72,7 @@ public class CatalanTagger extends BaseTagger {
       if (originalWord.length() > 1) {
         if (originalWord.contains("’")) {
           containsTypographicApostrophe = true;
-          originalWord = originalWord.replaceAll("’", "'");
+          originalWord = originalWord.replace("’", "'");
         }
       }
       String normalizedWord = StringTools.normalizeNFC(originalWord);
@@ -210,7 +210,7 @@ public class CatalanTagger extends BaseTagger {
     // U+013F LATIN CAPITAL LETTER L WITH MIDDLE DOT
     // U+0140 LATIN SMALL LETTER L WITH MIDDLE DOT
     if (word.contains("\u0140") || word.contains("\u013f")) {
-      final String possibleWord = lowerWord.replaceAll("\u0140", "l·");
+      final String possibleWord = lowerWord.replace("\u0140", "l·");
       return asAnalyzedTokenList(word, dictLookup.lookup(possibleWord));
     }
     

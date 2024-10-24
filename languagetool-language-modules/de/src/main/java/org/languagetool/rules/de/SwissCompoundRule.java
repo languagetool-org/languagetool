@@ -61,7 +61,7 @@ public class SwissCompoundRule extends GermanCompoundRule {
     @Override
     public List<String> expandLine(String line) {
       if (line.contains("ß")) {
-        return Arrays.asList(line, line.replaceAll("ß", "ss"));  // accept both, assuming Swiss users sometimes deal with GermanyGerman text
+        return Arrays.asList(line, line.replace("ß", "ss"));  // accept both, assuming Swiss users sometimes deal with GermanyGerman text
       } else {
         return Arrays.asList(line);
       }

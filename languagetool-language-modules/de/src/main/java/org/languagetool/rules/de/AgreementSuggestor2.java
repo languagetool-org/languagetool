@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedToken;
@@ -59,9 +60,6 @@ class AgreementSuggestor2 {
   private final static List<String> nounCases = Arrays.asList("NOM", "AKK", "DAT", "GEN");
   private final static Set<String> skipSuggestions =
     new HashSet<>(Arrays.asList("unsren", "unsrem", "unsres", "unsre", "unsern", "unserm", "unsrer"));
-  private static final Pattern sinPlu = Pattern.compile("SIN/PLU");
-  private static final Pattern masFemNeu = Pattern.compile("MAS/FEM/NEU");
-  private static final Pattern nomAkkDatGen = Pattern.compile("NOM/AKK/DAT/GEN");
 
   private final Synthesizer synthesizer;
   private final AnalyzedTokenReadings determinerToken;
@@ -148,11 +146,11 @@ class AgreementSuggestor2 {
     if (replacementType == AgreementRule.ReplacementType.Zur) {
       suggestions.forEach(k -> {
         if (k.phrase.startsWith("der")) {
-          k.phrase = k.phrase.replaceFirst("der", "zur");
+          k.phrase = StringUtils.replaceOnce(k.phrase,"der", "zur");
         } else if (k.phrase.startsWith("den")) {
-          k.phrase = k.phrase.replaceFirst("den", "zu");  // usually sounds more natural than "zu den"
+          k.phrase = StringUtils.replaceOnce(k.phrase,"den", "zu");  // usually sounds more natural than "zu den"
         } else if (k.phrase.startsWith("dem")) {
-          k.phrase = k.phrase.replaceFirst("dem", "zum");
+          k.phrase = StringUtils.replaceOnce(k.phrase,"dem", "zum");
         }
       });
     } else if (replacementType == AgreementRule.ReplacementType.Ins) {
@@ -160,13 +158,13 @@ class AgreementSuggestor2 {
       while (iterator.hasNext()) {
         Suggestion s = iterator.next();
         if (s.phrase.startsWith("das")) {
-          s.phrase = s.phrase.replaceFirst("das", "ins");
+          s.phrase = StringUtils.replaceOnce(s.phrase,"das", "ins");
         } else if (s.phrase.startsWith("dem")) {
-          s.phrase = s.phrase.replaceFirst("dem", "im");
+          s.phrase = StringUtils.replaceOnce(s.phrase,"dem", "im");
         } else if (s.phrase.startsWith("den")) {
-          s.phrase = s.phrase.replaceFirst("den", "in den");
+          s.phrase = StringUtils.replaceOnce(s.phrase,"den", "in den");
         } else if (s.phrase.startsWith("die")) {
-          s.phrase = s.phrase.replaceFirst("die", "in die");
+          s.phrase = StringUtils.replaceOnce(s.phrase,"die", "in die");
         } else {
           iterator.remove();
         }
@@ -254,7 +252,7 @@ class AgreementSuggestor2 {
     }
     List<String> synthesized = new ArrayList<>();
     for (String template : templates) {
-      template = template.replaceFirst("IND/DEF", isDef ? "DEF" : "IND");
+      template = StringUtils.replaceOnce(template, "IND/DEF", isDef ? "DEF" : "IND");
       String pos = replaceVars(template, num, gen, aCase);
       String[] tmp = synthesizer.synthesize(detReading, pos);
       String origFirstChar = detReading.getToken().substring(0, 1);
@@ -295,7 +293,7 @@ class AgreementSuggestor2 {
         } else if (adjReading.getPOSTag().contains(":SUP:")) {
           template = template.replace(":GRU:", ":SUP:");
         }
-        template = template.replaceFirst("IND/DEF", detIsDef ? "DEF" : "IND");
+        template = StringUtils.replaceOnce(template, "IND/DEF", detIsDef ? "DEF" : "IND");
         String adjPos = replaceVars(template, num, gen, aCase);
         String[] synthesize = synthesizer.synthesize(adjReading, adjPos);
         for (String synthNoun : synthesize) {
@@ -382,9 +380,9 @@ class AgreementSuggestor2 {
   }
 
   private String replaceVars(String template, String num, String gen, String aCase) {
-    template = sinPlu.matcher(template).replaceFirst(num);
-    template = masFemNeu.matcher(template).replaceFirst(gen);
-    template = nomAkkDatGen.matcher(template).replaceFirst(aCase);
+    template = StringUtils.replaceOnce(template, "SIN/PLU", num);
+    template = StringUtils.replaceOnce(template, "MAS/FEM/NEU", gen);
+    template = StringUtils.replaceOnce(template, "NOM/AKK/DAT/GEN", aCase);
     return template;
   }
 

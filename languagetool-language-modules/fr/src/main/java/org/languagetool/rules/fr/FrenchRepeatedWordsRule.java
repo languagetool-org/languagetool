@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.fr;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.French;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
@@ -65,23 +66,23 @@ public class FrenchRepeatedWordsRule extends AbstractRepeatedWordsRule {
   @Override
   protected String adjustPostag(String postag) {
     if (postag.endsWith("e sp")) {
-      return postag.replaceFirst("e sp", ". .*");
+      return StringUtils.replaceOnce(postag,"e sp", ". .*");
     } else if (postag.endsWith("m s")) {
-      return postag.replaceFirst("m s", "[me] sp?");
+      return StringUtils.replaceOnce(postag,"m s", "[me] sp?");
     } else if (postag.endsWith("f s")) {
-      return postag.replaceFirst("f s", "[fe] sp?");
+      return StringUtils.replaceOnce(postag,"f s", "[fe] sp?");
     } else if (postag.endsWith("m p")) {
-      return postag.replaceFirst("m p", "[me] s?p");
+      return StringUtils.replaceOnce(postag,"m p", "[me] s?p");
     } else if (postag.endsWith("f p")) {
-      return postag.replaceFirst("f p", "[fe] s?p");
+      return StringUtils.replaceOnce(postag,"f p", "[fe] s?p");
     } else if (postag.endsWith("e s")) {
-      return postag.replaceFirst("e s", "[me] sp?"); // also F ?
+      return StringUtils.replaceOnce(postag,"e s", "[me] sp?"); // also F ?
     } else if (postag.endsWith("e p")) {
-      return postag.replaceFirst("e p", "[me] s?p"); // also F ?
+      return StringUtils.replaceOnce(postag,"e p", "[me] s?p"); // also F ?
     } else if (postag.endsWith("m sp")) {
-      return postag.replaceFirst("m sp", "[me] s?p?");
+      return StringUtils.replaceOnce(postag,"m sp", "[me] s?p?");
     } else if (postag.endsWith("f sp")) {
-      return postag.replaceFirst("f sp", "[fe] s?p?");
+      return StringUtils.replaceOnce(postag,"f sp", "[fe] s?p?");
     }
     return postag; 
   }

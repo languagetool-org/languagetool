@@ -22,6 +22,7 @@
 package org.languagetool.rules.spelling;
 
 import com.google.common.cache.*;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
@@ -140,7 +141,7 @@ public class SymSpellRule extends SpellingCheckRule {
     List<String> additional = Arrays.asList(base + "spelling.txt",
       base + "spelling_" + lang.getShortCodeWithCountryAndVariant() + ".txt");
     List<String> dict = Collections.singletonList(
-      base + lang.getShortCodeWithCountryAndVariant().replaceFirst("-", "_") + ".dic");
+      base + StringUtils.replaceOnce(lang.getShortCodeWithCountryAndVariant(), "-", "_") + ".dic");
 
     SuggestionStage stage = new SuggestionStage(100000);
     forEachLineInResources(additional, word -> {

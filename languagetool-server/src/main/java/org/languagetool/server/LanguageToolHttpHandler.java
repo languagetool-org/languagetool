@@ -474,10 +474,8 @@ class LanguageToolHttpHandler implements HttpHandler {
     return parameters;
   }
 
-  private static final Pattern QUERY_PARAM_SPLIT = Pattern.compile("&");
-
   private Map<String, String> getParameterMap(String query, HttpExchange httpExchange) throws UnsupportedEncodingException {
-    String[] pairs = QUERY_PARAM_SPLIT.split(query);
+    String[] pairs = StringUtils.split(query, '&');
     Map<String, String> parameters = new HashMap<>();
     for (String pair : pairs) {
       int delimPos = pair.indexOf('=');
