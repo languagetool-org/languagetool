@@ -184,6 +184,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("vorbreiten", w -> Arrays.asList("vorbereiten", "verbreiten"));
     put("Hungen", w -> Arrays.asList("Hunger", "Hungern"));
     put("Topfen", "Tropfen");
+    put("gepart", w -> Arrays.asList("gespart", "gepaart"));
     put("frägst", "fragst");
     put("sähte", "säte");
     put("säht", "sät");
