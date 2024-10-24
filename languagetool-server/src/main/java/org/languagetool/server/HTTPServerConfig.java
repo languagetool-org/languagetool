@@ -43,10 +43,10 @@ public class HTTPServerConfig {
 
   enum Mode { LanguageTool }
 
-  public static final String DEFAULT_HOST = "localhost";
+  public static final String DEFAULT_HOST = "0.0.0.0";
 
   /** The default port on which the server is running (8081). */
-  public static final int DEFAULT_PORT = 9999;
+  public static final int DEFAULT_PORT = 8081;
   
   static final String LANGUAGE_MODEL_OPTION = "--languageModel";
 
@@ -237,6 +237,14 @@ public class HTTPServerConfig {
    * Parse command line options.
    */
   HTTPServerConfig(String[] args) {
+    if (System.getenv("LT_CONFIG_PUBLIC_ACCESS") != null) {
+      publicAccess = Boolean.parseBoolean(System.getenv("LT_CONFIG_PUBLIC_ACCESS"));
+      System.out.println("INFO: set 'public_access' is " + Boolean.parseBoolean(System.getenv("LT_CONFIG_PUBLIC_ACCESS")) + " -> from environment variable LT_CONFIG_PUBLIC_ACCESS");
+    }
+    if (System.getenv("LT_CONFIG_PORT") != null) {
+      port = Integer.parseInt(System.getenv("LT_CONFIG_PORT"));
+      System.out.println("INFO: set port to " + Integer.parseInt(System.getenv("LT_CONFIG_PORT")) + " -> from environment variable LT_CONFIG_PORT");
+    }
     for (int i = 0; i < args.length; i++) {
       if (args[i].matches("--[a-zA-Z]+=.+")) {
         System.err.println("WARNING: use `--option value`, not `--option=value`, parameters will be ignored otherwise: " + args[i]);
