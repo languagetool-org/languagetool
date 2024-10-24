@@ -241,9 +241,21 @@ public class HTTPServerConfig {
       publicAccess = Boolean.parseBoolean(System.getenv("LT_CONFIG_PUBLIC_ACCESS"));
       System.out.println("INFO: set 'public_access' is " + Boolean.parseBoolean(System.getenv("LT_CONFIG_PUBLIC_ACCESS")) + " -> from environment variable LT_CONFIG_PUBLIC_ACCESS");
     }
-    if (System.getenv("LT_CONFIG_PORT") != null) {
-      port = Integer.parseInt(System.getenv("LT_CONFIG_PORT"));
-      System.out.println("INFO: set port to " + Integer.parseInt(System.getenv("LT_CONFIG_PORT")) + " -> from environment variable LT_CONFIG_PORT");
+    String portEnv = System.getenv("LT_CONFIG_PORT");
+    if (portEnv != null) {
+      try {
+        int newPort = Integer.parseInt(portEnv);
+        if (minPort > 0 && maxPort > 0) {
+          if (newPort < minPort || newPort > maxPort) {
+            logger.warn("Port {} from LT_CONFIG_PORT is outside allowed range [{}, {}], using default port", newPort, minPort, maxPort);
+            return;
+          }
+        }
+        port = newPort;
+        logger.info("Set port to {} from environment variable LT_CONFIG_PORT", port);
+      } catch (NumberFormatException e) {
+        logger.error("Invalid port number in LT_CONFIG_PORT: {}", portEnv);
+      }
     }
     for (int i = 0; i < args.length; i++) {
       if (args[i].matches("--[a-zA-Z]+=.+")) {
