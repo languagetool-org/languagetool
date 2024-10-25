@@ -104,32 +104,77 @@ abstract class TextChecker {
   private long pingsCleanDateMillis = System.currentTimeMillis();
   PipelinePool pipelinePool; // mocked in test -> package-private / not final
 
+  /**
+   * List of usernames for A/B testing with restricted rules.
+   * Populated from LT_TEST_ONLY_USERS environment variable.
+   * Format: comma-separated list of usernames
+   */
   private final static List<String> onlyTestUsers;
+
+  /**
+   * List of rule IDs enabled for A/B testing.
+   * Populated from LT_TEST_ONLY_RULES environment variable.
+   * Format: comma-separated list of rule IDs
+   */
   private final static List<String> onlyTestRules;
+
+  /**
+   * List of languages enabled for A/B testing.
+   * Populated from LT_TEST_ONLY_LANGUAGES environment variable.
+   * Format: comma-separated list of language codes
+   */
   private final static List<String> onlyTestLanguages;
+
+  /**
+   * List of clients enabled for A/B testing.
+   * Populated from LT_TEST_ONLY_CLIENTS environment variable.
+   * Format: comma-separated list of client identifiers
+   */
   private final static List<String> onlyTestClients;
 
   static {
     String onlyUsersEnv = System.getenv("LT_TEST_ONLY_USERS");
-    if (onlyUsersEnv == null) {
-      onlyUsersEnv = "";
+    if (onlyUsersEnv == null || onlyUsersEnv.trim().isEmpty()) {
+      onlyTestUsers = Collections.emptyList();
+    } else {
+      onlyTestUsers = Arrays.stream(onlyUsersEnv.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .collect(Collectors.toList());
     }
+
     String onlyRulesEnv = System.getenv("LT_TEST_ONLY_RULES");
-    if (onlyRulesEnv == null) {
-      onlyRulesEnv = "";
+    if (onlyRulesEnv == null || onlyRulesEnv.trim().isEmpty()) {
+      onlyTestRules = Collections.emptyList();
+    } else {
+      onlyTestRules = Arrays.stream(onlyRulesEnv.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .collect(Collectors.toList());
     }
+
     String onlyLanguagesEnv = System.getenv("LT_TEST_ONLY_LANGUAGES");
-    if (onlyLanguagesEnv == null) {
-      onlyLanguagesEnv = "";
+    if (onlyLanguagesEnv == null || onlyLanguagesEnv.trim().isEmpty()) {
+      onlyTestLanguages = Collections.emptyList();
+    } else {
+      onlyTestLanguages = Arrays.stream(onlyLanguagesEnv.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .collect(Collectors.toList());
     }
-    String onlyClientsEnv = System.getenv("LT_TEST_ONLY_CLIENT");
-    if (onlyClientsEnv == null) {
-      onlyClientsEnv = "";
+
+    String onlyClientsEnv = System.getenv("LT_TEST_ONLY_CLIENTS");
+    if (onlyClientsEnv == null || onlyClientsEnv.trim().isEmpty()) {
+      onlyTestClients = Collections.emptyList();
+    } else {
+      onlyTestClients = Arrays.stream(onlyClientsEnv.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .collect(Collectors.toList());
     }
-    onlyTestUsers = Arrays.asList(onlyUsersEnv.split(","));
-    onlyTestRules = Arrays.asList(onlyRulesEnv.split(","));
-    onlyTestLanguages = Arrays.asList(onlyLanguagesEnv.split(","));
-    onlyTestClients = Arrays.asList(onlyClientsEnv.split(","));
+
+    log.info("Initialized A/B test restrictions - users: {}, rules: {}, languages: {}, clients: {}", 
+      onlyTestUsers, onlyTestRules, onlyTestLanguages, onlyTestClients);
   }
 
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
