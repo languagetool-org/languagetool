@@ -104,6 +104,34 @@ abstract class TextChecker {
   private long pingsCleanDateMillis = System.currentTimeMillis();
   PipelinePool pipelinePool; // mocked in test -> package-private / not final
 
+  private final static List<String> onlyTestUsers;
+  private final static List<String> onlyTestRules;
+  private final static List<String> onlyTestLanguages;
+  private final static List<String> onlyTestClients;
+
+  static {
+    String onlyUsersEnv = System.getenv("LT_TEST_ONLY_USERS");
+    if (onlyUsersEnv == null) {
+      onlyUsersEnv = "";
+    }
+    String onlyRulesEnv = System.getenv("LT_TEST_ONLY_RULES");
+    if (onlyRulesEnv == null) {
+      onlyRulesEnv = "";
+    }
+    String onlyLanguagesEnv = System.getenv("LT_TEST_ONLY_LANGUAGES");
+    if (onlyLanguagesEnv == null) {
+      onlyLanguagesEnv = "";
+    }
+    String onlyClientsEnv = System.getenv("LT_TEST_ONLY_CLIENT");
+    if (onlyClientsEnv == null) {
+      onlyClientsEnv = "";
+    }
+    onlyTestUsers = Arrays.asList(onlyUsersEnv.split(","));
+    onlyTestRules = Arrays.asList(onlyRulesEnv.split(","));
+    onlyTestLanguages = Arrays.asList(onlyLanguagesEnv.split(","));
+    onlyTestClients = Arrays.asList(onlyClientsEnv.split(","));
+  }
+
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
     this.config = config;
     this.workQueue = workQueue;
@@ -463,6 +491,14 @@ abstract class TextChecker {
       }
     }
     List<String> enabledRules = getEnabledRuleIds(params);
+
+    if ((onlyTestUsers.contains(params.getOrDefault("username", "")) ||
+      (abTest != null && abTest.contains("only"))) &&
+      onlyTestLanguages.contains(lang.getShortCodeWithCountryAndVariant()) &&
+      onlyTestClients.contains(agent)) {
+      useEnabledOnly = true;
+      enabledRules = onlyTestRules;
+    }
 
     List<String> disabledRules = getDisabledRuleIds(params);
     List<CategoryId> enabledCategories = getCategoryIds("enabledCategories", params);
