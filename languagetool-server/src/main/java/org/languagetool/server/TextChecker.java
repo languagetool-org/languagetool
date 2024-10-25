@@ -537,10 +537,16 @@ abstract class TextChecker {
     }
     List<String> enabledRules = getEnabledRuleIds(params);
 
-    if ((onlyTestUsers.contains(params.getOrDefault("username", "")) ||
-      (abTest != null && abTest.contains("only"))) &&
-      onlyTestLanguages.contains(lang.getShortCodeWithCountryAndVariant()) &&
-      onlyTestClients.contains(agent)) {
+    private boolean shouldApplyTestRules(Map<String, String> params, String agent, Language lang, List<String> abTest) {
+      String username = params.getOrDefault("username", "");
+      return (onlyTestUsers.contains(username) || (abTest != null && abTest.contains("only"))) &&
+             onlyTestLanguages.contains(lang.getShortCodeWithCountryAndVariant()) &&
+             onlyTestClients.contains(agent);
+    }
+
+    if (shouldApplyTestRules(params, agent, lang, abTest)) {
+      log.debug("Applying test rules for user: {}, language: {}, client: {}", 
+        params.getOrDefault("username", ""), lang.getShortCodeWithCountryAndVariant(), agent);
       useEnabledOnly = true;
       enabledRules = onlyTestRules;
     }
