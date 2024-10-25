@@ -112,21 +112,21 @@ abstract class TextChecker {
   private final static List<String> onlyTestUsers;
 
   /**
-   * List of rule IDs enabled for A/B testing.
+   * List of rule IDs enabled for restricted rules A/B testing.
    * Populated from LT_TEST_ONLY_RULES environment variable.
    * Format: comma-separated list of rule IDs
    */
   private final static List<String> onlyTestRules;
 
   /**
-   * List of languages enabled for A/B testing.
+   * List of languages enabled for restricted rules A/B testing.
    * Populated from LT_TEST_ONLY_LANGUAGES environment variable.
    * Format: comma-separated list of language codes
    */
   private final static List<String> onlyTestLanguages;
 
   /**
-   * List of clients enabled for A/B testing.
+   * List of clients enabled for restricted rules A/B testing.
    * Populated from LT_TEST_ONLY_CLIENTS environment variable.
    * Format: comma-separated list of client identifiers
    */
@@ -173,8 +173,10 @@ abstract class TextChecker {
         .collect(Collectors.toList());
     }
 
-    log.info("Initialized A/B test restrictions - users: {}, rules: {}, languages: {}, clients: {}", 
-      onlyTestUsers, onlyTestRules, onlyTestLanguages, onlyTestClients);
+    if (!onlyTestRules.isEmpty()) {
+      log.info("Initialized A/B test restrictions - users: {}, rules: {}, languages: {}, clients: {}",
+        onlyTestUsers, onlyTestRules, onlyTestLanguages, onlyTestClients);
+    }
   }
 
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
@@ -320,6 +322,13 @@ abstract class TextChecker {
   void shutdownNow() {
     executorService.shutdownNow();
     RemoteRule.shutdown();
+  }
+
+  private boolean shouldRunRestrictedRulesTest(Map<String, String> params, String agent, Language lang, List<String> abTest) {
+    String username = params.getOrDefault("username", "");
+    return (onlyTestUsers.contains(username) || (abTest != null && abTest.contains("only"))) &&
+      onlyTestLanguages.contains(lang.getShortCodeWithCountryAndVariant()) &&
+      onlyTestClients.contains(agent);
   }
 
   void checkText(AnnotatedText aText, HttpExchange httpExchange, Map<String, String> params, ErrorRequestLimiter errorRequestLimiter,
@@ -537,15 +546,9 @@ abstract class TextChecker {
     }
     List<String> enabledRules = getEnabledRuleIds(params);
 
-    private boolean shouldApplyTestRules(Map<String, String> params, String agent, Language lang, List<String> abTest) {
-      String username = params.getOrDefault("username", "");
-      return (onlyTestUsers.contains(username) || (abTest != null && abTest.contains("only"))) &&
-             onlyTestLanguages.contains(lang.getShortCodeWithCountryAndVariant()) &&
-             onlyTestClients.contains(agent);
-    }
 
-    if (shouldApplyTestRules(params, agent, lang, abTest)) {
-      log.debug("Applying test rules for user: {}, language: {}, client: {}", 
+    if (shouldRunRestrictedRulesTest(params, agent, lang, abTest)) {
+      log.info("Running test with restricted rules for user: {}, language: {}, client: {}",
         params.getOrDefault("username", ""), lang.getShortCodeWithCountryAndVariant(), agent);
       useEnabledOnly = true;
       enabledRules = onlyTestRules;
