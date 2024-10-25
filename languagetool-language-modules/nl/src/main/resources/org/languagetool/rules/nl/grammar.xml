@@ -18249,6 +18249,35 @@ regexp case-insensitive maken: (?i)
 	</category>
 
 	<category id="CONGRUENTIE" name="Congruentie">
+		<rulegroup id="WE_MAAKTE" name="we maakte(n)" default="temp_off">
+			<rule>
+				<antipattern>
+					<token skip="5">we</token>
+					<token postag_regexp="yes" postag="WKW.*INF|VNW.*|_english_ignore_|UNKNOWN"><exception postag="VNW:AWZ:EKV:DE_"/></token>
+					<example>Nooit zullen we weten hoe de zin afliep</example>
+					<example>Haar eerste hit was in 1987, toen ze het duet 'Can't we try' met Dan Hill opnam.</example>
+				</antipattern>
+				<antipattern>
+					<token skip="1" postag_regexp="yes" postag="WKW.*INF|UNKNOWN|_english_ignore_"/>
+					<token>we</token>
+					<example>In hoofdstuk 8 lezen we hoe koning David de Arameeërs versloeg.</example>
+					<example>Time Stays, we go werd uitgebracht in 2013 en werd gevolgd door een uitgebreide tournee.</example>
+				</antipattern>
+				<antipattern>
+					<token skip="5">we</token>
+					<token regexp="yes">die|daar.*|hier.*</token>
+					<example>Weten we nog hoe daar aan getrokken werd?</example>
+				</antipattern>
+				<pattern>
+					<token case_sensitive="yes" skip="6">we</token>
+					<marker>
+						<token postag="WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW.*|WKW:VTD.*|ZNW:EKV.*"/></token>
+					</marker>
+				</pattern>
+				<message>Het lijkt erop dat dit werkwoord in de verkeerde vorm staat: <suggestion><match no="2" postag="WKW:VLT:INF"/></suggestion>.</message>
+				<example correction="maakten">Het gevolg was dat we er de auto sneller mee <marker>maakte</marker>.</example>
+			</rule>
+		</rulegroup>
 
 		<rulegroup id="WERD_VERWAARLOOST" name="verkeerde werkwoordvorm">
 			<rule>
