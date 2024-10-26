@@ -55,7 +55,7 @@ import static java.util.regex.Pattern.compile;
  */
 public class German extends Language implements AutoCloseable {
 
-  private static final Pattern TYPOGRAPHY_PATTERN = compile("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)");
+  private static final Pattern TYPOGRAPHY_PATTERN = compile("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern AI_DE_GGEC_MISSING_PUNCT =
     compile("AI_DE_GGEC_MISSING_PUNCTUATION_\\d+_DASH_J(_|AE)HRIG|AI_DE_GGEC_REPLACEMENT_CONFUSION", Pattern.CASE_INSENSITIVE);
 
