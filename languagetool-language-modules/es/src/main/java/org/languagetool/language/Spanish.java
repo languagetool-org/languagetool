@@ -315,7 +315,7 @@ public class Spanish extends Language implements AutoCloseable {
     return true;
   }
   
-  private static final Pattern ES_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(l)\\b");
+  private static final Pattern ES_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(l)\\b", Pattern.UNICODE_CHARACTER_CLASS);
   
   @Override
   public String adaptSuggestion(String replacement) {
