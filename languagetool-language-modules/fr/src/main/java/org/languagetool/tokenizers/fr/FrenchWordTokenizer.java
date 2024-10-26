@@ -72,9 +72,9 @@ public class FrenchWordTokenizer extends WordTokenizer {
   private static final Pattern SPACE_DIGITS0 = Pattern.compile("([\\d]{4}) ",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern SPACE_DIGITS = Pattern.compile("([\\d]) ([\\d][\\d][\\d])\\b",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern SPACE_DIGITS2 = Pattern.compile("([\\d]) ([\\d][\\d][\\d]) ([\\d][\\d][\\d])\\b",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern SPACE0 = Pattern.compile("xxFR_SPACE0xx");
 
   private static final List<String> doNotSplit = Arrays.asList("mers-cov", "mcgraw-hill", "sars-cov-2", "sars-cov",
