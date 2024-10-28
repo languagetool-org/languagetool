@@ -132,7 +132,11 @@ public final class PosTagHelper {
   }
 
   public static boolean hasPosTag(AnalyzedTokenReadings analyzedTokenReadings, String posTagRegex) {
-    return hasPosTag(analyzedTokenReadings.getReadings(), posTagRegex);
+    return hasPosTag(analyzedTokenReadings.getReadings(), Pattern.compile(posTagRegex));
+  }
+
+  public static boolean hasPosTag(Collection<AnalyzedToken> analyzedTokenReadings, String posTagRegex) {
+    return hasPosTag(analyzedTokenReadings, Pattern.compile(posTagRegex));
   }
   
   public static boolean hasPosTag(Collection<AnalyzedToken> analyzedTokenReadings, Pattern posTagRegex) {
@@ -143,14 +147,6 @@ public final class PosTagHelper {
     return false;
   }
   
-  public static boolean hasPosTag(Collection<AnalyzedToken> analyzedTokenReadings, String posTagRegex) {
-    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
-      if( hasPosTag(analyzedToken, posTagRegex) )
-        return true;
-    }
-    return false;
-  }
-
   public static boolean hasPosTag(AnalyzedToken analyzedToken, String posTagRegex) {
     String posTag = analyzedToken.getPOSTag();
     return posTag != null && posTag.matches(posTagRegex);
@@ -206,7 +202,8 @@ public final class PosTagHelper {
   public static boolean hasPosTagAll(List<AnalyzedToken> analyzedTokenReadings, Pattern posTag) {
     boolean foundTag = false;
     for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
-      if( analyzedToken.getPOSTag() != null
+      String posTag2 = analyzedToken.getPOSTag();
+      if( posTag2 != null
           && ! analyzedToken.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME)
           && ! analyzedToken.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {
 
@@ -385,9 +382,15 @@ public final class PosTagHelper {
   }
 
   public static boolean hasPosTagAndToken(AnalyzedTokenReadings tokens, Pattern postag, Pattern token) {
-    return tokens.getReadings().stream().anyMatch(t -> 
-      t.getPOSTag() != null && postag.matcher(t.getPOSTag()).matches() 
-      && t.getToken() != null && token.matcher(t.getToken()).matches());
+    return filter(tokens, postag, token).size() > 0;
+  }
+
+  public static List<AnalyzedToken> filter(AnalyzedTokenReadings tokens, Pattern postag, Pattern token) {
+    return tokens.getReadings().stream()
+        .filter(t -> 
+          t.getPOSTag() != null && postag.matcher(t.getPOSTag()).matches() 
+            && t.getToken() != null && token.matcher(t.getToken()).matches())
+        .collect(Collectors.toList());
   }
 
   public static boolean hasMaleUA(AnalyzedTokenReadings tokenReadings) {

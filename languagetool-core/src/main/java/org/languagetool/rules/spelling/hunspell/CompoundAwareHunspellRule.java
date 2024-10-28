@@ -57,6 +57,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     return Arrays.asList(
       "/" + langCode + "/hunspell/spelling.txt",
       "/" + langCode + "/hunspell/spelling_custom.txt",
+      "/" + langCode + "/multitoken-suggest.txt",
       "spelling_global.txt"
     );
   }

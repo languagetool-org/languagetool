@@ -51,6 +51,7 @@ public abstract class AbstractStatisticStyleRule extends TextLevelRule {
   private int wordCount = 0;
   private int numMatches = 0;
   private boolean withoutDirectSpeech = false;
+  private boolean excludeDirectSpeech;
 
   /**
    * Condition to generate a hint (possibly including all exceptions)
@@ -80,11 +81,9 @@ public abstract class AbstractStatisticStyleRule extends TextLevelRule {
    */
   protected abstract String getSentenceMessage();
   
-  /* (non-Javadoc)
-   * @see org.languagetool.rules.Rule#getConfigureText()
-   */
-  @Override
-  public abstract String getConfigureText();
+  public abstract String getConfigurePercentText();
+
+  public abstract String getConfigureWithoutDirectSpeachText();
 
   public AbstractStatisticStyleRule(ResourceBundle messages, Language lang, UserConfig userConfig, int minPercent, boolean defaultActive) {
     super(messages);
@@ -95,17 +94,28 @@ public abstract class AbstractStatisticStyleRule extends TextLevelRule {
     }
     defaultMinPercent = minPercent;
     this.minPercent = getMinPercent(userConfig, minPercent);
+    excludeDirectSpeech = getExcludeDirectSpeech(userConfig);
     setLocQualityIssueType(ITSIssueType.Style);
   }
 
   private int getMinPercent(UserConfig userConfig, int minPercentDefault) {
     if (userConfig != null) {
-      int confPercent = userConfig.getConfigValueByID(getId());
-      if (confPercent >= 0) {
-        return confPercent;
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null && cf.length > 0 && cf[0] != null && cf[0] instanceof Integer) {
+        return (int) cf[0];
       }
     }
     return minPercentDefault;
+  }
+
+  private boolean getExcludeDirectSpeech(UserConfig userConfig) {
+    if (userConfig != null) {
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null && cf.length > 1 && cf[1] != null && cf[1] instanceof Boolean) {
+        return (boolean) cf[1];
+      }
+    }
+    return excludeDirectSpeech();
   }
 
   public AbstractStatisticStyleRule(ResourceBundle messages, Language lang, UserConfig userConfig, int minPercent) {
@@ -119,26 +129,18 @@ public abstract class AbstractStatisticStyleRule extends TextLevelRule {
     return 100.0;
   }
   
+  /**
+   *  give the user the possibility to configure the function
+   */
   @Override
-  public boolean hasConfigurableValue() {
-    return true;
+  public RuleOption[] getRuleOptions() {
+    RuleOption[] ruleOptions = { 
+        new RuleOption(defaultMinPercent, getConfigurePercentText(), 0, 100),
+        new RuleOption(excludeDirectSpeech, getConfigureWithoutDirectSpeachText())
+        };
+    return ruleOptions;
   }
 
-  @Override
-  public int getDefaultValue() {
-    return defaultMinPercent;
-  }
-
-  @Override
-  public int getMinConfigurableValue() {
-    return 0;
-  }
-
-  @Override
-  public int getMaxConfigurableValue() {
-    return 100;
-  }
-  
   public int getWordCount() {
     return wordCount;
   }
@@ -163,7 +165,6 @@ public abstract class AbstractStatisticStyleRule extends TextLevelRule {
     double percent;
     int pos = 0;
     wordCount = 0;
-    boolean excludeDirectSpeech = excludeDirectSpeech();
     boolean isDirectSpeech = false;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();

@@ -34,11 +34,4 @@ import org.languagetool.synthesis.ar.ArabicSynthesizer;
  */
 public class ArabicAdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter {
 
-  private final ArabicSynthesizer synth = new ArabicSynthesizer(new Arabic());
-
-  @Override
-  protected Synthesizer getSynthesizer() {
-    return synth;
-  }
-
 }

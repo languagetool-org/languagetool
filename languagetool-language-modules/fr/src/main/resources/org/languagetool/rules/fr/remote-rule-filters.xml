@@ -553,6 +553,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- Antipatterns for AI_FR_GGEC_.* -->
         <!-- ====================================================================== -->
 
+        <rulegroup id="AI_FR_GGEC_.*" name="">
+            <rule>
+                <pattern>
+                    <token postag="IS_URL"/>
+                </pattern>
+                <example correction="">C'est ici : <marker>https://github.com/languagetool-org/languagetool/commits/master</marker></example>
+            </rule>
+            <rule>
+                <regexp>[\s\u00A0\u202F\u2009](https?|ftp)://.*|www.*</regexp>
+                <example correction="">C'est ici :<marker> https://github.com/languagetool-org/languagetool/commits/master</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_FR_GGEC_REPLACEMENT_NOUN.*" name="">
             <rule><!--1-->
                 <pattern>
@@ -573,6 +585,12 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>tokyo</token>
                 </pattern>
                 <example correction="">La capitale du Japon est <marker>Tokyo</marker>.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token postag="R pers suj 3.*|R pers obj 3.*" postag_regexp="yes" regexp="yes">iels?</token>
+                </pattern>
+                <example correction=""><marker>Iel</marker> ne nous reconnait plus.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_FR_GGEC_REPLACEMENT_ADJECTIVE_FORM.*" name="">
@@ -599,6 +617,24 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="SENT_END" regexp="yes">[.!?]</token>
                 </pattern>
                 <example correction="">Que vous <marker>souhaiter</marker> ?</example>
+            </rule>
+            <rule><!--"se rendre compte"-->
+                <pattern>
+                    <marker>
+                        <token postag="V ppa m s" inflected="yes">rendre</token>
+                    </marker>
+                    <token>compte</token>
+                </pattern>
+                <example correction="">Elles ne s'en sont pas <marker>rendu</marker> compte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>joyeuse</token>
+                    </marker>
+                    <token>Halloween</token>
+                </pattern>
+                <example correction="">Mais <marker>joyeuse</marker> Halloween !</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_FR_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE.*" name="">
@@ -627,6 +663,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Elle avait les yeux <marker>marron</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="V etre.*" postag_regexp="yes"/>
+                    <token postag="A|C coor" postag_regexp="yes" min="0" max="3"/>
+                    <marker>
+                        <token regexp="yes">partante?s?</token>
+                    </marker>
+                </pattern>
+                <example correction="">Tu es <marker>partant</marker> ?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_FR_GGEC_REPLACEMENT_VERB_FORM.*" name="">
             <rule>
@@ -642,6 +688,116 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">On s'est bel et bien <marker>rencontrés</marker> hier.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V etre.*" postag_regexp="yes"/>
+                    <token postag="A|C coor" postag_regexp="yes" min="0" max="3"/>
+                    <marker>
+                        <token regexp="yes">partante?s?</token>
+                    </marker>
+                </pattern>
+                <example correction="">Tu es <marker>partant</marker> ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|M nonfin" postag_regexp="yes"/>
+                    <token>que</token>
+                    <token postag="R pers suj 1 p|R pers suj 2 p" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="V inf"/>
+                    </marker>
+                    <token postag="SENT_END" regexp="yes">[.!?]</token>
+                </pattern>
+                <example correction="">Que vous <marker>souhaiter</marker> ?</example>
+            </rule>
+            <rule><!--"se rendre compte"-->
+                <pattern>
+                    <marker>
+                        <token postag="V ppa m s" inflected="yes">rendre</token>
+                    </marker>
+                    <token>compte</token>
+                </pattern>
+                <example correction="">Elles ne sont pas <marker>rendu</marker> compte.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_FR_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE.*" name="">
+            <rule>
+                <pattern>
+                    <token postag="K"/>
+                    <token spacebefore="no">-</token>
+                    <token postag="K"/>
+                    <marker>
+                        <token spacebefore="no">-</token>
+                        <token postag="K"/>
+                        <token spacebefore="no">-</token>
+                        <token postag="K" spacebefore="no"/>
+                    </marker>
+                </pattern>
+                <example correction="">Deux-cent<marker>-vingt-trois</marker> personnes se sont rassemblées devant la mairie.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_FR_GGEC_UNNECESSARY_PUNCTUATION_DASH.*" name="">
+            <rule>
+                <pattern>
+                    <token postag="K"/>
+                    <marker>
+                        <token spacebefore="no">-</token>
+                    </marker>
+                    <token postag="K" spacebefore="no"/>
+                </pattern>
+                <example correction="">Deux<marker>-</marker>cents personnes se sont rassemblées devant la mairie.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_FR_GGEC_UNNECESSARY_PUNCTUATION_COMMA.*" name="">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>Mais</token>
+                    <marker>
+                        <token spacebefore="no">,</token>
+                    </marker>
+                </pattern>
+                <example correction="">Mais<marker>,</marker> qu’est-ce qui vous en empêche ?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_FR_GGEC_REPLACEMENT_CONFUSION_OLDSPELL.*" name="">
+            <rule>
+                <pattern>
+                    <token postag="[VNJ].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Il ne nous <marker>reconnait</marker> plus.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_FR_GGEC_REPLACEMENT_PRONOUN.*" name="">
+            <rule>
+                <pattern>
+                    <token postag="R pers suj 3.*|R pers obj 3.*" postag_regexp="yes" regexp="yes">iels?</token>
+                </pattern>
+                <example correction="">Mais <marker>iel</marker> a décidé de faire ça autrement.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_FR_GGEC_REPLACEMENT_PROPN_FORM.*" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Joyeuse</token>
+                    </marker>
+                    <token>Halloween</token>
+                </pattern>
+                <example correction=""><marker>Joyeuse</marker> Halloween !</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_FR_MERGED_MATCH.*" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>une</token>
+                        <token>joyeuse</token>
+                    </marker>
+                    <token>Halloween</token>
+                </pattern>
+                <example correction="">Je vous souhaite <marker>une joyeuse</marker> Halloween !</example>
             </rule>
         </rulegroup>
     </category>

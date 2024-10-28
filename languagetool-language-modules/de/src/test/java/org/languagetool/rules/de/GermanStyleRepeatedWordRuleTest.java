@@ -21,6 +21,8 @@ package org.languagetool.rules.de;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.junit.Test;
 import org.languagetool.*;
@@ -32,11 +34,12 @@ import org.languagetool.rules.Rule;
 public class GermanStyleRepeatedWordRuleTest {
   
   private Language lang = Languages.getLanguageForShortCode("de-DE");
+  private String ruleId;
 
   @Test
   public void testRule() throws IOException {
     JLanguageTool lt = new JLanguageTool(lang);
-    setUpRule(lt);
+    setUpRule(lt, null);
 
     assertEquals(2, lt.check("Der alte Mann wohnte in einem großen Haus. Es stand in einem großen Garten.").size());
     assertEquals(0, lt.check("Der alte Mann wohnte in einem großen Haus. Es stand in einem weitläufigen Garten.").size());
@@ -48,19 +51,33 @@ public class GermanStyleRepeatedWordRuleTest {
     assertEquals(0, lt.check("Er lehnte seinen Wanderstab gegen die Wand.").size());
     assertEquals(0, lt.check("Zweifel lagen in der Luft, ob es richtig war, diesen Weg einzuschlagen.").size());
     assertEquals(0, lt.check("Der Donnerhall verklang nur langsam in meinen Ohren. Das war mir in all den Jahren meines Lebens noch nicht passiert.").size());
+    assertEquals(0, lt.check("Der Schiffsmotor, der im Heck des Schiffs eingebaut war, röhrte. Auf Hochtouren lief der Motor.").size());
+    assertEquals(0, lt.check("Der Buntspecht stolzierte den Baum hoch. Schon klopfte der Specht.").size());
+    assertEquals(0, lt.check("Rotbraun war die Farbe der Haselnuss. Der Horizont schimmerte rot.").size());
+
+    setUpRule(lt, getRuleValues (1, true));
     assertEquals(3, lt.check("Der Schiffsmotor, der im Heck des Schiffs eingebaut war, röhrte. Auf Hochtouren lief der Motor.").size());
     assertEquals(2, lt.check("Der Buntspecht stolzierte den Baum hoch. Schon klopfte der Specht.").size());
     assertEquals(2, lt.check("Rotbraun war die Farbe der Haselnuss. Der Horizont schimmerte rot.").size());
   }
 
-  private void setUpRule(JLanguageTool lt) {
+  private void setUpRule(JLanguageTool lt, Map<String, Object[]> ruleValues) {
     for (Rule rule : lt.getAllRules()) {
       lt.disableRule(rule.getId());
     }
+    UserConfig userConfig = ruleValues == null ? new UserConfig() : new UserConfig(ruleValues);
     GermanStyleRepeatedWordRule rule = new GermanStyleRepeatedWordRule(TestTools.getMessages(lang.getShortCode()),
-        lang, new UserConfig());
+        lang, userConfig);
     lt.addRule(rule);
     lt.enableRule(rule.getId());
+    ruleId = rule.getId();
+  }
+  
+  private Map<String, Object[]> getRuleValues (int numSentences, boolean testComposedWords) {
+    Object[] o = { numSentences, testComposedWords };
+    Map<String, Object[]> ruleValues = new HashMap<>();
+    ruleValues.put(ruleId, o);
+    return ruleValues;
   }
 
 }

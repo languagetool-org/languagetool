@@ -21,10 +21,7 @@ package org.languagetool;
 import org.hamcrest.CoreMatchers;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.language.AmericanEnglish;
-import org.languagetool.language.Demo;
-import org.languagetool.language.English;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.*;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -217,7 +214,8 @@ public class JLanguageToolTest {
     assertThat(cache.hitCount(), is(2L));
 
     JLanguageTool ltGerman = new JLanguageTool(new GermanyGerman(), null, cache);
-    assertTrue(ltGerman.check("This is an test").size() >= 3);
+    // only one error because English words are ignored
+    assertTrue(ltGerman.check("This is an test.").size() >= 1);
     assertThat(cache.hitCount(), is(2L));
 
     assertThat(ltEnglish.check("This is an test").size(), is(1));
@@ -471,6 +469,193 @@ public class JLanguageToolTest {
     }
     System.out.println("Total matches:" + matchesCounter);
     assertThat(matchesCounter, is(0));
+  }
+
+  @Test
+  public void testIgnoringEnglishWordsInSpanish() throws IOException {
+    Language lang = new Spanish();
+    JLanguageTool lt = new JLanguageTool(lang);
+    // No error for unclosed exclamation marks ¡!
+    List<RuleMatch> matches = lt.check("This is fantastic!");
+    assertEquals(0, matches.size());
+    matches = lt.check("The exhibition will feature a combination of new work as well as previously exhibited pieces.");
+    assertEquals(0, matches.size());
+
+    matches = lt.check("El president nos informa de la situación.");
+    assertEquals(1, matches.size());
+    assertEquals("presidente", matches.get(0).getSuggestedReplacements().get(0));
+  }
+
+  @Test
+  public void testIgnoringEnglishWordsInCatalan() throws IOException {
+    Language lang = new Catalan();
+    JLanguageTool lt = new JLanguageTool(lang);
+    List<RuleMatch> matches = lt.check("To do this");
+    assertEquals(0, matches.size());
+    matches = lt.check("I'm good at this");
+    assertEquals(0, matches.size());
+    lt.check("The Live Anthology");
+    assertEquals(0, matches.size());
+    matches = lt.check("The Ecology of Post-Cultural Revolution Frontier Art és el títol d'un llibre");
+    assertEquals(0, matches.size());
+    matches = lt.check("This is a good thing és una frase en anglès sense faltez.");
+    assertEquals(1, matches.size());
+    matches = lt.check("The Great Dictator és una pel·lícula de Chaplin.");
+    assertEquals(0, matches.size());
+    matches = lt.check("Llegirem una part de The Handmaid's Tale.");
+    assertEquals(0, matches.size());
+    matches = lt.check("The dit una cosa");
+    assertEquals(1, matches.size());
+    assertEquals("T'he", matches.get(0).getSuggestedReplacements().get(0));
+    matches = lt.check("I am the goalkeeper.");
+    assertEquals(0, matches.size());
+    matches = lt.check("I'm the goalkeeper.");
+    assertEquals(0, matches.size());
+    matches = lt.check("Me'n vaig a Malaga.");
+    assertEquals(1, matches.size());
+    matches = lt.check("Me'n vaig a Malaga of Spain.");
+    assertEquals(0, matches.size());
+    matches = lt.check("a l´area de");
+    assertEquals(2, matches.size());
+    matches = lt.check("el interest: 98,850.00 euros");
+    assertEquals(3, matches.size());
+    matches = lt.check("En aquest video I en aquestes");
+    assertEquals(1, matches.size());
+    matches = lt.check("D'India i de Pakistan.");
+    assertEquals(1, matches.size());
+    matches = lt.check("My son is tall.");
+    assertEquals(0, matches.size());
+    matches = lt.check("The event was successful.");
+    assertEquals(0, matches.size());
+    matches = lt.check("Things To Know Before You Come.");
+    assertEquals(0, matches.size());
+
+    matches = lt.check("This is the community manager.");
+    assertEquals(0, matches.size());
+
+    matches = lt.check("Aquest és el community manager.");
+    assertEquals(1, matches.size());
+  }
+
+  @Test
+  public void testIgnoringEnglishWordsInDutch() throws IOException {
+    Language lang = new Dutch();
+    JLanguageTool lt = new JLanguageTool(lang);
+    List<RuleMatch> matches = lt.check("This for that was een goede film.");
+    assertEquals(0, matches.size());
+    matches = lt.check("We got this!");
+    assertEquals(0, matches.size());
+    // add more tests
+  }
+
+  @Test
+  public void testIgnoringEnglishWordsInFrench() throws IOException {
+    Language lang = new French();
+    JLanguageTool lt = new JLanguageTool(lang);
+    
+    List<RuleMatch> matches = lt.check("Elle a fait le montage des deux clips sur After effect");
+    assertEquals(1, matches.size());
+    assertEquals("[After Effects]", matches.get(0).getSuggestedReplacements().toString());
+
+    matches = lt.check("House of Entrepreneurship");
+    assertEquals(0, matches.size());
+  }
+
+  @Test
+  public void testIgnoringEnglishWordsInGermanyGerman() throws IOException {
+    Language lang = new GermanyGerman();
+    JLanguageTool lt = new JLanguageTool(lang);
+
+    List<RuleMatch> matches = lt.check("Ich weiß nicht, ob today passt.");
+    assertEquals(1, matches.size());
+
+    matches = lt.check("Komm schon, let us do this!");
+    assertEquals(0, matches.size());
+  }
+
+  @Test
+  public void testIgnoreEnglishWordsInPortuguese() throws IOException {
+    JLanguageTool lt = new JLanguageTool(new BrazilianPortuguese());
+    lt.disableRules(lt.getAllRules().stream().map(Rule::getId).collect(Collectors.toList()));
+    lt.enableRule("MORFOLOGIK_RULE_PT_BR");
+    lt.enableRule("PT_BARBARISMS_REPLACE");
+    String[] noErrorSentences = new String[]{
+      "Ontem vi A New Hope pela primeira vez.",
+      "Ela gosta de The Empire Strikes Back.",
+      "Mas prefiro The Return of the Jedi.",
+      "E quanto a The Phantom Menace, melhor nada dizer.",
+      "Aqui adoramos Whose line is it Anyway.",
+      "Por enquanto, só How I Met Your Mother.",  // already a multi-token spelling entry
+      "Aí ele disse: I am become death, destroyer of worlds.", // intervening punctuation
+      "O filme Don't Look Up.",  // contractions
+      "Só escrevem que we've told them we won't do it.",  // contractions
+      "Esta palavra existe: the precariousness.",  // "-ness" suffix
+      "Os melhores livros about business practices.",
+      "O filme se chama No Country For Old Men.",  // "no"
+      "Acho que era Driving Miss Daisy.",
+      "Ele disse Luke I am your father.",
+      "Ou teria sido Luke I am looking for your father?",  // "for"
+      "Algo mais estranho: I am providing for Mother, talvez?",  // "for"
+      "Mas mandou mensagem que she is waiting for your brother.",  // "for"
+      "Em português é Conduzindo a Miss Daisy, não é?",  // "a"
+      "A organização Law Enforcement Agent Protection (Leap).",  // single-word parenthetical
+      "Mais sucessos seguiram, com os álbuns \"Ghetto Dictionary: The Art of War\"",  // ghetto
+      "Costumava assistir a Queer As Folk",  // "as"
+      "Sempre gostei muito de As If",  // "as"; cf. "As Endeavour" below
+      "Mas The Endeavour, por outro lado, detesto.",  // cf. "As Endeavour" below
+      "A instituição Children's Hospital.",  // possessive "'s"
+      "O filme não se chama Good, Bad, Ugly.",  // only intervening commas, all common words
+      "O livro se chama Bad, Grisly Murders.",  // intervening commas, last one relies on tagging (not common)
+      "Ele estava lendo Astrology Acrobatics.",  // -logy
+      "Seu grupo de Democracy Saviours.",  // -cracy
+      "Acho que ele era somewhat overzealous.",  // over-
+      "Sempre me pareceu um tremendous underachiever.",  // under-
+      // Making sure disambiguation works properly per recent FPs
+      "A Abaddon Books, subsidiária e editora dos livros.",
+      "Smokers in Airplanes é o segundo álbum do artista brasileiro.",
+      "Obteve um doutorado em física pela American University.",
+      "O American Sociological Review é um jornal acadêmico bimensal.",
+      "Código do Bletchley Park na Inglaterra.",
+      "Sobre Batman, Broken City (apesar do Coringa).",
+      "Birmingham City Football Club.",
+      "Narra, segundo o historiador americano Will Durant, uma das maiores aventuras da história humana.",
+      "Duas décadas mais tarde, os Gipsy Kings incorporaram aquilo.",
+      "Valente teve três irmãos, um dos quais, Silvio Francesco, também esteve no show business.",
+      "O lema do estado de Nova Hampshire é Livre Free or Die",
+      // English-language toponyms that may not be in the PT speller, but we can verify that they're valid
+      // based on proximity with state/province/county names.
+      // Note that this does not fact-check whether the toponym actually belongs in the state/province/whatever :p
+      "Aconteceu na cidade de Victor Harbor, Austrália Meridional.",  // just comma, and PT name of state
+      "Aconteceu no distrito de Tamworth, no condado de Staffordshire.",  // "no condado de"
+      "A pequena cidade de Bethany Beach, em Delaware.",  // "em"
+      "O vilarejo de Goose Bay, na província de Terra Nova e Labrador.",  // "na província de"
+      "Morava, na época, em Keene, estado de Nova Hampshire.",  // "estado de"
+      "O episódio se chamava Do Something.",  // uppercase "Do" followed by English, assume it's a title; cf. "do Castle" below
+      "Ele escreveu: in San Diego, California we were at our best.",  // "California" in proper English context
+      "O prêmio The Academy of Science Fiction & Fantasy."  // english tag must carry across ampersand
+    };
+    for (String sentence : noErrorSentences) {
+      List<RuleMatch> matches = lt.check(sentence);
+      assert matches.isEmpty() : "Unexpected match in: " + sentence;
+    }
+    HashMap<String, String> errorSentences = new HashMap<>();
+    errorSentences.put("Foi uma melhora substantial.", "substancial");  // single word
+    // match the suffix, but 'whateverness' is not tagged in English, so it's a spelling error
+    errorSentences.put("Esta palavra não existe: the whateverness.", "lhe");
+    errorSentences.put("A comunidade do ghetto de Veneza.", "gueto");  // in isolation, it is not tagged with _english_ignore_
+    // because "as" is blocked and "Endeavour" is not in the list of 'common' English words, we don't tag with _english_ignore_
+    errorSentences.put("Acho que se chamava As Endeavour.", "EndeavourOS");
+    errorSentences.put("Clique settings e veja o que acontece.", "sétimas");  // "settings" is isolated; "clique" is English but specifically blocked
+    errorSentences.put("Point Loma High School em San Diego, California.", "Califórnia");  // "California" must be corrected, but cf. "California above"
+    errorSentences.put("Ele foi foi descartado por Carroll, mas os proprietários não gostaram.", "Carrol");  // "mas" must be blocked
+    errorSentences.put("Não é bem como imaginei baseada na descrição do Castle.", "Castel");  // lowercase "do" must be blocked; cf. "Do Something" above
+    errorSentences.put("Onde está a Cat?", "Cat.");  // "a" must be blocked
+    errorSentences.put("E se for business?", "Business");  // "for" blocks, not preceded by English *and* lowercase (i.e. not in English context, and not likely to be title)
+    for (Map.Entry<String, String> entry : errorSentences.entrySet()) {
+      List<RuleMatch> matches = lt.check(entry.getKey());
+      assert !matches.isEmpty();
+      assertEquals(entry.getValue(), matches.get(0).getSuggestedReplacements().get(0));
+    }
   }
 
 }

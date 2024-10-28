@@ -102,7 +102,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       List<Integer> tokensPos = IntStream.of(tokenPositions).boxed().collect(Collectors.toList());
       Map<String, String> resolvedArguments = ruleFilterEval.getResolvedArguments(rule.getFilterArguments(), tokens, firstMatchToken, tokensPos);
       AnalyzedTokenReadings[] relevantTokens = Arrays.copyOfRange(tokens, firstMatchToken, lastMatchToken + 1);
-      return filter.matches(resolvedArguments, relevantTokens, firstMatchToken);
+      return filter.matches(resolvedArguments, relevantTokens, firstMatchToken, tokensPos);
     }
     return true;
   }

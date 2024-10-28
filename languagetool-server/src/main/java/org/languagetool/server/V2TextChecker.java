@@ -23,9 +23,11 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.ConfidenceKey;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.RuleMatchesAsJsonSerializer;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -40,8 +42,17 @@ class V2TextChecker extends TextChecker {
   private static final String JSON_CONTENT_TYPE = "application/json";
   private static final Pattern COMMA_WHITESPACE_PATTERN = Pattern.compile(",\\s*");
 
+  private static Map<ConfidenceKey,Float> confidenceMap;
+
   V2TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
     super(config, internalServer, workQueue, reqCounter);
+    try {
+      if (config.getRuleIdToConfidenceFile() != null) {
+        confidenceMap = new ConfidenceMapLoader().load(config.getRuleIdToConfidenceFile());
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
@@ -53,6 +64,7 @@ class V2TextChecker extends TextChecker {
   protected String getResponse(AnnotatedText text, Language usedLang, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
                                List<RuleMatch> hiddenMatches, String incompleteResultsReason, int compactMode, boolean showPremiumHint, JLanguageTool.Mode mode) {
     RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer(compactMode, usedLang);
+    serializer.setRuleIdToConfidenceMap(confidenceMap);
     return serializer.ruleMatchesToJson2(matches, hiddenMatches, text, CONTEXT_SIZE, lang, incompleteResultsReason,
       showPremiumHint, mode);
   }

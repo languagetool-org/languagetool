@@ -55,10 +55,11 @@ public class CheckCaseRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Da Vinci")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Amb Joan Pau i Josep Maria.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("ESTAT D'ALARMA")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("educació secundària")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("d'educació secundària")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Educació Secundària Obligatòria")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Educació Secundària obligatòria")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("d'educació secundària obligatòria")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Educació secundària obligatòria")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("d'educació secundària obligatòria")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("\\u2022 Intel·ligència artificial")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("● Intel·ligència artificial")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Els drets humans")).length);
@@ -81,14 +82,18 @@ public class CheckCaseRuleTest {
     assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("-\"Leonardo Da Vinci\""));
     assertEquals(1, matches.length);
-    assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Leonardo da Vinci", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("-\"¿Leonardo Da Vinci?\""));
     assertEquals(1, matches.length);
-    assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Leonardo da Vinci", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(lt.getAnalyzedSentence("Baixar Al-Assad"));
+    assertEquals(1, matches.length);
+    assertEquals("Baixar al-Assad", matches[0].getSuggestedReplacements().get(0));
 
-    //matches = rule.match(lt.getAnalyzedSentence("darth maul"));
-    //assertEquals(1, matches.length);
-    //assertEquals("Darth Maul", matches[0].getSuggestedReplacements().get(0));
-        
+    /* FIXME
+    matches = rule.match(lt.getAnalyzedSentence("El president al-Assad"));
+    assertEquals(1, matches.length);
+    assertEquals("Al-Assad", matches[0].getSuggestedReplacements().get(0));*/
+
   }
 }

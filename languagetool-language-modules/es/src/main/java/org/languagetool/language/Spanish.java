@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.*;
 import org.languagetool.rules.es.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -34,6 +35,7 @@ import org.languagetool.tagging.disambiguation.es.SpanishHybridDisambiguator;
 import org.languagetool.tagging.es.SpanishTagger;
 import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.es.SpanishWordTokenizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.File;
 import java.io.IOException;
@@ -194,83 +196,110 @@ public class Spanish extends Language implements AutoCloseable {
     return LanguageMaintainedState.ActivelyMaintained;
   }
   
+  private final static Map<String, Integer> id2prio = new HashMap<>();
+  static {  
+    id2prio.put("ES_SIMPLE_REPLACE_MULTIWORDS", 50);
+    id2prio.put("LOS_MAPUCHE", 50);
+    id2prio.put("TE_TILDE", 50);
+    id2prio.put("DE_TILDE", 50); // greater than CONTRACCIONES
+    id2prio.put("PLURAL_SEPARADO", 50);
+    id2prio.put("PERSONAJES_FAMOSOS", 50);
+    id2prio.put("NO_SEPARADO", 40);
+    id2prio.put("PARTICIPIO_MS", 40);
+    id2prio.put("VERBO_MODAL_INFINITIVO", 40); // greater than DIACRITICS
+    id2prio.put("EL_NO_TILDE", 40); // greater than SE_CREO
+    id2prio.put("SE_CREO", 35); // greater than DIACRITICS --> or less than DIACRITICS_VERB_N_ADJ ????
+    id2prio.put("POR_CIERTO", 30);
+    id2prio.put("DEGREE_CHAR", 30); // greater than SPACE_UNITIES
+    id2prio.put("LO_LOS", 30);
+    id2prio.put("ETCETERA", 30); // greater than other typography rules
+    id2prio.put("P_EJ", 30); // greater than other typography rules
+    id2prio.put("SE_CREO2", 25); 
+    //id2prio.put("ESPACIO_DESPUES_DE_PUNTO", 25); // greater than other typography rules
+    id2prio.put("AGREEMENT_ADJ_NOUN_AREA", 30); // greater than AGREEMENT_DET_NOUN
+    id2prio.put("PRONOMBRE_SIN_VERBO", 25); // inside CONFUSIONS, but less than other rules ?
+    id2prio.put("AGREEMENT_DET_ABREV", 25); // greater than AGREEMENT_DET_NOUN
+    id2prio.put("MUCHO_NF", 25); // greater than AGREEMENT_DET_NOUN
+    id2prio.put("AGREEMENT_DET_NOUN_EXCEPTIONS", 25); // greater than AGREEMENT_DET_NOUN
+    id2prio.put("TYPOGRAPHY", 20); // greater than AGREEMENT_DET_NOUN
+    id2prio.put("PRIMER_PRIMERA", 20); // greater than AGREEMENT_DET_ADJ
+    id2prio.put("AGREEMENT_DET_NOUN", 15);
+    //id2prio.put("PRONOMBRE_SIN_VERBO", 20);
+    id2prio.put("AGREEMENT_DET_ADJ", 10);
+    id2prio.put("CONFUSION_ES_SE", 20); //lower than diacrtics rules
+    id2prio.put("HALLA_HAYA", 10);
+    id2prio.put("VALLA_VAYA", 10);
+    id2prio.put("SI_AFIRMACION", 10); // less than DIACRITICS
+    id2prio.put("TE_TILDE2", 10); // less than PRONOMBRE_SIN_VERBO
+    id2prio.put("SEPARADO", 1);
+    id2prio.put("ES_SPLIT_WORDS", -10);
+    id2prio.put("U_NO", -10);
+    id2prio.put("EL_TILDE", -10);
+    id2prio.put("SINGLE_CHARACTER", -15); // less than ES_SPLIT_WORDS
+    id2prio.put("TOO_LONG_PARAGRAPH", -15);
+    id2prio.put("PREP_VERB", -20);
+    id2prio.put("SUBJUNTIVO_FUTURO", -30);
+    id2prio.put("SUBJUNTIVO_PASADO", -30);
+    id2prio.put("SUBJUNTIVO_PASADO2", -30);
+    id2prio.put("AGREEMENT_ADJ_NOUN", -30);
+    id2prio.put("AGREEMENT_PARTICIPLE_NOUN", -30);
+    id2prio.put("AGREEMENT_POSTPONED_ADJ", -30);
+    id2prio.put("MULTI_ADJ", -30);
+    id2prio.put("SUBJUNTIVO_INCORRECTO", -40);
+    id2prio.put("COMMA_SINO", -40);
+    id2prio.put("COMMA_SINO2", -40);
+    id2prio.put("VOSEO", -40);
+    id2prio.put("REPETITIONS_STYLE", -50);
+    id2prio.put("MORFOLOGIK_RULE_ES", -100);
+    id2prio.put("PHRASE_REPETITION", -150);
+    id2prio.put("SPANISH_WORD_REPEAT_RULE", -150);
+    id2prio.put("UPPERCASE_SENTENCE_START", -200);
+    id2prio.put("ES_QUESTION_MARK", -250);	  
+  }
+
+  @Override
+  public Map<String, Integer> getPriorityMap() {
+    return id2prio;
+  }
+  
   @Override
   protected int getPriorityForId(String id) {
+    if (id.equals("CONFUSIONS2")) {
+      return 50; // greater than CONFUSIONS
+    }
+    if (id.equals("RARE_WORDS")) {
+      return 50;
+    }
+    if (id.equals("MISSPELLING")) {
+      return 40;
+    }
+    if (id.equals("CONFUSIONS")) {
+      return 40;
+    }
+    if (id.equals("INCORRECT_EXPRESSIONS")) {
+      return 40;
+    }
+    if (id.equals("DIACRITICS")) {
+      return 30;
+    } 
     if (id.startsWith("ES_SIMPLE_REPLACE_SIMPLE")) {
       return 30;
     }
     if (id.startsWith("ES_COMPOUNDS")) {
       return 50;
     }
-    switch (id) {
-      case "CONFUSIONS2": return 50; // greater than CONFUSIONS
-      case "RARE_WORDS": return 50;
-      case "LOS_MAPUCHE": return 50;
-      case "TE_TILDE": return 50;
-      case "DE_TILDE": return 50; // greater than CONTRACCIONES
-      case "PLURAL_SEPARADO": return 50;
-      case "PERSONAJES_FAMOSOS": return 50;
-      case "INCORRECT_EXPRESSIONS": return 40;
-      case "MISSPELLING": return 40;  
-      case "CONFUSIONS": return 40;
-      case "NO_SEPARADO": return 40;
-      case "PARTICIPIO_MS": return 40;
-      case "VERBO_MODAL_INFINITIVO": return 40; // greater than DIACRITICS
-      case "EL_NO_TILDE": return 40; // greater than SE_CREO
-      case "SE_CREO": return 35; // greater than DIACRITICS --> or less than DIACRITICS_VERB_N_ADJ ????
-      case "DIACRITICS": return 30;
-      case "POR_CIERTO": return 30;
-      case "DEGREE_CHAR": return 30; // greater than SPACE_UNITIES
-      case "LO_LOS": return 30;
-      case "ETCETERA": return 30; // greater than other typography rules
-      case "P_EJ": return 30; // greater than other typography rules
-      case "SE_CREO2": return 25; 
-      //case "ESPACIO_DESPUES_DE_PUNTO": return 25; // greater than other typography rules
-      case "AGREEMENT_ADJ_NOUN_AREA": return 30; // greater than AGREEMENT_DET_NOUN
-      case "PRONOMBRE_SIN_VERBO": return 25; // inside CONFUSIONS, but less than other rules ?
-      case "AGREEMENT_DET_ABREV": return 25; // greater than AGREEMENT_DET_NOUN
-      case "MUCHO_NF": return 25; // greater than AGREEMENT_DET_NOUN
-      case "AGREEMENT_DET_NOUN_EXCEPTIONS": return 25; // greater than AGREEMENT_DET_NOUN
-      case "TYPOGRAPHY": return 20; // greater than AGREEMENT_DET_NOUN
-      case "AGREEMENT_DET_NOUN": return 15;
-      //case "PRONOMBRE_SIN_VERBO": return 20;
-      case "AGREEMENT_DET_ADJ": return 10;
-      case "CONFUSION_ES_SE": return 20; //lower than diacrtics rules
-      case "HALLA_HAYA": return 10;
-      case "VALLA_VAYA": return 10;
-      case "SI_AFIRMACION": return 10; // less than DIACRITICS
-      case "TE_TILDE2": return 10; // less than PRONOMBRE_SIN_VERBO
-      case "SEPARADO": return 1;
-      case "ES_SPLIT_WORDS": return -10;
-      case "U_NO": return -10;
-      case "E_EL": return -10;
-      case "EL_TILDE": return -10;
-      case "SINGLE_CHARACTER": return -15; // less than ES_SPLIT_WORDS
-      case "TOO_LONG_PARAGRAPH": return -15;
-      case "PREP_VERB": return -20;
-      case "SUBJUNTIVO_FUTURO": return -30;
-      case "SUBJUNTIVO_PASADO": return -30;
-      case "SUBJUNTIVO_PASADO2": return -30;
-      case "AGREEMENT_ADJ_NOUN": return -30;
-      case "AGREEMENT_PARTICIPLE_NOUN": return -30;
-      case "AGREEMENT_POSTPONED_ADJ": return -30;
-      case "MULTI_ADJ": return -30;
-      case "SUBJUNTIVO_INCORRECTO": return -40;
-      case "COMMA_SINO": return -40;
-      case "COMMA_SINO2": return -40;
-      case "VOSEO": return -40;
-      case "REPETITIONS_STYLE": return -50;
-      case "MORFOLOGIK_RULE_ES": return -100;
-      case "PHRASE_REPETITION": return -150;
-      case "SPANISH_WORD_REPEAT_RULE": return -150;
-      case "UPPERCASE_SENTENCE_START": return -200;
-      case "ES_QUESTION_MARK": return -250;
+    Integer prio = id2prio.get(id);
+    if (prio != null) {
+      return prio;
     }
 
     if (id.startsWith("AI_ES_HYDRA_LEO")) { // prefer more specific rules (also speller)
       return -101;
     }
     if (id.startsWith("AI_ES_GGEC")) { // prefer more specific rules (also speller)
+      if (id.equals("AI_ES_GGEC_REPLACEMENT_OTHER")) {
+        return -300;
+      }
       return 0;
       //return -102;
     }
@@ -296,24 +325,78 @@ public class Spanish extends Language implements AutoCloseable {
   }
 
   @Override
-  public String prepareLineForSpeller(String line) {
+  public List<String> prepareLineForSpeller(String line) {
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return line;
+      return Arrays.asList(line);
     }
     String[] formTag = parts[0].split("[\t;]");
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
       if (tag.startsWith("N") || tag.equals("_Latin_") || tag.equals("LOC_ADV")) {
-        return formTag[0].trim();
+        return Arrays.asList(formTag[0].trim());
       } else {
-        return "";
+        return Arrays.asList("");
       }
     }
-    return line;
+    return Arrays.asList(line);
   }
 
   public MultitokenSpeller getMultitokenSpeller() {
     return SpanishMultitokenSpeller.INSTANCE;
+  }
+
+
+  private List<String> suggestionsToAvoid = Arrays.asList("aquél", "aquélla", "aquéllas", "aquéllos", "ésa", "ésas",
+    "ése", "ésos", "ésta", "éstas", "éste", "éstos", "sólo");
+  private Pattern voseoPostagPatern = Pattern.compile("V....V.*");
+  @Override
+  public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+    List<RuleMatch> results = new ArrayList<>();
+    for (RuleMatch ruleMatch : ruleMatches) {
+      List<String> suggestions = ruleMatch.getSuggestedReplacements();
+      if (suggestions.size()==1 && ruleMatch.getRule().getId().startsWith("AI_ES_GGEC")) {
+        String suggestion = suggestions.get(0);
+        // ignore adding punctuation at the sentence end
+        if (ruleMatch.getRule().getId().equals("AI_ES_GGEC_MISSING_PUNCTUATION") && suggestion.endsWith(".")) {
+          if (ruleMatch.getSentence().getText().replaceAll("\\s+$", "").endsWith(suggestion.substring(0,suggestion.length()-1))) {
+            continue;
+          }
+        }
+        // avoid obsolete diacritics
+        if (suggestionsToAvoid.contains(suggestion.toLowerCase())) {
+          continue;
+        }
+        // avoid lowercase at the sentence start
+        if (ruleMatch.getSentence().getText().trim().startsWith(StringTools.uppercaseFirstChar(suggestion))) {
+          continue;
+        }
+        // avoid voseo forms in suggestions
+        List<AnalyzedTokenReadings> atr;
+        try {
+          atr = this.getTagger().tag(Arrays.asList(suggestion));
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+        if (atr != null && atr.size()>0) {
+          if (atr.get(0).matchesPosTagRegex(voseoPostagPatern)) {
+            continue;
+          }
+        }
+        ruleMatch.setOriginalErrorStr();
+        // the suggestion only changes the casing
+        if (suggestion.equalsIgnoreCase(ruleMatch.getOriginalErrorStr())) {
+          ruleMatch.setMessage("Mayúsculas y minúsculas recomendadas.");
+          ruleMatch.setShortMessage("Mayúsculas y minúsculas");
+          ruleMatch.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
+          ruleMatch.getRule().setCategory(Categories.CASING.getCategory(ResourceBundleTools.getMessageBundle(this)));
+          ruleMatch.setSpecificRuleId(ruleMatch.getRule().getId().replace("ORTHOGRAPHY", "CASING"));
+          //ruleMatch.getRule().setTags(Arrays.asList(Tag.picky));
+        }
+      }
+      results.add(ruleMatch);
+    }
+
+    return results;
   }
 }

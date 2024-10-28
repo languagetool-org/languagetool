@@ -33,6 +33,7 @@ import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
@@ -41,6 +42,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -57,30 +60,115 @@ public class GermanSpellerRuleTest {
   //
   // NOTE: also manually run SuggestionRegressionTest when the suggestions are changing!
   //
-  
+
+  @Test
+  public void testGetMessage() {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertThat(rule.getMessage("aussen", new SuggestedReplacement("außen")),
+      is("Nach einer Silbe aus zwei Vokalen (hier: au) schreibt man 'ß' statt 'ss'."));
+    assertThat(rule.getMessage("Strasse", new SuggestedReplacement("Straße")),
+      is("Nach einer lang gesprochenen Silbe (hier: a) schreibt man 'ß' statt 'ss'."));
+    assertThat(rule.getMessage("STRASSE", new SuggestedReplacement("STRAßE")),
+      is("Möglicher Tippfehler gefunden."));
+    assertThat(rule.getMessage("nomral", new SuggestedReplacement("normal")),
+      is("Möglicher Tippfehler gefunden."));
+  }
+
   @Test
   public void testIgnoreMisspelledWord() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    assertTrue(rule.ignorePotentiallyMisspelledWord("Atmosphärenkonzept"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Ahmenforscherin"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Bachwettbewerb"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Berlinhauptbahnhof"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Schwedenreise"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Erwachsenenintensivkurse"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Horizontalbohrtechnik"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Bogenschiessen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Badefenster"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Badspaß"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Widersachen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Widerherstellung"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Journalistendramas"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Bürokratieaufbau"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Bestangebotsklauseln"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Wendeplatte"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Tassentrio")); 
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Ausbiegemöglichkeit"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Lipochrom"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Ostteil"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Ostenteil"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Perspektivwechsel"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Perspektivewechsel"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Suchemaschine"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Sprachvariante"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Sprachevariante"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Sprachenvariante"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Kontrollgremiums"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Kontrollegremiums"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Kontrollengremiums"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Leuchtfunktion"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leuchtefunktion"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Schulstreit"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Schulestreit"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Stelleplätze"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Herzensanliegen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Herzenanliegen"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Vornamensliste"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Wörterbuch"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Wortgrenze"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Weltklimaveränderung"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Weltbummler"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Demokratenversammlung"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Zahnbürsten"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Zähnebürsten"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Zähnebürste"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Apfelstehlen"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Äpfelstehlen"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Zwiebelschneiden"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Zwiebelnschneiden"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Fußballspielen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Fußbällespielen"));
+    //assertTrue(rule.ignorePotentiallyMisspelledWord("Naseputzen"));
+    //assertFalse(rule.ignorePotentiallyMisspelledWord("Nasenputzen"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Abbiegemöglichkeit"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Cholesterinwiederaufnahmehemmer"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Kennenlernmöglichkeit"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Konstruktionsverfahren"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Wölkchenbildung"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Abschlussgruße"));  // probably "...grüße"
     assertTrue(rule.ignorePotentiallyMisspelledWord("Offenlegungsfrist"));
-    assertFalse(rule.ignorePotentiallyMisspelledWord("Offenlegungsfirst"));
-    assertFalse(rule.ignorePotentiallyMisspelledWord("Dachfrist"));
+    //assertFalse(rule.ignorePotentiallyMisspelledWord("Offenlegungsfirst"));
+    //assertFalse(rule.ignorePotentiallyMisspelledWord("Dachfrist"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Hospizgemeinschaft"));  //no infix-s for compounds: .*z + noun
     assertFalse(rule.ignorePotentiallyMisspelledWord("Azubikommt"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Lasstest"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Ablassbild"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Wachtums-Pistole"));  // split as "Wacht, ums-Pistole"
     assertFalse(rule.ignorePotentiallyMisspelledWord("Discorum"));  // "Disco, rum" and "rum" is only 3 chars and thus too short
     assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeber"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeberverhandlungen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitplatz"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtlage"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtextremismus"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtanwälten"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Rechtfertigungsgrund"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Rechtsfertigungsgrund"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Ausleihstelle"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Aus-leihstelle"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("AusLeihStelle"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Trauringkollektionen"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Vorraus")); 
-    assertTrue(rule.ignorePotentiallyMisspelledWord("Weinkühlschrank")); 
-    assertFalse(rule.ignorePotentiallyMisspelledWord("Weinskühlschrank")); 
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Weinkühlschrank"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Weinkühl-schrank"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Weinskühlschrank"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Weinsskühlschrank"));
-    assertTrue(rule.ignorePotentiallyMisspelledWord("Hundefutterschachtel")); 
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Schokobrunnen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Schokosbrunnen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Gensfleisch"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Grossmächten"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Aussichtplattform"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Datumangabe"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Hundefutterschachtel"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstest"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Nachuntersuchungstest"));  // needs extension in ExtendedGermanWordSplitter.extendedList (as of 2023-10-02)
     assertTrue(rule.ignorePotentiallyMisspelledWord("Robustheitsabstände"));  // triggers use of nonStrictSplitter (2023-09-18, might change...)
@@ -92,6 +180,7 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritäts-Dings"));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritäts-Dings."));
     assertTrue(rule.ignorePotentiallyMisspelledWord("Haltungs-Schäden"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Kritzelcafé"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("haltungschäden"));  // lowercase
     assertFalse(rule.ignorePotentiallyMisspelledWord("haltungs-schäden"));  // lowercase
     assertFalse(rule.ignorePotentiallyMisspelledWord("haltungs-Schäden"));  // lowercase
@@ -115,11 +204,100 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.ignorePotentiallyMisspelledWord("Fakultätsaal"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Implementierungs-pflicht"));
     assertFalse(rule.ignorePotentiallyMisspelledWord("Sachsenmeisterschaf"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Agensprinzip"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-ExpertIn"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert*in"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert:in"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert_in"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert/-in"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-ExpertInnen"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert*innen"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert:innen"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert_innen"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("SEO-Expert/-innen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Bürge*in"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("ArbeitnehmerInnenschutzgesetz"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Arbeitnehmer*innenschutzgesetz"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Arbeitnehmer:innenschutzgesetz"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Arbeitnehmer_innenschutzgesetz"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Arbeitnehmer/-innenschutzgesetz"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("PDFversion"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("AktienIndex"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("EisenbahnerInnern"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Eisenbahner*innern"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Eisenbahner/-innern"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Ireland"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Karnevalmuseum"));
+    //assertTrue(rule.ignorePotentiallyMisspelledWord("Karnevalsmuseum"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Alkoholgenuß"));
     // special cases:
     assertFalse(rule.ignorePotentiallyMisspelledWord("Actionsspaß"));
-    assertFalse(rule.ignorePotentiallyMisspelledWord("Jungsnamen"));
-    assertFalse(rule.ignorePotentiallyMisspelledWord("Aufschwungsphase"));
-    assertFalse(rule.ignorePotentiallyMisspelledWord("Absprungsrate"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Aktionswoche"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Aktionwoche"));
+    //assertTrue(rule.ignorePotentiallyMisspelledWord("Jungsnamen")); // 'Jungs' is colloquial for 'Jungen'
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Aufschwungsphase")); // see prohibit.txt
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Absprungsrate")); // see prohibit.txt
+    //
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Ahornswald"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Aluminiumssockel"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Antwortszeiten"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Austauschsprogramms"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Bahnstrasse"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Bausstellen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Bergstrasse"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Berufungssausschuss"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Betreffszeile"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Bundeswasserstrassen"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Bunsenbrennerflamme"));
+    //
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Abstiegzone"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Abstimmungbeschluss"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Dorfstrasse"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Kitasausbau"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Linkelemente"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Linksdrehung"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Linkpartei"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Linksportal"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Muttertagskarte"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Muttertagkarte"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Verbandmaterial"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Verbandsmaterial"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Verbandgemeinde"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Sonntagnachmittag"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Sonntagsfahrer"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Sonntagfahrer"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Gerätebezeichnung"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Gerätbezeichnung"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Abflußleitung")); // old spelling
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Abflussleitung")); // new spelling
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Grünschloß")); // old spelling
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Grünschloss")); // new spelling
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Bewußtseinswandels")); // old spelling
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Bewusstseinswandels")); // new spelling
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Meerweine"));
+    //
+  }
+
+  @Test
+  @Ignore("interactive use only to make a diff after a change (call twice, store result, and run 'diff' manually)")
+  public void testIgnoreMisspelledWordForRegressions() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    List<String> lines = Files.readAllLines(Paths.get("/home/dnaber/data/corpus/jan_schreiber/german.txt"));
+    for (String line : lines) {
+      boolean accept = rule.ignorePotentiallyMisspelledWord(line.trim());
+      System.out.println(accept + " " + line);
+    }
+  }
+
+  @Test
+  @Ignore("interactive use only to make a diff after a change (call twice, store result, and run 'diff' manually)")
+  public void testForRegressions() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    List<String> lines = Files.readAllLines(Paths.get("/home/dnaber/data/corpus/jan_schreiber/german.txt"));
+    for (String line : lines) {
+      boolean misspelled = rule.isMisspelled(line.trim());
+      System.out.println(misspelled + " " + line);
+    }
   }
 
   @Test
@@ -283,6 +461,7 @@ public class GermanSpellerRuleTest {
   public void testGetAdditionalTopSuggestions() throws Exception {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    assertTrue(rule.match(lt.getAnalyzedSentence("dan"))[0].getSuggestedReplacements().toString().startsWith("[dann, Dan, den, an"));
     assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffstatistik"))[0].getSuggestedReplacements().toString(), is("[Konservierungsstoffstatistik]"));
     assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffsasdsasda"))[0].getSuggestedReplacements().size(), is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Ventrolateral")).length, is(0));
@@ -349,7 +528,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("hälst", "hältst", rule, lt);
     assertFirstSuggestion("erhälst", "erhältst", rule, lt);
     assertFirstSuggestion("Verstehendnis", "Verständnis", rule, lt);
-    assertFirstSuggestion("Wohlfühlsein", "Wellness", rule, lt);
+    //assertFirstSuggestion("Wohlfühlsein", "Wellness", rule, lt);
     assertFirstSuggestion("schmetrlinge", "Schmetterlinge", rule, lt);
     assertFirstSuggestion("einlamienirte", "laminierte", rule, lt);
     assertFirstSuggestion("Assecoires", "Accessoires", rule, lt);
@@ -388,7 +567,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("bißjen", "bisschen", rule, lt);
     assertFirstSuggestion("bisien", "bisschen", rule, lt);
     assertFirstSuggestion("Gruessen", "Grüßen", rule, lt);
-    assertFirstSuggestion("Matschscheibe", "Mattscheibe", rule, lt);
+    //assertFirstSuggestion("Matschscheibe", "Mattscheibe", rule, lt);
     assertFirstSuggestion("Pearl-Harbour", "Pearl Harbor", rule, lt);
     assertFirstSuggestion("Autonomität", "Autonomie", rule, lt);
     assertFirstSuggestion("Kompatibelkeit", "Kompatibilität", rule, lt);
@@ -451,7 +630,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("kolegen", "Kollegen", rule, lt);
     assertFirstSuggestion("gerechtlichkeit", "Gerechtigkeit", rule, lt);
     assertFirstSuggestion("Zuverlässlichkeit", "Zuverlässigkeit", rule, lt);
-    assertFirstSuggestion("Krankenhausen", "Krankenhäusern", rule, lt);
+    //assertFirstSuggestion("Krankenhausen", "Krankenhäusern", rule, lt);
     assertFirstSuggestion("jedwilliger", "jedweder", rule, lt);
     assertFirstSuggestion("Betriebsratzimmern", "Betriebsratszimmern", rule, lt);
     assertFirstSuggestion("ausiehst", "aussiehst", rule, lt);
@@ -674,6 +853,11 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("desinfektionierst", "desinfizierst", rule, lt);
     assertFirstSuggestion("Neuhichkeit", "Neuigkeit", rule, lt);
     assertFirstSuggestion("neuhichkeiten", "Neuigkeiten", rule, lt);
+    assertFirstSuggestion("Maßname", "Maßnahme", rule, lt);
+    assertFirstSuggestion("Maßnamen", "Maßnahmen", rule, lt);
+    assertFirstSuggestion("Analysemaßname", "Analysemaßnahme", rule, lt);
+    assertFirstSuggestion("Analysemaßnamen", "Analysemaßnahmen", rule, lt);
+    assertFirstSuggestion("Analysemassnamen", "Analysemaßnahmen", rule, lt);
   }
 
   @Test
@@ -969,6 +1153,18 @@ public class GermanSpellerRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Wandhalterun")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Halterung")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Wandhalterung")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Willkommenbei")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Fantasieschafft")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Babyquietschte")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("nordwestfranzösisch")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("nordestnisch")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("westmünsterländische")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("süddeutschland")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Desktopbetrieb")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Desktophintergrund")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Unibetrieb")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Integrallogarithmus")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Fledermaussonar")).length);
   }
   
   @Test

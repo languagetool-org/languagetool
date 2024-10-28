@@ -55,6 +55,8 @@ public class MorfologikDutchSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("déúr")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("déur")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("deur-knop")).length);
+
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Hartelijke groet en hopelijk tot ziens!")).length);
     
     RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("thailan."));
     assertThat(matches1.length, is(1));

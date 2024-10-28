@@ -52,6 +52,7 @@ public class CatalanSentenceTokenizerTest {
     testSplit("diu que va dir. ", "A mi em feia estrany.");
     testSplit("Són del s. III dC. ", "Són importants les pintures.");
     testSplit("Primera frase.[4] ", "Segona frase");
+    testSplit("23. Article vint-i-tres");
     
     // N., t.
     testSplit("Vés-te’n. ", "A mi em feia estrany.");  
@@ -65,6 +66,7 @@ public class CatalanSentenceTokenizerTest {
     testSplit("(\"n. 3\".");
     testSplit("En el t. 2 de la col·lecció");
     testSplit("Llança't. ", "Fes-ho.");
+    testSplit("És professor a l'Inst. Joan Vives.");
     
     // Initials
     testSplit("A l'atenció d'A. Comes.");
@@ -84,6 +86,7 @@ public class CatalanSentenceTokenizerTest {
     testSplit("Vegeu el cap. 24 del llibre.");
     testSplit("Vegeu el cap. IX del llibre.");
     testSplit("Viu al núm. 24 del carrer de l'Hort.");
+    testSplit("Viu al núm. vint-i-quatre del carrer de l'Hort.");
     testSplit("El Dr. Joan no vindrà.");
     testSplit("Distingit Sr. Joan,");
     testSplit("Molt Hble. Sr. President");
@@ -104,6 +107,19 @@ public class CatalanSentenceTokenizerTest {
     testSplit("Aprovació (ca. 2010), suspensió (c. 2011), segle (ca. XIX)");
     testSplit("La Dra. Ma. Victòria.");
     testSplit("la projectada Sta. Ma. de Gàllecs");
+    testSplit("El fruit té de 6 a 8 cm de long. i 4 a 6 cm d'ample.");
+    testSplit("Geiger (Proc. Roy. Soc. 1 de febrer de 1910).");
+    
+    // Unknown abbreviations inside parentheses
+    testSplit("(Impren. Disss)");
+    testSplit("(Impren. 188-disss)");
+    testSplit("[Impren. Disss]");
+    testSplit("[Impren. 188-disss]");
+    testSplit("{Impren. Disss}");
+    testSplit("{Impren. 188-disss}");
+    testSplit("(Impren. Disss. Ioo)");
+    testSplit("Impren. ", "\nDisss");
+    testSplit("(Impren. ", "\nDisss)");
 
     // Exception to abbreviations
     testSplit("Ell és el número u. ", "Jo el dos.");

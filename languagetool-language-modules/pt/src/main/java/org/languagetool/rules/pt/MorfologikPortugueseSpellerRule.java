@@ -27,7 +27,7 @@ import org.languagetool.synthesis.pt.PortugueseSynthesizer;
 import org.languagetool.tagging.pt.PortugueseTagger;
 import org.languagetool.tools.StringTools;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Predicate;
@@ -140,6 +140,40 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
     return null;
   }
 
+  private boolean isTitlecasedHyphenatedWord(String[] wordParts) {
+    for (String part : wordParts) {
+      if (StringTools.isMixedCase(part)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  // This is a bit of a hack specifically for the cases when the tagger dictionary has a hyphenated form (which is,
+  // therefore, NOT split in tokenisation) and the speller dictionary doesn't have it.
+  @Nullable
+  private String checkCompoundElements(String[] wordParts) {
+    List<String> suggestedParts = new ArrayList<>();
+    for (String part : wordParts) {
+      if (speller1.isMisspelled(part)) {
+        List<String> partSuggestions = speller1.getSuggestions(part);
+        if (partSuggestions.isEmpty()) {  // if no suggestions, keep the part and hope for the best
+          suggestedParts.add(part);
+        } else {
+          suggestedParts.add(speller1.getSuggestions(part).get(0));  // keep it simple, only first suggestion for now
+        }
+      } else {
+        suggestedParts.add(part);
+      }
+    }
+    String newSuggestion = String.join("-", suggestedParts);
+    if (newSuggestion.equals(String.join("-", wordParts))) {
+      return null;
+    } else {
+      return newSuggestion;
+    }
+  }
+
   private Map<String,String> getDialectAlternationMapping() {
     Map<String,String> wordMap = new HashMap<>();
     List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(dialectAlternationsFilepath);
@@ -165,6 +199,24 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
       wordMap.put(parsedLine[column].toLowerCase(), parsedLine[column == 1 ? 0 : 1]);
     }
     return wordMap;
+  }
+
+  private boolean isValidCliticVerb(String word) {
+    // Because of differences between the tagger and the speller when it comes to verbs with clitics, and the fact
+    // that, theoretically, it is possible for dialect issues to emerge, we need to check if the flagged word is
+    // actually a *valid* verb form (e.g. pt-PT struggles with 'diz-se').
+    for (AnalyzedTokenReadings reading : tagger.tag(Collections.singletonList(word))) {
+      for (AnalyzedToken token : reading.getReadings()) {
+        String posTag = token.getPOSTag();
+        if (posTag != null && posTag.matches("V.+:P.+")) {
+          String lemma = token.getLemma();
+          // if the lemma is in the dialect alternation mapping, it is invalid
+          return !dialectAlternationMapping.containsKey(lemma);
+        }
+      }
+    }
+    // Not a clitic verb, so can't be an invalid clitic verb. Logically this works later on, don't worry.
+    return false;
   }
 
   public MorfologikPortugueseSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
@@ -248,7 +300,31 @@ public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
                                         List<RuleMatch> ruleMatchesSoFar, int idx,
                                         AnalyzedTokenReadings[] tokens) throws IOException {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
+    if (tokens[idx].hasPosTag("_english_ignore_")) {
+      return Collections.emptyList();
+    }
     if (!ruleMatches.isEmpty()) {
+      if (isValidCliticVerb(word)) {
+        ruleMatches = Collections.emptyList();
+      }
+      if (word.indexOf('-') > 0) {
+        String[] wordParts = word.split("-");
+        if (isTitlecasedHyphenatedWord(wordParts)) {
+          // if the word is hyphenated and each element is titlecased, downcase it and see if it's still misspelt
+          if (!speller1.isMisspelled(word.toLowerCase())) {  // if not misspelt, empty out the rule matches
+            ruleMatches = Collections.emptyList();
+          }
+        }
+        // When the word is incorrect but we don't have a suggestion, put one together based on each of its parts
+        if (!ruleMatches.isEmpty() && ruleMatches.get(0).getSuggestedReplacements().isEmpty()) {
+          @Nullable String newSuggestion = checkCompoundElements(wordParts);
+          if (newSuggestion == null) {
+            ruleMatches = Collections.emptyList();
+          } else {
+            replaceFormsOfFirstMatch(ruleMatches.get(0).getMessage(), sentence, ruleMatches, newSuggestion, false);
+          }
+        }
+      }
       String wordWithBrazilianStylePastTense = checkEuropeanStyle1PLPastTense(word);
       if (wordWithBrazilianStylePastTense != null) {
         String message = "No Brasil, o pretérito perfeito da primeira pessoa do plural escreve-se sem acento.";

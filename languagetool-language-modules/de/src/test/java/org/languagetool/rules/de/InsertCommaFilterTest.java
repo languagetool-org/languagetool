@@ -53,7 +53,7 @@ public class InsertCommaFilterTest {
       sentence.getTokensWithoutWhitespace()[atrFromPos],
       sentence.getTokensWithoutWhitespace()[atrToPos]
     };
-    RuleMatch matchTmp = filter.acceptRuleMatch(match, args, patternTokenPos, atr);
+    RuleMatch matchTmp = filter.acceptRuleMatch(match, args, patternTokenPos, atr, null);
     assertThat(matchTmp.getSuggestedReplacements().toString(), is(newRepl));
   }
 

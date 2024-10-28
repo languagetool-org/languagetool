@@ -105,6 +105,7 @@ public abstract class LanguageIdentifier {
     return shortText;
   }
 
+  @Nullable
   protected ParsedLanguageLists prepareDetectLanguage(String text, List<String> noopLangsTmp, List<String> preferredLangsTmp) {
     Objects.requireNonNull(noopLangsTmp);
     Objects.requireNonNull(preferredLangsTmp);

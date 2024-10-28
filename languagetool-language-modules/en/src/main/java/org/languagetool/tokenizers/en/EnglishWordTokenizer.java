@@ -36,10 +36,14 @@ import static java.util.regex.Pattern.*;
  */
 public class EnglishWordTokenizer extends WordTokenizer {
 
+  private static final String wordCharacters = "±§©@€£¥\\$\\p{L}\\d\\-\u0300-\u036F\u00A8°%‰‱&\uFFFD\u00AD\u00AC\uFF0C\uFF1F"; // # _ \\u2070-\\u209f
+  // \\uFFOC -> rule NON_STANDARD_COMMA
+  // \\uFF1F -> rule NON_STANDARD_QUESTION_MARK
+  private static final Pattern tokenizerPattern = Pattern.compile("[" + wordCharacters + "]+|[^" + wordCharacters + "]");
   private static final Pattern SINGLE_QUOTE = compile("'");
   private static final Pattern CURLY_QUOTE = compile("’");
-  private static final Pattern APOSTYPEW = compile("\u0001\u0001APOSTYPEW\u0001\u0001");
-  private static final Pattern APOSTYPOG = compile("\u0001\u0001APOSTYPOG\u0001\u0001");
+  private static final Pattern APOSTYPEW = compile("xxAPOSTYPEWxx");
+  private static final Pattern APOSTYPOG = compile("xxAPOSTYPOGxx");
   private static final Pattern SOFT_HYPHEN = compile("\u00AD");
   private static final List<Pattern> patternList = Arrays.asList(
       compile("^(fo['’]c['’]sle|rec['’][ds]|OK['’]d|cc['’][ds]|DJ['’][d]|[pd]m['’]d|rsvp['’]d)$", CASE_INSENSITIVE | UNICODE_CASE),
@@ -73,18 +77,21 @@ public class EnglishWordTokenizer extends WordTokenizer {
   public List<String> tokenize(String text) {
     List<String> l = new ArrayList<>();
     String auxText = text;
-    auxText = SINGLE_QUOTE.matcher(auxText).replaceAll("\u0001\u0001APOSTYPEW\u0001\u0001");
-    auxText = CURLY_QUOTE.matcher(auxText).replaceAll("\u0001\u0001APOSTYPOG\u0001\u0001");
-    //auxText = auxText.replaceAll("-", "\u0001\u0001HYPHEN\u0001\u0001");
-    String s;
-    String groupStr;
+    auxText = SINGLE_QUOTE.matcher(auxText).replaceAll("xxAPOSTYPEWxx");
+    auxText = CURLY_QUOTE.matcher(auxText).replaceAll("xxAPOSTYPOGxx");
+    //auxText = auxText.replaceAll("-", "xxHYPHENxx");
 
-    final StringTokenizer st = new StringTokenizer(auxText, enTokenizingChars, true);
 
-    while (st.hasMoreElements()) {
-      s = APOSTYPEW.matcher(st.nextToken()).replaceAll("'");
+    Matcher tokenizerMatcher = tokenizerPattern.matcher(auxText);
+    while (tokenizerMatcher.find()) {
+      String s = tokenizerMatcher.group();
+      if (l.size() > 0 && s.length() == 1 && s.codePointAt(0)>=0xFE00 && s.codePointAt(0)<=0xFE0F) {
+        l.set(l.size() - 1, l.get(l.size() - 1) + s);
+        continue;
+      }
+      s = APOSTYPEW.matcher(s).replaceAll("'");
       s = APOSTYPOG.matcher(s).replaceAll("’");
-          //.replaceAll("\u0001\u0001HYPHEN\u0001\u0001", "-");
+          //.replaceAll("xxHYPHENxx", "-");
       boolean matchFound = false;
       Matcher matcher = null;
       if (s.contains("'") || s.contains("’")) {
@@ -98,7 +105,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
       }
       if (matchFound) {
         for (int i = 1; i <= matcher.groupCount(); i++) {
-          groupStr = matcher.group(i);
+          String groupStr = matcher.group(i);
           l.addAll(wordsToAdd(groupStr));
         }
       } else {
@@ -112,48 +119,46 @@ public class EnglishWordTokenizer extends WordTokenizer {
   private List<String> wordsToAdd(String s) {
     final List<String> l = new ArrayList<>();
     int hyphensAtEnd = 0;
-    synchronized (this) { // speller is not thread-safe
+    if (!s.isEmpty()) {
+      while (s.startsWith("-")) {
+        l.add("-");
+        s = s.substring(1);
+      }
+      while (s.endsWith("-")) {
+        s = s.substring(0,s.length()-1);
+        hyphensAtEnd++;
+      }
       if (!s.isEmpty()) {
-        while (s.startsWith("-")) {
-          l.add("-");
-          s = s.substring(1);
-        }
-        while (s.endsWith("-")) {
-          s = s.substring(0,s.length()-1);
-          hyphensAtEnd++;
-        }
-        if (!s.isEmpty()) {
-          if (!s.contains("-") && !s.contains("'") && !s.contains("’")) {
+        if (!s.contains("-") && !s.contains("'") && !s.contains("’")) {
+          l.add(s);
+        } else {
+          String normalized = SOFT_HYPHEN.matcher(s).replaceAll("");
+          normalized = CURLY_QUOTE.matcher(normalized).replaceAll("'");
+          if (EnglishTagger.INSTANCE.tag(Arrays.asList(normalized)).get(0)
+              .isTagged()) {
+            l.add(s);
+          }
+          // some camel-case words containing hyphen (is there any better fix?)
+          else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill")
+              || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") || s.equalsIgnoreCase("ph-metre")
+              || s.equalsIgnoreCase("ph-metres") || s.equalsIgnoreCase("anti-ivg") || s.equalsIgnoreCase("anti-uv")
+              || s.equalsIgnoreCase("anti-vih") || s.equalsIgnoreCase("al-qaida")) {
             l.add(s);
           } else {
-            String normalized = SOFT_HYPHEN.matcher(s).replaceAll("");
-            normalized = CURLY_QUOTE.matcher(normalized).replaceAll("'");
-            if (EnglishTagger.INSTANCE.tag(Arrays.asList(normalized)).get(0)
-                .isTagged()) {
-              l.add(s);
-            }
-            // some camel-case words containing hyphen (is there any better fix?)
-            else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill")
-                || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") || s.equalsIgnoreCase("ph-metre")
-                || s.equalsIgnoreCase("ph-metres") || s.equalsIgnoreCase("anti-ivg") || s.equalsIgnoreCase("anti-uv")
-                || s.equalsIgnoreCase("anti-vih") || s.equalsIgnoreCase("al-qaida")) {
-              l.add(s);
-            } else {
-              // if not found, the word is split
-              // final StringTokenizer st2 = new StringTokenizer(s, "-’'", true);
-              final StringTokenizer st2 = new StringTokenizer(s, "’'", true);
-              while (st2.hasMoreElements()) {
-                l.add(st2.nextToken());
-              }
+            // if not found, the word is split
+            // final StringTokenizer st2 = new StringTokenizer(s, "-’'", true);
+            final StringTokenizer st2 = new StringTokenizer(s, "’'", true);
+            while (st2.hasMoreElements()) {
+              l.add(st2.nextToken());
             }
           }
         }
       }
-      while (hyphensAtEnd > 0) {
-        l.add("-");
-        hyphensAtEnd--;
-      }
-      return l;
     }
+    while (hyphensAtEnd > 0) {
+      l.add("-");
+      hyphensAtEnd--;
+    }
+    return l;
   }
 }

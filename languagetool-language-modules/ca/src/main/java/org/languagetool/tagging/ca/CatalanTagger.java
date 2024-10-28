@@ -38,8 +38,8 @@ import java.util.regex.Pattern;
  */
 public class CatalanTagger extends BaseTagger {
 
-  public static final CatalanTagger INSTANCE_VAL = new CatalanTagger(new ValencianCatalan());
-  public static final CatalanTagger INSTANCE_CAT = new CatalanTagger(new Catalan());
+  public static final CatalanTagger INSTANCE_VAL = new CatalanTagger(Languages.getLanguageForShortCode("ca-ES-valencia"));
+  public static final CatalanTagger INSTANCE_CAT = new CatalanTagger(Languages.getLanguageForShortCode("ca-ES"));
   
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC]S.");
   private static final Pattern VERB = Pattern.compile("V.+");
@@ -47,9 +47,9 @@ public class CatalanTagger extends BaseTagger {
   private static final Pattern ADJECTIU_COMPOST = Pattern.compile("(.*)o-(.*.*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final List<String> ALLUPPERCASE_EXCEPTIONS = Arrays.asList("ARNAU", "CRISTIAN", "TOMÀS");
   private String variant;
-    
+
   public CatalanTagger(Language language) {
-    super("/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION,  new Locale("ca"), false);
+    super("/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION, new Locale("ca"), false);
     variant = language.getVariant();
   }
   
@@ -98,16 +98,17 @@ public class CatalanTagger extends BaseTagger {
         List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(firstUpper));
         addTokens(firstupperTaggerTokens, l);
       }
-
       // additional tagging with prefixes
       if (l.isEmpty() && !isMixedCase) {
         addTokens(additionalTags(originalWord, dictLookup), l);
       }
-
+      // emoji
+      if (l.isEmpty() && StringTools.isEmoji(originalWord)) {
+        l.add(new AnalyzedToken(originalWord, "_emoji_", "_emoji_"));
+      }
       if (l.isEmpty()) {
         l.add(new AnalyzedToken(originalWord, null, null));
       }
-
       AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
       if (containsTypographicApostrophe) {
         atr.setTypographicApostrophe();

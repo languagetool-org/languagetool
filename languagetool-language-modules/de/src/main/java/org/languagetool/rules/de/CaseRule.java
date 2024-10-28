@@ -80,7 +80,7 @@ public class CaseRule extends Rule {
     nounIndicators.add("unser");
   }
 
-  private static final String[] SENTENCE_START_EXCEPTIONS = {"(", "\"", "'", "‘", "„", "«", "»", ".", "!", "?"};
+  private static final String[] SENTENCE_START_EXCEPTIONS = {"(", "\"", "'", "‘", "„", "«", "»", "‚", ".", "!", "?"};
 
   private static final String[] UNDEFINED_QUANTIFIERS = {"viel", "nichts", "nix", "wenig", "allerlei"};
 

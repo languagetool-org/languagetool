@@ -22,7 +22,10 @@ import org.junit.Test;
 import org.languagetool.language.Catalan;
 import org.languagetool.language.ValencianCatalan;
 import org.languagetool.language.BalearicCatalan;
+import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.ca.SimpleReplaceAnglicism;
+import org.languagetool.rules.ca.SimpleReplaceMultiwordsRule;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -32,10 +35,13 @@ import static org.junit.Assert.assertEquals;
 
 public class JLanguageToolTest {
 
+
+  private  Language lang = new Catalan();
+  private JLanguageTool tool = new JLanguageTool(lang);
+
+
   @Test
   public void testCleanOverlappingErrors() throws IOException {
-    Language lang = new Catalan();
-    JLanguageTool tool = new JLanguageTool(lang);
     List<RuleMatch> matches = tool.check("prosper");
     assertEquals(1, matches.size());
     assertEquals("CA_SIMPLE_REPLACE_BALEARIC_PROSPER", matches.get(0).getRule().getId());
@@ -56,11 +62,54 @@ public class JLanguageToolTest {
   }
 
   @Test
-  public void testValecianVariant() throws IOException {
+  public void testValencianVariant() throws IOException {
     Language lang = new ValencianCatalan();
     JLanguageTool tool = new JLanguageTool(lang);
     List<RuleMatch> matches = tool.check("Cal usar mètodes d'anàlisi adequats.");
     assertEquals(0, matches.size());
+
+    matches = tool.check("Aquests ganivets no corresponen amb estes forquilles.");
+    assertEquals(1, matches.size());
+    assertEquals( "aquestes", matches.get(0).getSuggestedReplacements().get(0));
+
+    matches = tool.check("Estes forquilles, aquestos ganivets.");
+    assertEquals(1, matches.size());
+    assertEquals( "estos", matches.get(0).getSuggestedReplacements().get(0));
+
+    matches = tool.check("Estes forquilles, aquests ganivets.");
+    assertEquals(1, matches.size());
+    assertEquals( "estos", matches.get(0).getSuggestedReplacements().get(0));
+
+    matches = tool.check("Aqueixes forquilles, eixos ganivets.");
+    assertEquals(1, matches.size());
+    assertEquals( "aqueixos", matches.get(0).getSuggestedReplacements().get(0));
+
+    matches = tool.check("Eixes forquilles, aqueixos ganivets.");
+    assertEquals(1, matches.size());
+    assertEquals( "eixos", matches.get(0).getSuggestedReplacements().get(0));
+
+    matches = tool.check("Estos ganivets no corresponen amb estes forquilles.");
+    assertEquals(0, matches.size());
+
+    matches = tool.check("Aquests ganivets no corresponen amb aquestes forquilles.");
+    assertEquals(0, matches.size());
+
+    matches = tool.check("Com no te vaig a estimar?");
+    assertEquals(1, matches.size());
+    assertEquals( "Com vols que no t'estime", matches.get(0).getSuggestedReplacements().get(0));
+
+    List<RuleMatch> matches2 = tool.check("Aquestes frases per a probar.");
+    assertEquals(1, matches2.size());
+    assertEquals("provar", matches2.get(0).getSuggestedReplacements().get(0));
+
+    matches = tool.check("Vull coneixer més coses.");
+    assertEquals(1, matches.size());
+    assertEquals( "conéixer", matches.get(0).getSuggestedReplacements().get(0));
+
+    matches = tool.check("Durant l\u0092estiu.");
+    assertEquals(1, matches.size());
+    assertEquals( "l'estiu", matches.get(0).getSuggestedReplacements().get(0));
+
   }
   
   @Test
@@ -69,11 +118,14 @@ public class JLanguageToolTest {
     JLanguageTool tool = new JLanguageTool(lang);
     List<RuleMatch> matches = tool.check("Cal usar mètodes d'anàlisi adequats.");
     assertEquals(0, matches.size());
+
+    List<RuleMatch> matches2 = tool.check("Aquestes frases per a probar.");
+    assertEquals(1, matches2.size());
+    assertEquals("provar", matches2.get(0).getSuggestedReplacements().get(0));
   }
   
   @Test
   public void testAdvancedTypography() throws IOException {
-    Language lang = new Catalan();
     assertEquals(lang.toAdvancedTypography("És l'\"hora\"!"), "És l’«hora»!");
     assertEquals(lang.toAdvancedTypography("És l''hora'!"), "És l’‘hora’!");
     assertEquals(lang.toAdvancedTypography("És l'«hora»!"), "És l’«hora»!");
@@ -99,7 +151,6 @@ public class JLanguageToolTest {
 
   @Test
   public void testAdaptSuggestions() throws IOException {
-    JLanguageTool tool = new JLanguageTool(new Catalan());
     List<RuleMatch> matches = tool.check(
         "Els valencians hem sigut valencians des que Jaume I creà el regne de València i poc a poc es conformà una nova identitat política (que en l'edat mitjana, per exemple, no entrava en contradicció amb la consciència clara que teníem un origen i una llengua comuns amb els catalans).");
     assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[a poc a poc]");
@@ -112,7 +163,9 @@ public class JLanguageToolTest {
 
   @Test
   public void testMultitokenSpeller() throws IOException {
-    Language lang = new Catalan();
+    assertEquals("[Jacques-Louis David]", lang.getMultitokenSpeller().getSuggestions("Jacques Louis David").toString());
+    assertEquals("[Chiang Kai-shek]", lang.getMultitokenSpeller().getSuggestions("Chiang Kaishek").toString());
+    assertEquals("[Comédie-Française]", lang.getMultitokenSpeller().getSuggestions("Comédie Français").toString());
     assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Luis Leante").toString());
     assertEquals("[in vino veritas]", lang.getMultitokenSpeller().getSuggestions("in vinos verita").toString());
     assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Marina Buisan").toString());
@@ -168,5 +221,44 @@ public class JLanguageToolTest {
     assertEquals("[José María Aznar]", lang.getMultitokenSpeller().getSuggestions("José María Asnar").toString());
 
   }
+
+  @Test
+  public void testCommaWhitespaceRule() throws IOException {
+    CommaWhitespaceRule rule = new CommaWhitespaceRule(TestTools.getEnglishMessages());
+
+    RuleMatch[] matches = rule.match(tool.getAnalyzedSentence("Sol Picó (\uD83D\uDC0C+\uD83D\uDC1A)"));
+    assertEquals(0, matches.length);
+
+    List<RuleMatch> matches1 = tool.check("Continuo veien cada dia gent amb ID baixa ");
+    assertEquals("GERUNDI_PERD_T", matches1.get(0).getRule().getId());
+
+//    matches1 = lt.check("Vine canta i balla.");
+//    assertEquals("GERUNDI_PERD_T", matches1.get(0).getRule().getId());
+  }
+
+  @Test
+  public void testReplaceMultiwords() throws IOException {
+    SimpleReplaceMultiwordsRule rule = new SimpleReplaceMultiwordsRule(TestTools.getEnglishMessages());
+    RuleMatch[] matches = rule.match(tool.getAnalyzedSentence("Les persones membres"));
+    assertEquals(1, matches.length);
+    assertEquals("Els membres", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(tool.getAnalyzedSentence("LES PERSONES MEMBRES"));
+    assertEquals(1, matches.length);
+    assertEquals("ELS MEMBRES", matches[0].getSuggestedReplacements().get(0));
+
+
+  }
+
+  @Test
+  public void testReplaceAnglicisms() throws IOException {
+    SimpleReplaceAnglicism rule = new SimpleReplaceAnglicism(TestTools.getEnglishMessages());
+    RuleMatch[] matches = rule.match(tool.getAnalyzedSentence("que són la revolució física (Bacon, Galileu)"));
+    assertEquals(0, matches.length);
+
+    matches = rule.match(tool.getAnalyzedSentence("de E-Commerce"));
+    assertEquals(1, matches.length);
+  }
+
 
 }

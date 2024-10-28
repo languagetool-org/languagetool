@@ -56,15 +56,16 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     setDefaultOff();
+    setOfficeDefaultOn();  // Default for LO/OO is always On
     this.lang = lang;
     if (userConfig != null) {
       linguServices = userConfig.getLinguServices();
       if (linguServices != null) {
         linguServices.setThesaurusRelevantRule(this);
       }
-      int confDistance = userConfig.getConfigValueByID(getId());
-      if (confDistance >= 0) {
-        this.maxDistanceOfSentences = confDistance;
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null) {
+        this.maxDistanceOfSentences = (int) cf[0];
       }
     } else {
       linguServices = null;
@@ -101,44 +102,13 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
    */
   protected abstract String messageSentenceAfter();
   
-  /*
-   * get maximal Distance of words in number of sentences
-   * @since 4.1
+  /**
+   *  give the user the possibility to configure the function
    */
   @Override
-  public int getDefaultValue() {
-    return maxDistanceOfSentences;
-  }
-  
-  /**
-   * @since 4.2
-   */
-  @Override
-  public boolean hasConfigurableValue() {
-    return true;
-  }
-
-  /**
-   * @since 4.2
-   */
-  @Override
-  public int getMinConfigurableValue() {
-    return 0;
-  }
-
-  /**
-   * @since 4.2
-   */
-  @Override
-  public int getMaxConfigurableValue() {
-    return 5;
-  }
-
-  /**
-   * @since 4.2
-   */
-  public String getConfigureText() {
-    return messages.getString("guiStyleRepeatedWordText");
+  public RuleOption[] getRuleOptions() {
+    RuleOption[] ruleOptions = { new RuleOption(maxDistanceOfSentences, messages.getString("guiStyleRepeatedWordText"), 0, 5) };
+    return ruleOptions;
   }
 
   /*

@@ -20,7 +20,6 @@ package org.languagetool.rules.spelling.morfologik;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.vdurmont.emoji.EmojiManager;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -71,7 +70,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   
   private final static Pattern pStartsWithNumbersBullets = Pattern.compile("^(\\d[\\.,\\d]*|\\P{L}+)(.*)$");
   private final static Pattern pStartsWithNumbersBulletsExceptions = Pattern.compile("^([\\p{C}\\-\\$%&]+)(.*)$");
-
 
   /**
    * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -233,7 +231,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       } else {
         // should not happen, as we only configure this rule (or rather its subclasses)
         // when we have the resources:
-        return true;
+        throw new RuntimeException("Cannot find dictionary file " + getFileName());
       }
     }
     return false;
@@ -594,7 +592,13 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     userSuggestions = filterDupes(userSuggestions);
     defaultSuggestions = orderSuggestions(defaultSuggestions, word);
 
-    return Lists.newArrayList(Iterables.concat(userSuggestions, defaultSuggestions));
+    if (word.length()>4) {
+      return Lists.newArrayList(Iterables.concat(userSuggestions, defaultSuggestions));
+    } else {
+      // Don't use short words from user dictionaries because they usually hide the best suggestions
+      return Lists.newArrayList(Iterables.concat(defaultSuggestions, userSuggestions));
+    }
+
   }
 
   protected void addHyphenSuggestions(String[] split, List<SuggestedReplacement> topSuggestions) throws IOException {
@@ -660,26 +664,13 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   /**
-   * Checks whether a given String is an Emoji with a string length larger 1.
-   * @param word to be checked
-   * @since 4.2
-   */
-  protected static boolean isEmoji(String word) {
-    if (word.length() > 1 && word.codePointCount(0, word.length()) != word.length()) {
-      // some symbols such as emojis (😂) have a string length that equals 2
-      return EmojiManager.isOnlyEmojis(word);
-    }
-    return false;
-  }
-
-  /**
    * Ignore surrogate pairs (emojis) 
    * @since 4.3 
    * @see org.languagetool.rules.spelling.SpellingCheckRule#ignoreWord(java.lang.String)
    */
   @Override
   protected boolean ignoreWord(String word) throws IOException {
-    return super.ignoreWord(word) || isEmoji(word);
+    return super.ignoreWord(word) || StringTools.isEmoji(word);
   }
   
   /**

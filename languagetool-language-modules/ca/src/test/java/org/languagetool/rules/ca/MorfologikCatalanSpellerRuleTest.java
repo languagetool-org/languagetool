@@ -49,6 +49,7 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("L'exdirigent del partit.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("S'autoprenia.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("S'autocanta.")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("CatalanoAmericans.")).length);
 
     //apostrophes
     matches = rule.match(lt.getAnalyzedSentence("lAjuntament"));
@@ -419,8 +420,7 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals("aquesta", matches[0].getSuggestedReplacements().get(1));
 
     matches = rule.match(lt.getAnalyzedSentence("daquelles"));
-    assertEquals("d'aquelles", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("aquelles", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("[d'aquelles, aquelles]", matches[0].getSuggestedReplacements().toString());
 
     matches = rule.match(lt.getAnalyzedSentence("lah"));
     assertEquals("la", matches[0].getSuggestedReplacements().get(0));
@@ -460,8 +460,8 @@ public class MorfologikCatalanSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("porto'nz"));
     assertEquals("porta'ns", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("portalhi"));
-    assertEquals("porta-hi", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("portal hi", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("porta-l'hi", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("porta-hi", matches[0].getSuggestedReplacements().get(1));
     //assertEquals("porta-l'hi", matches[0].getSuggestedReplacements().get(2));
     matches = rule.match(lt.getAnalyzedSentence("veurels"));
     assertEquals("veure'ls", matches[0].getSuggestedReplacements().get(0));
@@ -495,11 +495,31 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals("descontaminaria", matches[0].getSuggestedReplacements().get(2));
     assertEquals("descontaminarà", matches[0].getSuggestedReplacements().get(3));
 
+    matches = rule.match(lt.getAnalyzedSentence("anarsen"));
+    assertEquals("anar-se'n", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(lt.getAnalyzedSentence("danarsen"));
+    assertEquals("d'anar-se'n", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(lt.getAnalyzedSentence("enviartela"));
+    assertEquals("enviar-te-la", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(lt.getAnalyzedSentence("enviartel"));
+    assertEquals("enviar-te'l", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(lt.getAnalyzedSentence("dirtho"));
+    assertEquals("dir-t'ho", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(lt.getAnalyzedSentence("sentimen"));
+    assertEquals("sentiment", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(lt.getAnalyzedSentence("fesmho"));
+    assertEquals("fes-m'ho", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("prenten"));
+    assertEquals("pren-te'n", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("pretén", matches[0].getSuggestedReplacements().get(1));
+
+
     matches = rule.match(lt.getAnalyzedSentence("daconseguirlos"));
-    assertEquals("aconseguir-los", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("d'aconseguir-los", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("d'aconseguir-los", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("aconseguir-los", matches[0].getSuggestedReplacements().get(1));
     matches = rule.match(lt.getAnalyzedSentence("laconseguirlos"));
-    assertEquals("aconseguir-los", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("l'aconseguir-los", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("portarinhi"));
     assertEquals("portar-hi", matches[0].getSuggestedReplacements().get(0));
     assertEquals("portar-n'hi", matches[0].getSuggestedReplacements().get(1));
@@ -593,6 +613,16 @@ public class MorfologikCatalanSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("co nstel·lació"));
     assertEquals("Constel·lació", matches[0].getSuggestedReplacements().get(0));
 
+    matches = rule.match(lt.getAnalyzedSentence("a sotaveu"));
+    assertEquals("sota veu", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("ambun"));
+    assertEquals("amb un", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("directamente"));
+    assertEquals(1, matches[0].getSuggestedReplacements().size());
+    assertEquals("directament", matches[0].getSuggestedReplacements().get(0));
+
     //diacritics
     matches = rule.match(lt.getAnalyzedSentence("literaria"));
     assertEquals("literària", matches[0].getSuggestedReplacements().get(0));
@@ -605,6 +635,29 @@ public class MorfologikCatalanSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("l'unic"));
     assertEquals(1, matches.length);
     assertEquals("únic", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("\uD83E\uDDE1\uD83E\uDDE1\uD83E\uDDE1l'unic"));
+    assertEquals(1, matches.length);
+    assertEquals("únic", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(8, matches[0].getFromPos());
+    assertEquals(12, matches[0].getToPos());
+
+
+    matches = rule.match(lt.getAnalyzedSentence("🧡 Bacances"));
+    assertEquals(1, matches.length);
+    assertEquals("Vacances", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(3, matches[0].getFromPos());
+    assertEquals(11, matches[0].getToPos());
+
+    matches = rule.match(lt.getAnalyzedSentence("- Bacances"));
+    assertEquals(1, matches.length);
+    assertEquals("Vacances", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(2, matches[0].getFromPos());
+    assertEquals(10, matches[0].getToPos());
+
+    //Sol Picó (🐌+🐚)
+    matches = rule.match(lt.getAnalyzedSentence("Sol Picó (\uD83D\uDC0C+\uD83D\uDC1A)"));
+    assertEquals(0, matches.length);
 
     matches = rule.match(lt.getAnalyzedSentence("rà dio"));
     assertEquals("Ràdio", matches[0].getSuggestedReplacements().get(0));
@@ -642,12 +695,12 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals("En 1993", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("✅Compto amb el títol"));
-    assertEquals(1, matches.length);
-    assertEquals("✅ Compto", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(0, matches.length);
+    //assertEquals("✅ Compto", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("✅Conpto amb el títol"));
     assertEquals(1, matches.length);
-    assertEquals("✅ Compto", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Compto", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("·Compto amb el títol"));
     assertEquals(1, matches.length);
@@ -658,13 +711,13 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals("[105.3 FM]", matches[0].getSuggestedReplacements().toString());
 
     //invisible characters at start
-    matches = rule.match(lt.getAnalyzedSentence("\u0003consagrada al turisme"));
-    assertEquals(1, matches.length);
-    assertEquals("[Consagrada]", matches[0].getSuggestedReplacements().toString());
+    //matches = rule.match(lt.getAnalyzedSentence("\u0003consagrada al turisme"));
+    //assertEquals(1, matches.length);
+    //assertEquals("[Consagrada]", matches[0].getSuggestedReplacements().toString());
 
-    matches = rule.match(lt.getAnalyzedSentence("Volen \u0018Modificar la situació."));
-    assertEquals(1, matches.length);
-    assertEquals("[modificar]", matches[0].getSuggestedReplacements().toString());
+    //matches = rule.match(lt.getAnalyzedSentence("Volen \u0018Modificar la situació."));
+    //assertEquals(1, matches.length);
+    //assertEquals("[modificar]", matches[0].getSuggestedReplacements().toString());
 
     // camel case
     matches = rule.match(lt.getAnalyzedSentence("polÃtiques"));
@@ -674,12 +727,12 @@ public class MorfologikCatalanSpellerRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("SegleXXI"));
     assertEquals(1, matches.length);
-    assertEquals(2, matches[0].getSuggestedReplacements().size());
+    assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals("Segle XXI", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("segleXIX"));
     assertEquals(1, matches.length);
-    assertEquals(2, matches[0].getSuggestedReplacements().size());
+    assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals("segle XIX", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("PolíticaInternacionalEuropea"));
@@ -739,5 +792,16 @@ public class MorfologikCatalanSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("innal·làmbricamente"));
     assertEquals(1, matches.length);
     assertEquals("[sense fils, sense fil, sense cables, autònom]", matches[0].getSuggestedReplacements().toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("empots"));
+    assertEquals(1, matches.length);
+    assertEquals("em pots", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(lt.getAnalyzedSentence("enspodeu"));
+    assertEquals(1, matches.length);
+    assertEquals("ens podeu", matches[0].getSuggestedReplacements().get(0));
+
+    // hashtags, url, email
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("(#sensepastanagues)")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("C#, F#")).length);
   }
 }

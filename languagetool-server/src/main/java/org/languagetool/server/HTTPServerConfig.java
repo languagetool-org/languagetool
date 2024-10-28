@@ -73,6 +73,7 @@ public class HTTPServerConfig {
   protected int textCheckerQueueSize = 8;
   protected Mode mode;
   protected File languageModelDir = null;
+  protected File ruleIdToConfidenceFile = null;
   protected boolean pipelineCaching = false;
   protected boolean pipelinePrewarming = false;
 
@@ -96,7 +97,7 @@ public class HTTPServerConfig {
   protected float maxErrorsPerWordRate = 0;
   protected int maxSpellingSuggestions = 0;
   protected List<String> blockedReferrers = new ArrayList<>();
-  protected List<String> untrustedReferrers = new ArrayList<>();
+  protected Pattern trustedSources = null;
   protected boolean premiumAlways;
   protected boolean premiumOnly;
   protected String requestLimitAccessToken = null;
@@ -200,12 +201,13 @@ public class HTTPServerConfig {
     "dbTimeoutSeconds", "dbMaxConnections", "dbErrorRateThreshold", "dbTimeoutRateThreshold", "dbDownIntervalSeconds",
     "redisDatabase", "redisUseSSL", "redisTimeoutMilliseconds", "redisConnectionTimeoutMilliseconds",
     "anonymousAccessAllowed",
-    "premiumAlways", "untrustedReferrers",
+    "premiumAlways", "trustedSource",
     "redisPassword", "redisHost", "redisCertificate", "redisKey", "redisKeyPassword",
     "redisUseSentinel", "sentinelHost", "sentinelPort", "sentinelPassword", "sentinelMasterId",
     "dbLogging", "premiumOnly", "nerUrl", "minPort", "maxPort", "localApiMode", "motherTongue", "preferredLanguages",
     "dictLimitUser", "dictLimitTeam", "styleGuideLimitUser", "styleGuideLimitTeam",
-    "passwortLoginAccessListPath", "redisDictTTLSeconds", "requestLimitAccessToken");
+    "passwortLoginAccessListPath", "redisDictTTLSeconds", "requestLimitAccessToken", "trustedSources",
+    "ruleIdToConfidenceFile");
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -338,6 +340,10 @@ public class HTTPServerConfig {
         maxPort = Integer.parseInt(getOptionalProperty(props, "maxPort", "0"));
         String url = getOptionalProperty(props, "serverURL", null);
         setServerURL(url);
+        String ruleIdToConfidence = getOptionalProperty(props, "ruleIdToConfidenceFile", null);
+        if (ruleIdToConfidence != null) {
+          ruleIdToConfidenceFile = new File(ruleIdToConfidence);
+        }
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null && loadLangModel) {
           setLanguageModelDirectory(langModel);
@@ -390,7 +396,7 @@ public class HTTPServerConfig {
         maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
         maxSpellingSuggestions = Integer.parseInt(getOptionalProperty(props, "maxSpellingSuggestions", "0"));
         blockedReferrers = Arrays.asList(getOptionalProperty(props, "blockedReferrers", "").split(",\\s*"));
-        untrustedReferrers = Arrays.asList(getOptionalProperty(props, "untrustedReferrers","").split(",\\s*"));
+        setTrustedSources(getOptionalProperty(props, "trustedSources", null));
         String premiumAlwaysValue = props.getProperty("premiumAlways");
         if (premiumAlwaysValue != null) {
           premiumAlways = Boolean.parseBoolean(premiumAlwaysValue.trim());
@@ -1011,13 +1017,17 @@ public class HTTPServerConfig {
     this.blockedReferrers = Objects.requireNonNull(blockedReferrers);
   }
 
-  @NotNull
-  public List<String> getUntrustedReferrers() {
-    return Collections.unmodifiableList(untrustedReferrers);
+  @Nullable
+  public Pattern getTrustedSources() {
+    return this.trustedSources;
   }
 
-  public void setUntrustedReferrers(List<String> untrustedReferrers) {
-    this.untrustedReferrers = Objects.requireNonNull(untrustedReferrers);
+  public void setTrustedSources(String pattern) {
+    if (pattern == null) {
+      this.trustedSources = null;
+    } else {
+      this.trustedSources = Pattern.compile(pattern);
+    }
   }
 
   /**
@@ -1503,4 +1513,11 @@ public class HTTPServerConfig {
     this.dbMaxConnections = dbMaxConnections;
   }
 
+  /**
+   * @since 6.4
+   */
+  @Nullable
+  public File getRuleIdToConfidenceFile() {
+    return ruleIdToConfidenceFile;
+  }
 }

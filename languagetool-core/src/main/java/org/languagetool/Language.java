@@ -252,7 +252,13 @@ public abstract class Language {
       .forEach(rules::add);
     rules.removeIf(rule -> {
       String activeRemoteRuleAbTest = ((RemoteRule) rule).getServiceConfiguration().getOptions().get("abtest"); //abtest option value must match the abtest value from server.properties
+      // allow disabling based on A/B test flags to compare multiple models
+      String excludeABTest = ((RemoteRule) rule).getServiceConfiguration().getOptions().get("excludeABTest");
       List<String> activeAbTestsForUser = userConfig.getAbTest();
+      if (excludeABTest != null && activeAbTestsForUser != null &&
+        activeAbTestsForUser.stream().anyMatch(flag -> flag.matches(excludeABTest))) {
+        return true;
+      }
       if (activeRemoteRuleAbTest != null && !activeRemoteRuleAbTest.trim().isEmpty()) { // A/B-Test active for remote rule
         if (activeAbTestsForUser == null) {
           return true; // No A/B-Tests are not active for user
@@ -821,6 +827,9 @@ public abstract class Language {
     if (id.equalsIgnoreCase("TOO_LONG_SENTENCE")) {
       return -101;  // don't hide spelling errors
     }
+    if (id.equals("REPETITIONS_STYLE")) {  // category
+      return -55;  // don't let style issues hide more important errors
+    }
     if (id.contains("STYLE")) {  // category
       return -50;  // don't let style issues hide more important errors
     }
@@ -836,12 +845,22 @@ public abstract class Language {
   public int getRulePriority(Rule rule) {
     int categoryPriority = this.getPriorityForId(rule.getCategory().getId().toString());
     int rulePriority = this.getPriorityForId(rule.getId());
+    int rulePriorityFromRule = rule.getPriority();
     // if there is a priority defined for rule it takes precedence over category priority
     if (rulePriority != 0) {
       return rulePriority;
-    } else {
+    } else if ( rulePriorityFromRule != 0) {
+      return rulePriorityFromRule;
+    } else if (categoryPriority != 0) {
       return categoryPriority;
+    } else if (getDefaultRulePriorityForStyle() != 0 && rule.getLocQualityIssueType().equals(ITSIssueType.Style)) {
+      return getDefaultRulePriorityForStyle();
     }
+    return 0;
+  }
+
+  protected int getDefaultRulePriorityForStyle() {
+    return 0;
   }
 
   /**
@@ -973,15 +992,7 @@ public abstract class Language {
   public boolean hasMinMatchesRules() {
     return false;
   }
-  
-  /** 
-   * @since 5.6 
-   * Adjust suggestions depending on the enabled rules
-   */
-  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
-	  return ruleMatches;
-  }
-  
+
   /**
    * @since 6.0 
    * Adjust suggestion 
@@ -998,23 +1009,27 @@ public abstract class Language {
     return rm;
   }
 
-  public String prepareLineForSpeller(String s) {
-    return s;
+  public List<String> prepareLineForSpeller(String s) {
+    return Arrays.asList(s);
   }
 
   /**
    * This function is called by JLanguageTool before CleanOverlappingFilter removes overlapping ruleMatches
-   *
-   * @param ruleMatches
-   * @param text
-   * @param enabledRules
    * @return filtered ruleMatches
    */
-  public List<RuleMatch> mergeSuggestions(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+  public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
     return ruleMatches;
   }
 
   public MultitokenSpeller getMultitokenSpeller() {
     return null;
   }
+
+  /**
+   * @since 6.4
+   */
+  public Map<String, Integer> getPriorityMap() {
+    return new HashMap<>();
+  }
+
 }

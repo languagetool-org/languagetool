@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.uk.PosTagHelper;
@@ -20,22 +21,52 @@ public abstract class LemmaHelper {
   public static final List<String> MONTH_LEMMAS = Arrays.asList("січень", "лютий", "березень", "квітень", "травень", "червень", "липень", 
       "серпень", "вересень", "жовтень", "листопад", "грудень");
   public static final List<String> DAYS_OF_WEEK = Arrays.asList("понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота", "неділя");
-  public static final List<String> TIME_LEMMAS = Arrays.asList("секунда", "хвилина", "година", "час", "день", "ніч", "вечір", "тиждень", "місяць", "доба", "мить", "хвилька",
-      "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "півсторіччя", "тисячоліття", "півтисячоліття", "квартал");
-  public static final Set<String> TIME_PLUS_LEMMAS = new HashSet<>(Arrays.asList(
-      "секунда", "хвилина", "хвилинка", "година", "годинка", "півгодини", "час", "день", "ніч", "ніченька", "вечір", "ранок", "тиждень", "місяць", "доба",
-      "півгодини", "півроку", "півдня",
+  public static final List<String> TIME_LEMMAS = Arrays.asList(
+      "секунда", "хвилина", "хвилинка", "хвилина-дві", "хвилинка-друга", 
+      "година", "годинка", "півгодини", "година-друга", "година-дві", 
+      "час", "день", "день-другий", "півдня", "ніч", "ніченька", "вечір", "ранок", "тиждень", "тиждень-два", "тиждень-другий", 
+      "місяць", "місяць-два", "місяць-другий", "місяць-півтора", "доба", "мить", "хвилька",
+      "рік", "рік-два", "рік-півтора", "півроку", "півроку-рік", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "півсторіччя", "тисячоліття", "півтисячоліття", "квартал", "годочок",
       "літо", "зима", "весна", "осінь",
-      "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "тисячоліття", "квартал",
-      "понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота", "неділя", "вихідний", "уїк-енд", "уїкенд", "вікенд",
-      "січень", "лютий", "березень", "квітень", "травень", "червень", "липень", "серпень", "вересень", "жовтень", "листопад", "грудень",
-      "міліметр", "сантиметр", "метр", "кілометр", "кілограм", "грам", "літр", "тонна", "центнер", "миля",
-      "десяток", "сотня", "тисяча", 
-      "відсоток", "пара", "раз", "крок", "тайм", "мить", "період", "термін", "сезон",
-      "гривня", "копійка"));
-      //, "раз", - опрацьовуємо окремо);
+      "тайм", "мить", "період", "термін", "сезон", "декада", "каденція", "раунд", "сезон");
+  public static final List<String> DISTANCE_LEMMAS = Arrays.asList(
+      "міліметр", "сантиметр", "метр", "кілометр", "кілограм", "кілограм–півтора", 
+      "гектар", "миля", "аршин", "дециметр", "верства", "верста",
+      "грам", "літр", "фунт", "тонна", "центнер");
+  public static final List<String> PSEUDO_NUM_LEMMAS = Arrays.asList(
+      "десяток", "десяток-другий","сотня", "сотка", "тисяча", "п'ятірка", "пара", "третина", "чверть", "половина", 
+      "дюжина", "жменя", "жменька", "купа", "купка", "парочка", "оберемок", "безліч");
+  //TODO: merge with above?
+  static final Pattern ADV_QUANT_PATTERN = Pattern.compile(
+      "більше|менше|чимало|багато|мало|забагато|замало|немало|багатенько|чималенько|стільки|обмаль|вдосталь|удосталь|трохи|трошки|досить|достатньо|недостатньо|предостатньо"
+      + "|багацько|чимбільше|побільше|порівну|більшість|трішки|предосить|повно|повнісінько"
+      + "|мільйон|тисяча|сотня|мільярд|трильйон|десяток|нуль|безліч"
+      + "|кілька|декілька|пара|парочка|купа|купка|безліч|мінімум|максимум"
+      + ""); // last 2 are numeric so only will play with fully disambiguated tokens
+  public static final List<String> MONEY_LEMMAS = Arrays.asList("гривня", "копійка");
+  public static final Set<String> TIME_PLUS_LEMMAS = new HashSet<>();
+  public static final Pattern TIME_PLUS_LEMMAS_PATTERN;
   public static final List<String> TIME_LEMMAS_SHORT = Arrays.asList("секунда", "хвилина", "година", "рік");
 
+  static final Pattern PART_INSERT_PATTERN = Pattern.compile(
+      "бодай|буцім(то)?|геть|дедалі|десь|іще|ледве|мов(би(то)?)?|навіть|наче(б(то)?)?|неначе(бто)?|немов(би(то)?)?|ніби(то)?"
+          + "|попросту|просто(-напросто)?|справді|усього-на-всього|хай|хоча?|якраз|ж|би?|власне");
+  static final Set<String> PLUS_MINUS = new HashSet<>(Arrays.asList(
+      "плюс", "мінус", "максимум", "мінімум"
+      ));
+
+  static {
+    TIME_PLUS_LEMMAS.addAll(TIME_LEMMAS);
+    TIME_PLUS_LEMMAS.addAll(DISTANCE_LEMMAS);
+    TIME_PLUS_LEMMAS.addAll(DAYS_OF_WEEK);
+    TIME_PLUS_LEMMAS.addAll(MONTH_LEMMAS);
+    TIME_PLUS_LEMMAS.addAll(PSEUDO_NUM_LEMMAS);
+    TIME_PLUS_LEMMAS.addAll(MONEY_LEMMAS);
+    TIME_PLUS_LEMMAS.addAll(Arrays.asList("вихідний", "уїк-енд", "уїкенд", "вікенд",
+        "відсоток", "раз", "крок"));
+    TIME_PLUS_LEMMAS_PATTERN = Pattern.compile(StringUtils.join(TIME_PLUS_LEMMAS, "|"));
+  }
+  
 
   public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, Collection<String> lemmas) {
     List<AnalyzedToken> readings = analyzedTokenReadings.getReadings();

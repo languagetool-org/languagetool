@@ -33,10 +33,27 @@ class AgreementRuleAntiPatterns1 {
 
   static final List<List<PatternToken>> ANTI_PATTERNS = asList(
     asList(
+      tokenRegex("bring(s?t|en?)"),
+      token("das"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*PLU.*"),
+      token("mit"),
+      token("sich")
+    ),
+    asList(
+      tokenRegex("der|die|das"),
+      posRegex("_english_ignore_")
+    ),
+    asList(
       tokenRegex("der|des"),   // "Übernahme der früher selbständigen Gesellschaft"
       token("früher"),
       posRegex("ADJ:.*"),
       posRegex("SUB:.*")
+    ),
+    asList(
+      token("sein"),   // "ich kann nicht dabei sein nächste Woche"
+      pos("ADV:TMP"),
+      tokenRegex("Woche|Monat|Jahr")
     ),
     asList(
       posRegex("(ART|PRO):.*"),   // "Wie viele Kolleg/-innen haben sie?"
@@ -877,8 +894,83 @@ class AgreementRuleAntiPatterns1 {
       csRegex(".+e"),
       posRegex("SUB:NOM:PLU.*"),
       csRegex("sind|waren")
+    ),
+    asList(
+      // Er fragte, ob das Frauen auch so toll finden.
+      token("ob"),
+      token("das"),
+      token("Frauen")
+    ),
+    asList(
+      // Ich lese das Korrektur.
+      csRegex("l[ea]sen?|liest|l[ea]st?"),
+      token("das"),
+      token("Korrektur")
+    ),
+    asList(
+      // Ich habe das Korrektur gelesen.
+      csRegex("habe?n?|ha[sb]?t"),
+      token("das"),
+      token("Korrektur"),
+      token("gelesen")
+    ),
+    asList(
+      // In einer entzückend chaotischen Partie zwischen A und B kam es zum Unentschieden.
+      posRegex("ART.*"),
+      posRegex("VER:PA[12]"),
+      posRegex("ADJ.*"),
+      posRegex("SUB.*")
+    ),
+    asList(
+      // Er lässt einen Visionen haben.
+      csRegex("lässt|lassen|ließ|ließen"),
+      token("einen"),
+      posRegex("SUB:AKK.*"),
+      posRegex("VER:INF.*")
+    ),
+    asList(
+      // Eine Initialzündung war der Bericht „Grenzen des Wachstums“ des Club of Rome, ...
+      token("des"),
+      token("Club"),
+      token("of"),
+      token("Rome")
+    ),
+    asList(
+      // Entwickelt wurde das Session Initiation Protocol von der IETF.
+      csRegex("das|ein"),
+      token("Session"),
+      token("Initiation"),
+      token("Protocol")
+    ),
+    asList(
+      // Ähnliches gilt im Norden der Insel für die George-Washington-Bridge.
+      token("die"),
+      token("George-Washington-Bridge")
+    ),
+    asList(
+      // Wie kann ich das zu Wege bringen?
+      token("das"),
+      token("zu"),
+      token("Wege")
+    ),
+    asList(
+      // Erst in der zweiten Hälfte des 4. Jahrhunderts ging die alte aristokratische Ordnung durch Machtkämpfe zwischen diesen zu Grunde.
+      csRegex("diese[mnrs]?"),
+      token("zu"),
+      token("Grunde")
+    ),
+    asList(
+      // acht Passionsszenen Christi sowie das Jüngste Gericht
+      csRegex("das|dem|des"),
+      csRegex("Jüngsten?"),
+      csRegex("Gerichts?")
+    ),
+    asList(
+      // Die Zeit begann mit der Gründung der englischen Football Association.
+      csRegex("[Ee]nglischen?"),
+      token("Football"),
+      token("Assosiation")
     )
-
   );
 
 }

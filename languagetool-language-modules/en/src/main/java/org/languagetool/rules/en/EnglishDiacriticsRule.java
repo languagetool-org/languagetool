@@ -41,7 +41,7 @@ import java.net.URL;
  */
 public class EnglishDiacriticsRule extends AbstractSimpleReplaceRule2 {
 
-  public static final String EN_DIACRITICS_REPLACE = "EN_DIACRITICS_REPLACE";
+  public static final String EN_DIACRITICS_REPLACE = "EN_DIACRITICS_REPLACE_ORTHOGRAPHY";
 
   private static final String FILE_NAME = "/en/diacritics.txt";
   private static final Locale EN_LOCALE = new Locale("en");  // locale used on case-conversion

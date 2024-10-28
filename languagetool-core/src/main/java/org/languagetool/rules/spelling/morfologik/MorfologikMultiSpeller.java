@@ -66,17 +66,22 @@ public class MorfologikMultiSpeller {
 
       private List<byte[]> getLines(BufferedReader br, String path, Language lang) throws IOException {
         List<byte[]> lines = new ArrayList<>();
-        String line;
-        while ((line = br.readLine()) != null) {
+        String originalLine;
+        while ((originalLine = br.readLine()) != null) {
+          List<String> lineList;
           if (lang != null) {
-            line = lang.prepareLineForSpeller(line);
+            lineList = lang.prepareLineForSpeller(originalLine);
+          } else {
+            lineList = Arrays.asList(originalLine);
           }
-          if (line.startsWith("#") || line.isEmpty()) {
-            continue;
-          }
-          line = line.split("#")[0].trim();
-          if (!line.isEmpty()) {
-            lines.add(line.getBytes(UTF_8));
+          for (String line : lineList) {
+            if (line.startsWith("#") || line.isEmpty()) {
+              continue;
+            }
+            line = line.split("#")[0].trim();
+            if (!line.isEmpty()) {
+              lines.add(line.getBytes(UTF_8));
+            }
           }
         }
         return lines;

@@ -55,6 +55,7 @@ public class SpanishWikipediaRuleTest {
 
     // at the beginning of a sentence (replace rule is case-sensitive)
     checkSimpleReplaceRule("Sucedió ayer. Murio sin que nadie lo esperase.", "Murió");
+    checkSimpleReplaceRule("Murio sin que nadie lo esperase.", "Murió");
     // inside sentence
     checkSimpleReplaceRule("Ayer murio sin que nadie lo esperase.", "murió");
   }

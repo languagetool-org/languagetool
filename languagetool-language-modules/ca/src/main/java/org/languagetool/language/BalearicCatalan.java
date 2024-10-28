@@ -18,6 +18,10 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.ca.CatalanSynthesizer;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -32,6 +36,12 @@ public class BalearicCatalan extends Catalan {
   @Override
   public String[] getCountries() {
     return new String[]{"ES"};
+  }
+
+  @Nullable
+  @Override
+  public Synthesizer createDefaultSynthesizer() {
+    return CatalanSynthesizer.INSTANCE_BAL;
   }
 
   @Override

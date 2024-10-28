@@ -22,6 +22,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.YMDDateHelper;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,11 +34,11 @@ public class YMDDateCheckFilter extends DateCheckFilter {
   private final YMDDateHelper ymdDateHelper = new YMDDateHelper();
 
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     if (args.containsKey("year") || args.containsKey("month") || args.containsKey("day")) {
       throw new RuntimeException("Set only 'weekDay' and 'date' for " + YMDDateCheckFilter.class.getSimpleName());
     }
-    return super.acceptRuleMatch(match, ymdDateHelper.parseDate(args), patternTokenPos, patternTokens);
+    return super.acceptRuleMatch(match, ymdDateHelper.parseDate(args), patternTokenPos, patternTokens, tokenPositions);
   }
 
 }

@@ -36,7 +36,7 @@
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
-        <rule id="WEIST_DU_CH" name="weist (weißt) du">
+        <rule id="WEIST_DU_CH_SPELLING_RULE" name="weist (weißt) du">
             <antipattern>
                 <token>weist</token>
                 <token>du</token>
@@ -59,208 +59,18 @@
             <example correction="Weisst"><marker>Weist</marker> du, ob das richtig ist?</example>
             <example correction="Weisst"><marker>Weist</marker> du, dass ich dich wirklich gern hab?</example>
         </rule>
+        <rule id="GRUESSE_CH_SPELLING_RULE" name="Gruesse (Grüße)">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[Gg]rue(ss|ß)en?</token>
+            </pattern>
+            <message>Möglicher Tippfehler gefunden.</message>
+            <suggestion><match no="1" regexp_match="[Gg]rue(ss|ß)" regexp_replace="Grüss" /></suggestion>
+            <example correction="Grüssen">Mit freundlichen <marker>Gruessen</marker>.</example>
+            <example correction="Grüsse">Viele liebe <marker>Grueße</marker>.</example>
+        </rule>
     </category>
 
     <category id="TYPOGRAPHY" name="Typografie" type="typographical">
-
-        <rulegroup id="SWISS_GERMAN_NUMBER_FORMAT" name="Swiss German number format" tags="picky">
-            <antipattern>
-                <token case_sensitive="yes" regexp="yes">\d+|[A-ZÄÖÜ]+</token>
-                <token regexp="yes">\d{5,9}</token>
-                <example>ISO 15924</example>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">\d{1,3}</token>
-                <token spacebefore="no">'</token>
-                <token spacebefore="no" regexp="yes">\d{3}</token>
-                <token spacebefore="no">.</token>
-                <token spacebefore="no" regexp="yes">\d{3}</token>
-                <example>399'452.456 ist eine Zahl.</example>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">\d{3}</token>
-                <token spacebefore="no">.</token>
-                <token spacebefore="no" regexp="yes">\d{3}</token>
-                <token spacebefore="no">.</token>
-                <token spacebefore="no" regexp="yes">\d{3}</token>
-                <token spacebefore="no">.</token>
-                <token spacebefore="no" regexp="yes">\d{3}</token>
-                <example>Die IP-Adresse lautet 203.000.113.195.</example>
-            </antipattern>
-            <antipattern>
-              <!-- exclude such cases for now -->
-              <!-- we end up with an inconsistent format otherwise -->
-              <!-- TODO extend WAEHRUNGSANGABEN_CH -->
-              <token regexp="yes">\d{1,3}</token>
-              <token spacebefore="no">.</token>
-              <token spacebefore="no" regexp="yes">\d{3}</token>
-              <token spacebefore="no">,</token>
-              <token spacebefore="no" regexp="yes">\d{1,3}</token>
-              <token regexp="yes">€|\$|¢|£|₤|₽|¥|円|&iso4217;</token>
-              <example>Das kostet 7.226,49 €.</example>
-            </antipattern>
-            <antipattern>
-              <token regexp="yes">\d</token>
-              <token>'</token>
-              <token regexp="yes">\d{3}</token>
-              <example>3'452 ist eine Zahl.</example>
-            </antipattern>
-            <antipattern>
-              <token skip="-1" inflected="yes" regexp="yes">bestellung|.*nummer</token>
-              <token regexp="yes">\d{5,9}</token>
-              <example>Die Bestellung 12345678 wurde erfolgreich storniert.</example>
-            </antipattern>
-            <antipattern>
-              <token skip="-1" regexp="yes">\d{5,9}</token>
-              <token inflected="yes" regexp="yes">bestellung|.*nummer</token>
-              <example>12345678 lautet die Bestellnummer.</example>
-            </antipattern>
-            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[1] --><!-- 4 Ziffern-->
-                <pattern>
-                    <token regexp="yes">[1-9]
-                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
-                        <exception scope="previous">\</exception>
-                    </token>
-                    <token min="0" regexp="yes">\.</token>
-                    <token regexp="yes">\d{3}
-                        <exception scope="next" regexp="yes">\d{1,9}</exception>
-                        <exception scope="next" regexp="yes">\\|\.</exception>
-                    </token>
-                </pattern>
-                <message>Besteht eine Zahl aus vier Ziffern, empfehlen wir, die erste nicht abzusetzen oder durch Interpunktion zu trennen, sondern eine Vierergruppe zu bilden.</message>
-                <suggestion>\1\3</suggestion>
-                <example>7'589 ist eine Zahl.</example>
-                <example correction="3452"><marker>3 452</marker> ist eine Zahl.</example>
-                <example correction="7589"><marker>7.589</marker> ist auch eine Zahl.</example>
-            </rule>
-            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[2] --><!-- 5 und 6 Ziffern-->
-                <antipattern>
-                    <token regexp="yes">(\d{2})(\d{3})</token>
-                    <token case_sensitive="yes" postag="(EIG.*STD|UNKNOWN).*" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
-                    <example>20459 Hamburg</example>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes">([1-9]\d{1,2})(\d{3})
-                        <exception scope="next" regexp="yes">\d{1,9}</exception>
-                        <exception scope="next" regexp="yes">\\|/|\.|–</exception>
-                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
-                        <exception scope="previous" regexp="yes">\\|,|/|\.|–|#</exception>
-                    </token>
-                </pattern>
-                <message>Zahlen mit mehr als vier Ziffern werden beginnend mit der Endziffer in Dreiergruppen zerlegt.</message>
-                <suggestion><match no="1" regexp_match="(\d{2,3})(\d{3})" regexp_replace="$1&nbsp;$2"></match></suggestion>
-                <example correction="39&nbsp;452"><marker>39452</marker> ist eine Zahl.</example>
-                <example correction="399&nbsp;452"><marker>399452</marker> ist eine Zahl.</example>
-            </rule>
-            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[3] --><!-- 5 und 6 Ziffern mit Punkt|Komma-->
-               <antipattern>
-                  <token regexp="yes">€|\$|¢|£|₤|₽|¥|円|&iso4217;</token>
-                  <token regexp="yes">\d{2,3}</token>
-                  <token>.</token>
-                  <token regexp="yes">(\d){3}</token>
-                  <example>€ 82.903</example>
-               </antipattern>
-               <antipattern><!-- different error -->
-                    <token regexp="yes">\d{2,3}</token>
-                    <token spacebefore="no">.</token>
-                    <token spacebefore="no" regexp="yes">(\d){3}</token>			
-                    <token regexp="yes">[cdkm]?m|h?l|s(e[ck])?|k?g|(Kilo|Milli)?gramm|pfund|Metern?|Meilen|Sekunden?|Minuten|Tonnen|(milli)?bar|(mega|kilo|milli)?watt|(milli)?Litern?|(Kilo|Dezi|Milli|Zenti)metern?|%|€|\$|¥|°[CF]|Mio|(M|B)illion(en)?|Milliarden|Tausend</token>
-               </antipattern>
-               <pattern>
-                    <token regexp="yes">[1-9]\d{1,2}
-                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
-                        <exception scope="previous" regexp="yes">\\|\.|#</exception>
-                    </token>
-                    <token spacebefore="no">.</token>
-                    <token spacebefore="no" regexp="yes">(\d){3}
-                        <exception scope="next" regexp="yes">\d{1,9}</exception>
-                        <exception scope="next" regexp="yes">\\|\.</exception>
-                    </token>
-                </pattern>
-                <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen, statt durch Interpunktion zu trennen.</message>
-                <suggestion>\1&nbsp;\3</suggestion>
-                <example correction="82&nbsp;903"><marker>82.903</marker> ist auch eine Zahl.</example>
-                <example correction="399&nbsp;452"><marker>399.452</marker> ist eine Zahl.</example>
-            </rule>
-            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[4] --><!-- 7, 8 und 9 Ziffern-->
-                <pattern>
-                    <token regexp="yes">([1-9]\d{0,2})(\d{3})(\d{3})
-                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
-                        <exception scope="previous" regexp="yes">\\|,|\.|/|#</exception>
-                        <exception scope="next" regexp="yes">\d{1,9}</exception>
-                        <exception scope="next" regexp="yes">\\|,|/</exception>
-                    </token>
-                </pattern>
-                <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen, statt durch Interpunktion zu trennen.</message>
-                <suggestion><match no="1" regexp_match="(\d{1,3})(\d{3})(\d{3})" regexp_replace="$1&nbsp;$2&nbsp;$3"/></suggestion>
-                <example correction="399&nbsp;452&nbsp;456"><marker>399452456</marker> ist eine Zahl.</example>
-            </rule>
-            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[5] --><!-- 7, 8 und 9 Ziffern mit Punkt|Komma-->
-                <pattern>
-                    <token regexp="yes">[1-9]\d{0,2}
-                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
-                        <exception scope="previous" regexp="yes">\\|,|\.|#</exception>
-                    </token>
-                    <token regexp="yes" min="0" spacebefore="no">\.|,</token>
-                    <token regexp="yes" spacebefore="no">\d{3}</token>
-                    <token regexp="yes" min="0" spacebefore="no"><match no="1"/></token>
-                    <token regexp="yes" spacebefore="no">\d{3}
-                        <exception scope="next" regexp="yes">\d{1,9}</exception>
-                        <exception scope="next" regexp="yes">\\|,|\.</exception>
-                    </token>
-                </pattern>
-                <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen, statt durch Interpunktion zu trennen.</message>
-                <suggestion>\1&nbsp;\3&nbsp;\5</suggestion>
-                <example correction="399&nbsp;452&nbsp;456"><marker>399.452.456</marker> ist eine Zahl.</example>
-                <example>399'452.456 ist eine Zahl.</example>
-                <example>399'452'456 ist eine Zahl.</example>
-                <example>Die IP-Adresse lautet 203.000.113.195.</example>
-            </rule>
-            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[6] --><!-- Geldbetrag falsches Dezimalzeichen 1 -->
-                <antipattern>
-                    <token regexp="yes">€|\$|¢|£|₤|₽|¥|円|&iso4217;</token>
-                    <token regexp="yes">\d+</token>
-                    <token>,</token>
-                    <token regexp="yes">\d{1,2}|–</token>
-                    <token regexp="yes">€|\$|¢|£|₤|₽|¥|円|&iso4217;</token>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes">€|\$|¢|£|₤|₽|¥|円|&iso4217;</token>
-                    <marker>
-                        <token regexp="yes">\d+</token>
-                        <token spacebefore="no">,</token>
-                        <token spacebefore="no" regexp="yes">\d{1,2}|–</token>
-                    </marker>
-                </pattern>
-                <message>Steht die Währungseinheit vor dem Geldbetrag, ist ein Dezimalpunkt zu setzen.</message>
-                <suggestion>\2.\4</suggestion>
-                <example correction="34.52">€ <marker>34,52</marker>.</example>
-                <example correction="34.–">€ <marker>34,–</marker>.</example>
-            </rule>
-            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[7] --><!-- Geldbetrag falsches Dezimalzeichen 2 -->
-                <antipattern>
-                    <token>Fr</token>
-                    <token>.</token>
-                    <token regexp="yes">\d+</token>
-                    <token>,</token>
-                    <token regexp="yes">\d{1,2}|–</token>
-                    <token regexp="yes">€|\$|¢|£|₤|₽|¥|円|&iso4217;|Fr|Franken</token>
-                </antipattern>
-                <pattern>
-                    <token>Fr</token>
-                    <token>.</token>
-                    <marker>
-                        <token regexp="yes">\d+</token>
-                        <token>,</token>
-                        <token regexp="yes">\d{1,2}|–</token>
-                    </marker>
-                </pattern>
-                <message>Steht die Währungseinheit vor dem Geldbetrag, ist ein Dezimalpunkt zu setzen.</message>
-                <suggestion>\3.\5</suggestion>
-                <example correction="34.52">Fr. <marker>34,52</marker>.</example>
-                <example correction="34.–">Fr. <marker>34,–</marker>.</example>
-            </rule>
-        </rulegroup>
 
         <rulegroup id="ABKUERZUNGEN_OHNE_PKT_CH" name="Abkürzungen ohne Punkt" default="temp_off">
             <rule>
@@ -275,7 +85,7 @@
             </rule>
         </rulegroup>
 
-        <rulegroup id="ZEITANGABEN" name="Zeitangaben">
+        <rulegroup id="ZEITANGABEN" name="Zeitangaben" tags="picky">
             <rule><!--1-->
                 <pattern>
                     <token regexp="yes">[0-9]+</token>
@@ -750,6 +560,206 @@
 
     <category id="STYLE" name="Style" type="style">
 
+        <rulegroup id="SWISS_GERMAN_NUMBER_FORMAT" name="Swiss German number format" type="style" is_goal_specific="true" tone_tags="formal" tags="picky">
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">\d+|[A-ZÄÖÜ]+</token>
+                <token regexp="yes">\d{5,9}</token>
+                <example>ISO 15924</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d{1,3}</token>
+                <token spacebefore="no">'</token>
+                <token spacebefore="no" regexp="yes">\d{3}</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">\d{3}</token>
+                <example>399'452.456 ist eine Zahl.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d{3}</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">\d{3}</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">\d{3}</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">\d{3}</token>
+                <example>Die IP-Adresse lautet 203.000.113.195.</example>
+            </antipattern>
+            <antipattern>
+                <!-- exclude such cases for now -->
+                <!-- we end up with an inconsistent format otherwise -->
+                <!-- TODO extend WAEHRUNGSANGABEN_CH -->
+                <token regexp="yes">\d{1,3}</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">\d{3}</token>
+                <token spacebefore="no">,</token>
+                <token spacebefore="no" regexp="yes">\d{1,3}</token>
+                <token regexp="yes">€|\$|¢|£|₤|₽|¥|円|&iso4217;</token>
+                <example>Das kostet 7.226,49 €.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d</token>
+                <token>'</token>
+                <token regexp="yes">\d{3}</token>
+                <example>3'452 ist eine Zahl.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" inflected="yes" regexp="yes">.*auftrag|.*bestellung|.*nummer|.*passwort|.*rechnung</token>
+                <token regexp="yes">\d{5,9}</token>
+                <example>Die Bestellung 12345678 wurde erfolgreich storniert.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" regexp="yes">\d{5,9}</token>
+                <token inflected="yes" regexp="yes">.*auftrag|.*bestellung|.*nummer|.*passwort|.*rechnung</token>
+                <example>12345678 lautet die Bestellnummer.</example>
+            </antipattern>
+            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[1] --><!-- 4 Ziffern-->
+                <pattern>
+                    <token regexp="yes">[1-9]
+                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
+                        <exception scope="previous">\</exception>
+                    </token>
+                    <token min="0" regexp="yes">\.</token>
+                    <token regexp="yes">\d{3}
+                        <exception scope="next" regexp="yes">\d{1,9}</exception>
+                        <exception scope="next" regexp="yes">\\|\.</exception>
+                    </token>
+                </pattern>
+                <message>Besteht eine Zahl aus vier Ziffern, empfehlen wir, die erste nicht abzusetzen oder durch Interpunktion zu trennen, sondern eine Vierergruppe zu bilden.</message>
+                <suggestion>\1\3</suggestion>
+                <example>7'589 ist eine Zahl.</example>
+                <example correction="3452"><marker>3 452</marker> ist eine Zahl.</example>
+                <example correction="7589"><marker>7.589</marker> ist auch eine Zahl.</example>
+            </rule>
+            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[2] --><!-- 5 und 6 Ziffern-->
+                <antipattern>
+                    <token regexp="yes">\d{4,5}</token>
+                    <token case_sensitive="yes" postag="(EIG.*STD|UNKNOWN).*" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    <example>3001 Bern</example>
+                    <example>20459 Hamburg</example>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">([1-9]\d{1,2})(\d{3})
+                        <exception scope="next" regexp="yes">\d{1,9}</exception>
+                        <exception scope="next" regexp="yes">\\|/|\.|–</exception>
+                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
+                        <exception scope="previous" regexp="yes">\\|,|/|\.|–|#</exception>
+                    </token>
+                </pattern>
+                <message>Zahlen mit mehr als vier Ziffern werden beginnend mit der Endziffer in Dreiergruppen zerlegt.</message>
+                <suggestion><match no="1" regexp_match="(\d{2,3})(\d{3})" regexp_replace="$1&nbsp;$2"></match></suggestion>
+                <example correction="39&nbsp;452"><marker>39452</marker> ist eine Zahl.</example>
+                <example correction="399&nbsp;452"><marker>399452</marker> ist eine Zahl.</example>
+            </rule>
+            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[3] --><!-- 5 und 6 Ziffern mit Punkt|Komma-->
+                <antipattern>
+                    <token regexp="yes">€|\$|¢|£|₤|₽|¥|円|&iso4217;</token>
+                    <token regexp="yes">\d{2,3}</token>
+                    <token>.</token>
+                    <token regexp="yes">(\d){3}</token>
+                    <example>€ 82.903</example>
+                </antipattern>
+                <antipattern><!-- different error -->
+                    <token regexp="yes">\d{2,3}</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" regexp="yes">(\d){3}</token>
+                    <token regexp="yes">[cdkm]?m|h?l|s(e[ck])?|k?g|(Kilo|Milli)?gramm|pfund|Metern?|Meilen|Sekunden?|Minuten|Tonnen|(milli)?bar|(mega|kilo|milli)?watt|(milli)?Litern?|(Kilo|Dezi|Milli|Zenti)metern?|%|€|\$|¥|°[CF]|Mio|(M|B)illion(en)?|Milliarden|Tausend</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[1-9]\d{1,2}
+                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
+                        <exception scope="previous" regexp="yes">\\|\.|#</exception>
+                    </token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" regexp="yes">(\d){3}
+                        <exception scope="next" regexp="yes">\d{1,9}</exception>
+                        <exception scope="next" regexp="yes">\\|\.</exception>
+                    </token>
+                </pattern>
+                <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen, statt durch Interpunktion zu trennen.</message>
+                <suggestion>\1&nbsp;\3</suggestion>
+                <example correction="82&nbsp;903"><marker>82.903</marker> ist auch eine Zahl.</example>
+                <example correction="399&nbsp;452"><marker>399.452</marker> ist eine Zahl.</example>
+            </rule>
+            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[4] --><!-- 7, 8 und 9 Ziffern-->
+                <pattern>
+                    <token regexp="yes">([1-9]\d{0,2})(\d{3})(\d{3})
+                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
+                        <exception scope="previous" regexp="yes">\\|,|\.|/|#</exception>
+                        <exception scope="next" regexp="yes">\d{1,9}</exception>
+                        <exception scope="next" regexp="yes">\\|,|/</exception>
+                    </token>
+                </pattern>
+                <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen, statt durch Interpunktion zu trennen.</message>
+                <suggestion><match no="1" regexp_match="(\d{1,3})(\d{3})(\d{3})" regexp_replace="$1&nbsp;$2&nbsp;$3"/></suggestion>
+                <example correction="399&nbsp;452&nbsp;456"><marker>399452456</marker> ist eine Zahl.</example>
+            </rule>
+            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[5] --><!-- 7, 8 und 9 Ziffern mit Punkt|Komma-->
+                <pattern>
+                    <token regexp="yes">[1-9]\d{0,2}
+                        <exception scope="previous" regexp="yes">\d{1,9}</exception>
+                        <exception scope="previous" regexp="yes">\\|,|\.|#</exception>
+                    </token>
+                    <token regexp="yes" min="0" spacebefore="no">\.|,</token>
+                    <token regexp="yes" spacebefore="no">\d{3}</token>
+                    <token regexp="yes" min="0" spacebefore="no"><match no="1"/></token>
+                    <token regexp="yes" spacebefore="no">\d{3}
+                        <exception scope="next" regexp="yes">\d{1,9}</exception>
+                        <exception scope="next" regexp="yes">\\|,|\.</exception>
+                    </token>
+                </pattern>
+                <message>Zur besseren Lesbarkeit empfehlen wir, Zahlen mit mehr als vier Ziffern beginnend mit der Endziffer in Dreiergruppen zu zerlegen, statt durch Interpunktion zu trennen.</message>
+                <suggestion>\1&nbsp;\3&nbsp;\5</suggestion>
+                <example correction="399&nbsp;452&nbsp;456"><marker>399.452.456</marker> ist eine Zahl.</example>
+                <example>399'452.456 ist eine Zahl.</example>
+                <example>399'452'456 ist eine Zahl.</example>
+                <example>Die IP-Adresse lautet 203.000.113.195.</example>
+            </rule>
+            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[6] --><!-- Geldbetrag falsches Dezimalzeichen 1 -->
+                <antipattern>
+                    <token regexp="yes">€|\$|¢|£|₤|₽|¥|円|&iso4217;</token>
+                    <token regexp="yes">\d+</token>
+                    <token>,</token>
+                    <token regexp="yes">\d{1,2}|–</token>
+                    <token regexp="yes">€|\$|¢|£|₤|₽|¥|円|&iso4217;</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">€|\$|¢|£|₤|₽|¥|円|&iso4217;</token>
+                    <marker>
+                        <token regexp="yes">\d+</token>
+                        <token spacebefore="no">,</token>
+                        <token spacebefore="no" regexp="yes">\d{1,2}|–</token>
+                    </marker>
+                </pattern>
+                <message>Steht die Währungseinheit vor dem Geldbetrag, ist ein Dezimalpunkt zu setzen.</message>
+                <suggestion>\2.\4</suggestion>
+                <example correction="34.52">€ <marker>34,52</marker>.</example>
+                <example correction="34.–">€ <marker>34,–</marker>.</example>
+            </rule>
+            <rule><!-- SWISS_GERMAN_NUMBER_FORMAT[7] --><!-- Geldbetrag falsches Dezimalzeichen 2 -->
+                <antipattern>
+                    <token>Fr</token>
+                    <token>.</token>
+                    <token regexp="yes">\d+</token>
+                    <token>,</token>
+                    <token regexp="yes">\d{1,2}|–</token>
+                    <token regexp="yes">€|\$|¢|£|₤|₽|¥|円|&iso4217;|Fr|Franken</token>
+                </antipattern>
+                <pattern>
+                    <token>Fr</token>
+                    <token>.</token>
+                    <marker>
+                        <token regexp="yes">\d+</token>
+                        <token>,</token>
+                        <token regexp="yes">\d{1,2}|–</token>
+                    </marker>
+                </pattern>
+                <message>Steht die Währungseinheit vor dem Geldbetrag, ist ein Dezimalpunkt zu setzen.</message>
+                <suggestion>\3.\5</suggestion>
+                <example correction="34.52">Fr. <marker>34,52</marker>.</example>
+                <example correction="34.–">Fr. <marker>34,–</marker>.</example>
+            </rule>
+        </rulegroup>
+
         <rule id="HABE_GESTANDEN" name="Er hat (ist) da eine Stunde lang gestanden." tone_tags="clarity" default="temp_off">
             <antipattern>
                 <token regexp="yes">alles|nichts|gleich|Tat|sofort|schlussendlich|schließlich</token>
@@ -797,4 +807,44 @@
         </rule>
 
     </category>
+
+    <category id="CASING" name="Groß-/Kleinschreibung">
+        <rulegroup id="MIT_FREUNDLICHEN_CH_SPELLING_RULE" name="'mit Freundlichen (freundlichen) grüßen (Grüßen)'" default="temp_off">
+            <rule><!--1-->
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[mM]it</token>
+                    <marker>
+                        <token>Freundlichen</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match case_conversion="alllower" no="2" /></suggestion>?</message>
+                <example correction="freundlichen">Mit <marker>Freundlichen</marker> Grüssen</example>
+            </rule>
+            <rule><!--2-->
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[mM]it</token>
+                    <token regexp="yes">(herz|freund)lichen|besten|lieben|liebsten</token>
+                    <marker>
+                        <token regexp="yes">grüßen?|grüssen?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="3" case_conversion="startupper" regexp_match="(ss|ß)en?" regexp_replace="ssen"/></suggestion>?</message>
+                <example correction="Grüssen">Mit freundlichen <marker>grüßen</marker></example>
+                <example correction="Grüssen">Mit freundlichen <marker>grüsse</marker></example>
+            </rule>
+            <rule><!--3-->
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">(Herz|Freund)liche|Liebe|Viele|Beste|Liebste</token>
+                    <marker>
+                        <token regexp="yes">grüße|grüsse</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" case_conversion="startupper" regexp_match="(ss|ß)e" regexp_replace="sse"/></suggestion>?</message>
+                <example correction="Grüsse">Herzliche <marker>grüße</marker></example>
+                <example correction="Grüsse">Viele <marker>grüße</marker></example>
+                <example correction="Grüsse">Liebste <marker>grüsse</marker></example>
+            </rule>
+        </rulegroup>
+    </category>
+
 </rules>

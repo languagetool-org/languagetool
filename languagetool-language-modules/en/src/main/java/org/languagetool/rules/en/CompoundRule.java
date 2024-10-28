@@ -57,6 +57,11 @@ public class CompoundRule extends AbstractCompoundRule {
         new PatternTokenBuilder().posRegex("VB.*").build()
       ),
       Arrays.asList(
+        token("how"),
+        token("well"),
+        new PatternTokenBuilder().posRegex("VB.*").build()
+      ),
+      Arrays.asList(
         tokenRegex("and|&"),
         token("co")
       ),

@@ -25,12 +25,13 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.nl.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.nl.DutchSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.nl.DutchTagger;
+import org.languagetool.tagging.nl.DutchHybridDisambiguator;
 import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.nl.DutchWordTokenizer;
 
@@ -65,13 +66,17 @@ public class Dutch extends Language {
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
-    return new DutchTagger();
+    return DutchTagger.INSTANCE;
   }
 
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
     return DutchSynthesizer.INSTANCE;
+  }
+
+  public static CompoundAcceptor getCompoundAcceptor() {
+    return CompoundAcceptor.INSTANCE;
   }
 
   @Override
@@ -86,7 +91,7 @@ public class Dutch extends Language {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new XmlRuleDisambiguator(getDefaultLanguageVariant());
+    return new DutchHybridDisambiguator(getDefaultLanguageVariant());
   }
 
   @Override
@@ -126,13 +131,13 @@ public class Dutch extends Language {
     );
   }
 
-  /** @since 4.5 */
-  @Override
+  // commented out as long as there are not enough entries in nl/confusion_sets.txt
+  /*@Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new DutchConfusionProbabilityRule(messages, languageModel, this)
     );
-  }
+  }*/
 
   /** @since 4.5 */
   @Override
@@ -171,35 +176,43 @@ public class Dutch extends Language {
     return true;
   }
 
+  private final static Map<String, Integer> id2prio = new HashMap<>();
+  static {
+    id2prio.put(LongSentenceRule.RULE_ID, -1);
+    // default: 0
+    id2prio.put("SINT_X",3); // higher than simple replace
+    id2prio.put("ET_AL", 1); // needs higher priority than MORFOLOGIK_RULE_NL_NL
+    id2prio.put("N_PERSOONS", 1); // needs higher priority than MORFOLOGIK_RULE_NL_NL
+    id2prio.put("HOOFDLETTERS_OVERBODIG_A", 1); // needs higher priority than MORFOLOGIK_RULE_NL_NL
+    id2prio.put("VERSCHILLENDE_AANHALINGSTEKENS", 1); // needs higher priority than UNPAIRED_BRACKETS
+    id2prio.put("STAM_ZONDER_IK", -1);  // see https://github.com/languagetool-org/languagetool/issues/7644
+    id2prio.put("KOMMA_ONTBR", -1);   // see https://github.com/languagetool-org/languagetool/issues/7644
+    id2prio.put("KOMMA_KOMMA", -1); // needs higher priority than DOUBLE_PUNCTUATION
+    id2prio.put("HET_FIETS", -2); // first let other rules check for compound words
+    id2prio.put("JIJ_JOU_JOUW", -2);  // needs higher priority than JOU_JOUW
+    id2prio.put("JOU_JOUW", -3);
+    id2prio.put("BE", -3); // needs lower priority than BE_GE_SPLITST
+    id2prio.put("DOUBLE_PUNCTUATION", -3);
+    id2prio.put("EINDE_ZIN_ONVERWACHT", -5);  //so that spelling errors are recognized first
+    id2prio.put("TOO_LONG_PARAGRAPH", -15);
+    id2prio.put("ERG_LANG_WOORD", -20);  // below spell checker and simple replace rule
+    id2prio.put("DE_ONVERWACHT", -20);  // below spell checker and simple replace rule
+    // category style : -50	  
+  }
+
+  @Override
+  public Map<String, Integer> getPriorityMap() {
+    return id2prio;
+  }
+
   @Override
   protected int getPriorityForId(String id) {
     if (id.startsWith(SimpleReplaceRule.DUTCH_SIMPLE_REPLACE_RULE) || id.startsWith("NL_SPACE_IN_COMPOUND")) {
         return 1;
     }
-    switch (id) {
-      case LongSentenceRule.RULE_ID: return -1;
-      // default: 0
-      case "ET_AL": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
-      case "N_PERSOONS": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
-      case "HOOFDLETTERS_OVERBODIG_A": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
-      case "IJ_HFDLTRS": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
-      case "STAM_ZONDER_IK": return -1;  // see https://github.com/languagetool-org/languagetool/issues/7644
-      case "KOMMA_ONTBR": return -1;   // see https://github.com/languagetool-org/languagetool/issues/7644
-      case "KOMMA_AANH": return -1; // needs higher priority than DOUBLE_PUNCTUATION
-      case "KOMMA_KOMMA": return -1; // needs higher priority than DOUBLE_PUNCTUATION
-      case "HET_FIETS": return -2; // first let other rules check for compound words
-      case "JIJ_JOU_JOUW": return -2;  // needs higher priority than JOU_JOUW
-      case "JOU_JOUW": return -3;
-      case "BE": return -3; // needs lower priority than BE_GE_SPLITST
-      case "DOUBLE_PUNCTUATION": return -3;
-      case "KORT_1": return -5;
-      case "KORT_2": return -5;  //so that spelling errors are recognized first
-      case "EINDE_ZIN_ONVERWACHT": return -5;  //so that spelling errors are recognized first
-      case "TOO_LONG_PARAGRAPH": return -15;
-      case "ERG_LANG_WOORD": return -20;  // below spell checker and simple replace rule
-      case "DE_ONVERWACHT": return -20;  // below spell checker and simple replace rule
-      case "TE-VREEMD": return -20;  // below spell checker and simple replace rule
-      // category style : -50
+    Integer prio = id2prio.get(id);
+    if (prio != null) {
+      return prio;
     }
     if (id.startsWith("AI_NL_HYDRA_LEO")) { // prefer more specific rules (also speller)
       if (id.startsWith("AI_NL_HYDRA_LEO_MISSING_COMMA")) {
@@ -224,4 +237,7 @@ public class Dutch extends Language {
     return new MorfologikDutchSpellerRule(messages, this, null, Collections.emptyList());
   }
 
+  public MultitokenSpeller getMultitokenSpeller() {
+    return DutchMultitokenSpeller.INSTANCE;
+  }
 }

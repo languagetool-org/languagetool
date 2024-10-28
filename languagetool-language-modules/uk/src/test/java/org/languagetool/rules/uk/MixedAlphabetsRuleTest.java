@@ -34,7 +34,7 @@ public class MixedAlphabetsRuleTest {
   @Test
   public void testRule() throws IOException {
     MixedAlphabetsRule rule = new MixedAlphabetsRule(TestTools.getMessages("uk"));
-    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
 
     // correct sentences:
     assertEquals(0, rule.match(lt.getAnalyzedSentence("сміття")).length);
@@ -177,7 +177,7 @@ public class MixedAlphabetsRuleTest {
   @Test
   public void testCombiningChars() throws IOException {
     MixedAlphabetsRule rule = new MixedAlphabetsRule(TestTools.getMessages("uk"));
-    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
 
     // й and ї are done via combining characters: и + U+0306, ї + U+308
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Білоруський - українці"));

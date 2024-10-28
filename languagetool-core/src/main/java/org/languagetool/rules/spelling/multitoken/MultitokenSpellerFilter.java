@@ -19,37 +19,75 @@
 package org.languagetool.rules.spelling.multitoken;
 
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class MultitokenSpellerFilter extends RuleFilter {
 
    /* Provide suggestions for misspelled multitoken expressions, usually proper nouns*/
-
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-                                   AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     if (Arrays.stream(patternTokens).allMatch(x -> x.isIgnoredBySpeller())) {
       return null;
     }
     String underlinedError = match.getOriginalErrorStr();
     Language lang = ((PatternRule) match.getRule()).getLanguage();
-    List<String> replacements = lang.getMultitokenSpeller().getSuggestions(underlinedError);
+    // check the spelling for some languages in a different way
+    boolean areTokensAcceptedBySpeller = false;
+    if (lang.getShortCode().equals("en") || lang.getShortCode().equals("de") || lang.getShortCode().equals("pt")
+      || lang.getShortCode().equals("nl")) {
+      if (lang.getShortCodeWithCountryAndVariant().length()==2) {
+        // needed in testing
+        lang = lang.getDefaultLanguageVariant();
+      }
+      areTokensAcceptedBySpeller = !isMisspelled(underlinedError, lang) ;
+    }
+    List<String> replacements = lang.getMultitokenSpeller().getSuggestions(underlinedError, areTokensAcceptedBySpeller);
+    if (replacements.isEmpty()) {
+      return null;
+    }
+    // all upper-case suggestions
+    if (underlinedError.length()>4 && StringTools.isAllUppercase(underlinedError)) {
+      List<String> allupercaseReplacements = new ArrayList<>();
+      for (String replacement : replacements) {
+        String newReplacement = replacement.toUpperCase();
+        if (!allupercaseReplacements.contains(newReplacement) && !underlinedError.equals(newReplacement)) {
+          allupercaseReplacements.add(newReplacement);
+        }
+      }
+      replacements = allupercaseReplacements;
+    } else {
+      // capitalize suggestion at sentence start
+      int wordsStartPos = 1;
+      // ignore punctuation marks at the sentence start to do the capitalization
+      AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
+      while (wordsStartPos<tokens.length && (StringTools.isPunctuationMark(tokens[wordsStartPos].getToken())
+        || StringTools.isNotWordString((tokens[wordsStartPos].getToken())))) {
+        wordsStartPos++;
+      }
+      if (patternTokenPos==wordsStartPos) {
+        List<String> capitalizedReplacements = new ArrayList<>();
+        for (String replacement : replacements) {
+          String newReplacement = replacement;
+          if (replacement.equals(replacement.toLowerCase())) {
+            //do not capitalize iPad
+            newReplacement = StringTools.uppercaseFirstChar(replacement);
+          }
+          if (!capitalizedReplacements.contains(newReplacement) && !underlinedError.equals(newReplacement)) {
+            capitalizedReplacements.add(newReplacement);
+          }
+        }
+        replacements = capitalizedReplacements;
+      }
+    }
     if (replacements.isEmpty()) {
       return null;
     }
@@ -57,4 +95,17 @@ public class MultitokenSpellerFilter extends RuleFilter {
     return match;
   }
 
+  public boolean isMisspelled(String s, Language language) throws IOException {
+    SpellingCheckRule spellerRule = language.getDefaultSpellingRule();
+    if (spellerRule == null) {
+      return false;
+    }
+    List<String> tokens = language.getWordTokenizer().tokenize(s);
+    for (String token : tokens) {
+      if (spellerRule.isMisspelled(token)) {
+        return true;
+      };
+    }
+    return false;
+  }
 }

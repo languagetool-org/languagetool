@@ -19,6 +19,7 @@
 package org.languagetool.tools;
 
 import com.google.common.xml.XmlEscapers;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
@@ -29,6 +30,8 @@ import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 import static java.util.regex.Pattern.*;
 
@@ -40,6 +43,8 @@ import static java.util.regex.Pattern.*;
 public final class StringTools {
 
   private static final Pattern NONCHAR = compile("[^A-Z\\u00c0-\\u00D6\\u00D8-\\u00DE]");
+  private static final Pattern WORD_FOR_SPELLER = Pattern.compile("^[\\p{L}\\d\\p{P}\\p{Zs}]+$");
+  private static final Pattern IS_NUMERIC = Pattern.compile("^[\\d\\s\\.,]*\\d$");
 
   /**
    * Constants for printing XML rule matches.
@@ -68,6 +73,14 @@ public final class StringTools {
   public static final Set<String> UPPERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("Α","Β","Γ","Δ","Ε","Ζ","Η","Θ","Ι","Κ","Λ","Μ","Ν","Ξ","Ο","Π","Ρ","Σ","Τ","Υ","Φ","Χ","Ψ","Ω")));
   public static final Set<String> LOWERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("α","β","γ","δ","ε","ζ","η","θ","ι","κ","λ","μ","ν","ξ","ο","π","ρ","σ","τ","υ","φ","χ","ψ","ω")));
 
+  private static final String[] WHITESPACE_ARRAY = new String[20];
+  static {
+    for (int i = 0; i < 20; i++) {
+      WHITESPACE_ARRAY[i] = StringUtils.repeat(' ', i);
+    }
+  }
+
+  public static final Pattern CHARS_NOT_FOR_SPELLING = compile("[^\\p{L}\\d\\p{P}\\p{Zs}]");
   private static final Pattern XML_COMMENT_PATTERN = compile("<!--.*?-->", DOTALL);
   private static final Pattern XML_PATTERN = compile("(?<!<)<[^<>]+>", DOTALL);
   private static final Pattern PUNCTUATION_PATTERN = compile("[\\p{IsPunctuation}']", DOTALL);
@@ -75,6 +88,41 @@ public final class StringTools {
   private static final Pattern NOT_WORD_STR = compile("[^\\p{L}]+", DOTALL);
   private static final Pattern PATTERN = compile("(?U)[^\\p{Space}\\p{Alnum}\\p{Punct}]");
   private static final Pattern DIACRIT_MARKS = compile("[\\p{InCombiningDiacriticalMarks}]");
+  // Sets of words used for titlecasing in a few locales; useful for named entities in foreign languages, esp. English
+  private static final Set<String> ENGLISH_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(
+    new HashSet<>(Arrays.asList("of", "in", "on", "the", "a", "an", "and", "or"))
+  );
+  private static final Set<String> PORTUGUESE_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(
+    new HashSet<>(Arrays.asList("e", "ou", "que",
+      "de", "do", "dos", "da", "das",
+      "o", "a", "os", "as",
+      "no", "nos", "na", "nas",
+      "ao", "aos", "à", "às"))
+  );
+  private static final Set<String> FRENCH_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(
+    new HashSet<>(Arrays.asList("et", "ou", "que", "qui",
+      "de", "du", "des", "en",
+      "le", "les", "la",
+      "un", "une",
+      "à", "au", "aux"))
+  );
+  private static final Set<String> SPANISH_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(
+    new HashSet<>(Arrays.asList("y", "e", "o", "u", "que",
+      "el", "la", "los", "las",
+      "un", "unos", "una", "unas",
+      "del", "nel", "de", "en", "a", "al"))
+  );
+  private static final Set<String> GERMAN_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(
+    new HashSet<>(Arrays.asList("von", "in", "im", "an", "am", "vom", "und", "oder", "dass", "ob",
+      "der", "die", "das", "dem", "den", "des",
+      "ein", "eines", "einem", "einen", "einer", "eine",
+      "kein", "keines", "keinem", "keinen", "keiner", "keine"))
+  );
+  private static final Set<String> DUTCH_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(
+    new HashSet<>(Arrays.asList("van", "in", "de", "het", "een", "en", "of"))
+  );
+
+  private static final Set<String> ALL_TITLECASE_EXCEPTIONS = collectAllTitleCaseExceptions();
 
   private StringTools() {
     // only static stuff
@@ -217,6 +265,19 @@ public final class StringTools {
     return Character.isLowerCase(str.charAt(0));
   }
 
+  public static boolean allStartWithLowercase(String str) {
+    String[] strParts = str.split(" ");
+    if (strParts.length < 2) {
+      return startsWithLowercase(str);
+    }
+      for (String strPart : strParts) {
+        if (!startsWithLowercase(strPart)) {
+          return false;
+        }
+      }
+      return true;
+    }
+
   /**
    * Return <code>str</code> modified so that its first character is now an
    * uppercase character. If <code>str</code> starts with non-alphabetic
@@ -244,6 +305,44 @@ public final class StringTools {
     } else {
       return changeFirstCharCase(str, true);
     }
+  }
+
+  private static Set<String> collectAllTitleCaseExceptions() {
+    List<Set<String>> setList = Arrays.asList(ENGLISH_TITLECASE_EXCEPTIONS, PORTUGUESE_TITLECASE_EXCEPTIONS,
+      FRENCH_TITLECASE_EXCEPTIONS, SPANISH_TITLECASE_EXCEPTIONS, GERMAN_TITLECASE_EXCEPTIONS, DUTCH_TITLECASE_EXCEPTIONS);
+    Set<String> union = setList.stream().flatMap(Set::stream).collect(Collectors.toSet());
+    return union;
+  }
+
+  /**
+   * Title case a string ignoring a list of words. These words are ignored due to titlecasing conventions in the most
+   * frequent languages. Differs from {@link #convertToTitleCaseIteratingChars(String)} in that it is less aggressive,
+   * i.e., we do not force titlecase in all caps words (e.g. IDEA does not become Idea).
+   * This method behaves the same regardless of the language, and is rather aggressive in its ignoring of words.
+   * We can, possibly, in the future, have language-specific titlecasing conventions.
+   */
+  @Contract("!null -> !null")
+  @Nullable
+  public static String titlecaseGlobal(@Nullable final String str) {
+    assert str != null;
+    String[] strParts = str.split(" ");
+    if (strParts.length == 1) {
+      return uppercaseFirstChar(str);
+    }
+    StringJoiner titlecasedStr = new StringJoiner(" ");
+    for (int i=0; i < strParts.length; i++) {
+      String strPart = strParts[i];
+      if (i == 0) {
+        titlecasedStr.add(uppercaseFirstChar(strPart));
+        continue;
+      }
+      if (ALL_TITLECASE_EXCEPTIONS.contains(strPart.toLowerCase())) {
+        titlecasedStr.add(lowercaseFirstCharIfCapitalized(strPart));
+      } else {
+        titlecasedStr.add(uppercaseFirstChar(strPart));
+      }
+    }
+    return titlecasedStr.toString();
   }
 
   /**
@@ -793,7 +892,7 @@ public final class StringTools {
     StringBuilder converted = new StringBuilder();
     boolean convertNext = true;
     for (char ch : text.toCharArray()) {
-      if (Character.isSpaceChar(ch)) {
+      if (Character.isSpaceChar(ch) || ch == '-') {
         convertNext = true;
       } else if (convertNext) {
         ch = Character.toTitleCase(ch);
@@ -804,6 +903,37 @@ public final class StringTools {
       converted.append(ch);
     }
     return converted.toString();
+  }
+
+  /**
+   * Checks whether a given String is an Emoji with a string length larger 1.
+   * @param word to be checked
+   * @since 6.4
+   */
+  public static boolean isEmoji(String word) {
+    if (word.length() > 1 && word.codePointCount(0, word.length()) != word.length()) {
+      // some symbols such as emojis (😂) have a string length that equals 2
+      return !WORD_FOR_SPELLER.matcher(word).matches();
+    }
+    return false;
+  }
+
+  /*
+   * Replace characters that are not letters, digits, punctuation or white spaces
+   * by white spaces
+   * @param word to be checked
+   * @since 6.4
+   */
+  public static String stringForSpeller(String s) {
+    if (s.length() > 1 && s.codePointCount(0, s.length()) != s.length()) {
+      Matcher matcher = CHARS_NOT_FOR_SPELLING.matcher(s);
+      while (matcher.find()) {
+        String found = matcher.group(0);
+        // some symbols such as emojis (😂) have a string length larger than 1
+        s = s.replace(found, WHITESPACE_ARRAY[found.length()]);
+      }
+    }
+    return s;
   }
 
   public static String[] splitCamelCase(String input) {
@@ -852,5 +982,9 @@ public final class StringTools {
     Arrays.sort(charArray1);
     Arrays.sort(charArray2);
     return Arrays.equals(charArray1, charArray2);
+  }
+
+  public static boolean isNumeric(String string) {
+    return IS_NUMERIC.matcher(string).matches();
   }
 }

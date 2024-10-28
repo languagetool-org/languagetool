@@ -19,6 +19,8 @@
 
 package org.languagetool.tagging.disambiguation.uk;
 
+import static java.util.regex.Pattern.compile;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,8 +46,6 @@ import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.uk.PosTagHelper;
 
-import static java.util.regex.Pattern.compile;
-
 /**
  * Hybrid chunker-disambiguator for Ukrainian.
  */
@@ -69,7 +69,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 
   private final Disambiguator chunker = new UkrainianMultiwordChunker("/uk/multiwords.txt", true);
 
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Ukrainian());
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(Ukrainian.DEFAULT_VARIANT);
   private final SimpleDisambiguator simpleDisambiguator = new SimpleDisambiguator();
 
   static final Set<String> V_MIS_PREPS = CaseGovernmentHelper.CASE_GOVERNMENT_MAP.entrySet()
@@ -108,7 +108,31 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     disambiguateSt(input);
     disambiguatePronPos(input);
     retagPulralProp(input);
+    removeVerbImpr(input);
     return input;
+  }
+
+  private void removeVerbImpr(AnalyzedSentence input) {
+    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
+    for (int i = 2; i < tokens.length; i++) {
+      List<AnalyzedToken> analyzedTokens = tokens[i].getReadings();
+      
+      if( PosTagHelper.hasPosTag(tokens[i], Pattern.compile("verb.*impr.*"))
+          && PosTagHelper.hasPosTag(tokens[i], Pattern.compile("noun.*"))
+          && PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile("adj.*")) ) {
+
+        List<InflectionHelper.Inflection> masterInflections = InflectionHelper.getAdjInflections(tokens[i-1].getReadings());
+        List<InflectionHelper.Inflection> slaveInflections = InflectionHelper.getNounInflections(tokens[i].getReadings(), Pattern.compile("v_zna:var"));
+
+        if( ! Collections.disjoint(masterInflections, slaveInflections) ) {
+        
+          List<AnalyzedToken> verbReadings = PosTagHelper.filter(analyzedTokens, Pattern.compile("verb.*impr.*"));
+          for(AnalyzedToken analyzedToken: verbReadings) {
+            tokens[i].removeReading(analyzedToken, "not_an_imperative_2");
+          }
+        }
+      }
+    }
   }
 
   private void retagFemNames(AnalyzedSentence input) {
@@ -347,7 +371,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     }
   }
 
-  private static final List<String> LIKELY_V_KLY = Arrays.asList("суде", "роде", "заходе", "місяченьку");
+  private static final List<String> LIKELY_V_KLY = Arrays.asList("суде", "роде", "заходе", "місяченьку", "редакціє");
   private boolean likelyVklyContext(AnalyzedTokenReadings[] tokens, int i) {
     if( LIKELY_V_KLY.contains(tokens[i].getToken().toLowerCase()) )
       return true;
@@ -400,8 +424,11 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
         }
       }
       if( pluralNameReadings.size() > 0 && otherFound ) {
-        for(AnalyzedToken analyzedToken: pluralNameReadings) {
-          tokens[i].removeReading(analyzedToken, "plural_for_names");
+        // наймолодшого з Моцартів
+        if( ! LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("з", "із", "зі"), "prep") ) {
+          for(AnalyzedToken analyzedToken: pluralNameReadings) {
+            tokens[i].removeReading(analyzedToken, "plural_for_names");
+          }
         }
       }
     }
@@ -462,7 +489,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 //          }
         }
 
-        AnalyzedToken newToken = new AnalyzedToken(tokens[i].getToken(), "noninf:abbr", null);
+        AnalyzedToken newToken = new AnalyzedToken(tokens[i].getToken(), "noninfl:abbr", null);
         tokens[i].addReading(newToken, "dis_unknown_initials");
       }
     }

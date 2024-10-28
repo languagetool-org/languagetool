@@ -46,12 +46,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.net.JarURLConnection;
-import java.net.URL;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Function;
-import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -78,17 +75,30 @@ public class JLanguageTool {
   private static final Logger logger = LoggerFactory.getLogger(JLanguageTool.class);
   private static final Pattern ZERO_WIDTH_NBSP = Pattern.compile("(?<=\uFEFF)|(?=\uFEFF)");
 
-  /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
-  public static final String VERSION = "6.4-SNAPSHOT";
-  /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
-  @Nullable public static final String BUILD_DATE = getBuildDate();
   /**
-   * Abbreviated git id or {@code null} if not available.
-   *
-   * @since 4.5
+   * LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}.
+   * @deprecated Please use LtBuildInfo.OS.getVersion() instead.
    */
   @Nullable
-  public static final String GIT_SHORT_ID = getShortGitId();
+  @Deprecated
+  public static final String VERSION = LtBuildInfo.OS.getVersion();
+
+  /**
+   * LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR.
+   * @deprecated Please use LtBuildInfo.OS.getBuildDate() instead.
+   */
+  @Nullable
+  @Deprecated
+  public static final String BUILD_DATE = LtBuildInfo.OS.getBuildDate();
+
+  /**
+   * Abbreviated git id or {@code null} if not available.
+   * @since 4.5
+   * @deprecated Please use LtBuildInfo.OS.getShortGitId() instead.
+   */
+  @Nullable
+  @Deprecated
+  public static final String GIT_SHORT_ID = LtBuildInfo.OS.getShortGitId();
 
   /**
    * The name of the file with error patterns.
@@ -133,48 +143,6 @@ public class JLanguageTool {
   private final ShortDescriptionProvider descProvider;
 
   private float maxErrorsPerWordRate;
-
-  /**
-   * Returns the build date or {@code null} if not run from JAR.
-   */
-  @Nullable
-  private static String getBuildDate() {
-    try {
-      URL res = getDataBroker().getAsURL("/" + JLanguageTool.class.getName().replace('.', '/') + ".class");
-      if (res == null) {
-        // this will happen on Android, see http://stackoverflow.com/questions/15371274/
-        return null;
-      }
-      Object connObj = res.openConnection();
-      if (connObj instanceof JarURLConnection) {
-        Manifest manifest = ((JarURLConnection) connObj).getManifest();
-        if (manifest != null) {
-          return manifest.getMainAttributes().getValue("Implementation-Date");
-        }
-      }
-      return null;
-    } catch (IOException e) {
-      throw new RuntimeException("Could not get build date from JAR", e);
-    }
-  }
-
-  /**
-   * Returns the abbreviated git id or {@code null}.
-   */
-  @Nullable
-  private static String getShortGitId() {
-    try {
-      InputStream in = getDataBroker().getAsStream("/git.properties");
-      if (in != null) {
-        Properties props = new Properties();
-        props.load(in);
-        return props.getProperty("git.commit.id.abbrev");
-      }
-      return null;
-    } catch (IOException e) {
-      throw new RuntimeException("Could not get git id from 'git.properties'", e);
-    }
-  }
 
   private static ResourceDataBroker dataBroker = new DefaultResourceDataBroker();
   private static ClassBroker classBroker = new DefaultClassBroker();
@@ -636,7 +604,7 @@ public class JLanguageTool {
 
   public void activateRemoteRules(List<RemoteRuleConfig> configs) throws IOException {
     List<RemoteRuleConfig> remoteRuleConfigs = new ArrayList<>(configs);
-    if (userConfig.isUntrustedSource()) {
+    if (!userConfig.isTrustedSource()) {
       remoteRuleConfigs = configs.stream().filter(remoteRuleConfig -> !remoteRuleConfig.getOptions().getOrDefault("onlyTrustedSources", "false").equals("true")).collect(Collectors.toList());
     }
     List<Rule> rules = language.getRelevantRemoteRules(getMessageBundle(language), remoteRuleConfigs,
@@ -826,6 +794,18 @@ public class JLanguageTool {
    * sentences against all currently active rules.
    *
    * @param text the text to be checked
+   * @param level the level to use for text checking, e.g. whether picky rules should be activated
+   * @return a List of {@link RuleMatch} objects
+   */
+  public List<RuleMatch> check(String text, Level level) throws IOException {
+    return check(new AnnotatedTextBuilder().addText(text).build(), true, ParagraphHandling.NORMAL, null, level);
+  }
+
+  /**
+   * The main check method. Tokenizes the text into sentences and matches these
+   * sentences against all currently active rules.
+   *
+   * @param text the text to be checked
    * @return a List of {@link RuleMatch} objects
    * @since 3.7
    */
@@ -883,10 +863,18 @@ public class JLanguageTool {
   /**
    * The main check method. Tokenizes the text into sentences and matches these
    * sentences against all currently active rules.
+   */
+  public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener) throws IOException {
+    return check(annotatedText, tokenizeText, paraMode, listener, Level.DEFAULT);
+  }
+
+  /**
+   * The main check method. Tokenizes the text into sentences and matches these
+   * sentences against all currently active rules.
    *
    * @since 3.7
    */
-  public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener) throws IOException {
+  public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener, Level level) throws IOException {
     Mode mode;
     if (paraMode == ParagraphHandling.ONLYNONPARA) {
       mode = Mode.ALL_BUT_TEXTLEVEL_ONLY;
@@ -895,7 +883,7 @@ public class JLanguageTool {
     } else {
       mode = Mode.ALL;
     }
-    return check(annotatedText, tokenizeText, paraMode, listener, mode, Level.DEFAULT);
+    return check(annotatedText, tokenizeText, paraMode, listener, mode, level);
   }
 
   /**
@@ -991,6 +979,7 @@ public class JLanguageTool {
     List<RuleMatch> remoteMatches = new LinkedList<>();
     List<FutureTask<RemoteRuleResult>> remoteRuleTasks;
 
+    // tone tag and level filtering can not be applied to these rules before processing
     List<RemoteRule> remoteRules = rules.allRules().stream()
       .filter(RemoteRule.class::isInstance).map(RemoteRule.class::cast)
       .collect(Collectors.toList());
@@ -1019,11 +1008,12 @@ public class JLanguageTool {
             paraMode, annotatedText, listener, mode, level, remoteRulesThreadPool == null, toneTags);
     long textCheckEnd = System.nanoTime();
 
+    Map<String, RemoteRuleResult> remoteRulesResults = null;
     try {
-      TelemetryProvider.INSTANCE.createSpan("fetch-remote-rules",
+      remoteRulesResults = TelemetryProvider.INSTANCE.createSpan("fetch-remote-rules",
         Attributes.builder().put("check.remote_rules.count", remoteRules.size()).build(),
         () -> fetchRemoteRuleResults(deadlineStartNanos, mode, level, analyzedSentences, remoteMatches, remoteRuleTasks, remoteRules, requestSize,
-        cachedResults, matchOffset, annotatedText, textSessionID, toneTags));
+          cachedResults, matchOffset, annotatedText, textSessionID, toneTags));
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -1045,7 +1035,7 @@ public class JLanguageTool {
       return res;
     }
 
-    ruleMatches = filterMatches(annotatedText, rules, ruleMatches);
+    ruleMatches = filterMatches(annotatedText, rules, ruleMatches, level, toneTags, remoteRulesResults);
 
     // decide if this should be done right after performCheck, before waiting for remote rule results
     // better for latency, remote rules probably don't need resorting
@@ -1063,69 +1053,109 @@ public class JLanguageTool {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+    // TODO: maybe we need another filter pass after post processing eventually or move it here
+    // but currently post processing is not extensively used
+
     return new CheckResults(ruleMatches, res.getIgnoredRanges(), res.getExtendedSentenceRanges());
   }
 
-  private List<RuleMatch> filterMatches(AnnotatedText annotatedText, RuleSet rules, List<RuleMatch> ruleMatches) {
+  private List<RuleMatch> filterMatches(AnnotatedText annotatedText, RuleSet rules, List<RuleMatch> ruleMatches, Level level,
+                                        Set<ToneTag> toneTags, Map<String, RemoteRuleResult> remoteRulesResults) {
     // rules can create matches with rule IDs different from the original rule (see e.g. RemoteRules)
     // so while we can't avoid execution of these rules, we still want disabling them to work
     // so do another pass with ignoreRule here
     ruleMatches = ruleMatches.stream().filter(match -> !ignoreRule(match.getRule())).collect(Collectors.toList());
 
+    ruleMatches = ruleMatches.stream().filter(match -> isRuleActiveForLanguageWithModel(
+      match.getRule(), language, remoteRulesResults)).collect(Collectors.toList());
+
+    ruleMatches = ruleMatches.stream().filter(match -> isRuleActiveForLevelAndToneTags(
+      match.getRule(), level, toneTags)).collect(Collectors.toList());
+
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
     // no sorting: SameRuleGroupFilter sorts rule matches already
-    ruleMatches = new LanguageDependentMergeSuggestionFilter(language, rules).filter(ruleMatches, annotatedText);
+    ruleMatches = new LanguageDependentRuleMatchFilter(language, rules).filter(ruleMatches, annotatedText);
     if (cleanOverlappingMatches) {
       ruleMatches = new CleanOverlappingFilter(language, userConfig.getHidePremiumMatches()).filter(ruleMatches);
     }
-    ruleMatches = new LanguageDependentFilter(language, rules).filter(ruleMatches);
-
     return applyCustomFilters(ruleMatches, annotatedText);
   }
 
+  private boolean isRuleActiveForLanguageWithModel(Rule rule, Language language, Map<String, RemoteRuleResult> remoteRulesResults) {
+    if (language.getShortCode().equals("fr")) {
+      List<String> disableFrenchRuleGroups = Arrays.asList("OU", "OU_FIGEES", "VIRG_NON_TROUVEE", "A_A_ACCENT","A_ACCENT_A", "CONFUSION_A_AS", "AGREEMENT_POSTPONED_ADJ", "LA_OU", "CONFUSION_RULE_PREMIUM_AIRE_AIR"); // List for rule group IDs
+      List<String> disableFrenchSpecificSubrules = Arrays.asList("A_A_ACCENT2[1]", "ACCORD_SUJET_VERBE[55]", "PAS_DE_VIRGULE[42]"); // List for specific subrules
+      RemoteRuleResult remoteRulesResult = remoteRulesResults.get("AI_FR_GGEC");
+      if (remoteRulesResult != null && remoteRulesResult.isSuccess()) {
+        boolean isDisabledGroup = disableFrenchRuleGroups.contains(rule.getId());
+        boolean isDisabledSubrule = disableFrenchSpecificSubrules.contains(rule.getFullId());
+        return !(isDisabledGroup || isDisabledSubrule);
+      }
+    }
+    if (language.getShortCode().equals("es")) {
+      List<String> disableSpanishRules = Arrays.asList("AGREEMENT_POSTPONED_ADJ");
+      RemoteRuleResult remoteRulesResult = remoteRulesResults.get("AI_ES_GGEC");
+      if (remoteRulesResult != null) {
+        if (remoteRulesResult.isSuccess()) {
+          return !disableSpanishRules.contains(rule.getId());
+        }
+      }
+    }
+    return true;
+  }
+
   private final Map<LevelToneTagCacheKey, RuleSet> ruleSetCache = new ConcurrentHashMap<>();
+
+  static boolean isRuleActiveForLevelAndToneTags(Rule rule, Level level, Set<ToneTag> toneTags) {
+
+    if (level == Level.DEFAULT && rule.hasTag(Tag.picky)) {
+      return false;
+    }
+
+    List<ToneTag> enabledToneTags;
+    if (toneTags.contains(ToneTag.ALL_TONE_RULES)) {
+      enabledToneTags = ToneTag.REAL_TONE_TAGS;
+    } else if (toneTags.contains(ToneTag.NO_TONE_RULE)) {
+      enabledToneTags = Collections.emptyList(); //Even clarity rules will be disabled.
+    } else if (toneTags.isEmpty() || toneTags.contains(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC)){
+      enabledToneTags = Collections.singletonList(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC);
+    } else {
+      enabledToneTags = new ArrayList<>(toneTags);
+    }
+
+    if (rule.getToneTags().isEmpty()) {
+      return true;
+    }
+    if (enabledToneTags.contains(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC)) {
+      return !rule.isGoalSpecific();
+    }
+    boolean removeRule = true;
+    for (ToneTag toneTag : enabledToneTags) {
+      if (rule.hasToneTag(toneTag)) {
+        removeRule = false;
+        break;
+      }
+    }
+    return !removeRule;
+  }
 
   private RuleSet getActiveRulesForLevelAndToneTags(Level level, Set<ToneTag> toneTags) {
     LevelToneTagCacheKey key = new LevelToneTagCacheKey(level, toneTags);
     return ruleSetCache.computeIfAbsent(key, levelToneTagCacheKey -> {
       List<Rule> allRules = new ArrayList<>(getAllActiveRules());
-      List<ToneTag> enabledToneTags;
-      if (toneTags.contains(ToneTag.ALL_TONE_RULES)) {
-        enabledToneTags = ToneTag.REAL_TONE_TAGS;
-      } else if (toneTags.contains(ToneTag.NO_TONE_RULE)) {
-        enabledToneTags = Collections.emptyList(); //Even clarity rules will be disabled.
-      } else if (toneTags.isEmpty() || toneTags.contains(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC)){
-        enabledToneTags = Collections.singletonList(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC);
-      } else {
-        enabledToneTags = new ArrayList<>(toneTags);
-      }
-      allRules.removeIf(rule -> {
-        if (rule.getToneTags().isEmpty()) {
-          return false;
-        }
-        if (enabledToneTags.contains(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC)) {
-          return rule.isGoalSpecific();
-        }
-        boolean removeRule = true;
-        for (ToneTag toneTag : enabledToneTags) {
-          if (rule.hasToneTag(toneTag)) {
-            removeRule = false;
-            break;
-          }
-        }
-        return removeRule;
-      });
-      return RuleSet.textLemmaHinted(levelToneTagCacheKey.getLevel() == Level.DEFAULT ? allRules.stream().filter(rule -> !rule.hasTag(Tag.picky)).collect(Collectors.toList()) : allRules);
+      allRules.removeIf(rule -> !isRuleActiveForLevelAndToneTags(rule, level, toneTags));
+      return RuleSet.textLemmaHinted(allRules);
     });
   }
 
-  protected void fetchRemoteRuleResults(long deadlineStartNanos, Mode mode, Level level, List<AnalyzedSentence> analyzedSentences, List<RuleMatch> remoteMatches,
+  protected Map<String, RemoteRuleResult> fetchRemoteRuleResults(long deadlineStartNanos, Mode mode, Level level, List<AnalyzedSentence> analyzedSentences, List<RuleMatch> remoteMatches,
                                         List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
                                         List<Integer> requestSize,
                                         Map<Integer, List<RuleMatch>> cachedResults,
                                         Map<Integer, Integer> matchOffset,
                                         AnnotatedText annotatedText, Long textSessionID,
                                         Set<ToneTag> toneTags) {
+    Map<String, RemoteRuleResult> remoteRuleResults = new HashMap<>();
     if (remoteRuleTasks != null && !remoteRuleTasks.isEmpty()) {
       int timeout = IntStream.range(0, requestSize.size()).map(i ->
         (int) remoteRules.get(i).getTimeout(requestSize.get(i))
@@ -1150,12 +1180,16 @@ public class JLanguageTool {
           RemoteRuleMetrics.request(ruleKey, deadlineStartNanos, chars, RemoteRuleMetrics.RequestResult.DOWN);
           continue;
         }
+        RemoteRuleResult remoteRuleResult = null;
         try {
           //logger.info("Fetching results for remote rule for {} chars", chars);
-          RemoteRuleMetrics.inCircuitBreaker(deadlineStartNanos, rule.circuitBreaker(), ruleKey, chars, () ->
+          remoteRuleResult = RemoteRuleMetrics.inCircuitBreaker(deadlineStartNanos, rule.circuitBreaker(), ruleKey, chars, () ->
             fetchResults(deadlineStartNanos, mode, level, analyzedSentences, remoteMatches, matchOffset, annotatedText, textSessionID, chars, deadlineEndNanos, task, rule, ruleKey, toneTags));
         } catch (InterruptedException e) {
           break;
+        }
+        if (remoteRuleResult != null) {
+          remoteRuleResults.put(ruleKey, remoteRuleResult);
         }
       }
 
@@ -1177,6 +1211,7 @@ public class JLanguageTool {
       // cancel any remaining tasks (e.g. after interrupt because request timed out)
       remoteRuleTasks.stream().filter(Objects::nonNull).forEach(t -> t.cancel(true));
     }
+    return remoteRuleResults;
   }
 
   private RemoteRuleResult fetchResults(long deadlineStartNanos, Mode mode, Level level, List<AnalyzedSentence> analyzedSentences, List<RuleMatch> remoteMatches, Map<Integer, Integer> matchOffset, AnnotatedText annotatedText, Long textSessionID, long chars, long deadlineEndNanos, FutureTask<RemoteRuleResult> task, RemoteRule rule, String ruleKey, Set<ToneTag> toneTags) throws InterruptedException, ExecutionException, TimeoutException {
@@ -1378,6 +1413,11 @@ public class JLanguageTool {
     int lineCount = 0;
     int columnCount = 1;
     List<SentenceData> result = new ArrayList<>(texts.size());
+
+    if (analyzedSentences == null || analyzedSentences.isEmpty()) {
+      return result;
+    }
+
     for (int i = 0; i < texts.size(); i++) {
       String sentence = texts.get(i);
       result.add(new SentenceData(analyzedSentences.get(i), sentence, charCount, lineCount, columnCount));
@@ -2130,7 +2170,7 @@ public class JLanguageTool {
     }
   }
 
-  public void setConfigValues(Map<String, Integer> v) {
+  public void setConfigValues(Map<String, Object[]> v) {
     userConfig.insertConfigValues(v);
   }
 

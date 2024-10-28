@@ -91,7 +91,6 @@ else
   if grep -q -e "languagetool-language-modules/tl/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/tl,$PROJECTS"; fi
   if grep -q -e "languagetool-language-modules/uk/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/uk,$PROJECTS"; fi
   if grep -q -e "languagetool-language-modules/zh/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/zh,$PROJECTS"; fi
-  if grep -q -e "languagetool-office-extension/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-office-extension,$PROJECTS"; fi
   if grep -q -e "languagetool-server/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-server,$PROJECTS"; fi
   if grep -q -e "languagetool-standalone/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-standalone,$PROJECTS"; fi
   if grep -q -e "languagetool-tools/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-tools,$PROJECTS"; fi

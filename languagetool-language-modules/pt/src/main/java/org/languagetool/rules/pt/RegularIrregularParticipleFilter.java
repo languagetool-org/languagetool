@@ -20,6 +20,7 @@
 package org.languagetool.rules.pt;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.languagetool.AnalyzedToken;
@@ -38,7 +39,7 @@ public class RegularIrregularParticipleFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
 
     String direction = getRequired("direction", arguments); // RegularToIrregular or IrregularToRegular
     AnalyzedTokenReadings atr = null;

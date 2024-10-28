@@ -34,7 +34,7 @@ public class HiddenCharacterRuleTest {
   @Test
   public void testRule() throws IOException {
     HiddenCharacterRule rule = new HiddenCharacterRule(TestTools.getMessages("uk"));
-    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
 
     // correct sentences:
     assertEquals(0, rule.match(lt.getAnalyzedSentence("сміття")).length);

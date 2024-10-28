@@ -33,6 +33,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tools.StringTools;
 
@@ -42,7 +43,6 @@ import org.languagetool.tools.StringTools;
 
 public class OblidarseSugestionsFilter extends RuleFilter {
 
-  static private CatalanSynthesizer synth = CatalanSynthesizer.INSTANCE;
   Language lang = Languages.getLanguageForShortCode("ca");
 
   Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
@@ -89,12 +89,9 @@ public class OblidarseSugestionsFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     int posWord = 0;
-    if (match.getSentence().getText().contains("A massa gent")) {
-      int ii = 0;
-      ii++;
-    }
+    Synthesizer synth = getSynthesizerFromRuleMatch(match);
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     while (posWord < tokens.length
         && (tokens[posWord].getStartPos() < match.getFromPos() || tokens[posWord].isSentenceStart())) {
@@ -113,7 +110,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
     }
     AnalyzedToken at = new AnalyzedToken("", "", lemma);
     String[] synthForms = synth.synthesize(at,
-        verbPostag.substring(0, 4) + pronomGenderNumber + verbPostag.substring(6, 8), getLanguageVariantCode(match));
+        verbPostag.substring(0, 4) + pronomGenderNumber + verbPostag.substring(6, 8));
     String newVerb = "";
     if (synthForms.length == 0) {
       return null;

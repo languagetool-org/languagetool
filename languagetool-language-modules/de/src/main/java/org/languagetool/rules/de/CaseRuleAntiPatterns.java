@@ -36,6 +36,53 @@ class CaseRuleAntiPatterns {
   // also see case_rule_exceptions.txt:
   static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      csRegex("von"),
+      csRegex("Gleich"),
+      csRegex("zu"),
+      csRegex("Gleich")
+    ),
+    Arrays.asList(
+      csRegex("[iI]n"),
+      csRegex("-"),
+      csRegex("und|oder"),
+      csRegex("[Aa]us.*")
+    ),
+    Arrays.asList(
+      csRegex("[1-9]{2,4}"),
+      csRegex(":"),
+      csRegex("[A-ZÜÄÖ][a-züäö].*")
+    ),
+    Arrays.asList(
+      csRegex("In"),
+      csRegex(":"),
+      csRegex("[A-ZÜÄÖ][a-züäö].*")
+    ),
+    Arrays.asList(
+      csRegex("China"),
+      csRegex("National"),
+      csRegex("Petroleum")
+    ),
+    Arrays.asList(
+      csRegex("Republik"),
+      csRegex("der"),
+      csRegex("Sieben"),
+      csRegex("Vereinigten"),
+      csRegex("Provinzen|Niederlande")
+    ),
+    Arrays.asList(
+      csRegex("Rat"),
+      csRegex("für"),
+      csRegex("das"),
+      csRegex("Europäische"),
+      csRegex("Hilfswerk")
+    ),
+    Arrays.asList(
+      csRegex("Museum"),
+      csRegex("der"),
+      csRegex("Bayerischen"),
+      csRegex("Geschichte")
+    ),
+    Arrays.asList(
       token("Planten"),
       token("un"),
       regex("Blomens?")
@@ -1334,7 +1381,7 @@ class CaseRuleAntiPatterns {
       csRegex("[a-zäöü…\\.!:;,\\?…\\)].*")
     ),
     Arrays.asList( // Ich habe noch Dringendes mitzuteilen
-      csRegex("Dringende[ms]|Bare[ms]|Vertraute[ms]|Positive[sm]|Negative[sm]|Gelernte[ms]|Neue[ms]|Alte[ms]|Bessere[ms]|Störende[ms]|Schlechteres|Schlechte[ms]|Schöne[ms]|Schönere[ms]|Schlimmere[ms]|Zutreffendes|Unzutreffende[ms]|Gesehene[ms]|Ungesehene[ms]|Abgerissene[ms]|Versoffenes|Empfehlenswerte[ms]|Entnommene[ms]|Sü(ß|ss)e[ms]|Saure[ms]|Wesentliche[ms]|Gegenteilige[ms]|Wegweisende[ms]|Hochprozentige[ms]|Erlernte[ms]|Vergangene[ms]|Unglaubliche[ms]|Schlimme[ms]|Eingemachte[ms]|Rare[ms]|Brauchbare[ms]|Unbrauchbare[ms]|Gesehene[ms]|Erlebte[ms]|Private[ms]|Berufliche[ms]|Ungeheuerliche[ms]|Vegane[ms]|Vegetarische[ms]|Eingemachte[ms]|Erwünschte[ms]|Äu(ß|ss)erste[ms]|Äu(ß|ss)ere[ms]|Inhaltliche[ms]|Vernichtende[ms]|Salzige[ms]|Sü(ß|ss)e[ms]|Selbstgemachte[ms]|Inhaltliche[ms]|Au(ß|ss)erordentliche[ms]|Säuerliche[ms]|Göttliche[ms]||Hochprozentige[sm]|Erbrochene[ms]|Innere[mns]|Vorhandene[ms]|Relevante[ms]|Geübte[ms]|Unmögliche[ms]|Mögliche[ms]|Näheres|Wissenswerte[ms]|Fundamentale[ms]|Interessante[ms]|Uninteressante[ms]|Entsetzliche[ms]|Hartnäckige[ms]|Ersparte[ms]|Halbgare[ms]|Universale[ms]|Finanzielle[ms]|Überraschendes|Grundlegendes|Gesunde[ms]|Ungesunde[ms]|Tagesaktuelle[ms]|Aktuelle[ms]|Geschehene[ms]|Ungeschehene[ms]|Böse[ms]|Gesagte[ms]|Aufregende[sm]|Ausgestelltes|Verschiedenes|Verborgenes|Soziale[ms]|Erfundenes|Gro(ß|ss)es|Neueres|Au(ß|ss)ergewöhnliche[ms]|Zukunftsfähige[sm]|Administrative[ms]|Beunruhigendes|Naturverträgliches|Nachhaltiges|Verderbliche[ms]|Sinnstiftendes|Unüberlegtes|Alltägliche[sm]|Geartetes?|Allgemeines?|Übernatürliches?|Juristisches?|Rechtliches?|Vielfältiges?|Kommunales|Wundervolles?|Abgelaufenes|Erstere[ms]|Zweitere[ms]|Letztere[ms]|Unvermeidliches?|Fressbares?|Essbares?|Erbrochene[sm]|Politische[sm]|Regionale[sm]|Recherchiertes|Höheres|Kleineres|Deftiges|Liebes|Grünes|Diverses|Machbare[ms]|Nachweisbare[ms]|Zerstörtes|Öffentliches|Produktives|Entbehrliches|Notwendiges|Sinnvolle[ms]|Bewährte[ms]|Nötiges|Erfreuliches|Frustrierendes|Vorübergehendes|Untaugliches|Rohes|Nettes|Blödes|Unerwartetes|Lesenswerte[ms]|Geplantes|Ungeplantes|Redaktionelles|Spezielle[ms]|Spezifische[ms]|Staatstragendes|Organisatorisches|Übersehenes|Altbewährte[ms]|Erstaunliches|Verdächtiges|Au(ß|ss)ergewöhnliches|Ungewöhnliches|Unerreichbare[ms]|Bezahltes|Unbezahltes|Beschämendes|Grundsätzliche[sm]|Freiheitliches|Übrige[ms]|Ähnliche[ms]|Letztgenannte[ms]|Echtes|Unechtes|Gro(ß|ss)artige[ms]|Esoterisches|Qualifizierte[ms]|Unqualifizierte[ms]|Grö(ß|ss)eres|Postmodernes|Unklares|Bezahlbares|Unbezahlbares|Gemischte[ms]|Gebündelte[ms]|Lebendige[ms]|Angenommenes|Zeitgenössisches|Geistliches|Elementare[ms]|Bitteres|Äu(ß|ss)erliches|Spannendes|Kurioses|Digitale[ms]|Hervorgebrachte[ms]|Gewirktes|Altbekannte[ms]|Gehackte[sm]|Gewordenes|Erkennbares|Verstörende[sm]|Versaute[ms]|Nachdenkliches|Bestehendes|Beobachtetes|Originelle[ms]|Derartige[sm]|Schriftliches|Mündliches|Verblühte[ms]|Faszinierende[ms]|Christliches|Gute[ms]|Böse[ms]||Folgende[ms]|Letztere[ms]|Erstere[ms]|Schreckliche[ms]|Falsche[sm]|Richtige[ms]|Hässliche[sm]|Auswärtige[ms]|Nervige[ms]|Ätzende[ms]|Kleine[ms]|Gro(ß|ss)e[ms]|Riskante[ms]|Liebenswertes"),
+      csRegex("Dringende[ms]|Bare[ms]|Vertraute[ms]|Positive[sm]|Negative[sm]|Gelernte[ms]|Neue[ms]|Alte[ms]|Bessere[ms]|Störende[ms]|Schlechteres|Schlechte[ms]|Schöne[ms]|Schönere[ms]|Schlimmere[ms]|Zutreffendes|Unzutreffende[ms]|Gesehene[ms]|Ungesehene[ms]|Abgerissene[ms]|Versoffenes|Empfehlenswerte[ms]|Entnommene[ms]|Sü(ß|ss)e[ms]|Saure[ms]|Wesentliche[ms]|Gegenteilige[ms]|Wegweisende[ms]|Hochprozentige[ms]|Erlernte[ms]|Vergangene[ms]|Unglaubliche[ms]|Schlimme[ms]|Eingemachte[ms]|Rare[ms]|Brauchbare[ms]|Unbrauchbare[ms]|Gesehene[ms]|Erlebte[ms]|Private[ms]|Berufliche[ms]|Ungeheuerliche[ms]|Vegane[ms]|Vegetarische[ms]|Eingemachte[ms]|Erwünschte[ms]|Äu(ß|ss)erste[ms]|Äu(ß|ss)ere[ms]|Inhaltliche[ms]|Vernichtende[ms]|Salzige[ms]|Sü(ß|ss)e[ms]|Selbstgemachte[ms]|Inhaltliche[ms]|Au(ß|ss)erordentliche[ms]|Säuerliche[ms]|Göttliche[ms]||Hochprozentige[sm]|Erbrochene[ms]|Innere[mns]|Vorhandene[ms]|Relevante[ms]|Geübte[ms]|Unmögliche[ms]|Mögliche[ms]|Näheres|Wissenswerte[ms]|Fundamentale[ms]|Interessante[ms]|Uninteressante[ms]|Entsetzliche[ms]|Hartnäckige[ms]|Ersparte[ms]|Halbgare[ms]|Universale[ms]|Finanzielle[ms]|Überraschendes|Grundlegendes|Gesunde[ms]|Ungesunde[ms]|Tagesaktuelle[ms]|Aktuelle[ms]|Geschehene[ms]|Ungeschehene[ms]|Böse[ms]|Gesagte[ms]|Aufregende[sm]|Ausgestelltes|Verschiedenes|Verborgenes|Soziale[ms]|Erfundenes|Gro(ß|ss)es|Neueres|Au(ß|ss)ergewöhnliche[ms]|Zukunftsfähige[sm]|Administrative[ms]|Beunruhigendes|Naturverträgliches|Nachhaltiges|Verderbliche[ms]|Sinnstiftendes|Unüberlegtes|Alltägliche[sm]|Geartetes?|Allgemeines?|Übernatürliches?|Juristisches?|Rechtliches?|Vielfältiges?|Kommunales|Wundervolles?|Abgelaufenes|Erstere[ms]|Zweitere[ms]|Letztere[ms]|Unvermeidliches?|Fressbares?|Essbares?|Erbrochene[sm]|Politische[sm]|Regionale[sm]|Recherchiertes|Höheres|Kleineres|Deftiges|Liebes|Grünes|Diverses|Machbare[ms]|Nachweisbare[ms]|Zerstörtes|Öffentliches|Produktives|Entbehrliches|Notwendiges|Sinnvolle[ms]|Bewährte[ms]|Nötiges|Erfreuliches|Frustrierendes|Vorübergehendes|Untaugliches|Rohes|Nettes|Blödes|Unerwartetes|Lesenswerte[ms]|Geplantes|Ungeplantes|Redaktionelles|Spezielle[ms]|Spezifische[ms]|Staatstragendes|Organisatorisches|Übersehenes|Altbewährte[ms]|Erstaunliches|Verdächtiges|Au(ß|ss)ergewöhnliches|Ungewöhnliches|Unerreichbare[ms]|Bezahltes|Unbezahltes|Beschämendes|Grundsätzliche[sm]|Freiheitliches|Übrige[ms]|Ähnliche[ms]|Letztgenannte[ms]|Echtes|Unechtes|Gro(ß|ss)artige[ms]|Esoterisches|Qualifizierte[ms]|Unqualifizierte[ms]|Grö(ß|ss)eres|Postmodernes|Unklares|Bezahlbares|Unbezahlbares|Gemischte[ms]|Gebündelte[ms]|Lebendige[ms]|Angenommenes|Zeitgenössisches|Geistliches|Elementare[ms]|Bitteres|Äu(ß|ss)erliches|Spannendes|Kurioses|Digitale[ms]|Hervorgebrachte[ms]|Gewirktes|Altbekannte[ms]|Gehackte[sm]|Gewordenes|Erkennbares|Verstörende[sm]|Versaute[ms]|Nachdenkliches|Bestehendes|Beobachtetes|Originelle[ms]|Derartige[sm]|Schriftliches|Mündliches|Verblühte[ms]|Faszinierende[ms]|Christliches|Gute[ms]|Böse[ms]||Folgende[ms]|Letztere[ms]|Erstere[ms]|Schreckliche[ms]|Falsche[sm]|Richtige[ms]|Hässliche[sm]|Auswärtige[ms]|Nervige[ms]|Ätzende[ms]|Kleine[ms]|Gro(ß|ss)e[ms]|Riskante[ms]|Li?ebenswerte[ms]|Materielle[ms]|Geglaubte[sm]|Ausgedachte[sm]|Unsagbare[sm]?|Unverwechselbare[sm]?|[A-Z].{1,20}rechtliche[ms]?|Umfassendere[ms]|[A-ZÄÖÜ].{1,20}(liche|bare|werte)[ms]|Signifikante[ms]|Bestialische[ms]|Delikate[sm]|Nennenswerte[ms]"),
       csRegex("(?!(und|oder))[a-zäöü…\\.!,\\?…\\)“„\"»«–\\-:;\\[\\]].*")
     ),
     Arrays.asList(
@@ -1365,7 +1412,7 @@ class CaseRuleAntiPatterns {
       token(".")
     ),
     Arrays.asList( // Immer mehr Ältere erkranken daran
-      csRegex("Ältere[rn]?|Jüngere[rn]?|Zuschauende[rn]?|Angeklagte[rn]?|Referierende[rn]?|Schlafenden?|Moderierende[rn]?|Dunkelhäutige[rn]?|Verantwortliche[rn]?|Alleinlebende[rn]?|Verdammten?|Alleinstehende[rn]?|Ungeübte[rn]?|Au(ß|ss)erirdische[rn]?|Berittene[rn]?|Heranwachsende[rn]?|Ganze[sn]?|Gefangene[rn]?|Steuerpflichtige[rn]?|Geschädigte[rn]?|Heimatvertriebenen?|Schwerverletzte[rn]?|Werbenden?|Au(ß|ss)enstehenden?|Forschenden?|Prominenten?|Pflegenden?|Beklagten?|Geistlichen?|Pflegebedürftigen?|(Teil|Voll)zeitbeschäftigten?|Fortgeschrittenen?|Promovierenden?|Schreibenden?|Ungeimpfte[nr]?|Geimpfte[nr]?|Tatverdächtige[nr]?|Pubertären?|Flüchtende[nr]?|Vortragende[nr]?|Besuchenden?|Vortragenden?|Verantwortliche[rn]?|Geflohene[rn]?|Sterbende[nr]?|Werbende[nr]?|Vortragende[nr]?|Alliierte[nr]?|Bedürftige[rn]?|Praktizierenden?|Geisteskranke[nr]?|Religiöse[rn]?|Kleinsten?|Dauerarbeitslose[rn]|Angesteckten?|Ortskundigen?|Steuerpflichtige[rn]?|Vorbehandelnden?|Gefährdeten?|Eingemachte|Geübten?|Schwimmenden?|Tauchenden?|Anständigen?|Liebenden?|Volljährigen?|Minderjährigen?|Zeichnungsberechtigte[rn]?|Zeichnungsbefugte[rn]?|Altbekannte[nmr]?|Hartnäckigen?|Unerfahrenen?|Arbeitenden?|Vortragende[nr]?|Dummen?|Fragenden?|Antwortenden?|Kriegs[gb]eschädigten?|Begünstigten?|Verfolgten?|Verwitweten?|Geschiedenen?|Asexuellen?|Liebsten?|(Rechts|Links)extremen?|(Aus|Ein)geschlossenen?|Betuchten?|Anteilnehmende[rn]?|Anbietenden?|Hochbetagten?|Seelenverwandte[nr]?|Gleichgestellten?|Gottlosen?|Inhaftierten?|Protestierenden?|Wohnungssuchenden?|Lesenden?|Schreibenden?|Beitragenden?|Superreichen?|Au(ß|ss)enstehenden?|Juryvorsitzende[rn]?|Introvertierten?|Extrovertierten?|.+begeisterten?|(Schwer|Seh)behinderten?|Unbekannten?|Anwesenden?|Personalverantwortlichen?|[NF]rühgeborenen?|Hörgeschädigten?|Gehorsamen?|Ungehorsamen?|Suchtkranken?|Bildbetrachtenden?|Uniformierten?|Bediensteten?|Gesetzlosen?|Vermummten?|(Schwer|Leicht)verletzten?|Untoten?|Hübschen?|Reisende[rn]?|Abtrünnigen?|Liebende[nr]?|Befehlenden?|Pubertierende[rn]?|Lebenden?|Geistliche[rn]?|Klassenbeste[rn]?|Totgesagte[rn]?|Zivildienstleistende[rn]?|Nutzenden?|Kunstinteressierte[rn]?|Nachtaktive[nr]?|Bewerbenden?|Geliebter?|Unsterblichen?|Sterblichen?|Evangelikalen?|Gewaltbereiten?|Dozierenden?|Autofahenden?|Impfgeschädigten?|[A-ZÄÖÜ].+stämmigen?|Auszubildende[rn]?|Unnahbaren?|Arbeitgebenden?|Nutzungsberechtigte[nr]?|Interviewte[rn]?|Bewohnenden?|Zugewanderte[rn]?|Eingeweihte[rn]?|Heimatvertriebene[nr]?|Asylberechtigte[rn]?|Erwachte[rn]?|Kulturschaffende[rn]?|Gebärenden?|Beschenkte[rn]?|Ungelernten?|Verbrauchende[rn]?|Schwule[rn]?|Partywütige[rn]?|(Homo|Hetero|Metro|Trans)sexuelle[rn]?|Geduldige[rn]?|Ungeduldige[rn]?|Schneebegeisterte[rn]?|Befindlichen?|Gebietsansässigen?|Erneuerbaren?|Militärinternierte[rn]?|Steuerpflichtige[nr]?|Ungläubige[rn]?|Geduldigen?|Ungeduldigen?|Unerreichbaren?|Schuldige[rn]?|Alleinschuldige[rn]?|Getreuen?|Mitschuldige[rn]?|Auswärtige[rn]?|[A-ZÄÖÜ].+schaffende[rn]|Übergewichtige[rn]?|Schichtarbeitende[rn]?"),
+      csRegex("Ältere[rn]?|Jüngere[rn]?|Zuschauende[rn]?|Angeklagte[rn]?|Referierende[rn]?|Schlafenden?|Moderierende[rn]?|Dunkelhäutige[rn]?|Verantwortliche[rn]?|Alleinlebende[rn]?|Verdammten?|Alleinstehende[rn]?|Ungeübte[rn]?|Au(ß|ss)erirdische[rn]?|Berittene[rn]?|Heranwachsende[rn]?|Ganze[sn]?|Gefangene[rn]?|Steuerpflichtige[rn]?|Geschädigte[rn]?|Heimatvertriebenen?|Schwerverletzte[rn]?|Werbenden?|Au(ß|ss)enstehenden?|Forschenden?|Prominenten?|Pflegenden?|Beklagten?|Geistlichen?|Pflegebedürftigen?|(Teil|Voll)zeitbeschäftigten?|Fortgeschrittenen?|Promovierenden?|Schreibenden?|Ungeimpfte[nr]?|Geimpfte[nr]?|Tatverdächtige[nr]?|Pubertären?|Flüchtende[nr]?|Vortragende[nr]?|Besuchenden?|Vortragenden?|Verantwortliche[rn]?|Geflohene[rn]?|Sterbende[nr]?|Werbende[nr]?|Vortragende[nr]?|Alliierte[nr]?|Bedürftige[rn]?|Praktizierenden?|Geisteskranke[nr]?|Religiöse[rn]?|Kleinsten?|Dauerarbeitslose[rn]|Angesteckten?|Ortskundigen?|Steuerpflichtige[rn]?|Vorbehandelnden?|Gefährdeten?|Eingemachte|Geübten?|Schwimmenden?|Tauchenden?|Anständigen?|Liebenden?|Volljährigen?|Minderjährigen?|Zeichnungsberechtigte[rn]?|Zeichnungsbefugte[rn]?|Altbekannte[nmr]?|Hartnäckigen?|Unerfahrenen?|Arbeitenden?|Vortragende[nr]?|Dummen?|Fragenden?|Antwortenden?|Kriegs[gb]eschädigten?|Begünstigten?|Verfolgten?|Verwitweten?|Geschiedenen?|Asexuellen?|Liebsten?|(Rechts|Links)extremen?|(Aus|Ein)geschlossenen?|Betuchten?|Anteilnehmende[rn]?|Anbietenden?|Hochbetagten?|Seelenverwandte[nr]?|Gleichgestellten?|Gottlosen?|Inhaftierten?|Protestierenden?|Wohnungssuchenden?|Lesenden?|Schreibenden?|Beitragenden?|Superreichen?|Au(ß|ss)enstehenden?|Juryvorsitzende[rn]?|Introvertierten?|Extrovertierten?|.+begeisterten?|(Schwer|Seh)behinderten?|Unbekannten?|Anwesenden?|Personalverantwortlichen?|[NF]rühgeborenen?|Hörgeschädigten?|Gehorsamen?|Ungehorsamen?|Suchtkranken?|Bildbetrachtenden?|Uniformierten?|Bediensteten?|Gesetzlosen?|Vermummten?|(Schwer|Leicht)verletzten?|Untoten?|Hübschen?|Reisende[rn]?|Abtrünnigen?|Liebende[nr]?|Befehlenden?|Pubertierende[rn]?|Lebenden?|Geistliche[rn]?|Klassenbeste[rn]?|Totgesagte[rn]?|Zivildienstleistende[rn]?|Nutzenden?|Kunstinteressierte[rn]?|Nachtaktive[nr]?|Bewerbenden?|Geliebter?|Unsterblichen?|Sterblichen?|Evangelikalen?|Gewaltbereiten?|Dozierenden?|Autofahenden?|Impfgeschädigten?|[A-ZÄÖÜ].+stämmigen?|Auszubildende[rn]?|Unnahbaren?|Arbeitgebenden?|Nutzungsberechtigte[nr]?|Interviewte[rn]?|Bewohnenden?|Zugewanderte[rn]?|Eingeweihte[rn]?|Heimatvertriebene[nr]?|Asylberechtigte[rn]?|Erwachte[rn]?|Kulturschaffende[rn]?|Gebärenden?|Beschenkte[rn]?|Ungelernten?|Verbrauchende[rn]?|Schwule[rn]?|Partywütige[rn]?|(Homo|Hetero|Metro|Trans)sexuelle[rn]?|Geduldige[rn]?|Ungeduldige[rn]?|Schneebegeisterte[rn]?|Befindlichen?|Gebietsansässigen?|Erneuerbaren?|Militärinternierte[rn]?|Steuerpflichtige[nr]?|Ungläubige[rn]?|Geduldigen?|Ungeduldigen?|Unerreichbaren?|Schuldige[rn]?|Alleinschuldige[rn]?|Getreuen?|Mitschuldige[rn]?|Auswärtige[rn]?|[A-ZÄÖÜ].+schaffende[rn]|Übergewichtige[rn]?|Schichtarbeitende[rn]?|Unbefugte[rn]?|Nominierte[rn]?|Erholungsuchende[rn]?|Getriebene[rn]?|Vertriebene[rn]?|Unverwechselbaren?|Anständigen?|Zeitreisende[rn]?|Gefallene[rn]?"),
       csRegex("(?!(und|oder))[a-zäöü…\\.!:;,\\?…\\)\\*\\(“„\"»«–\\-\\[\\]].*")
     ),
     Arrays.asList(
@@ -1696,6 +1743,14 @@ class CaseRuleAntiPatterns {
       posRegex("SUB.*")
     ),
     Arrays.asList(
+      //  Ich würde ihn dann im Februar mal nach Potsdam schicken, damit die beiden das planen/entwickeln können.
+      csToken("das"),
+      posRegex("VER:INF.*"),
+      csRegex("und|oder|&|beziehungsweise|/|\\+"),
+      posRegex("VER:INF.*|UNKNOWN"),
+      posRegex("VER:(MOD|AUX).*")
+    ),
+    Arrays.asList(
       // Majid ergänzte: ”Vorläufigen Analysen der Terrakottaröhren aus Ardais liegen ...
       csToken(":"),
       csRegex("[\"”„»«]"),
@@ -1730,7 +1785,37 @@ class CaseRuleAntiPatterns {
       csRegex("Universität|Bibel")
     ),
     Arrays.asList(
+      // "Es wurde 1784 in das Allgemeine Krankenspital umgewandelt."
+      csRegex("Allgemeine[ns]?"),
+      csRegex("Kranken(spitale?s?|haus(es)?)?")
+    ),
+    Arrays.asList(
+      // "Die bei der Katholischen Spitalstiftung angesiedelte Vermittlungsstelle informiert über Hilfsangebote."
+      csRegex("Katholischen?"),
+      csRegex("Spitalstiftung?")
+    ),
+    Arrays.asList(
       csRegex("[A-ZÄÖÜ].+stereotypen?")
+    ),
+    Arrays.asList(
+      // Allerdings gibt es im Französischen und im Spanischen Ausnahmen.
+      csToken("im"),
+      csRegex("(Afrikanisch|Alt(arabisch|chinesisch|griechisch|persisch)|Amerikanisch|Arabisch|Chinesisch|Dänisch|Deutsch|Plattdeutsch|Englisch|Finnisch|Französisch|Frühneuhochdeutsch|Germanisch|Griechisch|Hocharabisch|Hochchinesisch|Hochdeutsch|Holländisch|Italienisch|Japanisch|Jiddisch|Jugoslawisch|Koreanisch|Kroatisch|Lateinisch|Luxemburgisch|Mittelhochdeutsch|Neuhochdeutsch|Niederländisch|Norwegisch|Persisch|Polnisch|Portugiesisch|Russisch|Schwedisch|Schweizerisch|Semitisch|Serbisch|Serbokroatisch|Slawisch|Spanisch|Tschechisch|Türkisch|Ukrainisch|Ungarisch|Wei[sß]russisch|Hebräisch|Katalanisch)en")
+    ),
+    Arrays.asList(
+      // Aljos Farjon unterscheidet folgende Arten: die Europäische Eibe, Pazifische Eibe, Kanadische Eibe und Chinesische Eibe.
+      csRegex("Pazifischen?|Chinesischen?|Europäischen?|Kanadischen?"),
+      csRegex("Eiben?")
+    ),
+    Arrays.asList(
+      // unter dem Motto Music Released
+      csToken("Music"),
+      csToken("Released")
+    ),
+    Arrays.asList(
+      // Die Stadt ist Sitz des Kirchenbezirks Freudenstadt der Evangelischen Landeskirche in Württemberg.
+      csRegex("Evangelischen?"),
+      csToken("Landeskirche")
     )
-  );
+    );
 }

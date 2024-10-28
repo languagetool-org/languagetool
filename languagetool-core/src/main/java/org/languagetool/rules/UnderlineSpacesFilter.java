@@ -23,6 +23,7 @@ import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class UnderlineSpacesFilter extends RuleFilter {
@@ -31,7 +32,7 @@ public class UnderlineSpacesFilter extends RuleFilter {
    * Underline the whitespaces before and/or after the marker in the pattern
    */
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-                                   AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     String underlineSpaces = getRequired("underlineSpaces", arguments); // before/after/both
     String sentence = match.getSentence().getText();
     if (underlineSpaces.equals("before") || underlineSpaces.equals("both")) {

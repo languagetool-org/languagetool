@@ -50,6 +50,7 @@ class CompoundTagger {
   private static final String TAG_INANIM = ":inanim";
   private static final Pattern EXTRA_TAGS = Pattern.compile(":bad");
   private static final Pattern EXTRA_TAGS_DROP = Pattern.compile(":(comp.|np|ns|slang|xp[1-9]|&predic|&insert)");
+  private static final Pattern EXTRA_TAGS_DROP_NONINFL = Pattern.compile(":(comp.|np|ns|slang|xp[1-9]|&insert)");
   private static final Pattern NOUN_SING_V_ROD_REGEX = Pattern.compile("noun.*?:[mfn]:v_rod.*");
 //  private static final Pattern NOUN_V_NAZ_REGEX = Pattern.compile("noun.*?:.:v_naz.*");
   private static final Pattern SING_REGEX_F = Pattern.compile(":[mfn]:");
@@ -58,14 +59,21 @@ class CompoundTagger {
   private static final Pattern DASH_PREFIX_LAT_PATTERN = Pattern.compile("[a-zA-Z]{3,}|[α-ωΑ-Ω]");
   private static final Pattern YEAR_NUMBER = Pattern.compile("[12][0-9]{3}");
   private static final Pattern NOUN_PREFIX_NUMBER = Pattern.compile("[0-9]+");
+  private static final Pattern NOUN_WITH_INTERVAL_PREFIX_NUMBER = Pattern.compile("([0-9]+[-–])?[0-9]+");
   private static final Pattern NOUN_SUFFIX_NUMBER_LETTER = Pattern.compile("[0-9][0-9А-ЯІЇЄҐ-]*");
   private static final Pattern ADJ_PREFIX_NUMBER = Pattern.compile("[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?%?|(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})|І{2,3}");
   private static final Pattern REQ_NUM_DVA_PATTERN = Pattern.compile("(місн|томник|поверхів).{0,4}");
   private static final Pattern REQ_NUM_DESYAT_PATTERN = Pattern.compile("(класни[кц]|бальни[кц]|раундов|томн|томов|хвилин|десятиріч|кілометрів|річ).{0,4}");
   private static final Pattern REQ_NUM_STO_PATTERN = Pattern.compile("(річч|літт|метрів|грамов|тисячник).{0,3}");
   private static final Pattern INTJ_PATTERN = Pattern.compile("intj.*");
-  private static final Pattern ONOMAT_PATTERN = Pattern.compile("onomat.*");
+  private static final Pattern NONINFL_PATTERN = Pattern.compile("noninfl.*(onomat|predic).*");
   private static final Pattern UKR_LETTERS_PATTERN = Pattern.compile("[А-ЯІЇЄҐа-яіїєґ'-]+");
+  private static final Pattern GEO_V_NAZ = Pattern.compile("noun:inanim:.:v_naz.*:geo.*");
+  private static final Pattern FNAME = Pattern.compile("noun:anim:[mf].*fname.*");
+  private static final Pattern LNAME_V_NAZ = Pattern.compile("noun:anim:[fm]:v_naz.*lname.*");
+  private static final Pattern LNAME_V_ROD = Pattern.compile("noun:anim:[fm]:v_rod.*lname.*");
+  private static final Pattern NAME = Pattern.compile("noun:anim:.*name.*");
+  private static final Pattern PROP_V_NAZ = Pattern.compile("noun:inanim:.:v_naz.*prop.*");
 
   private static final Pattern MNP_NAZ_REGEX = Pattern.compile(".*?:[mnp]:v_naz.*");
   private static final Pattern MNP_ZNA_REGEX = Pattern.compile(".*?:[mnp]:v_zna.*");
@@ -395,6 +403,40 @@ class CompoundTagger {
       return null;
     }
 
+    if( Character.isUpperCase(leftWord.charAt(0)) && Character.isUpperCase(rightWord.charAt(0)) ) {  
+        // Київ-Прага
+        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, GEO_V_NAZ)
+            && PosTagHelper.hasPosTag(rightAnalyzedTokens, GEO_V_NAZ) ) {
+          return Arrays.asList(new AnalyzedToken(word, "noninfl:prop:geo", word));
+        }
+        // Хуана-Карлоса
+        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, FNAME)
+            && PosTagHelper.hasPosTag(rightAnalyzedTokens, FNAME) ) {
+          leftAnalyzedTokens = PosTagHelper.filter(leftAnalyzedTokens, Pattern.compile(".*fname.*"));
+          rightAnalyzedTokens = PosTagHelper.filter(rightAnalyzedTokens, Pattern.compile(".*fname.*"));
+          return tagMatch(word, leftAnalyzedTokens, rightAnalyzedTokens);
+        }
+        // подружжя Карпа-Хансен
+        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, LNAME_V_NAZ)
+            && PosTagHelper.hasPosTag(rightAnalyzedTokens, LNAME_V_NAZ) ) {
+          return Arrays.asList(new AnalyzedToken(word, "noninfl:prop:lname", word));
+        }
+        // Джеймса-Веніка
+        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, LNAME_V_ROD)
+            && PosTagHelper.hasPosTag(rightAnalyzedTokens, LNAME_V_ROD) ) {
+          return Arrays.asList(new AnalyzedToken(word, "noninfl:prop:lname", word));
+        }
+        // bad: Квітки-Основ'яненко
+        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, NAME)
+            && PosTagHelper.hasPosTag(rightAnalyzedTokens, NAME) ) {
+          return null;
+        }
+        // Україна-ЄС
+        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, PROP_V_NAZ)
+            && PosTagHelper.hasPosTag(rightAnalyzedTokens, PROP_V_NAZ) ) {
+          return Arrays.asList(new AnalyzedToken(word, "noninfl:prop", word));
+        }
+    }
 
     // exclude: Малишко-це, відносини-коли
 
@@ -636,8 +678,8 @@ class CompoundTagger {
 
       if( PosTagHelper.hasPosTag2(leftWdList, INTJ_PATTERN)
           && PosTagHelper.hasPosTag2(rightWdList, INTJ_PATTERN)
-          || PosTagHelper.hasPosTag2(leftWdList, ONOMAT_PATTERN)
-          && PosTagHelper.hasPosTag2(rightWdList, ONOMAT_PATTERN)) {
+          || PosTagHelper.hasPosTag2(leftWdList, NONINFL_PATTERN)
+          && PosTagHelper.hasPosTag2(rightWdList, NONINFL_PATTERN)) {
         return Arrays.asList(new AnalyzedToken(word, rightWdList.get(0).getPosTag(), lowerWord));
       }
     }
@@ -913,45 +955,31 @@ class CompoundTagger {
       List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
 
       // e.g. 101-го
-      String[] tags = LetterEndingForNumericHelper.findTags(leftWord, rightWord); 
+      String[] tags = LetterEndingForNumericHelper.findTagsAdj(leftWord, rightWord);
       if( tags != null ) {
         for (String tag: tags) {
           String lemma = leftWord + "-" + "й";  // lemma is approximate here, we mostly care about the tag
-          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.adj.getText() + tag + ":&numr", lemma));
+          tag = tag.contains(":bad") ? tag.replace(":bad", ":&numr:bad") : tag + ":&numr";
+          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.adj.getText() + tag, lemma));
         }
 
         // з 3-ма вікнами - не дуже правильно, але вживають часто
-        if( "ма".equals(rightWord) ) {
-          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.noun.getText() + ":p:v_oru:&numr:bad", leftWord));
-        }
-        // вбивство 148-ми селян
-        else if( "ми".equals(rightWord) 
-            && Pattern.compile("(.*[^1]|^)[78]").matcher(leftWord).matches() ) {
-          newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_rod:bad", leftWord));
-          newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_dav:bad", leftWord));
-          newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_mis:bad", leftWord));
-        }
+//        if( "ма".equals(rightWord) && leftWord.matches(".*(1[0-9]|[23456789])") ) {
+//          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.numr.getText() + ":p:v_oru:bad", leftWord));
+//        }
       }
       else {
-        if( NOUN_PREFIX_NUMBER.matcher(leftWord).matches() ) {
+        if( NOUN_WITH_INTERVAL_PREFIX_NUMBER.matcher(leftWord).matches() ) {
 
-          // вбивство 15-ти селян
-          if( "ти".equals(rightWord) 
-              && Pattern.compile(".*([0569]|1[0-9])").matcher(leftWord).matches() ) {
-            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_rod:bad", leftWord));
-            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_dav:bad", leftWord));
-            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_mis:bad", leftWord));
+          String[] tagsNoun = LetterEndingForNumericHelper.findTagsNoun(leftWord, rightWord);
+          if( tagsNoun != null ) {
+            for (String tag: tagsNoun) {
+              newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.numr.getText() + tag, leftWord));
+            }
             return newAnalyzedTokens;
           }
-          // на 20-ці
-          else if( "ці".equals(rightWord) 
-              && Pattern.compile(".*([0569]|1[0-9])").matcher(leftWord).matches() ) {
-            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:f:v_dav:bad", leftWord));
-            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:f:v_mis:bad", leftWord));
-            return newAnalyzedTokens;
-          }
-          // 100-мм гаубиці
-          else if( "мм".equals(rightWord) ) {
+          
+          if( "мм".equals(rightWord) ) {
             for(String gender: PosTagHelper.BASE_GENDERS ) {
               for(String vidm: PosTagHelper.VIDMINKY_MAP.keySet()) {
                 if( vidm.equals("v_kly") )
@@ -966,10 +994,10 @@ class CompoundTagger {
 
           // 100-річчя
           
-          String tryPrefix = getTryPrefix(rightWord);
+          String tryPrefix = getTryPrefix(rightWord.toLowerCase());
           
           if( tryPrefix != null ) {
-            List<TaggedWord> rightWdList = wordTagger.tag(tryPrefix + rightWord);
+            List<TaggedWord> rightWdList = wordTagger.tag(tryPrefix + rightWord.toLowerCase());
             
             if( rightWdList == null )
               return null;
@@ -987,7 +1015,7 @@ class CompoundTagger {
 
         // e.g. 100-річному, 100-відсотково
         List<TaggedWord> rightWdList = wordTagger.tag(rightWord);
-        if( rightWdList.isEmpty() )
+        if( rightWdList.isEmpty() || PosTagHelper.hasPosTagPart2(rightWdList, "pron"))
           return null;
 
         List<AnalyzedToken> rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);
@@ -1017,6 +1045,14 @@ class CompoundTagger {
     return null;
   }
 
+  private static String dropExtra(String postags) {
+    Matcher matcher = postags.startsWith("noninfl") ? EXTRA_TAGS_DROP_NONINFL.matcher(postags) : EXTRA_TAGS_DROP.matcher(postags);
+//    if( matcher.find() ) {
+      postags = matcher.replaceAll("");
+//    }
+    return postags;
+  }
+  
 
   @Nullable
   private List<AnalyzedToken> tagMatch(String word, List<AnalyzedToken> leftAnalyzedTokens, List<AnalyzedToken> rightAnalyzedTokens) {
@@ -1047,12 +1083,9 @@ class CompoundTagger {
         leftPosTag = leftPosTag.replace(PosTagHelper.NO_VIDMINOK_SUBSTR, "");
       }
 
-      Matcher matcher = EXTRA_TAGS_DROP.matcher(leftPosTag);
-      if( matcher.find() ) {
-        leftPosTag = matcher.replaceAll("");
-      }
+      leftPosTag = dropExtra(leftPosTag);
 
-      matcher = EXTRA_TAGS.matcher(leftPosTag);
+      Matcher matcher = EXTRA_TAGS.matcher(leftPosTag);
       if( matcher.find() ) {
         leftPosTagExtra += matcher.group();
         leftPosTag = matcher.replaceAll("");
@@ -1091,19 +1124,16 @@ class CompoundTagger {
           }
         }
 
-        Matcher matcherR = EXTRA_TAGS_DROP.matcher(rightPosTag);
-        if( matcherR.find() ) {
-          rightPosTag = matcherR.replaceAll("");
-        }
+        rightPosTag = dropExtra(rightPosTag);
 
-        matcherR = EXTRA_TAGS.matcher(rightPosTag);
+        Matcher matcherR = EXTRA_TAGS.matcher(rightPosTag);
         if( matcherR.find() ) {
           rightPosTag = matcherR.replaceAll("");
         }
         
         if (stripPerfImperf(leftPosTag).equals(stripPerfImperf(rightPosTag)) 
             && (IPOSTag.startsWith(leftPosTag, IPOSTag.numr, IPOSTag.adv, IPOSTag.adj, IPOSTag.verb)
-            || (IPOSTag.startsWith(leftPosTag, IPOSTag.intj, IPOSTag.onomat) 
+            || (leftPosTag.matches("intj|noninfl.*") // (onomat|predic).* 
                 && leftAnalyzedToken.getLemma().equalsIgnoreCase(rightAnalyzedToken.getLemma())) ) ) {
           String newPosTag = leftPosTag + extraNvTag + leftPosTagExtra;
 
@@ -1118,11 +1148,12 @@ class CompoundTagger {
         // noun-noun
         else if ( leftPosTag.startsWith(IPOSTag.noun.getText()) && rightPosTag.startsWith(IPOSTag.noun.getText()) ) {
 
-        	// discard чорний-чорний as noun:anim
-        	if( leftAnalyzedToken.getToken().equalsIgnoreCase(rightAnalyzedToken.getToken())
-        			&& leftPosTag.contains(TAG_ANIM) && rightPosTag.contains(TAG_ANIM) )
-        		continue;
-        	
+          // discard чорний-чорний as noun:anim
+          // but allow дівчинка-дівчинка
+//          if( leftAnalyzedToken.getToken().equalsIgnoreCase(rightAnalyzedToken.getToken())
+//              && leftPosTag.contains(TAG_ANIM) && rightPosTag.contains(TAG_ANIM) )
+//            continue;
+
           String agreedPosTag = getAgreedPosTag(leftPosTag, rightPosTag, leftNv, word);
 
           if( agreedPosTag == null 
@@ -1565,7 +1596,7 @@ class CompoundTagger {
     return word.substring(0, 1).toUpperCase(conversionLocale) + word.substring(1);
   }
 
-  private List<TaggedWord> tagBothCases(String leftWord, Pattern posTagMatcher) {
+  List<TaggedWord> tagBothCases(String leftWord, Pattern posTagMatcher) {
     List<TaggedWord> leftWdList = wordTagger.tag(leftWord);
     
     String leftLowerCase = leftWord.toLowerCase(conversionLocale);

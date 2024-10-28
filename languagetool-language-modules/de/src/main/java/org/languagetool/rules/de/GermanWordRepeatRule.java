@@ -47,6 +47,16 @@ public class GermanWordRepeatRule extends WordRepeatRule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      csToken("please"),
+      csToken("please"),
+      csToken("please")
+    ),
+    Arrays.asList(
+      csToken("Late"),
+      csToken("Late"),
+      csToken("Show")
+    ),
+    Arrays.asList(
       csToken("Wenn"),
       csToken("hinter"),
       csToken("Robben"),
@@ -200,6 +210,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("nicht"),
       token("nicht"),
       token("kommunizieren")
+    ),
+    Arrays.asList( // Dee Dee Ramone
+      token("Dee"),
+      tokenRegex("Dees?")
     ),
     Arrays.asList( // Phi Phi Islands
       token("Phi"),

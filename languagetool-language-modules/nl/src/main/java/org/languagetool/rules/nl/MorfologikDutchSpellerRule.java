@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
  * 
  * This library is free software; you can redistribute it and/or
@@ -21,16 +21,20 @@ package org.languagetool.rules.nl;
 
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.language.Dutch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+import static org.languagetool.JLanguageTool.getDataBroker;
 
 public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
-
-  private final static CompoundAcceptor compoundAcceptor = new CompoundAcceptor();
 
   public MorfologikDutchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
     this(messages, language, userConfig, Collections.emptyList());
@@ -42,7 +46,7 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
 
   @Override
   protected boolean ignorePotentiallyMisspelledWord(String word) throws IOException {
-    return compoundAcceptor.acceptCompound(word);
+    return Dutch.getCompoundAcceptor().acceptCompound(word);
   }
 
   @Override
@@ -70,4 +74,21 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
     return "/nl/spelling/prohibit.txt";
   }
 
+  @Override
+  public List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence,
+    List<RuleMatch> ruleMatchesSoFar, int idx,
+    AnalyzedTokenReadings[] tokens) throws IOException {
+      if (tokens[idx].hasPosTag("_english_ignore_")) {
+        return Collections.emptyList();
+      }
+      return super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
+    }
+
 }
+
+
+
+
+
+
+

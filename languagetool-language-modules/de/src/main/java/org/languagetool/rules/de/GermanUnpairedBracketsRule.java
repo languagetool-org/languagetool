@@ -30,8 +30,11 @@ import java.util.function.Supplier;
 
 public class GermanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
-  private static final List<String> DE_START_SYMBOLS = Arrays.asList("[", "(", "{", "„", "»", "«", "\"");
-  private static final List<String> DE_END_SYMBOLS   = Arrays.asList("]", ")", "}", "“", "«", "»", "\"");
+  //  private static final List<String> DE_START_SYMBOLS = Arrays.asList("[", "(", "{", "„", "»", "«", "\"");
+  //  private static final List<String> DE_END_SYMBOLS   = Arrays.asList("]", ")", "}", "“", "«", "»", "\"");
+
+  private static final List<String> DE_START_SYMBOLS = Arrays.asList("[", "(", "{");
+  private static final List<String> DE_END_SYMBOLS   = Arrays.asList("]", ")", "}");
 
   public GermanUnpairedBracketsRule(ResourceBundle messages, Language language) {
     super(messages, DE_START_SYMBOLS, DE_END_SYMBOLS);
@@ -44,7 +47,7 @@ public class GermanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   public String getId() {
     return "UNPAIRED_BRACKETS";  // no "DE_" to be compatible with old versions
   }
-
+/*  TODO: Remove after tests
   @Override
   protected List<String> getSuggestions(Supplier<String> text, int startPos, int endPos, Symbol symbol, String otherSymbol) {
     if (startPos > 0 && endPos <= text.get().length()) {
@@ -65,5 +68,5 @@ public class GermanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     }
     return null;
   }
-
+*/
 }

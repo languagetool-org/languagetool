@@ -35,6 +35,7 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleOption;
 import org.languagetool.rules.TextLevelRule;
 import org.languagetool.tools.TelemetryProvider;
 import org.slf4j.Logger;
@@ -168,18 +169,18 @@ class ApiV2 {
       throw new BadRequestException("Missing 'text' or 'data' parameter");
     }
     //get from config
-    if (config.logIp && aText.getPlainText().equals(config.logIpMatchingPattern)) {
-      handleIpLogMatch(httpExchange, remoteAddress);
+    if (config.logIp && aText.getPlainText().trim().equals(config.logIpMatchingPattern)) {
+      handleIpLogMatch(httpExchange, remoteAddress, parameters);
       //no need to check text again rules
       return;
     }
     textChecker.checkText(aText, httpExchange, parameters, errorRequestLimiter, remoteAddress);
   }
 
-  private void handleIpLogMatch(HttpExchange httpExchange, String remoteAddress) {
+  private void handleIpLogMatch(HttpExchange httpExchange, String remoteAddress, Map<String, String> parameters) {
     Logger logger = LoggerFactory.getLogger(ApiV2.class);
     InetSocketAddress localAddress = httpExchange.getLocalAddress();
-    logger.info(String.format("Found log-my-IP text in request from: %s to: %s", remoteAddress, localAddress.toString()));
+    logger.info(String.format("Found log-my-IP text in request from: %s to: %s, requestParams: %s", remoteAddress, localAddress.toString(), parameters));
   }
 
   private void handleWordsRequest(HttpExchange httpExchange, Map<String, String> params, HTTPServerConfig config) throws Exception {
@@ -199,6 +200,10 @@ class ApiV2 {
     List<String> groups = null;
     if (params.containsKey("dicts")) {
       groups = Arrays.asList(params.get("dicts").split(","));
+    } else if (limits.getAccount() != null &&
+               limits.getAccount().getDefaultDictionary() != null &&
+               !limits.getAccount().getDefaultDictionary().isEmpty()) {
+      groups = Collections.singletonList(limits.getAccount().getDefaultDictionary());
     }
     long start = System.nanoTime();
     List<String> words = db.getWords(limits, groups, offset, limit);
@@ -213,16 +218,23 @@ class ApiV2 {
     ensurePostMethod(httpExchange, "/words/add");
     UserLimits limits = getUserLimits(parameters, config);
     DatabaseAccess db = DatabaseAccess.getInstance();
+    String dict = parameters.get("dict");
+    if(dict == null &&
+       limits.getAccount() != null &&
+       limits.getAccount().getDefaultDictionary() != null &&
+       !limits.getAccount().getDefaultDictionary().isEmpty()) {
+      dict = limits.getAccount().getDefaultDictionary();
+    }
     /*
      *  experimental batch mode for adding words,
      *  use mode=batch, words="word1 word2 word3" (whitespace delimited list) instead of word parameter
      */
     if ("batch".equals(parameters.get("mode"))) {
       List<String> words = Arrays.asList(parameters.get("words").split("\\s+"));
-      db.addWordBatch(words, limits.getPremiumUid(), parameters.get("dict"));
+      db.addWordBatch(words, limits.getPremiumUid(), dict);
       writeResponse("added", true, httpExchange);
     } else {
-      boolean added = db.addWord(parameters.get("word"), limits.getPremiumUid(), parameters.get("dict"));
+      boolean added = db.addWord(parameters.get("word"), limits.getPremiumUid(), dict);
       writeResponse("added", added, httpExchange);
     }
   }
@@ -231,13 +243,20 @@ class ApiV2 {
     ensurePostMethod(httpExchange, "/words/delete");
     UserLimits limits = getUserLimits(parameters, config);
     DatabaseAccess db = DatabaseAccess.getInstance();
+    String dict = parameters.get("dict");
+    if(dict == null &&
+      limits.getAccount() != null &&
+      limits.getAccount().getDefaultDictionary() != null &&
+      !limits.getAccount().getDefaultDictionary().isEmpty()) {
+      dict = limits.getAccount().getDefaultDictionary();
+    }
     boolean deleted;
     if("batch".equals(parameters.get("mode"))) { //Experimental
       List<String> words = Arrays.asList(parameters.get("words").split("\\s+"));
-      deleted = db.deleteWordBatch(words, limits.getPremiumUid(),parameters.get("dict"));
+      deleted = db.deleteWordBatch(words, limits.getPremiumUid(),dict);
       writeResponse("deleted", deleted, httpExchange);
     } else {
-      deleted = db.deleteWord(parameters.get("word"), limits.getPremiumUid(), parameters.get("dict"));
+      deleted = db.deleteWord(parameters.get("word"), limits.getPremiumUid(), dict);
       writeResponse("deleted", deleted, httpExchange);
     }
   }
@@ -573,12 +592,56 @@ class ApiV2 {
         if (rule.isOfficeDefaultOn()) {
           g.writeStringField("isOfficeDefaultOn", "yes");
         }
-        if (rule.hasConfigurableValue()) {
-          g.writeStringField("hasConfigurableValue", "yes");
-          g.writeStringField("configureText", rule.getConfigureText());
-          g.writeStringField("maxConfigurableValue", Integer.toString(rule.getMaxConfigurableValue()));
-          g.writeStringField("minConfigurableValue", Integer.toString(rule.getMinConfigurableValue()));
-          g.writeStringField("defaultValue", Integer.toString(rule.getDefaultValue()));
+        RuleOption[] ruleOptions = rule.getRuleOptions();
+        if (ruleOptions != null) {
+          //  Compatibility to old version (< 6.5)
+          if (ruleOptions[0].getDefaultValue() instanceof Integer) {
+            g.writeStringField("hasConfigurableValue", "yes");
+            g.writeStringField(RuleOption.CONF_TEXT, ruleOptions[0].getConfigureText());
+            g.writeStringField(RuleOption.MAX_CONF_VALUE, Integer.toString((int) ruleOptions[0].getMaxConfigurableValue()));
+            g.writeStringField(RuleOption.MIN_CONF_VALUE, Integer.toString((int) ruleOptions[0].getMinConfigurableValue()));
+            g.writeStringField(RuleOption.DEFAULT_VALUE, Integer.toString((int)ruleOptions[0].getDefaultValue()));
+          }
+          //  new Version (>= 6.5)
+          g.writeArrayFieldStart("ruleOptions");
+          for (RuleOption rOption : ruleOptions) {
+            g.writeStartObject();
+            Object o = rOption.getDefaultValue();
+            if (o instanceof Integer) {
+              g.writeStringField(RuleOption.DEFAULT_TYPE, "Integer");
+              g.writeNumberField(RuleOption.DEFAULT_VALUE, (int) o);
+              g.writeNumberField(RuleOption.MIN_CONF_VALUE, (int) rOption.getMinConfigurableValue());
+              g.writeNumberField(RuleOption.MAX_CONF_VALUE, (int) rOption.getMaxConfigurableValue());
+            } else if (o instanceof Character) {
+              g.writeStringField(RuleOption.DEFAULT_TYPE, "Character");
+              g.writeStringField(RuleOption.DEFAULT_VALUE, o.toString());
+              g.writeStringField(RuleOption.DEFAULT_VALUE, rOption.getMinConfigurableValue().toString());
+              g.writeStringField(RuleOption.DEFAULT_VALUE, rOption.getMaxConfigurableValue().toString());
+            } else if (o instanceof Boolean) {
+              g.writeStringField(RuleOption.DEFAULT_TYPE, "Boolean");
+              g.writeBooleanField(RuleOption.DEFAULT_VALUE, (boolean) o);
+              g.writeNumberField(RuleOption.MIN_CONF_VALUE, (int) rOption.getMinConfigurableValue());
+              g.writeNumberField(RuleOption.MAX_CONF_VALUE, (int) rOption.getMaxConfigurableValue());
+            } else if (o instanceof Float) {
+              g.writeStringField(RuleOption.DEFAULT_TYPE, "Float");
+              g.writeNumberField(RuleOption.DEFAULT_VALUE, (float) o);
+              g.writeNumberField(RuleOption.MIN_CONF_VALUE, (float) rOption.getMinConfigurableValue());
+              g.writeNumberField(RuleOption.MAX_CONF_VALUE, (float) rOption.getMaxConfigurableValue());
+            } else if (o instanceof Double) {
+              g.writeStringField(RuleOption.DEFAULT_TYPE, "Double");
+              g.writeNumberField(RuleOption.DEFAULT_VALUE, (double) o);
+              g.writeNumberField(RuleOption.MIN_CONF_VALUE, (double) rOption.getMinConfigurableValue());
+              g.writeNumberField(RuleOption.MAX_CONF_VALUE, (double) rOption.getMaxConfigurableValue());
+            } else {
+              g.writeStringField(RuleOption.DEFAULT_TYPE, "String");
+              g.writeStringField(RuleOption.DEFAULT_VALUE, o.toString());
+              g.writeStringField(RuleOption.MIN_CONF_VALUE, rOption.getMinConfigurableValue().toString());
+              g.writeStringField(RuleOption.MAX_CONF_VALUE, rOption.getMaxConfigurableValue().toString());
+            }
+            g.writeStringField(RuleOption.CONF_TEXT, rOption.getConfigureText());
+            g.writeEndObject();
+          }
+          g.writeEndArray();
         }
         g.writeStringField("categoryId", rule.getCategory().getId().toString());
         g.writeStringField("categoryName", rule.getCategory().getName());

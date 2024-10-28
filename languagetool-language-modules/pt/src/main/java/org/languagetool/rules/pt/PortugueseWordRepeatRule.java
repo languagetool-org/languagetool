@@ -43,6 +43,8 @@ public class PortugueseWordRepeatRule extends WordRepeatRule {
 
   private static final Pattern PRONOUNS = Pattern.compile("mas|n?[ao]s?|se");
 
+  private static final Pattern REDUPLICATED_ADVERBS = Pattern.compile("já|logo|fácil", Pattern.CASE_INSENSITIVE);
+
   public PortugueseWordRepeatRule(ResourceBundle messages, Language language) {
     super(messages, language);
     super.setCategory(Categories.REPETITIONS.getCategory(messages));
@@ -76,6 +78,9 @@ public class PortugueseWordRepeatRule extends WordRepeatRule {
     if (isHyphenated(tokens, position) && isPronoun(tokens[position])) {
       return true;   // e.g. "Coloquem-na na sala."
     }
+    if (isReduplicatedAdverb(tokens[position])) {
+      return true; // e.g. "Logo logo" => we need another rule to suggest a comma.
+    }
     return super.ignore(tokens, position);
   }
 
@@ -93,5 +98,9 @@ public class PortugueseWordRepeatRule extends WordRepeatRule {
 
   private boolean isSpecies(AnalyzedTokenReadings token) {
     return TAUTONYMS_SPECIES.matcher(token.getToken()).matches();
+  }
+
+  private boolean isReduplicatedAdverb(AnalyzedTokenReadings token) {
+    return REDUPLICATED_ADVERBS.matcher(token.getToken()).matches();
   }
 }

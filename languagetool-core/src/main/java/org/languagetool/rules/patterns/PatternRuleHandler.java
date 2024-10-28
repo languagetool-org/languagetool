@@ -20,7 +20,6 @@ package org.languagetool.rules.patterns;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.languagetool.*;
-import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.rules.*;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.xml.sax.Attributes;
@@ -142,6 +141,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
           categoryToneTags.addAll(Arrays.asList(attrs.getValue("tone_tags").split(" ")));
         }
         isGoalSpecificCategoryAttribute = attrs.getValue(GOAL_SPECIFIC);
+        String prioCategoryAttributeValue = attrs.getValue(PRIO);
+        if (prioCategoryAttributeValue != null) {
+          prioCategoryAttribute = Integer.parseInt(prioCategoryAttributeValue);
+        }
         break;
       case "rules":
         String languageStr = attrs.getValue("lang");
@@ -282,6 +285,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
           }
         } else {
           isGoalSpecific = false;
+        }
+        String prioRuleAttributeValue = attrs.getValue(PRIO);
+        if (prioRuleAttributeValue != null) {
+          prioRuleAttribute = Integer.parseInt(prioRuleAttributeValue);
         }
         break;
       case PATTERN:
@@ -427,6 +434,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
           ruleGroupDistanceTokens = Integer.parseInt(distanceTokensStr2);  
         }
         antipatternForRuleGroupsExamples = new ArrayList<>();
+        String prioRuleGroupAttributeValue = attrs.getValue(PRIO);
+        if (prioRuleGroupAttributeValue != null) {
+          prioRuleGroupAttribute = Integer.parseInt(prioRuleGroupAttributeValue);
+        }
         break;
       case MATCH:
         setMatchElement(attrs, inSuggestion && (isSuggestionSuppressMisspelled || isRuleSuppressMisspelled));
@@ -483,6 +494,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         isGoalSpecific = false;
         premiumCategoryAttribute = null;
         isGoalSpecificCategoryAttribute = null;
+        prioCategoryAttribute = 0;
         break;
       case "regexp":
         inRegex = false;
@@ -528,6 +540,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         ruleToneTags.clear();
         isPremiumRule = false;
         isGoalSpecific = false;
+        prioRuleAttribute = 0;
         break;
       case EXCEPTION:
         finalizeExceptions();
@@ -677,6 +690,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         premiumRuleGroupAttribute = null;
         isGoalSpecificRuleGroupAttribute = null;
         antipatternForRuleGroupsExamples.clear();
+        prioRuleGroupAttribute = 0;
         break;
       case MARKER:
         if (inCorrectExample) {
@@ -912,6 +926,17 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else if (categoryIssueType != null) {
       rule.setLocQualityIssueType(ITSIssueType.getIssueType(categoryIssueType));
     }
+    int prio = 0;
+    if (prioCategoryAttribute != 0) {
+      prio = prioCategoryAttribute;
+    }
+    if (prioRuleGroupAttribute != 0) {
+      prio = prioRuleGroupAttribute;
+    }
+    if (prioRuleAttribute != 0) {
+      prio = prioRuleAttribute;
+    }
+    rule.setPriority(prio);
   }
 
   private final Map<String, URL> internedUrls = new HashMap<>();

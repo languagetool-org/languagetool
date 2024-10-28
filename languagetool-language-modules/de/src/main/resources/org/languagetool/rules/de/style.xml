@@ -156,6 +156,84 @@ USA
     <!-- ====================================================================== -->
     <category id="STYLE" name="Stil" type="style">
 
+        <rulegroup id="ADJEKTIVE_ZU_ADVERBIEN" name="'bisherig, seitherig etc.'">
+            <rule>
+                <pattern>
+                    <token>vorherig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>vorher</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example correction="Vorher|Vorherige"><marker>Vorherig</marker> waren wir ein Bier trinken.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>bisherig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>bisher</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example correction="Bisher|Bisherige"><marker>Bisherig</marker> ist noch nichts passiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>seitherig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>seither</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example correction="Seither|Seitherige"><marker>Seitherig</marker> ist noch nichts passiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>jetzig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>jetzt</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example correction="jetzt|jetzige">Bis <marker>jetzig</marker> ist noch nichts passiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>obig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>oben</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example correction="oben|obige">Wie <marker>obig</marker> ausgeführt, ist noch nichts passiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>jeweilig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>jeweils</suggestion>?</message>
+                <example correction="jeweils">Das <marker>jeweilig</marker> Adäquate wird unternommen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>sofortig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>sofort</suggestion> oder <suggestion>unverzüglich</suggestion>?</message>
+                <example>Die Wirkung tritt <marker>sofort</marker> ein.</example>
+                <example>Das gilt mit <marker>sofortiger</marker> Wirkung.</example>
+                <example correction="sofort|unverzüglich">Die Wirkung ist <marker>sofortig</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>sonstig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>sonst</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
+                <example>Die <marker>sonstigen</marker> Bewohner leben in Reservaten.</example>
+                <example correction="sonst|sonstige">Die Welt war <marker>sonstig</marker> nur von wilden Tieren bewohnt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>einstig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion><match no="1" regexp_match="^.+$" regexp_replace="einst" case_conversion="alllower" /></suggestion>, das Adverb <suggestion><match no="1" regexp_match="^.+$" regexp_replace="ehemalig" case_conversion="alllower" /></suggestion> oder das Nomen <suggestion>Einstieg</suggestion>?</message>
+                <example>Die Nachfahren der <marker>einstigen</marker> Bewohner leben in Reservaten.</example>
+                <example correction="einst|ehemalig|Einstieg">Die Welt war <marker>einstig</marker> von wilden Wesen bevölkert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>etwaig</token>
+                </pattern>
+                <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>etwa</suggestion> oder das Adverb <suggestion>eventuell</suggestion>?</message>
+                <example>Bei <marker>etwaigen</marker> Verstößen</example>
+                <example correction="etwa|eventuell">Sollte dagegen <marker>etwaig</marker> verstoßen werden</example>
+            </rule>
+        </rulegroup>
+
         <!--<rulegroup id="TEST_UMLAUTE" name="fuer (für)" default="off" tone_tags="general" tags="picky">
         #Test showed this rule to bring more effort than benefit and not to be user-friendly
         #e.g., when adding words to the personal dict ("Monroe") the style rule would still trigger and give wrong suggestions ("Monrö")
@@ -225,6 +303,82 @@ USA
             </rule>
         </rulegroup>-->
 
+        <rulegroup id="TWITTER_X" name="Twitter (X)" tags="picky">
+            <short>Veralteter Name</short>
+            <antipattern>
+                <token skip="-1">twitter</token>
+                <token regexp="yes">x|𝕏|.*tweet.*|x-.*|.*x\.com</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">x|𝕏|.*tweet.*|x-.*|.*x\.com</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token>twitter</token>
+                <token regexp="yes">[_.]</token>
+                <token regexp="yes" spacebefore="no">.*[a-z].*</token>
+            </antipattern>
+            <antipattern>
+                <token>#</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">gründet.*</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token>twitter</token>
+                <token regexp="yes">gegründet.*</token>
+            </antipattern>
+            <antipattern>
+                <token>bekannt</token>
+                <token>als</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">ehemals|früher</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token>ich</token>
+                <token>twitter</token>
+            </antipattern>
+            <antipattern>
+                <token>twitter</token>
+                <token>ich</token>
+            </antipattern>
+            <antipattern>
+                <token>beim</token>
+                <token case_sensitive="yes">Twitter</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">Twitter</token>
+                    </marker>
+                </pattern>
+                <message>Diese Online-Plattform wurde 2023 umbenannt zu "X".</message>
+                <suggestion>X</suggestion>
+                <suggestion>𝕏</suggestion>
+                <suggestion>X (ehemals Twitter)</suggestion>
+                <example correction="X|𝕏|X (ehemals Twitter)">Ich habe deine Nachricht auf <marker>Twitter</marker> gesehen.</example>
+                <example>Ich habe deine Nachrichte bei Twitter (auch bekannt als 𝕏) gesehen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|auf|von</token>
+                    <marker>
+                        <token>twitter</token>
+                    </marker>
+                </pattern>
+                <message>Diese Online-Plattform wurde 2023 umbenannt zu "X".</message>
+                <suggestion>X</suggestion>
+                <suggestion>𝕏</suggestion>
+                <suggestion>X (ehemals Twitter)</suggestion>
+                <example correction="X|𝕏|X (ehemals Twitter)">Ich habe deine Nachricht auf <marker>Twitter</marker> gesehen.</example>
+                <example>Ich habe deine Nachrichte bei Twitter (auch bekannt als 𝕏) gesehen.</example>
+            </rule>
+        </rulegroup>
         <rule id="MFG" name="'MfG (Mit freundlichen Grüßen)' (abgekürzte Schlussformeln)">
             <pattern case_sensitive="yes">
                 <token postag="SENT_START"/>
@@ -792,7 +946,6 @@ USA
                 <token regexp="yes" case_sensitive="yes">(Sieben|7)-Tages-(Inzidenz(en)?|Trends?|Wochen?)</token>
             </pattern>
             <message>Die gängigere Schreibweise ist <suggestion><match no="1" regexp_match="Tages" regexp_replace="Tage" /></suggestion>.</message>
-            <url>https://languagetool.org/insights/de/beitrag/bindestrich-corona/#der-bindestrich-dient-zur-besseren-lesbarkeit-%E2%80%93-auch-bei-coronabegriffen</url>
             <example correction="7-Tage-Inzidenz">Die <marker>7-Tages-Inzidenz</marker> ist stark gesunken.</example>
         </rule>
         <rulegroup id="MEHR_ALS_ZAL_PLUS" name="mehr als 10+ (10)" tone_tags="clarity">
@@ -952,6 +1105,14 @@ USA
     <!-- Umgangssprache -->
     <!-- ====================================================================== -->
     <category id="COLLOQUIALISMS" name="Umgangssprache" type="style">
+
+        <rule id="TSCHULDIGUNG" name="Tschuldigung (Entschuldigung)" tone_tags="formal" is_goal_specific="true">
+            <pattern>
+                <token>Tschuldigung</token>
+            </pattern>
+            <message>'\1' ist umgangssprachlich. Möchten Sie die standardsprachliche Schreibweise <suggestion>Entschuldigung</suggestion> verwenden?</message>
+            <example correction="Entschuldigung"><marker>Tschuldigung</marker>!</example>
+        </rule>
 
         <rule id="I_BIMS_JUGENDSPRACHE" name="Hallo, I bims (ich bin's)">
             <antipattern>
@@ -1116,7 +1277,7 @@ USA
                         </token>
                     </marker>
                 </pattern>
-                <message>Standardsprachlich ist die Verbform mit 'e' eleganter. Falls Sie umgangssprachlich formulieren und das 'e' auslassen möchten, setzen Sie einen Apostroph.</message>
+                <message>Standardsprachlich ist die Verbform mit 'e' eleganter. Zur besseren Lesbarkeit können Sie alternativ einen Apostroph setzen.</message>
                 <suggestion>\2e</suggestion>
                 <suggestion>\2’</suggestion>
                 <example correction="kaufe|kauf’">Ich <marker>kauf</marker> jeden Samstag frische Lebensmittel.</example>
@@ -1156,7 +1317,7 @@ USA
                     </marker>
                     <token>ich</token>
                 </pattern>
-                <message>Standardsprachlich ist die Verbform mit 'e' eleganter. Falls Sie umgangssprachlich formulieren und das 'e' auslassen möchten, setzen Sie einen Apostroph.</message>
+                <message>Standardsprachlich ist die Verbform mit 'e' eleganter. Zur besseren Lesbarkeit können Sie alternativ einen Apostroph setzen.</message>
                 <suggestion>\1e</suggestion>
                 <suggestion>\1’</suggestion>
                 <example correction="kaufe|kauf’">Normalerweise <marker>kauf</marker> ich jeden Samstag frische Lebensmittel.</example>
@@ -2048,7 +2209,7 @@ USA
                 <pattern>
                     <token>macht</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|überhaupt|häufig|oft|meist(ens)?|trotzdem|immer|gar|wirklich|jetzt|total|vielleicht|möglicherweise|durchaus|allerdings|wohl|womöglich|eigentlich|natürlich</token>
+                    <token min="0" regexp="yes">also|somit|gegebenenfalls|definitiv|irgendwie|grundsätzlich|überhaupt|häufig|oft|meist(ens)?|trotzdem|immer|gar|wirklich|jetzt|total|vielleicht|möglicherweise|durchaus|allerdings|wohl|womöglich|eigentlich|natürlich</token>
                     <token regexp="yes">keinen|wenig|kaum</token>
                     <token>Sinn</token>
                 </pattern>
@@ -2062,7 +2223,7 @@ USA
                 <pattern>
                     <token>machte</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|überhaupt|häufig|oft|meist(ens)?|trotzdem|immer|gar|wirklich|jetzt|total|vielleicht|möglicherweise|durchaus|allerdings|wohl|womöglich|eigentlich|natürlich</token>
+                    <token min="0" regexp="yes">also|somit|gegebenenfalls|definitiv|irgendwie|grundsätzlich|überhaupt|häufig|oft|meist(ens)?|trotzdem|immer|gar|wirklich|jetzt|total|vielleicht|möglicherweise|durchaus|allerdings|wohl|womöglich|eigentlich|natürlich</token>
                     <token regexp="yes">keinen|wenig|kaum</token>
                     <token>Sinn</token>
                 </pattern>
@@ -2076,7 +2237,7 @@ USA
                 <pattern>
                     <token>macht</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|dringend|grammatikalisch|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
+                    <token min="0" regexp="yes">also|somit|gegebenenfalls|definitiv|irgendwie|grundsätzlich|dringend|grammatikalisch|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
@@ -2089,7 +2250,7 @@ USA
                 <pattern>
                     <token>machte</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|dringend|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
+                    <token min="0" regexp="yes">also|somit|gegebenenfalls|definitiv|irgendwie|grundsätzlich|dringend|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
@@ -2103,7 +2264,7 @@ USA
                     <token regexp="yes">es|das|dies(es)?</token>
                     <marker>
                         <token>macht</token>
-                        <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|nur|häufig|oft|meist(ens)?|trotzdem|immer|jetzt|aktuell|wirklich|total|schon|durchaus|allerdings|wohl|viel|vielleicht|möglicherweise|womöglich|eigentlich|natürlich</token>
+                        <token min="0" regexp="yes">also|somit|gegebenenfalls|definitiv|irgendwie|grundsätzlich|nur|häufig|oft|meist(ens)?|trotzdem|immer|jetzt|aktuell|wirklich|total|schon|durchaus|allerdings|wohl|viel|vielleicht|möglicherweise|womöglich|eigentlich|natürlich</token>
                         <token>Sinn</token>
                     </marker>
                 </pattern>
@@ -2118,7 +2279,7 @@ USA
                     <token regexp="yes">es|das|dies(es)?</token>
                     <marker>
                         <token>machte</token>
-                        <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|nur|häufig|oft|meist(ens)?|trotzdem|immer|jetzt|aktuell|wirklich|total|schon|durchaus|allerdings|wohl|viel|vielleicht|möglicherweise|womöglich|eigentlich|natürlich</token>
+                        <token min="0" regexp="yes">also|somit|gegebenenfalls|definitiv|irgendwie|grundsätzlich|nur|häufig|oft|meist(ens)?|trotzdem|immer|jetzt|aktuell|wirklich|total|schon|durchaus|allerdings|wohl|viel|vielleicht|möglicherweise|womöglich|eigentlich|natürlich</token>
                         <token>Sinn</token>
                     </marker>
                 </pattern>
@@ -2133,7 +2294,7 @@ USA
                     <token regexp="yes">es|das|dies(es)?</token>
                     <marker>
                         <token regexp="yes">würde|könnte|müsste|sollte|wird|kann|muss|soll</token>
-                        <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|nur|häufig|oft|meist(ens)?|trotzdem|immer|jetzt|aktuell|wirklich|vielleicht|möglicherweise|total|schon|keinen|durchaus|allerdings|wohl|viel|eigentlich|wahrscheinlich|vermutlich|natürlich</token>
+                        <token min="0" regexp="yes">also|somit|gegebenenfalls|definitiv|irgendwie|grundsätzlich|nur|häufig|oft|meist(ens)?|trotzdem|immer|jetzt|aktuell|wirklich|vielleicht|möglicherweise|total|schon|keinen|durchaus|allerdings|wohl|viel|eigentlich|wahrscheinlich|vermutlich|natürlich</token>
                         <token>Sinn</token>
                         <token>machen</token>
                     </marker>
@@ -2148,7 +2309,7 @@ USA
                     <token regexp="yes">es|das|dies(es)?</token>
                     <marker>
                         <token>macht</token>
-                        <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|einfach|häufig|oft|meist(ens)?|trotzdem|überhaupt|gar|wirklich|jetzt|total|möglicherweise|durchaus|allerdings|wohl|eigentlich|wahrscheinlich|vermutlich|vielleicht|natürlich</token>
+                        <token min="0" regexp="yes">also|somit|gegebenenfalls|definitiv|irgendwie|grundsätzlich|einfach|häufig|oft|meist(ens)?|trotzdem|überhaupt|gar|wirklich|jetzt|total|möglicherweise|durchaus|allerdings|wohl|eigentlich|wahrscheinlich|vermutlich|vielleicht|natürlich</token>
                         <token regexp="yes">keinen|wenig|kaum|nicht</token>
                         <token>Sinn</token>
                     </marker>
@@ -2165,7 +2326,7 @@ USA
                     <token regexp="yes">es|das|dies(es)?</token>
                     <marker>
                         <token>machte</token>
-                        <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|einfach|häufig|oft|meist(ens)?|trotzdem|überhaupt|gar|wirklich|jetzt|total|möglicherweise|durchaus|allerdings|wohl|eigentlich|wahrscheinlich|vermutlich|vielleicht|natürlich</token>
+                        <token min="0" regexp="yes">also|somit|gegebenenfalls|definitiv|irgendwie|grundsätzlich|einfach|häufig|oft|meist(ens)?|trotzdem|überhaupt|gar|wirklich|jetzt|total|möglicherweise|durchaus|allerdings|wohl|eigentlich|wahrscheinlich|vermutlich|vielleicht|natürlich</token>
                         <token regexp="yes">keinen|wenig|kaum|nicht</token>
                         <token>Sinn</token>
                     </marker>
@@ -2205,7 +2366,7 @@ USA
                 <pattern>
                     <marker>
                         <token regexp="yes">es|das|dies</token>
-                        <token regexp="yes" min="0">definitiv|irgendwie|grundsätzlich|wirklich|trotzdem|häufig|oft|meist(ens)?|immer|überhaupt|wohl|doch|kaum|durchaus|möglicherweise|jetzt|nun|total|eigentlich|natürlich</token>
+                        <token regexp="yes" min="0">also|somit|gegebenenfalls|definitiv|irgendwie|grundsätzlich|wirklich|trotzdem|häufig|oft|meist(ens)?|immer|überhaupt|wohl|doch|kaum|durchaus|möglicherweise|jetzt|nun|total|eigentlich|natürlich</token>
                         <token>Sinn</token>
                         <token>macht</token>
                     </marker>
@@ -2270,7 +2431,7 @@ USA
                     <token>macht</token>
                     <token>für</token>
                     <token regexp="yes">mich|ihn|dich|sie|die|den|das|uns|euch</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|gar|durchaus|allerdings|jetzt|nun|eigentlich|auch|natürlich</token>
+                    <token min="0" regexp="yes">also|somit|gegebenenfalls|definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|gar|durchaus|allerdings|jetzt|nun|eigentlich|auch|natürlich</token>
                     <token regexp="yes">nicht|wenig|keinen|kaum</token>
                     <token>Sinn</token>
                 </pattern>
@@ -2286,7 +2447,7 @@ USA
                     <token>machte</token>
                     <token>für</token>
                     <token regexp="yes">mich|ihn|dich|sie|die|den|das|uns|euch</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|echt|auch|natürlich</token>
+                    <token min="0" regexp="yes">also|somit|gegebenenfalls|definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|echt|auch|natürlich</token>
                     <token regexp="yes">nicht|wenig|keinen|kaum</token>
                     <token>Sinn</token>
                 </pattern>
@@ -2300,7 +2461,7 @@ USA
             <rule><!-- [21] -->
                 <pattern>
                     <token>macht</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|überhaupt|echt|einfach|auch|natürlich</token>
+                    <token min="0" regexp="yes">also|somit|gegebenenfalls|definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|überhaupt|echt|einfach|auch|natürlich</token>
                     <token>keinen</token>
                     <token>Sinn</token>
                 </pattern>
@@ -2315,7 +2476,7 @@ USA
             <rule><!-- [22] -->
                 <pattern>
                     <token>machte</token>
-                    <token min="0" regexp="yes">definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|überhaupt|echt|einfach|auch|natürlich</token>
+                    <token min="0" regexp="yes">also|somit|gegebenenfalls|definitiv|irgendwie|grundsätzlich|vielleicht|womöglich|gar|durchaus|allerdings|jetzt|nun|eigentlich|wirklich|überhaupt|echt|einfach|auch|natürlich</token>
                     <token>keinen</token>
                     <token>Sinn</token>
                 </pattern>
@@ -2347,7 +2508,7 @@ USA
                 <pattern>
                     <token>mache</token>
                     <token regexp="yes">es|das|dies</token>
-                    <token min="0" regexp="yes">definitiv|dringend|grammatikalisch|grundsätzlich|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
+                    <token min="0" regexp="yes">also|somit|gegebenenfalls|definitiv|dringend|grammatikalisch|grundsätzlich|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
@@ -2359,7 +2520,7 @@ USA
             <rule><!-- [25] -->
                 <pattern>
                     <token>machen</token>
-                    <token min="0" regexp="yes">definitiv|dringend|grammatikalisch|grundsätzlich|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
+                    <token min="0" regexp="yes">also|somit|gegebenenfalls|definitiv|dringend|grammatikalisch|grundsätzlich|vielleicht|häufig|oft|meist(ens)?|trotzdem|immer|wirklich|möglicherweise|überhaupt|jetzt|aktuell|schon|nur|durchaus|allerdings|wohl|viel|total|womöglich|eigentlich|natürlich</token>
                     <token>Sinn</token>
                 </pattern>
                 <message>&sinnmachen;</message>
@@ -4984,6 +5145,16 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="KLEINE_-CHEN" name="'kleines Häuschen' etc." tone_tags="clarity">
+            <antipattern><!-- https://de.wikipedia.org/wiki/Die_drei_kleinen_Schweinchen -->
+                <token regexp="yes">3|drei</token>
+                <token regexp="yes">klein.*</token>
+                <token>Schweinchen</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">sehr|ganz|äu(ß|ss)erst|total|nur</token>
+                <token regexp="yes">klein.*</token>
+                <example>Das ist schon ein sehr kleines Städtchen.</example>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">kleine[ns]?</token>
@@ -5932,7 +6103,7 @@ USA
                     </token>
                     <token spacebefore="no">.</token>
                 </pattern>
-                <message>Möchten Sie eine gängigere Schreibweise verwenden?</message>
+                <message>Möchten Sie eine gängigere Abkürzung für "vielleicht" verwenden?</message>
                 <suggestion>vllt.</suggestion>
                 <suggestion>vlt.</suggestion>
                 <suggestion>vl.</suggestion>
@@ -5986,17 +6157,37 @@ USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Gg]epatched|[Gg]eremixed|[Gg]escreened|[Gg]ebiked|[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled|[Gg]ecoached|[Gg]eblogged|[Gg]ebeamed|[Gg]echipped|[Pp]erformed|[Gg]eswiped|[Mm]atched|[Gg]eschocked|[Gg]epitched|[Pp]itched|[Gg]emapped|[Oo]utgesourced|[Ii]nterviewed|[Gg]efixed|[Gg]eflashed|[Gg]ehyped|[Gg]eshopped|[Gg]elabeled</token>
+                    <token case_sensitive="yes" regexp="yes">[Gg]epatched|[Gg]eremixed|[Gg]escreened|[Gg]ebiked|[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled|[Gg]ecoached|[Gg]eblogged|[Gg]ebeamed|[Gg]echipped|[Pp]erformed|[Gg]eswiped|[Mm]atched|[Gg]eschocked|[Gg]epitched|[Pp]itched|[Gg]emapped|[Oo]utgesourced|[Ii]nterviewed|[Gg]efixed|[Gg]eflashed|[Gg]ehyped|[Gg]eshopped|[Gg]elabeled|[Gg]edoped
+                        <exception case_sensitive="yes" regexp="yes">[Gg]ebiked|[Gg]eteased|[Gg]eshuffeled|[Gg]eskyped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]efaked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Gg]etuned|[Gg]egoogled|[Gg]eswiped|[Oo]utgesourced|[Gg]ehyped|[Gg]edoped</exception>    
+                    </token>
                 </pattern>
                 <message>Die empfohlene und eingedeutschte Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
-                <example correction="gefeaturt">Wir wurden auf der Startseite des App Stores <marker>gefeatured</marker>.</example>
+                <example correction="getrackt">Wir haben alle Zeiten <marker>getracked</marker></example>
+                <example>Wir wurden auf der Startseite des App Stores <marker>gefeatured</marker>.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Gg]eouted|[Gg]ekited|[Gg]edated|[Gg]ecasted|[Gg]evested|[Gg]eshorted|[Gg]ehighlighted|[Ss]upported|[Gg]efighted|[Gg]eframed</token>
+                    <token case_sensitive="yes" regexp="yes">[Gg]eouted|[Gg]ekited|[Gg]edated|[Gg]ecasted|[Gg]evested|[Gg]eshorted|[Gg]eshooted|[Gg]ehighlighted|[Ss]upported|[Gg]efighted|[Gg]eframed
+                        <exception case_sensitive="yes" regexp="yes">[Gg]ekited|[Gg]edated|[Gg]eframed</exception>
+                    </token>
                 </pattern>
                 <message>Die empfohlene und eingedeutschte Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="et" /></suggestion>.</message>
-                <example correction="gedatet">Sie haben sich 2 Wochen lang <marker>gedated</marker>.</example>
+                <example correction="gehighlightet">Sie haben bereits alle wichtigen Stellen im Text <marker>gehighlighted</marker>.</example>
+                <example>Sie haben sich 2 Wochen lang <marker>gedated</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">([Gg]ebiked|[Gg]eteased|[Gg]eshuffeled|[Gg]eskyped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]efaked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Gg]etuned|[Gg]egoogled|[Gg]eswiped|[Oo]utgesourced|[Gg]ehyped|[Gg]edoped)e[mnrs]?</token>
+                </pattern>
+                <message>Die empfohlene und eingedeutschte Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed(e[mnrs]?)$" regexp_replace="t$1" /></suggestion>.</message>
+                <example correction="gefeaturte">Die <marker>gefeaturede</marker> App gefällt uns sehr gut.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">([Gg]ekited|[Gg]edated|[Gg]eframed)e[mnrs]?</token>
+                </pattern>
+                <message>Die empfohlene und eingedeutschte Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed(e[mnrs]?)$" regexp_replace="et$1" /></suggestion>.</message>
+                <example correction="gedateten">Die von ihm <marker>gedateden</marker> Personen waren unzufrieden.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BZGL_ABK" name="Schreibweise der Abkürzung 'bzgl.'" tone_tags="formal">
@@ -6075,7 +6266,7 @@ USA
             <antipattern><!-- do not correct "Phantasialand" or "chromatography" -->
                 <token regexp="yes">.*y|Phantasia.*|Graphem[se]?</token>
             </antipattern>
-            <rule>
+            <rule><!--1-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">Phantas.*</token>
                 </pattern>
@@ -6084,7 +6275,7 @@ USA
                 <example correction="Fantasie">Er hat eine blühende <marker>Phantasie</marker>.</example>
                 <example correction="Fantasien">Er entwickelte wilde <marker>Phantasien</marker>.</example>
             </rule>
-            <rule>
+            <rule><!--2-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">phantas.*</token>
                 </pattern>
@@ -6093,12 +6284,18 @@ USA
                 <example correction="fantastische">Es ist eine <marker>phantastische</marker> Landschaft.</example>
                 <example correction="fantasievolle">Er lieferte eine <marker>phantasievolle</marker> Beschreibung.</example>
             </rule>
-            <rule>
+            <rule><!--3-->
                 <antipattern>
-                    <token regexp="yes">GraphQL|.*pho[nt]ograph.*|monograph|palaeontograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
+                    <token regexp="yes" case_sensitive="yes" postag="_english_ignore_">[\wäöüÄÖÜß-]*[gG]raph[\wäöüÄÖÜß-]*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">graphic|GraphQL|.*pho[nt]ograph.*|monograph|palaeontograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">[\wäöüÄÖÜß-]*[gG]raph[\wäöüÄÖÜß-]*</token>
+                    <token regexp="yes" case_sensitive="yes">[\wäöüÄÖÜß-]*[gG]raph[\wäöüÄÖÜß-]*
+                        <exception regexp="yes">.*[Pp]h.*ph.*</exception>
+                        <exception postag="_english_ignore_"/>
+                    </token>
                 </pattern>
                 <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="(.)(.*)raph(.*)" regexp_replace="$1$2raf$3"/></suggestion> verwenden?</message>
                 <url>https://languagetool.org/insights/de/beitrag/ph-versus-f/</url>
@@ -6110,10 +6307,11 @@ USA
                 <example>http://www.graphical-illustration.com</example>
                 <example correction="Paragraf">Der <marker>Paragraph</marker> ganz unten!</example>
                 <example>Der "Telegraph" zitierte eine nicht näher genannte Regierungsquelle mit den Worten: "Alles steht auf Messers Schneide."</example>
-                <example>Sein Buch heißt 'everyday  chromatography'.</example>
+                <example>Sein Buch heißt 'everyday chromatography'.</example>
                 <example>Wir fahren ins Phantasialand.</example>
+                <example>Er entwickelte den Phonautograph.</example><!-- exception because only 1 'ph' gets corrected-->
             </rule>
-            <rule>
+            <rule><!--4-->
                 <antipattern>
                     <token regexp="yes">GraphQL|.*pho[nt]ograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
                 </antipattern>
@@ -6131,7 +6329,7 @@ USA
                 <example>http://www.GRAPHICAL-ILLUSTRATION.com</example>
                 <example>Als kaiserlicher Archivar hatte der Biograph Zugriff auf Dokumente der Regierung.</example>
             </rule>
-            <rule>
+            <rule><!--5-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">Photograph[\wäöüÄÖÜß-]*</token>
                 </pattern>
@@ -6139,7 +6337,7 @@ USA
                 <url>https://languagetool.org/insights/de/beitrag/ph-versus-f/</url>
                 <example correction="Fotografien">Sie sammelte <marker>Photographien</marker>.</example>
             </rule>
-            <rule>
+            <rule><!--6-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[\wäöüÄÖÜß-]*photograph[\wäöüÄÖÜß-]*</token>
                 </pattern>
@@ -6148,21 +6346,23 @@ USA
                 <example correction="Familienfotografien">Ihr gelangen immer wieder wundervolle <marker>Familienphotographien</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TEST_F_ANSTATT_PH" name="Worte mit Ph anstatt F" tone_tags="formal">
+        <rulegroup id="F_ANSTATT_PH_2" name="Worte mit Ph anstatt F" tone_tags="formal" default="off"><!--we have other/better rules and gGEC for these cases-->
             <url>https://languagetool.org/insights/de/beitrag/ph-versus-f/</url>
-            <rule>
+            <rule><!--1-->
                 <antipattern>
-                    <token regexp="yes">Phone|Photograph.*|Photons?|Photonen.*|Photoshop.*|Phono.*|Phone[mt].*</token>
+                    <token regexp="yes">Photograph.*|Photons?|Photonen.*|Photoshop.*</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">Pho(to|n)[\wäöüÄÖÜß-]*</token>
+                    <token regexp="yes" case_sensitive="yes">Photo[\wäöüÄÖÜß-]*</token>
                 </pattern>
-                <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="Photo(.*)" regexp_replace="Foto$1"/></suggestion> verwenden?</message>
+                <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="Photo" regexp_replace="Foto"/></suggestion> verwenden?</message>
                 <example correction="Fotoalbum">Sie blätterte gerne durch das <marker>Photoalbum</marker>.</example>
+                <example correction="Fotos">Sie machte viele <marker>Photos</marker>.</example>
             </rule>
-            <rule>
+            <rule><!--2-->
                 <antipattern>
-                    <token regexp="yes">Persephones?|Symphony|Babyphones?|Softphones?|.*photograph.*|.*photon|.*photonen.*|.*phono.*|.*phone[mt].*|symphoni.*|(.+)?Smartphone.*|Allophon.*|Siphon</token>
+                    <token regexp="yes">Alphonses?|Persephones?|Symphony|Babyphones?|Softphones?|.*photograph.*|.*photon|.*photonen.*|.*phono.*|.*phone[mt].*|symphoni.*|(.+)?Smartphone.*|Allophon.*|Siphon</token>
+                    <example>Ich erinnere mich daran, als du noch Alphonse Trebagoogoo warst.</example>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">https?.*|www.*</token>
@@ -6261,7 +6461,7 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="EMPFOHLENE_GETRENNTSCHREIBUNG" name="Empfohlene Getrenntschreibung" tone_tags="formal">
-            <rule>
+            <rule><!--1-->
                 <pattern case_sensitive="yes">
                     <token regexp="yes">verloreng(eh(en?|s?t)|ing(en)?|egangen(e[nrs]?)?)</token>
                 </pattern>
@@ -6271,7 +6471,7 @@ USA
                 <example correction='verloren gegangen'>Weil die Papiere <marker>verlorengegangen</marker> waren, konnte er die Uhr nicht mehr verkaufen.</example>
                 <example correction='verloren geht'>Wenn er <marker>verlorengeht</marker>, haben wir ein Problem.</example>
             </rule>
-            <rule>
+            <rule default="off"><!--2-->
                 <pattern case_sensitive="yes">
                     <token inflected="yes" regexp="yes">bekannt(geben|machen)</token>
                 </pattern>
@@ -6283,7 +6483,7 @@ USA
                 <example correction='bekannt gemacht'>Sie hat ihre Verlobung <marker>bekanntgemacht</marker>.</example>
                 <example correction='bekannt machte'>Als er es <marker>bekanntmachte</marker>, achtete niemand darauf.</example>
             </rule>
-            <rule>
+            <rule><!--3-->
                 <antipattern>
                     <token><exception postag="SENT_START"/></token>
                     <token case_sensitive="yes">Zuhause</token>
@@ -6302,7 +6502,7 @@ USA
                 <example>Es war ihr Zuhause.</example>
                 <example>Wenn du etwas früher von Zuhause aufgebrochen wärst, wärst du punktlich gewesen.</example>
             </rule>
-            <rule>
+            <rule><!--4-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">hilfesuchende?[mnrs]?</token>
                 </pattern>
@@ -6311,17 +6511,16 @@ USA
                 <example correction="Hilfe suchend">Sie sah <marker>hilfesuchend</marker> zu ihm hinüber.</example>
                 <example>Auch hier dürfen die Hilfesuchenden die Lager erst verlassen, wenn ihr Asylverfahren genehmigt ist.</example>
             </rule>
-            <rule>
+            <rule><!--5-->
                 <pattern>
-                    <token regexp="yes">rot(lackiert|geschminkt|kariert|gestreift|gefroren|glühend|geädert|unterlaufen|geweint)(e[nmrs]?)?|(gelb|blau|grün)(gestreift|kariert|(ge)?färbt?)(e[nmrs]?)?|schwarz(gerändert|gestreift|gekleidet|gelockt|(ge)?färbt?)(e[nmrs]?)?|wei(ß|ss)(gekleidet|(ge)?(färb|kalk|tünch)t?|gestreift|lackiert|gestrichen|gedeckt|glühend)(e[nmrs]?)?</token>
+                    <token regexp="yes">rot(lackiert|geschminkt|kariert|gestreift|gefroren|glühend|geädert|unterlaufen|geweint)(e[nmrs]?)?|(gelb|blau|grün)(gestreift|kariert|(ge)?färbt?)(e[nmrs]?)?|schwarz(gerändert|gestreift|gekleidet|gelockt|(ge)?färbt?)(e[nmrs]?)?|wei(ß|ss)((ge)?(färb|kalk)t?|gestreift|lackiert|gestrichen|gedeckt|glühend)(e[nmrs]?)?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.)(ot|elb|lau|rün|chwarz|eiß)(.*)" regexp_replace="$1$2 $3"/></suggestion> verwenden?</message>
                 <url>https://languagetool.org/insights/de/beitrag/farben-sprichworter/#kategorie-1-verben-mit-farben</url>
                 <example correction="Rot lackierte"><marker>Rotlackierte</marker> Autos gefallen ihr ganz besonders.</example>
-                <example correction="weiß getünchte">In dieser Gegend fiel das <marker>weißgetünchte</marker> Haus sofort ins Auge.</example>
                 <example>Der typische rosafarbene Ton verschwindet in Richtung zu einer starken Gelbfärbung.</example>
             </rule>
-            <rule>
+            <rule><!--6-->
                 <pattern>
                     <token regexp="yes">tief((dring|blick|häng|sitz|steh|reich)end|beleidigt|betroffen|verschneit|bewegt|empfunden|gekränkt|erschüttert|betrübt).*</token>
                 </pattern>
@@ -6330,7 +6529,7 @@ USA
                 <example correction="Tief hängende"><marker>Tiefhängende</marker> Früchte sollte man zuerst ernten.</example>
                 <example correction="tief betrübt">Er war <marker>tiefbetrübt</marker>.</example>
             </rule>
-            <rule>
+            <rule><!--7-->
                 <pattern>
                     <token regexp="yes">hoch((technis|dot|motiv|industralis|spezialis|qualifiz|kompliz|dos)iert|acht|schätz|besteuert|bezahlt|verschuldet|radioaktiv|spannend|liegend|gespannt|aufgeschossen|entwickelt|beansprucht|gelegen|angesehen|konzentriert)(e[nrs]?)?</token>
                 </pattern>
@@ -6338,7 +6537,7 @@ USA
                 <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
                 <example correction="hoch komplizierte">Es handelt sich um eine <marker>hochkomplizierte</marker> Angelegenheit.</example>
             </rule>
-            <rule>
+            <rule><!--8-->
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">viel(geliebt|genannt|besucht|gereist|gefragt|umjubelt|besungen|gebraucht|beachtet|umworben|umstritten|gescholten|gelobt|gepriesen|gelesen|beschworen|gekauft|zitiert|befahren|gerühmt|diskutiert|beschäftigt|besprochen|geschmäht).*</token>
                 </pattern>
@@ -6347,19 +6546,19 @@ USA
                 <example correction="viel beschäftigten">Er zählt zu den <marker>vielbeschäftigten</marker> Stars.</example>
                 <example>Ernährungsberatung für Vielbeschäftigte.</example>
             </rule>
-            <rule>
+            <rule><!--9-->
                 <antipattern>
                     <token case_sensitive="yes" regexp="yes">Nicht(deutsch(sprachl|sprech)?|organisiert|berufstätig|behindert)e[nr]?</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">nicht(christlich|staatlich|deutsch|leitend|organisiert|rostend|zielend|flektierbar|amtlich|berufstätig|ehelich|öffentlich|kommerziell|behindert|euklidisch|kommunistisch|selb(st)?ständig|linear)(e|en|er|es|em)?</token>
+                    <token regexp="yes">nicht(christlich|staatlich|deutsch|leitend|organisiert|rostend|zielend|flektierbar|amtlich|kommerziell|behindert|euklidisch|kommunistisch|selb(st)?ständig|linear)(e|en|er|es|em)?</token>
                 </pattern>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.)icht(.*)" regexp_replace="$1icht $2"/></suggestion> verwenden?</message>
                 <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
                 <example correction="nicht rostendem">Der Träger besteht aus <marker>nichtrostendem</marker> Stahl.</example>
                 <example>NEhelG – Nichtehelichengesetz</example>
             </rule>
-            <rule>
+            <rule><!--10-->
                 <pattern>
                     <token regexp="yes">frisch((ge)?macht?|gebacken)(e[mnrs]?)?</token>
                 </pattern>
@@ -6367,7 +6566,7 @@ USA
                 <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
                 <example correction="frisch gebackenes">Er kaufte ein <marker>frischgebackenes</marker> Brot.</example>
             </rule>
-            <rule>
+            <rule><!--11-->
                 <pattern>
                     <token regexp="yes">frei(finanziert|laufend|lebend|stehend|werdend)(e[mnrs]?)?</token>
                 </pattern>
@@ -6375,7 +6574,7 @@ USA
                 <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
                 <example correction="frei stehendes">Der Makler bot ihnen ein <marker>freistehendes</marker> Haus an.</example>
             </rule>
-            <rule>
+            <rule><!--12-->
                 <antipattern>
                     <token regexp="yes">fertigzu(lesen|kochen)</token>
                 </antipattern>
@@ -6386,7 +6585,7 @@ USA
                 <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
                 <example correction="fertig gekocht">Sie wartete, bis er das Gericht <marker>fertiggekocht</marker> hatte.</example>
             </rule>
-            <rule>
+            <rule><!--13-->
                 <pattern>
                     <token regexp="yes">fertigzu(lesen|kochen)</token>
                 </pattern>
@@ -6394,11 +6593,11 @@ USA
                 <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
                 <example correction="fertig zu kochen">Es dauerte lange das Gericht <marker>fertigzukochen</marker>.</example>
             </rule>
-            <rule>
-                <regexp>neu(bekehrt|bearbeitet|geschaffen|eröffnet)e?[nmrs]?</regexp>
+            <rule><!--14-->
+                <regexp>neu(bekehrt|geschaffen)e?[nmrs]?</regexp>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="0" regexp_match="(.)eu(.*)" regexp_replace="$1eu $2"/></suggestion> verwenden?</message>
                 <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
-                <example correction="neu eröffnete">Ich habe mir das <marker>neueröffnete</marker> Museum angeschaut.</example>
+                <example correction="neu bekehrt">Er wurde gestern <marker>neubekehrt</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EMPFOHLENE_ZUSAMMENSCHREIBUNG" name="Empfohlene Zusammenschreibung" tone_tags="formal">
@@ -6485,7 +6684,7 @@ USA
                 <example>Ich suche günstige Flüge immer auf Seiten wie Bing Flights oder Kanoo.</example>
                 <example>Auf Seiten, die eine ungerade Zahl haben, ist der linke Rand schmaler.</example>
             </rule>
-            <rule><!--5-->
+            <rule default="off"><!--5-->
                 <antipattern>
                     <token>von</token>
                     <token>Tag</token>
@@ -6698,7 +6897,7 @@ USA
                 <example correction="Mithilfe"><marker>Mit Hilfe</marker> von Freunden organisierte er eine große Feier.</example>
                 <example correction="mithilfe">Er konnte sich nur <marker>mit Hilfe</marker> von Krücken fortbewegen.</example>
             </rule>
-            <rule><!--24-->
+            <rule default="off"><!--24-->
                 <pattern>
                     <marker>
                         <token>zufrieden</token>

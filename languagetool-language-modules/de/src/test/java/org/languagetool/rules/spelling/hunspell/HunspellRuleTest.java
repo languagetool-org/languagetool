@@ -20,11 +20,10 @@ package org.languagetool.rules.spelling.hunspell;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.TestTools;
+import org.languagetool.*;
 import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.de.GermanSpellerRule;
@@ -34,12 +33,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class HunspellRuleTest {
 
@@ -121,9 +120,20 @@ public class HunspellRuleTest {
     assertEquals("[E-Commerce, Comer]", matches[1].getSuggestedReplacements().toString());
     assertEquals(3, matches[1].getFromPos());
     assertEquals(11, matches[1].getToPos());
-    
   }
 
+  @Test
+  public void testMultitokensWithSepllerRule() throws Exception {
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+
+    // a multiword as a suggestion for a single-token misspelled word
+    List<RuleMatch> matches = lt.check("BigBrother");
+    assertEquals(1, matches.size());
+    assertEquals("Big Brother", matches.get(0).getSuggestedReplacements().get(0).toString());
+
+    // multiwords at the sentence start (capitalized)
+    assertEquals(0, lt.check("Mea culpa").size());
+  }
   @Test
   public void testRuleWithWrongSplit() throws Exception {
     HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), Languages.getLanguageForShortCode("de-DE"), null);
@@ -184,10 +194,16 @@ public class HunspellRuleTest {
   @Test
   public void testRuleWithSwissGerman() throws Exception {
     HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), Languages.getLanguageForShortCode("de-CH"), null);
-    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-CH"));
     commonGermanAsserts(rule, lt);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);  // ss is used instead of ß
+
+    // suggestions with ss, not ß, in Swiss German
+    List<RuleMatch> matches = lt.check("Mit freundlichen Gruessen");
+    assertEquals("Grüssen", matches.get(0).getSuggestedReplacements().get(0));
+    matches = lt.check("schließen");
+    assertEquals("schliessen", matches.get(0).getSuggestedReplacements().get(0));
   }
 
   private void commonGermanAsserts(HunspellRule rule, JLanguageTool lt) throws IOException {
@@ -222,6 +238,35 @@ public class HunspellRuleTest {
       long endTime = System.currentTimeMillis();
       System.out.println((endTime-startTime) + "ms for " + language);
     }
+  }
+
+  @Ignore("just for internal performance testing, thus ignored by default")
+  @Test
+  public void testSeparateCorrectWordPerformance() throws Exception {
+    String[] words = {"Rechtschreibreform", "Theaterkasse", "Zoobesuch", "Handelsvertreter", "Mückenstich", "gewöhnlich", "Autoverkehr"};
+
+    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+    // make sure everything is initialized when actually testing
+    for (String word : words) {
+      lt.check(word);
+    }
+    Rule rule = lt.getAllRules().stream().filter(r -> r instanceof HunspellRule).findFirst().orElse(null);
+    assertNotNull(rule);
+    List<AnalyzedSentence> analyzed = Arrays.stream(words).map(sentence -> {
+      try {
+        return lt.getAnalyzedSentence(sentence);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }).collect(Collectors.toList());
+    long startTime = System.currentTimeMillis();
+    for (int i = 0; i < 1000; i++) {
+      for (AnalyzedSentence s : analyzed) {
+        assertEquals(0, rule.match(s).length);
+      }
+    }
+    long endTime = System.currentTimeMillis();
+    System.out.println((endTime - startTime) + "ms");
   }
 
   @Ignore("just for internal performance testing, thus ignored by default")

@@ -36,6 +36,8 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
+import org.languagetool.server.tools.AbTestService;
+import org.languagetool.server.tools.LocalAbTestService;
 import org.languagetool.tools.TelemetryProvider;
 import org.languagetool.tools.LtThreadPoolFactory;
 import org.languagetool.tools.Tools;
@@ -65,6 +67,7 @@ abstract class TextChecker {
   private static final int PINGS_MAX_SIZE = 5000;
   private static final String SPAN_NAME_PREFIX = "/v2/check-";
   private static final Pattern COMMA_WHITESPACE_PATTERN = Pattern.compile(",\\s*");
+  private static final AbTestService AB_TEST_SERVICE = new LocalAbTestService();
 
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
@@ -252,6 +255,37 @@ abstract class TextChecker {
     long timeStart = System.currentTimeMillis();
     UserLimits limits = ServerTools.getUserLimits(params, config);
 
+    if (Premium.isPremiumStatusCheck(aText)) {
+      Language premiumStatusCheckLang = Languages.getLanguageForShortCode("en-US");
+      List<RuleMatch> matches = new ArrayList<>();
+      if (limits.hasPremium() || config.isPremiumAlways()) {
+        matches.add(new RuleMatch(new Rule() {
+          @Override
+          public String getId() {
+            return "PREMIUM_FAKE_RULE";
+          }
+
+          @Override
+          public String getDescription() {
+            return "PREMIUM_FAKE_RULE";
+          }
+
+          @Override
+          public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+            return RuleMatch.EMPTY_ARRAY;
+          }
+        }, null,0,1,""));
+      }
+      DetectedLanguage detectedLanguage = new DetectedLanguage(premiumStatusCheckLang, premiumStatusCheckLang, 0.99999076F, "ngram");
+      int compactMode = Integer.parseInt(params.getOrDefault("c", "0"));
+      String response = getResponse(aText, premiumStatusCheckLang, detectedLanguage, premiumStatusCheckLang, Collections.singletonList(new CheckResults(matches, Collections.emptyList())), Collections.emptyList(), null, compactMode,
+        !limits.hasPremium(), JLanguageTool.Mode.ALL);
+      setHeaders(httpExchange);
+      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
+      httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+      return;
+    }
+
     String requestId = httpExchange.getRequestHeaders().getFirst("X-Request-ID");
 
     // logging information
@@ -355,33 +389,7 @@ abstract class TextChecker {
         ", HTTP user agent: " + getHttpUserAgent(httpExchange) + ", referrer: " + getHttpReferrer(httpExchange));
     }
 
-    List<String> abTest = null;
-    if (agent != null && config.getAbTestClients() != null && config.getAbTestClients().matcher(agent).matches()) {
-      //TODO: it is not possible to have individual AbTestClients per AbTest
-      boolean testRolledOut;
-      // partial rollout; deterministic if textSessionId given to make testing easier
-      if (textSessionId != null) {
-        testRolledOut = textSessionId % 100 < config.getAbTestRollout();
-      } else {
-        testRolledOut = random.nextInt(100) < config.getAbTestRollout();
-      }
-      if (testRolledOut) {
-        abTest = Collections.unmodifiableList(config.getAbTest());
-      }
-    }
-    String paramActivatedAbTest = params.get("abtest");
-    if (paramActivatedAbTest != null) {
-      String[] abParams = paramActivatedAbTest.trim().split(",");
-      List<String> tmpAb = new ArrayList<>();
-      for (String abParam : abParams) {
-        if (config.getAbTest().contains(abParam)) {
-          tmpAb.add(abParam.trim());
-        }
-      }
-      if (!tmpAb.isEmpty()) {
-        abTest = Collections.unmodifiableList(tmpAb);
-      }
-    }
+    List<String> abTest = AB_TEST_SERVICE.getActiveAbTestForClient(params, config);
 
     boolean enableHiddenRules = "true".equals(params.get("enableHiddenRules"));
     if (limits.hasPremium()) {
@@ -403,22 +411,15 @@ abstract class TextChecker {
     Language lang = detLang.getGivenLanguage();
 
     List<Rule> userRules = TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + "GetUserRules", Attributes.empty(), () -> getUserRules(limits, lang, finalDictGroups));
-    boolean isMultiLangEnabled = false;
-    //only enable this feature with parameter
-    if (params.get("enableMultiLanguageChecks") != null && params.get("enableMultiLanguageChecks").equals("true")) {
-      isMultiLangEnabled = true;
-    }
-    boolean untrustedSource = false;
-    if (referrer != null) {
-      untrustedSource = config.getUntrustedReferrers().stream().anyMatch(s -> siteMatches(referrer, s));
-    }
-    
+    String ltAgent = params.getOrDefault("useragent", "unknown");
+    Pattern trustedSourcesPattern = config.getTrustedSources();
+    boolean trustedSource = trustedSourcesPattern == null || (limits.hasPremium() || trustedSourcesPattern.matcher(ltAgent).matches());
     UserConfig userConfig =
       new UserConfig(dictWords, userRules,
                      getRuleValues(params), config.getMaxSpellingSuggestions(),
                      limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
                      null, filterDictionaryMatches, abTest, textSessionId,
-                     !limits.hasPremium() && enableHiddenRules, preferredLangs, untrustedSource);
+                     !limits.hasPremium() && enableHiddenRules, preferredLangs, trustedSource);
 
     //print("Check start: " + text.length() + " chars, " + langParam);
 
@@ -688,51 +689,45 @@ abstract class TextChecker {
             //+ ", temporaryPremiumDisabledRuleMatches: " + temporaryPremiumDisabledRuleMatch //TODO activate if used
             //+ ", temporaryPremiumDisabledRuleMatchedIds: " + temporaryPremiumDisabledRuleMatchedIds //TODO activate if used
             + (limits.getPremiumUid() != null ? ", uid:" + limits.getPremiumUid() : ""));
-    if (limits.getPremiumUid() != null && limits.getPremiumUid() == 1456) { // Fernando Moon, fernando.moon@eggbun-edu.com - allows logging text in exchange for free API access (see email 2018-05-31):
-      log.info("Eggbun input: " + aText.getPlainText().replace("\n", "\\n").replace("\r", "\\r"));
-    }
     if (premiumMatchRuleIds.size() > 0) {
       for (String premiumMatchRuleId : premiumMatchRuleIds) {
         log.info("premium:" + lang.getShortCodeWithCountryAndVariant() + ":" + premiumMatchRuleId);
       }
     }
 
-    if (!Premium.isPremiumStatusCheck(aText)) { // exclude status checks from add-on from metrics
-      ServerMetricsCollector.getInstance().logCheck(
-        lang, computationTime, textSize, matchCount, mode);
 
-      if (!config.isSkipLoggingChecks()) {
-        // NOTE: Java/DB (not sure) can't keep up with logging the volume of new entries we've reached,
-        // so we limit it to enterprise customers where we actually pay attention to the request limits
-        if (limits.getRequestsPerDay() != null) {
-          DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
-            lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
-          databaseLogger.log(logEntry);
-        }
+    ServerMetricsCollector.getInstance().logCheck(
+      lang, computationTime, textSize, matchCount, mode);
+
+    if (!config.isSkipLoggingChecks()) {
+      // NOTE: Java/DB (not sure) can't keep up with logging the volume of new entries we've reached,
+      // so we limit it to enterprise customers where we actually pay attention to the request limits
+      if (limits.getRequestsPerDay() != null) {
+        DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
+          lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
+        databaseLogger.log(logEntry);
       }
+    }
 
-      if (databaseLogger.isLogging()) {
-        if (System.currentTimeMillis() - pingsCleanDateMillis > PINGS_CLEAN_MILLIS && pings.size() < PINGS_MAX_SIZE) {
-          log.info("Cleaning pings DB (" + pings.size() + " items)");
-          pings.clear();
-          pingsCleanDateMillis = System.currentTimeMillis();
-        }
-        if (agentId != null && userId != null) {
-          DatabasePingLogEntry ping = new DatabasePingLogEntry(agentId, userId);
-          if (!pings.contains(ping)) {
-            databaseLogger.log(ping);
-            if (pings.size() >= PINGS_MAX_SIZE) {
-              // prevent pings taking up unlimited amounts of memory
-              log.warn("Pings DB has reached max size: " + pings.size());
-            } else {
-              pings.add(ping);
-            }
+    if (databaseLogger.isLogging()) {
+      if (System.currentTimeMillis() - pingsCleanDateMillis > PINGS_CLEAN_MILLIS && pings.size() < PINGS_MAX_SIZE) {
+        log.info("Cleaning pings DB (" + pings.size() + " items)");
+        pings.clear();
+        pingsCleanDateMillis = System.currentTimeMillis();
+      }
+      if (agentId != null && userId != null) {
+        DatabasePingLogEntry ping = new DatabasePingLogEntry(agentId, userId);
+        if (!pings.contains(ping)) {
+          databaseLogger.log(ping);
+          if (pings.size() >= PINGS_MAX_SIZE) {
+            // prevent pings taking up unlimited amounts of memory
+            log.warn("Pings DB has reached max size: " + pings.size());
+          } else {
+            pings.add(ping);
           }
         }
       }
-
     }
-
   }
 
   public boolean checkerQueueAlmostFull() {
@@ -760,8 +755,8 @@ abstract class TextChecker {
     return ruleMatchCount;
   }
 
-  private Map<String, Integer> getRuleValues(Map<String, String> parameters) {
-    Map<String, Integer> ruleValues = new HashMap<>();
+  private Map<String, Object[]> getRuleValues(Map<String, String> parameters) {
+    Map<String, Object[]> ruleValues = new HashMap<>();
     String parameterString = parameters.get("ruleValues");
     if (parameterString == null) {
       return ruleValues;
@@ -769,7 +764,8 @@ abstract class TextChecker {
     String[] pairs = parameterString.split(",");
     for (String pair : pairs) {
       String[] ruleAndValue  = pair.split(":");
-      ruleValues.put(ruleAndValue[0], Integer.parseInt(ruleAndValue[1]));
+      Object[] objects = RuleOption.stringToObjects(ruleAndValue[1]);
+      ruleValues.put(ruleAndValue[0], objects);
     }
     return ruleValues;
   }

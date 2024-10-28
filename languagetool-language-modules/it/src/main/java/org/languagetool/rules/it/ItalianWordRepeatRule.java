@@ -40,11 +40,17 @@ public class ItalianWordRepeatRule extends WordRepeatRule {
 
   @Override
   public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
-    if (wordRepetitionOf("via", tokens, position)) {
-      return true;   // "Il lessico si andava via via modificando."
-    }
     if (wordRepetitionOf("così", tokens, position)) {
       return true;   // "Mi è sembrato così così."
+    }
+    if (wordRepetitionOf("passo", tokens, position)) {
+      return true;   // "che passo passo vanno verso la rovina"
+    }
+    if (wordRepetitionOf("piano", tokens, position)) {
+     return true;  // "Piano, piano, signor podestà."
+    }
+    if (wordRepetitionOf("via", tokens, position)) {
+      return true;   // "Il lessico si andava via via modificando."
     }
     return super.ignore(tokens, position);
   }

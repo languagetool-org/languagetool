@@ -115,6 +115,9 @@ public class QuestionMarkRuleTest {
     RuleMatch[] matches19 = check("Hola, Marco: Puedes darme tu dirección de correo?");
     assertThat(matches19[0].getSuggestedReplacements().toString(), is("[¿Puedes]"));
 
+    RuleMatch[] matches33 =check("Están aquí: https://gtlb.com/smll-cued-datasets/hu[…]nitized/-/tree/main/beling?ref_type=heads");
+    assertThat(matches33.length, is(0));
+
     // Exclamation marks:
     List<RuleMatch> matches20 = lt.check("Qué irritante!");
     assertThat(matches20.size(), is(1));
@@ -166,7 +169,6 @@ public class QuestionMarkRuleTest {
     List<RuleMatch> matches32 = lt.check("qué me recomendarías???….");
     assertThat(matches32.size(), is(1));
     assertThat(matches32.get(0).getSuggestedReplacements().toString(), is("[¿qué]"));
-
   }
 
   private RuleMatch[] check(String s) throws IOException {

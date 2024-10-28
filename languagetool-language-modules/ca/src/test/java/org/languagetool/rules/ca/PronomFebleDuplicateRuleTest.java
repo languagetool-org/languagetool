@@ -102,6 +102,7 @@ public class PronomFebleDuplicateRuleTest {
     assertCorrect("els nous materials que es vagin dipositant poden veure's encara afectats per forces");
     assertCorrect("i pensant que algú l'havia engaltada s'hi atansà");
     assertCorrect("hi anava a prendre'n possessió");
+    assertCorrect("hi anava a veure'l cada dia");
     assertCorrect("se'n va a salvar-se");
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("S'ha de fer-se"));
@@ -215,6 +216,16 @@ public class PronomFebleDuplicateRuleTest {
     
     matches = rule.match(lt.getAnalyzedSentence("S'acabarà carregant-se."));
     assertEquals(1, matches.length);
+
+    matches = rule.match(lt.getAnalyzedSentence("Jo ho vaig ser-hi."));
+    assertEquals(1, matches.length);
+    assertEquals("vaig ser-hi", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("ho vaig ser", matches[0].getSuggestedReplacements().get(1));
+
+    matches = rule.match(lt.getAnalyzedSentence("Jo hi vaig ser-ho."));
+    assertEquals(1, matches.length);
+    assertEquals("vaig ser-ho", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("hi vaig ser", matches[0].getSuggestedReplacements().get(1));
   }
     
     private void assertCorrect(String sentence) throws IOException {

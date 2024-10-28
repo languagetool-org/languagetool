@@ -19,9 +19,11 @@
 package org.languagetool.rules.nl;
 
 import com.google.common.collect.ImmutableSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.tagging.Tagger;
+import org.languagetool.rules.spelling.CachingWordListLoader;
+import org.languagetool.tagging.nl.DutchTagger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -41,357 +43,25 @@ public class CompoundAcceptor {
   private static final Pattern specialAcronymPattern = Pattern.compile("[A-Za-z]{2,4}-");
   private static final Pattern normalCasePattern = Pattern.compile("[A-Za-z][a-zé]*");
   private static final int MAX_WORD_SIZE = 35;
+  public static final CompoundAcceptor INSTANCE = new CompoundAcceptor();
+  protected final CachingWordListLoader wordListLoader = new CachingWordListLoader();
+  protected final Set<String> noS = new ObjectOpenHashSet<>(), 
+                              needsS = new ObjectOpenHashSet<>(),
+                              geographicalDirections = new ObjectOpenHashSet<>(),
+                              alwaysNeedsS = new ObjectOpenHashSet<>(),
+                              alwaysNeedsHyphen = new ObjectOpenHashSet<>(),
+                              part1Exceptions = new ObjectOpenHashSet<>(),
+                              part2Exceptions = new ObjectOpenHashSet<>(),
+                              acronymExceptions = new ObjectOpenHashSet<>();
+  private static final String COMPOUND_NO_S_FILE = "nl/compound_acceptor/no_s.txt", 
+                              COMPOUND_NEEDS_S_FILE = "nl/compound_acceptor/needs_s.txt",
+                              COMPOUND_DIRECTIONS_FILE = "nl/compound_acceptor/directions.txt",
+                              COMPOUND_ALWAYS_NEEDS_S_FILE = "nl/compound_acceptor/always_needs_s.txt",
+                              COMPOUND_ALWAYS_NEEDS_HYPHEN_FILE = "nl/compound_acceptor/always_needs_hyphen.txt",
+                              COMPOUND_PART1_EXCEPTIONS_FILE = "nl/compound_acceptor/part1_exceptions.txt",
+                              COMPOUND_PART2_EXCEPTIONS_FILE = "nl/compound_acceptor/part2_exceptions.txt",
+                              COMPOUND_ACRONYM_EXCEPTIONS_FILE = "nl/compound_acceptor/acronym_exceptions.txt";
 
-  // if part 1 ends with this, it always needs an 's' appended
-  private final Set<String> alwaysNeedsS = ImmutableSet.of(
-    "heids",
-    "ings",
-    "schaps",
-    "teits"
-  );
-  // compound parts that need an 's' appended to be used as first part of the compound:
-  private final Set<String> needsS = ImmutableSet.of(
-    "afgods",
-    "allemans",
-    "arbeiders",
-    "bedrijfs",
-    "dorps",
-    "eindejaars",
-    "etens",
-    "gevechts",
-    "gezichts",
-    "jongens",
-    "levens",
-    "lijdens",
-    "meisjes",
-    "onderhouds",
-    "oorlogs",
-    "overlijdens",
-    "passagiers",
-    "personeels",
-    "varkens",
-    "vrijwilligers"
-  );
-
-  // exceptions to the list "alwaysNeedsS"
-  private final Set<String> part1Exceptions = ImmutableSet.of(
-    "belasting",
-    "dating",
-    "doping",
-    "gaming",
-    "grooming",
-    "honing",
-    "kleding",
-    "kring",
-    "matching",
-    "outsourcing",
-    "paling",
-    "rekening",
-    "spring",
-    "styling",
-    "tracking",
-    "tweeling",
-    "viking"
-  );
-  private final Set<String> part2Exceptions = ImmutableSet.of(
-    "ding",
-    "lijk",
-    "lopen",
-    "mara",
-    "ping",
-    "raat",
-    "reek",
-    "reen",
-    "stag",
-    "sten",
-    "tand",
-    "ting",
-    "voor"
-  );
-  private final Set<String> acronymExceptions = ImmutableSet.of(
-    "aids",
-    "alv",
-    "AMvB",
-    "Anw",
-    "apk",
-    "arbo",
-    "Awb",
-    "bbl",
-    "Bevi",
-    "Bopz",
-    "bso",
-    "btw",
-    "cao",
-    "cd",
-    "dvd",
-    "ecg",
-    "gft",
-    "ggz",
-    "gps",
-    "gsm",
-    "hbs",
-    "hifi",
-    "hiv",
-    "hrm",
-    "hsl",
-    "hts",
-    "Hvb",
-    "Hvw",
-    "iMac",
-    "iOS",
-    "iPad",
-    "iPod",
-    "ivf",
-    "lbo",
-    "lcd",
-    "lts",
-    "mbo",
-    "mdf",
-    "mkb",
-    "Opw",
-    "ozb",
-    "pc",
-    "pdf",
-    "pgb",
-    "sms",
-    "soa",
-    "tbs",
-    "tv",
-    "ufo",
-    "vip",
-    "vwo",
-    "Wabo",
-    "Waz",
-    "Wazo",
-    "Wbp",
-    "wifi",
-    "Wft",
-    "Wlz",
-    "WvS",
-    "Wwft",
-    "Wzd",
-    "xtc",
-    "Zvw",
-    "zzp"
-  );
-  // compound parts that must not have an 's' appended to be used as first part of the compound:
-  private final Set<String> noS = ImmutableSet.of(
-    "aandeel",
-    "aangifte",
-    "aanname",
-    "accessoire",
-    "achtergrond",
-    "adres",
-    "afgifte",
-    "afname",
-    "aids",
-    "akte",
-    "algoritme",
-    "allure",
-    "ambulance",
-    "analyse",
-    "anekdote",
-    "antenne",
-    "attitude",
-    "auto",
-    "balustrade",
-    "bediende",
-    "behoefte",
-    "belangen",
-    "belofte",
-    "bende",
-    "beroerte",
-    "bezoek",
-    "bijdrage",
-    "bijlage",
-    "binnenste",
-    "blessure",
-    "boeren",
-    "boete",
-    "bolide",
-    "breedte",
-    "brigade",
-    "café",
-    "cantate",
-    "cassette",
-    "catastrofe",
-    "collecte",
-    "competitie",
-    "contract",
-    "controverse",
-    "curve",
-    "detective",
-    "diagnose",
-    "dienst",
-    "diepte",
-    "dikte",
-    "douane",
-    "droogte",
-    "einde",
-    "ellende",
-    "energie",
-    "episode",
-    "estafette",
-    "etappe",
-    "expertise",
-    "façade",
-    "familie",
-    "fanfare",
-    "fase",
-    "feest",
-    "finale",
-    "fluoride",
-    "fractie",
-    "gebergte",
-    "geboorte",
-    "gedaante",
-    "gedachte",
-    "gedeelte",
-    "gehalte",
-    "gemeente",
-    "gemiddelde",
-    "genade",
-    "genocide",
-    "gestalte",
-    "gesteente",
-    "gevaarte",
-    "gewoonte",
-    "gezegde",
-    "gilde",
-    "gravure",
-    "groente",
-    "grootte",
-    "halte",
-    "hectare",
-    "holte",
-    "hoofd",
-    "hoogte",
-    "horde",
-    "hybride",
-    "hypothese",
-    "impasse",
-    "informatie",
-    "inname",
-    "inzage",
-    "kade",
-    "karakter",
-    "kazerne",
-    "keuze",
-    "kinder",
-    "krapte",
-    "kudde",
-    "lade",
-    "leegte",
-    "legende",
-    "lengte",
-    "liefde",
-    "literatuur",
-    "lucht",
-    "luchtvaart",
-    "made",
-    "mannen",
-    "mascotte",
-    "mechanisme",
-    "mede",
-    "menigte",
-    "mensenrechten",
-    "metamorfose",
-    "methode",
-    "meute",
-    "module",
-    "mythe",
-    "novelle",
-    "nuance",
-    "oase",
-    "offerte",
-    "onderwijs",
-    "oorkonde",
-    "oplage",
-    "opname",
-    "orde",
-    "organisatie",
-    "organisme",
-    "orgasme",
-    "overname",
-    "papier",
-    "pauze",
-    "pedicure",
-    "periode",
-    "piramide",
-    "piste",
-    "politie",
-    "privé",
-    "probleem",
-    "productie",
-    "prothese",
-    "prototype",
-    "psychose",
-    "pyjama",
-    "rente",
-    "ritme",
-    "ronde",
-    "rotonde",
-    "route",
-    "ruimte",
-    "ruimtevaart",
-    "ruïne",
-    "satire",
-    "schaarste",
-    "schade",
-    "school",
-    "seconde",
-    "secretaresse",
-    "sekte",
-    "sterfte",
-    "sterkte",
-    "stilte",
-    "straat",
-    "studenten",
-    "synagoge",
-    "synode",
-    "synthese",
-    "telefoon",
-    "televisie",
-    "tenue",
-    "terzijde",
-    "theater",
-    "toelage",
-    "tombe",
-    "trede",
-    "tube",
-    "type",
-    "uiteinde",
-    "uitgifte",
-    "verloofde",
-    "verte",
-    "vete",
-    "vip",
-    "vitamine",
-    "vlakte",
-    "vogel",
-    "volume",
-    "voorbeeld",
-    "voorbode",
-    "voorhoede",
-    "voorliefde",
-    "voorronde",
-    "vreugde",
-    "vrouwen",
-    "waarde",
-    "warmte",
-    "weduwe",
-    "weergave",
-    "weide",
-    "wereld",
-    "woning",
-    "woord",
-    "ziekte",
-    "zijde",
-    "zonde",
-    "zwaarte",
-    "zwakte",
-    "zwanger"
-  );
   // Make sure we don't allow compound words where part 1 ends with a specific vowel and part2 starts with one, for words like "politieeenheid".
   private final Set<String> collidingVowels = ImmutableSet.of(
     "aa", "ae", "ai", "au", "ee", "ée", "ei", "éi", "eu", "éu", "ie", "ii", "ij", "oe", "oi", "oo", "ou", "ui", "uu"
@@ -406,25 +76,28 @@ public class CompoundAcceptor {
     }
   }
 
-  private final Tagger tagger;
+  private final DutchTagger dutchTagger = DutchTagger.INSTANCE;
 
-  CompoundAcceptor() {
-    tagger = Languages.getLanguageForShortCode("nl").getTagger();
+  public CompoundAcceptor() {
+    noS.addAll(wordListLoader.loadWords(COMPOUND_NO_S_FILE));
+    needsS.addAll(wordListLoader.loadWords(COMPOUND_NEEDS_S_FILE));
+    geographicalDirections.addAll(wordListLoader.loadWords(COMPOUND_DIRECTIONS_FILE));
+    alwaysNeedsS.addAll(wordListLoader.loadWords(COMPOUND_ALWAYS_NEEDS_S_FILE));
+    alwaysNeedsHyphen.addAll(wordListLoader.loadWords(COMPOUND_ALWAYS_NEEDS_HYPHEN_FILE));
+    part1Exceptions.addAll(wordListLoader.loadWords(COMPOUND_PART1_EXCEPTIONS_FILE));
+    part2Exceptions.addAll(wordListLoader.loadWords(COMPOUND_PART2_EXCEPTIONS_FILE));
+    acronymExceptions.addAll(wordListLoader.loadWords(COMPOUND_ACRONYM_EXCEPTIONS_FILE));
   }
 
-  public CompoundAcceptor(Tagger tagger) {
-    this.tagger = tagger;
-  }
-
-  boolean acceptCompound(String word) throws IOException {
+  boolean acceptCompound(String word) {
     if (word.length() > MAX_WORD_SIZE) {  // prevent long runtime
       return false;
     }
     for (int i = 3; i < word.length() - 3; i++) {
       String part1 = word.substring(0, i);
       String part2 = word.substring(i);
-      if (acceptCompound(part1, part2)) {
-        System.out.println(part1+part2 + " -> accepted");
+      if (!part1.equals(part2) && acceptCompound(part1, part2)) {
+        //System.out.println(part1+part2 + " -> accepted");
         return true;
       }
     }
@@ -438,7 +111,7 @@ public class CompoundAcceptor {
     for (int i = 3; i < word.length() - 3; i++) {
       String part1 = word.substring(0, i);
       String part2 = word.substring(i);
-      if (acceptCompound(part1, part2)) {
+      if (!part1.equals(part2) && acceptCompound(part1, part2)) {
         return Arrays.asList(part1, part2);
       }
     }
@@ -448,30 +121,45 @@ public class CompoundAcceptor {
   boolean acceptCompound(String part1, String part2) {
     try {
       String part1lc = part1.toLowerCase();
-      // reject if it's in the exceptions list
-      if (part1.endsWith("s") && !part1Exceptions.contains(part1.substring(0, part1.length() -1)) && !noS.contains(part1)) {
+      // reject if it's in the exceptions list or if a wildcard is the entirety of part1
+      if (part1.endsWith("s") && !part1Exceptions.contains(part1.substring(0, part1.length() -1)) && !alwaysNeedsS.contains(part1) && !noS.contains(part1) && !part1.contains("-")) {
         for (String suffix : alwaysNeedsS) {
           if (part1lc.endsWith(suffix)) {
-            return isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
+            return isNoun(part2) && isExistingWord(part1lc.substring(0, part1lc.length() - 1)) && spellingOk(part2);
           }
         }
         return needsS.contains(part1lc) && isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
+      } else if (geographicalDirections.contains(part1)){
+        return isGeographicalCompound(part2); // directions
       } else if (part1.endsWith("-")) { // abbreviations
-        return acronymOk(part1) && spellingOk(part2);
+        return (acronymOk(part1) || alwaysNeedsHyphen.contains(part1lc)) && spellingOk(part2);
       } else if (part2.startsWith("-")) { // vowel collision
         part2 = part2.substring(1);
         return noS.contains(part1lc) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && hasCollidingVowels(part1, part2);
       } else {
-        return (noS.contains(part1lc) || part1Exceptions.contains(part1lc)) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && !hasCollidingVowels(part1, part2);
+        return (noS.contains(part1lc) || part1Exceptions.contains(part1lc)) && isNoun(part2) && spellingOk(part1) && !hasCollidingVowels(part1, part2);
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }
 
-  boolean isNoun(String word) throws IOException {
-    List<AnalyzedTokenReadings> part2Readings = tagger.tag(Arrays.asList(word));
-    return part2Readings.stream().anyMatch(k -> k.hasPosTagStartingWith("ZNW")) && !part2Exceptions.contains(word) ;
+  private boolean isNoun(String word) throws IOException {
+    return dutchTagger.getPostags(word).stream().anyMatch(k -> {
+      assert k.getPOSTag() != null;
+      return k.getPOSTag().startsWith("ZNW") && !part2Exceptions.contains(word);
+    });
+  }
+
+  private boolean isExistingWord(String word) throws IOException {
+    return dutchTagger.getPostags(word).stream().anyMatch(k -> k.getPOSTag() != null);
+  }
+
+  private boolean isGeographicalCompound(String word) throws IOException {
+    return dutchTagger.getPostags(word).stream().anyMatch(k -> {
+      assert k.getPOSTag() != null;
+      return k.getPOSTag().startsWith("ENM:LOC");
+    });
   }
 
   private boolean hasCollidingVowels(String part1, String part2) {

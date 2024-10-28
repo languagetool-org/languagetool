@@ -46,9 +46,9 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
-    
-//    if (match.getSentence().getText().contains("Faltes")) {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
+
+//    if (match.getSentence().getText().contains("Toni Comin")) {
 //      int ii=0;
 //      ii++;
 //    }
@@ -62,11 +62,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     String priorityPostag = getOptional("priorityPostag", arguments);
     String removeSuggestionsRegexp = getOptional("removeSuggestionsRegexp", arguments);
     // suppress match if there are no suggestions
-    String suppressMatch = getOptional("suppressMatch", arguments);
-    boolean bSuppressMatch = false;
-    if (suppressMatch != null && suppressMatch.equalsIgnoreCase("true")) {
-      bSuppressMatch = true;
-    }
+    boolean bSuppressMatch = getOptional("suppressMatch", arguments, "false").equalsIgnoreCase("true");
     
     // diacriticsMode: return only changes in diacritics. If there is none, the
     // match is removed.
@@ -79,24 +75,14 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     StringComparator stringComparator = new StringComparator("");
 
     if (wordFrom != null && desiredPostag != null) {
-      int posWord = 0;
-      if (wordFrom.startsWith("marker")) {
-        while (posWord < patternTokens.length && (patternTokens[posWord].getStartPos() < match.getFromPos()
-            || patternTokens[posWord].isSentenceStart())) {
-          posWord++;
-        }
-        posWord++;
-        if (wordFrom.length()>6) {
-          wordFrom += Integer.parseInt(wordFrom.replace("marker", ""));
-        }
+      AnalyzedTokenReadings atrWord;
+      if (wordFrom.equals("inmarker")) {
+        match.setOriginalErrorStr();
+        atrWord = new AnalyzedTokenReadings(new AnalyzedToken(preProcessWrongWord(match.getOriginalErrorStr()),
+          "", ""));
       } else {
-        posWord = Integer.parseInt(wordFrom);
+        atrWord = patternTokens[getPosition(wordFrom, patternTokens, match)];
       }
-      if (posWord < 1 || posWord > patternTokens.length) {
-        throw new IllegalArgumentException("FindSuggestionsFilter: Index out of bounds in "
-            + match.getRule().getFullId() + ", wordFrom: " + posWord);
-      }
-      AnalyzedTokenReadings atrWord = patternTokens[posWord - 1];
       stringComparator = new StringComparator(atrWord.getToken());
       boolean isWordCapitalized = StringTools.isCapitalizedWord(atrWord.getToken());
       boolean isWordAllupper = StringTools.isAllUppercase(atrWord.getToken());
@@ -184,11 +170,12 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
         }
       }
     }
-
-    if (diacriticsMode && replacements.size() == 0) {
+    boolean matchContainsSomeFinishedSuggestion =
+      match.getSuggestedReplacements().stream().anyMatch(k -> !k.toLowerCase().contains("{suggestion}"));
+    if (diacriticsMode && replacements.size() == 0 && !matchContainsSomeFinishedSuggestion) {
       return null;
     }
-    if (replacements.size() + replacements2.size() == 0 && bSuppressMatch) {
+    if (replacements.size() + replacements2.size() == 0 && bSuppressMatch && !matchContainsSomeFinishedSuggestion) {
       return null;
     }
     String message = match.getMessage();
@@ -245,7 +232,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
         }
       }
     }
-
+    definitiveReplacements.remove(match.getOriginalErrorStr());
     if (!definitiveReplacements.isEmpty()) {
       ruleMatch.setSuggestedReplacements(definitiveReplacements.stream().distinct().collect(Collectors.toList()));
     }
@@ -288,6 +275,10 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
       }
       return d1 - d2;
     }
+  }
+
+  protected String preProcessWrongWord (String word) {
+    return word = word.replaceAll(" ","");
   }
 
 }

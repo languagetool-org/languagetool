@@ -5,6 +5,7 @@ Portuguese, Polish, Dutch, and [more than 20 other languages](https://languageto
 It finds many errors that a simple spell checker cannot detect.
 
 * **[Jobs at LanguageTool](https://languagetool.org/careers)**
+* [LanguageTool Forum](https://forum.languagetool.org)
 * [How to run your own LanguageTool server](https://dev.languagetool.org/http-server)
 * [HTTP API documentation](https://languagetool.org/http-api/swagger-ui/#!/default/post_check)
 * [How to use our public server via HTTP](https://dev.languagetool.org/public-http-api)
@@ -33,13 +34,13 @@ For more technical details, see [our dev pages](https://dev.languagetool.org).
 
 ## Scripted installation and building
 To install or build using a script, simply type:
-```
+```bash
 curl -L https://raw.githubusercontent.com/languagetool-org/languagetool/master/install.sh | sudo bash <options>
 ```
 
 If you wish to have more options, download the `install.sh` script. Usage options follow:
 
-```
+```bash
 sudo bash install.sh <options>
 
 Usage: install.sh <option> <package>
@@ -91,10 +92,6 @@ Test the result in `languagetool-standalone/target/`.
     ./build.sh languagetool-wikipedia package -DskipTests
 
 Test the result in `languagetool-wikipedia/target`.
-
-    ./build.sh languagetool-office-extension package -DskipTests
-
-Test the result in `languagetool-office-extension/target`, rename the `*.zip` to `*.oxt` to install it in LibreOffice/OpenOffice.
 
 Now you can use the bleeding edge development copy of LanguageTool `*.jar` files, be aware that it might contain regressions.
 

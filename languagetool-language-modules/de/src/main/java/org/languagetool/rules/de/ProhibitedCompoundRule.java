@@ -30,7 +30,6 @@ import org.languagetool.language.GermanyGerman;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
-import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,6 +56,7 @@ public class ProhibitedCompoundRule extends Rule {
           // * words here must be all-lowercase
           // * no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
           // * please test using ProhibitedCompoundRuleTest.testListOfWords() before pushing a change with a new pair
+          new Pair("knoten", "Verschlingung von Fäden", "konten", "Plural von 'Konto'"),
           new Pair("schaf", "Tier", "schaft", "'-schaft' (Element zur Wortbildung, z. B. 'Freundschaft')"),
           new Pair("schafen", "Dativ Plural von 'Schaf'", "schaften", "'-schaften' (Element zur Wortbildung, z. B. 'Freundschaften')"),
           new Pair("alpen", "Hochgebirge in Mittel- und Südeuropa", "alben", "Plural von 'Album'"),
@@ -130,7 +130,7 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("ruck", "plötzliche Bewegung", "druck", "Belastung"),
           new Pair("brüste", "Plural von Brust", "bürste", "Gerät mit Borsten, z.B. zum Reinigen"),
           new Pair("attraktion", "Sehenswürdigkeit", "akttaktion", "vermutlicher Tippfehler"),
-          new Pair("nah", "zu 'nah' (wenig entfernt)", "näh", "zu 'nähen' (mit einem Faden verbinden)"),
+          //new Pair("nah", "zu 'nah' (wenig entfernt)", "näh", "zu 'nähen' (mit einem Faden verbinden)"),
           new Pair("turn", "zu 'turnen'", "turm", "hohes Bauwerk"),
           new Pair("mit", "Präposition", "miet", "zu 'Miete' (Überlassung gegen Bezahlung)"),
           new Pair("bart", "Behaarung im Gesicht", "brat", "zu 'braten', z.B. 'Bratkartoffel'"),
@@ -149,7 +149,7 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("verklärung", "Beschönigung, Darstellung in einem besseren Licht", "erklärung", "Darstellung, Erläuterung"),
           //new Pair("spitze", "spitzes Ende eines Gegenstandes", "spritze", "medizinisches Instrument zur Injektion"),
           new Pair("punk", "Jugendkultur", "punkt", "Satzzeichen"),
-          new Pair("reis", "Nahrungsmittel", "eis", "gefrorenes Wasser"),
+          //new Pair("reis", "Nahrungsmittel", "eis", "gefrorenes Wasser"),
           //new Pair("balkan", "Region in Südosteuropa", "balkon", "Plattform, die aus einem Gebäude herausragt"),
           new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)"),
           new Pair("stande", "zu 'Stand'", "stange", "länglicher Gegenstand")
@@ -269,7 +269,6 @@ public class ProhibitedCompoundRule extends Rule {
     for (Pair pair : pairs) {
       map.put(pair.part1, pair.part1);
       map.put(pair.part2, pair.part2);
-
       pairMap.putIfAbsent(pair.part1, new LinkedList<>());
       pairMap.putIfAbsent(pair.part2, new LinkedList<>());
       pairMap.get(pair.part1).add(pair);

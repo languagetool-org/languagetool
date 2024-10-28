@@ -76,7 +76,13 @@ final class TokenAgreementNumrNounExceptionHelper {
         return true;
       }
     }
-    
+
+//    if( state.numrAnalyzedTokenReadings.getCleanToken().matches("[12][0-9]{3}([–-]12][0-9]{3})?")
+//        && LemmaHelper.hasLemma(tokens[state.nounPos], "рік") ) {
+//      logException();
+//      return true;
+//    }
+
     // хвилин зо п'ять люди
     if( state.numrPos > 2
         && PosTagHelper.hasPosTagStart(tokens[state.numrPos-1], "prep")

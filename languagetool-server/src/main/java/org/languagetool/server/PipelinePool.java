@@ -124,6 +124,13 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
         .build();
     return TelemetryProvider.INSTANCE.createSpan("createPipeline", attributes, () -> {
       Pipeline lt = new Pipeline(lang, params.altLanguages, motherTongue, cache, globalConfig, userConfig, params.inputLogging);
+      //Add custom rules as filter if there are implement the RuleMatchFilter interface
+      //TODO: Will not work anymore if we handle custom rules as remote rules
+      for (Rule rule : userConfig.getRules()) {
+        if (rule instanceof RuleMatchFilter) {
+          lt.addMatchFilter((RuleMatchFilter) rule);
+        }
+      }
       lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());
       lt.disableRules(disabledRuleIds);
       if (config.getLanguageModelDir() != null) {
@@ -182,11 +189,14 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
           }
         }
         //System.out.println("Enabled " + premiumEnabled + " premium rules, disabled " + otherDisabled + " non-premium rules.");
-      } else if (!params.premium && !params.enableHiddenRules) { // compute premium matches locally to use as hidden matches
+      } else if (!params.premium) {
         if (!(premium instanceof PremiumOff)) {
           for (Rule rule : lt.getAllActiveRules()) {
             if (premium.isPremiumRule(rule)) {
-              lt.disableRule(rule.getFullId());
+              // compute premium matches locally to use as hidden matches if desired for a rule
+              if (!params.enableHiddenRules || !rule.isIncludedInHiddenMatches()) {
+                lt.disableRule(rule.getFullId());
+              }
             }
           }
         }

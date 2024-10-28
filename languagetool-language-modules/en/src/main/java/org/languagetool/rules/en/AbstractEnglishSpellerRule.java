@@ -49,6 +49,13 @@ import static org.languagetool.rules.SuggestedReplacement.topMatch;
 @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
+  @Override
+  public List<String> getAdditionalSpellingFileNames() {
+    // NOTE: also add to GermanSpellerRule.getSpeller() when adding items here:
+    return Arrays.asList(language.getShortCode() + CUSTOM_SPELLING_FILE, GLOBAL_SPELLING_FILE,
+      "/en/multiwords.txt");
+  }
+
   private static final Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
   //private static final EnglishSynthesizer synthesizer = (EnglishSynthesizer) Languages.getLanguageForShortCode("en").getSynthesizer();
 
@@ -72,6 +79,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "germane", // confused with German
     "double check",
     "flat screen", // flatscreen
+    "full time", // should be 'full-time'
+    "part time", // should be 'part-time'
     "java script",
     "off topic",
     "hard coding",
@@ -95,6 +104,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "client side",
     "server side",
     "worry some", // suggestion for worrysome
+    "skillet", // wrong suggestion for skillset
+    "skillets", // wrong suggestion for skillsets
     "code named",
     "code naming",
     "in house",
@@ -165,7 +176,40 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern JIST = compile("[Jj]ist");
   private static final Pattern ADHOC = compile("[Ad]hoc");
   private static final Pattern DEACTIVE = compile("[De]eactive");
-  private static final Pattern HUBSPOT = compile("Hubspot");
+  private static final Pattern HONGKONG = compile("[hH]on[kg]kong");
+  private static final Pattern AFAIK = compile("afaik");
+  private static final Pattern JANUARY = compile("january");
+  private static final Pattern APRIL = compile("april");
+  private static final Pattern SEPTEMBER = compile("september");
+  private static final Pattern OCTOBER = compile("october");
+  private static final Pattern NOVEMBER = compile("november");
+  private static final Pattern DECEMBER = compile("december");
+  private static final Pattern ENGLISH = compile("english");
+  private static final Pattern SPANISH = compile("spanish");
+  private static final Pattern GITLAB = compile("[Gg]itlab");
+  private static final Pattern BONAFIDE = compile("[Bb]onafide");
+  private static final Pattern WHEREEVER = compile("[Ww]hereever");
+  private static final Pattern WHATSAPP = compile("[Ww]hatsapp");
+  private static final Pattern JETLAGGED = compile("jetlagged");
+  private static final Pattern MACBOOK = compile("[Mm]acbooks?");
+  private static final Pattern LIKELYHOOD = compile("[Ll]ikelyhood");
+  private static final Pattern UNECESSARY = compile("[Uu]necessary");
+  private static final Pattern HUBSPOT = compile("[Hh]ubspot");
+  private static final Pattern URL = compile("[Uu]rl");
+  private static final Pattern TV = compile("tv");
+  private static final Pattern HTTP = compile("[Hh]ttp");
+  private static final Pattern HTTPS = compile("[Hh]ttps");
+  private static final Pattern FYI = compile("[Ff]yi");
+  private static final Pattern MICROSOFT = compile("microsoft");
+  private static final Pattern DEVOPS = compile("[Dd]evops");
+  private static final Pattern ALLRIGHT = compile("[Aa]llright");
+  private static final Pattern INTRANSPARENT = compile("intransparent(ly)?");
+  private static final Pattern ADDON = compile("[Aa]ddons?");
+  private static final Pattern WDYT = compile("[Ww]dyt");
+  private static final Pattern UNCOMPLIANT = compile("[UuIi]ncompliant");
+  private static final Pattern UX = compile("ux");
+  private static final Pattern LANGUAGETOOL = compile("[Ll]anguagetool");
+  private static final Pattern UNDETERMINISTIC = compile("undeterministic");
 
   private final BeoLingusTranslator translator;
 
@@ -452,11 +496,13 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           !repLc.startsWith("sub ") &&
           !repLc.startsWith("auto ") &&
           !repLc.startsWith("pl ") &&
+          !repLc.startsWith("ht ") &&
           !repLc.startsWith("dis ") &&
           !repLc.startsWith("est ") &&
           !repLc.startsWith("mono ") &&
           !repLc.startsWith("trans ") &&
           !repLc.startsWith("neuro ") &&
+          !repLc.startsWith("hetero ") &&
           !repLc.startsWith("ultra ") &&
           !repLc.startsWith("mini ") &&
           !repLc.startsWith("hyper ") &&
@@ -525,6 +571,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           !rep.endsWith(" able") &&
           !rep.endsWith(" om") &&
           !rep.endsWith(" ox") &&
+          !rep.endsWith(" ht") &&
           !rep.endsWith(" wide") && // (e.g. storewide)
           !rep.endsWith(" less") && // (e.g. permissionless)
           !rep.endsWith(" sly") && // unnecessary suggestion (e.g. for continuesly)
@@ -1117,7 +1164,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("grandmom", Arrays.asList("grandma", "grandmother"));
     s.put("Grandmum", Arrays.asList("Grandma", "Grandmother"));
     s.put("Grandmom", Arrays.asList("Grandma", "Grandmother"));
-    s.put("Hongkong", Arrays.asList("Hong Kong"));
     s.put("enlighting", Arrays.asList("enlightening"));
     s.put("Enlighting", Arrays.asList("Enlightening"));
     // For non-US English
@@ -1289,8 +1335,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("rideshare", Arrays.asList("ride-share"));
     s.put("Rideshare", Arrays.asList("Ride-share"));
     s.put("Rideshares", Arrays.asList("Ride-shares"));
-    s.put("bonafide", Arrays.asList("bona fide"));
-    s.put("Bonafide", Arrays.asList("Bona fide"));
     s.put("dropoff", Arrays.asList("drop-off"));
     s.put("Dropoff", Arrays.asList("Drop-off"));
     s.put("reportings", Arrays.asList("reports", "reporting"));
@@ -1353,6 +1397,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Reaking", Arrays.asList("Wreaking"));
     s.put("hight", Arrays.asList("height"));
     s.put("Hight", Arrays.asList("Height"));
+    s.put("fulltime", Arrays.asList("full-time"));
+    s.put("Fulltime", Arrays.asList("Full-time"));
 
     return s;
   }
@@ -1465,6 +1511,44 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (ADHOC.matcher(word).matches()) return topMatch("ad hoc");
     if (DEACTIVE.matcher(word).matches()) return topMatch("inactive");
     if (HUBSPOT.matcher(word).matches()) return topMatch("HubSpot");
+    if (URL.matcher(word).matches()) return topMatch("URL");
+    if (HTTP.matcher(word).matches()) return topMatch("HTTP");
+    if (HTTPS.matcher(word).matches()) return topMatch("HTTPS");
+    if (FYI.matcher(word).matches()) return topMatch("FYI");
+    if (DEVOPS.matcher(word).matches()) return topMatch("DevOps");
+    if (MICROSOFT.matcher(word).matches()) return topMatch("Microsoft");
+    if (LANGUAGETOOL.matcher(word).matches()) return topMatch("LanguageTool");
+    if (HONGKONG.matcher(word).matches()) return topMatch("Hong Kong");
+    if (OCTOBER.matcher(word).matches()) return topMatch("October");
+    if (SEPTEMBER.matcher(word).matches()) return topMatch("September");
+    if (DECEMBER.matcher(word).matches()) return topMatch("December");
+    if (NOVEMBER.matcher(word).matches()) return topMatch("November");
+    if (APRIL.matcher(word).matches()) return topMatch("April");
+    if (AFAIK.matcher(word).matches()) return topMatch("AFAIK");
+    if (JANUARY.matcher(word).matches()) return topMatch("January");
+    if (ENGLISH.matcher(word).matches()) return topMatch("English");
+    if (SPANISH.matcher(word).matches()) return topMatch("Spanish");
+    if (UNDETERMINISTIC.matcher(word).matches()) return topMatch("nondeterministic");
+    if (WDYT.matcher(word).matches()) return topMatch("WDYT");
+    if (INTRANSPARENT.matcher(word).matches()) return topMatch(word.replaceFirst("in", "un"));
+    if (UNCOMPLIANT.matcher(word).matches()) return topMatch("non-compliant");
+    if (UX.matcher(word).matches()) return topMatch("UX");
+    if (GITLAB.matcher(word).matches()) return topMatch("GitLab");
+    if (BONAFIDE.matcher(word).matches()) return topMatch(word.replaceFirst("onafide", "ona fide"));
+    if (ALLRIGHT.matcher(word).matches()) return topMatch(word.replaceFirst("llright", "lright"));
+    if (ADDON.matcher(word).matches()) return topMatch(word.replaceFirst("ddon", "dd-on"));
+    if (WHEREEVER.matcher(word).matches()) return topMatch(word.replaceFirst("hereever", "herever"));
+    if (WHATSAPP.matcher(word).matches()) return topMatch("WhatsApp");
+    if (JETLAGGED.matcher(word).matches()) return topMatch("jet-lagged");
+    if (MACBOOK.matcher(word).matches()) return topMatch(word.replaceFirst("acbook", "acBook"));
+    if (LIKELYHOOD.matcher(word).matches()) return topMatch(word.replaceFirst("ikelyhood", "ikelihood"));
+    if (UNECESSARY.matcher(word).matches()) return topMatch(word.replaceFirst("necessary", "nnecessary"));
+    if (TV.matcher(word).matches()) {
+      List<SuggestedReplacement> l = new ArrayList<>();
+      l.add(new SuggestedReplacement("TV"));
+      l.add(new SuggestedReplacement("to"));
+      return l;
+    }
     if (JIST.matcher(word).matches()) {
       List<SuggestedReplacement> l = new ArrayList<>();
       l.add(new SuggestedReplacement("just"));

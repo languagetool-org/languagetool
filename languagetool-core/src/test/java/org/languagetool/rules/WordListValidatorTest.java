@@ -31,13 +31,14 @@ import static junit.framework.TestCase.fail;
 public class WordListValidatorTest {
 
   private static final String VALID_CHARS =
-          "[ 0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒÍãñíîŞş&*_:\\\\" +
+          "[ 0-9a-zA-ZöäüÖÄÜßëçèéáàóòŁÈÉÁÀÓÒÍãñíîŞş&*_:\\\\" +
           "___INSERT___" +
-          "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłń" +
+          "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłńÿ" +
           "ČŚśŌōżúïÎôêâû" +
           "ÇÃÕÚÊÂÔ" +
           "ă" +
           "å" +
+          "ħ" +
           "'’" +
           "./%-]+" +
           "|[khmcdµ]?m[²³]|°[CFR]|C?O₂-?.*|mc²";
@@ -45,6 +46,10 @@ public class WordListValidatorTest {
   // Words that are valid but with special characters so that we don't want to
   // allow them in general:
   private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
+          "Prešov",
+          "Martinů",
+          "Şanlıurfa",
+          "Žižek",
           "Háček",
           "Varaždin/S",
           "Będzin",
@@ -189,6 +194,9 @@ public class WordListValidatorTest {
           "Pÿur",
           "Subašić",
           "Wałęsa",
+          "Çalhanoğlu",
+          "Çalhanoğlu/S",
+          "Szczęsny",
           "celebrytę", // for PL
           "antybiotykoterapię", // for PL
           "elektromobilność", // for PL
