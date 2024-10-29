@@ -20,6 +20,7 @@ package org.languagetool.tools;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.*;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
@@ -43,10 +44,9 @@ public class RuleMatchesAsJsonSerializer {
   private static final String STATUS = "";
   private static final String PREMIUM_HINT = "You might be missing errors only the Premium version can find. Contact us at support<at>languagetoolplus.com.";
   private static final String START_MARKER = "__languagetool_start_marker";
-  private static final Pattern START_MARKER_PATTERN = Pattern.compile(START_MARKER);
   private static final JsonFactory factory = new JsonFactory();
-  private static final Pattern SUGGESTION = Pattern.compile("<suggestion>");
-  private static final Pattern SUGGESTION_END = Pattern.compile("</suggestion>");
+  private static final String SUGGESTION = "<suggestion>";
+  private static final String SUGGESTION_END = "</suggestion>";
   private static final Pattern ANYTHING_SLASH_PATTERN = Pattern.compile(".*/");
 
   private final int compactMode;
@@ -267,7 +267,7 @@ public class RuleMatchesAsJsonSerializer {
     if (lang != null) {
       return lang.toAdvancedTypography(s); //.replaceAll("<suggestion>", lang.getOpeningDoubleQuote()).replaceAll("</suggestion>", lang.getClosingDoubleQuote())
     } else {
-      return SUGGESTION_END.matcher(SUGGESTION.matcher(s).replaceAll("\"")).replaceAll("\"");
+      return s.replace(SUGGESTION, "\"").replace(SUGGESTION_END, "\"");
     }
   }
   
@@ -307,7 +307,7 @@ public class RuleMatchesAsJsonSerializer {
     if (compactMode != 1) {
       String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text.getTextWithMarkup());
       int contextOffset = context.indexOf(START_MARKER);
-      context = START_MARKER_PATTERN.matcher(context).replaceFirst("");
+      context = StringUtils.replaceOnce(context, START_MARKER, "");
       g.writeObjectFieldStart("context");
       g.writeStringField("text", context);
       g.writeNumberField("offset", contextOffset);

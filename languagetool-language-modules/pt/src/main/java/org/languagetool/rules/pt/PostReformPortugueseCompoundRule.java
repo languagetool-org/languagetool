@@ -37,7 +37,6 @@ import static java.util.regex.Pattern.compile;
  */
 public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
 
-  private static final Pattern HYPHEN = compile("-");
   private static final Pattern VOWEL = compile("(?i).+[aeiou]$");
   private static final Pattern RS = compile("(?i)^[rs].+");
 
@@ -88,7 +87,7 @@ public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
   // ultra + som  => ultrassom (with <s> turned into <ss> to keep the sound).
   @Override
   public String mergeCompound(String str, boolean uncapitalizeMidWords) {
-    String[] stringParts = HYPHEN.matcher(str).replaceAll(" ").split(" ");
+    String[] stringParts = str.replace("-", " ").split(" ");
     StringBuilder sb = new StringBuilder();
     for (int k = 0; k < stringParts.length; k++) {
       if (k == 0) {

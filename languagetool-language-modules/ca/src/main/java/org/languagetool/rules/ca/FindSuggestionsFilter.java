@@ -67,7 +67,7 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
   @Override
   protected String preProcessWrongWord (String word) {
-    word = word.replaceAll(" ","");
+    word = word.replace(" ","");
     word = ELA_GEMINADA.matcher(word).replaceAll("$1·$2");
     return word;
   }

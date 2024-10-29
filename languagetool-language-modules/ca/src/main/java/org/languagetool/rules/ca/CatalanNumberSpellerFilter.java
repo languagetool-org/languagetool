@@ -19,12 +19,12 @@ public class CatalanNumberSpellerFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
 
-    String strToSpell = getRequired("number_to_spell", arguments).replaceAll("\\.", "");
+    String strToSpell = getRequired("number_to_spell", arguments).replace(".", "");
     if (getRequired("gender", arguments).contentEquals("feminine")) {
       strToSpell = "feminine " + strToSpell;
     }
     String spelledNumber = synth.getSpelledNumber(strToSpell);
-    if (!spelledNumber.isEmpty() && spelledNumber.replaceAll("-i-", " ").replaceAll("-", " ").split(" ").length < 4) {
+    if (!spelledNumber.isEmpty() && spelledNumber.replace("-i-", " ").replace("-", " ").split(" ").length < 4) {
       String message = match.getMessage();
       RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
           message, match.getShortMessage());

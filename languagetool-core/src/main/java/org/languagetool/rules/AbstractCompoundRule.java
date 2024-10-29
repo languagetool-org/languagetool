@@ -42,7 +42,6 @@ public abstract class AbstractCompoundRule extends Rule {
 
   static final int MAX_TERMS = 5;
 
-  private static final Pattern WHITESPACE_DASH = Pattern.compile(" - ", Pattern.LITERAL);
   private static final Pattern WHITESPACE = Pattern.compile("\\s+");
   private static final Pattern DIGIT = Pattern.compile("\\d+");
   private static final Pattern DASHES = Pattern.compile("--+");
@@ -240,7 +239,7 @@ public abstract class AbstractCompoundRule extends Rule {
 
   private String normalize(String inStr) {
     String str = inStr.trim();
-    str = WHITESPACE_DASH.matcher(str).replaceAll(" ");
+    str = str.replace(" - ", " ");
     str = str.replace('-', ' ');
     str = WHITESPACE.matcher(str).replaceAll(" ");
     return str;
@@ -259,7 +258,7 @@ public abstract class AbstractCompoundRule extends Rule {
   }
 
   public String mergeCompound(String str, boolean uncapitalizeMidWords) {
-    String[] stringParts = str.replaceAll("-", " ").split(" ");
+    String[] stringParts = str.replace("-", " ").split(" ");
     StringBuilder sb = new StringBuilder();
     for (int k = 0; k < stringParts.length; k++) {  
       if (k == 0) {

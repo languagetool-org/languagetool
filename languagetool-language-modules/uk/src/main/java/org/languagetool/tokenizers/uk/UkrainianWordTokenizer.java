@@ -290,11 +290,11 @@ public class UkrainianWordTokenizer implements Tokenizer {
     }
 
     if( text.indexOf("с/г") != -1 ) {
-      text = text.replaceAll("с/г", "с" +NON_BREAKING_SLASH_SUBST + "г");
+      text = text.replace("с/г", "с" +NON_BREAKING_SLASH_SUBST + "г");
     }
 
     if( text.indexOf("Л/ДНР") != -1 ) {
-      text = text.replaceAll("Л/ДНР", "Л" +NON_BREAKING_SLASH_SUBST + "ДНР");
+      text = text.replace("Л/ДНР", "Л" +NON_BREAKING_SLASH_SUBST + "ДНР");
     }
 
     if( text.indexOf("р.") != -1 ) {
