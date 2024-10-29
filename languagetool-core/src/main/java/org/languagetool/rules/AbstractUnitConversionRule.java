@@ -80,7 +80,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
   protected static final String NUMBER_REGEX = "(-?[0-9]{1,32}[0-9,.]{0,32})";
   protected static final String NUMBER_REGEX_WITH_BOUNDARY = "(-?\\b[0-9]{1,32}[0-9,.]{0,32})";
 
-  protected final Pattern numberRangePart = Pattern.compile(NUMBER_REGEX_WITH_BOUNDARY + "$");
+  protected final Pattern numberRangePart = Pattern.compile(NUMBER_REGEX_WITH_BOUNDARY + "$", Pattern.UNICODE_CHARACTER_CLASS);
   
   private static final double DELTA = 1e-2;
   private static final double ROUNDING_DELTA = 0.05;
@@ -196,7 +196,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
    */
   protected void addUnit(String pattern, Unit base, String symbol, double factor, boolean metric) {
     Unit unit = base.multiply(factor);
-    unitPatterns.put(Pattern.compile(NUMBER_REGEX_WITH_BOUNDARY + "[\\s\u00A0]{0," + WHITESPACE_LIMIT + "}" + pattern + "\\b"), unit);
+    unitPatterns.put(Pattern.compile(NUMBER_REGEX_WITH_BOUNDARY + "[\\s\u00A0]{0," + WHITESPACE_LIMIT + "}" + pattern + "\\b", Pattern.UNICODE_CHARACTER_CLASS), unit);
     unitSymbols.putIfAbsent(unit, new ArrayList<>());
     unitSymbols.get(unit).add(symbol);
     if (metric && !metricUnits.contains(unit)) {
