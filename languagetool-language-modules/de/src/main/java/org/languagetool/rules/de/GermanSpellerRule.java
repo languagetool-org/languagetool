@@ -186,6 +186,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Topfen", "Tropfen");
     put("gepart", w -> Arrays.asList("gespart", "gepaart"));
     put("frägst", "fragst");
+    put("totkrank", "todkrank");
+    put("todtkrank", "todkrank");
     put("sähte", "säte");
     put("säht", "sät");
     put("sähtest", "sätest");
