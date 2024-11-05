@@ -53,7 +53,7 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
   public SimpleReplaceDiacriticsIEC(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(new Category(new CategoryId("DIACRITICS_IEC"), "Z) Accents diacrítics segons l'IEC"));
-    super.setLocQualityIssueType(ITSIssueType.Misspelling);
+    super.setLocQualityIssueType(ITSIssueType.Grammar);
     super.setDefaultOn();
     this.setCheckLemmas(false);
     super.useSubRuleSpecificIds();
