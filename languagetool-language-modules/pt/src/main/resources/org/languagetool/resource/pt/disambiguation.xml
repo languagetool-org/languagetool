@@ -240,21 +240,8 @@
     </rule>
     <rule> <!-- Used ChatGPT 4o to verify the 31048 results -->
       <pattern>
-        <token postag="V.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+        <token postag="V.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+'/></token>
         <token postag="(SPS00:)?D[AI].+|PP.+|Z0.+" postag_regexp="yes"><exception postag_regexp='yes' postag='PI.+'/></token>
-        <marker>
-          <and>
-            <token postag="VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM" postag_regexp="yes"/>
-            <token postag="NC.+" postag_regexp="yes"/>
-          </and>
-        </marker>
-      </pattern>
-      <disambig action="remove" postag="V.*"/>
-    </rule>
-    <rule> <!-- Used ChatGPT 4o to verify the 3217 results -->
-      <pattern>
-        <token postag="V.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
-        <token regexp='yes' inflected='yes'>um|muito|pouco|vários|diversos|tal</token> <!-- Special PI.* that don't break rules -->
         <marker>
           <and>
             <token postag="VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM" postag_regexp="yes"/>
