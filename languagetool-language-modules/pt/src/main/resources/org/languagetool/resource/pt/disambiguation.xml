@@ -3,26 +3,29 @@
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
 
 <!--
- Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
- Copyright © 2016-2021 Tiago F. Santos (tiagofsantos81@sapo.pt)
- Copyright © 2021 Marco A.G.Pinto (www.marcoagpinto.com)
+Portuguese - Grammar and Typo Rules for LanguageTool.
 
- This library is free software; you can redistribute it and/or
- modify it under the terms of the GNU Lesser General Public
- License as published by the Free Software Foundation; either
- version 2.1 of the License, or (at your option) any later version.
+See tagset.txt for the meaning of the POS tags.
+Copyright © 2001–2024 Daniel Naber (http://www.danielnaber.de),
+Marcin Miłkowski, and the LanguageTool contributors.
 
- This library is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- Lesser General Public License for more details.
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
 
- You should have received a copy of the GNU Lesser General Public
- License along with this library; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+USA
 -->
 
-<!-- Contribuintes opensource, deem uma olhada aqui: https://dev.languagetool.org/#portuguese -->
+<!-- Contribuintes open-source, leiam isto: https://dev.languagetool.org/#portuguese -->
 
 <!DOCTYPE rules [
         <!ENTITY % datetime  SYSTEM "../../resource/pt/entities/datetime.ent" >
@@ -265,11 +268,11 @@
       <disambig action="remove" postag="V.*"/>
     </rule>
     <rule>
-      <pattern>
+      <pattern> <!-- Used ChatGPT 4o to verify the results -->
         <token postag="Z0.[PN].+" postag_regexp="yes"/>
         <marker>
           <and>
-            <token postag="VMIP2S0|VMN02S0|VMSF2S0" postag_regexp="yes"/>
+            <token postag="VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0" postag_regexp="yes"/>
             <token postag="NC.+" postag_regexp="yes"/>
           </and>
         </marker>
@@ -407,6 +410,19 @@
     <rule>
       <pattern>
         <token regexp="yes">dele|deles|dela|delas</token>
+      </pattern>
+      <disambig action="remove" postag="V.*"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+            <and>
+                <token regexp="yes">eles?|elas?</token>
+                <token postag="PP.+|V.+" postag_regexp="yes"/>
+            </and>
+        </marker>
+        <token postag="D[AI].+" postag_regexp="yes"/>
+        <token postag="NC.+|AQ.+" postag_regexp="yes"><exception postag='V.+' postag_regexp='yes'/></token>
       </pattern>
       <disambig action="remove" postag="V.*"></disambig>
     </rule>
