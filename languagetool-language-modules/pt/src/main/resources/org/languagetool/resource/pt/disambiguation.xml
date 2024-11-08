@@ -413,6 +413,19 @@ USA
       </pattern>
       <disambig action="remove" postag="V.*"></disambig>
     </rule>
+    <rule>
+      <pattern>
+        <marker>
+            <and>
+                <token regexp="yes">eles?|elas?</token>
+                <token postag="PP.+|V.+" postag_regexp="yes"/>
+            </and>
+        </marker>
+        <token postag="D[AI].+" postag_regexp="yes"/>
+        <token postag="NC.+|AQ.+" postag_regexp="yes"><exception postag='V.+' postag_regexp='yes'/></token>
+      </pattern>
+      <disambig action="remove" postag="V.*"></disambig>
+    </rule>
   </rulegroup>
   <rule id="PENSAR" name="pensar (not noun)">
     <pattern>
