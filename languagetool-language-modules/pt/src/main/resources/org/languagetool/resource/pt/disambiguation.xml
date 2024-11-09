@@ -230,6 +230,20 @@ USA
   <rulegroup id="RARE_POS" name="rare POS tags">
     <rule> <!-- Used ChatGPT 4o to verify the results -->
       <pattern>
+        <token postag='VMP00.+' postag_regexp="yes"/>
+        <token postag='RM' postag_regexp="no"/>
+        <marker>
+          <and>
+            <token postag="VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM" postag_regexp="yes"/>
+            <token postag="NC.+" postag_regexp="yes"/>
+          </and>
+        </marker>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+      </pattern>
+      <disambig action="remove" postag="V.*"/>
+    </rule>
+    <rule> <!-- Used ChatGPT 4o to verify the results -->
+      <pattern>
         <token>à</token>
         <marker>
           <and>
