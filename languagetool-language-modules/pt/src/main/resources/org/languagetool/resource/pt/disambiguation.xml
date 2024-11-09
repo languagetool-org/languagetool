@@ -230,8 +230,8 @@ USA
   <rulegroup id="RARE_POS" name="rare POS tags">
     <rule> <!-- Used ChatGPT 4o to verify the results -->
       <pattern>
-        <token postag='VMP00.+' postag_regexp="yes"/>
-        <token postag='RM' postag_regexp="no"/>
+        <token postag='VMP00.+' postag_regexp="yes"><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+        <token min='0' max='1' postag='RM' postag_regexp="no"/>
         <marker>
           <and>
             <token postag="VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM" postag_regexp="yes"/>
