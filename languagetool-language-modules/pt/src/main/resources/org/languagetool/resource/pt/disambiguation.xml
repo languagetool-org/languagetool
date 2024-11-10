@@ -230,17 +230,6 @@ USA
   <rulegroup id="RARE_POS" name="rare POS tags">
     <rule> <!-- Used ChatGPT 4o to verify the results -->
       <pattern>
-        <token postag='VMP00.+' postag_regexp="yes"/>
-        <token min='0' max='1' postag='RM'/>
-        <marker>
-            <token regexp="yes">pel[ao]s?|como</token>
-        </marker>
-        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-      </pattern>
-      <disambig action="remove" postag="V.*"/>
-    </rule>
-    <rule> <!-- Used ChatGPT 4o to verify the results -->
-      <pattern>
         <token>à</token>
         <marker>
           <and>
@@ -3849,6 +3838,19 @@ USA
           <disambig action="remove"><wd lemma="farar"/></disambig>
       </rule>
   </rulegroup>
+
+  <rule id="PELA_COMO" name="Remove pela/como from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Had to move the rule down for it to work with RM: "As espécies viáveis foram sendo incorporadas gradativamente pela natureza." -->
+    <pattern>
+      <token postag='VMP00.+' postag_regexp="yes"/>
+      <token min='0' max='1' postag='RM'/>
+      <marker>
+          <token regexp="yes">pel[ao]s?|como</token>
+      </marker>
+      <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+  </rule>
 
   <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
       <rule>
