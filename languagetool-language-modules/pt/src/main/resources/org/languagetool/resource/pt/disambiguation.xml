@@ -231,12 +231,9 @@ USA
     <rule> <!-- Used ChatGPT 4o to verify the results -->
       <pattern>
         <token postag='VMP00.+' postag_regexp="yes"/>
-        <token min='0' max='1' postag='RM' postag_regexp="no"/>
+        <token min='0' max='1' postag='RM'/>
         <marker>
-          <and>
-            <token postag="VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM" postag_regexp="yes"/>
-            <token postag="NC.+" postag_regexp="yes"/>
-          </and>
+            <token regexp="yes">pel[ao]s?|como</token>
         </marker>
         <token postag='NC.+|AQ.+' postag_regexp='yes'/>
       </pattern>
