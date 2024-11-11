@@ -3827,7 +3827,7 @@ USA
       </rule>
   </rulegroup>
 
-  <rule id="PELA_COMO" name="Remove pela/como from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+  <rule id="PELA_COMO_VERBS" name="Remove pela/como from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Had to move the rule down for it to work with RM: "As espécies viáveis foram sendo incorporadas gradativamente pela natureza." -->
     <pattern>
       <token postag='VMP00.+' postag_regexp="yes"/>
@@ -3840,11 +3840,12 @@ USA
     <disambig action="remove" postag="V.*"/>
   </rule>
 
-  <rule id="PI_VERBS" name="Remove PI.+ followed by noun from appearing as verb"> <!-- Used ChatGPT 4o to verify the results -->
-      <!-- Had to move the rule down for it to work with all the PI.+ here -->
+  <rulegroup id="PI_RELATED_VERBS" name="Remove PI.+ related followed by noun appearing as verb"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Had to move the rules down for them to work with all the conditions included -->
+    <rule>
       <pattern>
         <token postag="V.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
-        <token regexp='yes' inflected='yes'>um|muito|pouco|vários|diversos|tal|de:esse|em:esse</token> <!-- Special PI.+ that don't break rules -->
+        <token postag='(SPS00:)?PI.+' postag_regexp="yes"/>
         <marker>
           <and>
             <token postag="VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0" postag_regexp="yes"/> <!-- Removed "VMP00SM" not to break Premium -->
@@ -3853,7 +3854,17 @@ USA
         </marker>
       </pattern>
       <disambig action="remove" postag="V.*"/>
-  </rule>
+      <!--
+      Examples:
+               Eu fiz tudo certo desta vez.
+               Foi preso diversas vezes em sua juventude.
+               É único, há muito espaço para você ficar sozinho.
+               Giger (que também já fez várias capas para bandas de rock).
+               Não me foi consentido qualquer voto na matéria.
+               Você não me ofendeu em nada, está tudo certo.
+      -->
+    </rule>
+  </rulegroup>
 
   <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
       <rule>
