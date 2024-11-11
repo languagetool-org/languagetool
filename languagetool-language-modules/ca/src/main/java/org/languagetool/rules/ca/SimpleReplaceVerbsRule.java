@@ -64,7 +64,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
   public SimpleReplaceVerbsRule(final ResourceBundle messages, Language language) {
     super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
-    super.setLocQualityIssueType(ITSIssueType.Misspelling);
+    super.setLocQualityIssueType(ITSIssueType.Grammar);
     super.setIgnoreTaggedWords();
     tagger = (CatalanTagger) language.getTagger();
     synth = (CatalanSynthesizer) language.getSynthesizer();

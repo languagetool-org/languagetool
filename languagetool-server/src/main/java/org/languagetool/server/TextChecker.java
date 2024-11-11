@@ -104,6 +104,81 @@ abstract class TextChecker {
   private long pingsCleanDateMillis = System.currentTimeMillis();
   PipelinePool pipelinePool; // mocked in test -> package-private / not final
 
+  /**
+   * List of usernames for A/B testing with restricted rules.
+   * Populated from LT_TEST_ONLY_USERS environment variable.
+   * Format: comma-separated list of usernames
+   */
+  private final static List<String> onlyTestUsers;
+
+  /**
+   * List of rule IDs enabled for restricted rules A/B testing.
+   * Populated from LT_TEST_ONLY_RULES environment variable.
+   * Format: comma-separated list of rule IDs
+   */
+  private final static List<String> onlyTestRules;
+
+  /**
+   * List of languages enabled for restricted rules A/B testing.
+   * Populated from LT_TEST_ONLY_LANGUAGES environment variable.
+   * Format: comma-separated list of language codes
+   */
+  private final static List<String> onlyTestLanguages;
+
+  /**
+   * List of clients enabled for restricted rules A/B testing.
+   * Populated from LT_TEST_ONLY_CLIENTS environment variable.
+   * Format: comma-separated list of client identifiers
+   */
+  private final static List<String> onlyTestClients;
+
+  static {
+    String onlyUsersEnv = System.getenv("LT_TEST_ONLY_USERS");
+    if (onlyUsersEnv == null || onlyUsersEnv.trim().isEmpty()) {
+      onlyTestUsers = Collections.emptyList();
+    } else {
+      onlyTestUsers = Arrays.stream(onlyUsersEnv.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .collect(Collectors.toList());
+    }
+
+    String onlyRulesEnv = System.getenv("LT_TEST_ONLY_RULES");
+    if (onlyRulesEnv == null || onlyRulesEnv.trim().isEmpty()) {
+      onlyTestRules = Collections.emptyList();
+    } else {
+      onlyTestRules = Arrays.stream(onlyRulesEnv.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .collect(Collectors.toList());
+    }
+
+    String onlyLanguagesEnv = System.getenv("LT_TEST_ONLY_LANGUAGES");
+    if (onlyLanguagesEnv == null || onlyLanguagesEnv.trim().isEmpty()) {
+      onlyTestLanguages = Collections.emptyList();
+    } else {
+      onlyTestLanguages = Arrays.stream(onlyLanguagesEnv.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .collect(Collectors.toList());
+    }
+
+    String onlyClientsEnv = System.getenv("LT_TEST_ONLY_CLIENTS");
+    if (onlyClientsEnv == null || onlyClientsEnv.trim().isEmpty()) {
+      onlyTestClients = Collections.emptyList();
+    } else {
+      onlyTestClients = Arrays.stream(onlyClientsEnv.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .collect(Collectors.toList());
+    }
+
+    if (!onlyTestRules.isEmpty()) {
+      log.info("Initialized A/B test restrictions - users: {}, rules: {}, languages: {}, clients: {}",
+        onlyTestUsers, onlyTestRules, onlyTestLanguages, onlyTestClients);
+    }
+  }
+
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
     this.config = config;
     this.workQueue = workQueue;
@@ -247,6 +322,13 @@ abstract class TextChecker {
   void shutdownNow() {
     executorService.shutdownNow();
     RemoteRule.shutdown();
+  }
+
+  private boolean shouldRunRestrictedRulesTest(Map<String, String> params, String agent, Language lang, List<String> abTest) {
+    String username = params.getOrDefault("username", "");
+    return (onlyTestUsers.contains(username) || (abTest != null && abTest.contains("only"))) &&
+      onlyTestLanguages.contains(lang.getShortCodeWithCountryAndVariant()) &&
+      onlyTestClients.contains(agent);
   }
 
   void checkText(AnnotatedText aText, HttpExchange httpExchange, Map<String, String> params, ErrorRequestLimiter errorRequestLimiter,
@@ -463,6 +545,14 @@ abstract class TextChecker {
       }
     }
     List<String> enabledRules = getEnabledRuleIds(params);
+
+
+    if (shouldRunRestrictedRulesTest(params, agent, lang, abTest)) {
+      log.info("Running test with restricted rules for user: {}, language: {}, client: {}",
+        params.getOrDefault("username", ""), lang.getShortCodeWithCountryAndVariant(), agent);
+      useEnabledOnly = true;
+      enabledRules = onlyTestRules;
+    }
 
     List<String> disabledRules = getDisabledRuleIds(params);
     List<CategoryId> enabledCategories = getCategoryIds("enabledCategories", params);

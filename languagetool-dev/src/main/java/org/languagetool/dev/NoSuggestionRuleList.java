@@ -80,7 +80,7 @@ public class NoSuggestionRuleList {
           //System.err.println("Skipping " + rule.getId() + " (no example)");
           continue;
         }
-        String incorrectExample = incorrectExamples.get(0).getExample().replaceAll("<marker>", "").replaceAll("</marker>", "");
+        String incorrectExample = incorrectExamples.get(0).getExample().replace("<marker>", "").replace("</marker>", "");
         lt.enableRule(rule.getId());
         List<RuleMatch> matches = lt.check(incorrectExample);
         for (RuleMatch match : matches) {

@@ -52,7 +52,7 @@ public class SimpleReplaceBalearicRule extends AbstractSimpleReplaceRule {
   public SimpleReplaceBalearicRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
-    super.setLocQualityIssueType(ITSIssueType.Misspelling);
+    super.setLocQualityIssueType(ITSIssueType.Grammar);
     this.setCheckLemmas(false);
     super.useSubRuleSpecificIds();
     //this.setIgnoreTaggedWords();

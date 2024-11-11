@@ -3281,6 +3281,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="Y"/>
         </rule>
+        <rule id="abreviacions_punt2" name="abreviacions seguides de punt">
+            <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">&abreviacions_punt;</token>
+                </marker>
+                <token spacebefore="no">.</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
         <rule>
             <pattern>
                 <marker>
@@ -6404,7 +6413,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="N.*" postag_regexp="yes"><exception postag="[NA].*|_GN_.*|VMIP1S0B|V.G.*" postag_regexp="yes" negate_pos="yes"/><exception regexp="yes">gran|possible|major|petit|propi|pròpia</exception></token>
+                <token postag="N.*" postag_regexp="yes"><exception postag="[NA].*|_GN_.*|VMIP1S0B|V.G.*" postag_regexp="yes" negate_pos="yes"/><exception regexp="yes">gran|possible|major|petit|propi|pròpia|segon</exception></token>
                 <marker>
                     <token regexp="yes" postag="NC.*" postag_regexp="yes">consort|mare|web|alfa|beta|gamma|lambda|font|hivernacle|euro|tipus|clau|membre|núm|número|matriu|estàndard|estrella|estrela|model|hoste|base|pont|sulfat|fosfat|calci|gas|satèl·lit|gel</token>
                 </marker>
@@ -13883,7 +13892,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <token postag="SPS00">sota<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 <token postag="D.*" postag_regexp="yes"><exception inflected="yes">es</exception></token>
-                <token postag="[AN].*|V.P.*" postag_regexp="yes"/>
+                <token postag="[AN].*|V.P.*" postag_regexp="yes"><exception regexp="yes">seus?</exception></token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
@@ -17453,7 +17462,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token><exception regexp="yes">tant|com|tan|més|cert|certa|certs|certes</exception><exception postag="DA.*" postag_regexp="yes"/></token>
             <marker>
                 <and>
-                    <token postag="RG.*" postag_regexp="yes"><exception>total</exception></token>
+                    <token postag="RG.*" postag_regexp="yes"><exception regexp="yes">total|fort</exception></token>
                     <token postag="A.*" postag_regexp="yes"><exception postag="_GN.*|CC" postag_regexp="yes"/></token>
                 </and>
             </marker>

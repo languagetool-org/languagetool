@@ -218,8 +218,8 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
       String output = org.languagetool.tools.Tools.i18n(messages, "result1", i + 1, match.getLine() + 1, match.getColumn());
       sb.append(output);
       String msg = match.getMessage()
-          .replaceAll("<suggestion>", "<b>").replaceAll("</suggestion>", "</b>")
-          .replaceAll("<old>", "<b>").replaceAll("</old>", "</b>");
+          .replace("<suggestion>", "<b>").replace("</suggestion>", "</b>")
+          .replace("<old>", "<b>").replace("</old>", "</b>");
       sb.append("<b>").append(messages.getString("errorMessage")).append("</b> ");
       sb.append(msg);
       RuleLink ruleLink = RuleLink.buildDeactivationLink(match.getRule());

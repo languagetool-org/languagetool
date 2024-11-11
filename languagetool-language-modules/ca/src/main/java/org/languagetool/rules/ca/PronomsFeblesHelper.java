@@ -436,7 +436,7 @@ public class PronomsFeblesHelper {
     }
     String between = " ";
     if (pronounsReplacement != null) {
-      replacement = (pronounsReplacement + between + verbStr).trim().replaceAll("' ", "'");
+      replacement = (pronounsReplacement + between + verbStr).trim().replace("' ", "'");
     } else {
       replacement = verbStr;
     }
@@ -468,12 +468,12 @@ public class PronomsFeblesHelper {
         pronounToAdd = addReflexiveConsonant.get(firstVerbPersonaNumber);
       }
       if (pronounToAdd != null) {
-        replacement = (pronounToAdd + verbStr).trim().replaceAll("' ", "'");
+        replacement = (pronounToAdd + verbStr).trim().replace("' ", "'");
       }
     } else {
       //TODO: add reflexive pronoun to another pronoun
       // containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()
-      replacement = (pronounsStr + " " + verbStr).trim().replaceAll("' ", "'");
+      replacement = (pronounsStr + " " + verbStr).trim().replace("' ", "'");
     }
     return replacement;
   }
@@ -496,7 +496,7 @@ public class PronomsFeblesHelper {
         pronounToAdd = addEn.get(addReflexiveConsonant.get(firstVerbPersonaNumber).trim());
       }
       if (pronounToAdd != null) {
-        replacement = (pronounToAdd + verbStr).trim().replaceAll("' ", "'");
+        replacement = (pronounToAdd + verbStr).trim().replace("' ", "'");
       }
     } else {
       if (needsApostrophe) {
@@ -505,9 +505,9 @@ public class PronomsFeblesHelper {
         pronounToAdd = addEsEn.get(pronounsStr);
       }
       if (pronounToAdd != null) {
-        replacement = (pronounToAdd + verbStr).trim().replaceAll("' ", "'");
+        replacement = (pronounToAdd + verbStr).trim().replace("' ", "'");
       } else {
-        replacement = (pronounsStr + " " + verbStr).trim().replaceAll("' ", "'");
+        replacement = (pronounsStr + " " + verbStr).trim().replace("' ", "'");
       }
       //TODO: add reflexive pronoun to another pronoun
       // containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()

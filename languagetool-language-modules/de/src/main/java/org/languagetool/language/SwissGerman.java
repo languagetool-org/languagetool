@@ -117,7 +117,7 @@ public class SwissGerman extends German {
       List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
       List<SuggestedReplacement> newReplacements = new ArrayList<>();
       for (SuggestedReplacement s : replacements) {
-        String newReplStr = s.getReplacement().replaceAll("ß", "ss");
+        String newReplStr = s.getReplacement().replace("ß", "ss");
         SuggestedReplacement newRepl = new SuggestedReplacement(s);
         newRepl.setReplacement(newReplStr);
         newReplacements.add(newRepl);

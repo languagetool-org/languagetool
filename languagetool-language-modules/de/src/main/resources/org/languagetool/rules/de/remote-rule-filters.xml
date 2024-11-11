@@ -1968,6 +1968,25 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
 
+        <rulegroup name="" id="AI_DE_GGEC_UNNECESSARY.*">
+            <rule>
+                <pattern>
+                    <token>►</token>
+                </pattern>
+                <example correction=""><marker>►</marker> Aus Sicht der Grünen-Politikerin Anna Cavazzini</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>[</token>
+                        <token regexp="yes">\d+</token>
+                        <token>]</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>[1]</marker> Aus Sicht der Grünen-Politikerin Anna Cavazzini</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_VERB">
             <rule><!--1-->
                 <pattern>
@@ -2077,11 +2096,34 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">asbachuralt.*|gelingsicher.*|auskultatorisch.*|isländisch.+</token>
+                    <token regexp="yes">asbachuralt.*|gelingsicher.*|auskultatorisch.*|isländisch.+|ungeduscht.*</token>
                 </pattern>
                 <example correction="">Das ist doch echt <marker>asbachuralt</marker>!</example>
                 <example correction="">Ist <marker>gelingsicher</marker>, kann nicht anbrennen, ist immer saftig und zart!!</example>
                 <example correction=""><marker>Isländischen</marker> Medienberichten zufolge ...</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_MISSING_ADPOSITION" name="">
+            <rule>
+                <pattern>
+                    <token>schönes</token>
+                    <token>wochenende</token>
+                    <marker>
+                        <token regexp="yes">euch|dir|ihnen</token>
+                    </marker>
+                </pattern>
+                <example correction="">Schönes Wochenende <marker>euch</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>frohe</token>
+                    <token regexp="yes">ostern|weihnachten</token>
+                    <marker>
+                        <token regexp="yes">euch|dir|ihnen</token>
+                    </marker>
+                </pattern>
+                <example correction="">Frohe Ostern <marker>euch</marker>!</example>
             </rule>
         </rulegroup>
 
@@ -2430,6 +2472,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction=""><marker>–</marker> Hier wird ein Spiegelstrich verwendet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Guten</token>
+                    <token skip="2" regexp="yes">Morgen|Abend|Tag</token>
+                    <marker>
+                        <token postag="SENT_END">,</token>
+                    </marker>
+                </pattern>
+                <example correction="">Guten Morgen Frank<marker>,</marker></example>
             </rule>
         </rulegroup>
 

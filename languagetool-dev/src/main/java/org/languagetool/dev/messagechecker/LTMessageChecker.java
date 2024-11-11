@@ -106,7 +106,7 @@ public class LTMessageChecker {
       }
       if (!message.isEmpty()) {
         message = lang.toAdvancedTypography(message);
-        message = message.replaceAll("<suggestion>", lang.getOpeningDoubleQuote()).replaceAll("</suggestion>",
+        message = message.replace("<suggestion>", lang.getOpeningDoubleQuote()).replace("</suggestion>",
             lang.getClosingDoubleQuote());
         message = message.replaceAll("<[^>]+>", "");
       }
