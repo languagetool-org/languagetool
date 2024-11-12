@@ -3813,7 +3813,7 @@ USA
       </rule>
   </rulegroup>
 
-  <rule id="PELA_COMO_VERBS" name="Remove pela/como from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+  <rule id="PELA_COMO_VERBS_RARE" name="Remove pela/como from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Had to move the rule down for it to work with RM: "As espécies viáveis foram sendo incorporadas gradativamente pela natureza." -->
     <pattern>
       <token postag='VMP00.+' postag_regexp="yes"/>
@@ -3832,7 +3832,31 @@ USA
     -->
   </rule>
 
-  <rulegroup id="PI_RELATED_VERBS" name="Remove PI.+ related followed by noun appearing as verb"> <!-- Used ChatGPT 4o to verify the results -->
+  <rule id="VERB_VNOUN_NOUN_VERBS_RARE" name="Remove from verb followed by NOUN (verb) plus noun"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='V.+' postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+      <token min='0' max='1' postag='RM'/>
+      <marker>
+        <and>
+          <token postag='VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0' postag_regexp="yes"/> <!-- Removed "VMIP1S0|VMP00SM" -->
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='NC.+|AQ.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+|CS|RG|CC|SPS.+|[DP].+'/></token>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Vocês emitem nota fiscal?
+             E vi meu pai e meu tio jogarem terra logo após de enterrarem um primo.
+             As crianças que usam fraldas descartáveis são mais propensas a assaduras do que as que usam fraldas de pano.
+             Você está navegando pela página 26.
+             Têm forma peculiar de tetraedro que lembra um pedaço de chocolate Toblerone, daí o apelido.
+    -->
+  </rule>
+
+  <rulegroup id="PI_RELATED_VERBS_RARE" name="Remove PI.+ related followed by noun appearing as verb"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Had to move the rules down for them to work with all the conditions included -->
     <rule> <!-- Used ChatGPT 4o to verify the results -->
       <pattern>
