@@ -209,6 +209,12 @@ class AgreementRuleAntiPatterns1 {
       new PatternTokenBuilder().token("zu").min(0).build(),
       tokenRegex("verbinden|verhelfen|fähig")
     ),
+    asList( //"Kombinieren Sie diese zu ganzen Bewegungsprogrammen"
+      tokenRegex("diese[sn]?"),
+      token("zu"),
+      new PatternTokenBuilder().posRegex("ADJ.*PLU.*"),
+      posRegex("SUB.*PLU.*")
+    ),
     asList( //"Es kam zum einen zu technischen Problemen, zum anderen wurde es unübersichtlich."
       token("zum"),
       token("einen"),
