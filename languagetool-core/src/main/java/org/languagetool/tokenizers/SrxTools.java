@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * Tools for loading an SRX tokenizer file.
@@ -60,8 +59,7 @@ final class SrxTools {
 
   static List<String> tokenize(String text, SrxDocument srxDocument, String code) {
     List<String> segments = new ArrayList<>();
-    Map<String, Object> parserParameters = Map.of(SrxTextIterator.DEFAULT_PATTERN_FLAGS_PARAMETER, Pattern.UNICODE_CHARACTER_CLASS);
-    TextIterator textIterator = new SrxTextIterator(srxDocument, code, text, parserParameters);
+    TextIterator textIterator = new SrxTextIterator(srxDocument, code, text);
     while (textIterator.hasNext()) {
       segments.add(textIterator.next());
     }

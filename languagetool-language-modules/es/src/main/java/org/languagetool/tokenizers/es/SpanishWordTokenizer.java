@@ -43,7 +43,7 @@ public class SpanishWordTokenizer extends WordTokenizer {
   // decimal comma between digits
   private static final Pattern DECIMAL_COMMA= Pattern.compile("([\\d]),([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   // ordinals
-  private static final Pattern ORDINAL_POINT= Pattern.compile("\\b([\\d]+)\\.(º|ª|o|a|er|os|as)\\b",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CHARACTER_CLASS);
+  private static final Pattern ORDINAL_POINT= Pattern.compile("\\b([\\d]+)\\.(º|ª|o|a|er|os|as)\\b",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern PATTERN_1 = Pattern.compile("xxES_DECIMAL_POINTxx", Pattern.LITERAL);
   private static final Pattern PATTERN_2 = Pattern.compile("xxES_DECIMAL_COMMAxx", Pattern.LITERAL);
   private static final Pattern PATTERN_3 = Pattern.compile("xxES_ORDINAL_POINTxx", Pattern.LITERAL);

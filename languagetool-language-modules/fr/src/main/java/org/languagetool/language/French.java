@@ -50,9 +50,9 @@ import static java.util.regex.Pattern.compile;
 public class French extends Language implements AutoCloseable {
 
   private static final String BEFORE_APOS = "([cjnmtsldCJNMTSLD]|qu|jusqu|lorsqu|puisqu|quoiqu|Qu|Jusqu|Lorsqu|Puisqu|Quoiqu|QU|JUSQU|LORSQU|PUISQU|QUOIQU)";
-  private static final Pattern BEFORE_APOS_PATTERN_1 = compile("(\\b" + BEFORE_APOS + ")'", Pattern.UNICODE_CHARACTER_CLASS);
-  private static final Pattern BEFORE_APOS_PATTERN_2 = compile("(\\b" + BEFORE_APOS + ")’\"", Pattern.UNICODE_CHARACTER_CLASS);
-  private static final Pattern BEFORE_APOS_PATTERN_3 = compile("(\\b" + BEFORE_APOS + ")’'", Pattern.UNICODE_CHARACTER_CLASS);
+  private static final Pattern BEFORE_APOS_PATTERN_1 = compile("(\\b" + BEFORE_APOS + ")'");
+  private static final Pattern BEFORE_APOS_PATTERN_2 = compile("(\\b" + BEFORE_APOS + ")’\"");
+  private static final Pattern BEFORE_APOS_PATTERN_3 = compile("(\\b" + BEFORE_APOS + ")’'");
 
   private static final Pattern TYPOGRAPHY_PATTERN_1 = compile("\u00a0;");
   private static final Pattern TYPOGRAPHY_PATTERN_2 = compile("\u00a0!");
