@@ -2059,6 +2059,38 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd lemma="a tocar" pos="LOC_ADV"/>
         </disambig>
     </rule>
+    <rule id="UNA_MICA" name="una mica">
+        <antipattern>
+            <token regexp="yes">mica|miqueta</token>
+            <token regexp="yes">de|d'</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>una</token>
+                <token regexp="yes">mica|miqueta</token>
+            </marker>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="un mica" pos="LOC_ADV"/>
+            <wd lemma="un mica" pos="LOC_ADV"/>
+        </disambig>
+    </rule>
+    <rule id="UN_POC" name="un poc">
+        <antipattern>
+            <token regexp="yes">poc|poquet|pèl|xic</token>
+            <token regexp="yes">de|d'</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>un</token>
+                <token regexp="yes">poc|poquet|pèl|xic</token>
+            </marker>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="un poc" pos="LOC_ADV"/>
+            <wd lemma="un poc" pos="LOC_ADV"/>
+        </disambig>
+    </rule>
     <rule id="D_ACORD" name="d'acord (adv)">
         <pattern>
             <token regexp="yes" inflected="yes">restar|quedar|estar|posar</token>
@@ -20744,6 +20776,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rulegroup id="allowed_repetitions" name="repeticions permeses">
         <!-- girar el cap cap a l’altra persona -->
+        <rule>
+            <pattern>
+                <token>en</token>
+                <token>quin</token>
+                <token>cap</token>
+                <marker>
+                    <token>cap</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
         <rule>
             <pattern>
                 <token spacebefore="no">/</token>
