@@ -3821,7 +3821,7 @@ USA
       <marker>
           <token regexp="yes">pel[ao]s?|como</token>
       </marker>
-      <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+      <token postag='NC.+|AQ.+|DP.+' postag_regexp='yes'/>
     </pattern>
     <disambig action="remove" postag="V.*"/>
     <!--
@@ -3829,6 +3829,9 @@ USA
              Elas eram conhecidas pelas cadelas.
              Elas eram conhecidas como cadelas.
              As espécies viáveis foram sendo incorporadas gradativamente pela natureza.
+             A cidade também é muito conhecida pelos seus doces de espécie.
+             Obrigado pela sua compreensão e bom trabalho!
+             A segunda, que era conhecida como sua esposa no Olimpo, era a ciumenta Hera.
     -->
   </rule>
 
@@ -3861,7 +3864,7 @@ USA
     <rule> <!-- Used ChatGPT 4o to verify the results -->
       <pattern>
         <token postag="V.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
-        <token postag="(SPS00:)?(D[AI].+|PP.+)|Z0.+" postag_regexp="yes"><exception postag_regexp='yes' postag='PI.+'/></token>
+        <token postag="(SPS00:)?D[AI].+|Z0.+" postag_regexp="yes"><exception postag_regexp='yes' postag='PI.+'/></token> <!-- Removed PP.+: "morrer nos custa muito" -->
         <marker>
           <and>
             <token postag="VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM" postag_regexp="yes"/>
