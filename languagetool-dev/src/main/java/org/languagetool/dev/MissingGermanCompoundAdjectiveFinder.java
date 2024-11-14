@@ -39,7 +39,7 @@ public class MissingGermanCompoundAdjectiveFinder {
 
   public static void main(String[] args) throws IOException {
     List<String> lines = Files.readAllLines(Paths.get(args[0]));
-    Tagger tagger = new GermanyGerman().getTagger();
+    Tagger tagger = GermanyGerman.getInstance().getTagger();
     Set<String> printed = new HashSet<>();
     int j = 0;
     int splitCount = 0;
@@ -78,7 +78,7 @@ public class MissingGermanCompoundAdjectiveFinder {
 
   /*public static void main2(String[] args) throws IOException {
     List<String> lines = Files.readAllLines(Paths.get("/tmp/x"));
-    GermanSpellerRule speller = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman());
+    GermanSpellerRule speller = new GermanSpellerRule(JLanguageTool.getMessageBundle(), GermanyGerman.getInstance());
     for (String line : lines) {
       if (!speller.isMisspelled(line)) {
         System.out.println(line);

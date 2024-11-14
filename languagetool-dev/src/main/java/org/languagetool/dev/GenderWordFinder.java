@@ -48,7 +48,7 @@ public class GenderWordFinder {
         candidates.add(line);
       }
     }
-    GermanyGerman de = new GermanyGerman();
+    GermanyGerman de = GermanyGerman.getInstance();
     JLanguageTool lt = new JLanguageTool(de);
     for (Rule rule : lt.getAllActiveRules()) {
       if (!rule.getId().equals("GERMAN_SPELLER_RULE")) {

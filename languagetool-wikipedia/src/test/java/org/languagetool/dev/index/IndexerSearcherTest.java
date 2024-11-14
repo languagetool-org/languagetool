@@ -186,7 +186,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     // Note that the second sentence ends with "lid" instead of "lids" (the inflated one)
     //createIndex("I thin so");
     useRealIndex();
-    German language = new GermanyGerman();
+    German language = GermanyGerman.getInstance();
     PatternRule rule = getFirstRule("I_THIN", language);
     SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule, language);
     System.out.println("Matches: " + searcherResult.getMatchingSentences());
