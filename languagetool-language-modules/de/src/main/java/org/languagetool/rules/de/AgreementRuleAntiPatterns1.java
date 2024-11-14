@@ -972,6 +972,11 @@ class AgreementRuleAntiPatterns1 {
       csRegex("Gerichts?")
     ),
     asList(
+      // Großes Konzert in der Kampnagel Kulturfabrik
+      token("Kampnagel"),
+      token("Kulturfabrik")
+    ),
+    asList(
       // Die Zeit begann mit der Gründung der englischen Football Association.
       csRegex("[Ee]nglischen?"),
       token("Football"),
