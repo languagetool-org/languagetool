@@ -33,8 +33,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.*;
 
 public class JLanguageToolTest {
 
@@ -459,10 +459,10 @@ public class JLanguageToolTest {
             continue matches;
           }
         }
-        System.out.println(String.format("Rule: %s\nMessage: %s\nMatch:\n%s: %s",
-                rule.getId(), message, ruleMatch.getRule().getId(), ruleMatch.getMessage()));
-        System.out.println(String.format("Error in [%d,%d]: \"%s\"", ruleMatch.getFromPos(),
-                ruleMatch.getToPos(), message.substring(ruleMatch.getFromPos(), ruleMatch.getToPos())));
+        System.out.printf("Rule: %s\nMessage: %s\nMatch:\n%s: %s%n",
+                rule.getId(), message, ruleMatch.getRule().getId(), ruleMatch.getMessage());
+        System.out.printf("Error in [%d,%d]: \"%s\"%n", ruleMatch.getFromPos(),
+                ruleMatch.getToPos(), message.substring(ruleMatch.getFromPos(), ruleMatch.getToPos()));
         System.out.println("-------");
         matchesCounter++;
       }
@@ -550,7 +550,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testIgnoringEnglishWordsInFrench() throws IOException {
-    Language lang = new French();
+    Language lang = French.getInstance();
     JLanguageTool lt = new JLanguageTool(lang);
     
     List<RuleMatch> matches = lt.check("Elle a fait le montage des deux clips sur After effect");

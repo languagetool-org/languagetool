@@ -41,7 +41,7 @@ import java.util.List;
 public class FrenchPartialPosTagFilter extends PartialPosTagFilter {
 
   private final Tagger tagger = FrenchTagger.INSTANCE;
-  private final Disambiguator disambiguator = new French().getDisambiguator();
+  private final Disambiguator disambiguator = French.getInstance().getDisambiguator();
 
   @Override
   protected List<AnalyzedTokenReadings> tag(String token) {

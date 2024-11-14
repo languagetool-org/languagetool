@@ -20,7 +20,8 @@
 package org.languagetool.tagging.disambiguation.fr;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
 import org.languagetool.language.French;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -38,7 +39,7 @@ import java.io.IOException;
 public class FrenchHybridDisambiguator extends AbstractDisambiguator {
 
   private final MultiWordChunker chunker = new MultiWordChunker("/fr/multiwords.txt", true, true, false);
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new French(), true);
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(French.getInstance(), true);
   private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, false,
     MultiWordChunker.tagForNotAddingTags);
 

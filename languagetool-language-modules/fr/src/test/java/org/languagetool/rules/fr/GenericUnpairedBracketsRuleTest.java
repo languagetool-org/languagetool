@@ -36,7 +36,7 @@ public class GenericUnpairedBracketsRuleTest {
 
   @Test
   public void testFrenchRule() throws IOException {
-    lt = new JLanguageTool(new French());
+    lt = new JLanguageTool(French.getInstance());
     rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(lt);
     // correct sentences:
     assertMatches("(Qu'est ce que c'est ?)", 0);

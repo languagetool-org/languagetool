@@ -34,13 +34,13 @@ public class FrenchTaggerTest {
 
   @Before
   public void setUp() {
-    tagger = FrenchTagger.INSTANCE;;
+    tagger = FrenchTagger.INSTANCE;
     tokenizer = new FrenchWordTokenizer();
   }
 
   @Test
   public void testDictionary() throws IOException {
-    TestTools.testDictionary(tagger, new French());
+    TestTools.testDictionary(tagger, French.getInstance());
   }
 
   @Test
