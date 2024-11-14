@@ -451,4 +451,181 @@ public class SentenceRangeTest {
     }
     assertEquals("Hallo,Das ist ein neuer Satz.Ein Satz mit \uFEFFSonderzeichen.Satz mehreren Leerzeichen.Hier sind die Zeichen mal am Ende.\uFEFFNoch ein Satz.", sb.toString());
   }
+
+  @Test
+  public void testSpecialCase() throws IOException {
+    JLanguageTool jLanguageTool = new JLanguageTool(new NoRulesEnglish());
+    String text = "\"This\"+is+Mr.+Pigfat+calling.\n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\nThis+is+an+\"test\".\n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\nHe+was+very+\"afraid\"+of+the+consequeces  ";
+    AnnotatedText annotatedText = new AnnotatedTextBuilder().addText(text).build();
+
+    CheckResults checkResults = jLanguageTool.check2(annotatedText,
+      true,
+      JLanguageTool.ParagraphHandling.NORMAL,
+      ruleMatch -> {
+      },
+      JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY,
+      JLanguageTool.Level.PICKY,
+      null);
+    List<SentenceRange> sentenceRanges = checkResults.getSentenceRanges();
+    assertEquals(51, sentenceRanges.size());
+
+    SentenceRange testSentence1 = sentenceRanges.get(0);
+    assertEquals(0, testSentence1.getFromPos());
+    assertEquals(29, testSentence1.getToPos());
+    assertEquals("\"This\"+is+Mr.+Pigfat+calling.", text.substring(testSentence1.getFromPos(), testSentence1.getToPos()));
+
+    assertEquals(33, sentenceRanges.get(1).getFromPos());
+    assertEquals(34, sentenceRanges.get(1).getToPos());
+
+    assertEquals(38, sentenceRanges.get(2).getFromPos());
+    assertEquals(39, sentenceRanges.get(2).getToPos());
+
+    assertEquals(43, sentenceRanges.get(3).getFromPos());
+    assertEquals(44, sentenceRanges.get(3).getToPos());
+
+    assertEquals(48, sentenceRanges.get(4).getFromPos());
+    assertEquals(49, sentenceRanges.get(4).getToPos());
+
+    assertEquals(53, sentenceRanges.get(5).getFromPos());
+    assertEquals(54, sentenceRanges.get(5).getToPos());
+
+    assertEquals(58, sentenceRanges.get(6).getFromPos());
+    assertEquals(59, sentenceRanges.get(6).getToPos());
+
+    assertEquals(63, sentenceRanges.get(7).getFromPos());
+    assertEquals(64, sentenceRanges.get(7).getToPos());
+
+    assertEquals(68, sentenceRanges.get(8).getFromPos());
+    assertEquals(69, sentenceRanges.get(8).getToPos());
+
+    assertEquals(73, sentenceRanges.get(9).getFromPos());
+    assertEquals(74, sentenceRanges.get(9).getToPos());
+
+    assertEquals(78, sentenceRanges.get(10).getFromPos());
+    assertEquals(79, sentenceRanges.get(10).getToPos());
+
+    assertEquals(83, sentenceRanges.get(11).getFromPos());
+    assertEquals(84, sentenceRanges.get(11).getToPos());
+
+    assertEquals(88, sentenceRanges.get(12).getFromPos());
+    assertEquals(89, sentenceRanges.get(12).getToPos());
+
+    assertEquals(93, sentenceRanges.get(13).getFromPos());
+    assertEquals(94, sentenceRanges.get(13).getToPos());
+
+    assertEquals(98, sentenceRanges.get(14).getFromPos());
+    assertEquals(99, sentenceRanges.get(14).getToPos());
+
+    assertEquals(103, sentenceRanges.get(15).getFromPos());
+    assertEquals(104, sentenceRanges.get(15).getToPos());
+
+    assertEquals(108, sentenceRanges.get(16).getFromPos());
+    assertEquals(109, sentenceRanges.get(16).getToPos());
+
+    assertEquals(113, sentenceRanges.get(17).getFromPos());
+    assertEquals(114, sentenceRanges.get(17).getToPos());
+
+    assertEquals(118, sentenceRanges.get(18).getFromPos());
+    assertEquals(119, sentenceRanges.get(18).getToPos());
+
+    assertEquals(123, sentenceRanges.get(19).getFromPos());
+    assertEquals(124, sentenceRanges.get(19).getToPos());
+
+    assertEquals(128, sentenceRanges.get(20).getFromPos());
+    assertEquals(129, sentenceRanges.get(20).getToPos());
+
+    assertEquals(133, sentenceRanges.get(21).getFromPos());
+    assertEquals(134, sentenceRanges.get(21).getToPos());
+
+    assertEquals(138, sentenceRanges.get(22).getFromPos());
+    assertEquals(139, sentenceRanges.get(22).getToPos());
+
+    assertEquals(143, sentenceRanges.get(23).getFromPos());
+    assertEquals(144, sentenceRanges.get(23).getToPos());
+
+    assertEquals(148, sentenceRanges.get(24).getFromPos());
+    assertEquals(149, sentenceRanges.get(24).getToPos());
+
+    SentenceRange testSentence2 = sentenceRanges.get(25);
+    assertEquals(153, testSentence2.getFromPos());
+    assertEquals(171, testSentence2.getToPos());
+    assertEquals("This+is+an+\"test\".", text.substring(testSentence2.getFromPos(), testSentence2.getToPos()));
+
+    assertEquals(175, sentenceRanges.get(26).getFromPos());
+    assertEquals(176, sentenceRanges.get(26).getToPos());
+
+    assertEquals(180, sentenceRanges.get(27).getFromPos());
+    assertEquals(181, sentenceRanges.get(27).getToPos());
+
+    assertEquals(185, sentenceRanges.get(28).getFromPos());
+    assertEquals(186, sentenceRanges.get(28).getToPos());
+
+    assertEquals(190, sentenceRanges.get(29).getFromPos());
+    assertEquals(191, sentenceRanges.get(29).getToPos());
+
+    assertEquals(195, sentenceRanges.get(30).getFromPos());
+    assertEquals(196, sentenceRanges.get(30).getToPos());
+
+    assertEquals(200, sentenceRanges.get(31).getFromPos());
+    assertEquals(201, sentenceRanges.get(31).getToPos());
+
+    assertEquals(205, sentenceRanges.get(32).getFromPos());
+    assertEquals(206, sentenceRanges.get(32).getToPos());
+
+    assertEquals(210, sentenceRanges.get(33).getFromPos());
+    assertEquals(211, sentenceRanges.get(33).getToPos());
+
+    assertEquals(215, sentenceRanges.get(34).getFromPos());
+    assertEquals(216, sentenceRanges.get(34).getToPos());
+
+    assertEquals(220, sentenceRanges.get(35).getFromPos());
+    assertEquals(221, sentenceRanges.get(35).getToPos());
+
+    assertEquals(225, sentenceRanges.get(36).getFromPos());
+    assertEquals(226, sentenceRanges.get(36).getToPos());
+
+    assertEquals(230, sentenceRanges.get(37).getFromPos());
+    assertEquals(231, sentenceRanges.get(37).getToPos());
+
+    assertEquals(235, sentenceRanges.get(38).getFromPos());
+    assertEquals(236, sentenceRanges.get(38).getToPos());
+
+    assertEquals(240, sentenceRanges.get(39).getFromPos());
+    assertEquals(241, sentenceRanges.get(39).getToPos());
+
+    assertEquals(245, sentenceRanges.get(40).getFromPos());
+    assertEquals(246, sentenceRanges.get(40).getToPos());
+
+    assertEquals(250, sentenceRanges.get(41).getFromPos());
+    assertEquals(251, sentenceRanges.get(41).getToPos());
+
+    assertEquals(255, sentenceRanges.get(42).getFromPos());
+    assertEquals(256, sentenceRanges.get(42).getToPos());
+
+    assertEquals(260, sentenceRanges.get(43).getFromPos());
+    assertEquals(261, sentenceRanges.get(43).getToPos());
+
+    assertEquals(265, sentenceRanges.get(44).getFromPos());
+    assertEquals(266, sentenceRanges.get(44).getToPos());
+
+    assertEquals(270, sentenceRanges.get(45).getFromPos());
+    assertEquals(271, sentenceRanges.get(45).getToPos());
+
+    assertEquals(275, sentenceRanges.get(46).getFromPos());
+    assertEquals(276, sentenceRanges.get(46).getToPos());
+
+    assertEquals(280, sentenceRanges.get(47).getFromPos());
+    assertEquals(281, sentenceRanges.get(47).getToPos());
+
+    assertEquals(285, sentenceRanges.get(48).getFromPos());
+    assertEquals(286, sentenceRanges.get(48).getToPos());
+
+    assertEquals(290, sentenceRanges.get(49).getFromPos());
+    assertEquals(291, sentenceRanges.get(49).getToPos());
+
+    SentenceRange testSentence3 = sentenceRanges.get(50);
+    assertEquals(295, testSentence3.getFromPos());
+    assertEquals(336, testSentence3.getToPos());
+    assertEquals("He+was+very+\"afraid\"+of+the+consequeces  ", text.substring(testSentence3.getFromPos(), testSentence3.getToPos()));
+  }
 }
