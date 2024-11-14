@@ -21,7 +21,8 @@ package org.languagetool.rules.fr;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
+import org.languagetool.ResourceBundleTools;
+import org.languagetool.language.French;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.FrenchSynthesizer;
@@ -29,7 +30,10 @@ import org.languagetool.tagging.fr.FrenchTagger;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 /*
  * Get appropriate suggestions for French verbs in interrogative form (prérères-tu)
@@ -44,8 +48,7 @@ public class InterrogativeVerbFilter extends RuleFilter {
   private final MorfologikFrenchSpellerRule morfologikRule;
 
   public InterrogativeVerbFilter() throws IOException {
-    ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
-        new Locale("fr"));
+    ResourceBundle messages = ResourceBundleTools.getMessageBundle(French.getInstance());
     morfologikRule = MorfologikFrenchSpellerRule.getRule(messages);
   }
 

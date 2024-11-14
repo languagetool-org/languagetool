@@ -18,13 +18,12 @@
  */
 package org.languagetool.rules.fr;
 
-import org.languagetool.JLanguageTool;
+import org.languagetool.ResourceBundleTools;
 import org.languagetool.language.French;
 import org.languagetool.rules.AbstractNumberInWordFilter;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class FrenchNumberInWordFilter extends AbstractNumberInWordFilter {
@@ -33,7 +32,7 @@ public class FrenchNumberInWordFilter extends AbstractNumberInWordFilter {
 
   public FrenchNumberInWordFilter() throws IOException {
     super(French.getInstance());
-    ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, new Locale(language.getShortCode()));
+    ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
     if (frenchSpellerRule == null) {
       frenchSpellerRule = MorfologikFrenchSpellerRule.getRule(messages);
     }
