@@ -621,8 +621,29 @@ class AgreementRuleAntiPatterns2 {
     ),
     asList(
       // In der aktuellen Niedrigzinsphase bedeutet das sehr geringe Zinsen, die aber deutlich ansteigen können.
-      csRegex("bedeutete?"),
+      tokenRegex("bedeutete?"),
       csRegex("das|(eben)?dies")
+    ),
+    asList(
+      // Bietet das Vorteile, außer dass es "intelligent" wirkt?
+      tokenRegex("bietete?"),
+      csRegex("das|(eben)?dies"),
+      posRegex("SUB.*PLU.*")
+    ),
+    asList(
+      // Bietet das große Vorteile, außer dass es "intelligent" wirkt?
+      csRegex("bietete?"),
+      csRegex("das|(eben)?dies"),
+      posRegex("ADJ.*PLU.*"),
+      posRegex("SUB.*PLU.*")
+    ),
+    asList(
+      // Bietet das sehr große Vorteile, außer dass es "intelligent" wirkt?
+      csRegex("bietete?"),
+      csRegex("das|(eben)?dies"),
+      posRegex("ADV.*"),
+      posRegex("ADJ.*PLU.*"),
+      posRegex("SUB.*PLU.*")
     ),
     asList(
       csRegex("das|es|(eben)?dies"),
