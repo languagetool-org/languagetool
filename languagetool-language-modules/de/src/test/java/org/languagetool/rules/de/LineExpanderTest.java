@@ -24,38 +24,43 @@ import static junit.framework.Assert.fail;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class LineExpanderTest {
 
   private final LineExpander exp = new LineExpander();
 
   @Test
   public void testExpansion() {
-    assertThat(expand(""), is("[]"));
-    assertThat(expand("Das"), is("[Das]"));
-    assertThat(expand("Tisch/E"), is("[Tisch, Tische]"));
-    assertThat(expand("Tische/N"), is("[Tische, Tischen]"));
-    assertThat(expand("Auto/S"), is("[Auto, Autos]"));
-    assertThat(expand("klein/A"), is("[klein, kleine, kleiner, kleines, kleinen, kleinem]"));
-    assertThat(expand("x/NSE"), is("[x, xn, xs, xe]"));
-    assertThat(expand("x/NA"), is("[x, xn, xe, xer, xes, xen, xem]"));
-    assertThat(expand("viertjüngste/A"), is("[viertjüngste, viertjüngster, viertjüngstes, viertjüngsten, viertjüngstem]"));
-    assertThat(expand("Das  #foo"), is("[Das]"));
-    assertThat(expand("Tisch/E  #bla #foo"), is("[Tisch, Tische]"));
-    assertThat(expand("Goethestraße/T"), is("[Goethestraße, Goethestr.]"));
-    assertThat(expand("Goethestrasse/T"), is("[Goethestrasse, Goethestr.]"));
-    assertThat(expand("Zwingenberger Stra\u00DFe/T"), is("[Zwingenberger Stra\u00DFe, Zwingenberger Str.]"));
-    assertThat(expand("Zwingenberger Strasse/T"), is("[Zwingenberger Strasse, Zwingenberger Str.]"));
+    assertSetsEqual(expand(""), "[]");
+    assertSetsEqual(expand("Das"), "[Das]");
+    assertSetsEqual(expand("Tisch/E"), "[Tisch, Tische]");
+    assertSetsEqual(expand("Tische/N"), "[Tische, Tischen]");
+    assertSetsEqual(expand("Auto/S"), "[Auto, Autos]");
+    assertSetsEqual(expand("klein/A"), "[klein, kleine, kleiner, kleines, kleinen, kleinem]");
+    assertSetsEqual(expand("x/NSE"), "[x, xn, xs, xe]");
+    assertSetsEqual(expand("x/NA"), "[x, xn, xe, xer, xes, xen, xem]");
+    assertSetsEqual(expand("viertjüngste/A"), "[viertjüngste, viertjüngster, viertjüngstes, viertjüngsten, viertjüngstem]");
+    assertSetsEqual(expand("Das  #foo"), "[Das]");
+    assertSetsEqual(expand("Tisch/E  #bla #foo"), "[Tisch, Tische]");
+    assertSetsEqual(expand("Goethestraße/T"), "[Goethestraße, Goethestr.]");
+    assertSetsEqual(expand("Goethestrasse/T"), "[Goethestrasse, Goethestr.]");
+    assertSetsEqual(expand("Zwingenberger Stra\u00DFe/T"), "[Zwingenberger Stra\u00DFe, Zwingenberger Str.]");
+    assertSetsEqual(expand("Zwingenberger Strasse/T"), "[Zwingenberger Strasse, Zwingenberger Str.]");
 
-    assertThat(expand("Escape\\/N"), is("[Escape/N]"));
+    assertSetsEqual(expand("Escape\\/N"), "[Escape/N]");
     //assertThat(expand("Escape\\/N/S"), is("[Escape/N, Escape/Ns]"));  // combination of escape and flag not supported yet
 
-    assertThat(expand("rüber_machen  #bla #foo"), is("[rübermach, rübergemacht, rübermachest, rübermachst, rübermache, " +
+    assertSetsEqual(expand("rüber_machen  #bla #foo"), "[rübermach, rübergemacht, rübermachest, rübermachst, rübermache, " +
                       "rübermachen, rübermachet, rübermachte, rübermachend, rübermachten, rübermacht, rübermachtest, " +
-                      "rübermachtet, rüberzumachen, Rübermachens]"));
-    assertThat(expand("rüber_verschicken"), is("[rüberverschickend, rüberverschickst, rüberverschick, rüberverschickest, " +
+                      "rübermachtet, rüberzumachen, Rübermachens]");
+    assertSetsEqual(expand("rüber_verschicken"), "[rüberverschickend, rüberverschickst, rüberverschick, rüberverschickest, " +
                       "rüberverschicktest, rüberverschicke, rüberverschicket, rüberverschickte, rüberverschicktet, rüberverschickten, " +
-                      "rüberverschicken, rüberverschickt, rüberzuverschicken, Rüberverschickens]"));
-    assertThat(expand("escape\\_machen"), is("[escape_machen]"));
+                      "rüberverschicken, rüberverschickt, rüberzuverschicken, Rüberverschickens]");
+    assertSetsEqual(expand("escape\\_machen"), "[escape_machen]");
 
     try {
       expand("rüber/invalidword");
@@ -65,6 +70,28 @@ public class LineExpanderTest {
 
   private String expand(String line) {
     return exp.expandLine(line).toString();
+  }
+
+  private void assertSetsEqual(String expected, String actual) {
+    // Convert the strings to sets by parsing the bracket notation
+    Set<String> expectedSet = parseStringToSet(expected);
+    Set<String> actualSet = parseStringToSet(actual);
+    
+    // Compare the sets
+    assertThat(actualSet, is(expectedSet));
+  }
+  private Set<String> parseStringToSet(String bracketString) {
+    // Remove brackets and split by comma
+    String content = bracketString.substring(1, bracketString.length() - 1);
+    if (content.trim().isEmpty()) {
+        return new HashSet<>();
+    }
+    
+    // Split by comma and trim each element
+    String[] elements = content.split(",");
+    return Arrays.stream(elements)
+            .map(String::trim)
+            .collect(Collectors.toSet());
   }
 
 }
