@@ -24,7 +24,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class RuleFilterCreatorTest {
 
-  private final RuleFilterCreator creator = new RuleFilterCreator();
+  private final RuleFilterCreator creator = RuleFilterCreator.getInstance();
 
   @Test
   public void testMockFilter() throws Exception {
