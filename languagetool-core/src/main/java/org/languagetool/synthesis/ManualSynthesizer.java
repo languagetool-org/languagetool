@@ -33,9 +33,11 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Function;
+
+import static org.languagetool.tools.StringInterner.intern;
 
 /**
  * A synthesizer that reads the inflected form and POS information from a plain (UTF-8) text file.
@@ -87,9 +89,9 @@ public final class ManualSynthesizer {
         }
         map.put(hash, ((index / ENTRY_SIZE) << OFFSET_SHIFT) | value.size());
         for (Triple<String, String, String> triple : value) {
-          data[index++] = triple.getLeft();
-          data[index++] = triple.getMiddle();
-          data[index++] = triple.getRight();
+          data[index++] = intern(triple.getLeft());
+          data[index++] = intern(triple.getMiddle());
+          data[index++] = intern(triple.getRight());
         }
       }
     });
@@ -99,7 +101,6 @@ public final class ManualSynthesizer {
 
   private static Int2ObjectOpenHashMap<List<Triple<String, String, String>>> groupByHash(Map<TaggedWord, List<String>> mapping) {
     Int2ObjectOpenHashMap<List<Triple<String, String, String>>> byHash = new Int2ObjectOpenHashMap<>(mapping.size());
-    Map<String, String> internedStrings = new HashMap<>();
     for (Map.Entry<TaggedWord, List<String>> entry : mapping.entrySet()) {
       TaggedWord tw = entry.getKey();
       String lemma = tw.getLemma();
@@ -112,7 +113,7 @@ public final class ManualSynthesizer {
         if (word.startsWith(SUFFIX_MARKER)) {
           throw new UnsupportedOperationException("Words can't start with " + SUFFIX_MARKER);
         }
-        String value = internedStrings.computeIfAbsent(encodeForm(lemma, word), Function.identity());
+        String value = intern(encodeForm(lemma, word));
         list.add(new ImmutableTriple<>(lemma, tw.getPosTag(), value));
       }
     }
@@ -142,7 +143,7 @@ public final class ManualSynthesizer {
   private static ObjectOpenHashSet<String> collectTags(Map<TaggedWord, List<String>> mapping) {
     ObjectOpenHashSet<String> tags = new ObjectOpenHashSet<>();
     for (TaggedWord tw : mapping.keySet()) {
-      tags.add(tw.getPosTag());
+      tags.add(intern(tw.getPosTag()));
     }
     tags.trim();
     return tags;
@@ -189,10 +190,8 @@ public final class ManualSynthesizer {
   }
 
   private static Map<TaggedWord, List<String>> loadMapping(InputStream inputStream) throws IOException {
-    Map<String, String> internedStrings = new HashMap<>();
     Map<TaggedWord, List<String>> mapping = new HashMap<>();
-    Map<String, String> interned = new HashMap<>();
-    try (Scanner scanner = new Scanner(inputStream, "utf8")) {
+    try (Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8)) {
       String separator = DEFAULT_SEPARATOR;
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
@@ -214,8 +213,8 @@ public final class ManualSynthesizer {
         if (form.equals(lemma)) {
           form = lemma;
         }
-        lemma = interned.computeIfAbsent(lemma, Function.identity());
-        String posTag = internedStrings.computeIfAbsent(parts[2], Function.identity());
+        lemma = intern(lemma);
+        String posTag = intern(parts[2]);
         mapping.computeIfAbsent(new TaggedWord(lemma, posTag), __ -> new ArrayList<>()).add(form);
       }
     }

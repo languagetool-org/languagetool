@@ -38,8 +38,9 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 import java.util.regex.Pattern;
+
+import static org.languagetool.tools.StringInterner.intern;
 
 /**
  * Multiword tagger-chunker.
@@ -105,7 +106,6 @@ public class MultiWordChunker extends AbstractDisambiguator {
 
   private void fillMaps(Map<String, Integer> mStartSpace, Map<String, Integer> mStartNoSpace, Map<String,
     AnalyzedToken> mFullSpace, Map<String, AnalyzedToken> mFullNoSpace) {
-    Map<String, String> interner = new HashMap<>();
     try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(settings.filename)) {
       List<String> lines = loadWords(stream);
       for (String line : lines) {
@@ -119,8 +119,8 @@ public class MultiWordChunker extends AbstractDisambiguator {
             "Invalid format in " + settings.filename + ": '" + line + "', expected one element with no separator");
         }
         List<String> casingVariants = new ArrayList<>();
-        String originalString = interner.computeIfAbsent(stringAndTag[0], Function.identity());
-        String tag = interner.computeIfAbsent((settings.defaultTag != null ? settings.defaultTag : stringAndTag[1]), Function.identity());
+        String originalString = intern(stringAndTag[0]);
+        String tag = intern(settings.defaultTag != null ? settings.defaultTag : stringAndTag[1]);
         boolean containsSpace = originalString.indexOf(' ') > 0;
         casingVariants.add(originalString);
         if (containsSpace) {

@@ -23,12 +23,15 @@ import com.google.common.collect.Sets;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.tools.InterruptibleCharSequence;
+import org.languagetool.tools.StringInterner;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static org.languagetool.tools.StringInterner.intern;
 
 /**
  * An object encapsulating a text pattern and the way it's matched (case-sensitivity / regular expression),
@@ -44,7 +47,7 @@ public abstract class StringMatcher {
   public final static int MAX_MATCH_LENGTH = 250;
 
   private StringMatcher(String pattern, boolean isRegExp, boolean caseSensitive) {
-    this.pattern = pattern;
+    this.pattern = intern(pattern);
     this.caseSensitive = caseSensitive;
     this.isRegExp = isRegExp;
   }
@@ -70,10 +73,6 @@ public abstract class StringMatcher {
   }
 
   public static StringMatcher create(String pattern, boolean isRegExp, boolean caseSensitive) {
-    return create(pattern, isRegExp, caseSensitive, Function.identity());
-  }
-
-  static StringMatcher create(String pattern, boolean isRegExp, boolean caseSensitive, Function<String, String> internString) {
     if (!isRegExp || "\\0".equals(pattern)) {
       return stringEquals(pattern, isRegExp, caseSensitive);
     }
@@ -83,7 +82,7 @@ public abstract class StringMatcher {
 
     Set<String> possibleRegexpValues = getPossibleRegexpValues(pattern);
     if (possibleRegexpValues != null) {
-      Set<String> set = possibleRegexpValues.stream().map(internString).collect(Collectors.toSet());
+      Set<String> set = possibleRegexpValues.stream().map(StringInterner::intern).collect(Collectors.toSet());
       if (set.size() == 1) {
         return stringEquals(set.iterator().next(), true, caseSensitive);
       }
