@@ -3814,7 +3814,7 @@ USA
   </rulegroup>
 
   <rule id="PELA_COMO_VERBS_RARE" name="Remove pela/como from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
-    <!-- Had to move the rule down for it to work with RM: "As espécies viáveis foram sendo incorporadas gradativamente pela natureza." -->
+    <!-- Moved the rule down for it to work with RM: "As espécies viáveis foram sendo incorporadas gradativamente pela natureza." -->
     <pattern>
       <token postag='VMP00.+' postag_regexp="yes"/>
       <token min='0' max='1' postag='RM'/>
@@ -3860,12 +3860,12 @@ USA
   </rule>
 
   <rulegroup id="PI_RELATED_VERBS_RARE" name="Remove PI.+ related followed by noun appearing as verb"> <!-- Used ChatGPT 4o to verify the results -->
-    <!-- Had to move the rules down for them to work with all the conditions included -->
+    <!-- Moved the rules down for them to work with all the conditions included. -->
     <rule> <!-- Used ChatGPT 4o to verify the results -->
       <pattern>
         <token postag="V.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
         <token min='0' max='1' postag='RM'/>
-        <token postag="(SPS00:)?D[AI].+|Z0.+" postag_regexp="yes"><exception postag_regexp='yes' postag='PI.+'/></token> <!-- Removed PP.+: "morrer nos custa muito" -->
+        <token postag="(SPS00:)?D[AI].+|Z0.+" postag_regexp="yes"><exception postag_regexp='yes' postag='P[IP].+'/></token> <!-- Removed PP.+: "morrer nos custa muito" -->
         <marker>
           <and>
             <token postag="VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM" postag_regexp="yes"/>
@@ -3889,7 +3889,7 @@ USA
       <pattern>
         <token postag="V.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
         <token min='0' max='1' postag='RM'/>
-        <token postag='(SPS00:)?PI.+' postag_regexp="yes"/>
+        <token postag='(SPS00:)?PI.+' postag_regexp="yes"><exception postag_regexp='yes' postag='PP.+'/></token>
         <marker>
           <and>
             <token postag="VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0" postag_regexp="yes"/> <!-- Removed "VMIP1S0|VMP00SM" not to break Premium -->
@@ -3910,7 +3910,7 @@ USA
       -->
     </rule>
   </rulegroup>
- 
+
   <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
       <rule>
           <pattern>
