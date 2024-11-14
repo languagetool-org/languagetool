@@ -72,6 +72,8 @@ public class French extends Language implements AutoCloseable {
   private LanguageModel languageModel;
   private static final String FRENCH_SHORT_CODE = "fr";
 
+  private static volatile Throwable instantiationTrace;
+
   /**
    * @deprecated don't use this method besides the inheritance or core code. Languages are not supposed to be
    * instantiated multiple times. They may contain heavy data which may waste the memory.
@@ -79,6 +81,17 @@ public class French extends Language implements AutoCloseable {
    */
   @Deprecated
   public French() {
+    Throwable trace = instantiationTrace;
+    if (trace != null) {
+      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
+    }
+    instantiationTrace = new Throwable();
+  }
+
+  /**
+   * This is a fake constructor overload for the subclasses. Public constructors can only be used by the LT itself.
+   */
+  protected French(boolean fakeValue) {
   }
 
   @Override
