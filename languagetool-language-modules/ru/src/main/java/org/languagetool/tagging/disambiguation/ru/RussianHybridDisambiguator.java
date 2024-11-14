@@ -40,7 +40,7 @@ import java.io.IOException;
 public class RussianHybridDisambiguator extends AbstractDisambiguator {
   private static volatile RussianHybridDisambiguator INSTANCE = null;
 
-  private final Disambiguator chunker = new MultiWordChunker("/ru/multiwords.txt");
+  private final Disambiguator chunker = MultiWordChunker.getInstance("/ru/multiwords.txt");
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(Russian.getInstance());
 
   private RussianHybridDisambiguator() {

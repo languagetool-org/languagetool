@@ -18,8 +18,6 @@
  */
 package org.languagetool.tagging.disambiguation;
 
-import java.io.IOException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
@@ -28,6 +26,8 @@ import org.languagetool.tagging.pl.PolishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
+
+import java.io.IOException;
 
 public class PolishDisambiguationRuleTest {
       
@@ -41,7 +41,7 @@ public class PolishDisambiguationRuleTest {
     tagger = new PolishTagger();
     tokenizer = new WordTokenizer();
     sentenceTokenizer = new SRXSentenceTokenizer(new Polish());
-    disambiguator = new MultiWordChunker("/pl/multiwords.txt");
+    disambiguator = MultiWordChunker.getInstance("/pl/multiwords.txt");
   }
 
   @Test

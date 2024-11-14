@@ -23,6 +23,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -36,6 +37,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
@@ -45,11 +47,8 @@ import java.util.regex.Pattern;
  * @author Marcin Miłkowski
  */
 public class MultiWordChunker extends AbstractDisambiguator {
-
-  private final String filename;
-  private final boolean allowFirstCapitalized;
-  private final boolean allowAllUppercase;
-  private final boolean allowTitlecase;
+  private static final Map<Settings, MultiWordChunker> chunkerCache = new ConcurrentHashMap<>();
+  private final @NotNull Settings settings;
 
   private volatile boolean initialized;
   private Map<String, Integer> mStartSpace;
@@ -61,7 +60,6 @@ public class MultiWordChunker extends AbstractDisambiguator {
 
   private final static String DEFAULT_SEPARATOR = "\t";
   private String separator;
-  private String defaultTag = null;
 
   private boolean addIgnoreSpelling = false;
   private boolean isRemovePreviousTags = false;
@@ -70,35 +68,8 @@ public class MultiWordChunker extends AbstractDisambiguator {
 
   private static final Pattern GermanLineExpander = Pattern.compile("^.*/[ESN]+$");
 
-  /**
-   * @param filename file text with multiwords and tags
-   */
-  public MultiWordChunker(String filename) {
-    this(filename, false, false, false);
-  }
-
-  /**
-   * @param filename              file text with multiwords and tags
-   * @param allowFirstCapitalized if set to {@code true}, first word of the
-   *                              multiword can be capitalized
-   * @param allowAllUppercase     if set to {@code true}, the all uppercase
-   *                              version of the multiword is allowed
-   * @param allowTitlecase        if set to {@code true}, titlecased variants
-   *                              of multi-token words are accepted
-   */
-  public MultiWordChunker(String filename, boolean allowFirstCapitalized, boolean allowAllUppercase, boolean allowTitlecase) {
-    this.filename = filename;
-    this.allowFirstCapitalized = allowFirstCapitalized;
-    this.allowAllUppercase = allowAllUppercase;
-    this.allowTitlecase = allowTitlecase;
-  }
-
-  public MultiWordChunker(String filename, boolean allowFirstCapitalized, boolean allowAllUppercase, boolean allowTitlecase, String defaultTag) {
-    this.filename = filename;
-    this.allowFirstCapitalized = allowFirstCapitalized;
-    this.allowAllUppercase = allowAllUppercase;
-    this.allowTitlecase = allowTitlecase;
-    this.defaultTag = defaultTag;
+  private MultiWordChunker(@NotNull Settings settings) {
+    this.settings = settings;
   }
 
   /*
@@ -135,21 +106,21 @@ public class MultiWordChunker extends AbstractDisambiguator {
   private void fillMaps(Map<String, Integer> mStartSpace, Map<String, Integer> mStartNoSpace, Map<String,
     AnalyzedToken> mFullSpace, Map<String, AnalyzedToken> mFullNoSpace) {
     Map<String, String> interner = new HashMap<>();
-    try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename)) {
+    try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(settings.filename)) {
       List<String> lines = loadWords(stream);
       for (String line : lines) {
         String[] stringAndTag = line.split(separator);
-        if (stringAndTag.length != 2 && defaultTag == null) {
+        if (stringAndTag.length != 2 && settings.defaultTag == null) {
           throw new RuntimeException(
-              "Invalid format in " + filename + ": '" + line + "', expected two tab-separated parts");
+            "Invalid format in " + settings.filename + ": '" + line + "', expected two tab-separated parts");
         }
-        if (stringAndTag.length != 1 && defaultTag != null) {
+        if (stringAndTag.length != 1 && settings.defaultTag != null) {
           throw new RuntimeException(
-            "Invalid format in " + filename + ": '" + line + "', expected one element with no separator");
+            "Invalid format in " + settings.filename + ": '" + line + "', expected one element with no separator");
         }
         List<String> casingVariants = new ArrayList<>();
         String originalString = interner.computeIfAbsent(stringAndTag[0], Function.identity());
-        String tag = interner.computeIfAbsent((defaultTag != null ? defaultTag:stringAndTag[1]), Function.identity());
+        String tag = interner.computeIfAbsent((settings.defaultTag != null ? settings.defaultTag : stringAndTag[1]), Function.identity());
         boolean containsSpace = originalString.indexOf(' ') > 0;
         casingVariants.add(originalString);
         if (containsSpace) {
@@ -189,21 +160,21 @@ public class MultiWordChunker extends AbstractDisambiguator {
 
   public List<String> getTokenLettercaseVariants(String originalToken, Map<String, AnalyzedToken> tokenMap) {
     List<String> newTokens = new ArrayList<>();
-    if (allowAllUppercase && !StringTools.isCamelCase(originalToken)) {
+    if (settings.allowAllUppercase && !StringTools.isCamelCase(originalToken)) {
       // do not capitalize iPad, iPhone, etc. (single tokens)
       String tokenAllUppercase = originalToken.toUpperCase();
       if (!tokenMap.containsKey(tokenAllUppercase) && !originalToken.equals(tokenAllUppercase)) {
         newTokens.add(tokenAllUppercase);
       }
     }
-    if (allowFirstCapitalized) {
+    if (settings.allowFirstCapitalized) {
       String tokenFirstCapitalized = StringTools.uppercaseFirstChar(originalToken);
       if (!tokenMap.containsKey(tokenFirstCapitalized) && !originalToken.equals(tokenFirstCapitalized)) {
         newTokens.add(tokenFirstCapitalized);
       }
       // Titlecasing is only relevant for multi-token entries, and only done for expressions that are entirely lowercase
       // It is also limited to when first-letter capitalisation is allowed.
-      if (allowTitlecase && originalToken.split(" ").length > 1 && StringTools.allStartWithLowercase(originalToken)) {
+      if (settings.allowTitlecase && originalToken.split(" ").length > 1 && StringTools.allStartWithLowercase(originalToken)) {
         String tokenNaivelyTitlecased = WordUtils.capitalize(originalToken);
         if (!tokenNaivelyTitlecased.equals(tokenFirstCapitalized) && !originalToken.equals(tokenNaivelyTitlecased)) {
           newTokens.add(tokenNaivelyTitlecased);
@@ -412,7 +383,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
             nextPOSTag = "";
             lemma = "";
           }
-          aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken),
+          aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Collections.singletonList(newAnalyzedToken),
             "HybridDisamb");
         } else if ((analyzedToken = getMultiWordAnalyzedToken(aTokens, i)) != null) {
           POSTag = analyzedToken.getPOSTag().substring(1, analyzedToken.getPOSTag().length() - 1);
@@ -426,7 +397,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
             lemma = "";
           } else {
             AnalyzedToken newAnalyzedToken = new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma);
-            aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Arrays.asList(newAnalyzedToken), "HybridDisamb");
+            aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Collections.singletonList(newAnalyzedToken), "HybridDisamb");
             nextPOSTag = getNextPosTag(POSTag);
           }
         }
@@ -491,4 +462,68 @@ public class MultiWordChunker extends AbstractDisambiguator {
     return tag.equals("NPCN000");
   }
 
+  /**
+   * @param filename file text with multiwords and tags
+   */
+  public static @NotNull MultiWordChunker getInstance(@NotNull String filename) {
+    return getInstance(filename, false, false, false);
+  }
+
+  public static @NotNull MultiWordChunker getInstance(@NotNull String filename,
+                                                      boolean allowFirstCapitalized,
+                                                      boolean allowAllUppercase,
+                                                      boolean allowTitlecase) {
+    return getInstance(filename, allowFirstCapitalized, allowAllUppercase, allowTitlecase, null);
+  }
+
+  public static @NotNull MultiWordChunker getInstance(@NotNull String filename,
+                                                      boolean allowFirstCapitalized,
+                                                      boolean allowAllUppercase,
+                                                      boolean allowTitlecase,
+                                                      @Nullable String defaultTag) {
+    Settings settings = new Settings(filename, allowFirstCapitalized, allowAllUppercase, allowTitlecase, defaultTag);
+    return chunkerCache.computeIfAbsent(settings, key -> new MultiWordChunker(settings));
+  }
+
+  private static class Settings {
+    private final @NotNull String filename;
+    private final boolean allowFirstCapitalized;
+    private final boolean allowAllUppercase;
+    private final boolean allowTitlecase;
+    private final @Nullable String defaultTag;
+
+    /**
+     * @param filename              file text with multiwords and tags
+     * @param allowFirstCapitalized if set to {@code true}, first word of the
+     *                              multiword can be capitalized
+     * @param allowAllUppercase     if set to {@code true}, the all uppercase
+     *                              version of the multiword is allowed
+     * @param allowTitlecase        if set to {@code true}, titlecased variants
+     *                              of multi-token words are accepted
+     */
+    private Settings(@NotNull String filename, boolean allowFirstCapitalized, boolean allowAllUppercase, boolean allowTitlecase, @Nullable String defaultTag) {
+      this.filename = filename;
+      this.allowFirstCapitalized = allowFirstCapitalized;
+      this.allowAllUppercase = allowAllUppercase;
+      this.allowTitlecase = allowTitlecase;
+      this.defaultTag = defaultTag;
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+      if (!(o instanceof Settings settings)) return false;
+
+      return allowFirstCapitalized == settings.allowFirstCapitalized && allowAllUppercase == settings.allowAllUppercase && allowTitlecase == settings.allowTitlecase && filename.equals(settings.filename) && Objects.equals(defaultTag, settings.defaultTag);
+    }
+
+    @Override
+    public int hashCode() {
+      int result = filename.hashCode();
+      result = 31 * result + Boolean.hashCode(allowFirstCapitalized);
+      result = 31 * result + Boolean.hashCode(allowAllUppercase);
+      result = 31 * result + Boolean.hashCode(allowTitlecase);
+      result = 31 * result + Objects.hashCode(defaultTag);
+      return result;
+    }
+  }
 }

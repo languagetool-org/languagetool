@@ -21,8 +21,6 @@ package org.languagetool.tagging.disambiguation.es;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
@@ -31,9 +29,6 @@ import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Hybrid chunker-disambiguator for Spanish
@@ -42,8 +37,8 @@ import java.util.List;
  */
 public class SpanishHybridDisambiguator extends AbstractDisambiguator {
 
-  private final MultiWordChunker chunker = new MultiWordChunker("/es/multiwords.txt", true, true, false);
-  private final Disambiguator chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, false, "NPCN000");
+  private final MultiWordChunker chunker = MultiWordChunker.getInstance("/es/multiwords.txt", true, true, false);
+  private final Disambiguator chunkerGlobal = MultiWordChunker.getInstance("/spelling_global.txt", false, true, false, "NPCN000");
   private final Disambiguator disambiguator;
 
   public SpanishHybridDisambiguator(Language lang) {
