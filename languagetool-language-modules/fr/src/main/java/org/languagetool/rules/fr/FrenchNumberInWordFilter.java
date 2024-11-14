@@ -23,7 +23,6 @@ import org.languagetool.language.French;
 import org.languagetool.rules.AbstractNumberInWordFilter;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -36,7 +35,7 @@ public class FrenchNumberInWordFilter extends AbstractNumberInWordFilter {
     super(French.getInstance());
     ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, new Locale(language.getShortCode()));
     if (frenchSpellerRule == null) {
-      frenchSpellerRule = new MorfologikFrenchSpellerRule(messages, French.getInstance(), null, Collections.emptyList());
+      frenchSpellerRule = MorfologikFrenchSpellerRule.getRule(messages);
     }
   }
   

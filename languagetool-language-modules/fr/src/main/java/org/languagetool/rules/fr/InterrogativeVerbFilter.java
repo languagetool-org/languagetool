@@ -22,7 +22,6 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.French;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.FrenchSynthesizer;
@@ -47,7 +46,7 @@ public class InterrogativeVerbFilter extends RuleFilter {
   public InterrogativeVerbFilter() throws IOException {
     ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
         new Locale("fr"));
-    morfologikRule = new MorfologikFrenchSpellerRule(messages, French.getInstance(), null, Collections.emptyList());
+    morfologikRule = MorfologikFrenchSpellerRule.getRule(messages);
   }
 
   @Override

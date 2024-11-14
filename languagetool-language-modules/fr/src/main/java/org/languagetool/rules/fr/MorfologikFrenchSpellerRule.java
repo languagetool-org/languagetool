@@ -19,7 +19,13 @@
 
 package org.languagetool.rules.fr;
 
-import org.languagetool.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
+import org.languagetool.language.French;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.fr.FrenchTagger;
@@ -27,6 +33,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -34,7 +41,7 @@ import java.util.stream.Collectors;
 import static java.util.regex.Pattern.*;
 
 public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
-
+  private static final Map<CacheKey, MorfologikFrenchSpellerRule> rulesCache = new ConcurrentHashMap<>();
   private static final String SPELLING_FILE = "/fr/hunspell/spelling.txt";
 
   private static final int flags = CASE_INSENSITIVE | UNICODE_CASE;
@@ -46,7 +53,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     "para", "pluri", "poly", "post", "prim", "pro", "proto", "pré", "pseudo", "psycho", "péri", "re", "retro", "ré",
     "semi", "simili", "socio", "super", "supra", "sus", "trans", "tri", "télé", "ultra", "uni", "vice", "éco");
   //grand, haut, nord, sud, sous, sur l|d|s|t
-  private static final List<String> exceptionsEgrave = Arrays.asList(new String[]{"burkinabè", "koinè", "épistémè"});
+  private static final List<String> exceptionsEgrave = Arrays.asList("burkinabè", "koinè", "épistémè");
   private static final Pattern APOSTROF_INICI_VERBS = compile("^([lnts])(h?[aeiouàéèíòóú].*[^è])$", flags);
   private static final Pattern APOSTROF_INICI_VERBS_M = compile("^(m)(h?[aeiouàéèíòóú].*[^è])$", flags);
   private static final Pattern APOSTROF_INICI_VERBS_C = compile("^(c)([eiéèê].*)$", flags);
@@ -180,25 +187,25 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     if (word.equals("voulai")) {
       return Arrays.asList("voulais", "voulait");
     } else if (word.equalsIgnoreCase("mm2")) {
-      return Arrays.asList("mm²");
+      return Collections.singletonList("mm²");
     } else if (word.equalsIgnoreCase("cm2")) {
-      return Arrays.asList("cm²");
+      return Collections.singletonList("cm²");
     } else if (word.equalsIgnoreCase("dm2")) {
-      return Arrays.asList("dm²");
+      return Collections.singletonList("dm²");
     } else if (word.equalsIgnoreCase("m2")) {
-      return Arrays.asList("m²");
+      return Collections.singletonList("m²");
     } else if (word.equalsIgnoreCase("km2")) {
-      return Arrays.asList("km²");
+      return Collections.singletonList("km²");
     } else if (word.equalsIgnoreCase("mm3")) {
-      return Arrays.asList("mm³");
+      return Collections.singletonList("mm³");
     } else if (word.equalsIgnoreCase("cm3")) {
-      return Arrays.asList("cm³");
+      return Collections.singletonList("cm³");
     } else if (word.equalsIgnoreCase("dm3")) {
-      return Arrays.asList("dm³");
+      return Collections.singletonList("dm³");
     } else if (word.equalsIgnoreCase("m3")) {
-      return Arrays.asList("m³");
+      return Collections.singletonList("m³");
     } else if (word.equalsIgnoreCase("km3")) {
-      return Arrays.asList("km³");
+      return Collections.singletonList("km³");
     }
     /*
      * if (word.length() < 5) { return Collections.emptyList(); }
@@ -215,7 +222,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     }
     parts = StringTools.splitDigitsAtEnd(word);
     if (parts.length > 1) {
-      if (FrenchTagger.INSTANCE.tag(Arrays.asList(parts[0])).get(0).isTagged()
+      if (FrenchTagger.INSTANCE.tag(Collections.singletonList(parts[0])).get(0).isTagged()
         && (parts[0].length() > 2 || SPLIT_DIGITS_AT_END.contains(parts[0].toLowerCase()))) {
         return Collections.singletonList(String.join(" ",parts));
       }
@@ -251,7 +258,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     Matcher matcher = wordPattern.matcher(word);
     if (matcher.matches()) {
       String newSuggestion = matcher.group(suggestionPosition);
-      AnalyzedTokenReadings newatr = FrenchTagger.INSTANCE.tag(Arrays.asList(newSuggestion)).get(0);
+      AnalyzedTokenReadings newatr = FrenchTagger.INSTANCE.tag(Collections.singletonList(newSuggestion)).get(0);
       if (matchPostagRegexp(newatr, postagPattern)) {
         newSuggestions.add(matcher.group(1) + separator + matcher.group(2));
         return newSuggestions;
@@ -300,4 +307,57 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     return false;
   }
 
+  public static @NotNull MorfologikFrenchSpellerRule getRule(@NotNull ResourceBundle messages) {
+    return getRule(messages, French.getInstance());
+  }
+
+  public static @NotNull MorfologikFrenchSpellerRule getRule(@NotNull ResourceBundle messages,
+                                                             @NotNull Language language) {
+    return getRule(messages, language, null, Collections.emptyList());
+  }
+
+  public static @NotNull MorfologikFrenchSpellerRule getRule(@NotNull ResourceBundle messages,
+                                                             @NotNull Language language,
+                                                             @Nullable UserConfig userConfig,
+                                                             @NotNull List<Language> altLanguages) {
+    CacheKey cacheKey = new CacheKey(messages, language, userConfig, altLanguages);
+    return rulesCache.computeIfAbsent(cacheKey, key -> {
+      try {
+        return new MorfologikFrenchSpellerRule(messages, language, userConfig, altLanguages);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    });
+  }
+
+  private static class CacheKey {
+    @NotNull ResourceBundle messages;
+    @NotNull Language language;
+    @Nullable UserConfig userConfig;
+    @NotNull List<Language> altLanguages;
+
+    public CacheKey(@NotNull ResourceBundle messages, @NotNull Language language, @Nullable UserConfig userConfig, @NotNull List<Language> altLanguages) {
+      this.messages = messages;
+      this.language = language;
+      this.userConfig = userConfig;
+      this.altLanguages = altLanguages;
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+      if (!(o instanceof CacheKey)) return false;
+
+      CacheKey cacheKey = (CacheKey) o;
+      return messages.equals(cacheKey.messages) && language.equals(cacheKey.language) && Objects.equals(userConfig, cacheKey.userConfig) && altLanguages.equals(cacheKey.altLanguages);
+    }
+
+    @Override
+    public int hashCode() {
+      int result = messages.hashCode();
+      result = 31 * result + language.hashCode();
+      result = 31 * result + Objects.hashCode(userConfig);
+      result = 31 * result + altLanguages.hashCode();
+      return result;
+    }
+  }
 }

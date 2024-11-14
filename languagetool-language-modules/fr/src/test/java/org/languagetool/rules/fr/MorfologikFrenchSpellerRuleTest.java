@@ -26,7 +26,6 @@ import org.languagetool.language.French;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -40,8 +39,7 @@ public class MorfologikFrenchSpellerRuleTest {
   }
 
   private static MorfologikFrenchSpellerRule getRule() throws IOException {
-    return new MorfologikFrenchSpellerRule(TestTools.getMessages("fr"), French.getInstance(), null,
-      Collections.emptyList());
+    return MorfologikFrenchSpellerRule.getRule(TestTools.getMessages("fr"));
   }
 
   private List<String> getTopSuggestions(RuleMatch match, int maxSuggestions) {
