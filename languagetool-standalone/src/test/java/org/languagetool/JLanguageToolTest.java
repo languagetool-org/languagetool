@@ -575,7 +575,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testIgnoreEnglishWordsInPortuguese() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new BrazilianPortuguese());
+    JLanguageTool lt = new JLanguageTool(BrazilianPortuguese.getInstance());
     lt.disableRules(lt.getAllRules().stream().map(Rule::getId).collect(Collectors.toList()));
     lt.enableRule("MORFOLOGIK_RULE_PT_BR");
     lt.enableRule("PT_BARBARISMS_REPLACE");

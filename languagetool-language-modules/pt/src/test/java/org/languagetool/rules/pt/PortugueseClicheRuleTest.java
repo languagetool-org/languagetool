@@ -42,7 +42,7 @@ public class PortugueseClicheRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    lt = new JLanguageTool(new Portuguese());
+    lt = new JLanguageTool(Portuguese.getInstance());
     rule = new PortugueseClicheRule(TestTools.getMessages("pt"), "/pt/cliches.txt", lt.getLanguage());
   }
 

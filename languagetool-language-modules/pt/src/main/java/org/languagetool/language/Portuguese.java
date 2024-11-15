@@ -44,6 +44,24 @@ import java.util.*;
  * Post-spelling-reform Portuguese.
  */
 public class Portuguese extends LanguageWithModel {
+  private static final String LANGUAGE_SHORT_CODE = "pt";
+
+  private static volatile Throwable instantiationTrace;
+
+  public Portuguese() {
+    Throwable trace = instantiationTrace;
+    if (trace != null) {
+      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
+    }
+    instantiationTrace = new Throwable();
+  }
+
+  /**
+   * This is a fake constructor overload for the subclasses. Public constructors can only be used by the LT itself.
+   */
+  protected Portuguese(boolean fakeValue) {
+  }
+
 
   @Override
   public String getName() {
@@ -336,5 +354,13 @@ public class Portuguese extends LanguageWithModel {
 
   public MultitokenSpeller getMultitokenSpeller() {
     return PortugueseMultitokenSpeller.INSTANCE;
+  }
+
+  public static @NotNull Portuguese getInstance() {
+    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));
+    if (language instanceof Portuguese portuguese) {
+      return portuguese;
+    }
+    throw new RuntimeException("Portuguese language expected, got " + language);
   }
 }
