@@ -79,7 +79,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     // TODO: make this work for all languages
     Language language = new English();
     //Language language = French.getInstance();
-    //Language language = new Spanish();
+    //Language language = Spanish.getInstance();
     //Language language = new Polish();
     //Language language = new German();
     JLanguageTool lt = new JLanguageTool(language);

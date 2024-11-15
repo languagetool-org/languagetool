@@ -28,7 +28,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class SpanishSentenceTokenizerTest {
 
-  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Spanish());
+  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(Spanish.getInstance());
 
   @Test
   public final void testTokenize() {

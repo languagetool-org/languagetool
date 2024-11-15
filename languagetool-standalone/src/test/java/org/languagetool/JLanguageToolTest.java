@@ -473,7 +473,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testIgnoringEnglishWordsInSpanish() throws IOException {
-    Language lang = new Spanish();
+    Language lang = Spanish.getInstance();
     JLanguageTool lt = new JLanguageTool(lang);
     // No error for unclosed exclamation marks ¡!
     List<RuleMatch> matches = lt.check("This is fantastic!");

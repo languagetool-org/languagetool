@@ -29,10 +29,7 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.es.SpanishSynthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Supplier;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
@@ -55,9 +52,9 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule {
   }
 
   public SpanishRepeatedWordsRule(ResourceBundle messages) {
-    super(messages, new Spanish());
-    antiPatterns = cacheAntiPatterns(new Spanish(), ANTI_PATTERNS);
-    super.setTags(Arrays.asList(Tag.picky));
+    super(messages, Spanish.getInstance());
+    antiPatterns = cacheAntiPatterns(Spanish.getInstance(), ANTI_PATTERNS);
+    super.setTags(Collections.singletonList(Tag.picky));
     // super.setDefaultTempOff();
   }
 
@@ -118,9 +115,6 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule {
     if (isAllUppercase || (isCapitalized && !sentStart)) {
       return true;
     }
-    if (tokens[i].hasPosTagStartingWith("NP") || tokens[i].hasPosTag("_english_ignore_")) {
-      return true;
-    }
-    return false;
+    return tokens[i].hasPosTagStartingWith("NP") || tokens[i].hasPosTag("_english_ignore_");
   }
 }

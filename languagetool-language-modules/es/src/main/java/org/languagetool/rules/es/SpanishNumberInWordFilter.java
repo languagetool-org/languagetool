@@ -23,17 +23,20 @@ import org.languagetool.language.Spanish;
 import org.languagetool.rules.AbstractNumberInWordFilter;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class SpanishNumberInWordFilter extends AbstractNumberInWordFilter {
 
   private static MorfologikSpanishSpellerRule spanishSpellerRule;
 
   public SpanishNumberInWordFilter() throws IOException {
-    super(new Spanish());
+    super(Spanish.getInstance());
     ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, new Locale(language.getShortCode()));
     if (spanishSpellerRule == null) {
-      spanishSpellerRule = new MorfologikSpanishSpellerRule(messages, new Spanish(), null, Collections.emptyList());
+      spanishSpellerRule = new MorfologikSpanishSpellerRule(messages, Spanish.getInstance(), null, Collections.emptyList());
     }
   }
   
