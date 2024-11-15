@@ -20,10 +20,12 @@ package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
+import org.languagetool.LanguageWithModel;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.rules.*;
+import org.languagetool.rules.DoublePunctuationRule;
+import org.languagetool.rules.MultipleWhitespaceRule;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.zh.ChineseConfusionProbabilityRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.zh.ChineseTagger;
@@ -32,13 +34,13 @@ import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.zh.ChineseSentenceTokenizer;
 import org.languagetool.tokenizers.zh.ChineseWordTokenizer;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class Chinese extends Language implements AutoCloseable {
-
-  private LuceneLanguageModel languageModel;
+public class Chinese extends LanguageWithModel {
 
   @Override
   public String getShortCode() {
@@ -86,27 +88,9 @@ public class Chinese extends Language implements AutoCloseable {
 
   /** @since 3.1 */
   @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    return initLanguageModel(indexDir, languageModel);
-  }
-
-  /** @since 3.1 */
-  @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
-    return Arrays.asList(
-            new ChineseConfusionProbabilityRule(messages, languageModel, this)
+    return Collections.singletonList(
+      new ChineseConfusionProbabilityRule(messages, languageModel, this)
     );
   }
-
-  /**
-   * Closes the language model, if any. 
-   * @since 3.1
-   */
-  @Override
-  public void close() throws Exception {
-    if (languageModel != null) {
-      languageModel.close();
-    }
-  }
-
 }

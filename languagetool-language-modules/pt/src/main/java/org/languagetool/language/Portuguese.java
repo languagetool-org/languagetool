@@ -32,19 +32,18 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
 import org.languagetool.tagging.pt.PortugueseTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.pt.PortugueseWordTokenizer;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 /**
  * Post-spelling-reform Portuguese.
  */
-public class Portuguese extends Language implements AutoCloseable {
-
-  private LanguageModel languageModel;
+public class Portuguese extends LanguageWithModel {
 
   @Override
   public String getName() {
@@ -165,25 +164,10 @@ public class Portuguese extends Language implements AutoCloseable {
 
   /** @since 3.6 */
   @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    languageModel = initLanguageModel(indexDir, languageModel);
-    return languageModel;
-  }
-
-  /** @since 3.6 */
-  @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
-    return Arrays.asList(
-            new PortugueseConfusionProbabilityRule(messages, languageModel, this)
+    return Collections.singletonList(
+      new PortugueseConfusionProbabilityRule(messages, languageModel, this)
     );
-  }
-
-  /** @since 3.6 */
-  @Override
-  public void close() throws Exception {
-    if (languageModel != null) {
-      languageModel.close();
-    }
   }
 
   /** @since 5.1 */
@@ -335,19 +319,19 @@ public class Portuguese extends Language implements AutoCloseable {
   public List<String> prepareLineForSpeller(String line) {
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return Arrays.asList(line);
+      return Collections.singletonList(line);
     }
     String[] formTag = parts[0].split("[\t;]");
     String form = formTag[0].trim();
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
       if (tag.startsWith("N") || tag.equals("_Latin_")) {
-        return Arrays.asList(form);
+        return Collections.singletonList(form);
       } else {
-        return Arrays.asList("");
+        return Collections.singletonList("");
       }
     }
-    return Arrays.asList(line);
+    return Collections.singletonList(line);
   }
 
   public MultitokenSpeller getMultitokenSpeller() {

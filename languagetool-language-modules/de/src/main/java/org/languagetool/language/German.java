@@ -20,10 +20,7 @@ package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.Tag;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.GermanChunker;
 import org.languagetool.languagemodel.LanguageModel;
@@ -48,7 +45,6 @@ import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tokenizers.de.GermanWordTokenizer;
 import org.languagetool.tools.Tools;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -59,14 +55,12 @@ import static java.util.regex.Pattern.compile;
  * Support for German - use the sub classes {@link GermanyGerman}, {@link SwissGerman}, or {@link AustrianGerman}
  * if you need spell checking.
  */
-public class German extends Language implements AutoCloseable {
+public class German extends LanguageWithModel {
 
   private static final Pattern TYPOGRAPHY_PATTERN = compile("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)");
   private static final Pattern AI_DE_GGEC_MISSING_PUNCT =
     compile("AI_DE_GGEC_MISSING_PUNCTUATION_\\d+_DASH_J(_|AE)HRIG|AI_DE_GGEC_REPLACEMENT_CONFUSION", Pattern.CASE_INSENSITIVE);
   private static final String GERMAN_SHORT_CODE = "de";
-
-  private LanguageModel languageModel;
 
   /**
    * @deprecated use {@link GermanyGerman}, {@link AustrianGerman}, or {@link SwissGerman} instead -
@@ -223,12 +217,6 @@ public class German extends Language implements AutoCloseable {
     return GermanCompoundTokenizer.getStrictInstance();
   }
 
-  @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    languageModel = initLanguageModel(indexDir, languageModel);
-    return languageModel;
-  }
-
   /** @since 3.1 */
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
@@ -244,17 +232,6 @@ public class German extends Language implements AutoCloseable {
     return new GermanWordTokenizer();
   }
 
-  /**
-   * Closes the language model, if any. 
-   * @since 3.1 
-   */
-  @Override
-  public void close() throws Exception {
-    if (languageModel != null) {
-      languageModel.close();
-    }
-  }
-  
   /** @since 5.1 */
   @Override
   public String getOpeningDoubleQuote() {

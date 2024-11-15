@@ -25,7 +25,6 @@ import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.AbstractPatternRule;
@@ -49,7 +48,6 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -98,7 +96,6 @@ public abstract class Language {
   private final Pattern ignoredCharactersRegex = compile("[\u00AD]");  // soft hyphen
   
   private List<AbstractPatternRule> patternRules;
-  private final AtomicBoolean noLmWarningPrinted = new AtomicBoolean();
 
   private Disambiguator disambiguator;
   private Tagger tagger;
@@ -199,18 +196,6 @@ public abstract class Language {
   @Nullable
   public LanguageModel getLanguageModel(File indexDir) throws IOException {
     return null;
-  }
-
-  protected LanguageModel initLanguageModel(File indexDir, LanguageModel languageModel) {
-    if (languageModel == null) {
-      File topIndexDir = new File(indexDir, getShortCode());
-      if (topIndexDir.exists()) {
-        languageModel = new LuceneLanguageModel(topIndexDir);
-      } else if (noLmWarningPrinted.compareAndSet(false, true)) {
-        System.err.println("WARN: ngram index dir " + topIndexDir + " not found for " + getName());
-      }
-    }
-    return languageModel;
   }
 
   /**
@@ -1006,7 +991,7 @@ public abstract class Language {
   }
 
   public List<String> prepareLineForSpeller(String s) {
-    return Arrays.asList(s);
+    return Collections.singletonList(s);
   }
 
   /**

@@ -46,7 +46,6 @@ import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 import org.languagetool.tools.Tools;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -62,7 +61,7 @@ import static java.util.Arrays.asList;
  * Make sure to call {@link #close()} after using this (currently only relevant if you make
  * use of {@link EnglishConfusionProbabilityRule}).
  */
-public class English extends Language implements AutoCloseable {
+public class English extends LanguageWithModel {
 
   protected static final LoadingCache<String, List<Rule>> cache = CacheBuilder.newBuilder()
       .expireAfterWrite(30, TimeUnit.MINUTES)
@@ -79,8 +78,6 @@ public class English extends Language implements AutoCloseable {
       });
   private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
   private static final Pattern FALSE_FRIENDS_PATTERN = Pattern.compile("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*");
-
-  private LanguageModel languageModel;
 
   /**
    * @deprecated use {@link AmericanEnglish} or {@link BritishEnglish} etc. instead -
@@ -141,12 +138,6 @@ public class English extends Language implements AutoCloseable {
   @Override
   public Tokenizer createDefaultWordTokenizer() {
     return new EnglishWordTokenizer();
-  }
-
-  @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    languageModel = initLanguageModel(indexDir, languageModel);
-    return languageModel;
   }
 
   @Override
@@ -230,16 +221,16 @@ public class English extends Language implements AutoCloseable {
   public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel lm, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     if (lm != null && motherTongue != null) {
       if ("fr".equals(motherTongue.getShortCode())) {
-        return asList(new EnglishForFrenchFalseFriendRule(messages, lm, motherTongue, this));
+        return Collections.singletonList(new EnglishForFrenchFalseFriendRule(messages, lm, motherTongue, this));
       } else if ("de".equals(motherTongue.getShortCode())) {
-        return asList(new EnglishForGermansFalseFriendRule(messages, lm, motherTongue, this));
+        return Collections.singletonList(new EnglishForGermansFalseFriendRule(messages, lm, motherTongue, this));
       } else if ("es".equals(motherTongue.getShortCode())) {
-        return asList(new EnglishForSpaniardsFalseFriendRule(messages, lm, motherTongue, this));
+        return Collections.singletonList(new EnglishForSpaniardsFalseFriendRule(messages, lm, motherTongue, this));
       } else if ("nl".equals(motherTongue.getShortCode())) {
-        return asList(new EnglishForDutchmenFalseFriendRule(messages, lm, motherTongue, this));
+        return Collections.singletonList(new EnglishForDutchmenFalseFriendRule(messages, lm, motherTongue, this));
       }
     }
-    return asList();
+    return Collections.emptyList();
   }
 
   @Override
@@ -283,17 +274,6 @@ public class English extends Language implements AutoCloseable {
     return true;
   }
 
-  /**
-   * Closes the language model, if any. 
-   * @since 2.7 
-   */
-  @Override
-  public void close() throws Exception {
-    if (languageModel != null) {
-      languageModel.close();
-    }
-  }
-  
   @Override
   protected int getDefaultRulePriorityForStyle() {
     return -50;
@@ -761,23 +741,23 @@ public class English extends Language implements AutoCloseable {
   public List<String> prepareLineForSpeller(String line) {
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return Arrays.asList(line);
+      return Collections.singletonList(line);
     }
     if (line.contains("+")) {
       // while the morfologik separator is "+", multiwords with '+' can cause undesired results.
-      return Arrays.asList("");
+      return Collections.singletonList("");
     }
     String[] formTag = parts[0].split("\t");
     String form = formTag[0].trim();
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
       if (tag.startsWith("NN") || tag.startsWith("JJ")) {
-        return Arrays.asList(form);
+        return Collections.singletonList(form);
       } else {
-        return Arrays.asList("");
+        return Collections.singletonList("");
       }
     }
-    return Arrays.asList(line);
+    return Collections.singletonList(line);
   }
 
   public MultitokenSpeller getMultitokenSpeller() {

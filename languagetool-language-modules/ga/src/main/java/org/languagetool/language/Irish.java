@@ -20,8 +20,10 @@ package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
-import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
+import org.languagetool.LanguageWithModel;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ga.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -31,20 +33,22 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.ga.IrishHybridDisambiguator;
 import org.languagetool.tagging.ga.IrishTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * @since 4.9
  */
-public class Irish extends Language implements AutoCloseable {
+public class Irish extends LanguageWithModel {
 
   private static final Language DEFAULT_IRISH = new Irish();
-
-  private LanguageModel languageModel;
 
   @Override
   public String getName() {
@@ -139,19 +143,6 @@ public class Irish extends Language implements AutoCloseable {
   @Override
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
-  }
-
-  @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    languageModel = initLanguageModel(indexDir, languageModel);
-    return languageModel;
-  }
-
-  @Override
-  public void close() throws Exception {
-    if (languageModel != null) {
-      languageModel.close();
-    }
   }
 
   @Override
