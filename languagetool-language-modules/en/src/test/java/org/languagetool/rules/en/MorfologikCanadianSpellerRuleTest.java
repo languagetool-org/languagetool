@@ -18,27 +18,28 @@
  */
 package org.languagetool.rules.en;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.util.Collections;
-
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.CanadianEnglish;
+import org.languagetool.language.English;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+
+import java.io.IOException;
+import java.util.Collections;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class MorfologikCanadianSpellerRuleTest extends AbstractEnglishSpellerRuleTest{
 
   @Test
   public void testSuggestions() throws IOException {
-    Language language = new CanadianEnglish();
+    Language language = CanadianEnglish.getInstance();
     Rule rule = new MorfologikCanadianSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
     super.testNonVariantSpecificSuggestions(rule, language);
 
@@ -49,7 +50,7 @@ public class MorfologikCanadianSpellerRuleTest extends AbstractEnglishSpellerRul
 
   @Test
   public void testMorfologikSpeller() throws IOException {
-    CanadianEnglish language = new CanadianEnglish();
+    English language = CanadianEnglish.getInstance();
     MorfologikBritishSpellerRule rule =
             new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
 

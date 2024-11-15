@@ -23,17 +23,19 @@ import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.AbstractNumberInWordFilter;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class EnglishNumberInWordFilter extends AbstractNumberInWordFilter {
 
   private static MorfologikAmericanSpellerRule englishSpellerRule;
 
   public EnglishNumberInWordFilter() throws IOException {
-    super(new AmericanEnglish());
+    super(AmericanEnglish.getInstance());
     ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, new Locale(language.getShortCode()));
     if (englishSpellerRule == null) {
-      englishSpellerRule = new MorfologikAmericanSpellerRule(messages, new AmericanEnglish());
+      englishSpellerRule = new MorfologikAmericanSpellerRule(messages, AmericanEnglish.getInstance());
     }
   }
   

@@ -19,10 +19,10 @@
 package org.languagetool.rules.en;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.language.CanadianEnglish;
+import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -34,7 +34,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.*;
@@ -52,7 +53,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
   public static void setup() throws IOException {
     rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language);
     lt = new JLanguageTool(language);
-    CanadianEnglish canadianEnglish = new CanadianEnglish();
+    English canadianEnglish = CanadianEnglish.getInstance();
     caRule = new MorfologikCanadianSpellerRule(TestTools.getMessages("en"), canadianEnglish, null, emptyList());
     caLangTool = new JLanguageTool(canadianEnglish);
   }

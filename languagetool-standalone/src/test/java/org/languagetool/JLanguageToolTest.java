@@ -104,7 +104,7 @@ public class JLanguageToolTest {
     ResourceBundle bundle2 = JLanguageTool.getMessageBundle(english);
     assertThat(bundle2.getString("de"), is("German"));
 
-    ResourceBundle bundle3 = JLanguageTool.getMessageBundle(new AmericanEnglish());
+    ResourceBundle bundle3 = JLanguageTool.getMessageBundle(AmericanEnglish.getInstance());
     assertThat(bundle3.getString("de"), is("German"));
   }
 

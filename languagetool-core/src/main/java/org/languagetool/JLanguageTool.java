@@ -65,7 +65,7 @@ import java.util.stream.IntStream;
  * <p>You will probably want to use the sub class {@link MultiThreadedJLanguageTool} for best performance.
  *
  * <p><b>Thread-safety:</b> this class is not thread safe. Create one instance per thread,
- * but create the language only once (e.g. {@code new AmericanEnglish()}) and use it for all
+ * but create the language only once (e.g. {@code new AmericanEnglish}) and use it for all
  * instances of JLanguageTool.</p>
  *
  * @see MultiThreadedJLanguageTool
@@ -1093,7 +1093,7 @@ public class JLanguageTool {
       }
     }
     if (language.getShortCode().equals("es")) {
-      List<String> disableSpanishRules = Arrays.asList("AGREEMENT_POSTPONED_ADJ");
+      List<String> disableSpanishRules = Collections.singletonList("AGREEMENT_POSTPONED_ADJ");
       RemoteRuleResult remoteRulesResult = remoteRulesResults.get("AI_ES_GGEC");
       if (remoteRulesResult != null) {
         if (remoteRulesResult.isSuccess()) {
@@ -1877,7 +1877,7 @@ public class JLanguageTool {
           List<AbstractPatternRule> wrappedRules = ((RepeatedPatternRuleTransformer.RepeatedPatternRule) rule).getWrappedRules();
           rulesById.addAll(wrappedRules.stream().filter(r -> r.getSubId().equals(subId)).collect(Collectors.toList()));
         }
-        else if (rule instanceof AbstractPatternRule &&((AbstractPatternRule) rule).getSubId().equals(subId)){
+        else if (rule instanceof AbstractPatternRule && rule.getSubId().equals(subId)){
           rulesById.add((AbstractPatternRule) rule);
         }
       }

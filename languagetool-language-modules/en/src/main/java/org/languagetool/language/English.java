@@ -76,7 +76,6 @@ public class English extends LanguageWithModel {
           return rules;
         }
       });
-  private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
   private static final Pattern FALSE_FRIENDS_PATTERN = Pattern.compile("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*");
 
   /**
@@ -89,7 +88,7 @@ public class English extends LanguageWithModel {
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return AMERICAN_ENGLISH;
+    return AmericanEnglish.getInstance();
   }
 
   @Override
