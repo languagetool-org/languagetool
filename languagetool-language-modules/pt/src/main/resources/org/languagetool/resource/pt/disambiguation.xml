@@ -3872,6 +3872,7 @@ USA
             <token postag="NC.+" postag_regexp="yes"/>
           </and>
         </marker>
+        <token><exception scope="previous" regexp="no">tá</exception></token>
       </pattern>
       <disambig action="remove" postag="V.*"/>
       <!--
@@ -3896,6 +3897,7 @@ USA
             <token postag="NC.+" postag_regexp="yes"/>
           </and>
         </marker>
+        <token><exception scope="previous" regexp="no">tá</exception></token>
       </pattern>
       <disambig action="remove" postag="V.*"/>
       <!--
@@ -3910,6 +3912,34 @@ USA
       -->
     </rule>
   </rulegroup>
+
+  <rule id="VERB_PRON_VERB_VNOUN_VERBS_RARE" name="Remove nouns identified as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag="V.+|NC.+|AQ.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|CC|SPS.+|[DP].+'/></token>
+      <token min='0' max='1' postag='RM'/>
+      <token postag="(SPS00:)?(D[AI].+|PP.+)|Z0.+" postag_regexp="yes"/>
+      <token postag="V.+" postag_regexp="yes"/>
+      <marker>
+        <and>
+          <token postag='VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM' postag_regexp="yes"/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token><exception scope="previous" regexp="no">tá</exception></token>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             O castanho maçante da Terra sutilmente se torna rosas e azuis claros quando EVA chega.
+             A outra é "The Phoenix", do Fall Out Boy (nesse vídeo eu junto parte de uma com parte da outra).
+             Cobrando no meio da partida eu acho meio chato.
+             Como é a movida curso gratuito de análise gráfica em Díli?
+             E as mulheres me jogam rosas.
+             Em tempos tão tristes que vivemos, é preciso alimentar a alma para que as esperanças se mantenham vivas.
+             Com que frequência você compra roupas?
+    -->
+  </rule>
 
   <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
       <rule>
