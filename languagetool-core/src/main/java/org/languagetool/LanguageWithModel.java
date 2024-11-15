@@ -12,15 +12,24 @@ public abstract class LanguageWithModel extends Language implements AutoCloseabl
   private LanguageModel languageModel;
 
   @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    languageModel = initLanguageModel(indexDir, languageModel);
-    return languageModel;
+  public LanguageModel getLanguageModel(File indexDir) throws IOException {
+    if (languageModel != null) {
+      return languageModel;
+    }
+    synchronized (this) {
+      if (languageModel != null) {
+        return languageModel;
+      }
+      languageModel = initLanguageModel(indexDir, languageModel);
+      return languageModel;
+    }
   }
 
   @Override
-  public void close() throws Exception {
+  public synchronized void close() throws Exception {
     if (languageModel != null) {
       languageModel.close();
+      languageModel = null;
     }
   }
 
