@@ -21,6 +21,7 @@ package org.languagetool.language;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.LanguageWithModel;
+import org.languagetool.Languages;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.DoublePunctuationRule;
@@ -35,12 +36,27 @@ import org.languagetool.tokenizers.zh.ChineseSentenceTokenizer;
 import org.languagetool.tokenizers.zh.ChineseWordTokenizer;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Chinese extends LanguageWithModel {
+  private static final String LANGUAGE_SHORT_CODE = "zh-CN";
+
+  private static volatile Throwable instantiationTrace;
+
+  public Chinese() {
+    Throwable trace = instantiationTrace;
+    if (trace != null) {
+      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
+    }
+    instantiationTrace = new Throwable();
+  }
+
+  /**
+   * This is a fake constructor overload for the subclasses. Public constructors can only be used by the LT itself.
+   */
+  protected Chinese(boolean fakeValue) {
+  }
+
 
   @Override
   public String getShortCode() {
@@ -92,5 +108,13 @@ public class Chinese extends LanguageWithModel {
     return Collections.singletonList(
       new ChineseConfusionProbabilityRule(messages, languageModel, this)
     );
+  }
+
+  public static @NotNull Chinese getInstance() {
+    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));
+    if (language instanceof Chinese chinese) {
+      return chinese;
+    }
+    throw new RuntimeException("Chinese language expected, got " + language);
   }
 }
