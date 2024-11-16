@@ -3941,6 +3941,33 @@ USA
     -->
   </rule>
 
+  <rule id="VERB_O_A_VERB_SPS00_VERBS_RARE" name="Remove nouns identified as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='V.+' postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+      <token min='0' max='1' postag='RM'/>
+      <token postag='D[AI].+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0' postag_regexp="yes"/> <!-- Removed "VMP00SM" -->
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='SPS00'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Eles passaram a fazê-lo dois dias depois, completando o processo em 17 de junho.
+             A Warner proibiu severamente a partilha de vídeos em maior parte das redes da internet, por questões autoriais.
+             As extremidades exteriores dos dedos são protegidas por unhas, que podem ter a forma de garras ou cascos.
+             Usado para medir a taxa de sucesso de download e instalação.
+             Mais tarde, se casa com Ha-ni e decide se tornar um médico, não herdando a empresa de jogos do seu pai.
+             Para visualizar a lista de favoritos clique aqui.
+             O Tom está pintando a casa por conta própria.
+    -->
+  </rule>
+
   <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
       <rule>
           <pattern>
