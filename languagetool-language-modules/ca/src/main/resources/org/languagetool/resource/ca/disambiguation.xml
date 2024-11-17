@@ -1891,6 +1891,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^N].*"/>
     </rule>
+    <rule id="donant" name="donant, no nom">
+        <pattern>
+            <token><exception postag="D[DAI]0MS0" postag_regexp="yes" regexp="yes">l|el|un|aquest|algun</exception></token>
+            <marker>
+                <token postag="V.G.*" postag_regexp="yes">donant</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V.G.*"/>
+    </rule>
     <rulegroup id="ESTAR_IMPERATIU" name="formes del verb estar en imperatiu">
         <rule>
             <pattern>
@@ -6443,6 +6452,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token>sal</token>
                 <marker>
                     <token regexp="yes">sosa|gemma</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="AQ0FS0"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>funció</token>
+                <marker>
+                    <token regexp="yes">&alfabet_grec;</token>
                 </marker>
             </pattern>
             <disambig action="replace">
