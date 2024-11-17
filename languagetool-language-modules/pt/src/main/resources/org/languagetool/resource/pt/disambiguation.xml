@@ -3813,13 +3813,13 @@ USA
       </rule>
   </rulegroup>
 
-  <rule id="PELA_COMO_VERBS_RARE" name="Remove pela/como from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+  <rule id="PELA_COMO_SOBRE_VERBS_RARE" name="Remove pela/como/sobre from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Moved the rule down for it to work with RM: "As espécies viáveis foram sendo incorporadas gradativamente pela natureza." -->
     <pattern>
       <token postag='VMP00.+' postag_regexp="yes"/>
       <token min='0' max='1' postag='RM'/>
       <marker>
-          <token regexp="yes">pel[ao]s?|como</token>
+          <token regexp="yes">pel[ao]s?|como|sobre</token>
       </marker>
       <token postag='NC.+|AQ.+|DP.+' postag_regexp='yes'/>
     </pattern>
@@ -3832,6 +3832,8 @@ USA
              A cidade também é muito conhecida pelos seus doces de espécie.
              Obrigado pela sua compreensão e bom trabalho!
              A segunda, que era conhecida como sua esposa no Olimpo, era a ciumenta Hera.
+             Ele escreveu que ficou surpreso sobre como os resultados ficaram bons.
+             Se ofendem por conta de suspeitas sobre artistas.
     -->
   </rule>
 
