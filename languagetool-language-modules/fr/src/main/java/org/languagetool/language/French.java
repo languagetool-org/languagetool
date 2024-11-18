@@ -287,6 +287,7 @@ public class French extends Language implements AutoCloseable {
     id2prio.put("PLURIEL_AL2", 100); // greater than other rules for pluriel al
     id2prio.put("FR_SPLIT_WORDS_HYPHEN", 100); // greater than MOTS_INCOMP
     id2prio.put("PAS_DE_TRAIT_UNION", 50); //  // greater than agreement rules
+    id2prio.put("SOCIOCULTUREL", 40); // greater than TIRET
     id2prio.put("A_VERBE_INFINITIF", 20); // greater than PRONSUJ_NONVERBE
     id2prio.put("DE_OU_DES", 20); // greater than PAS_ADJ
     id2prio.put("EMPLOI_EMPLOIE", 20); // greater than MOTS_INCOMP
