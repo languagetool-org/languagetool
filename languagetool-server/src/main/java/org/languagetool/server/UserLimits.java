@@ -62,7 +62,7 @@ class UserLimits {
   static UserLimits getLimitsFromUserAccount(HTTPServerConfig config, @NotNull String username, @NotNull String password) {
     UserInfoEntry entry = DatabaseAccess.getInstance().getUserInfoWithPassword(username, password);
     if (entry == null) { // transparent fallback to anonymous user if DB down
-      return getDefaultLimits(config);
+      return getUserLimitsFromWhitelistOrDefault(config, username);
     } if (entry.hasPremium() || config.isPremiumAlways()) {
       logger.info("Access via username/password for " + username);
       return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), entry.getUserId(), true, entry.getUserDictCacheSize(), entry.getRequestsPerDay(), entry.getLimitEnforcement(), entry);
@@ -79,7 +79,7 @@ class UserLimits {
     DatabaseAccess db = DatabaseAccess.getInstance();
     UserInfoEntry data = db.getUserInfoWithApiKey(username, apiKey);
     if (data == null) { // transparent fallback to anonymous user if DB down
-      return getDefaultLimits(config);
+      return getUserLimitsFromWhitelistOrDefault(config, username);
     } else if (data.hasPremium() || config.isPremiumAlways()) {
       return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
     } else {
@@ -94,11 +94,27 @@ class UserLimits {
     DatabaseAccess db = DatabaseAccess.getInstance();
     UserInfoEntry data = db.getUserInfoWithAddonToken(username, addonToken);
     if (data == null) { // transparent fallback to anonymous user if DB down
-      return getDefaultLimits(config);
+      return getUserLimitsFromWhitelistOrDefault(config, username);
     } if (data.hasPremium() || config.isPremiumAlways()) {
       return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
     } else {
       return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
+    }
+  }
+
+  private static UserLimits getUserLimitsFromWhitelistOrDefault(HTTPServerConfig config, String username) {
+    String mailDomain = username.substring(username.indexOf('@') + 1);
+    boolean isWhitelisted = false;
+    for (String whitelisted : config.getRequestLimitWhitelistUsers()) {
+      if (whitelisted.equals(username) || whitelisted.equals(mailDomain)) {
+        isWhitelisted = true;
+        break;
+      }
+    }
+    if (isWhitelisted) {
+      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), null, true);
+    } else {
+      return getDefaultLimits(config);
     }
   }
 
