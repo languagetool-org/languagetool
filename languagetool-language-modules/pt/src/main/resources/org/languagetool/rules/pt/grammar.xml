@@ -4330,6 +4330,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!--
            MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
       -->
+
+            <antipattern> <!-- This is an idiomatic expression in Portuguese -->
+                <token inflected='yes'>fazer</token>
+                <token>das</token>
+                <token>tripas</token>
+                <token>coração</token>
+                <example>O Rui fez das tripas coração.</example>
+                <example>As mulheres fizeram das tripas coração.</example>
+                <example>Vamos fazer das tripas coração.</example>
+                <example>Faça das tripas coração.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>d[oe]|no</token>
+                <token postag_regexp='yes' postag='AQ.M[SN].+|N.M[SN].+' regexp='yes' inflected='yes'>&languages;</token>
+                <token min='0' postag='_QUOT' postag_regexp='no'/>
+                <token postag='AQ..[PN].+|N..[PN].+|Z0.[PN].+|(SPS00:)?[DP]...[PN].+|VM...P.+' postag_regexp='yes'/>
+                <example>O formato Matroska contém dados de diferentes tipos de codificações (do inglês codecs).</example>
+                <example>O formato Matroska contém dados de diferentes tipos de codificações (do inglês "codecs").</example>
+                <example>Um recurso chamado permite que o nível de BPM (do inglês Beats per minute, que significa Batidas por minuto)</example>
+                <example>O inglês indiano compreende vários dialetos do inglês falados principalmente no subcontinente indiano.</example>
+            </antipattern>
+
             <antipattern>
                 <token>para</token>
                 <token regexp='yes'>tal|tanto</token>
