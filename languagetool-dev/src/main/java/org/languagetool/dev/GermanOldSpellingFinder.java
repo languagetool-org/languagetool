@@ -36,7 +36,7 @@ import java.util.List;
 public class GermanOldSpellingFinder {
 
   public static void main(String[] args) throws IOException {
-    GermanyGerman lang = new GermanyGerman();
+    GermanyGerman lang = GermanyGerman.getInstance();
     Synthesizer synth = lang.getSynthesizer();
     List<String> words = Files.readAllLines(Paths.get(args[0]));
     int i = 0;
@@ -58,7 +58,7 @@ public class GermanOldSpellingFinder {
   }
 
   public static void main2(String[] args) throws IOException {
-    GermanyGerman lang = new GermanyGerman();
+    GermanyGerman lang = GermanyGerman.getInstance();
     Synthesizer synth = lang.getSynthesizer();
     String tmpWord = "hintergießen";
     String[] formsAr = synth.synthesize(new AnalyzedToken(tmpWord, "FAKE", tmpWord), ".*", true);

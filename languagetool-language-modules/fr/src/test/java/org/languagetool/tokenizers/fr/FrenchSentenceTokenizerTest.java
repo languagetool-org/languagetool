@@ -31,7 +31,7 @@ import static org.hamcrest.core.Is.is;
 
 public class FrenchSentenceTokenizerTest {
 
-  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(new French());
+  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(French.getInstance());
 
   @Test
   public final void testTokenize() {
