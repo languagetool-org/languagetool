@@ -103,6 +103,9 @@ class UserLimits {
   }
 
   private static UserLimits getUserLimitsFromWhitelistOrDefault(HTTPServerConfig config, String username) {
+    if (config.getRequestLimitWhitelistUsers() == null) {
+      return getDefaultLimits(config);
+    }
     String mailDomain = username.substring(username.indexOf('@') + 1);
     boolean isWhitelisted = false;
     for (String whitelisted : config.getRequestLimitWhitelistUsers()) {
