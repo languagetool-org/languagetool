@@ -31,7 +31,7 @@ import static org.junit.Assert.assertThat;
 
 public class AnnotatedTextTest {
 
-  private final JLanguageTool lt = new JLanguageTool(French.getInstance());
+  private final JLanguageTool lt = new JLanguageTool(new French());
 
   @Test
   public void testInterpretAsBefore() throws IOException {

@@ -33,7 +33,8 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class HTTPSServerTest {
 
@@ -53,8 +54,8 @@ public class HTTPSServerTest {
     HTTPSServer server = new HTTPSServer(serverConfig, false, HTTPServerConfig.DEFAULT_HOST, null);
     try {
       server.run();
-      check(GermanyGerman.getInstance(), "foo");
-      check(GermanyGerman.getInstance(), "foo");
+      check(new GermanyGerman(), "foo");
+      check(new GermanyGerman(), "foo");
       try {
         System.out.println("=== Testing too many requests now, please ignore the following error ===");
         String result = check(new German(), "foo");
@@ -144,7 +145,7 @@ public class HTTPSServerTest {
       longText.append("Run ");
     }
     String result2 = HTTPTestTools.checkAtUrl(new URL(httpsPrefix + "?text=" + encode(longText.toString()) + "&language=en"));
-    assertFalse("Got " + result2, result2.contains("UPPERCASE_SENTENCE_START"));
+    assertTrue("Got " + result2, !result2.contains("UPPERCASE_SENTENCE_START"));
     assertTrue("Got " + result2, result2.contains("PHRASE_REPETITION"));
 
     String overlyLongText = longText + " and some more to get over the limit of 500";

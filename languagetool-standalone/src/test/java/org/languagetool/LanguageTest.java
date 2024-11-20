@@ -61,8 +61,8 @@ public class LanguageTest {
 
   @Test
   public void testEquals() {
-    assertEquals(GermanyGerman.getInstance(), GermanyGerman.getInstance());
-    assertNotEquals(new AustrianGerman(), GermanyGerman.getInstance());
+    assertEquals(new GermanyGerman(), new GermanyGerman());
+    assertNotEquals(new AustrianGerman(), new GermanyGerman());
     assertNotEquals(new AustrianGerman(), new German());
   }
 
@@ -70,7 +70,7 @@ public class LanguageTest {
   public void testEqualsConsiderVariantIfSpecified() {
     // every language equals itself:
     assertTrue(new German().equalsConsiderVariantsIfSpecified(new German()));
-    assertTrue(GermanyGerman.getInstance().equalsConsiderVariantsIfSpecified(GermanyGerman.getInstance()));
+    assertTrue(new GermanyGerman().equalsConsiderVariantsIfSpecified(new GermanyGerman()));
     assertTrue(new English().equalsConsiderVariantsIfSpecified(new English()));
     assertTrue(new AmericanEnglish().equalsConsiderVariantsIfSpecified(new AmericanEnglish()));
     // equal if variant is the same, but only if specified:
@@ -84,13 +84,13 @@ public class LanguageTest {
   @Test
   public void testCreateDefaultJLanguageTool() {
     Language german = new German();
-    Language germanyGerman = GermanyGerman.getInstance();
+    Language germanyGerman = new GermanyGerman();
     JLanguageTool ltGerman = german.createDefaultJLanguageTool();
     JLanguageTool ltGerman2 = german.createDefaultJLanguageTool();
     JLanguageTool ltGermanyGerman = germanyGerman.createDefaultJLanguageTool();
     JLanguageTool ltEnglish = new English().createDefaultJLanguageTool();
-    assertNotSame(ltGermanyGerman, ltGerman);
-    assertSame(ltGerman2, ltGerman);
+    assertFalse(ltGermanyGerman == ltGerman);
+    assertTrue(ltGerman2 == ltGerman);
     assertEquals(ltGerman.getLanguage(), german);
     assertEquals(ltGermanyGerman.getLanguage(), germanyGerman);
     assertEquals(ltEnglish.getLanguage(), new English());

@@ -65,7 +65,7 @@ final class StartupTimePerformanceTest {
   public static void main(String[] args) throws IOException {
     StartupTimePerformanceTest test = new StartupTimePerformanceTest();
     test.run();
-    //test.run(GermanyGerman.getInstance());
+    //test.run(new GermanyGerman());
   }
 
 }

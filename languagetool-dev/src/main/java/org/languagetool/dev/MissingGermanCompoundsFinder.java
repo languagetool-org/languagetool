@@ -39,7 +39,7 @@ public class MissingGermanCompoundsFinder {
   private final GermanSpellerRule germanSpeller;
 
   public MissingGermanCompoundsFinder() {
-    germanSpeller = new GermanSpellerRule(JLanguageTool.getMessageBundle(), GermanyGerman.getInstance());
+    germanSpeller = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman());
   }
 
   public static void main(String[] args) throws IOException {

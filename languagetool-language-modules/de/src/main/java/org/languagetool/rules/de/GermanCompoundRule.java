@@ -19,6 +19,7 @@
 package org.languagetool.rules.de;
 
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.UserConfig;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.AbstractCompoundRule;
@@ -44,6 +45,7 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRege
  */
 public class GermanCompoundRule extends AbstractCompoundRule {
 
+  private static final Language GERMAN = Languages.getLanguageForShortCode("de-DE");
   private static final List<DisambiguationPatternRule> ANTI_PATTERNS = makeAntiPatterns(Arrays.asList(
     Arrays.asList(  // "Die Bürger konnten an die 900 Meter Kabel in Eigenregie verlegen."
       tokenRegex("an|um"),
@@ -84,7 +86,7 @@ public class GermanCompoundRule extends AbstractCompoundRule {
       token("selbst"),
       tokenRegex("gerecht.*")
     )
-  ), GermanyGerman.getInstance());
+  ), GERMAN);
 
   private static volatile CompoundRuleData compoundData;
   
@@ -125,7 +127,7 @@ public class GermanCompoundRule extends AbstractCompoundRule {
   
   @Override
   public boolean isMisspelled(String word) throws IOException {
-    return GermanyGerman.getInstance().getDefaultSpellingRule().isMisspelled(word);
+    return GermanyGerman.INSTANCE.getDefaultSpellingRule().isMisspelled(word);
   }
 
   @Override

@@ -31,18 +31,15 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import java.util.*;
 
 public class JLanguageToolTest {
 
   @Test
   public void testLanguageDependentFilter() throws IOException {
-    Language lang = French.getInstance();
+    Language lang = new French();
     JLanguageTool tool = new JLanguageTool(lang);
 
     // picky mode: suggestions with typographical apostrophes
@@ -67,7 +64,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testMultitokenSpeller() throws IOException {
-    Language lang = French.getInstance();
+    Language lang = new French();
     assertEquals("[gréco-romain, Gréco-Romain]", lang.getMultitokenSpeller().getSuggestions("greco-romain").toString());
     assertEquals("[Rimski-Korsakov]", lang.getMultitokenSpeller().getSuggestions("Rinsky-Korsakov").toString());
     assertEquals("[Nikolaï Rimski-Korsakov]", lang.getMultitokenSpeller().getSuggestions("Nikolai Rimski-Korsakov").toString());
@@ -75,7 +72,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testMatchfiltering() throws IOException {
-    Language lang = French.getInstance();
+    Language lang = new French();
     JLanguageTool lt = new JLanguageTool(lang);
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("C'est Madame Curie.");
     RuleMatch ruleMatch = new RuleMatch(new FakeRule("AI_FR_GGEC_REPLACEMENT_ORTHOGRAPHY_UPPERCASE_MADAME_MADAME"), analyzedSentence,6, 12, "Possible error");
@@ -93,18 +90,18 @@ public class JLanguageToolTest {
 
   @Test
   public void testQuotes() throws IOException {
-    French lang = French.getInstance();
+    French lang = new French();
     JLanguageTool lt = new JLanguageTool(lang);
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("'elle'.");
     RuleMatch ruleMatch = new RuleMatch(new FakeRule("AI_FR_GGEC_REPLACEMENT_PUNCTUATION_QUOTE_TEST"), analyzedSentence, 0, 5, "Possible error");
     Set<String> enabledRules = Collections.emptySet();
     RuleMatch processedMatch = lang.adjustFrenchRuleMatch(ruleMatch, enabledRules);
-    assertTrue(processedMatch.getRule().getTags().contains(Tag.picky));
+    assertEquals(true, processedMatch.getRule().getTags().contains(Tag.picky));
     assertEquals("AI_FR_GGEC_QUOTES", processedMatch.getSpecificRuleId());
   }
   @Test
   public void testMergingOfGrammarCorrections() throws IOException {
-    Language lang = French.getInstance();
+    Language lang = new French();
     JLanguageTool lt = new JLanguageTool(lang);
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Ce sont de spectateur");
 

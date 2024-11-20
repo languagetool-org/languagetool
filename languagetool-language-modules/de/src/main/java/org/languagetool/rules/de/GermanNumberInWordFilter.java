@@ -27,16 +27,16 @@ import java.util.List;
 public class GermanNumberInWordFilter extends AbstractNumberInWordFilter {
 
   public GermanNumberInWordFilter() {
-    super(GermanyGerman.getInstance());
+    super(GermanyGerman.INSTANCE);
   }
 
   @Override
   protected boolean isMisspelled(String word) {
-    return GermanyGerman.getInstance().getDefaultSpellingRule().isMisspelled(word);
+    return GermanyGerman.INSTANCE.getDefaultSpellingRule().isMisspelled(word);
   }
 
   @Override
   protected List<String> getSuggestions(String word) throws IOException {
-    return GermanyGerman.getInstance().getDefaultSpellingRule().getSuggestions(word);
+    return GermanyGerman.INSTANCE.getDefaultSpellingRule().getSuggestions(word);
   }
 }

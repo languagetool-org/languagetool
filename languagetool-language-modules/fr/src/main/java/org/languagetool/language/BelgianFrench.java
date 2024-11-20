@@ -23,17 +23,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class BelgianFrench extends French {
-  private static volatile Throwable instantiationTrace;
-
-  public BelgianFrench() {
-    super(true);
-    Throwable trace = instantiationTrace;
-    if (trace != null) {
-      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
-    }
-    instantiationTrace = new Throwable();
-  }
-
   @Override
   public String getName() {
     return "French (Belgium)";
@@ -47,7 +36,7 @@ public class BelgianFrench extends French {
 
   @Override
   public List<String> getDefaultDisabledRulesForVariant() {
-    List<String> rules = Collections.singletonList("DOUBLER_UNE_CLASSE");
+    List<String> rules = Arrays.asList("DOUBLER_UNE_CLASSE");
     return Collections.unmodifiableList(rules);
   }
 }

@@ -46,7 +46,7 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
     if (morfologikRule == null) {
       ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
           new Locale("fr"));
-      morfologikRule = new MorfologikFrenchSpellerRule(messages, French.getInstance(), null, Collections.emptyList());
+      morfologikRule = new MorfologikFrenchSpellerRule(messages, new French(), null, Collections.emptyList());
     }
   }
 

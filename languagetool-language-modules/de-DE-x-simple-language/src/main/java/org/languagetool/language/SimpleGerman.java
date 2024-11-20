@@ -20,9 +20,9 @@ package org.languagetool.language;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.GlobalConfig;
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.JLanguageTool;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.de.LongSentenceRule;
@@ -66,7 +66,7 @@ public class SimpleGerman extends GermanyGerman {
   
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new GermanRuleDisambiguator(getInstance());
+    return new GermanRuleDisambiguator(GermanyGerman.INSTANCE);
   }
 
   @Override

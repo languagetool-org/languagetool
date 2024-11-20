@@ -39,7 +39,7 @@ public class ValidWordFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     String word1 = arguments.get("word1") + arguments.get("word2");
     String word2 = arguments.get("word1") + arguments.get("word2").toLowerCase();
-    GermanSpellerRule speller = GermanyGerman.getInstance().getDefaultSpellingRule();
+    GermanSpellerRule speller = GermanyGerman.INSTANCE.getDefaultSpellingRule();
     if (!speller.isMisspelled(word1) || !speller.isMisspelled(word2)) {
       // e.g. "(Promotions)Studierende" -> "Promotionsstudierende" is ok, so no match
       return null;

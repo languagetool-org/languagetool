@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 public class GermanRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
   public GermanRepeatedWordsRule(ResourceBundle messages) {
-    super(messages, GermanyGerman.getInstance());
+    super(messages, GermanyGerman.INSTANCE);
     //super.setDefaultTempOff();
   }
   
@@ -68,7 +68,10 @@ public class GermanRepeatedWordsRule extends AbstractRepeatedWordsRule{
     if (isAllUppercase || (isCapitalized && !sentStart)) {
       return true;
     }
-    return tokens[i].hasPosTagStartingWith("EIG:");
+    if (tokens[i].hasPosTagStartingWith("EIG:")) {
+      return true;
+    }
+    return false;
   }
 
 }

@@ -29,7 +29,10 @@ import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.de.GermanSpellerRule;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import static junit.framework.Assert.assertFalse;
@@ -42,10 +45,10 @@ public class HunspellRuleTest {
   @Test
   public void testHighConfidenceSuggestion() {
     HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), Languages.getLanguageForShortCode("de-DE"), null);
-    assertTrue(rule.isFirstItemHighConfidenceSuggestion("HAus", Collections.singletonList(new SuggestedReplacement("HAus"))));
-    assertFalse(rule.isFirstItemHighConfidenceSuggestion("EI", Collections.singletonList(new SuggestedReplacement("Eis"))));
-    assertFalse(rule.isFirstItemHighConfidenceSuggestion("CMs", Collections.singletonList(new SuggestedReplacement("CMS"))));
-    assertFalse(rule.isFirstItemHighConfidenceSuggestion("DMs", Collections.singletonList(new SuggestedReplacement("DMS"))));
+    assertTrue(rule.isFirstItemHighConfidenceSuggestion("HAus", Arrays.asList(new SuggestedReplacement("HAus"))));
+    assertFalse(rule.isFirstItemHighConfidenceSuggestion("EI", Arrays.asList(new SuggestedReplacement("Eis"))));
+    assertFalse(rule.isFirstItemHighConfidenceSuggestion("CMs", Arrays.asList(new SuggestedReplacement("CMS"))));
+    assertFalse(rule.isFirstItemHighConfidenceSuggestion("DMs", Arrays.asList(new SuggestedReplacement("DMS"))));
   }
   
   @Test
@@ -84,7 +87,7 @@ public class HunspellRuleTest {
     
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("- Teex"));
     assertEquals(1, matches.length); 
-    assertEquals("Tee", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Tee", matches[0].getSuggestedReplacements().get(0).toString());
     assertEquals(2, matches[0].getFromPos());
     assertEquals(6, matches[0].getToPos());
     
@@ -126,7 +129,7 @@ public class HunspellRuleTest {
     // a multiword as a suggestion for a single-token misspelled word
     List<RuleMatch> matches = lt.check("BigBrother");
     assertEquals(1, matches.size());
-    assertEquals("Big Brother", matches.get(0).getSuggestedReplacements().get(0));
+    assertEquals("Big Brother", matches.get(0).getSuggestedReplacements().get(0).toString());
 
     // multiwords at the sentence start (capitalized)
     assertEquals(0, lt.check("Mea culpa").size());
@@ -242,7 +245,7 @@ public class HunspellRuleTest {
   public void testSeparateCorrectWordPerformance() throws Exception {
     String[] words = {"Rechtschreibreform", "Theaterkasse", "Zoobesuch", "Handelsvertreter", "Mückenstich", "gewöhnlich", "Autoverkehr"};
 
-    JLanguageTool lt = new JLanguageTool(GermanyGerman.getInstance());
+    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
     // make sure everything is initialized when actually testing
     for (String word : words) {
       lt.check(word);
