@@ -27,13 +27,13 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class AgreementRule2Test {
 
-  private final JLanguageTool lt = new JLanguageTool(GermanyGerman.getInstance());
-  private final AgreementRule2 rule = new AgreementRule2(TestTools.getEnglishMessages(), GermanyGerman.getInstance());
+  private final GermanyGerman lang = new GermanyGerman();
+  private final JLanguageTool lt = new JLanguageTool(lang);
+  private final AgreementRule2 rule = new AgreementRule2(TestTools.getEnglishMessages(), lang);
 
   @Test
   public void testRule() throws IOException {

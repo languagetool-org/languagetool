@@ -32,7 +32,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class MorfologikFrenchSpellerRuleTest {
-  private static final JLanguageTool lt = new JLanguageTool(French.getInstance());
+  private static final JLanguageTool lt = new JLanguageTool(new French());
   private final MorfologikFrenchSpellerRule rule;
 
   public MorfologikFrenchSpellerRuleTest() throws IOException {
@@ -40,7 +40,7 @@ public class MorfologikFrenchSpellerRuleTest {
   }
 
   private static MorfologikFrenchSpellerRule getRule() throws IOException {
-    return new MorfologikFrenchSpellerRule(TestTools.getMessages("fr"), French.getInstance(), null,
+    return new MorfologikFrenchSpellerRule(TestTools.getMessages("fr"), new French(), null,
       Collections.emptyList());
   }
 

@@ -30,7 +30,7 @@ public class MissingGermanWords {
   public MissingGermanWords(String filename) throws IOException {
     this.filename = filename;
     this.outputCombinedListing = true;
-    germanSpeller = new GermanSpellerRule(JLanguageTool.getMessageBundle(), GermanyGerman.getInstance());
+    germanSpeller = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman());
     germanTagger = new GermanTagger();
     englishSpeller = new MorfologikAmericanSpellerRule(JLanguageTool.getMessageBundle(), new AmericanEnglish());
   }

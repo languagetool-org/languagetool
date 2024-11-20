@@ -115,7 +115,7 @@ public class HTTPServerTest {
     }));
     server.run();
     try {
-      String resultWithTranslation = checkV2(new AmericanEnglish(), GermanyGerman.getInstance(), "Please let us meet in my Haus");
+      String resultWithTranslation = checkV2(new AmericanEnglish(), new GermanyGerman(), "Please let us meet in my Haus");
       assertTrue(resultWithTranslation, resultWithTranslation.contains("house"));
     } finally {
       server.stop();
@@ -140,7 +140,7 @@ public class HTTPServerTest {
   void runTestsV2() throws IOException, SAXException, ParserConfigurationException {
     // no error:
     String emptyResultPattern = ".*\"matches\":\\[\\].*";
-    German german = GermanyGerman.getInstance();
+    German german = new GermanyGerman();
     String result1 = checkV2(german, "");
     assertTrue("Got " + result1 + ", expected " + emptyResultPattern, result1.matches(emptyResultPattern));
     String result2 = checkV2(german, "Ein kleiner Test");
@@ -190,8 +190,8 @@ public class HTTPServerTest {
     
     //disabling
     String[] disableAvsAn = {"EN_A_VS_AN"};
-    assertFalse(checkWithOptionsV2(
-      english, german, "This is an test", nothing, disableAvsAn, false).contains("an test"));
+    assertTrue(!checkWithOptionsV2(
+            english, german, "This is an test", nothing, disableAvsAn, false).contains("an test"));
 
     //enabling
     assertTrue(checkWithOptionsV2(
@@ -200,8 +200,8 @@ public class HTTPServerTest {
     assertTrue(checkWithOptionsV2(
             english, german, "We will will do so", disableAvsAn, nothing, false).contains("ENGLISH_WORD_REPEAT_RULE"));
     //..unless explicitly stated.
-    assertFalse(checkWithOptionsV2(
-      english, german, "We will berate you", disableAvsAn, nothing, true).contains("BERATE"));
+    assertTrue(!checkWithOptionsV2(
+        english, german, "We will berate you", disableAvsAn, nothing, true).contains("BERATE"));
     
     
     //test if two rules get enabled as well
@@ -468,7 +468,7 @@ public class HTTPServerTest {
 
   @Test
   public void testTimeout() throws IOException {
-    GermanyGerman lang = GermanyGerman.getInstance();
+    GermanyGerman lang = new GermanyGerman();
     // avoid rule <clinit> being interrupted by timeout, resulting in NCDFEs in the following tests
     lang.getRelevantRules(JLanguageTool.getMessageBundle(), null, null, Collections.emptyList());
 

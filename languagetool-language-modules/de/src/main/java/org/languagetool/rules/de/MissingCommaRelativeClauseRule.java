@@ -184,7 +184,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
         posRegex("VER.*"),
         regex("\\u2063")
       )
-  ), GermanyGerman.getInstance());
+  ), GermanyGerman.INSTANCE);
 
   public MissingCommaRelativeClauseRule(ResourceBundle messages) {
     this(messages, false);
@@ -472,7 +472,10 @@ public class MissingCommaRelativeClauseRule extends Rule {
         }
       }
     }
-    return to < tokens.length && isArticleWithoutSub(gender, tokens, to);
+    if(to < tokens.length && isArticleWithoutSub(gender, tokens, to)) {
+      return true;
+    }
+    return false;
   }
 
   /**

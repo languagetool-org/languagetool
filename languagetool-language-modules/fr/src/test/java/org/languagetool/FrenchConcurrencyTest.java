@@ -25,7 +25,7 @@ public class FrenchConcurrencyTest extends AbstractLanguageConcurrencyTest {
 
   @Override
   protected Language createLanguage() {
-    return French.getInstance();
+    return new French();
   }
 
   @Override

@@ -18,22 +18,12 @@
  */
 package org.languagetool.language;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class SwissFrench extends French {
-  private static volatile Throwable instantiationTrace;
-
-  public SwissFrench() {
-    super(true);
-    Throwable trace = instantiationTrace;
-    if (trace != null) {
-      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
-    }
-    instantiationTrace = new Throwable();
-  }
-
   @Override
   public String getName() {
     return "French (Switzerland)";
@@ -47,7 +37,7 @@ public class SwissFrench extends French {
 
   @Override
   public List<String> getDefaultDisabledRulesForVariant() {
-    List<String> rules = Collections.singletonList("DOUBLER_UNE_CLASSE");
+    List<String> rules = Arrays.asList("DOUBLER_UNE_CLASSE");
     return Collections.unmodifiableList(rules);
   }
 }

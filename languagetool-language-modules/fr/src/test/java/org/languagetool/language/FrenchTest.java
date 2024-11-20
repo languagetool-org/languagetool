@@ -18,24 +18,25 @@
  */
 package org.languagetool.language;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.util.List;
+
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-import java.io.IOException;
-import java.util.List;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
 
 public class FrenchTest {
   
   @Test
   public void testSentenceTokenizer() {
-    Language lang = French.getInstance();
+    Language lang = new French();
     SentenceTokenizer tokenizer = lang.getSentenceTokenizer();
     assertThat(tokenizer.tokenize("Arrête de le cajoler... ça ne donnera rien.").size(), is(1));
     assertThat(tokenizer.tokenize("Arrête de le cajoler… ça ne donnera rien.").size(), is(1));
@@ -44,7 +45,7 @@ public class FrenchTest {
   
   @Test
   public void testAdvancedTypography() {
-    Language lang = French.getInstance();
+    Language lang = new French();
     assertEquals(lang.toAdvancedTypography("\"C'est\""), "«\u00a0C’est\u00a0»");
     assertEquals(lang.toAdvancedTypography("\"C'est\" "), "«\u00a0C’est\u00a0» ");
     assertEquals(lang.toAdvancedTypography("'C'est'"), "‘C’est’");
@@ -59,7 +60,7 @@ public class FrenchTest {
   
   @Test
   public void testRules() throws IOException {
-    Language lang = French.getInstance();
+    Language lang = new French();
     JLanguageTool lt = new JLanguageTool(lang);
    
     // In some (unclear) circumstances, matches in these sentences and rules are not detected by tests on XML examples #6300

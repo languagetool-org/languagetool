@@ -18,15 +18,15 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
-import org.languagetool.language.GermanyGerman;
-import org.languagetool.markup.AnnotatedTextBuilder;
-import org.languagetool.rules.RuleMatch;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.markup.AnnotatedTextBuilder;
+import org.languagetool.rules.RuleMatch;
 
 public class JLanguageToolTest {
 
@@ -84,7 +84,7 @@ public class JLanguageToolTest {
   
   @Test
   public void testAdvancedTypography() {
-    Language lang = GermanyGerman.getInstance();
+    Language lang = GermanyGerman.INSTANCE;
     assertEquals(lang.toAdvancedTypography("Das ist..."), "Das ist…");
     assertEquals(lang.toAdvancedTypography("Meinten Sie \"entschieden\" oder \"entscheidend\"?"), "Meinten Sie „entschieden“ oder „entscheidend“?");
     assertEquals(lang.toAdvancedTypography("Meinten Sie 'entschieden' oder 'entscheidend'?"), "Meinten Sie ‚entschieden‘ oder ‚entscheidend‘?");
@@ -111,7 +111,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testMultitokenSpeller() throws IOException {
-    Language lang = GermanyGerman.getInstance();
+    Language lang = new GermanyGerman();
     assertEquals("[Karl-Heinz Rummenigge]", lang.getMultitokenSpeller().getSuggestions("KarlHeinz Rummenigge").toString());
     assertEquals("[Leonardo DiCaprio]", lang.getMultitokenSpeller().getSuggestions("Leonardo Di-Caprio").toString());
     assertEquals("[Marshall McLuhan]", lang.getMultitokenSpeller().getSuggestions("Marshall Mc-Luhan").toString());

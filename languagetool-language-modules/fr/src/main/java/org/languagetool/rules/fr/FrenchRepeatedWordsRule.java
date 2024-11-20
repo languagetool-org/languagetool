@@ -32,7 +32,7 @@ import java.util.ResourceBundle;
 public class FrenchRepeatedWordsRule extends AbstractRepeatedWordsRule {
 
   public FrenchRepeatedWordsRule(ResourceBundle messages) {
-    super(messages, French.getInstance());
+    super(messages, new French());
     //super.setDefaultTempOff();
   }
   
@@ -93,6 +93,9 @@ public class FrenchRepeatedWordsRule extends AbstractRepeatedWordsRule {
     if (isAllUppercase || (isCapitalized && !sentStart)) {
       return true;
     }
-    return tokens[i].hasPosTagStartingWith("Z");
+    if (tokens[i].hasPosTagStartingWith("Z")) {
+      return true;
+    }
+    return false;
   }
 }

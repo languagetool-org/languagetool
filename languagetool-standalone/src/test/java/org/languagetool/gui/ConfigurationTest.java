@@ -26,7 +26,6 @@ import org.languagetool.language.French;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -56,7 +55,7 @@ public class ConfigurationTest {
   private void createConfiguration(File configFile, Language lang) throws Exception {
     Configuration conf = new Configuration(configFile.getParentFile(), configFile.getName(), lang);
     conf.setDisabledRuleIds(new HashSet<>(Arrays.asList("FOO1", "Foo2")));
-    conf.setEnabledRuleIds(new HashSet<>(Collections.singletonList("enabledRule")));
+    conf.setEnabledRuleIds(new HashSet<>(Arrays.asList("enabledRule")));
     conf.saveConfiguration(lang);
   }
 
@@ -77,14 +76,14 @@ public class ConfigurationTest {
 
       //now change language
       conf = new Configuration(tempFile.getParentFile(), tempFile.getName(),
-        French.getInstance());
+              new French());
       disabledRuleIds = conf.getDisabledRuleIds();
       assertTrue(disabledRuleIds.isEmpty());
       enabledRuleIds = conf.getEnabledRuleIds();
       assertTrue(enabledRuleIds.isEmpty());
 
-      conf.setEnabledRuleIds(new HashSet<>(Collections.singletonList("enabledFRRule")));
-      conf.saveConfiguration(French.getInstance());
+      conf.setEnabledRuleIds(new HashSet<>(Arrays.asList("enabledFRRule")));
+      conf.saveConfiguration(new French());
 
       //and back...
       conf = new Configuration(tempFile.getParentFile(), tempFile.getName(),

@@ -37,6 +37,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.fr.FrenchWordTokenizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,6 +48,7 @@ import static java.util.regex.Pattern.compile;
 
 
 public class French extends Language implements AutoCloseable {
+
   private static final String BEFORE_APOS = "([cjnmtsldCJNMTSLD]|qu|jusqu|lorsqu|puisqu|quoiqu|Qu|Jusqu|Lorsqu|Puisqu|Quoiqu|QU|JUSQU|LORSQU|PUISQU|QUOIQU)";
   private static final Pattern BEFORE_APOS_PATTERN_1 = compile("(\\b" + BEFORE_APOS + ")'");
   private static final Pattern BEFORE_APOS_PATTERN_2 = compile("(\\b" + BEFORE_APOS + ")’\"");
@@ -70,29 +72,6 @@ public class French extends Language implements AutoCloseable {
   private static final Pattern TYPOGRAPHY_PATTERN_16 = compile("\u202f ");
 
   private LanguageModel languageModel;
-  private static final String FRENCH_SHORT_CODE = "fr";
-
-  private static volatile Throwable instantiationTrace;
-
-  /**
-   * @deprecated don't use this method besides the inheritance or core code. Languages are not supposed to be
-   * instantiated multiple times. They may contain heavy data which may waste the memory.
-   * Use {@link #getInstance()} instead.
-   */
-  @Deprecated
-  public French() {
-    Throwable trace = instantiationTrace;
-    if (trace != null) {
-      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
-    }
-    instantiationTrace = new Throwable();
-  }
-
-  /**
-   * This is a fake constructor overload for the subclasses. Public constructors can only be used by the LT itself.
-   */
-  protected French(boolean fakeValue) {
-  }
 
   @Override
   public SentenceTokenizer createDefaultSentenceTokenizer() {
@@ -106,7 +85,7 @@ public class French extends Language implements AutoCloseable {
 
   @Override
   public String getShortCode() {
-    return FRENCH_SHORT_CODE;
+    return "fr";
   }
 
   @Override
@@ -117,7 +96,7 @@ public class French extends Language implements AutoCloseable {
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return Languages.getLanguageForShortCode(FRENCH_SHORT_CODE);
+    return Languages.getLanguageForShortCode("fr");
   }
   @NotNull
   @Override
@@ -191,8 +170,8 @@ public class French extends Language implements AutoCloseable {
   /** @since 3.1 */
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
-    return Collections.singletonList(
-      new FrenchConfusionProbabilityRule(messages, languageModel, this)
+    return Arrays.asList(
+            new FrenchConfusionProbabilityRule(messages, languageModel, this)
     );
   }
 
@@ -540,28 +519,28 @@ public class French extends Language implements AutoCloseable {
     return mergedMatch;
   }
 
-  private final List<String> spellerExceptions = Collections.singletonList("Ho Chi Minh");
+  private final List<String> spellerExceptions = Arrays.asList("Ho Chi Minh");
 
   @Override
   public List<String> prepareLineForSpeller(String line) {
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return Collections.singletonList(line);
+      return Arrays.asList(line);
     }
     String[] formTag = parts[0].split("[\t;]");
     String form = formTag[0].trim();
     if (spellerExceptions.contains(form)) {
-      return Collections.singletonList("");
+      return Arrays.asList("");
     }
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
       if (tag.startsWith("Z") || tag.startsWith("N") || tag.equals("A") ) {
-        return Collections.singletonList(form);
+        return Arrays.asList(form);
       } else {
-        return Collections.singletonList("");
+        return Arrays.asList("");
       }
     }
-    return Collections.singletonList(line);
+    return Arrays.asList(line);
   }
 
   public MultitokenSpeller getMultitokenSpeller() {
@@ -588,13 +567,13 @@ public class French extends Language implements AutoCloseable {
       && rm.getRule().getId().contains("MISSING_PRONOUN_LAPOSTROPHE")) {
       if (errorStr.equals("on") && suggestions.get(0).equals("l'on") && rm.getSentence().getText().toLowerCase().contains("si on")) {
         rm.setSpecificRuleId("AI_FR_GGEC_SI_LON");
-        rm.getRule().setTags(Collections.singletonList(Tag.picky));
+        rm.getRule().setTags(Arrays.asList(Tag.picky));
       }
     }
     if (rm.getRule().getId().startsWith("AI_FR_GGEC") && rm.getRule().getId().contains("REPLACEMENT_PUNCTUATION_QUOTE"
     )) {
       rm.setSpecificRuleId("AI_FR_GGEC_QUOTES");
-      rm.getRule().setTags(Collections.singletonList(Tag.picky));
+      rm.getRule().setTags(Arrays.asList(Tag.picky));
       rm.getRule().setLocQualityIssueType(ITSIssueType.Typographical);
     }
     // if the typographical apostrophe rule is enabled, use the typographical apostrophe in suggestons
@@ -611,11 +590,4 @@ public class French extends Language implements AutoCloseable {
     return rm;
   }
 
-  public static @NotNull French getInstance() {
-    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(FRENCH_SHORT_CODE));
-    if (language.getClass() == French.class) {
-      return (French) language;
-    }
-    throw new RuntimeException("French language expected, got " + language);
-  }
 }

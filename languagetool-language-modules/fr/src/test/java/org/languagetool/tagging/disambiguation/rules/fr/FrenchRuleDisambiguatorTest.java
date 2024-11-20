@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.French;
 import org.languagetool.tagging.disambiguation.fr.FrenchHybridDisambiguator;
+import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.fr.FrenchTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -45,7 +46,7 @@ public class FrenchRuleDisambiguatorTest {
   public void setUp() throws IOException {
     tagger = FrenchTagger.INSTANCE;
     tokenizer = new FrenchWordTokenizer();
-    French language = French.getInstance();
+    French language = new French();
     sentenceTokenizer = new SRXSentenceTokenizer(language);
     disambiguator = new FrenchHybridDisambiguator();
     disamb2 = new DemoDisambiguator();    

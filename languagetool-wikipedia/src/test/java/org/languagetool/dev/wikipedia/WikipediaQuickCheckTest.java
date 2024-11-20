@@ -18,16 +18,18 @@
  */
 package org.languagetool.dev.wikipedia;
 
-import org.junit.Ignore;
-import org.junit.Test;
-import org.languagetool.language.GermanyGerman;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.languagetool.language.GermanyGerman;
 
 @Ignore
 public class WikipediaQuickCheckTest {
@@ -64,7 +66,7 @@ public class WikipediaQuickCheckTest {
             "Das Komma ist richtig, wegen dem Leerzeichen.";
     MediaWikiContent wikiContent = new MediaWikiContent(markup, "2012-11-11T20:00:00");
     ErrorMarker errorMarker = new ErrorMarker("<err>", "</err>");
-    MarkupAwareWikipediaResult result = check.checkWikipediaMarkup(new URL("http://fake-url.org"), wikiContent, GermanyGerman.getInstance(), errorMarker);
+    MarkupAwareWikipediaResult result = check.checkWikipediaMarkup(new URL("http://fake-url.org"), wikiContent, new GermanyGerman(), errorMarker);
     assertThat(result.getLastEditTimestamp(), is("2012-11-11T20:00:00"));
     List<AppliedRuleMatch> appliedMatches = result.getAppliedRuleMatches();
     // even though this error has no suggestion, there's a (pseudo) correction:

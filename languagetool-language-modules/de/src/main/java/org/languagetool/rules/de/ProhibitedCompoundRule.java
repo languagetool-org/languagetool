@@ -236,7 +236,7 @@ public class ProhibitedCompoundRule extends Rule {
     try {
       ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(confusionSetsFile)) {
-        ConfusionSetLoader loader = new ConfusionSetLoader(GermanyGerman.getInstance());
+        ConfusionSetLoader loader = new ConfusionSetLoader(GermanyGerman.INSTANCE);
         Map<String, List<ConfusionPair>> confusionPairs = loader.loadConfusionPairs(confusionSetStream);
         for (Map.Entry<String, List<ConfusionPair>> entry : confusionPairs.entrySet()) {
           for (ConfusionPair pair : entry.getValue()) {
@@ -337,9 +337,9 @@ public class ProhibitedCompoundRule extends Rule {
 
   private static boolean isMisspelled(String word) {
     if (linguServices == null) {
-      return GermanyGerman.getInstance().getDefaultSpellingRule().isMisspelled(word);
+      return GermanyGerman.INSTANCE.getDefaultSpellingRule().isMisspelled(word);
     }
-    return !linguServices.isCorrectSpell(word, GermanyGerman.getInstance());
+    return !linguServices.isCorrectSpell(word, GermanyGerman.INSTANCE);
   }
 
   private int getMatches(AnalyzedSentence sentence, List<RuleMatch> ruleMatches, AnalyzedTokenReadings readings, int partsStartPos, String wordPart, int toPosCorrection) {

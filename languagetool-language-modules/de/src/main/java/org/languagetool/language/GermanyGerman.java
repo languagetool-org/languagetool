@@ -18,11 +18,9 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
-import org.languagetool.Languages;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
@@ -30,21 +28,16 @@ import org.languagetool.rules.de.GermanCompoundRule;
 import org.languagetool.rules.de.GermanSpellerRule;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ResourceBundle;
 
 import static org.languagetool.JLanguageTool.getDataBroker;
 
 public class GermanyGerman extends German {
-  private static final String GERMANY_GERMAN_SHORT_CODE = "de-DE";
 
-  /**
-   * @deprecated don't use this method besides the inheritance or core code. Languages are not supposed to be
-   * instantiated multiple times. They may contain heavy data which may waste the memory.
-   * Use {@link #getInstance()} instead.
-   */
-  @Deprecated
-  public GermanyGerman() {
-  }
+  public static final GermanyGerman INSTANCE = new GermanyGerman();
 
   @Override
   public String[] getCountries() {
@@ -85,11 +78,4 @@ public class GermanyGerman extends German {
     return true;
   }
 
-  public static @NotNull GermanyGerman getInstance() {
-    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(GERMANY_GERMAN_SHORT_CODE));
-    if (language.getClass() == GermanyGerman.class) {
-      return (GermanyGerman) language;
-    }
-    throw new RuntimeException("GermanyGerman language expected, got " + language);
-  }
 }

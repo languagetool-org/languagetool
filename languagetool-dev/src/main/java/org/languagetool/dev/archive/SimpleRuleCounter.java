@@ -21,11 +21,13 @@ package org.languagetool.dev.archive;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+//import org.languagetool.language.English;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternToken;
 
 import java.util.ArrayList;
+//import java.util.Collections;
 import java.util.List;
 
 import static java.util.Comparator.comparing;
@@ -85,7 +87,7 @@ public class SimpleRuleCounter {
     public static void main(String[] args) {
         SimpleRuleCounter finder = new SimpleRuleCounter();
         finder.run(Languages.get());
-      //finder.run(Collections.singletonList(GermanyGerman.getInstance()));
+        //finder.run(Collections.singletonList(new GermanyGerman()));
         //finder.run(Collections.singletonList(new English()));
     }
 }
