@@ -1097,6 +1097,16 @@ regexp case-insensitive maken: (?i)
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
 
+		<rulegroup id="WEL" name="Dat is juist wèl(wél) het geval." default="temp_off">
+			<rule>
+				<pattern>
+					<token>wèl</token>
+				</pattern>
+				<message>Correct is <suggestion>wél</suggestion>, of anders <suggestion>wel</suggestion>.</message>
+				<example correction="wél|wel">Dat is juist <marker>wèl</marker> het geval.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="PIJLEN" name="-&gt; (→)">
 			<rule>
 				<pattern>
@@ -8084,6 +8094,56 @@ regexp case-insensitive maken: (?i)
 				<message>Hier ontbreekt vast een spatie.</message>
 				<suggestion>\1 \2 <match no="3" regexp_match="^weg" regexp_replace="weg "/></suggestion>
 				<example correction="van de weg raken">We mogen niet <marker>van de wegraken</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="OPGANG_KOMEN" name="Toen ze opgang(op gang) kwamen." default="temp_off">
+			<!-- op gang komen -->
+			<rule>
+				<antipattern>
+					<token postag="SENT_START" skip="2"/>
+					<token>opgang</token>
+					<example>De grote opgang kwam in december.</example>
+				</antipattern>
+				<antipattern>
+					<token>in</token>
+					<token>opgang</token>
+					<example>De luchtvaart, die in opgang kwam.</example>
+				</antipattern>
+				<antipattern>
+					<token postag_regexp="yes" postag="VNW:AWZ.*" skip="1"/>
+					<token>opgang</token>
+					<example>Aan deze economische opgang kwam al snel een einde.</example>
+				</antipattern>
+				<pattern>
+					<marker>
+						<token>opgang</token>
+					</marker>
+					<token inflected="yes">komen</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>op gang</suggestion>.</message>
+				<example correction="op gang">Er is een discussie <marker>opgang</marker> gekomen.</example>
+			</rule>
+			<!-- komen op gang -->
+			<rule>
+				<antipattern>
+					<token>een</token>
+					<token>opgang</token>
+					<example>Fietsenstallingen worden verplaatst en er komt een opgang naar het tweede perron.</example>
+				</antipattern>
+				<antipattern>
+					<token inflected="yes">komen</token>
+					<token postag_regexp="yes" postag="VNW:PER.*BEZ"></token>
+					<token>opgang</token>
+					<example>Daarna kwam zijn opgang binnen de kerkelijke hiërarchie.</example>
+				</antipattern>
+				<pattern>
+					<token inflected="yes" skip="2">komen</token>
+					<marker>
+						<token>opgang</token>
+					</marker>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>op gang</suggestion>.</message>
+				<example correction="op gang">Al snel kwam de discussie <marker>opgang</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="EN_OF_KOPPELTEKEN" name="eet - en drinkgelegenheden/ eet- en drinkgelegenheden" >
