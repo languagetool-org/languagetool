@@ -468,7 +468,7 @@ public class HTTPServerTest {
 
   @Test
   public void testTimeout() throws IOException {
-    GermanyGerman lang = GermanyGerman.getInstance();
+    German lang = GermanyGerman.getInstance();
     // avoid rule <clinit> being interrupted by timeout, resulting in NCDFEs in the following tests
     lang.getRelevantRules(JLanguageTool.getMessageBundle(), null, null, Collections.emptyList());
 

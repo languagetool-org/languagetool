@@ -117,7 +117,7 @@ public final class Languages {
           for (String classNames : classNamesStr) {
             String[] classNamesSplit = classNames.split("\\s*,\\s*");
             for (String className : classNamesSplit) {
-              if (languageClassNames.contains(className)) {
+              if (languageClassNames.contains(className) || languageClassNames.contains(className+"Premium")) {
                 // avoid duplicates - this way we are robust against problems with the maven assembly
                 // plugin which aggregates files more than once (in case the deployment descriptor
                 // contains both <format>zip</format> and <format>dir</format>):

@@ -85,11 +85,11 @@ public class GermanyGerman extends German {
     return true;
   }
 
-  public static @NotNull GermanyGerman getInstance() {
+  public static @NotNull German getInstance() {
     Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(GERMANY_GERMAN_SHORT_CODE));
-    if (language.getClass() == GermanyGerman.class) {
-      return (GermanyGerman) language;
+    if (language instanceof German germanyGerman) { // cannot use GermanyGerman here as in premium GERMANY_GERMAN_SHORT_CODE returns GermanyGermanPremium
+      return germanyGerman;
     }
-    throw new RuntimeException("GermanyGerman language expected, got " + language);
+    throw new RuntimeException("GermanyGerman(Premium) language expected, got " + language);
   }
 }

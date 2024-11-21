@@ -612,9 +612,9 @@ public class French extends Language implements AutoCloseable {
 
   public static @NotNull French getInstance() {
     Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(FRENCH_SHORT_CODE));
-    if (language.getClass() == French.class) {
-      return (French) language;
+    if (language instanceof French french) { // cannot use French here as in premium FRENCH_SHORT_CODE returns FrenchPremium
+      return french;
     }
-    throw new RuntimeException("French language expected, got " + language);
+    throw new RuntimeException("French(Premium) language expected, got " + language);
   }
 }
