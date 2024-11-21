@@ -206,13 +206,13 @@ regexp case-insensitive maken: (?i)
 					<example>De Nederlandse staat heeft het Standaardfries in 1956 als tweede "rijkstaal" erkend.</example>
 				</antipattern>
 				<antipattern>
-				    <token>het</token>
-				    <token case_sensitive="yes" regexp="yes">[A-Z][A-Z].*</token>
-				    <example>Wij zijn onderdeel van het LINGU.</example>
+					<token>het</token>
+					<token case_sensitive="yes" regexp="yes">[A-Z][A-Z].*</token>
+					<example>Wij zijn onderdeel van het LINGU.</example>
 				</antipattern>
 				<antipattern>
 					<token skip="-1">het</token>
-					<token regexp="yes" inflected="yes">betekenen|noemen|heten|gieten|zijn</token>
+					<token regexp="yes" inflected="yes">betekenen|noemen|heten|gieten</token>
 					<example>Anders dan in het Duits, waar het kameraad of vriend betekent.</example>
 				</antipattern>
 				<antipattern>
@@ -264,17 +264,17 @@ regexp case-insensitive maken: (?i)
 					<example>Het koffie / thee-momentje.</example>
 				</antipattern>
 				<antipattern>
-				    <token>het</token>
+					<token>het</token>
 					<token postag="ZNW:EKV:DE_"/>
-				    <token postag_regexp="yes" postag="ZNW:EKV.*|WKW:TGW:INF"><exception postag="WKW:TGW:3EP"/></token>
-				    <example>Wanneer je eenmaal het auto theorie examen gehaald hebt.</example>
-				    <example>Profiteren van het compound interest effect.</example>
+					<token postag_regexp="yes" postag="ZNW:EKV.*|WKW:TGW:INF"><exception postag="WKW:TGW:3EP"/></token>
+					<example>Wanneer je eenmaal het auto theorie examen gehaald hebt.</example>
+					<example>Profiteren van het compound interest effect.</example>
 				</antipattern>
 				<antipattern>
-				    <token><exception postag="SENT_START"/></token>
-				    <token case_sensitive="yes">Het</token>
-				    <token postag="ZNW:EKV:DE_" regexp="yes">[A-Z][a-z].*</token>
-				    <example>Een biertje doen bij Brouwerij Het Achterom.</example>
+					<token><exception postag="SENT_START"/></token>
+					<token case_sensitive="yes">Het</token>
+					<token postag="ZNW:EKV:DE_" regexp="yes">[A-Z][a-z].*</token>
+					<example>Een biertje doen bij Brouwerij Het Achterom.</example>
 				</antipattern>
 				<pattern>
 					<marker>
@@ -285,6 +285,7 @@ regexp case-insensitive maken: (?i)
 				<message>'\1' is hier waarschijnlijk niet het juiste lidwoord omdat \2 een de-woord is.</message>
 				<suggestion>de \2</suggestion>
 				<example correction="de fiets">Ik heb <marker>het fiets</marker> op slot gezet.</example>
+				<example correction="De termijn"><marker>Het termijn</marker> is afgelopen.</example>
 				<example>Is het angst dat je voelt?</example>
 			</rule>
 		</rulegroup>
@@ -1077,6 +1078,41 @@ regexp case-insensitive maken: (?i)
 				</pattern>
 				<message>U bedoelt vast: <suggestion>van</suggestion>.</message>
 				<example correction="van">Wat vind jij <marker>over</marker> de nieuwe regels?</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="SCHULDIG_VAN" name="Schuldig bevonden van(aan) plagiaat." default="temp_off">
+			<rule>
+				<antipattern>
+					<token skip="2">schuldig</token>
+					<token>aan</token>
+					<example>Ze is schuldig aan omkoping van een ambtenaar.</example>
+				</antipattern>
+				<pattern>
+					<token skip="2">schuldig</token>
+					<marker>
+						<token regexp="yes">van</token>
+					</marker>
+				</pattern>
+				<message>Correct is <suggestion>aan</suggestion>.</message>
+				<example correction="aan">Schuldig bevonden <marker>van</marker> plagiaat.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="VS" name="Het is goed vs(.) kwaad" default="temp_off">
+			<rule>
+				<antipattern>
+					<token case_sensitive="yes">vs</token>
+					<token spacebefore="no">.</token>
+					<example>Het is goed vs. kwaad.</example>
+				</antipattern>
+				<pattern>
+					<marker>
+						<token case_sensitive="yes">vs</token>
+					</marker>
+				</pattern>
+				<message>Correct is <suggestion>vs.</suggestion>, of anders <suggestion>versus</suggestion>. Of bedoelt u de <suggestion>VS</suggestion>?</message>
+				<example correction="vs.|versus|VS">Het is goed <marker>vs</marker> kwaad.</example>
 			</rule>
 		</rulegroup>
 
