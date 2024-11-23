@@ -3813,14 +3813,14 @@ USA
       </rule>
   </rulegroup>
 
-  <rule id="PELA_COMO_SOBRE_NADA_ACERCA_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+  <rule id="PELA_COMO_SOBRE_NADA_ACERCA_ELAR_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Moved the rule down to assure it works correctly with RM. -->
-    <!-- A past participle/infinitive followed by "pela", "como", "sobre", "nada", "acerca" -->
+    <!-- A past participle/infinitive followed by "pela", "como", "sobre", "nada", "acerca", "verbo elar" -->
     <pattern>
       <token postag='VMP00.+|VMN0000' postag_regexp="yes"/>
       <token min='0' max='1' postag='RM'/>
       <marker>
-          <token regexp="yes">pel[ao]s?|como|sobre|nada|acerca</token>
+          <token regexp="yes">pel[ao]s?|como|sobre|nada|acerca|el[ae]s?</token>
       </marker>
     </pattern>
     <disambig action="remove" postag="V.*"/>
@@ -3839,6 +3839,8 @@ USA
              Vamos nos separar e procurar pelo Tom.
              Não vim aqui para falar sobre meus problemas.
              Na audiência, nada foi comprovado acerca da alegação do convite às testemunhas.
+             Sei que tem muito jogo de cena, mas ele poderia ter escolhido ele mesmo.
+             Fala mal dela mas queria ser ela e estar no lugar dela.
     -->
   </rule>
 
