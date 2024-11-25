@@ -2404,6 +2404,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Es kostet <marker>11.90</marker> Franken pro Jahr.</example>
             </rule>
+            <rule><!--15-->
+                <pattern>
+                    <token>das</token>
+                    <marker>
+                        <token case_sensitive="yes">Haareföhnen</token>
+                    </marker>
+                </pattern>
+                <example correction="">Außerdem hilft es, auf das <marker>Haareföhnen</marker> zu verzichten.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN.*" name="">
@@ -2754,6 +2763,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Ach, <marker>herrjemine</marker>!</example>
             </rule>
             <rule>
+                <pattern><!-- other error-->
+                    <token regexp="yes">aufs|auf</token>
+                    <token min="0">das</token>
+                    <marker>
+                        <token case_sensitive="yes">Haareföhnen</token>
+                    </marker>
+                </pattern>
+                <example correction="">Außerdem hilft es, aufs <marker>Haareföhnen</marker> zu verzichten.</example>
+            </rule>
+            <rule>
                 <pattern>
                         <token case_sensitive="yes" postag="ADJ.*" postag_regexp="yes">indikativ</token>
                 </pattern>
@@ -2848,6 +2867,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token regexp="yes">freu[e'’´`]?n</token>
                 </pattern>
                 <example correction="">Gerne<marker>,</marker> würde mich freuen.</example>
+                <!--gGEC wants to remove the comma-->
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SUB.*" postag_regexp="yes" />
+                    <marker>
+                        <token spacebefore="no">,</token>
+                    </marker>
+                    <token postag="SUB.*" postag_regexp="yes" />
+                    <token regexp="yes">und|sowie|,</token>
+                </pattern>
+                <example correction="">Schnell und unkompliziert lassen sich Kinder<marker>,</marker> Einkäufe und sperrige Gegenstände befördern, ohne auch nur einen Pfennig für Sprit auszugeben.</example>
                 <!--gGEC wants to remove the comma-->
             </rule>
         </rulegroup>
