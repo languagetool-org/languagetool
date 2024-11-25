@@ -3844,6 +3844,29 @@ USA
     -->
   </rule>
 
+  <rule id="PELA_COMO_SOBRE_NADA_ACERCA_ELAR_PUREVERBS_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly with RM. -->
+    <!-- A pure verb followed by "pela", "como", "sobre", "nada", "acerca", "verbo elar" -->
+    <pattern>
+      <token postag='V.+' postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+      <token min='0' max='1' postag='RM'/>
+      <marker>
+          <token regexp="yes">pel[ao]s?|como|sobre|nada|acerca|el[ae]s?</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Iniciou a sua carreira no Grêmio, passou pelo Avaí e ingressou à Europa e ao futebol polonês atuando pelo Górnik Zabrze.
+             A geometria dos movimentos dinâmicos executados a dois não se faz sobre uma linha reta nem sobre um círculo.
+             Em "O Conto de Attaf", Jafar aparece como um aventureiro.
+             A luta não se desencadeou como o esperado para o ex desafiante do cinturão.
+             Carvalho muito escreveu sobre o seu colega.
+             Por favor, disponibilizem ele novamente!
+             “Fui muito bem atendida”, comemorou ela.
+    -->
+  </rule>
+
   <rule id="VERB_VNOUN_NOUN_VERBS_RARE" name="Remove from verb followed by NOUN (verb) plus noun"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Moved the rule down to assure it works correctly. -->
     <pattern>
