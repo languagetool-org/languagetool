@@ -64,9 +64,9 @@ public class FrenchWordTokenizer extends WordTokenizer {
   private static final Pattern SPACE_DIGITS0 = Pattern.compile("([\\d]{4}) ",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern SPACE_DIGITS = Pattern.compile("([\\d]) ([\\d][\\d][\\d])\\b",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern SPACE_DIGITS2 = Pattern.compile("([\\d]) ([\\d][\\d][\\d]) ([\\d][\\d][\\d])\\b",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CHARACTER_CLASS);
 
   private static final List<String> doNotSplit = Arrays.asList("mers-cov", "mcgraw-hill", "sars-cov-2", "sars-cov",
       "ph-metre", "ph-metres", "anti-ivg", "anti-uv", "anti-vih", "al-qaïda", "c'est-à-dire", "add-on", "add-ons",

@@ -45,9 +45,9 @@ import static java.util.regex.Pattern.compile;
 
 public class Catalan extends Language {
 
-  private static final Pattern PATTERN_1 = compile("(\\b[lmnstdLMNSTD])'");
-  private static final Pattern PATTERN_2 = compile("(\\b[lmnstdLMNSTD])’\"");
-  private static final Pattern PATTERN_3 = compile("(\\b[lmnstdLMNSTD])’'");
+  private static final Pattern PATTERN_1 = compile("(\\b[lmnstdLMNSTD])'", Pattern.UNICODE_CHARACTER_CLASS);
+  private static final Pattern PATTERN_2 = compile("(\\b[lmnstdLMNSTD])’\"", Pattern.UNICODE_CHARACTER_CLASS);
+  private static final Pattern PATTERN_3 = compile("(\\b[lmnstdLMNSTD])’'", Pattern.UNICODE_CHARACTER_CLASS);
 
   @Override
   public String getName() {
@@ -345,7 +345,7 @@ public class Catalan extends Language {
       return new MorfologikCatalanSpellerRule(messages, this, null, Collections.emptyList());
   }
   
-  private static final Pattern CA_OLD_DIACRITICS = compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern CA_OLD_DIACRITICS = compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CHARACTER_CLASS);
 
   private RuleMatch adjustCatalanMatch(RuleMatch ruleMatch, Set<String> enabledRules) {
     String errorStr = ruleMatch.getOriginalErrorStr();
@@ -419,27 +419,27 @@ public class Catalan extends Language {
         .replace("Fóra", "Fora");
   }
   
-  private static final Pattern CA_CONTRACTIONS = compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
-  private static final Pattern CA_APOSTROPHES1 = compile("\\b([LDNSTMldnstm]['’]) ");
+  private static final Pattern CA_CONTRACTIONS = compile("\\b([Aa]|[Dd]e) e(ls?)\\b", Pattern.UNICODE_CHARACTER_CLASS);
+  private static final Pattern CA_APOSTROPHES1 = compile("\\b([LDNSTMldnstm]['’]) ", Pattern.UNICODE_CHARACTER_CLASS);
   // exceptions: l'FBI, l'statu quo
-  private static final Pattern CA_APOSTROPHES2 = compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
+  private static final Pattern CA_APOSTROPHES2 = compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])", Pattern.UNICODE_CHARACTER_CLASS);
   // exceptions: el iogurt, la essa
   private static final Pattern CA_APOSTROPHES3 = compile("\\be?([mtsldn])e? (h?[aeiouàèéíòóú])",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_APOSTROPHES4 = compile("\\b(l)a ([aeoàúèéí][^ ])",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_APOSTROPHES5 = compile("\\b([mts]e) (['’])",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_APOSTROPHES6 = compile("\\bs'e(ns|ls)\\b",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_APOSTROPHES7 = compile("\\b(de|a)l (h?[aeoàúèéí][^ ])",
-    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern POSSESSIUS_v = compile("\\b([mtsMTS]e)v(a|es)\\b",
-      Pattern.UNICODE_CASE);
+      Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern POSSESSIUS_V = compile("\\b([MTS]E)V(A|ES)\\b",
-      Pattern.UNICODE_CASE);
+      Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_REMOVE_SPACES = compile("\\b(a|de|pe) (ls? )",
-    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CHARACTER_CLASS);
 
   @Override
   public String adaptSuggestion(String s) {
