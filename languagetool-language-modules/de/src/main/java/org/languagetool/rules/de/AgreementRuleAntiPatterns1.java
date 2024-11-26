@@ -977,6 +977,11 @@ class AgreementRuleAntiPatterns1 {
       token("Kulturfabrik")
     ),
     asList(
+      // Es war Teil von Madonnas Performance während des Super Bowls 2012.
+      token("Super"),
+      csRegex("Bowls?")
+    ),
+    asList(
       // Die Zeit begann mit der Gründung der englischen Football Association.
       csRegex("[Ee]nglischen?"),
       token("Football"),
