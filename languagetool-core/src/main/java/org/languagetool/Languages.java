@@ -24,12 +24,12 @@ import org.languagetool.noop.NoopLanguage;
 import org.languagetool.tools.MultiKeyProperties;
 import org.languagetool.tools.StringTools;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Helper methods to list all supported languages and to get language objects
@@ -45,7 +45,7 @@ public final class Languages {
   private static final List<Language> languages = getAllLanguages();
   private static final List<Language> dynLanguages = new ArrayList<>();
 
-  private static final List<Language> staticAndDynamicLanguages = new ArrayList<>(getAllLanguages());
+  private static final List<Language> staticAndDynamicLanguages = new ArrayList<>(languages);
   private static final List<Language> staticAndDynamicLanguagesImmutable = Collections.unmodifiableList(staticAndDynamicLanguages);
 
   private Languages() {
@@ -117,7 +117,7 @@ public final class Languages {
           for (String classNames : classNamesStr) {
             String[] classNamesSplit = classNames.split("\\s*,\\s*");
             for (String className : classNamesSplit) {
-              if (languageClassNames.contains(className)) {
+              if (languageClassNames.contains(className) || languageClassNames.contains(className+"Premium")) {
                 // avoid duplicates - this way we are robust against problems with the maven assembly
                 // plugin which aggregates files more than once (in case the deployment descriptor
                 // contains both <format>zip</format> and <format>dir</format>):

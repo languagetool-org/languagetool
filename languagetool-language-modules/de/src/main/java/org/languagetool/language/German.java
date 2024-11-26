@@ -20,15 +20,18 @@ package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
-import org.languagetool.markup.AnnotatedText;
+import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
+import org.languagetool.Tag;
+import org.languagetool.UserConfig;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.GermanChunker;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.*;
+import org.languagetool.rules.de.*;
 import org.languagetool.rules.de.LongSentenceRule;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
-import org.languagetool.rules.de.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.GermanSynthesizer;
@@ -37,7 +40,10 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.de.GermanRuleDisambiguator;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.CompoundWordTokenizer;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tokenizers.de.GermanWordTokenizer;
 import org.languagetool.tools.Tools;
@@ -58,6 +64,7 @@ public class German extends Language implements AutoCloseable {
   private static final Pattern TYPOGRAPHY_PATTERN = compile("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern AI_DE_GGEC_MISSING_PUNCT =
     compile("AI_DE_GGEC_MISSING_PUNCTUATION_\\d+_DASH_J(_|AE)HRIG|AI_DE_GGEC_REPLACEMENT_CONFUSION", Pattern.CASE_INSENSITIVE);
+  private static final String GERMAN_SHORT_CODE = "de";
 
   private LanguageModel languageModel;
 
@@ -71,7 +78,7 @@ public class German extends Language implements AutoCloseable {
   
   @Override
   public Language getDefaultLanguageVariant() {
-    return GermanyGerman.INSTANCE;
+    return GermanyGerman.getInstance();
   }
 
   @Override
@@ -103,7 +110,7 @@ public class German extends Language implements AutoCloseable {
 
   @Override
   public String getShortCode() {
-    return "de";
+    return GERMAN_SHORT_CODE;
   }
 
   @Override
@@ -699,11 +706,11 @@ public class German extends Language implements AutoCloseable {
     List<String> results = new ArrayList<>();
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return Arrays.asList(line);
+      return Collections.singletonList(line);
     }
     String[] formTag = parts[0].split("[/]");
     if (formTag.length == 0) {
-      return Arrays.asList("");
+      return Collections.singletonList("");
     }
     String form = formTag[0];
     results.add(form);
@@ -725,5 +732,12 @@ public class German extends Language implements AutoCloseable {
 
   public MultitokenSpeller getMultitokenSpeller() {
     return GermanMultitokenSpeller.INSTANCE;
+  }
+
+  /**
+   * This is a safety method if subclass forgets to create a getInstance method and API user going to invoke it via subclass.
+   */
+  public static @NotNull German getInstance() {
+    throw new RuntimeException("You should not obtain the German language instance. Use getInstance method of derived language class instead. Or maybe subclass did not implement the getInstance method.");
   }
 }
