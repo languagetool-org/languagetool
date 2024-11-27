@@ -101,7 +101,7 @@ public final class Languages {
 
   private static List<Language> getAllLanguages() {
     List<Language> allLanguages = new ArrayList<>();
-    Map<String, URL> languagesMap = new LinkedHashMap<>(); //insertion-ordered is important here see line 361
+    Map<String, URL> languagesMap = new LinkedHashMap<>(); //insertion-ordered is important here see comments in getLanguageForShortCodeOrNull
     try {
       Enumeration<URL> languagePropertyFiles = Language.class.getClassLoader().getResources(PROPERTIES_PATH); // languagePropertyFiles = all META-INF/ org/ languagetool/ language-module. properties files
       while (languagePropertyFiles.hasMoreElements()) {
