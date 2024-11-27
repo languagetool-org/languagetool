@@ -100,42 +100,39 @@ public final class Languages {
   }
 
   private static List<Language> getAllLanguages() {
-    List<Language> allLanguages = new ArrayList<>();
-    Map<String, URL> languagesMap = new LinkedHashMap<>(); //insertion-ordered is important here see comments in getLanguageForShortCodeOrNull
+    List<Language> languages = new ArrayList<>();
+    Set<String> languageClassNames = new HashSet<>();
     try {
-      Enumeration<URL> languagePropertyFiles = Language.class.getClassLoader().getResources(PROPERTIES_PATH); // languagePropertyFiles = all META-INF/ org/ languagetool/ language-module. properties files
-      while (languagePropertyFiles.hasMoreElements()) {
-        URL url = languagePropertyFiles.nextElement();
+      Enumeration<URL> propertyFiles = Language.class.getClassLoader().getResources(PROPERTIES_PATH);
+      while (propertyFiles.hasMoreElements()) {
+        URL url = propertyFiles.nextElement();
         try (InputStream inputStream = url.openStream()) {
           // We want to be able to read properties file with duplicate key, as produced by
           // Maven when merging files:
           MultiKeyProperties props = new MultiKeyProperties(inputStream);
-          List<String> languageClassesLines = props.getProperty(PROPERTIES_KEY); // languageClassesLines = all entries from one languagePropertyFile (can contain 1 or more languages and lines with the same key 'languageClasses'). Each entry is one line in the file which contains the key 'languageClasses'
-          if (languageClassesLines == null) {
+          List<String> classNamesStr = props.getProperty(PROPERTIES_KEY);
+          if (classNamesStr == null) {
             throw new RuntimeException("Key '" + PROPERTIES_KEY + "' not found in " + url);
           }
-          for (String languageClassLine : languageClassesLines) { // languageClassLine = a string containing one or more class names of languages we might want to create
-            String[] languageClassNames = languageClassLine.split("\\s*,\\s*"); // languageClassNames = an array of single class names of languages we might want to create
-            for (String languageClassName : languageClassNames) {
-              if (languageClassName.endsWith("Premium")) {
-                //remove non-premium variant of this language
-                languagesMap.remove(languageClassName.substring(0, languageClassName.length() - "Premium".length()));
-              } else {
-                //check if we already have added the language or the premium variant -> then continue
-                if (languagesMap.containsKey(languageClassName) || languagesMap.containsKey(languageClassName+"Premium")) {
-                  continue;
-                }
+          for (String classNames : classNamesStr) {
+            String[] classNamesSplit = classNames.split("\\s*,\\s*");
+            for (String className : classNamesSplit) {
+              if (languageClassNames.contains(className) || languageClassNames.contains(className+"Premium")) {
+                // avoid duplicates - this way we are robust against problems with the maven assembly
+                // plugin which aggregates files more than once (in case the deployment descriptor
+                // contains both <format>zip</format> and <format>dir</format>):
+                continue;
               }
-              languagesMap.put(languageClassName, url);
+              languages.add(createLanguageObjects(url, className));
+              languageClassNames.add(className);
             }
           }
         }
       }
-      languagesMap.forEach((className, url) -> allLanguages.add(createLanguageObjects(url, className)));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-    return Collections.unmodifiableList(allLanguages);
+    return Collections.unmodifiableList(languages);
   }
 
   private static Language createLanguageObjects(URL url, String className) {
