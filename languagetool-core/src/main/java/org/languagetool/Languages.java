@@ -124,7 +124,11 @@ public final class Languages {
                 continue;
               }
               languages.add(createLanguageObjects(url, className));
-              languageClassNames.add(className);
+              if (Premium.isPremiumVersion() && hasPremium(className)) {
+                languageClassNames.add(className+"Premium");
+              } else {
+                languageClassNames.add(className);
+              }
             }
           }
         }
