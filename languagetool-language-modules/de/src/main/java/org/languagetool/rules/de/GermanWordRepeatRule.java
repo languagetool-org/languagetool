@@ -172,6 +172,13 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("man")
     ),
     Arrays.asList(
+      tokenRegex("wenn|falls"),
+      token("das"),
+      token("das"),
+      token("nächste"),
+      token("mal")
+    ),
+    Arrays.asList(
       token("Arbeit"),
       token("Arbeit"),
       token("Arbeit")
