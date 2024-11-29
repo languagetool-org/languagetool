@@ -776,8 +776,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rule.setDistanceTokens(distanceTokens);
         rule.setXmlLineNumber(xmlLineNumber);
       } else if (regex.length() > 0) {
-//        int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
-        int flags = regexCaseSensitive ? Pattern.UNICODE_CHARACTER_CLASS : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CHARACTER_CLASS;
+        int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
         String regexStr = regex.toString();
         if (regexMode == RegexpMode.SMART) {
           // Note: it's not that easy to add \b because the regex might look like '(foo)' or '\d' so we cannot just look at the last character

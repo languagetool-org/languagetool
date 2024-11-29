@@ -553,7 +553,7 @@ public class PronomsFeblesHelper {
   private static Pattern pronoun_wrong_apostrophation = Pattern.compile("([mts])'([^aeiouh].*)",
     Pattern.CASE_INSENSITIVE);
   private static Pattern pronoun_missing_apostrophation = Pattern.compile("(.*)\\be([stm]) (h?[aeiouh].*)",
-    Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CHARACTER_CLASS);
+    Pattern.CASE_INSENSITIVE);
   private static Pattern pronoun_wrong_hypphen = Pattern.compile("(.*)(-[stm])e-(h[oi])",
     Pattern.CASE_INSENSITIVE);
 

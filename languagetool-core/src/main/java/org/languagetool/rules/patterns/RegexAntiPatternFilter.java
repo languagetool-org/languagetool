@@ -42,7 +42,7 @@ public class RegexAntiPatternFilter extends RegexRuleFilter {
     }
     String[] antiPatterns = antiPatternStr.split("\\|");
     for (String antiPattern : antiPatterns) {
-      Pattern p = Pattern.compile(antiPattern, Pattern.UNICODE_CHARACTER_CLASS);
+      Pattern p = Pattern.compile(antiPattern);
       Matcher matcher = p.matcher(sentenceObj.getText());
       while (matcher.find()) {
         // partial overlap is enough to filter out a match:

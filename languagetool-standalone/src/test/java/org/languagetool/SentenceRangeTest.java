@@ -451,38 +451,4 @@ public class SentenceRangeTest {
     }
     assertEquals("Hallo,Das ist ein neuer Satz.Ein Satz mit \uFEFFSonderzeichen.Satz mehreren Leerzeichen.Hier sind die Zeichen mal am Ende.\uFEFFNoch ein Satz.", sb.toString());
   }
-
-  @Test
-  public void testSpecialCase() throws IOException {
-    JLanguageTool jLanguageTool = new JLanguageTool(new NoRulesEnglish());
-    String text = "\"This\"+is+Mr.+Pigfat+calling.\n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\nThis+is+an+\"test\".\n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\n \n\n\n\nHe+was+very+\"afraid\"+of+the+consequeces  ";
-    AnnotatedText annotatedText = new AnnotatedTextBuilder().addText(text).build();
-
-    CheckResults checkResults = jLanguageTool.check2(annotatedText,
-      true,
-      JLanguageTool.ParagraphHandling.NORMAL,
-      ruleMatch -> {
-      },
-      JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY,
-      JLanguageTool.Level.PICKY,
-      null);
-    List<SentenceRange> sentenceRanges = checkResults.getSentenceRanges();
-    System.out.println(sentenceRanges);
-    assertEquals(3, sentenceRanges.size());
-
-    SentenceRange testSentence1 = sentenceRanges.get(0);
-    assertEquals(0, testSentence1.getFromPos());
-    assertEquals(29, testSentence1.getToPos());
-    assertEquals("\"This\"+is+Mr.+Pigfat+calling.", text.substring(testSentence1.getFromPos(), testSentence1.getToPos()));
-
-    SentenceRange testSentence2 = sentenceRanges.get(1);
-    assertEquals(153, testSentence2.getFromPos());
-    assertEquals(171, testSentence2.getToPos());
-    assertEquals("This+is+an+\"test\".", text.substring(testSentence2.getFromPos(), testSentence2.getToPos()));
-
-    SentenceRange testSentence3 = sentenceRanges.get(2);
-    assertEquals(295, testSentence3.getFromPos());
-    assertEquals(334, testSentence3.getToPos());
-    assertEquals("He+was+very+\"afraid\"+of+the+consequeces", text.substring(testSentence3.getFromPos(), testSentence3.getToPos()));
-  }
 }

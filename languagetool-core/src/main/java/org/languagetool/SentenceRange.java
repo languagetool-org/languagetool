@@ -32,8 +32,8 @@ import java.util.regex.Pattern;
  */
 public class SentenceRange implements Comparable<SentenceRange>{
 
-  private static final Pattern BEGINS_WITH_SPACE = Pattern.compile("^[\\s\u00A0]+");
-  private static final Pattern ENDS_WITH_SPACE = Pattern.compile("[\\s\u00A0]+$");
+  private static final Pattern BEGINS_WITH_SPACE = Pattern.compile("^\\s*");
+  private static final Pattern ENDS_WITH_SPACE = Pattern.compile("\\s+$");
 
   private final int fromPos;
   private final int toPos;
@@ -55,8 +55,8 @@ public class SentenceRange implements Comparable<SentenceRange>{
         continue;
       }
       //trim whitespaces
-      String sentenceNoBeginWhitespace = BEGINS_WITH_SPACE.matcher(sentence).replaceAll("");
-      String sentenceNoEndWhitespace = ENDS_WITH_SPACE.matcher(sentence).replaceAll("");
+      String sentenceNoBeginWhitespace = BEGINS_WITH_SPACE.matcher(sentence).replaceFirst("");
+      String sentenceNoEndWhitespace = ENDS_WITH_SPACE.matcher(sentence).replaceFirst("");
       //Get position without tailing and leading whitespace
       int fromPos = pos + (sentence.length() - sentenceNoBeginWhitespace.length());
       int toPos = pos + sentenceNoEndWhitespace.length();
