@@ -3901,9 +3901,6 @@ USA
         <token postag="V.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
         <token min='0' max='1' postag='RM'/>
         <token postag="(SPS00:)?D[AI].+|Z0.+" postag_regexp="yes"><exception postag_regexp='yes' postag='P[IP].+'/></token> <!-- Removed PP.+: "morrer nos custa muito" -->
-<!--
-        <token min='0' max='1' postag="NC.+|AQ.+" postag_regexp="yes"><exception postag_regexp='yes' postag='V.+|CS|RG|CC|SPS.+|[DP].+'/></token>
--->
         <marker>
           <and>
             <token postag="VMSP3S0|VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM" postag_regexp="yes"/>
@@ -3931,6 +3928,31 @@ USA
                Passado um mês de isolamento Matsudaira Katamori rendeu-se e o castelo foi destruído pelo novo governo em 1874.
                Declaravam que somente reconheciam a posse sobre as terras povoadas.
                É um dia perfeito.
+      -->
+    </rule>
+    <rule> <!-- Used ChatGPT 4o to verify the results -->
+      <pattern>
+        <token postag="V.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+        <token min='0' max='1' postag='RM'/>
+        <token postag="(SPS00:)?D[AI].+|Z0.+" postag_regexp="yes"><exception postag_regexp='yes' postag='P[IP].+'/></token> <!-- Removed PP.+: "morrer nos custa muito" -->
+        <token postag="NC.+|AQ.+" postag_regexp="yes"><exception postag_regexp='yes' postag='V.+|CS|RG|CC|SPS.+|[DP].+'/></token>
+        <marker>
+          <and>
+            <token postag="VMSP3S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM" postag_regexp="yes"/>  <!-- Removed "VMIP3S0|VMM02S0" due to false positives -->
+            <token postag="NC.+" postag_regexp="yes"/>
+          </and>
+        </marker>
+        <token><exception scope="previous" regexp="no">tá</exception></token>
+      </pattern>
+      <disambig action="remove" postag="V.*"/>
+      <!--
+      Examples:
+               Estimula um comportamento positivo em relação ao estudo, à vida.
+               Destaca-se pelo eficiente desempenho hidráulico, o que proporciona menor perda de carga.
+               Yeshua Hamashia possui a mesma grafia em hebraico, que é o idioma sagrado dos judeus.
+               Aprofundar a discussão sobre a dívida pública brasileira é um imperativo para os brasileiros e trabalhadores em geral.
+               É errado dividir o ser humano em corpo, alma e espírito.
+               A praticidade e a durabilidade representa um investimento seguro e de longa vida.
       -->
     </rule>
     <rule>
