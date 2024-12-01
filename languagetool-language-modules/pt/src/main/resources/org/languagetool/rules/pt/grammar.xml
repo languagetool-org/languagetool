@@ -4331,6 +4331,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
       -->
 
+            <antipattern> <!-- "álbuns solo" -->
+                <token postag='AQ..[PN].+|N..[PN].+|Z0.[PN].+|(SPS00:)?[DP]...[PN].+|VM...P.+' postag_regexp='yes'/>
+                <token postag="AQ..[PN].+|N..[PN].+|Z0.[PN].+|(SPS00:)?[DP]...[PN].+|VM...P.+" postag_regexp="yes"/>
+                <token regexp='no'>solo</token>
+                <example>Quero dois álbuns solo.</example>
+                <example>Quorthon também produziu dois álbuns solo.</example>
+            </antipattern>
+
             <antipattern> <!-- This is an idiomatic expression in Portuguese -->
                 <token inflected='yes'>fazer</token>
                 <token>das</token>
