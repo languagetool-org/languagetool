@@ -4330,7 +4330,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!--
            MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
       -->
-
+            <antipattern> <!-- These are idiomatic expressions in Portuguese: ChatGPT 4o -->
+                <token postag='V....S.+' postag_regexp='yes' inflected='yes'>ser</token>
+                <token regexp='yes'>tod[oa]</token>
+                <token regexp='yes'>ouvidos|olhos|sorrisos|braços|pernas|dentes|cuidados</token>
+                <token></token>
+                <example>Para isso sou todo ouvidos.</example>
+                <example>Para isso era todo ouvidos.</example>
+                <example>Por isso ser todo ouvidos.</example>
+                <example>Sou todo olhos.</example>
+                <example>Sou todo ouvidos e olhos.</example>
+                <example>Sou todo sorrisos.</example>
+                <example>Sou todo braços.</example>
+                <example>Sou todo pernas.</example>
+                <example>Tenho de ser todo dentes.</example>
+                <example>É todo cuidados.</example>
+                <example>És todo cuidados.</example>
+                <example>Mas eu me joguei no lacinho de poá e no sou toda ouvidos!!!</example>
+                <example>"Quer saber como o fez?" "Sou toda ouvidos."</example>
+            </antipattern>
             <antipattern> <!-- Use of "nós" -->
                 <token postag='RM|RG|CS|CC|SPS00|(SPS00:)?[DP]...[SN].+|VM...S.+' postag_regexp='yes'/>
                 <token>nós</token>
@@ -4502,22 +4520,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>De grandes jarros vinho inebriante flui para as gargantas dos convidados.</example>
             </antipattern>
             <!-- MARCOAGPINTO 2023-02-16 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-            <!-- MARCOAGPINTO 2022-05-07 (1-JAN-2022+) *START* -->
-            <!--
-      APPLY TO ALL RULE ID: GENERAL_NUMBER_AGREEMENT_ERRORS
-
-      Para isso sou todo ouvidos.
-      -->
-            <antipattern>
-                <and>
-                    <token inflected='yes'>ser</token>
-                    <token postag='V....S.+' postag_regexp='yes'/>
-                </and>
-                <token regexp='yes'>tod[oa]</token>
-                <token>ouvidos</token>
-            </antipattern>
-            <!-- MARCOAGPINTO 2022-05-07 (1-JAN-2022+) *END* -->
 
             <antipattern case_sensitive='yes'>
                 <unify negate='yes'><!-- XXX Proper names exception -->
