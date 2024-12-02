@@ -4331,6 +4331,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
       -->
 
+            <antipattern> <!-- Use of "nós" -->
+                <token postag='RM|RG|CS|CC|SPS00|(SPS00:)?[DP]...[SN].+|VM...S.+' postag_regexp='yes'/>
+                <token>nós</token>
+                <token postag="AQ..S.+|N..S.+" postag_regexp="yes"/>
+                <token postag='RM|RG|CS|CC|SPS00|(SPS00:)?[DP]...[SN].+|VM...S.+' postag_regexp='yes'/>
+                <example>Assim que partimos, juntou-se a nós Jesus com pequeno grupo de seguidores.</example>
+                <example>A nós Jesus disse estar cansado de pregar.</example>
+                <example>Sl 95:7-9 - Porque ele é o nosso Deus, e nós povo do seu pasto e ovelhas da sua mão.</example>
+            </antipattern>
             <antipattern> <!-- "álbuns solo" -->
                 <token postag='AQ..[PN].+|N..[PN].+|Z0.[PN].+|(SPS00:)?[DP]...[PN].+|VM...P.+' postag_regexp='yes'/>
                 <token postag="AQ..[PN].+|N..[PN].+|Z0.[PN].+|(SPS00:)?[DP]...[PN].+|VM...P.+" postag_regexp="yes"/>
@@ -4338,7 +4347,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Quero dois álbuns solo.</example>
                 <example>Quorthon também produziu dois álbuns solo.</example>
             </antipattern>
-
             <antipattern> <!-- This is an idiomatic expression in Portuguese -->
                 <token inflected='yes'>fazer</token>
                 <token>das</token>
@@ -4350,30 +4358,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Faça das tripas coração.</example>
             </antipattern>
             <antipattern>
-                <token regexp='yes'>d[oe]|no</token>
+                <token regexp='yes'>d[oe]|no|em</token>
                 <token postag_regexp='yes' postag='AQ.M[SN].+|N.M[SN].+' regexp='yes' inflected='yes'>&languages;</token>
                 <token min='0' postag='_QUOT' postag_regexp='no'/>
                 <token postag='AQ..[PN].+|N..[PN].+|Z0.[PN].+|(SPS00:)?[DP]...[PN].+|VM...P.+' postag_regexp='yes'/>
                 <example>O formato Matroska contém dados de diferentes tipos de codificações (do inglês codecs).</example>
                 <example>O formato Matroska contém dados de diferentes tipos de codificações (do inglês "codecs").</example>
+                <example>O formato Matroska contém dados de diferentes tipos de codificações (em inglês "codecs").</example>
                 <example>Um recurso chamado permite que o nível de BPM (do inglês Beats per minute, que significa Batidas por minuto)</example>
                 <example>O inglês indiano compreende vários dialetos do inglês falados principalmente no subcontinente indiano.</example>
             </antipattern>
-
             <antipattern>
                 <token>para</token>
                 <token regexp='yes'>tal|tanto</token>
                 <token postag='(SPS00:)?[DP]...[PN].+|VM...P.+' postag_regexp='yes'/>
                 <token postag="AQ..[PN].+|N..[PN].+|Z0.[PN].+|(SPS00:)?[DP]...[PN].+|VM...P.+" postag_regexp="yes"/>
                 <example>Quero para tal esses dois telemóveis.</example>
-            </antipattern>
-            <antipattern>
-                <token>a</token>
-                <token>nós</token>
-                <token postag="AQ..S.+|N..S.+" postag_regexp="yes"/>
-                <token postag='RM|RG|CS|CC|SPS00|(SPS00:)?[DP]...[SN].+|VM...S.+' postag_regexp='yes'/>
-                <example>Assim que partimos, juntou-se a nós Jesus com pequeno grupo de seguidores.</example>
-                <example>A nós Jesus disse estar cansado de pregar.</example>
             </antipattern>
             <antipattern>
                 <token postag='VM..3S.+' postag_regexp='yes'/>
