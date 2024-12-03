@@ -545,6 +545,9 @@ abstract class TextChecker {
       }
     }
     List<String> enabledRules = getEnabledRuleIds(params);
+    List<String> disabledRules = getDisabledRuleIds(params);
+    List<CategoryId> enabledCategories = getCategoryIds("enabledCategories", params);
+    List<CategoryId> disabledCategories = getCategoryIds("disabledCategories", params);
 
 
     if (shouldRunRestrictedRulesTest(params, agent, lang, abTest)) {
@@ -552,11 +555,11 @@ abstract class TextChecker {
         params.getOrDefault("username", ""), lang.getShortCodeWithCountryAndVariant(), agent);
       useEnabledOnly = true;
       enabledRules = onlyTestRules;
+      // need to clear these settings, leads to conflict with useEnabledOnly otherwise
+      disabledRules = Collections.emptyList();
+      disabledCategories = Collections.emptyList();
     }
 
-    List<String> disabledRules = getDisabledRuleIds(params);
-    List<CategoryId> enabledCategories = getCategoryIds("enabledCategories", params);
-    List<CategoryId> disabledCategories = getCategoryIds("disabledCategories", params);
 
     if ((disabledRules.size() > 0 || disabledCategories.size() > 0) && useEnabledOnly) {
       ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);

@@ -26,6 +26,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Premium;
 import org.languagetool.language.English;
+import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.de.GermanSpellerRule;
@@ -45,7 +46,7 @@ import static org.junit.Assert.assertTrue;
 public class SuggestionReplacerTest {
 
   private final SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
-  private final GermanyGerman germanyGerman = new GermanyGerman();
+  private final German germanyGerman = GermanyGerman.getInstance();
   private final JLanguageTool lt = getLanguageTool();
   private final JLanguageTool englishLangTool = getLanguageTool(new English());
 
@@ -134,7 +135,7 @@ public class SuggestionReplacerTest {
   public void testCompleteText() throws Exception {
     InputStream stream = SuggestionReplacerTest.class.getResourceAsStream("/org/languagetool/dev/wikipedia/wikipedia.txt");
     String origMarkup = IOUtils.toString(stream, StandardCharsets.UTF_8);
-    JLanguageTool lt = new JLanguageTool(new GermanyGerman() {
+    @SuppressWarnings("deprecation") JLanguageTool lt = new JLanguageTool(new GermanyGerman() {
       @Override
       protected synchronized List<AbstractPatternRule> getPatternRules() {
         return Collections.emptyList();

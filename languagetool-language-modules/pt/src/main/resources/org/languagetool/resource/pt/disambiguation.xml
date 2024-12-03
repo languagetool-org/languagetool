@@ -3813,15 +3813,15 @@ USA
       </rule>
   </rulegroup>
 
-  <rule id="PELA_COMO_VERBS_RARE" name="Remove pela/como from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
-    <!-- Had to move the rule down for it to work with RM: "As espécies viáveis foram sendo incorporadas gradativamente pela natureza." -->
+  <rule id="PELA_COMO_SOBRE_NADA_ACERCA_ELAR_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly with RM. -->
+    <!-- A past participle/infinitive followed by "pela", "como", "sobre", "nada", "acerca", "verbo elar" -->
     <pattern>
-      <token postag='VMP00.+' postag_regexp="yes"/>
+      <token postag='VMP00.+|VMN0000' postag_regexp="yes"/>
       <token min='0' max='1' postag='RM'/>
       <marker>
-          <token regexp="yes">pel[ao]s?|como</token>
+          <token regexp="yes">pel[ao]s?|como|sobre|nada|acerca|el[ae]s?</token>
       </marker>
-      <token postag='NC.+|AQ.+|DP.+' postag_regexp='yes'/>
     </pattern>
     <disambig action="remove" postag="V.*"/>
     <!--
@@ -3832,6 +3832,38 @@ USA
              A cidade também é muito conhecida pelos seus doces de espécie.
              Obrigado pela sua compreensão e bom trabalho!
              A segunda, que era conhecida como sua esposa no Olimpo, era a ciumenta Hera.
+             Ele escreveu que ficou surpreso sobre como os resultados ficaram bons.
+             Se ofendem por conta de suspeitas sobre artistas.
+             Desde 1967, Ele tem derramado sobre a Igreja a graça do batismo no Espírito Santo.
+             Suponho que não há mais nada a dizer sobre isso.
+             Vamos nos separar e procurar pelo Tom.
+             Não vim aqui para falar sobre meus problemas.
+             Na audiência, nada foi comprovado acerca da alegação do convite às testemunhas.
+             Sei que tem muito jogo de cena, mas ele poderia ter escolhido ele mesmo.
+             Fala mal dela mas queria ser ela e estar no lugar dela.
+    -->
+  </rule>
+
+  <rule id="PELA_COMO_SOBRE_NADA_ACERCA_ELAR_PUREVERBS_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly with RM. -->
+    <!-- A pure verb followed by "pela", "como", "sobre", "nada", "acerca", "verbo elar" -->
+    <pattern>
+      <token postag='V.+' postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+      <token min='0' max='1' postag='RM'/>
+      <marker>
+          <token regexp="yes">pel[ao]s?|como|sobre|nada|acerca|el[ae]s?</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Iniciou a sua carreira no Grêmio, passou pelo Avaí e ingressou à Europa e ao futebol polonês atuando pelo Górnik Zabrze.
+             A geometria dos movimentos dinâmicos executados a dois não se faz sobre uma linha reta nem sobre um círculo.
+             Em "O Conto de Attaf", Jafar aparece como um aventureiro.
+             A luta não se desencadeou como o esperado para o ex desafiante do cinturão.
+             Carvalho muito escreveu sobre o seu colega.
+             Por favor, disponibilizem ele novamente!
+             “Fui muito bem atendida”, comemorou ela.
     -->
   </rule>
 
@@ -3842,7 +3874,7 @@ USA
       <token min='0' max='1' postag='RM'/>
       <marker>
         <and>
-          <token postag='VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0' postag_regexp="yes"/> <!-- Removed "VMIP1S0|VMP00SM" -->
+          <token postag='VMSP3S0|VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0' postag_regexp="yes"/> <!-- Removed "VMIP1S0|VMP00SM" -->
           <token postag='NC.+' postag_regexp='yes'/>
         </and>
       </marker>
@@ -3856,22 +3888,26 @@ USA
              As crianças que usam fraldas descartáveis são mais propensas a assaduras do que as que usam fraldas de pano.
              Você está navegando pela página 26.
              Têm forma peculiar de tetraedro que lembra um pedaço de chocolate Toblerone, daí o apelido.
+             Avise-me sobre novas publicações por email.
+             Auxilio saúde R$ 200,00, e auxílio alimentação R$ 304,00.
+             Mas sem cobranças e sim dando suporte emocional e amor!
     -->
   </rule>
 
   <rulegroup id="PI_RELATED_VERBS_RARE" name="Remove PI.+ related followed by noun appearing as verb"> <!-- Used ChatGPT 4o to verify the results -->
-    <!-- Had to move the rules down for them to work with all the conditions included -->
+    <!-- Moved the rules down for them to work with all the conditions included. -->
     <rule> <!-- Used ChatGPT 4o to verify the results -->
       <pattern>
         <token postag="V.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
         <token min='0' max='1' postag='RM'/>
-        <token postag="(SPS00:)?D[AI].+|Z0.+" postag_regexp="yes"><exception postag_regexp='yes' postag='PI.+'/></token> <!-- Removed PP.+: "morrer nos custa muito" -->
+        <token postag="(SPS00:)?D[AI].+|Z0.+" postag_regexp="yes"><exception postag_regexp='yes' postag='P[IP].+'/></token> <!-- Removed PP.+: "morrer nos custa muito" -->
         <marker>
           <and>
-            <token postag="VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM" postag_regexp="yes"/>
+            <token postag="VMSP3S0|VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM" postag_regexp="yes"/>
             <token postag="NC.+" postag_regexp="yes"/>
           </and>
         </marker>
+        <token><exception scope="previous" regexp="no">tá</exception></token>
       </pattern>
       <disambig action="remove" postag="V.*"/>
       <!--
@@ -3882,20 +3918,55 @@ USA
                Se este for o caso, os pilares da criação vão sofrer uma erosão mais gradual.
                Apesar de ter limitado os poderes do rei, este tinha ainda o direito de designar seus ministros.
                Stalin apoiou à direita e [4] e reprimiu severamente a esquerda.
-               O Palmeiras virou novamente o jogo e definiu o placar em 3 a 2, com gols de Alex e Galeano
+               O Palmeiras virou novamente o jogo e definiu o placar em 3 a 2, com gols de Alex e Galeano.
+               Talvez uma circunstância não levada em conta por antes ninguém é a base da explicação procurada.
+               A comunicação que se estabelece não é limitada à pele das mãos ; os dois comunicam seus corpos e seus movimentos.
+               O Wikcionário tem o verbete Brás.
+               Integra a rede Pousadas de Portugal com a classificação de Pousada Histórica Design.
+               Você conhece o padre Grassi?
+               Atualmente, no Brasil, é transmitida pelo canal pago Comedy Central.
+               Passado um mês de isolamento Matsudaira Katamori rendeu-se e o castelo foi destruído pelo novo governo em 1874.
+               Declaravam que somente reconheciam a posse sobre as terras povoadas.
+               É um dia perfeito.
+      -->
+    </rule>
+    <rule> <!-- Used ChatGPT 4o to verify the results -->
+      <pattern>
+        <token postag="V.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+        <token min='0' max='1' postag='RM'/>
+        <token postag="(SPS00:)?D[AI].+|Z0.+" postag_regexp="yes"><exception postag_regexp='yes' postag='P[IP].+'/></token> <!-- Removed PP.+: "morrer nos custa muito" -->
+        <token postag="NC.+|AQ.+" postag_regexp="yes"><exception postag_regexp='yes' postag='V.+|CS|RG|CC|SPS.+|[DP].+'/></token>
+        <marker>
+          <and>
+            <token postag="VMSP3S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM" postag_regexp="yes"/>  <!-- Removed "VMIP3S0|VMM02S0" due to false positives -->
+            <token postag="NC.+" postag_regexp="yes"/>
+          </and>
+        </marker>
+        <token><exception scope="previous" regexp="no">tá</exception></token>
+      </pattern>
+      <disambig action="remove" postag="V.*"/>
+      <!--
+      Examples:
+               Estimula um comportamento positivo em relação ao estudo, à vida.
+               Destaca-se pelo eficiente desempenho hidráulico, o que proporciona menor perda de carga.
+               Yeshua Hamashia possui a mesma grafia em hebraico, que é o idioma sagrado dos judeus.
+               Aprofundar a discussão sobre a dívida pública brasileira é um imperativo para os brasileiros e trabalhadores em geral.
+               É errado dividir o ser humano em corpo, alma e espírito.
+               A praticidade e a durabilidade representa um investimento seguro e de longa vida.
       -->
     </rule>
     <rule>
       <pattern>
         <token postag="V.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
         <token min='0' max='1' postag='RM'/>
-        <token postag='(SPS00:)?PI.+' postag_regexp="yes"/>
+        <token postag='(SPS00:)?PI.+' postag_regexp="yes"><exception postag_regexp='yes' postag='PP.+'/></token>
         <marker>
           <and>
-            <token postag="VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0" postag_regexp="yes"/> <!-- Removed "VMIP1S0|VMP00SM" not to break Premium -->
+            <token postag="VMSP3S0|VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0" postag_regexp="yes"/> <!-- Removed "VMIP1S0|VMP00SM" not to break Premium -->
             <token postag="NC.+" postag_regexp="yes"/>
           </and>
         </marker>
+        <token><exception scope="previous" regexp="no">tá</exception></token>
       </pattern>
       <disambig action="remove" postag="V.*"/>
       <!--
@@ -3907,10 +3978,74 @@ USA
                Não me foi consentido qualquer voto na matéria.
                Tem visto relativamente pouco uso devido ao pequeno número de tipos de mídia até aqui que usa o TCP.
                Por exemplo, meu salário é de R$ 1.500,00 e será depositado mensalmente nessa conta.
+               Se souber algo sobre o assunto edite a página/seção e explique de forma mais clara e objetiva o tema abordado.
+               Toninho trazia Felipe ainda pequeno para a oficina e este cresceu nesse ambiente, aprendendo os ofícios do pai.
       -->
     </rule>
   </rulegroup>
- 
+
+  <rule id="VERB_PRON_VERB_VNOUN_VERBS_RARE" name="Remove nouns identified as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag="V.+|NC.+|AQ.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|CC|SPS.+|[DP].+'/></token>
+      <token min='0' max='1' postag='RM'/>
+      <token postag="(SPS00:)?(D[AI].+|PP.+)|Z0.+" postag_regexp="yes"/>
+      <token postag="V.+" postag_regexp="yes"/>
+      <marker>
+        <and>
+          <token postag='VMSP3S0|VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM' postag_regexp="yes"/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token><exception scope="previous" regexp="no">tá</exception></token>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             O castanho maçante da Terra sutilmente se torna rosas e azuis claros quando EVA chega.
+             A outra é "The Phoenix", do Fall Out Boy (nesse vídeo eu junto parte de uma com parte da outra).
+             Cobrando no meio da partida eu acho meio chato.
+             Como é a movida curso gratuito de análise gráfica em Díli?
+             E as mulheres me jogam rosas.
+             Em tempos tão tristes que vivemos, é preciso alimentar a alma para que as esperanças se mantenham vivas.
+             Com que frequência você compra roupas?
+             O formulário de encomenda apresenta o valor do IVA a pagar sobre os artigos seleccionados.
+             Alguém sabe me explicar sobre isso?
+             Pare de se anular, aja com humildade mas seja firme em suas decisões.
+             Que a terra lhe seja leve.
+    -->
+  </rule>
+
+  <rule id="VERB_O_A_VERB_SPS00_VERBS_RARE" name="Remove nouns identified as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='V.+' postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+      <token min='0' max='1' postag='RM'/>
+      <token postag='D[AI].+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMSP3S0|VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0' postag_regexp="yes"/> <!-- Removed "VMP00SM" -->
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='SPS00'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Eles passaram a fazê-lo dois dias depois, completando o processo em 17 de junho.
+             A Warner proibiu severamente a partilha de vídeos em maior parte das redes da internet, por questões autoriais.
+             As extremidades exteriores dos dedos são protegidas por unhas, que podem ter a forma de garras ou cascos.
+             Usado para medir a taxa de sucesso de download e instalação.
+             Mais tarde, se casa com Ha-ni e decide se tornar um médico, não herdando a empresa de jogos do seu pai.
+             Para visualizar a lista de favoritos clique aqui.
+             O Tom está pintando a casa por conta própria.
+             Em outra panela (média), aqueça o azeite em fogo alto.
+             Fiz o leite em casa e coloquei em uma garrafa de gargalo pequeno.
+             A vida é muito curta para fingir algo para agradar alguém.
+    -->
+  </rule>
+
   <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
       <rule>
           <pattern>

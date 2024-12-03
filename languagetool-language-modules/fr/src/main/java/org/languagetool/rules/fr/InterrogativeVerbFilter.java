@@ -42,12 +42,12 @@ public class InterrogativeVerbFilter extends RuleFilter {
   // private static final Pattern PronounSubject = Pattern.compile("R pers suj
   // ([123] [sp])");
 
-  private MorfologikFrenchSpellerRule morfologikRule;
+  private final MorfologikFrenchSpellerRule morfologikRule;
 
   public InterrogativeVerbFilter() throws IOException {
     ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
         new Locale("fr"));
-    morfologikRule = new MorfologikFrenchSpellerRule(messages, new French(), null, Collections.emptyList());
+    morfologikRule = new MorfologikFrenchSpellerRule(messages, French.getInstance(), null, Collections.emptyList());
   }
 
   @Override

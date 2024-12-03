@@ -23,17 +23,20 @@ import org.languagetool.language.French;
 import org.languagetool.rules.AbstractNumberInWordFilter;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class FrenchNumberInWordFilter extends AbstractNumberInWordFilter {
 
   private static MorfologikFrenchSpellerRule frenchSpellerRule;
 
   public FrenchNumberInWordFilter() throws IOException {
-    super(new French());
+    super(French.getInstance());
     ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, new Locale(language.getShortCode()));
     if (frenchSpellerRule == null) {
-      frenchSpellerRule = new MorfologikFrenchSpellerRule(messages, new French(), null, Collections.emptyList());
+      frenchSpellerRule = new MorfologikFrenchSpellerRule(messages, French.getInstance(), null, Collections.emptyList());
     }
   }
   
