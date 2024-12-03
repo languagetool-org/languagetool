@@ -1813,6 +1813,22 @@ class CaseRuleAntiPatterns {
       csToken("Released")
     ),
     Arrays.asList(
+      // für sein Werk Die Nächte des großen Jägers
+      csRegex("sein(e[nrs]?)?|ihr(e[nrs]?)?|das|des|die|den|der"),
+      csRegex(".*werks?|.*werke[sn]?|.*films?|.*filme[sn]?"),
+      csRegex("Der|Die|Das")
+    ),
+    Arrays.asList(
+      // beim Internationalen Bund
+      csRegex("Internationale[nr]?"),
+      csRegex("Bund(e?s)?")
+    ),
+    Arrays.asList(
+      // Leistungen nach dem Zweiten Sozialgesetzbuch
+      csRegex("Zweite[sn]?"),
+      csRegex("Sozialgesetzbuch(e?s)?")
+    ),
+    Arrays.asList(
       // Die Stadt ist Sitz des Kirchenbezirks Freudenstadt der Evangelischen Landeskirche in Württemberg.
       csRegex("Evangelischen?"),
       csToken("Landeskirche")
