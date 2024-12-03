@@ -63,6 +63,12 @@ public class CompoundInfinitivRule extends Rule {
       token("sicher"),
       token("zu")
     ),
+    Arrays.asList(   // "Den richtigen Weg zu gehen bedeutet ab und an zu erkennen, dass man eventuell auf der falschen Spur ist."
+      token("ab"),
+      tokenRegex("und|&"),
+      token("an"),
+      token("zu")
+    ),
     Arrays.asList(  // "Der diensthabende Kollege hatte ganz schön zu tun."
       token("ganz"),
       token("schön"),
