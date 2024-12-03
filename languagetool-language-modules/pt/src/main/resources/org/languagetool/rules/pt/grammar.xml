@@ -19145,6 +19145,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Tenho 3 <marker>livros,</marker> um para cada vencedor.</example>
                 <example>Quero 20 <marker>cromos,</marker> uns para mim e outros para dar.</example>
                 <example>Quero vários <marker>cromos,</marker> uns para mim e outros para dar.</example>
+                <example>Não há uma resposta certa para isto.</example>
             </rule>
 
             <!-- ALÉM DA PONTE FORAM Além da ponte, foram -->
@@ -19256,6 +19257,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!--
       Posso vê-la no espaço dela, quando acabar a pandemia.
       -->
+
             <rule>
                 <antipattern>
                     <token postag='NC.+' postag_regexp='yes'/>
@@ -19275,18 +19277,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <or>
                             <token regexp='yes'>daquel[ae]s?|del[ae]s?|dest[ae]s?</token>
                             <token postag='NC.+' postag_regexp='yes'>
-                                <exception postag_regexp='yes' postag='V.+|AQ.+|RN|RG'/>
+                                <exception postag_regexp='yes' postag='V.+|AQ.+|RN|RG|SP.+'/>
                             </token>
                         </or>
                     </marker>
                     <token postag='CS'>
                         <exception postag_regexp='yes' postag='P.+|I'/>
+                        <!-- much more frequently an adjective than a conjunction -->
+                        <exception>dado</exception>
                     </token>
                 </pattern>
                 <message>Esta locução deve ser separada por vírgulas.</message>
                 <suggestion>\2,</suggestion>
                 <example correction="dela,">Posso vê-la no espaço <marker>dela</marker> quando acabar a pandemia.</example>
                 <example>Posso vê-la no espaço <marker>dela,</marker> quando acabar a pandemia.</example>
+                <!-- disambiguation issue: 'sobre' tagged as noun -->
+                <example>Yanni escreveu um livro sobre como se converteu ao islã.</example>
+                <example>Nos últimos meses de vida, destacou-se pelo apoio dado à eleição de Dilma Rousseff.</example>
             </rule>
 
             <!-- Fizeram hacking à tua conta Rui. > Fizeram hacking à tua conta, Rui. -->
