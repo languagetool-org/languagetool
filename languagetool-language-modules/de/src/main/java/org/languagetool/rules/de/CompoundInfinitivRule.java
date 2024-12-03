@@ -80,17 +80,68 @@ public class CompoundInfinitivRule extends Rule {
       token("an"),
       token("zu")
     ),
-    Arrays.asList(  // "Hab keine Lust, mir Gedanken darüber zu machen."
-      token("Gedanken"),
+    Arrays.asList(
       tokenRegex("dazu|darüber"),
       token("zu"),
       token("machen")
     ),
-    Arrays.asList(  // "um dort die Nacht über zu stehen."
-      tokenRegex("Spiel|Tag|Nacht|Morgen|Nachmittag|Abend|Zeit|.+zeit"),
+    Arrays.asList(
+      token("kurz"),
+      token("davor"),
+      token("zu")
+    ),
+    Arrays.asList(
+      tokenRegex("Jahr|Monat|Zeit"),
       token("über"),
+      token("zu")
+    ),
+    Arrays.asList(
+      token("endlich"),
+      token("wieder"),
+      token("zu")
+    ),
+    Arrays.asList(
+      token("bis"),
+      token("hin"),
+      token("zu")
+    ),
+    Arrays.asList(
+      token("von"),
+      tokenRegex(".*[a-z].*"),
+      token("her"),
+      token("zu")
+    ),
+    Arrays.asList(
+      tokenRegex("sehr|ganz|äu(ss|ß)erst|zu|nicht|absolut|total|wirklich|möglichst"),
+      posRegex("ADJ.*"),
+      token("zu")
+    ),
+    Arrays.asList(
+      token("Schritt"),
+      token("weiter"),
+      token("zu")
+    ),
+    Arrays.asList(
+      token("und"),
+      token("so"),
+      token("weiter")
+    ),
+    Arrays.asList(
+      token("darauf"),
       token("zu"),
-      token("stehen")
+      posRegex("VER.*"),
+      token("dass")
+    ),
+    Arrays.asList(
+      token("darauf"),
+      token("zu"),
+      posRegex("VER.*"),
+      token(",")
+    ),
+    Arrays.asList(  // "um dort die Nacht über zu stehen."
+      tokenRegex("Spiel|Tag|Nacht|Morgen|Nachmittag|Abend|Zeit|.+zeit|Jahr(zehnt)?|Monat|.+tag|Mittwoch|Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember"),
+      token("über"),
+      token("zu")
     ),
     Arrays.asList(
       token("kurz"),
@@ -115,6 +166,11 @@ public class CompoundInfinitivRule extends Rule {
       tokenRegex("und|&|oder|\\/"),
       new PatternTokenBuilder().posRegex("ADV.*").min(0).build(),
       token("ab"),
+      token("zu")
+    ),
+    Arrays.asList(
+      token("zu"),
+      posRegex("ADJ.*"),
       token("zu")
     ),
     Arrays.asList(
@@ -163,8 +219,8 @@ public class CompoundInfinitivRule extends Rule {
   public CompoundInfinitivRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {
     super.setCategory(Categories.COMPOUNDING.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
-    addExamplePair(Example.wrong("Er überprüfte die Rechnungen noch einmal, um ganz <marker>sicher zu gehen</marker>."),
-                   Example.fixed("Er überprüfte die Rechnungen noch einmal, um ganz <marker>sicherzugehen</marker>."));
+    addExamplePair(Example.wrong("Er überprüfte die Rechnungen noch einmal, um <marker>sicher zu gehen</marker>."),
+                   Example.fixed("Er überprüfte die Rechnungen noch einmal, um <marker>sicherzugehen</marker>."));
     this.lang = lang;
     if (userConfig != null) {
       linguServices = userConfig.getLinguServices();
