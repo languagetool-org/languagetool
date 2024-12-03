@@ -17151,4 +17151,23 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rulegroup id="CENSORED_WORDS" name="ignore spelling of censored words">
+        <rule>
+            <pattern>
+                <token>f</token>
+                <token>*</token>
+                <token regexp="yes">ck(s|ed|ing)?</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">(bull)?sh</token>
+                <token>*</token>
+                <token>t</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>
