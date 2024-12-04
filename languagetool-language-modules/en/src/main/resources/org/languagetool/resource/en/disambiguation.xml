@@ -14306,6 +14306,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
     </rulegroup>
 
+    <rule id="LATEX_SPELLING" name="Ignore spelling of text in LATEX">
+        <pattern>
+            <token>$</token>
+            <token>\</token>
+            <marker>
+                <token regexp="yes">.+\$</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rulegroup id="SENTENCE_ADVERBIALS" name="Adverbial phrases at the start of a sentence"><!-- #2213 -->
 
         <rule id="PHRASES_1_WORD" name="1-word phrases">
