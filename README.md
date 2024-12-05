@@ -4,7 +4,6 @@
 Portuguese, Polish, Dutch, and [more than 20 other languages](https://languagetool.org/languages/).
 It finds many errors that a simple spell checker cannot detect.
 
-* **[Jobs at LanguageTool](https://languagetool.org/careers)**
 * [LanguageTool Forum](https://forum.languagetool.org)
 * [How to run your own LanguageTool server](https://dev.languagetool.org/http-server)
 * [HTTP API documentation](https://languagetool.org/http-api/swagger-ui/#!/default/post_check)
