@@ -4,6 +4,10 @@
 
 ...
 
+#### General
+
+LanguageTool requires Java 17 now.
+
 
 
 ## 6.5 (2024-09-27)
