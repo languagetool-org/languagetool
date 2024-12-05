@@ -11556,101 +11556,41 @@ USA
             <suggestion>por <match no='2' postag='VMIS1S0|VMIS3S0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
             <example correction="ao sentir|por sentir">Comentei o sucedido <marker>porque senti</marker> os efeitos rapidamente.</example>
         </rule>
-        <rulegroup id='TER_PARTICIPIO-PASSADO' name='Ter + Particípio passado' tone_tags="objective" tags="picky">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-16 (2-JUL-2020+)   -->
 
-            <!-- TENHO -->
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>tenho</token>
-                        <and>
-                            <token postag='VMP00SM'/>
-                            <token negate="yes" regexp='yes' inflected='yes'>vir|ver</token>
-                        </and>
-                    </marker>
-                    <token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas|muitos|com|que</token>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP1S0'/></suggestion>
-                <example correction='pesquiso'>Eu <marker>tenho pesquisado</marker> o assunto há décadas.</example>
-                <example>Eu <marker>pesquiso</marker> o assunto há décadas.</example>
-            </rule>
 
-            <!-- TENS -->
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>tens</token>
-                        <and>
-                            <token postag='VMP00SM'/>
-                            <token negate="yes" regexp='yes' inflected='yes'>vir|ver</token>
-                        </and>
-                    </marker>
-                    <token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas|muitos|com|que</token>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP2S0'/></suggestion>
-                <example correction='pesquisas'>Tu <marker>tens pesquisado</marker> o assunto há décadas.</example>
-                <example>Tu <marker>pesquisas</marker> o assunto há décadas.</example>
-            </rule>
+        <rule id='TER_PARTICIPIO-PASSADO_V2' name='Ter + Particípio passado' tone_tags='objective' tags='picky' default='temp_off'>
+            <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
 
-            <!-- TEM -->
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>tem</token>
-                        <and>
-                            <token postag='VMP00SM'>
-                                <exception inflected="yes">ser</exception></token>
-                            <token negate="yes" regexp='yes' inflected='yes'>vir|ver</token>
-                        </and>
-                    </marker>
-                    <token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas|muitos|com|que</token>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP3S0'/></suggestion>
-                <example correction='pesquisa'>O professor <marker>tem pesquisado</marker> o assunto há décadas.</example>
-                <example>O professor <marker>pesquisa</marker> o assunto há décadas.</example>
-            </rule>
+            <antipattern>
+                <token regexp='yes'>tenho|tens|tem|temos|têm</token>
+                <token skip='-1' postag='VMP00SM'/>
+                <token postag='_PUNCT_INTERROGATION'/>
+                <example>Você tem pregado o que vive?</example>
+                <example>Como têm passado o tempo livre?</example>
+                <example>Você já tem comido o bolo?</example>
+                <example>Você tem dormido o suficiente?</example>
+            </antipattern>
 
-            <!-- TEMOS -->
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>temos</token>
-                        <and>
-                            <token postag='VMP00SM'/>
-                            <token negate="yes" regexp='yes' inflected='yes'>vir|ver</token>
-                        </and>
-                    </marker>
-                    <token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas|muitos|com|que</token>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP1P0'/></suggestion>
-                <example correction='pesquisamos'>Nós <marker>temos pesquisado</marker> o assunto há décadas.</example>
-                <example>Nós <marker>pesquisamos</marker> o assunto há décadas.</example>
-            </rule>
+            <pattern>
+                <marker>
+                    <token regexp='yes'>tenho|tens|tem|temos|têm
+                        <exception scope='previous' postag_regexp='yes' postag='SENT_START|_QUOT|NP.+'/>
+                        <exception scope="previous" regexp="no">quem</exception></token>
+                    <token postag='VMP00SM'>
+                        <exception regexp='yes' inflected='yes'>abandonar|abrir|acabar|achar|adquirir|alcançar|aparecer|assemelhar|assistir|atingir|cessar|chegar|começar|concluir|conseguir|cuidar|decidir|desaparecer|descansar|desistir|determinar|doutorar|encerrar|escolher|estar|evaporar|existir|ficar|finalizar|findar|fracassar|ganhar|imaginar|iniciar|julgar|manifestar|morrer|nascer|obter|optar|parecer|partir|perder|permanecer|receber|relaxar|renunciar|resolver|sair|selec?cionar|sentir|ser|sumir|superar|supor|surgir|terminar|triunfar|vencer|ver|vir|viver</exception></token> <!-- ChatGPT 4o -->
+                </marker>
+                <token regexp='yes'>[ao]s?|que|em|com|desde|u(m|ns)|umas?|muit[ao]s|há</token>
+            </pattern>
+            <filter class='org.languagetool.rules.pt.AdvancedSynthesizerFilter' args='lemmaFrom:2 lemmaSelect:V.* postagFrom:1 postagSelect:V.*'/>
+            <message>Use o presente perfeito para ações contínuas até o presente (ex: &quot;tenho estudado muito&quot;) e o indicativo para ações habituais (ex: &quot;estudo muito&quot;).</message>
+            <suggestion>{suggestion}</suggestion>
+            <example correction='pesquiso'>Eu <marker>tenho pesquisado</marker> o assunto há décadas.</example>
+            <example correction='pesquisas'>Tu <marker>tens pesquisado</marker> o assunto há décadas.</example>
+            <example correction='pesquisa'>O professor <marker>tem pesquisado</marker> o assunto há décadas.</example>
+            <example correction='pesquisamos'>Nós <marker>temos pesquisado</marker> o assunto há décadas.</example>
+            <example correction='pesquisam'>Os senhores <marker>têm pesquisado</marker> o assunto há décadas.</example>
+        </rule>
 
-            <!-- TÊM -->
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>têm</token>
-                        <and>
-                            <token postag='VMP00SM'/>
-                            <token negate="yes" regexp='yes' inflected='yes'>vir|ver</token>
-                        </and>
-                    </marker>
-                    <token regexp='yes'>as?|os?|em|há|desde|um|uns|umas?|muitas|muitos|com|que</token>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIP3P0'/></suggestion>
-                <example correction='pesquisam'>Os senhores <marker>têm pesquisado</marker> o assunto há décadas.</example>
-                <example>Os senhores <marker>pesquisam</marker> o assunto há décadas.</example>
-                <example>Eles <marker>pesquisam</marker> o assunto há décadas.</example>
-            </rule>
-        </rulegroup>
 
         <!-- QUE NUNCA MAIS ACABA(M) sem fim -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-30 (21-OCT-2020+)     -->
