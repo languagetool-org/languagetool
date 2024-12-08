@@ -10546,44 +10546,6 @@ USA
         </rule>
 
 
-        <rulegroup id='PHD_TESE_PERÍFRASES_AFIRMATIVAS' name="[Universitário] Perífrases afirmativas: 'o que pretendemos saber é a' → 'o objetivo é saber a'" type='style' tone_tags="academic">
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-19 (2-MAR-2023+) -->
-            <!--
-            SUBRULE 1:
-            O que pretendemos saber é a equação da reta. → O objetivo é saber a equação da reta.
-            O que pretendemos saber são as equações da reta. → Os objetivos são saber as equações da reta.
-
-            SUBRULE 2:
-            Removed (Ricardo Joseh Lima)
-            -->
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>o
-                            <exception scope='previous' postag_regexp='yes' postag='PI.+'/>
-                        </token>
-                        <token>que</token>
-                        <and>
-                            <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar</token>
-                            <token postag='VMI[FPS]1.+' postag_regexp='yes'/>
-                        </and>
-                        <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
-                        <token regexp='yes'>é|são</token>
-                        <token postag='DA.+|SPS00' postag_regexp='yes'/>
-                    </marker>
-                </pattern>
-                <message>Em teses e dissertações, é preferível declarar o objetivo de seu texto de maneira mais direta.</message>
-                <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0M$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCM$1000'>objetivo</match> \5 \4 \6</suggestion>
-                <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0M$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCM$1000'>propósito</match> \5 \4 \6</suggestion>
-                <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0F$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCF$1000'>meta</match> \5 \4 \6</suggestion>
-                <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0F$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCF$1000'>finalidade</match> \5 \4 \6</suggestion>
-                <example correction="O objetivo é saber a|O propósito é saber a|A meta é saber a|A finalidade é saber a"><marker>O que pretendemos saber é a</marker> equação da reta.</example>
-                <example correction="Os objetivos são saber as|Os propósitos são saber as|As metas são saber as|As finalidades são saber as"><marker>O que pretendemos saber são as</marker> equações da reta.</example>
-            </rule>
-
-        </rulegroup>
-
-
         <rule id='PHD_TESE_FICOU_DEMONSTRADO_QUE_DEMONSTRÁMOS_QUE' name="[Universitário] Expressões do tipo 'ficou demonstrado que' → ‘demonstrámos que'" type='style' tags="picky" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <marker>
@@ -10661,70 +10623,30 @@ USA
         </rule>
 
 
-        <!-- PROCURA PROVAR prova provará -->
-        <rulegroup id='PHD_TESE_PROCURAR_PROVAR_PROVARA' name="[Universitário] Evitar expressões do tipo 'procura provar'" type='style' tags="picky" default='on' tone_tags="academic">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-12 + 2021-02-25 + 2021-03-02 + 2021-03-07 + 2022-03-02 (1-JAN-2021+)      -->
-            <!--
-            A nossa tese procura provar a métrica. → A nossa tese provará a métrica.
-            Na nossa tese procuramos provar a métrica. → Na nossa tese provaremos a métrica.
-            Na nossa tese procuro provar a métrica. → Na nossa tese provarei a métrica.
-            -->
+        <rulegroup id='PHD_TESE_PROCURAR_PROVAR_PROVARA' name="[Universitário] Evitar expressões do tipo 'procura provar'" type='style' tags='picky' default='temp_off' tone_tags='academic'>
 
-            <!-- MARCOAGPINTO 2022-03-02 (1-JAN-2022+) *START* -->
-            <!--
-            Seus médicos disseram que ele iria ver, escutar e sentir gostos como antes.
-            Na linha inversa de quando atrasei o trabalho para, apesar de achar que a destituição não iria ganhar, ter feito questão de lá ir deixar o meu voto.
-            É importante eu olhar para um papel e não saber o que vai fazer, ter que inventar.
-            Vou dormir, tomei a medicação demasiado cedo.
-            Vamos dormir, tomámos a medicação demasiado cedo.
-            -->
-            <antipattern>
-                <token postag='SENT_START'/>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token postag='VMN0000'/>
-                <token postag='SENT_END'/>
-                <example>A publicação está o máximo! Vou roubar!</example>
-                <example>Não sei. Vamos descobrir!</example>
-                <example>Vamos comer. Estou morrendo de fome.</example>
+            <antipattern> <!-- Remove interrogation sentences -->
+                <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar|ir</token>
+                <token skip='-1' postag='VMN0000'><exception scope='next' postag='_QUOT'/></token>
+                <token postag='_PUNCT_INTERROGATION' postag_regexp='no'/>
+                <example>Por que você quer saber como eu me chamo?</example>
+                <example>Por que ela quer saber se eu sei fazer comida?</example>
+                <example>Você quer saber o meu segredo? Ele é muito simples...</example>
+                <example>O que você quer saber sobre o meu trabalho?</example>
+                <example>Você quer responder minha pergunta ou não?</example>
+                <example>Você vai encontrar alguém aqui?</example>
+                <example>Quem você vai encontrar no shopping?</example>
+                <example>Quer saber dele?</example>
+                <example>Qual das opções quer saber mais?</example>
+                <example>Quer saber mais sobre este ou sobre outro veículo?</example>
             </antipattern>
-            <antipattern>
-                <token skip='-1' regexp='yes'>&tracos_de_separacao;</token>
-                <token inflected="yes">ir</token>
-                <token postag='VMN0000'/>
-                <example>— Como vou continuar trabalhando, não me importa.</example>
-                <example>— Agora, vamos comer — disse ele</example>
-            </antipattern>
-            <antipattern>
-                <token inflected="yes">ir</token>
-                <token skip='-1' postag='VMN0000'/>
-                <token regexp='yes'>&tracos_de_separacao;</token>
-                <example>Como vou continuar trabalhando, não me importa. — disse ele.</example>
-            </antipattern>
-            <antipattern>
-                <token skip='-1' postag='_QUOT'/>
-                <token inflected="yes">ir</token>
-                <token postag='VMN0000'/>
-                <example>"Como vou continuar trabalhando, não me importa", disse ele.</example>
-            </antipattern>
-            <antipattern>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token postag='VMN0000'/>
-                <token>,</token>
-                <token postag='VMN0000|VMIS.+' postag_regexp='yes'>
-                    <exception postag='RG'/>
-                </token>
-                <token negate="yes">de</token>
-                <token negate="yes">forma</token>
-                <token negate="yes">a</token>
-            </antipattern>
-            <!-- MARCOAGPINTO 2022-03-02 (1-JAN-2022+) *END* -->
             <rule>
                 <pattern>
                     <and>
-                        <token inflected="yes">pretender</token>
+                        <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar</token>
                         <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
                     </and>
-                    <token postag='VMN0000'/>
+                    <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP)\b1."/>
                 <message>&thesis_msg;</message>
@@ -10739,14 +10661,12 @@ USA
             <rule>
                 <pattern>
                     <and>
-                        <token inflected="yes">pretender</token>
+                        <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar</token>
                         <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
                             <exception postag='VMIF1S0'/>
                         </token>
                     </and>
-                    <token postag='VMN0000'>
-                        <exception postag='VMIF1S0'/>
-                    </token>
+                    <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
                 <message>&thesis_msg;</message>
@@ -10760,10 +10680,10 @@ USA
             <rule>
                 <pattern>
                     <and>
-                        <token regexp='yes' inflected="yes">procurar|buscar</token>
+                        <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar</token>
                         <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
                     </and>
-                    <token postag='VMN0000'/>
+                    <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IF)\b1."/>
                 <message>&thesis_msg;</message>
@@ -10775,104 +10695,21 @@ USA
                 <example correction="provarei|viso provar|tenho em vista provar">Na nossa tese <marker>procuro provar</marker> a métrica.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token postag='V.+' postag_regexp='yes'/>
-                    <token postag='VMN0000'/>
-                    <token>,</token>
-                    <token postag='VMN0000|VMIS.+' postag_regexp='yes'>
-                        <exception postag='RG'/>
-                    </token>
-                    <token negate="yes">de</token>
-                    <token negate="yes">forma</token>
-                    <token negate="yes">a</token>
-                </antipattern>
-                <antipattern>
-                    <token>vai</token>
-                    <token regexp='yes'>ver|saber</token>
-                    <example>Vai saber o que ele fez!</example>
-                    <example>Vai ver, ele está voltando!</example>
-                    <example>Você vai ver o que é bom pra tosse!</example>
-                </antipattern>
-                <antipattern>
-                    <token inflected='yes'>ir</token>
-                    <token>acreditar</token>
-                    <example>Você não vai acreditar no que ele disse.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token inflected='yes'>ir</token>
-                    <token postag='VMN0000' skip='-1'/>
-                    <token>?</token>
-                    <example>Vamos caminhar?</example>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START|_PUNCT" postag_regexp='yes'/>
-                    <token inflected='yes'>ir</token>
-                    <token postag='VMN0000' skip='-1'/>
-                    <token>?</token>
-                    <example>Vamos caminhar?</example>
-                </antipattern>
-                <antipattern>
-                    <token inflected='yes'>ir</token>
-                    <token>tomar</token>
-                    <token>banho</token>
-                    <example>Vá tomar banho!</example>
-                </antipattern>
-                <antipattern>
-                    <token postag='RG|SENT_START|_PUNCT|VMM.+' postag_regexp='yes'/>
-                    <token>vamos</token>
-                    <token postag='VMN0000'/>
-                    <example>Então vamos voltar para a sala.</example>
-                    <example>Agora vamos voltar para a sala.</example>
-                    <example>Vamos parar de fazer gracinha.</example>
-                    <example>Por Deus, vamos tentar nos concentrar.</example>
-                </antipattern>
-                <antipattern>
-                    <token>se</token>
-                    <token inflected='yes'>ir</token>
-                    <token postag='VMN0000'/>
-                    <example>Mas se vou estudar lá, não quero me precipitar.</example>
-                </antipattern>
-                <antipattern>
-                    <token>por</token>
-                    <token>favor</token>
-                    <token min='0'>,</token>
-                    <token regexp='yes'>vai|vá</token>
-                    <token postag='VMN0000'/>
-                    <example>Por favor, vá para o quarto.</example>
-                </antipattern>
-                <antipattern>
-                    <token>vai</token>
-                    <token>ter</token>
-                    <token>com</token>
-                    <example>Quando o Rui vai ter com a Ana tem de apanhar um táxi.</example>
-                </antipattern>
                 <pattern>
                     <and>
                         <token inflected="yes">ir<exception postag='VMIC.+' postag_regexp='yes'/></token>
                         <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
                     </and>
-                    <token postag='VMN0000'>
-                        <exception>ir</exception></token>
+                    <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP|IF)\b1."/>
                 <message>&thesis_msg;</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="provará|prova">A nossa tese <marker>vai provar</marker> a métrica.</example>
                 <example correction="provaremos|provamos">Na nossa tese <marker>vamos provar</marker> a métrica.</example>
-                <example correction="provarei|provo">Na nossa tese <marker>vou provar</marker> a métrica.</example>      </rule>
-            <!--
-            A nossa tese procurou provar a métrica. → A nossa tese provou a métrica.
-            Na nossa tese procurámos provar a métrica. → Na nossa tese provámos a métrica.
-            Na nossa tese procurei provar a métrica. → Na nossa tese provei a métrica.
-            -->
+                <example correction="provarei|provo">Na nossa tese <marker>vou provar</marker> a métrica.</example>
+            </rule>
             <rule>
-                <antipattern>
-                    <token inflected="yes">ir</token>
-                    <token postag='VMN0000' skip='-1'/>
-                    <token>?</token>
-                    <example>Vamos abandonar o navio?</example>
-                </antipattern>
                 <pattern>
                     <token postag='RG|SENT_START|_PUNCT|VMM.+' postag_regexp='yes'/>
                     <marker>
@@ -10880,8 +10717,7 @@ USA
                             <token inflected="yes">ir</token>
                             <token postag='VMM01P0'/>
                         </and>
-                        <token postag='VMN0000'>
-                            <exception>ir</exception></token>
+                        <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
                     </marker>
                 </pattern>
                 <message>&thesis_msg;</message>
@@ -10894,61 +10730,14 @@ USA
                 <example correction="provemos|provaremos|provamos|proponho provarmos">Então, <marker>vamos provar</marker> a métrica.</example>
             </rule>
             <rule>
-
-                <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *START* -->
-                <!--
-                Uma das críticas a Ana foi escrever no seu livro de receitas o básico.
-                A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.
-                A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.
-                -->
-                <antipattern>
-                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                    <token postag='SPS.+' postag_regexp='yes'/>
-                    <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-                    <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'/>
-                    <token postag='V.+' postag_regexp='yes'/>
-                    <token postag='SPS.+|DI.+|V.+' postag_regexp='yes'/>
-                </antipattern>
-
-                <!--
-                DP.+ = NOSSO
-                A dificuldade no desenvolvimento do nosso modelo foi criar as ferramentas estatísticas.
-                O objetivo deste trabalho foi avaliar os efeitos da radiação gama na conservação da polpa de amora.
-                O objetivo deste trabalho foi revisar a literatura referente ao tema.
-                -->
-                <antipattern>
-                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                    <token min="0" max="1" postag='SPS00:DA.+' postag_regexp='yes'/>
-                    <token postag='DP.+|SPS00:PD.+' postag_regexp='yes'/>
-                    <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-                    <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'/>
-                    <token postag='V.+' postag_regexp='yes'/>
-                    <token postag='SPS.+|DI.+|V.+|DA.+' postag_regexp='yes'/>
-                </antipattern>
-                <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *START* -->
-                <!--
-                IT SEEMS I COULD ONLY TEST IT WITH THE VERB "TER", IT ONLY REMOVED ONE HIT IN 600 000 SENTENCES.
-                (dois empregos, tentei ter vida normal);
-                -->
-                <antipattern>
-                    <token postag='VMIS1[SP]0' postag_regexp='yes'/>
-                    <token inflected="yes">ter</token>
-                    <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-                </antipattern>
-                <!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *END* -->
-
                 <pattern>
                     <and>
-                        <token regexp='yes' inflected="yes">buscar|procurar</token>
+                        <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar</token>
                         <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
                             <exception postag='VMIF1S0'/>
                         </token>
                     </and>
-                    <token postag='VMN0000'>
-                        <exception postag='VMIF1S0'/>
-                    </token>
+                    <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
                 <message>&thesis_msg;</message>
@@ -10958,167 +10747,8 @@ USA
                 <example correction="provou|visou provar|teve em vista provar">A nossa tese <marker>procurou provar</marker> a métrica.</example>
                 <example correction="provei|visei provar|tive em vista provar">Na nossa tese <marker>procurei provar</marker> a métrica.</example>
                 <example correction="resolveu|visou resolver|teve em vista resolver">como o <marker>procurou resolver</marker></example>
-                <example>Uma das críticas a Ana <marker>foi escrever</marker> no seu livro de receitas o básico.</example>
-                <example>A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.</example>
-                <example>A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.</example>
             </rule>
-            <!--
-                  A nossa tese procurou provar a métrica. → A nossa tese provou a métrica.
-                  Na nossa tese procurámos provar a métrica. → Na nossa tese provámos a métrica.
-                  Na nossa tese procurei provar a métrica. → Na nossa tese provei a métrica.
-                  -->
             <rule>
-
-                <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *START* -->
-                <!--
-                Uma das críticas a Ana foi escrever no seu livro de receitas o básico.
-                A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.
-                A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.
-                -->
-                <antipattern>
-                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                    <token postag='SPS.+' postag_regexp='yes'/>
-                    <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-                    <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'/>
-                    <token postag='V.+' postag_regexp='yes'/>
-                    <token postag='SPS.+|DI.+|V.+' postag_regexp='yes'/>
-                </antipattern>
-
-                <!--
-                DP.+ = NOSSO
-                A dificuldade no desenvolvimento do nosso modelo foi criar as ferramentas estatísticas.
-                O objetivo deste trabalho foi avaliar os efeitos da radiação gama na conservação da polpa de amora.
-                O objetivo deste trabalho foi revisar a literatura referente ao tema.
-                -->
-                <antipattern>
-                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                    <token min="0" max="1" postag='SPS00:DA.+' postag_regexp='yes'/>
-                    <token postag='DP.+|SPS00:PD.+' postag_regexp='yes'/>
-                    <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-                    <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'/>
-                    <token postag='V.+' postag_regexp='yes'/>
-                    <token postag='SPS.+|DI.+|V.+|DA.+' postag_regexp='yes'/>
-                </antipattern>
-                <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *START* -->
-                <!--
-                IT SEEMS I COULD ONLY TEST IT WITH THE VERB "TER", IT ONLY REMOVED ONE HIT IN 600 000 SENTENCES.
-                (dois empregos, tentei ter vida normal);
-                -->
-                <antipattern>
-                    <token postag='VMIS1[SP]0' postag_regexp='yes'/>
-                    <token inflected="yes">ter</token>
-                    <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-                </antipattern>
-                <!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *END* -->
-                <antipattern>
-                    <token postag='VMIS.+' postag_regexp='yes' skip='-1'/>
-                    <token>foi</token>
-                    <token postag='VMN0000'/>
-                    <example>Tudo que fiz foi abrir a porta</example>
-                    <example>Só o que consegui fazer na hora foi abrir a porta.</example>
-                    <example>Só o que consegui fazer naquele momento foi abrir a porta.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag='AQ.+|NC.|RG' postag_regexp='yes'/>
-                    <token regexp='yes' min='0'>&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</token>
-                    <token regexp="yes">foi|foram</token>
-                    <token postag='VMN0000'/>
-                    <example>O primeiro passo foi acabar com a fome.</example>
-                    <example>A medida principal foi acabar com a fome.</example>
-                    <example>O mais urgente foi acabar com a fome.</example>
-                    <example>As medidas principais foram acabar com a fome, diminuir o preconceito e reduzir o aquecimento global.</example>
-                    <example>As principais medidas foram acabar com a fome, diminuir o preconceito e reduzir o aquecimento global.</example>
-                    <example>O primeiro deles foi acabar com a fome.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag='SPS00|SPS00:DA0FS0' postag_regexp='yes'/>
-                    <token postag='NP.+|PP.+' postag_regexp='yes'/>
-                    <token regexp="yes">foi|foram</token>
-                    <token postag='VMN0000'/>
-                    <example>Uma das primeiras decisões da Inglaterra foi reunir alguns guardas.</example>
-                    <example>A coisa mais importante para Luana foi chegar no horário.</example>
-                    <example>A coisa mais importante para ela foi chegar no horário.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag='SPS00|SPS00:DA0FS0' postag_regexp='yes'/>
-                    <token postag='NP.+' postag_regexp='yes'/>
-                    <token regexp="yes">foi|foram</token>
-                    <token postag='VMN0000'/>
-                    <example>Uma das primeiras decisões da Inglaterra foi reunir alguns guardas.</example>
-                    <example>A coisa mais importante para Luana foi chegar no horário.</example>
-                </antipattern>
-                <antipattern>
-                    <token>quando</token>
-                    <token inflected="yes">ir</token>
-                    <token postag='VMN0000'/>
-                    <example>Quando fui mostrar, já havia acabado.</example>
-                </antipattern>
-                <antipattern>
-                    <token inflected="yes">ir</token>
-                    <token skip='-1'>fazer</token>
-                    <token>?</token>
-                    <example>O que você foi fazer lá?</example>
-                </antipattern>
-                <antipattern>
-                    <token inflected="yes">ir</token>
-                    <token regexp='yes'>morar|parar|titular</token>
-                    <example>Saiu de casa e foi morar com o namorado.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag='DA.+|SPS00' postag_regexp='yes'/>
-                    <token postag='NC.+' postag_regexp='yes'/>
-                    <token postag='RG' min='0'/>
-                    <token postag='AQ.+' postag_regexp='yes' min='0'/>
-                    <token>que</token>
-                    <token inflected="yes">ir</token>
-                    <token postag='VMN0000'/>
-                    <example>Reconheço a importância que foi garantir seus direitos.</example>
-                </antipattern>
-                <antipattern>
-                    <token regexp='yes' skip='-1'>solução|soluções|pecados?|erros?|missão|missões|significativ[oa]s?|relevantes?|diferenças?|tristezas?|felicidades?|alegrias?|tarefas?|principal|principais|utilidades?|discussão|discussões|sacadas?|propostas?|trabalho|motivos?|propósitos?|objetivos?|razão|razões|mudanças?|medidas?|explicação|explicações|estratégias?|salvação|salvações|desafios?|dilemas?|imprevistos?|importantes?</token>
-                    <token inflected="yes">ir</token>
-                    <token postag='VMN0000'/>
-                    <example>A solução foi criar uma nova regra.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag='DA.+' postag_regexp='yes'/>
-                    <token postag='AQ.+' postag_regexp='yes'/>
-                    <token postag='SPS00:P.+|SPS00:D.+|SPS00' postag_regexp='yes' min='0'/>
-                    <token postag='N.+' postag_regexp='yes' min='0'/>
-                    <token inflected="yes">ir</token>
-                    <token postag='VMN0000'/>
-                    <example>O melhor foi ver o mar à noite.</example>
-                    <example>O melhor de tudo foi ver o mar à noite.</example>
-                    <example>O melhor das férias foi visitar o Rio.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag='VMP.+' postag_regexp='yes'/>
-                    <token inflected="yes">ir</token>
-                    <token postag='VMN0000'/>
-                    <example>O mais aceito foi estruturar a pesquisa.</example>
-                </antipattern>
-                <antipattern>
-                    <token>o</token>
-                    <token>que</token>
-                    <token postag='V.+' postag_regexp='yes'/>
-                    <token inflected="yes">ir</token>
-                    <token postag='VMN0000'/>
-                    <example>O que fez foi criar uma nova regra.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag='AO.+' postag_regexp='yes' skip='-1'/>
-                    <token inflected="yes">ir</token>
-                    <token postag='VMN0000'/>
-                    <example>A primeira foi mostrar o ocorrido.</example>
-                </antipattern>
-                <antipattern>
-                    <token inflected="yes">ir</token>
-                    <token postag='VMN0000'/>
-                    <token spacebefore='no'>-</token>
-                    <example>Foi encontrar-se com ele.</example>
-                </antipattern>
                 <pattern>
                     <and>
                         <token negate="yes">e</token>
@@ -11127,10 +10757,7 @@ USA
                             <exception postag='VMIF1S0|AQ.+' postag_regexp='yes'/>
                         </token>
                     </and>
-                    <token postag='VMN0000'>
-                        <exception postag='VMIF1S0'/>
-                        <exception regexp='yes'>acampar|arrumar|averiguar|brincar|caminhar|comemorar|comentar|confirmar|dormir|escolher|nadar|passear|pescar|procurar|surfar|ver|visitar|viver|vulgar</exception>
-                    </token>
+                    <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
                 </pattern>
                 <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
                 <message>&thesis_msg;</message>
@@ -11138,9 +10765,6 @@ USA
                 <example correction="provou">A nossa tese <marker>foi provar</marker> a métrica.</example>
                 <example correction="provei">Na nossa tese <marker>fui provar</marker> a métrica.</example>
                 <example correction="resolveu">como o <marker>foi resolver</marker></example>
-                <example>Uma das críticas a Ana <marker>foi escrever</marker> no seu livro de receitas o básico.</example>
-                <example>A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.</example>
-                <example>A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.</example>
             </rule>
         </rulegroup>
 
