@@ -3813,6 +3813,28 @@ USA
       </rule>
   </rulegroup>
 
+  <rule id="NOUN_HYPHEN_PASTPARTICIPLE_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <!--In hyphenated words with a past participle it removes the past participle, for words not in the dictionary: "peixe-DOURADO" -->
+    <pattern>
+      <token postag="N.+|AQ.+" postag_regexp="yes"><exception postag_regexp='yes' postag='V.+|CS|RG|CC|SPS.+|[DP].+'/></token>
+      <token regexp='yes' spacebefore='no'>&hifen;</token>
+      <marker>
+          <token spacebefore='no' postag='VMP00.+' postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Desde 1931, uma regulamentação de trabalho impedia qualquer mudança de emprego não-autorizado.
+             «Ex-namorado de George Michael contraria família e aparece em funeral».
+             Entre as especiarias características da ilha estão a noz-moscada, o gengibre, a pimenta e a baunilha.
+             Ligado ao tema está a tese de Bargil Pixner sobre uma Igreja de Sião, Jerusalém, pré-cruzadas.
+             Seus primeiros trabalhos consistiam em naturezas-mortas e representações de camponeses.
+             Um peixe-dourado grande nada na lagoa.
+    -->
+  </rule>
+
   <rule id="PELA_COMO_SOBRE_NADA_ACERCA_ELAR_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Moved the rule down to assure it works correctly with RM. -->
     <!-- A past participle/infinitive followed by "pela", "como", "sobre", "nada", "acerca", "verbo elar" -->
