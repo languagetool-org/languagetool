@@ -10882,6 +10882,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"/>
     </rule>
+    <rule id="raja" name="error: rajà -> rajar">
+        <pattern>
+            <token postag="V.[NMIS].*" postag_regexp="yes" regexp="yes" inflected="yes">voler|poder|deure|anar</token>
+            <marker>
+                <token postag="V.[IS].*" postag_regexp="yes">rajà</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V.[IS].*"/>
+    </rule>
     <rulegroup id="verb_nomverb0" name="verb + verb/no_verb">
         <rule>
             <pattern>
