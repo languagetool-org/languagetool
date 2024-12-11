@@ -3815,7 +3815,7 @@ USA
 
   <rule id="NOUN_HYPHEN_PASTPARTICIPLE_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Moved the rule down to assure it works correctly. -->
-    <!--In hyphenated words with a past participle it removes the past participle, for words not in the dictionary: "peixe-DOURADO" -->
+    <!-- In hyphenated words with a past participle it removes the past participle, for words not in the dictionary: "peixe-DOURADO" -->
     <pattern>
       <token postag="N.+|AQ.+" postag_regexp="yes"><exception postag_regexp='yes' postag='V.+|CS|RG|CC|SPS.+|[DP].+'/></token>
       <token regexp='yes' spacebefore='no'>&hifen;</token>
@@ -3878,6 +3878,7 @@ USA
     <pattern>
       <token postag='V.+' postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
       <token min='0' max='1' postag='RM'/>
+      <token min='0' max='1' postag="N.+|AQ.+" postag_regexp="yes"><exception postag_regexp='yes' postag='V.+|CS|RG|CC|SPS.+|[DP].+'/></token>
       <marker>
           <token regexp="yes">pel[ao]s?|como|sobre|nada|acerca|el[ae]s?</token>
       </marker>
@@ -3892,6 +3893,9 @@ USA
              Carvalho muito escreveu sobre o seu colega.
              Por favor, disponibilizem ele novamente!
              “Fui muito bem atendida”, comemorou ela.
+             Com vários problemas internos na banda, houve especulações sobre o fim do conjunto.
+             Nos dias 13 e 14 de julho, a guarda imperial revoltou-se, depôs Pedro e proclamou Catarina como governante da Rússia.
+             Nagoia é célebre pelo seu castelo.
     -->
   </rule>
 
