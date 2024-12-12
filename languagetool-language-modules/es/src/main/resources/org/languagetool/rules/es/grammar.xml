@@ -1748,6 +1748,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="DIACRITICS" name="Diacríticos (tilde)" type="misspelling">
+        <rule id="MANDELA" name="Mandela -> Mándela" default="temp_off">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token min="0" max="3" regexp="yes">\{P}</token>
+                <marker>
+                    <token>Mandela</token>
+                </marker>
+                <token regexp="yes">a|por|al</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>Mándela</suggestion> (del verbo 'mandar').</message>
+            <example correction="Mándela"><marker>Mandela</marker> a nuestra dirección de correo.</example>
+        </rule>
         <rule id="EMPECE" name="empece/empecé">
             <antipattern>
                 <token>no</token>
