@@ -684,8 +684,7 @@ public class XMLRuleHandler extends DefaultHandler {
         ((RegexPatternRule) rule).setRegexFilter(filter);
         rule.setFilterArguments(filterArgs);
       } else if (rule instanceof PatternRule || rule instanceof DisambiguationPatternRule) {
-        RuleFilterCreator creator = new RuleFilterCreator();
-        RuleFilter filter = creator.getFilter(filterClassName);
+        RuleFilter filter = RuleFilterCreator.getInstance().getFilter(filterClassName);
         rule.setFilter(filter);
         rule.setFilterArguments(filterArgs);
       } else {
