@@ -2155,11 +2155,21 @@ USA
 
 
     <!-- TODO Add antipattern for dash and quotations -->
-    <rulegroup id='FORMAL_T-V_DISTINCTION' name='[pt-PT][Formal] Tratamento formal: Tu,Você; Vós,Vocês' default='on' tags="picky">
+    <rulegroup id='FORMAL_T-V_DISTINCTION' name='[pt-PT][Formal] Tratamento formal: Tu,Você; Vós,Vocês' default='on' tags='picky'>
         <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-28 -->
         <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
 
         <!-- Inserted global antipatterns for all subrules on top. -->
+
+        <antipattern>
+            <token postag_regexp='yes' postag='_PUNCT|SENT_START'/>
+            <token postag_regexp='yes' postag='DA.+'/>
+            <token skip='-1' postag_regexp='yes' postag='N.+|AQ.+'><exception scope='next' postag_regexp='yes' postag='DP.+'/></token>
+            <token postag_regexp='yes' postag='(VMIP3S0|VMM02S0):PP1CSO00'/>
+            <example>O TENENTE SACOGNE diz-me que pediu passagem para a reserva, para onde vai no posto de MAJOR.</example>
+            <example>A pele das serpentes repugna-me.</example>
+            <example>A Ana repugna-me.</example>
+        </antipattern>
 
         <!-- ChatGPT 4o: "All these verbs are related to absence, need, or lack and are, therefore, exceptions to the proposed rule." -->
         <antipattern>
@@ -2558,8 +2568,6 @@ USA
         <short>Tratamento informal</short>
         <example correction="Escolhia"><marker>Escolhias</marker> um projeto melhor.</example>
         <example correction="Dirá"><marker>Dirás</marker> a opção correcta.</example>
-        <example>—Dirás a opção correcta.</example>
-        <example>“Dirás a opção correcta.”</example>
         <example>Ela está preocupada com a evolução, a física, a química, e...</example>
         <example>A Astronomia é uma ciência natural que estuda corpos celestes.</example>
         <example correction="Está"><marker>Estás</marker> bem?</example>
