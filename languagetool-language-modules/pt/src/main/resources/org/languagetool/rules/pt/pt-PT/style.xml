@@ -360,13 +360,25 @@ USA
     </rule>
 
 
-    <!-- ESTRANGEIRISMOS ESPECÍFICOS pt_PT -->
     <rule id='BARBARISMS_PT_PT_V3' name="[pt-PT] Estrangeirismos específicos pt_PT" type="style">
         <!-- IDEA foreign_terms -->
-        <!--      Created by Tiago F. Santos (2017-02-09) and improved by Marco A.G.Pinto and Ricardo Joseh Lima, Portuguese rule 2022-07-26 + 2022-10-03 (Checked/Enhanced) (25-JUL-2022+)      -->
         <!--
             This rule is only available to pt-PT. Dissertations, theses and academic papers in European Portuguese use this.
         -->
+
+        <antipattern>
+            <token regexp='yes'>[*]</token>
+            <token regexp='yes' spacebefore='no'>(?:&barbarismos;|&barbarismos_rev2;|&barbarismos_rev3;)s?</token>
+            <token regexp='yes' spacebefore='no'>[*]</token>
+            <example>O *bullying* é uma ofensa grave.</example>
+        </antipattern>
+
+        <antipattern>
+            <token regexp='yes'>[_]</token>
+            <token regexp='yes' spacebefore='no'>(?:&barbarismos;|&barbarismos_rev2;|&barbarismos_rev3;)s?</token>
+            <token regexp='yes' spacebefore='no'>[_]</token>
+            <example>O _bullying_ é uma ofensa grave.</example>
+        </antipattern>
 
         <antipattern>
             <token postag='_QUOT'/>
