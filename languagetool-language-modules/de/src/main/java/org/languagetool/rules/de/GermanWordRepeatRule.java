@@ -123,6 +123,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("möp")
     ),
     Arrays.asList(
+      token("gout"),
+      token("gout")
+    ),
+    Arrays.asList(
       token("piep"),
       token("piep")
     ),
