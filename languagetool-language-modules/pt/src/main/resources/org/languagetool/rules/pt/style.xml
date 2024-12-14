@@ -10623,7 +10623,7 @@ USA
         </rule>
 
 
-        <rulegroup id='PHD_TESE_PROCURAR_PROVAR_PROVARA' name="[Universitário] Evitar expressões do tipo 'procura provar'" type='style' tags='picky' default='on' tone_tags='academic'>
+        <rule id='PHD_TESE_PROCURAR_PROVAR_PROVARA' name="[Universitário] Evitar expressões do tipo 'procura provar'" type='style' tags='picky' default='temp_off' tone_tags='academic'>
 
             <antipattern> <!-- Remove interrogation sentences -->
                 <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar|ir</token>
@@ -10640,133 +10640,26 @@ USA
                 <example>Qual das opções quer saber mais?</example>
                 <example>Quer saber mais sobre este ou sobre outro veículo?</example>
             </antipattern>
-            <rule>
-                <pattern>
-                    <and>
-                        <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar</token>
-                        <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
-                    </and>
-                    <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
-                </pattern>
-                <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP)\b1."/>
-                <message>&thesis_msg;</message>
-                <suggestion>{suggestion}</suggestion>
-                <suggestion><match no='1' postag="V.+" postag_regexp='yes'>cogitar</match> <match no='2'/></suggestion>
-                <suggestion><match no='1' postag="V.+" postag_regexp='yes'>planejar</match> <match no='2'/></suggestion>
-                <suggestion><match no='1' postag="V.+" postag_regexp='yes'>aspirar</match> <match no='2'/></suggestion>
-                <example correction="prova|cogita provar|planeja provar|aspira provar">A nossa tese <marker>pretende provar</marker> a métrica.</example>
-                <example correction="provamos|cogitamos provar|planejamos provar|aspiramos provar">Na nossa tese <marker>pretendemos provar</marker> a métrica.</example>
-                <example correction="provo|cogito provar|planejo provar|aspiro provar">Na nossa tese <marker>pretendo provar</marker> a métrica.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <and>
-                        <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar</token>
-                        <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
-                            <exception postag='VMIF1S0'/>
-                        </token>
-                    </and>
-                    <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
-                </pattern>
-                <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
-                <message>&thesis_msg;</message>
-                <suggestion>{suggestion}</suggestion>
-                <suggestion><match no='1' postag="V.+" postag_regexp='yes'>cogitar</match> <match no='2'/></suggestion>
-                <suggestion><match no='1' postag="V.+" postag_regexp='yes'>planejar</match> <match no='2'/></suggestion>
-                <suggestion><match no='1' postag="V.+" postag_regexp='yes'>aspirar</match> <match no='2'/></suggestion>
-                <example correction="provei|cogitei provar|planejei provar|aspirei provar">Na nossa tese <marker>pretendi provar</marker> a métrica.</example>
-                <example correction="resolveu|cogitou resolver|planejou resolver|aspirou resolver">como o <marker>pretendeu resolver</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <and>
-                        <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar</token>
-                        <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
-                    </and>
-                    <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
-                </pattern>
-                <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IF)\b1."/>
-                <message>&thesis_msg;</message>
-                <suggestion>{suggestion}</suggestion>
-                <suggestion><match no='1' postag="V.+" postag_regexp='yes'>visar</match> <match no='2'/></suggestion>
-                <suggestion><match no='1' postag="V.+" postag_regexp='yes'>ter</match> em vista <match no='2'/></suggestion>
-                <example correction="provará|visa provar|tem em vista provar">A nossa tese <marker>procura provar</marker> a métrica.</example>
-                <example correction="provaremos|visamos provar|tivemos em vista provar">Na nossa tese <marker>procuramos provar</marker> a métrica.</example>
-                <example correction="provarei|viso provar|tenho em vista provar">Na nossa tese <marker>procuro provar</marker> a métrica.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <and>
-                        <token inflected="yes">ir<exception postag='VMIC.+' postag_regexp='yes'/></token>
-                        <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
-                    </and>
-                    <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
-                </pattern>
-                <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP|IF)\b1."/>
-                <message>&thesis_msg;</message>
-                <suggestion>{suggestion}</suggestion>
-                <example correction="provará|prova">A nossa tese <marker>vai provar</marker> a métrica.</example>
-                <example correction="provaremos|provamos">Na nossa tese <marker>vamos provar</marker> a métrica.</example>
-                <example correction="provarei|provo">Na nossa tese <marker>vou provar</marker> a métrica.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag='RG|SENT_START|_PUNCT|VMM.+' postag_regexp='yes'/>
-                    <marker>
-                        <and>
-                            <token inflected="yes">ir</token>
-                            <token postag='VMM01P0'/>
-                        </and>
-                        <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
-                    </marker>
-                </pattern>
-                <message>&thesis_msg;</message>
-                <suggestion><match no='4' postag='VMSP1P0'/></suggestion>
-                <suggestion><match no='4' postag='VMIF1P0'/></suggestion>
-                <suggestion><match no='4' postag='VMIP1P0'/></suggestion>
-                <suggestion>proponho <match no='4' postag='VMSF1P0'/></suggestion>
-                <example correction="provemos|provaremos|provamos|proponho provarmos">Agora <marker>vamos provar</marker> a métrica.</example>
-                <example correction="Provemos|Provaremos|Provamos|Proponho provarmos"><marker>Vamos provar</marker> a métrica.</example>
-                <example correction="provemos|provaremos|provamos|proponho provarmos">Então, <marker>vamos provar</marker> a métrica.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <and>
-                        <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar</token>
-                        <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
-                            <exception postag='VMIF1S0'/>
-                        </token>
-                    </and>
-                    <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
-                </pattern>
-                <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
-                <message>&thesis_msg;</message>
-                <suggestion>{suggestion}</suggestion>
-                <suggestion><match no='1' postag="V.+" postag_regexp='yes'>visar</match> <match no='2'/></suggestion>
-                <suggestion><match no='1' postag="V.+" postag_regexp='yes'>ter</match> em vista <match no='2'/></suggestion>
-                <example correction="provou|visou provar|teve em vista provar">A nossa tese <marker>procurou provar</marker> a métrica.</example>
-                <example correction="provei|visei provar|tive em vista provar">Na nossa tese <marker>procurei provar</marker> a métrica.</example>
-                <example correction="resolveu|visou resolver|teve em vista resolver">como o <marker>procurou resolver</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <and>
-                        <token negate="yes">e</token>
-                        <token inflected="yes">ir</token>
-                        <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
-                            <exception postag='VMIF1S0|AQ.+' postag_regexp='yes'/>
-                        </token>
-                    </and>
-                    <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
-                </pattern>
-                <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
-                <message>&thesis_msg;</message>
-                <suggestion>{suggestion}</suggestion>
-                <example correction="provou">A nossa tese <marker>foi provar</marker> a métrica.</example>
-                <example correction="provei">Na nossa tese <marker>fui provar</marker> a métrica.</example>
-                <example correction="resolveu">como o <marker>foi resolver</marker></example>
-            </rule>
-        </rulegroup>
+
+            <pattern>
+                <token postag='VMIF1.+|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes' regexp='yes' inflected="yes">buscar|procurar|pretender|querer|tentar|ir<exception scope='previous' postag='PD.+' postag_regexp='yes'/></token>
+                <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar<exception scope='next' regexp="yes">agora|mais|sobre</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP|IF)\b1."/>
+            <message>&thesis_msg;</message>
+            <suggestion>{suggestion}</suggestion>
+            <example correction="provará|prova">A nossa tese <marker>vai provar</marker> a métrica.</example>
+            <example correction="provaremos|provamos">Na nossa tese <marker>vamos provar</marker> a métrica.</example>
+            <example correction="provarei|provo">Na nossa tese <marker>vou provar</marker> a métrica.</example>
+            <example correction="provará|prova">A nossa tese <marker>procura provar</marker> a métrica.</example>
+            <example correction="provaremos|provamos">Na nossa tese <marker>procuramos provar</marker> a métrica.</example>
+            <example correction="provarei|provo">Na nossa tese <marker>procuro provar</marker> a métrica.</example>
+            <example>O Podcast para quem quer saber mais sobre a Alemanha.</example>
+            <example>"Nunca sabe quem vai encontrar"</example>
+            <example>Quero saber mais!</example>
+            <example>Bom, vamos saber agora!</example>
+            <example>Estou disposta a tudo para que ela possa voltar a ter uma vida melhor e quero saber sobre a cirurgia.</example>
+        </rule>
 
 
         <rule id='PHD_TESE_REFERIREMOS_A_SEGUIR_REFERIDAS_REFERIDOS' name="[Universitário] Expressões do tipo 'que/como referiremos a seguir' → 'referidas a seguir'" type="style" tags="picky" tone_tags="academic">
