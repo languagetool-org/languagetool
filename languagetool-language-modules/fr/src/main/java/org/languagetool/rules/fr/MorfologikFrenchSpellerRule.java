@@ -307,27 +307,31 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
     return false;
   }
 
-  public static @NotNull MorfologikFrenchSpellerRule getRule(@NotNull ResourceBundle messages) {
+  public static @NotNull MorfologikFrenchSpellerRule getRule(@NotNull ResourceBundle messages) throws IOException {
     return getRule(messages, French.getInstance());
   }
 
   public static @NotNull MorfologikFrenchSpellerRule getRule(@NotNull ResourceBundle messages,
-                                                             @NotNull Language language) {
+                                                             @NotNull Language language) throws IOException {
     return getRule(messages, language, null, Collections.emptyList());
   }
 
   public static @NotNull MorfologikFrenchSpellerRule getRule(@NotNull ResourceBundle messages,
                                                              @NotNull Language language,
                                                              @Nullable UserConfig userConfig,
-                                                             @NotNull List<Language> altLanguages) {
+                                                             @NotNull List<Language> altLanguages) throws IOException {
     CacheKey cacheKey = new CacheKey(messages, language, userConfig, altLanguages);
-    return rulesCache.computeIfAbsent(cacheKey, key -> {
-      try {
-        return new MorfologikFrenchSpellerRule(messages, language, userConfig, altLanguages);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-    });
+    try {
+      return rulesCache.computeIfAbsent(cacheKey, key -> {
+        try {
+          return new MorfologikFrenchSpellerRule(messages, language, userConfig, altLanguages);
+        } catch (IOException e) {
+          throw new WrappingException(e);
+        }
+      });
+    } catch (WrappingException e) {
+      throw (IOException) e.getCause();
+    }
   }
 
   private static class CacheKey {
@@ -345,9 +349,8 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
 
     @Override
     public final boolean equals(Object o) {
-      if (!(o instanceof CacheKey)) return false;
+      if (!(o instanceof CacheKey cacheKey)) return false;
 
-      CacheKey cacheKey = (CacheKey) o;
       return messages.equals(cacheKey.messages) && language.equals(cacheKey.language) && Objects.equals(userConfig, cacheKey.userConfig) && altLanguages.equals(cacheKey.altLanguages);
     }
 
@@ -360,4 +363,11 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
       return result;
     }
   }
+
+  private static class WrappingException extends RuntimeException {
+    public WrappingException(Throwable cause) {
+      super(cause);
+    }
+  }
 }
+
