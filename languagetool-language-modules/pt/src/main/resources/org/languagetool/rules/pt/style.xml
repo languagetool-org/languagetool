@@ -10623,7 +10623,7 @@ USA
         </rule>
 
 
-        <rule id='PHD_TESE_PROCURAR_PROVAR_PROVARA' name="[Universitário] Evitar expressões do tipo 'procura provar'" type='style' tags='picky' default='temp_off' tone_tags='academic'>
+        <rule id='PHD_TESE_PROCURAR_PROVAR_PROVARA' name="[Universitário] Evitar expressões do tipo 'procura provar'" type='style' tags='picky' tone_tags='academic'>
 
             <antipattern> <!-- Remove interrogation sentences -->
                 <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar|ir</token>
@@ -10639,6 +10639,15 @@ USA
                 <example>Quer saber dele?</example>
                 <example>Qual das opções quer saber mais?</example>
                 <example>Quer saber mais sobre este ou sobre outro veículo?</example>
+            </antipattern>
+
+            <antipattern> <!-- Excludes simple imperative or declarative sentences where these verbs are used legitimately -->
+                <token postag='SENT_START' postag_regexp='no'/>
+                <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar|ir</token>
+                <token postag='VMN0000'/>
+                <token postag='SENT_END' postag_regexp='no'/>
+                <example>Queremos saber!</example>
+                <example>Quero saber.</example>
             </antipattern>
 
             <pattern>
