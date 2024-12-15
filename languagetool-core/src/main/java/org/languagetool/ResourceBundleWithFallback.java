@@ -52,9 +52,9 @@ public class ResourceBundleWithFallback extends ResourceBundle {
 
   @Override
   public final boolean equals(Object o) {
-    if (!(o instanceof ResourceBundleWithFallback)) return false;
+    if (o == this) return true;
+    if (!(o instanceof ResourceBundleWithFallback that)) return false;
 
-    ResourceBundleWithFallback that = (ResourceBundleWithFallback) o;
     return Objects.equals(bundle, that.bundle) && Objects.equals(fallbackBundle, that.fallbackBundle);
   }
 
