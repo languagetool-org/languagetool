@@ -10626,7 +10626,7 @@ USA
         <rule id='PHD_TESE_PROCURAR_PROVAR_PROVARA' name="[Universitário] Evitar expressões do tipo 'procura provar'" type='style' tags='picky' tone_tags='academic'>
 
             <antipattern> <!-- Remove interrogation sentences -->
-                <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar|ir</token>
+                <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar</token>
                 <token skip='-1' postag='VMN0000'><exception scope='next' postag='_QUOT'/></token>
                 <token postag='_PUNCT_INTERROGATION' postag_regexp='no'/>
                 <example>Por que você quer saber como eu me chamo?</example>
@@ -10634,8 +10634,6 @@ USA
                 <example>Você quer saber o meu segredo? Ele é muito simples...</example>
                 <example>O que você quer saber sobre o meu trabalho?</example>
                 <example>Você quer responder minha pergunta ou não?</example>
-                <example>Você vai encontrar alguém aqui?</example>
-                <example>Quem você vai encontrar no shopping?</example>
                 <example>Quer saber dele?</example>
                 <example>Qual das opções quer saber mais?</example>
                 <example>Quer saber mais sobre este ou sobre outro veículo?</example>
@@ -10643,7 +10641,7 @@ USA
 
             <antipattern> <!-- Excludes simple imperative or declarative sentences where these verbs are used legitimately -->
                 <token postag='SENT_START' postag_regexp='no'/>
-                <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar|ir</token>
+                <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar</token>
                 <token postag='VMN0000'/>
                 <token postag='SENT_END' postag_regexp='no'/>
                 <example>Queremos saber!</example>
@@ -10651,22 +10649,18 @@ USA
             </antipattern>
 
             <pattern>
-                <token postag='VMIF1.+|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes' regexp='yes' inflected="yes">buscar|procurar|pretender|querer|tentar|ir<exception scope='previous' postag='PD.+' postag_regexp='yes'/></token>
+                <token postag='VMIF1.+|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes' regexp='yes' inflected="yes">buscar|procurar|pretender|querer|tentar<exception scope='previous' postag='PD.+' postag_regexp='yes'/></token>
                 <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar<exception scope='next' regexp="yes">agora|mais|sobre</exception></token>
             </pattern>
             <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP|IF)\b1."/>
             <message>&thesis_msg;</message>
             <suggestion>{suggestion}</suggestion>
-            <example correction="provará|prova">A nossa tese <marker>vai provar</marker> a métrica.</example>
-            <example correction="provaremos|provamos">Na nossa tese <marker>vamos provar</marker> a métrica.</example>
-            <example correction="provarei|provo">Na nossa tese <marker>vou provar</marker> a métrica.</example>
-            <example correction="provará|prova">A nossa tese <marker>procura provar</marker> a métrica.</example>
-            <example correction="provaremos|provamos">Na nossa tese <marker>procuramos provar</marker> a métrica.</example>
-            <example correction="provarei|provo">Na nossa tese <marker>procuro provar</marker> a métrica.</example>
+            <suggestion><match no='1' postag='VMIP.+' postag_regexp='yes'>ir</match> \2</suggestion>
+            <example correction="provará|prova|vai provar">A nossa tese <marker>procura provar</marker> a métrica.</example>
+            <example correction="provaremos|provamos|vamos provar">Na nossa tese <marker>procuramos provar</marker> a métrica.</example>
+            <example correction="provarei|provo|vou provar">Na nossa tese <marker>procuro provar</marker> a métrica.</example>
             <example>O Podcast para quem quer saber mais sobre a Alemanha.</example>
-            <example>"Nunca sabe quem vai encontrar"</example>
             <example>Quero saber mais!</example>
-            <example>Bom, vamos saber agora!</example>
             <example>Estou disposta a tudo para que ela possa voltar a ter uma vida melhor e quero saber sobre a cirurgia.</example>
         </rule>
 
