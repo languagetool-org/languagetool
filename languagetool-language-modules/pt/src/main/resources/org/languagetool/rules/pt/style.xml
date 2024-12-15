@@ -10641,6 +10641,15 @@ USA
                 <example>Quer saber mais sobre este ou sobre outro veículo?</example>
             </antipattern>
 
+            <antipattern>
+                <token postag='SENT_START' postag_regexp='no'/>
+                <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar|ir</token>
+                <token postag='VMN0000'/>
+                <token postag='SENT_END' postag_regexp='no'/>
+                <example>Queremos saber!</example>
+                <example>Quero saber.</example>
+            </antipattern>
+
             <pattern>
                 <token postag='VMIF1.+|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes' regexp='yes' inflected="yes">buscar|procurar|pretender|querer|tentar|ir<exception scope='previous' postag='PD.+' postag_regexp='yes'/></token>
                 <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar<exception scope='next' regexp="yes">agora|mais|sobre</exception></token>
