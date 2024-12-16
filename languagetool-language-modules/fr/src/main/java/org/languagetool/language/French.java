@@ -151,7 +151,7 @@ public class French extends Language implements AutoCloseable {
 
   @Override
   public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
-    return new MorfologikFrenchSpellerRule(messages, this, null, Collections.emptyList());
+    return MorfologikFrenchSpellerRule.getRule(messages, this);
   }
 
   @Override
@@ -164,7 +164,7 @@ public class French extends Language implements AutoCloseable {
                     Arrays.asList("]", ")", "}"
                          /*"»", French dialog can contain multiple sentences. */
                          /*"’" used in "d’arm" and many other words */)),
-            new MorfologikFrenchSpellerRule(messages, this, userConfig, altLanguages),
+      MorfologikFrenchSpellerRule.getRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
