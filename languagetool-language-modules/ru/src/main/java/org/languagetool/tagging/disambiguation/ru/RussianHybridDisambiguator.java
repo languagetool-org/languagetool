@@ -19,6 +19,7 @@
 
 package org.languagetool.tagging.disambiguation.ru;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
@@ -37,10 +38,13 @@ import java.io.IOException;
  */
 
 public class RussianHybridDisambiguator extends AbstractDisambiguator {
-  public static final RussianHybridDisambiguator INSTANCE = new RussianHybridDisambiguator();
+  private static volatile RussianHybridDisambiguator INSTANCE = null;
 
   private final Disambiguator chunker = new MultiWordChunker("/ru/multiwords.txt");
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Russian());
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(Russian.getInstance());
+
+  private RussianHybridDisambiguator() {
+  }
 
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {
@@ -53,5 +57,16 @@ public class RussianHybridDisambiguator extends AbstractDisambiguator {
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
     return disambiguator.disambiguate(chunker.disambiguate(input, checkCanceled), checkCanceled);
+  }
+
+  public static @NotNull RussianHybridDisambiguator getInstance() {
+    if (INSTANCE == null) {
+      synchronized (RussianHybridDisambiguator.class) {
+        if (INSTANCE == null) {
+          INSTANCE = new RussianHybridDisambiguator();
+        }
+      }
+    }
+    return INSTANCE;
   }
 }
