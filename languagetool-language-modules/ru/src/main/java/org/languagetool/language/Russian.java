@@ -20,7 +20,10 @@ package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
+import org.languagetool.Languages;
+import org.languagetool.UserConfig;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.RussianChunker;
 import org.languagetool.languagemodel.LanguageModel;
@@ -33,20 +36,40 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.ru.RussianHybridDisambiguator;
 import org.languagetool.tagging.ru.RussianTagger;
-import org.languagetool.tokenizers.ru.RussianWordTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.ru.RussianWordTokenizer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 public class Russian extends Language implements AutoCloseable {
 
   private LanguageModel languageModel;
 
+  private static final String LANGUAGE_SHORT_CODE = "ru";
+
+  private static volatile Throwable instantiationTrace;
+
+  public Russian() {
+    Throwable trace = instantiationTrace;
+    if (trace != null) {
+      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
+    }
+    instantiationTrace = new Throwable();
+  }
+
+  /**
+   * This is a fake constructor overload for the subclasses. Public constructors can only be used by the LT itself.
+   */
+  protected Russian(boolean fakeValue) {
+  }
   @Override
   public Pattern getIgnoredCharactersRegex() {
     return Pattern.compile("[\u00AD\u0301\u0300]");
@@ -59,7 +82,7 @@ public class Russian extends Language implements AutoCloseable {
 
   @Override
   public String getShortCode() {
-    return "ru";
+    return LANGUAGE_SHORT_CODE;
   }
 
   @Override
@@ -75,9 +98,8 @@ public class Russian extends Language implements AutoCloseable {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return RussianHybridDisambiguator.INSTANCE;
+    return RussianHybridDisambiguator.getInstance();
   }
-
 
   @Nullable
   @Override
@@ -191,8 +213,8 @@ public class Russian extends Language implements AutoCloseable {
   /** @since 3.1 */
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
-    return Arrays.asList(
-            new RussianConfusionProbabilityRule(messages, languageModel, this)
+    return List.of(
+      new RussianConfusionProbabilityRule(messages, languageModel, this)
     );
   }
 
@@ -235,5 +257,13 @@ public class Russian extends Language implements AutoCloseable {
   @Override
   protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
     return new MorfologikRussianSpellerRule(messages, this, null, null);
+  }
+
+  public static @NotNull Russian getInstance() {
+    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));
+    if (language instanceof Russian russian) {
+      return russian;
+    }
+    throw new RuntimeException("Russian language expected, got " + language);
   }
 }

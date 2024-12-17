@@ -29,7 +29,7 @@ public class RussianTaggerTest {
 
   @Test
   public void testDictionary() throws IOException {
-    TestTools.testDictionary(RussianTagger.INSTANCE, new Russian());
+    TestTools.testDictionary(RussianTagger.INSTANCE, Russian.getInstance());
   }
 
   @Test

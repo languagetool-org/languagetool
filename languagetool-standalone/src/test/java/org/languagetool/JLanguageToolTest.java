@@ -425,7 +425,7 @@ public class JLanguageToolTest {
   public void testRuleMessagesForSpellingErrors() throws Exception {
     JLanguageTool lt = new JLanguageTool(english);
     //JLanguageTool lt = new JLanguageTool(GermanyGerman.getInstance());
-    //JLanguageTool lt = new JLanguageTool(new Russian());
+    //JLanguageTool lt = new JLanguageTool(Russian.getInstance());
     String[] rulesDisabled = {
             // en:
             "EN_QUOTES", "UPPERCASE_SENTENCE_START", "WHITESPACE_RULE",
