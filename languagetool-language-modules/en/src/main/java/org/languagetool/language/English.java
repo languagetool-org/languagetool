@@ -540,6 +540,7 @@ public class English extends LanguageWithModel {
     id2prio.put("MORFOLOGIK_RULE_EN_ZA", -10);  // more specific rules (e.g. L2 rules) have priority
     id2prio.put("MORFOLOGIK_RULE_EN_NZ", -10);  // more specific rules (e.g. L2 rules) have priority
     id2prio.put("MORFOLOGIK_RULE_EN_AU", -10);  // more specific rules (e.g. L2 rules) have priority
+    id2prio.put("UPPERCASE_SENTENCE_START", -11);  // speller needs higher priority
     id2prio.put("MD_PRP_QUESTION_MARK", -11);  // speller needs higher priority
     id2prio.put("PRP_RB_NO_VB", -12);  // prefer other more specific rules (with suggestions)
     id2prio.put("MD_JJ", -12);  // prefer other rules (e.g. NOUN_VERB_CONFUSION)
