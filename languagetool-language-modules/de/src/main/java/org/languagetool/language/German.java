@@ -467,6 +467,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("AUSTRIAN_GERMAN_SPELLER_RULE", -3);  // assume most other rules are more specific and helpful than the spelling rule
     id2prio.put("SWISS_GERMAN_SPELLER_RULE", -3);  // assume most other rules are more specific and helpful than the spelling rule
     id2prio.put("DE_VERBAGREEMENT", -4); // prefer more specific rules (e.g DU_WUENSCHT) and speller
+    id2prio.put("UPPERCASE_SENTENCE_START", -4);  // prefer speller
     id2prio.put("PUNKT_ENDE_DIREKTE_REDE", -4); // prefer speller
     id2prio.put("LEERZEICHEN_NACH_VOR_ANFUEHRUNGSZEICHEN", -4); // prefer speller
     id2prio.put("ZEICHENSETZUNG_DIREKTE_REDE", -4); // prefer speller
