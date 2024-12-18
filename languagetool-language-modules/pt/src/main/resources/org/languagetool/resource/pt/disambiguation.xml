@@ -3813,6 +3813,27 @@ USA
       </rule>
   </rulegroup>
 
+  <rule id="VERB_INFINITIVE_PASTPARTICIPLE_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='VMN0000' postag_regexp="no"/>
+      <token postag='D[AI].+' postag_regexp="yes"/>
+      <marker>
+          <token postag='VMP00.+' postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Vou terminar um doutorado em física.
+             Usa-se a batida final para pagar o morto.
+             Soma-se, então, este total com o da saída, anotando o valor para calcular o acumulado da partida.
+             Era um último esforço para favorecer a entrada das tropas comandadas por Junot.
+             A administração Truman propôs fortalecer os sistemas de aliança pró-ocidental e quadruplicar os gastos com Defesa.
+             No Papiro Rhind ou Ahmes[4] é dada uma solução plana para se construir um quadrado de área próxima a de um círculo.
+    -->
+  </rule>
+
   <rule id="NOUN_HYPHEN_PASTPARTICIPLE_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Moved the rule down to assure it works correctly. -->
     <!-- In hyphenated words with a past participle it removes the past participle, for words not in the dictionary: "peixe-DOURADO" -->
