@@ -63,10 +63,10 @@ public class ConfigurationTest {
   @Test
   public void testSaveAndLoadConfigurationForManyLanguages() throws Exception {
     File tempFile = File.createTempFile(ConfigurationTest.class.getSimpleName(), ".cfg");
-    createConfiguration(tempFile, new AmericanEnglish());
+    createConfiguration(tempFile, AmericanEnglish.getInstance());
     try {
       Configuration conf = new Configuration(tempFile.getParentFile(), tempFile.getName(),
-              new AmericanEnglish());
+        AmericanEnglish.getInstance());
       Set<String> disabledRuleIds = conf.getDisabledRuleIds();
       assertTrue(disabledRuleIds.contains("FOO1"));
       assertTrue(disabledRuleIds.contains("Foo2"));
@@ -88,7 +88,7 @@ public class ConfigurationTest {
 
       //and back...
       conf = new Configuration(tempFile.getParentFile(), tempFile.getName(),
-              new AmericanEnglish());
+        AmericanEnglish.getInstance());
       disabledRuleIds = conf.getDisabledRuleIds();
       assertTrue(disabledRuleIds.contains("FOO1"));
       assertTrue(disabledRuleIds.contains("Foo2"));

@@ -18,19 +18,16 @@
  */
 package org.languagetool.tagging.disambiguation.pt;
 
-import java.io.IOException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Portuguese;
-//import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
-//import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
-import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
 import org.languagetool.tagging.pt.PortugueseTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
+
+import java.io.IOException;
 
 public class PortugueseDisambiguationRuleTest {
   
@@ -45,10 +42,10 @@ public class PortugueseDisambiguationRuleTest {
   public void setUp() {
     tagger = new PortugueseTagger();
     tokenizer = new WordTokenizer();
-    sentenceTokenizer = new SRXSentenceTokenizer(new Portuguese());
-    //disambiguator = new XmlRuleDisambiguator(new Portuguese());
+    sentenceTokenizer = new SRXSentenceTokenizer(Portuguese.getInstance());
+    //disambiguator = new XmlRuleDisambiguator(Portuguese.getInstance());
     //disamb2 = new DemoDisambiguator(); 
-    hybridDisam = new PortugueseHybridDisambiguator(new Portuguese());
+    hybridDisam = new PortugueseHybridDisambiguator(Portuguese.getInstance());
   }
 
   @Test

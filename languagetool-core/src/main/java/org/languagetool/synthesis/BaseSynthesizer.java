@@ -39,6 +39,8 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import static org.languagetool.tools.StringInterner.intern;
+
 public class BaseSynthesizer implements Synthesizer {
 
   public final String SPELLNUMBER_TAG = "_spell_number_";
@@ -309,7 +311,7 @@ public class BaseSynthesizer implements Synthesizer {
     if (manualSynthesizer != null) {
       for (String tag : manualSynthesizer.getPossibleTags()) {
         if (!tags.contains(tag)) {
-          tags.add(tag);
+          tags.add(intern(tag));
         }
       }
     }

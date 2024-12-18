@@ -104,7 +104,7 @@ public class JLanguageToolTest {
     ResourceBundle bundle2 = JLanguageTool.getMessageBundle(english);
     assertThat(bundle2.getString("de"), is("German"));
 
-    ResourceBundle bundle3 = JLanguageTool.getMessageBundle(new AmericanEnglish());
+    ResourceBundle bundle3 = JLanguageTool.getMessageBundle(AmericanEnglish.getInstance());
     assertThat(bundle3.getString("de"), is("German"));
   }
 
@@ -473,7 +473,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testIgnoringEnglishWordsInSpanish() throws IOException {
-    Language lang = new Spanish();
+    Language lang = Spanish.getInstance();
     JLanguageTool lt = new JLanguageTool(lang);
     // No error for unclosed exclamation marks ¡!
     List<RuleMatch> matches = lt.check("This is fantastic!");
@@ -575,7 +575,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testIgnoreEnglishWordsInPortuguese() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new BrazilianPortuguese());
+    JLanguageTool lt = new JLanguageTool(BrazilianPortuguese.getInstance());
     lt.disableRules(lt.getAllRules().stream().map(Rule::getId).collect(Collectors.toList()));
     lt.enableRule("MORFOLOGIK_RULE_PT_BR");
     lt.enableRule("PT_BARBARISMS_REPLACE");

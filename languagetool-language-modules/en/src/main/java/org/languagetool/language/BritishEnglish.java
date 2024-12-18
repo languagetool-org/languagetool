@@ -19,12 +19,11 @@
 
 package org.languagetool.language;
 
-import java.io.IOException;
-import java.util.*;
-
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
@@ -33,7 +32,27 @@ import org.languagetool.rules.en.MorfologikBritishSpellerRule;
 import org.languagetool.rules.en.UnitConversionRuleImperial;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
+import java.io.IOException;
+import java.util.*;
+
 public class BritishEnglish extends English {
+  private static final String LANGUAGE_SHORT_CODE = "en-GB";
+
+  private static volatile Throwable instantiationTrace;
+
+  public BritishEnglish() {
+    Throwable trace = instantiationTrace;
+    if (trace != null) {
+      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
+    }
+    instantiationTrace = new Throwable();
+  }
+
+  /**
+   * This is a fake constructor overload for the subclasses. Public constructors can only be used by the LT itself.
+   */
+  protected BritishEnglish(boolean fakeValue) {
+  }
 
   @Override
   public String[] getCountries() {
@@ -85,5 +104,13 @@ public class BritishEnglish extends English {
       return prio;
     }
     return super.getPriorityForId(id);
+  }
+
+  public static @NotNull English getInstance() {
+    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));
+    if (language instanceof English britishEnglish) {
+      return britishEnglish;
+    }
+    throw new RuntimeException("BritishEnglish language expected, got " + language);
   }
 }

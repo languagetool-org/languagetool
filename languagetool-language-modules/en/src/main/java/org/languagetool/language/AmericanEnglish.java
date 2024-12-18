@@ -19,9 +19,11 @@
 
 package org.languagetool.language;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
@@ -33,12 +35,26 @@ import org.languagetool.rules.spelling.SymSpellRule;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AmericanEnglish extends English {
+  private static final String LANGUAGE_SHORT_CODE = "en-US";
+
+  private static volatile Throwable instantiationTrace;
+
+  public AmericanEnglish() {
+    Throwable trace = instantiationTrace;
+    if (trace != null) {
+      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
+    }
+    instantiationTrace = new Throwable();
+  }
+
+  /**
+   * This is a fake constructor overload for the subclasses. Public constructors can only be used by the LT itself.
+   */
+  protected AmericanEnglish(boolean fakeValue) {
+  }
 
   @Override
   public String[] getCountries() {
@@ -74,4 +90,11 @@ public class AmericanEnglish extends English {
     return rules;
   }
 
+  public static @NotNull English getInstance() {
+    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));
+    if (language instanceof English americanEnglish) {
+      return americanEnglish;
+    }
+    throw new RuntimeException("AmericanEnglish language expected, got " + language);
+  }
 }

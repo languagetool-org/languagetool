@@ -19,14 +19,14 @@
 
 package org.languagetool.tagging.disambiguation.ga;
 
-import java.io.IOException;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.language.Irish;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
+
+import java.io.IOException;
 
 /**
  * Hybrid chunker-disambiguator for Irish
@@ -36,7 +36,7 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 public class IrishHybridDisambiguator extends AbstractDisambiguator {
 
-  private final Disambiguator chunker = new MultiWordChunker("/ga/multiwords.txt");
+  private final Disambiguator chunker = MultiWordChunker.getInstance("/ga/multiwords.txt");
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Irish());
 
   /**

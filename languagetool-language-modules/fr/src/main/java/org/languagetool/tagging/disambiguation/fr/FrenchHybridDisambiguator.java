@@ -38,9 +38,9 @@ import java.io.IOException;
 
 public class FrenchHybridDisambiguator extends AbstractDisambiguator {
 
-  private final MultiWordChunker chunker = new MultiWordChunker("/fr/multiwords.txt", true, true, false);
+  private final MultiWordChunker chunker = MultiWordChunker.getInstance("/fr/multiwords.txt", true, true, false);
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(French.getInstance(), true);
-  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, false,
+  private final MultiWordChunker chunkerGlobal = MultiWordChunker.getInstance("/spelling_global.txt", false, true, false,
     MultiWordChunker.tagForNotAddingTags);
 
   public FrenchHybridDisambiguator() {

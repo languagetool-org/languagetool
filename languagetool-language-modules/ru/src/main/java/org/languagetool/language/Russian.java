@@ -20,10 +20,7 @@ package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.Languages;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.RussianChunker;
 import org.languagetool.languagemodel.LanguageModel;
@@ -41,7 +38,6 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.ru.RussianWordTokenizer;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -49,9 +45,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-public class Russian extends Language implements AutoCloseable {
-
-  private LanguageModel languageModel;
+public class Russian extends LanguageWithModel {
 
   private static final String LANGUAGE_SHORT_CODE = "ru";
 
@@ -205,28 +199,10 @@ public class Russian extends Language implements AutoCloseable {
 
   /** @since 3.1 */
   @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    languageModel = initLanguageModel(indexDir, languageModel);
-    return languageModel;
-  }
-
-  /** @since 3.1 */
-  @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
     return List.of(
       new RussianConfusionProbabilityRule(messages, languageModel, this)
     );
-  }
-
-  /**
-   * Closes the language model, if any. 
-   * @since 3.1
-   */
-  @Override
-  public void close() throws Exception {
-    if (languageModel != null) {
-      languageModel.close();
-    }
   }
 
   /** @since 3.3 */

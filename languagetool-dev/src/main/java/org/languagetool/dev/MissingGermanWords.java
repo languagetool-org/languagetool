@@ -32,7 +32,7 @@ public class MissingGermanWords {
     this.outputCombinedListing = true;
     germanSpeller = new GermanSpellerRule(JLanguageTool.getMessageBundle(), GermanyGerman.getInstance());
     germanTagger = new GermanTagger();
-    englishSpeller = new MorfologikAmericanSpellerRule(JLanguageTool.getMessageBundle(), new AmericanEnglish());
+    englishSpeller = new MorfologikAmericanSpellerRule(JLanguageTool.getMessageBundle(), AmericanEnglish.getInstance());
   }
 
   public static void main(String[] args) throws IOException {

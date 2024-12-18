@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.LanguageWithModel;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
@@ -38,9 +39,9 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -48,9 +49,7 @@ import java.util.ResourceBundle;
  * Support for Arabic.
  * @since 4.9
  */
-public class Arabic extends Language implements AutoCloseable {
-
-  private LanguageModel languageModel;
+public class Arabic extends LanguageWithModel {
 
   @Override
   public String getName() {
@@ -134,7 +133,7 @@ public class Arabic extends Language implements AutoCloseable {
 
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) {
-    return Arrays.asList(
+    return Collections.singletonList(
       new ArabicConfusionProbabilityRule(messages, languageModel, this)
     );
   }
@@ -142,19 +141,6 @@ public class Arabic extends Language implements AutoCloseable {
   @Override
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
-  }
-
-  @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) {
-    languageModel = initLanguageModel(indexDir, languageModel);
-    return languageModel;
-  }
-
-  @Override
-  public void close() {
-    if (languageModel != null) {
-      languageModel.close();
-    }
   }
 
   @Nullable

@@ -33,19 +33,35 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.es.SpanishHybridDisambiguator;
 import org.languagetool.tagging.es.SpanishTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.es.SpanishWordTokenizer;
 import org.languagetool.tools.StringTools;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Spanish extends Language implements AutoCloseable {
-  
-  private LanguageModel languageModel;
+public class Spanish extends LanguageWithModel {
+  private static final String LANGUAGE_SHORT_CODE = "es-ES";
+
+  private static volatile Throwable instantiationTrace;
+
+  public Spanish() {
+    Throwable trace = instantiationTrace;
+    if (trace != null) {
+      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
+    }
+    instantiationTrace = new Throwable();
+  }
+
+  /**
+   * This is a fake constructor overload for the subclasses. Public constructors can only be used by the LT itself.
+   */
+  protected Spanish(boolean fakeValue) {
+  }
 
   @Override
   public String getName() {
@@ -139,16 +155,9 @@ public class Spanish extends Language implements AutoCloseable {
 
   /** @since 3.1 */
   @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    languageModel = initLanguageModel(indexDir, languageModel);
-    return languageModel;
-  }
-
-  /** @since 3.1 */
-  @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
-    return Arrays.asList(
-            new SpanishConfusionProbabilityRule(messages, languageModel, this)
+    return Collections.singletonList(
+      new SpanishConfusionProbabilityRule(messages, languageModel, this)
     );
   }
   
@@ -178,17 +187,6 @@ public class Spanish extends Language implements AutoCloseable {
   @Override
   public boolean isAdvancedTypographyEnabled() {
     return true;
-  }
-
-  /**
-   * Closes the language model, if any. 
-   * @since 3.1
-   */
-  @Override
-  public void close() throws Exception {
-    if (languageModel != null) {
-      languageModel.close();
-    }
   }
 
   @Override
@@ -328,18 +326,18 @@ public class Spanish extends Language implements AutoCloseable {
   public List<String> prepareLineForSpeller(String line) {
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return Arrays.asList(line);
+      return Collections.singletonList(line);
     }
     String[] formTag = parts[0].split("[\t;]");
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
       if (tag.startsWith("N") || tag.equals("_Latin_") || tag.equals("LOC_ADV")) {
-        return Arrays.asList(formTag[0].trim());
+        return Collections.singletonList(formTag[0].trim());
       } else {
-        return Arrays.asList("");
+        return Collections.singletonList("");
       }
     }
-    return Arrays.asList(line);
+    return Collections.singletonList(line);
   }
 
   public MultitokenSpeller getMultitokenSpeller() {
@@ -347,9 +345,9 @@ public class Spanish extends Language implements AutoCloseable {
   }
 
 
-  private List<String> suggestionsToAvoid = Arrays.asList("aquél", "aquélla", "aquéllas", "aquéllos", "ésa", "ésas",
+  private final List<String> suggestionsToAvoid = Arrays.asList("aquél", "aquélla", "aquéllas", "aquéllos", "ésa", "ésas",
     "ése", "ésos", "ésta", "éstas", "éste", "éstos", "sólo");
-  private Pattern voseoPostagPatern = Pattern.compile("V....V.*");
+  private final Pattern voseoPostagPatern = Pattern.compile("V....V.*");
   @Override
   public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
     List<RuleMatch> results = new ArrayList<>();
@@ -374,7 +372,7 @@ public class Spanish extends Language implements AutoCloseable {
         // avoid voseo forms in suggestions
         List<AnalyzedTokenReadings> atr;
         try {
-          atr = this.getTagger().tag(Arrays.asList(suggestion));
+          atr = this.getTagger().tag(Collections.singletonList(suggestion));
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
@@ -398,5 +396,13 @@ public class Spanish extends Language implements AutoCloseable {
     }
 
     return results;
+  }
+
+  public static @NotNull Spanish getInstance() {
+    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));
+    if (language instanceof Spanish spanish) {
+      return spanish;
+    }
+    throw new RuntimeException("Spanish language expected, got " + language);
   }
 }

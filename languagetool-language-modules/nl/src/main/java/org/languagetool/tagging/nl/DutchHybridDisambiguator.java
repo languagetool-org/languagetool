@@ -37,8 +37,8 @@ import java.io.IOException;
  */
 public class DutchHybridDisambiguator extends AbstractDisambiguator {
 
-  private final MultiWordChunker chunker = new MultiWordChunker("/nl/multiwords.txt", true, true, false,  MultiWordChunker.tagForNotAddingTags);
-  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, false, MultiWordChunker.tagForNotAddingTags);
+  private final MultiWordChunker chunker = MultiWordChunker.getInstance("/nl/multiwords.txt", true, true, false, MultiWordChunker.tagForNotAddingTags);
+  private final MultiWordChunker chunkerGlobal = MultiWordChunker.getInstance("/spelling_global.txt", false, true, false, MultiWordChunker.tagForNotAddingTags);
   private final Disambiguator disambiguator;
 
   @Override

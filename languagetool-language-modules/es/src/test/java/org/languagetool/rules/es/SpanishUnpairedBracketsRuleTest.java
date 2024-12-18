@@ -38,7 +38,7 @@ public class SpanishUnpairedBracketsRuleTest {
 
   @Test
   public void testSpanishRule() throws IOException {
-    lt = new JLanguageTool(new Spanish());
+    lt = new JLanguageTool(Spanish.getInstance());
     rule = new SpanishUnpairedBracketsRule(TestTools.getEnglishMessages());
     // correct sentences:
     assertMatches("Soy un hombre (muy honrado).", 0);

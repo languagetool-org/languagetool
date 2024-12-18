@@ -115,7 +115,7 @@ public class HTTPServerTest {
     }));
     server.run();
     try {
-      String resultWithTranslation = checkV2(new AmericanEnglish(), GermanyGerman.getInstance(), "Please let us meet in my Haus");
+      String resultWithTranslation = checkV2(AmericanEnglish.getInstance(), GermanyGerman.getInstance(), "Please let us meet in my Haus");
       assertTrue(resultWithTranslation, resultWithTranslation.contains("house"));
     } finally {
       server.stop();
@@ -386,7 +386,7 @@ public class HTTPServerTest {
   }
 
   private void runDataTests() throws IOException {
-    English english = new AmericanEnglish();
+    English english = AmericanEnglish.getInstance();
     assertTrue(dataTextCheck(english, null,
             "{\"text\": \"This is an test.\"}", "").contains("EN_A_VS_AN"));
     assertTrue(dataTextCheck(english, null,

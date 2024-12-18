@@ -9,7 +9,8 @@ import org.languagetool.tools.MostlySingularMultiMap;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
-import java.util.function.Function;
+
+import static org.languagetool.tools.StringInterner.intern;
 
 public class CompoundCheckFilter extends RuleFilter {
   
@@ -31,7 +32,6 @@ public class CompoundCheckFilter extends RuleFilter {
   }
   
   private static MostlySingularMultiMap<String, String> loadWords(String path) {
-    Map<String, String> interned = new HashMap<>();
     final Map<String, List<String>> map = new HashMap<>();
     final InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
     try (Scanner scanner = new Scanner(inputStream, FILE_ENCODING)) {
@@ -46,8 +46,8 @@ public class CompoundCheckFilter extends RuleFilter {
                   + line + ", " + "expected 2 semicolon-separated parts, got "
                   + parts.length);
         }
-        String part0 = interned.computeIfAbsent(parts[0].trim().toLowerCase(), Function.identity());
-        String part1 = interned.computeIfAbsent(parts[1].trim().toLowerCase(), Function.identity());
+        String part0 = intern(parts[0].trim().toLowerCase());
+        String part1 = intern(parts[1].trim().toLowerCase());
         map.computeIfAbsent(part0, __ -> new ArrayList<>()).add(part1);
       }
     }

@@ -38,7 +38,6 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.fr.FrenchWordTokenizer;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -46,7 +45,7 @@ import java.util.regex.Pattern;
 import static java.util.regex.Pattern.compile;
 
 
-public class French extends Language implements AutoCloseable {
+public class French extends LanguageWithModel {
   private static final String BEFORE_APOS = "([cjnmtsldCJNMTSLD]|qu|jusqu|lorsqu|puisqu|quoiqu|Qu|Jusqu|Lorsqu|Puisqu|Quoiqu|QU|JUSQU|LORSQU|PUISQU|QUOIQU)";
   private static final Pattern BEFORE_APOS_PATTERN_1 = compile("(\\b" + BEFORE_APOS + ")'");
   private static final Pattern BEFORE_APOS_PATTERN_2 = compile("(\\b" + BEFORE_APOS + ")’\"");
@@ -69,7 +68,6 @@ public class French extends Language implements AutoCloseable {
   private static final Pattern TYPOGRAPHY_PATTERN_15 = compile(" \u202f");
   private static final Pattern TYPOGRAPHY_PATTERN_16 = compile("\u202f ");
 
-  private LanguageModel languageModel;
   private static final String FRENCH_SHORT_CODE = "fr";
 
   private static volatile Throwable instantiationTrace;
@@ -196,13 +194,6 @@ public class French extends Language implements AutoCloseable {
     );
   }
 
-  /** @since 3.1 */
-  @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    languageModel = initLanguageModel(indexDir, languageModel);
-    return languageModel;
-  }
-  
   /** @since 5.1 */
   @Override
   public String getOpeningDoubleQuote() {
@@ -265,17 +256,6 @@ public class French extends Language implements AutoCloseable {
     output = TYPOGRAPHY_PATTERN_16.matcher(output).replaceAll("\u202f");
 
     return output;
-  }
-
-  /**
-   * Closes the language model, if any.
-   * @since 3.1
-   */
-  @Override
-  public void close() throws Exception {
-    if (languageModel != null) {
-      languageModel.close();
-    }
   }
 
   @Override

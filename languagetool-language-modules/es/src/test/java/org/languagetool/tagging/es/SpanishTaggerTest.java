@@ -49,7 +49,7 @@ public class SpanishTaggerTest {
 
   @Test
   public void testDictionary() throws IOException {
-    TestTools.testDictionary(tagger, new Spanish());
+    TestTools.testDictionary(tagger, Spanish.getInstance());
   }
 
   @Test

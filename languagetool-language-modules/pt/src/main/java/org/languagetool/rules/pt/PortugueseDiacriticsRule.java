@@ -25,12 +25,11 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
-import java.net.URL;
 
 /**
  * A rule that matches words which require specific diacritics (e.g, {@code a la} instead of {@code à la}).
@@ -51,7 +50,7 @@ public class PortugueseDiacriticsRule extends AbstractSimpleReplaceRule2 {
   }
 
   public PortugueseDiacriticsRule(ResourceBundle messages) {
-    super(messages, new Portuguese());
+    super(messages, Portuguese.getInstance());
     setDefaultOff();
     setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
