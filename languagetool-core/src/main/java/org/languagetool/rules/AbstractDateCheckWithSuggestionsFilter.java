@@ -115,7 +115,7 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
       int month = getMonthFromStr(monthStr);
       int year = getYearFromStr(yearStr);
       Calendar dateFromDate = getDate(day, month, year);
-      int dayOfWeekFromDate = getdayOfWeekFromDate(dateFromDate);
+      int dayOfWeekFromDate = getDayOfWeekFromDate(dateFromDate);
       if (dayOfWeekFromDate == -1) {
         return null;
       }
@@ -126,7 +126,7 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
         // suggest changing the year (to current year)
         int currentYear = getYearFromStr(null);
         Calendar dateFromDateChangeYear = getDate(day, month, currentYear);
-        int dayOfWeekFromDateChangeYear = getdayOfWeekFromDate(dateFromDateChangeYear);
+        int dayOfWeekFromDateChangeYear = getDayOfWeekFromDate(dateFromDateChangeYear);
         if (dayOfWeekFromString == dayOfWeekFromDateChangeYear) {
           message = getErrorMessageWrongYear().replace("{currentYear}", String.valueOf(currentYear));
           RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(),
@@ -220,14 +220,14 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
     while (difference < 7) {
       if (day - difference > 0) {
         Calendar dateFromDate = getDate(day - difference, month, year);
-        int dayOfWeekFromDate = getdayOfWeekFromDate(dateFromDate);
+        int dayOfWeekFromDate = getDayOfWeekFromDate(dateFromDate);
         if (dayOfWeekFromString == dayOfWeekFromDate) {
           return String.valueOf(day - difference);
         }
       }
       if (day + difference < 32) {
         Calendar dateFromDate = getDate(day + difference, month, year);
-        int dayOfWeekFromDate = getdayOfWeekFromDate(dateFromDate);
+        int dayOfWeekFromDate = getDayOfWeekFromDate(dateFromDate);
         if (dayOfWeekFromString == dayOfWeekFromDate) {
           return String.valueOf(day + difference);
         }
@@ -237,7 +237,7 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
     return "";
   }
 
-  private int getdayOfWeekFromDate(Calendar dateFromDate) {
+  private int getDayOfWeekFromDate(Calendar dateFromDate) {
     int dayOfWeekFromDate;
     try {
       dayOfWeekFromDate = dateFromDate.get(Calendar.DAY_OF_WEEK);
