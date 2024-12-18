@@ -44,7 +44,7 @@ public class DateCheckFilterTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testAcceptIncompleteArgs() {
-    Map<String,String> map = makeMap("2014", "8" ,"23", "Samstag");
+    Map<String,String> map = makeMap("2014", "8", "23", "Samstag");
     map.remove("weekDay");
     filter.acceptRuleMatch(match, map, -1, null, null);
   }
