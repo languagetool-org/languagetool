@@ -44,6 +44,9 @@ public class DisambiguationRuleLoader extends DefaultHandler {
     DisambiguationRuleHandler handler = new DisambiguationRuleHandler(language, xmlPath);
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
+    saxParser.getXMLReader().setProperty("jdk.xml.maxGeneralEntitySizeLimit", 0);
+    saxParser.getXMLReader().setProperty("jdk.xml.totalEntitySizeLimit", 0);
+    saxParser.getXMLReader().setProperty("jdk.xml.entityExpansionLimit", 0);
 
     if (JLanguageTool.isCustomPasswordAuthenticatorUsed()) {
       Tools.setPasswordAuthenticator();

@@ -73,6 +73,9 @@ public class PatternRuleLoader extends DefaultHandler {
         Tools.setPasswordAuthenticator();
       }
       saxParser.getXMLReader().setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+      saxParser.getXMLReader().setProperty("jdk.xml.maxGeneralEntitySizeLimit", 0);
+      saxParser.getXMLReader().setProperty("jdk.xml.totalEntitySizeLimit", 0);
+      saxParser.getXMLReader().setProperty("jdk.xml.entityExpansionLimit", 0);
       saxParser.parse(is, handler);
       return handler.getRules();
     } catch (Exception e) {
