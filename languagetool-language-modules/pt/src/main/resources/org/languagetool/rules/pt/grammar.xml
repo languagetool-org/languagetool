@@ -7785,6 +7785,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+
         <rulegroup id='LINKING_VERB_PREDICATE_AGREEMENT' name='Concordância Verbal: Complementos com o verbo copulativo' default='on'>
             <!-- TODO Low Prority - Check regression and add enumeration tests and exceptions -->
             <!-- Created by Tiago F. Santos, 2017-01-17 -->
@@ -7794,7 +7795,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <url>https://pt.wikipedia.org/wiki/Verbo_de_liga%C3%A7%C3%A3o</url>
 
             <antipattern>
-                <token inflected='yes' regexp='no'>ser</token> <!-- Add more verbs here when/if found. -->
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='RG' postag_regexp='no'/>
+                <token postag='AQ..P.+|NC.P.+' postag_regexp='yes' inflected='yes' regexp='yes'>&expressoes_de_tempo;</token>
+                <example>Tu estás ali horas de cu para o ar.</example>
+                <example>Ele está aqui horas de cu para o ar.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
                 <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
                 <token postag='_PUNCT_COMMA' postag_regexp='no'/>
                 <token postag='AQ.+|NC.+' postag_regexp='yes'/>
