@@ -214,12 +214,14 @@ public class MultiWordChunker extends AbstractDisambiguator {
       if (tok.length() < 1) {
         continue;
       }
+      StringBuilder tokBuilder = new StringBuilder(tok);
       // If the next token is not whitespace, concatenate it
       int k = i + 1;
       while (k < anTokens.length && !anTokens[k].isWhitespace()) {
-        tok = tok + output[k].getToken();
+        tokBuilder.append(output[k].getToken());
         k++;
       }
+      tok = tokBuilder.toString();
       if (checkCanceled != null && checkCanceled.checkCancelled()) {
         break;
       }
