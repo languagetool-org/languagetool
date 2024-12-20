@@ -37,7 +37,7 @@ import java.io.IOException;
 public class IrishHybridDisambiguator extends AbstractDisambiguator {
 
   private final Disambiguator chunker = MultiWordChunker.getInstance("/ga/multiwords.txt");
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Irish());
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(Irish.getInstance());
 
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based
