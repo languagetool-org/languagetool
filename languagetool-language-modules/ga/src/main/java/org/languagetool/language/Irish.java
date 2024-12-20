@@ -20,10 +20,7 @@ package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.LanguageWithModel;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ga.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -41,6 +38,7 @@ import org.languagetool.tokenizers.WordTokenizer;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -48,7 +46,17 @@ import java.util.ResourceBundle;
  */
 public class Irish extends LanguageWithModel {
 
-  private static final Language DEFAULT_IRISH = new Irish();
+  private static final String LANGUAGE_SHORT_CODE = "ga";
+
+  private static volatile Throwable instantiationTrace;
+
+  public Irish() {
+    Throwable trace = instantiationTrace;
+    if (trace != null) {
+      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
+    }
+    instantiationTrace = new Throwable();
+  }
 
   @Override
   public String getName() {
@@ -66,8 +74,9 @@ public class Irish extends LanguageWithModel {
   }
 
   @Override
+  @NotNull
   public Language getDefaultLanguageVariant() {
-    return DEFAULT_IRISH;
+    return getInstance();
   }
   
   @Override
@@ -157,5 +166,13 @@ public class Irish extends LanguageWithModel {
   @Override
   protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
     return new MorfologikIrishSpellerRule(messages, this, null, null);
+  }
+
+  public static @NotNull Irish getInstance() {
+    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));
+    if (language instanceof Irish irish) {
+      return irish;
+    }
+    throw new RuntimeException("Irish language expected, got " + language);
   }
 }

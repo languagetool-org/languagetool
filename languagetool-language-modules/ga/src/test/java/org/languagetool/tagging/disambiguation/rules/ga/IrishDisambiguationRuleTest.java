@@ -42,8 +42,8 @@ public class IrishDisambiguationRuleTest extends DisambiguationRuleTest {
   public void setUp() {
     tagger = new IrishTagger();
     tokenizer = new WordTokenizer();
-    sentenceTokenizer = new SRXSentenceTokenizer(new Irish());
-    disambiguator = new XmlRuleDisambiguator(new Irish());
+    sentenceTokenizer = new SRXSentenceTokenizer(Irish.getInstance());
+    disambiguator = new XmlRuleDisambiguator(Irish.getInstance());
   }
 
   @Test
