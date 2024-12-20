@@ -1509,19 +1509,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordância: Geral">
             <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
+
             <antipattern>
-                <token postag='(SPS00:)?[DP]..M.+' postag_regexp="yes"/>
-                <token postag='(SPS00:)?[DP]..M.+' postag_regexp="yes"/>
-                <token postag='AQ.M.+|NCM.+' postag_regexp="yes"/>
-                <token postag='NP.+' postag_regexp="yes"/>
+                <token min='1' max='2' postag='(SPS00:)?[DP]..M.+' postag_regexp='yes'/>
+                <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
+                <token postag='NP.+' postag_regexp='yes'/> <!-- Proper names -->
                 <example>Usámos quatro instâncias do software no nosso portátil Intel i7.</example>
+                <example>Pague em até 12X no cartão Marisa.</example>
+                <example>Completaram o pódio Checoslováquia, Hungria e Estados Unidos.</example>
+                <example>No entanto, em meados do período Nara, as pinturas do estilo da dinastia Tang tornaram-se bastante populares.</example>
+                <example>Só caminhar com ela, cheirar o perfume Avon dela, segurar sua mão, dizer o quanto eu a amo, e sinto sua falta.</example>
+                <example>Não será possível salvar o governo Dilma, o ex-presidente Lula e o PT.</example>
             </antipattern>
             <antipattern>
-                <token inflected='yes'>impor</token>
-                <token postag='SPS00:DA0MP0' postag_regexp='no'/>
-                <token>outros</token>
-                <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token regexp='yes'>aos?</token>
+                <token regexp='yes'>outros?</token>
+                <token postag='AQ.+|N.+' postag_regexp='yes'/>
                 <example>Eles preferem impor aos outros regras.</example>
+                <example>Ele pretende impor ao outro comandos.</example>
+                <example>Faz aos outros coisas boas.</example>
             </antipattern>
             <antipattern> <!-- picky rule covered by 'AS_MILHARES_DE_PESSOAS' -->
                 <token postag='(SPS00:)?[DP][ADIPR].FP.+' postag_regexp='yes'/>
@@ -1531,7 +1538,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Ela é uma das milhares de mulheres que foi às ruas protestar.</example>
             </antipattern>
             <antipattern>
-                <token postag='(SPS00:)?[DP][ADIPR].M.+' postag_regexp='yes'/>
+                <token postag='(SPS00:)?[DP]..M.+' postag_regexp='yes'/>
                 <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
                 <token spacebefore='no' regexp='yes'>[/]</token>
                 <token spacebefore='no' postag='AQ.F.+|NCF.+' postag_regexp='yes'/>
@@ -1555,11 +1562,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Tanto Tom quanto Mariazinha são vegetarianos.</example>
             </antipattern>
             <antipattern>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token postag='N.M.+' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='VMP00.+'/></token>
+                <token postag='N.+|PP3.+' postag_regexp='yes'/>
                 <token postag='AQ.F.+' postag_regexp='yes'/>
                 <token postag='N.F.+' postag_regexp='yes'/>
-                <example>Sendo Deus perfeita justiça</example>
+                <example>Sendo Deus perfeita justiça.</example>
+                <example>Sendo ela perfeita justiça.</example>
+                <example>Sendo Marco perfeita justiça.</example>
             </antipattern>
             <antipattern>
                 <token postag='N.[FC].+' postag_regexp='yes'/>
@@ -1586,7 +1595,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </antipattern>
             <antipattern>
                 <token postag='(SPS00:D..|D..)M.+' postag_regexp='yes'/>
-                <token regexp='yes'>tapas?|tapinhas?tapão|tapões</token>
+                <token regexp='yes'>tapas?|tapinhas?|tapão|tapões</token>
                 <example>Deu um tapa nele.</example>
             </antipattern>
             <rule> <!-- #1 -->
