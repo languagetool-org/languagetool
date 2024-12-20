@@ -3920,6 +3920,29 @@ USA
     -->
   </rule>
 
+  <rule id="PELA_COMO_SOBRE_NADA_ACERCA_ELAR_NEXTVERB_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- False verbs after "pela", "como", "sobre", "nada", "acerca", "verbo elar" -->
+    <pattern>
+      <token postag='V.+' postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+      <token regexp="yes">pel[ao]s?|como|sobre|nada|acerca|el[ae]s?</token>
+      <marker>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='NC.+' postag_regexp='yes'/>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Também pode ser denominado como recinto universitário, albergando todas as instituições dentro da universidade propriamente dita.
+             Esta linha entrou ao serviço em 3 de Agosto de 1882, sendo nessa altura considerado como parte da Linha da Beira Alta.
+             Um uádi longo foi usado como caminho.
+             Estes foram derrubados e reaproveitados como forro do passeio.
+             Ela pode ser acessada pela entrada da Exhibition Road e sua temática é voltada à história do planeta Terra.
+             O Diário Carioca, de 12 de dezembro de 1933, deu como manchete: "O Palestra é campeão brasileiro de 1933.
+             Cidade histórica do Campo das Vertentes, com cerca de 12 mil habitantes é cortada pela Estrada Real em seu perímetro urbano.
+    -->
+  </rule>
+
   <rule id="VERB_VNOUN_NOUN_VERBS_RARE" name="Remove from verb followed by NOUN (verb) plus noun"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Moved the rule down to assure it works correctly. -->
     <pattern>
