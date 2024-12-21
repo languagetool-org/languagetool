@@ -36,7 +36,7 @@ public class PronomFebleDuplicateRuleTest {
   @Before
   public void setUp() throws IOException {
     rule = new PronomFebleDuplicateRule(TestTools.getEnglishMessages());
-    lt = new JLanguageTool(new Catalan());
+    lt = new JLanguageTool(Catalan.getInstance());
   }
 
   @Test

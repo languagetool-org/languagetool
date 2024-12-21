@@ -45,7 +45,7 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
   private static final Locale CA_LOCALE = new Locale("ca");
 
   public SimpleReplaceAnglicism(final ResourceBundle messages) throws IOException {
-    super(messages, new Catalan());
+    super(messages, Catalan.getInstance());
     setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     useSubRuleSpecificIds();

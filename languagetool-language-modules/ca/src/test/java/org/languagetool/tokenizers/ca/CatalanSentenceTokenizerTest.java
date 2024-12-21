@@ -27,7 +27,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class CatalanSentenceTokenizerTest {
 
-  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Catalan());
+  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(Catalan.getInstance());
 
   @Test
   public final void testTokenize() {

@@ -34,10 +34,10 @@ public class MorfologikCatalanSpellerRuleTest {
   @Test
   public void testMorfologikSpeller() throws IOException {
     MorfologikCatalanSpellerRule rule =
-      new MorfologikCatalanSpellerRule (TestTools.getMessages("ca"), new Catalan(), null, Collections.emptyList());
+      new MorfologikCatalanSpellerRule (TestTools.getMessages("ca"), Catalan.getInstance(), null, Collections.emptyList());
 
     RuleMatch[] matches;
-    JLanguageTool lt = new JLanguageTool(new Catalan());
+    JLanguageTool lt = new JLanguageTool(Catalan.getInstance());
 
     matches = rule.match(lt.getAnalyzedSentence("Tornaràn"));
     assertEquals(1, matches.length);

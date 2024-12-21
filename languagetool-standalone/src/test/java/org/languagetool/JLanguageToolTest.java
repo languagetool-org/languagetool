@@ -488,7 +488,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testIgnoringEnglishWordsInCatalan() throws IOException {
-    Language lang = new Catalan();
+    Language lang = Catalan.getInstance();
     JLanguageTool lt = new JLanguageTool(lang);
     List<RuleMatch> matches = lt.check("To do this");
     assertEquals(0, matches.size());

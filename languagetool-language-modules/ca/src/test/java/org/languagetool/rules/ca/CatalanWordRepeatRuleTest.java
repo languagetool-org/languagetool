@@ -36,9 +36,9 @@ public class CatalanWordRepeatRuleTest {
    */
   @Test
   public void testRule() throws IOException {
-    final CatalanWordRepeatRule rule = new CatalanWordRepeatRule(TestTools.getMessages("ca"), new Catalan());
+    final CatalanWordRepeatRule rule = new CatalanWordRepeatRule(TestTools.getMessages("ca"), Catalan.getInstance());
     RuleMatch[] matches;
-    JLanguageTool lt = new JLanguageTool(new Catalan());
+    JLanguageTool lt = new JLanguageTool(Catalan.getInstance());
     //correct
     matches = rule.match(lt.getAnalyzedSentence("Sempre pensa en en Joan."));
     assertEquals(0, matches.length);
