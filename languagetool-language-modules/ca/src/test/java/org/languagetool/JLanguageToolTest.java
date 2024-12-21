@@ -36,7 +36,7 @@ import static org.junit.Assert.assertEquals;
 public class JLanguageToolTest {
 
 
-  private  Language lang = new Catalan();
+  private Language lang = Catalan.getInstance();
   private JLanguageTool tool = new JLanguageTool(lang);
 
 
@@ -63,7 +63,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testValencianVariant() throws IOException {
-    Language lang = new ValencianCatalan();
+    Language lang = ValencianCatalan.getInstance();
     JLanguageTool tool = new JLanguageTool(lang);
     List<RuleMatch> matches = tool.check("Cal usar mètodes d'anàlisi adequats.");
     assertEquals(0, matches.size());
@@ -114,7 +114,7 @@ public class JLanguageToolTest {
   
   @Test
   public void testBalearicVariant() throws IOException {
-    Language lang = new BalearicCatalan();
+    Language lang = BalearicCatalan.getInstance();
     JLanguageTool tool = new JLanguageTool(lang);
     List<RuleMatch> matches = tool.check("Cal usar mètodes d'anàlisi adequats.");
     assertEquals(0, matches.size());
@@ -122,6 +122,10 @@ public class JLanguageToolTest {
     List<RuleMatch> matches2 = tool.check("Aquestes frases per a probar.");
     assertEquals(1, matches2.size());
     assertEquals("provar", matches2.get(0).getSuggestedReplacements().get(0));
+
+    List<RuleMatch> matches3 = tool.check("Pens que és una cosa bona.");
+    assertEquals(0, matches3.size());
+
   }
   
   @Test

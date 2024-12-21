@@ -25,6 +25,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.languagetool.Languages;
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
@@ -38,6 +39,8 @@ import static org.languagetool.tools.StringTools.CHARS_NOT_FOR_SPELLING;
  * @author Jaume Ortolà 
  */
 public class CatalanWordTokenizer extends WordTokenizer {
+
+  public static final CatalanWordTokenizer INSTANCE = new CatalanWordTokenizer();
 
   private static final String wordCharacters = "§©@€£\\$_\\p{L}\\d·\\-\u0300-\u036F\u00A8\u2070-\u209F°%‰‱&\uFFFD\u00AD\u00AC";
   private static final Pattern tokenizerPattern = Pattern.compile("[" + wordCharacters + "]+|[^" + wordCharacters + "]");

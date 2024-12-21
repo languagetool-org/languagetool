@@ -40,8 +40,8 @@ public class CatalanUnpairedBracketsRuleTest {
   
   @Before
   public void setUp() throws IOException {
-    rule = new CatalanUnpairedBracketsRule(TestTools.getEnglishMessages(), new Catalan());
-    lt = new JLanguageTool(new Catalan());
+    rule = new CatalanUnpairedBracketsRule(TestTools.getEnglishMessages(), Catalan.getInstance());
+    lt = new JLanguageTool(Catalan.getInstance());
   }
 
   @Test
@@ -146,7 +146,7 @@ public class CatalanUnpairedBracketsRuleTest {
 
   @Test
   public void testMultipleSentences() throws IOException {
-    final JLanguageTool tool = new JLanguageTool(new Catalan());
+    final JLanguageTool tool = new JLanguageTool(Catalan.getInstance());
     tool.enableRule("CA_UNPAIRED_BRACKETS");
 
     List<RuleMatch> matches;
@@ -177,7 +177,7 @@ public class CatalanUnpairedBracketsRuleTest {
   
   @Test
   public void testQuestionExclamation() throws IOException {
-    final JLanguageTool tool = new JLanguageTool(new Catalan());
+    final JLanguageTool tool = new JLanguageTool(Catalan.getInstance());
     tool.enableRule("CA_UNPAIRED_QUESTION");
     tool.enableRule("CA_UNPAIRED_EXCLAMATION");
 

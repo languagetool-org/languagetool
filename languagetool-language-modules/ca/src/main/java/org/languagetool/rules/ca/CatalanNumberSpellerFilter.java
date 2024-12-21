@@ -12,7 +12,7 @@ import org.languagetool.synthesis.ca.CatalanSynthesizer;
 
 public class CatalanNumberSpellerFilter extends RuleFilter {
   
-  private final Language language = new Catalan();
+  private final Language language = Catalan.getInstance();
   private final CatalanSynthesizer synth = (CatalanSynthesizer) language.getSynthesizer();
 
   @Override

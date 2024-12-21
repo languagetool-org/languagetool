@@ -34,12 +34,12 @@ public class CatalanTaggerTest {
 
   @Before
   public void setUp() {
-    tokenizer = new CatalanWordTokenizer();
+    tokenizer = CatalanWordTokenizer.INSTANCE;
   }
 
   @Test
   public void testDictionary() throws IOException {
-    TestTools.testDictionary(tagger, new Catalan());
+    TestTools.testDictionary(tagger, Catalan.getInstance());
   }
 
   @Test

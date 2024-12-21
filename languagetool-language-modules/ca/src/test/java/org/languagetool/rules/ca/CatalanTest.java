@@ -37,7 +37,7 @@ public class CatalanTest extends LanguageSpecificTest {
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
     String s = "Introduïu açí el vostre text. o feu servir aquest texts com a a exemple per a alguns errades que LanguageTool hi pot detectat.";
-    Catalan lang = new Catalan();
+    Catalan lang = Catalan.getInstance();
     testDemoText(lang, s,
       Arrays.asList("MORFOLOGIK_RULE_CA_ES", "UPPERCASE_SENTENCE_START", "CONCORDANCES_DET_NOM", "CATALAN_WORD_REPEAT_RULE", "CONCORDANCES_DET_NOM", "VERB_SEGUIT_DINFINITIU")
     );
@@ -46,7 +46,7 @@ public class CatalanTest extends LanguageSpecificTest {
   
   @Test
   public void testRepeatedPatternRules() throws IOException {
-    Language lang = new Catalan();
+    Language lang = Catalan.getInstance();
     JLanguageTool lt = new JLanguageTool(lang);
     List<RuleMatch> matches = lt.check("Iniciem les converses. Llavors s'inicià una altra cosa.", JLanguageTool.Level.PICKY);
     assertEquals("Matches across rules in a rule group", 1, matches.size());
