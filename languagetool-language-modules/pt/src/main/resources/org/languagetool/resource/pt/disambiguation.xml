@@ -3813,6 +3813,36 @@ USA
       </rule>
   </rulegroup>
 
+  <rule id="VERB_NOUNVERB_SPS00_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='V.+' postag_regexp="yes">
+        <exception scope='previous' postag_regexp='yes' postag='PP.+'/>
+        <exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+|VMN0000'/></token>
+      <marker>
+        <and>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='SPS00' postag_regexp='no'><exception scope='previous' postag_regexp='no' postag='VMN0000'/></token>
+      <token postag='[DP].+|N.+|AQ.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Havia ameaça de intervenção externa, crise econômica e inflação.
+             «Justiça do Rio determina quebra de sigilo e bloqueio de bens do casal Garotinho» (em Português Brasil).
+             Em 2007, os telecentros foram responsáveis por 6% dos acessos no país, o que revelou um crescimento de 100% em relação a 2006.
+             Dessa forma, toda a sociedade pode ter acesso a informações disponíveis na Internet, e assim produzir e disseminar conhecimento.
+             Os alunos recebem ajuda de custo para o transporte até a PUCRS[carece de fontes?].
+             Mestre Noro foi aluno de Doutora Ehrenfried e sofreu grande influência de Gerda Alexender (Mestre da eutonia).
+             O Kinomichi está presente em inúmeros países e em 4 continentes : Europa, África, América do Sul e América do Norte.
+             A presença de penas no Giganoraptor ainda se encontra aberta a discussão.
+             Isso inclui trilhas de caminhada, ciclofaixas e bosques.
+    -->
+  </rule>
+
   <rule id="VERB_INFINITIVE_PASTPARTICIPLE_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Moved the rule down to assure it works correctly. -->
     <pattern>
