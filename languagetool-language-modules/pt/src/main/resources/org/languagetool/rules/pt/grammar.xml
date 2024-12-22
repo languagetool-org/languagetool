@@ -14337,6 +14337,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- It seems that all these words I placed here appear as nouns in the disambiguator -->
 
             <antipattern>
+                <token inflected='yes' regexp='yes'>acabar|adaptar-se|adiantar-se|afirmar-se|andar|apresentar-se|cair|chegar|começar|considerar|continuar|crescer|deixar|desenvolver-se|estar|evoluir|existir|expressar-se|ficar|fluir|identificar-se|inclinar-se|ir|manifestar-se|manter-se|morrer|mostrar-se|mudar|nascer|ocultar-se|opor-se|parecer|permanecer|provar-se|questionar-se|reduzir-se|regressar|renascer|renegar|retornar|revelar-se|seguir|sentir-se|ser|superar-se|terminar|tornar-se|transformar-se|virar|voltar<exception scope='previous' postag_regexp='no' postag='RG'/></token> <!-- ChatGPT 4o -->
+                <token regexp='yes'>tod[ao]s</token>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <example>Somos todos filhos de Deus.</example>
+                <example>Nós nascemos todos loucos.</example>
+                <example>A morte dele deixou todos tristes.</example>
+                <example>Está deixando todos nervosos.</example>
+                <example>Estamos todos solteiros.</example>
+                <example>Estávamos todos ensopados de suor.</example>
+                <example>Nós estávamos todos presentes na reunião.</example>
+                <example>Estamos todos convencidos de que ele é culpado.</example>
+                <example>Estávamos todos acostumados com sua presença.</example>
+                <example>Haviam cinco homens, sendo todos ex-lutadores.</example>
+            </antipattern>
+
+            <antipattern>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <token regexp='yes'>tod[ao]s</token>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
@@ -14391,27 +14407,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token/>
                 <token postag='_PUNCT'/>
             </antipattern>
-            <!-- MARCOAGPINTO 2021-01-15 (1-JAN-2021+) *START* -->
-            <!--
-      Somos todos filhos de Deus.
-      Somos todas filhas de Deus.
-      -->
-            <antipattern>
-                <token inflected='yes' regexp='yes'>ser|nascer|morrer|ficar|deixar</token>
-                <token regexp='yes'>tod[ao]s</token>
-                <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
-            </antipattern>
-            <!--
-      Estamos todas solteiras.
-      Estamos todos solteiros.
-      -->
-            <antipattern>
-                <token inflected='yes'>estar</token>
-                <token regexp='yes'>tod[ao]s</token>
-                <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
-                <token regexp='yes'>[.,!?;()]</token>
-            </antipattern>
-            <!-- MARCOAGPINTO 2021-01-15 (1-JAN-2021+) *END* -->
             <!-- MARCOAGPINTO 2021-01-27 (1-JAN-2021+) *START* -->
             <!--
       É um fenómeno entre todos raro e insólito na cultura portuguesa.
@@ -14463,12 +14458,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='VMP.+' postag_regexp='yes'>
                     <exception>reservados</exception></token>
                 <example>Há cinco composições, todas músicas compostas pela banda.</example>
-            </antipattern>
-            <antipattern>
-                <token inflected='yes' regexp='yes'>ser|considerar</token>
-                <token regexp='yes'>tod[ao]s</token>
-                <token postag_regexp='yes' postag='(?:N|A).+'/>
-                <example>Haviam cinco homens, sendo todos ex-lutadores.</example>
             </antipattern>
             <pattern>
                 <token regexp='yes'>tod[ao]s</token>
