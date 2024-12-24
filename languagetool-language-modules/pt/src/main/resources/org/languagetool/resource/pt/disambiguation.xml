@@ -3813,6 +3813,23 @@ USA
       </rule>
   </rulegroup>
 
+  <rule id="PARA_POR_TODOS_TERMOS_SUBSTANTIVO_PARA_VERBO" name="Adicionar tag de verbo ao substantivo">
+    <pattern>
+      <token regexp='yes'>para|por</token>
+      <token regexp='yes'>tod[ao]s</token>
+      <marker>
+        <token>termos</token>
+      </marker>
+      <token postag='N.+|AQ.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="add"><wd pos='VMN01P0'/></disambig>
+    <!--
+    Examples:
+             Estou contente para todos termos mentes científicas.
+             Estou contente por todos termos mentes científicas.
+    -->
+  </rule>
+
   <rule id="VERB_NOUNVERB_SPS00_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Moved the rule down to assure it works correctly. -->
     <pattern>
