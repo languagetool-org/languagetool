@@ -1511,6 +1511,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
 
             <antipattern>
+                <token postag='(SPS00:)?[DP]..[CM].+' postag_regexp='yes'/>
+                <token postag='AQ.[CM].+|N.[CM].+' postag_regexp='yes'/>
+                <token postag='AQ.[CF].+|N.[CF].+' postag_regexp='yes'/>
+                <token postag='VMP00.M' postag_regexp='yes'/>
+                <token postag='(SPS00:)?[DP]..[CM].+' postag_regexp='yes'/>
+                <example>Rupert of Hee Haw é um filme mudo do gênero comédia produzido nos Estados Unidos e lançado em 1924.</example>
+                <example>Pick and Shovel é um curta-metragem do gênero comédia produzido nos Estados Unidos, dirigido por George Jeske e lançado em 1923.</example>
+            </antipattern>
+
+            <antipattern>
                 <token min='1' max='2' postag='(SPS00:)?[DP]..M.+' postag_regexp='yes'/>
                 <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
                 <token postag='NP.+' postag_regexp='yes'/> <!-- Proper names -->
@@ -4179,9 +4189,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rulegroup id='CONCORDANCIA_DETERMINANTES_MASCULINOS' name='Erro de concordância de número' default="temp_off">
             <antipattern>
-                <token>mesmo</token>
-                <token postag='(SPS00:)?[DP]...[PN].+' postag_regexp="yes"/>
-                <token postag='AQ..P.+|NC.P.+' postag_regexp="yes"/>
+                <token postag='PI0[CM]S000' postag_regexp='yes'><exception regexp='no'>todo</exception></token>
+                <token postag='(SPS00:)?[DP]...[PN].+' postag_regexp='yes'/>
+                <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
                 <example>Pois mesmo os argumentos com um peso baixo têm valor.</example>
                 <example>No dia seguinte, fizeram o mesmo os membros da Câmara.</example>
                 <example>Mesmo os sócios já sabendo o tipo de empresa que queriam criar, a leitura de mercado e o estudo de tendên...</example>
@@ -4193,6 +4203,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Esta palavra inglesa é muito complicada. Nem mesmo os falantes nativos conhecem todos os seus significados.</example>
                 <example>Nem mesmo os exercícios são mero prazer.</example>
                 <example>Você tem mesmo os atributos de um político.</example>
+                <example>Tanto os homens quanto as mulheres podem ser codependentes.</example>
+                <example>E eu achei certo os Ingleses devolverem as coisas para o Cairo...</example>
+                <example>Gostei da sua resenha ^-^ Esse livro é maravilhoso, me abriu muito os olhos também sobre relacionamento.</example>
+                <example>Não tenho o menor problema em ter amigos gays, pelo contrário, eles são muito meus amigos.</example>
+                <example>Não salgue tanto os ovos!</example>
+                <example>Muito poucos soldados das forças especiais se casam.</example>
+                <example>Precisamos aumentar muito os lucros.</example>
+                <example>Por que você odeia tanto os canadenses?</example>
+                <example>Agradou tanto os dirigentes do Fire que a equipe o contratou em definitivo em 2010.</example>
             </antipattern>
             <antipattern>
                 <token postag='V.+' postag_regexp="yes"/>
@@ -4337,6 +4356,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='outros'>Por que ele não faz video mostrando os <marker>outro</marker> caras que dão em cima dela?</example>
             </rule>
         </rulegroup>
+
 
         <rulegroup id='GENERAL_NUMBER_AGREEMENT_ERRORS' name="Concordância de Número: Geral">
             <!--            General number concordance errors            -->
