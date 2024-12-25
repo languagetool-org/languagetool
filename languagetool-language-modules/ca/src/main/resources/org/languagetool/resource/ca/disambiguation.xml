@@ -20687,6 +20687,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token regexp="yes" inflected="yes">&unitats_temps;|&periodes_temps;|&estacions;</token>
+                <marker>
+                    <token regexp="yes">enrere|arrere|endarrere</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_marca_passat"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token regexp="yes">(despús-|abans-d')?ahir|antany|anit<exception scope="previous" regexp="yes">de|d'</exception></token>
                 </marker>
