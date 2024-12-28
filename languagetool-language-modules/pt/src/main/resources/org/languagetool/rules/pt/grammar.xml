@@ -1510,6 +1510,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordância: Geral">
             <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
 
+            <antipattern> <!-- aos outros #1 -->
+                <token postag='V.+' postag_regexp='yes'/>
+                <token regexp='yes'>aos?</token>
+                <token regexp='yes'>outros?</token>
+                <token postag='AQ.+|N.+' postag_regexp='yes'/>
+                <example>Eles preferem impor aos outros regras.</example>
+                <example>Ele pretende impor ao outro comandos.</example>
+                <example>Faz aos outros coisas boas.</example>
+            </antipattern>
+            <antipattern> <!-- aos outros #2 -->
+                <token regexp='yes'>aos?</token>
+                <token regexp='yes'>outros?</token>
+                <token postag='(SPS00:)?[DP]..[CF].+' postag_regexp='yes'/>
+                <token postag='AQ.[CF].+|N.[CF].+' postag_regexp='yes'/>
+                <example>Não devemos impor aos outros nossas ideias.</example>
+                <example>Que possam pacifica e fraternalmente se comunicar, sem impor uns aos outros suas peculiaridades raciais.</example>
+            </antipattern>
+
             <antipattern>
                 <token postag='(SPS00:)?[DP]..[CM].+' postag_regexp='yes'/>
                 <token postag='AQ.[CM].+|N.[CM].+' postag_regexp='yes'/>
@@ -1531,15 +1549,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Só caminhar com ela, cheirar o perfume Avon dela, segurar sua mão, dizer o quanto eu a amo, e sinto sua falta.</example>
                 <example>Não será possível salvar o governo Dilma, o ex-presidente Lula e o PT.</example>
             </antipattern>
-            <antipattern>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token regexp='yes'>aos?</token>
-                <token regexp='yes'>outros?</token>
-                <token postag='AQ.+|N.+' postag_regexp='yes'/>
-                <example>Eles preferem impor aos outros regras.</example>
-                <example>Ele pretende impor ao outro comandos.</example>
-                <example>Faz aos outros coisas boas.</example>
-            </antipattern>
+
             <antipattern> <!-- picky rule covered by 'AS_MILHARES_DE_PESSOAS' -->
                 <token postag='(SPS00:)?[DP][ADIPR].FP.+' postag_regexp='yes'/>
                 <token regexp="yes">&numeros_masculinos;</token>
