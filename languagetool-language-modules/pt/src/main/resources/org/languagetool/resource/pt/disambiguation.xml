@@ -3063,6 +3063,24 @@ USA
       </pattern>
       <disambig action="replace"><wd pos="NCFP000"/></disambig>
     </rule>
+    <rule>
+      <pattern>
+        <token postag='SPS00:DA0MP0' postag_regexp='no'/>
+        <marker>
+          <token regexp='yes'>\d{1,2}\:(\d{2}\:)?(\d{2})?
+            <exception regexp='yes'>0?1\:(\d{2}\:)?(\d{2})?h?</exception></token>
+        </marker>
+        <token postag='SPS00:DA0MS0' postag_regexp='no'/>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMP000"/></disambig>
+      <!--
+      Examples:
+               Ramirez derrotou Gonzales por Finalização (mata leão) aos 4:38 do primeiro round.
+               Miolla cedeu aos 2:07 do primeiro round, encerrando sua série de oito vitórias consecutivas.
+               Ela derrotou Alvarez por nocaute técnico aos 2:53 do primeiro round.
+               Frank Mir venceu por nocaute aos 4:21 do segundo round.
+      -->
+    </rule>
   </rulegroup>
   <rulegroup id="FILTER_PROPER_NAMES" name="Nomes próprios portugueses">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2018-11-23  	-->
