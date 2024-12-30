@@ -305,7 +305,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue("Got: " + output, output.contains("\"description\":\"Use of"));
     assertTrue("Got: " + output, output.contains("\"issueType\":\"misspelling\""));
     assertTrue("Got: " + output, output.contains("\"category\":{\"id\":\"MISC\",\"name\":\"Miscellaneous\"}"));
-    assertTrue("Got: " + output, output.contains("\"message\":\"Possible typo: you repeated a word\""));
+    assertTrue("Got: " + output, output.contains("\"message\":\"Possible typo: you repeated a word.\""));
     assertTrue("Got: " + output, output.contains("\"sentence\":\"This is an test.\""));
     assertTrue("Doesn't display Time", !output.contains("Time: "));
     assertTrue("Json start check", output.contains("{\"software\":{\"name\":\"LanguageTool\",\"version\":"));
