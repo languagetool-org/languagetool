@@ -3848,6 +3848,22 @@ USA
     -->
   </rule>
 
+  <rule id="OUTRA_SUBSTANTIVO_PARA_VERBO" name="Adicionar tag de verbo ao substantivo">
+    <pattern>
+      <token>outra</token>
+      <marker>
+        <token regexp='yes'>choco|esbarro</token> <!-- Add verbs as found -->
+      </marker>
+      <token postag='SPS.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="add"><wd pos='VMIP1S0'/></disambig>
+    <!--
+    Examples:
+             De alguma forma, vez ou outra esbarro em algumas dessas coisas.
+             De alguma forma, vez ou outra choco em algumas dessas coisas.
+    -->
+  </rule>
+
   <rule id="VERB_NOUNVERB_SPS00_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Moved the rule down to assure it works correctly. -->
     <pattern>
