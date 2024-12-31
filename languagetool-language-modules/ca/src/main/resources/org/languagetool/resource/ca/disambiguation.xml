@@ -11961,6 +11961,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd lemma="fons" pos="NCMP000"/>
         </disambig>
     </rule>
+    <rule id="parlar" name="parlar (no nom)">
+        <pattern>
+            <token><exception postag="D..MS." postag_regexp="yes"/></token>
+            <marker>
+                <token postag="VMN00000">parlar</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="VMN00000"/>
+    </rule>
     <rulegroup id="DetNom_exceptions" name="excepcions a DetNom">
         <rule>
             <!-- Amb error de concordança adjectiu-nom -->
