@@ -9107,7 +9107,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+
         <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
+
+            <antipattern>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token postag='CC' postag_regexp='no'/>
+                <token min='0' max='1' postag='[DP].+' postag_regexp='yes'/>
+                <token postag='N.+|AQ.+' postag_regexp='yes'><exception postag_regexp='yes' postag='[DP].+'/></token>
+                <token postag='VM...P.+' postag_regexp='yes'/>
+                <example>Nem o Tom nem a Mary falam espanhol.</example>
+                <example>Nem o Tom nem a Mary estiveram aqui.</example>
+                <example>Nem o Tom nem a Mary trabalharam para o John.</example>
+                <example>Nem o Tom nem a Mary têm sido muito úteis.</example>
+                <example>Nem o Tom nem a Mary têm algo de que se envergonhar.</example>
+                <example>Nem o Tom nem a Mary estiveram em Boston.</example>
+                <example>Nem o Tom nem a Mary saíram para comer.</example>
+                <example>Nem Tom nem a Mary pegaram emprestado muito dinheiro dos amigos dele.</example>
+            </antipattern>
+
             <antipattern>
                 <token postag='VMN0000'/><!-- Mesóclises são consideradas como compostas -->
                 <token spacebefore='no' regexp='yes'>&hifen;</token>
