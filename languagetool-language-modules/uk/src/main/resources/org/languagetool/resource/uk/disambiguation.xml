@@ -189,7 +189,7 @@
         <!-- правильно: (з)воротний, народний, природний, бездвірний, зворотний, заможний, заробітний, пружний
         забу́тній/забутни́й
         але дорожній, дочірній, незабутній -->
-        <token postag_regexp="yes" postag="adj(?!.*:bad).*" regexp="yes">.*(воротн|двірн|дорожн|додатн|забутн|заможн|західн|заробітн|народн|погодн|поздовжн|приватн|порожн|природн|пружн|самотн|старожитн|сухопутн|східн|великодн)(і[йм]?)</token>
+        <token postag_regexp="yes" postag="adj(?!.*:(bad|arch)).*" regexp="yes">.*(воротн|двірн|дорожн|додатн|забутн|заможн|західн|заробітн|народн|погодн|поздовжн|приватн|порожн|природн|пружн|самотн|старожитн|сухопутн|східн|великодн)(і[йм]?)</token>
       </marker>
     </pattern>
     <disambig action="remove" postag="adj.*?:bad.*" />
@@ -550,6 +550,76 @@
   </rule>
 
   <!-- category: v_kly -->
+
+  <rule name="Кличний у звертанні" id="anim_v_kly_zvert">
+    <pattern>
+      <token postag="SENT_START" />
+      <marker>
+        <token postag_regexp="yes" postag="adj:p:v_kly.*" regexp="yes">шановні|дорогі</token>
+        <token postag_regexp="yes" postag="noun:anim:p:v_kly.*"/>
+      </marker>
+      <token regexp="yes">[,!.]|\.\.\.</token>
+    </pattern>
+    <disambig action="filterall" />
+    <example type="ambiguous"
+        inputform="Шановні[шановний/adj:p:v_kly:compb,шановний/adj:p:v_naz:compb,шановний/adj:p:v_zna:rinanim:compb]"
+        outputform="Шановні[шановний/adj:p:v_kly:compb]"><marker>Шановні</marker> депутати, якщо</example>
+    <example type="untouched">ті шановні депутати,</example>
+  </rule>
+
+  <rule name="Кличний у звертанні" id="anim_v_kly_zvert_2">
+    <pattern>
+      <token regexp="yes">[«„"—–-]</token>
+      <marker>
+        <token postag_regexp="yes" postag="adj:p:v_kly.*" regexp="yes">шановні|дорогі</token>
+        <token postag_regexp="yes" postag="noun:anim:p:v_kly.*"/>
+      </marker>
+      <token regexp="yes">[,!.]|\.\.\.</token>
+    </pattern>
+    <disambig action="filterall" />
+    <example type="ambiguous"
+        inputform="шановні[шановний/adj:p:v_kly:compb,шановний/adj:p:v_naz:compb,шановний/adj:p:v_zna:rinanim:compb]"
+        outputform="шановні[шановний/adj:p:v_kly:compb]">— <marker>шановні</marker> колеги, якщо</example>
+    <example type="untouched">ті шановні депутати,</example>
+  </rule>
+
+  <rule name="Кличний у звертанні (депутати)" id="anim_v_kly_zvert_3">
+    <pattern>
+      <token postag="SENT_START" />
+      <marker>
+        <token postag_regexp="yes" postag="adj:p:v_kly.*" regexp="yes">шановні|дорогі</token>
+        <token postag="adj:p:v_kly:compb" min="0">народні</token>
+        <token postag_regexp="yes" postag="noun:anim:p:v_kly.*">депутати</token>
+      </marker>
+    </pattern>
+    <disambig action="filterall" />
+    <example type="ambiguous"
+        inputform="Шановні[шановний/adj:p:v_kly:compb,шановний/adj:p:v_naz:compb,шановний/adj:p:v_zna:rinanim:compb]"
+        outputform="Шановні[шановний/adj:p:v_kly:compb]"><marker>Шановні</marker> депутати і позафракційні</example>
+    <example type="ambiguous"
+        inputform="Шановні[шановний/adj:p:v_kly:compb,шановний/adj:p:v_naz:compb,шановний/adj:p:v_zna:rinanim:compb]"
+        outputform="Шановні[шановний/adj:p:v_kly:compb]"><marker>Шановні</marker> народні депутати та гості</example>
+    <example type="untouched">ті шановні депутати,</example>
+  </rule>
+
+  <rule name="Кличний у звертанні (депутати)" id="anim_v_kly_zvert_4">
+    <pattern>
+      <token regexp="yes">[«„",—–-]</token>
+      <marker>
+        <token postag_regexp="yes" postag="adj:p:v_kly.*" regexp="yes">шановні|дорогі</token>
+        <token postag="adj:p:v_kly:compb" min="0">народні</token>
+        <token postag_regexp="yes" postag="noun:anim:p:v_kly.*">депутати</token>
+      </marker>
+    </pattern>
+    <disambig action="filterall" />
+    <example type="ambiguous"
+        inputform="шановні[шановний/adj:p:v_kly:compb,шановний/adj:p:v_naz:compb,шановний/adj:p:v_zna:rinanim:compb]"
+        outputform="шановні[шановний/adj:p:v_kly:compb]">, <marker>шановні</marker> депутати і позафракційні</example>
+    <example type="ambiguous"
+        inputform="шановні[шановний/adj:p:v_kly:compb,шановний/adj:p:v_naz:compb,шановний/adj:p:v_zna:rinanim:compb]"
+        outputform="шановні[шановний/adj:p:v_kly:compb]">і «<marker>шановні</marker> народні депутати та гості</example>
+    <example type="untouched">ті шановні депутати,</example>
+  </rule>
 
   <rule name="Кличний неістот для абревіатур" id="inanim_v_kly_abbr">
     <pattern>
@@ -3195,6 +3265,74 @@
         outputform="Сена[Сена/noun:inanim:f:v_naz:prop:geo]">річка <marker>Сена</marker>.</example>
   </rule>
 
+  <rule name="село/місто" id="selo_misto_geo_1">
+    <pattern>
+      <token case_sensitive="yes" regexp="yes">[сС]ело|[мС]істо|смт\.|[см]\.</token>
+      <marker>
+        <token case_sensitive="yes" regexp="yes" postag_regexp="yes" postag="noun:inanim.*prop:geo.*">[А-ЯІЇЄҐ]'?[а-яіїєґ'-]+</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:.:(?!v_kly).*:prop:geo.*"/>
+    <example type="ambiguous"
+      inputform="Сосни[Сосна/noun:anim:f:v_rod:prop:lname,Сосна/noun:anim:m:v_rod:prop:lname,Сосни/noun:inanim:p:v_naz:ns:prop:geo,Сосни/noun:inanim:p:v_zna:ns:prop:geo,сосна/noun:inanim:f:v_rod,сосна/noun:inanim:p:v_naz,сосна/noun:inanim:p:v_zna]"
+      outputform="Сосни[Сосни/noun:inanim:p:v_naz:ns:prop:geo,Сосни/noun:inanim:p:v_zna:ns:prop:geo]">село <marker>Сосни</marker>.
+    </example>
+    <example type="ambiguous"
+      inputform="Сосни[Сосна/noun:anim:f:v_rod:prop:lname,Сосна/noun:anim:m:v_rod:prop:lname,Сосни/noun:inanim:p:v_naz:ns:prop:geo,Сосни/noun:inanim:p:v_zna:ns:prop:geo,сосна/noun:inanim:f:v_rod,сосна/noun:inanim:p:v_naz,сосна/noun:inanim:p:v_zna]"
+      outputform="Сосни[Сосни/noun:inanim:p:v_naz:ns:prop:geo,Сосни/noun:inanim:p:v_zna:ns:prop:geo]">у м. <marker>Сосни</marker>.
+    </example>
+    <example type="ambiguous"
+        inputform="Шептицький[Шептицький/noun:anim:m:v_naz:prop:lname,Шептицький/noun:inanim:m:v_naz:prop:geo,Шептицький/noun:inanim:m:v_zna:prop:geo,шептицький/adj:m:v_naz,шептицький/adj:m:v_zna:rinanim]"
+        outputform="Шептицький[Шептицький/noun:inanim:m:v_naz:prop:geo,Шептицький/noun:inanim:m:v_zna:prop:geo]"
+      >В м. <marker>Шептицький</marker>.</example>
+    <example type="untouched">Шептицький жив там.</example>
+    <example type="untouched">Буки і Сосни</example>
+  </rule>
+  
+  <rule name="село/місто" id="selo_misto_geo_2">
+    <pattern>
+      <token case_sensitive="yes">н.</token>
+      <token case_sensitive="yes">п.</token>
+      <marker>
+        <token case_sensitive="yes" regexp="yes" postag_regexp="yes" postag="noun:inanim.*prop:geo.*">[А-ЯІЇЄҐ]'?[а-яіїєґ'-]+</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:.:(?!v_kly).*:prop:geo.*"/>
+    <example type="ambiguous"
+      inputform="Сосни[Сосна/noun:anim:f:v_rod:prop:lname,Сосна/noun:anim:m:v_rod:prop:lname,Сосни/noun:inanim:p:v_naz:ns:prop:geo,Сосни/noun:inanim:p:v_zna:ns:prop:geo,сосна/noun:inanim:f:v_rod,сосна/noun:inanim:p:v_naz,сосна/noun:inanim:p:v_zna]"
+      outputform="Сосни[Сосни/noun:inanim:p:v_naz:ns:prop:geo,Сосни/noun:inanim:p:v_zna:ns:prop:geo]">н.п. <marker>Сосни</marker>.
+    </example>
+    <example type="untouched">Шептицький жив там.</example>
+    <example type="untouched">Буки і Сосни</example>
+  </rule>
+
+  <rule name="село/місто 2" id="selo_misto_geo_3">
+    <pattern>
+      <marker>
+        <token case_sensitive="yes" regexp="yes" postag_regexp="yes" postag="noun:inanim.*prop:geo.*">[А-ЯІЇЄҐ]'?[а-яіїєґ'-]+</token>
+      </marker>
+      <token min="0">(</token>
+      <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]+</token>
+      <token regexp="yes">област.*|обл\.|район.*|р-н.*</token>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:.:(?!v_kly).*:prop:geo.*|adj:[mnf]:.*"/>
+    <example type="ambiguous"
+      inputform="Сосни[Сосна/noun:anim:f:v_rod:prop:lname,Сосна/noun:anim:m:v_rod:prop:lname,Сосни/noun:inanim:p:v_naz:ns:prop:geo,Сосни/noun:inanim:p:v_zna:ns:prop:geo,сосна/noun:inanim:f:v_rod,сосна/noun:inanim:p:v_naz,сосна/noun:inanim:p:v_zna]"
+      outputform="Сосни[Сосни/noun:inanim:p:v_naz:ns:prop:geo,Сосни/noun:inanim:p:v_zna:ns:prop:geo]"><marker>Сосни</marker> Черкаської обл..
+    </example>
+    <example type="ambiguous"
+      inputform="Сосни[Сосна/noun:anim:f:v_rod:prop:lname,Сосна/noun:anim:m:v_rod:prop:lname,Сосни/noun:inanim:p:v_naz:ns:prop:geo,Сосни/noun:inanim:p:v_zna:ns:prop:geo,сосна/noun:inanim:f:v_rod,сосна/noun:inanim:p:v_naz,сосна/noun:inanim:p:v_zna]"
+      outputform="Сосни[Сосни/noun:inanim:p:v_naz:ns:prop:geo,Сосни/noun:inanim:p:v_zna:ns:prop:geo]"><marker>Сосни</marker> (Брильський р-н).
+    </example>
+    <example type="ambiguous"
+        inputform="Шептицький[Шептицький/noun:anim:m:v_naz:prop:lname,Шептицький/noun:inanim:m:v_kly:prop:geo,Шептицький/noun:inanim:m:v_naz:prop:geo,Шептицький/noun:inanim:m:v_zna:prop:geo,шептицький/adj:m:v_kly,шептицький/adj:m:v_naz,шептицький/adj:m:v_zna:rinanim]"
+        outputform="Шептицький[Шептицький/noun:inanim:m:v_naz:prop:geo,Шептицький/noun:inanim:m:v_zna:prop:geo,шептицький/adj:m:v_kly,шептицький/adj:m:v_naz,шептицький/adj:m:v_zna:rinanim]"
+      >І <marker>Шептицький</marker> (Львівська область).</example>
+    <example type="untouched">Шептицький жив там.</example>
+    <example type="untouched">Буки і Сосни</example>
+    <example type="untouched">ходять Вуглегірська (Донецька область)</example>
+  </rule>
+
   <!-- Загальне правило не працює, бо часто загальні іменники можуть вживатися з великої: «але для Ігор у Турині зробили виняток»
   <rule name="Іменник з великої літери в середині речення - власна назва" id="CAPITAL_INSIDE_SENTENCE_IS_PROP_NOUN">
     <pattern case_sensitive="yes">
@@ -5600,25 +5738,6 @@
     <example type="untouched">української молоді чоловіки</example>
     <example type="untouched">української молоді роки</example>
     <example type="untouched">його молоді</example>
-  </rule>
-
-  <rule name="село/місто" id="selo_misto_geo">
-    <pattern>
-      <token case_sensitive="yes" regexp="yes">[сС]ело|[мС]істо|[см]\.</token>
-      <marker>
-        <token case_sensitive="yes" regexp="yes" postag_regexp="yes" postag="noun:inanim.*prop:geo.*">[А-ЯІЇЄҐ]'?[а-яіїєґ'-]+</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:inanim.*:prop:geo.*"/>
-    <example type="ambiguous"
-      inputform="Сосни[Сосна/noun:anim:f:v_rod:prop:lname,Сосна/noun:anim:m:v_rod:prop:lname,Сосни/noun:inanim:p:v_naz:ns:prop:geo,Сосни/noun:inanim:p:v_zna:ns:prop:geo,сосна/noun:inanim:f:v_rod,сосна/noun:inanim:p:v_naz,сосна/noun:inanim:p:v_zna]"
-      outputform="Сосни[Сосни/noun:inanim:p:v_naz:ns:prop:geo,Сосни/noun:inanim:p:v_zna:ns:prop:geo]">село <marker>Сосни</marker>.
-    </example>
-    <example type="ambiguous"
-      inputform="Сосни[Сосна/noun:anim:f:v_rod:prop:lname,Сосна/noun:anim:m:v_rod:prop:lname,Сосни/noun:inanim:p:v_naz:ns:prop:geo,Сосни/noun:inanim:p:v_zna:ns:prop:geo,сосна/noun:inanim:f:v_rod,сосна/noun:inanim:p:v_naz,сосна/noun:inanim:p:v_zna]"
-      outputform="Сосни[Сосни/noun:inanim:p:v_naz:ns:prop:geo,Сосни/noun:inanim:p:v_zna:ns:prop:geo]">у м. <marker>Сосни</marker>.
-    </example>
-    <example type="untouched">Буки і Сосни</example>
   </rule>
 
   <rule name="во - intj" id="vo_intj">
