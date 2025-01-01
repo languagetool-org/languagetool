@@ -84,6 +84,11 @@ public class UkrainianTaggerTest {
   }
 
   @Test
+  public void testPropLowerCase() throws IOException {
+    TestTools.myAssert("вкраїна", "вкраїна/[вкраїна]noun:inanim:f:v_naz:prop:geo:bad", tokenizer, tagger);
+  }
+  
+  @Test
   public void testNumberTagging() throws IOException {
     TestTools.myAssert("101,234", "101,234/[101,234]number", tokenizer, tagger);
     TestTools.myAssert("101 234", "101 234/[101 234]number", tokenizer, tagger);

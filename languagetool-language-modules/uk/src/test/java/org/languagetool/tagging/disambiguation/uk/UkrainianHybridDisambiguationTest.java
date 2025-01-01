@@ -219,7 +219,7 @@ public class UkrainianHybridDisambiguationTest {
     
     TestTools.myAssert("Мій Львове",
         "/[null]SENT_START Мій/[мій]adj:m:v_kly:&pron:pos|Мій/[мій]adj:m:v_naz:&pron:pos|Мій/[мій]adj:m:v_zna:rinanim:&pron:pos"
-        + "  /[null]null Львове/[Львов]noun:anim:m:v_kly:prop:lname|Львове/[Львове]noun:inanim:n:v_kly:prop:geo|Львове/[Львове]noun:inanim:n:v_naz:prop:geo|Львове/[Львове]noun:inanim:n:v_zna:prop:geo|Львове/[Львів]noun:inanim:m:v_kly:prop:geo",
+        + "  /[null]null Львове/[Львів]noun:inanim:m:v_kly:prop:geo",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 
@@ -523,6 +523,13 @@ public class UkrainianHybridDisambiguationTest {
   public void testTaggerUppgerGoodAndLowerBad() throws IOException {
     TestTools.myAssert("Держдепартамент", "/[null]SENT_START Держдепартамент/[Держдепартамент]noun:inanim:m:v_naz:prop|Держдепартамент/[Держдепартамент]noun:inanim:m:v_zna:prop",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("вікіпедія", "/[null]SENT_START вікіпедія/[вікіпедія]noun:inanim:f:v_naz:bad",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    // technically plural is not :bad but it's tricky to take it off
+    TestTools.myAssert("вікіпедіях", "/[null]SENT_START вікіпедіях/[вікіпедія]noun:inanim:p:v_mis:bad",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 
 
@@ -650,6 +657,24 @@ public class UkrainianHybridDisambiguationTest {
       + " подальші/[подальший]adj:p:v_kly|подальші/[подальший]adj:p:v_naz|подальші/[подальший]adj:p:v_zna:rinanim"
       + "  /[null]null суди/[суд]noun:inanim:p:v_naz|суди/[суд]noun:inanim:p:v_zna",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
+  }
+  
+  @Test
+  public void testVklyZvert() throws IOException {
+    TestTools.myAssert("Шановні депутати!",
+      "/[null]SENT_START"
+      + " Шановні/[шановний]adj:p:v_kly:compb"
+      + "  /[null]null депутати/[депутат]noun:anim:p:v_kly"
+      + " !/[null]null",
+      tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("— Шановні колеги!",
+        "/[null]SENT_START"
+        + " —/[null]null  /[null]null"
+        + " Шановні/[шановний]adj:p:v_kly:compb"
+        + "  /[null]null колеги/[колега]noun:anim:p:v_kly"
+        + " !/[null]null",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 }
 
