@@ -18,6 +18,9 @@
  */
 package org.languagetool.rules.uk;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +47,15 @@ public class SimpleReplaceRenamedRule extends Rule {
 
   private static final Map<String, List<String>> RENAMED_LIST = ExtraDictionaryLoader.loadLists("/uk/replace_renamed.txt");
   private static final Pattern GEO_POSTAG_PATTERN = Pattern.compile("noun:inanim.*?:prop.*|adj.*");
+  private static final URL DECOMUNIZATION_URL = createUrl();
+
+  private static URL createUrl() {
+    try {
+      return URI.create("https://uk.wikipedia.org/wiki/%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA_%D1%82%D0%BE%D0%BF%D0%BE%D0%BD%D1%96%D0%BC%D1%96%D0%B2_%D0%A3%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D0%B8,_%D0%BF%D0%B5%D1%80%D0%B5%D0%B9%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%85_%D0%B2%D0%BD%D0%B0%D1%81%D0%BB%D1%96%D0%B4%D0%BE%D0%BA_%D0%B4%D0%B5%D0%BA%D0%BE%D0%BC%D1%83%D0%BD%D1%96%D0%B7%D0%B0%D1%86%D1%96%D1%97").toURL();
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   public SimpleReplaceRenamedRule(ResourceBundle messages) {
     super(messages);
@@ -106,7 +118,7 @@ public class SimpleReplaceRenamedRule extends Rule {
           }
         }
 
-        RuleMatch match = createRuleMatch(tokenReadings, replacements, getMessage(renamedLemmas.iterator().next(), info), sentence);
+        RuleMatch match = createRuleMatch(tokenReadings, replacements, renamedLemmas.iterator().next(), info, sentence);
         ruleMatches.add(match);
       }
 
@@ -123,10 +135,13 @@ public class SimpleReplaceRenamedRule extends Rule {
     return msg;
   }
 
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List<String> replacements, String msg, AnalyzedSentence sentence) {
+  private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List<String> replacements, String msg, String info, AnalyzedSentence sentence) {
+    msg = getMessage(msg, info);
     RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, readings.getStartPos(), readings.getEndPos(), msg, "Перейменована назва");
     potentialRuleMatch.setSuggestedReplacements(replacements);
-
+    if( info.contains("декомуніз") ) {
+      potentialRuleMatch.setUrl(DECOMUNIZATION_URL);
+    }
     return potentialRuleMatch;
   }
 

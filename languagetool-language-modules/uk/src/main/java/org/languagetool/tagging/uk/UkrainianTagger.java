@@ -65,7 +65,6 @@ public class UkrainianTagger extends BaseTagger {
   private static final Pattern PATTERN_MD = Pattern.compile("[MD]+");
   private static final Pattern QUOTES = Pattern.compile("[«»\"„“]");
   private static final Pattern YI_PATTERN = Pattern.compile("([бвгґджзклмнпрстфхцчшщ])ї", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  
 
   private final CompoundTagger compoundTagger = new CompoundTagger(this, wordTagger, locale);
 //  private BufferedWriter taggedDebugWriter;
@@ -138,6 +137,7 @@ public class UkrainianTagger extends BaseTagger {
       }
     }
 
+    // помилка - «з» замість «с» перед губними
     if ( word.length() > 5 && word.matches("(?iu)з[кптфх].+") ) {
       String newWord = word.replaceFirst("^з", "с").replaceFirst("^З", "С");
       List<TaggedWord> wdList = compoundTagger.tagBothCases(newWord, null);

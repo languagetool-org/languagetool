@@ -282,12 +282,24 @@ public abstract class LemmaHelper {
     return true;
   }
 
+  public static boolean isAllLowercaseUk(String word) {
+    int sz = word.length();
+    for (int i = 0; i < sz; i++) {
+        char ch = word.charAt(i);
+        if (ch != '-' && ch != '\u2013' && ch != '\'' && ch != '\u0301' && ch != '\u00AD' 
+            && !Character.isLowerCase(ch)) {
+          return false;
+        }
+    }
+    return true;
+  }
+
   public static String capitalizeProperName(String word) {
     char[] chars = new char[word.length()];
     char prevChar = '-';
     for(int i=0; i<chars.length; i++) {
       char ch = word.charAt(i);
-      chars[i] = prevChar == '-' ? ch : Character.toLowerCase(ch);
+      chars[i] = prevChar == '-' ? Character.toUpperCase(ch) : Character.toLowerCase(ch);
       prevChar = ch == '\u2013' ? '-' : ch;
     }
     return new String(chars);

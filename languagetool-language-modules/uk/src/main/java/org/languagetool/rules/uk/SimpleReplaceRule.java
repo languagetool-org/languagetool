@@ -51,7 +51,6 @@ import org.languagetool.tools.Tools;
 public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   private static final Map<String, List<String>> wrongWords = loadFromPath("/uk/replace.txt");
-//  private static final Set<String> FORCE_REPLACE_LIST = new HashSet<>(Arrays.asList("главком"));
   private final MorfologikUkrainianSpellerRule morfologikSpellerRule;
 
   @Override
