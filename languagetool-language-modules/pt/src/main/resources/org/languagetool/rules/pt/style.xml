@@ -3685,13 +3685,29 @@ USA
                 <example>Scott e Reeves se tornaram os dois astros mais conceituados deste gênero.</example>
                 <example>Uma fase de qualificatórias onde as duas melhores duplas de cada uma seguiram para as semifinais.</example>
             </antipattern>
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token regexp='yes'>[ao]s</token>
+                <token regexp='yes'>duas|dois</token>
+                <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token postag='SPS00:D.+' postag_regexp='yes'/>
+                <example>Peço que enviem os dois e-mails dos rascunhos.</example>
+                <example>Felizmente já foram encontradas as duas caixas pretas do Airbus da Air France.</example>
+                <example>Olhe os dois lados da placa.</example>
+                <example>Já perdi os dois cavalos no xadrez.</example>
+                <example>A mídia caracteriza o diferente como errado, esquecendo-se de que é seu dever ouvir os dois lados da história.</example>
+                <example>Ouça os dois lados da história antes de formar qualquer opinião.</example>
+                <example>Uma ponte liga as duas margens do rio.</example>
+                <example>Você assistiu os dois filmes do Deadpool?</example>
+                <example>Usa uma granada para rebentar as duas portas do cofre.</example>
+            </antipattern>
 
             <!-- Subrule 1: NOT using nouns/adjectives after "as duas"/"os dois" -->
             <rule>
                 <pattern>
                     <token postag='V.+|RG|CS' postag_regexp='yes'>
                         <exception postag_regexp='yes' postag='SPS.+'/>
-                        <exception regexp='yes' inflected='yes'>enviar|formar|precisar|só</exception></token> <!-- "ser" removed in rule #1 -->
+                        <exception regexp='yes' inflected='yes'>formar|precisar|só</exception></token> <!-- "ser" removed in rule #1 -->
                     <marker>
                         <token regexp='yes'>[ao]s</token>
                         <token regexp='yes'>duas|dois
@@ -3720,7 +3736,7 @@ USA
                 <pattern>
                     <token postag='V.+|RG|CS' postag_regexp='yes'>
                         <exception postag_regexp='yes' postag='SPS.+'/>
-                        <exception regexp='yes' inflected='yes'>enviar|formar|precisar|ser|só</exception></token>
+                        <exception regexp='yes' inflected='yes'>formar|precisar|ser|só</exception></token>
                     <marker>
                         <token regexp='yes'>[ao]s</token>
                         <token regexp='yes'>duas|dois</token>
@@ -3751,7 +3767,6 @@ USA
                 <example>Os filhos eram os dois únicos homens a quem ela se dedicava.</example>
                 <example>Estas são as duas únicas palavras que não compreendemos.</example>
                 <example>Já em 1904 seriam as duas maiores ferrovias da República, da central e nacional através da cidade.</example>
-                <example>Peço que enviem os dois e-mails dos rascunhos.</example>
             </rule>
 
         </rulegroup>
