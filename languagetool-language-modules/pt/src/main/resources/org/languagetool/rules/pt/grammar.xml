@@ -1510,7 +1510,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordância: Geral">
             <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
 
-            <antipattern> <!-- aos outros #1 -->
+            <antipattern> <!-- outros/outras #1 -->
                 <token postag='V.+' postag_regexp='yes'/>
                 <token regexp='yes'>aos?</token>
                 <token regexp='yes'>outros?</token>
@@ -1519,13 +1519,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Ele pretende impor ao outro comandos.</example>
                 <example>Faz aos outros coisas boas.</example>
             </antipattern>
-            <antipattern> <!-- aos outros #2 -->
+            <antipattern> <!-- outros/outras #2 -->
                 <token regexp='yes'>aos?</token>
                 <token regexp='yes'>outros?</token>
                 <token postag='(SPS00:)?[DP]..[CF].+' postag_regexp='yes'/>
                 <token postag='AQ.[CF].+|N.[CF].+' postag_regexp='yes'/>
                 <example>Não devemos impor aos outros nossas ideias.</example>
                 <example>Que possam pacifica e fraternalmente se comunicar, sem impor uns aos outros suas peculiaridades raciais.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='PP3C.+' postag_regexp='yes'/>
+                <token postag='VMP00.M' postag_regexp='yes'/>
+                <token postag='AQ.[CF].+|N.[CF].+' postag_regexp='yes'/>
+                <example>O Pedro pensava que eu tinha lhe contado mentira.</example>
             </antipattern>
 
             <antipattern>

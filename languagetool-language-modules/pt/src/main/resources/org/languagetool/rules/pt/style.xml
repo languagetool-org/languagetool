@@ -1617,9 +1617,9 @@ USA
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>entrar</match></suggestion>
                 <example correction='entrar'>Vamos <marker>ganhar entrada em</marker>.</example>
             </rule>
-            <rule default='temp_off'>
+            <rule>
                 <antipattern>
-                    <token regexp='yes'>lei|propriedade|teoria|teorema</token>
+                    <token regexp='yes'>leis?|propriedades?|teoremas?|teorias?</token>
                     <token>dos</token>
                     <token>grandes</token>
                     <token>números</token>
@@ -1630,19 +1630,24 @@ USA
                     <marker>
                         <token regexp='yes'>grandes?
                             <exception scope='previous' regexp='no'>um</exception> <!-- For the wordiness "um grande número de=inúmeros|inúmeras|muitos|muitas" -->
-                            <exception scope='previous' regexp='yes' inflected='yes'>abrigar|acomodar|agrupar|anexar|anotar|apresentar|armazenar|arrecadar|captar|carregar|coletar|comportar|conter|demonstrar|descrever|detec?tar|distribuir|dividir|empilhar|enumerar|exibir|existir|expor|fornecer|haver|identificar|incluir|indicar|juntar|listar|localizar|manter|mostrar|ocupar|organizar|posicionar|quantificar|registr?ar|relatar|representar|reunir|sediar|somar|suportar|ter|trazer|ver</exception></token> <!-- ChatGPT 4o -->
+                            <exception scope='previous' postag_regexp='yes' postag='SENT_START|SPS00|V.+'/></token>
                         <token regexp='yes'>números?</token>
                     </marker>
                     <token>de</token>
                 </pattern>
                 <message>Expressão desnecessariamente complexa. Considere substituir por <suggestion><match no='2' postag='NCM(.)000' postag_replace='NCM$1000'>aglomerado</match></suggestion>.</message>
                 <example correction='aglomerado'>Avaliei o <marker>grande número</marker> de artigos existentes.</example>
-                <example correction='aglomerados'>O estudo analisou <marker>grandes números</marker> de estrelas no local.</example>
                 <example>Na Grécia e na Itália há grande número de cidades.</example>
                 <example>Reuniu-se grande número de pessoas.</example>
                 <example>Por exemplo, um grande número de covas do período Jomon médio (2 800 – 1 900 AC) foi encontrado em Nishida.</example>
                 <example>É uma área marcada por concentrar um grande número de bares e casas de shows.</example>
                 <example>Kounopetra é bem equipada para receber um grande número de turistas.</example>
+                <example>Essa sociedade esportiva conta com grande número de simpatizantes.</example>
+                <example>Grande número de pessoas se reuniu para ver o desfile.</example>
+                <example>A presença de bispos de cores opostas favorece a igualdade em grande número de finais.</example>
+                <example>A cultura de massa é aquela que atinge grande número de pessoas ao mesmo tempo.</example>
+                <example>Ela me revelou grande número de episódios de sua vida.</example>
+                <example>O inglês moderno emprega grande número de galicismos.</example>
             </rule>
             <rule>
                 <pattern>
