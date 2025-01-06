@@ -4081,11 +4081,13 @@ USA
         <token postag="(SPS00:)?D[AI].+|Z0.+" postag_regexp="yes"><exception postag_regexp='yes' postag='P[IP].+'/></token> <!-- Removed PP.+: "morrer nos custa muito" -->
         <marker>
           <and>
-            <token postag="VMSP3S0|VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM" postag_regexp="yes"/>
+            <token postag="V.+" postag_regexp="yes"/>
             <token postag="NC.+" postag_regexp="yes"/>
           </and>
         </marker>
-        <token><exception scope="previous" regexp="no">tá</exception></token>
+        <token>
+          <exception scope="previous" postag_regexp='no' postag='VMN01P0'/> <!-- "termos" -->
+          <exception scope="previous" regexp="yes">era|tá</exception></token>
       </pattern>
       <disambig action="remove" postag="V.*"/>
       <!--
@@ -4106,6 +4108,12 @@ USA
                Passado um mês de isolamento Matsudaira Katamori rendeu-se e o castelo foi destruído pelo novo governo em 1874.
                Declaravam que somente reconheciam a posse sobre as terras povoadas.
                É um dia perfeito.
+               Em 1820, eram 22 charqueadas (depoimento de Auguste de Saint-Hilaire) e, em 1873, 38.
+               A Dinamarca resistiu algumas horas à ofensiva alemã, tendo morrido 26 soldados dinamarqueses e 20 alemães.
+               Ela pode ser acessada pela entrada da Exhibition Road e sua temática é voltada à história do planeta Terra.
+               Foram 68 partidas sem perder entre os anos de 1986 a 1990.
+               A vitória expressiva representou o placar mais dilatado em uma final da história da competição na era profissional.
+               Astronautas se abraçam na chegada dos novos tripulantes.
       -->
     </rule>
     <rule> <!-- Used ChatGPT 4o to verify the results -->
