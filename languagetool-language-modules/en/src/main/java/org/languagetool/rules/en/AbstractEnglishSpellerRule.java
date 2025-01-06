@@ -121,6 +121,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "horseshit",
     "kraut",
     "krauts",
+    "blackie",
+    "blackies",
     "motherfucker",
     "motherfuckers",
     "motherfucking",
