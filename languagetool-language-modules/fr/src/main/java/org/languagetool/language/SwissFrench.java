@@ -18,11 +18,11 @@
  */
 package org.languagetool.language;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class SwissFrench extends French {
+
   private static volatile Throwable instantiationTrace;
 
   public SwissFrench() {
@@ -41,13 +41,12 @@ public class SwissFrench extends French {
 
   @Override
   public String[] getCountries() {
-    return new String[] { "CH"
-    };
+    return new String[] { "CH" };
   }
 
   @Override
   public List<String> getDefaultDisabledRulesForVariant() {
     List<String> rules = Collections.singletonList("DOUBLER_UNE_CLASSE");
-    return Collections.unmodifiableList(rules);
+    return rules;
   }
 }
