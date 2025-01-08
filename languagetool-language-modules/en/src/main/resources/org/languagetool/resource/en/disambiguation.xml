@@ -3100,6 +3100,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="cc'ing spelling" id="CC_ING_SPELLING3">
+        <pattern>
+            <token case_sensitive="yes" regexp="yes">(cc|CC)[’'](d|ing)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <!--<rule name="cc's" id="CC_VBZ">
         <pattern>
             <marker>
@@ -14300,6 +14306,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
     </rulegroup>
 
+    <rule id="LATEX_SPELLING" name="Ignore spelling of text in LATEX">
+        <pattern>
+            <token>$</token>
+            <token>\</token>
+            <marker>
+                <token regexp="yes">.+\$</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rulegroup id="SENTENCE_ADVERBIALS" name="Adverbial phrases at the start of a sentence"><!-- #2213 -->
 
         <rule id="PHRASES_1_WORD" name="1-word phrases">
@@ -16383,6 +16400,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START" />
+                <marker>
+                    <token regexp="yes" postag="SENT_END">[BCDFGHJKLMNPQRSTVWXZ]{3,6}s?</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
     </rulegroup>
 
     <rule id="UN_HAPPY" name="ignore spelling of (un)happy">
@@ -17118,4 +17144,41 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="add"><wd pos="RB"/></disambig>
     </rule>
 
+    <rulegroup id="RUE_DE_IGNORE_SPELLING" name="ignore spelling of French street names">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Rue|Avenue|Boulevard|Place</token>
+                <token regexp="yes">[Dd]es?|[Dd]u</token>
+                <token regexp="yes" min="0">\p{Lu}.*</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Rue|Avenue|Boulevard|Place</token>
+                <token regexp="yes">\p{Lu}.*|[Dd]&apostrophe;\p{Lu}.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="CENSORED_WORDS" name="ignore spelling of censored words">
+        <rule>
+            <pattern>
+                <token>f</token>
+                <token>*</token>
+                <token regexp="yes">ck(s|ed|ing)?</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">(bull)?sh</token>
+                <token>*</token>
+                <token>t</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>

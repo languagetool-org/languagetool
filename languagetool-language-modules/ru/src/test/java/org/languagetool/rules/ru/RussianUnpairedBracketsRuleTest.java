@@ -35,9 +35,9 @@ public class RussianUnpairedBracketsRuleTest {
   @Test
   public void testRuleRussian() throws IOException {
     RussianUnpairedBracketsRule rule = new RussianUnpairedBracketsRule(TestTools
-        .getEnglishMessages(), new Russian());
+      .getEnglishMessages(), Russian.getInstance());
     RuleMatch[] matches;
-    JLanguageTool lt = new JLanguageTool(new Russian());
+    JLanguageTool lt = new JLanguageTool(Russian.getInstance());
     // correct sentences:
     matches = rule.match(Collections.singletonList(lt
         .getAnalyzedSentence("(О жене и детях не беспокойся, я беру их на свои руки).")));

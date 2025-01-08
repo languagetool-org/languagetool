@@ -19,19 +19,16 @@
 
 package org.languagetool.tagging.disambiguation.pt;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
-import org.languagetool.language.PortugalPortuguese;
-import org.languagetool.language.Portuguese;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
+
+import java.io.IOException;
 
 /**
  * Hybrid chunker-disambiguator for Portuguese.
@@ -39,8 +36,8 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
  */
 public class PortugueseHybridDisambiguator extends AbstractDisambiguator {
 
-  private final MultiWordChunker chunker = new MultiWordChunker("/pt/multiwords.txt", true, true, true);
-  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, true,"NPCN000");
+  private final MultiWordChunker chunker = MultiWordChunker.getInstance("/pt/multiwords.txt", true, true, true);
+  private final MultiWordChunker chunkerGlobal = MultiWordChunker.getInstance("/spelling_global.txt", false, true, true, "NPCN000");
   private final Disambiguator disambiguator;
 
   public PortugueseHybridDisambiguator(Language lang) {

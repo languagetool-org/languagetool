@@ -21,14 +21,14 @@ package org.languagetool.language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.markup.AnnotatedText;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.GermanChunker;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.*;
+import org.languagetool.rules.de.*;
 import org.languagetool.rules.de.LongSentenceRule;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
-import org.languagetool.rules.de.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.GermanSynthesizer;
@@ -37,12 +37,14 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.de.GermanRuleDisambiguator;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.CompoundWordTokenizer;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tokenizers.de.GermanWordTokenizer;
 import org.languagetool.tools.Tools;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -53,13 +55,12 @@ import static java.util.regex.Pattern.compile;
  * Support for German - use the sub classes {@link GermanyGerman}, {@link SwissGerman}, or {@link AustrianGerman}
  * if you need spell checking.
  */
-public class German extends Language implements AutoCloseable {
+public class German extends LanguageWithModel {
 
   private static final Pattern TYPOGRAPHY_PATTERN = compile("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)");
   private static final Pattern AI_DE_GGEC_MISSING_PUNCT =
     compile("AI_DE_GGEC_MISSING_PUNCTUATION_\\d+_DASH_J(_|AE)HRIG|AI_DE_GGEC_REPLACEMENT_CONFUSION", Pattern.CASE_INSENSITIVE);
-
-  private LanguageModel languageModel;
+  private static final String GERMAN_SHORT_CODE = "de";
 
   /**
    * @deprecated use {@link GermanyGerman}, {@link AustrianGerman}, or {@link SwissGerman} instead -
@@ -71,7 +72,7 @@ public class German extends Language implements AutoCloseable {
   
   @Override
   public Language getDefaultLanguageVariant() {
-    return GermanyGerman.INSTANCE;
+    return GermanyGerman.getInstance();
   }
 
   @Override
@@ -103,7 +104,7 @@ public class German extends Language implements AutoCloseable {
 
   @Override
   public String getShortCode() {
-    return "de";
+    return GERMAN_SHORT_CODE;
   }
 
   @Override
@@ -216,12 +217,6 @@ public class German extends Language implements AutoCloseable {
     return GermanCompoundTokenizer.getStrictInstance();
   }
 
-  @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    languageModel = initLanguageModel(indexDir, languageModel);
-    return languageModel;
-  }
-
   /** @since 3.1 */
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
@@ -237,17 +232,6 @@ public class German extends Language implements AutoCloseable {
     return new GermanWordTokenizer();
   }
 
-  /**
-   * Closes the language model, if any. 
-   * @since 3.1 
-   */
-  @Override
-  public void close() throws Exception {
-    if (languageModel != null) {
-      languageModel.close();
-    }
-  }
-  
   /** @since 5.1 */
   @Override
   public String getOpeningDoubleQuote() {
@@ -460,6 +444,7 @@ public class German extends Language implements AutoCloseable {
     id2prio.put("AUSTRIAN_GERMAN_SPELLER_RULE", -3);  // assume most other rules are more specific and helpful than the spelling rule
     id2prio.put("SWISS_GERMAN_SPELLER_RULE", -3);  // assume most other rules are more specific and helpful than the spelling rule
     id2prio.put("DE_VERBAGREEMENT", -4); // prefer more specific rules (e.g DU_WUENSCHT) and speller
+    id2prio.put("UPPERCASE_SENTENCE_START", -4);  // prefer speller
     id2prio.put("PUNKT_ENDE_DIREKTE_REDE", -4); // prefer speller
     id2prio.put("LEERZEICHEN_NACH_VOR_ANFUEHRUNGSZEICHEN", -4); // prefer speller
     id2prio.put("ZEICHENSETZUNG_DIREKTE_REDE", -4); // prefer speller
@@ -612,6 +597,16 @@ public class German extends Language implements AutoCloseable {
     RuleMatch previousMatch = null;
     for (int i = 0; i < ruleMatches.size(); i++) {
       RuleMatch currentMatch = ruleMatches.get(i);
+      List<String> suggestions = currentMatch.getSuggestedReplacements();
+      // ignore adding punctuation at the sentence end
+      if (suggestions.size()==1 && currentMatch.getRule().getId().startsWith("AI_DE_GGEC")) {
+        String suggestion = suggestions.get(0);
+        if (currentMatch.getRule().getId().equals("AI_DE_GGEC_MISSING_PUNCTUATION_PERIOD") && suggestion.endsWith(".")) {
+          if (currentMatch.getSentence().getText().replaceAll("\\s+$", "").endsWith(suggestion.substring(0, suggestion.length() - 1))) {
+            continue;
+          }
+        }
+      }
       if (previousMatch != null && previousMatch.getRule().getId().startsWith("AI_DE_GGEC") &&
         currentMatch.getRule().getId().startsWith("AI_DE_GGEC")) {
         if (previousMatch.getToPos() > currentMatch.getFromPos()) {
@@ -689,11 +684,11 @@ public class German extends Language implements AutoCloseable {
     List<String> results = new ArrayList<>();
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return Arrays.asList(line);
+      return Collections.singletonList(line);
     }
     String[] formTag = parts[0].split("[/]");
     if (formTag.length == 0) {
-      return Arrays.asList("");
+      return Collections.singletonList("");
     }
     String form = formTag[0];
     results.add(form);
@@ -715,5 +710,12 @@ public class German extends Language implements AutoCloseable {
 
   public MultitokenSpeller getMultitokenSpeller() {
     return GermanMultitokenSpeller.INSTANCE;
+  }
+
+  /**
+   * This is a safety method if subclass forgets to create a getInstance method and API user going to invoke it via subclass.
+   */
+  public static @NotNull German getInstance() {
+    throw new RuntimeException("You should not obtain the German language instance. Use getInstance method of derived language class instead. Or maybe subclass did not implement the getInstance method.");
   }
 }

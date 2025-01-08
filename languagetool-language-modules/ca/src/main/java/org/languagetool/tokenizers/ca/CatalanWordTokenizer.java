@@ -25,6 +25,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.languagetool.Languages;
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
@@ -39,6 +40,8 @@ import static org.languagetool.tools.StringTools.CHARS_NOT_FOR_SPELLING;
  */
 public class CatalanWordTokenizer extends WordTokenizer {
 
+  public static final CatalanWordTokenizer INSTANCE = new CatalanWordTokenizer();
+
   private static final String wordCharacters = "§©@€£\\$_\\p{L}\\d·\\-\u0300-\u036F\u00A8\u2070-\u209F°%‰‱&\uFFFD\u00AD\u00AC";
   private static final Pattern tokenizerPattern = Pattern.compile("[" + wordCharacters + "]+|[^" + wordCharacters + "]");
   //all possible forms of "pronoms febles" after a verb.
@@ -51,17 +54,14 @@ public class CatalanWordTokenizer extends WordTokenizer {
   private static final Pattern PATTERN_6 = Pattern.compile("xxCA_SPACExx", Pattern.LITERAL);
   private static final Pattern PATTERN_7 = Pattern.compile("xxELA_GEMINADAxx", Pattern.LITERAL);
   private static final Pattern PATTERN_8 = Pattern.compile("xxELA_GEMINADA_UPPERCASExx", Pattern.LITERAL);
-  private static final Pattern SOFT_HYPHEN = Pattern.compile("\u00AD");
-  private static final Pattern CURLY_SINGLE_QUOTE = Pattern.compile("’", Pattern.LITERAL);
-  private static final Pattern LL = Pattern.compile("l-l", Pattern.LITERAL);
 
   private static final int maxPatterns = 11;
   private final Pattern[] patterns = new Pattern[maxPatterns];
 
   //Patterns to avoid splitting words in certain special cases
   // allows correcting typographical errors in "ela geminada"
-  private static final Pattern ELA_GEMINADA = Pattern.compile("([aeiouàéèíóòúïüAEIOUÀÈÉÍÒÓÚÏÜ])l[.\u2022\u22C5\u2219\uF0D7]l([aeiouàéèíóòúïü])",Pattern.UNICODE_CASE);
-  private static final Pattern ELA_GEMINADA_UPPERCASE = Pattern.compile("([AEIOUÀÈÉÍÒÓÚÏÜ])L[.\u2022\u22C5\u2219\uF0D7]L([AEIOUÀÈÉÍÒÓÚÏÜ])",Pattern.UNICODE_CASE);
+  private static final Pattern ELA_GEMINADA = Pattern.compile("([aeiouàéèíóòúïüAEIOUÀÈÉÍÒÓÚÏÜ])l[\\.\u2022\u22C5\u2219\uF0D7]l([aeiouàéèíóòúïü])",Pattern.UNICODE_CASE);
+  private static final Pattern ELA_GEMINADA_UPPERCASE = Pattern.compile("([AEIOUÀÈÉÍÒÓÚÏÜ])L[\\.\u2022\u22C5\u2219\uF0D7]L([AEIOUÀÈÉÍÒÓÚÏÜ])",Pattern.UNICODE_CASE);
   // apostrophe 
   private static final Pattern APOSTROF_RECTE = Pattern.compile("([\\p{L}])'([\\p{L}\"‘“«])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_RODO = Pattern.compile("([\\p{L}])’([\\p{L}\"‘“«])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -77,7 +77,6 @@ public class CatalanWordTokenizer extends WordTokenizer {
   private static final Pattern SPACE_DIGITS0= Pattern.compile("([\\d]{4}) ",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern SPACE_DIGITS= Pattern.compile("([\\d]) ([\\d][\\d][\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern SPACE_DIGITS2= Pattern.compile("([\\d]) ([\\d][\\d][\\d]) ([\\d][\\d][\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern SPACE0 = Pattern.compile("xxCA_SPACE0xx");
   // Sàsser-l'Alguer
   private static final Pattern HYPHEN_L= Pattern.compile("([\\p{L}]+)(-)([Ll]['’])([\\p{L}]+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
@@ -152,8 +151,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
     auxText = matcher.replaceAll("$1xxCA_SPACExx$2xxCA_SPACExx$3");
     matcher=SPACE_DIGITS.matcher(auxText);
     auxText = matcher.replaceAll("$1xxCA_SPACExx$2");
-    matcher=SPACE0.matcher(auxText);
-    auxText = SPACE0.matcher(auxText).replaceAll(" ");
+    auxText = auxText.replace("xxCA_SPACE0xx", " ");
 
     Matcher tokenizerMatcher = tokenizerPattern.matcher(auxText);
     while (tokenizerMatcher.find()) {
@@ -213,7 +211,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
         l.add(s);
       } else {
         // words containing hyphen (-) are looked up in the dictionary
-        if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(CURLY_SINGLE_QUOTE.matcher(SOFT_HYPHEN.matcher(s).replaceAll("")).replaceAll("'"))).get(0).isTagged()) {
+        if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(s.replace("\u00AD", "").replace("’", "'"))).get(0).isTagged()) {
           l.add(s);
         }
         // some camel-case words containing hyphen (is there any better fix?)
@@ -223,7 +221,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
           l.add(s);
         }
         // words with "ela geminada" with typo: col-legi (col·legi)
-        else if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(LL.matcher(SOFT_HYPHEN.matcher(s).replaceAll("")).replaceAll("l·l"))).get(0).isTagged()) {
+        else if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(s.replace("\u00AD", "").replace("l-l", "l·l"))).get(0).isTagged()) {
           l.add(s);
         // apostrophe in the last char
         } else if ((s.endsWith("'") || s.endsWith("’")) && s.length() > 1) {

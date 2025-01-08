@@ -1002,12 +1002,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
     <rulegroup id="NA_TAKIY_MOVI" name="На (такій) мові - (такою) мовою">
+      <antipattern>
+        <token regexp="yes" inflected="yes">базуватися|базований|вихований|ґрунтуватися|заробляти|зав'язаний|зекономити|знатися|зосередитися|зупинитися|позначитися|розумітися|сфокусуватися</token>
+        <token postag_regexp="yes" postag="noun.*?:v_dav.*" min="0"/>
+        <token>на</token>
+      </antipattern>
+
       <rule>
-        <antipattern>
-          <token regexp="yes" inflected="yes">базуватися|базований|вихований|ґрунтуватися|заробляти|зав'язаний|зекономити|знатися|зосередитися|зупинитися|позначитися|розумітися|сфокусуватися</token>
-          <token postag_regexp="yes" postag="noun.*?:v_dav.*" min="0"/>
-          <token>на</token>
-        </antipattern>
         <antipattern>
           <token>мові</token>
           <token regexp="yes" inflected="yes">базуватися|вихований|ґрунтуватися|заробляти|зав'язаний|зекономити|знатися|зосередитися|зупинитися|позначитися|розумітися|сфокусуватися</token>
@@ -1024,6 +1025,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>давати заробляти росіянам на українській мові</example>
         <example>котрий розуміється на їхній мові</example>
         <example>У прийнятті рішення, на якій мові зупинитися</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">(за)?говорити|спілкуватись|балакати|розмовляти</token>
+          <marker>
+            <token>на</token>
+            <!-- note: some languages we have as nouns in the dictionary but the rest are generic adj -->
+            <token inflected="yes" postag_regexp="yes" postag="(adj|noun:inanim):f:v_mis.*" regexp="yes">українська|російська|англійська|німецька|іспанська|французька|польська</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion><match no="3" postag_regexp="yes" postag="(adj|noun:inanim):f:v_mis(.*)" postag_replace="$1:f:v_oru.*"/></suggestion></message>
+        <example correction="англійською">говорив <marker>на англійській</marker>.</example>
+        <example>в українській</example>
+        <example>ґрунтується на німецькій</example>
+        <example>на українській військовій базі</example>
+        <example>на українській же військовій базі</example>
       </rule>
 
       <rule>
@@ -1330,7 +1348,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token postag_regexp="yes" postag="noun:anim:m.*:fname.*">
           <exception postag_regexp="yes" postag="noun.*:m:v_(naz|kly).*:fname.*"/>
           <exception postag_regexp="yes" postag="noun.*:f.*:fname.*"/>
-          <exception regexp="yes">Тому|Ніколи</exception>
+          <exception regexp="yes">Тому|Ніколи|Владика</exception>
           <exception postag_regexp="yes" postag="noun.*:prop(?!:fname).*"/>
           <exception scope="previous" inflected="yes" regexp="yes">король|отець|патріарх|святий</exception>
         </token>
@@ -1372,6 +1390,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Подружжю Наталі та Сергія Гедзь судилося вписати свої імена...</example>
       <example>виготовлені Людмилою і Мирославом Куць</example>
       <example>Людмили та Юрія Миськів</example>
+      <example>Владика Ґудзяк</example>
 
       <!-- Важко розрізнити на граматичному рівні
           <example>Прибіг до Єремії Тишкевич</example>
@@ -1452,6 +1471,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token>саме</token>
       </antipattern>
       <antipattern>
+        <token inflected="yes">великий</token>
+        <token inflected="yes">князь</token>
+      </antipattern>
+      <antipattern>
         <unify>
           <feature id="gender"/>
           <feature id="case"/>
@@ -1496,6 +1519,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>— на ту саму найчисельнішу фракцію</example>
         <example>увімкніть радіо на той самий найтихіший рівень гучності</example>
         <example>Йдеться про той самий найдешевший рослинний жир</example>
+        <example>до самого великого князя</example>
       </rule>
 
       <!-- compr -->
@@ -1676,7 +1700,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes">кращий</token>
           </marker>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий">Кіно — чи не <marker>кращий</marker> інструмент</example>
         <example correction="найкращий">... була далеко не <marker>кращим</marker> способом...</example>
         <example>був не кращий, ніж сталінський</example>
@@ -1701,7 +1725,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token>кращий</token>
           </marker>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий">блокування — не <marker>кращий</marker> варіант</example>
         <example correction="найкращий">Зараз не <marker>кращий</marker> період для прийняття важливих рішень.</example>
         <example>Він — не кращий і не гірший</example>
@@ -1725,7 +1749,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes">кращий</token>
           </marker>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий">Це був не <marker>кращий</marker> матч Роналдо</example>
         <example>був не кращий, ніж сталінський</example>
         <example>був не кращим і не гіршим</example>
@@ -1739,7 +1763,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token inflected="yes" regexp="yes">час|період|вихід|спосіб|бік</token>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий">Зараз не <marker>кращий</marker> час починати справу.</example>
       </rule>
     </rulegroup>
@@ -1773,7 +1797,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token regexp="yes">з|із|поміж|серед</token>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий"><marker>кращий</marker> з людей</example>
         <example correction="найкращий"><marker>кращий</marker> із світів</example>
         <example correction="найкращий"><marker>кращий</marker> із кращих</example>
@@ -1787,7 +1811,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token>кращий</token>
           </marker>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий">серед жінок <marker>кращий</marker> результат</example>
         <example>який із них кращий, який дешевший</example>
         <example>який із них кращий і дешевший</example>
@@ -1802,7 +1826,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="adj.*?:v_naz.*" min="0"/>
           <token postag_regexp="yes" postag="noun:.*?:v_naz.*"/>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий">за <marker>кращий</marker> короткий сценарій</example>
         <example correction="найкращий">як <marker>кращий</marker> виконавець</example>
         <example>розраховувати на кращий результат</example>
@@ -1818,7 +1842,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token>кращий</token>
           </marker>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий">конкурс на <marker>кращий</marker> фільм</example>
         <example correction="найкращий">організовує конкурси: на <marker>кращий</marker> твір про гімназію</example>
       </rule>
@@ -1833,7 +1857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="adj:.:v_naz.*" min="0"/>
           <token postag_regexp="yes" postag="noun:.*?:v_naz.*"/>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий">Сергій Стаховський — <marker>кращий</marker> тенісист</example>
         <example correction="найкращий">книжка - <marker>кращий</marker> подарунок</example>
         <example correction="найкращий">собака - <marker>кращий</marker> друг людини</example>
@@ -1852,7 +1876,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
           <token postag_regexp="yes" postag="noun:.*?:v_rod.*"/>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий">там <marker>кращий</marker> поет революції</example>
         <example correction="найкращий">спочатку <marker>кращий</marker> голеадор чемпіонату</example>
         <example correction="найкращий"><marker>кращий</marker> гравець цього матчу</example>
@@ -1874,7 +1898,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="noun:.*?:m:v_naz.*"/>
           <token postag_regexp="yes" postag="noun:.*?:v_rod.*"/>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий">«<marker>кращий</marker> оперний спектакль року»</example>
         <example correction="найкращий">«<marker>кращий</marker> господар року»</example>
         <example>кращий стан здоров'я</example>
@@ -1892,7 +1916,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token postag_regexp="yes" postag="noun:inanim:.:v_rod.*?geo.*"/>
           </or>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий"><marker>кращий</marker> час сезону</example>
         <example correction="найкращий"><marker>кращий</marker> документальний фільм року</example>
         <example correction="найкращий"><marker>кращий</marker> фестиваль Європи</example>
@@ -1917,7 +1941,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token postag_regexp="yes" postag="noun:inanim:.:v_mis.*?geo.*"/>
           </or>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий"><marker>кращий</marker> захисник в Україні</example>
         <example>розвернути в кращий бік на сході</example>
       </rule>
@@ -1938,7 +1962,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </or>
           -->
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <!-- TODO:
         <example correction="найкращий"><marker>кращий</marker> турнір у Європі</example>
         -->
@@ -1965,7 +1989,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="adj:[mp]:v_naz.*" min="0"/>
           <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun.*:[mp]:v_naz.*">друг|бомбардир|спортсмен|бестселер|представник|винахід|учень</token>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий">наш <marker>кращий</marker> друг людини - собака</example>
         <example correction="найкращий">натомість <marker>кращий</marker> бомбардир чемпіонату</example>
         <example correction="найкращий">і <marker>кращий</marker> український бомбардир</example>
@@ -1983,7 +2007,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>світовий</token>
           <token>досвід</token>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий">спираючись на <marker>кращий</marker> світовий досвід</example>
       </rule>
 
@@ -1996,7 +2020,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="adj.*?:v_naz.*" min="0"/>
           <token postag_regexp="yes" postag="noun:.*?:v_naz.*"/>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий">наш <marker>кращий</marker> друг людини - собака</example>
       </rule>
 
@@ -2008,7 +2032,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>захист</token>
           <token regexp="yes">&punct_dash;</token>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий"><marker>кращий</marker> захист - це напад</example>
       </rule>
 
@@ -2020,7 +2044,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>тому</token>
           <token postag_regexp="yes" postag="noun:.*?:v_naz.*"/>
         </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion></message>
         <example correction="найкращий">це — <marker>кращий</marker> тому доказ</example>
       </rule>
 
@@ -2353,6 +2377,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="від">і залежно <marker>він</marker> результату</example>
     </rule>
 
+    <rulegroup id="pamiatnyk_chogo" name="Пам'ятник чого і чому">
+      <rule>
+        <pattern>
+          <token inflected="yes">пам'ятник</token>
+          <marker>
+            <token postag_regexp="yes" postag="noun:anim:.:v_rod.*prop:lname.*">
+              <exception postag_regexp="yes" postag="noun:anim:.:v_dav.*prop:lname.*"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(noun:anim:.:)v_rod(.*prop:lname.*)" postag_replace="$1v_dav$2"/></suggestion></message>
+        <example correction="Франкові|Франку">Пам'ятник <marker>Франка</marker></example>
+        <example>пам'ятник Роналду</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes">пам'ятник</token>
+          <marker>
+            <token postag_regexp="yes" postag="noun:anim:.:v_rod.*prop:fname.*">
+              <exception postag_regexp="yes" postag="noun:anim:.:v_dav.*prop:fname.*"/>
+            </token>
+            <token postag_regexp="yes" postag="noun:anim:.:v_rod.*prop:lname.*">
+              <exception postag_regexp="yes" postag="noun:anim:.:v_dav.*prop:lname.*"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(noun:anim:.:)v_rod(.*prop:fname.*)" postag_replace="$1v_dav$2"/> <match no="3" postag_regexp="yes" postag="(noun:anim:.:)v_rod(.*prop:lname.*)" postag_replace="$1v_dav$2"/></suggestion></message>
+        <example correction="Іванові Франкові|Іванові Франку|Івану Франкові|Івану Франку">Пам'ятник <marker>Івана Франка</marker></example>
+        <example>пам'ятник Кріштіану Роналду</example>
+      </rule>
+    </rulegroup>
+
     <rule id="NEDILYA_VS_TYZHDEN" name="Неділя і тиждень">
       <pattern>
         <!-- TODO:
@@ -2494,50 +2551,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="обрати|обирати"><marker>вибирали</marker> представників.</example>
     </rule>
 
-      <!--
-    <rulegroup id="TON_VS_TONN" name="Тон/тонн" default="off">
-          <rule>
-          <pattern>
-          <token postag_regexp="yes" postag="num.*"/>
-          <marker>
-          <token>тон</token>
-          </marker>
-          </pattern>
-          <message>Правильно: <suggestion>тонн</suggestion></message>
-          <example correction="тонн">1600 <marker>тон</marker></example>
-          <example correction="тонн">п'ять <marker>тон</marker></example>
-          </rule>
-      <rule>
-        <pattern>
-          -
-              <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|нуль|десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сто|двісті|триста|чотириста|п'ятсот|шістсот|сімсот|вісімсот|сотня|тисяча|мільйон|мільярд|тис.|млн|млрд|([0-9-]*[05-9]|[0-9-]+11)
-          -
-          <or>
-            <token regexp="yes" inflected="yes">тис\.|млн|млрд</token>
-            <token postag_regexp="yes" postag=".*num.*">
-              <exception postag_regexp="yes" postag=".*:v_oru.*"/>
-              <exception scope="previous" regexp="yes">[:./№«]</exception>
-              <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
-              <exception regexp="yes">один|перший</exception>
-            </token>
-          </or>
-          <marker>
-            <token regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?тон</token>
-          </marker>
-        </pattern>
-        <message>Ви мали на увазі: <suggestion><match no="2"/>н</suggestion>?</message>
-        <example correction="кілотонн">10 <marker>кілотон</marker></example>
-        <example correction="тонн">10 <marker>тон</marker></example>
-        <example correction="тонн">п'ять <marker>тон</marker></example>
-        <example correction="тонн">72-78 <marker>тон</marker></example>
-        <example correction="тонн">кілька <marker>тон</marker></example>
-        <example>лише один тон</example>
-        <example>10 тонн</example>
-        <example>10 тонів</example>
-      </rule>
-    </rulegroup>
-      -->
-
     <rule id="VYSHIDNYI_VYHIDNYI" name="Висхідний і вихідний">
       <pattern>
         <marker>
@@ -2551,7 +2564,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="HRYVNA_HRYVNIA" name="Гривна і гривня">
       <antipattern>
-        <token inflected="yes" regexp="yes" skip="-1">браслет|золотавий|плести|прикраса|прикрашати|шийний|шия</token>
+        <token inflected="yes" regexp="yes" skip="-1">браслет|золотавий|плести|прикраса|прикрашати|прикасити|прикрашений|шийний|шия</token>
         <token inflected="yes">гривна
           <exception inflected="yes">гривня</exception>
         </token>
@@ -2560,7 +2573,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token inflected="yes" skip="-1">гривна
           <exception inflected="yes">гривня</exception>
         </token>
-        <token inflected="yes" regexp="yes">браслет|плести|прикраса|прикрашати|шийний|шия</token>
+        <token inflected="yes" regexp="yes">браслет|плести|прикраса|прикрашати|прикасити|прикрашений|шийний|шия</token>
       </antipattern>
       <pattern>
         <marker>
@@ -2569,8 +2582,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
         </marker>
       </pattern>
-      <message>Ви мали на увазі: <suggestion>гривня</suggestion>?</message>
-      <example correction="гривня">Заробив 7 млн <marker>гривен</marker>.</example>
+      <message>На позначення грошової одиниці вживаємо: <suggestion><match no="1" postag_regexp="yes" postag="noun:inanim:.*">гривня</match></suggestion></message>
+      <example correction="гривень">Заробив 7 млн <marker>гривен</marker>.</example>
       <example>девальвація гривні</example>
       <example>На шиї він мав золоту гривну, на пальцях – золоті персні</example>
       <example>«гривна» — це давня нашийна прикраса.</example>
@@ -2842,7 +2855,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="адреса">дав йому свій <marker>адрес</marker>.</example>
         <example>дав йому свою адресу</example>
       </rule>
-
+<!--
       <rule>
         <pattern>
           <token regexp="yes">домашній|електронний|поштовий|зворотний|теперішній</token>
@@ -2854,13 +2867,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="адреса">дав йому домашній <marker>адрес</marker>.</example>
         <example>дав йому поштових адрес</example>
       </rule>
-<!-- TODO: needs dictionary update
+-->
+
       <rule>
         <pattern>
           <unify>
             <feature id="gender"/>
             <feature id="case"/>
-            <token postag_regexp="yes" postag="adj:m:(?!.*pron:pos).*"/>
+            <token postag_regexp="yes" postag="adj:m:(?!.*pron:pos).*">
+              <exception inflected="yes" regexp="yes">(при)?вітальний|(по|в)дячний</exception>
+            </token>
             <marker>
               <token inflected="yes">адрес</token>
             </marker>
@@ -2870,7 +2886,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="адреса">дав йому домашній <marker>адрес</marker>.</example>
         <example>на домашній <marker>адресі</marker>.</example>
       </rule>
--->
+
     </rulegroup>
 
     <rulegroup id="na_vylit_vs_navylit" name="На виліт і навиліт">

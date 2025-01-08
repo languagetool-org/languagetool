@@ -24,7 +24,7 @@ import org.languagetool.language.PortugalPortuguese;
 public class PortugalPortugueseConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override
   protected Language createLanguage() {
-    return new PortugalPortuguese();
+    return PortugalPortuguese.getInstance();
   }
 
   @Override

@@ -67,7 +67,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     List<InputStream> streams = new ArrayList<>();
     for (String path : paths) {
       // add separation between streams so that missing newlines at the end don't join the last & first line from two files
-      String separation = "# Start of file " + path.replaceAll("\n", "") + "\n";
+      String separation = "# Start of file " + path.replace("\n", "") + "\n";
       ByteArrayInputStream separationStream = new ByteArrayInputStream(
         Charset.defaultCharset().encode(separation).array());
       streams.add(separationStream);

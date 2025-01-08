@@ -20,9 +20,11 @@ package org.languagetool;
 
 import org.junit.Test;
 import org.languagetool.language.Spanish;
+import org.languagetool.rules.FakeRule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testXMLRules() throws IOException {
-    Language lang = new Spanish();
+    Language lang = Spanish.getInstance();
     JLanguageTool tool = new JLanguageTool(lang);
     List<RuleMatch> matches = tool.check("Al cabo de 28 años, el vicealcalde de Busan, Baek Seung Taek, realiza una visita a Badajoz.");
     assertEquals(4, matches.size());
@@ -40,7 +42,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testMultitokenSpeller() throws IOException {
-    Language lang = new Spanish();
+    Language lang = Spanish.getInstance();
     assertEquals("[Helmut Kohl]", lang.getMultitokenSpeller().getSuggestions("Helmut Khol").toString());
     assertEquals("[Frederik Willem de Klerk]", lang.getMultitokenSpeller().getSuggestions("Fredrik Willem de Klerk").toString());
     assertEquals("[Macaulay Culkin]", lang.getMultitokenSpeller().getSuggestions("Maukalay Culkin").toString());
@@ -97,4 +99,26 @@ public class JLanguageToolTest {
 
   }
 
+  @Test
+  public void testFilterRuleMatches() throws IOException {
+    Language lang = Spanish.getInstance();
+    JLanguageTool lt = new JLanguageTool(lang);
+    FakeRule rule = new FakeRule("AI_ES_GGEC_MISSING_PUNCTUATION");
+
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Frase sin puntuación al final");
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    RuleMatch match = new RuleMatch(rule, analyzedSentence, 24, 29, "Falta puntuación.");
+    match.addSuggestedReplacement("final.");
+    ruleMatches.add(match);
+    List<RuleMatch> filteredRuleMatches = lang.filterRuleMatches(ruleMatches, null, null);
+    assertEquals(0, filteredRuleMatches.size());
+
+    ruleMatches = new ArrayList<>();
+    analyzedSentence = lt.getAnalyzedSentence("Frase sin puntuación al final   ");
+    match = new RuleMatch(rule, analyzedSentence, 24, 29, "Falta puntuación.");
+    match.addSuggestedReplacement("final.");
+    ruleMatches.add(match);
+    filteredRuleMatches = lang.filterRuleMatches(ruleMatches, null, null);
+    assertEquals(0, filteredRuleMatches.size());
+  }
 }

@@ -38,7 +38,7 @@ final class GermanReflexiveVerbGuesser {
   private final Synthesizer synthesizer;
           
   private GermanReflexiveVerbGuesser() {
-    synthesizer = new GermanyGerman().getSynthesizer();
+    synthesizer = GermanyGerman.getInstance().getSynthesizer();
   }
   
   private void run(File indexTopDir, File lemmaListFile) throws IOException {

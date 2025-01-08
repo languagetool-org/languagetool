@@ -757,6 +757,33 @@ class AgreementRuleAntiPatterns3 {
       tokenRegex("diese[sr]?"),
       token("weite"),
       token("Teile")
+    ),
+    asList(
+      // Laut Charlie XCX selbst sind das Personen, die vielleicht eine ...
+      tokenRegex("sind|w[äa]ren"),
+      token("das"),
+      posRegex("SUB.*PLU.*"),
+      tokenRegex("die|welche|ohne|mit")
+    ),
+    asList(
+      // Laut Charlie XCX selbst sind das Personen, die vielleicht eine ...
+      tokenRegex("sind|w[äa]ren"),
+      token("das"),
+      posRegex("SUB.*PLU.*"),
+      token(","),
+      tokenRegex("die|welche|ohne|mit")
+    ),
+    asList(
+      // an unseren amerikanischen Commercial Lawyer geschickt
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").csTokenRegex("[a-z0-9äöüß\\-]+e[snmr]?").build(),
+      posRegex("SUB.*"),
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-Z][a-zäöüß\\-]+").build()
+    ),
+    asList(
+      // … an unseren Commercial Lawyer geschickt
+      posRegex("PRO.*|ART.*"),
+      posRegex("SUB.*"),
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-Z][a-zäöüß\\-]+").build()
     )
   );
 

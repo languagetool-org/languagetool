@@ -191,6 +191,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
                   messages.getString("incorrect_case"));
           ruleMatch.setSuggestedReplacement(capitalized);
           ruleMatches.add(ruleMatch);
+          ruleMatch.setShortMessage(messages.getString("category_case"));
         }
       }
       pos += sentence.getCorrectedTextLength();

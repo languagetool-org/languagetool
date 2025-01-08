@@ -1584,19 +1584,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="унікального|єдиний у своєму роді"><marker>унікального у своєму роді</marker>.</example>
       </rule>
 
-<!--
       <rule>
         <pattern>
+          <token inflected="yes" regexp="yes">(не)?тривалий|деякий|короткий|довгий</token>
           <marker>
             <token inflected="yes">період</token>
             <token>часу</token>
           </marker>
         </pattern>
-        <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
+        <message>Знайдено плеоназм, краще: <suggestion>\2</suggestion></message>
+        <suggestion>час</suggestion>
         <suggestion>проміжок часу</suggestion>
-        <example correction="період|проміжок часу"><marker>період часу</marker>.</example>
+        <example correction="період|час|проміжок часу">тривалий <marker>період часу</marker>.</example>
       </rule>
--->
 
       <rule>
         <pattern>
@@ -1650,7 +1650,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Знайдено плеоназм, краще: <suggestion>\1</suggestion></message>
-        <example correction="прейскуранту"><marker>прейскуранту цін</marker>.</example>
+        <suggestion>цінник</suggestion>
+        <example correction="прейскуранту|цінник"><marker>прейскуранту цін</marker>.</example>
       </rule>
 
       <rule>
@@ -2282,6 +2283,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="рідкісний">за <marker>рідкими</marker> випадками</example>
     </rule>
 
+    <rule id="seroznyi_sryoznyi" name="Серозний і серйозний">
+      <pattern>
+        <token inflected="yes">серозний
+          <exception inflected="yes" regexp="yes" scope="next">менінгіт|покрив|порожнина|оболонка|виділення|рідина</exception>
+        </token>
+      </pattern>
+      <message>Можливо ви мали на увазі: <suggestion><match no="1" postag_regexp="yes" postag="adj.*" postag_replace="$0.*">серйозний</match></suggestion></message>
+      <example correction="серйозними">за <marker>серозними</marker> випадками</example>
+      <example>серозного менінгіту</example>
+      <!--
+      <example>(серозного) менінгіту</example>
+      -->
+    </rule>
+
     <rule id="konoplya" name="Конопля - множинний іменник">
       <pattern>
         <marker>
@@ -2294,6 +2309,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="">отруєння <marker>коноплею</marker>.</example>
       <example>різні коноплі</example>
     </rule>
+
+    <!--
+    <rule id="taktychnyi_taktovnyi" name="тактичний і тактовний">
+      <pattern>
+        <marker>
+          <token inflected="yes" postag_regexp="yes" postag="adj.*" regexp="yes">(не)?тактичний</token>
+        </marker>
+        <token inflected="yes" regexp="yes">людина|жінка|чоловік|хлопець|дівчина</token>
+      </pattern>
+      <message>Можливо ви мали на увазі <suggestion>тактовний</suggestion>?</message>
+      <example correction="тактовний"><marker>тактична</marker> людина.</example>
+      <example>тактичний хід</example>
+    </rule>
+    -->
 
     <rule id="za_stanom_na" name="За станом на">
       <pattern>
@@ -2346,7 +2375,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Слово «освідчений» вживають у сенсі «обстежений» (Водій освідчений у поліції), а в значенні «обізнаний», «культурний» правильним є «освічений».</message>
       <suggestion><match no="1" postag_regexp="yes" postag="(adj.*)" postag_replace="$1.*">освічений</match></suggestion>
-      <example correction="освічений"><marker>освідчений</marker> політик</example>
+      <suggestion><match no="1" postag_regexp="yes" postag="(adj:.*?):&amp;adjp.*" postag_replace="$1.*">обізнаний</match></suggestion>
+      <example correction="освічений|обізнаний"><marker>освідчений</marker> політик</example>
     </rule>
 
     <rulegroup id="knyzhnyi_knyzhkovyi" name="Книжний і книжковий">
@@ -3004,6 +3034,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="мати на меті|ставити собі (мати) за мету">команди <marker>переслідують одну мету</marker> в чемпіонаті</example>
     </rule>
 
+    <rule id="skladova_vs_skladnyk" name="Складова і складник">
+      <pattern>
+        <token inflected="yes">складова
+          <exception scope="next" inflected="yes" regexp="yes">частина|елемент|станція</exception>
+        </token>
+      </pattern>
+      <message>Як іменник краще: <suggestion>складник</suggestion></message>
+      <suggestion>частина</suggestion>
+      <suggestion>компонент</suggestion>
+      <example correction="складник|частина|компонент">обов'язкової <marker>складової</marker> економіки</example>
+      <example>складова частина</example>
+      <example>складовий</example>
+    </rule>
+
     <rule id="khalatnyi_vs_nedbalyi" name="Халатний і недбалий">
       <pattern>
         <token inflected="yes" regexp="yes">халатн(ий|ість|о)</token>
@@ -3020,6 +3064,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>халатні рукави</example>
       -->
     </rule>
+
+    <rulegroup id="vzhyvaty_zakhody" name="Вживати заходи і заходів">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">вживати|вжити|вживаючи|вживши</token>
+          <token min="0" postag_regexp="yes" postag="adj:p:v_zna:rinanim.*"/>
+          <marker>
+            <token>заходи</token>
+          </marker>
+        </pattern>
+        <message>Приавльно: <suggestion>заходів</suggestion></message>
+        <example correction="заходів">вжили <marker>заходи</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>заходи</token>
+          </marker>
+          <token min="0">не</token>
+          <token inflected="yes" regexp="yes">вживати|вжити</token>
+        </pattern>
+        <message>Приавльно: <suggestion>заходів</suggestion></message>
+        <example correction="заходів"><marker>заходи</marker> не вжили.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="gluzuvaty_nad" name="Глузувати над і з">
+      <rule>
+        <pattern>
+          <token inflected="yes">глузувати</token>
+          <marker>
+            <token>над</token>
+            <token postag_regexp="yes" postag=".*v_oru.*"/>
+          </marker>
+        </pattern>
+        <message>Приавльно: <suggestion>з <match no="3"  postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_rod$2"/></suggestion></message>
+        <example correction="з опонента">глузували <marker>над опонентом</marker>.</example>
+      </rule>
+    </rulegroup>
+
 
     <!-- "задавати питання" є в АС та словнику Виргана, Пилинської -->
     <rulegroup id="ZADAVATY_PYTANNIA" name="Задавати питання">
@@ -3970,7 +4055,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="archaism" name="Архаїзми">
       <antipattern>
-        <token case_sensitive="yes" regexp="yes">Мо|Сю</token>
+        <token case_sensitive="yes" regexp="yes">Мо|Сю|Во</token>
         <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]+</token>
       </antipattern>
       <antipattern>
@@ -3992,6 +4077,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>бігуна Мо Кейна</example>
       <example>ні з того ні з сього</example>
       <example>про всяк випадок</example> <!-- arch + short -->
+      <example>Во Дінь Тхань Фонг</example>
     </rule>
 
     <rule id="vulgar" name="Вульгаризми">

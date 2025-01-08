@@ -40,8 +40,8 @@ public class SimpleReplaceDNVSecondaryRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    rule = new SimpleReplaceDNVSecondaryRule(TestTools.getMessages("ca"), new ValencianCatalan());
-    lt = new JLanguageTool(new ValencianCatalan());
+    rule = new SimpleReplaceDNVSecondaryRule(TestTools.getMessages("ca"), ValencianCatalan.getInstance());
+    lt = new JLanguageTool(ValencianCatalan.getInstance());
   }
 
   @Test

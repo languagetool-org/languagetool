@@ -28,12 +28,13 @@ import java.io.IOException;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class MorfologikSpanishSpellerRuleTest {
 
   @Test
   public void testMorfologikSpeller() throws IOException {
-    Spanish language = new Spanish();
+    Spanish language = Spanish.getInstance();
     MorfologikSpanishSpellerRule rule = new MorfologikSpanishSpellerRule(TestTools.getMessages("es"), language, null,
         Collections.emptyList());
     JLanguageTool lt = new JLanguageTool(language);
@@ -221,7 +222,7 @@ public class MorfologikSpanishSpellerRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("Martin"));
     assertEquals(1, matches.length);
-    assertEquals("[Martín, Mártir, Martina, Mastín, Marin, Marlín, Marti, Martins, Martiño, Martí, Marvin, Marín, Martini, Martinů]", matches[0].getSuggestedReplacements().toString());
+    assertEquals("[Martín, Mártir, Martina, Mastín, Marin, Marlín, Marti, Martins, Martinů, Martiño, Martí, Marvin, Marín, Martini]", matches[0].getSuggestedReplacements().toString());
 
     matches = rule.match(lt.getAnalyzedSentence("Dnipro"));
     assertEquals(1, matches.length);
@@ -229,7 +230,7 @@ public class MorfologikSpanishSpellerRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("Dnepr"));
     assertEquals(1, matches.length);
-    assertEquals("Dniéper", matches[0].getSuggestedReplacements().get(0).toString());
+    assertEquals("Dniéper", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(lt.getAnalyzedSentence("don't, doesn't, don’t, doesn’t"));
     assertEquals(0, matches.length);
@@ -239,14 +240,14 @@ public class MorfologikSpanishSpellerRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("medices algo"));
     assertEquals(1, matches.length);
-    assertEquals("Me dices", matches[0].getSuggestedReplacements().get(0).toString());
+    assertEquals("Me dices", matches[0].getSuggestedReplacements().get(0));
 
     // coloquialism allowed, but not suggested
     matches = rule.match(lt.getAnalyzedSentence("El munipa"));
     assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("El munipe"));
     assertEquals(1, matches.length);
-    assertEquals(false, matches[0].getSuggestedReplacements().contains("munipa"));
+    assertFalse(matches[0].getSuggestedReplacements().contains("munipa"));
   }
 
 }

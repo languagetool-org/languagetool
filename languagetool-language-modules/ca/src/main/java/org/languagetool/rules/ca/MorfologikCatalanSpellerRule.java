@@ -46,7 +46,8 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final List<String> PARTICULA_INICIAL = Arrays.asList("amb", "sota", "no", "en", "a", "el", "els", "al", "als", "pel",
     "pels", "del", "dels", "del", "de", "per", "un", "uns", "una", "unes", "la", "les", "teu", "meu", "seu", "teus", "meus", "seus");
   private static final List<String> PREFIX_AMB_ESPAI = Arrays.asList("pod", "ultra", "eco", "tele", "anti", "re", "des",
-    "avant", "auto", "ex", "extra", "macro", "mega", "meta", "micro", "multi", "mono", "mini", "post", "retro", "semi", "super", "trans", "pro", "g", "l", "m");
+    "sen", "sem", "s", "avant", "auto", "ex", "extra", "macro", "mega", "meta", "micro", "multi", "mono", "mini", "post",
+    "retro", "semi", "super", "trans", "pro", "g", "l", "m", "e");
   private static final List<String> ESPAI_AMB_SUFIX = Arrays.asList("a", "o", "i");
 
   private static final List<String> PRONOM_INICIAL = Arrays.asList("em", "et", "es", "se", "ens", "us", "vos", "li", "hi",

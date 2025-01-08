@@ -36,7 +36,7 @@ public class PortugueseOrthographyReplaceRuleTest {
 
   @BeforeClass
   public static void setUp() throws Exception {
-    lt = new JLanguageTool(new Portuguese());
+    lt = new JLanguageTool(Portuguese.getInstance());
     rule = new PortugueseOrthographyReplaceRule(TestTools.getMessages("pt"), lt.getLanguage());
   }
 

@@ -20,10 +20,8 @@ package org.languagetool.rules.en;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.English;
+import org.languagetool.Languages;
 import org.languagetool.rules.PartialPosTagFilter;
-import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.disambiguation.Disambiguator;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -42,15 +40,13 @@ import java.util.List;
  */
 public class EnglishPartialPosTagFilter extends PartialPosTagFilter {
 
-  private final Tagger tagger = new English().getTagger();
-  private final Disambiguator disambiguator = new English().getDisambiguator();
-
   @Override
   protected List<AnalyzedTokenReadings> tag(String token) {
     try {
-      List<AnalyzedTokenReadings> tags = tagger.tag(Collections.singletonList(token));
+      var englishLanguage = Languages.getLanguageForShortCode("en");
+      List<AnalyzedTokenReadings> tags = englishLanguage.getTagger().tag(Collections.singletonList(token));
       AnalyzedTokenReadings[] atr = tags.toArray(new AnalyzedTokenReadings[tags.size()]);
-      AnalyzedSentence disambiguated = disambiguator.disambiguate(new AnalyzedSentence(atr));
+      AnalyzedSentence disambiguated = englishLanguage.getDisambiguator().disambiguate(new AnalyzedSentence(atr));
       return Arrays.asList(disambiguated.getTokens());
     } catch (IOException e) {
       throw new RuntimeException("Could not tag and disambiguate '" + token + "'", e);

@@ -22,9 +22,6 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.French;
 import org.languagetool.rules.PartialPosTagFilter;
-import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.fr.FrenchTagger;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -40,15 +37,13 @@ import java.util.List;
  */
 public class FrenchPartialPosTagFilter extends PartialPosTagFilter {
 
-  private final Tagger tagger = FrenchTagger.INSTANCE;
-  private final Disambiguator disambiguator = new French().getDisambiguator();
-
   @Override
   protected List<AnalyzedTokenReadings> tag(String token) {
     try {
-      List<AnalyzedTokenReadings> tags = tagger.tag(Collections.singletonList(token));
+      var frenchLanguage = French.getInstance();
+      List<AnalyzedTokenReadings> tags = frenchLanguage.getTagger().tag(Collections.singletonList(token));
       AnalyzedTokenReadings[] atr = tags.toArray(new AnalyzedTokenReadings[tags.size()]);
-      AnalyzedSentence disambiguated = disambiguator.disambiguate(new AnalyzedSentence(atr));
+      AnalyzedSentence disambiguated = frenchLanguage.getDisambiguator().disambiguate(new AnalyzedSentence(atr));
       return Arrays.asList(disambiguated.getTokens());
     } catch (IOException e) {
       throw new RuntimeException("Could not tag and disambiguate '" + token + "'", e);

@@ -33,8 +33,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.*;
 
 public class JLanguageToolTest {
 
@@ -98,13 +98,13 @@ public class JLanguageToolTest {
 
   @Test
   public void testGetMessageBundle() {
-    ResourceBundle bundle1 = JLanguageTool.getMessageBundle(new GermanyGerman());
+    ResourceBundle bundle1 = JLanguageTool.getMessageBundle(GermanyGerman.getInstance());
     assertThat(bundle1.getString("de"), is("Deutsch"));
 
     ResourceBundle bundle2 = JLanguageTool.getMessageBundle(english);
     assertThat(bundle2.getString("de"), is("German"));
 
-    ResourceBundle bundle3 = JLanguageTool.getMessageBundle(new AmericanEnglish());
+    ResourceBundle bundle3 = JLanguageTool.getMessageBundle(AmericanEnglish.getInstance());
     assertThat(bundle3.getString("de"), is("German"));
   }
 
@@ -213,7 +213,7 @@ public class JLanguageToolTest {
     assertThat(ltEnglish.check("This is an test").size(), is(1));
     assertThat(cache.hitCount(), is(2L));
 
-    JLanguageTool ltGerman = new JLanguageTool(new GermanyGerman(), null, cache);
+    JLanguageTool ltGerman = new JLanguageTool(GermanyGerman.getInstance(), null, cache);
     // only one error because English words are ignored
     assertTrue(ltGerman.check("This is an test.").size() >= 1);
     assertThat(cache.hitCount(), is(2L));
@@ -243,11 +243,11 @@ public class JLanguageToolTest {
   @Test
   public void testCacheWithTextLevelRules() throws IOException {
     ResultCache cache = new ResultCache(1000);
-    JLanguageTool ltNoCache = new JLanguageTool(new GermanyGerman(), null);
+    JLanguageTool ltNoCache = new JLanguageTool(GermanyGerman.getInstance(), null);
     assertThat(ltNoCache.check("Ein Delfin. Noch ein Delfin.").size(), is(0));
     assertThat(ltNoCache.check("Ein Delfin. Noch ein Delphin.").size(), is(1));
 
-    JLanguageTool ltWithCache = new JLanguageTool(new GermanyGerman(), null, cache);
+    JLanguageTool ltWithCache = new JLanguageTool(GermanyGerman.getInstance(), null, cache);
     assertThat(ltWithCache.check("Ein Delfin. Noch ein Delfin.").size(), is(0));
     assertThat(cache.hitCount(), is(0L));
     assertThat(ltWithCache.check("Ein Delfin. Noch ein Delphin.").size(), is(1));
@@ -424,8 +424,8 @@ public class JLanguageToolTest {
   @Ignore
   public void testRuleMessagesForSpellingErrors() throws Exception {
     JLanguageTool lt = new JLanguageTool(english);
-    //JLanguageTool lt = new JLanguageTool(new GermanyGerman());
-    //JLanguageTool lt = new JLanguageTool(new Russian());
+    //JLanguageTool lt = new JLanguageTool(GermanyGerman.getInstance());
+    //JLanguageTool lt = new JLanguageTool(Russian.getInstance());
     String[] rulesDisabled = {
             // en:
             "EN_QUOTES", "UPPERCASE_SENTENCE_START", "WHITESPACE_RULE",
@@ -459,10 +459,10 @@ public class JLanguageToolTest {
             continue matches;
           }
         }
-        System.out.println(String.format("Rule: %s\nMessage: %s\nMatch:\n%s: %s",
-                rule.getId(), message, ruleMatch.getRule().getId(), ruleMatch.getMessage()));
-        System.out.println(String.format("Error in [%d,%d]: \"%s\"", ruleMatch.getFromPos(),
-                ruleMatch.getToPos(), message.substring(ruleMatch.getFromPos(), ruleMatch.getToPos())));
+        System.out.printf("Rule: %s\nMessage: %s\nMatch:\n%s: %s%n",
+                rule.getId(), message, ruleMatch.getRule().getId(), ruleMatch.getMessage());
+        System.out.printf("Error in [%d,%d]: \"%s\"%n", ruleMatch.getFromPos(),
+                ruleMatch.getToPos(), message.substring(ruleMatch.getFromPos(), ruleMatch.getToPos()));
         System.out.println("-------");
         matchesCounter++;
       }
@@ -473,7 +473,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testIgnoringEnglishWordsInSpanish() throws IOException {
-    Language lang = new Spanish();
+    Language lang = Spanish.getInstance();
     JLanguageTool lt = new JLanguageTool(lang);
     // No error for unclosed exclamation marks ¡!
     List<RuleMatch> matches = lt.check("This is fantastic!");
@@ -488,7 +488,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testIgnoringEnglishWordsInCatalan() throws IOException {
-    Language lang = new Catalan();
+    Language lang = Catalan.getInstance();
     JLanguageTool lt = new JLanguageTool(lang);
     List<RuleMatch> matches = lt.check("To do this");
     assertEquals(0, matches.size());
@@ -550,7 +550,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testIgnoringEnglishWordsInFrench() throws IOException {
-    Language lang = new French();
+    Language lang = French.getInstance();
     JLanguageTool lt = new JLanguageTool(lang);
     
     List<RuleMatch> matches = lt.check("Elle a fait le montage des deux clips sur After effect");
@@ -563,7 +563,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testIgnoringEnglishWordsInGermanyGerman() throws IOException {
-    Language lang = new GermanyGerman();
+    Language lang = GermanyGerman.getInstance();
     JLanguageTool lt = new JLanguageTool(lang);
 
     List<RuleMatch> matches = lt.check("Ich weiß nicht, ob today passt.");
@@ -575,7 +575,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testIgnoreEnglishWordsInPortuguese() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new BrazilianPortuguese());
+    JLanguageTool lt = new JLanguageTool(BrazilianPortuguese.getInstance());
     lt.disableRules(lt.getAllRules().stream().map(Rule::getId).collect(Collectors.toList()));
     lt.enableRule("MORFOLOGIK_RULE_PT_BR");
     lt.enableRule("PT_BARBARISMS_REPLACE");

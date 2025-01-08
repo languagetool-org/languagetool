@@ -79,6 +79,8 @@ public abstract class RemoteRule extends Rule {
     whitespaceNormalisation = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("whitespaceNormalisation", "true"));
     fixOffsets = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("fixOffsets", "true"));
     premium = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("premium", "false"));
+    boolean includedInHiddenMatches = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("includedInHiddenMatches", "true"));
+    setIncludedInHiddenMatches(includedInHiddenMatches);
     try {
       if (serviceConfiguration.getOptions().containsKey("suppressMisspelledMatch")) {
         suppressMisspelledMatch = Pattern.compile(serviceConfiguration.getOptions().get("suppressMisspelledMatch"));

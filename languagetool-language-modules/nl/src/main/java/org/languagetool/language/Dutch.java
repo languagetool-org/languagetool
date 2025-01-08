@@ -21,7 +21,6 @@ package org.languagetool.language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.nl.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -30,19 +29,17 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.nl.DutchSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.nl.DutchTagger;
 import org.languagetool.tagging.nl.DutchHybridDisambiguator;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tagging.nl.DutchTagger;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.nl.DutchWordTokenizer;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class Dutch extends Language {
-
-  private LanguageModel languageModel;
-
+public class Dutch extends LanguageWithModel {
   @Override
   public Language getDefaultLanguageVariant() {
     return Languages.getLanguageForShortCode("nl");
@@ -131,21 +128,14 @@ public class Dutch extends Language {
     );
   }
 
-  /** @since 4.5 */
-  @Override
+  // commented out as long as there are not enough entries in nl/confusion_sets.txt
+  /*@Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
-    return Arrays.asList(
-            new DutchConfusionProbabilityRule(messages, languageModel, this)
+    return Collections.singletonList(
+      new DutchConfusionProbabilityRule(messages, languageModel, this)
     );
-  }
+  }*/
 
-  /** @since 4.5 */
-  @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    languageModel = initLanguageModel(indexDir, languageModel);
-    return languageModel;
-  }
-  
   /** @since 5.1 */
   @Override
   public String getOpeningDoubleQuote() {

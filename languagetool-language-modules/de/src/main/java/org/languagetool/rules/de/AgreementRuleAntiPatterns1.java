@@ -209,6 +209,12 @@ class AgreementRuleAntiPatterns1 {
       new PatternTokenBuilder().token("zu").min(0).build(),
       tokenRegex("verbinden|verhelfen|fähig")
     ),
+    asList( //"Kombinieren Sie diese zu ganzen Bewegungsprogrammen"
+      tokenRegex("diese[sn]?"),
+      token("zu"),
+      posRegex("ADJ.*PLU.*"),
+      posRegex("SUB.*PLU.*")
+    ),
     asList( //"Es kam zum einen zu technischen Problemen, zum anderen wurde es unübersichtlich."
       token("zum"),
       token("einen"),
@@ -946,6 +952,34 @@ class AgreementRuleAntiPatterns1 {
       // Ähnliches gilt im Norden der Insel für die George-Washington-Bridge.
       token("die"),
       token("George-Washington-Bridge")
+    ),
+    asList(
+      // Wie kann ich das zu Wege bringen?
+      token("das"),
+      token("zu"),
+      token("Wege")
+    ),
+    asList(
+      // Erst in der zweiten Hälfte des 4. Jahrhunderts ging die alte aristokratische Ordnung durch Machtkämpfe zwischen diesen zu Grunde.
+      csRegex("diese[mnrs]?"),
+      token("zu"),
+      token("Grunde")
+    ),
+    asList(
+      // acht Passionsszenen Christi sowie das Jüngste Gericht
+      csRegex("das|dem|des"),
+      csRegex("Jüngsten?"),
+      csRegex("Gerichts?")
+    ),
+    asList(
+      // Großes Konzert in der Kampnagel Kulturfabrik
+      token("Kampnagel"),
+      token("Kulturfabrik")
+    ),
+    asList(
+      // Es war Teil von Madonnas Performance während des Super Bowls 2012.
+      token("Super"),
+      csRegex("Bowls?")
     ),
     asList(
       // Die Zeit begann mit der Gründung der englischen Football Association.

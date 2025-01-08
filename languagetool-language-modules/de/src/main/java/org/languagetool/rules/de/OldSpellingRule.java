@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import com.google.common.base.Suppliers;
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.rules.*;
@@ -53,7 +54,8 @@ public class OldSpellingRule extends Rule {
     "Telephone Line",
     "World Telephone",
     "Tip Top",
-    "Hans Joachim Blaß"
+    "Hans Joachim Blaß",
+    "kurz fassen"
   );
   private static final Supplier<SpellingData> DATA = Suppliers.memoize(() -> new SpellingData(FILE_PATH));
   private static final Pattern CHARS = Pattern.compile("[a-zA-Zöäüß]");
@@ -113,7 +115,7 @@ public class OldSpellingRule extends Rule {
     String[] suggestions = hit.value.split("\\|");
     match.setSuggestedReplacements(Arrays.asList(suggestions));
     String covered = sentence.getText().substring(hit.begin, hit.end);
-    if (suggestions.length > 0 && suggestions[0].replaceFirst("ss", "ß").equals(covered)) {
+    if (suggestions.length > 0 && StringUtils.replaceOnce(suggestions[0], "ss", "ß").equals(covered)) {
       if (language.getShortCodeWithCountryAndVariant().equals("de-AT") && covered.toLowerCase().contains("geschoß")) {
         // special case for Austria: "Geschoß" is correct in both old and new spelling in de-AT (because of the pronunciation)
         return;

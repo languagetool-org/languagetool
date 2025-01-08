@@ -39,6 +39,7 @@ public class WordListValidatorTest {
           "ă" +
           "å" +
           "ħ" +
+          "ø" +
           "'’" +
           "./%-]+" +
           "|[khmcdµ]?m[²³]|°[CFR]|C?O₂-?.*|mc²";
@@ -196,6 +197,7 @@ public class WordListValidatorTest {
           "Wałęsa",
           "Çalhanoğlu",
           "Çalhanoğlu/S",
+          "Szczęsny",
           "celebrytę", // for PL
           "antybiotykoterapię", // for PL
           "elektromobilność", // for PL

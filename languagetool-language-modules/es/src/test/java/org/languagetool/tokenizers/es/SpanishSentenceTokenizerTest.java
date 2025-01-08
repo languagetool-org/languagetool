@@ -28,7 +28,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class SpanishSentenceTokenizerTest {
 
-  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Spanish());
+  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(Spanish.getInstance());
 
   @Test
   public final void testTokenize() {
@@ -39,6 +39,7 @@ public class SpanishSentenceTokenizerTest {
     testSplit("¿Nos vamos? ", "Hay que irse.");
     testSplit("¿Vamos? ", "Hay que irse.");
     testSplit("¡Corre! ", "Hay que irse.");
+    testSplit("1. Artículo primero");
     
     // Ellipsis
     testSplit("Entonces... apareció él.");
@@ -87,6 +88,8 @@ public class SpanishSentenceTokenizerTest {
     testSplit("¿Quién sabe hablar francés mejor: Tom o Mary?");
     testSplit("Hola, Albert: ", "Me puedes decir tu correo?");
     testSplit("LanguageTooler GmbH recaudará de tu cuenta a través de GoCardless Ltd. la cantidad debajo mencionada.");
+    testSplit("El fruto es una nuez de 6 a 8 cm de long. y 4 a 6 cm de ancho");
+    testSplit("Geiger (Proc. Roy. Soc. 1 de febrero de 1910).");
 
     // Exception to abbreviations    
     testSplit("Esto pasa el PP. ", "Pero, por otra parte,");

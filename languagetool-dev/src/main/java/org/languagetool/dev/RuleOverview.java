@@ -19,7 +19,9 @@
 package org.languagetool.dev;
 
 import org.apache.commons.lang3.StringUtils;
-import org.languagetool.*;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.Contributor;
@@ -29,7 +31,10 @@ import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -73,7 +78,6 @@ public final class RuleOverview {
     System.out.println("  <th align=\"left\" width=\"60\">Confusion<br/>pairs</th>");
     //System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
     System.out.println("  <th valign='bottom' align=\"left\" width=\"90\">Activity</th>");
-    System.out.println("  <th valign='bottom' align=\"left\">Rule Maintainers</th>");
     System.out.println("</tr>");
     System.out.println("</thead>");
     System.out.println("<tbody>");
@@ -155,22 +159,7 @@ public final class RuleOverview {
       }
       images += "<img title='" + commits + " commits in the last 6 months' src='images/bar.png' width='" + width + "' height='10'/>";
       System.out.print("<td valign=\"top\" align=\"right\"><span style='display:none'>" + commits + "</span>" + images + "</td>");
-      
-      // maintainer information:
-      String maintainerInfo = getMaintainerInfo(lang);
-      String maintainerText;
-      boolean greyOutMaintainer = false;
-      if (lang.getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
-        maintainerText = "<span class='maintainerNeeded'><a href='https://dev.languagetool.org/tasks-for-language-maintainers'>Looking for maintainer</a></span> - ";
-        greyOutMaintainer = true;
-      } else {
-        maintainerText = "";
-      }
-      if (greyOutMaintainer) {
-        maintainerInfo = "<span class='previousMaintainer'><br>previous maintainer: " + maintainerInfo + "</span>";
-      }
-      System.out.print("<td valign=\"top\" align=\"left\">" + maintainerText + maintainerInfo + "</td>");
-      
+
       System.out.println("</tr>");    
     }
       
@@ -266,7 +255,7 @@ public final class RuleOverview {
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     if (dataBroker.resourceExists(path)) {
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
-        ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(new AmericanEnglish());
+        ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(AmericanEnglish.getInstance());
         return confusionSetLoader.loadConfusionPairs(confusionSetStream).size()/2;
       } catch (IOException e) {
         throw new RuntimeException(e);

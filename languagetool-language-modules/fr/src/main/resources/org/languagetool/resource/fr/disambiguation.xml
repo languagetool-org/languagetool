@@ -914,6 +914,10 @@ RB => Règles Brutes
             <token postag="R pers obj.*" postag_regexp="yes" min="1" max="3"/>
             <token regexp="yes" inflected="yes">point|produit|permis|courbe|vernis|suivis</token>
         </antipattern>
+        <antipattern>
+            <token regexp="yes">je|tu</token>
+            <token>chéris</token>
+        </antipattern>
         <rule>
             <pattern>
                 <marker>
@@ -11207,6 +11211,15 @@ RB => Règles Brutes
                 </marker>
                 <token min="0">)</token>
                 <token regexp="yes">.*[a-záàâ].*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START" />
+                <marker>
+                    <token regexp="yes" postag="SENT_END">[BCDFGHJKLMNPQRSTVWXZ]{3,6}s?</token>
+                </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>

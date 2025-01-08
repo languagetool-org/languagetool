@@ -34,9 +34,9 @@ public class MorfologikIrishSpellerRuleTest {
   @Test
   public void testMorfologikSpeller() throws IOException {
     MorfologikIrishSpellerRule rule =
-      new MorfologikIrishSpellerRule (TestTools.getMessages("ga"), new Irish(), null, Collections.emptyList());
+      new MorfologikIrishSpellerRule (TestTools.getMessages("ga"), Irish.getInstance(), null, Collections.emptyList());
 
-    JLanguageTool lt = new JLanguageTool(new Irish());
+    JLanguageTool lt = new JLanguageTool(Irish.getInstance());
 
     //incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("botun"));

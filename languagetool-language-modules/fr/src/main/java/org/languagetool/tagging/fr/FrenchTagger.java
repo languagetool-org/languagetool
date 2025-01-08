@@ -90,7 +90,7 @@ public class FrenchTagger extends BaseTagger {
       }
       List<AnalyzedToken> l = tagWord(word, word);
       if (l.isEmpty() && word.toLowerCase().contains("oe")) {
-        l = tagWord(word.replaceAll("oe", "œ").replaceAll("OE", "Œ"), word);
+        l = tagWord(word.replace("oe", "œ").replace("OE", "Œ"), word);
       }
       // emoji
       if (l.isEmpty() && StringTools.isEmoji(word)) {

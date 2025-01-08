@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.es;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Tag;
 import org.languagetool.language.Spanish;
@@ -28,10 +29,7 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.es.SpanishSynthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Supplier;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
@@ -54,9 +52,9 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule {
   }
 
   public SpanishRepeatedWordsRule(ResourceBundle messages) {
-    super(messages, new Spanish());
-    antiPatterns = cacheAntiPatterns(new Spanish(), ANTI_PATTERNS);
-    super.setTags(Arrays.asList(Tag.picky));
+    super(messages, Spanish.getInstance());
+    antiPatterns = cacheAntiPatterns(Spanish.getInstance(), ANTI_PATTERNS);
+    super.setTags(Collections.singletonList(Tag.picky));
     // super.setDefaultTempOff();
   }
 
@@ -90,23 +88,23 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule {
   @Override
   protected String adjustPostag(String postag) {
     if (postag.contains("CN")) {
-      return postag.replaceFirst("CN", "..");
+      return StringUtils.replaceOnce(postag,"CN", "..");
     } else if (postag.contains("MS")) {
-      return postag.replaceFirst("MS", "[MC][SN]");
+      return StringUtils.replaceOnce(postag,"MS", "[MC][SN]");
     } else if (postag.contains("FS")) {
-      return postag.replaceFirst("FS", "[FC][SN]");
+      return StringUtils.replaceOnce(postag,"FS", "[FC][SN]");
     } else if (postag.contains("MP")) {
-      return postag.replaceFirst("MP", "[MC][PN]");
+      return StringUtils.replaceOnce(postag,"MP", "[MC][PN]");
     } else if (postag.contains("FP")) {
-      return postag.replaceFirst("FP", "[FC][PN]");
+      return StringUtils.replaceOnce(postag,"FP", "[FC][PN]");
     } else if (postag.contains("CS")) {
-      return postag.replaceFirst("CS", "[MC][SN]"); // also F ?
+      return StringUtils.replaceOnce(postag,"CS", "[MC][SN]"); // also F ?
     } else if (postag.contains("CP")) {
-      return postag.replaceFirst("CP", "[MC][PN]"); // also F ?
+      return StringUtils.replaceOnce(postag,"CP", "[MC][PN]"); // also F ?
     } else if (postag.contains("MN")) {
-      return postag.replaceFirst("MN", "[MC][SPN]");
+      return StringUtils.replaceOnce(postag,"MN", "[MC][SPN]");
     } else if (postag.contains("FN")) {
-      return postag.replaceFirst("FN", "[FC][SPN]");
+      return StringUtils.replaceOnce(postag,"FN", "[FC][SPN]");
     }
     return postag;
   }
@@ -117,9 +115,6 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule {
     if (isAllUppercase || (isCapitalized && !sentStart)) {
       return true;
     }
-    if (tokens[i].hasPosTagStartingWith("NP") || tokens[i].hasPosTag("_english_ignore_")) {
-      return true;
-    }
-    return false;
+    return tokens[i].hasPosTagStartingWith("NP") || tokens[i].hasPosTag("_english_ignore_");
   }
 }

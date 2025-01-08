@@ -25,12 +25,11 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
-import java.net.URL;
 
 /**
  * A rule that matches known empty expressions. 
@@ -53,7 +52,7 @@ public class PortugueseWeaselWordsRule extends AbstractSimpleReplaceRule2 {
   }
 
   public PortugueseWeaselWordsRule(ResourceBundle messages) {
-    super(messages, new Portuguese());
+    super(messages, Portuguese.getInstance());
     setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>Diz-se</marker> que programas gratuitos não têm qualidade."),

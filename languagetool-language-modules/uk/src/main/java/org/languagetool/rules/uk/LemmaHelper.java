@@ -50,7 +50,7 @@ public abstract class LemmaHelper {
 
   static final Pattern PART_INSERT_PATTERN = Pattern.compile(
       "бодай|буцім(то)?|геть|дедалі|десь|іще|ледве|мов(би(то)?)?|навіть|наче(б(то)?)?|неначе(бто)?|немов(би(то)?)?|ніби(то)?"
-          + "|попросту|просто(-напросто)?|справді|усього-на-всього|хай|хоча?|якраз|ж|би?");
+          + "|попросту|просто(-напросто)?|справді|усього-на-всього|хай|хоча?|якраз|ж|би?|власне");
   static final Set<String> PLUS_MINUS = new HashSet<>(Arrays.asList(
       "плюс", "мінус", "максимум", "мінімум"
       ));
@@ -282,12 +282,24 @@ public abstract class LemmaHelper {
     return true;
   }
 
+  public static boolean isAllLowercaseUk(String word) {
+    int sz = word.length();
+    for (int i = 0; i < sz; i++) {
+        char ch = word.charAt(i);
+        if (ch != '-' && ch != '\u2013' && ch != '\'' && ch != '\u0301' && ch != '\u00AD' 
+            && !Character.isLowerCase(ch)) {
+          return false;
+        }
+    }
+    return true;
+  }
+
   public static String capitalizeProperName(String word) {
     char[] chars = new char[word.length()];
     char prevChar = '-';
     for(int i=0; i<chars.length; i++) {
       char ch = word.charAt(i);
-      chars[i] = prevChar == '-' ? ch : Character.toLowerCase(ch);
+      chars[i] = prevChar == '-' ? Character.toUpperCase(ch) : Character.toLowerCase(ch);
       prevChar = ch == '\u2013' ? '-' : ch;
     }
     return new String(chars);

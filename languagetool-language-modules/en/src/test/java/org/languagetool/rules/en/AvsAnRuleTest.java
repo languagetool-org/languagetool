@@ -44,6 +44,9 @@ public class AvsAnRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertCorrect("It must be an xml name.");
+    assertCorrect("analyze an hprof file");
+    assertCorrect("This is an sbt project.");
     assertCorrect("Import an Xcode project.");
     assertCorrect("This is a oncer.");
     assertCorrect("She was a Oaxacan chef.");

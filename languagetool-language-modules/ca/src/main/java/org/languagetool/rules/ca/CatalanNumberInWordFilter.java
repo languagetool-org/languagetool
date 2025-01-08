@@ -30,10 +30,10 @@ public class CatalanNumberInWordFilter extends AbstractNumberInWordFilter {
   private static MorfologikCatalanSpellerRule catalanSpellerRule;
 
   public CatalanNumberInWordFilter() throws IOException {
-    super(new Catalan());
+    super(Catalan.getInstance());
     ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, new Locale(language.getShortCode()));
     if (catalanSpellerRule == null) {
-      catalanSpellerRule = new MorfologikCatalanSpellerRule(messages, new Catalan(), null, Collections.emptyList());
+      catalanSpellerRule = new MorfologikCatalanSpellerRule(messages, Catalan.getInstance(), null, Collections.emptyList());
     }
   }
   

@@ -40,10 +40,10 @@ public class CatalanDisambiguationRuleTest {
   @Before
   public void setUp() {
     tagger = CatalanTagger.INSTANCE_CAT;
-    tokenizer = new CatalanWordTokenizer();
-    sentenceTokenizer = new SRXSentenceTokenizer(new Catalan());
+    tokenizer = CatalanWordTokenizer.INSTANCE;
+    sentenceTokenizer = new SRXSentenceTokenizer(Catalan.getInstance());
     //disambiguator = new MultiWordChunker("/ca/multiwords.txt", true);
-    disambiguator = new CatalanHybridDisambiguator(new Catalan());
+    disambiguator = new CatalanHybridDisambiguator(Catalan.getInstance());
   }
 
   @Test

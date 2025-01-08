@@ -739,6 +739,24 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="filter" postag="RG"/>
         </rule>
+        <rule id="cualquieras" name="unos cualquieras">
+            <pattern>
+                <token regexp="yes">unos|unas|un|una</token>
+                <marker>
+                    <token>cualquieras</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd lemma="cualquiera" pos="NCCP000"/></disambig>
+        </rule>
+        <rule id="cualquiera" name="unos cualquieras">
+            <pattern>
+                <token regexp="yes">unos|unas|un|una</token>
+                <marker>
+                    <token>cualquiera</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd lemma="cualquiera" pos="NCCS000"/></disambig>
+        </rule>
         <rule id="dado_que" name="dado que">
             <pattern>
                 <token><exception postag="D..[MC][SN]." postag_regexp="yes"/></token>
@@ -2167,7 +2185,7 @@ Copyright (C) 2011 Juan Martorell
                 <token case_sensitive="yes">Annual</token>
             </marker>
         </pattern>
-        <disambig action="add" postag="NPCSG00"/>
+        <disambig action="replace" postag="NPCSG00"/>
     </rule>
     <rulegroup id="nombre_aposicion" name="nombre en aposición">
         <rule>
@@ -6810,6 +6828,20 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="remove" postag="V.[SI].*"/>
         </rule>
+        <rule>
+            <pattern>
+                <token>por</token>
+                <token>favor</token>
+                <token min="0" max="1" regexp="yes">\p{P}</token>
+                <marker>
+                    <and>
+                        <token postag="V.[SI].*" postag_regexp="yes"/>
+                        <token postag="V.M.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.[SI].*"/>
+        </rule>
     </rulegroup>
     <rulegroup id="allowed_repetitions" name="allowed repetitions">
         <rule>
@@ -6837,9 +6869,9 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">sapiens|muy</token>
+                    <token regexp="yes">sapiens|muy|bunga</token>
                 </marker>
-                <token><match no="1"/></token>
+                <token><match no="0"/></token>
             </pattern>
             <disambig action="add">
                 <wd pos="_allow_repeat"/>
@@ -8163,6 +8195,15 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
                 <token min="0">)</token>
                 <token regexp="yes">.*[a-z].*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START" />
+                <marker>
+                    <token regexp="yes" postag="SENT_END">[BCDFGHJKLMNPQRSTVWXZ]{3,6}s?</token>
+                </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>

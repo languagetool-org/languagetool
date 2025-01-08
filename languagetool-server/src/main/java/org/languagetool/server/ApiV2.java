@@ -170,17 +170,17 @@ class ApiV2 {
     }
     //get from config
     if (config.logIp && aText.getPlainText().trim().equals(config.logIpMatchingPattern)) {
-      handleIpLogMatch(httpExchange, remoteAddress);
+      handleIpLogMatch(httpExchange, remoteAddress, parameters);
       //no need to check text again rules
       return;
     }
     textChecker.checkText(aText, httpExchange, parameters, errorRequestLimiter, remoteAddress);
   }
 
-  private void handleIpLogMatch(HttpExchange httpExchange, String remoteAddress) {
+  private void handleIpLogMatch(HttpExchange httpExchange, String remoteAddress, Map<String, String> parameters) {
     Logger logger = LoggerFactory.getLogger(ApiV2.class);
     InetSocketAddress localAddress = httpExchange.getLocalAddress();
-    logger.info(String.format("Found log-my-IP text in request from: %s to: %s", remoteAddress, localAddress.toString()));
+    logger.info(String.format("Found log-my-IP text in request from: %s to: %s, requestParams: %s", remoteAddress, localAddress.toString(), parameters));
   }
 
   private void handleWordsRequest(HttpExchange httpExchange, Map<String, String> params, HTTPServerConfig config) throws Exception {
@@ -200,6 +200,10 @@ class ApiV2 {
     List<String> groups = null;
     if (params.containsKey("dicts")) {
       groups = Arrays.asList(params.get("dicts").split(","));
+    } else if (limits.getAccount() != null &&
+               limits.getAccount().getDefaultDictionary() != null &&
+               !limits.getAccount().getDefaultDictionary().isEmpty()) {
+      groups = Collections.singletonList(limits.getAccount().getDefaultDictionary());
     }
     long start = System.nanoTime();
     List<String> words = db.getWords(limits, groups, offset, limit);
@@ -214,16 +218,23 @@ class ApiV2 {
     ensurePostMethod(httpExchange, "/words/add");
     UserLimits limits = getUserLimits(parameters, config);
     DatabaseAccess db = DatabaseAccess.getInstance();
+    String dict = parameters.get("dict");
+    if(dict == null &&
+       limits.getAccount() != null &&
+       limits.getAccount().getDefaultDictionary() != null &&
+       !limits.getAccount().getDefaultDictionary().isEmpty()) {
+      dict = limits.getAccount().getDefaultDictionary();
+    }
     /*
      *  experimental batch mode for adding words,
      *  use mode=batch, words="word1 word2 word3" (whitespace delimited list) instead of word parameter
      */
     if ("batch".equals(parameters.get("mode"))) {
       List<String> words = Arrays.asList(parameters.get("words").split("\\s+"));
-      db.addWordBatch(words, limits.getPremiumUid(), parameters.get("dict"));
+      db.addWordBatch(words, limits.getPremiumUid(), dict);
       writeResponse("added", true, httpExchange);
     } else {
-      boolean added = db.addWord(parameters.get("word"), limits.getPremiumUid(), parameters.get("dict"));
+      boolean added = db.addWord(parameters.get("word"), limits.getPremiumUid(), dict);
       writeResponse("added", added, httpExchange);
     }
   }
@@ -232,13 +243,20 @@ class ApiV2 {
     ensurePostMethod(httpExchange, "/words/delete");
     UserLimits limits = getUserLimits(parameters, config);
     DatabaseAccess db = DatabaseAccess.getInstance();
+    String dict = parameters.get("dict");
+    if(dict == null &&
+      limits.getAccount() != null &&
+      limits.getAccount().getDefaultDictionary() != null &&
+      !limits.getAccount().getDefaultDictionary().isEmpty()) {
+      dict = limits.getAccount().getDefaultDictionary();
+    }
     boolean deleted;
     if("batch".equals(parameters.get("mode"))) { //Experimental
       List<String> words = Arrays.asList(parameters.get("words").split("\\s+"));
-      deleted = db.deleteWordBatch(words, limits.getPremiumUid(),parameters.get("dict"));
+      deleted = db.deleteWordBatch(words, limits.getPremiumUid(),dict);
       writeResponse("deleted", deleted, httpExchange);
     } else {
-      deleted = db.deleteWord(parameters.get("word"), limits.getPremiumUid(), parameters.get("dict"));
+      deleted = db.deleteWord(parameters.get("word"), limits.getPremiumUid(), dict);
       writeResponse("deleted", deleted, httpExchange);
     }
   }

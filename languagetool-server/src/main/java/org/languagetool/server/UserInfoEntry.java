@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -60,10 +61,19 @@ class UserInfoEntry {
   @Nullable
   private final String groupRole;
 
+  @Nullable
+  @Getter
+  private final String defaultDictionary;
 
   UserInfoEntry(long id, String email, @Nullable Long userDictCacheSize, @Nullable Long requestsPerDay, @Nullable Integer limitEnforcement, @Nullable Long managedAccounts,
                 @Nullable String passwordHash, @Nullable java.sql.Date premiumFrom, @Nullable java.sql.Date premiumTo, String addonToken, String apiKey,
                 @Nullable Long userGroup, @Nullable UUID groupId, @Nullable String groupRole) {
+    this(id, email, userDictCacheSize, requestsPerDay, limitEnforcement, managedAccounts, passwordHash, premiumFrom, premiumTo, addonToken, apiKey, userGroup, groupId, groupRole, null);
+  }
+
+  UserInfoEntry(long id, String email, @Nullable Long userDictCacheSize, @Nullable Long requestsPerDay, @Nullable Integer limitEnforcement, @Nullable Long managedAccounts,
+                @Nullable String passwordHash, @Nullable java.sql.Date premiumFrom, @Nullable java.sql.Date premiumTo, String addonToken, @Nullable String apiKey,
+                @Nullable Long userGroup, @Nullable UUID groupId, @Nullable String groupRole, @Nullable String defaultDictionary) {
     this.id = id;
     this.email = email;
     this.addonToken = addonToken;
@@ -78,7 +88,10 @@ class UserInfoEntry {
     this.userGroup = userGroup;
     this.groupId = groupId;
     this.groupRole = groupRole;
+    this.defaultDictionary = defaultDictionary;
   }
+
+
 
   @Nullable
   Date getPremiumFrom() {

@@ -20,36 +20,32 @@ package org.languagetool.rules.spelling.hunspell;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.TestTools;
+import org.languagetool.*;
 import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.de.GermanSpellerRule;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class HunspellRuleTest {
 
   @Test
   public void testHighConfidenceSuggestion() {
     HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), Languages.getLanguageForShortCode("de-DE"), null);
-    assertTrue(rule.isFirstItemHighConfidenceSuggestion("HAus", Arrays.asList(new SuggestedReplacement("HAus"))));
-    assertFalse(rule.isFirstItemHighConfidenceSuggestion("EI", Arrays.asList(new SuggestedReplacement("Eis"))));
-    assertFalse(rule.isFirstItemHighConfidenceSuggestion("CMs", Arrays.asList(new SuggestedReplacement("CMS"))));
-    assertFalse(rule.isFirstItemHighConfidenceSuggestion("DMs", Arrays.asList(new SuggestedReplacement("DMS"))));
+    assertTrue(rule.isFirstItemHighConfidenceSuggestion("HAus", Collections.singletonList(new SuggestedReplacement("HAus"))));
+    assertFalse(rule.isFirstItemHighConfidenceSuggestion("EI", Collections.singletonList(new SuggestedReplacement("Eis"))));
+    assertFalse(rule.isFirstItemHighConfidenceSuggestion("CMs", Collections.singletonList(new SuggestedReplacement("CMS"))));
+    assertFalse(rule.isFirstItemHighConfidenceSuggestion("DMs", Collections.singletonList(new SuggestedReplacement("DMS"))));
   }
   
   @Test
@@ -88,7 +84,7 @@ public class HunspellRuleTest {
     
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("- Teex"));
     assertEquals(1, matches.length); 
-    assertEquals("Tee", matches[0].getSuggestedReplacements().get(0).toString());
+    assertEquals("Tee", matches[0].getSuggestedReplacements().get(0));
     assertEquals(2, matches[0].getFromPos());
     assertEquals(6, matches[0].getToPos());
     
@@ -130,7 +126,7 @@ public class HunspellRuleTest {
     // a multiword as a suggestion for a single-token misspelled word
     List<RuleMatch> matches = lt.check("BigBrother");
     assertEquals(1, matches.size());
-    assertEquals("Big Brother", matches.get(0).getSuggestedReplacements().get(0).toString());
+    assertEquals("Big Brother", matches.get(0).getSuggestedReplacements().get(0));
 
     // multiwords at the sentence start (capitalized)
     assertEquals(0, lt.check("Mea culpa").size());
@@ -239,6 +235,35 @@ public class HunspellRuleTest {
       long endTime = System.currentTimeMillis();
       System.out.println((endTime-startTime) + "ms for " + language);
     }
+  }
+
+  @Ignore("just for internal performance testing, thus ignored by default")
+  @Test
+  public void testSeparateCorrectWordPerformance() throws Exception {
+    String[] words = {"Rechtschreibreform", "Theaterkasse", "Zoobesuch", "Handelsvertreter", "Mückenstich", "gewöhnlich", "Autoverkehr"};
+
+    JLanguageTool lt = new JLanguageTool(GermanyGerman.getInstance());
+    // make sure everything is initialized when actually testing
+    for (String word : words) {
+      lt.check(word);
+    }
+    Rule rule = lt.getAllRules().stream().filter(r -> r instanceof HunspellRule).findFirst().orElse(null);
+    assertNotNull(rule);
+    List<AnalyzedSentence> analyzed = Arrays.stream(words).map(sentence -> {
+      try {
+        return lt.getAnalyzedSentence(sentence);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }).collect(Collectors.toList());
+    long startTime = System.currentTimeMillis();
+    for (int i = 0; i < 1000; i++) {
+      for (AnalyzedSentence s : analyzed) {
+        assertEquals(0, rule.match(s).length);
+      }
+    }
+    long endTime = System.currentTimeMillis();
+    System.out.println((endTime - startTime) + "ms");
   }
 
   @Ignore("just for internal performance testing, thus ignored by default")

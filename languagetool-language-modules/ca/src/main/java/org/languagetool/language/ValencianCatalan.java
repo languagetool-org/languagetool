@@ -24,6 +24,7 @@ import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ca.*;
@@ -33,6 +34,27 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ca.CatalanTagger;
 
 public class ValencianCatalan extends Catalan {
+
+  private static final String LANGUAGE_SHORT_CODE = "ca-ES-valencia";
+
+  private static volatile Throwable instantiationTraceValecian;
+
+  public ValencianCatalan() {
+    super(true);
+    Throwable trace = instantiationTraceValecian;
+    if (trace != null) {
+      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
+    }
+    instantiationTraceValecian = new Throwable();
+  }
+
+  public static @NotNull ValencianCatalan getInstance() {
+    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));
+    if (language instanceof ValencianCatalan catalan) {
+      return catalan;
+    }
+    throw new RuntimeException("ValencianCatalan language expected, got " + language);
+  }
 
   @Override
   public String getName() {
@@ -71,7 +93,7 @@ public class ValencianCatalan extends Catalan {
   @Override
   public List<String> getDefaultEnabledRulesForVariant() {
     List<String> rules = Arrays.asList("EXIGEIX_VERBS_VALENCIANS", "EXIGEIX_ACCENTUACIO_VALENCIANA",
-        "EXIGEIX_POSSESSIUS_U", "EXIGEIX_VERBS_EIX", "EXIGEIX_VERBS_ISC", "PER_PER_A_INFINITIU", "FINS_EL_AVL");
+        "EXIGEIX_POSSESSIUS_U", "EXIGEIX_VERBS_EIX", "EXIGEIX_VERBS_ISC", "PER_PER_A_INFINITIU", "FINS_EL_AVL", "LES_HA_FETES");
     return Collections.unmodifiableList(rules);
   }
 

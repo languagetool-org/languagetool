@@ -83,6 +83,34 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
+    if( tokens[adjPos].getCleanToken().equalsIgnoreCase("голому")
+        && tokens[nounPos].getCleanToken().equalsIgnoreCase("сорочка") ) {
+      logException();
+      return true;
+    }
+
+    // (ні)чого доброго
+    if( adjPos > 1
+        && tokens[adjPos].getCleanToken().equalsIgnoreCase("доброго")
+        && tokens[adjPos-1].getCleanToken().matches("(ні)?чого") ) {
+      logException();
+      return true;
+    }
+
+    if( LemmaHelper.hasLemma(tokens[adjPos], Arrays.asList("бережений"), Pattern.compile("adj:m:v_rod.*") )
+        && LemmaHelper.hasLemma(tokens[nounPos], Arrays.asList("бог"), Pattern.compile("noun:anim:m:v_naz.*") )) {
+      logException();
+      return true;
+    }
+
+    if( LemmaHelper.hasLemma(tokens[adjPos], Arrays.asList("кожний"), Pattern.compile("adj:f:v_naz.*"))
+        && LemmaHelper.hasLemma(tokens[nounPos], 
+            Arrays.asList("вага", "маса", "вартість", "потужність", "тривалість", "чисельність", "номінал", "наклад"), 
+            Pattern.compile("noun:inanim:.:v_oru.*") )) {
+      logException();
+      return true;
+    }
+
     // по Підвальній трамваї можуть
     // TODO: забагато FN
 //    if( adjPos > 1
@@ -1231,7 +1259,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     return false;
   }
 
-  private static boolean caseGovernmentMatches(List<AnalyzedToken> adjTokenReadings, List<InflectionHelper.Inflection> slaveInflections) {
+  public static boolean caseGovernmentMatches(List<AnalyzedToken> adjTokenReadings, List<InflectionHelper.Inflection> slaveInflections) {
     // TODO: key tags (e.g. pos) should be part of the map key
     // but now we pass only adj token readings so it's ok
     return adjTokenReadings.stream().map(p -> p.getLemma()).distinct().anyMatch( item -> {

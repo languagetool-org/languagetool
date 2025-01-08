@@ -78,7 +78,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
       AnalyzedTokenReadings atrWord;
       if (wordFrom.equals("inmarker")) {
         match.setOriginalErrorStr();
-        atrWord = new AnalyzedTokenReadings(new AnalyzedToken(match.getOriginalErrorStr().replaceAll(" ",""),
+        atrWord = new AnalyzedTokenReadings(new AnalyzedToken(preProcessWrongWord(match.getOriginalErrorStr()),
           "", ""));
       } else {
         atrWord = patternTokens[getPosition(wordFrom, patternTokens, match)];
@@ -275,6 +275,10 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
       }
       return d1 - d2;
     }
+  }
+
+  protected String preProcessWrongWord (String word) {
+    return word.replace(" ","");
   }
 
 }

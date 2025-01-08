@@ -37,9 +37,9 @@ public class SpanishWordRepeatRuleTest {
    */
   @Test
   public void testRule() throws IOException {
-    final SpanishWordRepeatRule rule = new SpanishWordRepeatRule(TestTools.getMessages("ca"), new Spanish());
+    final SpanishWordRepeatRule rule = new SpanishWordRepeatRule(TestTools.getMessages("ca"), Spanish.getInstance());
     RuleMatch[] matches;
-    JLanguageTool lt = new JLanguageTool(new Spanish());
+    JLanguageTool lt = new JLanguageTool(Spanish.getInstance());
     // correct
     matches = rule.match(lt.getAnalyzedSentence("Bienvenido/a a LanguageTool."));
     assertEquals(0, matches.length);

@@ -166,16 +166,32 @@ USA
             <example correction="postcode">Please enter your <marker>zip code</marker>.</example>
             <example correction="Postcodes"><marker>Zip codes</marker> are not always necessary.</example>
         </rule>
-        <rule id="APARTMENT-FLAT" name="apartment/flat">
-            <pattern>
-                <token inflected="yes">apartment</token>
-            </pattern>
-            <message>The word '\1' is common for American English. Did you mean <suggestion><match no="1" postag="(NN.*)" postag_replace="$1">flat</match></suggestion>?</message>
-            <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-            <short>AmE/BrE: apartment/flat</short>
-            <example correction="flats">These <marker>apartments</marker> are expensive.</example>
-            <example correction="flat">I just bought an <marker>apartment</marker>.</example>
-        </rule>
+        <rulegroup id="APARTMENT-FLAT" name="apartment/flat">
+            <rule>
+                <pattern>
+                    <token><exception>an</exception></token>
+                    <marker>
+                        <token inflected="yes">apartment</token>
+                    </marker>
+                </pattern>
+                <message>The word '\2' is common for American English. Did you mean <suggestion><match no="2" postag="(NN.*)" postag_replace="$1">flat</match></suggestion>?</message>
+                <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+                <short>AmE/BrE: apartment/flat</short>
+                <example correction="flats">These <marker>apartments</marker> are expensive.</example>
+                <example correction="flat">I just bought the <marker>apartment</marker>.</example>
+                <example>I just bought an apartment.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>apartment</token>
+                </pattern>
+                <message>The word 'apartment' is common for American English. Did you mean <suggestion>a flat</suggestion>?</message>
+                <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+                <short>AmE/BrE: apartment/flat</short>
+                <example correction="a flat">I just bought <marker>an apartment</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BAND-AID_PLASTER" name="band-aid/plaster">
             <rule><!-- 'Band-Aid' is a trademark according to Merriam Webster's dictionary. Thus, it must not have postags NN or NNS. -->
                 <pattern>

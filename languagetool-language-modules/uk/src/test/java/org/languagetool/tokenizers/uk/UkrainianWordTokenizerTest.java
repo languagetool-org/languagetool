@@ -302,6 +302,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("найважчого жанру— оповідання");
     assertEquals(Arrays.asList("найважчого", " ", "жанру", "—", " ", "оповідання"), testList);
 
+    testList = w.tokenize("\u2015оповідання");
+    assertEquals(Arrays.asList("\u2015", "оповідання"), testList);
+    
     testList = w.tokenize("проф. Артюхов");
     assertEquals(Arrays.asList("проф.", " ", "Артюхов"), testList);
 
@@ -359,6 +362,9 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("ам. долл");
     assertEquals(Arrays.asList("ам.", " ", "долл"), testList);
+
+    testList = w.tokenize("4 дол.");
+    assertEquals(Arrays.asList("4", " ", "дол."), testList);
 
     testList = w.tokenize("св. ап. Петра");
     assertEquals(Arrays.asList("св.", " ", "ап.", " ", "Петра"), testList);

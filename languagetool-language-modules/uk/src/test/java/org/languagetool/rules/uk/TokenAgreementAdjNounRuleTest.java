@@ -283,6 +283,8 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
 
     assertEmptyMatch("з 11-ма годинами");
 
+    // нічого нового
+    assertEmptyMatch("ще чого доброго ціна впаде");
     
     // площею, об'ємом...
     assertEmptyMatch("чотирициліндровий об’ємом 1000 куб. см.");
@@ -536,6 +538,7 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     
     assertEmptyMatch("не перевищував кількох десятих відсотка");
 
+    assertEmptyMatch("Береженого Бог береже");
   }
   
   @Test
@@ -601,6 +604,7 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("будуть вдячні державі Україна");
     assertEmptyMatch("мають бути підпорядковані служінню чоловікові");
     assertEmptyMatch("більше відомої загалу як");   //TODO: теоретично має бути кома перед «як»
+    assertEmptyMatch("одержимі суверенітетом");
     
     assertHasError("Нав’язаний Австрії нейтралітеті");
     //TODO:
@@ -719,6 +723,8 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("таких немилих серцю Булгакова");
     assertEmptyMatch("експозиція, присвячена Леоніду Іллічу");
     assertEmptyMatch("печаткою та вручене платнику");
+
+    assertEmptyMatch("і кожна масою 10 кг");
 
     assertHasError("жадібна землею");
 

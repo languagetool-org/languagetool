@@ -903,6 +903,18 @@ USA
       <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
 
       <!-- Whole antipatterns must be rewritten: 2024+ -->
+
+      <antipattern>
+          <token>nada</token>
+          <token>de</token>
+          <token postag='DP.+' postag_regexp='yes'><exception scope='next' postag_regexp='yes' postag='N.+|AQ.+'/></token>
+          <example>O Rui não podia ter nada de teu.</example>
+          <example>O Rui não podia ter nada de meu.</example>
+          <example>Não possuia nada de meu.</example>
+          <example>O Rui nada de meu tinha.</example>
+          <example>Não queria nada de meu.</example>
+      </antipattern>
+
       <antipattern>
           <token postag_regexp="yes" postag="V.+:PP.+"/>
           <token regexp='yes'>comigo|con[st]igo|con[nv]osco</token>
@@ -1679,6 +1691,39 @@ USA
     -->
     <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
     <short>Erro de colocação pronominal</short>
+
+    <!-- I must create an AP just with exception verbs, to do in 2025+ KEEP THIS AP ABOVE ALL OTHERS FOR AN EASY VIEW-->
+    <antipattern>
+        <token postag='CC' postag_regexp='no'/>
+        <token>se</token>
+        <token regexp='yes' inflected='yes'>acontecer|correr|estar|faltar|haver|ser</token>
+        <token postag='N.+|AQ.+|RG' postag_regexp='yes'/>
+        <example>Será uma das suas raras aparições públicas e se correr bem avançamos.</example>
+        <example>Verifique as medidas, e se é necessário contratar o serviço de um profissional qualificado.</example>
+        <example>Nao sei como é o clima em Portugual ou se houveram mortes devido a gripe. mas onde moro</example>
+        <example>Não é necessário que o público reconheça se estou brincando ou se estou sério.</example>
+        <example>E se faltarem cinco aos cinquenta justos? Destruirás toda a cidade por causa de cinco?</example>
+        <example>Vão até lá, vejam se foi vista com alguém ou se aconteceu algo incomum.</example>
+    </antipattern>
+
+
+    <antipattern>
+        <token>se</token>
+        <token postag='V......:.+' postag_regexp='yes'/>
+        <example>O Cruzeiro venceu o Olimpia por 1 a 0 com gol de Marcelo Ramos e se sagrou-se campeão.</example>
+        <example>É comum se denominá-los como enrolamento primário e secundário,</example>
+    </antipattern>
+
+    <antipattern>
+        <token postag='N.+|AQ.+|V.+|PP.+' postag_regexp='yes'/>
+        <token>a</token>
+        <token postag='VMN0000:.+' postag_regexp='yes'/>
+        <example>Ela estava toda zangada e eu a borrifar-me.</example>
+        <example>Hoje, temos a satisfação de compartilhar nossa nova página inicial e convidar você a acessá-la.</example>
+        <example>O Tom e a Mary juram que não foram eles a fazê-lo.</example>
+        <example>"Eu posso ajudar vocês a encontrá-los."</example>
+    </antipattern>
+
     <antipattern>
         <token postag='V.+' postag_regexp='yes'>
             <exception postag_regexp='yes' postag='VMP00.+|VMIS.+|RG|VM[NG]0000|NC.+|AQ.+'/>
@@ -2745,7 +2790,7 @@ USA
     </rule>
 
     <!-- TROCAS-TE trocaste -->
-    <rulegroup id='HIFEN_INTRUSIVO' name="Verbo com hífen intrusivo">
+    <rulegroup id='HIFEN_INTRUSIVO' name="[pt-PT] Verbo com hífen intrusivo">
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-30 + 2021-03-31 + 2021-05-31 (17-MAR-2021+)      -->
         <rule>
             <!--
@@ -2787,7 +2832,7 @@ USA
 
     </rulegroup>
 
-    <rulegroup id='REFLEXIVO_CONJUNTIVO' name='Confusão de Tempo Verbal: Conjuntivo - Reflexivo' default='off'><!-- XXX rethink rule. too many false positives -->
+    <rulegroup id='REFLEXIVO_CONJUNTIVO' name='[pt-PT] Confusão de Tempo Verbal: Conjuntivo - Reflexivo' default='off'><!-- XXX rethink rule. too many false positives -->
         <!-- Created by Tiago F. Santos, 2017-08-25 -->
         <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/as-formas-verbais-com-sse-ou-com--se/11603</url>
         <rule>
@@ -3052,6 +3097,18 @@ USA
           <message>Grafia do Brasil. Substitua por <suggestion><match no='2' postag='NCM(.)000' postag_replace='NCF$1000'>experiência</match></suggestion>.</message>
           <example correction='experiência'>Vai começar o <marker>experimento</marker>.</example>
           <example correction='experiências'>Vão começar os <marker>experimentos</marker>.</example>
+      </rule>
+
+
+     <rule id='BRASILEIRISMO_MACHUCAR' name="[pt-PT][Brasileirismo] machucar → magoar/aleijar/ferir">
+          <pattern>
+              <token inflected='yes' regexp='no'>machucar</token>
+          </pattern>
+          <message>Grafia do Brasil. Substitua por:</message>
+          <suggestion><match no='1' postag='V.+' postag_regexp='yes'>magoar</match></suggestion>
+          <suggestion><match no='1' postag='V.+' postag_regexp='yes'>aleijar</match></suggestion>
+          <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ferir</match></suggestion>
+          <example correction='magoar|aleijar|ferir'>Vais <marker>machucar</marker> o Rui.</example>
       </rule>
 
 
@@ -3948,7 +4005,7 @@ USA
 </category>
 
 
-<category id="AO45_RULES_PT_PT" name="[pt-PT][AO45] Regras do Acordo Ortográfico de 45 (pré-AO90)" type="misspelling" default='off'>
+<category id="AO45_RULES_PT_PT" name="[pt-PT] Regras do Acordo Ortográfico de 45 (pré-AO90)" type="misspelling" default='off'>
 
     <rule id='AO45_MONTHS_CASING' type='grammar' name='[pt-PT][AO45] Capitalização de Meses e Estações do Ano'>
         <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->
@@ -4032,6 +4089,21 @@ USA
     </rulegroup>
 
 
+    <rule id='AO45_HAVER_DE' name='[pt-PT][AO45] Haver-de'>
+        <pattern>
+            <marker>
+                <token regexp='yes'>heis?|hás?|hão</token>
+                <token>de</token>
+            </marker>
+            <token postag='VMN000.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Segundo o Acordo Ortográfico de 45, esta forma é hifenizada.</message>
+        <suggestion>\1-\2</suggestion>
+        <example correction='Hás-de'><marker>Hás de</marker> comprar uma casa.</example>
+        <example correction='Hei-de'><marker>Hei de</marker> ir ao Congo.</example>
+    </rule>
+
+
     <rule id="AO45_PELO_PÊLO" name="[pt-PT][AO45] pelo/pêlo" default="off">
     <!-- Created by Marco A.G. Pinto   -->
         <pattern>
@@ -4049,7 +4121,7 @@ USA
 
 <category id='CONFUSED_WORDS_PT_PT' name="[pt-PT] Confusão de Palavras">
 
-    <rule id='PARONYM_PREMIO_252_PT' name='Parónimo: premio'>
+    <rule id='PARONYM_PREMIO_252_PT' name='[pt-PT] Parónimo: premio'>
         <pattern>
             <token regexp='yes'>&art_detecao_paronimos;</token>
             <token min='0' postag='A.+' postag_regexp='yes'/>
@@ -4061,7 +4133,7 @@ USA
         <example correction='no prémio'><marker>no premio</marker>.</example>
         <example correction='nos prémios'><marker>nos premios</marker>.</example>
     </rule>
-    <rule id='PARONYM_PREMIO_252_PT2' name='Parónimo: premio'>
+    <rule id='PARONYM_PREMIO_252_PT2' name='[pt-PT] Parónimo: premio'>
         <pattern>
             <token regexp='yes' inflected="yes">&verbos_auxiliares_part_passado;|dever|poder|querer|costumar</token>
             <marker>
@@ -4155,8 +4227,8 @@ USA
 
 
 
-<category id="TYPOGRAPHY" name="Tipografia">
-    <rule type="locale-violation" id='CURRENCY_PLACEMENT_PT_FOREIGN' name="Posição dos símbolos de moeda: '100£ (£100)">
+<category id="TYPOGRAPHY" name="[pt-PT] Tipografia">
+    <rule type="locale-violation" id='CURRENCY_PLACEMENT_PT_FOREIGN' name="[pt-PT] Posição dos símbolos de moeda: '100£ (£100)">
         <pattern>
             <token regexp="yes">\d+([,.]\d+)*</token>
             <token regexp="yes">&currency_symbols;
@@ -4172,7 +4244,7 @@ USA
     <example>Preciso de 400€.</example>
 </rule>
 
-<rule type="locale-violation" id='CURRENCY_PLACEMENT_EUR' name="Posição do símbolo do euro: '€100 (100 €)">
+<rule type="locale-violation" id='CURRENCY_PLACEMENT_EUR' name="[pt-PT] Posição do símbolo do euro: '€100 (100 €)">
     <pattern>
         <token>€</token>
         <token regexp="yes">\d+([,.]\d+)*</token>
@@ -4184,7 +4256,7 @@ USA
     <example correction="100&nbsp;€">Deve <marker>€100</marker>.</example>
 </rule>
 
-<rule type="locale-violation" id='CURRENCY_SPACE_PT_FOREIGN' name="Espaçamento entre símbolos e valores monetários: '$ 100' ($100)">
+<rule type="locale-violation" id='CURRENCY_SPACE_PT_FOREIGN' name="[pt-PT] Espaçamento entre símbolos e valores monetários: '$ 100' ($100)">
     <pattern>
         <token regexp="yes">&currency_symbols;
         <exception>€</exception>
@@ -4198,7 +4270,7 @@ USA
 <example correction="R$100">Custa <marker>R$ 100</marker>.</example>
       </rule>
 
-      <rule type="locale-violation" id='CURRENCY_SPACE_EUR' name="Espaçamento entre o símbolo do euro e valores monetários: '100€' (100 €)">
+      <rule type="locale-violation" id='CURRENCY_SPACE_EUR' name="[pt-PT] Espaçamento entre o símbolo do euro e valores monetários: '100€' (100 €)">
           <pattern>
               <token regexp="yes">\d+([,.]\d+)*</token>
               <token spacebefore="no">€</token>

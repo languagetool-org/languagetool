@@ -40,7 +40,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
 //      "(?<!\uE120)(!{2,3}|\\?{2,3}|\\.{3}|[!?][!?.]{1,2}"
             "(!{2,3}|\\?{2,3}|\\.{3}|[!?][!?.]{1,2}"
             + "|[\u0020\u00A0\\n\\r\\t"
-            + ",.;!?\u2014:()\\[\\]{}<>/|\\\\…°$€₴=№§¿¡~×]" 
+            + ",.;!?\u2014\u2015:()\\[\\]{}<>/|\\\\…°$€₴=№§¿¡~×]" 
             + "|%(?![-\u2013][а-яіїєґ])" // allow 5%-й
             + "|(?<!\uE109)[\"«»„”“]"                       // quotes have special cases
             + "|(?<=[а-яіїєґА-ЯІЇЄҐ])[\u00B9\u00B2\u2070-\u2079]"  // superscript for regular words only //
@@ -126,12 +126,12 @@ public class UkrainianWordTokenizer implements Tokenizer {
 //  private static final Pattern ABBR_DOT_VO_PATTERN4 = Pattern.compile("(р)\\.([\\s\u00A0\u202F]*х)\\.");
   private static final Pattern ABBR_DOT_TYS_PATTERN1 = Pattern.compile("([0-9IІ][\\h\\v]+)(тис|арт)\\.");
   private static final Pattern ABBR_DOT_TYS_PATTERN2 = Pattern.compile("(тис|арт)\\.([\\h\\v]+[а-яіїєґ0-9])");
-  private static final Pattern ABBR_DOT_ART_PATTERN = Pattern.compile("([Аа]рт|[Мм]ал|[Рр]ис)\\.([\\h]*[0-9])");
+  private static final Pattern ABBR_DOT_ART_PATTERN = Pattern.compile("([Аа]рт|[Мм]ал|[Рр]ис|[Сс]пр)\\.([\\h]*(№[\\h]*)?[0-9])");
   private static final Pattern ABBR_DOT_MAN_PATTERN = Pattern.compile("(Ман)\\.([\\h]*(Сіті|[Юю]н))");
   private static final Pattern ABBR_DOT_LAT_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]лат)\\.([\\h\\v]+[a-zA-Z])");
-  private static final Pattern ABBR_DOT_PROF_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301-])([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Аа]рх|ап|тов|вул|бул|бульв|о|р|ім|упорядн?|др|[Пп]реп|Ів|Дж)\\.([\\h\\v]+[А-ЯІЇЄҐа-яіїєґ])");
+  private static final Pattern ABBR_DOT_PROF_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301-])([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Аа]рх|ап|тов|вул|бул|бульв|о|р|ім|упорядн?|др|[Пп]реп|Ів|Дж|Ол|[сС]вт)\\.([\\h\\v]+[А-ЯІЇЄҐа-яіїєґ])");
   private static final Pattern ABBR_DOT_GUB_PATTERN = Pattern.compile("(.[А-ЯІЇЄҐ][а-яіїєґ'-]+[\\h\\v]+губ)\\.");
-  private static final Pattern ABBR_DOT_DASH_PATTERN = Pattern.compile("\\b([А-ЯІЇЄҐ]ж?)\\.([-\u2013]([А-ЯІЇЄҐ][а-яіїєґ']{2}|[А-ЯІЇЄҐ]\\.))");
+  private static final Pattern ABBR_DOT_DASH_PATTERN = Pattern.compile("\\b([А-ЯІЇЄҐ]ж?)\\.([-\u2013]([А-ЯІЇЄҐ][а-яіїєґ']{2}|[А-ЯІЇЄҐ]\\.))", Pattern.UNICODE_CHARACTER_CLASS);
   // село, місто, річка (якщо з цифрою: секунди, метри, роки) - з роками складно
   //private static final Pattern ABBR_DOT_INVALID_DOT_PATTERN = Pattern.compile("((?:[0-9]|кв\\.|куб\\.)[\\s\u00A0\u202F]+(?:[смкд]|мк)?м)\\.(.)");
   private static final Pattern ABBR_DOT_KUB_SM_PATTERN = Pattern.compile("(кв|куб)\\.([\\h\\v]*(?:[смкд]|мк)?м)");
@@ -147,15 +147,15 @@ public class UkrainianWordTokenizer implements Tokenizer {
   // скорочення що не можуть бути в кінці речення
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301-])(абз|австрал|ам|амер|англ|акад(ем)?|арк|ауд|біол|бл(?:изьк)?|болг|буд|в(?!\\.+)|вип|вірм|грец(?:ьк)?"
       + "|держ|див|дир|діал|дод|дол|досл|доц|доп|екон|ел|жін|зав|заст|зах|зб|зв|зневажл?|зовн|ім|івр|інж|ісп|іст|італ"
-      + "|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кін|кл|кн|коеф|латин|мал|моб|н|[Нн]апр|нац|нпр|образн|оз|оп|оф|п|пен|перекл|перен|пл|пол|пов|пор|порівн|[Пп]оч|пп|прибл|прикм|прим|присл|пров|пром|просп"
-      + "|[Рр]ед|[Рр]еж|розд|розм|рос|рт|рум|с|санскр|[Сс]вв?|скор|соц|співавт|[сС]т|стор|сх|табл|тт|[тТ]ел|техн|укр|філол|фр|франц|худ|цит|ч|чайн|част|ц|яп)\\.(?!\uE120|\\.+[\\h\\v]*$)");
+      + "|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кін|кл|кн|коеф|латин|мал|моб|н|[Нн]апр|нач|нім|нац|нпр|образн|оз|оп|оф|п|пен|перекл|перен|пл|пол|пов|пор|порівн|[Пп]оч|пп|прибл|прикм|прим|присл|пров|пром|просп"
+      + "|[Рр]ед|[Рр]еж|розд|розм|рос|рт|рум|с|санскр|[Сс]вв?|скор|соц|співавт|[сС]т|стор|сх|табл|тт|[тТ]ел|техн|укр|філол|фр|франц|худ|[цЦ]ит|ч|чайн|част|ц|яп)\\.(?!\uE120|\\.+[\\h\\v]*$)");
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN_2 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]м\\.)([\\h\\v]*[А-ЯІЇЄҐ])");
   
   private static final Pattern ABBR_DOT_NAR_PATTERN_1 = Pattern.compile("(([0-9]|рік|[рp]\\.|[-–—])[\\h\\v]+нар)\\.");
-  private static final Pattern ABBR_DOT_NAR_PATTERN_2 = Pattern.compile("\\b(нар)\\.([\\h\\v]+[0-9а-яіїєґ])");
+  private static final Pattern ABBR_DOT_NAR_PATTERN_2 = Pattern.compile("\\b(нар)\\.([\\h\\v]+[0-9а-яіїєґ])", Pattern.UNICODE_CHARACTER_CLASS);
 
   // скорочення що можуть бути в кінці речення
-  private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]((та|й|і) (інш?|под)|атм|відс|гр|коп|обл|р|рр|РР|руб|ст|стст|стол|стор|чол|шт))\\.(?!\uE120)");
+  private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]((та|й|і) (інш?|под)|атм|відс|гр|коп|дес|дол|обл|р|рр|РР|руб|ст|стст|стол|стор|чол|шт))\\.(?!\uE120)");
   private static final Pattern ABBR_DOT_I_T_P_PATTERN = Pattern.compile("([ій][\\h\\v]+т\\.)([\\h\\v]*(д|п|ін)\\.)");
   private static final Pattern ABBR_DOT_I_T_CH_PATTERN = Pattern.compile("([ву][\\h\\v]+т\\.)([\\h\\v]*ч\\.)");
   private static final Pattern ABBR_DOT_T_ZV_PATTERN = Pattern.compile("([\\h\\v\\(]+т\\.)([\\h\\v]*зв\\.)");
@@ -163,7 +163,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_AT_THE_END = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301])(тис|губ|[А-ЯІЇЄҐ])\\.[\\h\\v]*$");
 
   private static final Pattern APOSTROPHE_BEGIN_PATTERN = Pattern.compile("(^|[\\h\\v(„«\"'])'(?!дно)(\\p{L})");
-  private static final Pattern APOSTROPHE_END_PATTER = Pattern.compile("(\\p{L})(?<!\\b(?:мо|тре|тра|чо|нічо|бо|зара|пра))'([^\\p{L}-]|$)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern APOSTROPHE_END_PATTER = Pattern.compile("(\\p{L})(?<!\\b(?:мо|тре|тра|чо|нічо|бо|зара|пра))'([^\\p{L}-]|$)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CHARACTER_CLASS);
 
   private static final Pattern YEAR_WITH_R = Pattern.compile("((?:[12][0-9]{3}[—–-])?[12][0-9]{3})(рр?\\.)");
 
@@ -185,7 +185,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   private static final Pattern NUMBER_MISSING_SPACE = Pattern.compile("((?:[\\h\\v\uE110]|^)[а-яїієґА-ЯІЇЄҐ'-]*[а-яїієґ']?[а-яїієґ])([0-9]+(?![а-яіїєґА-ЯІЇЄҐa-zA-Z»\"“]))");
 
-  private static final Pattern WEB_ENTITIES = Pattern.compile("([а-яіїєґ])\\.(НЕТ|net|Інфо|Info|City|Life|UA|юа|лі|media|com|фм|ru|Ру)\\b", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern WEB_ENTITIES = Pattern.compile("([а-яіїєґ])\\.(НЕТ|net|Інфо|Info|City|Life|UA|юа|лі|media|com|фм|ru|Ру)\\b", Pattern.CASE_INSENSITIVE| Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern WEB_ENTITIES2 = Pattern.compile("\\.([a-z_-]+)\\.(ua)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
   public UkrainianWordTokenizer() {
@@ -290,11 +290,11 @@ public class UkrainianWordTokenizer implements Tokenizer {
     }
 
     if( text.indexOf("с/г") != -1 ) {
-      text = text.replaceAll("с/г", "с" +NON_BREAKING_SLASH_SUBST + "г");
+      text = text.replace("с/г", "с" +NON_BREAKING_SLASH_SUBST + "г");
     }
 
     if( text.indexOf("Л/ДНР") != -1 ) {
-      text = text.replaceAll("Л/ДНР", "Л" +NON_BREAKING_SLASH_SUBST + "ДНР");
+      text = text.replace("Л/ДНР", "Л" +NON_BREAKING_SLASH_SUBST + "ДНР");
     }
 
     if( text.indexOf("р.") != -1 ) {

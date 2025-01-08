@@ -2115,18 +2115,22 @@ public class ConfigurationDialog implements ActionListener {
                 ruleValueField.setMinimumSize(new Dimension(50, 28));  // without this the box is just a few pixels small, but why?
                 String fieldValue;
                 if (defValue instanceof Integer) {
-                  fieldValue = Integer.toString(config.getConfigValueByID(rule.getId(), i, Integer.class, (Integer) defValue));
+                  obj[n] = (int) config.getConfigValueByID(rule.getId(), i, Integer.class, (Integer) defValue);
+                  fieldValue = Integer.toString((int) obj[n]);
                 } else if (defValue instanceof Character) {
-                  fieldValue = Character.toString(config.getConfigValueByID(rule.getId(), i, Character.class, (Character) defValue));
+                  obj[n] = (char) config.getConfigValueByID(rule.getId(), i, Character.class, (Character) defValue);
+                  fieldValue = Character.toString((char) obj[n]);
                 } else if (defValue instanceof Double) {
-                  fieldValue = Double.toString(config.getConfigValueByID(rule.getId(), i, Double.class, (Double) defValue));
+                  obj[n] = (double) config.getConfigValueByID(rule.getId(), i, Double.class, (Double) defValue);
+                  fieldValue = Double.toString((double) obj[n]);
                 } else if (defValue instanceof Float) {
-                  fieldValue = Float.toString(config.getConfigValueByID(rule.getId(), i, Float.class, (Float) defValue));
+                  obj[n] = (float) config.getConfigValueByID(rule.getId(), i, Float.class, (Float) defValue);
+                  fieldValue = Float.toString((float) obj[n]);
                 } else {
-                  fieldValue = config.getConfigValueByID(rule.getId(), i, String.class, (String) defValue);
+                  obj[n] = (String) config.getConfigValueByID(rule.getId(), i, String.class, (String) defValue);
+                  fieldValue = (String) obj[n];
                 }
                 ruleValueField.setText(fieldValue);
-                obj[n] = fieldValue;
                 specialOptionPanel.add(ruleValueField, cons2);
     
                 ruleValueField.getDocument().addDocumentListener(new DocumentListener() {

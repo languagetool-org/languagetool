@@ -18,13 +18,13 @@
  */
 package org.languagetool;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.AbstractPatternRule;
@@ -48,7 +48,6 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -77,20 +76,17 @@ public abstract class Language {
   private static final Pattern APOSTROPHE = compile("([\\p{L}\\d-])'([\\p{L}«])",
     CASE_INSENSITIVE | UNICODE_CASE);
 
-  private static final Pattern SUGGESTION_OPEN_TAG = compile("<suggestion>");
-  private static final Pattern SUGGESTION_CLOSE_TAG = compile("</suggestion>");
+  private static final String SUGGESTION_OPEN_TAG = "<suggestion>";
+  private static final String SUGGESTION_CLOSE_TAG = "</suggestion>";
 
-  private static final Pattern ELLIPSIS = compile("\\.\\.\\.");
   private static final Pattern NBSPACE1 = compile("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)");
   private static final Pattern NBSPACE2 = compile("\\b([a-zA-Z]\\.) ");
 
   private static final Map<Class<Language>, JLanguageTool> languagetoolInstances = new ConcurrentHashMap<>();
-  private static final Pattern SINGLE_QUOTE_PATTERN = compile("'");
   private static final Pattern QUOTED_CHAR_PATTERN = compile(" '(.)'");
   private static final Pattern TYPOGRAPHY_PATTERN_1 = compile("([\\u202f\\u00a0 «\"\\(])'");
   private static final Pattern TYPOGRAPHY_PATTERN_2 = compile("'([\u202f\u00a0 !\\?,\\.;:\"\\)])");
   private static final Pattern TYPOGRAPHY_PATTERN_3 = compile("‘s\\b([^’])");
-  private static final Pattern DOUBLE_QUOTE_PATTERN = compile("\"");
   private static final Pattern TYPOGRAPHY_PATTERN_4 = compile("([ \\(])\"");
   private static final Pattern TYPOGRAPHY_PATTERN_5 = compile("\"([\\u202f\\u00a0 !\\?,\\.;:\\)])");
 
@@ -100,7 +96,6 @@ public abstract class Language {
   private final Pattern ignoredCharactersRegex = compile("[\u00AD]");  // soft hyphen
   
   private List<AbstractPatternRule> patternRules;
-  private final AtomicBoolean noLmWarningPrinted = new AtomicBoolean();
 
   private Disambiguator disambiguator;
   private Tagger tagger;
@@ -203,18 +198,6 @@ public abstract class Language {
     return null;
   }
 
-  protected LanguageModel initLanguageModel(File indexDir, LanguageModel languageModel) {
-    if (languageModel == null) {
-      File topIndexDir = new File(indexDir, getShortCode());
-      if (topIndexDir.exists()) {
-        languageModel = new LuceneLanguageModel(topIndexDir);
-      } else if (noLmWarningPrinted.compareAndSet(false, true)) {
-        System.err.println("WARN: ngram index dir " + topIndexDir + " not found for " + getName());
-      }
-    }
-    return languageModel;
-  }
-
   /**
    * Get a list of rules that require a {@link LanguageModel}. Returns an empty list for
    * languages that don't have such rules.
@@ -252,7 +235,13 @@ public abstract class Language {
       .forEach(rules::add);
     rules.removeIf(rule -> {
       String activeRemoteRuleAbTest = ((RemoteRule) rule).getServiceConfiguration().getOptions().get("abtest"); //abtest option value must match the abtest value from server.properties
+      // allow disabling based on A/B test flags to compare multiple models
+      String excludeABTest = ((RemoteRule) rule).getServiceConfiguration().getOptions().get("excludeABTest");
       List<String> activeAbTestsForUser = userConfig.getAbTest();
+      if (excludeABTest != null && activeAbTestsForUser != null &&
+        activeAbTestsForUser.stream().anyMatch(flag -> flag.matches(excludeABTest))) {
+        return true;
+      }
       if (activeRemoteRuleAbTest != null && !activeRemoteRuleAbTest.trim().isEmpty()) { // A/B-Test active for remote rule
         if (activeAbTestsForUser == null) {
           return true; // No A/B-Tests are not active for user
@@ -902,9 +891,8 @@ public abstract class Language {
   /** @since 5.1 */
   public String toAdvancedTypography(String input) {
     if (!isAdvancedTypographyEnabled()) {
-      return SUGGESTION_CLOSE_TAG.matcher(
-        SUGGESTION_OPEN_TAG.matcher(input).replaceAll(getOpeningDoubleQuote())
-      ).replaceAll(getClosingDoubleQuote());
+      return input.replace(SUGGESTION_OPEN_TAG, getOpeningDoubleQuote())
+        .replace(SUGGESTION_CLOSE_TAG, getClosingDoubleQuote());
     }
     String output = input;
    
@@ -916,13 +904,13 @@ public abstract class Language {
     while (m.find(offset)) {
       String group = m.group(1);
       preservedStrings.add(group);
-      output = output.replaceFirst("<suggestion>" + quote(group) + "</suggestion>", "\\\\" + countPreserved);
+      output = StringUtils.replaceOnce(output, "<suggestion>" + group + "</suggestion>", "\\" + countPreserved);
       countPreserved++;
       offset = m.end();
     }
     
     // Ellipsis (for all languages?)
-    output = ELLIPSIS.matcher(output).replaceAll("…");
+    output = output.replace("...", "…");
     
     // non-breaking space
     output = NBSPACE1.matcher(output).replaceAll("$1\u00a0$2");
@@ -933,7 +921,7 @@ public abstract class Language {
     
     // single quotes
     if (output.startsWith("'")) { 
-      output = SINGLE_QUOTE_PATTERN.matcher(output).replaceFirst(getOpeningSingleQuote());
+      output = getOpeningSingleQuote() + output.substring(1);
     }
     if (output.endsWith("'")) { 
       output = output.substring(0, output.length() - 1 ) + getClosingSingleQuote();
@@ -945,7 +933,7 @@ public abstract class Language {
     
     // double quotes
     if (output.startsWith("\"")) { 
-      output = DOUBLE_QUOTE_PATTERN.matcher(output).replaceFirst(getOpeningDoubleQuote());
+      output = getOpeningDoubleQuote() + output.substring(1);
     }
     if (output.endsWith("\"")) { 
       output = output.substring(0, output.length() - 1 ) + getClosingDoubleQuote();
@@ -955,12 +943,11 @@ public abstract class Language {
     
     //restore suggestions
     for (int i = 0; i < preservedStrings.size(); i++) {
-      output = output.replaceFirst("\\\\" + i, getOpeningDoubleQuote() + Matcher.quoteReplacement(preservedStrings.get(i)) + getClosingDoubleQuote() );
+      output = StringUtils.replaceOnce(output, "\\" + i, getOpeningDoubleQuote() + preservedStrings.get(i) + getClosingDoubleQuote() );
     }
 
-    return SUGGESTION_CLOSE_TAG.matcher(
-      SUGGESTION_OPEN_TAG.matcher(output).replaceAll(getOpeningDoubleQuote())
-    ).replaceAll(getClosingDoubleQuote());
+    return output.replace(SUGGESTION_OPEN_TAG, getOpeningDoubleQuote())
+      .replace(SUGGESTION_CLOSE_TAG, getClosingDoubleQuote());
   }
 
   /**
@@ -1004,7 +991,7 @@ public abstract class Language {
   }
 
   public List<String> prepareLineForSpeller(String s) {
-    return Arrays.asList(s);
+    return Collections.singletonList(s);
   }
 
   /**

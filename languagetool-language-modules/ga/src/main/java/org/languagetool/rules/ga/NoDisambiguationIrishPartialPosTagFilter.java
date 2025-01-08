@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class NoDisambiguationIrishPartialPosTagFilter extends PartialPosTagFilter {
 
-  private final Tagger tagger = new Irish().getTagger();
+  private final Tagger tagger = Irish.getInstance().getTagger();
 
   @Override
   protected List<AnalyzedTokenReadings> tag(String token) {

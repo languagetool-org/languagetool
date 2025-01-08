@@ -20,9 +20,13 @@ package org.languagetool.commandline;
 
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.input.BOMInputStream;
-import org.languagetool.*;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Languages;
+import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.bitext.TabBitextReader;
-import org.languagetool.language.*;
+import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.English;
 import org.languagetool.language.identifier.LanguageIdentifier;
 import org.languagetool.language.identifier.LanguageIdentifierService;
 import org.languagetool.rules.Rule;
@@ -173,7 +177,7 @@ class Main {
         Language language = detectLanguageOfString(text);
         if (language == null) {
           System.err.println("Could not detect language well enough, using American English");
-          language = new AmericanEnglish();
+          language = AmericanEnglish.getInstance();
         }
         changeLanguage(language, options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules());
         System.err.println("Using " + language.getName() + " for file " + filename);
@@ -235,7 +239,7 @@ class Main {
             Language language = detectLanguageOfString(line);
             if (language == null) {
               System.err.println("Could not detect language well enough, using American English");
-              language = new AmericanEnglish();
+              language = AmericanEnglish.getInstance();
             }
             System.err.println("Language used is: " + language.getName());
             language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(

@@ -29,6 +29,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
   private static final Pattern ADV_PREDICT_PATTERN = Pattern.compile("(adv|noninfl:&predic).*");
 
   private static final Pattern MODALS_ADJ = Pattern.compile("змушений|вимушений|повинний|здатний|готовий|ладний|радий");
+  private static final Pattern V_ROD_DRIVER_PATTERN = Pattern.compile("не|(на)?с[кт]ільки|(най)?більше|(най)?менше|(не|за)?багато|(не|чи|за)?мало|трохи|годі|неможливо|а?ніж|вдосталь|купу", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
   private TokenAgreementVerbNounExceptionHelper() {
   }
@@ -521,8 +522,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
     if( state.verbPos > 1
         && PosTagHelper.hasPosTagPart(tokens[state.nounPos], "v_rod") ) {
 
-      Pattern vRodDriverPattern = Pattern.compile("не|(на)?с[кт]ільки|(най)?більше|(най)?менше|(не|за)?багато|(не|чи|за)?мало|трохи|годі|неможливо|а?ніж|вдосталь|купу", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-      int xpos = LemmaHelper.tokenSearch(tokens, state.verbPos-1, (String)null, vRodDriverPattern, Pattern.compile("[a-z].*"), Dir.REVERSE);
+      int xpos = LemmaHelper.tokenSearch(tokens, state.verbPos-1, (String)null, V_ROD_DRIVER_PATTERN, Pattern.compile("[a-z].*"), Dir.REVERSE);
       if( xpos >= 0 && xpos >= state.verbPos-4 ) {
           logException();
           return true;

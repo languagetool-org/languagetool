@@ -72,6 +72,22 @@ public class GermanCompoundTokenizer implements Tokenizer {
       // Add compound parts here so we don't need to update JWordSplitter for every missing word we find.
       // Note: adding words, especially short ones, can also cause incorrect splits. E.g. if "sport"
       // is in the list and you add "tran", without "transport" being in the list, it would split "transport".
+      words.add("influencer");
+      words.add("katheterisierung");
+      words.add("rücklass");
+      words.add("abdichtung");
+      words.add("laptop");
+      words.add("verschattung");
+      words.add("paradeiser");
+      words.add("einreichung");
+      words.add("bestatter");
+      words.add("divergenz");
+      words.add("schrumpf");
+      words.add("degustation");
+      words.add("schaft");
+      words.add("abstreifer");
+      words.add("aufputz");
+      words.add("glühwürmchen");
       words.add("aufwertung");
       words.add("einhausung");
       words.add("lackier");
@@ -181,8 +197,12 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Alkoholabstinenz", asList("Alkohol", "abstinenz"));
     wordSplitter.addException("Androgen", asList("Androgen"));
     wordSplitter.addException("Auberginen", asList("Auberginen"));
+    wordSplitter.addException("Auckland", asList("Auckland"));
+    wordSplitter.addException("Boston", asList("Boston"));
+    wordSplitter.addException("Brandenburg", asList("Brandenburg"));
     wordSplitter.addException("Broadcast", asList("Broadcast"));
     wordSplitter.addException("Buchsbaum", asList("Buchsbaum"));
+    wordSplitter.addException("Chiemsee", asList("Chiemsee"));
     wordSplitter.addException("Coffein", asList("Coffein"));
     wordSplitter.addException("Drohnen", asList("Drohnen"));
     wordSplitter.addException("Eiben", asList("Eiben"));
@@ -200,6 +220,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Kolleggen", asList("Kolleggen"));
     wordSplitter.addException("Karstadt", asList("Karstadt"));
     wordSplitter.addException("Kartier", asList("Kartier"));
+    wordSplitter.addException("Kaukasus", asList("Kaukasus"));
     wordSplitter.addException("Knoblauch", asList("Knoblauch"));
     wordSplitter.addException("Kollagen", asList("Kollagen"));
     wordSplitter.addException("Kommerz", asList("Kommerz"));
@@ -208,6 +229,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Oligarchen", asList("Oligarchen"));
     wordSplitter.addException("Optimal", asList("Optimal"));
     wordSplitter.addException("Saunieren", asList("Saunieren"));
+    wordSplitter.addException("Schiessen", asList("Schiessen"));
     wordSplitter.addException("Spielgeleier", asList("Spielgeleier"));
     wordSplitter.addException("Halleschen", asList("Halleschen"));
     wordSplitter.addException("Reinigungstab", asList("Reinigungs", "tab"));

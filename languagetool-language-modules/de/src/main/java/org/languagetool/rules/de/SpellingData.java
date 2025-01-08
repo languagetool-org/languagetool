@@ -65,12 +65,12 @@ class SpellingData {
       } else {
         coherencyMap.put(oldSpelling, newSpelling);
       }
-      if (oldSpelling.contains("ß") && oldSpelling.replaceAll("ß", "ss").equals(newSpelling)) {
+      if (oldSpelling.contains("ß") && oldSpelling.replace("ß", "ss").equals(newSpelling)) {
         try {
           String[] forms = GermanSynthesizer.INSTANCE.synthesizeForPosTags(oldSpelling, s -> true);
           for (String form : forms) {
             if (!form.contains("ss")) {  // avoid e.g. "Schlüsse" as form of "Schluß", as that's the new spelling
-              coherencyMap.put(form, form.replaceAll("ß", "ss"));
+              coherencyMap.put(form, form.replace("ß", "ss"));
             }
           }
         } catch (IOException e) {

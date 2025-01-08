@@ -46,7 +46,6 @@ import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 import org.languagetool.tools.Tools;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -62,7 +61,7 @@ import static java.util.Arrays.asList;
  * Make sure to call {@link #close()} after using this (currently only relevant if you make
  * use of {@link EnglishConfusionProbabilityRule}).
  */
-public class English extends Language implements AutoCloseable {
+public class English extends LanguageWithModel {
 
   protected static final LoadingCache<String, List<Rule>> cache = CacheBuilder.newBuilder()
       .expireAfterWrite(30, TimeUnit.MINUTES)
@@ -77,10 +76,7 @@ public class English extends Language implements AutoCloseable {
           return rules;
         }
       });
-  private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
   private static final Pattern FALSE_FRIENDS_PATTERN = Pattern.compile("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*");
-
-  private LanguageModel languageModel;
 
   /**
    * @deprecated use {@link AmericanEnglish} or {@link BritishEnglish} etc. instead -
@@ -92,7 +88,7 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return AMERICAN_ENGLISH;
+    return AmericanEnglish.getInstance();
   }
 
   @Override
@@ -141,12 +137,6 @@ public class English extends Language implements AutoCloseable {
   @Override
   public Tokenizer createDefaultWordTokenizer() {
     return new EnglishWordTokenizer();
-  }
-
-  @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    languageModel = initLanguageModel(indexDir, languageModel);
-    return languageModel;
   }
 
   @Override
@@ -230,16 +220,16 @@ public class English extends Language implements AutoCloseable {
   public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel lm, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     if (lm != null && motherTongue != null) {
       if ("fr".equals(motherTongue.getShortCode())) {
-        return asList(new EnglishForFrenchFalseFriendRule(messages, lm, motherTongue, this));
+        return Collections.singletonList(new EnglishForFrenchFalseFriendRule(messages, lm, motherTongue, this));
       } else if ("de".equals(motherTongue.getShortCode())) {
-        return asList(new EnglishForGermansFalseFriendRule(messages, lm, motherTongue, this));
+        return Collections.singletonList(new EnglishForGermansFalseFriendRule(messages, lm, motherTongue, this));
       } else if ("es".equals(motherTongue.getShortCode())) {
-        return asList(new EnglishForSpaniardsFalseFriendRule(messages, lm, motherTongue, this));
+        return Collections.singletonList(new EnglishForSpaniardsFalseFriendRule(messages, lm, motherTongue, this));
       } else if ("nl".equals(motherTongue.getShortCode())) {
-        return asList(new EnglishForDutchmenFalseFriendRule(messages, lm, motherTongue, this));
+        return Collections.singletonList(new EnglishForDutchmenFalseFriendRule(messages, lm, motherTongue, this));
       }
     }
-    return asList();
+    return Collections.emptyList();
   }
 
   @Override
@@ -283,17 +273,6 @@ public class English extends Language implements AutoCloseable {
     return true;
   }
 
-  /**
-   * Closes the language model, if any. 
-   * @since 2.7 
-   */
-  @Override
-  public void close() throws Exception {
-    if (languageModel != null) {
-      languageModel.close();
-    }
-  }
-  
   @Override
   protected int getDefaultRulePriorityForStyle() {
     return -50;
@@ -555,14 +534,13 @@ public class English extends Language implements AutoCloseable {
     id2prio.put("GIMME", -4);  // prefer over spelling rules
     id2prio.put("LEMME", -4);  // prefer over spelling rules
     id2prio.put("ID_CASING", -4);  // prefer over spelling rules but not over ID_IS
-    id2prio.put("EN_GB_SIMPLE_REPLACE", -5);  // higher prio than Speller
-    id2prio.put("EN_US_SIMPLE_REPLACE", -5);  // higher prio than Speller
     id2prio.put("MORFOLOGIK_RULE_EN_US", -10);  // more specific rules (e.g. L2 rules) have priority
     id2prio.put("MORFOLOGIK_RULE_EN_GB", -10);  // more specific rules (e.g. L2 rules) have priority
     id2prio.put("MORFOLOGIK_RULE_EN_CA", -10);  // more specific rules (e.g. L2 rules) have priority
     id2prio.put("MORFOLOGIK_RULE_EN_ZA", -10);  // more specific rules (e.g. L2 rules) have priority
     id2prio.put("MORFOLOGIK_RULE_EN_NZ", -10);  // more specific rules (e.g. L2 rules) have priority
     id2prio.put("MORFOLOGIK_RULE_EN_AU", -10);  // more specific rules (e.g. L2 rules) have priority
+    id2prio.put("UPPERCASE_SENTENCE_START", -11);  // speller needs higher priority
     id2prio.put("MD_PRP_QUESTION_MARK", -11);  // speller needs higher priority
     id2prio.put("PRP_RB_NO_VB", -12);  // prefer other more specific rules (with suggestions)
     id2prio.put("MD_JJ", -12);  // prefer other rules (e.g. NOUN_VERB_CONFUSION)
@@ -663,6 +641,12 @@ public class English extends Language implements AutoCloseable {
     if (id.startsWith("EN_MULTITOKEN_SPELLING_")) {
       return -9; // higher than MORFOLOGIK_*
     }
+    if (id.startsWith("EN_GB_SIMPLE_REPLACE")) {
+      return -5; // higher than MORFOLOGIK_*
+    }
+    if (id.startsWith("EN_US_SIMPLE_REPLACE")) {
+      return -5; // higher than MORFOLOGIK_*
+    }
     if (id.equals("QB_EN_OXFORD")) {
       return -51; // MISSING_COMMA_AFTER_YEAR
     }
@@ -746,7 +730,7 @@ public class English extends Language implements AutoCloseable {
       RuleMatch newMatch = new RuleMatch(rm, newReplacements);
       if (newMatch.getSpecificRuleId().startsWith("EN_SIMPLE_REPLACE") &&
         (newMatch.getSpecificRuleId().endsWith("GRAMME") || newMatch.getSpecificRuleId().endsWith("GRAMMES"))) {
-        newMatch.getRule().setLocQualityIssueType(ITSIssueType.Style);
+        newMatch.getRule().setLocQualityIssueType(ITSIssueType.LocaleViolation);
       }
       newRuleMatches.add(newMatch);
     }
@@ -757,23 +741,23 @@ public class English extends Language implements AutoCloseable {
   public List<String> prepareLineForSpeller(String line) {
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return Arrays.asList(line);
+      return Collections.singletonList(line);
     }
     if (line.contains("+")) {
       // while the morfologik separator is "+", multiwords with '+' can cause undesired results.
-      return Arrays.asList("");
+      return Collections.singletonList("");
     }
     String[] formTag = parts[0].split("\t");
     String form = formTag[0].trim();
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
       if (tag.startsWith("NN") || tag.startsWith("JJ")) {
-        return Arrays.asList(form);
+        return Collections.singletonList(form);
       } else {
-        return Arrays.asList("");
+        return Collections.singletonList("");
       }
     }
-    return Arrays.asList(line);
+    return Collections.singletonList(line);
   }
 
   public MultitokenSpeller getMultitokenSpeller() {
