@@ -1829,6 +1829,35 @@ class CaseRuleAntiPatterns {
       csRegex("Sozialgesetzbuch(e?s)?")
     ),
     Arrays.asList(
+      // Ein Blauer Riese ist ein Riesenstern.
+      csRegex("Blaue[rn]?"),
+      csRegex("Riese(ns?)?")
+    ),
+    Arrays.asList(
+      // ..., die als blaue Überriesen bezeichnet werden.
+      csRegex("Blaue[rn]?"),
+      csRegex("Überriese(ns?)?")
+    ),
+    Arrays.asList(
+      // Der Olympische Fechtclub Bonn wurde 1949 gegründet.
+      csRegex("Olympische[nr]?"),
+      csRegex("Fechtclubs?")
+    ),
+    Arrays.asList(
+      // Die Organisation für Islamische Zusammenarbeit
+      csToken("Organisation"),
+      csToken("für"),
+      csToken("Islamische"),
+      csToken("Zusammenarbeit")
+    ),
+    Arrays.asList(
+      // Die Internationale Organisation für Migration
+      csRegex("Internationalen?"),
+      csToken("Organisation"),
+      csToken("für"),
+      csToken("Migration")
+    ),
+    Arrays.asList(
       // Die Stadt ist Sitz des Kirchenbezirks Freudenstadt der Evangelischen Landeskirche in Württemberg.
       csRegex("Evangelischen?"),
       csToken("Landeskirche")

@@ -3485,6 +3485,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
         }
       case "do": return topMatch("so");
+      case "EmailleOfen": return topMatch("Emailleofen");
       case "Lollies": return topMatch("Lollis");
       case "Mazeltov": return topMatch("Masel tov");
       case "Mazel tov": return topMatch("Masel tov");
