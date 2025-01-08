@@ -6568,6 +6568,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">ser</token>
                     <example>Cual si fuera un cohete.</example>
                 </antipattern>
+                <antipattern>
+                    <token>cual</token>
+                    <token>arte</token>
+                    <token>de</token>
+                    <token>magia</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">cual(es)?</token>
                 </pattern>
@@ -34406,9 +34412,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="4" regexp="yes">2024|24</token>
             </antipattern>
             <antipattern>
+                <token skip="4" regexp="yes">de|desde</token>
+                <token skip="4" regexp="yes">2024|24</token>
+                <token skip="4" regexp="yes">a|hasta</token>
+                <token skip="4" regexp="yes">2025|25</token>
+            </antipattern>
+            <antipattern>
+                <token skip="4" regexp="yes">de|desde</token>
+                <token skip="4" regexp="yes">2025|25</token>
+                <token skip="4" regexp="yes">a|hasta</token>
+                <token skip="4" regexp="yes">2026|26</token>
+            </antipattern>
+            <antipattern>
                 <token skip="4">desde</token>
                 <token skip="2" regexp="yes">&meses_ano;|06|07|08|09|10|11|12</token>
                 <token regexp="yes">20\d{2}</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&dias_semana;|&dias_semana_abrv;</token>
+                <token min="0">,</token>
+                <token regexp="yes">\d\d?</token>
             </antipattern>
             <rule>
                 <pattern>
