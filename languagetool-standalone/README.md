@@ -11,7 +11,7 @@ https://languagetool.org
 
 ## Requirements
 
-* Java 8 or later
+* Java 17 or later
 
 
 ## Usage
