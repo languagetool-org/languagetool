@@ -18,7 +18,7 @@
  */
 package org.languagetool.language;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 public class CanadianFrench extends French {
@@ -46,7 +46,7 @@ public class CanadianFrench extends French {
 
   @Override
   public List<String> getDefaultDisabledRulesForVariant() {
-    List<String> rules = Collections.singletonList("DOUBLER_UNE_CLASSE");
+    List<String> rules = Arrays.asList("DOUBLER_UNE_CLASSE", "FRENCH_WHITESPACE");
     return rules;
   }
 }

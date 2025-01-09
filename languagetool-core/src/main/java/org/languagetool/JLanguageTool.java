@@ -475,6 +475,9 @@ public class JLanguageTool {
   private List<Rule> getAllBuiltinRules(Language language, ResourceBundle messages, UserConfig userConfig, GlobalConfig globalConfig) {
     try {
       List<Rule> rules = new ArrayList<>(language.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
+      if (!language.getDefaultDisabledRulesForVariant().isEmpty()) {
+        rules = rules.stream().filter(k -> !language.getDefaultDisabledRulesForVariant().contains(k.getId())).collect(Collectors.toList());
+      }
       rules.addAll(language.getRelevantRulesGlobalConfig(messages, globalConfig, userConfig, motherTongue, altLanguages));
       return rules;
     } catch (IOException e) {

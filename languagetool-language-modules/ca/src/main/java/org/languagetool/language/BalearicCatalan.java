@@ -83,7 +83,6 @@ public class BalearicCatalan extends Catalan {
 
   @Override
   public List<String> getDefaultDisabledRulesForVariant() {
-    // Important: Java rules are not disabled here
     List<String> rules = Arrays.asList("EXIGEIX_VERBS_CENTRAL","CA_SIMPLE_REPLACE_BALEARIC");
     return Collections.unmodifiableList(rules);
   }
