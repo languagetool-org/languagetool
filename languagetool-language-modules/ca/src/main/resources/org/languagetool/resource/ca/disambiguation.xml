@@ -10802,16 +10802,27 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^N].*"/>
     </rule>
-    <rule id="tema" name="tema (nom)">
-        <pattern>
-            <token postag="SENT_START"/>
-            <token regexp="yes" min="0" max="3">\p{P}</token>
-            <marker>
-                <token postag="N.*" postag_regexp="yes" inflected="yes">tema</token>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="N.*"/>
-    </rule>
+    <rulegroup id="tema" name="tema (nom)">
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">tema</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">ha</token>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">tema</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+    </rulegroup>
     <rule id="costa" name="costa (no nom)">
         <pattern>
             <token><exception postag="D[^D].FS.|SPS00|LOC_PREP" postag_regexp="yes"/></token>
