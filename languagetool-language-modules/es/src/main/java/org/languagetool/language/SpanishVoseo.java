@@ -1,10 +1,10 @@
 package org.languagetool.language;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class SpanishVoseo extends Spanish {
+
   public SpanishVoseo() {
     super(true);
   }
@@ -16,14 +16,13 @@ public class SpanishVoseo extends Spanish {
 
   @Override
   public String[] getCountries() {
-    return new String[] { "AR" //, "PA" , "UY", "CR"
-    };
+    return new String[] { "AR" }; //, "PA" , "UY", "CR"
   }
 
   @Override
   public List<String> getDefaultDisabledRulesForVariant() {
     List<String> rules = Collections.singletonList("VOSEO");
-    return Collections.unmodifiableList(rules);
+    return rules;
   }
 
 }
