@@ -555,6 +555,81 @@ regexp case-insensitive maken: (?i)
 				<example correction="prijs">Die heb ik voor een voordeligere <marker>prijzen</marker> op de kop getikt.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="KOM_BIJ_ZIJN" name="kom(kon) er niet bij zijn" default="temp_off">
+			<rule>
+				<pattern>
+					<marker>
+						<token skip="3">kom</token>
+					</marker>
+					<token>bij</token>
+					<token>zijn</token>
+				</pattern>
+				<message>U bedoelt vast <suggestion>kon</suggestion>.</message>
+				<example correction="kon">Sorry, ik <marker>kom</marker> er helaas niet bij zijn.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="PLAATSE_ZONDER_TER" name="plaatse/plaatste/ter plaatse" default="temp_off">
+			 <rule>
+				 <antipattern><token regexp="yes">ter|er|per|ten</token><token>plaatse</token></antipattern>
+				 <antipattern><token>te</token><token>bestemder</token><token>plaatse</token></antipattern>
+				 <pattern>
+					 <token case_sensitive="yes">plaatse</token>
+				 </pattern>
+				 <message>U bedoelt vast iets anders.</message>
+				 <suggestion>plaatste</suggestion>
+				 <suggestion>ter plaatse</suggestion>
+				 <suggestion>plaatsje</suggestion>
+				 <suggestion>plaatsen</suggestion>
+				 <example correction="plaatste|ter plaatse|plaatsje|plaatsen">De automobilist werd <marker>plaatse</marker> behandeld.</example>
+				 <example correction="plaatste|ter plaatse|plaatsje|plaatsen">Ook Spanje <marker>plaatse</marker> zich voor het WK.</example>
+				 <example correction="plaatste|ter plaatse|plaatsje|plaatsen">Ze liepen naar het Hongaarse <marker>plaatse</marker> Barcs.</example>
+				 <example correction="plaatste|ter plaatse|plaatsje|plaatsen">We hebben de politie gevraagd op deze <marker>plaatse</marker> te controleren.</example>
+			 </rule>
+			 <rule>
+				 <pattern>
+					 <token>te</token>
+					 <token>plaatse</token>
+				 </pattern>
+				 <message>U bedoelt vast iets anders.</message>
+				 <suggestion>ter plaatse</suggestion>
+				 <suggestion>te plaatsen</suggestion>
+				 <example correction="ter plaatse|te plaatsen">De automobilist werd <marker>te plaatse</marker> behandeld.</example>
+				 <example correction="ter plaatse|te plaatsen">We hebben gevraagd deze <marker>te plaatse</marker>.</example>
+			 </rule>
+			 <rule>
+				 <pattern>
+					 <token>er</token>
+					 <token>plaatse</token>
+				 </pattern>
+				 <message>U bedoelt vast iets anders.</message>
+				 <suggestion>ter plaatse</suggestion>
+				 <suggestion>er plaatsen</suggestion>
+				 <example correction="ter plaatse|er plaatsen">Hij zou het bord <marker>er plaatse</marker>.</example>
+			 </rule>
+			 <rule>
+				 <pattern>
+					 <token regexp="yes">per|ten</token>
+					 <token>plaatse</token>
+				 </pattern>
+				 <message>U bedoelt vast iets anders.</message>
+				 <suggestion>ter plaatse</suggestion>
+				 <example correction="ter plaatse">Hij was <marker>ten plaatse</marker>.</example>
+			 </rule>
+		</rulegroup>
+		<rulegroup id="EEN_WKW_ONV_EEN" name="een aangenomen (een) motie" default="temp_off">
+			<rule>
+				<pattern>
+					<token>een</token>
+					<token postag="WKW:VTD:ONV"/>
+					<marker>
+						<token>een</token>
+					</marker>
+					<token postag_regexp="yes" postag="ZNW:EKV:(DE_|HET)"/>
+				</pattern>
+				<message>Dit woord lijkt overbodig: <suggestion></suggestion>.</message>
+				<example correction="">In een aangenomen <marker>een</marker> motie...</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="JAAR_GELDEN" name="jaar gel(e)den">
 			<rule>
 				<antipattern>
