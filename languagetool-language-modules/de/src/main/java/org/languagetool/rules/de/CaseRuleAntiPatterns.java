@@ -1858,6 +1858,16 @@ class CaseRuleAntiPatterns {
       csToken("Migration")
     ),
     Arrays.asList(
+      // Die Flämische Region ist eine der drei Regionen des Königreichs Belgien.
+      csRegex("Flämischen?"),
+      csToken("Region")
+    ),
+    Arrays.asList(
+      // Die Raumstation Mir war zu ihrer Zeit das größte künstliche Objekt im Erdorbit.
+      csToken("Raumstation"),
+      csToken("Mir")
+    ),
+    Arrays.asList(
       // Die Stadt ist Sitz des Kirchenbezirks Freudenstadt der Evangelischen Landeskirche in Württemberg.
       csRegex("Evangelischen?"),
       csToken("Landeskirche")
