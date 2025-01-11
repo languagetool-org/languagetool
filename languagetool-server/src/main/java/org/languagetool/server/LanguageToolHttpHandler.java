@@ -131,10 +131,18 @@ class LanguageToolHttpHandler implements HttpHandler {
             ServerMetricsCollector.getInstance().logFailedHealthcheck();
             return;
           } else {
-            String ok = "OK";
             httpExchange.getResponseHeaders().set("Content-Type", "text/plain");
-            httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, ok.getBytes(ENCODING).length);
-            httpExchange.getResponseBody().write(ok.getBytes(ENCODING));
+
+            String requestMethod = httpExchange.getRequestMethod();
+            if ("HEAD".equalsIgnoreCase(requestMethod)) {
+              // Send HTTP 200 without content
+              httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, -1);
+            } else {
+              String ok = "OK";
+              httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, ok.getBytes(ENCODING).length);
+              httpExchange.getResponseBody().write(ok.getBytes(ENCODING));
+            }
+
             ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
             return;
           }
