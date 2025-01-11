@@ -4384,6 +4384,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
 
             <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='RG' postag_regexp='no'/>
+                <token postag='VMP00S.+' postag_regexp='yes'/>
+                <example>Parece-me teres bem compreendido as regras da gramática desta útil língua, o Esperanto.</example>
+            </antipattern>
+
+            <antipattern>
                 <token postag='AQ..[PN].+|N..[PN].+|Z0.[PN].+' postag_regexp='yes'/>
                 <token regexp='yes'>coup[éê]|cup[éê]</token>
                 <example>Isso permitiu com que esse carro competisse contra carros Cupê importados como, o Toyota Celica japonês.</example>
@@ -9122,6 +9129,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
+
+            <antipattern>
+                <token postag='(SPS00:)?[DP]...[PN].+' postag_regexp='yes'/>
+                <token postag='SPS00' postag_regexp='no'/>
+                <token>nós</token>
+                <token postag='VM.P3P.+' postag_regexp='yes'/>
+                <example>Muitos de nós substituem a gordura saturada, como leite integral com carboidratos refinados.</example>
+                <example>Estamos todos na sarjeta, mas alguns de nós contemplam as estrelas.</example>
+                <example>Muitos de nós podem estar recebendo mensagens diretamente no cérebro.</example>
+            </antipattern>
 
             <antipattern>
                 <token postag='N.+|AQ.+' postag_regexp='yes'/>
