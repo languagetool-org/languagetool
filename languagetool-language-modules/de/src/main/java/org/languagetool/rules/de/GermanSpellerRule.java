@@ -216,7 +216,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Filterbubbles", "Filterblasen");
     put("Telefones", "Telefons");
     putRepl(".+telefones", "telefones", "telefons");
-    putRepl(".+portrait.*", "portrait", "porträt");
     putRepl(".+tips", "tip", "tipp");
     putRepl("Hifi-.+", "Hifi", "HiFi");
     putRepl("Analgen.*", "Analgen", "Anlagen");
@@ -3922,8 +3921,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Gespraechs": return topMatch("Gesprächs");
       case "Aussenbereich": return topMatch("Außenbereich");
       case "Aussenbereichs": return topMatch("Außenbereichs");
-      case "Portrait": return topMatch("Porträt");
-      case "Portraits": return topMatch("Porträts");
+      //case "Portrait": return topMatch("Porträt"); --nach neuer Rechtschreibung 2024 akzeptiert (Amtl. Regelwerk, S. 282)
+      //case "Portraits": return topMatch("Porträts"); --nach neuer Rechtschreibung 2024 akzeptiert (Amtl. Regelwerk, S. 282)
       case "weinachten": return topMatch("Weihnachten");
       case "Weinachten": return topMatch("Weihnachten");
       case "unterstüzt": return topMatch("unterstützt");
