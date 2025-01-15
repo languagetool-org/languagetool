@@ -9430,18 +9430,55 @@ For more detailed information, including tag definitions, please check out our d
             <example correction="there are other|there are also">However, <marker>there are also other</marker> marbles in the jar.</example>
             <example>There are other marbles in the jar.</example>
         </rule>
-        <rule id="LARGE_NUMBER_OF" name="a large number of (many)">
-            <pattern>
-                <token>a</token>
-                <token>large</token>
-                <token>number</token>
-                <token>of</token>
-            </pattern>
-            <message>Specify a number, remove phrase, or simply use <suggestion>many</suggestion> or <suggestion>numerous</suggestion></message>
-            <url>https://languagetool.org/insights/post/wordiness/</url>
-            <short>Redundant phrase</short>
-            <example correction="Many|Numerous"><marker>A large number of</marker> people were in the parade.</example>
-        </rule>
+        <rulegroup id="LARGE_NUMBER_OF" name="a large number of (many)">
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">'s|is</exception></token>
+                    <marker>
+                        <token>a</token>
+                        <token>large</token>
+                        <token>number</token>
+                        <token>of</token>
+                    </marker>
+                </pattern>
+                <message>Specify a number, remove phrase, or simply use <suggestion>many</suggestion> or <suggestion>numerous</suggestion></message>
+                <url>https://languagetool.org/insights/post/wordiness/</url>
+                <short>Redundant phrase</short>
+                <example correction="Many|Numerous"><marker>A large number of</marker> people were in the parade.</example>
+                <example>There is a large number of archaeological sites which include the Minoan sites of Knossos and Phaistos, the classical site of Gortys, and the diverse archaeology of the island of Koufonisi which includes Minoan, Roman, and World War II ruins.</example>
+                <example>There's a large number of archaeological sites which include the Minoan sites of Knossos and Phaistos, the classical site of Gortys, and the diverse archaeology of the island of Koufonisi which includes Minoan, Roman, and World War II ruins.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>is</token>
+                    <token>a</token>
+                    <token>large</token>
+                    <token>number</token>
+                    <token>of</token>
+                </pattern>
+                <message>Specify a number, remove phrase, or simply use 'many' or 'numerous'.</message>
+                <suggestion>are many</suggestion>
+                <suggestion>are numerous</suggestion>
+                <url>https://languagetool.org/insights/post/wordiness/</url>
+                <short>Redundant phrase</short>
+                <example correction="are many|are numerous">There <marker>is a large number of</marker> archaeological sites which include the Minoan sites of Knossos and Phaistos, the classical site of Gortys, and the diverse archaeology of the island of Koufonisi which includes Minoan, Roman, and World War II ruins.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="VB.*" postag_regexp="yes">'s</token>
+                    <token>a</token>
+                    <token>large</token>
+                    <token>number</token>
+                    <token>of</token>
+                </pattern>
+                <message>Specify a number, remove phrase, or simply use 'many' or 'numerous'.</message>
+                <suggestion> are many</suggestion>
+                <suggestion> are numerous</suggestion>
+                <url>https://languagetool.org/insights/post/wordiness/</url>
+                <short>Redundant phrase</short>
+                <example correction=" are many| are numerous">There<marker>'s a large number of</marker> archaeological sites which include the Minoan sites of Knossos and Phaistos, the classical site of Gortys, and the diverse archaeology of the island of Koufonisi which includes Minoan, Roman, and World War II ruins.</example>
+            </rule>
+        </rulegroup>
         <rule id="SMALL_NUMBER_OF" name="a small number of (a few)">
             <pattern>
                 <token>a</token>
