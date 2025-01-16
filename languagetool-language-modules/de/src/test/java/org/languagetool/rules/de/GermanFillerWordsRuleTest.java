@@ -48,10 +48,10 @@ public class GermanFillerWordsRuleTest {
     assertEquals(0, lt.check("Der Satz enthält augenscheinlich ein Füllwort, aber es sind nicht genug um angezeigt zu werden.").size());
     //  direct speech or citation - don't show filler words
     assertEquals(0, lt.check("»Der Satz enthält augenscheinlich ein Füllwort«").size());
-    //  less than 8% filler words - but three in one sentence (show 3 instead of 4)
-    assertEquals(3, lt.check("Der Text enthält zu wenige Füllwörter, daher werden sie nicht angezeigt. Was sich an diesem Satz mit diesem relativ einfachen Füllwort zeigt. Dazu müssen noch eine Reihe von Sätzen geschrieben werden, um die Anzahl der Wörter zu erhöhen. Langsam sollten die Anzahl der Worte für das Drücken unter die kritische Grenze reichen. Jetzt schreibe ich allerdings einen Satz, der drei Füllwörter enthält, was allemal ziemlich ausreichend ist.").size());
-    //  less than 8% filler words - but two consecutively (show 2 instead of 3)
-    assertEquals(2, lt.check("Der Text enthält zu wenige Füllwörter, daher werden sie nicht angezeigt. Was sich an diesem Satz mit diesem relativ einfachen Füllwort zeigt. Dazu müssen noch eine Reihe von Sätzen geschrieben werden, um die Anzahl der Wörter zu erhöhen. Langsam sollten die Anzahl der Worte für das Drücken unter die kritische Grenze reichen. Jetzt schreibe ich einen Satz, der zwei Füllwörter hintereinander enthält, was allemal ziemlich ausreichend ist.").size());
+    //  less than 8% filler words - but three in one sentence (show 3 instead of 4) <- don't show them per default
+    assertEquals(0, lt.check("Der Text enthält zu wenige Füllwörter, daher werden sie nicht angezeigt. Was sich an diesem Satz mit diesem relativ einfachen Füllwort zeigt. Dazu müssen noch eine Reihe von Sätzen geschrieben werden, um die Anzahl der Wörter zu erhöhen. Langsam sollten die Anzahl der Worte für das Drücken unter die kritische Grenze reichen. Jetzt schreibe ich allerdings einen Satz, der drei Füllwörter enthält, was allemal ziemlich ausreichend ist.").size());
+    //  less than 8% filler words - but two consecutively (show 2 instead of 3) <- don't show them per default
+    assertEquals(0, lt.check("Der Text enthält zu wenige Füllwörter, daher werden sie nicht angezeigt. Was sich an diesem Satz mit diesem relativ einfachen Füllwort zeigt. Dazu müssen noch eine Reihe von Sätzen geschrieben werden, um die Anzahl der Wörter zu erhöhen. Langsam sollten die Anzahl der Worte für das Drücken unter die kritische Grenze reichen. Jetzt schreibe ich einen Satz, der zwei Füllwörter hintereinander enthält, was allemal ziemlich ausreichend ist.").size());
     
     //  percentage set to zero - show all filler words
     Map<String, Object[]> ruleValues = new HashMap<>();
@@ -61,6 +61,19 @@ public class GermanFillerWordsRuleTest {
     setUpRule(lt, userConfig);
     assertEquals(1, lt.check("»Der Satz enthält augenscheinlich ein Füllwort«").size());
     assertEquals(1, lt.check("Der Satz enthält augenscheinlich ein Füllwort, aber es sind nicht genug um angezeigt zu werden.").size());
+
+    Object[] o1 = { 8, true, true, true };  
+    ruleValues.put("FILLER_WORDS_DE", o1);
+    userConfig = new UserConfig(ruleValues);
+    setUpRule(lt, userConfig);
+    //  direct speech or citation - show filler words because of option set
+    assertEquals(1, lt.check("»Der Satz enthält augenscheinlich ein Füllwort«").size());
+    //  less than 8% filler words - but three in one sentence (show 3 instead of 4)
+    assertEquals(4, lt.check("Der Text enthält zu wenige Füllwörter, daher werden sie nicht angezeigt. Was sich an diesem Satz mit diesem relativ einfachen Füllwort zeigt. Dazu müssen noch eine Reihe von Sätzen geschrieben werden, um die Anzahl der Wörter zu erhöhen. Langsam sollten die Anzahl der Worte für das Drücken unter die kritische Grenze reichen. Jetzt schreibe ich allerdings einen Satz, der vier Füllwörter enthält, was allemal ziemlich ausreichend ist.").size());
+    //  less than 8% filler words - but two consecutively (show 2 instead of 3)
+    assertEquals(3, lt.check("Der Text enthält zu wenige Füllwörter, daher werden sie nicht angezeigt. Was sich an diesem Satz mit diesem relativ einfachen Füllwort zeigt. Dazu müssen noch eine Reihe von Sätzen geschrieben werden, um die Anzahl der Wörter zu erhöhen. Langsam sollten die Anzahl der Worte für das Drücken unter die kritische Grenze reichen. Jetzt schreibe ich einen Satz, der zwei Füllwörter hintereinander enthält, was allemal ziemlich ausreichend ist.").size());
+    
+
   }
 
   private void setUpRule(JLanguageTool lt, UserConfig userConfig) {
