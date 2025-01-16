@@ -96,6 +96,9 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       if (Languages.isLanguageSupported(languageStr)) {
         Language tmpLang = Languages.getLanguageForShortCode(languageStr);
         currentTranslationLanguage = tmpLang;
+        if (currentTranslationLanguage == language) {
+          throw new RuntimeException("Translation language (" + currentTranslationLanguage + ") must not be the same as pattern language (" + language + ") for rule " + id);
+        }
         if (tmpLang.equalsConsiderVariantsIfSpecified(motherTongue)) {
           translationLanguage = tmpLang;
         }
