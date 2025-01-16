@@ -28,6 +28,7 @@ import org.languagetool.Language;
 import org.languagetool.LinguServices;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractStatisticStyleRule;
+import org.languagetool.rules.RuleOption;
 
 /**
  * A rule that gives Hints about the use of German filler words.
@@ -40,6 +41,9 @@ import org.languagetool.rules.AbstractStatisticStyleRule;
 public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
   
   private static final int DEFAULT_MIN_PERCENT = 8;
+  private static final boolean DEFAULT_TWO_FOLLOWING = false;
+  private static final boolean DEFAULT_MANY_IN_SENTENCE = false;
+  
   private static final String DEFAULT_SENTENCE_MSG1 = "Zwei potentielle Füllwörter hintereinander. Mindestens eins sollte gelöscht werden.";
   private static final String DEFAULT_SENTENCE_MSG2 = "Mehr als zwei potentielle Füllwörter in einem Satz. Mindestens eins sollte gelöscht werden.";
 
@@ -63,6 +67,9 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
       "womöglich","ziemlich","zudem","zugegeben","zumeist","zusehends","zuweilen","zweifellos","zweifelsfrei","zweifelsohne"
   ));
   
+  private final Boolean testTwoFollowing;
+  private final Boolean TestManyInSentence;
+
   String sentenceMessage = null;
   
   public GermanFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
@@ -73,6 +80,28 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
         linguServices.setThesaurusRelevantRule(this);
       }
     }
+    testTwoFollowing = getTwoFollowing(userConfig);
+    TestManyInSentence = getManyInSentence(userConfig);
+  }
+  
+  private boolean getTwoFollowing(UserConfig userConfig) {
+    if (userConfig != null) {
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null && cf.length > 2 && cf[2] != null && cf[2] instanceof Boolean) {
+        return (boolean) cf[2];
+      }
+    }
+    return DEFAULT_TWO_FOLLOWING;
+  }
+
+  private boolean getManyInSentence(UserConfig userConfig) {
+    if (userConfig != null) {
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null && cf.length > 2 && cf[2] != null && cf[2] instanceof Boolean) {
+        return (boolean) cf[2];
+      }
+    }
+    return DEFAULT_MANY_IN_SENTENCE;
   }
 
   private static boolean isException(AnalyzedTokenReadings[] tokens, int num) {
@@ -142,27 +171,31 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
 
   @Override
   protected boolean sentenceConditionFulfilled(AnalyzedTokenReadings[] tokens, int nToken) {
-    if ((nToken > 1 && fillerWords.contains(tokens[nToken - 1].getToken()) && !isException(tokens, nToken - 1)) || 
-        (nToken < tokens.length - 1 && fillerWords.contains(tokens[nToken + 1].getToken()) && !isException(tokens, nToken + 1))) {
-      sentenceMessage = DEFAULT_SENTENCE_MSG1;
-      return true;
-    }
-    int n = 0;
-    for (int i = nToken - 2; i > 0; i--) {
-      if (conditionFulfilled(tokens, i) == i) {
-        n++;
-        if (n > 1) {
-          sentenceMessage = DEFAULT_SENTENCE_MSG2;
-          return true;
-        }
+    if (testTwoFollowing) {
+      if ((nToken > 1 && fillerWords.contains(tokens[nToken - 1].getToken()) && !isException(tokens, nToken - 1)) || 
+          (nToken < tokens.length - 1 && fillerWords.contains(tokens[nToken + 1].getToken()) && !isException(tokens, nToken + 1))) {
+        sentenceMessage = DEFAULT_SENTENCE_MSG1;
+        return true;
       }
     }
-    for (int i = nToken + 2; i < tokens.length; i++) {
-      if (conditionFulfilled(tokens, i) == i) {
-        n++;
-        if (n > 1) {
-          sentenceMessage = DEFAULT_SENTENCE_MSG2;
-          return true;
+    if (TestManyInSentence) {
+      int n = 0;
+      for (int i = nToken - 2; i > 0; i--) {
+        if (conditionFulfilled(tokens, i) == i) {
+          n++;
+          if (n > 1) {
+            sentenceMessage = DEFAULT_SENTENCE_MSG2;
+            return true;
+          }
+        }
+      }
+      for (int i = nToken + 2; i < tokens.length; i++) {
+        if (conditionFulfilled(tokens, i) == i) {
+          n++;
+          if (n > 1) {
+            sentenceMessage = DEFAULT_SENTENCE_MSG2;
+            return true;
+          }
         }
       }
     }
@@ -206,5 +239,17 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
   public String getConfigureWithoutDirectSpeachText() {
     return "Keine wörtliche Rede und Zitate berücksichtigen";
   }
+  
+  @Override
+  public RuleOption[] getRuleOptions() {
+    RuleOption[] ruleOptions = { 
+        new RuleOption(DEFAULT_MIN_PERCENT, getConfigurePercentText(), 0, 100),
+        new RuleOption(excludeDirectSpeech(), getConfigureWithoutDirectSpeachText()),
+        new RuleOption(DEFAULT_TWO_FOLLOWING, "Zeige zwei aufeinander folgende Füllwörter"),
+        new RuleOption(DEFAULT_MANY_IN_SENTENCE, "Zeige mehr als zwei Füllwörter in einem Satz")
+        };
+    return ruleOptions;
+  }
+
 
 }
