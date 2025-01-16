@@ -13049,8 +13049,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+
         <rulegroup id="MUITOS_MUITO" name="Advérbios: muitos/muito contentes">
             <!-- Based on Catalan grammar.xml by Tiago F. Santos, 2018-07-13 -->
+
+            <antipattern>
+                <token regexp='yes'>muit[ao]s|pouc[ao]s</token>
+                <token postag='AQ..[PN].+' postag_regexp='yes'><exception postag='N.+' postag_regexp='yes'/></token>
+                <token postag='VM...P.+' postag_regexp='yes'/>
+                <example>Muitas vinícolas mantêm práticas artesanais.</example>
+                <example>Muitas famosas estão tuitaram mensagens se despedindo dos longos meses de gravação.</example>
+                <example>ESTADÃO: Muitos investigados têm tentado levar seus casos para a Justiça Eleitoral sob alegação de caixa 2.</example>
+            </antipattern>
+
             <antipattern>
                 <marker>
                     <token regexp="yes">muit[ao]s|pouc[ao]s</token>
@@ -13119,6 +13130,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example type='triggers_error'>Também se construíram <marker>muitas novas</marker> igrejas e palácios, outros foram reformados…</example>
             </rule>
         </rulegroup>
+
 
         <rule id="MUITO_POUCOS" name="Advérbios: muitos poucos / muito poucos">
             <!-- Localized from Catalan grammar.xml by Tiago F. Santos, 2018-07-13 -->
