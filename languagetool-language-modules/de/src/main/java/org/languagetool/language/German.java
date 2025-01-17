@@ -193,7 +193,7 @@ public class German extends LanguageWithModel {
             new GermanReadabilityRule(messages, this, userConfig, true),
             new GermanReadabilityRule(messages, this, userConfig, false),
             new CompoundInfinitivRule(messages, this, userConfig),
-            new StyleRepeatedVeryShortSentences(messages, this),
+            new StyleRepeatedVeryShortSentences(messages, this, userConfig),
             new StyleRepeatedSentenceBeginning(messages),
             new GermanRepeatedWordsRule(messages),
             new StyleTooOftenUsedVerbRule(messages, this, userConfig),
