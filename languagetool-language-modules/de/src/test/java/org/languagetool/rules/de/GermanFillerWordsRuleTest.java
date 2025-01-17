@@ -26,7 +26,6 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.languagetool.*;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.Rule;
 
 /**

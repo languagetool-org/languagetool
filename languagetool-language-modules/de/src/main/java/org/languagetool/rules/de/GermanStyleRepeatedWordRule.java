@@ -49,9 +49,12 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
   
   private static final String SYNONYMS_URL = "https://www.openthesaurus.de/synonyme/";
   private static final Pattern LETTERS = Pattern.compile("^[A-Za-zÄÖÜäöüß]+$");
+  private static final int MAX_DISTANCE_OF_SENTENCES = 1;
+  private static final boolean EXCLUDE_DIRECT_SPEECH = true;
+  private static final boolean TEST_COMPOUND_WORDS = false;
 
   private Speller speller = null;
-  private boolean testCompoundWords = false;
+  private boolean testCompoundWords = TEST_COMPOUND_WORDS;
 
   public GermanStyleRepeatedWordRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
     super(messages, lang, userConfig);
@@ -60,8 +63,8 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
                    Example.fixed("Ich gehe zum Supermarkt, danach nach Hause."));
     if (userConfig != null) {
       Object[] cf = userConfig.getConfigValueByID(getId());
-      if (cf != null && cf.length > 1) {
-        testCompoundWords = (boolean) cf[1];
+      if (cf != null && cf.length > 2) {
+        testCompoundWords = (boolean) cf[2];
       }
     }
   }
@@ -97,8 +100,9 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
   @Override
   public RuleOption[] getRuleOptions() {
     RuleOption[] ruleOptions = { 
-        new RuleOption(maxDistanceOfSentences, messages.getString("guiStyleRepeatedWordText"), 0, 5),
-        new RuleOption(testCompoundWords, "Auch zusammengesetzte Wörter prüfen")
+        new RuleOption(MAX_DISTANCE_OF_SENTENCES, messages.getString("guiStyleRepeatedWordText"), 0, 5),
+        new RuleOption(EXCLUDE_DIRECT_SPEECH, "Direkte Rede und Zitate ausschließen"),
+        new RuleOption(TEST_COMPOUND_WORDS, "Auch zusammengesetzte Wörter prüfen")
     };
     return ruleOptions;
   }
@@ -148,6 +152,7 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
               && tokens[n].hasPosTagStartingWith("SUB"))
           || (tokens[n-2].getToken().equals("hart") && tokens[n-1].getToken().equals("auf") && tokens[n].getToken().equals("hart"))
           || (tokens[n-2].getToken().equals("dicht") && tokens[n-1].getToken().equals("an") && tokens[n].getToken().equals("dicht"))
+          || (tokens[n-2].getToken().equals("fressen") && tokens[n-1].getToken().equals("und") && tokens[n].getToken().equals("gefressen"))
          ) {
         return true;
       }
@@ -157,6 +162,7 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
               && tokens[n+2].hasPosTagStartingWith("SUB"))
           || (tokens[n].getToken().equals("hart") && tokens[n+1].getToken().equals("auf") && tokens[n+2].getToken().equals("hart"))
           || (tokens[n].getToken().equals("dicht") && tokens[n+1].getToken().equals("an") && tokens[n+2].getToken().equals("dicht"))
+          || (tokens[n].getToken().equals("fressen") && tokens[n+1].getToken().equals("und") && tokens[n+2].getToken().equals("gefressen"))
          ) {
         return true;
       }

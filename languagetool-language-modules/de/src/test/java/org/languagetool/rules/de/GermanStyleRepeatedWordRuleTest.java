@@ -54,11 +54,14 @@ public class GermanStyleRepeatedWordRuleTest {
     assertEquals(0, lt.check("Der Schiffsmotor, der im Heck des Schiffs eingebaut war, röhrte. Auf Hochtouren lief der Motor.").size());
     assertEquals(0, lt.check("Der Buntspecht stolzierte den Baum hoch. Schon klopfte der Specht.").size());
     assertEquals(0, lt.check("Rotbraun war die Farbe der Haselnuss. Der Horizont schimmerte rot.").size());
+    assertEquals(0, lt.check("Rotbraun war die Farbe der Haselnuss. Was für eine 'Farbe'?").size());
+    assertEquals(0, lt.check("Der Ausblick war überwätigend. \"Was für ein Ausblick!\", sagte sie auch prompt.").size());
 
-    setUpRule(lt, getRuleValues (1, true));
+    setUpRule(lt, getRuleValues (1, false, true));
     assertEquals(3, lt.check("Der Schiffsmotor, der im Heck des Schiffs eingebaut war, röhrte. Auf Hochtouren lief der Motor.").size());
     assertEquals(2, lt.check("Der Buntspecht stolzierte den Baum hoch. Schon klopfte der Specht.").size());
     assertEquals(2, lt.check("Rotbraun war die Farbe der Haselnuss. Der Horizont schimmerte rot.").size());
+    assertEquals(2, lt.check("Der Ausblick war überwätigend. \"Was für ein Ausblick!\", sagte sie auch prompt.").size());
   }
 
   private void setUpRule(JLanguageTool lt, Map<String, Object[]> ruleValues) {
@@ -73,8 +76,8 @@ public class GermanStyleRepeatedWordRuleTest {
     ruleId = rule.getId();
   }
   
-  private Map<String, Object[]> getRuleValues (int numSentences, boolean testComposedWords) {
-    Object[] o = { numSentences, testComposedWords };
+  private Map<String, Object[]> getRuleValues (int numSentences, boolean excludeDirectSpeech, boolean testComposedWords) {
+    Object[] o = { numSentences, excludeDirectSpeech, testComposedWords };
     Map<String, Object[]> ruleValues = new HashMap<>();
     ruleValues.put(ruleId, o);
     return ruleValues;
