@@ -3875,7 +3875,21 @@ USA
         </marker>
         <token postag='SPS.+|RG' postag_regexp='yes'/>
       </pattern>
-      <disambig action="add"><wd pos='VMIP3S0|VMM02S0'/></disambig>
+      <disambig action="add"><wd pos='VMIP3S0'/></disambig>
+      <!--
+      Examples:
+               Um pouco de bondade de uma pessoa para outra vale mais que todo o amor pela humanidade.
+      -->
+    </rule>
+    <rule> <!-- #3 -->
+      <pattern>
+        <token>outra</token>
+        <marker>
+          <token regexp='no'>vale</token> <!-- Add verbs as found -->
+        </marker>
+        <token postag='SPS.+|RG' postag_regexp='yes'/>
+      </pattern>
+      <disambig action="add"><wd pos='VMM02S0'/></disambig>
       <!--
       Examples:
                Um pouco de bondade de uma pessoa para outra vale mais que todo o amor pela humanidade.
