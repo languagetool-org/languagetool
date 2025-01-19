@@ -2204,6 +2204,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="no_comma_za_tradiciyeyu" name="Зайва кома: за традицією">
+      <rule>
+        <pattern>
+          <token>,</token>
+          <token>за</token>
+          <token>традицією</token>
+          <token>,</token>
+        </pattern>
+        <message>Фраза «\2 \3» вствною не є і комами не виділяється</message>
+        <suggestion> \2 \3</suggestion>
+        <example correction=" за традицією"><marker>, за традицією,</marker> ...</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <marker>
+            <token>за</token>
+            <token>традицією</token>
+            <token>,</token>
+          </marker>
+        </pattern>
+        <message>Фраза «\2 \3» вствною не є і комами не виділяється</message>
+        <suggestion>\2 \3</suggestion>
+        <example correction="За традицією"><marker>За традицією,</marker> ...</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="no_comma_bilsh_nizh" name="Зайва кома: більш/менш ніж">
       <rule>
         <pattern>

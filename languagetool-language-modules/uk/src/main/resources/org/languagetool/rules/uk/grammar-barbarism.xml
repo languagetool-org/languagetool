@@ -4799,6 +4799,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>4 694 витоків</example>
     </rule>
 
+    <rule id="porohova_dizhka" name="Порохова діжка">
+      <pattern>
+        <token inflected="yes">пороховий</token>
+        <marker>
+          <token inflected="yes">діжка</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="noun:inanim:[fp]:.*">бочка</match></suggestion></message>
+      <example correction="бочку">потрапив у порохову <marker>діжку</marker>.</example>
+    </rule>
+
+    <rule id="obraz_zhyttya" name="Образ життя">
+      <pattern>
+        <marker>
+          <token inflected="yes">образ</token>
+        </marker>
+        <token regexp="yes">життя|мислення|дій|діяльності</token>
+      </pattern>
+      <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:[mp]:v_...):xp2" postag_replace="$1">спосіб</match></suggestion></message>
+      <example correction="спосіб">трансформувало <marker>образ</marker> життя.</example>
+      <example correction="способу">такого <marker>образу</marker> життя.</example>
+    </rule>
+
 
     <!-- group: сталі сполуки -->
 
