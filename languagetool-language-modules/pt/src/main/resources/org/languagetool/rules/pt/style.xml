@@ -4284,44 +4284,24 @@ USA
         </rule>
 
 
-        <!-- SEMANA QUE VEM próxima semana -->
-        <rulegroup id='QUE_VEM_PROXIMA' name="[Simplificar] NC + que + vem → próxim(ao)(s) + NC" type="style" tone_tags="formal">
+        <rule id='QUE_VEM_PROXIMA' name="[Simplificar] Substantivo + que vem → próxim(ao)(s) + substantivo" type='style' tone_tags='formal' default='temp_off'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-19 (25-JUL-2022+) -->
-            <!--
-      A licença acaba na sexta-feira da semana que vem. → A licença acaba na sexta-feira da próxima semana.
-      A licença acaba na noite do natal que vem. → A licença acaba na noite do próximo natal.
-      -->
-            <rule>
-                <pattern>
-                    <token postag='SPS00:DA.+' postag_regexp='yes'/>
-                    <marker>
-                        <token postag='NCF.+' postag_regexp='yes'/>
-                        <token>que</token>
-                        <token>vem</token>
-                    </marker>
-                    <token postag='V.+|_PUNCT|CC' postag_regexp='yes'/>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='1' postag='SPS00:DA0(..)0' postag_replace='NC$1000'>próxima</match> \2</suggestion>
-                <example correction="próxima semana">A licença acaba na sexta-feira da <marker>semana que vem</marker>.</example>
-            </rule>
 
-            <rule>
-                <pattern>
-                    <token postag='SPS00:DA.+' postag_regexp='yes'/>
-                    <marker>
-                        <token postag='NCM.+' postag_regexp='yes'/>
-                        <token>que</token>
-                        <token>vem</token>
-                    </marker>
-                    <token postag='V.+|_PUNCT|CC' postag_regexp='yes'/>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='1' postag='SPS00:DA0(..)0' postag_replace='NC$1000'>próximo</match> \2</suggestion>
-                <example correction="próximo natal">A licença acaba na noite do <marker>natal que vem</marker>.</example>
-            </rule>
-        </rulegroup>
+            <pattern>
+                <token postag='SPS00:DA.+' postag_regexp='yes'/>
+                <marker>
+                    <token postag='N.+|AQ.+' postag_regexp='yes'/>
+                    <token>que</token>
+                    <token regexp='no'>vem</token>
+                </marker>
+                <token postag='V.+|_PUNCT|CC' postag_regexp='yes'/>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion><match no='1' postag='SPS00:DA0(..)0' postag_replace='AQ0$10'>próximo</match> \2</suggestion>
+            <example correction="próxima semana">A licença acaba na sexta-feira da <marker>semana que vem</marker>.</example>
+            <example correction="próximo natal">A licença acaba na noite do <marker>natal que vem</marker>.</example>
+        </rule>
+
 
         <!-- ATRAVÉS DE por/via/com -->
         <rulegroup id='ATRAVES_DE_POR_VIA' name="[Simplificar] Através de → por/via/com" type="style" tone_tags="formal">
