@@ -8140,7 +8140,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token><exception postag="&pronom_feble;" postag_regexp="yes" regexp="yes">[^'-].+</exception><exception regexp="yes">ella?</exception><exception postag="NP.*|_GN_.*" postag_regexp="yes"/></token>
                 <token>hi</token>
-                <token postag="VA..3S.." postag_regexp="yes" inflected="yes">haver</token>
+                <token postag="VA..3[SP].." postag_regexp="yes" inflected="yes">haver</token>
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes"/>
@@ -8496,6 +8496,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <antipattern>
                 <token postag_regexp="yes" postag="&pronom_feble;"><exception>el</exception></token>
+                <token postag="V.[IS].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">que|quals?|qui</token>
                 <token postag="V.[IS].*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
@@ -16714,7 +16718,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="VerbNom_valencians1" name="verb (valencià) i nom que no ha concordat">
         <pattern>
-            <token>que</token>
+            <token regexp="yes">que|qui|quals?</token>
             <marker>
                 <and>
                     <token postag="NC.*" postag_regexp="yes"/>
@@ -16726,6 +16730,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="VerbNom_valencians2" name="verb (valencià) i nom que no ha concordat">
         <!-- després de totes les comprovacions, donem prioritat al nom sobre la forma verbal valenciana -->
+        <antipattern>
+            <token regexp="yes">que|quals?|qui</token>
+            <token postag="V.[IS].*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <token postag="N.*" postag_regexp="yes" negate_pos="yes"><exception postag="N.*|CS" postag_regexp="yes"/></token>
             <!-- quan impacte -->
