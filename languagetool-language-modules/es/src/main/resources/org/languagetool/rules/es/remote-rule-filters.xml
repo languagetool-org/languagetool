@@ -1111,6 +1111,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">El efecto <marker>capitalidad</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="VMP..PM" postag_regexp="yes"/>
+                    <token>y</token>
+                    <marker>
+                        <token postag="VMP..PF" postag_regexp="yes" inflected="yes"><match no="0" postag="VMP..PM" postag_regexp="yes" postag_replace="V.N...."/></token>
+                    </marker>
+                </pattern>
+                <example correction="">Estaremos encantados y <marker>encantadas</marker> de volverlos a ver.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="AQ.MP." postag_regexp="yes"/>
+                    <token>y</token>
+                    <marker>
+                        <token postag="AQ.FP." postag_regexp="yes" inflected="yes"><match no="0" postag="AQ.MP." postag_regexp="yes" postag_replace="AQ.MS."/></token>
+                    </marker>
+                </pattern>
+                <example correction="">Estaremos contentos y <marker>contentas</marker> de volverlos a ver.</example>
+            </rule>
         </rulegroup>
         <rule id="AI_ES_GGEC_MISSING_ADPOSITION" name="">
             <pattern>
