@@ -8140,11 +8140,25 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token><exception postag="&pronom_feble;" postag_regexp="yes" regexp="yes">[^'-].+</exception><exception regexp="yes">ella?</exception><exception postag="NP.*|_GN_.*" postag_regexp="yes"/></token>
                 <token>hi</token>
-                <token postag="VA..3[SP].." postag_regexp="yes" inflected="yes">haver</token>
+                <token postag="VA..3S.." postag_regexp="yes" inflected="yes">haver</token>
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes"/>
-                        <token postag="V.P.*" postag_regexp="yes"><exception regexp="yes">pres|dits?|ratllats?|escrits?|fets?|acabats?|col·locats?|duta|portada|dutes|portades|deixats?|deixad(a|es)|estat|posat|trobat|afegit|passats?</exception></token>
+                        <token postag="V.P.*" postag_regexp="yes"><exception regexp="yes">pres|dits?|ratllats?|escrits?|fets?|acabats?|col·locats?|duta|portada|dutes|portades|deixats?|deixad(a|es)|estat|posat|trobat|afegit|passats?|donat|estampat|perdut|acudit|clavat|descobert|enganxat|tirat|romàs|format|alçat|cregut</exception></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.P.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="&pronom_feble;" postag_regexp="yes" regexp="yes">[^'-].+</exception><exception regexp="yes">ella?</exception><exception postag="NP.*|_GN_.*" postag_regexp="yes"/></token>
+                <token>hi</token>
+                <token postag="VA..3P.." postag_regexp="yes" inflected="yes">haver</token>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="V.P.*" postag_regexp="yes" regexp="yes">fuita|fuites|continguts</token>
                     </and>
                 </marker>
             </pattern>
