@@ -15082,6 +15082,16 @@ USA
             <!--
       Eu acho que é perigoso subir aquela montanha sozinho. → Eu acho ser perigoso subir aquela montanha sozinho.
       -->
+
+            <antipattern>
+                <token postag='SPS00:DA.+' postag_regexp='yes'/>
+                <token skip='4' postag='DP.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token regexp='yes'>é|são</token>
+                <token postag='DI.+' postag_regexp='yes'/>
+                <example>Ele alega no seu perfil no X, que é um alienígena viajante do tempo.</example>
+                <example>Eles alegam no seu perfil no X, que são uns alienígenas viajantes do tempo.</example>
+            </antipattern>
             <antipattern>
                 <token>que</token>
                 <token>é</token>
