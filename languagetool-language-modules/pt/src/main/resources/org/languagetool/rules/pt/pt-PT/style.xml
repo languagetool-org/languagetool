@@ -142,7 +142,7 @@ USA
             <token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
             <token regexp='yes'>&gerundio_excecoes;
                 <exception scope='previous' regexp='yes' inflected='yes'>acabar|andar|cair|ceder|começar|continuar|deixar|encontrar|entrar|esperar|estar|existir|ficar|insistir|ir|manter|ouvir|parar|passar|perder|permanecer|recomeçar|seguir|sentir|terminar|tornar|ver|vir|viver|voltar</exception> <!-- Auxiliary verbs like "estar" -->
-                <exception scope='next' postag_regexp='yes' postag='VMN000.+'/></token>
+            </token>
             <example>Você pode ajudar acrescentando informações a ela.</example>
             <example>Todos os calendários de feriados foram criados usando o WinCalendar.</example>
             <example>Seja desenhando, cantando, dançando, tocando, interpretando os faz-de-conta ou assistindo alguma coisa.</example>
@@ -153,11 +153,12 @@ USA
             <example>É morrendo que se renasce para a Vida Eterna.</example>
             <example>Este jogo foi criado usando a Unity Engine.</example>
             <example>A melhor maneira de conhecer um país é indo lá você mesmo.</example>
+            <example>Quero disparar aceitando acertar o alvo acordado.</example>
         </antipattern>
 
         <antipattern> <!-- Auxiliary verbs like "estar" have special exceptions to remove FPs: ChatGPT 4o -->
             <token regexp='yes' inflected='yes'>acabar|andar|cair|ceder|começar|continuar|deixar|encontrar|entrar|esperar|estar|existir|ficar|insistir|ir|manter|ouvir|parar|passar|perder|permanecer|recomeçar|seguir|sentir|terminar|tornar|ver|vir|viver|voltar</token>
-            <token regexp='yes'>&gerundio_excecoes_do_verbo_estar_auxiliares_chatgpt;<exception scope='next' postag_regexp='yes' postag='VMN000.+'/></token>
+            <token regexp='yes'>&gerundio_excecoes_do_verbo_estar_auxiliares_chatgpt;</token>
             <example>E claro, todos os parceiros que estão cooperando para tudo acontecer.</example>
             <example>Precisamos do seu apoio para continuarmos investindo em um jornalismo de excelência e de credibilidade.</example>
             <example>Quitoplan – Um poderoso suplemento natural que está ajudando a diminuir a obesidade pelo Brasil.</example>
@@ -168,6 +169,7 @@ USA
             <example>Do pai, continuava mantendo distância.</example>
             <example>Tom não sabia que Mary estava estudando francês.</example>
             <example>Ele vai continuar tentando.</example>
+            <example>Estou tentando comer o peixe.</example>
         </antipattern>
 
         <pattern>
@@ -2099,6 +2101,64 @@ USA
     </rulegroup>
 
 
+
+        <rulegroup id='GASTAR_DESPENDER_DESEMBOLSAR' name='[pt-PT][Formal] gastar → despender/desembolsar' tone_tags='formal' is_goal_specific='true'>
+        <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
+
+            <rule> <!-- #1: No past participle of "gastar" -->
+                <antipattern>
+                    <token postag='SPS00|(SPS00:)?D.+|Z0.+|VM...P.+|_PUNCT' postag_regexp='yes'/>
+                    <token regexp='yes'>gastos?</token>
+                    <example>mas com inflação comendo o bolo e alguns gastos surgindo no meio do caminho,</example>
+                    <example>ocorrida entre a data do gasto e o efetivo pagamento é atualmente ajustada na fatura do mês posterior</example>
+                    <example>mas com inflação comendo o bolo e alguns gastos surgindo no meio do caminho, não acho absurdo duplicar.</example>
+                    <example>O e-commerce não possui tantos gastos, pois o aluguel de um prédio</example>
+                    <example>a variação cambial ocorrida entre a data do gasto e o efetivo pagamento é atualmente ajustada na fatura</example>
+                    <example>para que fosse feito as pressas, as trapalhadas dos estádios, qtos milhões gastos, </example>
+                    <example>terras e assumimos gastos públicos a favor do capital privado, na expectativa de novos milagres</example>
+                    <example>alimentado por um aumento dramático em construção, gastos do consumidor e investimento</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token skip='4' inflected='yes' regexp='no'>gastar
+                            <exception scope='previous' regexp='yes' inflected='yes'>ter|haver|ser</exception></token>
+                    </marker>
+                    <token regexp='yes' inflected='yes'>abono|ações|adiantamento|afegane|aluguel|aporte|ariary|ativos|baht|balboa|benefício|bem|birr|bitcoin|bolívar|boliviano|bolsa|cambial|câmbio|capital|capitalização|cartão|cartola|caução|cédula|cent|centavo|centésimo|cêntimo|cheque|cobrança|colón|comissão|conto|contraprestação|contribuição|conversão|cordoba|coroa|crédito|criptoativo|cruzado|cruzeiro|dalasi|debêntures|denar|despesa|diárias|dinar|dinheiro|dirham|dividendos|divisas|dízimo|doação|dólar|dong|dote|dram|empréstimo|escudo|ether|euro|fiança|financiamento|forint|franco|fundo|garantia|guarani|herança|honorário|hryvnia|iene|importância|imposto|intercâmbio|investimento|juro|kina|kip|krone|kuna|kwanza|kyat|lari|lastro|legado|leilão|lek|lempira|libra|litecoin|lucro|manat|mark|meio|mensalidade|mercado|mercadoria|metical|moeda|montante|nakfa|negócio|nota|numerário|obrigações|oferta|opção|ordenado|ouguiya|ouro|paanga|pagamento|pagável|parcelamento|pataca|patrim[óô]nio|pecúlio|pecúnia|penhor|pensão|peso|peso-convertível|poupança|prata|pr[éê]mio|prestação|propriedade|provento|pula|quantia|quetzal|rand|real|receita|recurso|reembolso|remessa|remuneração|rendimento|reserva|resgate|riel|ringgit|riqueza|royalties|rublo|rupia|salário|saldo|shekel|shilling|sol|som|somoni|subscrição|subsídio|subvenção|taka|tala|tarifa|taxa|título|toea|token|tributo|trocado|troco|tugrik|valor|valor-facial|valores-mobiliários|vatu|vencimento|won|yuan|zloty</token>
+                </pattern>
+                <message>&informal_msg;</message>
+                <suggestion><match no='1' postag='VM[^P].+' postag_regexp='yes'>despender</match></suggestion>
+                <suggestion><match no='1' postag='VM[^P].+' postag_regexp='yes'>desembolsar</match></suggestion>
+                <example correction="despendeu|desembolsou">A Ana <marker>gastou</marker> demasiado dinheiro no supermercado.</example>
+                <example correction="despende|desembolsa">Ela <marker>gasta</marker> bastante dinheiro em livros.</example>
+                <example>A empresa tinha gasto mil milhões de euros nessas compras.</example>
+                <example>Queria não ter gastado tanto dinheiro.</example>
+                <example>Tenho gastado muito dinheiro em minha casa.</example>
+                <example>Tom desejava não haver gasto tanto dinheiro. </example>
+            </rule>
+
+            <rule> <!-- #2: Past participle of "gastar" -->
+                <antipattern>
+                    <token postag='VMIP1.+' postag_regexp='yes'/>
+                    <token regexp='no'>gastos</token>
+                    <example>Tenho gastos e impostos a pagar todos os meses.</example>
+                    <example>Temos gastos e impostos a pagar todos os meses.</example>
+                </antipattern>
+                <pattern>
+                    <token inflected='yes' regexp='yes'>ter|haver|ser</token>
+                    <marker>
+                        <token skip='4' inflected='yes' regexp='no' postag_regexp='yes' postag='VMP00.+'>gastar</token>
+                    </marker>
+                    <token regexp='yes' inflected='yes'>abono|ações|adiantamento|afegane|aluguel|aporte|ariary|ativos|baht|balboa|benefício|bem|birr|bitcoin|bolívar|boliviano|bolsa|cambial|câmbio|capital|capitalização|cartão|cartola|caução|cédula|cent|centavo|centésimo|cêntimo|cheque|cobrança|colón|comissão|conto|contraprestação|contribuição|conversão|cordoba|coroa|crédito|criptoativo|cruzado|cruzeiro|dalasi|debêntures|denar|despesa|diárias|dinar|dinheiro|dirham|dividendos|divisas|dízimo|doação|dólar|dong|dote|dram|empréstimo|escudo|ether|euro|fiança|financiamento|forint|franco|fundo|garantia|guarani|herança|honorário|hryvnia|iene|importância|imposto|intercâmbio|investimento|juro|kina|kip|krone|kuna|kwanza|kyat|lari|lastro|legado|leilão|lek|lempira|libra|litecoin|lucro|manat|mark|meio|mensalidade|mercado|mercadoria|metical|moeda|montante|nakfa|negócio|nota|numerário|obrigações|oferta|opção|ordenado|ouguiya|ouro|paanga|pagamento|pagável|parcelamento|pataca|patrim[óô]nio|pecúlio|pecúnia|penhor|pensão|peso|peso-convertível|poupança|prata|pr[éê]mio|prestação|propriedade|provento|pula|quantia|quetzal|rand|real|receita|recurso|reembolso|remessa|remuneração|rendimento|reserva|resgate|riel|ringgit|riqueza|royalties|rublo|rupia|salário|saldo|shekel|shilling|sol|som|somoni|subscrição|subsídio|subvenção|taka|tala|tarifa|taxa|título|toea|token|tributo|trocado|troco|tugrik|valor|valor-facial|valores-mobiliários|vatu|vencimento|won|yuan|zloty</token>
+                </pattern>
+                <message>&informal_msg;</message>
+                <suggestion><match no='2' postag='VMP.+' postag_regexp='yes'>despender</match></suggestion>
+                <suggestion><match no='2' postag='VMP.+' postag_regexp='yes'>desembolsar</match></suggestion>
+                <example correction="despendido|desembolsado">Ele tinha <marker>gasto</marker> muito dinheiro.</example>
+                <example correction="despendido|desembolsado">Ele havia <marker>gasto</marker> muito dinheiro.</example>
+            </rule>
+        </rulegroup>
+
+
         <rule id='DIFICULDADES_PROVAÇÕES' name="[pt-PT][Formal] Passar 'dificuldades' → 'provações'" tags='picky' tone_tags='formal'>
             <pattern>
                 <token skip='4' inflected='yes'>passar</token>
@@ -3396,63 +3456,6 @@ USA
         <example>O livro acaba com sua ida à faculdade.</example>
         <example>Muitos estudantes foram presos e a polícia se empenhava em acabar com as ocupações em universidades.</example>
     </rule>
-
-
-        <rulegroup id='GASTAR_DESPENDER_DESEMBOLSAR' name='gastar → despender/desembolsar' tone_tags='formal' is_goal_specific='true'>
-        <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
-
-            <rule> <!-- #1: No past participle of "gastar" -->
-                <antipattern>
-                    <token postag='SPS00|(SPS00:)?D.+|Z0.+|VM...P.+|_PUNCT' postag_regexp='yes'/>
-                    <token regexp='yes'>gastos?</token>
-                    <example>mas com inflação comendo o bolo e alguns gastos surgindo no meio do caminho,</example>
-                    <example>ocorrida entre a data do gasto e o efetivo pagamento é atualmente ajustada na fatura do mês posterior</example>
-                    <example>mas com inflação comendo o bolo e alguns gastos surgindo no meio do caminho, não acho absurdo duplicar.</example>
-                    <example>O e-commerce não possui tantos gastos, pois o aluguel de um prédio</example>
-                    <example>a variação cambial ocorrida entre a data do gasto e o efetivo pagamento é atualmente ajustada na fatura</example>
-                    <example>para que fosse feito as pressas, as trapalhadas dos estádios, qtos milhões gastos, </example>
-                    <example>terras e assumimos gastos públicos a favor do capital privado, na expectativa de novos milagres</example>
-                    <example>alimentado por um aumento dramático em construção, gastos do consumidor e investimento</example>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token skip='4' inflected='yes' regexp='no'>gastar
-                            <exception scope='previous' regexp='yes' inflected='yes'>ter|haver|ser</exception></token>
-                    </marker>
-                    <token regexp='yes' inflected='yes'>abono|ações|adiantamento|afegane|aluguel|aporte|ariary|ativos|baht|balboa|benefício|bem|birr|bitcoin|bolívar|boliviano|bolsa|cambial|câmbio|capital|capitalização|cartão|cartola|caução|cédula|cent|centavo|centésimo|cêntimo|cheque|cobrança|colón|comissão|conto|contraprestação|contribuição|conversão|cordoba|coroa|crédito|criptoativo|cruzado|cruzeiro|dalasi|debêntures|denar|despesa|diárias|dinar|dinheiro|dirham|dividendos|divisas|dízimo|doação|dólar|dong|dote|dram|empréstimo|escudo|ether|euro|fiança|financiamento|forint|franco|fundo|garantia|guarani|herança|honorário|hryvnia|iene|importância|imposto|intercâmbio|investimento|juro|kina|kip|krone|kuna|kwanza|kyat|lari|lastro|legado|leilão|lek|lempira|libra|litecoin|lucro|manat|mark|meio|mensalidade|mercado|mercadoria|metical|moeda|montante|nakfa|negócio|nota|numerário|obrigações|oferta|opção|ordenado|ouguiya|ouro|paanga|pagamento|pagável|parcelamento|pataca|patrim[óô]nio|pecúlio|pecúnia|penhor|pensão|peso|peso-convertível|poupança|prata|pr[éê]mio|prestação|propriedade|provento|pula|quantia|quetzal|rand|real|receita|recurso|reembolso|remessa|remuneração|rendimento|reserva|resgate|riel|ringgit|riqueza|royalties|rublo|rupia|salário|saldo|shekel|shilling|sol|som|somoni|subscrição|subsídio|subvenção|taka|tala|tarifa|taxa|título|toea|token|tributo|trocado|troco|tugrik|valor|valor-facial|valores-mobiliários|vatu|vencimento|won|yuan|zloty</token>
-                </pattern>
-                <message>&informal_msg;</message>
-                <suggestion><match no='1' postag='VM[^P].+' postag_regexp='yes'>despender</match></suggestion>
-                <suggestion><match no='1' postag='VM[^P].+' postag_regexp='yes'>desembolsar</match></suggestion>
-                <example correction="despendeu|desembolsou">A Ana <marker>gastou</marker> demasiado dinheiro no supermercado.</example>
-                <example correction="despende|desembolsa">Ela <marker>gasta</marker> bastante dinheiro em livros.</example>
-                <example>A empresa tinha gasto mil milhões de euros nessas compras.</example>
-                <example>Queria não ter gastado tanto dinheiro.</example>
-                <example>Tenho gastado muito dinheiro em minha casa.</example>
-                <example>Tom desejava não haver gasto tanto dinheiro. </example>
-            </rule>
-
-            <rule> <!-- #2: Past participle of "gastar" -->
-                <antipattern>
-                    <token postag='VMIP1.+' postag_regexp='yes'/>
-                    <token regexp='no'>gastos</token>
-                    <example>Tenho gastos e impostos a pagar todos os meses.</example>
-                    <example>Temos gastos e impostos a pagar todos os meses.</example>
-                </antipattern>
-                <pattern>
-                    <token inflected='yes' regexp='yes'>ter|haver|ser</token>
-                    <marker>
-                        <token skip='4' inflected='yes' regexp='no' postag_regexp='yes' postag='VMP00.+'>gastar</token>
-                    </marker>
-                    <token regexp='yes' inflected='yes'>abono|ações|adiantamento|afegane|aluguel|aporte|ariary|ativos|baht|balboa|benefício|bem|birr|bitcoin|bolívar|boliviano|bolsa|cambial|câmbio|capital|capitalização|cartão|cartola|caução|cédula|cent|centavo|centésimo|cêntimo|cheque|cobrança|colón|comissão|conto|contraprestação|contribuição|conversão|cordoba|coroa|crédito|criptoativo|cruzado|cruzeiro|dalasi|debêntures|denar|despesa|diárias|dinar|dinheiro|dirham|dividendos|divisas|dízimo|doação|dólar|dong|dote|dram|empréstimo|escudo|ether|euro|fiança|financiamento|forint|franco|fundo|garantia|guarani|herança|honorário|hryvnia|iene|importância|imposto|intercâmbio|investimento|juro|kina|kip|krone|kuna|kwanza|kyat|lari|lastro|legado|leilão|lek|lempira|libra|litecoin|lucro|manat|mark|meio|mensalidade|mercado|mercadoria|metical|moeda|montante|nakfa|negócio|nota|numerário|obrigações|oferta|opção|ordenado|ouguiya|ouro|paanga|pagamento|pagável|parcelamento|pataca|patrim[óô]nio|pecúlio|pecúnia|penhor|pensão|peso|peso-convertível|poupança|prata|pr[éê]mio|prestação|propriedade|provento|pula|quantia|quetzal|rand|real|receita|recurso|reembolso|remessa|remuneração|rendimento|reserva|resgate|riel|ringgit|riqueza|royalties|rublo|rupia|salário|saldo|shekel|shilling|sol|som|somoni|subscrição|subsídio|subvenção|taka|tala|tarifa|taxa|título|toea|token|tributo|trocado|troco|tugrik|valor|valor-facial|valores-mobiliários|vatu|vencimento|won|yuan|zloty</token>
-                </pattern>
-                <message>&informal_msg;</message>
-                <suggestion><match no='2' postag='VMP.+' postag_regexp='yes'>despender</match></suggestion>
-                <suggestion><match no='2' postag='VMP.+' postag_regexp='yes'>desembolsar</match></suggestion>
-                <example correction="despendido|desembolsado">Ele tinha <marker>gasto</marker> muito dinheiro.</example>
-                <example correction="despendido|desembolsado">Ele havia <marker>gasto</marker> muito dinheiro.</example>
-            </rule>
-        </rulegroup>
 
 
         <rulegroup id='ENSINO_SUPERIOR_V2' name="[pt-PT][Científico] 'Educação' Superior → 'Ensino'" type="style" tone_tags="academic">
