@@ -4432,6 +4432,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Bautenzuges": return topMatch("Bowdenzuges");
       case "Bautenzüge": return topMatch("Bowdenzüge");
       case "Bautenzügen": return topMatch("Bowdenzügen");
+      case "quillbot": return topMatch("QuillBot");
+      case "quilbot": return topMatch("QuillBot");
+      case "Quilbot": return topMatch("QuillBot");
     }
     return Collections.emptyList();
   }
