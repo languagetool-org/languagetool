@@ -9131,6 +9131,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
 
             <antipattern>
+                <token min='2' postag='(SPS00:)?[DP]...[SN].+' postag_regexp='yes'/>
+                <token postag='AQ..[SN].+|N..[SN].+' postag_regexp='yes'/>
+                <token postag='RN' postag_regexp='no'/>
+                <token postag='VM...S.+' postag_regexp='yes'/>
+                <example>Meu coração, não batas tão depressa, do meu peito não saltes para fora!</example>
+            </antipattern>
+
+            <antipattern>
                 <token postag='(SPS00:)?[DP]...[PN].+' postag_regexp='yes'/>
                 <token postag='SPS00' postag_regexp='no'/>
                 <token>nós</token>
