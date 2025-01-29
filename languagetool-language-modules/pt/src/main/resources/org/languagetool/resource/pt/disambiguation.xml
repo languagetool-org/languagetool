@@ -2756,10 +2756,21 @@ USA
 
   <rulegroup id="ROMAN_NUMBER" name="Roman number">
     <rule>
+      <antipattern>
+        <token>rede</token>
+        <token>social</token>
+        <token case_sensitive='yes'>X</token>
+      </antipattern>
       <pattern>
         <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)</token>
       </pattern>
       <disambig postag="ZRCN0"/>
+    </rule>
+    <rule> <!-- "rede social X" -->
+      <pattern>
+        <token case_sensitive='yes'>X</token>
+      </pattern>
+      <disambig postag='NPMS000_'/>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
