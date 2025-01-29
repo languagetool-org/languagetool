@@ -213,6 +213,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern UX = compile("ux");
   private static final Pattern LANGUAGETOOL = compile("[Ll]anguagetool");
   private static final Pattern UNDETERMINISTIC = compile("undeterministic");
+  private static final Pattern QUILLBOT_POS = compile("QuillBots");
   private static final Pattern QUILLBOT1 = compile("[Qq]uill?bot");
   private static final Pattern QUILLBOT1_POS = compile("[Qq]uill?bots");
   private static final Pattern QUILLBOT2 = compile("QuilBot");
@@ -1556,15 +1557,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (MACBOOK.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "acbook", "acBook"));
     if (LIKELYHOOD.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ikelyhood", "ikelihood"));
     if (UNECESSARY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "necessary", "nnecessary"));
-    if (QUILLBOT1.matcher(word).matches()) return topMatch("QuillBot");
-    if (QUILLBOT2.matcher(word).matches()) return topMatch("QuillBot");
-    if (QUILLBOT1_POS.matcher(word).matches()) {
-      List<SuggestedReplacement> l = new ArrayList<>();
-      l.add(new SuggestedReplacement("QuillBot's"));
-      l.add(new SuggestedReplacement("QuillBot"));
-      return l;
-    }
-    if (QUILLBOT2_POS.matcher(word).matches()) {
+    if (QUILLBOT1.matcher(word).matches() || QUILLBOT2.matcher(word).matches()) return topMatch("QuillBot");
+    if (QUILLBOT_POS.matcher(word).matches() || QUILLBOT1_POS.matcher(word).matches() ||
+      QUILLBOT2_POS.matcher(word).matches()) {
       List<SuggestedReplacement> l = new ArrayList<>();
       l.add(new SuggestedReplacement("QuillBot's"));
       l.add(new SuggestedReplacement("QuillBot"));
