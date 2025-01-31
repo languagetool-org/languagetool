@@ -17181,4 +17181,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rule id="I_O_NO_PRP" name="I in I/O is no PRP">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">I</token>
+            </marker>
+            <token>/</token>
+            <token>O</token>
+        </pattern>
+        <disambig action="remove" postag="PRP.*"/>
+    </rule>
 </rules>
