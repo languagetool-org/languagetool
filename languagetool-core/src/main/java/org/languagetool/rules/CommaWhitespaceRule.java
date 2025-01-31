@@ -233,7 +233,7 @@ public class CommaWhitespaceRule extends Rule {
       return false;
     }
     char c = str.charAt(0);
-    return c == '(' || c == '[' || c == '{';
+    return c == '(';
   }
 
   private static boolean isRightBracket(String str) {
@@ -241,7 +241,7 @@ public class CommaWhitespaceRule extends Rule {
       return false;
     }
     char c = str.charAt(0);
-    return c == ')' || c == ']' || c == '}';
+    return c == ')';
   }
 
   private static boolean containsDigit(String str) {
