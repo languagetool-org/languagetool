@@ -135,6 +135,17 @@ USA
     <rule id='AVOID_GERUND' name='[pt-PT] Evitar o Gerúndio (perifrásico)' type='style' tone_tags="objective">
         <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
 
+        <antipattern> <!-- Add number agreement exceptions so that rule ID:GENERAL_VERB_AGREEMENT_ERRORS is triggered -->
+            <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+            <token min='1' max='2' postag='AQ..P.+|N..P.+|(SPS00:)?[DP]...P.+' postag_regexp='yes'/>
+            <token postag='VM...S.+' postag_regexp='yes'/>
+            <token postag='VMG000+' postag_regexp='yes'/>
+            <token postag='AQ..P.+|N..P.+|(SPS00:)?[DP]...P.+|VM...P.+|CS' postag_regexp='yes'/>
+            <example>Os itens vem sendo encarecidos em média 8% por semana.</example>
+            <example>Por isso, algumas medidas vem sendo adotadas pelos legisladores para suavizar essa demora.</example>
+            <example>Vocês está sugerindo que pode não ter sido um acidente?</example>
+        </antipattern>
+
         <antipattern> <!-- #1: Verbos Auxiliares: exceptions were taken from DeepSeek-V3 -->
             <token inflected='yes' regexp='yes'>&gerundio_verbos_auxiliares;</token>
             <token regexp='yes'>&gerundio_excecoes_verbos_auxiliares;</token>
