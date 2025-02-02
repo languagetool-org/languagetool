@@ -4343,6 +4343,35 @@ USA
     -->
   </rule>
 
+  <rule id="REMOVE_NC_AQ_IN_VERBS_VERBS_RARE" name="Remove adjectives/nouns in verbs"> <!-- Used DeepSeek-V3 to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='P[DP].+' postag_regexp='yes'>
+        <exception scope='previous' postag_regexp='yes' postag='V.+'/>
+        <exception postag_regexp='yes' postag='CC|SPS.+|P.......:.+'/></token>
+      <token postag='RG' postag_regexp='no'/>
+      <marker>
+        <and>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token><exception scope='previous' postag_regexp='yes' postag='RG|VMN0000|VMP.+'/></token>
+    </pattern>
+    <disambig action="remove" postag="[NA].*"/>
+    <!--
+    Examples:
+             Isto também passa pela escola.
+             “Eu só preciso saber que é preciso executá-lo”
+             Porém, elas também são eficientes para o emocional e psicológico.
+             A TransferWise não exige comprovação de rendimentos, você só precisa ter um endereço na Europa.
+             Se nada muda, mude-se você!
+             Elas só vão desaparecer se você quiser.
+             Isso me irritou e aumentou muito minha curiosidade pra saber o que ele tanto conversa.
+             Ele também leva um MacBook Pro entre seus pertences.
+    -->
+  </rule>
+
   <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
       <rule>
           <pattern>
