@@ -222,9 +222,10 @@ public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
     assertEmptyMatch("Ті, хто зрозуміли");
     assertEmptyMatch("ті, хто сповідує");
     assertEmptyMatch("ті, хто не сповідують");
-    assertHasError("всі хто зрозуміли"); // пропущена кома
+    assertEmptyMatch("Ті, хто просто зрозуміли");
+    assertEmptyMatch("всі хто зрозуміли"); // пропущена кома
     assertEmptyMatch("про те, хто була ця клята Пандора");
-
+    
     assertEmptyMatch("що можна було й інший пошукати");
   }
   

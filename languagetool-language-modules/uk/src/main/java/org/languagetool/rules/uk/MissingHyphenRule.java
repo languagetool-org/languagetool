@@ -94,7 +94,12 @@ public class MissingHyphenRule extends Rule {
           if( "медіа".equalsIgnoreCase(tokenReadings.getCleanToken()) 
               && nextTokenReadings.getCleanToken().matches("країни|півострова"))
             continue;
-          
+
+          // до шоу поп-діви
+          if( "шоу".equalsIgnoreCase(tokenReadings.getCleanToken()) 
+              && nextTokenReadings.getCleanToken().contains("-"))
+            continue;
+
           String suggested;
           String message;
           
