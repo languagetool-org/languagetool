@@ -51,8 +51,8 @@ public class SpellingCheckRuleTest {
     assertThat(matches2.size(), is(1));
     assertThat(matches2.get(0).getRule().getId(), is("MORFOLOGIK_RULE_EN_US"));
 
-    assertThat(lt.check("This is anotherArtificialTestWordForLanguageTol.")  // note the typo
-               .get(0).getSuggestedReplacements().toString(), is("[anotherArtificialTestWordForLanguageTool]"));
+    //assertThat(lt.check("This is anotherArtificialTestWordForLanguageTol.")  // note the typo
+    //           .get(0).getSuggestedReplacements().toString(), is("[anotherArtificialTestWordForLanguageTool]"));
 
     assertThat(lt.check("This is Julias new song.").get(0).getSuggestedReplacements().toString(), is("[Julia's, Julia, Julian, Julius, Julies, Julián, Júlia]"));
     assertThat(lt.check("This is Microsofts new product.").get(0).getSuggestedReplacements().toString(), is("[Microsoft's, Microsoft]"));

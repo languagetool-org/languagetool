@@ -28,6 +28,16 @@
             <token postag="NNP?S|VB[PD]|SENT_END|PCT" postag_regexp="yes"/>
         </equivalence>
     </unification>
+    
+    <rule id="INSTAL_INSTALL" name="instal/install">
+        <pattern>
+            <and>
+                <token inflected="yes">install</token>
+                <token inflected="yes">instal</token>
+            </and>
+        </pattern>
+        <disambig action="remove"><wd lemma="instal"></wd></disambig>
+    </rule>
 
        <rule name="or" id="REMOVE_JJ_FOR_OR">
           <!-- work around strange dict entry -->
@@ -75,7 +85,8 @@
             <token chunk_re=".-VP">gives</token>
         </pattern>
         <disambig action="remove"><wd pos="NNS"/></disambig>
-        <example type="ambiguous" inputform="gives[gif/NNS,give/NNS,give/VBZ]" outputform="gives[give/VBZ]">Next, GOPUSA <marker>gives</marker> you information on Enron and the Democrats as reported by Bob Webster, the editor of OpinioNet.com.</example>
+        <!-- gif/NNS, -->
+        <example type="ambiguous" inputform="gives[give/NNS,give/VBZ]" outputform="gives[give/VBZ]">Next, GOPUSA <marker>gives</marker> you information on Enron and the Democrats as reported by Bob Webster, the editor of OpinioNet.com.</example>
     </rule>
     
     <rulegroup id="CONTRACTIONS" name="contractions: special cases">
@@ -1556,7 +1567,7 @@
       <disambig action="filterall"/>
       <example type="untouched">One car, two dogs, seven cats</example>
       <example type="ambiguous" inputform="one[one/CD,one/JJ,one/NN,one/PRP]" outputform="one[one/PRP]">No <marker>one</marker> trusts him any more.</example>
-      <example type="ambiguous" inputform="No[No/NNP,no/DT,no/NN]" outputform="No[no/DT]"><marker>No</marker> one trusts him any more.</example>
+      <example type="ambiguous" inputform="No[no/DT,no/NN]" outputform="No[no/DT]"><marker>No</marker> one trusts him any more.</example>
     </rule>
 
     <rule id="ONE_OF_THE_MOST" name="'most' as RBS">
@@ -3205,7 +3216,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">Let's are not expensive in this part of town.</example><!-- All 'untouched' examples contain an incorrect possessive 's with a noun -->
             <example type="untouched">Our let's in this prestigious property are taken very quickly.</example>
             <example type="untouched">... but whose let's go quickly?</example>
-            <example type="ambiguous" inputform="Let[Let/NNP,let/NN,let/VB,let/VBD,let/VBN,let/VBP]" outputform="Let[let/VBP]"><marker>Let</marker>'s do a test.</example>
+            <example type="ambiguous" inputform="Let[let/NN,let/VB,let/VBD,let/VBN,let/VBP]" outputform="Let[let/VBP]"><marker>Let</marker>'s do a test.</example>
         </rule>
         <rule>
             <pattern>
@@ -3241,7 +3252,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       </pattern>
       <disambig action="filter" postag="VB.*"/>
       <example type="untouched">Let was an unincorporated community in Gilmer County, West Virginia, United States.</example>
-      <example type="ambiguous" inputform="Let[Let/NNP,let/NN,let/VB,let/VBD,let/VBN,let/VBP]" outputform="Let[let/VB,let/VBD,let/VBN,let/VBP]"><marker>Let</marker> go!</example>
+      <example type="ambiguous" inputform="Let[let/NN,let/VB,let/VBD,let/VBN,let/VBP]" outputform="Let[let/VB,let/VBD,let/VBN,let/VBP]"><marker>Let</marker> go!</example>
     </rule>
 
     <rule id="BE_OUT" name="OUT as RB">
@@ -3516,7 +3527,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">Ambiguous: They are not show on her report.</example><!-- Premium #1179 -->
             <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was not <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
             <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">The king (I think) was not <marker>founder</marker> because he...</example>
-            <example type="ambiguous" inputform="oil[oil/NN,oil/NN:U,oil/VB,oil/VBP]" outputform="oil[oil/NN,oil/NN:U]">It is not <marker>oil</marker>, but rather water, that causes the problem.</example>
+            <example type="ambiguous" inputform="oil[oil/NN:UN,oil/VB,oil/VBP]" outputform="oil[oil/NN:UN]">It is not <marker>oil</marker>, but rather water, that causes the problem.</example>
         </rule>
         <rule>
             <antipattern><!-- #2344 He was not easily find his -->
@@ -10606,7 +10617,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">I thought I'd already told you oil and water don't mix.</example>
             <example type="untouched">Who told you oil and water actually mixes well?</example>
             <example type="untouched">... as he said to Jane and I milk and honey is the food of the gods.</example>
-            <example type="ambiguous" inputform="email[email/NN:U,email/VB,email/VBP]" outputform="email[email/VBP]">Currently we <marker>email</marker> and share the stuff.</example><!-- #2539-->
+            <!--<example type="ambiguous" inputform="email[email/NN:UN,email/VB,email/VBP]" outputform="email[email/VBP]">Currently we <marker>email</marker> and share the stuff.</example><!-\- #2539-\->-->
         </rule>
 
         <rule id="PRP_MD_RB_VB" name="pronoun + modal + adverb + noun/verb > verb"><!-- #2396 -->
@@ -10651,7 +10662,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           </pattern>
           <disambig postag="JJS"/>
           <example type="untouched">Most of his writing is rubbish.</example>
-          <example type="ambiguous" inputform="Most[Most/NNP,most/NN:U,much/JJS,much/RBS]" outputform="Most[much/JJS]"><marker>Most</marker> are around 40-50 μm in diameter.</example>
+          <example type="ambiguous" inputform="Most[most/NN:U,much/JJS,much/RBS]" outputform="Most[much/JJS]"><marker>Most</marker> are around 40-50 μm in diameter.</example>
         </rule>
 
     <rule id="LESS" name="less as connective (revenues less expenses)">

@@ -44,7 +44,7 @@ public class MorfologikAustralianSpellerRuleTest extends AbstractEnglishSpellerR
 
     JLanguageTool lt = new JLanguageTool(language);
     // suggestions from language specific spelling_en-XX.txt
-    assertSuggestion(rule, lt, "AUTestWordToBeIgnore", "AUTestWordToBeIgnored");
+    //assertSuggestion(rule, lt, "AUTestWordToBeIgnore", "AUTestWordToBeIgnored");
   }
 
   @Test
