@@ -63,7 +63,7 @@ USA
 <!ENTITY pronomes_nao_ambiguos_pt_pt "lha|lhas|lhe|lhes|lho|lhos|ma|me|mo|mos|ta|tas|te|to|tos|vos">
 <!ENTITY pronomes_informais_pt_pt "contigo|t[ao]s?|teus?|tuas?|t[uie]|vocês?">
 <!ENTITY pronomes_possessivos_pt_pt "del[ae]s?|meus?|noss[ao]s?|seus?|suas?|teus?|tuas?|voss[ao]s?">
-
+<!ENTITY pronomes_possessivos_excecoes_a_o_pt_pt "adepto|administrador|adversário|advogado|agente|agricultor|aliado|almirante|aluno|amigo|anão|anjo|antropólogo|arqueólogo|arquiteto|artesão|artista|assaltante|assessor|astronauta|astrónomo|ator|aviador|bandido|banqueiro|barão|baronesa|biólogo|bobo|bombeiro|cabo|cantor|capitão|cavaleiro|chefão|chefe|cientista|cliente|coach|colega|comandante|comerciante|companheiro|comprador|conde|condessa|condutor|conhecido|conquistador|cônsul|consultor|consumidor|contabilista|coordenador|coronel|criminoso|crítico|dama|dançarino|defensor|delegado|demónio|dentista|deputado|desconhecido|desempregado|detetive|Deus|diabo|diplomata|diretor|dissidente|ditador|doutor|duque|duquesa|economista|editor|educador|embaixador|emigrante|empreendedor|empregado|empresário|enfermeiro|engenheiro|escravo|escritor|espectador|espião|espírito|estrangeiro|estudante|executivo|exilado|explorador|fã|fantasma|farmacêutico|feudal|filho|filósofo|financista|físico|fora-da-lei|formador|fornecedor|fugitivo|funcionário|general|génio|geólogo|gerente|gestor|gigante|governador|guardião|guerrilheiro|guru|herói|historiador|idiota|imigrante|industrial|infiltrado|influenciador|inimigo|inspetor|insurgente|intérprete|investidor|investigador|irmão|jornalista|juiz|jurista|ladrão|legislador|leitor|libertador|liberto|líder|louco|major|maluco|marido|marinheiro|marquês|marquesa|matemático|médico|mendigo|mentor|mestre|ministro|monarca|monstro|motorista|músico|namorado|nobre|nómada|oficial|operário|oponente|opressor|ouvinte|pai|palhaço|parceiro|pensionista|perdedor|pescador|piloto|pintor|plebeu|poeta|polícia|politólogo|prefeito|presidente|princesa|príncipe|prisioneiro|procurador|professor|promotor|protetor|psicólogo|psiquiatra|querido|químico|rainha|rebelde|reformado|refugiado|rei|repórter|revisor|revolucionário|rival|sábio|sabotador|salvador|santo|sargento|secretário|seguidor|senador|senhor|servo|simpatizante|sobrevivente|sócio|sociólogo|soldado|supervisor|suserano|tenente|teólogo|terapeuta|terrorista|tesoureiro|tirano|tolo|trabalhador|tradutor|traidor|treinador|turista|utilizador|vagabundo|vassalo|vencedor|vendedor|vereador|veterinário|viajante|vice-presidente|visconde|viscondessa|vizinho">
 
 <!ENTITY expressoes_invariaveis_pt_pt "algema|afazere|alvíssara|anai|antolho|apetrecho|arra|arredore|boda|brócol[io]|cã|calça|calenda|ceroula|cócega|condolência|confin|endoença|esponsai|esposório|exéquia|fasto|féria|feze|finança|hemorróida|mane|núpcia|óculo|olheira|pantalona|parabén|pêsame|petrecho|pi[ck]le|primícia|reticência|suspensório|treva|víscera|vívere">
 
@@ -904,6 +904,53 @@ USA
 
       <!-- Whole antipatterns must be rewritten: 2024+ -->
 
+      <antipattern> <!-- DeepSeek-V3 -->
+          <token postag='DP.+' postag_regexp='yes'/>
+          <token regexp='yes' inflected='yes'>&pronomes_possessivos_excecoes_a_o_pt_pt;</token>
+          <example>Apesar de ter limitado os poderes do rei, este tinha ainda o direito de designar seus ministros.</example>
+          <example>Mestre Masamichi NORO se dá o dever de transmitir ao âmago da técnica o âmago de seu mestre.</example>
+          <example>Assim, cada variação abre uma porta na direção de seus parceiros.</example>
+          <example>Seu irmão mais novo, Vladislau, sucedeu-o no trono da Sérvia.</example>
+          <example>Após o funeral, Catarina nunca mais mencionou sua filha morta, sempre preferindo filhos do sexo masculino.</example>
+          <example>Em 1981 formou o duo Wham!, com seu colega de escola, Andrew Ridgeley.</example>
+          <example>Uda deixou um testamento com preceitos para a orientação de seu filho.</example>
+          <example>Nos jogos restantes que faltavam para decidir o campeonato, o Palestra Itália goleou seus adversários.</example>
+          <example>Nos anos 1920, Bushman contratou Harry Reichenbach como seu agente.</example>
+          <example>O poeta pode ter sabido que seus heróis eram pagãos, mas ele não sabia muito sobre o paganismo.</example>
+          <example>A ideia de lançar o produto partiu dos fãs da cantora que, fazem coreografias de sua música usando guarda-chuvas.</example>
+          <example>O Sultão Iscandar Xá faleceu em 1424, sucedendo-lhe seu filho.</example>
+          <example>Van Gogh continuou a desenhar, frequentemente usando seus vizinhos como temas.</example>
+          <example>O pintor dinamarquês Christian Mourier-Petersen tornou-se seu companheiro por dois meses.</example>
+      </antipattern>
+
+      <antipattern> <!-- Tried with "V.+" but it only worked with verb "SER" -->
+          <token regexp='no' inflected='yes'>ser</token>
+          <token postag='RG' postag_regexp='no'/>
+          <token postag='DP.+' postag_regexp='yes'/>
+          <token postag='_PUNCT|SEND_END' postag_regexp='yes'/>
+          <example>«Não seria lógico verem-me em dois trabalhos em simultâneo mas custa-me muito porque a série era mesmo minha».</example>
+          <example>A casa nem é mais minha.</example>
+      </antipattern>
+
+      <antipattern> <!-- Thanking someone -->
+          <token>de</token>
+          <token>nada</token>
+          <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
+          <token postag='DP.+' postag_regexp='yes'/>
+          <example>De nada meu irmão.</example>
+          <example>De nada, meu irmão.</example>
+      </antipattern>
+
+      <antipattern>
+          <token postag_regexp='yes' postag='V.+:PP.+'/>
+          <token regexp='yes'>comigo|con[st]igo|con[nv]osco</token>
+          <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
+          <token postag='DP.+' postag_regexp='yes'/>
+          <example>Vou levar-te comigo meu irmão.</example>
+          <example>Vou levar-te comigo, meu irmão.</example>
+          <example>Quero levar-vos connosco meus irmãos.</example>
+      </antipattern>
+
       <antipattern>
           <token>nada</token>
           <token>de</token>
@@ -913,17 +960,6 @@ USA
           <example>Não possuia nada de meu.</example>
           <example>O Rui nada de meu tinha.</example>
           <example>Não queria nada de meu.</example>
-      </antipattern>
-
-      <antipattern>
-          <token postag_regexp="yes" postag="V.+:PP.+"/>
-          <token regexp='yes'>comigo|con[st]igo|con[nv]osco</token>
-          <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
-          <token postag='DP1..S' postag_regexp='yes'/>
-          <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-          <example>Vou levar-te comigo meu irmão.</example>
-          <example>Vou levar-te comigo, meu irmão.</example>
-          <example>Quero levar-vos connosco meus irmãos.</example>
       </antipattern>
 
       <!-- MARCOAGPINTO 2023-04-11 (Checked/Enhanced) (2-MAR-2023+) *START* -->
