@@ -7854,10 +7854,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='LINKING_VERB_PREDICATE_AGREEMENT' name='Concordância Verbal: Complementos com o verbo copulativo' default='on'>
             <!-- TODO Low Prority - Check regression and add enumeration tests and exceptions -->
             <!-- Created by Tiago F. Santos, 2017-01-17 -->
-            <!--
-           MARCOAGPINTO started adding antipatterns at the top to affect all subrules - 2022-09-24
-      -->
+
             <url>https://pt.wikipedia.org/wiki/Verbo_de_liga%C3%A7%C3%A3o</url>
+
+            <antipattern> <!-- DeepSeek-V3 -->
+                <token>que</token>
+                <token regexp='yes' inflected='yes'>andar|continuar|estar|ficar|parecer|permanecer|ser|tornar-se|virar|viver</token> <!-- "linking verbs". Later replace with the entity after checking if these verbs are all there -->
+                <token regexp='yes'>fen[ôó]meno|sensação|moda|hit|referência|mania|sucesso</token>
+                <example>Tudo isso sempre alinhado com as tendências que são sucesso nas passarelas do mundo.</example>
+            </antipattern>
 
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
