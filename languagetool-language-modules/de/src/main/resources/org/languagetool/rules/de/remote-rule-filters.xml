@@ -2584,6 +2584,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Verbindung zu <marker>Dunkler</marker> Materie.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Die</token>
+                    </marker>
+                    <token>Linke</token>
+                </pattern>
+                <example correction="">Ich glaube, <marker>Die</marker> Linke hat keine Chance bei der nächsten Wahl.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN_FORM" name="">
@@ -2622,6 +2631,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token regexp="yes">Gute|Liebe</token>
                 </pattern>
                 <example correction="">Ich wünsche Dir <marker>alles alles erdenklich Liebe</marker> zum Geburtstag.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token>es</token>
+                    <token>scheint</token>
+                    <marker>
+                        <token>sich</token>
+                    </marker>
+                </pattern>
+                <example correction="">Es scheint <marker>sich</marker> offensichtlich, um einen Bug in unserer Wörterbuch-Logik zu handeln.</example>
             </rule>
         </rulegroup>
 
@@ -2680,6 +2699,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>Fische</token>
                 </pattern>
                 <example correction="">Jetzt aber mal Butter bei <marker>die</marker> Fische.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>so</token>
+                    <marker>
+                        <token>eine</token>
+                    </marker>
+                    <token>Art</token>
+                </pattern>
+                <example correction="">Wir haben so <marker>eine</marker> Art Chicken-Egg-Problem.</example>
             </rule>
         </rulegroup>
 
