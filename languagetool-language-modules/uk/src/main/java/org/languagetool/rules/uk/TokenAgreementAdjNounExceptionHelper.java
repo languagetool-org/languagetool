@@ -943,6 +943,13 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
+    // покликана ще раз
+    if( tokens[nounPos].getCleanToken().equalsIgnoreCase("раз")
+        && tokens[nounPos-1].getToken().equalsIgnoreCase("ще") ) {
+      logException();
+      return true;
+    }
+
     // таким піднесеним президента не бачили давно
 //    if( nounPos < tokens.length - 1
 //        && adjAnalyzedTokenReadings.getCleanToken().toLowerCase().matches("такими?|такою")
@@ -960,13 +967,13 @@ final class TokenAgreementAdjNounExceptionHelper {
     
 
     if( adjPos > 2 ) {
-//      // порівняно з попереднім
-//      if( PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj.*v_oru")
-//          && LemmaHelper.hasLemma(tokens[adjPos-2], Arrays.asList("порівняно", "аналогічно")) 
-//          && LemmaHelper.hasLemma(tokens[adjPos-1], Pattern.compile("з|із|зі")) ) {
-//        logException();
-//        return true;
-//      }
+      // порівняно з попереднім
+      if( PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj.*v_oru.*")
+          && LemmaHelper.hasLemma(tokens[adjPos-2], Arrays.asList("порівняно", "аналогічно")) 
+          && LemmaHelper.hasLemma(tokens[adjPos-1], Pattern.compile("з|із|зі")) ) {
+        logException();
+        return true;
+      }
       
       // наближена до сімейної форма
       if( PosTagHelper.hasPosTagPart(tokens[adjPos-1], "prep") ) {

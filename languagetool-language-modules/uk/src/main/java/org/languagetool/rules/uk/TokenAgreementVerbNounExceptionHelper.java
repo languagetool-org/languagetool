@@ -88,6 +88,13 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return true; 
     }
     
+    // стало відомо ...
+    if( tokens[verbPos].getCleanToken().equalsIgnoreCase("стало")
+        && tokens[verbPos+1].getCleanToken().toLowerCase().matches("відомо|видно|зрозуміло") ) {
+      logException();
+      return true; 
+    }
+
     // хоче маляром
     if( LemmaHelper.hasLemma(tokens[verbPos], "хотіти") 
         && PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "v_oru") ) {

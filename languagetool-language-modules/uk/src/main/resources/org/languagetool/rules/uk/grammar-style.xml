@@ -137,22 +137,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Не більше 40</example>
         <example>Щонайбільше 40</example>
       </rule>
+      
       <rule>
         <pattern>
           <token regexp="yes">більше?</token>
-          <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:[mf]:v_rod">хвилина|година|день|доба|тиждень|місяць|рік</token>
+          <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:[mf]:v_rod">хвилина|година|день|доба|тиждень|місяць|рік|половина|третина</token>
         </pattern>
-        <message>З іменником часу замість «більше» краще вживати «понад», або «ніж/як»: <suggestion>понад <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion></message>
-        <suggestion>більше як <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion>
-        <suggestion>більше ніж <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion>
+        <message>З іменником часу/кількості замість «більше» краще вживати «понад», або «ніж/як»: <suggestion>понад <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion></message>
+        <suggestion>більше як <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_naz"/></suggestion>
+        <suggestion>більше ніж <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_naz"/></suggestion>
         <example>Більше галасу</example>
         <example>Більше одного</example>
         <example correction="понад тиждень|більше як тиждень|більше ніж тиждень"><marker>більше тижня</marker>.</example>
-        <example correction="понад хвилину|більше як хвилину|більше ніж хвилину"><marker>більше хвилини</marker>.</example>
-        <example correction="понад добу|більше як добу|більше ніж добу"><marker>більше доби</marker>.</example>
+        <example correction="понад хвилину|більше як хвилина|більше ніж хвилина"><marker>більше хвилини</marker>.</example>
+        <example correction="понад добу|більше як доба|більше ніж доба"><marker>більше доби</marker>.</example>
+        <example correction="понад половину|більше як половина|більше ніж половина"><marker>більше половини</marker>.</example>
         <!-- TODO: fix the correction
             <example correction="понад рік|більше як рік"><marker>більше року</marker>.</example>
         -->
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>більше</token>
+          <marker>
+            <token regexp="yes" >половин[аі]</token>
+          </marker>
+        </pattern>
+        <message>Можливо ви мали на увазі: <suggestion>половини</suggestion>?</message>
+        <example correction="половини">більше <marker>половині</marker>.</example>
       </rule>
 
       <!-- загальне правило: прикметник вищого ступеня + іменник в р.в. — забагато фальшивих помилок -->
@@ -175,6 +188,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example correction="від узгодження|ніж/як узгодження">Оперативне реагування стало зараз потрібніше <marker>узгодження</marker> тактики.</example>
           </rule>
       -->
+
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token inflected="yes">більший</token>
+            <token inflected="yes">половина</token>
+          </unify>
+        </pattern>
+        <message>Правильно: <suggestion>більша частина</suggestion>, <suggestion>більш ніж половина</suggestion></message>
+        <example correction="Більша частина|Більш ніж половина"><marker>Більшої половини</marker> класу</example>
+        <example>Більш ніж половина</example>
+        <example>Більше половини населення</example>
+      </rule>
+
     </rulegroup>
 
     <rulegroup id="MENSHE_WITH_TIME_NOUNS" name="Менше з числівниками та іменниками часу">
@@ -962,16 +991,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <short>Правильно «пріоритет»</short>
         <example correction="пріоритет">На сьогодні це <marker>головний пріоритет</marker>.</example>
         <example>На сьогодні це пріоритет.</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token inflected="yes" postag_regexp="yes">більший</token>
-          <token inflected="yes">половина</token>
-        </pattern>
-        <message>Правильно: <suggestion>більша частина</suggestion>, <suggestion>більш ніж половина</suggestion></message>
-        <example correction="Більша частина|Більш ніж половина"><marker>Більшої половини</marker> класу</example>
-        <example>Більш ніж половина</example>
       </rule>
 
       <rule>
