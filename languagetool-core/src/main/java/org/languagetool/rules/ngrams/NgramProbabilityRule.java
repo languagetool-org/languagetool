@@ -278,7 +278,7 @@ public class NgramProbabilityRule extends Rule {
     }
   }
 
-  class Alternative {
+  static class Alternative {
     final String token;
     final Probability p;
     Alternative(String token, Probability p) {

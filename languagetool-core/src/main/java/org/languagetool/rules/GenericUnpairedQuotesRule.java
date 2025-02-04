@@ -277,7 +277,7 @@ public class GenericUnpairedQuotesRule extends TextLevelRule {
     return -1;
   }
 
-  protected class SymbolLocator {
+  protected static class SymbolLocator {
 
     private final String symbol;
     private final int startPos;

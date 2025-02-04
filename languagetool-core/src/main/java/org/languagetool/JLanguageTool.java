@@ -2159,7 +2159,7 @@ public class JLanguageTool {
       return sentences.get(low - 1);
     }
 
-    private class LineColumnPosition {
+    private static class LineColumnPosition {
       int line;
       int column;
 
