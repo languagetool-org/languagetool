@@ -123,7 +123,8 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
         .put("check.level", params.level.name())
         .build();
     return TelemetryProvider.INSTANCE.createSpan("createPipeline", attributes, () -> {
-      Pipeline lt = new Pipeline(lang, params.altLanguages, motherTongue, cache, globalConfig, userConfig, params.inputLogging);
+      boolean withLanguageModel = config.getLanguageModelDir() != null;
+      Pipeline lt = new Pipeline(lang, params.altLanguages, motherTongue, cache, globalConfig, userConfig, params.inputLogging, withLanguageModel);
       //Add custom rules as filter if there are implement the RuleMatchFilter interface
       //TODO: Will not work anymore if we handle custom rules as remote rules
       for (Rule rule : userConfig.getRules()) {
@@ -133,7 +134,7 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
       }
       lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());
       lt.disableRules(disabledRuleIds);
-      if (config.getLanguageModelDir() != null) {
+      if (withLanguageModel) {
         lt.activateLanguageModelRules(config.getLanguageModelDir());
       }
       if (config.getRulesConfigFile() != null) {
