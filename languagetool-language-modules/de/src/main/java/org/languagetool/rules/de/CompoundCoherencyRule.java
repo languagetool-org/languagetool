@@ -26,7 +26,6 @@ import org.languagetool.rules.*;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Pattern;
 
 /**
  * Check consistent spelling for German compounds. It's a style issue

@@ -20,7 +20,6 @@ package org.languagetool.rules.spelling.multitoken;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.similarity.LevenshteinDistance;
-import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.SpellingCheckRule;

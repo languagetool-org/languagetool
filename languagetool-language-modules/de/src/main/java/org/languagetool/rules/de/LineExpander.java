@@ -28,7 +28,6 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 /**
  * Expand lines according to their suffix, e.g. {@code foo/S} becomes {@code [foo, foos]}.

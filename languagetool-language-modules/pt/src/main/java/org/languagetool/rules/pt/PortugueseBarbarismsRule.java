@@ -18,10 +18,8 @@
  */
 package org.languagetool.rules.pt;
 
-import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
-import org.languagetool.language.Portuguese;
 import org.languagetool.rules.*;
 import org.languagetool.tools.Tools;
 

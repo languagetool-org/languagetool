@@ -22,12 +22,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.Tag;
-import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
 import org.languagetool.rules.SynonymsData;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 import java.util.Arrays;

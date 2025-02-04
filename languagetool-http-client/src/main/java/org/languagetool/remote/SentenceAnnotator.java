@@ -31,7 +31,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 import org.languagetool.tools.DiffsAsMatches;
 import org.languagetool.tools.PseudoMatch;

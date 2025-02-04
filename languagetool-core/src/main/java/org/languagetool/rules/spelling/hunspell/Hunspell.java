@@ -3,8 +3,6 @@ package org.languagetool.rules.spelling.hunspell;
 import org.languagetool.JLanguageTool;
 import org.languagetool.broker.ResourceDataBroker;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;

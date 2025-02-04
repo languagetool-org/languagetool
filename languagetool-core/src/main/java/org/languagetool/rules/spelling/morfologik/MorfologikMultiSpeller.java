@@ -23,7 +23,6 @@ import morfologik.fsa.FSA;
 import morfologik.fsa.builders.CFSA2Serializer;
 import morfologik.fsa.builders.FSABuilder;
 import morfologik.stemming.Dictionary;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +35,6 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.languagetool.JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
