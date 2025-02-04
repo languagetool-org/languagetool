@@ -483,8 +483,8 @@ public class UpperCaseNgramRule extends Rule {
       token("="),
       csRegex("[A-Z].+")
     ),
-    Arrays.asList(
-      csRegex("Peters")
+    Arrays.asList( // Misc. exceptions
+      csRegex("Peters|Staff")
     ),
     Arrays.asList( // What Does an Effective Cover Letter Look Like?
       csRegex("Who|What|When|Where|Why|How"),

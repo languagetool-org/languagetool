@@ -88,6 +88,7 @@ public class UpperCaseNgramRuleTest {
     assertGood("You Can't Judge a Book by the Cover");
     assertGood("What Does an Effective Cover Letter Look Like?");
     assertGood("Our external Counsel are reviewing the authority of FMPA to enter into the proposed transaction");
+    assertGood("Otherwise, Staff will proceed to process your filing based on the pro forma tariff sheets submitted on August 15, 2000.");
 
     // Parentheses
     assertGood("(4 hrs/wk) Manage all IT affairs.");
