@@ -301,6 +301,7 @@ public class Catalan extends Language {
       case "CA_WORD_COHERENCY": return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE
       case "CA_WORD_COHERENCY_VALENCIA": return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE
     // TA_DEMOSTRATIUS_ESTE
+      case "QUAN_PREPOSICIO": return -10; // lesser than QUANT_MES_MES
       case "ARTICLE_TOPONIM_MIN": return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM 
       case "PEL_QUE": return -10; // lesser than PEL_QUE_FA
       case "COMMA_LOCUTION": return -10;
