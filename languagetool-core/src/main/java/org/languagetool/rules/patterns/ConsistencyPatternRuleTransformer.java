@@ -100,7 +100,7 @@ public class ConsistencyPatternRuleTransformer implements PatternRuleTransformer
       }
       if (countFeatures.size()<2) {
         // there is no inconsistency
-        return resultMatches.toArray(new RuleMatch[0]);
+        return resultMatches.toArray(RuleMatch.EMPTY_ARRAY);
       }
       int max = Collections.max(countFeatures.values());
       ArrayList<String> featuresWithMax = new ArrayList<>();
@@ -122,7 +122,7 @@ public class ConsistencyPatternRuleTransformer implements PatternRuleTransformer
           resultMatches.add(ruleLanguage.adjustMatch(rm, featuresToSuggest));
         }
       }
-      return resultMatches.toArray(new RuleMatch[0]);
+      return resultMatches.toArray(RuleMatch.EMPTY_ARRAY);
     }
 
     @Override

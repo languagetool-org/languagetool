@@ -54,7 +54,7 @@ public class FakeRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    return new RuleMatch[0];
+    return RuleMatch.EMPTY_ARRAY;
   }
 
 }

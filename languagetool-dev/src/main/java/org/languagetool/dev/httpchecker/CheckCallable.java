@@ -220,7 +220,7 @@ class CheckCallable implements Callable<File> {
     }
     @Override
     public RuleMatch[] match(AnalyzedSentence sentence) {
-      return new RuleMatch[0];
+      return RuleMatch.EMPTY_ARRAY;
     }
   }
 

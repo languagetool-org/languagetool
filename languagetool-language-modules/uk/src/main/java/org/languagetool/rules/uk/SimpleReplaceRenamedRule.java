@@ -123,7 +123,7 @@ public class SimpleReplaceRenamedRule extends Rule {
       }
 
     }
-    return ruleMatches.toArray(new RuleMatch[0]);
+    return ruleMatches.toArray(RuleMatch.EMPTY_ARRAY);
   }
 
 

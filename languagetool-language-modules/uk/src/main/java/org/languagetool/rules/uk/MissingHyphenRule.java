@@ -122,7 +122,7 @@ public class MissingHyphenRule extends Rule {
       }      
     }
     
-    return ruleMatches.toArray(new RuleMatch[0]);
+    return ruleMatches.toArray(RuleMatch.EMPTY_ARRAY);
   }
 
   private String getPrefixExtraTag(AnalyzedTokenReadings tokenReadings, boolean isCapitalized) {

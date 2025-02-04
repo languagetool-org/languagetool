@@ -330,7 +330,7 @@ public abstract class Rule {
   }
 
   protected final RuleMatch[] toRuleMatchArray(List<RuleMatch> ruleMatches) {
-    return ruleMatches.toArray(new RuleMatch[0]);
+    return ruleMatches.toArray(RuleMatch.EMPTY_ARRAY);
   }
 
   /**

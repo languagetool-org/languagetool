@@ -83,7 +83,7 @@ public abstract class AbstractDashRule extends Rule {
       matches.add(match);
       startPositions.add(hit.begin);
     }
-    return matches.toArray(new RuleMatch[0]);
+    return matches.toArray(RuleMatch.EMPTY_ARRAY);
   }
 
   protected boolean isBoundary(String s) {
