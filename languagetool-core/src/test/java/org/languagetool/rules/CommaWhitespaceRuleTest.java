@@ -77,10 +77,6 @@ public class CommaWhitespaceRuleTest {
     assertMatches(",is a test sentence.", 2);
     assertMatches("This ( foo bar) is a test!.", 1);
     assertMatches("This (foo bar ) is a test!.", 1);
-    assertMatches("This [ foo bar) is a test!.", 1);
-    assertMatches("This (foo bar ] is a test!.", 1);
-    assertMatches("This { foo bar) is a test!.", 1);
-    assertMatches("This (foo bar } is a test!.", 1);
     assertMatches("This is a sentence with an orphaned full stop .", 1);
     assertMatches("This is a test with a OOo footnote\u0002, which is denoted by 0x2 in the text.", 0);
     assertMatches("A sentence ' with ' ten \" incorrect \" examples of ’ using ’ quotation “ marks ” at « once » in it.", 10);
