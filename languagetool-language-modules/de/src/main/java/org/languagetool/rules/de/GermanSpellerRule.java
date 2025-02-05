@@ -327,6 +327,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Soda-Stream", "SodaStream");
     put("Sodastreams", "SodaStreams");
     put("Soda-Streams", "SodaStreams");
+    put("Motor-Flugzeug", "Motorflugzeug");
+    put("Motor-Flugzeugs", "Motorflugzeugs");
+    put("Motor-Flugzeuge", "Motorflugzeuge");
+    put("Motor-Flugzeugen", "Motorflugzeugen");
     putRepl("Germanistikerin(nen)?", "Germanistiker", "Germanist");
     putRepl("[iI]ns?z[ie]nie?rung(en)?", "[iI]ns?z[ie]nie?", "Inszenie");
     putRepl("[eE]rhöherung(en)?", "[eE]rhöherung", "Erhöhung");
