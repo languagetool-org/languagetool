@@ -128,8 +128,8 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
       //Add custom rules as filter if there are implement the RuleMatchFilter interface
       //TODO: Will not work anymore if we handle custom rules as remote rules
       for (Rule rule : userConfig.getRules()) {
-        if (rule instanceof RuleMatchFilter) {
-          lt.addMatchFilter((RuleMatchFilter) rule);
+        if (rule instanceof RuleMatchFilter ruleMatchFilter) {
+          lt.addMatchFilter(ruleMatchFilter);
         }
       }
       lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());

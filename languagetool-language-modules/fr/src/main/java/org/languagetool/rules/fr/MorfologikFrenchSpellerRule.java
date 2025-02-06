@@ -19,6 +19,8 @@
 
 package org.languagetool.rules.fr;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
@@ -33,7 +35,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -41,7 +43,7 @@ import java.util.stream.Collectors;
 import static java.util.regex.Pattern.*;
 
 public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
-  private static final Map<CacheKey, MorfologikFrenchSpellerRule> rulesCache = new ConcurrentHashMap<>();
+  private static final Cache<CacheKey, MorfologikFrenchSpellerRule> rulesCache = Caffeine.newBuilder().maximumSize(200).expireAfterAccess(5, TimeUnit.MINUTES).build();
   private static final String SPELLING_FILE = "/fr/hunspell/spelling.txt";
 
   private static final int flags = CASE_INSENSITIVE | UNICODE_CASE;
@@ -322,7 +324,7 @@ public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
                                                              @NotNull List<Language> altLanguages) throws IOException {
     CacheKey cacheKey = new CacheKey(messages, language, userConfig, altLanguages);
     try {
-      return rulesCache.computeIfAbsent(cacheKey, key -> {
+      return rulesCache.get(cacheKey, key -> {
         try {
           return new MorfologikFrenchSpellerRule(messages, language, userConfig, altLanguages);
         } catch (IOException e) {

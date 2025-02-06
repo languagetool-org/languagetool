@@ -162,7 +162,7 @@ public class French extends LanguageWithModel {
                     Arrays.asList("]", ")", "}"
                          /*"»", French dialog can contain multiple sentences. */
                          /*"’" used in "d’arm" and many other words */)),
-      MorfologikFrenchSpellerRule.getRule(messages, this, userConfig, altLanguages),
+            MorfologikFrenchSpellerRule.getRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),

@@ -35,11 +35,7 @@ public class MorfologikFrenchSpellerRuleTest {
   private final MorfologikFrenchSpellerRule rule;
 
   public MorfologikFrenchSpellerRuleTest() throws IOException {
-    rule = getRule();
-  }
-
-  private static MorfologikFrenchSpellerRule getRule() throws IOException {
-    return MorfologikFrenchSpellerRule.getRule(TestTools.getMessages("fr"));
+    rule = MorfologikFrenchSpellerRule.getRule(TestTools.getMessages("fr"));
   }
 
   private List<String> getTopSuggestions(RuleMatch match, int maxSuggestions) {
