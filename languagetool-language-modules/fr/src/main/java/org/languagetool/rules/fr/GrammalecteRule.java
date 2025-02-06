@@ -445,6 +445,7 @@ public class GrammalecteRule extends Rule {
     "gv1__imp_verbe_groupe3_d__b2_a1_1",//rule is generating FP and a loop(https://github.com/languagetooler-gmbh/languagetool-premium/issues/5220)
     "typo_guillemets_perdus",
     "g2__conj_2p_sans_sujet__b1_a1_1",
+    "g2__conj_se_incohérence__b1_a4_1",
     "typo_signe_multiplication",
     "typo_écriture_invariable",
     "gv1__ppas_avoir_été__b2_a3_1",
