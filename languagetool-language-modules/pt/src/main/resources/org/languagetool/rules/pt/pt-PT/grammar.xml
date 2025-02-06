@@ -904,6 +904,44 @@ USA
 
       <!-- Whole antipatterns must be rewritten: 2024+ -->
 
+      <antipattern> <!-- #1/3: Exclamations: DeepSeek-V3 -->
+          <token postag='SENT_START|_PUNCT_COMMA' postag_regexp='yes'/>
+          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
+          <token postag='_PUNCT_EXCLAMATION' postag_regexp='no'/>
+          <example>Seu cabelo lindo como sempre!</example>
+          <example>Minha paixão nessa vida é viajar!</example>
+          <example>Nossa... que descoberta!</example>
+          <example>Minha vida se tornou uma incógnita graças a vocês, juízes justiceiros, heróis!</example>
+          <example>Meu... que papagaiada!!</example>
+          <example>E a Marina, minha enteada de 16 anos, foi uma babysitter perfeita!</example>
+          <example>Confira entrevista com a banda, que recentemente lançou "Wine of Gods", seu trabalho mais maduro e poderoso!</example>
+          <example>Faz parte do meu show, meu amorrrrrr!!!!</example>
+          <example>A camiseta dele é de marca, sua lambisgóia!</example>
+      </antipattern>
+      <antipattern> <!-- #2/3: Exclamations for specific cases because of the exception above in #1 "DP.+": DeepSeek-V3 -->
+          <token postag='SENT_START|_PUNCT_COMMA' postag_regexp='yes'/>
+          <token skip='-1' postag='DP.+' postag_regexp='yes'/>
+          <token regexp='yes'>[àao]s?|d[ao]s?|n[ao]s?</token>  <!-- "n[ao]s?" on #3 would remove valid results because of "V.+" -->
+          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
+          <token postag='_PUNCT_EXCLAMATION' postag_regexp='no'/>
+          <example>Sua Beleza é a nossa satisfação!</example>
+          <example>Nossos profissionais estão esperando a sua ligação!</example>
+          <example>Seu material básico e o seu Smash Book!</example>
+      </antipattern>
+      <antipattern> <!-- #3/3: Exclamations for specific cases because of the exception above in #1 "DP.+": DeepSeek-V3 -->
+          <token postag='SENT_START|_PUNCT_COMMA' postag_regexp='yes'/>
+          <token skip='-1' postag='DP.+' postag_regexp='yes'/>
+          <token regexp='yes'>[àao]s?|d[ao]s?</token>
+          <token skip='-1' postag='DP.+|V.+' postag_regexp='yes'><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
+          <token regexp='yes'>[àao]s?|d[ao]s?</token>
+          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
+          <token postag='_PUNCT_EXCLAMATION' postag_regexp='no'/>
+          <example>Sua resenha me ajudou a criar a minha opinião sobre esse livro!</example>
+          <example>SEU COMENTÁRIO IRÁ NOS AJUDAR A MELHORAR A NOSSA LOJA!</example>
+          <example>nossa equipe está à sua disposição!</example>
+          <example>Que coincidência! Minha gravata é igual à sua!</example>
+      </antipattern>
+
       <antipattern> <!-- DeepSeek-V3 -->
           <token postag='DP.+' postag_regexp='yes'/>
           <token regexp='yes' inflected='yes'>&pronomes_possessivos_excecoes_a_o_pt_pt;</token>
