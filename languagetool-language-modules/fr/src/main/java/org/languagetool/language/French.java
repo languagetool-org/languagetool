@@ -149,7 +149,7 @@ public class French extends LanguageWithModel {
 
   @Override
   public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
-    return MorfologikFrenchSpellerRule.getRule(messages, this);
+    return new MorfologikFrenchSpellerRule(messages, this, null, Collections.emptyList());
   }
 
   @Override
@@ -162,7 +162,7 @@ public class French extends LanguageWithModel {
                     Arrays.asList("]", ")", "}"
                          /*"»", French dialog can contain multiple sentences. */
                          /*"’" used in "d’arm" and many other words */)),
-            MorfologikFrenchSpellerRule.getRule(messages, this, userConfig, altLanguages),
+            userConfig == null && altLanguages.isEmpty() ? getDefaultSpellingRule() : new MorfologikFrenchSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),

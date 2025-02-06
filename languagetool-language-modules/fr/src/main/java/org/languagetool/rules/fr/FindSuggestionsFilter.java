@@ -21,10 +21,10 @@ package org.languagetool.rules.fr;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.ResourceBundleTools;
 import org.languagetool.language.French;
 import org.languagetool.rules.AbstractFindSuggestionsFilter;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.FrenchSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -34,7 +34,6 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
@@ -42,13 +41,10 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
   private static final Pattern ENDS_IN_VOWEL = Pattern.compile("[aeioué]$");
   private static final Pattern PATTERN = Pattern.compile("^[smntl]'|^(nous|vous|le|la|les|me|te|se|leur|en|y) ");
 
-  private static MorfologikFrenchSpellerRule morfologikRule;
+  private final SpellingCheckRule morfologikRule;
   
   public FindSuggestionsFilter() throws IOException {
-    if (morfologikRule == null) {
-      ResourceBundle messages = ResourceBundleTools.getMessageBundle(French.getInstance());
-      morfologikRule = MorfologikFrenchSpellerRule.getRule(messages);
-    }
+      morfologikRule = French.getInstance().getDefaultSpellingRule();
   }
 
   @Override

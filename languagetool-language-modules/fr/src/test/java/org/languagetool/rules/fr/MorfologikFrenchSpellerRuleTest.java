@@ -24,6 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.French;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,10 +33,10 @@ import static org.junit.Assert.assertEquals;
 
 public class MorfologikFrenchSpellerRuleTest {
   private static final JLanguageTool lt = new JLanguageTool(French.getInstance());
-  private final MorfologikFrenchSpellerRule rule;
+  private final SpellingCheckRule rule;
 
   public MorfologikFrenchSpellerRuleTest() throws IOException {
-    rule = MorfologikFrenchSpellerRule.getRule(TestTools.getMessages("fr"));
+    rule = French.getInstance().getDefaultSpellingRule();
   }
 
   private List<String> getTopSuggestions(RuleMatch match, int maxSuggestions) {
