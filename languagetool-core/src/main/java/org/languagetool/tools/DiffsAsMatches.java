@@ -44,6 +44,9 @@ public class DiffsAsMatches {
       if (inlineDelta.getType() == DeltaType.INSERT) {
         indexCorrection = 2;
         if (errorIndex - indexCorrection < 0) {
+          indexCorrection = 1;
+        }
+        if (errorIndex - indexCorrection < 0) {
           indexCorrection = 0;
         }
       }
@@ -68,6 +71,13 @@ public class DiffsAsMatches {
         prefixReplacement = prefixReplacement + origList.get(i);
       }
       replacement = prefixReplacement + replacement;
+      underlinedError = original.substring(fromPos, toPos);
+      while (underlinedError.length()>0 && replacement.length()>0
+        && underlinedError.substring(0,1).equals(" ") && replacement.substring(0,1).equals(" ")) {
+        fromPos++;
+        underlinedError = underlinedError.substring(1);
+        replacement = replacement.substring(1);
+      }
       // INSERT at the sentence start
       if (fromPos == 0 && toPos == 0) {
         toPos = origList.get(0).length();

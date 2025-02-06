@@ -158,6 +158,22 @@ public class DiffsAsMatchesTest {
     assertEquals(1, matches.get(0).getFromPos());
     assertEquals(7, matches.get(0).getToPos());
 
+    original = "Joan Caprí fou un actor humorista i monologuista català.";
+    revised =  "Joan Caprí fou un actor, humorista i monologuista català.";
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
+    assertEquals(1, matches.size());
+    assertEquals("[actor,]", matches.get(0).getReplacements().toString());
+    assertEquals(18, matches.get(0).getFromPos());
+    assertEquals(23, matches.get(0).getToPos());
+    
+    original = "Ei he vist el teu amic!";
+    revised =  "Ei, he vist el teu amic!";
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
+    assertEquals(1, matches.size());
+    assertEquals("[Ei,]", matches.get(0).getReplacements().toString());
+    assertEquals(0, matches.get(0).getFromPos());
+    assertEquals(2, matches.get(0).getToPos());
+
   }
 
 }
