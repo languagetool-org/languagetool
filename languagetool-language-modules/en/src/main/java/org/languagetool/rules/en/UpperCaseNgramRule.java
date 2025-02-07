@@ -59,7 +59,9 @@ public class UpperCaseNgramRule extends Rule {
     "Bin", "Spot",  // names
     "Go",           // common usage, as in "Go/No Go decision"
     "French", "Roman", "Hawking", "Square", "Japan", "Premier", "Allied",
-    "Counsel" // legal
+    "Counsel", // legal
+    "Act", "Acts", "Associate", "Associates", "Bill", "Bills", "Board",
+    "Center", "Channel", "Fantasy", "Judge", "Mass", "Staff", "Trust"
   ));
   private static final Pattern TYPICAL_LOWERCASE = Pattern.compile("and|or|the|of|on|with|to|it|in|for|as|at|his|her|its|into|&|/");
 
@@ -437,7 +439,7 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("js")
     ),
     Arrays.asList( // And mine is Wed.
-      csRegex("Wed")
+      csRegex("Wed|Mar")
     ),
     Arrays.asList( // Ender's Game
       new PatternTokenBuilder().posRegex("NN.*").csTokenRegex("[A-Z].+").build(),
@@ -484,7 +486,7 @@ public class UpperCaseNgramRule extends Rule {
       csRegex("[A-Z].+")
     ),
     Arrays.asList( // Misc. exceptions
-      csRegex("Peters|Staff")
+      csRegex("Peters")
     ),
     Arrays.asList( // What Does an Effective Cover Letter Look Like?
       csRegex("Who|What|When|Where|Why|How"),
