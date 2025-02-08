@@ -21,12 +21,17 @@ package org.languagetool;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.Weigher;
+import io.grpc.internal.GrpcUtil;
 import org.jetbrains.annotations.NotNull;
+import org.languagetool.rules.GRPCUtils;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.ml.MLServerProto;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * A cache to speed up text checking for use cases where sentences are checked more than once. This
@@ -46,7 +51,7 @@ public class ResultCache {
    * store list if success (can be empty), null -> failure/not checked
    */
   private final Cache<InputSentence, Map<String, List<RuleMatch>>> remoteMatchesCache;
-  private final Cache<InputSentence, List<RuleMatch>> matchesCache;
+  private final Cache<InputSentence, List<MLServerProto.Match>> matchesCache;
   private final Cache<SimpleInputSentence, AnalyzedSentence> sentenceCache;
 
   /**
@@ -55,6 +60,7 @@ public class ResultCache {
    */
   public ResultCache(long maxSize) {
     this(maxSize, 5, TimeUnit.MINUTES);
+
   }
 
   /**
@@ -82,9 +88,9 @@ public class ResultCache {
             build();
   }
   
-  static class MatchesWeigher implements Weigher<InputSentence, List<RuleMatch>> {
+  static class MatchesWeigher implements Weigher<InputSentence, List<MLServerProto.Match>> {
     @Override
-    public int weigh(InputSentence sentence, List<RuleMatch> matches) {
+    public int weigh(InputSentence sentence, List<MLServerProto.Match> matches) {
       // this is just a rough guesstimate so that the cacheSize given by the user
       // is very roughly the number of average sentences the cache can keep:
       return sentence.getText().length() / 75 + matches.size();
@@ -119,8 +125,15 @@ public class ResultCache {
     return matchesCache.stats().hitCount() + sentenceCache.stats().hitCount();
   }
 
+//  public List<RuleMatch> getIfPresent(InputSentence key, Language lang) {
+//    List<MLServerProto.Match> serializedMatches = matchesCache.getIfPresent(key);
+//    AnalyzedSentence sentence = sentenceCache.getIfPresent(new SimpleInputSentence(key.getText(), lang));
+//    return serializedMatches != null ? serializedMatches.stream().map(match -> GRPCUtils.fromGRPC(match, sentence)).toList() : null;
+//  }
+
   public List<RuleMatch> getIfPresent(InputSentence key) {
-    return matchesCache.getIfPresent(key);
+    List<MLServerProto.Match> serializedMatches = matchesCache.getIfPresent(key);
+    return serializedMatches != null ? serializedMatches.stream().map(match -> GRPCUtils.fromGRPC(match, key.getAnalyzedSentence())).toList() : null;
   }
 
   public AnalyzedSentence getIfPresent(SimpleInputSentence key) {
@@ -128,7 +141,8 @@ public class ResultCache {
   }
 
   public void put(InputSentence key, List<RuleMatch> sentenceMatches) {
-    matchesCache.put(key, sentenceMatches);
+    List<MLServerProto.Match> serializedMatches = sentenceMatches.stream().map(GRPCUtils::toGRPC).toList();
+    matchesCache.put(key, serializedMatches);
   }
 
   public void put(SimpleInputSentence key, AnalyzedSentence aSentence) {
@@ -136,7 +150,7 @@ public class ResultCache {
   }
 
   /** @since 4.1 */
-  public Cache<InputSentence, List<RuleMatch>> getMatchesCache() {
+  public Cache<InputSentence, List<MLServerProto.Match>> getMatchesCache() {
     return matchesCache;
   }
 

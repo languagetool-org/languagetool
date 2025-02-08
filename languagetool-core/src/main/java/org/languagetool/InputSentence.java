@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import lombok.Getter;
 import org.languagetool.rules.CategoryId;
 
 import java.util.Collections;
@@ -32,6 +33,8 @@ import java.util.Set;
 class InputSentence {
 
   private final String text;
+  @Getter
+  private final AnalyzedSentence analyzedSentence;
   private final Language lang;
   private final Language motherTongue;
   private final Set<String> disabledRules;
@@ -45,11 +48,12 @@ class InputSentence {
   private final Long textSessionID;
   private final Set<ToneTag> toneTags;
 
-  InputSentence(String text, Language lang, Language motherTongue,
+  InputSentence(AnalyzedSentence text, Language lang, Language motherTongue,
                 Set<String> disabledRules, Set<CategoryId> disabledRuleCategories,
                 Set<String> enabledRules, Set<CategoryId> enabledRuleCategories, UserConfig userConfig,
                 List<Language> altLanguages, JLanguageTool.Mode mode, JLanguageTool.Level level, Long textSessionID, Set<ToneTag> toneTags) {
-    this.text = Objects.requireNonNull(text);
+    this.text = Objects.requireNonNull(text.getText());
+    this.analyzedSentence = text;
     this.lang = Objects.requireNonNull(lang);
     this.motherTongue = motherTongue;
     this.disabledRules = disabledRules;
@@ -64,7 +68,7 @@ class InputSentence {
     this.toneTags = toneTags != null ? toneTags : Collections.emptySet();
   }
 
-  InputSentence(String text, Language lang, Language motherTongue,
+  InputSentence(AnalyzedSentence text, Language lang, Language motherTongue,
                 Set<String> disabledRules, Set<CategoryId> disabledRuleCategories,
                 Set<String> enabledRules, Set<CategoryId> enabledRuleCategories, UserConfig userConfig,
                 List<Language> altLanguages, JLanguageTool.Mode mode, JLanguageTool.Level level, Set<ToneTag> toneTags) {
@@ -73,7 +77,7 @@ class InputSentence {
       mode, level, userConfig != null ? userConfig.getTextSessionId() : null, toneTags);
   }
   
-  InputSentence(String text, Language lang, Language motherTongue,
+  InputSentence(AnalyzedSentence text, Language lang, Language motherTongue,
                 Set<String> disabledRules, Set<CategoryId> disabledRuleCategories,
                 Set<String> enabledRules, Set<CategoryId> enabledRuleCategories, UserConfig userConfig,
                 List<Language> altLanguages, JLanguageTool.Mode mode, JLanguageTool.Level level) {
@@ -86,6 +90,11 @@ class InputSentence {
   public String getText() {
     return text;
   }
+
+  /** @since 6.6 */
+  public AnalyzedSentence getAnalyzedSentence() {
+    return analyzedSentence;
+  }
   
   @Override
   public boolean equals(Object o) {
@@ -93,7 +102,7 @@ class InputSentence {
     if (o == this) return true;
     if (o.getClass() != getClass()) return false;
     InputSentence other = (InputSentence) o;
-    return Objects.equals(text, other.text) && 
+    return Objects.equals(text, other.text) &&
            Objects.equals(lang, other.lang) &&
            Objects.equals(motherTongue, other.motherTongue) &&
            Objects.equals(disabledRules, other.disabledRules) &&
