@@ -52,7 +52,7 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
 
     addUnit("Meilen?", MILE, "Meile", 1, false);
     addUnit("Yard", YARD, "Yard", 1, false);
-    addUnit("Fuß", FEET, "Fuß", 1, false);
+    addUnit("(?U)Fuß", FEET, "Fuß", 1, false);
     addUnit("Zoll", INCH, "Zoll", 1, false);
 
     addUnit("(Kilometer pro Stunde|Stundenkilometer)", KILOMETRE_PER_HOUR, "Kilometer pro Stunde", 1, true);
