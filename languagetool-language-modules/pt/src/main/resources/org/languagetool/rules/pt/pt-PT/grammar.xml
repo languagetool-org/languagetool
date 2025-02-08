@@ -904,6 +904,28 @@ USA
 
       <!-- Whole antipatterns must be rewritten: 2024+ -->
 
+      <antipattern> <!-- Greeting people related: DeepSeek-V3 -->
+          <token postag='SENT_START|_QUOT|_PUNCT|SPS00:DA.+|RG|I' postag_regexp='yes'/>
+          <token postag='DP.+' postag_regexp='yes'/>
+          <token regexp='yes' inflected='yes'>adorado|amado|amigo|avó|avô|bem-amado|bem-querido|caríssimo|caro|chefe|colaborador|colega|companheiro|digno|doutor|estimado|excelentíssimo|filho|ilustríssimo|irmão|mãe|mestre|nobre|pai|prezado|professor|querido|respeitado|saudoso|senhor|senhorita|vosso</token>
+          <example>Meu caro irmão imortal, até quando viverá na ilha da ilusão. </example>
+          <example>Meus caros músicos, se achar que é necessário uma música ungida para tocar, componha uma.</example>
+          <example>Minha mãe me deu dois copos de suco normal de uva.</example>
+          <example>– Minha mãe coloca um guardanapo ao lado de cada prato da mesa.</example>
+          <example>E agora... meu estimado Sr. Hickey, não tem algo para dizer?</example>
+          <example>Até minha avó pode mandar um SMS.</example>
+          <example>Como minha mãe estava doente, não pude ir lá.</example>
+          <example>Quando minha mãe era jovem, era muito bela.</example>
+          <example>Liguei pra minha mãe, chorei, disse que não queria uma cesárea.</example>
+          <example>Sua mãe, a conhecida Madame Sophie Gay , criou-a no meio de uma brilhante sociedade literária.</example>
+          <example>Marc conta como sua mãe se apaixonou por outra mulher, como uma adolescente, mas que isso só aconteceu uma vez.</example>
+          <example>Seu avô de 81 anos está orgulhoso dele.</example>
+          <example>Ele ainda lembra do dia no qual sua mãe descobriu que ele estava fumando.</example>
+          <example>Ele morreu deixando para trás seus amados filhos.</example>
+          <example>Tatoeba ajuda não apenas os estudantes, mas também seus colaboradores, a aprender um novo idioma.</example>
+          <example>- Nosso colaborador?</example>
+      </antipattern>
+
       <antipattern> <!-- #1/3: Exclamations: DeepSeek-V3 -->
           <token postag='SENT_START|_PUNCT_COMMA' postag_regexp='yes'/>
           <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
@@ -1462,28 +1484,6 @@ USA
               <example>Meu coração, que é pássaro selvagem, encontrou o seu céu no teu olhar.</example>
           </antipattern>
           <!-- MARCOAGPINTO 2022-08-03 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-          <antipattern>
-              <token postag='SENT_START|_PUNCT|I|SPS00:DA.+' postag_regexp='yes'>
-                  <exception regexp='yes'>como|já|mas|também</exception> <!-- Used specific words because POSes remove valid entries -->
-              </token>
-              <token postag='DP1.+' postag_regexp='yes'/>
-              <token regexp='yes' inflected='yes'>adorável|amante|amigo|caro|cliente|colaborador|colega|companheiro|empregado|estimado|excelente|excelentíssimo|filho|funcionário|inimigo|irmão|mãe|médico|pai|primo|professor|querido</token>
-              <token min='0' max='2' postag='NC.+|AQ.+|NP.+|UNKNOWN' postag_regexp='yes'>
-                  <exception postag_regexp='yes' postag='V.+|RG'/>
-              </token>
-              <token postag='_QUOT|_PUNCT|CC|SENT_END' postag_regexp='yes'>
-                  <exception postag_regexp='yes' postag='V.+|RG'/>
-                  <exception scope='next' postag_regexp='yes' postag='[DP]P.+'/>
-              </token>
-              <example>Meus caros músicos, se achar que é necessário uma música ungida para tocar, componha uma.</example>
-              <example>E eles dizem a ela com amor: “Minha querida criança”.</example>
-              <example>Obrigado por tudo, meu caro Joshua!</example>
-              <example>Olá, meus amigos e amigas de longa data.</example>
-              <example>Não iria antes ligar pro meu pai.</example>
-              <example>Valeu minha querida amiga, beijinhos!!!</example>
-              <example>Então meu caro Kotscho, somente Deus sabe a hora e quanto tempo de vida ainda teremos.</example>
-          </antipattern>
 
           <antipattern>
               <unify>
