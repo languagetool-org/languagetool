@@ -23,7 +23,6 @@ import org.languagetool.tokenizers.WordTokenizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 
 /**
  * @since 6.1

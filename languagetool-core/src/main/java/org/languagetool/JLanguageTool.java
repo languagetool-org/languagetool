@@ -277,7 +277,7 @@ public class JLanguageTool {
                        GlobalConfig globalConfig, UserConfig userConfig) {
     this(language, altLanguages, motherTongue, cache, globalConfig, userConfig, true);
   }
-  
+
   /**
    * Create a JLanguageTool and setup the built-in rules for the
    * given language and false friend rules for the text language / mother tongue pair.
@@ -296,14 +296,31 @@ public class JLanguageTool {
    */
   public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache,
                        GlobalConfig globalConfig, UserConfig userConfig, boolean inputLogging) {
+    this(language, altLanguages, motherTongue, cache, globalConfig, userConfig, true, false);
+  }
+  
+  /**
+   * Create a JLanguageTool and setup the built-in rules for the
+   * given language and false friend rules for the text language / mother tongue pair.
+   *
+   * @param language     the language of the text to be checked
+   * @param altLanguages The languages that are accepted as alternative languages - currently this means
+   *                     words are accepted if they are in an alternative language and not similar to
+   *                     a word from {@code language}. If there's a similar word in {@code language},
+   *                     there will be an error of type {@link RuleMatch.Type#Hint} (EXPERIMENTAL)
+   * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
+   *          The mother tongue may also be used as a source language for checking bilingual texts.
+   * @param cache a cache to speed up checking if the same sentences get checked more than once,
+   *              e.g. when LT is running as a server and texts are re-checked due to changes
+   * @param inputLogging allow inclusion of input in logs on exceptions
+   * @param withLanguageModel will not call updateOptionalLanguageModelRules(null) if this is true
+   * @since 6.6
+   */
+  public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, GlobalConfig globalConfig, UserConfig userConfig, boolean inputLogging, boolean withLanguageModel) {
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.altLanguages = Objects.requireNonNull(altLanguages, "altLanguages cannot be null (but empty)");
     this.motherTongue = motherTongue;
-    if (userConfig == null) {
-      this.userConfig = new UserConfig();
-    } else {
-      this.userConfig = userConfig;
-    }
+    this.userConfig = Objects.requireNonNullElseGet(userConfig, UserConfig::new);
     this.globalConfig = globalConfig;
     ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
     builtinRules = getAllBuiltinRules(language, messages, userConfig, globalConfig);
@@ -314,7 +331,9 @@ public class JLanguageTool {
         // use the old false friends, which always match, not depending on context
         activateDefaultFalseFriendRules();
       }
-      updateOptionalLanguageModelRules(null); // start out with rules without language model
+      if (!withLanguageModel) {
+        updateOptionalLanguageModelRules(null); // start out with rules without language model
+      }
     } catch (Exception e) {
       throw new RuntimeException("Could not activate rules", e);
     }
@@ -2159,7 +2178,7 @@ public class JLanguageTool {
       return sentences.get(low - 1);
     }
 
-    private class LineColumnPosition {
+    private static class LineColumnPosition {
       int line;
       int column;
 

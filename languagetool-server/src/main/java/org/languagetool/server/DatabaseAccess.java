@@ -18,7 +18,6 @@
  */
 package org.languagetool.server;
 
-import com.google.common.cache.Cache;
 import org.apache.ibatis.jdbc.SQL;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;

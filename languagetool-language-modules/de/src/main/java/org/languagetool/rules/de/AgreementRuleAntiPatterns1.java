@@ -25,7 +25,6 @@ import java.util.*;
 
 import static java.util.Arrays.asList;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
 
 class AgreementRuleAntiPatterns1 {
 

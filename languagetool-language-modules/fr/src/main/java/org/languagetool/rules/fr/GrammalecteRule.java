@@ -609,7 +609,7 @@ public class GrammalecteRule extends Rule {
     // very basic health check -> mark server as down after an error for given interval
     if (System.currentTimeMillis() - lastRequestError < DOWN_INTERVAL_MILLISECONDS) {
       logger.warn("Warn: Temporarily disabled Grammalecte server because of recent error.");
-      return new RuleMatch[0];
+      return RuleMatch.EMPTY_ARRAY;
     }
 
     URL serverUrl = new URL(globalConfig.getGrammalecteServer());
@@ -642,7 +642,7 @@ public class GrammalecteRule extends Rule {
     } finally {
       huc.disconnect();
     }
-    return new RuleMatch[0];
+    return RuleMatch.EMPTY_ARRAY;
   }
 
   @NotNull

@@ -22,7 +22,6 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Languages;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.Tagger;
 
 import java.io.IOException;

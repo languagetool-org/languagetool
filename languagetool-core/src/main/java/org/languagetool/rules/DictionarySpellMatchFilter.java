@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules;
 
-import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -30,7 +29,6 @@ import org.languagetool.markup.AnnotatedText;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 /**
  * Filter spelling error with phrases the users wants to have accepted.

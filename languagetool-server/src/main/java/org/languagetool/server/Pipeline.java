@@ -64,6 +64,10 @@ class Pipeline extends JLanguageTool {
     super(language, altLanguages, motherTongue, cache, globalConfig, userConfig, inputLogging);
   }
 
+  Pipeline(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, GlobalConfig globalConfig, UserConfig userConfig, boolean inputLogging, boolean withLanguageModel) {
+    super(language, altLanguages, motherTongue, cache, globalConfig, userConfig, inputLogging, withLanguageModel);
+  }
+
   @Override
   public void setCleanOverlappingMatches(boolean cleanOverlappingMatches) {
     preventModificationAfterSetup();

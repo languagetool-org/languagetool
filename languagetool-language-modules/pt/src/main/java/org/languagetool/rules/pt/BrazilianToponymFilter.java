@@ -22,7 +22,6 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RegexRuleFilter;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 

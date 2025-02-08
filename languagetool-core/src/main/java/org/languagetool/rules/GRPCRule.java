@@ -224,7 +224,7 @@ public abstract class GRPCRule extends RemoteRule {
     }
   }
 
-  protected class MLRuleRequest extends RemoteRule.RemoteRequest {
+  protected static class MLRuleRequest extends RemoteRule.RemoteRequest {
     final List<MLServerProto.MatchRequest> requests;
     final List<AnalyzedSentence> sentences;
     final Long textSessionId;
@@ -237,7 +237,7 @@ public abstract class GRPCRule extends RemoteRule {
   }
 
 
-  protected class AnalyzedMLRuleRequest extends RemoteRule.RemoteRequest {
+  protected static class AnalyzedMLRuleRequest extends RemoteRule.RemoteRequest {
     final List<MLServerProto.AnalyzedMatchRequest> requests;
     final List<AnalyzedSentence> sentences;
 

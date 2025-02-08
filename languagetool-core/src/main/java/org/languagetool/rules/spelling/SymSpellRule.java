@@ -243,7 +243,7 @@ public class SymSpellRule extends SpellingCheckRule {
         matches.add(match);
       }
     }
-    return matches.toArray(new RuleMatch[0]);
+    return matches.toArray(RuleMatch.EMPTY_ARRAY);
   }
 
   @Override

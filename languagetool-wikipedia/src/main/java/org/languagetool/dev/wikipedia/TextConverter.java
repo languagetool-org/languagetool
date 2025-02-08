@@ -16,17 +16,13 @@
  */
 package org.languagetool.dev.wikipedia;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import de.fau.cs.osr.ptk.common.AstVisitor;
-import de.fau.cs.osr.ptk.common.ast.*;
-import org.apache.commons.lang3.StringEscapeUtils;
 //import org.sweble.wikitext.engine.Page;
-import org.sweble.wikitext.engine.PageTitle;
 //import org.sweble.wikitext.engine.utils.SimpleWikiConfiguration;
 //import org.sweble.wikitext.lazy.LinkTargetException;
 //import org.sweble.wikitext.lazy.encval.IllegalCodePoint;

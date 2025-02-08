@@ -26,7 +26,6 @@ import org.languagetool.tagging.pt.PortugueseTagger;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import static java.util.regex.Pattern.*;
-import static java.util.regex.Pattern.compile;
 
 /**
  * Tokenizes a sentence into words. Punctuation and whitespace gets its own token.
