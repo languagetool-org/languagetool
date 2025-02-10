@@ -469,14 +469,17 @@ Japanese Grammar and Typo Rules file for LanguageTool
 			<message>文法ミスがあります。<suggestion>すべきなのは</suggestion>の間違いです。</message>
 			<example correction="すべきなのは"><marker>すべきのは</marker></example>
 		</rule>
-		<rule id="NO_SURU" name="の+する">
+		<rule id="NO_SURU" name="助詞「の」→「を」">
 			<pattern>
-				<token>の</token>
-				<token/>
-				<token>する</token>
+				<token postag="名詞.*" postag_regexp="yes"></token>
+				<marker>
+					<token postag="助詞-連体化">の</token>
+				</marker>
+				<token postag="名詞-サ変接続">表示</token>
+				<token inflected="yes" postag="動詞-自立">する</token>
 			</pattern>
-			<message>文法ミスがあります。<suggestion>を軽蔑する</suggestion>の間違いです。</message>
-			<example correction="を軽蔑する"><marker>の軽蔑する</marker></example>
+			<message>目的語を表すには<suggestion>を</suggestion>を使用します。</message>
+			<example correction="を">詳細<marker>の</marker>表示する</example>
 		</rule>
 		<rule id="JOUKIDOORI" name="上記通り">
 			<pattern>
