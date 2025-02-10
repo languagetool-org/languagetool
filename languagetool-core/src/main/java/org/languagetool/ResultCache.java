@@ -125,12 +125,6 @@ public class ResultCache {
     return matchesCache.stats().hitCount() + sentenceCache.stats().hitCount();
   }
 
-//  public List<RuleMatch> getIfPresent(InputSentence key, Language lang) {
-//    List<MLServerProto.Match> serializedMatches = matchesCache.getIfPresent(key);
-//    AnalyzedSentence sentence = sentenceCache.getIfPresent(new SimpleInputSentence(key.getText(), lang));
-//    return serializedMatches != null ? serializedMatches.stream().map(match -> GRPCUtils.fromGRPC(match, sentence)).toList() : null;
-//  }
-
   public List<RuleMatch> getIfPresent(InputSentence key) {
     List<MLServerProto.Match> serializedMatches = matchesCache.getIfPresent(key);
     return serializedMatches != null ? serializedMatches.stream().map(match -> GRPCUtils.fromGRPC(match, key.getAnalyzedSentence())).toList() : null;
@@ -140,7 +134,7 @@ public class ResultCache {
     return sentenceCache.getIfPresent(key);
   }
 
-  public void put(InputSentence key, List<RuleMatch> sentenceMatches) {
+  public void put(@NotNull InputSentence key, @NotNull List<RuleMatch> sentenceMatches) {
     List<MLServerProto.Match> serializedMatches = sentenceMatches.stream().map(GRPCUtils::toGRPC).toList();
     matchesCache.put(key, serializedMatches);
   }
