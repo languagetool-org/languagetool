@@ -926,8 +926,9 @@ USA
           <example>- Nosso colaborador?</example>
       </antipattern>
 
+<!-- In the three antipatterns below I need to add formal and oficial words as exception according to DeepSeek-V3: WIP -->
       <antipattern> <!-- #1/3: Exclamations: DeepSeek-V3 -->
-          <token postag='SENT_START|_PUNCT_COMMA' postag_regexp='yes'/>
+          <token postag='SENT_START|_PUNCT_COMMA|N.+|AQ.+|I' postag_regexp='yes'/>
           <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
           <token postag='_PUNCT_EXCLAMATION' postag_regexp='no'/>
           <example>Seu cabelo lindo como sempre!</example>
@@ -939,9 +940,12 @@ USA
           <example>Confira entrevista com a banda, que recentemente lançou "Wine of Gods", seu trabalho mais maduro e poderoso!</example>
           <example>Faz parte do meu show, meu amorrrrrr!!!!</example>
           <example>A camiseta dele é de marca, sua lambisgóia!</example>
+          <example>Escolha seu predileto e boa degustação!</example>
+          <example>Adorei a resenha, mas não é muito minha praia!</example>
+          <example>O Mascu das 14:32, porque tá comentando aqui então seu parasita?!</example>
       </antipattern>
       <antipattern> <!-- #2/3: Exclamations for specific cases because of the exception above in #1 "DP.+": DeepSeek-V3 -->
-          <token postag='SENT_START|_PUNCT_COMMA' postag_regexp='yes'/>
+          <token postag='SENT_START|_PUNCT_COMMA|N.+|AQ.+|I' postag_regexp='yes'/>
           <token skip='-1' postag='DP.+' postag_regexp='yes'/>
           <token regexp='yes'>[àao]s?|d[ao]s?|n[ao]s?</token>  <!-- "n[ao]s?" on #3 would remove valid results because of "V.+" -->
           <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
@@ -949,9 +953,10 @@ USA
           <example>Sua Beleza é a nossa satisfação!</example>
           <example>Nossos profissionais estão esperando a sua ligação!</example>
           <example>Seu material básico e o seu Smash Book!</example>
+          <example>Durante 6 meses Eu falei sobre minha mãe, meu pai, e até mesmo a minha irmã!</example>
       </antipattern>
       <antipattern> <!-- #3/3: Exclamations for specific cases because of the exception above in #1 "DP.+": DeepSeek-V3 -->
-          <token postag='SENT_START|_PUNCT_COMMA' postag_regexp='yes'/>
+          <token postag='SENT_START|_PUNCT_COMMA|N.+|AQ.+|I' postag_regexp='yes'/>
           <token skip='-1' postag='DP.+' postag_regexp='yes'/>
           <token regexp='yes'>[àao]s?|d[ao]s?</token>
           <token skip='-1' postag='DP.+|V.+' postag_regexp='yes'><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
