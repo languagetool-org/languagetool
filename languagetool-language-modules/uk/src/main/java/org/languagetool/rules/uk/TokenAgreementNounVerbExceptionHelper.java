@@ -790,6 +790,13 @@ public final class TokenAgreementNounVerbExceptionHelper {
       return true;
     }
     
+    // з Василем Кричевським Оскар Германович разом брали участь
+    if( tokens[nounPos+1].getCleanToken().equalsIgnoreCase("разом")
+        && PosTagHelper.hasPosTag(verbTokenReadings, Pattern.compile(".*:p(:.*|$)")) ) {
+      logException();
+      return true;
+    }
+    
     // більше ніж будь-хто маємо повне право
     if( nounPos > 2
         && LemmaHelper.hasLemma(tokens[nounPos-1], "ніж")) {

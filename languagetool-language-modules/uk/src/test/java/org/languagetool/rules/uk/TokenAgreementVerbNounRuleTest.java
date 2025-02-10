@@ -161,6 +161,8 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("розподілятиметься пропорційно вкладеній праці");
     assertEmptyMatch("зростатимуть прямо пропорційно україноненависництву");
     
+    assertEmptyMatch("рухатися далі власної історії");
+    
     // impr + oru
     assertEmptyMatch("запропоновано урядом");
 

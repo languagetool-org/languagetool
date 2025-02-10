@@ -411,6 +411,8 @@ public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
     assertEmptyMatch("Що пачка цигарок, що ковбаса коштують");
     assertEmptyMatch("не вулична злочинність, не корупція відлякували");
     
+    assertEmptyMatch("з Василем Кричевським Оскар Германович разом брали участь");
+    
     // very long
     assertEmptyMatch("Леонід Новохатько й керівник головного управління з питань гуманітарного розвитку адміністрації\n" + 
         "Президента Юрій Богуцький обговорили");
