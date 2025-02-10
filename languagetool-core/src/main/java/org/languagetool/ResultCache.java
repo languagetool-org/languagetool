@@ -21,7 +21,6 @@ package org.languagetool;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.Weigher;
-import io.grpc.internal.GrpcUtil;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.rules.GRPCUtils;
 import org.languagetool.rules.RuleMatch;
