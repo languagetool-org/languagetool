@@ -1871,6 +1871,17 @@ class CaseRuleAntiPatterns {
       // Die Stadt ist Sitz des Kirchenbezirks Freudenstadt der Evangelischen Landeskirche in Württemberg.
       csRegex("Evangelischen?"),
       csToken("Landeskirche")
+    ),
+    Arrays.asList(
+      // Der Unabhängige Finanzsenat hat über die Berufung entschieden.
+      csRegex("Unabhängige[mnrs]?"),
+      csRegex("Finanzsenate?s?")
+    ),
+    Arrays.asList(
+      // Udo Lindenberg - Bunte Republik Deutschland.
+      csToken("Bunte"),
+      csToken("Republik"),
+      csToken("Deutschland")
     )
     );
 }
