@@ -1,3 +1,8 @@
+/**
+ * SWE 261P Software Testing Project
+ * By Kenny Chen, Haitong Yan, Jiacheng Zhuo
+ */
+
 package org.languagetool.rules.en;
 
 import java.io.IOException;
