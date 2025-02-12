@@ -1,3 +1,8 @@
+/**
+ * SWE 261P Software Testing Project
+ * By Kenny Chen, Haitong Yan, Jiacheng Zhuo
+ */
+
 package org.languagetool;
 
 import org.junit.Test;
@@ -14,11 +19,17 @@ public class SpellCheckingWorkFlowTest {
 
   @Test
   public void testSpelling1() throws IOException {
+    // This word does not exist, and it should generate a list of suggestion for the correct words.
     List<RuleMatch> matches = lt.check("Aple");
-    System.out.println(matches.get(0).getSentence());
-    System.out.println(matches.get(0));
-    System.out.println(matches.get(0).getSuggestedReplacements().toString());
-    assertEquals(1, matches.size());    // One error, plural subject is mismatched with a singular verb
+
+    // The language should return a rule matched for spelling mistake
+    String rm= matches.get(0).toString();
+    assertEquals(1, matches.size());
+    assertEquals("MORFOLOGIK_RULE_EN_US:0-4:Possible spelling mistake found.", rm);
+
+    // It should generate suggestions
+    String suggestions = matches.get(0).getSuggestedReplacements().toString();
+    assertEquals("[Able, Apple, Ample, Axle, Maple, Ale, Ape, Apse, AELE, ALE, APE, APL, ARLE, EPLE, PLE]", suggestions);
   }
 
   @Test
@@ -37,13 +48,13 @@ public class SpellCheckingWorkFlowTest {
 
   @Test
   public void testSpelling4() throws IOException {
-    // "is" should be replaced by "am"
+    List<RuleMatch> matches = lt.check("I am going to tak a wlk");
+
+    assertEquals(2, matches.size());
+
     // "tak" should be "take"
     // "wlk" should be "walk"
-    List<RuleMatch> matches = lt.check("I is going to tak a wlk");
-    for (RuleMatch match : matches) {
-      System.out.println(match);
-    }
-    assertEquals(3, matches.size());
+    assertEquals("take", matches.get(0).getSuggestedReplacements().get(0));
+    assertEquals("walk", matches.get(1).getSuggestedReplacements().get(0));
   }
 }

@@ -1,10 +1,14 @@
+/**
+ * SWE 261P Software Testing Project
+ * By Kenny Chen, Haitong Yan, Jiacheng Zhuo
+ */
+
 package org.languagetool.tokenizers.en;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.List;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class EnglishSentenceTokenizerTest {
 

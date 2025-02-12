@@ -1,3 +1,8 @@
+/**
+ * SWE 261P Software Testing Project
+ * By Kenny Chen, Haitong Yan, Jiacheng Zhuo
+ */
+
 package org.languagetool;
 
 import org.junit.Test;
@@ -9,7 +14,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class PosTaggingWorkflow {
+public class PosTaggingWorkflowTest {
   // List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(tokens);
   // initialize language tool
   private final Language language = new AmericanEnglish();
