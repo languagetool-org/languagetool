@@ -5,6 +5,8 @@
 
 package org.languagetool;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.languagetool.language.AmericanEnglish;
 
@@ -15,9 +17,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class PosTaggingWorkflowTest {
-  // List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(tokens);
-  // initialize language tool
-  private final Language language = new AmericanEnglish();
+  private static Language language;
+
+  // initialize LanguageTool
+  @BeforeClass
+  public static void setUp() throws Exception {
+    language = new AmericanEnglish();
+  }
 
   @Test
   public void testTagging01() throws IOException {
@@ -122,7 +128,6 @@ public class PosTaggingWorkflowTest {
 
     boolean isSuccessful = false;
     for (AnalyzedToken analyzedToken : token.getReadings()) {
-      System.out.println(analyzedToken.getPOSTag());
       if("IN".equals(analyzedToken.getPOSTag())) { // should be considered a preposition
         isSuccessful = true;
         break;
