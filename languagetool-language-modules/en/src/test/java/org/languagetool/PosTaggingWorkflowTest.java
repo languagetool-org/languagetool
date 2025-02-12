@@ -1,6 +1,5 @@
 /**
- * SWE 261P Software Testing Project
- * By Kenny Chen, Haitong Yan, Jiacheng Zhuo
+ * SWE 261P Software Testing Project By Kenny Chen, Haitong Yan, Jiacheng Zhuo
  */
 
 package org.languagetool;
@@ -26,7 +25,7 @@ public class PosTaggingWorkflowTest {
   }
 
   @Test
-  public void testTagging01() throws IOException {
+  public void testNullTag() throws IOException {
     // empty space should get a "null" pos tag
     String sentence = " ";
     List<String> tokens = language.getWordTokenizer().tokenize(sentence);
@@ -35,7 +34,7 @@ public class PosTaggingWorkflowTest {
   }
 
   @Test
-  public void testTagging02() throws IOException {
+  public void testNounTag() throws IOException {
     String sentence = "dog";
     List<String> tokens = language.getWordTokenizer().tokenize(sentence);
     List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(tokens);
@@ -43,7 +42,7 @@ public class PosTaggingWorkflowTest {
 
     boolean isSuccessful = false;
     for (AnalyzedToken analyzedToken : token.getReadings()) {
-      if("NN".equals(analyzedToken.getPOSTag())) { // should be at least one referring to noun
+      if ("NN".equals(analyzedToken.getPOSTag())) { // should be at least one referring to noun
         isSuccessful = true;
         break;
       }
@@ -52,7 +51,7 @@ public class PosTaggingWorkflowTest {
   }
 
   @Test
-  public void testTagging03() throws IOException {
+  public void testVerbTag() throws IOException {
     String sentence = "fight";
     List<String> tokens = language.getWordTokenizer().tokenize(sentence);
     List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(tokens);
@@ -60,7 +59,7 @@ public class PosTaggingWorkflowTest {
 
     boolean isSuccessful = false;
     for (AnalyzedToken analyzedToken : token.getReadings()) {
-      if("VB".equals(analyzedToken.getPOSTag())) { // should be at least one referring to verb
+      if ("VB".equals(analyzedToken.getPOSTag())) { // should be at least one referring to verb
         isSuccessful = true;
         break;
       }
@@ -69,7 +68,7 @@ public class PosTaggingWorkflowTest {
   }
 
   @Test
-  public void testTagging04() throws IOException {
+  public void testSingularVerbTag() throws IOException {
     String sentence = "is";
     List<String> tokens = language.getWordTokenizer().tokenize(sentence);
     List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(tokens);
@@ -77,7 +76,8 @@ public class PosTaggingWorkflowTest {
 
     boolean isSuccessful = false;
     for (AnalyzedToken analyzedToken : token.getReadings()) {
-      if("VBZ".equals(analyzedToken.getPOSTag())) { // should be at least one referring to Third-Person Singular verb
+      if ("VBZ".equals(analyzedToken.getPOSTag())) { // should be at least one referring to
+                                                     // Third-Person Singular verb
         isSuccessful = true;
         break;
       }
@@ -86,7 +86,7 @@ public class PosTaggingWorkflowTest {
   }
 
   @Test
-  public void testTagging05() throws IOException {
+  public void testAdjectiveTag() throws IOException {
     String sentence = "good";
     List<String> tokens = language.getWordTokenizer().tokenize(sentence);
     List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(tokens);
@@ -94,7 +94,7 @@ public class PosTaggingWorkflowTest {
 
     boolean isSuccessful = false;
     for (AnalyzedToken analyzedToken : token.getReadings()) {
-      if("JJ".equals(analyzedToken.getPOSTag())) { // should be at least one referring to adjective
+      if ("JJ".equals(analyzedToken.getPOSTag())) { // should be at least one referring to adjective
         isSuccessful = true;
         break;
       }
@@ -103,7 +103,7 @@ public class PosTaggingWorkflowTest {
   }
 
   @Test
-  public void testTagging06() throws IOException {
+  public void testProperNounTag() throws IOException {
     String sentence = "France";
     List<String> tokens = language.getWordTokenizer().tokenize(sentence);
     List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(tokens);
@@ -111,7 +111,7 @@ public class PosTaggingWorkflowTest {
 
     boolean isSuccessful = false;
     for (AnalyzedToken analyzedToken : token.getReadings()) {
-      if("NNP".equals(analyzedToken.getPOSTag())) { // should be considered a proper noun
+      if ("NNP".equals(analyzedToken.getPOSTag())) { // should be considered a proper noun
         isSuccessful = true;
         break;
       }
@@ -120,7 +120,7 @@ public class PosTaggingWorkflowTest {
   }
 
   @Test
-  public void testTagging07() throws IOException {
+  public void testPrepositionTag() throws IOException {
     String sentence = "between";
     List<String> tokens = language.getWordTokenizer().tokenize(sentence);
     List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(tokens);
@@ -128,7 +128,7 @@ public class PosTaggingWorkflowTest {
 
     boolean isSuccessful = false;
     for (AnalyzedToken analyzedToken : token.getReadings()) {
-      if("IN".equals(analyzedToken.getPOSTag())) { // should be considered a preposition
+      if ("IN".equals(analyzedToken.getPOSTag())) { // should be considered a preposition
         isSuccessful = true;
         break;
       }
