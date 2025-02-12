@@ -1257,7 +1257,7 @@ public class JLanguageTool {
       if (cache != null && result.isSuccess()) {
         // store in cache
         InputSentence cacheKey = new InputSentence(
-          sentence.getText(), language, motherTongue, disabledRules, disabledRuleCategories,
+          sentence, language, motherTongue, disabledRules, disabledRuleCategories,
           enabledRules, enabledRuleCategories, userConfig, altLanguages, mode, level, textSessionID, toneTags);
         Map<String, List<RuleMatch>> cacheEntry = cache.getRemoteMatchesCache().get(cacheKey, HashMap::new);
         cacheEntry.put(ruleKey, matches);
@@ -1300,7 +1300,7 @@ public class JLanguageTool {
       AnalyzedSentence s = analyzedSentences.get(i);
       matchOffset.put(i, offset);
       offset += s.getText().length();
-      InputSentence cacheKey = new InputSentence(s.getText(), language, motherTongue,
+      InputSentence cacheKey = new InputSentence(s, language, motherTongue,
         disabledRules, disabledRuleCategories, enabledRules, enabledRuleCategories,
         userConfig, altLanguages, mode, level, textSessionID, toneTags);
       cacheKeys.add(cacheKey);
@@ -2096,7 +2096,7 @@ public class JLanguageTool {
           List<RuleMatch> sentenceMatches = null;
           InputSentence cacheKey = null;
           if (cache != null) {
-            cacheKey = new InputSentence(sentence.text, language, motherTongue,
+            cacheKey = new InputSentence(sentence.analyzed, language, motherTongue,
                     disabledRules, disabledRuleCategories,
                     enabledRules, enabledRuleCategories, userConfig, altLanguages, mode, level, toneTags);
             sentenceMatches = cache.getIfPresent(cacheKey);
