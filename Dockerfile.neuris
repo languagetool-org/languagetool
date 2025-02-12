@@ -1,0 +1,16 @@
+FROM alpine:3.20
+RUN apk add --no-cache fasttext openjdk21-jre
+
+RUN mkdir /home/languageTool
+WORKDIR /home/languageTool
+
+COPY libs/ libs
+COPY META-INF/ META-INF
+COPY org/ org
+COPY languagetool-server.jar .
+COPY lid.176.bin .
+COPY server.properties .
+
+EXPOSE 8081/tcp
+
+ENTRYPOINT [ "java", "-cp", "languagetool-server.jar", "org.languagetool.server.HTTPServer", "--config", "server.properties", "--port", "8081", "--allow-origin" ]

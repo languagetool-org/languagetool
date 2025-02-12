@@ -18,6 +18,7 @@
  */
 package org.languagetool.language;
 
+import javax.swing.border.Border;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
@@ -198,7 +199,8 @@ public class German extends LanguageWithModel {
             new GermanRepeatedWordsRule(messages),
             new StyleTooOftenUsedVerbRule(messages, this, userConfig),
             new StyleTooOftenUsedNounRule(messages, this, userConfig),
-            new StyleTooOftenUsedAdjectiveRule(messages, this, userConfig)
+            new StyleTooOftenUsedAdjectiveRule(messages, this, userConfig),
+            new BorderNumberRule(messages, this)
     );
   }
 

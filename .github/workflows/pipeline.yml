@@ -1,0 +1,22 @@
+name: Pipeline
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-package:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12
+        with:
+          java-version: "21.0"
+          distribution: "temurin"
+      - name: Build backend image
+        run: mvn clean package -DskipTests
+      - name: List package
+        run: ls -1 languagetool-standalone/target/LanguageTool*.zip
