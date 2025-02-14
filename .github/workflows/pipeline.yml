@@ -7,11 +7,9 @@ env:
   CONTAINER_REGISTRY: ghcr.io
   CONTAINER_IMAGE_NAME: ${{ github.repository }}
   CONTAINER_IMAGE_VERSION: ${{ github.event.pull_request.head.sha || github.sha }} # Use PR head SHA if available
-  GH_PACKAGES_REPOSITORY_USER: ${{ secrets.GH_PACKAGES_REPOSITORY_USER }} # Secrets must not start with "GITHUB_".
-  GH_PACKAGES_REPOSITORY_TOKEN: ${{ secrets.GH_PACKAGES_REPOSITORY_TOKEN }}
 
 jobs:
-  generate-package:
+  generate-image-and-scan:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -49,9 +47,51 @@ jobs:
             echo "No significant vulnerabilities found"
             exit 0
           fi
-
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
-        if: ${{ always() && github.ref == 'refs/heads/main' }} # Bypass non-zero exit code..
+        if: ${{ always() }} # Bypass non-zero exit code..
         with:
           sarif_file: "trivy-results.sarif"
+      - name: Save image
+        run: |
+          mkdir /tmp/images
+          docker save -o /tmp/images/languagetool-image.tar ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
+      - uses: actions/cache@v4
+        with:
+          path: /tmp/images
+          key: docker-languagetool-images-cache-${{ env.RUN_ID }}
+          restore-keys: docker-images-cache-${{ env.RUN_ID }}
+
+  push-image-to-registry:
+    runs-on: ubuntu-latest
+    needs:
+      - generate-image-and-scan
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
+    outputs:
+      version: ${{ steps.set-version.outputs.version }}
+    steps:
+      - uses: actions/cache@v4
+        with:
+          path: /tmp/images
+          key: docker-languagetool-images-cache-${{ env.RUN_ID }}
+          restore-keys: docker-images-cache-${{ env.RUN_ID }}
+      - name: load image
+        shell: bash
+        run: docker load -i /tmp/images/frontend-image.tar
+      - name: Log into container registry
+        uses: docker/login-action@327cd5a69de6c009b9ce71bce8395f28e651bf99
+        with:
+          registry: ${{ env.CONTAINER_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish languagetool container image
+        run: docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
+      - name: Install cosign
+        uses: sigstore/cosign-installer@c56c2d3e59e4281cc41dea2217323ba5694b171e
+      - name: Sign the published Docker image
+        run: cosign sign --yes ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
+      - id: set-version
+        run: echo "version=$CONTAINER_IMAGE_VERSION" >> "$GITHUB_OUTPUT"
