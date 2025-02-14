@@ -3711,6 +3711,20 @@ USA
         </rule>
 
 
+        <rule id='CHATEAR_INCOMODAR_IMPORTUNAR' name="Chatear → incomodar/importunar" tone_tags='formal' tags='picky' default='temp_off'>
+            <pattern>
+                <marker>
+                    <token inflected='yes' regexp='no'>chatear</token>
+                </marker>
+            </pattern>
+            <message>&informal_msg;</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>incomodar</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>importunar</match></suggestion>
+            <example correction="incomode|importune">Não <marker>chateie</marker> mais os visitantes.</example>
+            <example>O Rui importuna os visitantes abusivamente.</example>
+        </rule>
+
+
         <rule id='ESTAR_AQUI_PARA_INF_VIR_INF' name="'Estar aqui para' Inf. → 'Vir Inf.'" tone_tags='formal'>
             <pattern>
                 <marker>
