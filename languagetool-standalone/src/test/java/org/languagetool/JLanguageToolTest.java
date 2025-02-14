@@ -38,7 +38,7 @@ import static org.junit.Assert.*;
 
 public class JLanguageToolTest {
 
-  private static final English english = new English();
+  private static final Language english = Languages.getLanguageForShortCode("en");
 
   @Test
   public void testGetAllActiveRules() {
