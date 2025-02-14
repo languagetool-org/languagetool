@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
 
 env:
+  RUN_ID: ${{ github.run_id }}
   CONTAINER_REGISTRY: ghcr.io
   CONTAINER_IMAGE_NAME: ${{ github.repository }}
   CONTAINER_IMAGE_VERSION: ${{ github.event.pull_request.head.sha || github.sha }} # Use PR head SHA if available
