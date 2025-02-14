@@ -28,7 +28,7 @@ jobs:
       - name: List package
         run: ./prepare-docker-image.sh
       - name: Generate docker image
-        run: cd ${ls -1d LanguageTool*}; docker build --file ../Dockerfile.neuris --tag ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
+        run: cd $(ls -1d LanguageTool*); docker build --file ../Dockerfile.neuris --tag ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
       - name: Run Trivy vulnerability image scanner
           # Third-party action, pin to commit SHA!
           # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
