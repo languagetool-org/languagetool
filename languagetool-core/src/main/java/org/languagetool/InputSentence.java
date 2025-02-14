@@ -32,7 +32,6 @@ import java.util.Set;
  */
 class InputSentence {
 
-  private final String text;
   @Getter
   private final AnalyzedSentence analyzedSentence;
   private final Language lang;
@@ -52,7 +51,6 @@ class InputSentence {
                 Set<String> disabledRules, Set<CategoryId> disabledRuleCategories,
                 Set<String> enabledRules, Set<CategoryId> enabledRuleCategories, UserConfig userConfig,
                 List<Language> altLanguages, JLanguageTool.Mode mode, JLanguageTool.Level level, Long textSessionID, Set<ToneTag> toneTags) {
-    this.text = Objects.requireNonNull(text.getText());
     this.analyzedSentence = text;
     this.lang = Objects.requireNonNull(lang);
     this.motherTongue = motherTongue;
@@ -86,11 +84,6 @@ class InputSentence {
       mode, level, userConfig != null ? userConfig.getTextSessionId() : null, null);
   }
 
-  /** @since 4.1 */
-  public String getText() {
-    return text;
-  }
-
   /** @since 6.6 */
   public AnalyzedSentence getAnalyzedSentence() {
     return analyzedSentence;
@@ -102,7 +95,7 @@ class InputSentence {
     if (o == this) return true;
     if (o.getClass() != getClass()) return false;
     InputSentence other = (InputSentence) o;
-    return Objects.equals(text, other.text) &&
+    return Objects.equals(analyzedSentence.getText(), other.analyzedSentence.getText()) &&
            Objects.equals(lang, other.lang) &&
            Objects.equals(motherTongue, other.motherTongue) &&
            Objects.equals(disabledRules, other.disabledRules) &&
@@ -119,12 +112,12 @@ class InputSentence {
 
   @Override
   public int hashCode() {
-    return Objects.hash(text, lang, motherTongue, disabledRules, disabledRuleCategories,
+    return Objects.hash(analyzedSentence.getText(), lang, motherTongue, disabledRules, disabledRuleCategories,
             enabledRules, enabledRuleCategories, userConfig, textSessionID, altLanguages, mode, level, toneTags);
   }
 
   @Override
   public String toString() {
-    return text;
+    return analyzedSentence.getText();
   }
 }

@@ -22,15 +22,13 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.Weigher;
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.rules.GRPCUtils;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.ml.MLServerProto;
+import org.languagetool.tools.Cache.CacheUtils;
+import org.languagetool.tools.Cache.ProtoResultCache;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * A cache to speed up text checking for use cases where sentences are checked more than once. This
@@ -50,7 +48,7 @@ public class ResultCache {
    * store list if success (can be empty), null -> failure/not checked
    */
   private final Cache<InputSentence, Map<String, List<RuleMatch>>> remoteMatchesCache;
-  private final Cache<InputSentence, List<MLServerProto.Match>> matchesCache;
+  private final Cache<InputSentence, List<ProtoResultCache.CachedResultMatch>> matchesCache;
   private final Cache<SimpleInputSentence, AnalyzedSentence> sentenceCache;
 
   /**
@@ -87,12 +85,12 @@ public class ResultCache {
             build();
   }
   
-  static class MatchesWeigher implements Weigher<InputSentence, List<MLServerProto.Match>> {
+  static class MatchesWeigher implements Weigher<InputSentence, List<ProtoResultCache.CachedResultMatch>> {
     @Override
-    public int weigh(InputSentence sentence, List<MLServerProto.Match> matches) {
+    public int weigh(InputSentence sentence, List<ProtoResultCache.CachedResultMatch> matches) {
       // this is just a rough guesstimate so that the cacheSize given by the user
       // is very roughly the number of average sentences the cache can keep:
-      return sentence.getText().length() / 75 + matches.size();
+      return sentence.getAnalyzedSentence().getText().length() / 75 + matches.size();
     }
   }
 
@@ -101,7 +99,7 @@ public class ResultCache {
     public int weigh(InputSentence sentence, @NotNull Map<String, List<RuleMatch>> matches) {
       // this is just a rough guesstimate so that the cacheSize given by the user
       // is very roughly the number of average sentences the cache can keep:
-      return sentence.getText().length() / 75;
+      return sentence.getAnalyzedSentence().getText().length() / 75;
     }
   }
 
@@ -125,8 +123,8 @@ public class ResultCache {
   }
 
   public List<RuleMatch> getIfPresent(InputSentence key) {
-    List<MLServerProto.Match> serializedMatches = matchesCache.getIfPresent(key);
-    return serializedMatches != null ? serializedMatches.stream().map(match -> GRPCUtils.fromGRPC(match, key.getAnalyzedSentence())).toList() : null;
+    List<ProtoResultCache.CachedResultMatch> serializedMatches = matchesCache.getIfPresent(key);
+    return serializedMatches != null ? serializedMatches.stream().map(match -> CacheUtils.deserializeResultMatch(match, key.getAnalyzedSentence())).toList() : null;
   }
 
   public AnalyzedSentence getIfPresent(SimpleInputSentence key) {
@@ -134,7 +132,7 @@ public class ResultCache {
   }
 
   public void put(@NotNull InputSentence key, @NotNull List<RuleMatch> sentenceMatches) {
-    List<MLServerProto.Match> serializedMatches = sentenceMatches.stream().map(GRPCUtils::toGRPC).toList();
+    List<ProtoResultCache.CachedResultMatch> serializedMatches = sentenceMatches.stream().map(CacheUtils::serializeResultMatch).toList();
     matchesCache.put(key, serializedMatches);
   }
 
@@ -143,7 +141,7 @@ public class ResultCache {
   }
 
   /** @since 4.1 */
-  public Cache<InputSentence, List<MLServerProto.Match>> getMatchesCache() {
+  public Cache<InputSentence, List<ProtoResultCache.CachedResultMatch>> getMatchesCache() {
     return matchesCache;
   }
 
