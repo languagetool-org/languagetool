@@ -21,7 +21,7 @@ public class PosTaggingWorkflowTest {
   // initialize LanguageTool
   @BeforeClass
   public static void setUp() throws Exception {
-    language = new AmericanEnglish();
+    language = AmericanEnglish.getInstance();
   }
 
   @Test
