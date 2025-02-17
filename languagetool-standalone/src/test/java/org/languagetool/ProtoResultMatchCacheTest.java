@@ -30,6 +30,7 @@ import org.languagetool.tools.Cache.ProtoResultCache;
 import java.io.IOException;
 import java.util.*;
 
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.junit.Assert.*;
 
 public class ProtoResultMatchCacheTest {
@@ -355,6 +356,8 @@ public class ProtoResultMatchCacheTest {
 
 
       assertEquals(ruleMatch, deserializedResultMatch);
+
+      assertTrue(reflectionEquals(ruleMatch, deserializedResultMatch, Arrays.asList("rule", "linePosition", "columnPosition", "suggestedReplacements", "suggestionsComputed", "url", "specificRuleId")));
     }
   }
 }
