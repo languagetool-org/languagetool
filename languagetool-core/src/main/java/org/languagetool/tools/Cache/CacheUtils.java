@@ -22,6 +22,7 @@ package org.languagetool.tools.Cache;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Premium;
 import org.languagetool.rules.GRPCUtils;
@@ -43,7 +44,7 @@ public final class CacheUtils {
   private CacheUtils() {
   }
 
-  public static ProtoResultCache.CachedResultMatch serializeResultMatch(RuleMatch ruleMatch) {
+  public static ProtoResultCache.CachedResultMatch serializeResultMatch(@NotNull RuleMatch ruleMatch) {
     return ProtoResultCache.CachedResultMatch.newBuilder()
       .setRule(
         ProtoResultCache.CachedRule.newBuilder()
@@ -101,7 +102,7 @@ public final class CacheUtils {
       .build();
   }
 
-  public static RuleMatch deserializeResultMatch(ProtoResultCache.CachedResultMatch cachedResultMatch, AnalyzedSentence analyzedSentence) {
+  public static RuleMatch deserializeResultMatch(@NotNull ProtoResultCache.CachedResultMatch cachedResultMatch, @NotNull AnalyzedSentence analyzedSentence) {
     Rule rule = new RuleData(cachedResultMatch.getRule());
     RuleMatch ruleMatch = new RuleMatch(rule, analyzedSentence, cachedResultMatch.getOffsetPosition().getStart(), cachedResultMatch.getOffsetPosition().getEnd(), cachedResultMatch.getMessage(), cachedResultMatch.getShortMessage());
     ruleMatch.setSuggestedReplacementObjects(cachedResultMatch.getSuggestedReplacementsList().stream().map(GRPCUtils::fromGRPC).toList());

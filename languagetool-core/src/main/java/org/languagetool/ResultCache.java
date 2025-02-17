@@ -122,7 +122,7 @@ public class ResultCache {
     return matchesCache.stats().hitCount() + sentenceCache.stats().hitCount();
   }
 
-  public List<RuleMatch> getIfPresent(InputSentence key) {
+  public List<RuleMatch> getIfPresent(@NotNull InputSentence key) {
     List<ProtoResultCache.CachedResultMatch> serializedMatches = matchesCache.getIfPresent(key);
     return serializedMatches != null ? serializedMatches.stream().map(match -> CacheUtils.deserializeResultMatch(match, key.getAnalyzedSentence())).toList() : null;
   }

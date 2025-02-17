@@ -20,12 +20,14 @@
 
 package org.languagetool;
 
+import org.checkerframework.checker.units.qual.C;
 import org.junit.Test;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.Cache.CacheUtils;
 import org.languagetool.tools.Cache.ProtoResultCache;
+import org.languagetool.tools.RuleMatchesAsJsonSerializer;
 
 import java.io.IOException;
 import java.util.*;
@@ -35,6 +37,7 @@ import static org.junit.Assert.*;
 
 public class ProtoResultMatchCacheTest {
 
+  private final RuleMatchesAsJsonSerializer ruleMatchesAsJsonSerializer = new RuleMatchesAsJsonSerializer();
 
   @Test
   public void runTests() throws IOException {
@@ -312,7 +315,8 @@ public class ProtoResultMatchCacheTest {
   }
 
   private void compareRuleMatches(List<String> sentences, String languageCode) throws IOException {
-    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode(languageCode));
+    Language usedLanguage = Languages.getLanguageForShortCode(languageCode);
+    JLanguageTool lt = new JLanguageTool(usedLanguage);
     String text = String.join("", sentences);
     AnnotatedText annotatedText = new AnnotatedTextBuilder().addText(text).build();
     List<AnalyzedSentence> analyzedSentences = lt.analyzeSentences(sentences);
@@ -320,6 +324,7 @@ public class ProtoResultMatchCacheTest {
     //need this to make sure analyzedSentence here is the same as in the for loop
     List<RuleMatch> ruleMatches = lt.checkInternal(annotatedText, JLanguageTool.ParagraphHandling.NORMAL, null, JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY, null, sentences, analyzedSentences).getRuleMatches();
     assertFalse(ruleMatches.isEmpty());
+    List<RuleMatch> cachedRuleMatches = new ArrayList<>();
     for (RuleMatch ruleMatch : ruleMatches) {
 
       ProtoResultCache.CachedResultMatch cachedResultMatch = CacheUtils.serializeResultMatch(ruleMatch);
@@ -358,6 +363,14 @@ public class ProtoResultMatchCacheTest {
       assertEquals(ruleMatch, deserializedResultMatch);
 
       assertTrue(reflectionEquals(ruleMatch, deserializedResultMatch, Arrays.asList("rule", "linePosition", "columnPosition", "suggestedReplacements", "suggestionsComputed", "url", "specificRuleId")));
+      cachedRuleMatches.add(deserializedResultMatch);
     }
+    CheckResults checkResultsOrig = new CheckResults(ruleMatches, Collections.emptyList(), Collections.emptyList());
+    CheckResults checkResultsFromCache = new CheckResults(cachedRuleMatches, Collections.emptyList(), Collections.emptyList());
+    String jsonOrig = ruleMatchesAsJsonSerializer.ruleMatchesToJson2(Collections.singletonList(checkResultsOrig), Collections.emptyList(), annotatedText, 40, new DetectedLanguage(usedLanguage, usedLanguage, 0.99f, "fake"), null, true, JLanguageTool.Mode.ALL);
+    String jsonFromCache = ruleMatchesAsJsonSerializer.ruleMatchesToJson2(Collections.singletonList(checkResultsFromCache), Collections.emptyList(), annotatedText, 40, new DetectedLanguage(usedLanguage, usedLanguage, 0.99f, "fake"), null, true, JLanguageTool.Mode.ALL);
+    assertFalse(jsonOrig.isEmpty());
+    assertFalse(jsonFromCache.isEmpty());
+    assertEquals(jsonOrig, jsonFromCache);
   }
 }
