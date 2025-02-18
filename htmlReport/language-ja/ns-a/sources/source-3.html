@@ -1,0 +1,290 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CommonCrawlSentenceSource</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.dumpcheck</a>
+</div>
+
+<h1>Coverage Summary for Class: CommonCrawlSentenceSource (org.languagetool.dev.dumpcheck)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommonCrawlSentenceSource</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/46)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CommonCrawlSentenceSource$CommonCrawlSentence</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/49)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.dumpcheck;
+&nbsp;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.tukaani.xz.XZInputStream;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.NoSuchElementException;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Provides access to the sentences of CommonCrawl data. Note that
+&nbsp; * conversion exceptions are logged to STDERR and are otherwise ignored.
+&nbsp; * 
+&nbsp; * Get data from http://data.statmt.org/ngrams/deduped/
+&nbsp; * @since 4.1
+&nbsp; */
+&nbsp;class CommonCrawlSentenceSource extends SentenceSource {
+&nbsp;
+&nbsp;  private static final int MIN_LENGTH = 15;
+&nbsp;  private static final int MAX_LENGTH = 250;
+&nbsp;  
+&nbsp;  private final List&lt;CommonCrawlSentence&gt; sentences;
+&nbsp;  private final XZInputStream xzIn;
+&nbsp;
+<b class="nc">&nbsp;  private int tooShort = 0;</b>
+<b class="nc">&nbsp;  private int tooLong = 0;</b>
+<b class="nc">&nbsp;  private int empty = 0;</b>
+<b class="nc">&nbsp;  private int wrongStartChar = 0;</b>
+<b class="nc">&nbsp;  private int wrongEndChar = 0;</b>
+<b class="nc">&nbsp;  private int count = 0;</b>
+<b class="nc">&nbsp;  private int lineCount = 0;</b>
+&nbsp;
+&nbsp;  CommonCrawlSentenceSource(InputStream input, Language language, Pattern filter) throws IOException {
+<b class="nc">&nbsp;    super(language, filter);</b>
+<b class="nc">&nbsp;    sentences = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    xzIn = new XZInputStream(input);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean hasNext() {
+<b class="nc">&nbsp;    fillSentences();</b>
+<b class="nc">&nbsp;    return sentences.size() &gt; 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Sentence next() {
+<b class="nc">&nbsp;    fillSentences();</b>
+<b class="nc">&nbsp;    if (sentences.isEmpty()) {</b>
+<b class="nc">&nbsp;      throw new NoSuchElementException();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    CommonCrawlSentence ccSentence = sentences.remove(0);</b>
+<b class="nc">&nbsp;    return new Sentence(ccSentence.sentence, getSource(), null, null, ccSentence.articleCount);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getSource() {
+<b class="nc">&nbsp;    return &quot;commoncrawl&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void fillSentences() {
+<b class="nc">&nbsp;    byte[] buffer = new byte[8192];</b>
+&nbsp;    int n;
+&nbsp;    try {
+<b class="nc">&nbsp;      while (sentences.isEmpty() &amp;&amp; (n = xzIn.read(buffer)) != -1) {</b>
+<b class="nc">&nbsp;        String buf = new String(buffer, 0, n);  // TODO: not always correct, we need to wait for line end first?</b>
+<b class="nc">&nbsp;        String[] lines = buf.split(&quot;\n&quot;);</b>
+<b class="nc">&nbsp;        for (String line : lines) {</b>
+<b class="nc">&nbsp;          lineCount++;</b>
+<b class="nc">&nbsp;          line = line.trim();</b>
+<b class="nc">&nbsp;          if (line.isEmpty()) {</b>
+<b class="nc">&nbsp;            empty++;</b>
+&nbsp;            continue;
+&nbsp;          }
+<b class="nc">&nbsp;          boolean startLower = Character.isLowerCase(line.charAt(0));</b>
+<b class="nc">&nbsp;          if (startLower) {</b>
+&nbsp;            //System.out.println(&quot;IGNORING, lc start: &quot; + line);
+<b class="nc">&nbsp;            wrongStartChar++;</b>
+<b class="nc">&nbsp;          } else if (line.length() &lt; MIN_LENGTH) {</b>
+&nbsp;            //System.out.println(&quot;IGNORING, too short: &quot; + line);
+<b class="nc">&nbsp;            tooShort++;</b>
+<b class="nc">&nbsp;          } else if (line.length() &gt; MAX_LENGTH) {</b>
+&nbsp;            //System.out.println(&quot;IGNORING, too long (&quot; + line.length() + &quot;): &quot; + line);
+<b class="nc">&nbsp;            tooLong++;</b>
+<b class="nc">&nbsp;          } else if (line.endsWith(&quot;.&quot;) || line.endsWith(&quot;!&quot;) || line.endsWith(&quot;?&quot;) || line.endsWith(&quot;:&quot;)) {</b>
+&nbsp;            //System.out.println(line);
+<b class="nc">&nbsp;            sentences.add(new CommonCrawlSentence(line, count++));</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            wrongEndChar++;</b>
+&nbsp;            // well, this way we also miss headlines and the sentences that are split
+&nbsp;            // over more than one line, but I see now simple way to merge them...
+&nbsp;            //System.out.println(&quot;IGNORING, wrong end char: &quot; + line);
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      printStats();</b>
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printStats() {
+<b class="nc">&nbsp;    System.out.println(&quot;lines            : &quot; + lineCount);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;indexed sentences: &quot; + count);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;tooShort         : &quot; + tooShort);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;tooLong          : &quot; + tooLong);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;empty            : &quot; + empty);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;wrongStartChar   : &quot; + wrongStartChar);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;wrongEndChar     : &quot; + wrongEndChar);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class CommonCrawlSentence {
+&nbsp;    final String sentence;
+&nbsp;    final int articleCount;
+<b class="nc">&nbsp;    CommonCrawlSentence(String sentence, int articleCount) {</b>
+<b class="nc">&nbsp;      this.sentence = sentence;</b>
+<b class="nc">&nbsp;      this.articleCount = articleCount;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

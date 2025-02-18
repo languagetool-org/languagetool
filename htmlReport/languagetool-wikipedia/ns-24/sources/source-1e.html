@@ -1,0 +1,434 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BERTSuggestionRanking</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: BERTSuggestionRanking (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BERTSuggestionRanking</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/82)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">BERTSuggestionRanking$CuratedAndSameCaseComparator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">BERTSuggestionRanking$MatchesForReordering</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/99)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import com.google.common.cache.CacheBuilder;
+&nbsp;import com.google.common.cache.CacheLoader;
+&nbsp;import com.google.common.cache.LoadingCache;
+&nbsp;import com.google.common.collect.Streams;
+&nbsp;import org.apache.commons.lang3.tuple.Pair;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.languagemodel.bert.RemoteLanguageModel;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import javax.net.ssl.SSLException;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.Callable;
+&nbsp;import java.util.concurrent.TimeoutException;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * reorder suggestions from another rule using BERT as a LM
+&nbsp; */
+&nbsp;public class BERTSuggestionRanking extends RemoteRule {
+&nbsp;
+&nbsp;  // only for RemoteRuleConfig
+&nbsp;  public static final String RULE_ID = &quot;BERT_SUGGESTION_RANKING&quot;;
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(BERTSuggestionRanking.class);</b>
+&nbsp;
+&nbsp;  private static final LoadingCache&lt;RemoteRuleConfig, RemoteLanguageModel&gt; models =
+<b class="nc">&nbsp;    CacheBuilder.newBuilder().build(CacheLoader.from(serviceConfiguration -&gt; {</b>
+<b class="nc">&nbsp;      String host = serviceConfiguration.getUrl();</b>
+<b class="nc">&nbsp;      int port = serviceConfiguration.getPort();</b>
+<b class="nc">&nbsp;      boolean ssl = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault(&quot;secure&quot;, &quot;false&quot;));</b>
+<b class="nc">&nbsp;      String key = serviceConfiguration.getOptions().get(&quot;clientKey&quot;);</b>
+<b class="nc">&nbsp;      String cert = serviceConfiguration.getOptions().get(&quot;clientCertificate&quot;);</b>
+<b class="nc">&nbsp;      String ca = serviceConfiguration.getOptions().get(&quot;rootCertificate&quot;);</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        return new RemoteLanguageModel(host, port, ssl, key, cert, ca);</b>
+&nbsp;      } catch (SSLException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+&nbsp;    }));
+&nbsp;
+&nbsp;  static {
+<b class="nc">&nbsp;    shutdownRoutines.add(() -&gt; models.asMap().values().forEach(RemoteLanguageModel::shutdown));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // default behavior for prepareSuggestions: limit to top n candidates
+<b class="nc">&nbsp;  protected int suggestionLimit = 10;</b>
+&nbsp;  private final RemoteLanguageModel model;
+&nbsp;  private final Rule wrappedRule;
+&nbsp;
+&nbsp;  public BERTSuggestionRanking(Language language, Rule rule, RemoteRuleConfig config, boolean inputLogging) {
+<b class="nc">&nbsp;    super(language, rule.messages, config, inputLogging, rule.getId());</b>
+<b class="nc">&nbsp;    this.wrappedRule = rule;</b>
+<b class="nc">&nbsp;    super.setCategory(wrappedRule.getCategory());</b>
+<b class="nc">&nbsp;    synchronized (models) {</b>
+<b class="nc">&nbsp;      RemoteLanguageModel model = null;</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        model = models.get(serviceConfiguration);</b>
+&nbsp;      } catch (Exception e) {
+<b class="nc">&nbsp;        logger.error(&quot;Could not connect to BERT service at &quot; + serviceConfiguration + &quot; for suggestion reranking&quot;, e);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      this.model = model;</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  class MatchesForReordering extends RemoteRequest {
+&nbsp;    final List&lt;AnalyzedSentence&gt; sentences;
+&nbsp;    final List&lt;RuleMatch&gt; matches;
+&nbsp;    final List&lt;RemoteLanguageModel.Request&gt; requests;
+<b class="nc">&nbsp;    MatchesForReordering(List&lt;AnalyzedSentence&gt; sentences, List&lt;RuleMatch&gt; matches, List&lt;RemoteLanguageModel.Request&gt; requests) {</b>
+<b class="nc">&nbsp;      this.sentences = sentences;</b>
+<b class="nc">&nbsp;      this.matches = matches;</b>
+<b class="nc">&nbsp;      this.requests = requests;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * transform suggestions before resorting, e.g. limit resorting to top-n candidates
+&nbsp;   * @return transformed suggestions
+&nbsp;   */
+&nbsp;  protected List&lt;SuggestedReplacement&gt; prepareSuggestions(List&lt;SuggestedReplacement&gt; suggestions) {
+&nbsp;    // include more suggestions for resorting if there are translations included as original order isn&#39;t that good
+<b class="nc">&nbsp;    if (suggestions.stream().anyMatch(s -&gt; s.getType() == SuggestedReplacement.SuggestionType.Translation)) {</b>
+<b class="nc">&nbsp;      suggestionLimit = 25;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      suggestionLimit = 10;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return suggestions.subList(0, Math.min(suggestions.size(), suggestionLimit));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static final int MIN_WORDS = 8;
+&nbsp;  private static final double MAX_ERROR_RATE = 0.5;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected RemoteRequest prepareRequest(List&lt;AnalyzedSentence&gt; sentences, Long textSessionId) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; matches = new LinkedList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int totalWords = 0;</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      for (AnalyzedSentence sentence : sentences) {</b>
+<b class="nc">&nbsp;        RuleMatch[] sentenceMatches = wrappedRule.match(sentence);</b>
+<b class="nc">&nbsp;        Collections.addAll(matches, sentenceMatches);</b>
+&nbsp;
+&nbsp;        // computing many suggestions (e.g. for requests with the language incorrectly set, or with garbled input) is very expensive
+&nbsp;        // having this as a RemoteRule circumvents the normal ErrorRateTooHighException
+&nbsp;        // so build this logic again here
+<b class="nc">&nbsp;        int words = sentence.getTokensWithoutWhitespace().length;</b>
+<b class="nc">&nbsp;        totalWords += words;</b>
+<b class="nc">&nbsp;        if (words &gt; MIN_WORDS &amp;&amp; (double) sentenceMatches.length / words &gt; MAX_ERROR_RATE) {</b>
+<b class="nc">&nbsp;          for (RuleMatch m : sentenceMatches) {</b>
+<b class="nc">&nbsp;            m.discardLazySuggestedReplacements();</b>
+&nbsp;          }
+<b class="nc">&nbsp;          logger.info(&quot;Skipping suggestion generation for sentence, too many matches ({} matches in {} words)&quot;,</b>
+<b class="nc">&nbsp;            sentenceMatches.length, words);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      logger.error(&quot;Error while executing rule &quot; + wrappedRule.getId(), e);</b>
+<b class="nc">&nbsp;      return new MatchesForReordering(sentences, Collections.emptyList(), Collections.emptyList());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (totalWords &gt; MIN_WORDS &amp;&amp; (double) matches.size() / totalWords &gt; MAX_ERROR_RATE) {</b>
+<b class="nc">&nbsp;      logger.info(&quot;Skipping suggestion generation for request, too many matches ({} matches in {} words)&quot;,</b>
+<b class="nc">&nbsp;        matches.size(), totalWords);</b>
+<b class="nc">&nbsp;      matches.forEach(RuleMatch::discardLazySuggestedReplacements);</b>
+<b class="nc">&nbsp;      return new MatchesForReordering(sentences, matches, Collections.emptyList());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;RemoteLanguageModel.Request&gt; requests = new LinkedList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (RuleMatch match : matches) {</b>
+<b class="nc">&nbsp;      match.setSuggestedReplacementObjects(prepareSuggestions(match.getSuggestedReplacementObjects()));</b>
+<b class="nc">&nbsp;      requests.add(buildRequest(match));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new MatchesForReordering(sentences, matches, requests);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected RemoteRuleResult fallbackResults(RemoteRequest request) {
+<b class="nc">&nbsp;    MatchesForReordering req = (MatchesForReordering) request;</b>
+<b class="nc">&nbsp;    return new RemoteRuleResult(false, false, req.matches, req.sentences);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected Callable&lt;RemoteRuleResult&gt; executeRequest(RemoteRequest request, long timeoutMilliseconds) throws TimeoutException {
+<b class="nc">&nbsp;    return () -&gt; {</b>
+<b class="nc">&nbsp;      if (model == null) {</b>
+<b class="nc">&nbsp;        return fallbackResults(request);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      MatchesForReordering data = (MatchesForReordering) request;</b>
+<b class="nc">&nbsp;      List&lt;RuleMatch&gt; matches = data.matches;</b>
+<b class="nc">&nbsp;      List&lt;RemoteLanguageModel.Request&gt; requests = data.requests;</b>
+<b class="nc">&nbsp;      Streams.FunctionWithIndex&lt;RemoteLanguageModel.Request, Long&gt; mapIndices = (req, index) -&gt; req != null ? index : null;</b>
+<b class="nc">&nbsp;      List&lt;Long&gt; indices = Streams.mapWithIndex(requests.stream(), mapIndices)</b>
+<b class="nc">&nbsp;        .filter(Objects::nonNull).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;      requests = requests.stream().filter(Objects::nonNull).collect(Collectors.toList());</b>
+&nbsp;
+<b class="nc">&nbsp;      if (requests.isEmpty()) {</b>
+<b class="nc">&nbsp;        return new RemoteRuleResult(false, true, matches, data.sentences);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        List&lt;List&lt;Double&gt;&gt; results = model.batchScore(requests, timeoutMilliseconds);</b>
+&nbsp;        // put curated at the top, then compare probabilities
+<b class="nc">&nbsp;        for (int i = 0; i &lt; indices.size(); i++) {</b>
+<b class="nc">&nbsp;          List&lt;Double&gt; scores = results.get(i);</b>
+<b class="nc">&nbsp;          String userWord = requests.get(i).text.substring(requests.get(i).start, requests.get(i).end);</b>
+<b class="nc">&nbsp;          RuleMatch match = matches.get(indices.get(i).intValue());</b>
+&nbsp;          //RemoteLanguageModel.Request req = requests.get(i);
+&nbsp;          //String error = req.text.substring(req.start, req.end);
+&nbsp;          //logger.info(&quot;Scored suggestions for &#39;{}&#39;: {} -&gt; {}&quot;, error, match.getSuggestedReplacements(), Streams
+&nbsp;          //  .zip(match.getSuggestedReplacementObjects().stream(), scores.stream(), Pair::of)
+&nbsp;          //  .sorted(new CuratedAndSameCaseComparator(userWord))
+&nbsp;          //  .map(scored -&gt; String.format(&quot;%s (%e)&quot;, scored.getLeft().getReplacement(), scored.getRight()))
+&nbsp;          //  .collect(Collectors.toList()));
+<b class="nc">&nbsp;          List&lt;SuggestedReplacement&gt; ranked = Streams</b>
+<b class="nc">&nbsp;            .zip(match.getSuggestedReplacementObjects().stream(), scores.stream(), Pair::of)</b>
+<b class="nc">&nbsp;            .sorted(new CuratedAndSameCaseComparator(userWord))</b>
+<b class="nc">&nbsp;            .map(Pair::getLeft)</b>
+<b class="nc">&nbsp;            .collect(Collectors.toList());</b>
+&nbsp;          //logger.info(&quot;Reordered correction for &#39;{}&#39; from {} to {}&quot;, error, req.candidates, ranked);
+<b class="nc">&nbsp;          match.setSuggestedReplacementObjects(ranked);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return new RemoteRuleResult(true, true, matches, data.sentences);</b>
+&nbsp;      }
+&nbsp;    };
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private RemoteLanguageModel.Request buildRequest(RuleMatch match) {
+<b class="nc">&nbsp;    List&lt;String&gt; suggestions = match.getSuggestedReplacements();</b>
+<b class="nc">&nbsp;    if (suggestions != null &amp;&amp; suggestions.size() &gt; 1) {</b>
+<b class="nc">&nbsp;      return new RemoteLanguageModel.Request(</b>
+<b class="nc">&nbsp;        match.getSentence().getText(), match.getFromPos(), match.getToPos(), suggestions);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+&nbsp;    // return values of wrapped rule so that enabling/disabling rules works
+<b class="nc">&nbsp;    return wrappedRule.getId();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return wrappedRule.getDescription();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class CuratedAndSameCaseComparator implements Comparator&lt;Pair&lt;SuggestedReplacement, Double&gt;&gt; {
+&nbsp;    private final String userWord;
+<b class="nc">&nbsp;    CuratedAndSameCaseComparator(String userWord) {</b>
+<b class="nc">&nbsp;      this.userWord = userWord;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public int compare(Pair&lt;SuggestedReplacement, Double&gt; a, Pair&lt;SuggestedReplacement, Double&gt; b) {
+&nbsp;      //System.out.println(userWord + &quot; -- &quot; + b.getKey().getReplacement());
+<b class="nc">&nbsp;      if (a.getKey().getReplacement().equalsIgnoreCase(userWord)) {</b>
+<b class="nc">&nbsp;        return -1;</b>
+<b class="nc">&nbsp;      } else if (b.getKey().getReplacement().equalsIgnoreCase(userWord)) {</b>
+<b class="nc">&nbsp;        return 1;</b>
+<b class="nc">&nbsp;      } else if (a.getKey().getType() != b.getKey().getType()) {</b>
+<b class="nc">&nbsp;        if (a.getKey().getType() == SuggestedReplacement.SuggestionType.Curated) {</b>
+<b class="nc">&nbsp;          return -1;</b>
+<b class="nc">&nbsp;        } else if (b.getKey().getType() == SuggestedReplacement.SuggestionType.Curated) {</b>
+<b class="nc">&nbsp;          return 1;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          return b.getRight().compareTo(a.getRight());</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        return b.getRight().compareTo(a.getRight());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

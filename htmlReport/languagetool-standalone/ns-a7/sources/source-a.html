@@ -1,0 +1,259 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ContextTools</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tools</a>
+</div>
+
+<h1>Coverage Summary for Class: ContextTools (org.languagetool.tools)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ContextTools</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/55)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tools;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;
+&nbsp;/**
+&nbsp; * Helper class to mark errors in text.
+&nbsp; */
+&nbsp;public class ContextTools {
+&nbsp;
+<b class="nc">&nbsp;  private int contextSize = 40;</b>
+<b class="nc">&nbsp;  private boolean escapeHtml = true;</b>
+<b class="nc">&nbsp;  private String errorMarkerStart = &quot;&lt;b&gt;&lt;font bgcolor=\&quot;#ff8b8b\&quot;&gt;&quot;;</b>
+<b class="nc">&nbsp;  private String errorMarkerEnd = &quot;&lt;/font&gt;&lt;/b&gt;&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;  public ContextTools() {</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getContext(int fromPos, int toPos, String contents) {
+&nbsp;    // calculate context region:
+<b class="nc">&nbsp;    int startContent = fromPos - contextSize;</b>
+<b class="nc">&nbsp;    String prefix = &quot;...&quot;;</b>
+<b class="nc">&nbsp;    String postfix = &quot;...&quot;;</b>
+<b class="nc">&nbsp;    if (startContent &lt; 0) {</b>
+<b class="nc">&nbsp;      prefix = &quot;&quot;;</b>
+<b class="nc">&nbsp;      startContent = 0;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int endContent = toPos + contextSize;</b>
+<b class="nc">&nbsp;    int textLength = contents.length();</b>
+<b class="nc">&nbsp;    if (endContent &gt; textLength) {</b>
+<b class="nc">&nbsp;      postfix = &quot;&quot;;</b>
+<b class="nc">&nbsp;      endContent = textLength;</b>
+&nbsp;    }
+&nbsp;    // now build context string plus marker:
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    sb.append(prefix);</b>
+<b class="nc">&nbsp;    sb.append(contents.substring(startContent, endContent).replace(&#39;\n&#39;, &#39; &#39;));</b>
+<b class="nc">&nbsp;    String markerStr = getMarker(fromPos, toPos, startContent, endContent, prefix);</b>
+<b class="nc">&nbsp;    sb.append(postfix);</b>
+<b class="nc">&nbsp;    int startMark = markerStr.indexOf(&#39;^&#39;);</b>
+<b class="nc">&nbsp;    int endMark = markerStr.lastIndexOf(&#39;^&#39;);</b>
+<b class="nc">&nbsp;    String result = sb.toString();</b>
+<b class="nc">&nbsp;    if (escapeHtml) {</b>
+<b class="nc">&nbsp;      String escapedErrorPart = StringTools.escapeHTML(result.substring(startMark, endMark + 1))</b>
+<b class="nc">&nbsp;              .replace(&quot; &quot;, &quot;&amp;nbsp;&quot;);   // make sure whitespace errors are visible</b>
+<b class="nc">&nbsp;      result = StringTools.escapeHTML(result.substring(0, startMark))</b>
+&nbsp;          + errorMarkerStart
+&nbsp;          + escapedErrorPart
+<b class="nc">&nbsp;          + errorMarkerEnd + StringTools.escapeHTML(result.substring(endMark + 1));</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      result = result.substring(0, startMark) + errorMarkerStart</b>
+<b class="nc">&nbsp;          + result.substring(startMark, endMark + 1) + errorMarkerEnd</b>
+<b class="nc">&nbsp;          + result.substring(endMark + 1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get a plain text context that uses {@code ^} characters in a new line as a marker of the
+&nbsp;   * given string region. Ignores {@link #setEscapeHtml(boolean)}.
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public String getPlainTextContext(int fromPos, int toPos, String contents) {
+&nbsp;    // calculate context region:
+<b class="nc">&nbsp;    int startContent = fromPos - contextSize;</b>
+<b class="nc">&nbsp;    String prefix = &quot;...&quot;;</b>
+<b class="nc">&nbsp;    String postfix = &quot;...&quot;;</b>
+<b class="nc">&nbsp;    if (startContent &lt; 0) {</b>
+<b class="nc">&nbsp;      prefix = &quot;&quot;;</b>
+<b class="nc">&nbsp;      startContent = 0;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int endContent = toPos + contextSize;</b>
+<b class="nc">&nbsp;    if (endContent &gt; contents.length()) {</b>
+<b class="nc">&nbsp;      postfix = &quot;&quot;;</b>
+<b class="nc">&nbsp;      endContent = contents.length();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return prefix +</b>
+<b class="nc">&nbsp;           contents.substring(startContent, endContent).replace(&#39;\n&#39;, &#39; &#39;).replace(&#39;\r&#39;, &#39; &#39;).replace(&#39;\t&#39;, &#39; &#39;) +</b>
+&nbsp;           postfix + &#39;\n&#39; +
+<b class="nc">&nbsp;           getMarker(fromPos, toPos, startContent, endContent, prefix);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set the string used to mark the beginning and end of an error, e.g. {@code &lt;span class=&quot;error&quot;&gt;} and {@code &lt;/span&gt;}
+&nbsp;   * @since 5.1
+&nbsp;   */
+&nbsp;  public void setErrorMarker(String start, String end) {
+<b class="nc">&nbsp;    errorMarkerStart = start;</b>
+<b class="nc">&nbsp;    errorMarkerEnd = end;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set the string used to mark the beginning of an error, e.g. {@code &lt;span class=&quot;error&quot;&gt;}
+&nbsp;   */
+&nbsp;  public void setErrorMarkerStart(String errorMarkerStart) {
+<b class="nc">&nbsp;    this.errorMarkerStart = errorMarkerStart;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set the string used to mark the end of an error, e.g. {@code &lt;/span&gt;}
+&nbsp;   */
+&nbsp;  public void setErrorMarkerEnd(String errorMarkerEnd) {
+<b class="nc">&nbsp;    this.errorMarkerEnd = errorMarkerEnd;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The context size of the error. This many characters of the original text will be used
+&nbsp;   * from the left and from the right context of the error.
+&nbsp;   */
+&nbsp;  public void setContextSize(int contextSize) {
+<b class="nc">&nbsp;    this.contextSize = contextSize;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Whether HTML special characters should be escaped.
+&nbsp;   */
+&nbsp;  public void setEscapeHtml(boolean escapeHtml) {
+<b class="nc">&nbsp;    this.escapeHtml = escapeHtml;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String getMarker(int fromPos, int toPos, int startContent, int endContent, String prefix) {
+<b class="nc">&nbsp;    return StringUtils.repeat(&#39; &#39;, prefix.length() + fromPos - startContent) +</b>
+<b class="nc">&nbsp;           StringUtils.repeat(&#39;^&#39;, toPos - fromPos) +</b>
+<b class="nc">&nbsp;           StringUtils.repeat(&#39; &#39;, endContent - toPos);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,249 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DonarTempsSuggestionsFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ca</a>
+</div>
+
+<h1>Coverage Summary for Class: DonarTempsSuggestionsFilter (org.languagetool.rules.ca)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DonarTempsSuggestionsFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/67)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2023 Jaume Ortolà
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ca;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.rules.patterns.PatternRule;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;/*
+&nbsp; * Suggestions for rule DONAR_TEMPS: no em dóna temps -&gt; no hi ha temps, no tinc temps
+&nbsp; */
+&nbsp;
+<b class="nc">&nbsp;public class DonarTempsSuggestionsFilter extends RuleFilter {</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos,
+&nbsp;                                   AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) throws IOException {
+<b class="nc">&nbsp;    int posWord = 0;</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    Synthesizer synth = getSynthesizerFromRuleMatch(match);</b>
+<b class="nc">&nbsp;    while (posWord &lt; tokens.length</b>
+<b class="nc">&nbsp;        &amp;&amp; (tokens[posWord].getStartPos() &lt; match.getFromPos() || tokens[posWord].isSentenceStart())) {</b>
+<b class="nc">&nbsp;      posWord++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String pronomPostag = tokens[posWord].readingWithTagRegex(&quot;P.*&quot;).getPOSTag();</b>
+<b class="nc">&nbsp;    String pronomGenderNumber = pronomPostag.substring(2, 3) + pronomPostag.substring(4, 5);</b>
+<b class="nc">&nbsp;    int indexFirstVerb = posWord + 1;</b>
+<b class="nc">&nbsp;    int indexMainVerb = indexFirstVerb;</b>
+<b class="nc">&nbsp;    while (!tokens[indexMainVerb].hasAnyLemma(&quot;donar&quot;)) {</b>
+<b class="nc">&nbsp;      indexMainVerb++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String verbPostag = tokens[indexMainVerb].readingWithTagRegex(&quot;V.*&quot;).getPOSTag();</b>
+&nbsp;
+&nbsp;    // haver-hi temps
+<b class="nc">&nbsp;    AnalyzedToken at = new AnalyzedToken(&quot;&quot;, &quot;&quot;, &quot;haver&quot;);</b>
+<b class="nc">&nbsp;    String[] synthForms = synth.synthesize(at, &quot;VA&quot; + verbPostag.substring(2, 8));</b>
+<b class="nc">&nbsp;    StringBuilder suggestion1 = new StringBuilder();</b>
+<b class="nc">&nbsp;    if (synthForms.length &gt; 0) {</b>
+<b class="nc">&nbsp;      int index = indexFirstVerb;</b>
+<b class="nc">&nbsp;      suggestion1.append(&quot;hi&quot;);</b>
+<b class="nc">&nbsp;      while (index &lt; indexMainVerb) {</b>
+<b class="nc">&nbsp;        if (tokens[index].isWhitespaceBefore() || suggestion1.length()==2) {</b>
+<b class="nc">&nbsp;          suggestion1.append(&quot; &quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        suggestion1.append(tokens[index].getToken());</b>
+<b class="nc">&nbsp;        index++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      suggestion1.append(&quot; &quot;+ synthForms[0] + &quot; temps&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    String sugg1 = suggestion1.toString().replace(&quot;de haver&quot;, &quot;d&#39;haver&quot;);</b>
+<b class="nc">&nbsp;    sugg1 = StringTools.preserveCase(sugg1, tokens[posWord].getToken());</b>
+<b class="nc">&nbsp;    if (!sugg1.isEmpty()) {</b>
+<b class="nc">&nbsp;      replacements.add(sugg1);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // tenir temps
+<b class="nc">&nbsp;    StringBuilder suggestion2 = new StringBuilder();</b>
+<b class="nc">&nbsp;    int index = indexFirstVerb;</b>
+<b class="nc">&nbsp;    if (index == indexMainVerb) {</b>
+<b class="nc">&nbsp;      String[] synthForms2 = synth.synthesize(new AnalyzedToken(&quot;&quot;, &quot;&quot;, &quot;tenir&quot;),</b>
+<b class="nc">&nbsp;        verbPostag.substring(0, 4) + pronomGenderNumber + verbPostag.substring(6, 8));</b>
+<b class="nc">&nbsp;      if (synthForms2.length &gt; 0) {</b>
+<b class="nc">&nbsp;        suggestion2.append(synthForms2[0] + &quot; temps&quot;);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      AnalyzedToken at2 = tokens[indexFirstVerb].getAnalyzedToken(0);</b>
+<b class="nc">&nbsp;      String[] synthForms2 = synth.synthesize( at2,</b>
+<b class="nc">&nbsp;        at2.getPOSTag().substring(0, 4) + pronomGenderNumber + at2.getPOSTag().substring(6, 8));</b>
+<b class="nc">&nbsp;      if (synthForms2.length &gt; 0) {</b>
+<b class="nc">&nbsp;        suggestion2.append(synthForms2[0]);</b>
+<b class="nc">&nbsp;        index++;</b>
+<b class="nc">&nbsp;        while (index &lt; indexMainVerb) {</b>
+<b class="nc">&nbsp;          if (tokens[index].isWhitespaceBefore()) {</b>
+<b class="nc">&nbsp;            suggestion2.append(&quot; &quot;);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          suggestion2.append(tokens[index].getToken());</b>
+<b class="nc">&nbsp;          index++;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String[] synthForms3 = synth.synthesize( new AnalyzedToken(&quot;&quot;, &quot;&quot;, &quot;tenir&quot;),</b>
+<b class="nc">&nbsp;          tokens[indexMainVerb].getAnalyzedToken(0).getPOSTag());</b>
+<b class="nc">&nbsp;        if (synthForms3.length &gt; 0) {</b>
+<b class="nc">&nbsp;          suggestion2.append(&quot; &quot; + synthForms3[0] + &quot; temps&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          suggestion2 = new StringBuilder();</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    String sugg2 = suggestion2.toString();</b>
+<b class="nc">&nbsp;    sugg2 = StringTools.preserveCase(sugg2, tokens[posWord].getToken());</b>
+<b class="nc">&nbsp;    if (!sugg2.isEmpty()) {</b>
+<b class="nc">&nbsp;      replacements.add(sugg2);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (replacements.isEmpty()) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[posWord].getStartPos(),</b>
+<b class="nc">&nbsp;        tokens[indexMainVerb + 1].getEndPos(), match.getMessage(), match.getShortMessage());</b>
+<b class="nc">&nbsp;    ruleMatch.setType(match.getType());</b>
+<b class="nc">&nbsp;    ruleMatch.setSuggestedReplacements(replacements);</b>
+<b class="nc">&nbsp;    return ruleMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getLanguageVariantCode(RuleMatch match) {
+<b class="nc">&nbsp;    PatternRule pr = (PatternRule) match.getRule();</b>
+<b class="nc">&nbsp;    return pr.getLanguage().getShortCodeWithCountryAndVariant();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,660 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SuggestionChangesTest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling.suggestions</a>
+</div>
+
+<h1>Coverage Summary for Class: SuggestionChangesTest (org.languagetool.rules.spelling.suggestions)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SuggestionChangesTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/74)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/128)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SuggestionChangesTest$SuggestionTestData</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">SuggestionChangesTest$SuggestionTestResultData</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">SuggestionChangesTest$SuggestionTestThread</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/64)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/98)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/210)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.spelling.suggestions;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.core.JsonFactory;
+&nbsp;import com.fasterxml.jackson.core.JsonParser;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;import org.apache.commons.csv.CSVFormat;
+&nbsp;import org.apache.commons.csv.CSVParser;
+&nbsp;import org.apache.commons.csv.CSVPrinter;
+&nbsp;import org.apache.commons.csv.CSVRecord;
+&nbsp;import org.apache.commons.lang3.tuple.Pair;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.SuggestedReplacement;
+&nbsp;
+&nbsp;import java.io.BufferedWriter;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.text.SimpleDateFormat;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.BlockingQueue;
+&nbsp;import java.util.concurrent.ConcurrentLinkedQueue;
+&nbsp;import java.util.concurrent.LinkedBlockingQueue;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;
+&nbsp;/**
+&nbsp; * needs to run with classpath of languagetool-standalone (needs access to language modules)
+&nbsp; * configure via JSON file, format specified in SuggestionChangesTestConfig.java
+&nbsp; * specify path via JVM parameter -Dconfig=... (system property)
+&nbsp; * used to create training data (features) for suggestion ranking models or test how code changes affect LT&#39;s performance
+&nbsp; *
+&nbsp; * Prints results on interrupt, or after finishing.
+&nbsp; */
+<b class="nc">&nbsp;public class SuggestionChangesTest {</b>
+&nbsp;
+&nbsp;  static class SuggestionTestData {
+&nbsp;    private final String language;
+&nbsp;    private final String sentence;
+&nbsp;    private final String covered;
+&nbsp;    private final String replacement;
+&nbsp;    private final String correction;
+&nbsp;    private final SuggestionChangesDataset dataset;
+&nbsp;
+<b class="nc">&nbsp;    public SuggestionTestData(String language, String sentence, String covered, String replacement, String correction, SuggestionChangesDataset dataset) {</b>
+<b class="nc">&nbsp;      this.language = language;</b>
+<b class="nc">&nbsp;      this.sentence = sentence;</b>
+<b class="nc">&nbsp;      this.covered = covered;</b>
+<b class="nc">&nbsp;      this.replacement = replacement;</b>
+<b class="nc">&nbsp;      this.correction = correction;</b>
+<b class="nc">&nbsp;      this.dataset = dataset;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getLanguage() {
+<b class="nc">&nbsp;      return language;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getSentence() {
+<b class="nc">&nbsp;      return sentence;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getCovered() {
+<b class="nc">&nbsp;      return covered;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getReplacement() {
+<b class="nc">&nbsp;      return replacement;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getCorrection() {
+<b class="nc">&nbsp;      return correction;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public SuggestionChangesDataset getDataset() {
+<b class="nc">&nbsp;      return dataset;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static class SuggestionTestResultData {
+&nbsp;    private final SuggestionTestData input;
+&nbsp;    private final List&lt;RuleMatch&gt; suggestions; // results for each experiment, lists should match
+&nbsp;
+<b class="nc">&nbsp;    SuggestionTestResultData(SuggestionTestData input, List&lt;RuleMatch&gt; suggestions) {</b>
+<b class="nc">&nbsp;      this.input = input;</b>
+<b class="nc">&nbsp;      this.suggestions = suggestions;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public SuggestionTestData getInput() {
+<b class="nc">&nbsp;      return input;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;RuleMatch&gt; getSuggestions() {
+<b class="nc">&nbsp;      return suggestions;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Worker thread that runs specified experiments on sentences read from the shared queue
+&nbsp;   */
+&nbsp;  static class SuggestionTestThread extends Thread {
+<b class="nc">&nbsp;    private final Random sampler = new Random(0);</b>
+&nbsp;
+&nbsp;    private final ConcurrentLinkedQueue&lt;Pair&lt;SuggestionTestResultData, String&gt;&gt; results;
+&nbsp;    private JLanguageTool standardLt;
+&nbsp;    private Rule standardRule;
+&nbsp;    private final Map&lt;SuggestionChangesExperiment, Rule&gt; rules;
+&nbsp;    private final BlockingQueue&lt;SuggestionTestData&gt; tasks;
+&nbsp;
+&nbsp;    @SuppressWarnings(&quot;AssignmentOrReturnOfFieldWithMutableType&quot;)
+<b class="nc">&nbsp;    SuggestionTestThread(BlockingQueue&lt;SuggestionTestData&gt; tasks, ConcurrentLinkedQueue&lt;Pair&lt;SuggestionTestResultData, String&gt;&gt; results) {</b>
+<b class="nc">&nbsp;      rules = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;      this.tasks = tasks;</b>
+<b class="nc">&nbsp;      this.results = results;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void run() {
+<b class="nc">&nbsp;      Language lang = Languages.getLanguageForShortCode(SuggestionsChanges.getInstance().getConfig().language);</b>
+<b class="nc">&nbsp;      init(lang);</b>
+<b class="nc">&nbsp;      while (!isInterrupted()) {</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          SuggestionTestData entry = tasks.poll(1L, TimeUnit.SECONDS);</b>
+<b class="nc">&nbsp;          if (entry == null) {</b>
+&nbsp;            break;
+&nbsp;          } else {
+<b class="nc">&nbsp;            doWork(entry);</b>
+&nbsp;          }
+&nbsp;        } catch (InterruptedException | IOException e) {
+<b class="nc">&nbsp;          throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    private void init(Language lang) {
+<b class="nc">&nbsp;      Iterator&lt;SuggestionChangesExperiment&gt; iterator = SuggestionsChanges.getInstance().getExperiments().iterator();</b>
+&nbsp;      // parameters for experiments are shared via Singleton, so initialization must block
+<b class="nc">&nbsp;      synchronized (tasks) {</b>
+<b class="nc">&nbsp;        SuggestionsChanges.getInstance().setCurrentExperiment(null);</b>
+<b class="nc">&nbsp;        standardLt = new JLanguageTool(lang);</b>
+<b class="nc">&nbsp;        standardRule = standardLt.getAllRules().stream().filter(Rule::isDictionaryBasedSpellingRule)</b>
+<b class="nc">&nbsp;          .findFirst().orElse(null);</b>
+&nbsp;
+<b class="nc">&nbsp;        while (iterator.hasNext()) {</b>
+<b class="nc">&nbsp;          SuggestionChangesExperiment experiment = iterator.next();</b>
+<b class="nc">&nbsp;          SuggestionsChanges.getInstance().setCurrentExperiment(experiment);</b>
+&nbsp;
+<b class="nc">&nbsp;          JLanguageTool lt = new JLanguageTool(lang);</b>
+&nbsp;          try {
+<b class="nc">&nbsp;            lt.activateLanguageModelRules(new File(SuggestionsChanges.getInstance().getConfig().ngramLocation));</b>
+&nbsp;          } catch (IOException e) {
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          Rule spellerRule = lt.getAllRules().stream().filter(Rule::isDictionaryBasedSpellingRule)</b>
+<b class="nc">&nbsp;            .findFirst().orElse(null);</b>
+&nbsp;
+<b class="nc">&nbsp;          rules.put(experiment, spellerRule);</b>
+&nbsp;        }
+<b class="nc">&nbsp;      }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    void doWork(SuggestionTestData entry) throws IOException, InterruptedException {
+&nbsp;
+<b class="nc">&nbsp;      AnalyzedSentence sentence = standardLt.getAnalyzedSentence(entry.getSentence());</b>
+&nbsp;
+<b class="nc">&nbsp;      if (entry.getDataset().enforceCorrect) {</b>
+<b class="nc">&nbsp;        AnalyzedSentence correction = standardLt.getAnalyzedSentence(entry.getCorrection());</b>
+<b class="nc">&nbsp;        RuleMatch[] correctionMatches = standardRule.match(correction);</b>
+<b class="nc">&nbsp;        if (correctionMatches.length != 0) {</b>
+<b class="nc">&nbsp;          String message = String.format(&quot;Error found in sentence &#39;%s&#39;, ignoring because of &#39;enforceCorrect&#39; flag.%n&quot;, entry.getCorrection());</b>
+<b class="nc">&nbsp;          results.add(Pair.of(new SuggestionTestResultData(entry, null), message));</b>
+&nbsp;          return;
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+&nbsp;      // needs to be here to make combined filtering + sampling more transparent
+<b class="nc">&nbsp;      if (sampler.nextFloat() &gt; entry.getDataset().sampleRate) {</b>
+&nbsp;        return;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      List&lt;SuggestionChangesExperiment&gt; experiments = SuggestionsChanges.getInstance().getExperiments();</b>
+<b class="nc">&nbsp;      int experimentId = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;      StringBuilder message = new StringBuilder();</b>
+<b class="nc">&nbsp;      message.append(String.format(&quot;Checking candidates for correction &#39;%s&#39; -&gt; &#39;%s&#39; in sentence &#39;%s&#39;:%n&quot;,</b>
+<b class="nc">&nbsp;        entry.getCovered(), entry.getReplacement(), entry.getSentence()));</b>
+<b class="nc">&nbsp;      List&lt;String&gt; correct = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      List&lt;RuleMatch&gt; gatheredSuggestions = new ArrayList&lt;&gt;(experiments.size());</b>
+<b class="nc">&nbsp;      int textSize = sentence.getText().length();</b>
+<b class="nc">&nbsp;      for (SuggestionChangesExperiment experiment : experiments) {</b>
+<b class="nc">&nbsp;        experimentId++;</b>
+&nbsp;
+<b class="nc">&nbsp;        Rule spellerRule = rules.get(experiment);</b>
+<b class="nc">&nbsp;        if (spellerRule == null) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        long startTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;        RuleMatch[] matches = spellerRule.match(sentence);</b>
+<b class="nc">&nbsp;        long computationTime = System.currentTimeMillis() - startTime;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (RuleMatch match : matches) {</b>
+<b class="nc">&nbsp;          String matchedWord = sentence.getText().substring(match.getFromPos(), match.getToPos());</b>
+<b class="nc">&nbsp;          if (!matchedWord.equals(entry.getCovered())) {</b>
+&nbsp;            //System.out.println(&quot;Other spelling error detected, ignoring: &quot; + matchedWord + &quot; / &quot; + covered);
+&nbsp;            continue;
+&nbsp;          }
+<b class="nc">&nbsp;          List&lt;String&gt; suggestions = match.getSuggestedReplacements();</b>
+<b class="nc">&nbsp;          gatheredSuggestions.add(match);</b>
+<b class="nc">&nbsp;          if (suggestions.isEmpty()) { // TODO should be tracked as well</b>
+&nbsp;            continue;
+&nbsp;          }
+<b class="nc">&nbsp;          int position = suggestions.indexOf(entry.getReplacement());</b>
+<b class="nc">&nbsp;          SuggestionsChanges.getInstance().trackExperimentResult(Pair.of(experiment, entry.getDataset()),</b>
+&nbsp;            position, textSize, computationTime);
+<b class="nc">&nbsp;          if (position == 0) {</b>
+<b class="nc">&nbsp;            correct.add(String.valueOf(experimentId));</b>
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          message.append(String.format(&quot;Experiment #%d: %s -&gt; accepted @ #%d%n&quot;, experimentId, suggestions, position));</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      message.append(String.format(&quot;Correct suggestions by experiments: %s%n&quot;, String.join(&quot;, &quot;, correct)));</b>
+&nbsp;
+<b class="nc">&nbsp;      results.add(Pair.of(new SuggestionTestResultData(entry, gatheredSuggestions), message.toString()));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  public void testText() throws IOException {
+<b class="nc">&nbsp;    File configFile = new File(System.getProperty(&quot;config&quot;, &quot;SuggestionChangesTestConfig.json&quot;));</b>
+<b class="nc">&nbsp;    ObjectMapper mapper = new ObjectMapper(new JsonFactory().enable(JsonParser.Feature.ALLOW_COMMENTS));</b>
+<b class="nc">&nbsp;    SuggestionChangesTestConfig config = mapper.readValue(configFile, SuggestionChangesTestConfig.class);</b>
+<b class="nc">&nbsp;    SuggestionsChanges.init(config, null);</b>
+&nbsp;
+<b class="nc">&nbsp;    Path inputFile = Paths.get(System.getProperty(&quot;input&quot;));</b>
+<b class="nc">&nbsp;    String text = String.join(&quot;\n&quot;, Files.readAllLines(inputFile));</b>
+<b class="nc">&nbsp;    File ngrams = new File(SuggestionsChanges.getInstance().getConfig().ngramLocation);</b>
+<b class="nc">&nbsp;    Language lang = Languages.getLanguageForShortCode(config.language);</b>
+<b class="nc">&nbsp;    List&lt;SuggestionChangesExperiment&gt; experiments = SuggestionsChanges.getInstance().getExperiments();</b>
+<b class="nc">&nbsp;    for (SuggestionChangesExperiment experiment : experiments) {</b>
+<b class="nc">&nbsp;      SuggestionsChanges.getInstance().setCurrentExperiment(experiment);</b>
+<b class="nc">&nbsp;      JLanguageTool lt = new JLanguageTool(lang);</b>
+<b class="nc">&nbsp;      lt.activateLanguageModelRules(ngrams);</b>
+<b class="nc">&nbsp;      List&lt;RuleMatch&gt; matches = lt.check(text);</b>
+<b class="nc">&nbsp;      System.out.printf(&quot;%nExperiment %s running...%n&quot;, experiment);</b>
+<b class="nc">&nbsp;      for (RuleMatch match : matches) {</b>
+<b class="nc">&nbsp;        if (!match.getRule().isDictionaryBasedSpellingRule()) {</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        String covered = text.substring(match.getFromPos(), match.getToPos());</b>
+<b class="nc">&nbsp;        System.out.printf(&quot;Correction: &#39;%s&#39; -&gt; %s%n&quot;, covered, match.getSuggestedReplacements());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public void testChanges() throws IOException, InterruptedException {
+&nbsp;
+<b class="nc">&nbsp;    File configFile = new File(System.getProperty(&quot;config&quot;, &quot;SuggestionChangesTestConfig.json&quot;));</b>
+<b class="nc">&nbsp;    ObjectMapper mapper = new ObjectMapper(new JsonFactory().enable(JsonParser.Feature.ALLOW_COMMENTS));</b>
+<b class="nc">&nbsp;    SuggestionChangesTestConfig config = mapper.readValue(configFile, SuggestionChangesTestConfig.class);</b>
+&nbsp;
+<b class="nc">&nbsp;    SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd_HH:mm:ss&quot;);</b>
+<b class="nc">&nbsp;    String timestamp = dateFormat.format(new Date());</b>
+<b class="nc">&nbsp;    Path loggingFile = Paths.get(config.logDir, String.format(&quot;suggestionChangesExperiment_%s.log&quot;, timestamp));</b>
+<b class="nc">&nbsp;    Path datasetFile = Paths.get(config.logDir, String.format(&quot;suggestionChangesExperiment_%s.csv&quot;, timestamp));</b>
+&nbsp;
+<b class="nc">&nbsp;    BufferedWriter writer = Files.newBufferedWriter(loggingFile);</b>
+<b class="nc">&nbsp;    CSVPrinter datasetWriter = new CSVPrinter(Files.newBufferedWriter(datasetFile), CSVFormat.DEFAULT.withEscape(&#39;\\&#39;));</b>
+<b class="nc">&nbsp;    List&lt;String&gt; datasetHeader = new ArrayList&lt;&gt;(Arrays.asList(&quot;sentence&quot;, &quot;correction&quot;, &quot;covered&quot;, &quot;replacement&quot;, &quot;dataset_id&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;    SuggestionsChanges.init(config, writer);</b>
+<b class="nc">&nbsp;    writer.write(&quot;Evaluation configuration: \n&quot;);</b>
+<b class="nc">&nbsp;    String configContent = String.join(&quot;\n&quot;, Files.readAllLines(configFile.toPath()));</b>
+<b class="nc">&nbsp;    writer.write(configContent);</b>
+<b class="nc">&nbsp;    writer.write(&quot;\nRunning experiments: \n&quot;);</b>
+<b class="nc">&nbsp;    int experimentId = 0;</b>
+<b class="nc">&nbsp;    for (SuggestionChangesExperiment experiment : SuggestionsChanges.getInstance().getExperiments()) {</b>
+<b class="nc">&nbsp;      experimentId++;</b>
+<b class="nc">&nbsp;      writer.write(String.format(&quot;#%d: %s%n&quot;, experimentId, experiment));</b>
+<b class="nc">&nbsp;      datasetHeader.add(String.format(&quot;experiment_%d_suggestions&quot;, experimentId));</b>
+<b class="nc">&nbsp;      datasetHeader.add(String.format(&quot;experiment_%d_metadata&quot;, experimentId));</b>
+<b class="nc">&nbsp;      datasetHeader.add(String.format(&quot;experiment_%d_suggestions_metadata&quot;, experimentId));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    writer.newLine();</b>
+<b class="nc">&nbsp;    datasetWriter.printRecord(datasetHeader);</b>
+&nbsp;
+<b class="nc">&nbsp;    BlockingQueue&lt;SuggestionTestData&gt; tasks = new LinkedBlockingQueue&lt;&gt;(1000);</b>
+<b class="nc">&nbsp;    ConcurrentLinkedQueue&lt;Pair&lt;SuggestionTestResultData, String&gt;&gt; results = new ConcurrentLinkedQueue&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;SuggestionTestThread&gt; threads = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; Runtime.getRuntime().availableProcessors(); i++) {</b>
+<b class="nc">&nbsp;      SuggestionTestThread worker = new SuggestionTestThread(tasks, results);</b>
+<b class="nc">&nbsp;      worker.start();</b>
+<b class="nc">&nbsp;      threads.add(worker);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Thread for writing results from worker threads into CSV
+<b class="nc">&nbsp;    Thread logger = new Thread(() -&gt; {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        long messages = 0;</b>
+&nbsp;        //noinspection InfiniteLoopStatement
+&nbsp;        while (true) {
+<b class="nc">&nbsp;          Pair&lt;SuggestionTestResultData, String&gt; message = results.poll();</b>
+<b class="nc">&nbsp;          if (message != null) {</b>
+<b class="nc">&nbsp;            writer.write(message.getRight());</b>
+&nbsp;
+<b class="nc">&nbsp;            SuggestionTestResultData result = message.getLeft();</b>
+<b class="nc">&nbsp;            int datasetId = 1 + config.datasets.indexOf(result.getInput().getDataset());</b>
+<b class="nc">&nbsp;            if (result != null &amp;&amp; result.getSuggestions() != null &amp;&amp;</b>
+<b class="nc">&nbsp;              !result.getSuggestions().isEmpty() &amp;&amp; result.getSuggestions().stream()</b>
+<b class="nc">&nbsp;              .noneMatch(m -&gt; m.getSuggestedReplacements() == null || m.getSuggestedReplacements().isEmpty())) {</b>
+&nbsp;
+<b class="nc">&nbsp;              List&lt;Object&gt; record = new ArrayList&lt;&gt;(Arrays.asList(</b>
+<b class="nc">&nbsp;                result.getInput().getSentence(), result.getInput().getCorrection(),</b>
+<b class="nc">&nbsp;                result.getInput().getCovered(), result.getInput().getReplacement(), datasetId));</b>
+<b class="nc">&nbsp;              for (RuleMatch match : result.getSuggestions()) {</b>
+<b class="nc">&nbsp;                List&lt;String&gt; suggestions = match.getSuggestedReplacements();</b>
+<b class="nc">&nbsp;                record.add(mapper.writeValueAsString(suggestions));</b>
+&nbsp;                // features extracted by SuggestionsOrdererFeatureExtractor
+<b class="nc">&nbsp;                record.add(mapper.writeValueAsString(match.getFeatures()));</b>
+<b class="nc">&nbsp;                List&lt;SortedMap&lt;String, Float&gt;&gt; suggestionsMetadata = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;                for (SuggestedReplacement replacement : match.getSuggestedReplacementObjects()) {</b>
+<b class="nc">&nbsp;                  suggestionsMetadata.add(replacement.getFeatures());</b>
+&nbsp;                }
+<b class="nc">&nbsp;                record.add(mapper.writeValueAsString(suggestionsMetadata));</b>
+&nbsp;              }
+<b class="nc">&nbsp;              datasetWriter.printRecord(record);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if (++messages % 1000 == 0) {</b>
+<b class="nc">&nbsp;              writer.flush();</b>
+<b class="nc">&nbsp;              System.out.printf(&quot;Evaluated %d corrections.%n&quot;, messages);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+&nbsp;    });
+<b class="nc">&nbsp;    logger.setDaemon(true);</b>
+<b class="nc">&nbsp;    logger.start();</b>
+&nbsp;
+&nbsp;    // format straight from database dump
+<b class="nc">&nbsp;    String[] header = {&quot;id&quot;, &quot;sentence&quot;, &quot;correction&quot;, &quot;language&quot;, &quot;rule_id&quot;, &quot;suggestion_pos&quot;, &quot;accept_language&quot;,</b>
+&nbsp;      &quot;country&quot;, &quot;region&quot;, &quot;created_at&quot;, &quot;updated_at&quot;, &quot;covered&quot;, &quot;replacement&quot;, &quot;text_session_id&quot;, &quot;client&quot;};
+&nbsp;
+<b class="nc">&nbsp;    int datasetId = 0;</b>
+&nbsp;    // read data, send to worker threads via queue
+<b class="nc">&nbsp;    for (SuggestionChangesDataset dataset : config.datasets) {</b>
+&nbsp;
+<b class="nc">&nbsp;      writer.write(String.format(&quot;Evaluating dataset #%d: %s.%n&quot;, ++datasetId, dataset));</b>
+&nbsp;
+<b class="nc">&nbsp;      CSVFormat format = CSVFormat.DEFAULT;</b>
+<b class="nc">&nbsp;      if (dataset.type.equals(&quot;dump&quot;)) {</b>
+<b class="nc">&nbsp;        format = format.withEscape(&#39;\\&#39;).withNullString(&quot;\\N&quot;).withHeader(header);</b>
+<b class="nc">&nbsp;      } else if (dataset.type.equals(&quot;artificial&quot;)) {</b>
+<b class="nc">&nbsp;        format = format.withEscape(&#39;\\&#39;).withFirstRecordAsHeader();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      try (CSVParser parser = new CSVParser(new FileReader(dataset.path), format)) {</b>
+<b class="nc">&nbsp;        for (CSVRecord record : parser) {</b>
+&nbsp;
+<b class="nc">&nbsp;          String lang = record.get(&quot;language&quot;);</b>
+<b class="nc">&nbsp;          String rule = dataset.type.equals(&quot;dump&quot;) ? record.get(&quot;rule_id&quot;) : &quot;&quot;;</b>
+<b class="nc">&nbsp;          String covered = record.get(&quot;covered&quot;);</b>
+<b class="nc">&nbsp;          String replacement = record.get(&quot;replacement&quot;);</b>
+<b class="nc">&nbsp;          String sentence = record.get(&quot;sentence&quot;);</b>
+<b class="nc">&nbsp;          String correction = record.isSet(&quot;correction&quot;) ? record.get(&quot;correction&quot;) : &quot;&quot;;</b>
+<b class="nc">&nbsp;          String acceptLanguage = dataset.type.equals(&quot;dump&quot;) ? record.get(&quot;accept_language&quot;) : &quot;&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;          if (sentence == null || sentence.trim().isEmpty()) {</b>
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          if (!config.language.equals(lang)) {</b>
+&nbsp;            continue; // TODO handle auto maybe?
+&nbsp;          }
+<b class="nc">&nbsp;          if (dataset.type.equals(&quot;dump&quot;) &amp;&amp; !config.rule.equals(rule)) {</b>
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;
+&nbsp;          // correction column missing in export from doccano; workaround
+<b class="nc">&nbsp;          if (dataset.enforceCorrect &amp;&amp; !record.isSet(&quot;correction&quot;)) {</b>
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;enforceCorrect in dataset configuration enabled,&quot; +</b>
+&nbsp;              &quot; but column &#39;correction&#39; is not set for entry &quot; + record);
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          if (dataset.type.equals(&quot;dump&quot;) &amp;&amp; dataset.enforceAcceptLanguage) {</b>
+<b class="nc">&nbsp;            if (acceptLanguage != null) {</b>
+<b class="nc">&nbsp;              String[] entries = acceptLanguage.split(&quot;,&quot;, 2);</b>
+<b class="nc">&nbsp;              if (entries.length == 2) {</b>
+<b class="nc">&nbsp;                String userLanguage = entries[0]; // TODO: what to do with e.g. de-AT,de-DE;...</b>
+<b class="nc">&nbsp;                if (!config.language.equals(userLanguage)) {</b>
+&nbsp;                  continue;
+&nbsp;                }
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          tasks.put(new SuggestionTestData(lang, sentence, covered, replacement, correction, dataset));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    for (Thread t : threads) {</b>
+<b class="nc">&nbsp;      t.join();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    logger.join(10000L);</b>
+<b class="nc">&nbsp;    logger.interrupt();</b>
+&nbsp;    datasetWriter.close();
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException, InterruptedException {
+<b class="nc">&nbsp;    if (args.length != 2) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: SuggestionChangesTest [mode] CONFIG_FILE&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Mode is either &#39;text&#39; or &#39;csv&#39;&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String mode = args[0];</b>
+<b class="nc">&nbsp;    String config = args[1];</b>
+<b class="nc">&nbsp;    System.setProperty(&quot;config&quot;, config);</b>
+&nbsp;
+<b class="nc">&nbsp;    SuggestionChangesTest test = new SuggestionChangesTest();</b>
+&nbsp;
+<b class="nc">&nbsp;    if (&quot;text&quot;.equals(mode)) {</b>
+<b class="nc">&nbsp;      test.testText();</b>
+<b class="nc">&nbsp;    } else if (&quot;csv&quot;.equals(mode)) {</b>
+<b class="nc">&nbsp;      test.testChanges();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: SuggestionChangesTest [mode] CONFIG_FILE&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Mode is either &#39;text&#39; or &#39;csv&#39;&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

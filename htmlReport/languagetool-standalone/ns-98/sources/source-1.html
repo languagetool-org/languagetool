@@ -1,0 +1,280 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > EnglishWordTokenizer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tokenizers.en</a>
+</div>
+
+<h1>Coverage Summary for Class: EnglishWordTokenizer (org.languagetool.tokenizers.en)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnglishWordTokenizer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (31/62)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    77.3%
+  </span>
+  <span class="absValue">
+    (51/66)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2013 Marcin Milkowski (http://www.languagetool.org)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tokenizers.en;
+&nbsp;
+&nbsp;import org.languagetool.tagging.en.EnglishTagger;
+&nbsp;import org.languagetool.tokenizers.WordTokenizer;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.StringTokenizer;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static java.util.regex.Pattern.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * @author Marcin Milkowski
+&nbsp; * @since 2.5
+&nbsp; */
+<b class="fc">&nbsp;public class EnglishWordTokenizer extends WordTokenizer {</b>
+&nbsp;
+&nbsp;  private static final String wordCharacters = &quot;±§©@€£¥\\$\\p{L}\\d\\-\u0300-\u036F\u00A8°%‰‱&amp;\uFFFD\u00AD\u00AC\uFF0C\uFF1F&quot;; // # _ \\u2070-\\u209f
+&nbsp;  // \\uFFOC -&gt; rule NON_STANDARD_COMMA
+&nbsp;  // \\uFF1F -&gt; rule NON_STANDARD_QUESTION_MARK
+<b class="fc">&nbsp;  private static final Pattern tokenizerPattern = Pattern.compile(&quot;[&quot; + wordCharacters + &quot;]+|[^&quot; + wordCharacters + &quot;]&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern SINGLE_QUOTE = compile(&quot;&#39;&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern CURLY_QUOTE = compile(&quot;’&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern APOSTYPEW = compile(&quot;xxAPOSTYPEWxx&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern APOSTYPOG = compile(&quot;xxAPOSTYPOGxx&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern SOFT_HYPHEN = compile(&quot;\u00AD&quot;);</b>
+<b class="fc">&nbsp;  private static final List&lt;Pattern&gt; patternList = Arrays.asList(</b>
+<b class="fc">&nbsp;      compile(&quot;^(fo[&#39;’]c[&#39;’]sle|rec[&#39;’][ds]|OK[&#39;’]d|cc[&#39;’][ds]|DJ[&#39;’][d]|[pd]m[&#39;’]d|rsvp[&#39;’]d)$&quot;, CASE_INSENSITIVE | UNICODE_CASE),</b>
+<b class="fc">&nbsp;      compile(</b>
+&nbsp;          &quot;^([&#39;’]?)(are|is|were|was|do|does|did|have|has|had|wo|would|ca|could|sha|should|must|ai|ought|might|need|may|am|dare|das|dass|hai|used|use)(n[&#39;’]t)$&quot;,
+&nbsp;          CASE_INSENSITIVE | UNICODE_CASE),
+<b class="fc">&nbsp;      compile(&quot;^(.+)([&#39;’]m|[&#39;’]re|[&#39;’]ll|[&#39;’]ve|[&#39;’]d|[&#39;’]s)([&#39;’-]?)$&quot;,</b>
+&nbsp;          CASE_INSENSITIVE | UNICODE_CASE),
+<b class="fc">&nbsp;      compile(&quot;^([&#39;’]t)(was|were|is)$&quot;, CASE_INSENSITIVE | UNICODE_CASE));</b>
+&nbsp;
+&nbsp;  //the string used to tokenize characters
+<b class="fc">&nbsp;  private final String enTokenizingChars = super.getTokenizingCharacters() + &quot;_&quot;; // underscore;</b>
+&nbsp;
+&nbsp;//  public EnglishWordTokenizer() {
+&nbsp;//
+&nbsp;//  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tokenizes text. The English tokenizer differs from the standard one in two
+&nbsp;   * respects:
+&nbsp;   * &lt;ol&gt;
+&nbsp;   * &lt;li&gt;it does not treat the hyphen as part of the word if the hyphen is at the
+&nbsp;   * end of the word;&lt;/li&gt;
+&nbsp;   * &lt;li&gt;it includes n-dash as a tokenizing character, as it is used without a
+&nbsp;   * whitespace in English.
+&nbsp;   * &lt;/ol&gt;
+&nbsp;   * 
+&nbsp;   * @param text String of words to tokenize.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; tokenize(String text) {
+<b class="fc">&nbsp;    List&lt;String&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    String auxText = text;</b>
+<b class="fc">&nbsp;    auxText = SINGLE_QUOTE.matcher(auxText).replaceAll(&quot;xxAPOSTYPEWxx&quot;);</b>
+<b class="fc">&nbsp;    auxText = CURLY_QUOTE.matcher(auxText).replaceAll(&quot;xxAPOSTYPOGxx&quot;);</b>
+&nbsp;    //auxText = auxText.replaceAll(&quot;-&quot;, &quot;xxHYPHENxx&quot;);
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;    Matcher tokenizerMatcher = tokenizerPattern.matcher(auxText);</b>
+<b class="fc">&nbsp;    while (tokenizerMatcher.find()) {</b>
+<b class="fc">&nbsp;      String s = tokenizerMatcher.group();</b>
+<b class="pc">&nbsp;      if (l.size() &gt; 0 &amp;&amp; s.length() == 1 &amp;&amp; s.codePointAt(0)&gt;=0xFE00 &amp;&amp; s.codePointAt(0)&lt;=0xFE0F) {</b>
+<b class="nc">&nbsp;        l.set(l.size() - 1, l.get(l.size() - 1) + s);</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="fc">&nbsp;      s = APOSTYPEW.matcher(s).replaceAll(&quot;&#39;&quot;);</b>
+<b class="fc">&nbsp;      s = APOSTYPOG.matcher(s).replaceAll(&quot;’&quot;);</b>
+&nbsp;          //.replaceAll(&quot;xxHYPHENxx&quot;, &quot;-&quot;);
+<b class="fc">&nbsp;      boolean matchFound = false;</b>
+<b class="fc">&nbsp;      Matcher matcher = null;</b>
+<b class="fc">&nbsp;      if (s.contains(&quot;&#39;&quot;) || s.contains(&quot;’&quot;)) {</b>
+<b class="pc">&nbsp;        for (Pattern pattern : patternList) {</b>
+<b class="fc">&nbsp;          matcher = pattern.matcher(s);</b>
+<b class="fc">&nbsp;          matchFound = matcher.find();</b>
+<b class="fc">&nbsp;          if (matchFound) {</b>
+&nbsp;            break;
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      if (matchFound) {</b>
+<b class="fc">&nbsp;        for (int i = 1; i &lt;= matcher.groupCount(); i++) {</b>
+<b class="fc">&nbsp;          String groupStr = matcher.group(i);</b>
+<b class="fc">&nbsp;          l.addAll(wordsToAdd(groupStr));</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="fc">&nbsp;        l.addAll(wordsToAdd(s));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return joinEMailsAndUrls(l);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* Splits a word containing hyphen(-’&#39;) if it doesn&#39;t exist in the dictionary. */
+&nbsp;  private List&lt;String&gt; wordsToAdd(String s) {
+<b class="fc">&nbsp;    final List&lt;String&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    int hyphensAtEnd = 0;</b>
+<b class="fc">&nbsp;    if (!s.isEmpty()) {</b>
+<b class="pc">&nbsp;      while (s.startsWith(&quot;-&quot;)) {</b>
+<b class="nc">&nbsp;        l.add(&quot;-&quot;);</b>
+<b class="nc">&nbsp;        s = s.substring(1);</b>
+&nbsp;      }
+<b class="pc">&nbsp;      while (s.endsWith(&quot;-&quot;)) {</b>
+<b class="nc">&nbsp;        s = s.substring(0,s.length()-1);</b>
+<b class="nc">&nbsp;        hyphensAtEnd++;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (!s.isEmpty()) {</b>
+<b class="fc">&nbsp;        if (!s.contains(&quot;-&quot;) &amp;&amp; !s.contains(&quot;&#39;&quot;) &amp;&amp; !s.contains(&quot;’&quot;)) {</b>
+<b class="fc">&nbsp;          l.add(s);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;          String normalized = SOFT_HYPHEN.matcher(s).replaceAll(&quot;&quot;);</b>
+<b class="fc">&nbsp;          normalized = CURLY_QUOTE.matcher(normalized).replaceAll(&quot;&#39;&quot;);</b>
+<b class="fc">&nbsp;          if (EnglishTagger.INSTANCE.tag(Arrays.asList(normalized)).get(0)</b>
+<b class="pc">&nbsp;              .isTagged()) {</b>
+<b class="fc">&nbsp;            l.add(s);</b>
+&nbsp;          }
+&nbsp;          // some camel-case words containing hyphen (is there any better fix?)
+<b class="nc">&nbsp;          else if (s.equalsIgnoreCase(&quot;mers-cov&quot;) || s.equalsIgnoreCase(&quot;mcgraw-hill&quot;)</b>
+<b class="nc">&nbsp;              || s.equalsIgnoreCase(&quot;sars-cov-2&quot;) || s.equalsIgnoreCase(&quot;sars-cov&quot;) || s.equalsIgnoreCase(&quot;ph-metre&quot;)</b>
+<b class="nc">&nbsp;              || s.equalsIgnoreCase(&quot;ph-metres&quot;) || s.equalsIgnoreCase(&quot;anti-ivg&quot;) || s.equalsIgnoreCase(&quot;anti-uv&quot;)</b>
+<b class="nc">&nbsp;              || s.equalsIgnoreCase(&quot;anti-vih&quot;) || s.equalsIgnoreCase(&quot;al-qaida&quot;)) {</b>
+<b class="nc">&nbsp;            l.add(s);</b>
+&nbsp;          } else {
+&nbsp;            // if not found, the word is split
+&nbsp;            // final StringTokenizer st2 = new StringTokenizer(s, &quot;-’&#39;&quot;, true);
+<b class="nc">&nbsp;            final StringTokenizer st2 = new StringTokenizer(s, &quot;’&#39;&quot;, true);</b>
+<b class="nc">&nbsp;            while (st2.hasMoreElements()) {</b>
+<b class="nc">&nbsp;              l.add(st2.nextToken());</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="pc">&nbsp;    while (hyphensAtEnd &gt; 0) {</b>
+<b class="nc">&nbsp;      l.add(&quot;-&quot;);</b>
+<b class="nc">&nbsp;      hyphensAtEnd--;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return l;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

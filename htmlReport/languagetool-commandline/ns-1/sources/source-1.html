@@ -1,0 +1,497 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AnalyzedSentence</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool</a>
+</div>
+
+<h1>Coverage Summary for Class: AnalyzedSentence (org.languagetool)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AnalyzedSentence</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86.2%
+  </span>
+  <span class="absValue">
+    (25/29)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80.8%
+  </span>
+  <span class="absValue">
+    (63/78)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89.8%
+  </span>
+  <span class="absValue">
+    (115/128)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2014 Daniel Naber, Marcin Miłkowski (http://www.languagetool.org)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.ApiStatus;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * A sentence that has been tokenized and analyzed.
+&nbsp; * 
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public final class AnalyzedSentence {
+&nbsp;
+&nbsp;  // objects of this type are cached, so everything needs to be immutable
+&nbsp;  private final AnalyzedTokenReadings[] tokens;
+&nbsp;  private final AnalyzedTokenReadings[] preDisambigTokens;
+&nbsp;  private final AnalyzedTokenReadings[] nonBlankTokens;
+&nbsp;  private final AnalyzedTokenReadings[] nonBlankPreDisambigTokens;
+&nbsp;  private final int[] whPositions;  // maps positions without whitespace to positions that include whitespaces
+&nbsp;  private final Map&lt;String, List&lt;Integer&gt;&gt; tokenOffsets;
+&nbsp;  private final Map&lt;String, List&lt;Integer&gt;&gt; lemmaOffsets;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates an AnalyzedSentence from the given {@link AnalyzedTokenReadings}. Whitespace is also a token.
+&nbsp;   */
+&nbsp;  public AnalyzedSentence(AnalyzedTokenReadings[] tokens) {
+<b class="fc">&nbsp;    this(tokens, tokens);</b>
+&nbsp;  }
+&nbsp;  
+<b class="fc">&nbsp;  public AnalyzedSentence(AnalyzedTokenReadings[] tokens, AnalyzedTokenReadings[] preDisambigTokens) {</b>
+<b class="fc">&nbsp;    this.tokens = tokens;</b>
+<b class="fc">&nbsp;    this.preDisambigTokens = preDisambigTokens;</b>
+<b class="fc">&nbsp;    int whCounter = 0;</b>
+<b class="fc">&nbsp;    int nonWhCounter = 0;</b>
+<b class="fc">&nbsp;    int[] mapping = new int[tokens.length + 1];</b>
+<b class="fc">&nbsp;    this.whPositions = mapping;</b>
+<b class="fc">&nbsp;    this.nonBlankTokens = getNonBlankReadings(tokens, whCounter, nonWhCounter, mapping).toArray(new AnalyzedTokenReadings[0]);</b>
+<b class="fc">&nbsp;    this.nonBlankPreDisambigTokens = getNonBlankReadings(preDisambigTokens, whCounter, nonWhCounter, mapping).toArray(new AnalyzedTokenReadings[0]);</b>
+<b class="fc">&nbsp;    tokenOffsets = indexTokens(nonBlankTokens);</b>
+<b class="fc">&nbsp;    lemmaOffsets = indexLemmas(nonBlankTokens);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private List&lt;AnalyzedTokenReadings&gt; getNonBlankReadings(AnalyzedTokenReadings[] tokens, int whCounter, int nonWhCounter, int[] mapping) {
+<b class="fc">&nbsp;    List&lt;AnalyzedTokenReadings&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (AnalyzedTokenReadings token : tokens) {</b>
+<b class="pc">&nbsp;      if (!token.isWhitespace() || token.isSentenceStart() || token.isSentenceEnd() || token.isParagraphEnd()) {</b>
+<b class="fc">&nbsp;        l.add(token);</b>
+<b class="fc">&nbsp;        mapping[nonWhCounter] = whCounter;</b>
+<b class="fc">&nbsp;        nonWhCounter++;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      whCounter++;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return l;</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  private AnalyzedSentence(AnalyzedTokenReadings[] tokens, int[] mapping, AnalyzedTokenReadings[] nonBlankTokens, AnalyzedTokenReadings[] nonBlankPreDisambigTokens) {</b>
+<b class="fc">&nbsp;    this.tokens = tokens;</b>
+<b class="fc">&nbsp;    this.preDisambigTokens = tokens;</b>
+<b class="fc">&nbsp;    this.whPositions = mapping;</b>
+<b class="fc">&nbsp;    this.nonBlankTokens = nonBlankTokens;</b>
+<b class="fc">&nbsp;    this.nonBlankPreDisambigTokens = nonBlankPreDisambigTokens;</b>
+<b class="fc">&nbsp;    tokenOffsets = indexTokens(nonBlankTokens);</b>
+<b class="fc">&nbsp;    lemmaOffsets = indexLemmas(nonBlankTokens);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static Map&lt;String, List&lt;Integer&gt;&gt; indexTokens(AnalyzedTokenReadings[] tokens) {
+<b class="fc">&nbsp;    Map&lt;String, List&lt;Integer&gt;&gt; result = new HashMap&lt;&gt;(tokens.length);</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; tokens.length; i++) {</b>
+<b class="fc">&nbsp;      result.computeIfAbsent(tokens[i].getToken().toLowerCase(), __ -&gt; new ArrayList&lt;&gt;(1)).add(i);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return makeUnmodifiable(result);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static Map&lt;String, List&lt;Integer&gt;&gt; indexLemmas(AnalyzedTokenReadings[] tokens) {
+<b class="fc">&nbsp;    Map&lt;String, List&lt;Integer&gt;&gt; result = new HashMap&lt;&gt;(tokens.length);</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; tokens.length; i++) {</b>
+<b class="fc">&nbsp;      AnalyzedTokenReadings tr = tokens[i];</b>
+<b class="fc">&nbsp;      int readingsLength = tr.getReadingsLength();</b>
+<b class="fc">&nbsp;      for (int j = 0; j &lt; readingsLength; j++) {</b>
+<b class="fc">&nbsp;        AnalyzedToken token = tr.getAnalyzedToken(j);</b>
+<b class="fc">&nbsp;        String lemma = token.getLemma();</b>
+<b class="fc">&nbsp;        String key = (lemma != null ? lemma : token.getToken()).toLowerCase();</b>
+<b class="fc">&nbsp;        List&lt;Integer&gt; list = result.computeIfAbsent(key, __ -&gt; new ArrayList&lt;&gt;(1));</b>
+<b class="fc">&nbsp;        if (list.isEmpty() || list.get(list.size() - 1) != i) {</b>
+<b class="fc">&nbsp;          list.add(i);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return makeUnmodifiable(result);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static Map&lt;String, List&lt;Integer&gt;&gt; makeUnmodifiable(Map&lt;String, List&lt;Integer&gt;&gt; result) {
+<b class="fc">&nbsp;    for (Map.Entry&lt;String, List&lt;Integer&gt;&gt; entry : result.entrySet()) {</b>
+<b class="fc">&nbsp;      entry.setValue(Collections.unmodifiableList(entry.getValue()));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return Collections.unmodifiableMap(result);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The method copies {@link AnalyzedSentence} and returns the copy.
+&nbsp;   * Useful for performing local immunization (for example).
+&nbsp;   *
+&nbsp;   * @param sentence {@link AnalyzedSentence} to be copied
+&nbsp;   * @return a new object which is a copy
+&nbsp;   * @since  2.5
+&nbsp;   */
+&nbsp;  public AnalyzedSentence copy(AnalyzedSentence sentence) {
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] copyTokens = new AnalyzedTokenReadings[sentence.getTokens().length];</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; copyTokens.length; i++) {</b>
+<b class="fc">&nbsp;      AnalyzedTokenReadings analyzedTokens = sentence.getTokens()[i];</b>
+<b class="fc">&nbsp;      copyTokens[i] = new AnalyzedTokenReadings(analyzedTokens, analyzedTokens.getReadings(), &quot;&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return new AnalyzedSentence(copyTokens, sentence.whPositions, sentence.getTokensWithoutWhitespace(), sentence.getPreDisambigTokensWithoutWhitespace());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the {@link AnalyzedTokenReadings} of the analyzed text. Whitespace
+&nbsp;   * is also a token.
+&nbsp;   */
+&nbsp;  public AnalyzedTokenReadings[] getTokens() {
+&nbsp;    // It would be better to return a clone here to make this object immutable,
+&nbsp;    // but this would be bad for performance:
+<b class="fc">&nbsp;    return tokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.5
+&nbsp;   */
+&nbsp;  public AnalyzedTokenReadings[] getPreDisambigTokens() {
+&nbsp;    // It would be better to return a clone here to make this object immutable,
+&nbsp;    // but this would be bad for performance:
+<b class="fc">&nbsp;    return preDisambigTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the {@link AnalyzedTokenReadings} of the analyzed text, with
+&nbsp;   * whitespace tokens removed but with the artificial &lt;code&gt;SENT_START&lt;/code&gt;
+&nbsp;   * token included.
+&nbsp;   */
+&nbsp;  public AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
+<b class="fc">&nbsp;    return nonBlankTokens.clone();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the length of the array returned by {@link #getTokensWithoutWhitespace()} without additional allocations.
+&nbsp;   */
+&nbsp;  @ApiStatus.Internal
+&nbsp;  public int getNonWhitespaceTokenCount() {
+<b class="fc">&nbsp;    return nonBlankTokens.length;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.5
+&nbsp;   */
+&nbsp;  public AnalyzedTokenReadings[] getPreDisambigTokensWithoutWhitespace() {
+<b class="fc">&nbsp;    return nonBlankPreDisambigTokens.clone();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get a position of a non-whitespace token in the original sentence with
+&nbsp;   * whitespace.
+&nbsp;   *
+&nbsp;   * @param nonWhPosition position of a non-whitespace token
+&nbsp;   * @return position in the original sentence.
+&nbsp;   */
+&nbsp;  public int getOriginalPosition(int nonWhPosition) {
+<b class="fc">&nbsp;    return whPositions[nonWhPosition];</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="fc">&nbsp;    return toString(&quot;,&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return string representation without chunk information.
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public String toShortString(String readingDelimiter) {
+<b class="nc">&nbsp;    return toString(readingDelimiter, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private volatile String text;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return the original text.
+&nbsp;   * @since 2.7
+&nbsp;   */
+&nbsp;  public String getText() {
+<b class="fc">&nbsp;    String result = text;</b>
+<b class="fc">&nbsp;    if (result == null) {</b>
+<b class="fc">&nbsp;      text = result = calcText();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String calcText() {
+<b class="fc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="fc">&nbsp;    for (AnalyzedTokenReadings element : tokens) {</b>
+<b class="fc">&nbsp;      sb.append(element.getToken());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** Text length taking position fixes (for removed soft hyphens etc.) into account, so
+&nbsp;   * this is _not_ always equal to {@code getText()}.
+&nbsp;   * @since 5.1
+&nbsp;   */
+&nbsp;  public int getCorrectedTextLength() {
+<b class="fc">&nbsp;    int len = 0;</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; tokens.length; i++) {</b>
+<b class="fc">&nbsp;      AnalyzedTokenReadings element = tokens[i];</b>
+<b class="fc">&nbsp;      len += element.getCleanToken().length();</b>
+<b class="fc">&nbsp;      if (i == tokens.length - 1) {  // only apply at end, so the position fix at every token doesn&#39;t add up</b>
+<b class="fc">&nbsp;        len += element.getPosFix();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return len;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return string representation without any analysis information, just the original text.
+&nbsp;   * @since 2.6
+&nbsp;   */
+&nbsp;  String toTextString() {
+<b class="nc">&nbsp;    return getText();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return string representation with chunk information.
+&nbsp;   */
+&nbsp;  public String toString(String readingDelimiter) {
+<b class="fc">&nbsp;    return toString(readingDelimiter, true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String toString(String readingDelimiter, boolean includeChunks) {
+<b class="fc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="fc">&nbsp;    for (AnalyzedTokenReadings element : tokens) {</b>
+<b class="fc">&nbsp;      if (!element.isWhitespace()) {</b>
+<b class="fc">&nbsp;        sb.append(element.getToken());</b>
+<b class="fc">&nbsp;        sb.append(&#39;[&#39;);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      Iterator&lt;AnalyzedToken&gt; iterator = element.iterator();</b>
+<b class="fc">&nbsp;      while (iterator.hasNext()) {</b>
+<b class="fc">&nbsp;        AnalyzedToken token = iterator.next();</b>
+<b class="fc">&nbsp;        String posTag = token.getPOSTag();</b>
+<b class="fc">&nbsp;        if (element.isSentenceStart()) {</b>
+<b class="fc">&nbsp;          sb.append(&quot;&lt;S&gt;&quot;);</b>
+<b class="fc">&nbsp;        } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)) {</b>
+<b class="fc">&nbsp;          sb.append(&quot;&lt;/S&gt;&quot;);</b>
+<b class="fc">&nbsp;        } else if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posTag)) {</b>
+<b class="fc">&nbsp;          sb.append(&quot;&lt;P/&gt;&quot;);</b>
+<b class="pc">&nbsp;        } else if (posTag == null &amp;&amp; !includeChunks) {</b>
+<b class="nc">&nbsp;          sb.append(token.getToken());</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;          if (!element.isWhitespace()) {</b>
+<b class="fc">&nbsp;            sb.append(token);</b>
+<b class="fc">&nbsp;            if (iterator.hasNext()) {</b>
+<b class="fc">&nbsp;              sb.append(readingDelimiter);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      if (!element.isWhitespace()) {</b>
+<b class="pc">&nbsp;        if (includeChunks &amp;&amp; element.getChunkTags().size() &gt; 0) {</b>
+<b class="fc">&nbsp;          sb.append(&#39;,&#39;);</b>
+<b class="fc">&nbsp;          sb.append(StringUtils.join(element.getChunkTags(), &quot;|&quot;));</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (element.isImmunized()) {</b>
+<b class="nc">&nbsp;          sb.append(&quot;{!}&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        sb.append(&#39;]&#39;);</b>
+&nbsp;      } else {
+<b class="fc">&nbsp;        sb.append(&#39; &#39;);</b>
+&nbsp;      }
+&nbsp;
+&nbsp;    }
+<b class="fc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get disambiguator actions log.
+&nbsp;   */
+&nbsp;  public String getAnnotations() {
+<b class="fc">&nbsp;    StringBuilder sb = new StringBuilder(40);</b>
+<b class="fc">&nbsp;    sb.append(&quot;Disambiguator log: \n&quot;);</b>
+<b class="fc">&nbsp;    for (AnalyzedTokenReadings element : tokens) {</b>
+<b class="fc">&nbsp;      if (!element.isWhitespace() &amp;&amp;</b>
+<b class="fc">&nbsp;              !&quot;&quot;.equals(element.getHistoricalAnnotations())) {</b>
+<b class="fc">&nbsp;        sb.append(element.getHistoricalAnnotations());</b>
+<b class="fc">&nbsp;        sb.append(&#39;\n&#39;);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the lowercase tokens of this sentence in a set.
+&nbsp;   * Used internally for performance optimization.
+&nbsp;   * @since 2.4
+&nbsp;   */
+&nbsp;  public Set&lt;String&gt; getTokenSet() {
+<b class="fc">&nbsp;    return tokenOffsets.keySet();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the lowercase lemmas of this sentence in a set.
+&nbsp;   * Used internally for performance optimization.
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  public Set&lt;String&gt; getLemmaSet() {
+<b class="fc">&nbsp;    return lemmaOffsets.keySet();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return all offsets in {@link #getTokensWithoutWhitespace()} where tokens with the given text occur (case-insensitive),
+&nbsp;   * or {@code null} if there are no such occurrences
+&nbsp;   * @since 5.3
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  @ApiStatus.Internal
+&nbsp;  public List&lt;Integer&gt; getTokenOffsets(String token) {
+<b class="fc">&nbsp;    return tokenOffsets.get(token);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return all offsets in {@link #getTokensWithoutWhitespace()} where tokens with the given lemma occur (case-insensitive),
+&nbsp;   * or {@code null} if there are no such occurrences
+&nbsp;   * @since 5.3
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  @ApiStatus.Internal
+&nbsp;  public List&lt;Integer&gt; getLemmaOffsets(String token) {
+<b class="fc">&nbsp;    return lemmaOffsets.get(token);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings(&quot;ControlFlowStatementWithoutBraces&quot;)
+&nbsp;  @Override
+&nbsp;  public boolean equals(Object o) {
+<b class="nc">&nbsp;    if (this == o) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (o == null || getClass() != o.getClass()) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    AnalyzedSentence other = (AnalyzedSentence) o;</b>
+&nbsp;    // tokenSet and lemmaSet are a subset of tokens and don&#39;t need to be included
+<b class="nc">&nbsp;    return Arrays.equals(nonBlankTokens, other.nonBlankTokens) </b>
+<b class="nc">&nbsp;        &amp;&amp; Arrays.equals(tokens, other.tokens)</b>
+<b class="nc">&nbsp;        &amp;&amp; Arrays.equals(whPositions, other.whPositions);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int hashCode() {
+&nbsp;    // tokenSet and lemmaSet are a subset of tokens and don&#39;t need to be included
+<b class="nc">&nbsp;    return Objects.hash(nonBlankTokens, tokens, whPositions);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

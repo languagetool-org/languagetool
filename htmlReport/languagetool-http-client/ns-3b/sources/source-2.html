@@ -1,0 +1,324 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CompoundAcceptor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.nl</a>
+</div>
+
+<h1>Coverage Summary for Class: CompoundAcceptor (org.languagetool.rules.nl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CompoundAcceptor</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/84)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/81)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2023 Mark Baas
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.nl;
+&nbsp;
+&nbsp;import com.google.common.collect.ImmutableSet;
+&nbsp;import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.spelling.CachingWordListLoader;
+&nbsp;import org.languagetool.tagging.nl.DutchTagger;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Accept Dutch compounds that are not accepted by the speller. This code
+&nbsp; * is supposed to accept more words in order to extend the speller, but it&#39;s not meant
+&nbsp; * to accept all valid compounds.
+&nbsp; * It works on 2-part compounds only for now.
+&nbsp; */
+<b class="nc">&nbsp;public class CompoundAcceptor {</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern acronymPattern = Pattern.compile(&quot;[A-Z]{2,4}-&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern specialAcronymPattern = Pattern.compile(&quot;[A-Za-z]{2,4}-&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern normalCasePattern = Pattern.compile(&quot;[A-Za-z][a-zé]*&quot;);</b>
+&nbsp;  private static final int MAX_WORD_SIZE = 35;
+<b class="nc">&nbsp;  public static final CompoundAcceptor INSTANCE = new CompoundAcceptor();</b>
+<b class="nc">&nbsp;  protected final CachingWordListLoader wordListLoader = new CachingWordListLoader();</b>
+<b class="nc">&nbsp;  protected final Set&lt;String&gt; noS = new ObjectOpenHashSet&lt;&gt;(), </b>
+&nbsp;                              needsS = new ObjectOpenHashSet&lt;&gt;(),
+&nbsp;                              geographicalDirections = new ObjectOpenHashSet&lt;&gt;(),
+&nbsp;                              alwaysNeedsS = new ObjectOpenHashSet&lt;&gt;(),
+&nbsp;                              alwaysNeedsHyphen = new ObjectOpenHashSet&lt;&gt;(),
+&nbsp;                              part1Exceptions = new ObjectOpenHashSet&lt;&gt;(),
+&nbsp;                              part2Exceptions = new ObjectOpenHashSet&lt;&gt;(),
+&nbsp;                              acronymExceptions = new ObjectOpenHashSet&lt;&gt;();
+&nbsp;  private static final String COMPOUND_NO_S_FILE = &quot;nl/compound_acceptor/no_s.txt&quot;, 
+&nbsp;                              COMPOUND_NEEDS_S_FILE = &quot;nl/compound_acceptor/needs_s.txt&quot;,
+&nbsp;                              COMPOUND_DIRECTIONS_FILE = &quot;nl/compound_acceptor/directions.txt&quot;,
+&nbsp;                              COMPOUND_ALWAYS_NEEDS_S_FILE = &quot;nl/compound_acceptor/always_needs_s.txt&quot;,
+&nbsp;                              COMPOUND_ALWAYS_NEEDS_HYPHEN_FILE = &quot;nl/compound_acceptor/always_needs_hyphen.txt&quot;,
+&nbsp;                              COMPOUND_PART1_EXCEPTIONS_FILE = &quot;nl/compound_acceptor/part1_exceptions.txt&quot;,
+&nbsp;                              COMPOUND_PART2_EXCEPTIONS_FILE = &quot;nl/compound_acceptor/part2_exceptions.txt&quot;,
+&nbsp;                              COMPOUND_ACRONYM_EXCEPTIONS_FILE = &quot;nl/compound_acceptor/acronym_exceptions.txt&quot;;
+&nbsp;
+&nbsp;  // Make sure we don&#39;t allow compound words where part 1 ends with a specific vowel and part2 starts with one, for words like &quot;politieeenheid&quot;.
+<b class="nc">&nbsp;  private final Set&lt;String&gt; collidingVowels = ImmutableSet.of(</b>
+&nbsp;    &quot;aa&quot;, &quot;ae&quot;, &quot;ai&quot;, &quot;au&quot;, &quot;ee&quot;, &quot;ée&quot;, &quot;ei&quot;, &quot;éi&quot;, &quot;eu&quot;, &quot;éu&quot;, &quot;ie&quot;, &quot;ii&quot;, &quot;ij&quot;, &quot;oe&quot;, &quot;oi&quot;, &quot;oo&quot;, &quot;ou&quot;, &quot;ui&quot;, &quot;uu&quot;
+&nbsp;  );
+&nbsp;
+&nbsp;  private static final MorfologikDutchSpellerRule speller;
+&nbsp;  static {
+&nbsp;    try {
+<b class="nc">&nbsp;      speller = new MorfologikDutchSpellerRule(JLanguageTool.getMessageBundle(), Languages.getLanguageForShortCode(&quot;nl&quot;), null);</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private final DutchTagger dutchTagger = DutchTagger.INSTANCE;</b>
+&nbsp;
+<b class="nc">&nbsp;  public CompoundAcceptor() {</b>
+<b class="nc">&nbsp;    noS.addAll(wordListLoader.loadWords(COMPOUND_NO_S_FILE));</b>
+<b class="nc">&nbsp;    needsS.addAll(wordListLoader.loadWords(COMPOUND_NEEDS_S_FILE));</b>
+<b class="nc">&nbsp;    geographicalDirections.addAll(wordListLoader.loadWords(COMPOUND_DIRECTIONS_FILE));</b>
+<b class="nc">&nbsp;    alwaysNeedsS.addAll(wordListLoader.loadWords(COMPOUND_ALWAYS_NEEDS_S_FILE));</b>
+<b class="nc">&nbsp;    alwaysNeedsHyphen.addAll(wordListLoader.loadWords(COMPOUND_ALWAYS_NEEDS_HYPHEN_FILE));</b>
+<b class="nc">&nbsp;    part1Exceptions.addAll(wordListLoader.loadWords(COMPOUND_PART1_EXCEPTIONS_FILE));</b>
+<b class="nc">&nbsp;    part2Exceptions.addAll(wordListLoader.loadWords(COMPOUND_PART2_EXCEPTIONS_FILE));</b>
+<b class="nc">&nbsp;    acronymExceptions.addAll(wordListLoader.loadWords(COMPOUND_ACRONYM_EXCEPTIONS_FILE));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  boolean acceptCompound(String word) {
+<b class="nc">&nbsp;    if (word.length() &gt; MAX_WORD_SIZE) {  // prevent long runtime</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (int i = 3; i &lt; word.length() - 3; i++) {</b>
+<b class="nc">&nbsp;      String part1 = word.substring(0, i);</b>
+<b class="nc">&nbsp;      String part2 = word.substring(i);</b>
+<b class="nc">&nbsp;      if (!part1.equals(part2) &amp;&amp; acceptCompound(part1, part2)) {</b>
+&nbsp;        //System.out.println(part1+part2 + &quot; -&gt; accepted&quot;);
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;String&gt; getParts(String word) {
+<b class="nc">&nbsp;    if (word.length() &gt; MAX_WORD_SIZE) {  // prevent long runtime</b>
+<b class="nc">&nbsp;      return Collections.emptyList();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (int i = 3; i &lt; word.length() - 3; i++) {</b>
+<b class="nc">&nbsp;      String part1 = word.substring(0, i);</b>
+<b class="nc">&nbsp;      String part2 = word.substring(i);</b>
+<b class="nc">&nbsp;      if (!part1.equals(part2) &amp;&amp; acceptCompound(part1, part2)) {</b>
+<b class="nc">&nbsp;        return Arrays.asList(part1, part2);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  boolean acceptCompound(String part1, String part2) {
+&nbsp;    try {
+<b class="nc">&nbsp;      String part1lc = part1.toLowerCase();</b>
+&nbsp;      // reject if it&#39;s in the exceptions list or if a wildcard is the entirety of part1
+<b class="nc">&nbsp;      if (part1.endsWith(&quot;s&quot;) &amp;&amp; !part1Exceptions.contains(part1.substring(0, part1.length() -1)) &amp;&amp; !alwaysNeedsS.contains(part1) &amp;&amp; !noS.contains(part1) &amp;&amp; !part1.contains(&quot;-&quot;)) {</b>
+<b class="nc">&nbsp;        for (String suffix : alwaysNeedsS) {</b>
+<b class="nc">&nbsp;          if (part1lc.endsWith(suffix)) {</b>
+<b class="nc">&nbsp;            return isNoun(part2) &amp;&amp; isExistingWord(part1lc.substring(0, part1lc.length() - 1)) &amp;&amp; spellingOk(part2);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        return needsS.contains(part1lc) &amp;&amp; isNoun(part2) &amp;&amp; spellingOk(part1.substring(0, part1.length() - 1)) &amp;&amp; spellingOk(part2);</b>
+<b class="nc">&nbsp;      } else if (geographicalDirections.contains(part1)){</b>
+<b class="nc">&nbsp;        return isGeographicalCompound(part2); // directions</b>
+<b class="nc">&nbsp;      } else if (part1.endsWith(&quot;-&quot;)) { // abbreviations</b>
+<b class="nc">&nbsp;        return (acronymOk(part1) || alwaysNeedsHyphen.contains(part1lc)) &amp;&amp; spellingOk(part2);</b>
+<b class="nc">&nbsp;      } else if (part2.startsWith(&quot;-&quot;)) { // vowel collision</b>
+<b class="nc">&nbsp;        part2 = part2.substring(1);</b>
+<b class="nc">&nbsp;        return noS.contains(part1lc) &amp;&amp; isNoun(part2) &amp;&amp; spellingOk(part1) &amp;&amp; spellingOk(part2) &amp;&amp; hasCollidingVowels(part1, part2);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return (noS.contains(part1lc) || part1Exceptions.contains(part1lc)) &amp;&amp; isNoun(part2) &amp;&amp; spellingOk(part1) &amp;&amp; !hasCollidingVowels(part1, part2);</b>
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isNoun(String word) throws IOException {
+<b class="nc">&nbsp;    return dutchTagger.getPostags(word).stream().anyMatch(k -&gt; {</b>
+<b class="nc">&nbsp;      assert k.getPOSTag() != null;</b>
+<b class="nc">&nbsp;      return k.getPOSTag().startsWith(&quot;ZNW&quot;) &amp;&amp; !part2Exceptions.contains(word);</b>
+&nbsp;    });
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isExistingWord(String word) throws IOException {
+<b class="nc">&nbsp;    return dutchTagger.getPostags(word).stream().anyMatch(k -&gt; k.getPOSTag() != null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isGeographicalCompound(String word) throws IOException {
+<b class="nc">&nbsp;    return dutchTagger.getPostags(word).stream().anyMatch(k -&gt; {</b>
+<b class="nc">&nbsp;      assert k.getPOSTag() != null;</b>
+<b class="nc">&nbsp;      return k.getPOSTag().startsWith(&quot;ENM:LOC&quot;);</b>
+&nbsp;    });
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean hasCollidingVowels(String part1, String part2) {
+<b class="nc">&nbsp;    char char1 = part1.charAt(part1.length() - 1);</b>
+<b class="nc">&nbsp;    char char2 = part2.charAt(0);</b>
+<b class="nc">&nbsp;    String vowels = String.valueOf(char1) + char2;</b>
+<b class="nc">&nbsp;    return collidingVowels.contains(vowels.toLowerCase());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean acronymOk(String nonCompound) {
+&nbsp;    // for compound words like IRA-akkoord, MIDI-bestanden, WK-finalisten
+<b class="nc">&nbsp;    if ( acronymPattern.matcher(nonCompound).matches() ){</b>
+<b class="nc">&nbsp;      return acronymExceptions.stream().noneMatch(exception -&gt; exception.toUpperCase().equals(nonCompound.substring(0, nonCompound.length() -1)));</b>
+<b class="nc">&nbsp;    } else if ( specialAcronymPattern.matcher(nonCompound).matches() ) {</b>
+&nbsp;      // special case acronyms that are accepted only with specific casing
+<b class="nc">&nbsp;      return acronymExceptions.contains(nonCompound.substring(0, nonCompound.length() -1));</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean spellingOk(String nonCompound) throws IOException {
+<b class="nc">&nbsp;    if (!normalCasePattern.matcher(nonCompound).matches()) {</b>
+<b class="nc">&nbsp;      return false;   // e.g. kinderenHet -&gt; split as kinder,enHet</b>
+&nbsp;    }
+<b class="nc">&nbsp;    AnalyzedSentence as = new AnalyzedSentence(new AnalyzedTokenReadings[] {</b>
+<b class="nc">&nbsp;      new AnalyzedTokenReadings(new AnalyzedToken(nonCompound.toLowerCase(), &quot;FAKE_POS&quot;, &quot;fakeLemma&quot;))</b>
+&nbsp;    });
+<b class="nc">&nbsp;    RuleMatch[] matches = speller.match(as);</b>
+<b class="nc">&nbsp;    return matches.length == 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    if (args.length != 1) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + CompoundAcceptor.class.getName() + &quot; &lt;file&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    CompoundAcceptor acceptor = new CompoundAcceptor();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; words = Files.readAllLines(Paths.get(args[0]));</b>
+<b class="nc">&nbsp;    for (String word : words) {</b>
+<b class="nc">&nbsp;      boolean accepted = acceptor.acceptCompound(word);</b>
+<b class="nc">&nbsp;      System.out.println(accepted + &quot; &quot; + word);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

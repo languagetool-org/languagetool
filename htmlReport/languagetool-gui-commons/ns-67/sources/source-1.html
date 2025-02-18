@@ -1,0 +1,363 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CatalanTagger</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.ca</a>
+</div>
+
+<h1>Coverage Summary for Class: CatalanTagger (org.languagetool.tagging.ca)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CatalanTagger</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/82)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/107)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tagging.ca;
+&nbsp;
+&nbsp;import morfologik.stemming.DictionaryLookup;
+&nbsp;import morfologik.stemming.IStemmer;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.language.Catalan;
+&nbsp;import org.languagetool.language.ValencianCatalan;
+&nbsp;import org.languagetool.tagging.BaseTagger;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Catalan Tagger
+&nbsp; *
+&nbsp; * @author Jaume Ortolà 
+&nbsp; */
+&nbsp;public class CatalanTagger extends BaseTagger {
+&nbsp;
+<b class="nc">&nbsp;  public static final CatalanTagger INSTANCE_VAL = new CatalanTagger(Languages.getLanguageForShortCode(&quot;ca-ES-valencia&quot;));</b>
+<b class="nc">&nbsp;  public static final CatalanTagger INSTANCE_CAT = new CatalanTagger(Languages.getLanguageForShortCode(&quot;ca-ES&quot;));</b>
+&nbsp;  
+<b class="nc">&nbsp;  private static final Pattern ADJ_PART_FS = Pattern.compile(&quot;VMP00SF.|A[QO].[FC]S.&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern VERB = Pattern.compile(&quot;V.+&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile(&quot;(auto)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;  private static final Pattern ADJECTIU_COMPOST = Pattern.compile(&quot;(.*)o-(.*.*)&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;  private static final List&lt;String&gt; ALLUPPERCASE_EXCEPTIONS = Arrays.asList(&quot;ARNAU&quot;, &quot;CRISTIAN&quot;, &quot;TOMÀS&quot;);</b>
+&nbsp;  private String variant;
+&nbsp;
+&nbsp;  public CatalanTagger(Language language) {
+<b class="nc">&nbsp;    super(&quot;/ca/&quot; + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION, new Locale(&quot;ca&quot;), false);</b>
+<b class="nc">&nbsp;    variant = language.getVariant();</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public boolean overwriteWithManualTagger(){
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;AnalyzedTokenReadings&gt; tag(final List&lt;String&gt; sentenceTokens) {
+&nbsp;
+<b class="nc">&nbsp;    final List&lt;AnalyzedTokenReadings&gt; tokenReadings = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int pos = 0;</b>
+<b class="nc">&nbsp;    final IStemmer dictLookup = new DictionaryLookup(getDictionary());</b>
+&nbsp;
+<b class="nc">&nbsp;    for (String originalWord : sentenceTokens) {</b>
+&nbsp;      // This hack allows all rules and dictionary entries to work with
+&nbsp;      // typewriter apostrophe
+<b class="nc">&nbsp;      boolean containsTypographicApostrophe = false;</b>
+<b class="nc">&nbsp;      if (originalWord.length() &gt; 1) {</b>
+<b class="nc">&nbsp;        if (originalWord.contains(&quot;’&quot;)) {</b>
+<b class="nc">&nbsp;          containsTypographicApostrophe = true;</b>
+<b class="nc">&nbsp;          originalWord = originalWord.replace(&quot;’&quot;, &quot;&#39;&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      String normalizedWord = StringTools.normalizeNFC(originalWord);</b>
+<b class="nc">&nbsp;      final List&lt;AnalyzedToken&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      final String lowerWord = normalizedWord.toLowerCase(locale);</b>
+<b class="nc">&nbsp;      final boolean isLowercase = normalizedWord.equals(lowerWord);</b>
+<b class="nc">&nbsp;      final boolean isMixedCase = StringTools.isMixedCase(normalizedWord);</b>
+<b class="nc">&nbsp;      final boolean isAllUpper = StringTools.isAllUppercase(normalizedWord);</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; taggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(normalizedWord));</b>
+&nbsp;      
+&nbsp;      // normal case:
+<b class="nc">&nbsp;      addTokens(taggerTokens, l);</b>
+&nbsp;      // tag non-lowercase (alluppercase or startuppercase), but not mixedcase
+&nbsp;      // word with lowercase word tags:
+<b class="nc">&nbsp;      if (!isLowercase &amp;&amp; !isMixedCase) {</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(lowerWord));</b>
+<b class="nc">&nbsp;        addTokens(lowerTaggerTokens, l);</b>
+&nbsp;      }
+&nbsp;      
+&nbsp;      //tag all-uppercase proper nouns (ex. FRANÇA)
+<b class="nc">&nbsp;      if ((l.isEmpty() || ALLUPPERCASE_EXCEPTIONS.contains(normalizedWord)) &amp;&amp; isAllUpper) {</b>
+<b class="nc">&nbsp;        final String firstUpper = StringTools.uppercaseFirstChar(lowerWord);</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(firstUpper));</b>
+<b class="nc">&nbsp;        addTokens(firstupperTaggerTokens, l);</b>
+&nbsp;      }
+&nbsp;      // additional tagging with prefixes
+<b class="nc">&nbsp;      if (l.isEmpty() &amp;&amp; !isMixedCase) {</b>
+<b class="nc">&nbsp;        addTokens(additionalTags(originalWord, dictLookup), l);</b>
+&nbsp;      }
+&nbsp;      // emoji
+<b class="nc">&nbsp;      if (l.isEmpty() &amp;&amp; StringTools.isEmoji(originalWord)) {</b>
+<b class="nc">&nbsp;        l.add(new AnalyzedToken(originalWord, &quot;_emoji_&quot;, &quot;_emoji_&quot;));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (l.isEmpty()) {</b>
+<b class="nc">&nbsp;        l.add(new AnalyzedToken(originalWord, null, null));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);</b>
+<b class="nc">&nbsp;      if (containsTypographicApostrophe) {</b>
+<b class="nc">&nbsp;        atr.setTypographicApostrophe();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      tokenReadings.add(atr);</b>
+<b class="nc">&nbsp;      pos += originalWord.length();</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return tokenReadings;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  protected List&lt;AnalyzedToken&gt; additionalTags(String word, IStemmer stemmer) {
+<b class="nc">&nbsp;    final IStemmer dictLookup = new DictionaryLookup(getDictionary());</b>
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; additionalTaggedTokens = new ArrayList&lt;&gt;();</b>
+&nbsp;    //Any well-formed adverb with suffix -ment is tagged as an adverb (RG)
+&nbsp;    //Adjectiu femení singular o participi femení singular + -ment
+<b class="nc">&nbsp;    final String lowerWord = StringTools.normalizeNFC(word.toLowerCase(locale));</b>
+<b class="nc">&nbsp;    if (lowerWord.endsWith(&quot;ment&quot;)){  </b>
+<b class="nc">&nbsp;      final String possibleAdj = lowerWord.replaceAll(&quot;^(.+)ment$&quot;, &quot;$1&quot;);</b>
+&nbsp;      List&lt;AnalyzedToken&gt; taggerTokens;
+<b class="nc">&nbsp;      taggerTokens = asAnalyzedTokenList(possibleAdj, dictLookup.lookup(possibleAdj));</b>
+<b class="nc">&nbsp;      for (AnalyzedToken taggerToken : taggerTokens ) {</b>
+<b class="nc">&nbsp;        final String posTag = taggerToken.getPOSTag();</b>
+<b class="nc">&nbsp;        if (posTag != null) {</b>
+<b class="nc">&nbsp;          final Matcher m = ADJ_PART_FS.matcher(posTag);</b>
+<b class="nc">&nbsp;          if (m.matches()) {</b>
+<b class="nc">&nbsp;            additionalTaggedTokens.add(new AnalyzedToken(word, &quot;RG&quot;, lowerWord));</b>
+<b class="nc">&nbsp;            return additionalTaggedTokens;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    //Any well-formed verb with prefixes is tagged as a verb copying the original tags
+<b class="nc">&nbsp;    Matcher matcher = PREFIXES_FOR_VERBS.matcher(word);</b>
+<b class="nc">&nbsp;    if (matcher.matches()) {</b>
+<b class="nc">&nbsp;      final String possibleVerb = StringTools.normalizeNFC(matcher.group(2).toLowerCase());</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; taggerTokens = asAnalyzedTokenList(possibleVerb, dictLookup.lookup(possibleVerb));</b>
+<b class="nc">&nbsp;      for (AnalyzedToken taggerToken : taggerTokens) {</b>
+<b class="nc">&nbsp;        if (!taggerToken.getLemma().equals(&quot;nòmer&quot;)) {</b>
+<b class="nc">&nbsp;          final String posTag = taggerToken.getPOSTag();</b>
+<b class="nc">&nbsp;          if (posTag != null) {</b>
+<b class="nc">&nbsp;            final Matcher m = VERB.matcher(posTag);</b>
+<b class="nc">&nbsp;            if (m.matches()) {</b>
+<b class="nc">&nbsp;              String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());</b>
+<b class="nc">&nbsp;              additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return additionalTaggedTokens;</b>
+&nbsp;    }
+&nbsp;    // folklòrico-popular
+<b class="nc">&nbsp;    matcher = ADJECTIU_COMPOST.matcher(word);</b>
+<b class="nc">&nbsp;    if (matcher.matches()) {</b>
+<b class="nc">&nbsp;      final String adj1 = matcher.group(1).toLowerCase();</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; atl1 = asAnalyzedTokenList(adj1, dictLookup.lookup(adj1));</b>
+<b class="nc">&nbsp;      boolean isValid = false;</b>
+<b class="nc">&nbsp;      for (AnalyzedToken at : atl1) {</b>
+<b class="nc">&nbsp;        if (at.getPOSTag() != null &amp;&amp; at.getPOSTag().equals(&quot;AQ0MS0&quot;)) {</b>
+<b class="nc">&nbsp;          isValid = true;</b>
+&nbsp;          break;
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (isValid) {</b>
+<b class="nc">&nbsp;        isValid = false;</b>
+<b class="nc">&nbsp;        final String adj2 = matcher.group(2).toLowerCase();</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; atl2 = asAnalyzedTokenList(adj2, dictLookup.lookup(adj2));</b>
+<b class="nc">&nbsp;        for (AnalyzedToken at : atl2) {</b>
+<b class="nc">&nbsp;          if (at.getPOSTag() != null &amp;&amp; at.getPOSTag().startsWith(&quot;A&quot;)) {</b>
+<b class="nc">&nbsp;            isValid = true;</b>
+<b class="nc">&nbsp;            additionalTaggedTokens.add(new AnalyzedToken(word, at.getPOSTag(), adj1 + &quot;o-&quot; + at.getLemma()));</b>
+&nbsp;            break;
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return additionalTaggedTokens;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // Any well-formed noun with prefix ex- is tagged as a noun copying the original tags
+&nbsp;    /*if (word.startsWith(&quot;ex&quot;)) {
+&nbsp;      final String lowerWord = word.toLowerCase(conversionLocale);
+&nbsp;      final String possibleNoun = lowerWord.replaceAll(&quot;^ex(.+)$&quot;, &quot;$1&quot;);
+&nbsp;      List&lt;AnalyzedToken&gt; taggerTokens;
+&nbsp;      taggerTokens = asAnalyzedTokenList(possibleNoun,dictLookup.lookup(possibleNoun));
+&nbsp;      for (AnalyzedToken taggerToken : taggerTokens) {
+&nbsp;        final String posTag = taggerToken.getPOSTag();
+&nbsp;        if (posTag != null) {
+&nbsp;          final Matcher m = NOUN.matcher(posTag);
+&nbsp;          if (m.matches()) {
+&nbsp;            String lemma = &quot;ex&quot;.concat(taggerToken.getLemma());
+&nbsp;            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;      return additionalTaggedTokens;
+&nbsp;    }*/
+&nbsp;    // Interpret deprecated characters of &quot;ela geminada&quot;
+&nbsp;    // U+013F LATIN CAPITAL LETTER L WITH MIDDLE DOT
+&nbsp;    // U+0140 LATIN SMALL LETTER L WITH MIDDLE DOT
+<b class="nc">&nbsp;    if (word.contains(&quot;\u0140&quot;) || word.contains(&quot;\u013f&quot;)) {</b>
+<b class="nc">&nbsp;      final String possibleWord = lowerWord.replace(&quot;\u0140&quot;, &quot;l·&quot;);</b>
+<b class="nc">&nbsp;      return asAnalyzedTokenList(word, dictLookup.lookup(possibleWord));</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // adjectives -iste in Valencian variant
+<b class="nc">&nbsp;    if (variant != null &amp;&amp; lowerWord.endsWith(&quot;iste&quot;)) {</b>
+<b class="nc">&nbsp;      final String possibleAdjNoun = lowerWord.replaceAll(&quot;^(.+)iste$&quot;, &quot;$1ista&quot;);</b>
+&nbsp;      List&lt;AnalyzedToken&gt; taggerTokens;
+<b class="nc">&nbsp;      taggerTokens = asAnalyzedTokenList(possibleAdjNoun, dictLookup.lookup(possibleAdjNoun));</b>
+<b class="nc">&nbsp;      for (AnalyzedToken taggerToken : taggerTokens ) {</b>
+<b class="nc">&nbsp;        final String posTag = taggerToken.getPOSTag();</b>
+<b class="nc">&nbsp;        if (posTag != null) {</b>
+<b class="nc">&nbsp;          if (posTag.equals(&quot;NCCS000&quot;)) {</b>
+<b class="nc">&nbsp;            additionalTaggedTokens.add(new AnalyzedToken(word, &quot;NCMS000&quot;, possibleAdjNoun));</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (posTag.equals(&quot;AQ0CS0&quot;)) {</b>
+<b class="nc">&nbsp;            additionalTaggedTokens.add(new AnalyzedToken(word, &quot;AQ0MS0&quot;, possibleAdjNoun));</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (!additionalTaggedTokens.isEmpty()) {</b>
+<b class="nc">&nbsp;            return additionalTaggedTokens;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void addTokens(final List&lt;AnalyzedToken&gt; taggedTokens, final List&lt;AnalyzedToken&gt; l) {
+<b class="nc">&nbsp;    if (taggedTokens != null) {</b>
+<b class="nc">&nbsp;      l.addAll(taggedTokens);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,605 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ConfusionProbabilityRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ngrams</a>
+</div>
+
+<h1>Coverage Summary for Class: ConfusionProbabilityRule (org.languagetool.rules.ngrams)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ConfusionProbabilityRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/104)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/129)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ConfusionProbabilityRule$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ConfusionProbabilityRule$PathAndLanguage</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ConfusionProbabilityRule$SpecificIdRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/130)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/157)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ngrams;
+&nbsp;
+&nbsp;import com.google.common.cache.*;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.broker.ResourceDataBroker;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * LanguageTool&#39;s homophone confusion check that uses ngram lookups
+&nbsp; * to decide which word in a confusion set (from {@code confusion_sets.txt}) suits best.
+&nbsp; * Also see &lt;a href=&quot;https://dev.languagetool.org/finding-errors-using-n-gram-data&quot;&gt;https://dev.languagetool.org/finding-errors-using-n-gram-data&lt;/a&gt;.
+&nbsp; * @since 2.7
+&nbsp; */
+&nbsp;public abstract class ConfusionProbabilityRule extends Rule {
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 3.1
+&nbsp;   * @deprecated not used anymore, the id is now more specific (like {@code CONFUSION_RULE_TERM1_TERM2})
+&nbsp;   */
+&nbsp;  public static final String RULE_ID = &quot;CONFUSION_RULE&quot;;
+&nbsp;  // probability is only used then at least these many of the occurrence lookups succeeded, 
+&nbsp;  // i.e. returned a value &gt; 0:
+&nbsp;  public static final float MIN_COVERAGE = 0.5f;
+&nbsp;  // the minimum value the more probable variant needs to have to be considered:
+&nbsp;  private static final double MIN_PROB = 0.0;  // try values &gt; 0 to avoid false alarms
+&nbsp;  private static final boolean DEBUG = false;  // also see DEBUG in BaseLanguageModel.java
+<b class="nc">&nbsp;  private static final Pattern REAL_WORD = Pattern.compile(&quot;\\p{L}+&quot;);</b>
+&nbsp;
+&nbsp;  // Speed up the server use case, where rules get initialized for every call:
+<b class="nc">&nbsp;  private static final LoadingCache&lt;PathAndLanguage, Map&lt;String, List&lt;ConfusionPair&gt;&gt;&gt; confSetCache = CacheBuilder.newBuilder()</b>
+<b class="nc">&nbsp;      .expireAfterWrite(10, TimeUnit.MINUTES)</b>
+<b class="nc">&nbsp;      .build(new CacheLoader&lt;PathAndLanguage, Map&lt;String, List&lt;ConfusionPair&gt;&gt;&gt;() {</b>
+&nbsp;        @Override
+&nbsp;        public Map&lt;String, List&lt;ConfusionPair&gt;&gt; load(@NotNull PathAndLanguage pathAndLanguage) throws IOException {
+<b class="nc">&nbsp;          ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(pathAndLanguage.lang);</b>
+<b class="nc">&nbsp;          ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();</b>
+<b class="nc">&nbsp;          try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(pathAndLanguage.path)) {</b>
+<b class="nc">&nbsp;            return confusionSetLoader.loadConfusionPairs(confusionSetStream);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      });
+&nbsp;
+<b class="nc">&nbsp;  private final Map&lt;String,List&lt;ConfusionPair&gt;&gt; wordToPairs = new HashMap&lt;&gt;();</b>
+&nbsp;  private final LanguageModel lm;
+&nbsp;  private final int grams;
+&nbsp;  private final Language language;
+&nbsp;  private final List&lt;String&gt; exceptions;
+&nbsp;  private final List&lt;DisambiguationPatternRule&gt; antiPatterns;
+&nbsp;
+&nbsp;  public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
+<b class="nc">&nbsp;    this(messages, languageModel, language, 3);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
+<b class="nc">&nbsp;    this(messages, languageModel, language, grams, Arrays.asList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.7
+&nbsp;   */
+&nbsp;  public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams, List&lt;String&gt; exceptions) {
+<b class="nc">&nbsp;    this(messages, languageModel, language, grams, exceptions, Collections.emptyList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams,
+&nbsp;                                  List&lt;String&gt; exceptions, List&lt;List&lt;PatternToken&gt;&gt; antiPatterns) {
+<b class="nc">&nbsp;    super(messages);</b>
+<b class="nc">&nbsp;    setCategory(Categories.TYPOS.getCategory(messages));</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.NonConformance);</b>
+<b class="nc">&nbsp;    for (String filename : getFilenames()) {</b>
+<b class="nc">&nbsp;      String path = &quot;/&quot; + language.getShortCode() + &quot;/&quot; + filename;</b>
+<b class="nc">&nbsp;      this.wordToPairs.putAll(confSetCache.getUnchecked(new PathAndLanguage(path, language)));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.lm = Objects.requireNonNull(languageModel);</b>
+<b class="nc">&nbsp;    this.language = Objects.requireNonNull(language);</b>
+<b class="nc">&nbsp;    if (grams &lt; 1 || grams &gt; 5) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;grams must be between 1 and 5: &quot; + grams);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.grams = grams;</b>
+<b class="nc">&nbsp;    this.exceptions = exceptions;</b>
+<b class="nc">&nbsp;    this.antiPatterns = makeAntiPatterns(antiPatterns, language);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  protected List&lt;String&gt; getFilenames() {
+<b class="nc">&nbsp;    return Arrays.asList(&quot;confusion_sets.txt&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return RULE_ID;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int estimateContextForSureMatch() {
+<b class="nc">&nbsp;    return grams;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    String text = sentence.getText();</b>
+<b class="nc">&nbsp;    List&lt;GoogleToken&gt; tokens = GoogleToken.getGoogleTokens(text, true, LanguageModelUtils.getGoogleStyleWordTokenizer(language));</b>
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; matches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (tokens.size() == 2) {</b>
+&nbsp;      // 2 tokens: first is always _START_ so there&#39;s no &quot;real&quot; context. Ignore these cases.
+<b class="nc">&nbsp;      return matches.toArray(new RuleMatch[0]);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int pos = 0;</b>
+<b class="nc">&nbsp;    boolean realWordBefore = false;  // more advanced than simple checking for sentence start, as it skips quotes etc.</b>
+<b class="nc">&nbsp;    for (GoogleToken googleToken : tokens) {</b>
+<b class="nc">&nbsp;      String token = googleToken.token;</b>
+<b class="nc">&nbsp;      List&lt;ConfusionPair&gt; confusionPairs = wordToPairs.get(token);</b>
+<b class="nc">&nbsp;      boolean uppercase = false;</b>
+<b class="nc">&nbsp;      if (confusionPairs == null &amp;&amp; token.length() &gt; 0 &amp;&amp; Character.isUpperCase(token.charAt(0)) &amp;&amp; !realWordBefore &amp;&amp; isRealWord(token)) {</b>
+&nbsp;        // do a lowercase lookup only at sentence start
+<b class="nc">&nbsp;        confusionPairs = wordToPairs.get(StringTools.lowercaseFirstChar(token));</b>
+<b class="nc">&nbsp;        uppercase = true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (isRealWord(token)) {</b>
+<b class="nc">&nbsp;        realWordBefore = true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (confusionPairs != null) {</b>
+<b class="nc">&nbsp;        for (ConfusionPair confusionPair : confusionPairs) {</b>
+<b class="nc">&nbsp;          boolean isEasilyConfused = confusionPair != null;</b>
+<b class="nc">&nbsp;          if (isEasilyConfused) {</b>
+<b class="nc">&nbsp;            List&lt;ConfusionString&gt; pairs = uppercase ? confusionPair.getUppercaseFirstCharTerms() : confusionPair.getTerms();</b>
+<b class="nc">&nbsp;            ConfusionString betterAlternative = getBetterAlternativeOrNull(tokens.get(pos), tokens, pairs, confusionPair.getFactor());</b>
+<b class="nc">&nbsp;            if (betterAlternative != null &amp;&amp; !isException(text, googleToken.startPos, googleToken.endPos)) {</b>
+<b class="nc">&nbsp;              if (!confusionPair.isBidirectional() &amp;&amp; betterAlternative.getString().equals(pairs.get(0).getString())) {</b>
+&nbsp;                // only direction A -&gt; B is possible, i.e. if A is used incorrectly, B is suggested - not vice versa
+&nbsp;                continue;
+&nbsp;              }
+<b class="nc">&nbsp;              ConfusionString stringFromText = getConfusionString(pairs, tokens.get(pos));</b>
+<b class="nc">&nbsp;              String message = getMessage(stringFromText, betterAlternative);</b>
+<b class="nc">&nbsp;              List&lt;String&gt; suggestions = new ArrayList&lt;&gt;(getSuggestions(message));</b>
+<b class="nc">&nbsp;              if (!suggestions.contains(betterAlternative.getString())) {</b>
+<b class="nc">&nbsp;                suggestions.add(betterAlternative.getString());</b>
+&nbsp;              }
+<b class="nc">&nbsp;              if (pos &gt; 0 &amp;&amp; &quot;_START_&quot;.equals(tokens.get(pos-1).token) &amp;&amp; tokens.size() &gt; pos+1 &amp;&amp; tokens.get(pos+1).token != null &amp;&amp; !isCommonWord(tokens.get(pos+1).token)) {</b>
+&nbsp;                // Let&#39;s assume there is not enough data for this. The original problem was a false alarm for
+&nbsp;                // &quot;Resolves:&quot; (-&gt; &quot;Resolved:&quot;)
+&nbsp;                continue;
+&nbsp;              }
+<b class="nc">&nbsp;              if (isCoveredByAntiPattern(sentence, googleToken)) {</b>
+&nbsp;                continue;
+&nbsp;              }
+<b class="nc">&nbsp;              if (!isLocalException(sentence, googleToken)) {</b>
+<b class="nc">&nbsp;                String term1 = confusionPair.getTerms().get(0).getString();</b>
+<b class="nc">&nbsp;                String term2 = confusionPair.getTerms().get(1).getString();</b>
+<b class="nc">&nbsp;                String id = getId() + &quot;_&quot; + cleanId(term1) +  &quot;_&quot; + cleanId(term2);</b>
+<b class="nc">&nbsp;                String desc = getDescription(term1, term2);</b>
+<b class="nc">&nbsp;                String shortDesc = Tools.i18n(messages, &quot;statistics_suggest_short_desc&quot;);</b>
+<b class="nc">&nbsp;                RuleMatch match = new RuleMatch(new SpecificIdRule(id, desc, messages, lm, language), sentence, googleToken.startPos, googleToken.endPos, message, shortDesc);</b>
+<b class="nc">&nbsp;                match.setSuggestedReplacements(suggestions);</b>
+<b class="nc">&nbsp;                matches.add(match);</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      pos++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return matches.toArray(new RuleMatch[0]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean isCommonWord(String token) {
+<b class="nc">&nbsp;    return token.matches(&quot;\\w+&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isCoveredByAntiPattern(AnalyzedSentence sentence, GoogleToken googleToken) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tmpTokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    for (AnalyzedTokenReadings tmpToken : tmpTokens) {</b>
+<b class="nc">&nbsp;      if (tmpToken.isImmunized() &amp;&amp; covers(tmpToken.getStartPos(), tmpToken.getEndPos(), googleToken.startPos, googleToken.endPos)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String cleanId(String id) {
+<b class="nc">&nbsp;    return id.toUpperCase().replace(&quot;Ä&quot;, &quot;AE&quot;).replace(&quot;Ü&quot;, &quot;UE&quot;).replace(&quot;Ö&quot;, &quot;OE&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isRealWord(String token) {
+<b class="nc">&nbsp;    return REAL_WORD.matcher(token).matches();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isLocalException(AnalyzedSentence sentence, GoogleToken googleToken) {
+<b class="nc">&nbsp;    for (String exception : exceptions) {</b>
+<b class="nc">&nbsp;      int exStartPos = sentence.getText().toLowerCase().indexOf(exception);</b>
+<b class="nc">&nbsp;      while (exStartPos != -1) {</b>
+<b class="nc">&nbsp;        int exEndPos = exStartPos + exception.length();</b>
+<b class="nc">&nbsp;        if (exEndPos == exStartPos) {   // just a protection against &quot;&quot; as exceptions</b>
+<b class="nc">&nbsp;          return false;</b>
+<b class="nc">&nbsp;        } else if (covers(exStartPos, exEndPos, googleToken.startPos, googleToken.endPos)) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          exStartPos = sentence.getText().indexOf(exception, exEndPos);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean covers(int exceptionStartPos, int exceptionEndPos, int startPos, int endPos) {
+<b class="nc">&nbsp;    return exceptionStartPos &lt;= startPos &amp;&amp; exceptionEndPos &gt;= endPos;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; getSuggestions(String message) {
+<b class="nc">&nbsp;    Matcher matcher = Pattern.compile(&quot;&lt;suggestion&gt;(.*?)&lt;/suggestion&gt;&quot;).matcher(message);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    while (matcher.find()) {</b>
+<b class="nc">&nbsp;      result.add(matcher.group(1));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return true to prevent a match.
+&nbsp;   */
+&nbsp;  protected boolean isException(String sentenceText, int startPos, int endPos) {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return Tools.i18n(messages, &quot;statistics_rule_description&quot;);  // the one from SpecificIdRule is used</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getDescription(String word1, String word2) {
+<b class="nc">&nbsp;    return Tools.i18n(messages, &quot;statistics_rule_description&quot;, word1, word2);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  protected String getMessage(ConfusionString textString, ConfusionString suggestion) {
+<b class="nc">&nbsp;    if (textString.getDescription() != null &amp;&amp; suggestion.getDescription() != null) {</b>
+<b class="nc">&nbsp;      return Tools.i18n(messages, &quot;statistics_suggest1_new&quot;, suggestion.getString(), suggestion.getDescription(), textString.getString(), textString.getDescription());</b>
+<b class="nc">&nbsp;    } else if (textString.getDescription() != null) {</b>
+<b class="nc">&nbsp;      return Tools.i18n(messages, &quot;statistics_suggest4_new&quot;, suggestion.getString(), textString, textString.getDescription());</b>
+<b class="nc">&nbsp;    } else if (suggestion.getDescription() != null) {</b>
+<b class="nc">&nbsp;      return Tools.i18n(messages, &quot;statistics_suggest2_new&quot;, suggestion.getString(), suggestion.getDescription(), textString.getString());</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return Tools.i18n(messages, &quot;statistics_suggest3_new&quot;, suggestion.getString(), textString.getString());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @deprecated used only for tests */
+&nbsp;  public void setConfusionPair(ConfusionPair pair) {
+<b class="nc">&nbsp;    wordToPairs.clear();</b>
+<b class="nc">&nbsp;    for (ConfusionString word : pair.getTerms()) {</b>
+<b class="nc">&nbsp;      wordToPairs.put(word.getString(), Collections.singletonList(pair));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the ngram level used, typically 3.
+&nbsp;   * @since 3.1
+&nbsp;   */
+&nbsp;  public int getNGrams() {
+<b class="nc">&nbsp;    return grams;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private ConfusionString getBetterAlternativeOrNull(GoogleToken token, List&lt;GoogleToken&gt; tokens, List&lt;ConfusionString&gt; confusionSet, long factor) {
+<b class="nc">&nbsp;    if (confusionSet.size() != 2) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Confusion set must be of size 2: &quot; + confusionSet);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    ConfusionString other = getAlternativeTerm(confusionSet, token);</b>
+<b class="nc">&nbsp;    return getBetterAlternativeOrNull(token, tokens, other, factor);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private ConfusionString getAlternativeTerm(List&lt;ConfusionString&gt; confusionSet, GoogleToken token) {
+<b class="nc">&nbsp;    for (ConfusionString s : confusionSet) {</b>
+<b class="nc">&nbsp;      if (!s.getString().equals(token.token)) {</b>
+<b class="nc">&nbsp;        return s;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;No alternative found for: &quot; + token);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private ConfusionString getConfusionString(List&lt;ConfusionString&gt; confusionSet, GoogleToken token) {
+<b class="nc">&nbsp;    for (ConfusionString s : confusionSet) {</b>
+<b class="nc">&nbsp;      if (s.getString().equalsIgnoreCase(token.token)) {</b>
+<b class="nc">&nbsp;        return s;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;Not found in set &#39;&quot; + confusionSet + &quot;&#39;: &quot; + token);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private ConfusionString getBetterAlternativeOrNull(GoogleToken token, List&lt;GoogleToken&gt; tokens, ConfusionString otherWord, long factor) {
+<b class="nc">&nbsp;    String word = token.token;</b>
+&nbsp;    double p1;
+&nbsp;    double p2;
+<b class="nc">&nbsp;    if (grams == 3) {</b>
+<b class="nc">&nbsp;      p1 = LanguageModelUtils.get3gramProbabilityFor(language, lm, token, tokens, word);</b>
+<b class="nc">&nbsp;      p2 = LanguageModelUtils.get3gramProbabilityFor(language, lm, token, tokens, otherWord.getString());</b>
+<b class="nc">&nbsp;    } else if (grams == 4) {</b>
+<b class="nc">&nbsp;      p1 = LanguageModelUtils.get4gramProbabilityFor(language, lm, token, tokens, word);</b>
+<b class="nc">&nbsp;      p2 = LanguageModelUtils.get4gramProbabilityFor(language, lm, token, tokens, otherWord.getString());</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Only 3grams and 4grams are supported&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    debug(&quot;%.90f &lt;- P(&quot; + word + &quot;) \n&quot;, p1);</b>
+<b class="nc">&nbsp;    debug(&quot;%.90f &lt;- P(&quot; + otherWord + &quot;)\n&quot;, p2);</b>
+<b class="nc">&nbsp;    return p2 &gt;= MIN_PROB &amp;&amp; p2 &gt; p1 * factor ? otherWord : null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void debug(String message, Object... vars) {
+&nbsp;    if (DEBUG) {
+&nbsp;      System.out.printf(Locale.ENGLISH, message, vars);
+&nbsp;    }
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;DisambiguationPatternRule&gt; getAntiPatterns() {
+<b class="nc">&nbsp;    return antiPatterns;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class PathAndLanguage {
+&nbsp;    private final String path;
+&nbsp;    private final Language lang;
+<b class="nc">&nbsp;    PathAndLanguage(String path, Language lang) {</b>
+<b class="nc">&nbsp;      this.path = Objects.requireNonNull(path);</b>
+<b class="nc">&nbsp;      this.lang = Objects.requireNonNull(lang);</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o) {
+<b class="nc">&nbsp;      if (this == o) return true;</b>
+<b class="nc">&nbsp;      if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="nc">&nbsp;      PathAndLanguage that = (PathAndLanguage) o;</b>
+<b class="nc">&nbsp;      return path.equals(that.path) &amp;&amp;</b>
+<b class="nc">&nbsp;        lang.equals(that.lang);</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;      return Objects.hash(path, lang);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static class SpecificIdRule extends ConfusionProbabilityRule {
+&nbsp;    private final String id;
+&nbsp;    private final String desc;
+&nbsp;    SpecificIdRule(String id, String desc, ResourceBundle messages, LanguageModel lm, Language lang) {
+<b class="nc">&nbsp;      super(messages, lm, lang);</b>
+<b class="nc">&nbsp;      this.id = Objects.requireNonNull(id);</b>
+<b class="nc">&nbsp;      this.desc = desc;</b>
+<b class="nc">&nbsp;      if (lang.getShortCode().equals(&quot;en&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          (id.equals(&quot;CONFUSION_RULE_BARE_BEAR&quot;) || id.equals(&quot;CONFUSION_RULE_BEAR_BARE&quot;))) {</b>
+<b class="nc">&nbsp;        this.setUrl(Tools.getUrl(&quot;https://languagetool.org/insights/post/spelling-bear-vs-bare-with-me/&quot;));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (lang.getShortCode().equals(&quot;en&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          (id.equals(&quot;CONFUSION_RULE_DISCREET_DISCRETE&quot;) || id.equals(&quot;CONFUSION_RULE_DISCRETE_DISCREET&quot;))) {</b>
+<b class="nc">&nbsp;        this.setUrl(Tools.getUrl(&quot;https://languagetool.org/insights/post/discrete-vs-discreet/&quot;));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (lang.getShortCode().equals(&quot;en&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;        (id.equals(&quot;CONFUSION_RULE_PRECEDENTS_PRECEDENCE&quot;) || id.equals(&quot;CONFUSION_RULE_PRECEDENCE_PRECEDENTS&quot;))) {</b>
+<b class="nc">&nbsp;        this.setUrl(Tools.getUrl(&quot;https://languagetool.org/insights/post/precedence-or-precedent/&quot;));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String getId() {
+<b class="nc">&nbsp;      return id;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String getDescription() {
+<b class="nc">&nbsp;      return desc;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

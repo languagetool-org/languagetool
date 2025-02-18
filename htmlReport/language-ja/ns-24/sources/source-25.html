@@ -1,0 +1,248 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CompoundRuleData</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: CompoundRuleData (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CompoundRuleData</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/52)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Data about words that are compounds and should thus not be written
+&nbsp; * as separate words.
+&nbsp; * @since 3.0
+&nbsp; */
+&nbsp;public class CompoundRuleData {
+&nbsp;
+<b class="nc">&nbsp;  private final Set&lt;String&gt; incorrectCompounds = new ObjectOpenHashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Set&lt;String&gt; joinedSuggestion = new ObjectOpenHashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Set&lt;String&gt; joinedLowerCaseSuggestion = new ObjectOpenHashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Set&lt;String&gt; dashSuggestion = new ObjectOpenHashSet&lt;&gt;();</b>
+&nbsp;  private final LineExpander expander;
+&nbsp;
+&nbsp;  public CompoundRuleData(String path) {
+<b class="nc">&nbsp;    this(new String[] {path});</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CompoundRuleData(String... paths) {
+<b class="nc">&nbsp;    this(null, paths);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  public CompoundRuleData(LineExpander expander, String... paths) {</b>
+<b class="nc">&nbsp;    this.expander = expander;</b>
+<b class="nc">&nbsp;    for (String path : paths) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        loadCompoundFile(path);</b>
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Could not load compound data from &quot; + path, e);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public Set&lt;String&gt; getIncorrectCompounds() {
+<b class="nc">&nbsp;    return Collections.unmodifiableSet(incorrectCompounds);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Set&lt;String&gt; getJoinedSuggestion() {
+<b class="nc">&nbsp;    return Collections.unmodifiableSet(joinedSuggestion);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Set&lt;String&gt; getDashSuggestion() {
+<b class="nc">&nbsp;    return Collections.unmodifiableSet(dashSuggestion);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Set&lt;String&gt; getJoinedLowerCaseSuggestion() {
+<b class="nc">&nbsp;	return Collections.unmodifiableSet(joinedLowerCaseSuggestion);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void loadCompoundFile(String path) throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);</b>
+<b class="nc">&nbsp;    for (String line : lines) {</b>
+<b class="nc">&nbsp;      if (line.isEmpty() || line.startsWith(&quot;#&quot;)) {</b>
+&nbsp;        continue;     // ignore comments
+&nbsp;      }
+<b class="nc">&nbsp;      line = line.replaceFirst(&quot;#.*$&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;      List&lt;String&gt; expandedLines = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      if (expander != null) {</b>
+<b class="nc">&nbsp;        expandedLines = expander.expandLine(line);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        expandedLines.add(line);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      for (String expLine : expandedLines) {</b>
+<b class="nc">&nbsp;        expLine = expLine.replace(&#39;-&#39;, &#39; &#39;);  // the set contains the incorrect spellings, i.e. the ones without hyphen</b>
+<b class="nc">&nbsp;        validateLine(path, expLine);</b>
+<b class="nc">&nbsp;        if (expLine.endsWith(&quot;+&quot;)) {</b>
+<b class="nc">&nbsp;          expLine = removeLastCharacter(expLine);</b>
+<b class="nc">&nbsp;          joinedSuggestion.add(expLine);</b>
+<b class="nc">&nbsp;        } else if (expLine.endsWith(&quot;*&quot;)) {</b>
+<b class="nc">&nbsp;          expLine = removeLastCharacter(expLine);</b>
+<b class="nc">&nbsp;          dashSuggestion.add(expLine);</b>
+<b class="nc">&nbsp;        } else if (expLine.endsWith(&quot;?&quot;)) { // github issue #779</b>
+<b class="nc">&nbsp;          expLine = removeLastCharacter(expLine);</b>
+<b class="nc">&nbsp;          joinedSuggestion.add(expLine);</b>
+<b class="nc">&nbsp;          joinedLowerCaseSuggestion.add(expLine);</b>
+<b class="nc">&nbsp;        } else if (expLine.endsWith(&quot;$&quot;)) { // github issue #779</b>
+<b class="nc">&nbsp;          expLine = removeLastCharacter(expLine);</b>
+<b class="nc">&nbsp;          joinedSuggestion.add(expLine);</b>
+<b class="nc">&nbsp;          dashSuggestion.add(expLine);</b>
+<b class="nc">&nbsp;          joinedLowerCaseSuggestion.add(expLine);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          joinedSuggestion.add(expLine);</b>
+<b class="nc">&nbsp;          dashSuggestion.add(expLine);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        incorrectCompounds.add(expLine);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void validateLine(String path, String line) {
+<b class="nc">&nbsp;    String[] parts = line.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;    if (parts.length == 1) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Not a compound in file &quot; + path + &quot;: &quot; + line);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (parts.length &gt; AbstractCompoundRule.MAX_TERMS) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Too many compound parts in file &quot; + path + &quot;: &quot; + line + &quot;, maximum allowed: &quot; + AbstractCompoundRule.MAX_TERMS);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (incorrectCompounds.contains(line.toLowerCase())) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Duplicated word in file &quot; + path + &quot;: &quot; + line);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private String removeLastCharacter(String str) {
+<b class="nc">&nbsp;    return str.substring(0, str.length() - 1);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

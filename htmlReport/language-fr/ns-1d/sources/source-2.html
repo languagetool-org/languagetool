@@ -1,0 +1,210 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LuceneLanguageModel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.languagemodel</a>
+</div>
+
+<h1>Coverage Summary for Class: LuceneLanguageModel (org.languagetool.languagemodel)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LuceneLanguageModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.languagemodel;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Like {@link LuceneSingleIndexLanguageModel}, but can merge the results of
+&nbsp; * lookups in several independent indexes to one result.
+&nbsp; * @since 2.7
+&nbsp; */
+&nbsp;public class LuceneLanguageModel extends BaseLanguageModel {
+&nbsp;
+<b class="nc">&nbsp;  private final List&lt;LuceneSingleIndexLanguageModel&gt; lms = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;  public static void validateDirectory(File topIndexDir) {
+<b class="nc">&nbsp;    File[] subDirs = getSubDirectoriesOrNull(topIndexDir);</b>
+<b class="nc">&nbsp;    if (subDirs == null || subDirs.length == 0) {</b>
+<b class="nc">&nbsp;      LuceneSingleIndexLanguageModel.validateDirectory(topIndexDir);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private static File[] getSubDirectoriesOrNull(File topIndexDir) {
+<b class="nc">&nbsp;    return topIndexDir.listFiles((file, name) -&gt; name.matches(&quot;index-\\d+&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param topIndexDir a directory which contains either:
+&nbsp;   *                    1) sub directories called {@code 1grams}, {@code 2grams}, {@code 3grams},
+&nbsp;   *                    which are Lucene indexes with ngram occurrences as created by
+&nbsp;   *                    {@code org.languagetool.dev.FrequencyIndexCreator}
+&nbsp;   *                    or 2) sub directories {@code index-1}, {@code index-2} etc that contain
+&nbsp;   *                    the sub directories described under 1)
+&nbsp;   */
+<b class="nc">&nbsp;  public LuceneLanguageModel(File topIndexDir)  {</b>
+<b class="nc">&nbsp;    File[] subDirs = getSubDirectoriesOrNull(topIndexDir);</b>
+<b class="nc">&nbsp;    if (subDirs != null &amp;&amp; subDirs.length &gt; 0) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Running in multi-index mode with &quot; + subDirs.length + &quot; indexes: &quot; + topIndexDir);</b>
+<b class="nc">&nbsp;      for (File subDir : subDirs) {</b>
+<b class="nc">&nbsp;        lms.add(new LuceneSingleIndexLanguageModel(subDir));</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      lms.add(new LuceneSingleIndexLanguageModel(topIndexDir));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public long getCount(List&lt;String&gt; tokens) {
+<b class="nc">&nbsp;    return lms.stream().mapToLong(lm -&gt; lm.getCount(tokens)).sum();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public long getCount(String token) {
+<b class="nc">&nbsp;    return getCount(Arrays.asList(token));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public long getTotalTokenCount() {
+<b class="nc">&nbsp;    return lms.stream().mapToLong(lm -&gt; lm.getTotalTokenCount()).sum();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void close() {
+<b class="nc">&nbsp;    lms.forEach(lm -&gt; lm.close());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return lms.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

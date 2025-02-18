@@ -1,0 +1,333 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SimpleReplaceRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: SimpleReplaceRule (org.languagetool.rules.uk)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SimpleReplaceRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/71)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.uk;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;import java.util.stream.Stream;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.AbstractSimpleReplaceRule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.tagging.uk.IPOSTag;
+&nbsp;import org.languagetool.tagging.uk.PosTagHelper;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule that matches words which should not be used and suggests correct ones
+&nbsp; * instead.
+&nbsp; * 
+&nbsp; * Ukrainian implementations. Loads the relevant words from
+&nbsp; * &lt;code&gt;rules/uk/replace.txt&lt;/code&gt;.
+&nbsp; * 
+&nbsp; * @author Andriy Rysin
+&nbsp; */
+&nbsp;public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
+&nbsp;
+<b class="nc">&nbsp;  private static final Map&lt;String, List&lt;String&gt;&gt; wrongWords = loadFromPath(&quot;/uk/replace.txt&quot;);</b>
+&nbsp;  private final MorfologikUkrainianSpellerRule morfologikSpellerRule;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Map&lt;String, List&lt;String&gt;&gt; getWrongWords() {
+<b class="nc">&nbsp;    return wrongWords;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public SimpleReplaceRule(ResourceBundle messages, MorfologikUkrainianSpellerRule morfologikSpellerRule,
+&nbsp;                           final Language language) throws IOException {
+<b class="nc">&nbsp;    super(messages, language);</b>
+<b class="nc">&nbsp;    setIgnoreTaggedWords();</b>
+<b class="nc">&nbsp;    this.morfologikSpellerRule = morfologikSpellerRule;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final String getId() {
+<b class="nc">&nbsp;    return &quot;UK_SIMPLE_REPLACE&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Пошук помилкових слів&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getShort() {
+<b class="nc">&nbsp;    return &quot;Помилка?&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getMessage(String tokenStr, List&lt;String&gt; replacements) {
+<b class="nc">&nbsp;    return &quot;«&quot; + tokenStr + &quot;» - помилкове слово, виправлення: &quot;</b>
+<b class="nc">&nbsp;        + String.join(&quot;, &quot;, replacements) + &quot;.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected boolean isTagged(AnalyzedTokenReadings tokenReadings) {
+&nbsp;//    if( FORCE_REPLACE_LIST.contains(tokenReadings.getToken()) )
+&nbsp;//      return false;
+&nbsp;    
+<b class="nc">&nbsp;    for (AnalyzedToken token: tokenReadings.getReadings()) {</b>
+&nbsp;      // optimize
+<b class="nc">&nbsp;      if ( token.hasNoTag() )</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;
+<b class="nc">&nbsp;      String posTag = token.getPOSTag();</b>
+<b class="nc">&nbsp;      if (isGoodPosTag(posTag)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;RuleMatch&gt; findMatches(AnalyzedTokenReadings tokenReadings, AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; matches = super.findMatches(tokenReadings, sentence);</b>
+<b class="nc">&nbsp;    if( matches.isEmpty() ) {</b>
+<b class="nc">&nbsp;      if( PosTagHelper.hasPosTag(tokenReadings, Pattern.compile(&quot;.*?adjp:actv.*?:bad.*&quot;)) ) {</b>
+<b class="nc">&nbsp;        String msg = &quot;Активні дієприкметники не властиві українській мові.&quot;;</b>
+&nbsp;        String url;
+&nbsp;
+<b class="nc">&nbsp;        if( tokenReadings.getAnalyzedToken(0).getLemma().endsWith(&quot;ший&quot;) ) {</b>
+<b class="nc">&nbsp;          msg += &quot; Їх можна замінити на що + дієслово (випавший сніг - сніг, що випав), або на форму з суфіксом -л- (промокший - промоклий)&quot;;</b>
+<b class="nc">&nbsp;          url = &quot;http://padaread.com/?book=53784&amp;pg=94&quot;;</b>
+&nbsp;        }
+&nbsp;        else { // -ючий, -ющий тощо
+<b class="nc">&nbsp;          msg += &quot; Їх можна замінити питомими словами в різний спосіб: що + дієслово (роблячий  - що робить), дієслівний корінь+ суфікси -льн-, -лив- тощо (збираючий - збиральний, обтяжуючий - обтяжливий),&quot;</b>
+&nbsp;          + &quot; заміна іменником (завідуючий - завідувач), заміна прикметником із відповідним значенням (діюча модель - робоча модель), зміна конструкції (з наступаючим Новим роком - з настанням Нового року) тощо.&quot;;
+<b class="nc">&nbsp;          url = &quot;http://nbuv.gov.ua/j-pdf/Nchnpu_8_2013_5_2.pdf&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        RuleMatch match = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getStartPos()</b>
+<b class="nc">&nbsp;            + tokenReadings.getToken().length(), msg, getShort());</b>
+&nbsp;
+<b class="nc">&nbsp;        match.setUrl(Tools.getUrl(url));</b>
+&nbsp;
+<b class="nc">&nbsp;        matches.add(match);</b>
+&nbsp;      }
+&nbsp;      else {
+<b class="nc">&nbsp;        List&lt;String&gt; derivatSuggestions = findInDeriv(tokenReadings.getCleanToken().toLowerCase());</b>
+&nbsp;
+<b class="nc">&nbsp;        if( derivatSuggestions.size() &gt; 0 ) {</b>
+<b class="nc">&nbsp;          String msg = &quot;Неправильне слово.&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;          RuleMatch match = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getStartPos()</b>
+<b class="nc">&nbsp;              + tokenReadings.getToken().length(), msg, getShort());</b>
+&nbsp;
+<b class="nc">&nbsp;          match.setSuggestedReplacements(derivatSuggestions);</b>
+<b class="nc">&nbsp;          matches.add(match);</b>
+<b class="nc">&nbsp;          return matches;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if( PosTagHelper.hasPosTagPart(tokenReadings, &quot;:bad&quot;) </b>
+<b class="nc">&nbsp;            &amp;&amp; ! PosTagHelper.hasPosTagStart(tokenReadings, &quot;number&quot;) ) {</b>
+<b class="nc">&nbsp;          String msg = &quot;Неправильно написане слово.&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;          RuleMatch match = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getStartPos()</b>
+<b class="nc">&nbsp;              + tokenReadings.getToken().length(), msg, getShort());</b>
+&nbsp;
+<b class="nc">&nbsp;          List&lt;String&gt; suggestions = morfologikSpellerRule.getSpeller1().getSuggestionsFromDefaultDicts(tokenReadings.getToken());</b>
+<b class="nc">&nbsp;          suggestions.removeIf(s -&gt; s.contains(&quot; &quot;));</b>
+<b class="nc">&nbsp;          match.setSuggestedReplacements(suggestions);</b>
+&nbsp;          //            RuleMatch[] spellerMatches = morfologikSpellerRule.match(new AnalyzedSentence(new AnalyzedTokenReadings[] {tokenReadings}));
+&nbsp;          //            if( spellerMatches.length &gt; 0 ) {
+&nbsp;          //              match.setSuggestedReplacements(spellerMatches[0].getSuggestedReplacements());
+&nbsp;          //            }
+<b class="nc">&nbsp;          matches.add(match);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    //    else {
+&nbsp;//      if( PosTagHelper.hasPosTag(tokenReadings, Pattern.compile(&quot;(?!verb).*:subst&quot;)) ) {
+&nbsp;//        for(int i=0; i&lt;matches.size(); i++) {
+&nbsp;//          RuleMatch match = matches.get(i);
+&nbsp;//          RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), &quot;Ця форма не відповідає мовній нормі&quot;);
+&nbsp;//          newMatch.setSuggestedReplacements(match.getSuggestedReplacements());
+&nbsp;//          matches.set(i, newMatch);
+&nbsp;//        }
+&nbsp;//      }
+&nbsp;//    }
+<b class="nc">&nbsp;    return matches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; findInDeriv(String w) {
+&nbsp;    
+<b class="nc">&nbsp;    Set&lt;String&gt; derivats = CaseGovernmentHelper.DERIVATIVES_MAP.get(w);</b>
+<b class="nc">&nbsp;    if ( derivats == null ) </b>
+<b class="nc">&nbsp;      return new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    String ending = StringUtils.right(w, 3);</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;String&gt; suggestions = </b>
+<b class="nc">&nbsp;        derivats.stream()</b>
+<b class="nc">&nbsp;        .map(d -&gt; getWrongWords().get(d))</b>
+<b class="nc">&nbsp;          .flatMap(c -&gt; c != null ? c.stream() : Stream.empty())</b>
+<b class="nc">&nbsp;          .map(t -&gt;</b>
+<b class="nc">&nbsp;          CaseGovernmentHelper.DERIVATIVES_MAP.entrySet().stream()</b>
+<b class="nc">&nbsp;          .filter(e -&gt; e.getValue().contains(t) &amp;&amp; e.getKey().endsWith(ending)) // filter -ючи vs -вши</b>
+<b class="nc">&nbsp;          .map(e -&gt; e.getKey())</b>
+<b class="nc">&nbsp;          .findAny()</b>
+<b class="nc">&nbsp;          .orElse(t)</b>
+&nbsp;        )
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+&nbsp;
+<b class="nc">&nbsp;    return suggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isGoodPosTag(String posTag) {
+<b class="nc">&nbsp;    return posTag != null</b>
+<b class="nc">&nbsp;        &amp;&amp; !JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posTag)</b>
+<b class="nc">&nbsp;        &amp;&amp; !JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)</b>
+<b class="nc">&nbsp;        &amp;&amp; !posTag.contains(IPOSTag.bad.getText())</b>
+<b class="nc">&nbsp;        &amp;&amp; !posTag.contains(&quot;subst&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; !posTag.startsWith(&quot;&lt;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean isCaseSensitive() {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

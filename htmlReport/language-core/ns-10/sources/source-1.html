@@ -1,0 +1,221 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DocProvider</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.simulation</a>
+</div>
+
+<h1>Coverage Summary for Class: DocProvider (org.languagetool.dev.simulation)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DocProvider</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/48)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.simulation;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Provides random-length documents, with a length distribution that roughly
+&nbsp; * simulates that of the production system.
+&nbsp; */
+&nbsp;class DocProvider {
+&nbsp;
+&nbsp;  private static final int MAX_VAL = 20_000;
+&nbsp;
+&nbsp;  private final List&lt;String&gt; docs;
+&nbsp;
+&nbsp;  private Random rnd;
+&nbsp;
+<b class="nc">&nbsp;  DocProvider(List&lt;String&gt; docs) {</b>
+<b class="nc">&nbsp;    this.docs = docs;</b>
+<b class="nc">&nbsp;    reset();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void reset() {
+<b class="nc">&nbsp;    rnd = new Random(120);  // don&#39;t change without checking that request size distribution is still realistic</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getDoc() {
+<b class="nc">&nbsp;    int len = getWeightedRandomLength();</b>
+<b class="nc">&nbsp;    synchronized (docs) {</b>
+<b class="nc">&nbsp;      StringBuilder appended = new StringBuilder();</b>
+<b class="nc">&nbsp;      int paraSize = 0;</b>
+<b class="nc">&nbsp;      while (appended.length() &lt; len) {</b>
+<b class="nc">&nbsp;        if (docs.size() == 0) {</b>
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Not enough docs left to provide another document&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String doc = docs.get(0);</b>
+<b class="nc">&nbsp;        appended.append(doc).append(&quot; &quot;);</b>
+<b class="nc">&nbsp;        paraSize += doc.length();</b>
+<b class="nc">&nbsp;        if (paraSize &gt; 250 &amp;&amp; appended.toString().endsWith(&quot;. &quot;)) {</b>
+<b class="nc">&nbsp;          appended.append(doc).append(&quot;\n\n&quot;);</b>
+<b class="nc">&nbsp;          paraSize = 0;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        docs.remove(0);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return appended.substring(0, len);</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  int getWeightedRandomLength() {
+<b class="nc">&nbsp;    int max = getRandomMaxLength();</b>
+<b class="nc">&nbsp;    int min = max == MAX_VAL ? 550 : max - 49;</b>
+&nbsp;    // just assume uniform length distribution inside these ranges (not quite true)...
+<b class="nc">&nbsp;    return min + this.rnd.nextInt(max - min);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int getRandomMaxLength() {
+<b class="nc">&nbsp;    double rnd = this.rnd.nextFloat() * 100;</b>
+&nbsp;    // this leads to a distribution roughly as we see it in the production system:
+<b class="nc">&nbsp;    float fix = 15.6f;</b>
+<b class="nc">&nbsp;    if (rnd &lt; 32) {</b>
+<b class="nc">&nbsp;      return 49;</b>
+<b class="nc">&nbsp;    } else if (rnd &lt; 50 + fix) {</b>
+<b class="nc">&nbsp;      return 99;</b>
+<b class="nc">&nbsp;    } else if (rnd &lt; 60 + fix) {</b>
+<b class="nc">&nbsp;      return 149;</b>
+<b class="nc">&nbsp;    } else if (rnd &lt; 67 + fix) {</b>
+<b class="nc">&nbsp;      return 199;</b>
+<b class="nc">&nbsp;    } else if (rnd &lt; 72 + fix) {</b>
+<b class="nc">&nbsp;      return 249;</b>
+<b class="nc">&nbsp;    } else if (rnd &lt; 75 + fix) {</b>
+<b class="nc">&nbsp;      return 299;</b>
+<b class="nc">&nbsp;    } else if (rnd &lt; 78 + fix) {</b>
+<b class="nc">&nbsp;      return 349;</b>
+<b class="nc">&nbsp;    } else if (rnd &lt; 80 + fix) {</b>
+<b class="nc">&nbsp;      return 399;</b>
+<b class="nc">&nbsp;    } else if (rnd &lt; 82 + fix) {</b>
+<b class="nc">&nbsp;      return 449;</b>
+<b class="nc">&nbsp;    } else if (rnd &lt; 83 + fix) {</b>
+<b class="nc">&nbsp;      return 499;</b>
+<b class="nc">&nbsp;    } else if (rnd &lt; 84 + fix) {</b>
+<b class="nc">&nbsp;      return 549;</b>
+&nbsp;    } else {
+&nbsp;      // not quite correct...
+<b class="nc">&nbsp;      return MAX_VAL;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

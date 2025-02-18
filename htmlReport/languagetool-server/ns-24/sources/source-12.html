@@ -1,0 +1,270 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AbstractSpecificCaseRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractSpecificCaseRule (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractSpecificCaseRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    45.5%
+  </span>
+  <span class="absValue">
+    (5/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40.9%
+  </span>
+  <span class="absValue">
+    (9/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    67.4%
+  </span>
+  <span class="absValue">
+    (29/43)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2021 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.spelling.CachingWordListLoader;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.ConcurrentHashMap;
+&nbsp;import java.util.concurrent.ConcurrentMap;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule that matches words which need a specific upper/lowercase spelling.
+&nbsp; * @author Nikos-Antonopoulos, giorgossideris
+&nbsp; */
+&nbsp;public abstract class AbstractSpecificCaseRule extends Rule {
+&nbsp;
+&nbsp;  // a map that has as keys the special case phrases into lowercase
+&nbsp;  // and as values the special case phrases properly spelled:
+&nbsp;  // one for each subclass
+<b class="fc">&nbsp;  private static final ConcurrentMap&lt;Class, Map&lt;String,String&gt;&gt; lcToProperSpelling = new ConcurrentHashMap&lt;&gt;();</b>
+&nbsp;  private static int maxLen;
+&nbsp;
+&nbsp;  // used to speed up the server as the phrases are loaded in every initialization:
+<b class="fc">&nbsp;  protected final CachingWordListLoader phrasesListLoader = new CachingWordListLoader();</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The constructor of the abstract class AbstractSpecificCaseRule
+&nbsp;   * @param messages     the messages to apply the rule
+&nbsp;   */
+&nbsp;  public AbstractSpecificCaseRule(ResourceBundle messages) {
+<b class="fc">&nbsp;    super(messages);</b>
+<b class="fc">&nbsp;    super.setCategory(Categories.CASING.getCategory(messages));</b>
+<b class="fc">&nbsp;    setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+<b class="fc">&nbsp;    loadPhrases();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the path to the txt file that contains the phrases for the rule
+&nbsp;   */
+&nbsp;  public abstract String getPhrasesPath();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the message that will be shown if the words of the
+&nbsp;   *         wrongly capitalized phrase must begin with capital
+&nbsp;   */
+&nbsp;  public String getInitialCapitalMessage() {
+<b class="nc">&nbsp;    return &quot;The initials of the particular phrase must be capitals.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the message that will be shown if the wrongly capitalized phrase
+&nbsp;   *         must not be written with capital initials
+&nbsp;   *         (another special kind of capitalization)
+&nbsp;   */
+&nbsp;  public String getOtherCapitalizationMessage() {
+<b class="nc">&nbsp;    return &quot;The particular expression should follow the suggested capitalization.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getShortMessage() {
+<b class="nc">&nbsp;    return &quot;Special capitalization&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Initializes the phrases that will be detected from the rule by the given path
+&nbsp;   */
+&nbsp;  private synchronized void loadPhrases() {
+<b class="fc">&nbsp;    lcToProperSpelling.computeIfAbsent(this.getClass(), (clazz) -&gt; {</b>
+<b class="fc">&nbsp;      Map&lt;String, String&gt; properSpelling = new Object2ObjectOpenHashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;      List&lt;String&gt; lines = phrasesListLoader.loadWords(getPhrasesPath());</b>
+<b class="fc">&nbsp;      for (String line : lines) {</b>
+<b class="fc">&nbsp;        int parts = line.split(&quot; &quot;).length;</b>
+<b class="fc">&nbsp;        maxLen = Math.max(parts, maxLen);</b>
+<b class="fc">&nbsp;        String phrase = line.trim();</b>
+<b class="fc">&nbsp;        properSpelling.put(phrase.toLowerCase(), phrase);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      return properSpelling;</b>
+&nbsp;    });
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;SPECIFIC_CASE&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Checks upper/lower case expressions.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; matches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="fc">&nbsp;    Map&lt;String, String&gt; properSpellingMap = lcToProperSpelling.get(this.getClass());</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; tokens.length; i++) {</b>
+<b class="fc">&nbsp;      List&lt;String&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;      int j = 0;</b>
+<b class="fc">&nbsp;      while (l.size() &lt; maxLen &amp;&amp; i+j &lt; tokens.length) {</b>
+<b class="fc">&nbsp;        l.add(tokens[i+j].getToken());</b>
+<b class="fc">&nbsp;        j++;</b>
+<b class="fc">&nbsp;        String phrase = String.join(&quot; &quot;, l);</b>
+<b class="fc">&nbsp;        String lcPhrase = phrase.toLowerCase();</b>
+<b class="fc">&nbsp;        String properSpelling = properSpellingMap.get(lcPhrase);</b>
+<b class="pc">&nbsp;        if (properSpelling != null &amp;&amp; !StringTools.isAllUppercase(phrase) &amp;&amp; !phrase.equals(properSpelling)) {</b>
+<b class="nc">&nbsp;          if (i &gt; 0 &amp;&amp; tokens[i-1].isSentenceStart() &amp;&amp; !StringTools.startsWithUppercase(properSpelling)) {</b>
+&nbsp;            // avoid suggesting e.g. &quot;vitamin C&quot; at sentence start:
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;          String msg;
+<b class="nc">&nbsp;          if (allWordsUppercase(properSpelling)) {</b>
+<b class="nc">&nbsp;            msg = getInitialCapitalMessage();</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            msg = getOtherCapitalizationMessage();</b>
+&nbsp;          }
+<b class="nc">&nbsp;          RuleMatch match = new RuleMatch(this, sentence, tokens[i].getStartPos(),</b>
+<b class="nc">&nbsp;                                  tokens[i+j-1].getEndPos(), msg, getShortMessage());</b>
+<b class="nc">&nbsp;          match.setSuggestedReplacement(properSpelling);</b>
+<b class="nc">&nbsp;          matches.add(match);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return toRuleMatchArray(matches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if all the words in the given string begin with a capital letter
+&nbsp;   * @param s    the string to check
+&nbsp;   * @return     &lt;code&gt;true&lt;/code&gt; if all the words within the given string
+&nbsp;   *             begin with capital letter, else &lt;code&gt;false&lt;/code&gt;
+&nbsp;   */
+&nbsp;  private boolean allWordsUppercase(String s) {
+<b class="nc">&nbsp;    return Arrays.stream(s.split(&quot; &quot;)).allMatch(StringTools::startsWithUppercase);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

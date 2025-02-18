@@ -1,0 +1,241 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > EnglishTagger</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.en</a>
+</div>
+
+<h1>Coverage Summary for Class: EnglishTagger (org.languagetool.tagging.en)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnglishTagger</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/45)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tagging.en;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.tagging.BaseTagger;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Locale;
+&nbsp;
+&nbsp;/**
+&nbsp; * English Part-of-speech tagger.
+&nbsp; * The POS tagset is described in
+&nbsp; * &lt;a href=&quot;https://github.com/languagetool-org/languagetool/blob/master/languagetool-language-modules/en/src/main/resources/org/languagetool/resource/en/tagset.txt&quot;&gt;tagset.txt&lt;/a&gt;
+&nbsp; * 
+&nbsp; * @author Marcin Milkowski
+&nbsp; */
+&nbsp;public class EnglishTagger extends BaseTagger {
+<b class="nc">&nbsp;  public static final EnglishTagger INSTANCE = new EnglishTagger();</b>
+&nbsp;
+&nbsp;  public EnglishTagger() {
+&nbsp;    // intern tags because we only have 47 types and get megabytes of duplicated strings
+<b class="nc">&nbsp;    super(&quot;/en/english.dict&quot;, Locale.ENGLISH, false, true);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public List&lt;AnalyzedTokenReadings&gt; tag(final List&lt;String&gt; sentenceTokens) {
+&nbsp;
+<b class="nc">&nbsp;    final List&lt;AnalyzedTokenReadings&gt; tokenReadings = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int pos = 0;</b>
+<b class="nc">&nbsp;    for (String word : sentenceTokens) {</b>
+&nbsp;      // This hack allows all rules and dictionary entries to work with typewriter apostrophe
+<b class="nc">&nbsp;      boolean containsTypographicApostrophe = false;</b>
+<b class="nc">&nbsp;      if (word.length() &gt; 1) {</b>
+<b class="nc">&nbsp;        if (word.contains(&quot;’&quot;)) {</b>
+<b class="nc">&nbsp;          containsTypographicApostrophe = true;</b>
+<b class="nc">&nbsp;          word = word.replace(&#39;’&#39;, &#39;\&#39;&#39;);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      final List&lt;AnalyzedToken&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      final String lowerWord = word.toLowerCase(locale);</b>
+<b class="nc">&nbsp;      final boolean isLowercase = word.equals(lowerWord);</b>
+<b class="nc">&nbsp;      final boolean isMixedCase = StringTools.isMixedCase(word);</b>
+<b class="nc">&nbsp;      final boolean isAllUpper = StringTools.isAllUppercase(word);</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));</b>
+&nbsp;      
+&nbsp;      // normal case:
+<b class="nc">&nbsp;      addTokens(taggerTokens, l);</b>
+&nbsp;      // tag non-lowercase (alluppercase or startuppercase), but not mixed-case words with lowercase word tags:
+<b class="nc">&nbsp;      if (!isLowercase &amp;&amp; !isMixedCase) {</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));</b>
+<b class="nc">&nbsp;        addTokens(lowerTaggerTokens, l);</b>
+&nbsp;      }
+&nbsp;      
+&nbsp;      //tag all-uppercase proper nouns (ex. FRANCE)
+<b class="nc">&nbsp;      if (l.isEmpty() &amp;&amp; isAllUpper) {</b>
+<b class="nc">&nbsp;        final String firstUpper = StringTools.uppercaseFirstChar(lowerWord);</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(firstUpper));</b>
+<b class="nc">&nbsp;        addTokens(firstupperTaggerTokens, l);</b>
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      if (l.isEmpty() &amp;&amp; lowerWord.endsWith(&quot;in&#39;&quot;)) {</b>
+<b class="nc">&nbsp;        String correctedWord = word;</b>
+<b class="nc">&nbsp;        if (isAllUpper) {</b>
+<b class="nc">&nbsp;          correctedWord = correctedWord.substring(0, correctedWord.length() - 1) + &quot;G&quot;;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          correctedWord = correctedWord.substring(0, correctedWord.length() - 1) + &quot;g&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; taggerTokens2 = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(correctedWord));</b>
+&nbsp;        // normal case:
+<b class="nc">&nbsp;        addTokens(taggerTokens2, l);</b>
+&nbsp;        // tag non-lowercase (alluppercase or startuppercase), but not mixed-case words with lowercase word tags:
+<b class="nc">&nbsp;        if (!isLowercase &amp;&amp; !isMixedCase) {</b>
+<b class="nc">&nbsp;          List&lt;AnalyzedToken&gt; lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word,</b>
+<b class="nc">&nbsp;              getWordTagger().tag(correctedWord.toLowerCase()));</b>
+<b class="nc">&nbsp;          addTokens(lowerTaggerTokens, l);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+&nbsp;      // additional tagging with prefixes   removed: &amp;&amp; !isMixedCase
+&nbsp;      /*if (l.isEmpty()) {
+&nbsp;        addTokens(additionalTags(word), l);
+&nbsp;      }*/
+&nbsp;
+<b class="nc">&nbsp;      if (l.isEmpty()) {</b>
+<b class="nc">&nbsp;        l.add(new AnalyzedToken(word, null, null));</b>
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);</b>
+<b class="nc">&nbsp;      if (containsTypographicApostrophe) {</b>
+<b class="nc">&nbsp;        atr.setTypographicApostrophe();</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      tokenReadings.add(atr);</b>
+<b class="nc">&nbsp;      pos += word.length();</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return tokenReadings;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void addTokens(final List&lt;AnalyzedToken&gt; taggedTokens, final List&lt;AnalyzedToken&gt; l) {
+<b class="nc">&nbsp;    if (taggedTokens != null) {</b>
+<b class="nc">&nbsp;      l.addAll(taggedTokens);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

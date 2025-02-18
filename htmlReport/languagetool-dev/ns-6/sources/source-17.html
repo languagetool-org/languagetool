@@ -1,0 +1,244 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MissingGermanWords</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev</a>
+</div>
+
+<h1>Coverage Summary for Class: MissingGermanWords (org.languagetool.dev)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MissingGermanWords</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/38)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.dev;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.language.AmericanEnglish;
+&nbsp;import org.languagetool.language.GermanyGerman;
+&nbsp;import org.languagetool.rules.de.GermanSpellerRule;
+&nbsp;import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
+&nbsp;import org.languagetool.tagging.de.GermanTagger;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;
+&nbsp;/**
+&nbsp; * List words from given wordlist that are unknown to the German speller or German tagger.
+&nbsp; *
+&nbsp; * Also, remove English words from wordlist.
+&nbsp; *
+&nbsp; * Wordlist should be in CSV format
+&nbsp; * word,freq
+&nbsp; */
+&nbsp;public class MissingGermanWords {
+&nbsp;
+&nbsp;  private final String filename;
+&nbsp;  private final boolean outputCombinedListing;
+&nbsp;  private final GermanSpellerRule germanSpeller;
+&nbsp;  private final GermanTagger germanTagger;
+&nbsp;  private final MorfologikAmericanSpellerRule englishSpeller;
+&nbsp;
+<b class="nc">&nbsp;  public MissingGermanWords(String filename) throws IOException {</b>
+<b class="nc">&nbsp;    this.filename = filename;</b>
+<b class="nc">&nbsp;    this.outputCombinedListing = true;</b>
+<b class="nc">&nbsp;    germanSpeller = new GermanSpellerRule(JLanguageTool.getMessageBundle(), GermanyGerman.getInstance());</b>
+<b class="nc">&nbsp;    germanTagger = new GermanTagger();</b>
+<b class="nc">&nbsp;    englishSpeller = new MorfologikAmericanSpellerRule(JLanguageTool.getMessageBundle(), AmericanEnglish.getInstance());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    if (args.length != 1) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + MissingGermanWords.class.getSimpleName() + &quot; &lt;filename&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String filename = args[0];</b>
+<b class="nc">&nbsp;    new MissingGermanWords(filename).run();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void run() throws IOException {
+<b class="nc">&nbsp;    if (outputCombinedListing) {</b>
+<b class="nc">&nbsp;      listMissingWords(filename);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      listMissingWordsSpeller(filename);</b>
+<b class="nc">&nbsp;      listMissingWordsTagger(filename);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void listMissingWordsSpeller(String filename) throws java.io.IOException {
+<b class="nc">&nbsp;    System.out.println(&quot;# missing words speller&quot;);</b>
+<b class="nc">&nbsp;    BufferedReader reader = getReaderForFilename(filename);</b>
+&nbsp;    String line;
+<b class="nc">&nbsp;    while ((line = reader.readLine()) != null) {</b>
+<b class="nc">&nbsp;      String word = wordFromLine(line);</b>
+<b class="nc">&nbsp;      if (!isKnownByGermanSpeller(word) &amp;&amp; !isKnownByEnglishSpeller(word)) {</b>
+<b class="nc">&nbsp;        System.out.println(line);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    reader.close();
+&nbsp;  }
+&nbsp;
+&nbsp;  private void listMissingWordsTagger(String filename) throws java.io.IOException {
+<b class="nc">&nbsp;    System.out.println(&quot;# missing words tagger&quot;);</b>
+<b class="nc">&nbsp;    BufferedReader reader = getReaderForFilename(filename);</b>
+&nbsp;    String line;
+<b class="nc">&nbsp;    while ((line = reader.readLine()) != null) {</b>
+<b class="nc">&nbsp;      String word = wordFromLine(line);</b>
+<b class="nc">&nbsp;      if (!isKnownByGermanTagger(word) &amp;&amp; !isKnownByEnglishSpeller(word)) {</b>
+<b class="nc">&nbsp;        System.out.println(line);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    reader.close();
+&nbsp;  }
+&nbsp;
+&nbsp;  private void listMissingWords(String filename) throws java.io.IOException {
+<b class="nc">&nbsp;    BufferedReader reader = getReaderForFilename(filename);</b>
+&nbsp;    String line;
+<b class="nc">&nbsp;    while ((line = reader.readLine()) != null) {</b>
+<b class="nc">&nbsp;      String word = wordFromLine(line);</b>
+<b class="nc">&nbsp;      boolean knownBySpeller = isKnownByGermanSpeller(word);</b>
+<b class="nc">&nbsp;      boolean knownByTagger = isKnownByGermanTagger(word);</b>
+<b class="nc">&nbsp;      if ((!knownBySpeller || !knownByTagger) &amp;&amp; !isKnownByEnglishSpeller(word)) {</b>
+<b class="nc">&nbsp;        System.out.print(line);</b>
+<b class="nc">&nbsp;        System.out.print(&quot;,&quot;);</b>
+<b class="nc">&nbsp;        if (!knownBySpeller &amp;&amp; !knownByTagger) {</b>
+<b class="nc">&nbsp;          System.out.println(&quot;speller+tagger&quot;);</b>
+<b class="nc">&nbsp;        } else if (!knownBySpeller) {</b>
+<b class="nc">&nbsp;          System.out.println(&quot;speller&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          System.out.println(&quot;tagger&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    reader.close();
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isKnownByGermanSpeller(String word) {
+<b class="nc">&nbsp;    return !germanSpeller.isMisspelled(StringTools.uppercaseFirstChar(word)) ||</b>
+<b class="nc">&nbsp;      !germanSpeller.isMisspelled(StringTools.lowercaseFirstChar(word));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isKnownByGermanTagger(String word) throws IOException {
+<b class="nc">&nbsp;    return germanTagger.lookup(StringTools.uppercaseFirstChar(word)) != null ||</b>
+<b class="nc">&nbsp;      germanTagger.lookup(StringTools.lowercaseFirstChar(word)) != null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isKnownByEnglishSpeller(String word) throws IOException {
+<b class="nc">&nbsp;    return !englishSpeller.isMisspelled(StringTools.uppercaseFirstChar(word)) ||</b>
+<b class="nc">&nbsp;      !englishSpeller.isMisspelled(StringTools.lowercaseFirstChar(word));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private BufferedReader getReaderForFilename(String filename) throws FileNotFoundException {
+<b class="nc">&nbsp;    FileInputStream fis = new FileInputStream(filename);</b>
+<b class="nc">&nbsp;    InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);</b>
+<b class="nc">&nbsp;    return new BufferedReader(isr);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String wordFromLine(String line) {
+<b class="nc">&nbsp;    return line.split(&quot;,&quot;)[0];</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,202 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > EnglishPlainEnglishRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.en</a>
+</div>
+
+<h1>Coverage Summary for Class: EnglishPlainEnglishRule (org.languagetool.rules.en)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnglishPlainEnglishRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    70%
+  </span>
+  <span class="absValue">
+    (7/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (12/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.en;
+&nbsp;
+&nbsp;import org.languagetool.language.English;
+&nbsp;import org.languagetool.rules.AbstractSimpleReplaceRule2;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.ITSIssueType;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Locale;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;import java.net.URL;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule that matches words which are complex and suggests easier to understand alternatives. 
+&nbsp; *
+&nbsp; * @author Tiago F. Santos 
+&nbsp; * @since 4.8
+&nbsp; */
+&nbsp;public class EnglishPlainEnglishRule extends AbstractSimpleReplaceRule2 {
+&nbsp;
+&nbsp;  public static final String EN_PLAIN_ENGLISH_REPLACE = &quot;EN_PLAIN_ENGLISH_REPLACE&quot;;
+&nbsp;
+&nbsp;  private static final String FILE_NAME = &quot;/en/wordiness.txt&quot;;
+<b class="fc">&nbsp;  private static final Locale EN_LOCALE = new Locale(&quot;en&quot;);  // locale used on case-conversion</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final List&lt;String&gt; getFileNames() {
+<b class="fc">&nbsp;    return Collections.singletonList(FILE_NAME);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public EnglishPlainEnglishRule(ResourceBundle messages) throws IOException {
+<b class="fc">&nbsp;    super(messages, new English());</b>
+<b class="fc">&nbsp;    setDefaultOff();  // reactivate after feature freeze</b>
+<b class="fc">&nbsp;    setCategory(Categories.PLAIN_ENGLISH.getCategory(messages));</b>
+<b class="fc">&nbsp;    setLocQualityIssueType(ITSIssueType.Style);</b>
+<b class="fc">&nbsp;    addExamplePair(Example.wrong(&quot;&lt;marker&gt;fatal outcome&lt;/marker&gt;&quot;),</b>
+<b class="fc">&nbsp;                   Example.fixed(&quot;&lt;marker&gt;death&lt;/marker&gt;&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final String getId() {
+<b class="fc">&nbsp;    return EN_PLAIN_ENGLISH_REPLACE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="fc">&nbsp;    return &quot;1. Wordiness (General)&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getShort() {
+<b class="fc">&nbsp;    return &quot;Wordiness&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getMessage() {
+<b class="fc">&nbsp;    return &quot;&#39;$match&#39; is a wordy or complex expression. In some cases, it might be preferable to use $suggestions.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getSuggestionsSeparator() {
+<b class="nc">&nbsp;    return &quot; or &quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public URL getUrl() {
+<b class="nc">&nbsp;    return Tools.getUrl(&quot;https://en.wikipedia.org/wiki/List_of_plain_English_words_and_phrases&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Locale getLocale() {
+<b class="nc">&nbsp;    return EN_LOCALE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

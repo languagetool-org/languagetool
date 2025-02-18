@@ -1,0 +1,290 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DativePluralsData</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ga</a>
+</div>
+
+<h1>Coverage Summary for Class: DativePluralsData (org.languagetool.rules.ga)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DativePluralsData</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/52)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/92)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Jim O&#39;Regan
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ga;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.tagging.ga.Utils;
+&nbsp;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.*;
+&nbsp;
+<b class="nc">&nbsp;final class DativePluralsData {</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Set&lt;DativePluralsEntry&gt; datives = loadWords(&quot;/ga/dative-plurals.txt&quot;);</b>
+<b class="nc">&nbsp;  private static final Map&lt;String, String&gt; modernisations = getModernisations(datives);</b>
+<b class="nc">&nbsp;  private static final Map&lt;String, String&gt; simpleReplacements = buildSimpleReplacements(datives);</b>
+&nbsp;
+&nbsp;  public static Map&lt;String, String&gt; getModernisations() {
+<b class="nc">&nbsp;    return modernisations;</b>
+&nbsp;  }
+&nbsp;  public static Map&lt;String, String&gt; getSimpleReplacements() {
+<b class="nc">&nbsp;    return simpleReplacements;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Load words.
+&nbsp;   */
+&nbsp;  private static Set&lt;DativePluralsEntry&gt; loadWords(String path) {
+<b class="nc">&nbsp;    Set&lt;DativePluralsEntry&gt; set = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);</b>
+<b class="nc">&nbsp;    try (Scanner scanner = new Scanner(stream, &quot;utf-8&quot;)) {</b>
+<b class="nc">&nbsp;      while (scanner.hasNextLine()) {</b>
+<b class="nc">&nbsp;        String line = scanner.nextLine().trim();</b>
+<b class="nc">&nbsp;        if (line.isEmpty() || line.charAt(0) == &#39;#&#39;) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        String[] parts = line.split(&quot;;&quot;);</b>
+<b class="nc">&nbsp;        if (parts.length != 4) {</b>
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Incorrect number of fields: &quot; + line);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String form = parts[0];</b>
+<b class="nc">&nbsp;        String formModern = null;</b>
+<b class="nc">&nbsp;        if (form.contains(&quot;:&quot;)) {</b>
+<b class="nc">&nbsp;          String[] forms = form.split(&quot;:&quot;);</b>
+<b class="nc">&nbsp;          if (forms.length != 2) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Form has more than 1 modern form:&quot; + line);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          form = forms[0];</b>
+<b class="nc">&nbsp;          formModern = forms[1];</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String repl = parts[3];</b>
+<b class="nc">&nbsp;        String replModern = null;</b>
+<b class="nc">&nbsp;        if (repl.contains(&quot;:&quot;)) {</b>
+<b class="nc">&nbsp;          String[] repls = repl.split(&quot;:&quot;);</b>
+<b class="nc">&nbsp;          if (repls.length != 2) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Replacement has more than 1 modern form:&quot; + line);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          repl = repls[0];</b>
+<b class="nc">&nbsp;          replModern = repls[1];</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String lemma = parts[1];</b>
+<b class="nc">&nbsp;        String lemmaModern = null;</b>
+<b class="nc">&nbsp;        if (lemma.contains(&quot;:&quot;)) {</b>
+<b class="nc">&nbsp;          String[] lemmata = lemma.split(&quot;:&quot;);</b>
+<b class="nc">&nbsp;          if (lemmata.length != 2) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Lemma has more than 1 modern form:&quot; + line);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          lemma = lemmata[0];</b>
+<b class="nc">&nbsp;          lemmaModern = lemmata[1];</b>
+&nbsp;        }
+<b class="nc">&nbsp;        DativePluralsEntry entry = new DativePluralsEntry(form, lemma, parts[2], repl);</b>
+<b class="nc">&nbsp;        if (formModern != null) {</b>
+<b class="nc">&nbsp;          entry.setModernised(formModern);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (replModern != null) {</b>
+<b class="nc">&nbsp;          entry.setEquivalent(replModern);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (lemmaModern != null) {</b>
+<b class="nc">&nbsp;          entry.setModernLemma(lemmaModern);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        set.add(entry);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return Collections.unmodifiableSet(set);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static Map&lt;String, String&gt; buildSimpleReplacements(Set&lt;DativePluralsEntry&gt; datives) {
+<b class="nc">&nbsp;    Map&lt;String, String&gt; out = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (DativePluralsEntry entry : datives) {</b>
+<b class="nc">&nbsp;      out.put(entry.getForm(), entry.getStandard());</b>
+<b class="nc">&nbsp;      String lenitedForm = Utils.lenite(entry.getForm());</b>
+<b class="nc">&nbsp;      String lenitedRepl = Utils.lenite(entry.getStandard());</b>
+<b class="nc">&nbsp;      if (!lenitedForm.equals(entry.getForm())) {</b>
+<b class="nc">&nbsp;        out.put(lenitedForm, lenitedRepl);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String eclipsedForm = Utils.eclipse(entry.getForm());</b>
+<b class="nc">&nbsp;      String eclipsedRepl = Utils.eclipse(entry.getStandard());</b>
+<b class="nc">&nbsp;      if (!eclipsedForm.equals(entry.getForm())) {</b>
+<b class="nc">&nbsp;        out.put(eclipsedForm, eclipsedRepl);</b>
+&nbsp;      }
+&nbsp;      // h-prothesis
+<b class="nc">&nbsp;      if (Utils.isVowel(entry.getForm().charAt(0))) {</b>
+<b class="nc">&nbsp;        out.put(&quot;h&quot; + entry.getForm(), &quot;h&quot; + entry.getStandard());</b>
+<b class="nc">&nbsp;        out.put(&quot;h-&quot; + entry.getForm(), &quot;h&quot; + entry.getStandard());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (entry.hasModernised()) {</b>
+<b class="nc">&nbsp;        out.put(entry.getModern(), entry.getStandard());</b>
+<b class="nc">&nbsp;        lenitedForm = Utils.lenite(entry.getModern());</b>
+<b class="nc">&nbsp;        lenitedRepl = Utils.lenite(entry.getStandard());</b>
+<b class="nc">&nbsp;        if (!lenitedForm.equals(entry.getModern())) {</b>
+<b class="nc">&nbsp;          out.put(lenitedForm, lenitedRepl);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        eclipsedForm = Utils.eclipse(entry.getModern());</b>
+<b class="nc">&nbsp;        eclipsedRepl = Utils.eclipse(entry.getStandard());</b>
+<b class="nc">&nbsp;        if (!eclipsedForm.equals(entry.getModern())) {</b>
+<b class="nc">&nbsp;          out.put(eclipsedForm, eclipsedRepl);</b>
+&nbsp;        }
+&nbsp;        // h-prothesis
+<b class="nc">&nbsp;        if (Utils.isVowel(entry.getModern().charAt(0))) {</b>
+<b class="nc">&nbsp;          out.put(&quot;h&quot; + entry.getModern(), &quot;h&quot; + entry.getStandard());</b>
+<b class="nc">&nbsp;          out.put(&quot;h-&quot; + entry.getModern(), &quot;h&quot; + entry.getStandard());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return out;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Makes a map of modernisations (i.e., if there is a more modern dative
+&nbsp;   * plural). This is only relevant to Munster Irish.
+&nbsp;   * Additionally generates mutated forms
+&nbsp;   * @param datives data, as loaded from dative-plurals.txt
+&nbsp;   * @return a map of replacements
+&nbsp;   */
+&nbsp;  private static Map&lt;String, String&gt; getModernisations(Set&lt;DativePluralsEntry&gt; datives) {
+<b class="nc">&nbsp;    Map&lt;String, String&gt; out = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (DativePluralsEntry entry : datives) {</b>
+<b class="nc">&nbsp;      if (entry.hasModernised()) {</b>
+<b class="nc">&nbsp;        out.put(entry.getForm(), entry.getModern());</b>
+<b class="nc">&nbsp;        String lenitedForm = Utils.lenite(entry.getForm());</b>
+<b class="nc">&nbsp;        String lenitedRepl = Utils.lenite(entry.getReplacement());</b>
+<b class="nc">&nbsp;        if (!lenitedForm.equals(entry.getForm())) {</b>
+<b class="nc">&nbsp;          out.put(lenitedForm, lenitedRepl);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String eclipsedForm = Utils.eclipse(entry.getForm());</b>
+<b class="nc">&nbsp;        String eclipsedRepl = Utils.eclipse(entry.getReplacement());</b>
+<b class="nc">&nbsp;        if (!eclipsedForm.equals(entry.getForm())) {</b>
+<b class="nc">&nbsp;          out.put(eclipsedForm, eclipsedRepl);</b>
+&nbsp;        }
+&nbsp;        // h-prothesis
+<b class="nc">&nbsp;        if (Utils.isVowel(entry.getForm().charAt(0))) {</b>
+<b class="nc">&nbsp;          out.put(&quot;h&quot; + entry.getForm(), &quot;h&quot; + entry.getModern());</b>
+<b class="nc">&nbsp;          out.put(&quot;h-&quot; + entry.getForm(), &quot;h&quot; + entry.getModern());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return out;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

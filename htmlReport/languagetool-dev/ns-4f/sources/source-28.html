@@ -1,0 +1,429 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RequestLimiter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: RequestLimiter (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RequestLimiter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/84)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/104)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RequestLimiter$RequestEvent</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/84)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/112)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.CopyOnWriteArrayList;
+&nbsp;
+&nbsp;/**
+&nbsp; * Limit the maximum number of request per IP address for a given time range.
+&nbsp; */
+&nbsp;class RequestLimiter {
+&nbsp;
+&nbsp;  // TODO: this only works if the period covered is larger than requestLimitPeriodInSeconds -
+&nbsp;  // we should add a sanity check that warns if that&#39;s not the case
+&nbsp;  static final int REQUEST_QUEUE_SIZE = 1000;
+&nbsp;
+<b class="nc">&nbsp;  final List&lt;RequestEvent&gt; requestEvents = new CopyOnWriteArrayList&lt;&gt;();</b>
+&nbsp;  
+&nbsp;  private final int ipFingerprintFactor;
+&nbsp;  private final List&lt;String&gt; whitelistUsers;
+&nbsp;  private final int whitelistLimit;
+&nbsp;  private final int requestLimit;
+&nbsp;  private final int ipRequestLimit;
+&nbsp;  private final int requestLimitInBytes;
+&nbsp;  private final int ipRequestLimitInBytes;
+&nbsp;  private final int requestLimitPeriodInSeconds;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param requestLimit the maximum number of request per &lt;tt&gt;requestLimitPeriodInSeconds&lt;/tt&gt;
+&nbsp;   * @param requestLimitPeriodInSeconds the time period over which requests are considered, in seconds
+&nbsp;   * @param ipFingerprintFactor allow limits x times larger per ip when fingerprints differ
+&nbsp;   *                            (i.e. assume there may be a maximum of x users behind the same ip)
+&nbsp;   */
+&nbsp;  RequestLimiter(int requestLimit, int requestLimitInBytes, int requestLimitPeriodInSeconds, int ipFingerprintFactor,
+<b class="nc">&nbsp;                 List&lt;String&gt; whitelistUsers, int whitelistLimit) {</b>
+<b class="nc">&nbsp;    this.requestLimit = requestLimit;</b>
+<b class="nc">&nbsp;    this.requestLimitInBytes = requestLimitInBytes;</b>
+<b class="nc">&nbsp;    this.requestLimitPeriodInSeconds = requestLimitPeriodInSeconds;</b>
+<b class="nc">&nbsp;    this.ipFingerprintFactor = ipFingerprintFactor;</b>
+<b class="nc">&nbsp;    this.whitelistUsers = whitelistUsers != null ? whitelistUsers : Collections.emptyList();</b>
+<b class="nc">&nbsp;    this.whitelistLimit = whitelistLimit;</b>
+<b class="nc">&nbsp;    if (ipFingerprintFactor &gt; 0) {</b>
+<b class="nc">&nbsp;      this.ipRequestLimit = requestLimit * ipFingerprintFactor;</b>
+<b class="nc">&nbsp;      this.ipRequestLimitInBytes = requestLimitInBytes * ipFingerprintFactor;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      this.ipRequestLimit = requestLimit;</b>
+<b class="nc">&nbsp;      this.ipRequestLimitInBytes = requestLimitInBytes;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  RequestLimiter(int requestLimit, int requestLimitInBytes, int requestLimitPeriodInSeconds, int ipFingerprintFactor) {
+<b class="nc">&nbsp;    this(requestLimit, requestLimitInBytes, requestLimitPeriodInSeconds, ipFingerprintFactor, null, 0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  RequestLimiter(int requestLimit, int requestLimitInBytes, int requestLimitPeriodInSeconds) {
+<b class="nc">&nbsp;    this(requestLimit, requestLimitInBytes, requestLimitPeriodInSeconds, 1);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The maximum number of request per {@link #getRequestLimitPeriodInSeconds()}.
+&nbsp;   */
+&nbsp;  int getRequestLimit() {
+<b class="nc">&nbsp;    return requestLimit;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The maximum number of request bytes per {@link #getRequestLimitPeriodInSeconds()}.
+&nbsp;   * @since 4.0
+&nbsp;   */
+&nbsp;  int getRequestLimitInBytes() {
+<b class="nc">&nbsp;    return requestLimitInBytes;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The time period over which requests are considered, in seconds.
+&nbsp;   */
+&nbsp;  int getRequestLimitPeriodInSeconds() {
+<b class="nc">&nbsp;    return requestLimitPeriodInSeconds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String computeFingerprint(Map&lt;String, List&lt;String&gt;&gt; httpHeader, Map&lt;String, String&gt; parameters) {
+<b class="nc">&nbsp;    List&lt;String&gt; empty = Collections.singletonList(&quot;&quot;);</b>
+<b class="nc">&nbsp;    String separator = &quot;|&quot;;</b>
+<b class="nc">&nbsp;    List&lt;String&gt; fields = new LinkedList&lt;&gt;();</b>
+<b class="nc">&nbsp;    fields.add(String.join(separator, httpHeader.getOrDefault(&quot;User-Agent&quot;, empty)));</b>
+<b class="nc">&nbsp;    fields.add(String.join(separator, httpHeader.getOrDefault(&quot;Accept-Language&quot;, empty)));</b>
+<b class="nc">&nbsp;    fields.add(String.join(separator, httpHeader.getOrDefault(&quot;Referer&quot;, empty)));</b>
+<b class="nc">&nbsp;    fields.add(String.join(separator, parameters.getOrDefault(&quot;textSessionId&quot;, &quot;&quot;)));</b>
+<b class="nc">&nbsp;    return String.join(separator, fields);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param ipAddress the client&#39;s IP address
+&nbsp;   * @throws TooManyRequestsException if access is not allowed because the request limit is reached
+&nbsp;   */
+&nbsp;  void checkAccess(String ipAddress, Map&lt;String, String&gt; params, Map&lt;String, List&lt;String&gt;&gt; httpHeader, UserLimits userLimits) {
+<b class="nc">&nbsp;    if (userLimits.getSkipLimits()) {</b>
+&nbsp;      // internal special case for e.g. nightly tests
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    int reqSize = getRequestSize(params);</b>
+<b class="nc">&nbsp;    while (requestEvents.size() &gt; REQUEST_QUEUE_SIZE) {</b>
+<b class="nc">&nbsp;      requestEvents.remove(0);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    requestEvents.add(new RequestEvent(ipAddress, new Date(), reqSize, computeFingerprint(httpHeader, params), ServerTools.getMode(params)));</b>
+<b class="nc">&nbsp;    checkLimit(ipAddress, params, httpHeader);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int getRequestSize(Map&lt;String, String&gt; params) {
+<b class="nc">&nbsp;    String text = params.get(&quot;text&quot;);</b>
+<b class="nc">&nbsp;    if (text != null) {</b>
+<b class="nc">&nbsp;      return text.length();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      String data = params.get(&quot;data&quot;);</b>
+<b class="nc">&nbsp;      if (data != null) {</b>
+<b class="nc">&nbsp;        return data.length();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Long getClientId(Map&lt;String, String&gt; parameters) {
+<b class="nc">&nbsp;    if (DatabaseLogger.getInstance().isLogging()) {</b>
+<b class="nc">&nbsp;      DatabaseAccess db = DatabaseAccess.getInstance();</b>
+<b class="nc">&nbsp;      String paramValue = parameters.get(&quot;useragent&quot;);</b>
+<b class="nc">&nbsp;      if (paramValue == null) {</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return db.getOrCreateClientId(paramValue);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getReferer(Map&lt;String, List&lt;String&gt;&gt; httpHeader) {
+<b class="nc">&nbsp;    List&lt;String&gt; values = httpHeader.get(&quot;Referer&quot;);</b>
+<b class="nc">&nbsp;    if (values == null || values.isEmpty()) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return values.get(0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getUserAgent(Map&lt;String, List&lt;String&gt;&gt; httpHeader) {
+<b class="nc">&nbsp;    List&lt;String&gt; values = httpHeader.get(&quot;User-Agent&quot;);</b>
+<b class="nc">&nbsp;    if (values == null || values.isEmpty()) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return values.get(0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static void checkUserLimit(String referer, String userAgent, UserLimits user) {
+<b class="nc">&nbsp;    Long maxRequests = user.getRequestsPerDay();</b>
+<b class="nc">&nbsp;    if (user.getPremiumUid() != null</b>
+&nbsp;      &amp;&amp; maxRequests != null
+<b class="nc">&nbsp;      &amp;&amp; user.getLimitEnforcementMode() != LimitEnforcementMode.DISABLED) {</b>
+<b class="nc">&nbsp;      if (user.getLimitEnforcementMode() == LimitEnforcementMode.PER_DAY) {</b>
+<b class="nc">&nbsp;        Long requestCount = DatabaseAccess.getInstance().getUserRequestCount(user.getPremiumUid());</b>
+&nbsp;        //System.out.printf(&quot;requests for %d: %d / %d%n&quot;, user.getPremiumUid(), requestCount, maxRequests);
+<b class="nc">&nbsp;        if (requestCount &gt; maxRequests) {</b>
+<b class="nc">&nbsp;          String message = &quot;limit: &quot; + maxRequests + &quot;, requests: &quot; + requestCount + &quot;, enforcement: &quot; + user.getLimitEnforcementMode().name();</b>
+<b class="nc">&nbsp;          throw new TooManyRequestsException(&quot;User request limit of &quot; + maxRequests + &quot; per day exceeded. Try again after midnight UTC.&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  void checkLimit(String ipAddress, Map&lt;String, String&gt; parameters, Map&lt;String, List&lt;String&gt;&gt; httpHeader) {
+<b class="nc">&nbsp;    int requestsByIp = 0;</b>
+<b class="nc">&nbsp;    int requestSizeByIp = 0;</b>
+<b class="nc">&nbsp;    int requestsByFingerprint = 0;</b>
+<b class="nc">&nbsp;    int requestSizeByFingerprint = 0;</b>
+&nbsp;    // all requests before this date are considered old:
+<b class="nc">&nbsp;    Date thresholdDate = new Date(System.currentTimeMillis() - requestLimitPeriodInSeconds * 1000L);</b>
+<b class="nc">&nbsp;    String fingerprint = computeFingerprint(httpHeader, parameters);</b>
+<b class="nc">&nbsp;    String referer = getReferer(httpHeader);</b>
+<b class="nc">&nbsp;    String userAgent = getUserAgent(httpHeader);</b>
+<b class="nc">&nbsp;    Long clientId = getClientId(parameters);</b>
+<b class="nc">&nbsp;    String user = parameters.get(&quot;username&quot;);</b>
+<b class="nc">&nbsp;    boolean whitelistedUser = user != null &amp;&amp; whitelistUsers.contains(user);</b>
+<b class="nc">&nbsp;    for (RequestEvent event : requestEvents) {</b>
+<b class="nc">&nbsp;      if (event.ip.equals(ipAddress) &amp;&amp; event.date.after(thresholdDate)) {</b>
+&nbsp;        // text level rules cause much less load, so count them accordingly
+<b class="nc">&nbsp;        float modeFactor = event.mode == JLanguageTool.Mode.TEXTLEVEL_ONLY ? 0.1f : 1f;</b>
+<b class="nc">&nbsp;        requestsByIp++;</b>
+<b class="nc">&nbsp;        requestSizeByIp += event.getSizeInBytes() * modeFactor;</b>
+<b class="nc">&nbsp;        if (whitelistedUser) {</b>
+<b class="nc">&nbsp;          if (whitelistLimit &lt;= 0 || requestsByIp &lt; whitelistLimit) {</b>
+&nbsp;            continue;
+&nbsp;          } else {
+<b class="nc">&nbsp;            String msg = &quot;limit: &quot; + ipRequestLimit + &quot; / &quot; + requestLimitPeriodInSeconds + &quot;, requests: &quot;  + requestsByIp + &quot;, ip: &quot; + ipAddress + &quot;, fingerprint: &quot; + fingerprint;</b>
+<b class="nc">&nbsp;            throw new TooManyRequestsException(&quot;Whitelist request limit of &quot; + whitelistLimit + &quot; requests per &quot; +</b>
+&nbsp;              requestLimitPeriodInSeconds + &quot; seconds exceeded&quot;);
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        if (event.fingerprint.equals(fingerprint)) {</b>
+<b class="nc">&nbsp;          requestsByFingerprint++;</b>
+<b class="nc">&nbsp;          requestSizeByFingerprint += event.getSizeInBytes() * modeFactor;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (ipFingerprintFactor &gt; 0 &amp;&amp; requestLimit &gt; 0 &amp;&amp; requestsByFingerprint &gt; requestLimit) {</b>
+<b class="nc">&nbsp;          String msg = &quot;limit: &quot; + requestLimit + &quot; / &quot; + requestLimitPeriodInSeconds + &quot;, requests: &quot;  + requestsByIp + &quot;, ip: &quot; + ipAddress + &quot;, fingerprint: &quot; + fingerprint;</b>
+<b class="nc">&nbsp;          throw new TooManyRequestsException(&quot;Client request limit of &quot; + requestLimit + &quot; requests per &quot; +</b>
+&nbsp;            requestLimitPeriodInSeconds + &quot; seconds exceeded&quot;); }
+<b class="nc">&nbsp;        if (requestLimit &gt; 0 &amp;&amp; requestsByIp &gt; ipRequestLimit) {</b>
+<b class="nc">&nbsp;          String msg = &quot;limit: &quot; + ipRequestLimit + &quot; / &quot; + requestLimitPeriodInSeconds + &quot;, requests: &quot;  + requestsByIp + &quot;, ip: &quot; + ipAddress + &quot;, fingerprint: &quot; + fingerprint;</b>
+<b class="nc">&nbsp;          throw new TooManyRequestsException(&quot;IP request limit of &quot; + ipRequestLimit + &quot; requests per &quot; +</b>
+&nbsp;            requestLimitPeriodInSeconds + &quot; seconds exceeded&quot;);
+&nbsp;        }
+<b class="nc">&nbsp;        if (event.mode == JLanguageTool.Mode.TEXTLEVEL_ONLY) {</b>
+<b class="nc">&nbsp;          if (ipFingerprintFactor &gt; 0 &amp;&amp; requestLimitInBytes &gt; 0 &amp;&amp; requestSizeByFingerprint &gt; requestLimitInBytes) {</b>
+<b class="nc">&nbsp;            String msg = &quot;limit in Mode.TEXTLEVEL_ONLY: &quot; + requestLimitInBytes + &quot; / &quot; + requestLimitPeriodInSeconds + &quot;, request size: &quot;  + requestSizeByIp + &quot;, ip: &quot; + ipAddress + &quot;, fingerprint: &quot; + fingerprint;</b>
+<b class="nc">&nbsp;            throw new TooManyRequestsException(&quot;Client request size limit of &quot; + requestLimitInBytes + &quot; bytes per &quot; +</b>
+&nbsp;              requestLimitPeriodInSeconds + &quot; seconds exceeded in text-level checks&quot;);
+&nbsp;          }
+<b class="nc">&nbsp;          if (requestLimitInBytes &gt; 0 &amp;&amp; requestSizeByIp &gt; ipRequestLimitInBytes) {</b>
+<b class="nc">&nbsp;            String msg = &quot;limit in Mode.TEXTLEVEL_ONLY: &quot; + ipRequestLimitInBytes + &quot; / &quot; + requestLimitPeriodInSeconds + &quot;, request size: &quot;  + requestSizeByIp + &quot;, ip: &quot; + ipAddress + &quot;, fingerprint: &quot; + fingerprint;</b>
+<b class="nc">&nbsp;            throw new TooManyRequestsException(&quot;IP request size limit of &quot; + ipRequestLimitInBytes + &quot; bytes per &quot; +</b>
+&nbsp;              requestLimitPeriodInSeconds + &quot; seconds exceeded in text-level checks&quot;);
+&nbsp;          }
+&nbsp;        } else {
+<b class="nc">&nbsp;          if (ipFingerprintFactor &gt; 0 &amp;&amp; requestLimitInBytes &gt; 0 &amp;&amp; requestSizeByFingerprint &gt; requestLimitInBytes) {</b>
+<b class="nc">&nbsp;            String msg = &quot;limit: &quot; + requestLimitInBytes + &quot; / &quot; + requestLimitPeriodInSeconds + &quot;, request size: &quot;  + requestSizeByIp + &quot;, ip: &quot; + ipAddress + &quot;, fingerprint: &quot; + fingerprint;</b>
+<b class="nc">&nbsp;            throw new TooManyRequestsException(&quot;Client request size limit of &quot; + requestLimitInBytes + &quot; bytes per &quot; +</b>
+&nbsp;              requestLimitPeriodInSeconds + &quot; seconds exceeded&quot;);
+&nbsp;          }
+<b class="nc">&nbsp;          if (requestLimitInBytes &gt; 0 &amp;&amp; requestSizeByIp &gt; ipRequestLimitInBytes) {</b>
+<b class="nc">&nbsp;            String msg = &quot;limit: &quot; + ipRequestLimitInBytes + &quot; / &quot; + requestLimitPeriodInSeconds + &quot;, request size: &quot;  + requestSizeByIp + &quot;, ip: &quot; + ipAddress + &quot;, fingerprint: &quot; + fingerprint;</b>
+<b class="nc">&nbsp;            throw new TooManyRequestsException(&quot;IP request size limit of &quot; + ipRequestLimitInBytes + &quot; bytes per &quot; +</b>
+&nbsp;              requestLimitPeriodInSeconds + &quot; seconds exceeded&quot;);
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  protected static class RequestEvent {
+&nbsp;
+&nbsp;    private final String ip;
+&nbsp;    private final Date date;
+&nbsp;    private final int sizeInBytes;
+&nbsp;    private final String fingerprint;
+&nbsp;    private final JLanguageTool.Mode mode;
+&nbsp;
+<b class="nc">&nbsp;    RequestEvent(String ip, Date date, int sizeInBytes, String fingerprint, JLanguageTool.Mode mode) {</b>
+<b class="nc">&nbsp;      this.ip = ip;</b>
+<b class="nc">&nbsp;      this.date = new Date(date.getTime());</b>
+<b class="nc">&nbsp;      this.sizeInBytes = sizeInBytes;</b>
+<b class="nc">&nbsp;      this.fingerprint = fingerprint;</b>
+<b class="nc">&nbsp;      this.mode = mode;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected Date getDate() {
+<b class="nc">&nbsp;      return date;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    int getSizeInBytes() {
+<b class="nc">&nbsp;      return sizeInBytes;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

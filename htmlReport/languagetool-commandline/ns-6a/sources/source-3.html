@@ -1,0 +1,1101 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GermanTagger</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.de</a>
+</div>
+
+<h1>Coverage Summary for Class: GermanTagger (org.languagetool.tagging.de)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GermanTagger</td>
+<td class="coverageStat">
+  <span class="percent">
+    84.2%
+  </span>
+  <span class="absValue">
+    (16/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    24.7%
+  </span>
+  <span class="absValue">
+    (113/457)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    47.3%
+  </span>
+  <span class="absValue">
+    (211/446)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GermanTagger$AdjInfo</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">GermanTagger$ExpansionInfos</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">GermanTagger$NominalizedGenitiveVerb</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">GermanTagger$NominalizedVerb</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">GermanTagger$PrefixInfixVerb</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (21/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    24.7%
+  </span>
+  <span class="absValue">
+    (113/457)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    49.5%
+  </span>
+  <span class="absValue">
+    (230/465)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tagging.de;
+&nbsp;
+&nbsp;import com.google.common.base.Suppliers;
+&nbsp;import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+&nbsp;import org.apache.commons.lang3.RegExUtils;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.spelling.CachingWordListLoader;
+&nbsp;import org.languagetool.synthesis.GermanSynthesizer;
+&nbsp;import org.languagetool.tagging.BaseTagger;
+&nbsp;import org.languagetool.tagging.CombiningTagger;
+&nbsp;import org.languagetool.tagging.ManualTagger;
+&nbsp;import org.languagetool.tagging.TaggedWord;
+&nbsp;import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Supplier;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static java.util.Arrays.asList;
+&nbsp;import static java.util.regex.Pattern.compile;
+&nbsp;import static org.languagetool.tools.StringInterner.intern;
+&nbsp;import static org.languagetool.tools.StringTools.uppercaseFirstChar;
+&nbsp;
+&nbsp;/**
+&nbsp; * German part-of-speech tagger, requires data file in &lt;code&gt;de/german.dict&lt;/code&gt; in the classpath.
+&nbsp; * The POS tagset is described in
+&nbsp; * &lt;a href=&quot;https://github.com/languagetool-org/languagetool/blob/master/languagetool-language-modules/de/src/main/resources/org/languagetool/resource/de/tagset.txt&quot;&gt;tagset.txt&lt;/a&gt;
+&nbsp; *
+&nbsp; * @author Marcin Milkowski, Daniel Naber
+&nbsp; */
+&nbsp;public class GermanTagger extends BaseTagger {
+&nbsp;
+<b class="fc">&nbsp;  private static final List&lt;String&gt; allAdjGruTags = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;  private static final Pattern mitarbeitendenPattern = compile(&quot;[A-ZÖÄÜ][a-zöäüß]{2,25}mitarbeitenden?&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern genderGapChars = compile(&quot;[*:_/]&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern afterAsterisk = compile(&quot;in(nen)?|r|e&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern innenPattern1 = compile(&quot;in(nen)-[A-ZÖÄÜ][a-zöäüß-]+&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern anythingDash = compile(&quot;.*-&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern innenPattern2 = compile(&quot;innen[a-zöäüß-]+&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern DDD_ER_PATTERN = compile(&quot;\\d{4}+er&quot;);</b>
+&nbsp;
+&nbsp;  static {
+<b class="fc">&nbsp;    for (String nomAkkGenDat : asList(&quot;NOM&quot;, &quot;AKK&quot;, &quot;GEN&quot;, &quot;DAT&quot;)) {</b>
+<b class="fc">&nbsp;      for (String pluSin : asList(&quot;PLU&quot;, &quot;SIN&quot;)) {</b>
+<b class="fc">&nbsp;        for (String masFemNeu : asList(&quot;MAS&quot;, &quot;FEM&quot;, &quot;NEU&quot;)) {</b>
+<b class="fc">&nbsp;          for (String defIndSol : asList(&quot;DEF&quot;, &quot;IND&quot;, &quot;SOL&quot;)) {</b>
+<b class="fc">&nbsp;            allAdjGruTags.add(&quot;ADJ:&quot; + nomAkkGenDat + &quot;:&quot; + pluSin + &quot;:&quot; + masFemNeu + &quot;:GRU:&quot; + defIndSol);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  // do not add noun tags to these words, e.g. don&#39;t add noun tags to &quot;Wegstrecken&quot; for weg_strecken from spelling.txt:
+<b class="fc">&nbsp;  private static final List&lt;String&gt; nounTagExpansionExceptions = Collections.singletonList(&quot;Wegstrecken&quot;);</b>
+&nbsp;
+&nbsp;  // ordered by length: &#39;zurück&#39; &gt; &#39;zu&#39; + &#39;rück&#39;
+<b class="fc">&nbsp;  private static final String[] prefixesSeparableVerbs = new String[] {&quot;gegeneinander&quot;, &quot;durcheinander&quot;, &quot;nebeneinander&quot;, &quot;übereinander&quot;, &quot;aufeinander&quot;, &quot;auseinander&quot;, &quot;beieinander&quot;, &quot;aneinander&quot;, &quot;ineinander&quot;, &quot;zueinander&quot;, &quot;gegenüber&quot;, &quot;beisammen&quot;, &quot;gegenüber&quot;, &quot;hernieder&quot;, &quot;rückwärts&quot;, &quot;wiederauf&quot;, &quot;wiederein&quot;, &quot;wiederher&quot;, &quot;zufrieden&quot;, &quot;zwangsvor&quot;, &quot;entgegen&quot;, &quot;hinunter&quot;, &quot;abhanden&quot;, &quot;aufrecht&quot;, &quot;aufwärts&quot;, &quot;auswärts&quot;, &quot;beiseite&quot;, &quot;danieder&quot;, &quot;drauflos&quot;, &quot;einwärts&quot;, &quot;herunter&quot;, &quot;hindurch&quot;, &quot;verrückt&quot;, &quot;vorwärts&quot;, &quot;zunichte&quot;, &quot;zusammen&quot;, &quot;zwangsum&quot;, &quot;zwischen&quot;, &quot;abseits&quot;, &quot;abwärts&quot;, &quot;entlang&quot;, &quot;hinfort&quot;, &quot;ähnlich&quot;, &quot;daneben&quot;, &quot;general&quot;, &quot;herüber&quot;, &quot;hierher&quot;, &quot;hierhin&quot;, &quot;hinüber&quot;, &quot;schwarz&quot;, &quot;trocken&quot;, &quot;überein&quot;, &quot;vorlieb&quot;, &quot;vorüber&quot;, &quot;wichtig&quot;, &quot;zurecht&quot;, &quot;zuwider&quot;, &quot;hinweg&quot;, &quot;allein&quot;, &quot;besser&quot;, &quot;daheim&quot;, &quot;doppel&quot;, &quot;feinst&quot;, &quot;fertig&quot;, &quot;herauf&quot;, &quot;heraus&quot;, &quot;herbei&quot;, &quot;hinauf&quot;, &quot;hinaus&quot;, &quot;hinein&quot;, &quot;kaputt&quot;, &quot;kennen&quot;, &quot;kürzer&quot;, &quot;mittag&quot;, &quot;nieder&quot;, &quot;runter&quot;, &quot;sicher&quot;, &quot;sitzen&quot;, &quot;voraus&quot;, &quot;vorbei&quot;, &quot;vorweg&quot;, &quot;weiter&quot;, &quot;wieder&quot;, &quot;zugute&quot;, &quot;zurück&quot;, &quot;zwangs&quot;, &quot;abend&quot;, &quot;blank&quot;, &quot;brust&quot;, &quot;dahin&quot;, &quot;davon&quot;, &quot;drauf&quot;, &quot;drein&quot;, &quot;durch&quot;, &quot;einig&quot;, &quot;empor&quot;, &quot;grund&quot;, &quot;herum&quot;, &quot;höher&quot;, &quot;klein&quot;, &quot;knapp&quot;, &quot;krank&quot;, &quot;krumm&quot;, &quot;kugel&quot;, &quot;näher&quot;, &quot;neben&quot;, &quot;offen&quot;, &quot;preis&quot;, &quot;rüber&quot;, &quot;ruhig&quot;, &quot;statt&quot;, &quot;still&quot;, &quot;übrig&quot;, &quot;umher&quot;, &quot;unter&quot;, &quot;voran&quot;, &quot;zweck&quot;, &quot;acht&quot;, &quot;drei&quot;, &quot;fehl&quot;, &quot;feil&quot;, &quot;fort&quot;, &quot;frei&quot;, &quot;groß&quot;, &quot;hand&quot;, &quot;hart&quot;, &quot;heim&quot;, &quot;hier&quot;, &quot;hoch&quot;, &quot;klar&quot;, &quot;lahm&quot;, &quot;miss&quot;, &quot;nach&quot;, &quot;nahe&quot;, &quot;quer&quot;, &quot;rauf&quot;, &quot;raus&quot;, &quot;rein&quot;, &quot;rück&quot;, &quot;satt&quot;, &quot;stoß&quot;, &quot;teil&quot;, &quot;über&quot;, &quot;voll&quot;, &quot;wach&quot;, &quot;wahr&quot;, &quot;warm&quot;, &quot;wert&quot;, &quot;wohl&quot;, &quot;auf&quot;, &quot;aus&quot;, &quot;bei&quot;, &quot;ehe&quot;, &quot;ein&quot;, &quot;eis&quot;, &quot;end&quot;, &quot;her&quot;, &quot;hin&quot;, &quot;los&quot;, &quot;maß&quot;, &quot;mit&quot;, &quot;out&quot;, &quot;ran&quot;, &quot;rum&quot;, &quot;tot&quot;, &quot;vor&quot;, &quot;weg&quot;, &quot;weh&quot;, &quot;ab&quot;, &quot;an&quot;, &quot;da&quot;, &quot;um&quot;, &quot;zu&quot;};</b>
+&nbsp;  private static final String prefixesSeparableVerbsRegexp = &quot;^(gegeneinander|durcheinander|nebeneinander|übereinander|aufeinander|auseinander|beieinander|aneinander|ineinander|zueinander|gegenüber|beisammen|gegenüber|hernieder|rückwärts|wiederauf|wiederein|wiederher|zufrieden|zwangsvor|entgegen|hinunter|abhanden|aufrecht|aufwärts|auswärts|beiseite|danieder|drauflos|einwärts|herunter|hindurch|verrückt|vorwärts|zunichte|zusammen|zwangsum|zwischen|abseits|abwärts|entlang|hinfort|ähnlich|daneben|general|herüber|hierher|hierhin|hinüber|schwarz|trocken|überein|vorlieb|vorüber|wichtig|zurecht|zuwider|hinweg|allein|besser|daheim|doppel|feinst|fertig|herauf|heraus|herbei|hinauf|hinaus|hinein|kaputt|kennen|kürzer|mittag|nieder|runter|sicher|sitzen|voraus|vorbei|vorweg|weiter|wieder|zugute|zurück|zwangs|abend|blank|brust|dahin|davon|drauf|drein|durch|einig|empor|grund|herum|höher|klein|knapp|krank|krumm|kugel|näher|neben|offen|preis|rüber|ruhig|statt|still|übrig|umher|unter|voran|zweck|acht|drei|fehl|feil|fort|frei|groß|hand|hart|heim|hier|hoch|klar|lahm|miss|nach|nahe|quer|rauf|raus|rein|rück|satt|stoß|teil|über|voll|wach|wahr|warm|wert|wohl|auf|aus|bei|ehe|ein|eis|end|her|hin|los|maß|mit|not|out|ran|rum|tot|vor|weg|weh|ab|an|da|um|zu)&quot;;
+<b class="fc">&nbsp;  private static final String[] prefixesNonSeparableVerbs = new String[]{&quot;be&quot;, &quot;emp&quot;, &quot;ent&quot;, &quot;er&quot;, &quot;hinter&quot;, &quot;miss&quot;, &quot;un&quot;, &quot;ver&quot;, &quot;zer&quot;}; //Excludes &quot;ge&quot; (both too rare as verb prefix and prone to FP)</b>
+&nbsp;  private static final String prefixesNonSeparableVerbsRegexp = &quot;^(be|emp|ent|er|hinter|miss|un|ver|zer)&quot;;
+<b class="fc">&nbsp;  private static final String[] prefixesVerbs = new String[] {&quot;gegeneinander&quot;, &quot;durcheinander&quot;, &quot;nebeneinander&quot;, &quot;übereinander&quot;, &quot;aufeinander&quot;, &quot;auseinander&quot;, &quot;beieinander&quot;, &quot;aneinander&quot;, &quot;ineinander&quot;, &quot;zueinander&quot;, &quot;gegenüber&quot;, &quot;beisammen&quot;, &quot;gegenüber&quot;, &quot;hernieder&quot;, &quot;rückwärts&quot;, &quot;wiederauf&quot;, &quot;wiederein&quot;, &quot;wiederher&quot;, &quot;zufrieden&quot;, &quot;zwangsvor&quot;, &quot;entgegen&quot;, &quot;hinunter&quot;, &quot;abhanden&quot;, &quot;aufrecht&quot;, &quot;aufwärts&quot;, &quot;auswärts&quot;, &quot;beiseite&quot;, &quot;danieder&quot;, &quot;drauflos&quot;, &quot;einwärts&quot;, &quot;herunter&quot;, &quot;hindurch&quot;, &quot;verrückt&quot;, &quot;vorwärts&quot;, &quot;zunichte&quot;, &quot;zusammen&quot;, &quot;zwangsum&quot;, &quot;zwischen&quot;, &quot;abseits&quot;, &quot;abwärts&quot;, &quot;entlang&quot;, &quot;hinfort&quot;, &quot;ähnlich&quot;, &quot;daneben&quot;, &quot;general&quot;, &quot;herüber&quot;, &quot;hierher&quot;, &quot;hierhin&quot;, &quot;hinüber&quot;, &quot;schwarz&quot;, &quot;trocken&quot;, &quot;überein&quot;, &quot;vorlieb&quot;, &quot;vorüber&quot;, &quot;wichtig&quot;, &quot;zurecht&quot;, &quot;zuwider&quot;, &quot;hinweg&quot;, &quot;hinter&quot;, &quot;allein&quot;, &quot;besser&quot;, &quot;daheim&quot;, &quot;doppel&quot;, &quot;feinst&quot;, &quot;fertig&quot;, &quot;herauf&quot;, &quot;heraus&quot;, &quot;herbei&quot;, &quot;hinauf&quot;, &quot;hinaus&quot;, &quot;hinein&quot;, &quot;kaputt&quot;, &quot;kennen&quot;, &quot;kürzer&quot;, &quot;mittag&quot;, &quot;nieder&quot;, &quot;runter&quot;, &quot;sicher&quot;, &quot;sitzen&quot;, &quot;voraus&quot;, &quot;vorbei&quot;, &quot;vorweg&quot;, &quot;weiter&quot;, &quot;wieder&quot;, &quot;zugute&quot;, &quot;zurück&quot;, &quot;zwangs&quot;, &quot;abend&quot;, &quot;blank&quot;, &quot;brust&quot;, &quot;dahin&quot;, &quot;davon&quot;, &quot;drauf&quot;, &quot;drein&quot;, &quot;durch&quot;, &quot;einig&quot;, &quot;empor&quot;, &quot;grund&quot;, &quot;herum&quot;, &quot;höher&quot;, &quot;klein&quot;, &quot;knapp&quot;, &quot;krank&quot;, &quot;krumm&quot;, &quot;kugel&quot;, &quot;näher&quot;, &quot;neben&quot;, &quot;offen&quot;, &quot;preis&quot;, &quot;rüber&quot;, &quot;ruhig&quot;, &quot;statt&quot;, &quot;still&quot;, &quot;übrig&quot;, &quot;umher&quot;, &quot;unter&quot;, &quot;voran&quot;, &quot;zweck&quot;, &quot;miss&quot;, &quot;acht&quot;, &quot;drei&quot;, &quot;fehl&quot;, &quot;feil&quot;, &quot;fort&quot;, &quot;frei&quot;, &quot;groß&quot;, &quot;hand&quot;, &quot;hart&quot;, &quot;heim&quot;, &quot;hier&quot;, &quot;hoch&quot;, &quot;klar&quot;, &quot;lahm&quot;, &quot;miss&quot;, &quot;nach&quot;, &quot;nahe&quot;, &quot;quer&quot;, &quot;rauf&quot;, &quot;raus&quot;, &quot;rein&quot;, &quot;rück&quot;, &quot;satt&quot;, &quot;stoß&quot;, &quot;teil&quot;, &quot;über&quot;, &quot;voll&quot;, &quot;wach&quot;, &quot;wahr&quot;, &quot;warm&quot;, &quot;wert&quot;, &quot;wohl&quot;, &quot;emp&quot;, &quot;ent&quot;, &quot;ver&quot;, &quot;zer&quot;, &quot;auf&quot;, &quot;aus&quot;, &quot;bei&quot;, &quot;ehe&quot;, &quot;ein&quot;, &quot;eis&quot;, &quot;end&quot;, &quot;her&quot;, &quot;hin&quot;, &quot;los&quot;, &quot;maß&quot;, &quot;mit&quot;, &quot;out&quot;, &quot;ran&quot;, &quot;rum&quot;, &quot;tot&quot;, &quot;vor&quot;, &quot;weg&quot;, &quot;weh&quot;, &quot;be&quot;, &quot;er&quot;, &quot;un&quot;, &quot;ab&quot;, &quot;an&quot;, &quot;da&quot;, &quot;um&quot;, &quot;zu&quot;};</b>
+&nbsp;  private static final String prefixesVerbsRegexp = &quot;^(gegeneinander|durcheinander|nebeneinander|übereinander|aufeinander|auseinander|beieinander|aneinander|ineinander|zueinander|gegenüber|beisammen|gegenüber|hernieder|rückwärts|wiederauf|wiederein|wiederher|zufrieden|zwangsvor|entgegen|hinunter|abhanden|aufrecht|aufwärts|auswärts|beiseite|danieder|drauflos|einwärts|herunter|hindurch|verrückt|vorwärts|zunichte|zusammen|zwangsum|zwischen|abseits|abwärts|entlang|hinfort|ähnlich|daneben|general|herüber|hierher|hierhin|hinüber|schwarz|trocken|überein|vorlieb|vorüber|wichtig|zurecht|zuwider|hinweg|hinter|allein|besser|daheim|doppel|feinst|fertig|herauf|heraus|herbei|hinauf|hinaus|hinein|kaputt|kennen|kürzer|mittag|nieder|runter|sicher|sitzen|voraus|vorbei|vorweg|weiter|wieder|zugute|zurück|zwangs|abend|blank|brust|dahin|davon|drauf|drein|durch|einig|empor|grund|herum|höher|klein|knapp|krank|krumm|kugel|näher|neben|offen|preis|rüber|ruhig|statt|still|übrig|umher|unter|voran|zweck|miss|acht|drei|fehl|feil|fort|frei|groß|hand|hart|heim|hier|hoch|klar|lahm|miss|nach|nahe|quer|rauf|raus|rein|rück|satt|stoß|teil|über|voll|wach|wahr|warm|wert|wohl|emp|ent|ver|zer|auf|aus|bei|ehe|ein|eis|end|her|hin|los|maß|mit|not|out|ran|rum|tot|vor|weg|weh|be|er|un|ab|an|da|um|zu)&quot;;
+<b class="fc">&nbsp;  private static final String[] partizip2contains1PluPra = new String[]{&quot;blasen&quot;, &quot;fahren&quot;, &quot;fallen&quot;, &quot;fangen&quot;, &quot;fressen&quot;, &quot;geben&quot;, &quot;halten&quot;, &quot;kommen&quot;, &quot;laden&quot;, &quot;lassen&quot;, &quot;laufen&quot;, &quot;lesen&quot;, &quot;messen&quot;, &quot;raten&quot;,  &quot;schlafen&quot;, &quot;schlagen&quot;, &quot;sehen&quot;, &quot;tragen&quot;, &quot;treten&quot;};</b>
+<b class="fc">&nbsp;  private static final String[] partizip2contains1PluPrt = new String[]{&quot;bieten&quot;, &quot;bleiben&quot;, &quot;fliegen&quot;, &quot;fließen&quot;, &quot;heben&quot;, &quot;leiden&quot;, &quot;meiden&quot;, &quot;scheiden&quot;, &quot;schließen&quot;, &quot;schreiben&quot;, &quot;stehen&quot;, &quot;steigen&quot;, &quot;streiten&quot;, &quot;treiben&quot;, &quot;weisen&quot;, &quot;ziehen&quot;};</b>
+<b class="fc">&nbsp;  private static final String[] postagsPartizipEndingE = new String[]{&quot;AKK:PLU:FEM:GRU:SOL:VER&quot;, &quot;AKK:PLU:MAS:GRU:SOL:VER&quot;, &quot;AKK:PLU:NEU:GRU:SOL:VER&quot;, &quot;AKK:SIN:FEM:GRU:DEF:VER&quot;, &quot;AKK:SIN:FEM:GRU:IND:VER&quot;, &quot;AKK:SIN:FEM:GRU:SOL:VER&quot;, &quot;AKK:SIN:NEU:GRU:DEF:VER&quot;, &quot;NOM:PLU:FEM:GRU:SOL:VER&quot;, &quot;NOM:PLU:MAS:GRU:SOL:VER&quot;, &quot;NOM:PLU:NEU:GRU:SOL:VER&quot;, &quot;NOM:SIN:FEM:GRU:DEF:VER&quot;, &quot;NOM:SIN:FEM:GRU:IND:VER&quot;, &quot;NOM:SIN:FEM:GRU:SOL:VER&quot;, &quot;NOM:SIN:MAS:GRU:DEF:VER&quot;, &quot;NOM:SIN:NEU:GRU:DEF:VER&quot;};</b>
+<b class="fc">&nbsp;  private static final String[] postagsPartizipEndingEm = new String[]{&quot;DAT:SIN:MAS:GRU:SOL:VER&quot;, &quot;DAT:SIN:NEU:GRU:SOL:VER&quot;};</b>
+<b class="fc">&nbsp;  private static final String[] postagsPartizipEndingEn = new String[]{&quot;AKK:PLU:FEM:GRU:DEF:VER&quot;, &quot;AKK:PLU:FEM:GRU:IND:VER&quot;, &quot;AKK:PLU:MAS:GRU:DEF:VER&quot;, &quot;AKK:PLU:MAS:GRU:IND:VER&quot;, &quot;AKK:PLU:NEU:GRU:DEF:VER&quot;, &quot;AKK:PLU:NEU:GRU:IND:VER&quot;, &quot;AKK:SIN:MAS:GRU:DEF:VER&quot;, &quot;AKK:SIN:MAS:GRU:IND:VER&quot;, &quot;AKK:SIN:MAS:GRU:SOL:VER&quot;, &quot;DAT:PLU:FEM:GRU:DEF:VER&quot;, &quot;DAT:PLU:FEM:GRU:IND:VER&quot;, &quot;DAT:PLU:FEM:GRU:SOL:VER&quot;, &quot;DAT:PLU:MAS:GRU:DEF:VER&quot;, &quot;DAT:PLU:MAS:GRU:IND:VER&quot;, &quot;DAT:PLU:MAS:GRU:SOL:VER&quot;, &quot;DAT:PLU:NEU:GRU:DEF:VER&quot;, &quot;DAT:PLU:NEU:GRU:IND:VER&quot;, &quot;DAT:PLU:NEU:GRU:SOL:VER&quot;, &quot;DAT:SIN:FEM:GRU:DEF:VER&quot;, &quot;DAT:SIN:FEM:GRU:IND:VER&quot;, &quot;DAT:SIN:MAS:GRU:DEF:VER&quot;, &quot;DAT:SIN:MAS:GRU:IND:VER&quot;, &quot;DAT:SIN:NEU:GRU:DEF:VER&quot;, &quot;DAT:SIN:NEU:GRU:IND:VER&quot;, &quot;GEN:PLU:FEM:GRU:DEF:VER&quot;, &quot;GEN:PLU:FEM:GRU:IND:VER&quot;, &quot;GEN:PLU:MAS:GRU:DEF:VER&quot;, &quot;GEN:PLU:MAS:GRU:IND:VER&quot;, &quot;GEN:PLU:NEU:GRU:DEF:VER&quot;, &quot;GEN:PLU:NEU:GRU:IND:VER&quot;, &quot;GEN:SIN:FEM:GRU:DEF:VER&quot;, &quot;GEN:SIN:FEM:GRU:IND:VER&quot;, &quot;GEN:SIN:MAS:GRU:DEF:VER&quot;, &quot;GEN:SIN:MAS:GRU:IND:VER&quot;, &quot;GEN:SIN:MAS:GRU:SOL:VER&quot;, &quot;GEN:SIN:NEU:GRU:DEF:VER&quot;, &quot;GEN:SIN:NEU:GRU:IND:VER&quot;, &quot;GEN:SIN:NEU:GRU:SOL:VER&quot;, &quot;NOM:PLU:FEM:GRU:DEF:VER&quot;, &quot;NOM:PLU:FEM:GRU:IND:VER&quot;, &quot;NOM:PLU:MAS:GRU:DEF:VER&quot;, &quot;NOM:PLU:MAS:GRU:IND:VER&quot;, &quot;NOM:PLU:NEU:GRU:DEF:VER&quot;, &quot;NOM:PLU:NEU:GRU:IND:VER&quot;};</b>
+<b class="fc">&nbsp;  private static final String[] postagsPartizipEndingEr = new String[]{&quot;DAT:SIN:FEM:GRU:SOL:VER&quot;, &quot;GEN:PLU:FEM:GRU:SOL:VER&quot;, &quot;GEN:PLU:MAS:GRU:SOL:VER&quot;, &quot;GEN:PLU:NEU:GRU:SOL:VER&quot;, &quot;GEN:SIN:FEM:GRU:SOL:VER&quot;, &quot;NOM:SIN:MAS:GRU:IND:VER&quot;, &quot;NOM:SIN:MAS:GRU:SOL:VER&quot;, &quot;DAT:SIN:FEM:GRU:SOL:VER&quot;, &quot;GEN:PLU:FEM:GRU:SOL:VER&quot;, &quot;GEN:PLU:MAS:GRU:SOL:VER&quot;, &quot;GEN:PLU:NEU:GRU:SOL:VER&quot;, &quot;GEN:SIN:FEM:GRU:SOL:VER&quot;, &quot;NOM:SIN:MAS:GRU:IND:VER&quot;, &quot;NOM:SIN:MAS:GRU:SOL:VER&quot;};</b>
+<b class="fc">&nbsp;  private static final String[] postagsPartizipEndingEs = new String[]{&quot;AKK:SIN:NEU:GRU:IND:VER&quot;, &quot;AKK:SIN:NEU:GRU:SOL:VER&quot;, &quot;NOM:SIN:NEU:GRU:IND:VER&quot;, &quot;NOM:SIN:NEU:GRU:SOL:VER&quot;};</b>
+<b class="fc">&nbsp;  private static final String[] notAVerb = new String[]{&quot;angebot&quot;, &quot;anteil&quot;, &quot;aufenthalt&quot;, &quot;ausdruck&quot;, &quot;auswärtsspiel&quot;, &quot;beispiel&quot;, &quot;bereich&quot;, &quot;besondere&quot;, &quot;daring&quot;, &quot;einfach&quot;, &quot;einfachst&quot;, &quot;endkasten&quot;, &quot;freibetrag&quot;, &quot;grautöne&quot;, &quot;grüntöne&quot;, &quot;großherzöge&quot;, &quot;großteil&quot;, &quot;hochhaus&quot;, &quot;klarerweise&quot;, &quot;maßnahme&quot;, &quot;mitglieder&quot;, &quot;nachricht&quot;, &quot;nebenfach&quot;, &quot;niederlage&quot;, &quot;nothing&quot;, &quot;notscheid&quot;, &quot;preisver&quot;, &quot;reinweiß&quot;, &quot;schwarzweiß&quot;, &quot;schwarzgrau&quot;, &quot;schwarzgrün&quot;, &quot;schwarztöne&quot;, &quot;unbesiegt&quot;, &quot;unmenge&quot;, &quot;unrat&quot;, &quot;unver&quot;, &quot;verrückterweise&quot;, &quot;versonnen&quot;, &quot;vorlieb&quot;, &quot;vorteil&quot;, &quot;warmweiß&quot;, &quot;wohldefiniert&quot;, &quot;wohlergehen&quot;, &quot;wohlgemerkt&quot;, &quot;zuende&quot;, &quot;zuhause&quot;, &quot;zumal&quot;, &quot;zuver&quot;, &quot;darauf&quot;, &quot;einmal&quot;, &quot;kleinkram&quot;, &quot;hochsicher&quot;, &quot;ehering&quot;, &quot;freitag&quot;, &quot;großmeister&quot;, &quot;handwerk&quot;, &quot;herpes&quot;, &quot;nachfolger&quot;};</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final List&lt;String&gt; tagsForWeise = new ArrayList&lt;&gt;();</b>
+&nbsp;  static {
+&nbsp;    // &quot;kofferweise&quot;, &quot;idealerweise&quot; etc.
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:AKK:PLU:FEM:GRU:SOL&quot;);</b>
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:AKK:PLU:MAS:GRU:SOL&quot;);</b>
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:AKK:PLU:NEU:GRU:SOL&quot;);</b>
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:AKK:SIN:FEM:GRU:DEF&quot;);</b>
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:AKK:SIN:FEM:GRU:IND&quot;);</b>
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:AKK:SIN:FEM:GRU:SOL&quot;);</b>
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:AKK:SIN:NEU:GRU:DEF&quot;);</b>
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:NOM:PLU:FEM:GRU:SOL&quot;);</b>
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:NOM:PLU:MAS:GRU:SOL&quot;);</b>
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:NOM:PLU:NEU:GRU:SOL&quot;);</b>
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:NOM:SIN:FEM:GRU:DEF&quot;);</b>
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:NOM:SIN:FEM:GRU:IND&quot;);</b>
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:NOM:SIN:FEM:GRU:SOL&quot;);</b>
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:NOM:SIN:MAS:GRU:DEF&quot;);</b>
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:NOM:SIN:NEU:GRU:DEF&quot;);</b>
+<b class="fc">&nbsp;    tagsForWeise.add(&quot;ADJ:PRD:GRU&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private final ManualTagger removalTagger;
+<b class="fc">&nbsp;  private static final Supplier&lt;ExpansionInfos&gt; expansionInfos = Suppliers.memoize(GermanTagger::initExpansionInfos);</b>
+&nbsp;
+<b class="fc">&nbsp;  public static final GermanTagger INSTANCE = new GermanTagger();</b>
+&nbsp;
+&nbsp;  public GermanTagger() {
+<b class="fc">&nbsp;    super(&quot;/de/german.dict&quot;, Locale.GERMAN);</b>
+<b class="fc">&nbsp;    removalTagger = (ManualTagger) ((CombiningTagger) getWordTagger()).getRemovalTagger();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static ExpansionInfos initExpansionInfos() {
+<b class="fc">&nbsp;    Map&lt;String, PrefixInfixVerb&gt; verbInfos = new Object2ObjectOpenHashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    Map&lt;String, NominalizedVerb&gt; nominalizedVerbInfos = new Object2ObjectOpenHashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    Map&lt;String, NominalizedGenitiveVerb&gt; nominalizedGenVerbInfos = new Object2ObjectOpenHashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    Map&lt;String, List&lt;AdjInfo&gt;&gt; adjInfos = new Object2ObjectOpenHashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    String filename = &quot;de/hunspell/spelling.txt&quot;;</b>
+<b class="fc">&nbsp;    List&lt;String&gt; spellingWords = new CachingWordListLoader().loadWords(filename);</b>
+<b class="fc">&nbsp;    for (String line : spellingWords) {</b>
+&nbsp;      // &#39;/A&#39; adds the typical adjective endings, so assume it&#39;s an adjective:
+<b class="pc">&nbsp;      if (line.endsWith(&quot;/PA&quot;) || line.endsWith(&quot;/AP&quot;)) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Use &#39;/P&#39; or &#39;/A&#39;, but not both for a word in &quot; + filename + &quot;: &quot; + line);</b>
+<b class="fc">&nbsp;      } if (line.endsWith(&quot;/P&quot;)) {</b>
+<b class="fc">&nbsp;        String word = line.replaceFirst(&quot;/.*&quot;, &quot;&quot;);</b>
+<b class="fc">&nbsp;        fillAdjInfos(word, &quot;&quot;, toPA2(AdjectiveTags.tagsForAdj), adjInfos);</b>
+<b class="fc">&nbsp;        fillAdjInfos(word, &quot;e&quot;, toPA2(AdjectiveTags.tagsForAdjE), adjInfos);</b>
+<b class="fc">&nbsp;        fillAdjInfos(word, &quot;en&quot;, toPA2(AdjectiveTags.tagsForAdjEn), adjInfos);</b>
+<b class="fc">&nbsp;        fillAdjInfos(word, &quot;er&quot;, toPA2(AdjectiveTags.tagsForAdjEr), adjInfos);</b>
+<b class="fc">&nbsp;        fillAdjInfos(word, &quot;em&quot;, toPA2(AdjectiveTags.tagsForAdjEm), adjInfos);</b>
+<b class="fc">&nbsp;        fillAdjInfos(word, &quot;es&quot;, toPA2(AdjectiveTags.tagsForAdjEs), adjInfos);</b>
+<b class="fc">&nbsp;      } else if (line.endsWith(&quot;/A&quot;) &amp;&amp;</b>
+<b class="fc">&nbsp;          !line.endsWith(&quot;ste/A&quot;) &amp;&amp;  // don&#39;t tag e.g. &quot;fünftjünste/A&quot;, would miss the comparative tagging</b>
+<b class="fc">&nbsp;          !line.endsWith(&quot;er/A&quot;)) {   // don&#39;t tag e.g. &quot;margenstärker/A&quot;, would miss the comparative tagging</b>
+<b class="fc">&nbsp;        String word = line.replaceFirst(&quot;/.*&quot;, &quot;&quot;);</b>
+<b class="fc">&nbsp;        fillAdjInfos(word, &quot;&quot;,  AdjectiveTags.tagsForAdj, adjInfos);</b>
+<b class="fc">&nbsp;        fillAdjInfos(word, &quot;e&quot;,  AdjectiveTags.tagsForAdjE, adjInfos);</b>
+<b class="fc">&nbsp;        fillAdjInfos(word, &quot;en&quot;, AdjectiveTags.tagsForAdjEn, adjInfos);</b>
+<b class="fc">&nbsp;        fillAdjInfos(word, &quot;er&quot;, AdjectiveTags.tagsForAdjEr, adjInfos);</b>
+<b class="fc">&nbsp;        fillAdjInfos(word, &quot;em&quot;, AdjectiveTags.tagsForAdjEm, adjInfos);</b>
+<b class="fc">&nbsp;        fillAdjInfos(word, &quot;es&quot;, AdjectiveTags.tagsForAdjEs, adjInfos);</b>
+<b class="fc">&nbsp;      } else if (line.contains(&quot;_&quot;) &amp;&amp; !line.endsWith(&quot;_in&quot;)) {</b>
+<b class="fc">&nbsp;        String[] parts = line.replace(&quot;#.*&quot;, &quot;&quot;).trim().split(&quot;_&quot;);</b>
+<b class="fc">&nbsp;        String prefix = parts[0];</b>
+<b class="fc">&nbsp;        String verbBaseform = parts[1];</b>
+&nbsp;        try {
+<b class="fc">&nbsp;          String[] forms = GermanSynthesizer.INSTANCE.synthesizeForPosTags(verbBaseform, s -&gt; s.startsWith(&quot;VER:&quot;));</b>
+<b class="fc">&nbsp;          for (String form : forms) {</b>
+<b class="fc">&nbsp;            if (!form.contains(&quot;ß&quot;)) {  // skip these, it&#39;s too risky to introduce old spellings like &quot;gewußt&quot; from the synthesizer</b>
+<b class="fc">&nbsp;              verbInfos.put(prefix + form, new PrefixInfixVerb(prefix, &quot;&quot;, verbBaseform));</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        } catch (IOException e) {
+<b class="nc">&nbsp;          throw new RuntimeException(e);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        verbInfos.put(prefix + &quot;zu&quot; + verbBaseform, new PrefixInfixVerb(prefix, &quot;zu&quot;, verbBaseform));  //  &quot;zu&lt;verb&gt;&quot; is not part of forms from synthesizer</b>
+<b class="fc">&nbsp;        nominalizedVerbInfos.put(uppercaseFirstChar(prefix) + verbBaseform,</b>
+<b class="fc">&nbsp;          new NominalizedVerb(uppercaseFirstChar(prefix), verbBaseform));</b>
+<b class="fc">&nbsp;        nominalizedGenVerbInfos.put(uppercaseFirstChar(prefix) + verbBaseform + &quot;s&quot;,</b>
+<b class="fc">&nbsp;          new NominalizedGenitiveVerb(uppercaseFirstChar(prefix), verbBaseform));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return new ExpansionInfos(verbInfos, nominalizedVerbInfos, nominalizedGenVerbInfos, adjInfos);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static List&lt;String&gt; toPA2(List&lt;String&gt; tags) {
+<b class="fc">&nbsp;    return tags.stream().</b>
+<b class="fc">&nbsp;      map(k -&gt; k.replace(&quot;ADJ:&quot;, &quot;PA2:&quot;)).</b>
+<b class="fc">&nbsp;      map(k -&gt; k + &quot;:VER&quot;).</b>
+<b class="fc">&nbsp;      collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void fillAdjInfos(String word, String suffix, List&lt;String&gt; tagsForForm, Map&lt;String, List&lt;AdjInfo&gt;&gt; adjInfos) {
+<b class="fc">&nbsp;    List&lt;AdjInfo&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    String fullform = word + suffix;</b>
+<b class="fc">&nbsp;    for (String tag : tagsForForm) {</b>
+<b class="fc">&nbsp;      l.add(new AdjInfo(word, fullform, tag));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    adjInfos.put(fullform, l);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;TaggedWord&gt; addStem(List&lt;TaggedWord&gt; analyzedWordResults, String stem) {
+<b class="fc">&nbsp;    List&lt;TaggedWord&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="pc">&nbsp;    for (TaggedWord tw : analyzedWordResults) {</b>
+<b class="nc">&nbsp;      String lemma = tw.getLemma();</b>
+<b class="nc">&nbsp;      if (stem.length() &gt; 0 &amp;&amp; stem.charAt(stem.length() - 1) != &#39;-&#39; &amp;&amp; tw.getPosTag().startsWith(&quot;SUB&quot;)) {</b>
+<b class="nc">&nbsp;        lemma = lemma.toLowerCase();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      result.add(new TaggedWord(stem + lemma, tw.getPosTag()));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  //Removes the irrelevant part of dash-linked words (SSL-Zertifikat -&gt; Zertifikat)
+&nbsp;  private String sanitizeWord(String word) {
+<b class="fc">&nbsp;    String result = word;</b>
+&nbsp;
+&nbsp;    //Find the last part of the word that is not nothing
+&nbsp;    //Skip words ending in a dash as they&#39;ll be misrecognized
+<b class="pc">&nbsp;    if (!word.endsWith(&quot;-&quot;)) {</b>
+<b class="fc">&nbsp;      String[] splitWord = word.split(&quot;-&quot;);</b>
+<b class="pc">&nbsp;      String lastPart = splitWord.length &gt; 1 &amp;&amp; !splitWord[splitWord.length - 1].trim().equals(&quot;&quot;) ? splitWord[splitWord.length - 1] : word;</b>
+&nbsp;
+&nbsp;      //Find only the actual important part of the word
+<b class="fc">&nbsp;      List&lt;String&gt; compoundedWord = GermanCompoundTokenizer.getStrictInstance().tokenize(lastPart);</b>
+<b class="pc">&nbsp;      if (compoundedWord.size() &gt; 1 &amp;&amp; StringTools.startsWithUppercase(word)) {  // don&#39;t uppercase last part of e.g. &quot;vanillig-karamelligen&quot;</b>
+<b class="nc">&nbsp;        lastPart = uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));</b>
+&nbsp;      } else {
+<b class="fc">&nbsp;        lastPart = compoundedWord.get(compoundedWord.size() - 1);</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      //Only give result if the last part is either a noun or an adjective (or adjective written in Uppercase)
+<b class="fc">&nbsp;      List&lt;TaggedWord&gt; tagged = tag(lastPart);</b>
+<b class="pc">&nbsp;      if (tagged.size() &gt; 0 &amp;&amp; (StringUtils.startsWithAny(tagged.get(0).getPosTag(), &quot;SUB&quot;, &quot;ADJ&quot;) || matchesUppercaseAdjective(lastPart))) {</b>
+<b class="nc">&nbsp;        result = lastPart;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return only the first reading of the given word or {@code null}.
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public AnalyzedTokenReadings lookup(String word) throws IOException {
+<b class="fc">&nbsp;    List&lt;AnalyzedTokenReadings&gt; result = tag(Collections.singletonList(word), false);</b>
+<b class="fc">&nbsp;    AnalyzedTokenReadings atr = result.get(0);</b>
+<b class="fc">&nbsp;    if (atr.getAnalyzedToken(0).getPOSTag() == null) {</b>
+<b class="fc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return atr;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;TaggedWord&gt; tag(String word) {
+<b class="fc">&nbsp;    return getWordTagger().tag(word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean matchesUppercaseAdjective(String unknownUppercaseToken) {
+<b class="nc">&nbsp;    List&lt;TaggedWord&gt; temp = getWordTagger().tag(StringTools.lowercaseFirstChar(unknownUppercaseToken));</b>
+<b class="nc">&nbsp;    return temp.size() &gt; 0 &amp;&amp; temp.get(0).getPosTag().startsWith(&quot;ADJ&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;AnalyzedTokenReadings&gt; tag(List&lt;String&gt; sentenceTokens) throws IOException {
+<b class="fc">&nbsp;    return tag(sentenceTokens, true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;AnalyzedTokenReadings&gt; tag(List&lt;String&gt; sentenceTokens, boolean ignoreCase) throws IOException {
+<b class="fc">&nbsp;    boolean firstWord = true;</b>
+<b class="fc">&nbsp;    List&lt;AnalyzedTokenReadings&gt; tokenReadings = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    int pos = 0;</b>
+<b class="fc">&nbsp;    int idxPos = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;    String prevWord = null;</b>
+<b class="fc">&nbsp;    for (String word : sentenceTokens) {</b>
+<b class="fc">&nbsp;      List&lt;AnalyzedToken&gt; readings = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;      List&lt;TaggedWord&gt; taggerTokens = null;</b>
+&nbsp;      // Gender star etc:
+<b class="pc">&nbsp;      if (idxPos+2 &lt; sentenceTokens.size() &amp;&amp; genderGapChars.matcher(sentenceTokens.get(idxPos + 1)).matches()) {</b>
+<b class="nc">&nbsp;        if (afterAsterisk.matcher(sentenceTokens.get(idxPos + 2)).matches()) {  // &quot;jede*r&quot;, &quot;sein*e&quot;</b>
+<b class="nc">&nbsp;          taggerTokens = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          taggerTokens.addAll(getWordTagger().tag(word));</b>
+<b class="nc">&nbsp;          taggerTokens.addAll(getWordTagger().tag(word + sentenceTokens.get(idxPos+2)));</b>
+<b class="nc">&nbsp;        } else if (innenPattern1.matcher(sentenceTokens.get(idxPos + 2)).matches()) {</b>
+&nbsp;          // e.g. Werkstudent:innen-Zielgruppe -&gt; take tags of &#39;Zielgruppe&#39;:
+<b class="nc">&nbsp;          String lastPart = anythingDash.matcher(sentenceTokens.get(idxPos + 2)).replaceFirst(&quot;&quot;);</b>
+<b class="nc">&nbsp;          taggerTokens = new ArrayList&lt;&gt;(getWordTagger().tag(lastPart));</b>
+<b class="nc">&nbsp;        } else if (innenPattern2.matcher(sentenceTokens.get(idxPos + 2)).matches()) {</b>
+&nbsp;          // e.g. Werkstudent:innenzielgruppe -&gt; take tags of &#39;Zielgruppe&#39;:
+<b class="nc">&nbsp;          int idx = sentenceTokens.get(idxPos+2).lastIndexOf(&quot;innen&quot;);</b>
+<b class="nc">&nbsp;          String lastPart = uppercaseFirstChar(sentenceTokens.get(idxPos+2).substring(idx + &quot;innen&quot;.length()));</b>
+<b class="nc">&nbsp;          taggerTokens = new ArrayList&lt;&gt;(getWordTagger().tag(lastPart));</b>
+&nbsp;        }
+&nbsp;      }
+<b class="pc">&nbsp;      if (taggerTokens == null) {</b>
+<b class="fc">&nbsp;        taggerTokens = getWordTagger().tag(word);</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      //Only first iteration. Consider &quot;:&quot; as a potential sentence start marker
+<b class="pc">&nbsp;      if ((firstWord || &quot;:&quot;.equals(prevWord)) &amp;&amp; taggerTokens.isEmpty() &amp;&amp; ignoreCase) { // e.g. &quot;Das&quot; -&gt; &quot;das&quot; at start of sentence</b>
+<b class="fc">&nbsp;        taggerTokens = getWordTagger().tag(word.toLowerCase());</b>
+<b class="fc">&nbsp;        firstWord = !StringUtils.isAlphanumeric(word);</b>
+<b class="pc">&nbsp;      } else if (pos == 0 &amp;&amp; ignoreCase) {   // &quot;Haben&quot;, &quot;Sollen&quot;, &quot;Können&quot;, &quot;Gerade&quot; etc. at start of sentence</b>
+<b class="nc">&nbsp;        taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));</b>
+<b class="pc">&nbsp;      } else if (pos &gt; 1 &amp;&amp; taggerTokens.isEmpty() &amp;&amp; ignoreCase) {</b>
+<b class="fc">&nbsp;        int idx = sentenceTokens.indexOf(word);</b>
+&nbsp;        // add lowercase token readings to words at start of direct speech
+<b class="pc">&nbsp;        if (idx &gt; 2 &amp;&amp; sentenceTokens.get(idx-1).contentEquals(&quot;„&quot;) &amp;&amp; sentenceTokens.get(idx-3).contentEquals(&quot;:&quot;)) {</b>
+<b class="nc">&nbsp;          taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="fc">&nbsp;      if (taggerTokens.size() &gt; 0) { //Word known, just add analyzed token to readings</b>
+<b class="fc">&nbsp;        readings.addAll(getAnalyzedTokens(taggerTokens, word));</b>
+&nbsp;        /*
+&nbsp;         * Lines 263 to 287
+&nbsp;         * do the following for non separable verbs with prefix and for verbs without any prefix:
+&nbsp;         *   if (base) verb has tag &#39;VER:IMP:SIN:SFT&#39;, then add &#39;VER:1:SIN:PRÄ:SFT&#39;
+&nbsp;         *   if (base) verb has tag &#39;VER:1:SIN:PRÄ:SFT&#39;, then add &#39;VER:IMP:SIN:SFT&#39;
+&nbsp;         *
+&nbsp;         * &#39;NON&#39; is excluded, because for a given lemma &#39;VER:IMP:SIN:NON&#39; and &#39;VER:1:SIN:PRÄ:NON&#39; can differ
+&nbsp;         * e. g. (ver)nimm is &#39;VER:IMP:SIN:NON&#39;, but (ver)nehm is &#39;VER:1:SIN:PRÄ:NON&#39;
+&nbsp;         */
+<b class="fc">&nbsp;        if (!StringUtils.startsWithAny(word.toLowerCase(), prefixesSeparableVerbs)</b>
+<b class="pc">&nbsp;          &amp;&amp; (!StringUtils.startsWithAny(word.toLowerCase(), notAVerb))</b>
+<b class="pc">&nbsp;          &amp;&amp; (word.equals(word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase()) || word.equals(word.toLowerCase()))) {</b>
+<b class="fc">&nbsp;            String lstPrt = &quot;&quot;;</b>
+<b class="fc">&nbsp;            String frstPrt = &quot;&quot;;</b>
+<b class="pc">&nbsp;            if (StringUtils.startsWithAny(word.toLowerCase(), prefixesNonSeparableVerbs)) {</b>
+<b class="nc">&nbsp;              lstPrt = RegExUtils.removePattern(word.toLowerCase(), prefixesNonSeparableVerbsRegexp);</b>
+<b class="nc">&nbsp;              frstPrt = StringUtils.removeEnd(word, lstPrt);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;              lstPrt = word;</b>
+<b class="fc">&nbsp;              frstPrt = &quot;&quot;;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            List&lt;TaggedWord&gt; verbs = getWordTagger().tag(lstPrt);</b>
+<b class="fc">&nbsp;            for (TaggedWord v : verbs) {</b>
+<b class="pc">&nbsp;              if ((sentenceTokens.indexOf(word) == 0 || word.equals(word.substring(0, 1).toLowerCase() + word.substring(1)))</b>
+<b class="pc">&nbsp;                &amp;&amp; !StringUtils.equalsAny(lstPrt,&quot;gar&quot;, &quot;mal&quot;, &quot;null&quot;, &quot;trotz&quot;)) {</b>
+<b class="pc">&nbsp;                  if (StringUtils.startsWithAny(v.getPosTag(), &quot;VER:IMP:SIN:SFT&quot;) &amp;&amp; (!readings.toString().contains(&quot;VER:1:SIN:PRÄ:SFT&quot;))) {</b>
+<b class="nc">&nbsp;                    readings.add(new AnalyzedToken(word, &quot;VER:1:SIN:PRÄ:SFT&quot;, frstPrt.toLowerCase() + v.getLemma()));</b>
+&nbsp;                  }
+<b class="pc">&nbsp;                  if (StringUtils.startsWithAny(v.getPosTag(), &quot;VER:1:SIN:PRÄ:SFT&quot;) &amp;&amp; (!readings.toString().contains(&quot;VER:IMP:SIN:SFT&quot;))) {</b>
+<b class="nc">&nbsp;                    readings.add(new AnalyzedToken(word, &quot;VER:IMP:SIN:SFT&quot;, frstPrt.toLowerCase() + v.getLemma()));</b>
+&nbsp;                  }
+&nbsp;              }
+&nbsp;            }
+&nbsp;        }
+&nbsp;      } else { // Word not known, try to decompose it and use the last part for POS tagging:
+<b class="fc">&nbsp;        PrefixInfixVerb verbInfo = expansionInfos.get().verbInfos.get(word);</b>
+<b class="fc">&nbsp;        NominalizedVerb nomVerbInfo = expansionInfos.get().nominalizedVerbInfos.get(word);</b>
+<b class="fc">&nbsp;        NominalizedGenitiveVerb nomGenVerbInfo = expansionInfos.get().nominalizedGenVerbInfos.get(word);</b>
+<b class="fc">&nbsp;        List&lt;AdjInfo&gt; adjInfos = expansionInfos.get().adjInfos.get(word);</b>
+<b class="fc">&nbsp;        boolean addNounTags = !nounTagExpansionExceptions.contains(word);</b>
+&nbsp;        //String prefixVerbLastPart = prefixedVerbLastPart(word);   // see https://github.com/languagetool-org/languagetool/issues/2740
+<b class="pc">&nbsp;        if (verbInfo != null) {   // e.g. &quot;herumgeben&quot; with &quot;herum_geben&quot; in spelling.txt</b>
+<b class="nc">&nbsp;          if (StringTools.startsWithLowercase(verbInfo.prefix)) {</b>
+<b class="nc">&nbsp;            String noPrefixForm = word.substring(verbInfo.prefix.length() + verbInfo.infix.length());   // infix can be &quot;zu&quot;</b>
+<b class="nc">&nbsp;            List&lt;TaggedWord&gt; tags = tag(noPrefixForm);</b>
+<b class="nc">&nbsp;            boolean isSFT = false;  // SFT = schwaches Verb</b>
+<b class="nc">&nbsp;            for (TaggedWord tag : tags) {</b>
+<b class="nc">&nbsp;              if (tag.getPosTag() != null &amp;&amp; (StringUtils.startsWithAny(tag.getPosTag(), &quot;VER:&quot;, &quot;PA1:&quot;, &quot;PA2:&quot;)</b>
+<b class="nc">&nbsp;                &amp;&amp; (!StringUtils.startsWithAny(tag.getPosTag(), &quot;VER:MOD&quot;, &quot;VER:AUX&quot;)))) { // e.g. &quot;schicke&quot; is verb and adjective</b>
+<b class="nc">&nbsp;                String flektion = tag.getPosTag().substring(tag.getPosTag().length() - 3);</b>
+<b class="nc">&nbsp;                if (StringUtils.startsWithAny(verbInfo.prefix, prefixesSeparableVerbs)</b>
+<b class="nc">&nbsp;                  &amp;&amp; (!StringUtils.containsAny(word, notAVerb))) {</b>
+<b class="nc">&nbsp;                  if (StringUtils.startsWithAny(tag.getPosTag(),&quot;VER:1&quot;, &quot;VER:2&quot;, &quot;VER:3&quot;) &amp;&amp; (sentenceTokens.indexOf(word) == 0 || word.equals(word.substring(0, 1).toLowerCase() + word.substring(1)))) {</b>
+<b class="nc">&nbsp;                    readings.add(new AnalyzedToken(word, tag.getPosTag() + &quot;:NEB&quot;, verbInfo.prefix + tag.getLemma()));</b>
+<b class="nc">&nbsp;                  } else if (!StringUtils.startsWithAny(tag.getPosTag(),&quot;VER:IMP&quot;)) {</b>
+<b class="nc">&nbsp;                    readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));</b>
+<b class="nc">&nbsp;                  } else if (StringUtils.startsWithAny(tag.getPosTag(),&quot;VER:IMP:SIN&quot;) &amp;&amp; (!readings.contains(&quot;VER:1:SIN:PRÄ&quot;))) {</b>
+<b class="nc">&nbsp;                    if (flektion.equals(&quot;SFT&quot;) || !word.matches(&quot;.*i.+&quot;)) { // Avoids &#39;aufnimm&#39;</b>
+<b class="nc">&nbsp;                      readings.add(new AnalyzedToken(word, &quot;VER:1:SIN:PRÄ:&quot; + flektion + &quot;:NEB&quot;, verbInfo.prefix + tag.getLemma()));</b>
+&nbsp;                    }
+&nbsp;                  }
+<b class="nc">&nbsp;                } else if (StringUtils.startsWithAny(verbInfo.prefix, prefixesNonSeparableVerbs) //Excludes &quot;ge&quot; (both too rare as verb prefix and prone to FP)</b>
+<b class="nc">&nbsp;                  &amp;&amp; (!StringUtils.containsAny(word, notAVerb))) {</b>
+<b class="nc">&nbsp;                    if ((StringUtils.startsWithAny(tag.getPosTag(),&quot;VER:IMP:SIN&quot;) &amp;&amp; (!readings.contains(&quot;VER:1:SIN:PRÄ&quot;)))</b>
+<b class="nc">&nbsp;                       || (StringUtils.startsWithAny(tag.getPosTag(),&quot;VER:1:SIN:PRÄ&quot;) &amp;&amp; (!readings.contains(&quot;VER:IMP:SIN&quot;)))) {</b>
+<b class="nc">&nbsp;                         if (flektion.equals(&quot;SFT&quot;) || !word.matches(&quot;.*i.+&quot;)) { // Avoids &#39;zernimm&#39;</b>
+<b class="nc">&nbsp;                           readings.add(new AnalyzedToken(word, &quot;VER:IMP:SIN&quot; + flektion, verbInfo.prefix + tag.getLemma()));</b>
+<b class="nc">&nbsp;                           readings.add(new AnalyzedToken(word, &quot;VER:1:SIN:PRÄ:&quot; + flektion, verbInfo.prefix + tag.getLemma()));</b>
+&nbsp;                         }
+&nbsp;                    } else {
+<b class="nc">&nbsp;                      readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;                if (tag.getPosTag().contains(&quot;:SFT&quot;)) {</b>
+<b class="nc">&nbsp;                  isSFT = true;</b>
+&nbsp;                }
+&nbsp;              }
+&nbsp;            }
+<b class="nc">&nbsp;            if (&quot;zu&quot;.equals(verbInfo.infix)) {</b>
+<b class="nc">&nbsp;              readings.clear();</b>
+<b class="nc">&nbsp;              readings.add(new AnalyzedToken(word, &quot;VER:EIZ:&quot; + (isSFT ? &quot;SFT&quot; : &quot;NON&quot;), verbInfo.prefix + verbInfo.verbBaseform));</b>
+&nbsp;            }
+&nbsp;          }
+<b class="pc">&nbsp;        } else if (nomVerbInfo != null &amp;&amp; addNounTags) {</b>
+&nbsp;          // e.g. &quot;herum_geben&quot; in spelling.txt -&gt; &quot;(das) Herumgeben&quot;
+<b class="nc">&nbsp;          readings.add(new AnalyzedToken(word, &quot;SUB:NOM:SIN:NEU:INF&quot;, nomVerbInfo.prefix + nomVerbInfo.verbBaseform));</b>
+<b class="nc">&nbsp;          readings.add(new AnalyzedToken(word, &quot;SUB:AKK:SIN:NEU:INF&quot;, nomVerbInfo.prefix + nomVerbInfo.verbBaseform));</b>
+<b class="nc">&nbsp;          readings.add(new AnalyzedToken(word, &quot;SUB:DAT:SIN:NEU:INF&quot;, nomVerbInfo.prefix + nomVerbInfo.verbBaseform));</b>
+<b class="pc">&nbsp;        } else if (nomGenVerbInfo != null &amp;&amp; addNounTags) {</b>
+&nbsp;          // e.g. &quot;herum_geben&quot; in spelling.txt -&gt; &quot;(des) Herumgebens&quot;
+<b class="nc">&nbsp;          readings.add(new AnalyzedToken(word, &quot;SUB:GEN:SIN:NEU:INF&quot;, nomGenVerbInfo.prefix + nomGenVerbInfo.verbBaseform));</b>
+&nbsp;        /*} else if (prefixVerbLastPart != null) {   // &quot;aufstöhnen&quot; etc.
+&nbsp;          List&lt;TaggedWord&gt; taggedWords = getWordTagger().tag(prefixVerbLastPart);
+&nbsp;          String firstPart = word.replaceFirst(prefixVerbLastPart + &quot;$&quot;, &quot;&quot;);
+&nbsp;          for (TaggedWord taggedWord : taggedWords) {
+&nbsp;            readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart+taggedWord.getLemma()));
+&nbsp;          }*/
+<b class="pc">&nbsp;        } else if (adjInfos != null) {</b>
+<b class="nc">&nbsp;          for (AdjInfo adjInfo : adjInfos) {</b>
+<b class="nc">&nbsp;            readings.add(new AnalyzedToken(adjInfo.fullForm, adjInfo.tag, adjInfo.baseform));</b>
+&nbsp;          }
+<b class="pc">&nbsp;        } else if (isWeiseException(word)) {   // &quot;idealerweise&quot; etc. but not &quot;überweise&quot;, &quot;eimerweise&quot;</b>
+<b class="nc">&nbsp;          for (String tag : tagsForWeise) {</b>
+<b class="nc">&nbsp;            readings.add(new AnalyzedToken(word, tag, word));</b>
+&nbsp;          }
+<b class="pc">&nbsp;        } else if (!StringUtils.isAllBlank(word) &amp;&amp; mitarbeitendenPattern.matcher(word).matches()) {</b>
+<b class="nc">&nbsp;          int idx = word.indexOf(&quot;mitarbeitende&quot;);</b>
+<b class="nc">&nbsp;          String firstPart = word.substring(0, idx);  // we might tag invalid words, but that should be okay</b>
+<b class="nc">&nbsp;          String lastPart = word.substring(idx);</b>
+<b class="nc">&nbsp;          List&lt;TaggedWord&gt; mitarbeitendeTags = getWordTagger().tag(uppercaseFirstChar(lastPart));</b>
+<b class="nc">&nbsp;          for (TaggedWord mitarbeitendeTag : mitarbeitendeTags) {</b>
+<b class="nc">&nbsp;            readings.add(new AnalyzedToken(word, mitarbeitendeTag.getPosTag(), firstPart+&quot;mitarbeitende&quot;));</b>
+&nbsp;          }
+<b class="fc">&nbsp;        } else if (!StringUtils.isAllBlank(word)) {</b>
+<b class="fc">&nbsp;          List&lt;String&gt; compoundParts = GermanCompoundTokenizer.getStrictInstance().tokenize(word);</b>
+<b class="pc">&nbsp;          if (compoundParts.size() &lt;= 1) {//Could not find simple compound parts</b>
+&nbsp;            // Recognize alternative imperative forms (e.g., &quot;Geh bitte!&quot; in addition to &quot;Gehe bitte!&quot;)
+<b class="fc">&nbsp;            List&lt;AnalyzedToken&gt; imperativeFormList = getImperativeForm(word, sentenceTokens, pos);</b>
+<b class="fc">&nbsp;            List&lt;AnalyzedToken&gt; substantivatedFormsList = getSubstantivatedForms(word, sentenceTokens);</b>
+<b class="pc">&nbsp;            if (imperativeFormList.size() &gt; 0) {</b>
+<b class="nc">&nbsp;              readings.addAll(imperativeFormList);</b>
+<b class="pc">&nbsp;            } else if (substantivatedFormsList.size() &gt; 0) {</b>
+<b class="nc">&nbsp;              readings.addAll(substantivatedFormsList);</b>
+&nbsp;            } else {
+<b class="pc">&nbsp;              if (StringUtils.startsWithAny(word, &quot;bitter&quot;, &quot;dunkel&quot;, &quot;erz&quot;, &quot;extra&quot;, &quot;früh&quot;,</b>
+&nbsp;                &quot;gemein&quot;, &quot;hyper&quot;, &quot;lau&quot;, &quot;mega&quot;, &quot;minder&quot;, &quot;stock&quot;, &quot;super&quot;, &quot;tod&quot;, &quot;ultra&quot;, &quot;un&quot;, &quot;ur&quot;)) {
+<b class="nc">&nbsp;                String lastPart = RegExUtils.removePattern(word, &quot;^(bitter|dunkel|erz|extra|früh|gemein|grund|hyper|lau|mega|minder|stock|super|tod|ultra|u[nr]|voll)&quot;);</b>
+<b class="nc">&nbsp;                if (lastPart.length() &gt; 3) {</b>
+<b class="nc">&nbsp;                  String firstPart = StringUtils.removeEnd(word, lastPart);</b>
+<b class="nc">&nbsp;                  List&lt;TaggedWord&gt; taggedWords = getWordTagger().tag(lastPart);</b>
+<b class="nc">&nbsp;                  for (TaggedWord taggedWord : taggedWords) {</b>
+<b class="nc">&nbsp;                    if (!(firstPart.length() == 2 &amp;&amp; taggedWord.getPosTag().startsWith(&quot;VER&quot;))) {</b>
+<b class="nc">&nbsp;                      readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart+taggedWord.getLemma()));</b>
+&nbsp;                    }
+&nbsp;                  }
+&nbsp;                }
+&nbsp;              }
+&nbsp;              //Separate dash-linked words
+&nbsp;              //Only check single word tokens and skip words containing numbers because it&#39;s unpredictable
+<b class="pc">&nbsp;              if (StringUtils.split(word, &#39; &#39;).length == 1 &amp;&amp; !Character.isDigit(word.charAt(0))) {</b>
+<b class="fc">&nbsp;                String wordOrig = word;</b>
+<b class="fc">&nbsp;                word = sanitizeWord(word);</b>
+<b class="fc">&nbsp;                String wordStem = wordOrig.substring(0, wordOrig.length() - word.length());</b>
+&nbsp;
+&nbsp;                //Tokenize, start word uppercase if it&#39;s a result of splitting
+<b class="fc">&nbsp;                List&lt;String&gt; compoundedWord = GermanCompoundTokenizer.getStrictInstance().tokenize(word);</b>
+<b class="pc">&nbsp;                if (compoundedWord.size() &gt; 1) {</b>
+<b class="nc">&nbsp;                  word = uppercaseFirstChar(compoundedWord.get(compoundedWord.size() - 1));</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                  word = compoundedWord.get(compoundedWord.size() - 1);</b>
+&nbsp;                }
+&nbsp;
+<b class="fc">&nbsp;                List&lt;TaggedWord&gt; linkedTaggerTokens = addStem(getWordTagger().tag(word), wordStem); //Try to analyze the last part found</b>
+&nbsp;
+&nbsp;                //Some words that are linked with a dash (&#39;-&#39;) will be written in uppercase, even adjectives
+<b class="pc">&nbsp;                if (wordOrig.contains(&quot;-&quot;) &amp;&amp; linkedTaggerTokens.isEmpty() &amp;&amp; matchesUppercaseAdjective(word)) {</b>
+<b class="nc">&nbsp;                  word = StringTools.lowercaseFirstChar(word);</b>
+<b class="nc">&nbsp;                  linkedTaggerTokens = getWordTagger().tag(word);</b>
+&nbsp;                }
+&nbsp;
+<b class="fc">&nbsp;                word = wordOrig;</b>
+&nbsp;
+<b class="fc">&nbsp;                boolean wordStartsUppercase = StringTools.startsWithUppercase(word);</b>
+<b class="pc">&nbsp;                if (linkedTaggerTokens.isEmpty()) {</b>
+&nbsp;                  /*
+&nbsp;                   *Verbs with certain prefixes (e. g. &quot;ab&quot;, &quot;ein&quot;, &quot;zwischen&quot;) are always separable.
+&nbsp;                   *For better performance of rules, forms like &#39;einlädst&#39; and &#39;lädst ein&#39; should be tagged differently.
+&nbsp;                   *einlädst [VER:2:SIN:PRÄ:NON:NEB] (&#39;NEB&#39; indicates that this form can only appear in a subordinate clause)
+&nbsp;                   *lädst ein [VER:2:SIN:PRÄ:NON] + [ZUS]
+&nbsp;                   */
+<b class="pc">&nbsp;                  if (StringUtils.startsWithAny(word.toLowerCase(), prefixesVerbs)</b>
+<b class="nc">&nbsp;                     &amp;&amp; (!StringUtils.containsAny(word.toLowerCase(), notAVerb))</b>
+<b class="nc">&nbsp;                     &amp;&amp; (word.equals(word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase()) || word.equals(word.toLowerCase()))) { // avoids CamelCase, ALLCAPS...</b>
+<b class="nc">&nbsp;                       String lastPart = RegExUtils.removePattern(word.toLowerCase(), prefixesVerbsRegexp);</b>
+<b class="nc">&nbsp;                      if (lastPart.length() &gt; 2) { // e. g. &#39;kau&#39;, &#39;iss&#39;, &#39;ess&#39;</b>
+<b class="nc">&nbsp;                        String firstPart = StringUtils.removeEnd(word, lastPart);</b>
+&nbsp;                        //Erweiterter Infinitiv mit zu
+<b class="nc">&nbsp;                        if (StringUtils.startsWithAny(lastPart, &quot;zu&quot;)) {</b>
+<b class="nc">&nbsp;                          String infinitiv = StringUtils.removeStart(lastPart, &quot;zu&quot;);</b>
+<b class="nc">&nbsp;                          List&lt;TaggedWord&gt; infs = getWordTagger().tag(infinitiv);</b>
+<b class="nc">&nbsp;                          for (TaggedWord inf : infs) {</b>
+<b class="nc">&nbsp;                            if (inf.getPosTag().startsWith(&quot;VER:INF&quot;)) {</b>
+<b class="nc">&nbsp;                              String pstg = RegExUtils.replaceFirst(inf.getPosTag(), &quot;INF&quot;, &quot;EIZ&quot;);</b>
+<b class="nc">&nbsp;                              readings.add(new AnalyzedToken(word, pstg, firstPart + inf.getLemma()));</b>
+&nbsp;                            }
+&nbsp;                          }
+&nbsp;                        }
+&nbsp;                        // Checks for postag information in the last part of given word
+<b class="nc">&nbsp;                        List&lt;TaggedWord&gt; taggedWords = getWordTagger().tag(lastPart);</b>
+<b class="nc">&nbsp;                        for (TaggedWord taggedWord : taggedWords) {</b>
+<b class="nc">&nbsp;                          if ((taggedWord.getPosTag().startsWith(&quot;VER&quot;) &amp;&amp; (!taggedWord.getPosTag().startsWith(&quot;VER:PA&quot;)))</b>
+<b class="nc">&nbsp;                            &amp;&amp; (!taggedWord.getPosTag().startsWith(&quot;VER:AUX&quot;))</b>
+<b class="nc">&nbsp;                            &amp;&amp; (!taggedWord.getPosTag().startsWith(&quot;VER:MOD&quot;))</b>
+<b class="nc">&nbsp;                            &amp;&amp; (!firstPart.equals(&quot;un&quot;))) { // avoids &#39;unbeeindruckt&#39; -&gt; VER.*</b>
+<b class="nc">&nbsp;                              if (taggedWord.getPosTag().startsWith(&quot;VER:INF&quot;)) {</b>
+<b class="nc">&nbsp;                                if (word.equals(word.substring(0, 1).toUpperCase() + word.substring(1))) {</b>
+<b class="nc">&nbsp;                                  readings.add(new AnalyzedToken(word, &quot;SUB:NOM:SIN:NEU:INF&quot;, word));</b>
+<b class="nc">&nbsp;                                  readings.add(new AnalyzedToken(word, &quot;SUB:DAT:SIN:NEU:INF&quot;, word));</b>
+<b class="nc">&nbsp;                                  readings.add(new AnalyzedToken(word, &quot;SUB:AKK:SIN:NEU:INF&quot;, word));</b>
+<b class="nc">&nbsp;                                  if (sentenceTokens.indexOf(word) == 0) {</b>
+<b class="nc">&nbsp;                                    readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));</b>
+&nbsp;                                  }
+&nbsp;                                } else {
+<b class="nc">&nbsp;                                  readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));</b>
+&nbsp;                                }
+<b class="nc">&nbsp;                              } else if (taggedWord.getPosTag().startsWith(&quot;VER:IMP&quot;)) {</b>
+<b class="nc">&nbsp;                                String flekt = taggedWord.getPosTag().substring(taggedWord.getPosTag().length() - 3);</b>
+<b class="nc">&nbsp;                                if ((word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0)) {</b>
+<b class="nc">&nbsp;                                  if (!StringUtils.equalsAny(firstPart.toLowerCase(), prefixesSeparableVerbs)) { // Separable verbs do not have imperative form.</b>
+<b class="nc">&nbsp;                                    readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));</b>
+<b class="nc">&nbsp;                                    if (taggedWord.getPosTag().startsWith(&quot;VER:IMP:SIN&quot;) &amp;&amp; !readings.contains(&quot;VER:1:SIN:PRÄ&quot;)) {</b>
+<b class="nc">&nbsp;                                      if (!readings.contains(&quot;VER:IMP:SIN:NON&quot;)) {</b>
+<b class="nc">&nbsp;                                        readings.add(new AnalyzedToken(word, &quot;VER:1:SIN:PRÄ:&quot; + flekt, firstPart + taggedWord.getLemma()));</b>
+&nbsp;                                      }
+&nbsp;                                    }
+<b class="nc">&nbsp;                                  } else if (!readings.contains(&quot;VER:1:SIN:PRÄ&quot;) &amp;&amp; (flekt.equals(&quot;SFT&quot;) || !word.matches(&quot;.*i.+&quot;))) {</b>
+<b class="nc">&nbsp;                                    readings.add(new AnalyzedToken(word, &quot;VER:1:SIN:PRÄ:&quot; + flekt + &quot;:NEB&quot;, firstPart + taggedWord.getLemma()));</b>
+&nbsp;                                  }
+&nbsp;                                }
+<b class="nc">&nbsp;                              } else if (StringUtils.equalsAny(firstPart.toLowerCase(), prefixesSeparableVerbs)</b>
+<b class="nc">&nbsp;                                &amp;&amp; (word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0)) {</b>
+<b class="nc">&nbsp;                                  if (taggedWord.getPosTag().endsWith(&quot;:NEB&quot;)) {</b>
+<b class="nc">&nbsp;                                    readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));</b>
+&nbsp;                                  } else {
+<b class="nc">&nbsp;                                    readings.add(new AnalyzedToken(word, taggedWord.getPosTag() + &quot;:NEB&quot;, firstPart.toLowerCase() + taggedWord.getLemma()));</b>
+&nbsp;                                  }
+<b class="nc">&nbsp;                                  if (taggedWord.getPosTag().startsWith(&quot;VER:3:SIN:PRÄ&quot;)</b>
+<b class="nc">&nbsp;                                    &amp;&amp; (firstPart.equals(&quot;durch&quot;) || firstPart.equals(&quot;um&quot;))) {</b>
+&nbsp;                                      /*
+&nbsp;                                       / Verbs with prefixes &#39;durch&#39; or &#39;um&#39;
+&nbsp;                                       / can be both separable and non separable
+&nbsp;                                       / &#39;Tom läuft durch den Wald&#39;
+&nbsp;                                       / &#39;Tom durchläuft eine Durststrecke&#39;
+&nbsp;                                       / This avoids false alarms
+&nbsp;                                      */
+<b class="nc">&nbsp;                                      if (taggedWord.getPosTag().startsWith(&quot;VER:3:SIN:PRÄ&quot;)) {</b>
+<b class="nc">&nbsp;                                        readings.add(new AnalyzedToken(word, &quot;VER:PA2:SFT&quot;, firstPart + taggedWord.getLemma()));</b>
+&nbsp;                                      } else {
+<b class="nc">&nbsp;                                        readings.add(new AnalyzedToken(word, &quot;VER:PA2:NON&quot;, firstPart + taggedWord.getLemma()));</b>
+&nbsp;                                      }
+<b class="nc">&nbsp;                                      readings.add(new AnalyzedToken(word, &quot;PA2:PRD:GRU:VER&quot;, word));</b>
+&nbsp;                                  }
+<b class="nc">&nbsp;                              } else if (StringUtils.equalsAny(firstPart.toLowerCase(), prefixesNonSeparableVerbs)</b>
+<b class="nc">&nbsp;                                &amp;&amp; (word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0)) {</b>
+<b class="nc">&nbsp;                                  readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));</b>
+&nbsp;                                  /*
+&nbsp;                                   / Postag of &#39;lastPart&#39; never starts with PA2: erstickt = er + stickt
+&nbsp;                                   / Derives &#39;VER:PA2:SFT&#39; and &#39;PA2:PRD:GRU:VER&#39;, if postag of &#39;lastPart&#39; equals &#39;VER:3:SIN:PRÄ:SFT&#39;
+&nbsp;                                   / Using other postags is not safe, especially &#39;VER.*NON&#39;
+&nbsp;                                  */
+<b class="nc">&nbsp;                                  if (taggedWord.getPosTag().startsWith(&quot;VER:3:SIN:PRÄ:SFT&quot;)</b>
+<b class="nc">&nbsp;                                    || (taggedWord.getPosTag().startsWith(&quot;VER:1:PLU:PRÄ:NON&quot;) &amp;&amp; (StringUtils.containsAny(taggedWord.getLemma(), partizip2contains1PluPra)))</b>
+<b class="nc">&nbsp;                                    || (taggedWord.getPosTag().startsWith(&quot;VER:1:PLU:PRT:NON&quot;) &amp;&amp; (StringUtils.containsAny(taggedWord.getLemma(), partizip2contains1PluPrt)))) {</b>
+<b class="nc">&nbsp;                                      if (!firstPart.equals(&quot;un&quot;)) { // Avoids &#39;unbeeindruckt&#39; -&gt; &#39;VER.*&#39;</b>
+<b class="nc">&nbsp;                                        String fl = taggedWord.getPosTag().substring(taggedWord.getPosTag().length() - 3);</b>
+<b class="nc">&nbsp;                                        readings.add(new AnalyzedToken(word, &quot;VER:PA2:&quot; + fl, firstPart + taggedWord.getLemma()));</b>
+&nbsp;                                      }
+<b class="nc">&nbsp;                                      readings.add(new AnalyzedToken(word, &quot;PA2:PRD:GRU:VER&quot;, word));</b>
+&nbsp;                                  }
+&nbsp;                              }
+<b class="nc">&nbsp;                          } else if (((taggedWord.getPosTag().startsWith(&quot;PA&quot;) || taggedWord.getPosTag().startsWith(&quot;VER:PA&quot;))</b>
+<b class="nc">&nbsp;                            &amp;&amp; (word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0))) {</b>
+<b class="nc">&nbsp;                              if (!(firstPart.equals(&quot;un&quot;) &amp;&amp; taggedWord.getPosTag().startsWith(&quot;VER:PA&quot;))) {</b>
+<b class="nc">&nbsp;                                readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));</b>
+&nbsp;                              }
+&nbsp;                          }
+&nbsp;                        }
+&nbsp;                        // Checks for postag information in the last part of given word
+&nbsp;                        /*
+&nbsp;                         / Postag of &#39;lastPart&#39; never starts with PA2: erstickter = er + stickter
+&nbsp;                         / Derives &#39;PA2:[NGDA].*&#39;, if word has
+&nbsp;                         / suffix &#39;e[mnrs]?&#39; and
+&nbsp;                         / &#39;middlePart&#39; has tagging &#39;VER:3:SIN:PRÄ:SFT&#39;
+&nbsp;                         / e. g. erstickter = er + stickt + er
+&nbsp;                        */
+<b class="nc">&nbsp;                        String[] partizipSuffixes = new String[]{&quot;e&quot;, &quot;em&quot;, &quot;en&quot;, &quot;er&quot;, &quot;es&quot;};</b>
+<b class="nc">&nbsp;                        String middlePart = &quot;&quot;;</b>
+<b class="nc">&nbsp;                        String suffix = &quot;&quot;;</b>
+<b class="nc">&nbsp;                        for (String sffx : partizipSuffixes) {</b>
+<b class="nc">&nbsp;                          if (lastPart.endsWith(sffx)){</b>
+<b class="nc">&nbsp;                            middlePart = lastPart.substring(0, lastPart.length()-sffx.length());</b>
+<b class="nc">&nbsp;                            suffix = sffx;</b>
+&nbsp;                          }
+&nbsp;                        }
+<b class="nc">&nbsp;                        List&lt;TaggedWord&gt; taggedMiddle = getWordTagger().tag(middlePart);</b>
+<b class="nc">&nbsp;                        for (TaggedWord taggedM : taggedMiddle) {</b>
+<b class="nc">&nbsp;                          if (taggedM.getPosTag().startsWith(&quot;VER:3:SIN:PRÄ:SFT&quot;)</b>
+<b class="nc">&nbsp;                            &amp;&amp; (word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0)) {</b>
+<b class="nc">&nbsp;                              String lemma = word.substring(0, word.length()-suffix.length());</b>
+<b class="nc">&nbsp;                              switch (suffix) {</b>
+&nbsp;                                case &quot;e&quot;:
+<b class="nc">&nbsp;                                  for (String posEndsWithE : postagsPartizipEndingE) {</b>
+<b class="nc">&nbsp;                                    readings.add(new AnalyzedToken(word, &quot;PA2:&quot;+posEndsWithE, lemma));</b>
+&nbsp;                                  }
+&nbsp;                                  break;
+&nbsp;                                case &quot;em&quot;:
+<b class="nc">&nbsp;                                  for (String posEndsWithEm : postagsPartizipEndingEm) {</b>
+<b class="nc">&nbsp;                                    readings.add(new AnalyzedToken(word, &quot;PA2:&quot;+posEndsWithEm, lemma));</b>
+&nbsp;                                  }
+&nbsp;                                  break;
+&nbsp;                                case &quot;en&quot;:
+<b class="nc">&nbsp;                                  for (String posEndsWithEn : postagsPartizipEndingEn) {</b>
+<b class="nc">&nbsp;                                    readings.add(new AnalyzedToken(word, &quot;PA2:&quot;+posEndsWithEn, lemma));</b>
+&nbsp;                                  }
+&nbsp;                                  break;
+&nbsp;                                case &quot;er&quot;:
+<b class="nc">&nbsp;                                  for (String posEndsWithEr : postagsPartizipEndingEr) {</b>
+<b class="nc">&nbsp;                                    readings.add(new AnalyzedToken(word, &quot;PA2:&quot;+posEndsWithEr, lemma));</b>
+&nbsp;                                  }
+&nbsp;                                  break;
+&nbsp;                                case &quot;es&quot;:
+<b class="nc">&nbsp;                                  for (String posEndsWithEs : postagsPartizipEndingEs) {</b>
+<b class="nc">&nbsp;                                    readings.add(new AnalyzedToken(word, &quot;PA2:&quot;+posEndsWithEs, lemma));</b>
+&nbsp;                                  }
+&nbsp;                                  break;
+&nbsp;                              }
+&nbsp;                          }
+&nbsp;                        }
+&nbsp;                      }
+&nbsp;                  } else {
+<b class="fc">&nbsp;                    readings.add(getNoInfoToken(word));</b>
+&nbsp;                  }
+&nbsp;                } else {
+<b class="nc">&nbsp;                  if (wordStartsUppercase) { //Choose between uppercase/lowercase Lemma</b>
+<b class="nc">&nbsp;                    readings.addAll(getAnalyzedTokens(linkedTaggerTokens, word));</b>
+&nbsp;                  } else {
+<b class="nc">&nbsp;                    readings.addAll(getAnalyzedTokens(linkedTaggerTokens, word, compoundedWord));</b>
+&nbsp;                  }
+&nbsp;                }
+&nbsp;              } else {
+<b class="nc">&nbsp;                readings.add(getNoInfoToken(word));</b>
+&nbsp;              }
+&nbsp;            }
+<b class="pc">&nbsp;          } else if (!(idxPos+2 &lt; sentenceTokens.size() &amp;&amp; sentenceTokens.get(idxPos+1).equals(&quot;.&quot;) &amp;&amp; sentenceTokens.get(idxPos+2).matches(&quot;com|net|org|de|at|ch|fr|uk|gov&quot;))) {  // TODO: find better way to ignore domains</b>
+&nbsp;            // last part governs a word&#39;s POS:
+<b class="nc">&nbsp;            String lastPart = compoundParts.get(compoundParts.size() - 1);</b>
+<b class="nc">&nbsp;            if (StringTools.startsWithUppercase(word) &amp;&amp; !StringUtils.containsAny(lastPart, &quot;freie&quot;, &quot;freier&quot;, &quot;freien&quot;, &quot;freies&quot;, &quot;freiem&quot;)) {</b>
+<b class="nc">&nbsp;              lastPart = uppercaseFirstChar(lastPart);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            List&lt;TaggedWord&gt; partTaggerTokens = getWordTagger().tag(lastPart);</b>
+<b class="nc">&nbsp;            if (partTaggerTokens.isEmpty()) {</b>
+<b class="nc">&nbsp;              readings.add(getNoInfoToken(word));</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              List&lt;AnalyzedToken&gt; temp = getAnalyzedTokens(partTaggerTokens, word, compoundParts);</b>
+<b class="nc">&nbsp;              String firstPart = compoundParts.get(0);</b>
+<b class="nc">&nbsp;              List&lt;String&gt; prfxs = new ArrayList&lt;&gt;(asList(&quot;ab&quot;, &quot;abend&quot;, &quot;abhanden&quot;, &quot;acht&quot;, &quot;ähnlich&quot;, &quot;allein&quot;, &quot;an&quot;, &quot;auf&quot;, &quot;aufeinander&quot;, &quot;aufrecht&quot;, &quot;aufwärts&quot;, &quot;aus&quot;, &quot;auseinander&quot;, &quot;auswärts&quot;, &quot;bei&quot;, &quot;beieinander&quot;, &quot;beisammen&quot;, &quot;beiseite&quot;, &quot;besser&quot;, &quot;blank&quot;, &quot;brust&quot;, &quot;da&quot;, &quot;daheim&quot;, &quot;dahin&quot;, &quot;daneben&quot;, &quot;danieder&quot;, &quot;davon&quot;, &quot;doppel&quot;, &quot;drauflos&quot;, &quot;drei&quot;, &quot;drein&quot;, &quot;durch&quot;, &quot;durcheinander&quot;, &quot;ehe&quot;, &quot;ein&quot;, &quot;einig&quot;, &quot;einwärts&quot;, &quot;eis&quot;, &quot;empor&quot;, &quot;end&quot;, &quot;fehl&quot;, &quot;feil&quot;, &quot;feinst&quot;, &quot;fort&quot;, &quot;frei&quot;, &quot;gegenüber&quot;, &quot;general&quot;, &quot;groß&quot;, &quot;grund&quot;, &quot;hand&quot;, &quot;hart&quot;, &quot;heim&quot;, &quot;her&quot;, &quot;herauf&quot;, &quot;heraus&quot;, &quot;herbei&quot;, &quot;hernieder&quot;, &quot;herüber&quot;, &quot;herum&quot;, &quot;herunter&quot;, &quot;hier&quot;, &quot;hierher&quot;, &quot;hierhin&quot;, &quot;hin&quot;, &quot;hinauf&quot;, &quot;hinaus&quot;, &quot;hindurch&quot;, &quot;hinein&quot;, &quot;hinüber&quot;, &quot;hoch&quot;, &quot;höher&quot;, &quot;ineinander&quot;, &quot;kaputt&quot;, &quot;kennen&quot;, &quot;klar&quot;, &quot;klein&quot;, &quot;knapp&quot;, &quot;krank&quot;, &quot;krumm&quot;, &quot;kugel&quot;, &quot;kürzer&quot;, &quot;lahm&quot;, &quot;los&quot;, &quot;maß&quot;, &quot;miss&quot;, &quot;mit&quot;, &quot;mittag&quot;, &quot;nach&quot;, &quot;nahe&quot;, &quot;näher&quot;, &quot;neben&quot;, &quot;nebeneinander&quot;, &quot;nieder&quot;, &quot;offen&quot;, &quot;out&quot;, &quot;preis&quot;, &quot;quer&quot;, &quot;ran&quot;, &quot;rauf&quot;, &quot;raus&quot;, &quot;rein&quot;, &quot;rüber&quot;, &quot;rück&quot;, &quot;rückwärts&quot;, &quot;ruhig&quot;, &quot;rum&quot;, &quot;runter&quot;, &quot;satt&quot;, &quot;schwarz&quot;, &quot;sicher&quot;, &quot;sitzen&quot;, &quot;statt&quot;, &quot;still&quot;, &quot;stoß&quot;, &quot;teil&quot;, &quot;tot&quot;, &quot;trocken&quot;, &quot;über&quot;, &quot;überein&quot;, &quot;übereinander&quot;, &quot;übrig&quot;, &quot;um&quot;, &quot;umher&quot;, &quot;unter&quot;, &quot;verrückt&quot;, &quot;voll&quot;, &quot;vor&quot;, &quot;voran&quot;, &quot;voraus&quot;, &quot;vorbei&quot;, &quot;vorlieb&quot;, &quot;vorüber&quot;, &quot;vorwärts&quot;, &quot;vorweg&quot;, &quot;wach&quot;, &quot;wahr&quot;, &quot;warm&quot;, &quot;weg&quot;, &quot;weh&quot;, &quot;weiter&quot;, &quot;wert&quot;, &quot;wichtig&quot;, &quot;wieder&quot;, &quot;wiederauf&quot;, &quot;wiederein&quot;, &quot;wiederher&quot;, &quot;wohl&quot;, &quot;zu&quot;, &quot;zueinander&quot;, &quot;zufrieden&quot;, &quot;zugute&quot;, &quot;zunichte&quot;, &quot;zurecht&quot;, &quot;zurück&quot;, &quot;zusammen&quot;, &quot;zuwider&quot;, &quot;zwangs&quot;, &quot;zwangsum&quot;, &quot;zwangsvor&quot;, &quot;zweck&quot;, &quot;zwischen&quot;));</b>
+<b class="nc">&nbsp;              if (prfxs.contains(firstPart)) {</b>
+<b class="nc">&nbsp;                for (TaggedWord tag : partTaggerTokens) {</b>
+<b class="nc">&nbsp;                  if (StringUtils.startsWithAny(tag.getPosTag(),&quot;VER:1&quot;, &quot;VER:2&quot;, &quot;VER:3&quot;) &amp;&amp; (sentenceTokens.indexOf(word) == 0 || word.equals(word.substring(0, 1).toLowerCase() + word.substring(1)))) {</b>
+<b class="nc">&nbsp;                    if (StringUtils.endsWith(tag.getPosTag(), &quot;NEB&quot;)) {</b>
+<b class="nc">&nbsp;                      readings.add(new AnalyzedToken(word, tag.getPosTag(), firstPart + tag.getLemma()));</b>
+&nbsp;                    } else {
+<b class="nc">&nbsp;                      readings.add(new AnalyzedToken(word, tag.getPosTag() + &quot;:NEB&quot;, firstPart + tag.getLemma()));</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                  } else if (!StringUtils.startsWithAny(tag.getPosTag(),&quot;VER:IMP&quot;)) {</b>
+<b class="nc">&nbsp;                    readings.add(new AnalyzedToken(word, tag.getPosTag(), firstPart + tag.getLemma()));</b>
+&nbsp;                  }
+&nbsp;                }
+&nbsp;              } else {
+<b class="nc">&nbsp;                temp = temp.stream().filter(k -&gt; !k.getPOSTag().contains(&quot;VER&quot;)).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;                readings.addAll(temp);</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+<b class="fc">&nbsp;        if (readings.isEmpty()) {</b>
+<b class="fc">&nbsp;          readings.add(getNoInfoToken(word));</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      tokenReadings.add(new AnalyzedTokenReadings(readings.toArray(new AnalyzedToken[0]), pos));</b>
+<b class="fc">&nbsp;      pos += word.length();</b>
+<b class="fc">&nbsp;      prevWord = word;</b>
+<b class="fc">&nbsp;      idxPos++;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return tokenReadings;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  String prefixedVerbLastPart(String word) {
+&nbsp;    // &quot;aufstöhnen&quot; (auf+stöhnen) etc.
+<b class="nc">&nbsp;    for (String prefix : VerbPrefixes.get()) {</b>
+<b class="nc">&nbsp;      if (word.startsWith(prefix)) {</b>
+<b class="nc">&nbsp;        List&lt;TaggedWord&gt; tags = tag(word.replaceFirst(&quot;^&quot; + prefix, &quot;&quot;));</b>
+<b class="nc">&nbsp;        if (tags.stream().anyMatch(k -&gt; k.getPosTag() != null &amp;&amp; k.getPosTag().startsWith(&quot;VER&quot;))) {</b>
+<b class="nc">&nbsp;          return word.substring(prefix.length());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  boolean isWeiseException(String word) {
+<b class="pc">&nbsp;    if (word.endsWith(&quot;erweise&quot;)) {  // &quot;idealerweise&quot; etc.</b>
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; tags = tag(StringUtils.removeEnd(word, &quot;erweise&quot;));</b>
+<b class="nc">&nbsp;      return tags.stream().anyMatch(k -&gt; k.getPosTag() != null &amp;&amp; k.getPosTag().startsWith(&quot;ADJ&quot;));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /*
+&nbsp;   * Tag alternative imperative forms (e.g., &quot;Geh bitte!&quot; in addition to &quot;Gehe bitte!&quot;)
+&nbsp;   * To avoid false positives and conflicts with DE_CASE the tagging is restricted to
+&nbsp;   * [a] words at the start of a sentence (&quot;Geh bitte!&quot;) if the sentence counts more than one word
+&nbsp;   * [b1] words preceded by ich/ihr/er/es/sie to catch some real errors (&quot;Er geh jetzt.&quot;) by the new rule in rulegroup SUBJECT_VERB_AGREEMENT
+&nbsp;   * [b2] words preceded by aber/nun/jetzt (e.g., &quot;Bitte geh!&quot;, &quot;Jetzt sag schon!&quot; etc.)
+&nbsp;   * @param word to be checked
+&nbsp;   */
+&nbsp;  private List&lt;AnalyzedToken&gt; getImperativeForm(String word, List&lt;String&gt; sentenceTokens, int pos) {
+<b class="fc">&nbsp;    int idx = sentenceTokens.indexOf(word);</b>
+<b class="fc">&nbsp;    String previousWord = &quot;&quot;;</b>
+<b class="fc">&nbsp;    while (--idx &gt; -1) {</b>
+<b class="fc">&nbsp;      previousWord = sentenceTokens.get(idx);</b>
+<b class="pc">&nbsp;      if (!StringUtils.isWhitespace(previousWord)) {</b>
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    if (!(pos == 0 &amp;&amp; sentenceTokens.size() &gt; 1)</b>
+<b class="pc">&nbsp;        &amp;&amp; !StringUtils.equalsAnyIgnoreCase(previousWord, &quot;ich&quot;, &quot;er&quot;, &quot;es&quot;, &quot;sie&quot;, &quot;bitte&quot;, &quot;aber&quot;, &quot;nun&quot;, &quot;jetzt&quot;, &quot;„&quot;)) {</b>
+<b class="fc">&nbsp;      return Collections.emptyList();</b>
+&nbsp;    }
+<b class="pc">&nbsp;    String w = pos == 0 || &quot;„&quot;.equals(previousWord) ? word.toLowerCase() : word;</b>
+<b class="fc">&nbsp;    List&lt;TaggedWord&gt; taggedWithE = getWordTagger().tag(w.concat(&quot;e&quot;));</b>
+<b class="pc">&nbsp;    for (TaggedWord tagged : taggedWithE) {</b>
+<b class="nc">&nbsp;      if (tagged.getPosTag().startsWith(&quot;VER:IMP:SIN&quot;)) {</b>
+&nbsp;        // do not overwrite manually removed tags
+<b class="nc">&nbsp;        if (removalTagger == null || !removalTagger.tag(w).contains(tagged)) {</b>
+<b class="nc">&nbsp;          return getAnalyzedTokens(Collections.singletonList(tagged), word);</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /*
+&nbsp;   * Tag substantivated adjectives and participles, which are currently tagged not tagged correctly
+&nbsp;   * (e.g., &quot;Verletzter&quot; in &quot;Ein Verletzter kam ins Krankenhaus&quot; needs to be tagged as &quot;SUB:NOM:SIN:MAS&quot;)
+&nbsp;   * @param word to be checked
+&nbsp;   */
+&nbsp;  private List&lt;AnalyzedToken&gt; getSubstantivatedForms(String word, List&lt;String&gt; sentenceTokens) {
+<b class="pc">&nbsp;    if (word.endsWith(&quot;er&quot;)) {</b>
+<b class="nc">&nbsp;      if (DDD_ER_PATTERN.matcher(word).matches()) {</b>
+&nbsp;        // e.g. &quot;Den 2019er Wert hatten sie geschätzt&quot;
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; list = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (String tag : allAdjGruTags) {</b>
+<b class="nc">&nbsp;          list.add(new AnalyzedToken(word, tag, word));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return list;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; lowerCaseTags = getWordTagger().tag(word.toLowerCase());</b>
+&nbsp;      // do not add tag words whose lower case variant is an adverb (e.g, &quot;Früher&quot;) to avoid false negatives for DE_CASE
+<b class="nc">&nbsp;      if (lowerCaseTags.stream().anyMatch(t -&gt; t.getPosTag().startsWith(&quot;ADV&quot;))) {</b>
+<b class="nc">&nbsp;        return Collections.emptyList();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      int idx = sentenceTokens.indexOf(word);</b>
+&nbsp;      // is followed by an uppercase word? If &#39;yes&#39;, the word is probably not substantivated
+<b class="nc">&nbsp;      while (++idx &lt; sentenceTokens.size()) {</b>
+<b class="nc">&nbsp;        String nextWord = sentenceTokens.get(idx);</b>
+<b class="nc">&nbsp;        if (StringUtils.isWhitespace(nextWord)) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        if (nextWord.length() &gt; 0 &amp;&amp; (Character.isUpperCase(nextWord.charAt(0)) || &quot;als&quot;.equals(nextWord))) {</b>
+<b class="nc">&nbsp;          return Collections.emptyList();</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      }
+<b class="nc">&nbsp;      String femaleForm = word.substring(0, word.length()-1);</b>
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; taggedFemaleForm = getWordTagger().tag(femaleForm);</b>
+<b class="nc">&nbsp;      boolean isSubstantivatedForm = taggedFemaleForm.stream().anyMatch(t -&gt; t.getPosTag().equals(&quot;SUB:NOM:SIN:FEM:ADJ&quot;));</b>
+<b class="nc">&nbsp;      if (isSubstantivatedForm) {</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; list = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        list.add(new AnalyzedToken(word, &quot;SUB:NOM:SIN:MAS:ADJ&quot;, word));</b>
+<b class="nc">&nbsp;        list.add(new AnalyzedToken(word, &quot;SUB:GEN:PLU:MAS:ADJ&quot;, word));</b>
+<b class="nc">&nbsp;        return list;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private AnalyzedToken getNoInfoToken(String word) {
+<b class="fc">&nbsp;    return new AnalyzedToken(word, null, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;AnalyzedToken&gt; getAnalyzedTokens(List&lt;TaggedWord&gt; taggedWords, String word) {
+<b class="fc">&nbsp;    List&lt;AnalyzedToken&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (TaggedWord taggedWord : taggedWords) {</b>
+<b class="fc">&nbsp;      result.add(new AnalyzedToken(word, taggedWord.getPosTag(), taggedWord.getLemma()));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;AnalyzedToken&gt; getAnalyzedTokens(List&lt;TaggedWord&gt; taggedWords, String word, List&lt;String&gt; compoundParts) {
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (TaggedWord taggedWord : taggedWords) {</b>
+<b class="nc">&nbsp;      if (taggedWord.getPosTag() != null &amp;&amp; taggedWord.getPosTag().startsWith(&quot;VER:IMP&quot;)) {</b>
+&nbsp;        // ignore imperative, as otherwise e.g. &quot;zehnfach&quot; will be interpreted as a verb (zehn + fach)
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;String&gt; allButLastPart = compoundParts.subList(0, compoundParts.size() - 1);</b>
+<b class="nc">&nbsp;      StringBuilder lemma = new StringBuilder();</b>
+<b class="nc">&nbsp;      int i = 0;</b>
+<b class="nc">&nbsp;      for (String s : allButLastPart) {</b>
+<b class="nc">&nbsp;        lemma.append(i == 0 ? s : StringTools.lowercaseFirstChar(s));</b>
+<b class="nc">&nbsp;        i++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      lemma.append(StringTools.lowercaseFirstChar(taggedWord.getLemma()));</b>
+<b class="nc">&nbsp;      result.add(new AnalyzedToken(word, taggedWord.getPosTag(), lemma.toString()));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class PrefixInfixVerb {
+&nbsp;    String prefix;
+&nbsp;    String infix;
+&nbsp;    String verbBaseform;
+<b class="fc">&nbsp;    PrefixInfixVerb(String prefix, String infix, String verbBaseform) {</b>
+<b class="fc">&nbsp;      this.prefix = intern(prefix);</b>
+<b class="fc">&nbsp;      this.infix = intern(infix);</b>
+<b class="fc">&nbsp;      this.verbBaseform = intern(verbBaseform);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static class AdjInfo {
+&nbsp;    String baseform;
+&nbsp;    String fullForm;
+&nbsp;    String tag;
+<b class="fc">&nbsp;    AdjInfo(String baseform, String fullForm, String tag) {</b>
+<b class="fc">&nbsp;      this.baseform = intern(baseform);</b>
+<b class="fc">&nbsp;      this.fullForm = intern(fullForm);</b>
+<b class="fc">&nbsp;      this.tag = intern(tag);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static class NominalizedVerb {
+&nbsp;    String prefix;
+&nbsp;    String verbBaseform;
+<b class="fc">&nbsp;    NominalizedVerb(String prefix, String verbBaseform) {</b>
+<b class="fc">&nbsp;      this.prefix = intern(prefix);</b>
+<b class="fc">&nbsp;      this.verbBaseform = intern(verbBaseform);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static class NominalizedGenitiveVerb {
+&nbsp;    String prefix;
+&nbsp;    String verbBaseform;
+<b class="fc">&nbsp;    NominalizedGenitiveVerb(String prefix, String verbBaseform) {</b>
+<b class="fc">&nbsp;      this.prefix = intern(prefix);</b>
+<b class="fc">&nbsp;      this.verbBaseform = intern(verbBaseform);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static class ExpansionInfos {
+&nbsp;    Map&lt;String, PrefixInfixVerb&gt; verbInfos;
+&nbsp;    Map&lt;String, NominalizedVerb&gt; nominalizedVerbInfos;
+&nbsp;    Map&lt;String, NominalizedGenitiveVerb&gt; nominalizedGenVerbInfos;
+&nbsp;    Map&lt;String, List&lt;AdjInfo&gt;&gt; adjInfos;
+&nbsp;    ExpansionInfos(Map&lt;String, PrefixInfixVerb&gt; verbInfos, Map&lt;String, NominalizedVerb&gt; nominalizedVerbInfos,
+<b class="fc">&nbsp;                   Map&lt;String, NominalizedGenitiveVerb&gt; nominalizedGenVerbInfos, Map&lt;String, List&lt;AdjInfo&gt;&gt; adjInfos) {</b>
+<b class="fc">&nbsp;      this.verbInfos = verbInfos;</b>
+<b class="fc">&nbsp;      this.nominalizedVerbInfos = nominalizedVerbInfos;</b>
+<b class="fc">&nbsp;      this.nominalizedGenVerbInfos = nominalizedGenVerbInfos;</b>
+<b class="fc">&nbsp;      this.adjInfos = adjInfos;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,205 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GermanTaggerEnhancer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.archive</a>
+</div>
+
+<h1>Coverage Summary for Class: GermanTaggerEnhancer (org.languagetool.dev.archive)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GermanTaggerEnhancer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.archive;
+&nbsp;
+&nbsp;import morfologik.stemming.Dictionary;
+&nbsp;import morfologik.stemming.DictionaryLookup;
+&nbsp;import morfologik.stemming.WordData;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.language.GermanyGerman;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * One-time script (used 2015-02-25) to add forms:
+&nbsp; * City names are incoherently tagged in the Morphy data. To avoid
+&nbsp; * false alarms on phrases like &quot;das Stuttgarter Auto&quot; we have to
+&nbsp; * explicitly add these adjective readings to &quot;Stuttgarter&quot; and to all
+&nbsp; * other potential city names.
+&nbsp; */
+<b class="nc">&nbsp;public class GermanTaggerEnhancer {</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final String[] ADJ_READINGS = {</b>
+&nbsp;          // singular:
+&nbsp;          &quot;ADJ:NOM:SIN:MAS:GRU&quot;, &quot;ADJ:NOM:SIN:NEU:GRU&quot;, &quot;ADJ:NOM:SIN:FEM:GRU&quot;,    // das Berliner Auto
+&nbsp;          &quot;ADJ:GEN:SIN:MAS:GRU&quot;, &quot;ADJ:GEN:SIN:NEU:GRU&quot;, &quot;ADJ:GEN:SIN:FEM:GRU&quot;,    // des Berliner Autos
+&nbsp;          &quot;ADJ:DAT:SIN:MAS:GRU&quot;, &quot;ADJ:DAT:SIN:NEU:GRU&quot;, &quot;ADJ:DAT:SIN:FEM:GRU&quot;,    // dem Berliner Auto
+&nbsp;          &quot;ADJ:AKK:SIN:MAS:GRU&quot;, &quot;ADJ:AKK:SIN:NEU:GRU&quot;, &quot;ADJ:AKK:SIN:FEM:GRU&quot;,    // den Berliner Bewohner
+&nbsp;          // plural:
+&nbsp;          &quot;ADJ:NOM:PLU:MAS:GRU&quot;, &quot;ADJ:NOM:PLU:NEU:GRU&quot;, &quot;ADJ:NOM:PLU:FEM:GRU&quot;,    // die Berliner Autos
+&nbsp;          &quot;ADJ:GEN:PLU:MAS:GRU&quot;, &quot;ADJ:GEN:PLU:NEU:GRU&quot;, &quot;ADJ:GEN:PLU:FEM:GRU&quot;,    // der Berliner Autos
+&nbsp;          &quot;ADJ:DAT:PLU:MAS:GRU&quot;, &quot;ADJ:DAT:PLU:NEU:GRU&quot;, &quot;ADJ:DAT:PLU:FEM:GRU&quot;,    // den Berliner Autos
+&nbsp;          &quot;ADJ:AKK:PLU:MAS:GRU&quot;, &quot;ADJ:AKK:PLU:NEU:GRU&quot;, &quot;ADJ:AKK:PLU:FEM:GRU&quot;,    // den Berliner Bewohnern
+&nbsp;  };
+&nbsp;
+&nbsp;  private void run() throws IOException {
+<b class="nc">&nbsp;    final Dictionary dictionary = Dictionary.read(</b>
+<b class="nc">&nbsp;            JLanguageTool.getDataBroker().getFromResourceDirAsUrl(&quot;/de/german.dict&quot;));</b>
+<b class="nc">&nbsp;    final DictionaryLookup dl = new DictionaryLookup(dictionary);</b>
+<b class="nc">&nbsp;    Tagger tagger = GermanyGerman.getInstance().getTagger();</b>
+<b class="nc">&nbsp;    String prev = null;</b>
+<b class="nc">&nbsp;    for (WordData wd : dl) {</b>
+<b class="nc">&nbsp;      String word = wd.getWord().toString();</b>
+<b class="nc">&nbsp;      if (word.endsWith(&quot;er&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; StringTools.startsWithUppercase(word)</b>
+<b class="nc">&nbsp;          &amp;&amp; !hasAnyPosTagStartingWith(tagger, word, &quot;ADJ:NOM&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; hasAnyPosTagStartingWith(tagger, word.substring(0, word.length()-2), &quot;EIG&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; !word.equals(prev)) {</b>
+<b class="nc">&nbsp;        for (String newTags : ADJ_READINGS) {</b>
+<b class="nc">&nbsp;          System.out.println(word + &quot;\t&quot; + word + &quot;\t&quot; + newTags + &quot;:DEF\n&quot;+</b>
+&nbsp;                             word + &quot;\t&quot; + word + &quot;\t&quot; + newTags + &quot;:IND\n&quot;+
+&nbsp;                             word + &quot;\t&quot; + word + &quot;\t&quot; + newTags + &quot;:SOL&quot;);
+&nbsp;        }
+<b class="nc">&nbsp;        prev = word;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean hasAnyPosTagStartingWith(Tagger tagger, String word, String initialPosTag) throws IOException {
+<b class="nc">&nbsp;    List&lt;AnalyzedTokenReadings&gt; readings = tagger.tag(Collections.singletonList(word));</b>
+<b class="nc">&nbsp;    return readings.stream().anyMatch(atr -&gt; atr.hasPosTagStartingWith(initialPosTag));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    GermanTaggerEnhancer enhancer = new GermanTaggerEnhancer();</b>
+<b class="nc">&nbsp;    enhancer.run();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

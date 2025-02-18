@@ -1,0 +1,550 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MorfologikFrenchSpellerRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.fr</a>
+</div>
+
+<h1>Coverage Summary for Class: MorfologikFrenchSpellerRule (org.languagetool.rules.fr)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MorfologikFrenchSpellerRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/102)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/155)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MorfologikFrenchSpellerRule$CacheKey</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">MorfologikFrenchSpellerRule$WrappingException</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/110)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/168)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2020 Jaume Ortolà (http://www.languagetool.org)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.fr;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.language.French;
+&nbsp;import org.languagetool.rules.SuggestedReplacement;
+&nbsp;import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+&nbsp;import org.languagetool.tagging.fr.FrenchTagger;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.ConcurrentHashMap;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static java.util.regex.Pattern.*;
+&nbsp;
+&nbsp;public final class MorfologikFrenchSpellerRule extends MorfologikSpellerRule {
+<b class="nc">&nbsp;  private static final Map&lt;CacheKey, MorfologikFrenchSpellerRule&gt; rulesCache = new ConcurrentHashMap&lt;&gt;();</b>
+&nbsp;  private static final String SPELLING_FILE = &quot;/fr/hunspell/spelling.txt&quot;;
+&nbsp;
+&nbsp;  private static final int flags = CASE_INSENSITIVE | UNICODE_CASE;
+<b class="nc">&nbsp;  private static final List&lt;String&gt; TOKEN_AT_START = Arrays.asList(&quot;non&quot;, &quot;en&quot;, &quot;a&quot;, &quot;le&quot;, &quot;la&quot;, &quot;les&quot;, &quot;pour&quot;, &quot;de&quot;,</b>
+&nbsp;    &quot;du&quot;, &quot;des&quot;, &quot;un&quot;, &quot;une&quot;, &quot;mon&quot;, &quot;ma&quot;, &quot;mes&quot;, &quot;ton&quot;, &quot;ta&quot;, &quot;tes&quot;, &quot;son&quot;, &quot;sa&quot;, &quot;ses&quot;, &quot;leur&quot;, &quot;leurs&quot;, &quot;ce&quot;, &quot;cet&quot;);
+<b class="nc">&nbsp;  private static final List&lt;String&gt; PREFIX_WITH_WHITESPACE = Arrays.asList(&quot;agro&quot;, &quot;anti&quot;, &quot;archi&quot;, &quot;auto&quot;, &quot;aéro&quot;,</b>
+&nbsp;    &quot;cardio&quot;, &quot;co&quot;, &quot;cyber&quot;, &quot;demi&quot;, &quot;ex&quot;, &quot;extra&quot;, &quot;géo&quot;, &quot;hospitalo&quot;, &quot;hydro&quot;, &quot;hyper&quot;, &quot;hypo&quot;, &quot;infra&quot;, &quot;inter&quot;,
+&nbsp;    &quot;macro&quot;, &quot;mega&quot;, &quot;meta&quot;, &quot;mi&quot;, &quot;micro&quot;, &quot;mini&quot;, &quot;mono&quot;, &quot;multi&quot;, &quot;musculo&quot;, &quot;méga&quot;, &quot;méta&quot;, &quot;néo&quot;, &quot;omni&quot;, &quot;pan&quot;,
+&nbsp;    &quot;para&quot;, &quot;pluri&quot;, &quot;poly&quot;, &quot;post&quot;, &quot;prim&quot;, &quot;pro&quot;, &quot;proto&quot;, &quot;pré&quot;, &quot;pseudo&quot;, &quot;psycho&quot;, &quot;péri&quot;, &quot;re&quot;, &quot;retro&quot;, &quot;ré&quot;,
+&nbsp;    &quot;semi&quot;, &quot;simili&quot;, &quot;socio&quot;, &quot;super&quot;, &quot;supra&quot;, &quot;sus&quot;, &quot;trans&quot;, &quot;tri&quot;, &quot;télé&quot;, &quot;ultra&quot;, &quot;uni&quot;, &quot;vice&quot;, &quot;éco&quot;);
+&nbsp;  //grand, haut, nord, sud, sous, sur l|d|s|t
+<b class="nc">&nbsp;  private static final List&lt;String&gt; exceptionsEgrave = Arrays.asList(&quot;burkinabè&quot;, &quot;koinè&quot;, &quot;épistémè&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern APOSTROF_INICI_VERBS = compile(&quot;^([lnts])(h?[aeiouàéèíòóú].*[^è])$&quot;, flags);</b>
+<b class="nc">&nbsp;  private static final Pattern APOSTROF_INICI_VERBS_M = compile(&quot;^(m)(h?[aeiouàéèíòóú].*[^è])$&quot;, flags);</b>
+<b class="nc">&nbsp;  private static final Pattern APOSTROF_INICI_VERBS_C = compile(&quot;^(c)([eiéèê].*)$&quot;, flags);</b>
+<b class="nc">&nbsp;  private static final Pattern APOSTROF_INICI_NOM_SING = compile(&quot;^([ld])(h?[aeiouàéèíòóú]...+)$&quot;, flags);</b>
+<b class="nc">&nbsp;  private static final Pattern APOSTROF_INICI_NOM_PLURAL = compile(&quot;^(d)(h?[aeiouàéèíòóú].+)$&quot;, flags);</b>
+<b class="nc">&nbsp;  private static final Pattern APOSTROF_INICI_VERBS_INF = compile(&quot;^([lntsmd]|nous|vous)(h?[aeiouàéèíòóú].*[^è])$&quot;, flags);</b>
+&nbsp;  //je, tu, il, elle, ce, on, nous, vous, ils
+<b class="nc">&nbsp;  private static final Pattern HYPHEN_ON = compile(&quot;^([\\p{L}]+[^aeiou])[’&#39;]?(il|elle|ce|on)$&quot;, flags);</b>
+<b class="nc">&nbsp;  private static final Pattern HYPHEN_JE = compile(&quot;^([\\p{L}]+[^e])[’&#39;]?(je)$&quot;, flags);</b>
+<b class="nc">&nbsp;  private static final Pattern HYPHEN_TU = compile(&quot;^([\\p{L}]+)[’&#39;]?(tu)$&quot;, flags);</b>
+<b class="nc">&nbsp;  private static final Pattern HYPHEN_NOUS = compile(&quot;^([\\p{L}]+)[’&#39;]?(nous)$&quot;, flags);</b>
+<b class="nc">&nbsp;  private static final Pattern HYPHEN_VOUS = compile(&quot;^([\\p{L}]+)[’&#39;]?(vous)$&quot;, flags);</b>
+<b class="nc">&nbsp;  private static final Pattern HYPHEN_ILS = compile(&quot;^([\\p{L}]+)[’&#39;]?(ils|elles)$&quot;, flags);</b>
+<b class="nc">&nbsp;  private static final List&lt;String&gt; SPLIT_DIGITS_AT_END = Arrays.asList(&quot;et&quot;, &quot;ou&quot;, &quot;de&quot;, &quot;en&quot;, &quot;à&quot;, &quot;aux&quot;, &quot;des&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern IMPERATIVE_HYPHEN = compile(</b>
+&nbsp;      &quot;^([\\p{L}]+)[’&#39;]?(moi|toi|le|la|lui|nous|vous|les|leur|y|en)$&quot;, flags); //|vs|y
+&nbsp;
+&nbsp;  //private static final Pattern MOVE_TO_SECOND_POS = Pattern.compile(&quot;^(.+&#39;[nt])$&quot;, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+<b class="nc">&nbsp;  private static final Pattern VERB_INDSUBJ = compile(&quot;V .*(ind|sub).*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern VERB_IMP = compile(&quot;V.* imp .*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern VERB_INF = compile(&quot;V.* inf&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern VERB_INDSUBJ_M = compile(&quot;V .* [123] s|V .* [23] p&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern VERB_INDSUBJ_C = compile(&quot;V .* 3 s&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOM_SING = compile(&quot;[NJZ] .* (s|sp)|V .inf|V .*ppa.* s&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOM_PLURAL = compile(&quot;[NJZ] .* (p|sp)|V .*ppa.* p&quot;);</b>
+&nbsp;  //private static final Pattern VERB_INFGERIMP = Pattern.compile(&quot;V.[NGM].*&quot;);
+&nbsp;  //private static final Pattern VERB_INF = Pattern.compile(&quot;V.N.*&quot;);
+<b class="nc">&nbsp;  private static final Pattern ANY_TAG = compile(&quot;[NAZJPD].*&quot;);</b>
+&nbsp;  
+<b class="nc">&nbsp;  private static final Pattern VERB_1S = compile(&quot;V .*(ind).* 1 s&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern VERB_2S = compile(&quot;V .*(ind).* 2 s&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern VERB_3S = compile(&quot;V .*(ind).* 3 s&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern VERB_1P = compile(&quot;V .*(ind).* 1 p&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern VERB_2P = compile(&quot;V .*(ind).* 2 p&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern VERB_3P = compile(&quot;V .*(ind).* 3 p&quot;);</b>
+&nbsp;  private static final String DICT_FILE = &quot;/fr/french.dict&quot;;
+<b class="nc">&nbsp;  private static final Pattern HYPHEN_OR_QUOTE = compile(&quot;[&#39;-]&quot;);</b>
+&nbsp;
+&nbsp;  public MorfologikFrenchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
+&nbsp;      List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    super(messages, language, userConfig, altLanguages);</b>
+<b class="nc">&nbsp;    setIgnoreTaggedWords();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getFileName() {
+<b class="nc">&nbsp;    return DICT_FILE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getSpellingFileName() {
+<b class="nc">&nbsp;    return SPELLING_FILE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;FR_SPELLING_RULE&quot;; // same name just for diffs</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  // Use this rule in LO/OO extension despite being a spelling rule
+&nbsp;  public boolean useInOffice() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;SuggestedReplacement&gt; orderSuggestions(List&lt;SuggestedReplacement&gt; suggestions, String word) {
+&nbsp;    // move some run-on-words suggestions to the top
+<b class="nc">&nbsp;    List&lt;SuggestedReplacement&gt; newSuggestions = new ArrayList&lt;&gt;();</b>
+&nbsp;    // for (SuggestedReplacement suggestion : suggestions) {
+<b class="nc">&nbsp;    String wordWithouDiacriticsString = StringTools.removeDiacritics(word);</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; suggestions.size(); i++) {</b>
+&nbsp;
+<b class="nc">&nbsp;      String[] parts = suggestions.get(i).getReplacement().toLowerCase().split(&quot; &quot;);</b>
+&nbsp;
+&nbsp;      // remove wrong split prefixes
+<b class="nc">&nbsp;      if (parts.length == 2 &amp;&amp; PREFIX_WITH_WHITESPACE.contains(parts[0])) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if (parts[0].length() == 1 &amp;&amp; !parts[0].equals(&quot;a&quot;) &amp;&amp; !parts[0].equals(&quot;à&quot;) &amp;&amp; !parts[0].equals(&quot;y&quot;)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;      // remove: informè V ind pres 1 s
+<b class="nc">&nbsp;      if (suggestions.get(i).getReplacement().toLowerCase().endsWith(&quot;è&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; !exceptionsEgrave.contains(suggestions.get(i).getReplacement().toLowerCase())) {</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+&nbsp;      // Don&#39;t change first suggestions if they match word without diacritics
+<b class="nc">&nbsp;      int posNewSugg = 0;</b>
+<b class="nc">&nbsp;      while (newSuggestions.size() &gt; posNewSugg</b>
+<b class="nc">&nbsp;          &amp;&amp; StringTools.removeDiacritics(newSuggestions.get(posNewSugg).getReplacement())</b>
+<b class="nc">&nbsp;              .equalsIgnoreCase(wordWithouDiacriticsString)) {</b>
+<b class="nc">&nbsp;        posNewSugg++;</b>
+&nbsp;      }
+&nbsp;      // move some split words to first place
+<b class="nc">&nbsp;      if (parts.length == 2 &amp;&amp; TOKEN_AT_START.contains(parts[0]) &amp;&amp; parts[1].length() &gt; 1) {</b>
+<b class="nc">&nbsp;        newSuggestions.add(posNewSugg, suggestions.get(i));</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      String suggWithoutDiacritics = StringTools.removeDiacritics(suggestions.get(i).getReplacement());</b>
+<b class="nc">&nbsp;      if (wordWithouDiacriticsString.equalsIgnoreCase(suggWithoutDiacritics)) {</b>
+<b class="nc">&nbsp;        newSuggestions.add(posNewSugg, suggestions.get(i));</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+&nbsp;      // move words with apostrophe or hyphen to second position
+<b class="nc">&nbsp;      String cleanSuggestion = HYPHEN_OR_QUOTE.matcher(suggestions.get(i).getReplacement()).replaceAll(&quot;&quot;);</b>
+<b class="nc">&nbsp;      if (i &gt; 1 &amp;&amp; suggestions.size() &gt; 2 &amp;&amp; cleanSuggestion.equalsIgnoreCase(word)) {</b>
+<b class="nc">&nbsp;        if (posNewSugg == 0) {</b>
+<b class="nc">&nbsp;          posNewSugg = 1;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        newSuggestions.add(posNewSugg, suggestions.get(i));</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      newSuggestions.add(suggestions.get(i));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return newSuggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;SuggestedReplacement&gt; getAdditionalTopSuggestions(List&lt;SuggestedReplacement&gt; suggestions, String word)
+&nbsp;      throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; suggestionsList = suggestions.stream().map(SuggestedReplacement::getReplacement)</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    return SuggestedReplacement.convert(getAdditionalTopSuggestionsString(suggestionsList, word));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; getAdditionalTopSuggestionsString(List&lt;String&gt; suggestions, String word) {
+<b class="nc">&nbsp;    if (word.equals(&quot;voulai&quot;)) {</b>
+<b class="nc">&nbsp;      return Arrays.asList(&quot;voulais&quot;, &quot;voulait&quot;);</b>
+<b class="nc">&nbsp;    } else if (word.equalsIgnoreCase(&quot;mm2&quot;)) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(&quot;mm²&quot;);</b>
+<b class="nc">&nbsp;    } else if (word.equalsIgnoreCase(&quot;cm2&quot;)) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(&quot;cm²&quot;);</b>
+<b class="nc">&nbsp;    } else if (word.equalsIgnoreCase(&quot;dm2&quot;)) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(&quot;dm²&quot;);</b>
+<b class="nc">&nbsp;    } else if (word.equalsIgnoreCase(&quot;m2&quot;)) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(&quot;m²&quot;);</b>
+<b class="nc">&nbsp;    } else if (word.equalsIgnoreCase(&quot;km2&quot;)) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(&quot;km²&quot;);</b>
+<b class="nc">&nbsp;    } else if (word.equalsIgnoreCase(&quot;mm3&quot;)) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(&quot;mm³&quot;);</b>
+<b class="nc">&nbsp;    } else if (word.equalsIgnoreCase(&quot;cm3&quot;)) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(&quot;cm³&quot;);</b>
+<b class="nc">&nbsp;    } else if (word.equalsIgnoreCase(&quot;dm3&quot;)) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(&quot;dm³&quot;);</b>
+<b class="nc">&nbsp;    } else if (word.equalsIgnoreCase(&quot;m3&quot;)) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(&quot;m³&quot;);</b>
+<b class="nc">&nbsp;    } else if (word.equalsIgnoreCase(&quot;km3&quot;)) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(&quot;km³&quot;);</b>
+&nbsp;    }
+&nbsp;    /*
+&nbsp;     * if (word.length() &lt; 5) { return Collections.emptyList(); }
+&nbsp;     */
+<b class="nc">&nbsp;    String[] parts = StringTools.splitCamelCase(word);</b>
+<b class="nc">&nbsp;    if (parts.length &gt; 1 &amp;&amp; parts[0].length() &gt; 1) {</b>
+<b class="nc">&nbsp;      boolean isNotMisspelled = true;</b>
+<b class="nc">&nbsp;      for(String part: parts) {</b>
+<b class="nc">&nbsp;        isNotMisspelled &amp;= !speller1.isMisspelled(part);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (isNotMisspelled) {</b>
+<b class="nc">&nbsp;        return Collections.singletonList(String.join(&quot; &quot;,parts));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    parts = StringTools.splitDigitsAtEnd(word);</b>
+<b class="nc">&nbsp;    if (parts.length &gt; 1) {</b>
+<b class="nc">&nbsp;      if (FrenchTagger.INSTANCE.tag(Collections.singletonList(parts[0])).get(0).isTagged()</b>
+<b class="nc">&nbsp;        &amp;&amp; (parts[0].length() &gt; 2 || SPLIT_DIGITS_AT_END.contains(parts[0].toLowerCase()))) {</b>
+<b class="nc">&nbsp;        return Collections.singletonList(String.join(&quot; &quot;,parts));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; newSuggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, &quot;&#39;&quot;, true));</b>
+<b class="nc">&nbsp;    newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, &quot;&#39;&quot;, true));</b>
+<b class="nc">&nbsp;    newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS_C, VERB_INDSUBJ_C, 2, &quot;&#39;&quot;, true));</b>
+<b class="nc">&nbsp;    newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_VERBS_INF, VERB_INF, 2, &quot;&#39;&quot;, true));</b>
+<b class="nc">&nbsp;    newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, &quot;&#39;&quot;, true));</b>
+<b class="nc">&nbsp;    newSuggestions.addAll(findSuggestion(word, APOSTROF_INICI_NOM_PLURAL, NOM_PLURAL, 2, &quot;&#39;&quot;, true));</b>
+&nbsp;    //newSuggestions.addAll(findSuggestion(word, APOSTROF_FINAL, VERB_INFGERIMP, 1, &quot;&#39;&quot;, true);
+&nbsp;    //newSuggestions.addAll(findSuggestion(word, APOSTROF_FINAL_S, VERB_INF, 1, &quot;&#39;&quot;, true);
+<b class="nc">&nbsp;    newSuggestions.addAll(findSuggestion(word, IMPERATIVE_HYPHEN, VERB_IMP, 1, &quot;-&quot;, true));</b>
+&nbsp;    //newSuggestions.addAll(findSuggestion(word, GUIONET_FINAL, VERB_INDSUBJ, 1, &quot;-&quot;, true);
+&nbsp;    
+<b class="nc">&nbsp;    newSuggestions.addAll(findSuggestion(word, HYPHEN_JE, VERB_1S, 1, &quot;-&quot;, true));</b>
+<b class="nc">&nbsp;    newSuggestions.addAll(findSuggestion(word, HYPHEN_TU, VERB_2S, 1, &quot;-&quot;, true));</b>
+<b class="nc">&nbsp;    newSuggestions.addAll(findSuggestion(word, HYPHEN_ON, VERB_3S, 1, &quot;-&quot;, true));</b>
+<b class="nc">&nbsp;    newSuggestions.addAll(findSuggestion(word, HYPHEN_NOUS, VERB_1P, 1, &quot;-&quot;, true));</b>
+<b class="nc">&nbsp;    newSuggestions.addAll(findSuggestion(word, HYPHEN_VOUS, VERB_2P, 1, &quot;-&quot;, true));</b>
+<b class="nc">&nbsp;    newSuggestions.addAll(findSuggestion(word, HYPHEN_ILS, VERB_3P, 1, &quot;-&quot;, true));</b>
+&nbsp;
+<b class="nc">&nbsp;    if (!newSuggestions.isEmpty()) {</b>
+<b class="nc">&nbsp;      return newSuggestions;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; findSuggestion(String word, Pattern wordPattern, Pattern postagPattern,
+&nbsp;      int suggestionPosition, String separator, boolean recursive) {
+<b class="nc">&nbsp;    List&lt;String&gt; newSuggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    Matcher matcher = wordPattern.matcher(word);</b>
+<b class="nc">&nbsp;    if (matcher.matches()) {</b>
+<b class="nc">&nbsp;      String newSuggestion = matcher.group(suggestionPosition);</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings newatr = FrenchTagger.INSTANCE.tag(Collections.singletonList(newSuggestion)).get(0);</b>
+<b class="nc">&nbsp;      if (matchPostagRegexp(newatr, postagPattern)) {</b>
+<b class="nc">&nbsp;        newSuggestions.add(matcher.group(1) + separator + matcher.group(2));</b>
+<b class="nc">&nbsp;        return newSuggestions;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (recursive) {</b>
+<b class="nc">&nbsp;        List&lt;String&gt; moreSugg = this.speller1.getSuggestions(newSuggestion);</b>
+<b class="nc">&nbsp;        if (moreSugg.size() &gt; 0) {</b>
+<b class="nc">&nbsp;          for (int i = 0; i &lt; moreSugg.size(); i++) {</b>
+&nbsp;            String newWord;
+<b class="nc">&nbsp;            if (suggestionPosition == 1) {</b>
+<b class="nc">&nbsp;              newWord = moreSugg.get(i) + matcher.group(2); //.toLowerCase()</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              newWord = matcher.group(1) + moreSugg.get(i);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            List&lt;String&gt; newSugg = findSuggestion(newWord, wordPattern, postagPattern, suggestionPosition, separator, false);</b>
+<b class="nc">&nbsp;            if (!newSugg.isEmpty()) {</b>
+<b class="nc">&nbsp;              newSuggestions.addAll(newSugg);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (i &gt; 5) {</b>
+&nbsp;              break;
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (!newSuggestions.isEmpty()) {</b>
+<b class="nc">&nbsp;      return newSuggestions;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Match POS tag with regular expression
+&nbsp;   */
+&nbsp;  private boolean matchPostagRegexp(AnalyzedTokenReadings aToken, Pattern pattern) {
+<b class="nc">&nbsp;    for (AnalyzedToken analyzedToken : aToken) {</b>
+<b class="nc">&nbsp;      String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if (posTag == null) {</b>
+<b class="nc">&nbsp;        posTag = &quot;UNKNOWN&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      Matcher m = pattern.matcher(posTag);</b>
+<b class="nc">&nbsp;      if (m.matches()) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static @NotNull MorfologikFrenchSpellerRule getRule(@NotNull ResourceBundle messages) throws IOException {
+<b class="nc">&nbsp;    return getRule(messages, French.getInstance());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static @NotNull MorfologikFrenchSpellerRule getRule(@NotNull ResourceBundle messages,
+&nbsp;                                                             @NotNull Language language) throws IOException {
+<b class="nc">&nbsp;    return getRule(messages, language, null, Collections.emptyList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static @NotNull MorfologikFrenchSpellerRule getRule(@NotNull ResourceBundle messages,
+&nbsp;                                                             @NotNull Language language,
+&nbsp;                                                             @Nullable UserConfig userConfig,
+&nbsp;                                                             @NotNull List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    CacheKey cacheKey = new CacheKey(messages, language, userConfig, altLanguages);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      return rulesCache.computeIfAbsent(cacheKey, key -&gt; {</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          return new MorfologikFrenchSpellerRule(messages, language, userConfig, altLanguages);</b>
+&nbsp;        } catch (IOException e) {
+<b class="nc">&nbsp;          throw new WrappingException(e);</b>
+&nbsp;        }
+&nbsp;      });
+&nbsp;    } catch (WrappingException e) {
+<b class="nc">&nbsp;      throw (IOException) e.getCause();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class CacheKey {
+&nbsp;    @NotNull ResourceBundle messages;
+&nbsp;    @NotNull Language language;
+&nbsp;    @Nullable UserConfig userConfig;
+&nbsp;    @NotNull List&lt;Language&gt; altLanguages;
+&nbsp;
+<b class="nc">&nbsp;    public CacheKey(@NotNull ResourceBundle messages, @NotNull Language language, @Nullable UserConfig userConfig, @NotNull List&lt;Language&gt; altLanguages) {</b>
+<b class="nc">&nbsp;      this.messages = messages;</b>
+<b class="nc">&nbsp;      this.language = language;</b>
+<b class="nc">&nbsp;      this.userConfig = userConfig;</b>
+<b class="nc">&nbsp;      this.altLanguages = altLanguages;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public final boolean equals(Object o) {
+<b class="nc">&nbsp;      if (!(o instanceof CacheKey cacheKey)) return false;</b>
+&nbsp;
+<b class="nc">&nbsp;      return messages.equals(cacheKey.messages) &amp;&amp; language.equals(cacheKey.language) &amp;&amp; Objects.equals(userConfig, cacheKey.userConfig) &amp;&amp; altLanguages.equals(cacheKey.altLanguages);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;      int result = messages.hashCode();</b>
+<b class="nc">&nbsp;      result = 31 * result + language.hashCode();</b>
+<b class="nc">&nbsp;      result = 31 * result + Objects.hashCode(userConfig);</b>
+<b class="nc">&nbsp;      result = 31 * result + altLanguages.hashCode();</b>
+<b class="nc">&nbsp;      return result;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class WrappingException extends RuntimeException {
+&nbsp;    public WrappingException(Throwable cause) {
+<b class="nc">&nbsp;      super(cause);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,355 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ServerMetricsCollector</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: ServerMetricsCollector (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServerMetricsCollector</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/85)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ServerMetricsCollector$RequestErrorType</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/91)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Fabian Richter
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import com.google.common.cache.Cache;
+&nbsp;import io.prometheus.client.Counter;
+&nbsp;import io.prometheus.client.Gauge;
+&nbsp;import io.prometheus.client.Histogram;
+&nbsp;import io.prometheus.client.Info;
+&nbsp;import io.prometheus.client.exporter.HTTPServer;
+&nbsp;import io.prometheus.client.guava.cache.CacheMetricsCollector;
+&nbsp;import io.prometheus.client.hotspot.DefaultExports;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Premium;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;public class ServerMetricsCollector {
+&nbsp;
+&nbsp;  public static final String UNKNOWN = &quot;unknown&quot;;
+&nbsp;
+<b class="nc">&nbsp;  public enum RequestErrorType {</b>
+<b class="nc">&nbsp;    QUEUE_FULL,</b>
+<b class="nc">&nbsp;    TOO_MANY_ERRORS,</b>
+<b class="nc">&nbsp;    MAX_CHECK_TIME,</b>
+<b class="nc">&nbsp;    MAX_TEXT_SIZE,</b>
+<b class="nc">&nbsp;    INVALID_REQUEST</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final double[] LATENCY_BUCKETS = {</b>
+&nbsp;    0.025, 0.05, .1, .25, .5, .75, 1., 2., 4., 6., 8., 10., 15.
+&nbsp;  };
+&nbsp;
+<b class="nc">&nbsp;  private static final double[] SIZE_BUCKETS = {</b>
+&nbsp;    25, 100, 500, 1000, 2500, 5000, 10000, 20000, 40000
+&nbsp;  };
+&nbsp;
+&nbsp;  // buckets for processing speed in chars/s;
+<b class="nc">&nbsp;  private static final double[] SPEED_BUCKETS = {</b>
+&nbsp;    10, 100, 500, 1000, 2500, 5000, 7500, 10000, 20000, 50000
+&nbsp;  };
+&nbsp;
+<b class="nc">&nbsp;  private static final ServerMetricsCollector collector = new ServerMetricsCollector();</b>
+&nbsp;  
+&nbsp;  private static HTTPServer server;
+&nbsp;
+<b class="nc">&nbsp;  private final Counter matchCounter = Counter</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_check_matches_total&quot;, &quot;Total amount of rule matches&quot;)</b>
+<b class="nc">&nbsp;    .labelNames(&quot;language&quot;, &quot;mode&quot;).register();</b>
+&nbsp;
+&nbsp;  // TODO: deprecate - replaced by histograms below
+<b class="nc">&nbsp;  private final Counter checkCounter = Counter</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_checks_total&quot;, &quot;Total text checks&quot;)</b>
+<b class="nc">&nbsp;    .labelNames(&quot;language&quot;, &quot;mode&quot;).register();</b>
+<b class="nc">&nbsp;  private final Counter charactersCounter = Counter</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_characters_total&quot;, &quot;Total processed characters&quot;)</b>
+<b class="nc">&nbsp;    .labelNames(&quot;language&quot;, &quot;mode&quot;).register();</b>
+<b class="nc">&nbsp;  private final Counter computationTimeCounter = Counter</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_computation_time_seconds_total&quot;, &quot;Total computation time, in seconds&quot;)</b>
+<b class="nc">&nbsp;    .labelNames(&quot;language&quot;, &quot;mode&quot;).register();</b>
+&nbsp;
+&nbsp;
+&nbsp;  // need to be very careful about cardinality with those
+<b class="nc">&nbsp;  private final Histogram checkLatency = Histogram</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_check_latency_seconds&quot;, &quot;Histogram of check times&quot;)</b>
+<b class="nc">&nbsp;    .buckets(LATENCY_BUCKETS)</b>
+<b class="nc">&nbsp;    .labelNames(&quot;language&quot;, &quot;mode&quot;).register();</b>
+<b class="nc">&nbsp;  private final Histogram checkSize = Histogram</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_check_size_characters&quot;, &quot;Histogram of check sizes&quot;)</b>
+<b class="nc">&nbsp;    .buckets(SIZE_BUCKETS).labelNames(&quot;language&quot;, &quot;mode&quot;).register();</b>
+<b class="nc">&nbsp;  private final Histogram checkSpeed = Histogram</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_check_speed_chars_per_second&quot;, &quot;Histogram of relative check speed&quot;)</b>
+<b class="nc">&nbsp;    .buckets(SPEED_BUCKETS).labelNames(&quot;language&quot;, &quot;mode&quot;).register();</b>
+&nbsp;
+<b class="nc">&nbsp;  private final Counter requestErrorCounter = Counter</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_request_errors_total&quot;, &quot;Various request errors&quot;)</b>
+<b class="nc">&nbsp;    .labelNames(&quot;reason&quot;).register();</b>
+&nbsp;
+&nbsp;  // TODO add label for route, method, ...?
+<b class="nc">&nbsp;  private final Counter httpRequestCounter = Counter</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_http_requests_total&quot;, &quot;Received HTTP requests&quot;).register();</b>
+&nbsp;
+<b class="nc">&nbsp;  private final Counter httpResponseCounter = Counter</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_http_responses_total&quot;, &quot;HTTP responses by code&quot;)</b>
+<b class="nc">&nbsp;    .labelNames(&quot;code&quot;).register();</b>
+&nbsp;
+<b class="nc">&nbsp;  private final Counter failedHealthcheckCounter = Counter</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_failed_healthchecks_total&quot;, &quot;Failed healthchecks&quot;).register();</b>
+&nbsp;
+<b class="nc">&nbsp;  private final Info buildInfo = Info</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_build&quot;, &quot;Build information&quot;).register();</b>
+&nbsp;
+<b class="nc">&nbsp;  private final Gauge configValues = Gauge</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_configuration_values&quot;, &quot;Configuration settings&quot;).labelNames(&quot;name&quot;).register();</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;  private final CacheMetricsCollector cacheMetrics = new CacheMetricsCollector().register();</b>
+&nbsp;
+&nbsp;
+&nbsp;  public static void init(HTTPServerConfig config) throws IOException {
+<b class="nc">&nbsp;    DefaultExports.initialize();</b>
+<b class="nc">&nbsp;    server = new HTTPServer(config.getPrometheusPort(), true);</b>
+<b class="nc">&nbsp;    Gauge c = getInstance().configValues;</b>
+<b class="nc">&nbsp;    exposeConfigurationValues(config, c);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void exposeConfigurationValues(HTTPServerConfig config, Gauge c) {
+<b class="nc">&nbsp;    c.labels(&quot;maxCheckThreads&quot;).set(config.getMaxCheckThreads());</b>
+<b class="nc">&nbsp;    c.labels(&quot;maxWorkQueueSize&quot;).set(config.getMaxWorkQueueSize());</b>
+<b class="nc">&nbsp;    c.labels(&quot;cacheSize&quot;).set(config.getCacheSize());</b>
+<b class="nc">&nbsp;    c.labels(&quot;cacheTTLSeconds&quot;).set(config.getCacheTTLSeconds());</b>
+<b class="nc">&nbsp;    c.labels(&quot;maxCheckTimeMillisAnonymous&quot;).set(config.getMaxCheckTimeMillisAnonymous());</b>
+<b class="nc">&nbsp;    c.labels(&quot;maxCheckTimeMillisLoggedIn&quot;).set(config.getMaxCheckTimeMillisLoggedIn());</b>
+<b class="nc">&nbsp;    c.labels(&quot;maxCheckTimeMillisPremium&quot;).set(config.getMaxCheckTimeMillisPremium());</b>
+<b class="nc">&nbsp;    c.labels(&quot;maxTextLengthAnonymous&quot;).set(config.getMaxTextLengthAnonymous());</b>
+<b class="nc">&nbsp;    c.labels(&quot;maxTextLengthLoggedIn&quot;).set(config.getMaxTextLengthLoggedIn());</b>
+<b class="nc">&nbsp;    c.labels(&quot;maxTextLengthPremium&quot;).set(config.getMaxTextLengthPremium());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void stop() {
+<b class="nc">&nbsp;    server.stop();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static ServerMetricsCollector getInstance() {
+<b class="nc">&nbsp;    return collector;</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  public ServerMetricsCollector() {</b>
+<b class="nc">&nbsp;    buildInfo.info(</b>
+<b class="nc">&nbsp;            &quot;version&quot;, Objects.toString(JLanguageTool.VERSION), </b>
+<b class="nc">&nbsp;            &quot;buildDate&quot;, Objects.toString(JLanguageTool.BUILD_DATE), </b>
+<b class="nc">&nbsp;            &quot;revision&quot;, Objects.toString(JLanguageTool.GIT_SHORT_ID), </b>
+<b class="nc">&nbsp;            &quot;premium&quot;, Objects.toString(String.valueOf(Premium.isPremiumVersion())),</b>
+<b class="nc">&nbsp;            &quot;premiumVersion&quot;, Objects.toString(Premium.get().getVersion()),</b>
+<b class="nc">&nbsp;            &quot;premiumBuildDate&quot;,Objects.toString(Premium.get().getBuildDate()),</b>
+<b class="nc">&nbsp;            &quot;premiumRevision&quot;,Objects.toString(Premium.get().getShortGitId())</b>
+&nbsp;    );
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  public void monitorCache(String name, Cache cache) {
+<b class="nc">&nbsp;    cacheMetrics.addCache(name, cache);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void logCheck(Language language, long milliseconds, int textSize, int matchCount,
+&nbsp;                       JLanguageTool.Mode mode) {
+<b class="nc">&nbsp;    String langLabel = language != null ? language.getShortCode() : UNKNOWN;</b>
+<b class="nc">&nbsp;    String modeLabel = mode != null ? mode.name() : UNKNOWN;</b>
+&nbsp;
+<b class="nc">&nbsp;    checkCounter.labels(langLabel, modeLabel).inc();</b>
+<b class="nc">&nbsp;    matchCounter.labels(langLabel, modeLabel).inc(matchCount);</b>
+&nbsp;
+&nbsp;    // split metrics: measure latency by language/mode, but not combined
+&nbsp;    // so we can e.g. notice latency increases in a language or
+&nbsp;    // create an alert for check speed of ALL_BUT_TEXT_LEVEL_ONLY requests
+&nbsp;
+<b class="nc">&nbsp;    charactersCounter.labels(langLabel, modeLabel).inc(textSize);</b>
+<b class="nc">&nbsp;    checkSize.labels(langLabel, &quot;&quot;).observe(textSize);</b>
+<b class="nc">&nbsp;    checkSize.labels(&quot;&quot;, modeLabel).observe(textSize);</b>
+&nbsp;
+<b class="nc">&nbsp;    double seconds = (double) milliseconds / 1000.0;</b>
+<b class="nc">&nbsp;    computationTimeCounter.labels(langLabel, modeLabel).inc(seconds);</b>
+<b class="nc">&nbsp;    checkLatency.labels(langLabel, &quot;&quot;).observe(seconds);</b>
+<b class="nc">&nbsp;    checkLatency.labels(&quot;&quot;, modeLabel).observe(seconds);</b>
+&nbsp;
+<b class="nc">&nbsp;    double speed = textSize / seconds;</b>
+<b class="nc">&nbsp;    checkSpeed.labels(langLabel, &quot;&quot;).observe(speed);</b>
+<b class="nc">&nbsp;    checkSpeed.labels(&quot;&quot;, modeLabel).observe(speed);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void logRequestError(RequestErrorType type) {
+<b class="nc">&nbsp;    requestErrorCounter.labels(type.name().toLowerCase()).inc();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void logRequest() {
+<b class="nc">&nbsp;    httpRequestCounter.inc();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void logResponse(int httpCode) {
+<b class="nc">&nbsp;    httpResponseCounter.labels(String.valueOf(httpCode)).inc();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void logFailedHealthcheck() {
+<b class="nc">&nbsp;    failedHealthcheckCounter.inc();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

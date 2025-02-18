@@ -1,0 +1,207 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SimpleRuleCounter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.archive</a>
+</div>
+
+<h1>Coverage Summary for Class: SimpleRuleCounter (org.languagetool.dev.archive)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SimpleRuleCounter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.archive;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.patterns.PatternRule;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import static java.util.Comparator.comparing;
+&nbsp;
+&nbsp;/**
+&nbsp; * Count &quot;simple&quot; rules, i.e. those that use only &#39;regex&#39;, &#39;case_sensitive&#39;
+&nbsp; * and &#39;skip=&quot;-1&quot;&#39; attributes.
+&nbsp; */
+<b class="nc">&nbsp;public class SimpleRuleCounter {</b>
+&nbsp;
+&nbsp;    private void run(List&lt;Language&gt; languages) {
+<b class="nc">&nbsp;        List&lt;Language&gt; sortedLanguages = new ArrayList&lt;&gt;(languages);</b>
+<b class="nc">&nbsp;        sortedLanguages.sort(comparing(Language::getName));</b>
+<b class="nc">&nbsp;        for (Language language : sortedLanguages) {</b>
+<b class="nc">&nbsp;            if (language.isVariant()) {</b>
+&nbsp;                continue;
+&nbsp;            }
+<b class="nc">&nbsp;            JLanguageTool lt = new JLanguageTool(language);</b>
+<b class="nc">&nbsp;            List&lt;Rule&gt; allRules = lt.getAllActiveRules();</b>
+<b class="nc">&nbsp;            countForLanguage(allRules, language);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void countForLanguage(List&lt;Rule&gt; allRules, Language language) {
+<b class="nc">&nbsp;        int simpleCount = 0;</b>
+<b class="nc">&nbsp;        for (Rule rule : allRules) {</b>
+<b class="nc">&nbsp;            boolean isSimple = true;</b>
+<b class="nc">&nbsp;            if (rule instanceof PatternRule) {</b>
+<b class="nc">&nbsp;                PatternRule patternRule = (PatternRule) rule;</b>
+<b class="nc">&nbsp;                List&lt;PatternToken&gt; tokens = patternRule.getPatternTokens();</b>
+<b class="nc">&nbsp;                for (PatternToken token : tokens) {</b>
+<b class="nc">&nbsp;                    if (!isSimple(token)) {</b>
+<b class="nc">&nbsp;                        isSimple = false;</b>
+&nbsp;                        break;
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;                if (isSimple) {</b>
+<b class="nc">&nbsp;                    simpleCount++;</b>
+&nbsp;                    //System.out.println(&quot;Simple: &quot; + patternRule.getId());
+&nbsp;                    //System.out.println(patternRule.toXML());
+&nbsp;                    //System.out.println(&quot;-------------------------&quot;);
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        float percent = (float)simpleCount / allRules.size() * 100;</b>
+&nbsp;        //System.out.printf(simpleCount + &quot;/&quot; + allRules.size() + &quot; = %.0f%% for &quot; + language + &quot;\n&quot;, percent);
+<b class="nc">&nbsp;        System.out.printf(&quot;%.0f%% for &quot; + language + &quot;\n&quot;, percent);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean isSimple(PatternToken t) {
+<b class="nc">&nbsp;        return !(t.getNegation() || t.getPOSNegation() || t.hasAndGroup() || t.hasExceptionList() || </b>
+<b class="nc">&nbsp;                 t.hasNextException() || t.hasOrGroup() || t.isInflected() || t.isPOStagRegularExpression() ||</b>
+<b class="nc">&nbsp;                 t.getPOStag() != null || t.isReferenceElement() || t.isSentenceStart() ||</b>
+<b class="nc">&nbsp;                 t.getSkipNext() != 0);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void main(String[] args) {
+<b class="nc">&nbsp;        SimpleRuleCounter finder = new SimpleRuleCounter();</b>
+<b class="nc">&nbsp;        finder.run(Languages.get());</b>
+&nbsp;      //finder.run(Collections.singletonList(GermanyGerman.getInstance()));
+&nbsp;        //finder.run(Collections.singletonList(new English()));
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

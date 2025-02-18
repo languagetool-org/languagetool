@@ -1,0 +1,522 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArabicSynthesizer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.synthesis.ar</a>
+</div>
+
+<h1>Coverage Summary for Class: ArabicSynthesizer (org.languagetool.synthesis.ar)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArabicSynthesizer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/80)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/152)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Sohaib Afifi, Taha Zerrouki
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.synthesis.ar;
+&nbsp;
+&nbsp;import morfologik.stemming.IStemmer;
+&nbsp;import morfologik.stemming.WordData;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.synthesis.BaseSynthesizer;
+&nbsp;import org.languagetool.tagging.ar.ArabicTagManager;
+&nbsp;import org.languagetool.tagging.ar.ArabicTagger;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static org.languagetool.tools.ArabicConstants.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Arabic word form synthesizer.
+&nbsp; * Based on part-of-speech lists in Public Domain. See readme.txt for details,
+&nbsp; * the POS tagset is described in arabic_tags_description.txt.
+&nbsp; * &lt;p&gt;
+&nbsp; * There are two special additions:
+&nbsp; * &lt;ol&gt;
+&nbsp; *    &lt;li&gt;+GF - tag that adds  feminine gender to word&lt;/li&gt;
+&nbsp; *    &lt;li&gt;+GM - a tag that adds masculine gender to word&lt;/li&gt;
+&nbsp; * &lt;/ol&gt;
+&nbsp; *
+&nbsp; * @author Taha Zerrouki
+&nbsp; * @since 4.9
+&nbsp; */
+&nbsp;public class ArabicSynthesizer extends BaseSynthesizer {
+&nbsp;
+&nbsp;  private static final String RESOURCE_FILENAME = &quot;/ar/arabic_synth.dict&quot;;
+&nbsp;  private static final String TAGS_FILE_NAME = &quot;/ar/arabic_tags.txt&quot;;
+&nbsp;
+<b class="nc">&nbsp;  private final ArabicTagManager tagmanager = new ArabicTagManager();</b>
+<b class="nc">&nbsp;  private final ArabicTagger tagger = new ArabicTagger();</b>
+&nbsp;
+<b class="nc">&nbsp;  public static final ArabicSynthesizer INSTANCE = new ArabicSynthesizer();</b>
+&nbsp;
+&nbsp;  /** @deprecated use {@link #INSTANCE} */
+&nbsp;  public ArabicSynthesizer(Language lang) {
+<b class="nc">&nbsp;    this();</b>
+&nbsp;  }
+&nbsp;  private ArabicSynthesizer() {
+<b class="nc">&nbsp;    super(RESOURCE_FILENAME, TAGS_FILE_NAME, &quot;ar&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get a form of a given AnalyzedToken, where the form is defined by a
+&nbsp;   * part-of-speech tag.
+&nbsp;   *
+&nbsp;   * @param token  AnalyzedToken to be inflected.
+&nbsp;   * @param posTag A desired part-of-speech tag.
+&nbsp;   * @return String value - inflected word.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public String[] synthesize(AnalyzedToken token, String posTag) {
+<b class="nc">&nbsp;    IStemmer synthesizer = createStemmer();</b>
+<b class="nc">&nbsp;    List&lt;WordData&gt; wordData = synthesizer.lookup(token.getLemma() + &quot;|&quot; + posTag);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; wordForms = new ArrayList&lt;&gt;();</b>
+&nbsp;    String stem;
+<b class="nc">&nbsp;    for (WordData wd : wordData) {</b>
+&nbsp;      // adjust some stems
+<b class="nc">&nbsp;      stem = correctStem(wd.getStem().toString(), posTag);</b>
+<b class="nc">&nbsp;      wordForms.add(stem);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return wordForms.toArray(new String[0]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String[] synthesize(AnalyzedToken token, String posTag,
+&nbsp;                             boolean posTagRegExp) throws IOException {
+&nbsp;
+<b class="nc">&nbsp;    if (posTag != null &amp;&amp; posTagRegExp) {</b>
+<b class="nc">&nbsp;      String myPosTag = posTag;</b>
+<b class="nc">&nbsp;      initPossibleTags();</b>
+<b class="nc">&nbsp;      myPosTag = correctTag(myPosTag);</b>
+&nbsp;
+<b class="nc">&nbsp;      Pattern p = Pattern.compile(myPosTag);</b>
+<b class="nc">&nbsp;      List&lt;String&gt; results = new ArrayList&lt;&gt;();</b>
+&nbsp;      String stem;
+<b class="nc">&nbsp;      for (String tag : possibleTags) {</b>
+<b class="nc">&nbsp;        Matcher m = p.matcher(tag);</b>
+<b class="nc">&nbsp;        if (m.matches() &amp;&amp; token.getLemma() != null) {</b>
+&nbsp;          // local result
+<b class="nc">&nbsp;          List&lt;String&gt; resultOne = lookup(token.getLemma(), tag);</b>
+<b class="nc">&nbsp;          for (String wd : resultOne) {</b>
+&nbsp;            // adjust some stems according to original postag
+<b class="nc">&nbsp;            stem = correctStem(wd, posTag);</b>
+<b class="nc">&nbsp;            results.add(stem);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return results.toArray(new String[0]);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return synthesize(token, posTag);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;  /* correct tags  */
+&nbsp;
+&nbsp;  public String correctTag(String postag) {
+<b class="nc">&nbsp;    String mypostag = postag;</b>
+<b class="nc">&nbsp;    if (postag == null) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;    // remove attached pronouns
+<b class="nc">&nbsp;    mypostag = tagmanager.setConjunction(mypostag, &quot;-&quot;);</b>
+&nbsp;
+&nbsp;    // remove Alef Lam definite article
+<b class="nc">&nbsp;    mypostag = tagmanager.setDefinite(mypostag, &quot;-&quot;);</b>
+&nbsp;
+&nbsp;    // change all pronouns to one kind
+<b class="nc">&nbsp;    mypostag = tagmanager.unifyPronounTag(mypostag);</b>
+&nbsp;
+<b class="nc">&nbsp;    return mypostag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getPosTagCorrection(String posTag) {
+<b class="nc">&nbsp;    return correctTag(posTag);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /* correct stem to generate stems to be attached with pronouns  */
+&nbsp;  public String correctStem(String stem, String postag) {
+<b class="nc">&nbsp;    String correctStem = stem;</b>
+<b class="nc">&nbsp;    if (postag == null) return stem;</b>
+<b class="nc">&nbsp;    if (tagmanager.isAttached(postag)) {</b>
+<b class="nc">&nbsp;      correctStem = StringUtils.removeEnd(correctStem, &quot;ه&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (tagmanager.isDefinite(postag)) {</b>
+<b class="nc">&nbsp;      String prefix = tagmanager.getDefinitePrefix(postag);// can handle ال &amp; لل</b>
+<b class="nc">&nbsp;      correctStem = prefix + correctStem;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (tagmanager.hasJar(postag)) {</b>
+<b class="nc">&nbsp;      String prefix = tagmanager.getJarPrefix(postag);</b>
+<b class="nc">&nbsp;      correctStem = prefix + correctStem;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (tagmanager.hasConjunction(postag)) {</b>
+<b class="nc">&nbsp;      String prefix = tagmanager.getConjunctionPrefix(postag);</b>
+<b class="nc">&nbsp;      correctStem = prefix + correctStem;</b>
+&nbsp;
+&nbsp;    }
+<b class="nc">&nbsp;    return correctStem;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return set a new enclitic for the given word,
+&nbsp;   */
+&nbsp;  public String setEnclitic(AnalyzedToken token, String suffix) {
+<b class="nc">&nbsp;    List&lt;String&gt; wordlist = setEncliticMultiple(token, suffix);</b>
+<b class="nc">&nbsp;    return wordlist.get(0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;String&gt; setEncliticMultiple(AnalyzedToken token, String suffix) {
+&nbsp;    // if the suffix is not empty
+&nbsp;    // save procletic
+&nbsp;    // ajust postag to get synthesed words
+&nbsp;    // set enclitic flag
+&nbsp;    // synthesis =&gt; lookup for stems with similar postag and has enclitic flag
+&nbsp;    // Add procletic and enclitic to stem
+&nbsp;    // return new word list
+<b class="nc">&nbsp;    String postag = token.getPOSTag();</b>
+<b class="nc">&nbsp;    String word = token.getToken();</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;String&gt; defaultWordlist = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;    defaultWordlist.add(&quot;(&quot; + word + &quot;)&quot;);</b>
+<b class="nc">&nbsp;    if (postag.isEmpty()) {</b>
+<b class="nc">&nbsp;      return defaultWordlist;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; wordlist = new ArrayList&lt;String&gt;();</b>
+&nbsp;    /* The flag is by defaul equal to &#39;-&#39; , if suffix =&gt; &quot;H&quot; */
+<b class="nc">&nbsp;    char flag = (suffix.isEmpty()) ? &#39;-&#39; : &#39;H&#39;;</b>
+&nbsp;    // save procletic
+<b class="nc">&nbsp;    String procletic = tagger.getProclitic(token);</b>
+&nbsp;    // set enclitic flag
+<b class="nc">&nbsp;    String newposTag = tagmanager.setFlag(postag, &quot;PRONOUN&quot;, flag);</b>
+&nbsp;    //adjust procletics
+<b class="nc">&nbsp;    newposTag = tagmanager.setProcleticFlags(newposTag);</b>
+&nbsp;    // synthesis =&gt; lookup for stems with similar postag and has enclitic flag
+<b class="nc">&nbsp;    String lemma = token.getLemma();</b>
+<b class="nc">&nbsp;    AnalyzedToken newToken = new AnalyzedToken(lemma, newposTag, lemma);</b>
+<b class="nc">&nbsp;    String[] newwordList = synthesize(newToken, newposTag);</b>
+&nbsp;
+<b class="nc">&nbsp;    String stem = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (newwordList.length != 0) {</b>
+<b class="nc">&nbsp;      String newWord = &quot;&quot;;</b>
+<b class="nc">&nbsp;      for (int i = 0; i &lt; newwordList.length; i++) {</b>
+<b class="nc">&nbsp;        stem = newwordList[i];</b>
+&nbsp;        // We replace the Heh, because the Tag dictionary represent only Heh Pronouns, for reason of compressin
+&nbsp;        // the other pronoun suffix are added by tagger or synthesizer
+<b class="nc">&nbsp;        if (tagmanager.hasPronoun(newposTag) &amp;&amp; flag == &#39;H&#39;) {</b>
+<b class="nc">&nbsp;          if (stem.endsWith(&quot;ي&quot;)) {</b>
+&nbsp;            // if the stem is ended by Yeh for 1st person pronoun
+&nbsp;            // if suffix is Yeh pronoun, ignore suffix
+&nbsp;            // else ignore stem
+<b class="nc">&nbsp;            if (suffix.equals(&quot;ي&quot;))</b>
+<b class="nc">&nbsp;              newWord = procletic + stem;</b>
+&nbsp;            else
+<b class="nc">&nbsp;              newWord = &quot;&quot;;</b>
+<b class="nc">&nbsp;          } else if (stem.endsWith(&quot;ه&quot;)) {</b>
+<b class="nc">&nbsp;            stem = StringUtils.removeEnd(stem, &quot;ه&quot;);</b>
+<b class="nc">&nbsp;            newWord = procletic + stem + suffix;</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            newWord = procletic + stem + suffix;</b>
+&nbsp;          }
+&nbsp;        } else
+<b class="nc">&nbsp;          newWord = procletic + stem;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (!newWord.isEmpty())</b>
+<b class="nc">&nbsp;          wordlist.add(newWord);</b>
+&nbsp;      }
+&nbsp;    } else // no word generated
+&nbsp;    {
+<b class="nc">&nbsp;      stem = &quot;(&quot; + word + &quot;)&quot;;</b>
+<b class="nc">&nbsp;      wordlist.add(stem);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (wordlist.isEmpty()) {</b>
+<b class="nc">&nbsp;      return defaultWordlist;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return wordlist;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return set a new procletic for the given word,
+&nbsp;   */
+&nbsp;  public String setJarProcletic(AnalyzedToken token, String prefix) {
+&nbsp;    // if the preffix is not empty
+&nbsp;    // save enclitic
+&nbsp;    // ajust postag to get synthesed words
+&nbsp;    // set procletic flags
+&nbsp;    // synthesis =&gt; lookup for stems with similar postag
+&nbsp;    // Add procletic and enclitic to stem
+&nbsp;    // return new word
+<b class="nc">&nbsp;    String postag = token.getPOSTag();</b>
+<b class="nc">&nbsp;    String word = token.getToken();</b>
+<b class="nc">&nbsp;    if (postag.isEmpty())</b>
+<b class="nc">&nbsp;      return word;</b>
+&nbsp;    // case of definate word:
+&nbsp;    // إضافة الجار إلى أل التعريف
+<b class="nc">&nbsp;    if (tagmanager.isDefinite(postag)) {</b>
+<b class="nc">&nbsp;      if (prefix.equals(&quot;ل&quot;)) {</b>
+<b class="nc">&nbsp;        prefix += &quot;ل&quot;;</b>
+&nbsp;      } else {
+&nbsp;        //  if(prefprefix.equals(&quot;ب&quot;)||prefix.equals(&quot;ك&quot;))
+&nbsp;        // case of Beh Jar, Kaf Jar, empty Jar
+<b class="nc">&nbsp;        prefix += &quot;ال&quot;;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return setProcletic(token, prefix);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return set a new procletic for the given word,
+&nbsp;   */
+&nbsp;  public String setProcletic(AnalyzedToken token, String prefix) {
+&nbsp;    // if the preffix is not empty
+&nbsp;    // save enclitic
+&nbsp;    // ajust postag to get synthesed words
+&nbsp;    // set procletic flags
+&nbsp;    // synthesis =&gt; lookup for stems with similar postag
+&nbsp;    // Add procletic and enclitic to stem
+&nbsp;    // return new word
+<b class="nc">&nbsp;    String postag = token.getPOSTag();</b>
+<b class="nc">&nbsp;    String word = token.getToken();</b>
+<b class="nc">&nbsp;    if (postag.isEmpty()) {</b>
+<b class="nc">&nbsp;      return word;</b>
+&nbsp;    }
+&nbsp;    // save enclitic
+<b class="nc">&nbsp;    String enclitic = tagger.getEnclitic(token);</b>
+<b class="nc">&nbsp;    String newposTag = postag;</b>
+&nbsp;    //remove procletics
+<b class="nc">&nbsp;    newposTag = tagmanager.setProcleticFlags(newposTag);</b>
+&nbsp;
+&nbsp;    // synthesis =&gt; lookup for stems with similar postag and has enclitic flag
+<b class="nc">&nbsp;    String lemma = token.getLemma();</b>
+<b class="nc">&nbsp;    AnalyzedToken newToken = new AnalyzedToken(lemma, newposTag, lemma);</b>
+<b class="nc">&nbsp;    String[] newwordList = synthesize(newToken, newposTag);</b>
+&nbsp;
+<b class="nc">&nbsp;    String stem = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (newwordList.length != 0) {</b>
+<b class="nc">&nbsp;      stem = newwordList[0];</b>
+<b class="nc">&nbsp;      if (tagmanager.hasPronoun(newposTag)) {</b>
+<b class="nc">&nbsp;        stem = StringUtils.removeEnd(stem, &quot;ه&quot;);</b>
+&nbsp;      }
+&nbsp;    } else {
+&nbsp;      // no word generated
+<b class="nc">&nbsp;      stem = &quot;(&quot; + word + &quot;)&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return prefix + stem + enclitic;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* generate a new form according to a specific postag, this form is Attached*/
+&nbsp;  public List&lt;String&gt; inflectLemmaLike(String targetLemma, AnalyzedToken sourcetoken) {
+&nbsp;    // make a token with the lemma
+<b class="nc">&nbsp;    AnalyzedTokenReadings tokenReadList = tagger.tag(targetLemma);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; wordlist = new ArrayList&lt;String&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    if (!tokenReadList.hasLemma(targetLemma)) {</b>
+<b class="nc">&nbsp;      wordlist.add(&quot;[&quot; + targetLemma + &quot;]&quot;);</b>
+<b class="nc">&nbsp;      return wordlist;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String sourcePostag = sourcetoken.getPOSTag();</b>
+&nbsp;    // get affixes
+<b class="nc">&nbsp;    String prefix = tagger.getProclitic(sourcetoken);</b>
+<b class="nc">&nbsp;    String suffix = tagger.getEnclitic(sourcetoken);</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; tokenListFiltred = new ArrayList&lt;AnalyzedToken&gt;();</b>
+&nbsp;
+&nbsp;    // if the lemma is not equals to given one, continue
+&nbsp;    // how can a lemma not the same,
+&nbsp;    // if we tag a diacritized verb, the tagger remove diacritics and can generate other cases
+<b class="nc">&nbsp;    for (AnalyzedToken currentToken : tokenReadList.getReadings()) {</b>
+<b class="nc">&nbsp;      if (targetLemma.equals(currentToken.getLemma())) {</b>
+<b class="nc">&nbsp;        tokenListFiltred.add(currentToken);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    for (AnalyzedToken currentToken : tokenListFiltred) {</b>
+&nbsp;      // if the lemma is not equals to given one, continue
+&nbsp;      // how can a lemma not the same,
+&nbsp;      // if we tag a diacritized verb, the tagger remove diacritics and can generate other cases
+&nbsp;      // merge postag
+<b class="nc">&nbsp;      String postagLemma = currentToken.getPOSTag();</b>
+<b class="nc">&nbsp;      String mergedPostag = tagmanager.mergePosTag(sourcePostag, postagLemma);</b>
+&nbsp;
+&nbsp;      // construct word
+<b class="nc">&nbsp;      String word = prefix + targetLemma;</b>
+<b class="nc">&nbsp;      AnalyzedToken token = new AnalyzedToken(word, mergedPostag, targetLemma);</b>
+<b class="nc">&nbsp;      List&lt;String&gt; wordlist2 = setEncliticMultiple(token, suffix);</b>
+<b class="nc">&nbsp;      wordlist.addAll(wordlist2);</b>
+&nbsp;    }
+&nbsp;    // remove dupplicates
+<b class="nc">&nbsp;    List&lt;String&gt; resultWordlist = new ArrayList&lt;String&gt;(new HashSet&lt;&gt;(wordlist));</b>
+<b class="nc">&nbsp;    return resultWordlist;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /* genarate Mafoul Mutlaq from masdar */
+&nbsp;  public static String inflectMafoulMutlq(String word) {
+<b class="nc">&nbsp;    if (word == null) {</b>
+<b class="nc">&nbsp;      return word;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String newword = word;</b>
+<b class="nc">&nbsp;    if (word.endsWith(Character.toString(TEH_MARBUTA))) {</b>
+<b class="nc">&nbsp;      newword += FATHATAN;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      newword += FATHATAN + &quot;&quot; + ALEF;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return newword;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* genarate Mafoul Mutlaq from masdar */
+&nbsp;  public static String inflectAdjectiveTanwinNasb(String word, boolean feminin) {
+<b class="nc">&nbsp;    if (word == null) {</b>
+<b class="nc">&nbsp;      return word;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String newword = word;</b>
+<b class="nc">&nbsp;    if (feminin) {</b>
+<b class="nc">&nbsp;      if (word.endsWith(Character.toString(TEH_MARBUTA))) {</b>
+<b class="nc">&nbsp;        newword += FATHATAN;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        newword += Character.toString(TEH_MARBUTA) + FATHATAN;</b>
+&nbsp;      }
+&nbsp;    } else { // if masculine, remove teh marbuta
+<b class="nc">&nbsp;      if (word.endsWith(Character.toString(TEH_MARBUTA))) {</b>
+<b class="nc">&nbsp;        newword = word.replace(Character.toString(TEH_MARBUTA), &quot;&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        newword += Character.toString(FATHATAN) + ALEF;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return newword;</b>
+&nbsp;  }
+&nbsp;}
+&nbsp;
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

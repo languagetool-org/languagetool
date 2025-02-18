@@ -1,0 +1,331 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > FalseFriendRuleHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns</a>
+</div>
+
+<h1>Coverage Summary for Class: FalseFriendRuleHandler (org.languagetool.rules.patterns)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FalseFriendRuleHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79.5%
+  </span>
+  <span class="absValue">
+    (66/83)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.4%
+  </span>
+  <span class="absValue">
+    (104/109)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.xml.sax.Attributes;
+&nbsp;import org.xml.sax.SAXException;
+&nbsp;
+&nbsp;import java.text.MessageFormat;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;class FalseFriendRuleHandler extends XMLRuleHandler {
+&nbsp;
+&nbsp;  // Definitions of values in XML files:
+&nbsp;  private static final String TRANSLATION = &quot;translation&quot;;
+&nbsp;
+&nbsp;  private final ResourceBundle englishMessages;
+&nbsp;  private final ResourceBundle messages;
+&nbsp;  private final MessageFormat formatter;
+&nbsp;  private final Language textLanguage;
+&nbsp;  private final Language motherTongue;
+<b class="fc">&nbsp;  private final Map&lt;String, List&lt;String&gt;&gt; suggestionMap = new HashMap&lt;&gt;();  // rule ID -&gt; list of translations</b>
+<b class="fc">&nbsp;  private final List&lt;String&gt; suggestions = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;  private final List&lt;StringBuilder&gt; translations = new ArrayList&lt;&gt;();</b>
+&nbsp;  private final String falseFriendHint;
+&nbsp;
+&nbsp;  private boolean defaultOff;
+&nbsp;  private Language language;
+&nbsp;  private Language translationLanguage;
+&nbsp;  private Language currentTranslationLanguage;
+<b class="fc">&nbsp;  private StringBuilder translation = new StringBuilder();</b>
+&nbsp;  private boolean inTranslation;
+&nbsp;
+<b class="fc">&nbsp;  FalseFriendRuleHandler(Language textLanguage, Language motherTongue, String falseFriendHint) {</b>
+<b class="fc">&nbsp;    englishMessages = ResourceBundleTools.getMessageBundle(Languages.getLanguageForShortCode(&quot;en-US&quot;));</b>
+<b class="fc">&nbsp;    messages = ResourceBundleTools.getMessageBundle(motherTongue);</b>
+<b class="fc">&nbsp;    formatter = new MessageFormat(&quot;&quot;);</b>
+<b class="fc">&nbsp;    formatter.setLocale(motherTongue.getLocale());</b>
+<b class="fc">&nbsp;    this.textLanguage = textLanguage;</b>
+<b class="fc">&nbsp;    this.motherTongue = motherTongue;</b>
+<b class="fc">&nbsp;    this.falseFriendHint = falseFriendHint;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Map&lt;String, List&lt;String&gt;&gt; getSuggestionMap() {
+<b class="fc">&nbsp;    return suggestionMap;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // ===========================================================
+&nbsp;  // SAX DocumentHandler methods
+&nbsp;  // ===========================================================
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void startElement(String namespaceURI, String lName,
+&nbsp;      String qName, Attributes attrs) throws SAXException {
+<b class="fc">&nbsp;    if (qName.equals(RULE)) {</b>
+<b class="fc">&nbsp;      translations.clear();</b>
+<b class="fc">&nbsp;      id = attrs.getValue(&quot;id&quot;);</b>
+<b class="pc">&nbsp;      if (!(inRuleGroup &amp;&amp; defaultOff)) {</b>
+<b class="fc">&nbsp;        defaultOff = &quot;off&quot;.equals(attrs.getValue(&quot;default&quot;));</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (inRuleGroup &amp;&amp; id == null) {</b>
+<b class="fc">&nbsp;        id = ruleGroupId;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      correctExamples = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;      incorrectExamples = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    } else if (qName.equals(PATTERN)) {</b>
+<b class="fc">&nbsp;      inPattern = true;</b>
+<b class="fc">&nbsp;      String languageStr = attrs.getValue(&quot;lang&quot;);</b>
+<b class="pc">&nbsp;      if (Languages.isLanguageSupported(languageStr)) {</b>
+<b class="fc">&nbsp;        language = Languages.getLanguageForShortCode(languageStr);</b>
+&nbsp;      }
+<b class="fc">&nbsp;    } else if (qName.equals(TOKEN)) {</b>
+<b class="fc">&nbsp;      setToken(attrs);</b>
+<b class="fc">&nbsp;    } else if (qName.equals(TRANSLATION)) {</b>
+<b class="fc">&nbsp;      inTranslation = true;</b>
+<b class="fc">&nbsp;      String languageStr = attrs.getValue(&quot;lang&quot;);</b>
+<b class="pc">&nbsp;      if (Languages.isLanguageSupported(languageStr)) {</b>
+<b class="fc">&nbsp;        Language tmpLang = Languages.getLanguageForShortCode(languageStr);</b>
+<b class="fc">&nbsp;        currentTranslationLanguage = tmpLang;</b>
+<b class="fc">&nbsp;        if (tmpLang.equalsConsiderVariantsIfSpecified(motherTongue)) {</b>
+<b class="fc">&nbsp;          translationLanguage = tmpLang;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;    } else if (qName.equals(EXAMPLE)) {</b>
+<b class="fc">&nbsp;      correctExample = new StringBuilder();</b>
+<b class="fc">&nbsp;      incorrectExample = new StringBuilder();</b>
+<b class="fc">&nbsp;      if (attrs.getValue(TYPE).equals(&quot;incorrect&quot;)) {</b>
+<b class="fc">&nbsp;        inIncorrectExample = true;</b>
+<b class="pc">&nbsp;      } else if (attrs.getValue(TYPE).equals(&quot;correct&quot;)) {</b>
+<b class="fc">&nbsp;        inCorrectExample = true;</b>
+<b class="nc">&nbsp;      } else if (attrs.getValue(TYPE).equals(&quot;triggers_error&quot;)) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;&#39;triggers_error&#39; is not supported for false friend XML&quot;);</b>
+&nbsp;      }
+<b class="pc">&nbsp;    } else if (qName.equals(MESSAGE)) {</b>
+<b class="nc">&nbsp;      inMessage = true;</b>
+<b class="nc">&nbsp;      message = new StringBuilder();</b>
+<b class="fc">&nbsp;    } else if (qName.equals(RULEGROUP)) {</b>
+<b class="fc">&nbsp;      ruleGroupId = attrs.getValue(&quot;id&quot;);</b>
+<b class="fc">&nbsp;      inRuleGroup = true;</b>
+<b class="fc">&nbsp;      defaultOff = &quot;off&quot;.equals(attrs.getValue(DEFAULT));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void endElement(String namespaceURI, String sName,
+&nbsp;      String qName) throws SAXException {
+<b class="pc">&nbsp;    switch (qName) {</b>
+&nbsp;      case RULE:
+<b class="fc">&nbsp;        if (language.equalsConsiderVariantsIfSpecified(textLanguage) &amp;&amp; translationLanguage != null</b>
+<b class="pc">&nbsp;                &amp;&amp; translationLanguage.equalsConsiderVariantsIfSpecified(motherTongue) &amp;&amp; language != motherTongue</b>
+<b class="fc">&nbsp;                &amp;&amp; !translations.isEmpty()) {</b>
+<b class="fc">&nbsp;          formatter.applyPattern(falseFriendHint);</b>
+<b class="fc">&nbsp;          String tokensAsString = StringUtils.join(patternTokens, &quot; &quot;).replace(&#39;|&#39;, &#39;/&#39;);</b>
+<b class="fc">&nbsp;          Object[] messageArguments = {tokensAsString,</b>
+<b class="fc">&nbsp;                  englishMessages.getString(textLanguage.getShortCode()),</b>
+<b class="fc">&nbsp;                  formatTranslations(translations),</b>
+<b class="fc">&nbsp;                  englishMessages.getString(motherTongue.getShortCode())};</b>
+<b class="fc">&nbsp;          String description = formatter.format(messageArguments);</b>
+<b class="fc">&nbsp;          PatternRule rule = new FalseFriendPatternRule(id, language, patternTokens,</b>
+<b class="fc">&nbsp;                  messages.getString(&quot;false_friend_desc&quot;) + &quot; &quot;</b>
+<b class="fc">&nbsp;                          + tokensAsString, description, messages.getString(&quot;false_friend&quot;));</b>
+<b class="fc">&nbsp;          rule.setCorrectExamples(correctExamples);</b>
+<b class="fc">&nbsp;          rule.setIncorrectExamples(incorrectExamples);</b>
+<b class="fc">&nbsp;          rule.setCategory(Categories.FALSE_FRIENDS.getCategory(messages));</b>
+<b class="fc">&nbsp;          if (defaultOff) {</b>
+<b class="fc">&nbsp;            rule.setDefaultOff();</b>
+&nbsp;          }
+<b class="fc">&nbsp;          rules.add(rule);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (patternTokens != null) {</b>
+<b class="fc">&nbsp;          patternTokens.clear();</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      case TOKEN:
+<b class="fc">&nbsp;        finalizeTokens(language.getUnifierConfiguration());</b>
+&nbsp;        break;
+&nbsp;      case PATTERN:
+<b class="fc">&nbsp;        inPattern = false;</b>
+&nbsp;        break;
+&nbsp;      case TRANSLATION:
+<b class="pc">&nbsp;        if (currentTranslationLanguage != null &amp;&amp; currentTranslationLanguage.equalsConsiderVariantsIfSpecified(motherTongue)) {</b>
+&nbsp;          // currentTranslationLanguage can be null if the language is not supported
+<b class="fc">&nbsp;          translations.add(translation);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (currentTranslationLanguage != null &amp;&amp; currentTranslationLanguage.equalsConsiderVariantsIfSpecified(textLanguage)</b>
+<b class="fc">&nbsp;                &amp;&amp; language.equalsConsiderVariantsIfSpecified(motherTongue) &amp;&amp; !suggestions.contains(translation.toString())) {</b>
+<b class="fc">&nbsp;          suggestions.add(translation.toString());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        translation = new StringBuilder();</b>
+<b class="fc">&nbsp;        inTranslation = false;</b>
+<b class="fc">&nbsp;        currentTranslationLanguage = null;</b>
+&nbsp;        break;
+&nbsp;      case EXAMPLE:
+<b class="fc">&nbsp;        if (inCorrectExample) {</b>
+<b class="fc">&nbsp;          correctExamples.add(new CorrectExample(correctExample.toString()));</b>
+<b class="pc">&nbsp;        } else if (inIncorrectExample) {</b>
+<b class="fc">&nbsp;          incorrectExamples.add(new IncorrectExample(incorrectExample.toString()));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        inCorrectExample = false;</b>
+<b class="fc">&nbsp;        inIncorrectExample = false;</b>
+<b class="fc">&nbsp;        correctExample = new StringBuilder();</b>
+<b class="fc">&nbsp;        incorrectExample = new StringBuilder();</b>
+&nbsp;        break;
+&nbsp;      case MESSAGE:
+<b class="nc">&nbsp;        inMessage = false;</b>
+&nbsp;        break;
+&nbsp;      case RULEGROUP:
+<b class="fc">&nbsp;        if (!suggestions.isEmpty()) {</b>
+<b class="fc">&nbsp;          List&lt;String&gt; l = new ArrayList&lt;&gt;(suggestions);</b>
+<b class="fc">&nbsp;          suggestionMap.put(id, l);</b>
+<b class="fc">&nbsp;          suggestions.clear();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        inRuleGroup = false;</b>
+&nbsp;        break;
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private String formatTranslations(List&lt;StringBuilder&gt; translations) {
+<b class="fc">&nbsp;    return translations.stream().map(o -&gt; &quot;\&quot;&quot; + o + &quot;\&quot;&quot;).collect(Collectors.joining(&quot;, &quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void characters(char[] buf, int offset, int len) {
+<b class="fc">&nbsp;    String s = new String(buf, offset, len);</b>
+<b class="pc">&nbsp;    if (inToken &amp;&amp; inPattern) {</b>
+<b class="fc">&nbsp;      elements.append(s);</b>
+<b class="fc">&nbsp;    } else if (inCorrectExample) {</b>
+<b class="fc">&nbsp;      correctExample.append(s);</b>
+<b class="fc">&nbsp;    } else if (inIncorrectExample) {</b>
+<b class="fc">&nbsp;      incorrectExample.append(s);</b>
+<b class="fc">&nbsp;    } else if (inTranslation) {</b>
+<b class="fc">&nbsp;      translation.append(s);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

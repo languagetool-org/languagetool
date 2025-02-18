@@ -1,0 +1,185 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ErrorRequestLimiter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: ErrorRequestLimiter (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ErrorRequestLimiter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2017 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.util.Date;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/**
+&nbsp; * Limit the maximum number of request per IP address for a given time range.
+&nbsp; */
+&nbsp;class ErrorRequestLimiter extends RequestLimiter {
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(ErrorRequestLimiter.class);</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param requestLimit the maximum number of request per &lt;tt&gt;requestLimitPeriodInSeconds&lt;/tt&gt;
+&nbsp;   * @param requestLimitPeriodInSeconds the time period over which requests are considered, in seconds
+&nbsp;   */
+&nbsp;  ErrorRequestLimiter(int requestLimit, int requestLimitPeriodInSeconds) {
+<b class="nc">&nbsp;    super(requestLimit, 0, requestLimitPeriodInSeconds);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param ipAddress the client&#39;s IP address
+&nbsp;   * @return true if access is allowed because the request limit is not reached yet
+&nbsp;   */
+&nbsp;  boolean wouldAccessBeOkay(String ipAddress, Map&lt;String, String&gt; parameters, Map&lt;String, List&lt;String&gt;&gt; httpHeader) {
+&nbsp;    try {
+<b class="nc">&nbsp;      checkLimit(ipAddress, parameters, httpHeader);</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    } catch (TooManyRequestsException e) {
+<b class="nc">&nbsp;      logger.info(&quot;wouldAccessBeOkay -&gt; false: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @param ipAddress the client&#39;s IP address
+&nbsp;   * @param params the request&#39;s query parameters
+&nbsp;   */
+&nbsp;  void logAccess(String ipAddress, Map&lt;String, List&lt;String&gt;&gt; httpHeader, Map&lt;String, String&gt; params) {
+<b class="nc">&nbsp;    while (requestEvents.size() &gt; REQUEST_QUEUE_SIZE) {</b>
+<b class="nc">&nbsp;      requestEvents.remove(0);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    requestEvents.add(new RequestEvent(ipAddress, new Date(), 0, computeFingerprint(httpHeader, params), JLanguageTool.Mode.ALL));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

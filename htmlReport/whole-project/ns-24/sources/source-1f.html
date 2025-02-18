@@ -1,0 +1,194 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Categories</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: Categories (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Categories</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96.2%
+  </span>
+  <span class="absValue">
+    (25/26)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;/**
+&nbsp; * Pre-defined rule categories.
+&nbsp; * @since 3.3
+&nbsp; */
+&nbsp;public final class Categories {
+&nbsp;
+&nbsp;  /** Rules about detecting uppercase words where lowercase is required and vice versa. */
+<b class="fc">&nbsp;  public static final Categories CASING = make(&quot;CASING&quot;, &quot;category_case&quot;);</b>
+&nbsp;
+&nbsp;  /** Rules about spelling terms as one word or as as separate words. */
+<b class="fc">&nbsp;  public static final Categories COMPOUNDING = make(&quot;COMPOUNDING&quot;, &quot;category_compounding&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;  public static final Categories GRAMMAR = make(&quot;GRAMMAR&quot;, &quot;category_grammar&quot;);</b>
+&nbsp;
+&nbsp;  /** Spelling issues. */
+<b class="fc">&nbsp;  public static final Categories TYPOS = make(&quot;TYPOS&quot;, &quot;category_typo&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;  public static final Categories PUNCTUATION = make(&quot;PUNCTUATION&quot;, &quot;category_punctuation&quot;);</b>
+&nbsp;
+&nbsp;  /** Problems like incorrectly used dash or quote characters. */
+<b class="fc">&nbsp;  public static final Categories TYPOGRAPHY = make(&quot;TYPOGRAPHY&quot;, &quot;category_typography&quot;);</b>
+&nbsp;
+&nbsp;  /** Words that are easily confused, like &#39;there&#39; and &#39;their&#39; in English. */
+<b class="fc">&nbsp;  public static final Categories CONFUSED_WORDS = make(&quot;CONFUSED_WORDS&quot;, &quot;category_confused_words&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;  public static final Categories REPETITIONS = make(&quot;REPETITIONS&quot;, &quot;category_repetitions&quot;);</b>
+&nbsp;  
+<b class="fc">&nbsp;  public static final Categories REDUNDANCY = make(&quot;REDUNDANCY&quot;, &quot;category_redundancy&quot;);</b>
+&nbsp;  
+<b class="fc">&nbsp;  public static final Categories REPETITIONS_STYLE = make(&quot;REPETITIONS_STYLE&quot;, &quot;cateogry_repetitions_style&quot;);</b>
+&nbsp;
+&nbsp;  /** General style issues not covered by other categories, like overly verbose wording. */
+<b class="fc">&nbsp;  public static final Categories STYLE = make(&quot;STYLE&quot;, &quot;category_style&quot;);</b>
+&nbsp;
+&nbsp;
+&nbsp;  /** Created to match PLAIN_ENGLISH XML category. */
+<b class="fc">&nbsp;  public static final Categories PLAIN_ENGLISH = make(&quot;PLAIN_ENGLISH&quot;, &quot;category_plain_english&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;  public static final Categories GENDER_NEUTRALITY = make(&quot;GENDER_NEUTRALITY&quot;, &quot;category_gender_neutrality&quot;);</b>
+&nbsp;
+&nbsp;  /** Logic, content, and consistency problems. */
+<b class="fc">&nbsp;  public static final Categories SEMANTICS = make(&quot;SEMANTICS&quot;, &quot;category_semantics&quot;);</b>
+&nbsp;
+&nbsp;  /** Colloquial style. */
+<b class="fc">&nbsp;  public static final Categories COLLOQUIALISMS = make(&quot;COLLOQUIALISMS&quot;, &quot;category_colloquialism&quot;);</b>
+&nbsp;
+&nbsp;  /** Regionalisms: words used only in another language variant or used with different meanings. */
+<b class="fc">&nbsp;  public static final Categories REGIONALISMS = make(&quot;REGIONALISMS&quot;, &quot;category_regionalisms&quot;);</b>
+&nbsp;
+&nbsp;  /** False friends: words easily confused by language learners because a similar word exists in their native language. */
+<b class="fc">&nbsp;  public static final Categories FALSE_FRIENDS = make(&quot;FALSE_FRIENDS&quot;, &quot;category_false_friend&quot;);</b>
+&nbsp;
+&nbsp;  /** Rules that only make sense when editing Wikipedia (typically turned off by default in LanguageTool). */
+<b class="fc">&nbsp;  public static final Categories WIKIPEDIA = make(&quot;WIKIPEDIA&quot;, &quot;category_wikipedia&quot;);</b>
+&nbsp;
+&nbsp;  /** Miscellaneous rules that don&#39;t fit elsewhere. */
+<b class="fc">&nbsp;  public static final Categories MISC = make(&quot;MISC&quot;, &quot;category_misc&quot;);</b>
+&nbsp;
+&nbsp;  // *** NOTE: keep in sync when making changes above ***
+<b class="fc">&nbsp;  public static final List&lt;Categories&gt; ALL = Arrays.asList(STYLE, REPETITIONS_STYLE, REPETITIONS, CASING, COMPOUNDING,</b>
+&nbsp;    COLLOQUIALISMS, CONFUSED_WORDS, FALSE_FRIENDS, GENDER_NEUTRALITY, GRAMMAR, MISC, PLAIN_ENGLISH,
+&nbsp;    REDUNDANCY, REGIONALISMS, PUNCTUATION, TYPOGRAPHY, WIKIPEDIA, TYPOS);
+&nbsp;
+&nbsp;  private static Categories make(String id, String message) {
+<b class="fc">&nbsp;    return new Categories(id, message);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private final String id;
+&nbsp;  private final String messageKey;
+&nbsp;  
+<b class="fc">&nbsp;  private Categories(String id, String messageKey) {</b>
+<b class="fc">&nbsp;    this.id = Objects.requireNonNull(id);</b>
+<b class="fc">&nbsp;    this.messageKey = Objects.requireNonNull(messageKey);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CategoryId getId() {
+<b class="nc">&nbsp;    return new CategoryId(id);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Category getCategory(ResourceBundle messages) {
+<b class="fc">&nbsp;    return new Category(new CategoryId(id), messages.getString(messageKey));</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,631 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArabicNumbersWords</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tools</a>
+</div>
+
+<h1>Coverage Summary for Class: ArabicNumbersWords (org.languagetool.tools)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArabicNumbersWords</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/158)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/248)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2022 Sohaib Afifi, Taha Zerrouki
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.tools;
+&nbsp;
+&nbsp;import java.math.BigDecimal;
+&nbsp;import java.math.BigInteger;
+&nbsp;import java.math.RoundingMode;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;public class ArabicNumbersWords {</b>
+&nbsp;
+&nbsp;  public static String numberToArabicWords(String n) {
+<b class="nc">&nbsp;    return numberToArabicWords(n, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String numberToArabicWords(String number, boolean isFeminine) {
+<b class="nc">&nbsp;    return numberToArabicWords(new BigInteger(number), isFeminine);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String numberToArabicWords(String number, boolean isFeminine, boolean isAttached, String inflectionCase) {
+<b class="nc">&nbsp;    return numberToArabicWords(new BigInteger(number), isFeminine, isAttached, inflectionCase);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String numberToArabicWords(BigInteger number, boolean isFeminine) {
+<b class="nc">&nbsp;    return convertToArabic(number, isFeminine).trim();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String numberToArabicWords(BigInteger number, boolean isFeminine, boolean isAttached, String inflectionCase) {
+<b class="nc">&nbsp;    return convertToArabic(number, isFeminine, isAttached, inflectionCase).trim();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings(&quot;BigDecimalMethodWithoutRoundingCalled&quot;)
+&nbsp;  private static String convertToArabic(BigInteger number, boolean isFeminine) {
+<b class="nc">&nbsp;    return convertToArabic(number, isFeminine, false, &quot;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings(&quot;BigDecimalMethodWithoutRoundingCalled&quot;)
+&nbsp;  private static String convertToArabic(BigInteger number, boolean isFeminine, boolean isAttached, String inflectionCase) {
+<b class="nc">&nbsp;    if (number.equals(BigInteger.ZERO)) {</b>
+<b class="nc">&nbsp;      return &quot;صفر&quot;;</b>
+<b class="nc">&nbsp;    } else if (number.equals(BigInteger.ONE)) {</b>
+<b class="nc">&nbsp;      return &quot;واحد&quot;;</b>
+<b class="nc">&nbsp;    } else if (number.equals(new BigInteger(&quot;2&quot;))) {</b>
+<b class="nc">&nbsp;      return getDigitInflectedStatus(2, 0, false, false, inflectionCase);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    BigDecimal tempNumber = new BigDecimal(number);</b>
+&nbsp;
+<b class="nc">&nbsp;    StringBuilder result = new StringBuilder();</b>
+<b class="nc">&nbsp;    short group = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;    while (tempNumber.compareTo(BigDecimal.ONE) &gt;= 0) {</b>
+&nbsp;
+&nbsp;      // separate number into groups
+<b class="nc">&nbsp;      BigDecimal numberToProcess = tempNumber.remainder(new BigDecimal(&quot;1000&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;      tempNumber = tempNumber.divide(new BigDecimal(&quot;1000&quot;));</b>
+&nbsp;
+&nbsp;      // convert group into its text
+<b class="nc">&nbsp;      final int tempValue = tempNumber.setScale(0, RoundingMode.FLOOR).intValue();</b>
+<b class="nc">&nbsp;      String groupDescription = processArabicGroup(numberToProcess.intValue(), group, tempValue, isFeminine, isAttached, inflectionCase);</b>
+&nbsp;
+<b class="nc">&nbsp;      if (!groupDescription.isEmpty()) { // here we add the new converted group to the previous concatenated text</b>
+<b class="nc">&nbsp;        if (group &gt; 0) {</b>
+<b class="nc">&nbsp;          if (result.length() &gt; 0) {</b>
+<b class="nc">&nbsp;            result.insert(0, &quot;و&quot; + &quot;&quot;);</b>
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          if (numberToProcess.intValue() != 2) {</b>
+<b class="nc">&nbsp;            if (numberToProcess.remainder(new BigDecimal(&quot;100&quot;)).intValue() != 1) {</b>
+<b class="nc">&nbsp;              if (numberToProcess.compareTo(new BigDecimal(&quot;3&quot;)) &gt;= 0 &amp;&amp; numberToProcess.compareTo(new BigDecimal(&quot;10&quot;)) &lt;= 0) { // for numbers between 3 and 9 we use plural name</b>
+<b class="nc">&nbsp;                result.insert(0, ArabicNumbersWordsConstants.arabicPluralGroups.get(group) + &quot; &quot;);</b>
+&nbsp;              } else {
+<b class="nc">&nbsp;                if (result.length() &gt; 0) { // use appending case</b>
+<b class="nc">&nbsp;                  result.insert(0, ArabicNumbersWordsConstants.arabicAppendedGroup.get(group) + &quot; &quot;);</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                  result.insert(0, ArabicNumbersWordsConstants.arabicGroup.get(group) + &quot; &quot;); // use normal case</b>
+&nbsp;                }
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        result.insert(0, groupDescription + &quot; &quot;);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      group++;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return (result.length() &gt; 0) ? result.toString() : &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private static String processArabicGroup(int groupNumber, int groupLevel, int remainingNumber, boolean isFeminine) {
+<b class="nc">&nbsp;    return processArabicGroup(groupNumber, groupLevel, remainingNumber, isFeminine, false, &quot;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String processArabicGroup(int groupNumber, int groupLevel, int remainingNumber, boolean isFeminine, Boolean isAttached, String inflectionCase) {
+<b class="nc">&nbsp;    int tens = groupNumber % 100;</b>
+&nbsp;
+<b class="nc">&nbsp;    int hundreds = groupNumber / 100;</b>
+&nbsp;
+<b class="nc">&nbsp;    String result = &quot;&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;    if (hundreds &gt; 0) {</b>
+<b class="nc">&nbsp;      if (tens == 0 &amp;&amp; hundreds == 2) { // حالة المضاف</b>
+<b class="nc">&nbsp;        if (groupLevel == 0) {</b>
+<b class="nc">&nbsp;          result = getDigitHundredJarStatus(hundreds, inflectionCase);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          result = getDigitTwosJarStatus(0, inflectionCase, true);</b>
+&nbsp;        }
+&nbsp;      } else { //  الحالة العادية
+<b class="nc">&nbsp;        result = getDigitHundredJarStatus(hundreds, inflectionCase);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (tens &gt; 0) {</b>
+<b class="nc">&nbsp;      if (tens &lt; 20) { // if we are processing under 20 numbers</b>
+<b class="nc">&nbsp;        if (tens == 2 &amp;&amp; hundreds == 0 &amp;&amp; groupLevel &gt; 0) { // This is special case for number 2 when it comes alone in the group</b>
+&nbsp;          // في حالة الافراد
+<b class="nc">&nbsp;          result = getDigitTwosJarStatus(groupLevel, inflectionCase, false);</b>
+&nbsp;          ;//  في حالة الافراد
+&nbsp;        } else { // General case
+<b class="nc">&nbsp;          if (!result.isEmpty()) {</b>
+<b class="nc">&nbsp;            result += &quot; و&quot;;</b>
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          if (tens == 1 &amp;&amp; groupLevel &gt; 0)</b>
+<b class="nc">&nbsp;            result += ArabicNumbersWordsConstants.arabicGroup.get(groupLevel);</b>
+<b class="nc">&nbsp;          else if ((tens == 1 || tens == 2)</b>
+&nbsp;            &amp;&amp; (groupLevel == 0 || groupLevel == -1)
+&nbsp;            &amp;&amp; hundreds == 0
+&nbsp;            &amp;&amp; remainingNumber == 0)
+<b class="nc">&nbsp;            result += &quot;&quot;; // Special case for 1 and 2 numbers like: ليرة سورية و ليرتان سوريتان</b>
+&nbsp;          else
+<b class="nc">&nbsp;            result += getDigitInflectedStatus(tens, groupLevel, isFeminine, isAttached, inflectionCase);// Get Feminine status for this digit</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        int ones = tens % 10;</b>
+<b class="nc">&nbsp;        tens = (tens / 10) - 2; // 20&#39;s offset</b>
+&nbsp;
+<b class="nc">&nbsp;        if (ones &gt; 0) {</b>
+<b class="nc">&nbsp;          if (!result.isEmpty()) {</b>
+<b class="nc">&nbsp;            result += &quot; و&quot;;</b>
+&nbsp;          }
+&nbsp;
+&nbsp;          // Get Feminine status for this digit
+<b class="nc">&nbsp;          result += getDigitInflectedStatus(ones, groupLevel, isFeminine, isAttached, inflectionCase);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (!result.isEmpty()) {</b>
+<b class="nc">&nbsp;          result += &quot; و&quot;;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Get Tens text
+&nbsp;        // get ten text for inflected case jar or nasb
+<b class="nc">&nbsp;        result += getDigitTensJarStatus(tens, inflectionCase);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String getDigitFeminineStatus(int digit, int groupLevel, boolean isFeminine) {
+<b class="nc">&nbsp;    return getDigitInflectedStatus(digit, groupLevel, isFeminine, false, &quot;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String getDigitInflectedStatus(int digit, int groupLevel, boolean isFeminine, Boolean isAttached, String inflectionCase) {
+<b class="nc">&nbsp;    if (inflectionCase.equals(&quot;jar&quot;)) {</b>
+<b class="nc">&nbsp;      if (groupLevel == -1 || groupLevel == 0) {</b>
+<b class="nc">&nbsp;        if (!isFeminine) {</b>
+<b class="nc">&nbsp;          return ArabicNumbersWordsConstants.arabicJarOnes.get(digit);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return ArabicNumbersWordsConstants.arabicJarFeminineOnes.get(digit);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      if (groupLevel == -1 || groupLevel == 0) {</b>
+<b class="nc">&nbsp;        if (!isFeminine) {</b>
+<b class="nc">&nbsp;          return ArabicNumbersWordsConstants.arabicOnes.get(digit);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return ArabicNumbersWordsConstants.arabicFeminineOnes.get(digit);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return ArabicNumbersWordsConstants.arabicOnes.get(digit);</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String getDigitTensJarStatus(int digit, String inflectionCase) {
+&nbsp;
+<b class="nc">&nbsp;    if (inflectionCase.equals(&quot;jar&quot;) || inflectionCase.equals(&quot;jar&quot;)) {</b>
+<b class="nc">&nbsp;      return ArabicNumbersWordsConstants.arabicJarTens.get(digit);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return ArabicNumbersWordsConstants.arabicTens.get(digit);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String getDigitHundredJarStatus(int digit, String inflectionCase) {
+&nbsp;
+<b class="nc">&nbsp;    if (inflectionCase.equals(&quot;jar&quot;) || inflectionCase.equals(&quot;jar&quot;)) {</b>
+<b class="nc">&nbsp;      return ArabicNumbersWordsConstants.arabicJarHundreds.get(digit);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return ArabicNumbersWordsConstants.arabicHundreds.get(digit);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String getDigitTwosJarStatus(int digit, String inflectionCase, boolean isAppended) {
+<b class="nc">&nbsp;    if (!isAppended) {</b>
+<b class="nc">&nbsp;      if (inflectionCase.equals(&quot;jar&quot;) || inflectionCase.equals(&quot;jar&quot;)) {</b>
+<b class="nc">&nbsp;        return ArabicNumbersWordsConstants.arabicJarTwos.get(digit);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return ArabicNumbersWordsConstants.arabicTwos.get(digit);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      if (inflectionCase.equals(&quot;jar&quot;)) {</b>
+<b class="nc">&nbsp;        return ArabicNumbersWordsConstants.arabicJarAppendedTwos.get(digit);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return ArabicNumbersWordsConstants.arabicAppendedTwos.get(digit);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean hasNoGroup(StringBuilder word) {
+<b class="nc">&nbsp;    String aword = word.toString();</b>
+<b class="nc">&nbsp;    return aword.equals(&quot;ألف&quot;)</b>
+<b class="nc">&nbsp;      || aword.equals(&quot;ألفين&quot;)</b>
+<b class="nc">&nbsp;      || aword.equals(&quot;ألفان&quot;);</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  /*
+&nbsp;     Convert arabic text into number, for example convert تسعة وعشرون = &gt;29.
+&nbsp;     Example:
+&nbsp;         &gt;&gt;&gt; text2number(u&quot;خمسمئة وثلاث وعشرون&quot;)
+&nbsp;         523
+&nbsp;     @param text: input text
+&nbsp;     @type text: unicode
+&nbsp;     @return: number extracted from text
+&nbsp;     @rtype: integer
+&nbsp;  */
+&nbsp;  public static Integer textToNumber(String text) {
+<b class="nc">&nbsp;    text = ArabicStringTools.removeTashkeel(text);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; words = Arrays.asList(text.split(&quot; &quot;));</b>
+<b class="nc">&nbsp;    return textToNumber(words);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static Integer textToNumber(List&lt;String&gt; words) {
+&nbsp;
+&nbsp;    // the result total is 0
+<b class="nc">&nbsp;    Integer total = 0;</b>
+&nbsp;    // the partial total for the three number
+<b class="nc">&nbsp;    Integer partial = 0;</b>
+&nbsp;    ;
+&nbsp;    // print words
+<b class="nc">&nbsp;    for (String word : words) {</b>
+<b class="nc">&nbsp;      if (!word.isEmpty() &amp;&amp; !word.equals(&quot;واحد&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; (word.startsWith(&quot;و&quot;)</b>
+<b class="nc">&nbsp;        || word.startsWith(&quot;ف&quot;)</b>
+<b class="nc">&nbsp;        || word.startsWith(&quot;ب&quot;)</b>
+<b class="nc">&nbsp;        || word.startsWith(&quot;ك&quot;)</b>
+<b class="nc">&nbsp;        || word.startsWith(&quot;ل&quot;))</b>
+&nbsp;      ) { // strip first char
+<b class="nc">&nbsp;        word = word.substring(1);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (!word.equals(&quot;واحد&quot;) &amp;&amp; word.startsWith(&quot;و&quot;)) {// strip first char</b>
+<b class="nc">&nbsp;        word = word.substring(1);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (isNumericWord(word)) {</b>
+<b class="nc">&nbsp;        Integer actualnumber = getNumericWordValue(word);</b>
+<b class="nc">&nbsp;        if (actualnumber % 1000 == 0) {</b>
+&nbsp;          // the case of 1000 or 1 million
+<b class="nc">&nbsp;          if (partial == 0) {</b>
+<b class="nc">&nbsp;            partial = 1;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          total += partial * actualnumber;</b>
+&nbsp;          // re-initiate the partial total
+<b class="nc">&nbsp;          partial = 0;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          partial += getNumericWordValue(word);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // add the final partial to total
+<b class="nc">&nbsp;    total += partial;</b>
+<b class="nc">&nbsp;    return total;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* get suitable unit form */
+&nbsp;  public static String getUnitForm(Integer n, String unitLemma, String inflection) {
+<b class="nc">&nbsp;    Map&lt;String, String&gt; phraseMap = numberToWordsWithUnitsMap(n, unitLemma, inflection);</b>
+<b class="nc">&nbsp;    return phraseMap.getOrDefault(&quot;unit&quot;, &quot;&quot;);</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  /* generate a phrase number with unit */
+&nbsp;  public static String numberToWordsWithUnits(Integer n, String unit, String inflection) {
+<b class="nc">&nbsp;    Map&lt;String, String&gt; phraseMap = numberToWordsWithUnitsMap(n, unit, inflection);</b>
+<b class="nc">&nbsp;    return phraseMap.getOrDefault(&quot;all&quot;, &quot;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* generate a phrase number with unit */
+&nbsp;  public static Map&lt;String, String&gt; numberToWordsWithUnitsMap(Integer n, String unit, String inflection) {
+&nbsp;
+&nbsp;    // get feminin from unit
+<b class="nc">&nbsp;    boolean feminin = isFeminin(unit);</b>
+<b class="nc">&nbsp;    String unitInflection = &quot;&quot;;</b>
+<b class="nc">&nbsp;    String unitNumber = &quot;&quot;;</b>
+&nbsp;    // inflection
+&nbsp;    // generate phrase from number
+<b class="nc">&nbsp;    String numberPhrase = ArabicNumbersWords.numberToArabicWords(Integer.toString(n), feminin, true, inflection);</b>
+<b class="nc">&nbsp;    StringBuilder phrase = new StringBuilder(&quot;&quot;);</b>
+<b class="nc">&nbsp;    String newUnit = &quot;&quot;;</b>
+&nbsp;    // generate suitable unit
+<b class="nc">&nbsp;    if (n.equals(0)) {</b>
+<b class="nc">&nbsp;      newUnit = getForm(unit, &quot;plural&quot;, &quot;nasb&quot;);</b>
+<b class="nc">&nbsp;      unitInflection = &quot;nasb&quot;;</b>
+<b class="nc">&nbsp;      unitNumber = &quot;plural&quot;;</b>
+<b class="nc">&nbsp;      phrase.append(&quot;لا&quot;);</b>
+<b class="nc">&nbsp;      phrase.append(&quot; &quot;);</b>
+<b class="nc">&nbsp;      phrase.append(newUnit);</b>
+<b class="nc">&nbsp;    } else if (n.equals(1)) { // دينار واحد</b>
+&nbsp;      // دينارا واحدا
+&nbsp;      // دينارٍ واحدٍ
+<b class="nc">&nbsp;      newUnit = getForm(unit, &quot;one&quot;, inflection);</b>
+<b class="nc">&nbsp;      unitInflection = inflection;</b>
+<b class="nc">&nbsp;      unitNumber = &quot;one&quot;;</b>
+<b class="nc">&nbsp;      phrase.append(newUnit);</b>
+<b class="nc">&nbsp;      phrase.append(&quot; &quot;);</b>
+<b class="nc">&nbsp;      phrase.append(numberPhrase);</b>
+<b class="nc">&nbsp;    } else if (n.equals(2)) { // ديناران</b>
+&nbsp;      // دينارين
+<b class="nc">&nbsp;      newUnit = getForm(unit, &quot;two&quot;, inflection);</b>
+<b class="nc">&nbsp;      unitInflection = inflection;</b>
+<b class="nc">&nbsp;      unitNumber = &quot;two&quot;;</b>
+<b class="nc">&nbsp;      phrase.append(newUnit);</b>
+<b class="nc">&nbsp;    } else if (n % 100 == 1) { // مئة دينار ودينار</b>
+&nbsp;      // ألف دينار ودينار
+&nbsp;      // regenerate the phrase number for n-1
+&nbsp;      // than add unit for hundreds
+&nbsp;      // than add one unit
+&nbsp;      // مئة دينار
+&nbsp;      // ودينار
+<b class="nc">&nbsp;      String numberPhraseHundred = ArabicNumbersWords.numberToArabicWords(Integer.toString(n - 1), feminin, true, inflection);</b>
+<b class="nc">&nbsp;      String newUnitHundred = getForm(unit, &quot;one&quot;, &quot;jar&quot;);</b>
+&nbsp;      // unit for one
+<b class="nc">&nbsp;      String newUnitOne = getForm(unit, &quot;one&quot;, inflection);</b>
+<b class="nc">&nbsp;      unitInflection = inflection;</b>
+<b class="nc">&nbsp;      unitNumber = &quot;one&quot;;</b>
+<b class="nc">&nbsp;      newUnit = newUnitOne;</b>
+<b class="nc">&nbsp;      phrase.append(numberPhraseHundred);</b>
+<b class="nc">&nbsp;      phrase.append(&quot; &quot;);</b>
+<b class="nc">&nbsp;      phrase.append(newUnitHundred);</b>
+<b class="nc">&nbsp;      phrase.append(&quot; &quot;);</b>
+<b class="nc">&nbsp;      phrase.append(&quot;و&quot;);</b>
+<b class="nc">&nbsp;      phrase.append(newUnitOne);</b>
+&nbsp;
+<b class="nc">&nbsp;    } else if (n % 100 == 2) { // مئة دينار ودينارين</b>
+&nbsp;      // ألف دينار ودينارين
+&nbsp;      // regenerate the phrase number for n-1
+&nbsp;      // than add unit for hundreds
+&nbsp;      // than add two unit
+&nbsp;      // مئة دينار
+&nbsp;      // ودينارين
+<b class="nc">&nbsp;      String numberPhraseHundred = ArabicNumbersWords.numberToArabicWords(Integer.toString(n - 2), feminin, true, inflection);</b>
+<b class="nc">&nbsp;      String newUnitHundred = getForm(unit, &quot;one&quot;, &quot;jar&quot;);</b>
+&nbsp;      // unit for two
+<b class="nc">&nbsp;      String newUnitTwo = getForm(unit, &quot;two&quot;, inflection);</b>
+<b class="nc">&nbsp;      unitInflection = inflection;</b>
+<b class="nc">&nbsp;      unitNumber = &quot;two&quot;;</b>
+<b class="nc">&nbsp;      newUnit = newUnitTwo;</b>
+<b class="nc">&nbsp;      phrase.append(numberPhraseHundred);</b>
+<b class="nc">&nbsp;      phrase.append(&quot; &quot;);</b>
+<b class="nc">&nbsp;      phrase.append(newUnitHundred);</b>
+<b class="nc">&nbsp;      phrase.append(&quot; &quot;);</b>
+<b class="nc">&nbsp;      phrase.append(&quot;و&quot;);</b>
+<b class="nc">&nbsp;      phrase.append(newUnitTwo);</b>
+&nbsp;
+<b class="nc">&nbsp;    } else if (n % 100 &gt;= 3 &amp;&amp; n % 100 &lt;= 10) { // خمسة دنانير</b>
+&nbsp;      // عشرة رجال
+<b class="nc">&nbsp;      newUnit = getForm(unit, &quot;plural&quot;, &quot;jar&quot;);</b>
+<b class="nc">&nbsp;      unitInflection = &quot;jar&quot;;</b>
+<b class="nc">&nbsp;      unitNumber = &quot;plural&quot;;</b>
+<b class="nc">&nbsp;      phrase.append(numberPhrase);</b>
+<b class="nc">&nbsp;      phrase.append(&quot; &quot;);</b>
+<b class="nc">&nbsp;      phrase.append(newUnit);</b>
+&nbsp;
+<b class="nc">&nbsp;    } else if (n % 100 &gt;= 11) { // أحد عشر رجلا</b>
+&nbsp;      // ثمانون رجلا
+&nbsp;      // تسعة وتسعون رجلا
+<b class="nc">&nbsp;      newUnit = getForm(unit, &quot;one&quot;, &quot;nasb&quot;);</b>
+<b class="nc">&nbsp;      unitInflection = &quot;nasb&quot;;</b>
+<b class="nc">&nbsp;      unitNumber = &quot;one&quot;;</b>
+<b class="nc">&nbsp;      phrase.append(numberPhrase);</b>
+<b class="nc">&nbsp;      phrase.append(&quot; &quot;);</b>
+<b class="nc">&nbsp;      phrase.append(newUnit);</b>
+&nbsp;
+<b class="nc">&nbsp;    } else if (n % 100 == 0) { // مئة دينار</b>
+&nbsp;      // ثمانون ألف دينار
+&nbsp;      // تسعة وتسعون مليون دينار
+<b class="nc">&nbsp;      newUnit = getForm(unit, &quot;one&quot;, &quot;jar&quot;);</b>
+<b class="nc">&nbsp;      unitInflection = &quot;jar&quot;;</b>
+<b class="nc">&nbsp;      unitNumber = &quot;one&quot;;</b>
+<b class="nc">&nbsp;      phrase.append(numberPhrase);</b>
+<b class="nc">&nbsp;      phrase.append(&quot; &quot;);</b>
+<b class="nc">&nbsp;      phrase.append(newUnit);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      phrase.append(numberPhrase);</b>
+<b class="nc">&nbsp;      phrase.append(&quot; **&quot;);</b>
+<b class="nc">&nbsp;      phrase.append(unit + &quot;**&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Map&lt;String, String&gt; phraseMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    phraseMap.put(&quot;all&quot;, phrase.toString());</b>
+<b class="nc">&nbsp;    phraseMap.put(&quot;phrase&quot;, numberPhrase);</b>
+<b class="nc">&nbsp;    phraseMap.put(&quot;unit&quot;, newUnit);</b>
+<b class="nc">&nbsp;    phraseMap.put(&quot;number&quot;, String.valueOf(n));</b>
+<b class="nc">&nbsp;    phraseMap.put(&quot;unitLemma&quot;, unit);</b>
+<b class="nc">&nbsp;    phraseMap.put(&quot;unitNumber&quot;, unitNumber);</b>
+<b class="nc">&nbsp;    phraseMap.put(&quot;unitInflection&quot;, unitInflection);</b>
+<b class="nc">&nbsp;    phraseMap.put(&quot;inflection&quot;, inflection);</b>
+<b class="nc">&nbsp;    phraseMap.put(&quot;feminin&quot;, String.valueOf(feminin));</b>
+<b class="nc">&nbsp;    return phraseMap;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* check if the given numeric phrase is correct and wekll spelling according to spectfic options */
+&nbsp;  public static boolean checkNumericPhrase(String phraseInput, boolean feminin, boolean attached, String inflection) {
+<b class="nc">&nbsp;    String phrase = ArabicStringTools.removeTashkeel(phraseInput);</b>
+<b class="nc">&nbsp;    Integer x = ArabicNumbersWords.textToNumber(phrase);</b>
+<b class="nc">&nbsp;    String autoPhrase = ArabicNumbersWords.numberToArabicWords(String.valueOf(x), feminin, attached, inflection);</b>
+<b class="nc">&nbsp;    autoPhrase = ArabicStringTools.removeTashkeel(autoPhrase);</b>
+<b class="nc">&nbsp;    return autoPhrase.equals(phrase);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* Generate suggestions fro  given numeric phrase if it&#39;s incorrect and wekll spelling according to spectfic options */
+&nbsp;  public static List&lt;String&gt; getSuggestionsNumericPhrase(String phraseInput, boolean feminin, boolean attached, String inflection) {
+<b class="nc">&nbsp;    List&lt;String&gt; suggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    String phrase = ArabicStringTools.removeTashkeel(phraseInput);</b>
+<b class="nc">&nbsp;    Integer x = ArabicNumbersWords.textToNumber(phrase);</b>
+<b class="nc">&nbsp;    String autoPhrase = ArabicNumbersWords.numberToArabicWords(String.valueOf(x), feminin, attached, inflection);</b>
+<b class="nc">&nbsp;    autoPhrase = ArabicStringTools.removeTashkeel(autoPhrase);</b>
+<b class="nc">&nbsp;    if (!autoPhrase.equals(phrase)) {</b>
+&nbsp;      // if inflection is null generate all cases
+<b class="nc">&nbsp;      if (inflection != null &amp;&amp; !inflection.isEmpty())</b>
+<b class="nc">&nbsp;        suggestions.add(autoPhrase);</b>
+&nbsp;      else { //Raf3
+<b class="nc">&nbsp;        inflection = &quot;raf3&quot;;</b>
+<b class="nc">&nbsp;        autoPhrase = ArabicNumbersWords.numberToArabicWords(String.valueOf(x), feminin, attached, inflection);</b>
+<b class="nc">&nbsp;        suggestions.add(autoPhrase);</b>
+&nbsp;        //nasb+jar
+<b class="nc">&nbsp;        inflection = &quot;jar&quot;;</b>
+<b class="nc">&nbsp;        autoPhrase = ArabicNumbersWords.numberToArabicWords(String.valueOf(x), feminin, attached, inflection);</b>
+<b class="nc">&nbsp;        suggestions.add(autoPhrase);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return suggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* Generate suggestions fro  given numeric phrase if it&#39;s incorrect and wekll spelling according to spectfic options */
+&nbsp;  public static List&lt;Map&lt;String, String&gt;&gt; getSuggestionsNumericPhraseWithUnits(String phraseInput, String unit, boolean feminin, boolean attached, String inflection) {
+<b class="nc">&nbsp;    List&lt;Map&lt;String, String&gt;&gt; suggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    String phrase = ArabicStringTools.removeTashkeel(phraseInput);</b>
+<b class="nc">&nbsp;    Integer x = ArabicNumbersWords.textToNumber(phrase);</b>
+<b class="nc">&nbsp;    Map&lt;String, String&gt; autoPhraseMap = ArabicNumbersWords.numberToWordsWithUnitsMap(x, unit, inflection);</b>
+<b class="nc">&nbsp;    String autoPhrase = ArabicStringTools.removeTashkeel(autoPhraseMap.getOrDefault(&quot;phrase&quot;, &quot;&quot;));</b>
+<b class="nc">&nbsp;    if (!autoPhrase.equals(phrase)) {</b>
+&nbsp;      // if inflection is null generate all cases
+<b class="nc">&nbsp;      if (inflection != null &amp;&amp; !inflection.isEmpty())</b>
+<b class="nc">&nbsp;        suggestions.add(autoPhraseMap);</b>
+&nbsp;      else { //Raf3
+<b class="nc">&nbsp;        inflection = &quot;raf3&quot;;</b>
+<b class="nc">&nbsp;        autoPhraseMap = ArabicNumbersWords.numberToWordsWithUnitsMap(x, unit, inflection);</b>
+<b class="nc">&nbsp;        suggestions.add(autoPhraseMap);</b>
+&nbsp;        //nasb+jar
+<b class="nc">&nbsp;        inflection = &quot;jar&quot;;</b>
+<b class="nc">&nbsp;        autoPhraseMap = ArabicNumbersWords.numberToWordsWithUnitsMap(x, unit, inflection);</b>
+<b class="nc">&nbsp;        suggestions.add(autoPhraseMap);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return suggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* return if the word is a numeric word */
+&nbsp;  public static boolean isNumericWord(String word) {
+<b class="nc">&nbsp;    return ArabicNumbersWordsConstants.NUMBER_WORDS.containsKey(word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* return if the word is a numeric word */
+&nbsp;  public static Integer getNumericWordValue(String word) {
+<b class="nc">&nbsp;    return ArabicNumbersWordsConstants.NUMBER_WORDS.get(word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /* test if the unit is feminin */
+&nbsp;  public static boolean isFeminin(String unit) {
+<b class="nc">&nbsp;    return ArabicUnitsHelper.isFeminin(unit);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* return the suitable form of units according to inflection */
+&nbsp;  public static String getForm(String unit, String category, String inflection) {
+<b class="nc">&nbsp;    return ArabicUnitsHelper.getForm(unit, category, inflection);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

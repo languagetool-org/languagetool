@@ -1,0 +1,215 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BitextRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.bitext</a>
+</div>
+
+<h1>Coverage Summary for Class: BitextRule (org.languagetool.rules.bitext)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BitextRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2010 Marcin Miłkowski (www.languagetool.org)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.bitext;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.bitext.StringPair;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;
+&nbsp;/**
+&nbsp; * Abstract bitext rule class. A BitextRule describes a language error and 
+&nbsp; * can test whether a given pre-analyzed pair of source and target text 
+&nbsp; * contains that error using the {@link Rule#match} method.
+&nbsp; * 
+&nbsp; * @author Marcin Miłkowski
+&nbsp; */
+<b class="nc">&nbsp;public abstract class BitextRule extends Rule {</b>
+&nbsp;
+&nbsp;  public static List&lt;Class&lt;? extends BitextRule&gt;&gt; getRelevantRules() {
+<b class="nc">&nbsp;    return Arrays.asList(</b>
+&nbsp;            DifferentLengthRule.class,
+&nbsp;            SameTranslationRule.class,
+&nbsp;            DifferentPunctuationRule.class
+&nbsp;    );
+&nbsp;  }
+&nbsp;
+&nbsp;  public abstract String getMessage();
+&nbsp;
+&nbsp;  public abstract RuleMatch[] match(AnalyzedSentence sourceText,
+&nbsp;      AnalyzedSentence targetText) throws IOException;
+&nbsp;
+&nbsp;  private List&lt;StringPair&gt; correctExamples;
+&nbsp;  private List&lt;IncorrectBitextExample&gt; incorrectExamples;
+&nbsp;  private Language sourceLanguage;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This method makes no sense for bitext, thus it always returns {@code null}.
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set the source language. If the language is not supported
+&nbsp;   * by LT, you need to use the default tokenizers etc.
+&nbsp;   * @param lang Source Language
+&nbsp;   */
+&nbsp;  public final void setSourceLanguage(Language lang) {
+<b class="nc">&nbsp;    sourceLanguage = lang;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public final Language getSourceLanguage() {
+<b class="nc">&nbsp;    return sourceLanguage;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set the examples that are correct and thus do not trigger the rule.
+&nbsp;   */
+&nbsp;  public final void setCorrectBitextExamples(List&lt;StringPair&gt; correctExamples) {
+<b class="nc">&nbsp;    this.correctExamples = correctExamples;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get example sentences that are correct and thus will not match this rule.
+&nbsp;   */
+&nbsp;  public final List&lt;StringPair&gt; getCorrectBitextExamples() {
+<b class="nc">&nbsp;    return correctExamples;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set the examples that are incorrect and thus do trigger the rule.
+&nbsp;   */
+&nbsp;  public final void setIncorrectBitextExamples(
+&nbsp;      final List&lt;IncorrectBitextExample&gt; incorrectExamples) {
+<b class="nc">&nbsp;    this.incorrectExamples = Collections.unmodifiableList(incorrectExamples);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get example sentences that are incorrect and thus will match this rule.
+&nbsp;   */
+&nbsp;  public final List&lt;IncorrectBitextExample&gt; getIncorrectBitextExamples() {
+<b class="nc">&nbsp;    return incorrectExamples;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

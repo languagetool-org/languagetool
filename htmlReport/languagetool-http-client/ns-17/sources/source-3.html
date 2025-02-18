@@ -1,0 +1,236 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LanguageIdentifierService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language.identifier</a>
+</div>
+
+<h1>Coverage Summary for Class: LanguageIdentifierService (org.languagetool.language.identifier)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LanguageIdentifierService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57.1%
+  </span>
+  <span class="absValue">
+    (4/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    23.5%
+  </span>
+  <span class="absValue">
+    (4/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    36%
+  </span>
+  <span class="absValue">
+    (9/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * LanguageTool, a natural language style checker 
+&nbsp; * Copyright (c) 2022.  Stefan Viol (https://stevio.de)
+&nbsp; *  
+&nbsp; *  This library is free software; you can redistribute it and/or
+&nbsp; *  modify it under the terms of the GNU Lesser General Public
+&nbsp; *  License as published by the Free Software Foundation; either
+&nbsp; *  version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  
+&nbsp; *  This library is distributed in the hope that it will be useful,
+&nbsp; *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  Lesser General Public License for more details.
+&nbsp; *  
+&nbsp; *  You should have received a copy of the GNU Lesser General Public
+&nbsp; *  License along with this library; if not, write to the Free Software
+&nbsp; *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.language.identifier;
+&nbsp;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.jetbrains.annotations.TestOnly;
+&nbsp;import org.languagetool.Languages;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="fc">&nbsp;@Slf4j</b>
+&nbsp;public enum LanguageIdentifierService {
+&nbsp;
+<b class="fc">&nbsp;  INSTANCE;</b>
+&nbsp;
+&nbsp;  private LanguageIdentifier defaultIdentifier = null;
+&nbsp;  private LanguageIdentifier simpleIdentifier = null;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param maxLength          - the maximum of characters that will be considered - can help with performance.
+&nbsp;   *                           If 0 the default value of 1000 is used.
+&nbsp;   *                           Don&#39;t use values between 1-100, as this would decrease accuracy.
+&nbsp;   * @param ngramLangIdentData - the ngramLangIdentData file, if {@code null} ngram will not be initialized.
+&nbsp;   * @param fasttextBinary     - the fasttext binary file, if {@code null} fasttext will not be initialized.
+&nbsp;   * @param fasttextModel      - the fasttext model file, if {@code null} fasttext will not be initialized.
+&nbsp;   * @return new {@code LanguageIdentifier} or existing if already initialized.
+&nbsp;   * @since 5.8
+&nbsp;   */
+&nbsp;  public synchronized LanguageIdentifier getDefaultLanguageIdentifier(int maxLength,
+&nbsp;                                                                      @Nullable File ngramLangIdentData,
+&nbsp;                                                                      @Nullable File fasttextBinary,
+&nbsp;                                                                      @Nullable File fasttextModel) {
+<b class="fc">&nbsp;    if (defaultIdentifier == null) {</b>
+<b class="pc">&nbsp;      DefaultLanguageIdentifier defaultIdentifier = maxLength &gt; 0 ? new DefaultLanguageIdentifier(maxLength) : new DefaultLanguageIdentifier();</b>
+<b class="fc">&nbsp;      defaultIdentifier.enableNgrams(ngramLangIdentData);</b>
+<b class="fc">&nbsp;      defaultIdentifier.enableFasttext(fasttextBinary, fasttextModel);</b>
+<b class="fc">&nbsp;      this.defaultIdentifier = defaultIdentifier;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return this.defaultIdentifier;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param preferredLangCodes - a list of language codes for that a spellchecker will be initialized.
+&nbsp;   *                           If {@code null} all spellcheckers will be used.
+&nbsp;   * @return new {@code LanguageIdentifier} or existing if already initialized.
+&nbsp;   * @since 5.8
+&nbsp;   */
+&nbsp;  public synchronized LanguageIdentifier getSimpleLanguageIdentifier(@Nullable List&lt;String&gt; preferredLangCodes) {
+<b class="nc">&nbsp;    if (simpleIdentifier == null) {</b>
+<b class="nc">&nbsp;      if (preferredLangCodes == null) {</b>
+<b class="nc">&nbsp;        this.simpleIdentifier = new SimpleLanguageIdentifier();</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        this.simpleIdentifier = new SimpleLanguageIdentifier(preferredLangCodes);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return this.simpleIdentifier;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Try to get an already initialized LanguageIdentifier
+&nbsp;   * @return defaultIdentifier or if null simpleIdentifier or null
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public LanguageIdentifier getInitialized() {
+<b class="nc">&nbsp;    if (defaultIdentifier != null) {</b>
+<b class="nc">&nbsp;      return this.defaultIdentifier;</b>
+<b class="nc">&nbsp;    } else if (simpleIdentifier != null) {</b>
+<b class="nc">&nbsp;      return this.simpleIdentifier;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean canLanguageBeDetected(String langCode, List&lt;String&gt; additionalLanguageCodes) {
+<b class="pc">&nbsp;    return Languages.isLanguageSupported(langCode) || additionalLanguageCodes.contains(langCode);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param type - option: &quot;default&quot;, &quot;simpel, or both to clear the identifiers
+&nbsp;   * @return {@code LanguageIdentifierService} instance
+&nbsp;   */
+&nbsp;  @TestOnly
+&nbsp;  public LanguageIdentifierService clearLanguageIdentifier(String type) {
+<b class="nc">&nbsp;    switch (type) {</b>
+&nbsp;      case &quot;default&quot;:
+<b class="nc">&nbsp;        this.defaultIdentifier = null;</b>
+&nbsp;        break;
+&nbsp;      case &quot;simple&quot;:
+<b class="nc">&nbsp;        this.simpleIdentifier = null;</b>
+&nbsp;        break;
+&nbsp;      case &quot;both&quot;:
+<b class="nc">&nbsp;        this.simpleIdentifier = null;</b>
+<b class="nc">&nbsp;        this.defaultIdentifier = null;</b>
+&nbsp;        break;
+&nbsp;      default:
+&nbsp;        break;
+&nbsp;    }
+<b class="nc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

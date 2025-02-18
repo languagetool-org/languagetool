@@ -1,0 +1,226 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TokenPredicate</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.chunking</a>
+</div>
+
+<h1>Coverage Summary for Class: TokenPredicate (org.languagetool.chunking)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TokenPredicate</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/37)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.chunking;
+&nbsp;
+&nbsp;import edu.washington.cs.knowitall.logic.Expression;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.patterns.StringMatcher;
+&nbsp;
+&nbsp;import java.util.function.Predicate;
+&nbsp;
+&nbsp;final class TokenPredicate extends Expression.Arg.Pred&lt;ChunkTaggedToken&gt; {
+&nbsp;  private final Predicate&lt;ChunkTaggedToken&gt; predicate;
+&nbsp;
+&nbsp;  TokenPredicate(String description, boolean caseSensitive) {
+<b class="nc">&nbsp;    super(description);</b>
+<b class="nc">&nbsp;    predicate = compile(description, caseSensitive);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Predicate&lt;ChunkTaggedToken&gt; compile(String description, boolean caseSensitive) {
+<b class="nc">&nbsp;    String[] parts = description.split(&quot;=&quot;);</b>
+&nbsp;    String exprType;
+&nbsp;    String exprValue;
+<b class="nc">&nbsp;    if (parts.length == 1) {</b>
+<b class="nc">&nbsp;      exprType = &quot;string&quot;;</b>
+<b class="nc">&nbsp;      exprValue = unquote(parts[0]);</b>
+<b class="nc">&nbsp;    } else if (parts.length == 2) {</b>
+<b class="nc">&nbsp;      exprType = parts[0];</b>
+<b class="nc">&nbsp;      exprValue = unquote(parts[1]);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not parse expression: &quot; + getDescription());</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    switch (exprType) {</b>
+&nbsp;      case &quot;string&quot;:
+&nbsp;      case &quot;regex&quot;:
+&nbsp;      case &quot;regexCS&quot;:
+<b class="nc">&nbsp;        StringMatcher matcher = StringMatcher.create(exprValue, !&quot;string&quot;.equals(exprType), caseSensitive || &quot;regexCS&quot;.equals(exprType));</b>
+<b class="nc">&nbsp;        return analyzedToken -&gt; matcher.matches(analyzedToken.getToken());</b>
+&nbsp;
+&nbsp;      case &quot;chunk&quot;:
+<b class="nc">&nbsp;        StringMatcher chunkPattern = StringMatcher.regexp(exprValue);</b>
+<b class="nc">&nbsp;        return analyzedToken -&gt; {</b>
+<b class="nc">&nbsp;          for (ChunkTag chunkTag : analyzedToken.getChunkTags()) {</b>
+<b class="nc">&nbsp;            if (chunkPattern.matches(chunkTag.getChunkTag())) {</b>
+<b class="nc">&nbsp;              return true;</b>
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        };
+&nbsp;
+&nbsp;      case &quot;pos&quot;:
+<b class="nc">&nbsp;        return analyzedToken -&gt; {</b>
+<b class="nc">&nbsp;          AnalyzedTokenReadings readings = analyzedToken.getReadings();</b>
+<b class="nc">&nbsp;          if (readings != null) {</b>
+<b class="nc">&nbsp;            for (AnalyzedToken token : readings) {</b>
+<b class="nc">&nbsp;              if (token.getPOSTag() != null &amp;&amp; token.getPOSTag().contains(exprValue)) {</b>
+<b class="nc">&nbsp;                return true;</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        };
+&nbsp;
+&nbsp;      case &quot;posre&quot;:
+&nbsp;      case &quot;posregex&quot;:
+<b class="nc">&nbsp;        StringMatcher posPattern = StringMatcher.regexp(exprValue);</b>
+<b class="nc">&nbsp;        return analyzedToken -&gt; {</b>
+<b class="nc">&nbsp;          AnalyzedTokenReadings readings = analyzedToken.getReadings();</b>
+<b class="nc">&nbsp;          if (readings != null) {</b>
+<b class="nc">&nbsp;            for (AnalyzedToken token : readings) {</b>
+<b class="nc">&nbsp;              if (token.getPOSTag() != null &amp;&amp; posPattern.matches(token.getPOSTag())) {</b>
+<b class="nc">&nbsp;                return true;</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        };
+&nbsp;
+&nbsp;      default:
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Expression type not supported: &#39;&quot; + exprType + &quot;&#39;&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String unquote(String s) {
+<b class="nc">&nbsp;    return s.startsWith(&quot;&#39;&quot;) &amp;&amp; s.endsWith(&quot;&#39;&quot;) ? s.substring(1, s.length() - 1) : s;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean apply(ChunkTaggedToken analyzedToken) {
+<b class="nc">&nbsp;    return predicate.test(analyzedToken);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

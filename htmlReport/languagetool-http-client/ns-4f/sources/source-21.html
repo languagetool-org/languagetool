@@ -1,0 +1,364 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Pipeline</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: Pipeline (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Pipeline</td>
+<td class="coverageStat">
+  <span class="percent">
+    44.4%
+  </span>
+  <span class="absValue">
+    (12/27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    43.8%
+  </span>
+  <span class="absValue">
+    (21/48)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Pipeline$IllegalPipelineMutationException</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    42.9%
+  </span>
+  <span class="absValue">
+    (12/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    42.9%
+  </span>
+  <span class="absValue">
+    (21/49)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2018 Fabian Richter
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; * 
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; * 
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.markup.AnnotatedText;
+&nbsp;import org.languagetool.markup.AnnotatedTextBuilder;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.patterns.AbstractPatternRule;
+&nbsp;import org.xml.sax.SAXException;
+&nbsp;
+&nbsp;import javax.xml.parsers.ParserConfigurationException;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.PrintStream;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * Wrapper for JLanguageTool instances that can be made immutable.
+&nbsp; * Use case: Setup instances once (ahead of time or on demand), cache and use when matching queries come in;
+&nbsp; * work around thread safety issues by only giving out one reference at a time.
+&nbsp; * @see PipelinePool
+&nbsp; */
+&nbsp;class Pipeline extends JLanguageTool {
+&nbsp;
+&nbsp;  static class IllegalPipelineMutationException extends RuntimeException {
+&nbsp;    IllegalPipelineMutationException() {
+<b class="nc">&nbsp;      super(&quot;Pipeline is frozen; mutating shared JLanguageTool instance is forbidden.&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  private boolean setup = false;</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Prevents any further changes after this method was called.
+&nbsp;   */
+&nbsp;  void setupFinished() {
+<b class="nc">&nbsp;   this.setup = true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  Pipeline(Language language, List&lt;Language&gt; altLanguages, Language motherTongue, ResultCache cache, GlobalConfig globalConfig, UserConfig userConfig, boolean inputLogging) {
+<b class="fc">&nbsp;    super(language, altLanguages, motherTongue, cache, globalConfig, userConfig, inputLogging);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void setCleanOverlappingMatches(boolean cleanOverlappingMatches) {
+<b class="nc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="nc">&nbsp;    super.setCleanOverlappingMatches(cleanOverlappingMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void preventModificationAfterSetup() {
+<b class="pc">&nbsp;    if (setup) {</b>
+<b class="nc">&nbsp;      throw new IllegalPipelineMutationException();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void setMaxErrorsPerWordRate(float maxErrorsPerWordRate) {
+<b class="fc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="fc">&nbsp;    super.setMaxErrorsPerWordRate(maxErrorsPerWordRate);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void setOutput(PrintStream printStream) {
+<b class="nc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="nc">&nbsp;    super.setOutput(printStream);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;AbstractPatternRule&gt; loadPatternRules(String filename) throws IOException {
+<b class="nc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="nc">&nbsp;    return super.loadPatternRules(filename);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;AbstractPatternRule&gt; loadFalseFriendRules(String filename) throws ParserConfigurationException, SAXException, IOException {
+<b class="fc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="fc">&nbsp;    return super.loadFalseFriendRules(filename);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void activateLanguageModelRules(File indexDir) throws IOException {
+<b class="nc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="nc">&nbsp;    super.activateLanguageModelRules(indexDir);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void activateRemoteRules(File configFile) throws IOException {
+<b class="fc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="fc">&nbsp;    super.activateRemoteRules(configFile);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void activateRemoteRules(List&lt;RemoteRuleConfig&gt; configs) throws IOException {
+<b class="fc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="fc">&nbsp;    super.activateRemoteRules(configs);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void addMatchFilter(@NotNull RuleMatchFilter filter) {
+<b class="fc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="fc">&nbsp;    super.addMatchFilter(filter);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void addRule(Rule rule) {
+<b class="nc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="nc">&nbsp;    super.addRule(rule);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void disableRule(String ruleId) {
+<b class="fc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="fc">&nbsp;    super.disableRule(ruleId);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void disableRules(List&lt;String&gt; ruleIds) {
+<b class="fc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="fc">&nbsp;    super.disableRules(ruleIds);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void disableCategory(CategoryId id) {
+<b class="nc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="nc">&nbsp;    super.disableCategory(id);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Set&lt;String&gt; getDisabledRules() {
+<b class="nc">&nbsp;    return Collections.unmodifiableSet(super.getDisabledRules());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void enableRule(String ruleId) {
+<b class="fc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="fc">&nbsp;    super.enableRule(ruleId);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void enableRuleCategory(CategoryId id) {
+<b class="nc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="nc">&nbsp;    super.enableRuleCategory(id);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; getUnknownWords() {
+<b class="nc">&nbsp;    return Collections.unmodifiableList(super.getUnknownWords());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Map&lt;CategoryId, Category&gt; getCategories() {
+<b class="nc">&nbsp;    return Collections.unmodifiableMap(super.getCategories());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getAllRules() {
+<b class="fc">&nbsp;    return Collections.unmodifiableList(super.getAllRules());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getAllActiveRules() {
+<b class="fc">&nbsp;    return Collections.unmodifiableList(super.getAllActiveRules());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getAllActiveOfficeRules() {
+<b class="nc">&nbsp;    return Collections.unmodifiableList(super.getAllActiveOfficeRules());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;AbstractPatternRule&gt; getPatternRulesByIdAndSubId(String Id, String subId) {
+<b class="nc">&nbsp;    return Collections.unmodifiableList(super.getPatternRulesByIdAndSubId(Id, subId));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void setConfigValues(Map&lt;String, Object[]&gt; v) {
+<b class="nc">&nbsp;    preventModificationAfterSetup();</b>
+<b class="nc">&nbsp;    super.setConfigValues(v);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * exposed here for GRPCServer
+&nbsp;   */
+&nbsp;  CheckResults checkAnalyzedSentences(List&lt;AnalyzedSentence&gt; analyzed, RuleMatchListener listener) throws Exception {
+&nbsp;    // TODO use checkInternal again
+<b class="nc">&nbsp;    List&lt;String&gt; sentences = analyzed.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    String text = sentences.stream().collect(Collectors.joining());</b>
+<b class="nc">&nbsp;    AnnotatedText annotated = new AnnotatedTextBuilder().addText(text).build();</b>
+<b class="nc">&nbsp;    return checkInternal(annotated, ParagraphHandling.NORMAL, listener, Mode.ALL, Level.DEFAULT, null, sentences, analyzed);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

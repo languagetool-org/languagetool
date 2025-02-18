@@ -1,0 +1,516 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DefaultLanguageIdentifier</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language.identifier</a>
+</div>
+
+<h1>Coverage Summary for Class: DefaultLanguageIdentifier (org.languagetool.language.identifier)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DefaultLanguageIdentifier</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (12/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    27.5%
+  </span>
+  <span class="absValue">
+    (33/120)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    54%
+  </span>
+  <span class="absValue">
+    (81/150)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language.identifier;
+&nbsp;
+&nbsp;import com.optimaize.langdetect.LanguageDetector;
+&nbsp;import com.optimaize.langdetect.LanguageDetectorBuilder;
+&nbsp;import com.optimaize.langdetect.ngram.NgramExtractors;
+&nbsp;import com.optimaize.langdetect.profiles.LanguageProfile;
+&nbsp;import com.optimaize.langdetect.profiles.LanguageProfileReader;
+&nbsp;import com.optimaize.langdetect.text.RemoveMinorityScriptsTextFilter;
+&nbsp;import com.optimaize.langdetect.text.TextObjectFactory;
+&nbsp;import com.optimaize.langdetect.text.TextObjectFactoryBuilder;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.jetbrains.annotations.TestOnly;
+&nbsp;import org.languagetool.DetectedLanguage;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.language.identifier.detector.FastTextDetector;
+&nbsp;import org.languagetool.language.identifier.detector.NGramDetector;
+&nbsp;import org.languagetool.noop.NoopLanguage;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.atomic.AtomicInteger;
+&nbsp;
+&nbsp;/**
+&nbsp; * Identify the language of a text. Note that some languages might never be
+&nbsp; * detected because they are close to another language. Language variants like
+&nbsp; * en-US or en-GB are not detected, the result will be {@code en} for those.
+&nbsp; * By default, only the first 1000 characters of a text are considered.
+&nbsp; * Email signatures that use {@code \n-- \n} as a delimiter are ignored.
+&nbsp; *
+&nbsp; * @since 2.9
+&nbsp; */
+&nbsp;public class DefaultLanguageIdentifier extends LanguageIdentifier {
+&nbsp;
+<b class="fc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(DefaultLanguageIdentifier.class);</b>
+&nbsp;  private static final double MINIMAL_CONFIDENCE = 0.9;
+&nbsp;  private static final int SHORT_ALGO_THRESHOLD = 50;
+&nbsp;  // texts shorter than this will *only* consider preferred languages (if set):
+&nbsp;  private static final int CONSIDER_ONLY_PREFERRED_THRESHOLD = 50;
+&nbsp;
+&nbsp;  // ast and gl often prevent the correct detection of Spanish (as they are quite similar
+&nbsp;  // to Spanish, I assume) so we disable them for now. See LanguageDetectionEval.java:
+<b class="fc">&nbsp;  private static final List&lt;String&gt; ignoreLangCodes = Arrays.asList(&quot;ast&quot;, &quot;gl&quot;);</b>
+&nbsp;
+&nbsp;  // languages that we offer profiles for as they are not yet supported by language-detector:
+<b class="fc">&nbsp;  private static final List&lt;String&gt; externalLangCodes = Arrays.asList(&quot;eo&quot;, &quot;crh&quot;);</b>
+&nbsp;  // fall back to checking against list of common words if fasttext probability is lower than this:
+&nbsp;  private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.85f;
+&nbsp;  // Result (&#39;Avg. minimum chars&#39;) of LanguageDetectionMinLengthEval with MIN_INPUT_LEN=5 and MAX_INPUT_LEN=100,
+&nbsp;  // lower values = better:
+&nbsp;  //private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.7f;    // 8.363
+&nbsp;  //private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.85f;   // 8.282
+&nbsp;  //private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.90f;   // 8.271
+&nbsp;  //private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 0.95f;   // 8.249
+&nbsp;  //private static final float FASTTEXT_CONFIDENCE_THRESHOLD = 1.0f;    // 8.282
+&nbsp;
+&nbsp;  private final LanguageDetector languageDetector;
+&nbsp;  private final TextObjectFactory textObjectFactory;
+<b class="fc">&nbsp;  private final AtomicInteger fasttextInitCounter = new AtomicInteger(0);</b>
+&nbsp;
+&nbsp;  private FastTextDetector fastTextDetector;
+&nbsp;  private NGramDetector ngram;
+&nbsp;
+&nbsp;  DefaultLanguageIdentifier() {
+<b class="fc">&nbsp;    this(1000);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param maxLength the maximum number of characters that will be considered - can help
+&nbsp;   *                  with performance. Don&#39;t use values below 100, as this would decrease
+&nbsp;   *                  accuracy.
+&nbsp;   * @throws IllegalArgumentException if {@code maxLength} is less than 10
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  DefaultLanguageIdentifier(int maxLength) {
+<b class="fc">&nbsp;    super(maxLength);</b>
+&nbsp;    try {
+<b class="fc">&nbsp;      List&lt;LanguageProfile&gt; profiles = loadProfiles(getLanguageCodes());</b>
+<b class="fc">&nbsp;      languageDetector = LanguageDetectorBuilder.create(NgramExtractors.standard())</b>
+<b class="fc">&nbsp;              .minimalConfidence(MINIMAL_CONFIDENCE)</b>
+<b class="fc">&nbsp;              .shortTextAlgorithm(SHORT_ALGO_THRESHOLD)</b>
+<b class="fc">&nbsp;              .withProfiles(profiles)</b>
+<b class="fc">&nbsp;              .build();</b>
+<b class="fc">&nbsp;      textObjectFactory = new TextObjectFactoryBuilder()</b>
+<b class="fc">&nbsp;              .maxTextLength(10000)</b>
+&nbsp;              // note: keep these in sync with if(fasttextEnabled) in detectLanguage:
+<b class="fc">&nbsp;              .withTextFilter(LanguageIdentifier.REMOVE_URL_FILTER)</b>
+<b class="fc">&nbsp;              .withTextFilter(RemoveMinorityScriptsTextFilter.forThreshold(0.3))</b>
+<b class="fc">&nbsp;              .withTextFilter(LanguageIdentifier.REMOVE_EMAIL_SIGNATURE_FILTER)</b>
+<b class="fc">&nbsp;              .withTextFilter(LanguageIdentifier.REMOVE_MENTION_FILTER)</b>
+<b class="fc">&nbsp;              .withTextFilter(LanguageIdentifier.REMOVE_NON_BREAKING_SPACES_FILTER)</b>
+<b class="fc">&nbsp;              .build();</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not set up language identifier&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  void enableFasttext(File fasttextBinary, File fasttextModel) {
+<b class="pc">&nbsp;    if (fasttextBinary != null &amp;&amp; fasttextModel != null) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        fastTextDetector = new FastTextDetector(fasttextModel, fasttextBinary);</b>
+<b class="nc">&nbsp;        logger.info(&quot;Started fastText process for language identification: Binary {} with model @ {}&quot;, fasttextBinary, fasttextModel);</b>
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Could not start fasttext process for language identification @ &quot; + fasttextBinary + &quot; with model @ &quot; + fasttextModel, e);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="fc">&nbsp;      logger.warn(&quot;fastText not configured - language detection performance will be degraded. &quot; +</b>
+&nbsp;        &quot;See https://dev.languagetool.org/http-server#starting-from-command-line for instructions.&quot;);
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * For test only
+&nbsp;   */
+&nbsp;  @TestOnly
+&nbsp;  public void setFastTextDetector(FastTextDetector fastTextDetector) {
+<b class="nc">&nbsp;    this.fastTextDetector = fastTextDetector;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * For test only
+&nbsp;   * @return a counter how often fasttext was already recreated after a failure
+&nbsp;   */
+&nbsp;  @TestOnly
+&nbsp;  public AtomicInteger getFasttextInitCounter() {
+<b class="nc">&nbsp;    return fasttextInitCounter;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.2
+&nbsp;   */
+&nbsp;  public boolean isFastTextEnabled() {
+<b class="nc">&nbsp;    return fastTextDetector != null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void enableNgrams(File ngramDir) {
+<b class="pc">&nbsp;    if (ngramDir != null) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        logger.info(&quot;Loading ngram data for language identification from &quot; + ngramDir + &quot;...&quot;);</b>
+<b class="nc">&nbsp;        ngram = new NGramDetector(ngramDir, 50);</b>
+<b class="nc">&nbsp;        logger.info(&quot;Loaded ngram data for language identification from &quot; + ngramDir);</b>
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Could not load ngram data language identification from &quot; + ngramDir, e);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static List&lt;String&gt; getLanguageCodes() {
+<b class="fc">&nbsp;    List&lt;String&gt; langCodes = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (Language lang : Languages.get()) {</b>
+<b class="fc">&nbsp;      String langCode = lang.getShortCode();</b>
+<b class="fc">&nbsp;      boolean ignore = lang.isVariant() || ignoreLangCodes.contains(langCode) || externalLangCodes.contains(langCode);</b>
+<b class="fc">&nbsp;      if (ignore) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="fc">&nbsp;      if (&quot;zh&quot;.equals(langCode)) {</b>
+<b class="fc">&nbsp;        langCodes.add(&quot;zh-CN&quot;);</b>
+<b class="fc">&nbsp;        langCodes.add(&quot;zh-TW&quot;);</b>
+&nbsp;      } else {
+<b class="pc">&nbsp;        if (!langCodes.contains(langCode)) {</b>
+<b class="fc">&nbsp;          langCodes.add(langCode);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return langCodes;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;LanguageProfile&gt; loadProfiles(List&lt;String&gt; langCodes) throws IOException {
+<b class="fc">&nbsp;    LanguageProfileReader profileReader = new LanguageProfileReader();</b>
+<b class="fc">&nbsp;    List&lt;LanguageProfile&gt; profiles = profileReader.read(langCodes);</b>
+<b class="fc">&nbsp;    for (String externalLangCode : externalLangCodes) {</b>
+<b class="fc">&nbsp;      String profilePath = &quot;/&quot; + externalLangCode + &quot;/&quot; + externalLangCode + &quot;.profile&quot;;</b>
+<b class="fc">&nbsp;      if (JLanguageTool.getDataBroker().resourceExists(profilePath)) {  // not all languages are always available</b>
+<b class="fc">&nbsp;        try (InputStream profile = JLanguageTool.getDataBroker().getFromResourceDirAsStream(profilePath)) {</b>
+<b class="fc">&nbsp;          profiles.add(new LanguageProfileReader().read(profile));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return profiles;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param cleanText a cleanText as returned by {@link #cleanAndShortenText(String)}
+&nbsp;   * @return language or {@code null} if language could not be identified
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public Language detectLanguage(String cleanText) {
+<b class="fc">&nbsp;    DetectedLanguage detectedLanguage = detectLanguage(cleanText, Collections.emptyList(), Collections.emptyList());</b>
+<b class="pc">&nbsp;    if (detectedLanguage == null) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      return detectedLanguage.getDetectedLanguage();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param cleanText    a cleanText as returned by {@link #cleanAndShortenText(String)}
+&nbsp;   * @param noopLangsTmp list of codes that are detected but will lead to the NoopLanguage that has no rules
+&nbsp;   * @return language or {@code null} if language could not be identified
+&nbsp;   * @since 4.4 (new parameter noopLangs, changed return type to DetectedLanguage)
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public DetectedLanguage detectLanguage(String cleanText, List&lt;String&gt; noopLangsTmp, List&lt;String&gt; preferredLangsTmp) {
+<b class="fc">&nbsp;    return this.detectLanguage(cleanText, noopLangsTmp, preferredLangsTmp, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public DetectedLanguage detectLanguage(String cleanText, List&lt;String&gt; noopLangsTmp, List&lt;String&gt; preferredLangsTmp, boolean limitOnPreferredLangs) {
+<b class="fc">&nbsp;    List&lt;DetectedLanguage&gt; detectedLanguageScores = getDetectedLanguageScores(cleanText, noopLangsTmp, preferredLangsTmp, limitOnPreferredLangs, 1);</b>
+<b class="fc">&nbsp;    return detectedLanguageScores.stream().findFirst().orElse(null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public List&lt;DetectedLanguage&gt; getDetectedLanguageScores(String cleanText, List&lt;String&gt; noopLangsTmp, List&lt;String&gt; preferredLangsTmp, boolean limitOnPreferredLangs, int count) {
+<b class="fc">&nbsp;    String text = cleanText;</b>
+<b class="fc">&nbsp;    ParsedLanguageLists parsedLanguageLists = prepareDetectLanguage(text, noopLangsTmp, preferredLangsTmp);</b>
+<b class="pc">&nbsp;    if (parsedLanguageLists == null) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(new DetectedLanguage(null, new NoopLanguage()));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    List&lt;String&gt; additionalLangs = parsedLanguageLists.getAdditionalLangs();</b>
+<b class="fc">&nbsp;    List&lt;String&gt; preferredLangs = parsedLanguageLists.getPreferredLangs();</b>
+&nbsp;
+<b class="fc">&nbsp;    Map&lt;String, Double&gt; scores = null;</b>
+<b class="fc">&nbsp;    boolean fasttextFailed = false;</b>
+<b class="fc">&nbsp;    String source = &quot;&quot;;</b>
+<b class="pc">&nbsp;    if (fastTextDetector != null || ngram != null) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        boolean usingFastText = false;</b>
+<b class="nc">&nbsp;        if ((text.length() &lt;= SHORT_ALGO_THRESHOLD || fastTextDetector == null) &amp;&amp; ngram != null) {</b>
+<b class="nc">&nbsp;          scores = ngram.detectLanguages(text.trim(), additionalLangs);</b>
+<b class="nc">&nbsp;          source += &quot;ngram&quot;;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          usingFastText = true;</b>
+<b class="nc">&nbsp;          scores = fastTextDetector.runFasttext(text, additionalLangs);</b>
+<b class="nc">&nbsp;          source += &quot;fasttext&quot;;</b>
+&nbsp;        }
+&nbsp;        /*if (result.getValue().floatValue() &lt; THRESHOLD) {
+&nbsp;          System.out.println(&quot;FastText below threshold: &quot; + result.getValue().floatValue() + &quot; for &quot; + cleanText.length() + &quot; chars&quot;);
+&nbsp;        } else {
+&nbsp;          System.out.println(&quot;FastText above threshold: &quot; + result.getValue().floatValue() + &quot; for &quot; + cleanText.length() + &quot; chars&quot;);
+&nbsp;        }*/
+<b class="nc">&nbsp;        Map.Entry&lt;String, Double&gt; fasttextHighestScoringResult = getHighestScoringResult(scores);</b>
+<b class="nc">&nbsp;        if ((usingFastText &amp;&amp; fasttextHighestScoringResult.getValue().floatValue() &lt; FASTTEXT_CONFIDENCE_THRESHOLD) || fasttextHighestScoringResult.getKey().equals(&quot;zz&quot;)) {</b>
+&nbsp;          //System.out.println(cleanText + &quot; -&gt;&quot; + result.getValue().floatValue() + &quot; &quot; + result.getKey());
+<b class="nc">&nbsp;          Map&lt;Language, Integer&gt; lang2Count = COMMON_WORDS_LANG_IDENTIFIER.getKnownWordsPerLanguage(text);</b>
+<b class="nc">&nbsp;          Set&lt;String&gt; baseLangAlreadyHandled = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;          for (Map.Entry&lt;Language, Integer&gt; entry : lang2Count.entrySet()) {</b>
+<b class="nc">&nbsp;            String langCode = entry.getKey().getShortCode();</b>
+<b class="nc">&nbsp;            if (baseLangAlreadyHandled.contains(langCode)) {</b>
+&nbsp;              // quick hack to fix #5772
+&nbsp;              continue;
+&nbsp;            }
+<b class="nc">&nbsp;            baseLangAlreadyHandled.add(langCode);</b>
+<b class="nc">&nbsp;            if (scores.containsKey(langCode)) {</b>
+&nbsp;              // this looks arbitrary, but gave best results with evaluation (LanguageDetectionMinLengthEval):
+<b class="nc">&nbsp;              scores.put(langCode, scores.get(langCode) + Double.valueOf(entry.getValue()));</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              scores.put(langCode, Double.valueOf(entry.getValue()));</b>
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          source += &quot;+commonwords&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (preferredLangs.contains(&quot;no&quot;) &amp;&amp; !preferredLangs.contains(&quot;da&quot;)) {</b>
+&nbsp;          // Special case, as Norwegian easily gets detected as Danish (https://github.com/languagetool-org/languagetool/issues/5520).
+<b class="nc">&nbsp;          scores.keySet().removeIf(k -&gt; k.equals(&quot;da&quot;));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (!preferredLangs.isEmpty() &amp;&amp; (text.length() &lt;= CONSIDER_ONLY_PREFERRED_THRESHOLD || limitOnPreferredLangs)) {</b>
+<b class="nc">&nbsp;          boolean wasRemoved = scores.keySet().removeIf(k -&gt; !preferredLangs.contains(k));</b>
+<b class="nc">&nbsp;          if (wasRemoved &amp;&amp; scores.isEmpty() &amp;&amp; limitOnPreferredLangs) {</b>
+&nbsp;            //TODO: just to see how often we would return no results because of that parameter -&gt; remove later
+<b class="nc">&nbsp;            logger.warn(&quot;No language detected for text after remove all not preferred languages from score.&quot;);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          source += &quot;+prefLang(forced: &quot; + limitOnPreferredLangs + &quot;)&quot;;</b>
+&nbsp;        }
+&nbsp;      } catch (FastTextDetector.FastTextException e) {
+<b class="nc">&nbsp;        if (e.isDisabled()) {</b>
+<b class="nc">&nbsp;          fasttextFailed = true;</b>
+<b class="nc">&nbsp;          reinitFasttextAfterFailure(e);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          logger.error(&quot;Fasttext failed, fallback used&quot;, e);</b>
+<b class="nc">&nbsp;          fasttextFailed = true;</b>
+&nbsp;        }
+&nbsp;      } catch (Exception e) {
+<b class="nc">&nbsp;        fasttextFailed = true;</b>
+<b class="nc">&nbsp;        reinitFasttextAfterFailure(e);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="pc">&nbsp;    if (fastTextDetector == null &amp;&amp; ngram == null || fasttextFailed) { // no else, value can change in if clause</b>
+<b class="fc">&nbsp;      text = textObjectFactory.forText(text).toString();</b>
+<b class="fc">&nbsp;      source +=&quot;+fallback&quot;;</b>
+<b class="pc">&nbsp;      if (scores == null) {</b>
+<b class="fc">&nbsp;        scores = new HashMap&lt;&gt;();</b>
+&nbsp;      }
+<b class="fc">&nbsp;      Map.Entry&lt;String, Double&gt; localResult = detectLanguageCode(text, preferredLangs, limitOnPreferredLangs);</b>
+<b class="pc">&nbsp;      if (localResult != null) {</b>
+<b class="fc">&nbsp;        scores.put(localResult.getKey(), localResult.getValue());</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (!additionalLangs.isEmpty()) {</b>
+<b class="nc">&nbsp;        logger.warn(&quot;Cannot consider noopLanguages because not in fastText mode: {}&quot;, additionalLangs);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    List&lt;DetectedLanguage&gt; detectedLanguages = new LinkedList&lt;&gt;();</b>
+<b class="pc">&nbsp;    if (count &gt; 1) {</b>
+<b class="nc">&nbsp;      Map&lt;String, Double&gt; orderedScores = getOrderedScores(scores, count);</b>
+<b class="nc">&nbsp;      for (Map.Entry&lt;String, Double&gt; entry : orderedScores.entrySet()) {</b>
+<b class="nc">&nbsp;        if (entry.getKey() != null &amp;&amp; LanguageIdentifierService.INSTANCE.canLanguageBeDetected(entry.getKey(), additionalLangs)) {</b>
+<b class="nc">&nbsp;          float rate = Math.round(entry.getValue() * 100.0) / 100.0f; // Convert to a non-scientific float and potentially round down</b>
+<b class="nc">&nbsp;          detectedLanguages.add(new DetectedLanguage(null, Languages.getLanguageForShortCode(entry.getKey(), additionalLangs), rate, source));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } else {
+<b class="fc">&nbsp;      Map.Entry&lt;String, Double&gt; highestScoringResult = getHighestScoringResult(scores);</b>
+<b class="pc">&nbsp;      if (highestScoringResult.getKey() != null &amp;&amp; LanguageIdentifierService.INSTANCE.canLanguageBeDetected(highestScoringResult.getKey(), additionalLangs)) {</b>
+&nbsp;        float newScore;
+<b class="pc">&nbsp;        if (source.contains(&quot;fasttext&quot;)) {</b>
+&nbsp;          // Calculate a trivial confidence value because fasttext&#39;s confidence is often
+&nbsp;          // wrong for short cleanText (e.g. 0.99 for a test that&#39;s misclassified). Don&#39;t
+&nbsp;          // use 1.0 because we can never be totally sure...
+<b class="nc">&nbsp;          newScore = (float) (0.99/ (30.0 / Math.min(text.length(), 30)));</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;          newScore = highestScoringResult.getValue().floatValue();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        detectedLanguages.add(new DetectedLanguage(null, Languages.getLanguageForShortCode(highestScoringResult.getKey(), additionalLangs), newScore, source));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="pc">&nbsp;    if (detectedLanguages.isEmpty() &amp;&amp; !preferredLangs.isEmpty() &amp;&amp;</b>
+<b class="nc">&nbsp;      preferredLangs.get(0) != null &amp;&amp;</b>
+<b class="nc">&nbsp;      !preferredLangs.get(0).trim().isEmpty() &amp;&amp;</b>
+<b class="nc">&nbsp;      Languages.isLanguageSupported(preferredLangs.get(0))) {</b>
+<b class="nc">&nbsp;      source += &quot;+fallbackToPrefLang&quot;;</b>
+<b class="nc">&nbsp;      detectedLanguages.add(new DetectedLanguage(null, Languages.getLanguageForShortCode(preferredLangs.get(0)), 0.1f, source));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return detectedLanguages;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void reinitFasttextAfterFailure(Exception e) {
+<b class="nc">&nbsp;    if (fastTextDetector != null) {</b>
+<b class="nc">&nbsp;      int newCounter = fasttextInitCounter.incrementAndGet();</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          boolean wasRestarted = fastTextDetector.restartProcess();</b>
+<b class="nc">&nbsp;          if (wasRestarted) {</b>
+<b class="nc">&nbsp;            logger.debug(&quot;Fasttext was new initialized after failure {}&quot;, newCounter);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            fasttextInitCounter.decrementAndGet();</b>
+&nbsp;          }
+&nbsp;        } catch (IOException ex) {
+<b class="nc">&nbsp;          logger.warn(&quot;Restarting fasttext failed {}&quot;, newCounter);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private Map.Entry&lt;String, Double&gt; detectLanguageCode(String text, List&lt;String&gt; preferredLangs, boolean limitOnPreferredLangs) {
+<b class="fc">&nbsp;    List&lt;com.optimaize.langdetect.DetectedLanguage&gt; lang = languageDetector.getProbabilities(text);</b>
+<b class="pc">&nbsp;    if (limitOnPreferredLangs &amp;&amp; preferredLangs != null &amp;&amp; !preferredLangs.isEmpty()) {</b>
+<b class="nc">&nbsp;      boolean wasRemoved = lang.removeIf(l -&gt; !preferredLangs.contains(l.getLocale().getLanguage()));</b>
+<b class="nc">&nbsp;      if (wasRemoved &amp;&amp; lang.isEmpty()) {</b>
+&nbsp;        //TODO: just to see how often we would return no results because of that parameter -&gt; remove later
+<b class="nc">&nbsp;        logger.warn(&quot;No language detected for text after remove all not preferred languages from score.&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // comment in for debugging:
+&nbsp;    //System.out.println(languageDetector.getProbabilities(textObject));
+<b class="pc">&nbsp;    if (lang.size() &gt; 0) {</b>
+<b class="fc">&nbsp;      String code = lang.get(0).getLocale().getLanguage();</b>
+<b class="fc">&nbsp;      double prob = lang.get(0).getProbability();</b>
+<b class="fc">&nbsp;      return new AbstractMap.SimpleImmutableEntry&lt;&gt;(code, prob);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

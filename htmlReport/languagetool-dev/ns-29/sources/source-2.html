@@ -1,0 +1,237 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DateCheckFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.br</a>
+</div>
+
+<h1>Coverage Summary for Class: DateCheckFilter (org.languagetool.rules.br)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DateCheckFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/118)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/62)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.br;
+&nbsp;
+&nbsp;import org.languagetool.rules.AbstractDateCheckFilter;
+&nbsp;
+&nbsp;import java.util.Calendar;
+&nbsp;import java.util.Locale;
+&nbsp;
+&nbsp;/**
+&nbsp; * Breton localization of {@link AbstractDateCheckFilter}.
+&nbsp; * @since 2.7
+&nbsp; */
+<b class="nc">&nbsp;public class DateCheckFilter extends AbstractDateCheckFilter {</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected Calendar getCalendar() {
+<b class="nc">&nbsp;    return Calendar.getInstance(Locale.UK);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings(&quot;ControlFlowStatementWithoutBraces&quot;)
+&nbsp;  @Override
+&nbsp;  protected int getDayOfMonth(String dayStr) {
+<b class="nc">&nbsp;    String day = dayStr.toLowerCase();</b>
+<b class="nc">&nbsp;    if (day.charAt(0) == &#39;t&#39;) day = &#39;d&#39; + day.substring(1);</b>
+<b class="nc">&nbsp;    if (day.charAt(0) == &#39;p&#39;) day = &#39;b&#39; + day.substring(1);</b>
+<b class="nc">&nbsp;    if (day.endsWith(&quot;vet&quot;)) {</b>
+&nbsp;      // Removing final vet if any.
+<b class="nc">&nbsp;      day = day.substring(0, day.length() - 3);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (day.equals(&quot;c’hentañ&quot;) || day.equals(&quot;unan&quot;))    return 1;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;daou&quot;)     || day.equals(&quot;eil&quot;))     return 2;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;dri&quot;)      || day.equals(&quot;drede&quot;) || day.equals(&quot;deir&quot;)) return 3;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;bevar&quot;))                             return 4;</b>
+&nbsp;    // bemp or bemvet (vet has been removed).
+<b class="nc">&nbsp;    if (day.equals(&quot;bemp&quot;)     || day.equals(&quot;bem&quot;))     return 5;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;c’hwerc’h&quot;))                         return 6;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;seizh&quot;))                             return 7;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;eizh&quot;))                              return 8;</b>
+&nbsp;    // nav and navet (vet has been removed).
+<b class="nc">&nbsp;    if (day.equals(&quot;nav&quot;)      || day.equals(&quot;na&quot;))     return 9;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;dek&quot;))                              return 10;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;unnek&quot;))                            return 11;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;daouzek&quot;))                          return 12;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;drizek&quot;))                           return 13;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;bevarzek&quot;))                         return 14;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;bemzek&quot;))                           return 15;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;c’hwezek&quot;))                         return 16;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;seitek&quot;))                           return 17;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;driwec’h&quot;))                         return 18;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;naontek&quot;))                          return 19;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;ugent&quot;))                            return 20;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;dregont&quot;))                          return 30;</b>
+<b class="nc">&nbsp;    return 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings(&quot;ControlFlowStatementWithoutBraces&quot;)
+&nbsp;  @Override
+&nbsp;  protected int getDayOfWeek(String dayStr) {
+<b class="nc">&nbsp;    String day = dayStr.toLowerCase();</b>
+<b class="nc">&nbsp;    if (day.endsWith(&quot;sul&quot;))      return Calendar.SUNDAY;</b>
+<b class="nc">&nbsp;    if (day.endsWith(&quot;lun&quot;))      return Calendar.MONDAY;</b>
+<b class="nc">&nbsp;    if (day.endsWith(&quot;meurzh&quot;))   return Calendar.TUESDAY;</b>
+<b class="nc">&nbsp;    if (day.endsWith(&quot;merc’her&quot;)) return Calendar.WEDNESDAY;</b>
+<b class="nc">&nbsp;    if (day.equals  (&quot;yaou&quot;))     return Calendar.THURSDAY;</b>
+<b class="nc">&nbsp;    if (day.equals  (&quot;diriaou&quot;))  return Calendar.THURSDAY;</b>
+<b class="nc">&nbsp;    if (day.endsWith(&quot;gwener&quot;))   return Calendar.FRIDAY;</b>
+<b class="nc">&nbsp;    if (day.endsWith(&quot;sadorn&quot;))   return Calendar.SATURDAY;</b>
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;Could not find day of week for &#39;&quot; + dayStr + &quot;&#39;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings(&quot;ControlFlowStatementWithoutBraces&quot;)
+&nbsp;  @Override
+&nbsp;  protected String getDayOfWeek(Calendar date) {
+<b class="nc">&nbsp;    String englishDay = date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);</b>
+<b class="nc">&nbsp;    if (englishDay.equals(&quot;Sunday&quot;))    return &quot;Sul&quot;;</b>
+<b class="nc">&nbsp;    if (englishDay.equals(&quot;Monday&quot;))    return &quot;Lun&quot;;</b>
+<b class="nc">&nbsp;    if (englishDay.equals(&quot;Tuesday&quot;))   return &quot;Meurzh&quot;;</b>
+<b class="nc">&nbsp;    if (englishDay.equals(&quot;Wednesday&quot;)) return &quot;Merc’her&quot;;</b>
+<b class="nc">&nbsp;    if (englishDay.equals(&quot;Thursday&quot;))  return &quot;Yaou&quot;;</b>
+<b class="nc">&nbsp;    if (englishDay.equals(&quot;Friday&quot;))    return &quot;Gwener&quot;;</b>
+<b class="nc">&nbsp;    if (englishDay.equals(&quot;Saturday&quot;))  return &quot;Sadorn&quot;;</b>
+<b class="nc">&nbsp;    return &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings({&quot;ControlFlowStatementWithoutBraces&quot;, &quot;MagicNumber&quot;})
+&nbsp;  @Override
+&nbsp;  protected int getMonth(String monthStr) {
+<b class="nc">&nbsp;    String mon = monthStr.toLowerCase();</b>
+<b class="nc">&nbsp;    if (mon.equals(&quot;genver&quot;))                            return 1;</b>
+<b class="nc">&nbsp;    if (mon.equals(&quot;c’hwevrer&quot;))                         return 2;</b>
+<b class="nc">&nbsp;    if (mon.equals(&quot;meurzh&quot;))                            return 3;</b>
+<b class="nc">&nbsp;    if (mon.equals(&quot;ebrel&quot;))                             return 4;</b>
+<b class="nc">&nbsp;    if (mon.equals(&quot;mae&quot;))                               return 5;</b>
+<b class="nc">&nbsp;    if (mon.equals(&quot;mezheven&quot;) || mon.equals(&quot;even&quot;))    return 6;</b>
+<b class="nc">&nbsp;    if (mon.equals(&quot;gouere&quot;)   || mon.equals(&quot;gouhere&quot;)) return 7;</b>
+<b class="nc">&nbsp;    if (mon.equals(&quot;eost&quot;))                              return 8;</b>
+<b class="nc">&nbsp;    if (mon.equals(&quot;gwengolo&quot;))                          return 9;</b>
+<b class="nc">&nbsp;    if (mon.equals(&quot;here&quot;))                              return 10;</b>
+<b class="nc">&nbsp;    if (mon.equals(&quot;du&quot;))                                return 11;</b>
+<b class="nc">&nbsp;    if (mon.equals(&quot;kerzu&quot;))                             return 12;</b>
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;Could not find month &#39;&quot; + monthStr + &quot;&#39;&quot;);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

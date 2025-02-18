@@ -1,0 +1,350 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Indexer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.index</a>
+</div>
+
+<h1>Coverage Summary for Class: Indexer (org.languagetool.dev.index)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Indexer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/44)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/98)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.index;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Random;
+&nbsp;
+&nbsp;import org.apache.lucene.analysis.Analyzer;
+&nbsp;import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
+&nbsp;import org.apache.lucene.document.*;
+&nbsp;import org.apache.lucene.index.IndexOptions;
+&nbsp;import org.apache.lucene.index.IndexWriter;
+&nbsp;import org.apache.lucene.index.IndexWriterConfig;
+&nbsp;import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+&nbsp;import org.apache.lucene.store.Directory;
+&nbsp;import org.apache.lucene.store.FSDirectory;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.dev.dumpcheck.Sentence;
+&nbsp;import org.languagetool.tokenizers.SentenceTokenizer;
+&nbsp;
+&nbsp;import static org.languagetool.dev.index.Lucene.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * A class with a main() method that takes a text file and indexes its sentences, including POS tags
+&nbsp; * 
+&nbsp; * @author Tao Lin, Miaojuan Dai
+&nbsp; */
+&nbsp;public class Indexer implements AutoCloseable {
+&nbsp;
+&nbsp;  static final String TITLE_FIELD_NAME = &quot;title&quot;;
+&nbsp;
+<b class="nc">&nbsp;  private final Random random = new Random(4235);</b>
+&nbsp;  private final IndexWriter writer;
+&nbsp;  private final SentenceTokenizer sentenceTokenizer;
+&nbsp;
+&nbsp;  private boolean lowercaseOnly;
+&nbsp;
+&nbsp;  public Indexer(Directory dir, Language language) {
+<b class="nc">&nbsp;    this(dir, language, getAnalyzer(language));</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  public Indexer(Directory dir, Language language, Analyzer analyzer) {</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      IndexWriterConfig writerConfig = getIndexWriterConfig(analyzer);</b>
+<b class="nc">&nbsp;      writerConfig.setOpenMode(OpenMode.CREATE);</b>
+<b class="nc">&nbsp;      writer = new IndexWriter(dir, writerConfig);</b>
+<b class="nc">&nbsp;      sentenceTokenizer = language.getSentenceTokenizer();</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set to true to index only a lowercase field (makes index smaller).
+&nbsp;   */
+&nbsp;  public void setLowercaseOnly(boolean lowercaseOnly) {
+<b class="nc">&nbsp;    this.lowercaseOnly = lowercaseOnly;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    ensureCorrectUsageOrExit(args);</b>
+<b class="nc">&nbsp;    run(args[0], args[1], args[2]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static Analyzer getAnalyzer(Language language) {
+<b class="nc">&nbsp;    Map&lt;String, Analyzer&gt; analyzerMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    analyzerMap.put(FIELD_NAME, new LanguageToolAnalyzer(new JLanguageTool(language), false));</b>
+<b class="nc">&nbsp;    analyzerMap.put(FIELD_NAME_LOWERCASE, new LanguageToolAnalyzer(new JLanguageTool(language), true));</b>
+<b class="nc">&nbsp;    return new PerFieldAnalyzerWrapper(new DoNotUseAnalyzer(), analyzerMap);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static IndexWriterConfig getIndexWriterConfig(Analyzer analyzer) {
+<b class="nc">&nbsp;    return new IndexWriterConfig(analyzer);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void ensureCorrectUsageOrExit(String[] args) {
+<b class="nc">&nbsp;    if (args.length != 3) {</b>
+<b class="nc">&nbsp;      System.err.println(&quot;Usage: Indexer &lt;textFile&gt; &lt;indexDir&gt; &lt;languageCode&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.err.println(&quot;\ttextFile path to a text file to be indexed (line end implies sentence end)&quot;);</b>
+<b class="nc">&nbsp;      System.err.println(&quot;\tindexDir path to a directory storing the index&quot;);</b>
+<b class="nc">&nbsp;      System.err.println(&quot;\tlanguageCode short language code, e.g. en for English&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void run(String textFile, String indexDir, String languageCode) throws IOException {
+<b class="nc">&nbsp;    File file = new File(textFile);</b>
+<b class="nc">&nbsp;    if (!file.exists() || !file.canRead()) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Text file &#39;&quot; + file.getAbsolutePath()</b>
+&nbsp;          + &quot;&#39; does not exist or is not readable, please check the path&quot;);
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Indexing to directory &#39;&quot; + indexDir + &quot;&#39;...&quot;);</b>
+<b class="nc">&nbsp;      try (FSDirectory directory = FSDirectory.open(new File(indexDir).toPath())) {</b>
+<b class="nc">&nbsp;        Language language = Languages.getLanguageForShortCode(languageCode);</b>
+<b class="nc">&nbsp;        try (Indexer indexer = new Indexer(directory, language)) {</b>
+<b class="nc">&nbsp;          indexer.indexText(reader);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(&quot;Index complete!&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void run(String content, Directory dir, Language language) throws IOException {
+<b class="nc">&nbsp;    BufferedReader br = new BufferedReader(new StringReader(content));</b>
+<b class="nc">&nbsp;    try (Indexer indexer = new Indexer(dir, language)) {</b>
+<b class="nc">&nbsp;      indexer.indexText(br);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public void indexSentence(Sentence sentence, int docCount) throws IOException {
+<b class="nc">&nbsp;    BufferedReader reader = new BufferedReader(new StringReader(sentence.getText()));</b>
+&nbsp;    String line;
+<b class="nc">&nbsp;    while ((line = reader.readLine()) != null) {</b>
+<b class="nc">&nbsp;      add(line, sentence.getSource(), sentence.getTitle(), docCount);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public void indexText(BufferedReader reader) throws IOException {
+&nbsp;    String line;
+<b class="nc">&nbsp;    StringBuilder paragraph = new StringBuilder();</b>
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    int addCount = 0;</b>
+<b class="nc">&nbsp;    while ((line = reader.readLine()) != null) {</b>
+<b class="nc">&nbsp;      if (!(line.equals(&quot;&quot;)) &amp;&amp; paragraph.length() + line.length() &lt; Integer.MAX_VALUE) {</b>
+<b class="nc">&nbsp;        paragraph.append(line).append(&#39;\n&#39;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        List&lt;String&gt; sentences = sentenceTokenizer.tokenize(paragraph.toString());</b>
+<b class="nc">&nbsp;        for (String sentence : sentences) {</b>
+<b class="nc">&nbsp;          if (sentence.trim().length() &gt; 0) {</b>
+<b class="nc">&nbsp;            if (++addCount % 1000 == 0) {</b>
+<b class="nc">&nbsp;              System.out.println(&quot;(1) Adding item &quot; + addCount);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            add(sentence.replace(&quot; \n&quot;,&quot; &quot;), null, null, -1);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        if (paragraph.length() + line.length() &gt;= Integer.MAX_VALUE) {</b>
+<b class="nc">&nbsp;          List&lt;String&gt; lastSentences = sentenceTokenizer.tokenize(line);</b>
+<b class="nc">&nbsp;          for (String sentence : lastSentences) {</b>
+<b class="nc">&nbsp;            if (++addCount % 1000 == 0) {</b>
+<b class="nc">&nbsp;              System.out.println(&quot;(2) Adding item &quot; + addCount);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            add(sentence, null, null, -1);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        paragraph.setLength(0);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (++i % 10_000 == 0) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Loading line &quot; + i);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (paragraph.length() &gt; 0) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; sentences = sentenceTokenizer.tokenize(paragraph.toString());</b>
+<b class="nc">&nbsp;      for (String sentence : sentences) {</b>
+<b class="nc">&nbsp;        if (++addCount % 1000 == 0) {</b>
+<b class="nc">&nbsp;          System.out.println(&quot;(3) Adding item &quot; + addCount);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        add(sentence, null, null, -1);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public void add(Document doc) throws IOException {
+<b class="nc">&nbsp;    writer.addDocument(doc);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void add(String sentence, String source, String title, int docCount) throws IOException {
+<b class="nc">&nbsp;    Document doc = new Document();</b>
+<b class="nc">&nbsp;    FieldType type = new FieldType();</b>
+<b class="nc">&nbsp;    type.setStored(true);</b>
+<b class="nc">&nbsp;    type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);</b>
+<b class="nc">&nbsp;    type.setTokenized(true);</b>
+<b class="nc">&nbsp;    if (!lowercaseOnly) {</b>
+<b class="nc">&nbsp;      doc.add(new Field(FIELD_NAME, sentence, type));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    doc.add(new Field(FIELD_NAME_LOWERCASE, sentence, type));</b>
+<b class="nc">&nbsp;    if (docCount != -1) {</b>
+<b class="nc">&nbsp;      FieldType countType = new FieldType();</b>
+<b class="nc">&nbsp;      countType.setStored(true);</b>
+<b class="nc">&nbsp;      countType.setIndexOptions(IndexOptions.NONE);</b>
+<b class="nc">&nbsp;      doc.add(new Field(&quot;docCount&quot;, String.valueOf(docCount), countType));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (title != null) {</b>
+<b class="nc">&nbsp;      FieldType titleType = new FieldType();</b>
+<b class="nc">&nbsp;      titleType.setStored(true);</b>
+<b class="nc">&nbsp;      titleType.setIndexOptions(IndexOptions.NONE);</b>
+<b class="nc">&nbsp;      titleType.setTokenized(false);</b>
+<b class="nc">&nbsp;      doc.add(new Field(TITLE_FIELD_NAME, title, titleType));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (source != null) {</b>
+<b class="nc">&nbsp;      FieldType sourceType = new FieldType();</b>
+<b class="nc">&nbsp;      sourceType.setStored(true);</b>
+<b class="nc">&nbsp;      sourceType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);</b>
+<b class="nc">&nbsp;      sourceType.setTokenized(false);</b>
+<b class="nc">&nbsp;      doc.add(new Field(SOURCE_FIELD_NAME, source, sourceType));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int rnd = random.nextInt();</b>
+<b class="nc">&nbsp;    doc.add(new SortedNumericDocValuesField(RANDOM_FIELD, rnd)); // allow random sorting on search</b>
+<b class="nc">&nbsp;    writer.addDocument(doc);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void close() throws IOException {
+<b class="nc">&nbsp;    writer.close();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void commit() throws IOException {
+<b class="nc">&nbsp;    if (writer.isOpen()) {</b>
+<b class="nc">&nbsp;      writer.commit();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

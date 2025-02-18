@@ -1,0 +1,240 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PatternRuleXmlCreator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns</a>
+</div>
+
+<h1>Coverage Summary for Class: PatternRuleXmlCreator (org.languagetool.rules.patterns)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PatternRuleXmlCreator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/53)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.w3c.dom.*;
+&nbsp;import org.w3c.dom.bootstrap.DOMImplementationRegistry;
+&nbsp;import org.w3c.dom.ls.*;
+&nbsp;
+&nbsp;import javax.xml.transform.*;
+&nbsp;import javax.xml.transform.dom.DOMSource;
+&nbsp;import javax.xml.transform.stream.StreamResult;
+&nbsp;import javax.xml.xpath.*;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.StringWriter;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Makes XML definition of rules accessible as strings.
+&nbsp; *
+&nbsp; * @since 1.8, public since 2.3
+&nbsp; */
+<b class="nc">&nbsp;public class PatternRuleXmlCreator {</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return the given pattern rule as an indented XML string.
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public final String toXML(PatternRuleId ruleId, Language language) {
+<b class="nc">&nbsp;    List&lt;String&gt; filenames = language.getRuleFileNames();</b>
+<b class="nc">&nbsp;    XPath xpath = XPathFactory.newInstance().newXPath();</b>
+<b class="nc">&nbsp;    for (String filename : filenames) {</b>
+<b class="nc">&nbsp;      try (InputStream is = JLanguageTool.getDataBroker().getAsStream(filename)) {</b>
+<b class="nc">&nbsp;        Document doc = getDocument(is);</b>
+<b class="nc">&nbsp;        Node ruleNode = (Node) xpath.evaluate(&quot;/rules/category/rule[@id=&#39;&quot; + ruleId.getId() + &quot;&#39;]&quot;, doc, XPathConstants.NODE);</b>
+<b class="nc">&nbsp;        if (ruleNode != null) {</b>
+<b class="nc">&nbsp;          return nodeToString(ruleNode);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        Node ruleNodeInGroup = (Node) xpath.evaluate(&quot;/rules/category/rulegroup/rule[@id=&#39;&quot; + ruleId.getId() + &quot;&#39;]&quot;, doc, XPathConstants.NODE);</b>
+<b class="nc">&nbsp;        if (ruleNodeInGroup != null) {</b>
+<b class="nc">&nbsp;          return nodeToString(ruleNodeInGroup);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (ruleId.getSubId() != null) {</b>
+<b class="nc">&nbsp;          NodeList ruleGroupNodes = (NodeList) xpath.evaluate(&quot;/rules/category/rulegroup[@id=&#39;&quot; + ruleId.getId() + &quot;&#39;]/rule&quot;, doc, XPathConstants.NODESET);</b>
+<b class="nc">&nbsp;          if (ruleGroupNodes != null) {</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; ruleGroupNodes.getLength(); i++) {</b>
+<b class="nc">&nbsp;              if (Integer.toString(i+1).equals(ruleId.getSubId())) {</b>
+<b class="nc">&nbsp;                return nodeToString(ruleGroupNodes.item(i));</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        } else {
+<b class="nc">&nbsp;          Node ruleGroupNode = (Node) xpath.evaluate(&quot;/rules/category/rulegroup[@id=&#39;&quot; + ruleId.getId() + &quot;&#39;]&quot;, doc, XPathConstants.NODE);</b>
+<b class="nc">&nbsp;          if (ruleGroupNode != null) {</b>
+<b class="nc">&nbsp;            return nodeToString(ruleGroupNode);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      } catch (Exception e) {
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Could not turn rule &#39;&quot; + ruleId + &quot;&#39; for language &quot; + language + &quot; into a string&quot;, e);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;Could not find rule &#39;&quot; + ruleId + &quot;&#39; for language &quot; + language + &quot; in files: &quot; + filenames);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Document getDocument(InputStream is) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+<b class="nc">&nbsp;    DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();</b>
+<b class="nc">&nbsp;    DOMImplementationLS impl = (DOMImplementationLS)registry.getDOMImplementation(&quot;LS&quot;);</b>
+<b class="nc">&nbsp;    LSParser parser = impl.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, null);</b>
+&nbsp;    // we need to ignore whitespace here so the nodeToString() method will be able to indent it properly:
+<b class="nc">&nbsp;    parser.setFilter(new IgnoreWhitespaceFilter());</b>
+<b class="nc">&nbsp;    LSInput domInput = impl.createLSInput();</b>
+<b class="nc">&nbsp;    domInput.setByteStream(is);</b>
+<b class="nc">&nbsp;    return parser.parse(domInput);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String nodeToString(Node node) {
+<b class="nc">&nbsp;    StringWriter sw = new StringWriter();</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      Transformer t = TransformerFactory.newInstance().newTransformer();</b>
+<b class="nc">&nbsp;      t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, &quot;yes&quot;);</b>
+<b class="nc">&nbsp;      t.transform(new DOMSource(node), new StreamResult(sw));</b>
+&nbsp;    } catch (TransformerException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;    // We have to use our own simple indentation. as the Java transformer indentation
+&nbsp;    // introduces whitespace e.g. in the &lt;suggestion&gt; elements, breaking rules:
+<b class="nc">&nbsp;    String xml = sw.toString()</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;token&quot;, &quot;\n    &lt;token&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;and&quot;, &quot;\n    &lt;and&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;/and&gt;&quot;, &quot;\n    &lt;/and&gt;&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;phraseref&quot;, &quot;\n    &lt;phraseref&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;antipattern&quot;, &quot;\n  &lt;antipattern&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;pattern&quot;, &quot;\n  &lt;pattern&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;/pattern&quot;, &quot;\n  &lt;/pattern&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;/antipattern&quot;, &quot;\n  &lt;/antipattern&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;/rule&gt;&quot;, &quot;\n&lt;/rule&gt;&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;filter&quot;, &quot;\n  &lt;filter&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;message&quot;, &quot;\n  &lt;message&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;short&quot;, &quot;\n  &lt;short&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;url&quot;, &quot;\n  &lt;url&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;example&quot;, &quot;\n  &lt;example&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;/suggestion&gt;&lt;suggestion&gt;&quot;, &quot;&lt;/suggestion&gt;\n  &lt;suggestion&gt;&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&lt;/message&gt;&lt;suggestion&gt;&quot;, &quot;&lt;/message&gt;\n  &lt;suggestion&gt;&quot;);</b>
+<b class="nc">&nbsp;    return xml;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,299 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ConfusionPairEvaluator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.eval</a>
+</div>
+
+<h1>Coverage Summary for Class: ConfusionPairEvaluator (org.languagetool.dev.eval)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ConfusionPairEvaluator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/56)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/83)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2022 Jaume Ortolà
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.eval;
+&nbsp;
+&nbsp;import java.io.BufferedInputStream;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.nio.charset.Charset;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.apache.commons.io.ByteOrderMark;
+&nbsp;import org.apache.commons.io.input.BOMInputStream;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;
+<b class="nc">&nbsp;public class ConfusionPairEvaluator {</b>
+&nbsp;  
+&nbsp;  private final static String encoding = &quot;UTF-8&quot;;
+<b class="nc">&nbsp;  static String[] words = new String[2];</b>
+<b class="nc">&nbsp;  static String[] ruleIds = new String[2];</b>
+<b class="nc">&nbsp;  static int[][] results = new int[2][4]; // word0/word1 ; TP/FP/TN/FN</b>
+<b class="nc">&nbsp;  static Language lang = null;</b>
+<b class="nc">&nbsp;  static JLanguageTool lt = null;</b>
+<b class="nc">&nbsp;  static List&lt;String&gt; classifyTypes = Arrays.asList(&quot;TP&quot;, &quot;FP&quot;, &quot;TN&quot;, &quot;FN&quot;);</b>
+&nbsp;    
+&nbsp;  public static void main(String[] args) throws Exception {
+<b class="nc">&nbsp;    if (args.length != 6) {</b>
+<b class="nc">&nbsp;      help();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    long start = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    lang = Languages.getLanguageForShortCode(args[0]);</b>
+<b class="nc">&nbsp;    lt = new JLanguageTool(lang);</b>
+<b class="nc">&nbsp;    String filename = args[1];</b>
+<b class="nc">&nbsp;    words[0] = args[2];</b>
+<b class="nc">&nbsp;    words[1] = args[3];</b>
+<b class="nc">&nbsp;    ruleIds[0] = args[4];</b>
+<b class="nc">&nbsp;    ruleIds[1] = args[5];</b>
+<b class="nc">&nbsp;    for (Rule rule : lt.getAllRules()) {</b>
+<b class="nc">&nbsp;      if (!rule.getId().equals(ruleIds[0]) &amp;&amp; !rule.getId().equals(ruleIds[1])) {</b>
+<b class="nc">&nbsp;        lt.disableRule(rule.getId());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    try (InputStreamReader isr = getInputStreamReader(filename, encoding);</b>
+<b class="nc">&nbsp;        BufferedReader br = new BufferedReader(isr)) {</b>
+&nbsp;      String line;
+<b class="nc">&nbsp;      while ((line = br.readLine()) != null) {</b>
+<b class="nc">&nbsp;        List&lt;String&gt; sentencesLine = lt.sentenceTokenize(line);</b>
+<b class="nc">&nbsp;        for (String sentence : sentencesLine) {</b>
+<b class="nc">&nbsp;          List&lt;String&gt; tokens = lang.getWordTokenizer().tokenize(sentence);</b>
+<b class="nc">&nbsp;          int count0=0;</b>
+<b class="nc">&nbsp;          int count1=0;</b>
+<b class="nc">&nbsp;          for (String token : tokens) {</b>
+<b class="nc">&nbsp;            if (token.equals(words[0])) {</b>
+<b class="nc">&nbsp;              count0++;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (token.equals(words[1])) {</b>
+<b class="nc">&nbsp;              count1++;</b>
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          if (count0&gt;0 &amp;&amp; count1&gt;0) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;WARNING Sentence with the two words: &quot; + sentence);</b>
+<b class="nc">&nbsp;          } else if (count0==1 &amp;&amp; count1==0) {</b>
+<b class="nc">&nbsp;            analyzeSentence(sentence, 0);</b>
+<b class="nc">&nbsp;          } else if (count0==0 &amp;&amp; count1==1) {</b>
+<b class="nc">&nbsp;            analyzeSentence(sentence, 1);</b>
+<b class="nc">&nbsp;          } else if (count0&gt;1 || count1&gt;1) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;WARNING Sentence with a repeated word: &quot; + sentence);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    for (int i=0; i&lt;2; i++) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Results for rule &quot;+ruleIds[i]);</b>
+<b class="nc">&nbsp;      for (int j=0; j&lt;4; j++) {</b>
+<b class="nc">&nbsp;        System.out.println(classifyTypes.get(j)+&quot;: &quot;+results[i][j]);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      float precision = results[i][classifyTypes.indexOf(&quot;TP&quot;)] / (float) (results[i][classifyTypes.indexOf(&quot;TP&quot;)] + results[i][classifyTypes.indexOf(&quot;FP&quot;)]);</b>
+<b class="nc">&nbsp;      float recall = results[i][classifyTypes.indexOf(&quot;TP&quot;)] / (float) (results[i][classifyTypes.indexOf(&quot;TP&quot;)] + results[i][classifyTypes.indexOf(&quot;FN&quot;)]);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Precision: &quot; + String.format(&quot;%.4f&quot;, precision));</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Recall: &quot; + String.format(&quot;%.4f&quot;, recall));</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    float time = (float) ((System.currentTimeMillis() - start) / 1000.0);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Total time: &quot; + String.format(&quot;%.2f&quot;, time) + &quot; seconds&quot;);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static void analyzeSentence(String correctSentence, int j) throws IOException {
+&nbsp;
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; matchesCorrect = lt.check(correctSentence);</b>
+<b class="nc">&nbsp;    if (containsID(matchesCorrect, ruleIds[j])) {</b>
+<b class="nc">&nbsp;      results[j][classifyTypes.indexOf(&quot;FP&quot;)]++;</b>
+<b class="nc">&nbsp;      System.out.println(ruleIds[j] + &quot; FP: &quot; + correctSentence);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      results[j][classifyTypes.indexOf(&quot;TN&quot;)]++;</b>
+&nbsp;      //System.out.println(ruleIds[j] + &quot; TN: &quot; + correctSentence);
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String wrongSentence = correctSentence.replaceAll(&quot;\\b&quot; + words[j] + &quot;\\b&quot;, words[1 - j]);</b>
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; matchesWrong = lt.check(wrongSentence);</b>
+<b class="nc">&nbsp;    if (containsID(matchesWrong, ruleIds[1 - j])) {</b>
+<b class="nc">&nbsp;      results[1 - j][classifyTypes.indexOf(&quot;TP&quot;)]++;</b>
+&nbsp;      //System.out.println(ruleIds[1 - j] + &quot; TP: &quot; + wrongSentence);
+&nbsp;    } else {
+<b class="nc">&nbsp;      results[1 - j][classifyTypes.indexOf(&quot;FN&quot;)]++;</b>
+<b class="nc">&nbsp;      System.out.println(ruleIds[1 - j] + &quot; FN: &quot; + wrongSentence);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    //FP+FN in the same sentence -&gt; probable error in corpus
+&nbsp;
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static boolean containsID (List&lt;RuleMatch&gt; matches, String id) {
+<b class="nc">&nbsp;    for (RuleMatch match : matches) {</b>
+<b class="nc">&nbsp;      if (match.getRule().getId().equals(id)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private int indexOfWord(String word, String sentence) {
+<b class="nc">&nbsp;    Pattern p = Pattern.compile(&quot;\\b&quot; + word + &quot;\\b&quot;);</b>
+<b class="nc">&nbsp;    Matcher m = p.matcher(sentence);</b>
+<b class="nc">&nbsp;    if (m != null) {</b>
+<b class="nc">&nbsp;      return m.start();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static InputStreamReader getInputStreamReader(String filename, String encoding) throws IOException {
+<b class="nc">&nbsp;    String charsetName = encoding != null ? encoding : Charset.defaultCharset().name();</b>
+<b class="nc">&nbsp;    InputStream is = System.in;</b>
+<b class="nc">&nbsp;    if (!isStdIn(filename)) {</b>
+<b class="nc">&nbsp;      is = new FileInputStream(new File(filename));</b>
+<b class="nc">&nbsp;      BOMInputStream bomIn = new BOMInputStream(is, true, ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE,</b>
+&nbsp;          ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);
+<b class="nc">&nbsp;      if (bomIn.hasBOM() &amp;&amp; encoding == null) {</b>
+<b class="nc">&nbsp;        charsetName = bomIn.getBOMCharsetName();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      is = bomIn;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new InputStreamReader(new BufferedInputStream(is), charsetName);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static boolean isStdIn(String filename) {
+<b class="nc">&nbsp;    return &quot;-&quot;.equals(filename);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static void help() {
+<b class="nc">&nbsp;    System.out.println(&quot;Usage: &quot; + ConfusionPairEvaluator.class.getSimpleName()</b>
+&nbsp;        + &quot; &lt;language code&gt; &lt;intput file&gt; word1 word2 ruleId1 ruleId2&quot;);
+<b class="nc">&nbsp;    System.exit(1);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

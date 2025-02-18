@@ -1,0 +1,227 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GlobalConfig</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool</a>
+</div>
+
+<h1>Coverage Summary for Class: GlobalConfig (org.languagetool)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GlobalConfig</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    12.5%
+  </span>
+  <span class="absValue">
+    (2/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    9.1%
+  </span>
+  <span class="absValue">
+    (2/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 4.6
+&nbsp; */
+<b class="nc">&nbsp;public class GlobalConfig {</b>
+&nbsp;  
+&nbsp;  private String grammalecteServer;
+&nbsp;  private String grammalecteUser;
+&nbsp;  private String grammalectePassword;
+&nbsp;  private File beolingusFile;
+&nbsp;  private String nerUrl;
+&nbsp;
+<b class="fc">&nbsp;  private static boolean verbose = false;</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return whether we need to track additional information like e.g. the disambiguation log to show in verbose mode
+&nbsp;   */
+&nbsp;  public static boolean isVerbose() {
+<b class="fc">&nbsp;    return verbose;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void setVerbose(boolean verbose) {
+<b class="nc">&nbsp;    GlobalConfig.verbose = verbose;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setGrammalecteServer(String serverUrl) {
+<b class="nc">&nbsp;    grammalecteServer = serverUrl;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public void setGrammalecteUser(String user) {
+<b class="nc">&nbsp;    grammalecteUser = user;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public void setGrammalectePassword(String password) {
+<b class="nc">&nbsp;    grammalectePassword = password;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setBeolingusFile(File beolingusFile) {
+<b class="nc">&nbsp;    this.beolingusFile = beolingusFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** External named entity recognizer service. */
+&nbsp;  public void setNERUrl(String nerUrl) {
+<b class="nc">&nbsp;    this.nerUrl = nerUrl;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public String getGrammalecteServer() {
+<b class="nc">&nbsp;    return grammalecteServer;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public String getGrammalecteUser() {
+<b class="nc">&nbsp;    return grammalecteUser;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public String getGrammalectePassword() {
+<b class="nc">&nbsp;    return grammalectePassword;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public File getBeolingusFile() {
+<b class="nc">&nbsp;    return beolingusFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public String getNerUrl() {
+<b class="nc">&nbsp;    return nerUrl;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean equals(Object o) {
+<b class="nc">&nbsp;    if (this == o) return true;</b>
+<b class="nc">&nbsp;    if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="nc">&nbsp;    GlobalConfig that = (GlobalConfig) o;</b>
+<b class="nc">&nbsp;    return Objects.equals(grammalecteServer, that.grammalecteServer) &amp;&amp;</b>
+<b class="nc">&nbsp;      Objects.equals(grammalecteUser, that.grammalecteUser) &amp;&amp;</b>
+<b class="nc">&nbsp;      Objects.equals(grammalectePassword, that.grammalectePassword) &amp;&amp;</b>
+<b class="nc">&nbsp;      Objects.equals(beolingusFile, that.beolingusFile) &amp;&amp; Objects.equals(nerUrl, that.nerUrl);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int hashCode() {
+<b class="nc">&nbsp;    return Objects.hash(grammalecteServer, beolingusFile, nerUrl);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,290 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LanguageToolFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.index</a>
+</div>
+
+<h1>Coverage Summary for Class: LanguageToolFilter (org.languagetool.dev.index)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LanguageToolFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/61)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.index;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Iterator;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Stack;
+&nbsp;
+&nbsp;import org.apache.lucene.analysis.TokenFilter;
+&nbsp;import org.apache.lucene.analysis.TokenStream;
+&nbsp;import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+&nbsp;import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+&nbsp;import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
+&nbsp;import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
+&nbsp;import org.apache.lucene.util.AttributeSource;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;
+&nbsp;/**
+&nbsp; * A filter that indexes the tokens with POS tags.
+&nbsp; * 
+&nbsp; * @author Tao Lin
+&nbsp; */
+&nbsp;public final class LanguageToolFilter extends TokenFilter {
+&nbsp;
+&nbsp;  static final String POS_PREFIX = &quot;_POS_&quot;;
+&nbsp;  static final String LEMMA_PREFIX = &quot;_LEMMA_&quot;;
+&nbsp;
+&nbsp;  private final JLanguageTool languageTool;
+&nbsp;  private final boolean toLowerCase;
+&nbsp;  private final Stack&lt;String&gt; posStack;
+&nbsp;  private final CharTermAttribute termAtt;
+&nbsp;  private final OffsetAttribute offsetAtt;
+&nbsp;  private final PositionIncrementAttribute posIncrAtt;
+&nbsp;  private final TypeAttribute typeAtt;
+<b class="nc">&nbsp;  private final StringBuilder collectedInput = new StringBuilder();</b>
+&nbsp;
+&nbsp;  private AttributeSource.State current;
+&nbsp;  private Iterator&lt;AnalyzedTokenReadings&gt; tokenIter;
+&nbsp;
+&nbsp;  LanguageToolFilter(TokenStream input, JLanguageTool languageTool, boolean toLowerCase) {
+<b class="nc">&nbsp;    super(input);</b>
+<b class="nc">&nbsp;    this.languageTool = languageTool;</b>
+<b class="nc">&nbsp;    this.toLowerCase = toLowerCase;</b>
+<b class="nc">&nbsp;    posStack = new Stack&lt;&gt;();</b>
+<b class="nc">&nbsp;    termAtt = addAttribute(CharTermAttribute.class);</b>
+<b class="nc">&nbsp;    offsetAtt = addAttribute(OffsetAttribute.class);</b>
+<b class="nc">&nbsp;    posIncrAtt = addAttribute(PositionIncrementAttribute.class);</b>
+<b class="nc">&nbsp;    typeAtt = addAttribute(TypeAttribute.class);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean incrementToken() throws IOException {
+&nbsp;
+<b class="nc">&nbsp;    if (posStack.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      String pop = posStack.pop();</b>
+<b class="nc">&nbsp;      restoreState(current);</b>
+<b class="nc">&nbsp;      termAtt.append(pop);</b>
+<b class="nc">&nbsp;      posIncrAtt.setPositionIncrement(0);</b>
+<b class="nc">&nbsp;      typeAtt.setType(&quot;pos&quot;);</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (tokenIter == null || !tokenIter.hasNext()) {</b>
+&nbsp;      // there are no remaining tokens from the current sentence... are there more sentences?
+<b class="nc">&nbsp;      if (input.incrementToken()) {</b>
+&nbsp;        // a new sentence is available: process it.
+<b class="nc">&nbsp;        String sentenceStr = termAtt.toString();</b>
+<b class="nc">&nbsp;        collectedInput.append(sentenceStr);</b>
+<b class="nc">&nbsp;        if (sentenceStr.length() &gt;= 255) {</b>
+&nbsp;          // Long sentences get split, so keep collecting data to avoid errors
+&nbsp;          // later. See https://github.com/languagetool-org/languagetool/issues/364
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          sentenceStr = collectedInput.toString();</b>
+<b class="nc">&nbsp;          collectedInput.setLength(0);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        AnalyzedSentence sentence = languageTool.getAnalyzedSentence(sentenceStr);</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedTokenReadings&gt; tokenBuffer = Arrays.asList(sentence.getTokens());</b>
+<b class="nc">&nbsp;        tokenIter = tokenBuffer.iterator();</b>
+&nbsp;        /*
+&nbsp;         * it should not be possible to have a sentence with 0 words, check just in case. returning
+&nbsp;         * EOS isn&#39;t the best either, but it&#39;s the behavior of the original code.
+&nbsp;         */
+<b class="nc">&nbsp;        if (!tokenIter.hasNext()) {</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        return false; // no more sentences, end of stream!</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // It must clear attributes, as it is creating new tokens.
+<b class="nc">&nbsp;    clearAttributes();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings tr = tokenIter.next();</b>
+&nbsp;
+&nbsp;    // add POS tag for sentence start.
+<b class="nc">&nbsp;    if (tr.isSentenceStart()) {</b>
+&nbsp;      // TODO: would be needed so negated tokens can match on something (see testNegatedMatchAtSentenceStart())
+&nbsp;      // but breaks other cases:
+&nbsp;      //termAtt.append(&quot;SENT_START&quot;);
+<b class="nc">&nbsp;      typeAtt.setType(&quot;pos&quot;);</b>
+<b class="nc">&nbsp;      String posTag = tr.getAnalyzedToken(0).getPOSTag();</b>
+<b class="nc">&nbsp;      String lemma = tr.getAnalyzedToken(0).getLemma();</b>
+<b class="nc">&nbsp;      if (toLowerCase) {</b>
+<b class="nc">&nbsp;        termAtt.append(POS_PREFIX.toLowerCase()).append(posTag.toLowerCase());</b>
+<b class="nc">&nbsp;        if (lemma != null) {</b>
+<b class="nc">&nbsp;          termAtt.append(LEMMA_PREFIX.toLowerCase()).append(lemma.toLowerCase());</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        termAtt.append(POS_PREFIX).append(posTag);</b>
+<b class="nc">&nbsp;        if (lemma != null) {</b>
+<b class="nc">&nbsp;          termAtt.append(LEMMA_PREFIX).append(lemma);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // by pass the white spaces.
+<b class="nc">&nbsp;    if (tr.isWhitespace()) {</b>
+<b class="nc">&nbsp;      return this.incrementToken();</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    offsetAtt.setOffset(tr.getStartPos(), tr.getEndPos());</b>
+&nbsp;
+<b class="nc">&nbsp;    for (AnalyzedToken token : tr) {</b>
+<b class="nc">&nbsp;      if (token.getPOSTag() != null) {</b>
+<b class="nc">&nbsp;        if (toLowerCase) {</b>
+<b class="nc">&nbsp;          posStack.push(POS_PREFIX.toLowerCase() + token.getPOSTag().toLowerCase());</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          posStack.push(POS_PREFIX + token.getPOSTag());</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (token.getLemma() != null) {</b>
+<b class="nc">&nbsp;        if (toLowerCase) {</b>
+<b class="nc">&nbsp;          posStack.push(LEMMA_PREFIX.toLowerCase() + token.getLemma().toLowerCase());</b>
+&nbsp;        } else {
+&nbsp;          // chances are good this is the same for all loop iterations, store it anyway...
+<b class="nc">&nbsp;          posStack.push(LEMMA_PREFIX + token.getLemma());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    current = captureState();</b>
+<b class="nc">&nbsp;    if (toLowerCase) {</b>
+<b class="nc">&nbsp;      termAtt.append(tr.getAnalyzedToken(0).getToken().toLowerCase());</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      termAtt.append(tr.getAnalyzedToken(0).getToken());</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

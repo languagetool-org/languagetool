@@ -1,0 +1,516 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Languages</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool</a>
+</div>
+
+<h1>Coverage Summary for Class: Languages (org.languagetool)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Languages</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    63.2%
+  </span>
+  <span class="absValue">
+    (12/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    32%
+  </span>
+  <span class="absValue">
+    (39/122)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    48.6%
+  </span>
+  <span class="absValue">
+    (69/142)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.noop.NoopLanguage;
+&nbsp;import org.languagetool.tools.MultiKeyProperties;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.lang.reflect.Constructor;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Helper methods to list all supported languages and to get language objects
+&nbsp; * by their name or language code etc.
+&nbsp; * @since 2.9
+&nbsp; */
+&nbsp;public final class Languages {
+&nbsp;
+&nbsp;  private static final String PROPERTIES_PATH = &quot;META-INF/org/languagetool/language-module.properties&quot;;
+&nbsp;  private static final String PROPERTIES_KEY = &quot;languageClasses&quot;;
+<b class="fc">&nbsp;  private static final Language NOOP_LANGUAGE = new NoopLanguage();</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final List&lt;Language&gt; languages = getAllLanguages();</b>
+<b class="fc">&nbsp;  private static final List&lt;Language&gt; dynLanguages = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final List&lt;Language&gt; staticAndDynamicLanguages = new ArrayList&lt;&gt;(languages);</b>
+<b class="fc">&nbsp;  private static final List&lt;Language&gt; staticAndDynamicLanguagesImmutable = Collections.unmodifiableList(staticAndDynamicLanguages);</b>
+&nbsp;
+&nbsp;  private Languages() {
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.5
+&nbsp;   */
+&nbsp;  public static Language addLanguage(String name, String code, File dictPath) {
+&nbsp;    Language lang;
+<b class="nc">&nbsp;    if (dictPath.getName().endsWith(JLanguageTool.DICTIONARY_FILENAME_EXTENSION)) {</b>
+<b class="nc">&nbsp;      lang = new DynamicMorfologikLanguage(name, code, dictPath);</b>
+<b class="nc">&nbsp;    } else if (dictPath.getName().endsWith(&quot;.dic&quot;)) {</b>
+<b class="nc">&nbsp;      lang = new DynamicHunspellLanguage(name, code, dictPath);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Please specify a dictPath that ends in &#39;.dict&#39; (Morfologik binary dictionary) or &#39;.dic&#39; (Hunspell dictionary): &quot; + dictPath);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    dynLanguages.add(lang);</b>
+<b class="nc">&nbsp;    staticAndDynamicLanguages.add(lang);</b>
+<b class="nc">&nbsp;    return lang;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Language classes are detected at runtime by searching the classpath for files named
+&nbsp;   * {@code META-INF/org/languagetool/language-module.properties}. Those file(s)
+&nbsp;   * need to contain a key {@code languageClasses} which specifies the fully qualified
+&nbsp;   * class name(s), e.g. {@code org.languagetool.language.English}. Use commas to specify
+&nbsp;   * more than one class.
+&nbsp;   * @return an unmodifiable list of all supported languages
+&nbsp;   */
+&nbsp;  public static List&lt;Language&gt; get() {
+<b class="fc">&nbsp;    List&lt;Language&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (Language lang : getStaticAndDynamicLanguages()) {</b>
+<b class="pc">&nbsp;      if (!&quot;xx&quot;.equals(lang.getShortCode()) &amp;&amp; !&quot;zz&quot;.equals(lang.getShortCode())) {  // skip demo and noop language</b>
+<b class="nc">&nbsp;        result.add(lang);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return Collections.unmodifiableList(result);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Like {@link #get()} but the list contains also LanguageTool&#39;s internal &#39;Demo&#39;
+&nbsp;   * language, if available. Only useful for tests.
+&nbsp;   * @return an unmodifiable list
+&nbsp;   */
+&nbsp;  public static List&lt;Language&gt; getWithDemoLanguage() {
+<b class="fc">&nbsp;    return getStaticAndDynamicLanguages();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static List&lt;Language&gt; getStaticAndDynamicLanguages() {
+<b class="fc">&nbsp;    return staticAndDynamicLanguagesImmutable;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static List&lt;Language&gt; getAllLanguages() {
+<b class="fc">&nbsp;    List&lt;Language&gt; languages = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    Set&lt;String&gt; languageClassNames = new HashSet&lt;&gt;();</b>
+&nbsp;    try {
+<b class="fc">&nbsp;      Enumeration&lt;URL&gt; propertyFiles = Language.class.getClassLoader().getResources(PROPERTIES_PATH);</b>
+<b class="fc">&nbsp;      while (propertyFiles.hasMoreElements()) {</b>
+<b class="fc">&nbsp;        URL url = propertyFiles.nextElement();</b>
+<b class="fc">&nbsp;        try (InputStream inputStream = url.openStream()) {</b>
+&nbsp;          // We want to be able to read properties file with duplicate key, as produced by
+&nbsp;          // Maven when merging files:
+<b class="fc">&nbsp;          MultiKeyProperties props = new MultiKeyProperties(inputStream);</b>
+<b class="fc">&nbsp;          List&lt;String&gt; classNamesStr = props.getProperty(PROPERTIES_KEY);</b>
+<b class="pc">&nbsp;          if (classNamesStr == null) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Key &#39;&quot; + PROPERTIES_KEY + &quot;&#39; not found in &quot; + url);</b>
+&nbsp;          }
+<b class="fc">&nbsp;          for (String classNames : classNamesStr) {</b>
+<b class="fc">&nbsp;            String[] classNamesSplit = classNames.split(&quot;\\s*,\\s*&quot;);</b>
+<b class="fc">&nbsp;            for (String className : classNamesSplit) {</b>
+<b class="pc">&nbsp;              if (languageClassNames.contains(className) || languageClassNames.contains(className+&quot;Premium&quot;)) {</b>
+&nbsp;                // avoid duplicates - this way we are robust against problems with the maven assembly
+&nbsp;                // plugin which aggregates files more than once (in case the deployment descriptor
+&nbsp;                // contains both &lt;format&gt;zip&lt;/format&gt; and &lt;format&gt;dir&lt;/format&gt;):
+&nbsp;                continue;
+&nbsp;              }
+<b class="fc">&nbsp;              languages.add(createLanguageObjects(url, className));</b>
+<b class="pc">&nbsp;              if (Premium.isPremiumVersion() &amp;&amp; hasPremium(className)) {</b>
+<b class="nc">&nbsp;                languageClassNames.add(className+&quot;Premium&quot;);</b>
+&nbsp;              } else {
+<b class="fc">&nbsp;                languageClassNames.add(className);</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return Collections.unmodifiableList(languages);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static Language createLanguageObjects(URL url, String className) {
+&nbsp;    try {
+<b class="pc">&nbsp;      if (Premium.isPremiumVersion() &amp;&amp; hasPremium(className)) {</b>
+<b class="nc">&nbsp;        className = className + &quot;Premium&quot;;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      Class&lt;?&gt; aClass = JLanguageTool.getClassBroker().forName(className);</b>
+<b class="fc">&nbsp;      Constructor&lt;?&gt; constructor = aClass.getConstructor();</b>
+<b class="fc">&nbsp;      return (Language) constructor.newInstance();</b>
+&nbsp;    } catch (ClassNotFoundException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Class &#39;&quot; + className + &quot;&#39; specified in &quot; + url + &quot; could not be found in classpath&quot;, e);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Object for class &#39;&quot; + className + &quot;&#39; specified in &quot; + url + &quot; could not be created&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static boolean hasPremium(String className) {
+<b class="nc">&nbsp;    return className.matches(&quot;org\\.languagetool\\.language\\.(&quot; +</b>
+&nbsp;      &quot;Portuguese|AngolaPortuguese|BrazilianPortuguese|MozambiquePortuguese|PortugalPortuguese|&quot; +
+&nbsp;      &quot;German|GermanyGerman|AustrianGerman|SwissGerman|&quot; +
+&nbsp;      &quot;Dutch|French|Spanish|&quot; +
+&nbsp;      &quot;English|AustralianEnglish|AmericanEnglish|BritishEnglish|CanadianEnglish|NewZealandEnglish|SouthAfricanEnglish&quot; +
+&nbsp;      &quot;)&quot;);
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the Language object for the given language class name or try to create it and add to dynamic languages.
+&nbsp;   *
+&nbsp;   * @param className e.g. &lt;code&gt;org.languagetool.language.English&lt;/code&gt;
+&nbsp;   * @return a Language object
+&nbsp;   * @throws RuntimeException if language not found in classpath
+&nbsp;   * @since 5.0
+&nbsp;   */
+&nbsp;  public static Language getOrAddLanguageByClassName(String className) {
+<b class="nc">&nbsp;    for (Language element : getStaticAndDynamicLanguages()) {</b>
+<b class="nc">&nbsp;      if (className.equals(element.getClass().getName())) {</b>
+<b class="nc">&nbsp;        return element;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    try {
+<b class="nc">&nbsp;      Class&lt;?&gt; aClass = JLanguageTool.getClassBroker().forName(className);</b>
+<b class="nc">&nbsp;      Constructor&lt;?&gt; constructor = aClass.getConstructor();</b>
+<b class="nc">&nbsp;      Language language = (Language) constructor.newInstance();</b>
+<b class="nc">&nbsp;      dynLanguages.add(language);</b>
+<b class="nc">&nbsp;      staticAndDynamicLanguages.add(language);</b>
+<b class="nc">&nbsp;      return language;</b>
+&nbsp;    } catch (ClassNotFoundException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Class &#39;&quot; + className + &quot; could not be found in classpath&quot;, e);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Object for class &#39;&quot; + className + &quot; could not be created&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the Language object for the given language name.
+&nbsp;   *
+&nbsp;   * @param languageName e.g. &lt;code&gt;English&lt;/code&gt; or &lt;code&gt;German&lt;/code&gt; (case is significant)
+&nbsp;   * @return a Language object or {@code null} if there is no such language
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public static Language getLanguageForName(String languageName) {
+<b class="nc">&nbsp;    for (Language element : getStaticAndDynamicLanguages()) {</b>
+<b class="nc">&nbsp;      if (languageName.equals(element.getName())) {</b>
+<b class="nc">&nbsp;        return element;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the Language object for the given language code.
+&nbsp;   * @param langCode e.g. &lt;code&gt;en&lt;/code&gt; or &lt;code&gt;en-US&lt;/code&gt;
+&nbsp;   * @throws IllegalArgumentException if the language is not supported or if the language code is invalid
+&nbsp;   * @since 3.6
+&nbsp;   */
+&nbsp;  public static Language getLanguageForShortCode(String langCode) {
+<b class="fc">&nbsp;    return getLanguageForShortCode(langCode, Collections.emptyList());</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Get the Language object for the given language code.
+&nbsp;   * @param langCode e.g. &lt;code&gt;en&lt;/code&gt; or &lt;code&gt;en-US&lt;/code&gt;
+&nbsp;   * @param noopLanguageCodes list of languages that can be detected but that will not actually find any errors
+&nbsp;   *                           (can be used so non-supported languages are not detected as some other language)
+&nbsp;   * @throws IllegalArgumentException if the language is not supported or if the language code is invalid
+&nbsp;   * @since 4.4
+&nbsp;   */
+&nbsp;  public static Language getLanguageForShortCode(String langCode, List&lt;String&gt; noopLanguageCodes) {
+<b class="fc">&nbsp;    Language language = getLanguageForShortCodeOrNull(langCode);</b>
+<b class="fc">&nbsp;    if (language == null) {</b>
+&nbsp;      // e.g. &#39;fr-FR&#39; requested (happens with LibreOffice 7.4):
+<b class="fc">&nbsp;      language = Languages.getLongCodeToLangMapping().get(langCode);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (language == null) {</b>
+<b class="pc">&nbsp;      if (noopLanguageCodes.contains(langCode)) {</b>
+<b class="nc">&nbsp;        return NOOP_LANGUAGE;</b>
+&nbsp;      } else {
+<b class="fc">&nbsp;        throw new IllegalArgumentException(&quot;&#39;&quot; + langCode + &quot;&#39; is not a language code known to LanguageTool.&quot; +</b>
+<b class="fc">&nbsp;                &quot; Supported language codes are: &quot; + String.join(&quot;, &quot;, getLangCodes()) + &quot;. The list of languages is read from &quot; + PROPERTIES_PATH +</b>
+&nbsp;                &quot; in the Java classpath. See https://dev.languagetool.org/java-api for details.&quot;);
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return language;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private static List&lt;String&gt; getLangCodes() {
+<b class="fc">&nbsp;    List&lt;String&gt; codes = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (Language realLanguage : getStaticAndDynamicLanguages()) {</b>
+<b class="fc">&nbsp;      codes.add(realLanguage.getShortCodeWithCountryAndVariant());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    Map&lt;String, Language&gt; longCodeToLang = getLongCodeToLangMapping();</b>
+<b class="pc">&nbsp;    for (Map.Entry&lt;String, Language&gt; entry : longCodeToLang.entrySet()) {</b>
+<b class="nc">&nbsp;      if (!codes.contains(entry.getKey())) {</b>
+<b class="nc">&nbsp;        codes.add(entry.getKey());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    Collections.sort(codes);</b>
+<b class="fc">&nbsp;    return codes;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return whether a language with the given language code is supported. Which languages
+&nbsp;   * are supported depends on the classpath when the {@code Language} object is initialized.
+&nbsp;   * @param langCode e.g. {@code en} or {@code en-US}
+&nbsp;   * @return true if the language is supported
+&nbsp;   * @throws IllegalArgumentException in some cases of an invalid language code format
+&nbsp;   */
+&nbsp;  public static boolean isLanguageSupported(String langCode) {
+<b class="pc">&nbsp;    return getLanguageForShortCodeOrNull(langCode) != null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the best match for a locale, using American English as the final fallback if nothing
+&nbsp;   * else fits. The returned language will be a country variant language (e.g. British English, not just English)
+&nbsp;   * if available.
+&nbsp;   * Note: this does not consider languages added dynamically
+&nbsp;   * @throws RuntimeException if no language was found and American English as a fallback is not available
+&nbsp;   */
+&nbsp;  public static Language getLanguageForLocale(Locale locale) {
+<b class="nc">&nbsp;    Language language = getLanguageForLanguageNameAndCountry(locale);</b>
+<b class="nc">&nbsp;    if (language != null) {</b>
+<b class="nc">&nbsp;      return language;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      Language firstFallbackLanguage = getLanguageForLanguageNameOnly(locale);</b>
+<b class="nc">&nbsp;      if (firstFallbackLanguage != null) {</b>
+<b class="nc">&nbsp;        return firstFallbackLanguage;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    for (Language aLanguage : languages) {</b>
+<b class="nc">&nbsp;      if (aLanguage.getShortCodeWithCountryAndVariant().equals(&quot;en-US&quot;)) {</b>
+<b class="nc">&nbsp;        return aLanguage;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;No appropriate language found, not even en-US. Supported languages: &quot; + get());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * &lt;b&gt;For internal use only.&lt;/b&gt;
+&nbsp;   * Returns a mapping from {@code fr-FR} to its language etc. Used to support requests
+&nbsp;   * from LibreOffice 7.4, which sends these language codes.
+&nbsp;   */
+&nbsp;  public static Map&lt;String,Language&gt; getLongCodeToLangMapping() {
+<b class="fc">&nbsp;    Map&lt;String,Language&gt; map = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    List&lt;Language&gt; languages = Languages.get();</b>
+<b class="pc">&nbsp;    for (Language language : languages) {</b>
+<b class="nc">&nbsp;      if (language.getCountries().length &gt; 0 &amp;&amp; !language.getCountries()[0].isEmpty()) {</b>
+<b class="nc">&nbsp;        map.put(language.getShortCode() + &quot;-&quot; + language.getCountries()[0], language);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return map;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private static Language getLanguageForShortCodeOrNull(String langCode) {
+<b class="fc">&nbsp;    StringTools.assureSet(langCode, &quot;langCode&quot;);</b>
+<b class="fc">&nbsp;    Language result = null;</b>
+<b class="pc">&nbsp;    if (langCode.contains(&quot;-x-&quot;)) {</b>
+&nbsp;      // e.g. &quot;de-DE-x-simple-language&quot;
+<b class="nc">&nbsp;      for (Language element : getStaticAndDynamicLanguages()) {</b>
+<b class="nc">&nbsp;        if (element.getShortCode().equalsIgnoreCase(langCode)) {</b>
+<b class="nc">&nbsp;          return element;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;    } else if (langCode.contains(&quot;-&quot;)) {</b>
+<b class="fc">&nbsp;      String[] parts = langCode.split(&quot;-&quot;);</b>
+<b class="pc">&nbsp;      if (parts.length == 2) { // e.g. en-US</b>
+<b class="fc">&nbsp;        for (Language element : getStaticAndDynamicLanguages()) {</b>
+<b class="fc">&nbsp;          if (parts[0].equalsIgnoreCase(element.getShortCode())</b>
+<b class="pc">&nbsp;                  &amp;&amp; element.getCountries().length == 1</b>
+<b class="pc">&nbsp;                  &amp;&amp; parts[1].equalsIgnoreCase(element.getCountries()[0])) {</b>
+<b class="fc">&nbsp;            result = element;</b>
+&nbsp;            break;
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (parts.length == 3) { // e.g. ca-ES-valencia</b>
+<b class="nc">&nbsp;        for (Language element : getStaticAndDynamicLanguages()) {</b>
+<b class="nc">&nbsp;          if (parts[0].equalsIgnoreCase(element.getShortCode())</b>
+<b class="nc">&nbsp;                  &amp;&amp; element.getCountries().length == 1</b>
+<b class="nc">&nbsp;                  &amp;&amp; parts[1].equalsIgnoreCase(element.getCountries()[0])</b>
+<b class="nc">&nbsp;                  &amp;&amp; parts[2].equalsIgnoreCase(element.getVariant())) {</b>
+<b class="nc">&nbsp;            result = element;</b>
+&nbsp;            break;
+&nbsp;          }
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        throw new IllegalArgumentException(&quot;&#39;&quot; + langCode + &quot;&#39; isn&#39;t a valid language code&quot;);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="fc">&nbsp;      for (Language element : getStaticAndDynamicLanguages()) {</b>
+<b class="pc">&nbsp;        if (langCode.equals(&quot;global&quot;)) {</b>
+&nbsp;          // for disambiguation-global.xml take any language
+<b class="nc">&nbsp;          result = element;</b>
+&nbsp;          break;
+&nbsp;        }
+<b class="fc">&nbsp;        if (langCode.equalsIgnoreCase(element.getShortCode())) {</b>
+<b class="fc">&nbsp;          result = element;</b>
+&nbsp;            /* TODO: It should return the DefaultLanguageVariant,
+&nbsp;             * not the first language found */
+&nbsp;          break;
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private static Language getLanguageForLanguageNameAndCountry(Locale locale) {
+<b class="nc">&nbsp;    for (Language language : getStaticAndDynamicLanguages()) {</b>
+<b class="nc">&nbsp;      if (language.getShortCode().equals(locale.getLanguage())) {</b>
+<b class="nc">&nbsp;        List&lt;String&gt; countryVariants = Arrays.asList(language.getCountries());</b>
+<b class="nc">&nbsp;        if (countryVariants.contains(locale.getCountry())) {</b>
+<b class="nc">&nbsp;          return language;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private static Language getLanguageForLanguageNameOnly(Locale locale) {
+&nbsp;    // use default variant if available:
+<b class="nc">&nbsp;    for (Language language : getStaticAndDynamicLanguages()) {</b>
+<b class="nc">&nbsp;      if (language.getShortCode().equals(locale.getLanguage()) &amp;&amp; language.hasVariant()) {</b>
+<b class="nc">&nbsp;        Language defaultVariant = language.getDefaultLanguageVariant();</b>
+<b class="nc">&nbsp;        if (defaultVariant != null) {</b>
+<b class="nc">&nbsp;          return defaultVariant;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // use the first match otherwise (which should be the only match):
+<b class="nc">&nbsp;    for (Language language : getStaticAndDynamicLanguages()) {</b>
+<b class="nc">&nbsp;      if (language.getShortCode().equals(locale.getLanguage()) &amp;&amp; !language.hasVariant()) {</b>
+<b class="nc">&nbsp;        return language;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

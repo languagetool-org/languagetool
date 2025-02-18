@@ -1,0 +1,319 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LineExpander</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: LineExpander (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LineExpander</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/66)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/80)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">LineExpander$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/66)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/82)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import com.google.common.cache.CacheBuilder;
+&nbsp;import com.google.common.cache.CacheLoader;
+&nbsp;import com.google.common.cache.LoadingCache;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.synthesis.GermanSynthesizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Expand lines according to their suffix, e.g. {@code foo/S} becomes {@code [foo, foos]}.
+&nbsp; * @since 3.0
+&nbsp; */
+<b class="nc">&nbsp;public class LineExpander implements org.languagetool.rules.LineExpander {</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final LoadingCache&lt;String, String[]&gt; verbFormCache = CacheBuilder.newBuilder()</b>
+<b class="nc">&nbsp;    .expireAfterAccess(10, TimeUnit.MINUTES)</b>
+<b class="nc">&nbsp;    .build(new CacheLoader&lt;String, String[]&gt;() {</b>
+&nbsp;      @Override
+&nbsp;      public String[] load(@NotNull String verb) throws IOException {
+<b class="nc">&nbsp;        return GermanSynthesizer.INSTANCE.synthesizeForPosTags(verb, s -&gt; s.startsWith(&quot;VER:&quot;));</b>
+&nbsp;      }
+&nbsp;    });
+&nbsp;
+&nbsp;  private static List&lt;String&gt; handleLineWithPrefix(String line) {
+<b class="nc">&nbsp;    List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    String[] parts = cleanTagsAndEscapeChars(line).split(&quot;_&quot;);</b>
+<b class="nc">&nbsp;    if (parts.length != 2) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Unexpected line format, expected at most one &#39;_&#39;: &quot; + line);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (parts[0].contains(&quot;/&quot;) || parts[1].contains(&quot;/&quot;)) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Unexpected line format, &#39;_&#39; cannot be combined with &#39;/&#39;: &quot; + line);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (parts[1].equals(&quot;in&quot;)) {</b>
+&nbsp;      // special case for the common gender gap characters:
+<b class="nc">&nbsp;      result.add(parts[0] + &quot;_in&quot;);</b>
+<b class="nc">&nbsp;      result.add(parts[0] + &quot;_innen&quot;);</b>
+<b class="nc">&nbsp;      result.add(parts[0] + &quot;*in&quot;);</b>
+<b class="nc">&nbsp;      result.add(parts[0] + &quot;*innen&quot;);</b>
+<b class="nc">&nbsp;      result.add(parts[0] + &quot;:in&quot;);</b>
+<b class="nc">&nbsp;      result.add(parts[0] + &quot;:innen&quot;);</b>
+&nbsp;      //result.add(parts[0] + &quot;in&quot;);   // see if we can comment in these cases, too
+&nbsp;      //result.add(parts[0] + &quot;innen&quot;);
+&nbsp;      //result.add(parts[0] + &quot;e&quot;);
+&nbsp;      //result.add(parts[0] + &quot;en&quot;);
+&nbsp;    } else {
+<b class="nc">&nbsp;      String[] forms = verbFormCache.getUnchecked(parts[1]);</b>
+<b class="nc">&nbsp;      if (forms.length == 0) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Could not expand &#39;&quot; + parts[1] + &quot;&#39; from line &#39;&quot; + line + &quot;&#39;, no forms found&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      Set&lt;String&gt; formSet = new HashSet&lt;&gt;(Arrays.asList(forms));</b>
+<b class="nc">&nbsp;      for (String form : formSet) {</b>
+<b class="nc">&nbsp;        if (!form.contains(&quot;ß&quot;) &amp;&amp; form.length() &gt; 0 &amp;&amp; Character.isLowerCase(form.charAt(0))) {</b>
+&nbsp;          // skip these, it&#39;s too risky to introduce old spellings like &quot;gewußt&quot; from the synthesizer
+<b class="nc">&nbsp;          result.add(parts[0] + form);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      result.add(parts[0] + &quot;zu&quot; + parts[1]);  //  &quot;zu&lt;verb&gt;&quot; is not part of forms from synthesizer</b>
+<b class="nc">&nbsp;      result.add(StringTools.uppercaseFirstChar(parts[0]) + parts[1] + &quot;s&quot;);  //  Genitiv, e.g. &quot;des Weitergehens&quot;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; expandLine(String line) {
+<b class="nc">&nbsp;    return isLineWithVerbPrefix(line) ? handleLineWithPrefix(line) :</b>
+<b class="nc">&nbsp;           isLineWithFlag(line) ? handleLineWithFlags(line) :</b>
+<b class="nc">&nbsp;           Collections.singletonList(cleanTagsAndEscapeChars(line));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isLineWithFlag(String line) {
+<b class="nc">&nbsp;    int idx = line.indexOf(&#39;/&#39;);</b>
+<b class="nc">&nbsp;    return !line.startsWith(&quot;#&quot;) &amp;&amp; idx &gt; 0 &amp;&amp; line.charAt(idx-1) != &#39;\\&#39;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isLineWithVerbPrefix(String line) {
+<b class="nc">&nbsp;    int idx = line.indexOf(&#39;_&#39;);</b>
+<b class="nc">&nbsp;    return !line.startsWith(&quot;#&quot;) &amp;&amp; idx &gt; 0 &amp;&amp; line.charAt(idx-1) != &#39;\\&#39;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; handleLineWithFlags(String line) {
+<b class="nc">&nbsp;    List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    String[] parts = cleanTagsAndEscapeChars(line).split(&quot;/&quot;);</b>
+<b class="nc">&nbsp;    if (parts.length != 2) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Unexpected line format, expected at most one slash: &quot; + line);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String word = parts[0];</b>
+<b class="nc">&nbsp;    String suffix = parts[1];</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; suffix.length(); i++) {</b>
+<b class="nc">&nbsp;      char c = suffix.charAt(i);</b>
+<b class="nc">&nbsp;      if (c == &#39;S&#39;) {</b>
+<b class="nc">&nbsp;        add(result, word);</b>
+<b class="nc">&nbsp;        result.add(word + &quot;s&quot;);</b>
+<b class="nc">&nbsp;      } else if (c == &#39;N&#39;) {</b>
+<b class="nc">&nbsp;        add(result, word);</b>
+<b class="nc">&nbsp;        result.add(word + &quot;n&quot;);</b>
+<b class="nc">&nbsp;      } else if (c == &#39;E&#39;) {</b>
+<b class="nc">&nbsp;        add(result, word);</b>
+<b class="nc">&nbsp;        result.add(word + &quot;e&quot;);</b>
+<b class="nc">&nbsp;      } else if (c == &#39;F&#39;) {</b>
+<b class="nc">&nbsp;        add(result, word);</b>
+<b class="nc">&nbsp;        result.add(word + &quot;in&quot;); // (m/f)</b>
+<b class="nc">&nbsp;      } else if (c == &#39;T&#39;) {</b>
+<b class="nc">&nbsp;        add(result, word);</b>
+<b class="nc">&nbsp;        if (word.endsWith(&quot;straße&quot;) || word.endsWith(&quot;strasse&quot;)) {</b>
+<b class="nc">&nbsp;          result.add(word.replaceAll(&quot;stra(ß|ss)e&quot;, &quot;str.&quot;));</b>
+&nbsp;        } 
+<b class="nc">&nbsp;        if (word.endsWith(&quot;Straße&quot;) || word.endsWith(&quot;Strasse&quot;)) {</b>
+<b class="nc">&nbsp;          result.add(word.replaceAll(&quot;Stra(ß|ss)e&quot;, &quot;Str.&quot;));</b>
+&nbsp;        } 
+<b class="nc">&nbsp;      } else if (c == &#39;A&#39; || c == &#39;P&#39;) { // Adjektiv / Partizip</b>
+<b class="nc">&nbsp;        add(result, word);</b>
+<b class="nc">&nbsp;        if (word.endsWith(&quot;e&quot;)) {</b>
+<b class="nc">&nbsp;          result.add(word + &quot;r&quot;);</b>
+<b class="nc">&nbsp;          result.add(word + &quot;s&quot;);</b>
+<b class="nc">&nbsp;          result.add(word + &quot;n&quot;);</b>
+<b class="nc">&nbsp;          result.add(word + &quot;m&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          result.add(word + &quot;e&quot;);</b>
+<b class="nc">&nbsp;          result.add(word + &quot;er&quot;);</b>
+<b class="nc">&nbsp;          result.add(word + &quot;es&quot;);</b>
+<b class="nc">&nbsp;          result.add(word + &quot;en&quot;);</b>
+<b class="nc">&nbsp;          result.add(word + &quot;em&quot;);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        throw new IllegalArgumentException(&quot;Unknown suffix: &quot; + suffix + &quot; in line: &quot; + line);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void add(List&lt;String&gt; result, String word) {
+<b class="nc">&nbsp;    if (!result.contains(word)) {</b>
+<b class="nc">&nbsp;      result.add(word);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  // ignore &quot;#...&quot; so it can be used as a tag:
+&nbsp;  private static String cleanTagsAndEscapeChars(String s) {
+<b class="nc">&nbsp;    int idx = s.indexOf(&#39;#&#39;);</b>
+<b class="nc">&nbsp;    if (idx != -1) {</b>
+<b class="nc">&nbsp;      s = s.substring(0, idx);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return s.replace(&quot;\\&quot;, &quot;&quot;).trim();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

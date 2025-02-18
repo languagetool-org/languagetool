@@ -1,0 +1,811 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UkrainianHybridDisambiguator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.disambiguation.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: UkrainianHybridDisambiguator (org.languagetool.tagging.disambiguation.uk)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UkrainianHybridDisambiguator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/296)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/317)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.tagging.disambiguation.uk;
+&nbsp;
+&nbsp;import static java.util.regex.Pattern.compile;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.language.Ukrainian;
+&nbsp;import org.languagetool.rules.uk.CaseGovernmentHelper;
+&nbsp;import org.languagetool.rules.uk.InflectionHelper;
+&nbsp;import org.languagetool.rules.uk.InflectionHelper.Inflection;
+&nbsp;import org.languagetool.rules.uk.LemmaHelper;
+&nbsp;import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
+&nbsp;import org.languagetool.tagging.disambiguation.Disambiguator;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
+&nbsp;import org.languagetool.tagging.uk.PosTagHelper;
+&nbsp;
+&nbsp;/**
+&nbsp; * Hybrid chunker-disambiguator for Ukrainian.
+&nbsp; */
+&nbsp;
+<b class="nc">&nbsp;public class UkrainianHybridDisambiguator extends AbstractDisambiguator {</b>
+&nbsp;  private static final String LAST_NAME_TAG = &quot;:prop:lname&quot;;
+<b class="nc">&nbsp;  private static final Pattern INITIAL_REGEX = compile(&quot;[А-ЯІЇЄҐ]\\.&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern INANIM_VKLY = compile(&quot;noun:inanim:.:v_kly.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PLURAL_NAME = compile(&quot;noun:anim:p:.*:fname.*&quot;);</b>
+&nbsp;//  private static final Pattern PLURAL_LNAME_OR_PATR = Pattern.compile(&quot;noun:anim:p:.*:lname.*&quot;);
+<b class="nc">&nbsp;  private static final Pattern PLURAL_LNAME_PATTERN = compile(&quot;noun:anim:p:.*:[lp]name.*&quot;);</b>
+&nbsp;  private static final String ST_ABBR = &quot;ст.&quot;;
+<b class="nc">&nbsp;  private static final Pattern LATIN_DIGITS_PATTERN = compile(&quot;[XIVХІ]+([–—-][XIVХІ]+)?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DIGITS_PATTERN = compile(&quot;[0-9]+([–—-][0-9]+)?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern STATION_NAME_PATTERN = compile(&quot;метро|[А-Я][а-яіїєґ&#39;-]+&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_1 = compile(&quot;[а-яіїєґa-z0-9].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_2 = compile(&quot;[0-9]+([.,–—-][0-9]+)?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_3 = compile(&quot;два|дві|три|чотири&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_4 = compile(&quot;:(alt|nv|ua_\\d{4}|xp\\d)&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_5 = compile(&quot;:[mfn]:v_rod&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private final Disambiguator chunker = new UkrainianMultiwordChunker(&quot;/uk/multiwords.txt&quot;, true);</b>
+&nbsp;
+<b class="nc">&nbsp;  private final Disambiguator disambiguator = new XmlRuleDisambiguator(Ukrainian.DEFAULT_VARIANT);</b>
+<b class="nc">&nbsp;  private final SimpleDisambiguator simpleDisambiguator = new SimpleDisambiguator();</b>
+&nbsp;
+<b class="nc">&nbsp;  static final Set&lt;String&gt; V_MIS_PREPS = CaseGovernmentHelper.CASE_GOVERNMENT_MAP.entrySet()</b>
+<b class="nc">&nbsp;      .stream().filter(e -&gt; e.getValue().contains(&quot;v_mis&quot;)).map(Map.Entry::getKey).collect(Collectors.toSet());</b>
+<b class="nc">&nbsp;  static final Set&lt;String&gt; V_NON_MIS_PREPS = CaseGovernmentHelper.CASE_GOVERNMENT_MAP.entrySet()</b>
+<b class="nc">&nbsp;      .stream().filter(e -&gt; ! e.getValue().contains(&quot;v_mis&quot;)).map(Map.Entry::getKey).collect(Collectors.toSet());</b>
+&nbsp;  
+&nbsp;  static {
+&nbsp;    // add Latin y/B - often used instead of real prep
+&nbsp;    // we&#39;ll catch it in MixedAlphabetsRule
+<b class="nc">&nbsp;    V_MIS_PREPS.add(&quot;y&quot;);</b>
+<b class="nc">&nbsp;    V_MIS_PREPS.add(&quot;B&quot;);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Calls two disambiguator classes: (1) a chunker; (2) a rule-based disambiguator.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public final AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {
+<b class="nc">&nbsp;    preDisambiguate(input);</b>
+<b class="nc">&nbsp;    return disambiguator.disambiguate(chunker.disambiguate(input));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public AnalyzedSentence preDisambiguate(AnalyzedSentence input) {
+<b class="nc">&nbsp;    simpleDisambiguator.removeRareForms(input);</b>
+<b class="nc">&nbsp;    removeVmis(input);</b>
+<b class="nc">&nbsp;    retagFemNames(input);</b>
+<b class="nc">&nbsp;    retagInitials(input);</b>
+<b class="nc">&nbsp;    retagUnknownInitials(input);</b>
+<b class="nc">&nbsp;    removeInanimVKly(input);</b>
+<b class="nc">&nbsp;    removePluralForNames(input);</b>
+<b class="nc">&nbsp;    removeLowerCaseHomonymsForAbbreviations(input);</b>
+<b class="nc">&nbsp;    removeLowerCaseBadForUpperCaseGood(input);</b>
+<b class="nc">&nbsp;    disambiguateSt(input);</b>
+<b class="nc">&nbsp;    disambiguatePronPos(input);</b>
+<b class="nc">&nbsp;    retagPulralProp(input);</b>
+<b class="nc">&nbsp;    removeVerbImpr(input);</b>
+<b class="nc">&nbsp;    return input;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void removeVerbImpr(AnalyzedSentence input) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    for (int i = 2; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; analyzedTokens = tokens[i].getReadings();</b>
+&nbsp;      
+<b class="nc">&nbsp;      if( PosTagHelper.hasPosTag(tokens[i], Pattern.compile(&quot;verb.*impr.*&quot;))</b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTag(tokens[i], Pattern.compile(&quot;noun.*&quot;))</b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile(&quot;adj.*&quot;)) ) {</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;InflectionHelper.Inflection&gt; masterInflections = InflectionHelper.getAdjInflections(tokens[i-1].getReadings());</b>
+<b class="nc">&nbsp;        List&lt;InflectionHelper.Inflection&gt; slaveInflections = InflectionHelper.getNounInflections(tokens[i].getReadings(), Pattern.compile(&quot;v_zna:var&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;        if( ! Collections.disjoint(masterInflections, slaveInflections) ) {</b>
+&nbsp;        
+<b class="nc">&nbsp;          List&lt;AnalyzedToken&gt; verbReadings = PosTagHelper.filter(analyzedTokens, Pattern.compile(&quot;verb.*impr.*&quot;));</b>
+<b class="nc">&nbsp;          for(AnalyzedToken analyzedToken: verbReadings) {</b>
+<b class="nc">&nbsp;            tokens[i].removeReading(analyzedToken, &quot;not_an_imperative_2&quot;);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void retagFemNames(AnalyzedSentence input) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    String ruleApplied = &quot;proper_name_gender_override&quot;;</b>
+&nbsp;    
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length-2; i++) {</b>
+&nbsp;
+<b class="nc">&nbsp;      for(String gen: new String[] {&quot;f&quot;, &quot;m&quot;}) {</b>
+&nbsp;        
+<b class="nc">&nbsp;        List&lt;String&gt; prefix = gen.equals(&quot;f&quot;) </b>
+<b class="nc">&nbsp;            ? Arrays.asList(&quot;пані&quot;, &quot;місіс&quot;, &quot;місис&quot;, &quot;міс&quot;, &quot;леді&quot;, &quot;княгиня&quot;, &quot;німкеня&quot;)</b>
+<b class="nc">&nbsp;                : Arrays.asList(&quot;пан&quot;, &quot;містер&quot;, &quot;м-р&quot;, &quot;сер&quot;, &quot;князь&quot;, &quot;німець&quot;, &quot;поляк&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        String animPropTagPrefix = &quot;noun:anim:&quot;+gen+&quot;:v_naz:prop&quot;;</b>
+&nbsp;        
+&nbsp;
+<b class="nc">&nbsp;        if( (LemmaHelper.hasLemma(tokens[i], prefix, compile(&quot;noun:anim:&quot;+gen+&quot;:v_naz.*&quot;))</b>
+<b class="nc">&nbsp;            || PosTagHelper.hasPosTagStart(tokens[i], animPropTagPrefix + &quot;:fname&quot;))</b>
+<b class="nc">&nbsp;            &amp;&amp; PosTagHelper.hasPosTag(tokens[i+2], compile(&quot;verb.*:past:&quot;+gen)) ) {</b>
+&nbsp;
+<b class="nc">&nbsp;          AnalyzedTokenReadings nameToken = tokens[i+1];</b>
+<b class="nc">&nbsp;          if( PosTagHelper.hasPosTagStart(nameToken, animPropTagPrefix) ) {</b>
+<b class="nc">&nbsp;            for (AnalyzedToken analyzedToken : nameToken) {</b>
+<b class="nc">&nbsp;              if( ! PosTagHelper.hasPosTagStart(analyzedToken, animPropTagPrefix) ) {</b>
+<b class="nc">&nbsp;                nameToken.removeReading(analyzedToken, ruleApplied);</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;          // леді Черчилль
+<b class="nc">&nbsp;          else if ( gen.equals(&quot;f&quot;) &amp;&amp; PosTagHelper.hasPosTagStart(nameToken, &quot;noun:anim:m:v_naz:prop&quot;) ) {</b>
+<b class="nc">&nbsp;            for (AnalyzedToken analyzedToken : nameToken) {</b>
+<b class="nc">&nbsp;              nameToken.removeReading(analyzedToken, ruleApplied);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            nameToken.addReading(new AnalyzedToken(nameToken.getToken(), &quot;noun:anim:f:v_naz:prop:lname&quot;, nameToken.getToken()), ruleApplied);</b>
+&nbsp;          }
+&nbsp;          // Олег П&#39;ятниця
+<b class="nc">&nbsp;          else if( LemmaHelper.isCapitalized(nameToken.getCleanToken())</b>
+<b class="nc">&nbsp;              &amp;&amp; ! PosTagHelper.hasPosTagPart(nameToken, &quot;:prop&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; PosTagHelper.hasPosTagStart(tokens[i], animPropTagPrefix + &quot;:fname&quot;) ) {</b>
+<b class="nc">&nbsp;            for (AnalyzedToken analyzedToken : nameToken) {</b>
+<b class="nc">&nbsp;              nameToken.removeReading(analyzedToken, ruleApplied);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            nameToken.addReading(new AnalyzedToken(nameToken.getToken(), animPropTagPrefix + &quot;:lname&quot;, nameToken.getToken()), ruleApplied);</b>
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          i+=1;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void removeVmis(AnalyzedSentence input) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();</b>
+&nbsp;    
+<b class="nc">&nbsp;    boolean startCheck = false;</b>
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; analyzedTokens = tokens[i].getReadings();</b>
+&nbsp;
+<b class="nc">&nbsp;      if (tokens[i].getToken() == null )</b>
+&nbsp;        continue;
+&nbsp;      
+<b class="nc">&nbsp;      String lowerCaseToken = tokens[i].getToken().toLowerCase();</b>
+&nbsp;
+<b class="nc">&nbsp;      boolean hasPrep = PosTagHelper.hasPosTagPart(tokens[i], &quot;prep&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;      if( ! startCheck ) {</b>
+<b class="nc">&nbsp;        if( hasPrep ) {</b>
+<b class="nc">&nbsp;          startCheck = true;</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;          if(PATTERN_1.matcher(lowerCaseToken).matches()) {</b>
+&nbsp;            // sometimes sentences incorrectly split, e.g. &quot;захопленню зброї;&quot; - leave it
+<b class="nc">&nbsp;            if( StringUtils.isAllLowerCase(tokens[i].getToken()) ) {</b>
+&nbsp;              continue;
+&nbsp;            }
+<b class="nc">&nbsp;            startCheck = true;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      if( hasPrep &amp;&amp; V_MIS_PREPS.contains(lowerCaseToken) )</b>
+&nbsp;        return;
+&nbsp;
+<b class="nc">&nbsp;      if ( ! canRemoveVmis(analyzedTokens) )</b>
+&nbsp;        continue;
+&nbsp;
+<b class="nc">&nbsp;      for (AnalyzedToken analyzedToken : analyzedTokens) {</b>
+<b class="nc">&nbsp;        if( PosTagHelper.hasPosTagPart(analyzedToken, &quot;v_mis&quot;) ) {</b>
+<b class="nc">&nbsp;          tokens[i].removeReading(analyzedToken, &quot;dis_v_mis&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean canRemoveVmis(List&lt;AnalyzedToken&gt; analyzedTokens) {
+<b class="nc">&nbsp;    boolean foundVmis = false, foundOther = false;</b>
+<b class="nc">&nbsp;    for(AnalyzedToken token: analyzedTokens) {</b>
+<b class="nc">&nbsp;      if( PosTagHelper.hasPosTagPart(token, &quot;v_mis&quot;) ) {</b>
+<b class="nc">&nbsp;        foundVmis = true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      else if( token.getPOSTag() != null &amp;&amp; ! token.getPOSTag().endsWith(&quot;_END&quot;) ) {</b>
+<b class="nc">&nbsp;        foundOther = true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if( foundVmis &amp;&amp; foundOther )</b>
+&nbsp;        break;
+&nbsp;    }
+<b class="nc">&nbsp;    return foundVmis &amp;&amp; foundOther;</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern IGNORE_IN_PRON_POS = compile(&quot;pron|noun:anim:p:v_zna.*:rare.*&quot;);</b>
+&nbsp;  
+&nbsp;  private void disambiguatePronPos(AnalyzedSentence input) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();</b>
+&nbsp;    
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; analyzedTokens = tokens[i].getReadings();</b>
+&nbsp;
+<b class="nc">&nbsp;      if (tokens[i].getToken() == null )</b>
+&nbsp;        continue;
+&nbsp;      
+<b class="nc">&nbsp;      String lowerCaseToken = tokens[i].getCleanToken().toLowerCase();</b>
+&nbsp;      
+<b class="nc">&nbsp;      if( Arrays.asList(&quot;його&quot;, &quot;її&quot;, &quot;їх&quot;).contains(lowerCaseToken) ) {</b>
+&nbsp;        
+<b class="nc">&nbsp;        if( PosTagHelper.hasPosTag(tokens[i], compile(&quot;adj.*pron:pos.*&quot;)) ) {</b>
+&nbsp;        
+<b class="nc">&nbsp;          List&lt;Inflection&gt; nounInflections = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          if( i &gt; 1 ) {</b>
+<b class="nc">&nbsp;            List&lt;Inflection&gt; nounInflections_ = InflectionHelper.getNounInflections(tokens[i-1].getReadings(), IGNORE_IN_PRON_POS);</b>
+<b class="nc">&nbsp;            nounInflections.addAll( nounInflections_ );</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if( i &lt; tokens.length-1 ) {</b>
+<b class="nc">&nbsp;            List&lt;Inflection&gt; nounInflections_ = InflectionHelper.getNounInflections(tokens[i+1].getReadings(), IGNORE_IN_PRON_POS);</b>
+<b class="nc">&nbsp;            nounInflections.addAll( nounInflections_ );</b>
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          if( nounInflections.size() &gt; 0 ) {</b>
+&nbsp;
+<b class="nc">&nbsp;            for (AnalyzedToken analyzedToken : analyzedTokens) {</b>
+<b class="nc">&nbsp;              if( PosTagHelper.hasPosTagStart(analyzedToken, &quot;adj&quot;) ) {</b>
+<b class="nc">&nbsp;                List&lt;Inflection&gt; adjInflections = InflectionHelper.getAdjInflections(Arrays.asList(analyzedToken));</b>
+<b class="nc">&nbsp;                if( Collections.disjoint(nounInflections, adjInflections)  ) {</b>
+<b class="nc">&nbsp;                  tokens[i].removeReading(analyzedToken, &quot;dis_pron_pos&quot;);</b>
+&nbsp;                }
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  // correct: Єврокомісія, but often written: єврокомісія
+&nbsp;  // we will tag 2nd as :bad but need to remove :bad from Єврокомісія (tagger brings lowercase lemma too)
+&nbsp;  private void removeLowerCaseBadForUpperCaseGood(AnalyzedSentence input) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      if( tokens[i].getReadings().size() &gt; 1</b>
+<b class="nc">&nbsp;          &amp;&amp; LemmaHelper.isCapitalized(tokens[i].getCleanToken())</b>
+<b class="nc">&nbsp;          &amp;&amp; LemmaHelper.hasLemma(tokens[i], compile(&quot;[А-ЯІЇЄҐ][а-яіїєґ&#39;-].*&quot;), compile(&quot;.*?:prop&quot;)) ) {</b>
+&nbsp;
+<b class="nc">&nbsp;        String lowerLemmaToCheck = tokens[i].getAnalyzedToken(0).getLemma().toLowerCase();</b>
+&nbsp;        
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; analyzedTokens = tokens[i].getReadings();</b>
+<b class="nc">&nbsp;        for(int j=analyzedTokens.size()-1; j&gt;=0; j--) {</b>
+<b class="nc">&nbsp;          AnalyzedToken analyzedToken = analyzedTokens.get(j);</b>
+&nbsp;          
+<b class="nc">&nbsp;          if( PosTagHelper.hasPosTagPart(analyzedToken, &quot;:bad&quot;) </b>
+<b class="nc">&nbsp;              &amp;&amp; lowerLemmaToCheck.equals(analyzedToken.getLemma()) ) {</b>
+<b class="nc">&nbsp;            tokens[i].removeReading(analyzedToken, &quot;lowercase_bad_vs_uppercase_good&quot;);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  // all uppercase mostly are abbreviations, e.g. &quot;АТО&quot; is not part/intj
+&nbsp;  private void removeLowerCaseHomonymsForAbbreviations(AnalyzedSentence input) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      if( StringUtils.isAllUpperCase(tokens[i].getToken())</b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTagPart(tokens[i], &quot;:abbr&quot;) ) {</b>
+&nbsp;        
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; analyzedTokens = tokens[i].getReadings();</b>
+<b class="nc">&nbsp;        for(int j=analyzedTokens.size()-1; j&gt;=0; j--) {</b>
+<b class="nc">&nbsp;          AnalyzedToken analyzedToken = analyzedTokens.get(j);</b>
+&nbsp;          
+<b class="nc">&nbsp;          if( ! PosTagHelper.hasPosTagPart(analyzedToken, &quot;:abbr&quot;) </b>
+<b class="nc">&nbsp;              &amp;&amp; ! JLanguageTool.SENTENCE_END_TAGNAME.equals(analyzedToken.getPOSTag())</b>
+<b class="nc">&nbsp;              &amp;&amp; ! JLanguageTool.PARAGRAPH_END_TAGNAME.equals(analyzedToken.getPOSTag())) {</b>
+<b class="nc">&nbsp;            tokens[i].removeReading(analyzedToken, &quot;lowercase_vs_abbr&quot;);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }    
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern PUNCT_AFTER_KLY_PATTERN = compile(&quot;[!?,»\&quot;\u201C\u201D…]|[\\.!?]{2,3}&quot;);</b>
+&nbsp;
+&nbsp;  private void removeInanimVKly(AnalyzedSentence input) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; analyzedTokens = tokens[i].getReadings();</b>
+&nbsp;
+<b class="nc">&nbsp;      if( ! PosTagHelper.hasPosTag(analyzedTokens, compile(&quot;noun:inanim:.:v_kly(?!.*:geo).*&quot;) )</b>
+<b class="nc">&nbsp;          || likelyVklyContext(tokens, i) )</b>
+&nbsp;        continue;
+&nbsp;
+<b class="nc">&nbsp;      ArrayList&lt;AnalyzedToken&gt; inanimVklyReadings = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      boolean otherFound = false;</b>
+<b class="nc">&nbsp;      for(int j=0; j&lt;analyzedTokens.size(); j++) {</b>
+<b class="nc">&nbsp;        String posTag = analyzedTokens.get(j).getPOSTag();</b>
+&nbsp;
+<b class="nc">&nbsp;        if( posTag == null )</b>
+&nbsp;          break;
+<b class="nc">&nbsp;        if( posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) )</b>
+&nbsp;          continue;
+&nbsp;
+<b class="nc">&nbsp;        if( INANIM_VKLY.matcher(posTag).matches() ) {</b>
+<b class="nc">&nbsp;          inanimVklyReadings.add(analyzedTokens.get(j));</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;          otherFound = true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( inanimVklyReadings.size() &gt; 0 &amp;&amp; otherFound ) {</b>
+<b class="nc">&nbsp;        for(AnalyzedToken analyzedToken: inanimVklyReadings) {</b>
+<b class="nc">&nbsp;          if( Arrays.asList(&quot;зоря&quot;).contains(analyzedToken.getLemma()) )</b>
+&nbsp;            continue;
+&nbsp;
+<b class="nc">&nbsp;          tokens[i].removeReading(analyzedToken, &quot;inanim_v_kly&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final List&lt;String&gt; LIKELY_V_KLY = Arrays.asList(&quot;суде&quot;, &quot;роде&quot;, &quot;заходе&quot;, &quot;місяченьку&quot;, &quot;редакціє&quot;);</b>
+&nbsp;  private boolean likelyVklyContext(AnalyzedTokenReadings[] tokens, int i) {
+<b class="nc">&nbsp;    if( LIKELY_V_KLY.contains(tokens[i].getToken().toLowerCase()) )</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;
+<b class="nc">&nbsp;    return i &lt; tokens.length - 1</b>
+<b class="nc">&nbsp;        &amp;&amp; (&quot;о&quot;.equalsIgnoreCase(tokens[i-1].getToken()) || ! PosTagHelper.hasPosTagStart(tokens[i-1], &quot;prep&quot;))</b>
+<b class="nc">&nbsp;        &amp;&amp; PUNCT_AFTER_KLY_PATTERN.matcher(tokens[i+1].getToken()).matches()</b>
+<b class="nc">&nbsp;        &amp;&amp; (PosTagHelper.hasPosTag(tokens[i-1], PosTagHelper.ADJ_V_KLY_PATTERN)</b>
+<b class="nc">&nbsp;          || &quot;о&quot;.equalsIgnoreCase(tokens[i-1].getToken()));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void removePluralForNames(AnalyzedSentence input) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; analyzedTokens = tokens[i].getReadings();</b>
+&nbsp;      
+<b class="nc">&nbsp;      if( i &gt; 1</b>
+<b class="nc">&nbsp;          &amp;&amp; (PosTagHelper.hasPosTagStart(tokens[i-1], &quot;adj:p&quot;)</b>
+&nbsp;              //TODO: unify adj and noun
+<b class="nc">&nbsp;              || PosTagHelper.hasPosTagPart(tokens[i-1], &quot;num&quot;)</b>
+<b class="nc">&nbsp;              || LemmaHelper.hasLemma(tokens[i-1], Arrays.asList(&quot;багато&quot;, &quot;мало&quot;, &quot;півсотня&quot;, &quot;сотня&quot;))) )</b>
+&nbsp;        continue;
+&nbsp;
+&nbsp;      // Юріїв Луценків
+<b class="nc">&nbsp;      if( i&lt;tokens.length-1 </b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTag(tokens[i+1], PLURAL_LNAME_PATTERN) )</b>
+&nbsp;        continue;
+&nbsp;      
+&nbsp;      // Андріїв Фартушняка й Варанкова
+<b class="nc">&nbsp;      if( i&lt;tokens.length-3</b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTagPart(tokens[i+1], &quot;:lname&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTagPart(tokens[i+3], &quot;:lname&quot;) )</b>
+&nbsp;        continue;
+&nbsp;
+&nbsp;      
+<b class="nc">&nbsp;      ArrayList&lt;AnalyzedToken&gt; pluralNameReadings = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      boolean otherFound = false;</b>
+<b class="nc">&nbsp;      for(int j=0; j&lt;analyzedTokens.size(); j++) {</b>
+<b class="nc">&nbsp;        String posTag = analyzedTokens.get(j).getPOSTag();</b>
+<b class="nc">&nbsp;        if( posTag == null )</b>
+&nbsp;          break;
+<b class="nc">&nbsp;        if( posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) )</b>
+&nbsp;          continue;
+&nbsp;          
+<b class="nc">&nbsp;        if( PLURAL_NAME.matcher(posTag).matches() ) {</b>
+<b class="nc">&nbsp;          pluralNameReadings.add(analyzedTokens.get(j));</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;          otherFound = true;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if( pluralNameReadings.size() &gt; 0 &amp;&amp; otherFound ) {</b>
+&nbsp;        // наймолодшого з Моцартів
+<b class="nc">&nbsp;        if( ! LemmaHelper.hasLemma(tokens[i-1], Arrays.asList(&quot;з&quot;, &quot;із&quot;, &quot;зі&quot;), &quot;prep&quot;) ) {</b>
+<b class="nc">&nbsp;          for(AnalyzedToken analyzedToken: pluralNameReadings) {</b>
+<b class="nc">&nbsp;            tokens[i].removeReading(analyzedToken, &quot;plural_for_names&quot;);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void retagInitials(AnalyzedSentence input) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = input.getTokens();</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;Integer&gt; initialsIdxs = new ArrayList&lt;Integer&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings lastName = null;</b>
+&nbsp;
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {</b>
+&nbsp;
+<b class="nc">&nbsp;      if( tokens[i].isWhitespace() ) {</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( tokens[i].hasPartialPosTag(LAST_NAME_TAG) ) {</b>
+<b class="nc">&nbsp;        lastName = tokens[i];</b>
+&nbsp;
+&nbsp;        // split before next initial starts: &quot;для Л.Кучма Л.Кравчук&quot;
+<b class="nc">&nbsp;        if( initialsIdxs.size() &gt; 0 ) {</b>
+<b class="nc">&nbsp;          checkForInitialRetag(lastName, initialsIdxs, tokens);</b>
+<b class="nc">&nbsp;          lastName = null;</b>
+<b class="nc">&nbsp;          initialsIdxs.clear();</b>
+&nbsp;        }
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;      if( isInitial(tokens, i) ) {</b>
+<b class="nc">&nbsp;        initialsIdxs.add(i);</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      checkForInitialRetag(lastName, initialsIdxs, tokens);</b>
+&nbsp;
+<b class="nc">&nbsp;      lastName = null;</b>
+<b class="nc">&nbsp;      initialsIdxs.clear();</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    checkForInitialRetag(lastName, initialsIdxs, tokens);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void retagUnknownInitials(AnalyzedSentence input) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = input.getTokens();</b>
+&nbsp;
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      if( tokens[i].getToken().endsWith(&quot;.&quot;) </b>
+<b class="nc">&nbsp;          &amp;&amp; INITIAL_REGEX.matcher(tokens[i].getToken()).matches() ) {</b>
+&nbsp;        
+<b class="nc">&nbsp;        if( PosTagHelper.hasPosTagPart(tokens[i], &quot;name&quot;) )</b>
+&nbsp;          continue;
+&nbsp;
+<b class="nc">&nbsp;        for(AnalyzedToken tokenReading: tokens[i].getReadings()) {</b>
+&nbsp;//          if( ! &quot;noninfl:abbr&quot;.equals(tokenReading.getPOSTag()) ) {
+<b class="nc">&nbsp;            tokens[i].removeReading(tokenReading, &quot;dis_unknown_initials&quot;);</b>
+&nbsp;//          }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        AnalyzedToken newToken = new AnalyzedToken(tokens[i].getToken(), &quot;noninfl:abbr&quot;, null);</b>
+<b class="nc">&nbsp;        tokens[i].addReading(newToken, &quot;dis_unknown_initials&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static void checkForInitialRetag(AnalyzedTokenReadings lastName, List&lt;Integer&gt; initialsIdxs, AnalyzedTokenReadings[] tokens) {
+<b class="nc">&nbsp;    if( lastName != null</b>
+<b class="nc">&nbsp;        &amp;&amp; (initialsIdxs.size() == 1 || initialsIdxs.size() == 2) ) {</b>
+&nbsp;
+<b class="nc">&nbsp;      int fnamePos = initialsIdxs.get(0);</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings newReadings = getInitialReadings(tokens[fnamePos], lastName, &quot;fname&quot;);</b>
+<b class="nc">&nbsp;      tokens[fnamePos] = newReadings;</b>
+&nbsp;
+<b class="nc">&nbsp;      if( initialsIdxs.size() == 2 ) {</b>
+<b class="nc">&nbsp;        int pnamePos = initialsIdxs.get(1);</b>
+<b class="nc">&nbsp;        AnalyzedTokenReadings newReadings2 = getInitialReadings(tokens[pnamePos], lastName, &quot;pname&quot;);</b>
+<b class="nc">&nbsp;        tokens[pnamePos] = newReadings2;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void disambiguateSt(AnalyzedSentence input) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();</b>
+&nbsp;
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {</b>
+&nbsp;
+<b class="nc">&nbsp;      if (!ST_ABBR.equals(tokens[i].getToken()))</b>
+&nbsp;        continue;
+&nbsp;
+&nbsp;      // 10 мм рт. ст.
+<b class="nc">&nbsp;      if (i &gt; 1) {</b>
+<b class="nc">&nbsp;        if (tokens[i - 1].getToken().equals(&quot;рт.&quot;)) {</b>
+<b class="nc">&nbsp;          Pattern pattern = compile(&quot;noun.*:xp3.*&quot;);</b>
+<b class="nc">&nbsp;          removeTokensWithout(tokens[i], pattern);</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;          Pattern pattern = compile(&quot;(?!.*:xp3).*&quot;);</b>
+<b class="nc">&nbsp;          removeTokensWithout(tokens[i], pattern);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+&nbsp;      
+&nbsp;      // стаття/сторінка
+<b class="nc">&nbsp;      if (i &lt; tokens.length - 1) {</b>
+<b class="nc">&nbsp;        if (PATTERN_2.matcher(tokens[i + 1].getToken()).matches()) {</b>
+<b class="nc">&nbsp;          Pattern pattern = compile(&quot;noun:inanim:f:.*&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;          if (i &gt; 2 &amp;&amp; ST_ABBR.equals(tokens[i - 1].getToken())) {</b>
+<b class="nc">&nbsp;            pattern = compile(&quot;noun:inanim:p:.*&quot;);</b>
+<b class="nc">&nbsp;            removeTokensWithout(tokens[i - 1], pattern);</b>
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          removeTokensWithout(tokens[i], pattern);</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if (i &lt; tokens.length - 1) {</b>
+&nbsp;        // столова
+<b class="nc">&nbsp;        if (LemmaHelper.hasLemma(tokens[i + 1], &quot;ложка&quot;) </b>
+<b class="nc">&nbsp;            || tokens[i + 1].getToken().equals(&quot;л.&quot;)) {</b>
+<b class="nc">&nbsp;          Pattern pattern = compile(&quot;adj:[fp]:.*&quot;);</b>
+<b class="nc">&nbsp;          removeTokensWithout(tokens[i], pattern);</b>
+<b class="nc">&nbsp;          i++;</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;
+&nbsp;        // старший
+<b class="nc">&nbsp;        if (LemmaHelper.hasLemma(tokens[i + 1],</b>
+<b class="nc">&nbsp;            Arrays.asList(&quot;лейтенант&quot;, &quot;сержант&quot;, &quot;солдат&quot;, &quot;науковий&quot;, &quot;медсестра&quot;))) {</b>
+<b class="nc">&nbsp;          Pattern pattern = compile(&quot;adj:m:.*&quot;);</b>
+<b class="nc">&nbsp;          removeTokensWithout(tokens[i], pattern);</b>
+<b class="nc">&nbsp;          i++;</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;
+&nbsp;        // станція
+<b class="nc">&nbsp;        if (STATION_NAME_PATTERN.matcher(tokens[i + 1].getToken()).matches()) {</b>
+<b class="nc">&nbsp;          Pattern pattern = compile(&quot;noun:inanim:f:.*&quot;);</b>
+<b class="nc">&nbsp;          removeTokensWithout(tokens[i], pattern);</b>
+<b class="nc">&nbsp;          i++;</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;      }
+&nbsp;      
+&nbsp;      // століття
+<b class="nc">&nbsp;      if (i &gt; 1) {</b>
+<b class="nc">&nbsp;        if( LATIN_DIGITS_PATTERN.matcher(tokens[i - 1].getToken()).matches() ) {</b>
+<b class="nc">&nbsp;          Pattern pattern = compile(&quot;noun:inanim:n:.*&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;          if (i &lt; tokens.length - 1 &amp;&amp; ST_ABBR.equals(tokens[i + 1].getToken())) {</b>
+<b class="nc">&nbsp;            pattern = compile(&quot;noun:inanim:p:.*&quot;);</b>
+<b class="nc">&nbsp;            removeTokensWithout(tokens[i + 1], pattern);</b>
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          removeTokensWithout(tokens[i], pattern);</b>
+<b class="nc">&nbsp;          i++;</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        else if( DIGITS_PATTERN.matcher(tokens[i - 1].getToken()).matches() ) {</b>
+<b class="nc">&nbsp;          Pattern pattern = compile(&quot;noun:inanim:[nf]:.*&quot;); // 18 ст. - стаття або століття</b>
+&nbsp;
+<b class="nc">&nbsp;          if (i &lt; tokens.length - 1 &amp;&amp; ST_ABBR.equals(tokens[i + 1].getToken())) {</b>
+<b class="nc">&nbsp;            pattern = compile(&quot;noun:inanim:p:.*&quot;);</b>
+<b class="nc">&nbsp;            removeTokensWithout(tokens[i + 1], pattern);</b>
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          removeTokensWithout(tokens[i], pattern);</b>
+<b class="nc">&nbsp;          i++;</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;
+&nbsp;      }
+&nbsp;
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void retagPulralProp(AnalyzedSentence input) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();</b>
+&nbsp;
+&nbsp;    // дві Франції, три Катерини, два Володьки
+<b class="nc">&nbsp;    for (int i = 2; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings propTokens = tokens[i];</b>
+<b class="nc">&nbsp;      if( PATTERN_3.matcher(tokens[i - 1].getCleanToken().toLowerCase()).matches()</b>
+<b class="nc">&nbsp;          &amp;&amp; ! PosTagHelper.hasPosTag(propTokens, &quot;noun.*:p:v_naz.*:prop.*&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; ! PosTagHelper.hasPosTag(propTokens, &quot;noun.*:[mfn]:v_naz.*:prop.*&quot;)) { </b>
+&nbsp;        
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; propOnly = PosTagHelper.filter(propTokens.getReadings(), compile(&quot;noun:.*:[fmn]:v_rod.*prop.*&quot;));</b>
+&nbsp;        
+<b class="nc">&nbsp;        propOnly = propOnly.stream()</b>
+<b class="nc">&nbsp;            .filter(s -&gt; !s.getPOSTag().contains(&quot;:m:&quot;) || s.getLemma().endsWith(&quot;а&quot;) || s.getLemma().endsWith(&quot;о&quot;) )</b>
+<b class="nc">&nbsp;            .collect(Collectors.toList());</b>
+&nbsp;        
+&nbsp;        
+<b class="nc">&nbsp;        if( propOnly.size() &gt; 0 ) {</b>
+&nbsp;
+<b class="nc">&nbsp;          String postag = PATTERN_5.matcher(propOnly.get(0).getPOSTag()).replaceFirst(&quot;:p:v_naz&quot;);</b>
+<b class="nc">&nbsp;          String lemma = propOnly.get(0).getLemma();</b>
+&nbsp;
+<b class="nc">&nbsp;          for(AnalyzedToken tokenReading: propTokens.getReadings()) {</b>
+<b class="nc">&nbsp;            propTokens.removeReading(tokenReading, &quot;dis_plural_prop&quot;);</b>
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          AnalyzedToken newToken = new AnalyzedToken(propTokens.getToken(), postag, lemma);</b>
+<b class="nc">&nbsp;          propTokens.addReading(newToken, &quot;dis_plural_prop&quot;);</b>
+<b class="nc">&nbsp;          i++;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;/*
+&nbsp;TODO:
+&nbsp;рт.ст.
+&nbsp;ст.ст. - старий стиль
+&nbsp;18 ст. - 18-та стаття
+&nbsp;18 ст. - 18-те століття
+&nbsp;*/
+&nbsp;
+&nbsp;
+&nbsp;  private static void removeTokensWithout(AnalyzedTokenReadings readings, Pattern pattern) {
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; analyzedTokens = readings.getReadings();</b>
+<b class="nc">&nbsp;      for (int j = analyzedTokens.size()-1; j&gt;=0; j--) {</b>
+<b class="nc">&nbsp;        AnalyzedToken analyzedToken = analyzedTokens.get(j);</b>
+&nbsp;
+<b class="nc">&nbsp;        if( ! JLanguageTool.SENTENCE_END_TAGNAME.equals(analyzedToken.getPOSTag())</b>
+<b class="nc">&nbsp;            &amp;&amp; ! PosTagHelper.hasPosTag(analyzedToken, pattern) ) {</b>
+<b class="nc">&nbsp;          readings.removeReading(analyzedToken, &quot;UkranianHybridDisambiguator&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  private static AnalyzedTokenReadings getInitialReadings(AnalyzedTokenReadings initialsReadings, AnalyzedTokenReadings lnameTokens, String initialType) {
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; newTokens = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    for(AnalyzedToken lnameToken: lnameTokens.getReadings()) {</b>
+<b class="nc">&nbsp;      String lnamePosTag = lnameToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if( lnamePosTag == null || ! lnamePosTag.contains(LAST_NAME_TAG) )</b>
+&nbsp;        continue;
+&nbsp;      
+<b class="nc">&nbsp;      lnamePosTag = PATTERN_4.matcher(lnamePosTag).replaceAll(&quot;&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;      String initialsToken = initialsReadings.getAnalyzedToken(0).getToken();</b>
+<b class="nc">&nbsp;      AnalyzedToken newToken = new AnalyzedToken(initialsToken, lnamePosTag.replace(LAST_NAME_TAG, &quot;:nv:abbr:prop:&quot;+initialType), initialsToken);</b>
+<b class="nc">&nbsp;      newToken.setWhitespaceBefore(initialsReadings.isWhitespaceBefore());</b>
+<b class="nc">&nbsp;      newTokens.add(newToken);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new AnalyzedTokenReadings(newTokens, initialsReadings.getStartPos());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean isInitial(AnalyzedTokenReadings[] tokens, int pos) {
+<b class="nc">&nbsp;    return //pos &lt; tokens.length - 1</b>
+<b class="nc">&nbsp;        tokens[pos].getToken().endsWith(&quot;.&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; INITIAL_REGEX.matcher(tokens[pos].getToken()).matches();</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;//  private static boolean isSpace(String str) {
+&nbsp;//    return str != null &amp;&amp; (str.equals(&quot; &quot;) || str.equals(&quot;\u00A0&quot;)|| str.equals(&quot;\u202F&quot;));
+&nbsp;//  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

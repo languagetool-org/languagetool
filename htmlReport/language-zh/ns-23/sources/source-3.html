@@ -1,0 +1,439 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MultiLanguageTextCheckEval</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.remote.multiLang</a>
+</div>
+
+<h1>Coverage Summary for Class: MultiLanguageTextCheckEval (org.languagetool.remote.multiLang)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MultiLanguageTextCheckEval</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/63)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/148)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MultiLanguageTextCheckEval$DetectionResults</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/63)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/157)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * LanguageTool, a natural language style checker
+&nbsp; * Copyright (c) 2022.  Stefan Viol (https://stevio.de)
+&nbsp; *
+&nbsp; *  This library is free software; you can redistribute it and/or
+&nbsp; *  modify it under the terms of the GNU Lesser General Public
+&nbsp; *  License as published by the Free Software Foundation; either
+&nbsp; *  version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; *  This library is distributed in the hope that it will be useful,
+&nbsp; *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  Lesser General Public License for more details.
+&nbsp; *
+&nbsp; *  You should have received a copy of the GNU Lesser General Public
+&nbsp; *  License along with this library; if not, write to the Free Software
+&nbsp; *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.remote.multiLang;
+&nbsp;
+&nbsp;import org.languagetool.remote.*;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;import java.util.stream.Stream;
+&nbsp;
+<b class="nc">&nbsp;public final class MultiLanguageTextCheckEval {</b>
+<b class="nc">&nbsp;  private static Random randomGen = new Random();</b>
+<b class="nc">&nbsp;  private static int minMainLanguageSentences = 100;</b>
+<b class="nc">&nbsp;  private static int maxOtherLanguageSentences = 15;</b>
+<b class="nc">&nbsp;  private static int maxOtherLanguageSentencesAtOnce = 4;</b>
+<b class="nc">&nbsp;  private static String mainLanguages = &quot;de&quot;;</b>
+<b class="nc">&nbsp;  private static String otherLanguage = &quot;en&quot;;</b>
+<b class="nc">&nbsp;  private static boolean useLangDetectionService = false;</b>
+<b class="nc">&nbsp;  private static int rounds = 100;</b>
+<b class="nc">&nbsp;  private static List&lt;DetectionResults&gt; roundResults = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;  private static boolean spamToMe = false;</b>
+<b class="nc">&nbsp;  private static Set&lt;String&gt; allWrongRanges = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;  private static Set&lt;String&gt; allNotDetected = new HashSet&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;  private static boolean vsMode = false;</b>
+&nbsp;
+&nbsp;  public static void main(String[] args) {
+<b class="nc">&nbsp;    String inputFolder = &quot;/home/stefan/Dokumente/Test_texte/multiLangChecker/creatorMode/&quot;;</b>
+<b class="nc">&nbsp;    Map&lt;String, List&lt;String&gt;&gt; corporaFiles = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    try (Stream&lt;Path&gt; path = Files.walk(Paths.get(inputFolder))) {</b>
+<b class="nc">&nbsp;      path.filter(Files::isRegularFile)</b>
+<b class="nc">&nbsp;              .forEach(pathToFile -&gt; {</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                  List&lt;String&gt; lines = Files.readAllLines(pathToFile);</b>
+<b class="nc">&nbsp;                  String language = pathToFile.getFileName().toString().split(&quot;\\.&quot;)[0];</b>
+<b class="nc">&nbsp;                  corporaFiles.put(language, lines);</b>
+&nbsp;                } catch (IOException e) {
+<b class="nc">&nbsp;                  throw new RuntimeException(e);</b>
+&nbsp;                }
+&nbsp;              });
+&nbsp;    } catch (IOException ex) {
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (vsMode) {</b>
+<b class="nc">&nbsp;      List&lt;MultiLangCorpora&gt; savedCorpora = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (int i = 0; i &lt; rounds; i++) {</b>
+<b class="nc">&nbsp;        MultiLangCorpora corporaFromFiles = createCorporaFromFiles(mainLanguages, corporaFiles.get(mainLanguages), otherLanguage, corporaFiles.get(otherLanguage));</b>
+<b class="nc">&nbsp;        savedCorpora.add(corporaFromFiles);</b>
+<b class="nc">&nbsp;        DetectionResults detectionResults = runTest(corporaFromFiles, &quot;http://localhost:8081&quot;);</b>
+<b class="nc">&nbsp;        if (detectionResults != null) {</b>
+<b class="nc">&nbsp;          roundResults.add(detectionResults);</b>
+<b class="nc">&nbsp;          System.out.print(&quot;.&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          System.out.print(&quot;x&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (rounds &gt; 1 &amp;&amp; (i + 1) % (rounds / 10) == 0) {</b>
+<b class="nc">&nbsp;          System.out.println(&quot; &quot; + (i + 1) + &quot; finished&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      printSummary(&quot; with LanguageDetection &quot;);</b>
+<b class="nc">&nbsp;      allNotDetected.clear();</b>
+<b class="nc">&nbsp;      allWrongRanges.clear();</b>
+<b class="nc">&nbsp;      roundResults.clear();</b>
+<b class="nc">&nbsp;      for (int i = 0; i &lt; rounds; i++) {</b>
+<b class="nc">&nbsp;        DetectionResults detectionResults = runTest(savedCorpora.get(i), &quot;http://localhost:8082&quot;);</b>
+<b class="nc">&nbsp;        if (detectionResults != null) {</b>
+<b class="nc">&nbsp;          roundResults.add(detectionResults);</b>
+<b class="nc">&nbsp;          System.out.print(&quot;.&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          System.out.print(&quot;x&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (rounds &gt; 1 &amp;&amp; (i + 1) % (rounds / 10) == 0) {</b>
+<b class="nc">&nbsp;          System.out.println(&quot; &quot; + (i + 1) + &quot; finished&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      printSummary(&quot; without LanguageDetection&quot;);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      for (int i = 0; i &lt; rounds; i++) {</b>
+<b class="nc">&nbsp;        MultiLangCorpora corporaFromFiles = createCorporaFromFiles(mainLanguages, corporaFiles.get(mainLanguages), otherLanguage, corporaFiles.get(otherLanguage));</b>
+<b class="nc">&nbsp;        DetectionResults detectionResults = runTest(corporaFromFiles);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (detectionResults != null) {</b>
+<b class="nc">&nbsp;          roundResults.add(detectionResults);</b>
+<b class="nc">&nbsp;          System.out.print(&quot;.&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          System.out.print(&quot;x&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (rounds &gt; 1 &amp;&amp; (i + 1) % (rounds / 10) == 0) {</b>
+<b class="nc">&nbsp;          System.out.println(&quot; &quot; + (i + 1) + &quot; finished&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      printSummary(&quot;normal&quot;);</b>
+&nbsp;    }
+&nbsp;    //checker.createCorporaFromFiles(inputFolder);
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void printSummary(String mode) {
+<b class="nc">&nbsp;    System.out.println(rounds + &quot; of &quot; + mode + &quot; finished&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Avg. time to check: &quot; + String.format(&quot;%.2f&quot;, roundResults.stream().mapToDouble(detectionResults -&gt; detectionResults.time).average().getAsDouble()) + &quot; seconds&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Avg. time to check (no MultiLanguage): &quot; + String.format(&quot;%.2f&quot;, roundResults.stream().mapToDouble(detectionResults -&gt; detectionResults.timeWithout).average().getAsDouble()) + &quot; seconds&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Avg. timediff: &quot; + String.format(&quot;%.2f&quot;, roundResults.stream().mapToDouble(DetectionResults::getTimeDiff).average().getAsDouble()) + &quot; seconds&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Avg. chars in corpora: &quot; + String.format(&quot;%.2f&quot;, roundResults.stream().mapToDouble(detectionResults -&gt; detectionResults.charsInText).average().getAsDouble()));</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Avg. detection rate: &quot; + String.format(&quot;%.2f&quot;, roundResults.stream().mapToDouble(detectionResults -&gt; detectionResults.detectionRate).average().getAsDouble()) + &quot; %&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Avg. sentences in corpora: &quot; + String.format(&quot;%.2f&quot;, roundResults.stream().mapToDouble(detectionResults -&gt; detectionResults.sentencesInText).average().getAsDouble()));</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Avg. injected sentences in corpora: &quot; + String.format(&quot;%.2f&quot;, roundResults.stream().mapToDouble(detectionResults -&gt; detectionResults.injectedSentecesInText).average().getAsDouble()));</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Avg. wrong detected: &quot; + String.format(&quot;%.2f&quot;, roundResults.stream().mapToDouble(detectionResults -&gt; detectionResults.wrongDetected).average().getAsDouble()) + &quot; sentences per corpora&quot;);</b>
+<b class="nc">&nbsp;    if (rounds &lt;= 10) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;### Not detected sentences:&quot;);</b>
+<b class="nc">&nbsp;      allNotDetected.forEach(System.out::println);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;### Wrong detected ranges:&quot;);</b>
+<b class="nc">&nbsp;      allWrongRanges.forEach(System.out::println);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static MultiLangCorpora createCorporaFromFiles(String mainLanguage, List&lt;String&gt; mainLanguageLines, String otherLanguage, List&lt;String&gt; otherLanguageLines) {
+<b class="nc">&nbsp;    if (spamToMe) {</b>
+<b class="nc">&nbsp;      System.out.printf(&quot;Created mixed %s corpora with %s.%n&quot;, mainLanguage, otherLanguage);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int sentencesInMainLanguageCorpus = mainLanguageLines.size();</b>
+<b class="nc">&nbsp;    if (sentencesInMainLanguageCorpus &lt; minMainLanguageSentences) {</b>
+<b class="nc">&nbsp;      System.err.printf(&quot;The corpora for %s has not enough lines.%n&quot;, mainLanguage);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    MultiLangCorpora mlc = new MultiLangCorpora(mainLanguage);</b>
+<b class="nc">&nbsp;    int sentencesInNewCorpusCount = 0;</b>
+<b class="nc">&nbsp;    int otherLanguageSentencesInjected = 0;</b>
+<b class="nc">&nbsp;    String lastInjected = null;</b>
+<b class="nc">&nbsp;    while (sentencesInNewCorpusCount &lt; minMainLanguageSentences + maxOtherLanguageSentences) {</b>
+<b class="nc">&nbsp;      int whichShouldITake = randomGen.nextInt(minMainLanguageSentences + maxOtherLanguageSentences);</b>
+<b class="nc">&nbsp;      boolean addOther = whichShouldITake &lt; maxOtherLanguageSentences &amp;&amp; otherLanguageSentencesInjected + maxOtherLanguageSentencesAtOnce &lt;= maxOtherLanguageSentences;</b>
+<b class="nc">&nbsp;      if (lastInjected == null || lastInjected.equals(otherLanguage) || !addOther) {</b>
+<b class="nc">&nbsp;        int startLine = randomGen.nextInt(sentencesInMainLanguageCorpus);</b>
+<b class="nc">&nbsp;        mlc.addSentence(mainLanguageLines.get(startLine).trim());</b>
+<b class="nc">&nbsp;        sentencesInNewCorpusCount++;</b>
+<b class="nc">&nbsp;        lastInjected = mainLanguages;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        int startLine = randomGen.nextInt(otherLanguageLines.size() - maxOtherLanguageSentencesAtOnce);</b>
+<b class="nc">&nbsp;        mlc.injectOtherSentence(otherLanguage, otherLanguageLines.get(startLine).trim());</b>
+<b class="nc">&nbsp;        sentencesInNewCorpusCount++;</b>
+<b class="nc">&nbsp;        otherLanguageSentencesInjected++;</b>
+<b class="nc">&nbsp;        lastInjected = otherLanguage;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;    }
+<b class="nc">&nbsp;    return mlc;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class DetectionResults {
+&nbsp;    private float time;
+&nbsp;    private float timeWithout;
+&nbsp;    private float detectionRate;
+&nbsp;    private int wrongDetected;
+&nbsp;    private long charsInText;
+&nbsp;    private int sentencesInText;
+&nbsp;    private int injectedSentecesInText;
+&nbsp;
+<b class="nc">&nbsp;    DetectionResults(float time, float timeWithout, float detectionRate, int wrongDetected, long charsInText, int sentencesInText, int injectedSentecesInText) {</b>
+<b class="nc">&nbsp;      this.time = time;</b>
+<b class="nc">&nbsp;      this.timeWithout = timeWithout;</b>
+<b class="nc">&nbsp;      this.detectionRate = detectionRate;</b>
+<b class="nc">&nbsp;      this.wrongDetected = wrongDetected;</b>
+&nbsp;
+<b class="nc">&nbsp;      this.charsInText = charsInText;</b>
+<b class="nc">&nbsp;      this.sentencesInText = sentencesInText;</b>
+<b class="nc">&nbsp;      this.injectedSentecesInText = injectedSentecesInText;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public float getTimeDiff() {
+<b class="nc">&nbsp;      return time - timeWithout;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  private static DetectionResults runTest(MultiLangCorpora mlc) {
+<b class="nc">&nbsp;    return runTest(mlc, &quot;http://localhost:8081&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static DetectionResults runTest(MultiLangCorpora mlc, String languageToolServer) {
+<b class="nc">&nbsp;    RemoteLanguageTool remoteLanguageTool = new RemoteLanguageTool(Tools.getUrl(languageToolServer));</b>
+<b class="nc">&nbsp;    String language = useLangDetectionService ? &quot;auto&quot; : getSupportedLangCode(mlc.getLanguage());</b>
+<b class="nc">&nbsp;    long startTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    RemoteResult results = null;</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      Map&lt;String, String&gt; params = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;      params.put(&quot;enableMultiLanguageChecks&quot;, &quot;true&quot;);</b>
+<b class="nc">&nbsp;      params.put(&quot;preferredLanguages&quot;, &quot;de,en&quot;);</b>
+<b class="nc">&nbsp;      results = remoteLanguageTool.check(mlc.getText(), language, params);</b>
+&nbsp;    } catch (RuntimeException ex) {
+<b class="nc">&nbsp;      if (spamToMe) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot;too many errors&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    long endTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    float timeToCheck = (endTime - startTime) / 1000f;</b>
+&nbsp;    //2nd check without multilanguage
+<b class="nc">&nbsp;    long startTimeRound2 = System.currentTimeMillis();</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      Map&lt;String, String&gt; params = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;      params.put(&quot;enableMultiLanguageChecks&quot;, &quot;false&quot;);</b>
+<b class="nc">&nbsp;      params.put(&quot;preferredLanguages&quot;, &quot;de&quot;);</b>
+<b class="nc">&nbsp;      remoteLanguageTool.check(mlc.getText(), language, params);</b>
+&nbsp;    } catch (RuntimeException ex) {
+<b class="nc">&nbsp;      if (spamToMe) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot;too many errors&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    long endTimeRound2 = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    float timeToCheckRound2 = (endTimeRound2 - startTimeRound2) / 1000f;</b>
+&nbsp;
+&nbsp;    //detected sentences by lt
+<b class="nc">&nbsp;    List&lt;String&gt; detectedSentences = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (RemoteIgnoreRange range : results.getIgnoreRanges()) {</b>
+<b class="nc">&nbsp;      detectedSentences.add(mlc.getText().substring(range.getFrom(), range.getTo()).trim());</b>
+&nbsp;    }
+&nbsp;    //injected lines by checker
+<b class="nc">&nbsp;    List&lt;String&gt; injectedLines = mlc.getInjectedSentences().stream().map(InjectedSentence::getText).collect(Collectors.toList());</b>
+&nbsp;
+&nbsp;    //later cleaned by not detectedLines
+<b class="nc">&nbsp;    List&lt;String&gt; detectedLines = new ArrayList&lt;&gt;(injectedLines);</b>
+&nbsp;
+&nbsp;    //assume everything is not detected
+<b class="nc">&nbsp;    List&lt;String&gt; notDetectedLines = new ArrayList&lt;&gt;(injectedLines);</b>
+&nbsp;
+&nbsp;    //assume everything is wrong detected
+<b class="nc">&nbsp;    List&lt;String&gt; wrongDetectedSentences = new ArrayList&lt;&gt;(detectedSentences);</b>
+&nbsp;
+&nbsp;    //filter all correct detected sentences from wrong detected sentences.
+<b class="nc">&nbsp;    List&lt;String&gt; notWrongDetected = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; tmpRemoveFromWrongDetectedSentences = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String sentence : wrongDetectedSentences) {</b>
+<b class="nc">&nbsp;      for (String injectedLine : injectedLines) {</b>
+<b class="nc">&nbsp;        if (injectedLine.contains(sentence)) { //If a line in the corpora has more than one sentence, but the range is per sentence</b>
+<b class="nc">&nbsp;          notWrongDetected.add(injectedLine);</b>
+<b class="nc">&nbsp;          tmpRemoveFromWrongDetectedSentences.add(sentence);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    wrongDetectedSentences.removeAll(tmpRemoveFromWrongDetectedSentences);</b>
+<b class="nc">&nbsp;    notDetectedLines.removeAll(notWrongDetected);</b>
+<b class="nc">&nbsp;    detectedLines.removeAll(notDetectedLines);</b>
+&nbsp;
+<b class="nc">&nbsp;    allWrongRanges.addAll(wrongDetectedSentences);</b>
+<b class="nc">&nbsp;    allNotDetected.addAll(notDetectedLines);</b>
+&nbsp;
+<b class="nc">&nbsp;    if (rounds == 1) {</b>
+<b class="nc">&nbsp;      System.out.println(mlc.getText());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new DetectionResults(timeToCheck, timeToCheckRound2, ((float) detectedLines.size() / (float) injectedLines.size()) * 100, wrongDetectedSentences.size(), mlc.getText().length(), mlc.getSentencesInText(), mlc.getInjectedSentences().size());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private static String getSupportedLangCode(String shortCode) {
+<b class="nc">&nbsp;    switch (shortCode) {</b>
+&nbsp;      case &quot;de&quot;:
+<b class="nc">&nbsp;        return &quot;de-DE&quot;;</b>
+&nbsp;      case &quot;en&quot;:
+<b class="nc">&nbsp;        return &quot;en-US&quot;;</b>
+&nbsp;      case &quot;pt&quot;:
+<b class="nc">&nbsp;        return &quot;pt-BR&quot;;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        return shortCode;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

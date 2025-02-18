@@ -1,0 +1,182 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PortugueseWrongWordInContextRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.pt</a>
+</div>
+
+<h1>Coverage Summary for Class: PortugueseWrongWordInContextRule (org.languagetool.rules.pt)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PortugueseWrongWordInContextRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2012 Markus Brenneis
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; *
+&nbsp; * l18n from GermanWrongWordInContextRule by Tiago F. Santos
+&nbsp; * @since 3.6
+&nbsp; *
+&nbsp; */
+&nbsp;package org.languagetool.rules.pt;
+&nbsp;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.ITSIssueType;
+&nbsp;import org.languagetool.rules.WrongWordInContextRule;
+&nbsp;
+&nbsp;public class PortugueseWrongWordInContextRule extends WrongWordInContextRule {
+&nbsp;  
+&nbsp;  public PortugueseWrongWordInContextRule(ResourceBundle messages, Language lang) {
+<b class="nc">&nbsp;    super(messages, lang);</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.SEMANTICS.getCategory(messages));</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Grammar);</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;O acidente &lt;marker&gt;infringiu&lt;/marker&gt; grandes danos.&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;O acidente &lt;marker&gt;infligiu&lt;/marker&gt; grandes danos.&quot;));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected String getCategoryString() {
+<b class="nc">&nbsp;    return &quot;Confusão de Palavras: $match&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;PORTUGUESE_WRONG_WORD_IN_CONTEXT&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Confusão de palavra dentro do contexto (p.ex. infligir/infringir, etc.)&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected String getFilename() {
+<b class="nc">&nbsp;    return &quot;/pt/wrongWordInContext.txt&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected String getMessageString() {
+<b class="nc">&nbsp;    return &quot;Pretende dizer &lt;suggestion&gt;$SUGGESTION&lt;/suggestion&gt; em vez de $WRONGWORD?&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override 
+&nbsp;  protected String getShortMessageString() {
+<b class="nc">&nbsp;    return &quot;Possível confusão de termos. Verifique.&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected String getLongMessageString() {
+<b class="nc">&nbsp;    return &quot;Considere &lt;suggestion&gt;$SUGGESTION&lt;/suggestion&gt;, i.e. $EXPLANATION_SUGGESTION, em vez de &#39;$WRONGWORD&#39;, i.e. $EXPLANATION_WRONGWORD?&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

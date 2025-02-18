@@ -1,0 +1,222 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GreekWordRepeatBeginningRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.el</a>
+</div>
+
+<h1>Coverage Summary for Class: GreekWordRepeatBeginningRule (org.languagetool.rules.el)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GreekWordRepeatBeginningRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.el;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.WordRepeatBeginningRule;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Adds a list Greek adverbs to {@link WordRepeatBeginningRule}.
+&nbsp; * 
+&nbsp; * @author Georgios Sideris
+&nbsp; */
+&nbsp;public class GreekWordRepeatBeginningRule extends WordRepeatBeginningRule {
+&nbsp;  
+&nbsp;  public GreekWordRepeatBeginningRule(ResourceBundle messages, Language language) {
+<b class="nc">&nbsp;    super(messages, language);</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;Επίσης, παίζω ποδόσφαιρο. &lt;marker&gt;Επίσης&lt;/marker&gt;, παίζω μπάσκετ.&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;Επίσης, παίζω ποδόσφαιρο. &lt;marker&gt;Επιπλέον&lt;/marker&gt;, παίζω μπάσκετ.&quot;));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;GREEK_WORD_REPEAT_BEGINNING_RULE&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  //adverbs used to add to what the previous sentence mentioned (English example: Also)
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; ADD_ADVERBS = new HashSet&lt;&gt;(); </b>
+&nbsp;  
+&nbsp;  //adverbs used to express contrast to what the previous sentence mentioned (English example: Contrarily)
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; CONTRAST_ADVERBS = new HashSet&lt;&gt;(); </b>
+&nbsp;  
+&nbsp;  // adverbs used to explain what the previous sentence mentioned (English example: Specifically)
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; EXPLAIN_ADVERBS = new HashSet&lt;&gt;();</b>
+&nbsp;  
+&nbsp;  static {
+<b class="nc">&nbsp;	ADD_ADVERBS.add(&quot;Επίσης&quot;);</b>
+<b class="nc">&nbsp;	ADD_ADVERBS.add(&quot;Επιπρόσθετα&quot;);</b>
+<b class="nc">&nbsp;	ADD_ADVERBS.add(&quot;Ακόμη&quot;);</b>
+<b class="nc">&nbsp;	ADD_ADVERBS.add(&quot;Επιπλέον&quot;);</b>
+<b class="nc">&nbsp;	ADD_ADVERBS.add(&quot;Συμπληρωματικά&quot;);</b>
+<b class="nc">&nbsp;	CONTRAST_ADVERBS.add(&quot;Αντίθετα&quot;);</b>
+<b class="nc">&nbsp;	CONTRAST_ADVERBS.add(&quot;Ωστόσο&quot;);</b>
+<b class="nc">&nbsp;	CONTRAST_ADVERBS.add(&quot;Εντούτοις&quot;);</b>
+<b class="nc">&nbsp;	CONTRAST_ADVERBS.add(&quot;Εξάλλου&quot;);</b>
+<b class="nc">&nbsp;	EXPLAIN_ADVERBS.add(&quot;Δηλαδή&quot;);</b>
+<b class="nc">&nbsp;	EXPLAIN_ADVERBS.add(&quot;Ειδικότερα&quot;);</b>
+<b class="nc">&nbsp;	EXPLAIN_ADVERBS.add(&quot;Ειδικά&quot;);</b>
+<b class="nc">&nbsp;	EXPLAIN_ADVERBS.add(&quot;Συγκεκριμένα&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean isException(String token) {
+<b class="nc">&nbsp;    return super.isException(token) || token.equals(&quot;Ο&quot;) || token.equals(&quot;Η&quot;) || token.equals(&quot;Το&quot;) ||</b>
+<b class="nc">&nbsp;    	   token.equals(&quot;Οι&quot;)|| token.equals(&quot;Τα&quot;) || token.equals(&quot;Ένας&quot;) || token.equals(&quot;Μία&quot;) || </b>
+<b class="nc">&nbsp;		   token.equals(&quot;Ένα&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected boolean isAdverb(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    return ADD_ADVERBS.contains(token.getToken()) || </b>
+<b class="nc">&nbsp;    	   CONTRAST_ADVERBS.contains(token.getToken()) ||</b>
+<b class="nc">&nbsp;    	   EXPLAIN_ADVERBS.contains(token.getToken());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;String&gt; getSuggestions(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;	  String tok = token.getToken();</b>
+<b class="nc">&nbsp;	  if (ADD_ADVERBS.contains(tok)) {</b>
+<b class="nc">&nbsp;		  return ADD_ADVERBS.stream()</b>
+<b class="nc">&nbsp;				  			.filter(adv -&gt; !adv.equals(tok))</b>
+<b class="nc">&nbsp;				  			.collect(Collectors.toList());</b>
+<b class="nc">&nbsp;	  } else if (CONTRAST_ADVERBS.contains(tok)) {</b>
+<b class="nc">&nbsp;		  return CONTRAST_ADVERBS.stream()</b>
+<b class="nc">&nbsp;		  			.filter(adv -&gt; !adv.equals(tok))</b>
+<b class="nc">&nbsp;		  			.collect(Collectors.toList());</b>
+<b class="nc">&nbsp;	  } else if (EXPLAIN_ADVERBS.contains(tok)) {</b>
+<b class="nc">&nbsp;		  return EXPLAIN_ADVERBS.stream()</b>
+<b class="nc">&nbsp;		  			.filter(adv -&gt; !adv.equals(tok))</b>
+<b class="nc">&nbsp;		  			.collect(Collectors.toList());</b>
+&nbsp;	  }
+<b class="nc">&nbsp;	  return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

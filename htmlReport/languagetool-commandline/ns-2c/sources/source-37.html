@@ -1,0 +1,297 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PrepositionToCases</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: PrepositionToCases (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PrepositionToCases</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/116)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PrepositionToCases$Case</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/118)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2021 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;import static org.languagetool.rules.de.PrepositionToCases.Case.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Note: this is tuned for AgreementSuggestor, be careful when using it for other use cases.
+&nbsp; * @since 5.4
+&nbsp; */
+&nbsp;class PrepositionToCases {
+&nbsp;  
+<b class="nc">&nbsp;  private final static Map&lt;String, List&lt;Case&gt;&gt; prep2Cases = new HashMap&lt;&gt;();</b>
+&nbsp;  
+<b class="nc">&nbsp;  enum Case {</b>
+<b class="nc">&nbsp;    Nom, Akk, Gen, Dat</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  static {
+&nbsp;    // sources: http://deutsche-rechtschreibung.org/woerterbuecher/rektion-praepositionen.php,
+&nbsp;    //  https://deutschegrammatik20.de/spezielle-verben/verben-mit-praeposition/verb-mit-praeposition-kasus/
+<b class="nc">&nbsp;    add(&quot;ab&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;abseits&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;abzüglich&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;an&quot;, Dat, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;angesichts&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;anhand&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;anlässlich&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;anstatt&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;anstelle&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;auf&quot;, Dat, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;aufgrund&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;aus&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;ausgangs&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;ausgenommen&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;ausschließlich&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;ausweislich&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;außer&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;außerhalb&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;bar&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;behufs&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;bei&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;beidseits&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;betreffend&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;betreffs&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;bezüglich&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;binnen&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;bis&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;bis auf&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;dank&quot;, Dat, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;diesseits&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;durch&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;eingangs&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;eingedenk&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;einschließlich&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;entgegen&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;entlang&quot;, Dat, Akk, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;entsprechend&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;exklusive&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;fern&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;fernab&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;für&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;gegen&quot;, /*Dat,*/ Akk);</b>
+<b class="nc">&nbsp;    add(&quot;gegenüber&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;gemäß&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;getreu&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;halber&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;hinsichtlich&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;hinter&quot;, Dat, Akk);</b>
+&nbsp;    //add(&quot;in&quot;, Dat, Akk);  // &quot;und in das Sauerstoff nur ...&quot;
+<b class="nc">&nbsp;    add(&quot;in puncto&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;infolge&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;inklusive&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;inmitten&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;innerhalb&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;innert&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;je&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;jenseits&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;kontra&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;kraft&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;laut&quot;, Gen, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;längs&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;längsseits&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;mangels&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;mit&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;mitsamt&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;mittels&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;nach&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;namens&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;neben&quot;, Dat, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;nebst&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;nächst&quot;, Dat);</b>
+&nbsp;    //add(&quot;ob&quot;, Gen);   // &quot;ob das Touristen überhaupt betrifft&quot;
+<b class="nc">&nbsp;    add(&quot;oberhalb&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;ohne&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;per&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;pro&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;rücksichtlich&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;samt&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;seit&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;seitens&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;seitlich&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;statt&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;trotz&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;um&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;unbeschadet&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;uneingedenk&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;ungeachtet&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;unter&quot;, Dat, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;unterhalb&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;unweit&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;vermittels&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;vermittelst&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;vermöge&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;versus&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;via&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;vis-à-vis&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;von&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;vor&quot;, Dat, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;vorbehaltlich&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;wegen&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;weitab&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;wider&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;während&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;zeit&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;zu&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;zufolge&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;zugunsten&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;zuliebe&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;zuungunsten&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;zuwider&quot;, Dat);</b>
+<b class="nc">&nbsp;    add(&quot;zuzüglich&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;zwecks&quot;, Gen);</b>
+<b class="nc">&nbsp;    add(&quot;zwischen&quot;, Dat, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;à&quot;, Akk);</b>
+<b class="nc">&nbsp;    add(&quot;über&quot;, Dat, Akk);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private PrepositionToCases() {
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void add(String prep, Case... cases) {
+<b class="nc">&nbsp;    prep2Cases.put(prep, Arrays.asList(cases));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static List&lt;Case&gt; getCasesFor(String prep) {
+<b class="nc">&nbsp;    return prep2Cases.getOrDefault(prep.toLowerCase(), new ArrayList&lt;&gt;());</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

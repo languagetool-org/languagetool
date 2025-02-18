@@ -1,0 +1,243 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Soros</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.synthesis</a>
+</div>
+
+<h1>Coverage Summary for Class: Soros (org.languagetool.synthesis)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Soros</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (3/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40%
+  </span>
+  <span class="absValue">
+    (20/50)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    77.2%
+  </span>
+  <span class="absValue">
+    (61/79)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.synthesis;
+&nbsp;
+&nbsp;/* Soros interpreter (see numbertext.org)
+&nbsp; * 2009-2010 (c) László Németh
+&nbsp; * License: LGPL/BSD dual license */
+&nbsp;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;public class Soros {
+<b class="fc">&nbsp;  private ArrayList&lt;Pattern&gt; patterns = new ArrayList&lt;Pattern&gt;();</b>
+<b class="fc">&nbsp;  private ArrayList&lt;String&gt; values = new ArrayList&lt;String&gt;();</b>
+<b class="fc">&nbsp;  private ArrayList&lt;Boolean&gt; begins = new ArrayList&lt;Boolean&gt;();</b>
+<b class="fc">&nbsp;  private ArrayList&lt;Boolean&gt; ends = new ArrayList&lt;Boolean&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;  private static String m = &quot;\\\&quot;;#&quot;;</b>
+<b class="fc">&nbsp;  private static String m2 = &quot;$()|[]&quot;;</b>
+<b class="fc">&nbsp;  private static String c = &quot;\uE000\uE001\uE002\uE003&quot;;</b>
+<b class="fc">&nbsp;  private static String c2 = &quot;\uE004\uE005\uE006\uE007\uE008\uE009&quot;;</b>
+<b class="fc">&nbsp;  private static String slash = &quot;\uE000&quot;;</b>
+<b class="fc">&nbsp;  private static String pipe = &quot;\uE003&quot;;</b>
+&nbsp;
+&nbsp;  // pattern to recognize function calls in the replacement string
+&nbsp;
+<b class="fc">&nbsp;  private static Pattern func = Pattern.compile(translate(</b>
+&nbsp;        &quot;(?:\\|?(?:\\$\\()+)?&quot; +                // optional nested calls
+&nbsp;        &quot;(\\|?\\$\\(([^\\(\\)]*)\\)\\|?)&quot; +     // inner call (2 subgroups)
+&nbsp;        &quot;(?:\\)+\\|?)?&quot;,                        // optional nested calls
+<b class="fc">&nbsp;        m2.substring(0, c.length()), c, &quot;\\&quot;)); // \$, \(, \), \| -&gt; \uE000..\uE003</b>
+&nbsp;
+<b class="fc">&nbsp;  private boolean numbertext = false;</b>
+&nbsp;
+<b class="fc">&nbsp;  public Soros(String source, String lang) {</b>
+<b class="fc">&nbsp;    source = translate(source, m, c, &quot;\\&quot;);      // \\, \&quot;, \;, \# -&gt; \uE000..\uE003</b>
+&nbsp;    // switch off all country-dependent lines, and switch on the requested ones
+<b class="fc">&nbsp;    source = source.replaceAll(&quot;(^|[\n;])([^\n;#]*#[^\n]*\\[:[^\n:\\]]*:][^\n]*)&quot;, &quot;$1#$2&quot;)</b>
+<b class="fc">&nbsp;        .replaceAll(&quot;(^|[\n;])#([^\n;#]*#[^\n]*\\[:&quot; + lang.replace(&#39;_&#39;, &#39;-&#39;) + &quot;:][^\n]*)&quot;, &quot;$1$2&quot;)</b>
+<b class="fc">&nbsp;        .replaceAll(&quot;(#[^\n]*)?(\n|$)&quot;, &quot;;&quot;);   // remove comments</b>
+<b class="pc">&nbsp;    if (source.indexOf(&quot;__numbertext__&quot;) == -1)</b>
+<b class="fc">&nbsp;        source = &quot;__numbertext__;&quot; + source;</b>
+<b class="fc">&nbsp;    source = source.replace(&quot;__numbertext__&quot;,</b>
+&nbsp;        // default left zero deletion
+&nbsp;        &quot;\&quot;([a-z][-a-z]* )?0+(0|[1-9]\\d*)\&quot; $(\\1\\2);&quot; +
+&nbsp;        // separator function
+&nbsp;        &quot;\&quot;\uE00A(.*)\uE00A(.+)\uE00A(.*)\&quot; \\1\\2\\3;&quot; +
+&nbsp;        // no separation, if subcall returns with empty string
+&nbsp;        &quot;\&quot;\uE00A.*\uE00A\uE00A.*\&quot;&quot;);
+&nbsp;
+<b class="fc">&nbsp;    Pattern p = Pattern.compile(&quot;^\\s*(\&quot;[^\&quot;]*\&quot;|[^\\s]*)\\s*(.*[^\\s])?\\s*$&quot;);</b>
+<b class="fc">&nbsp;    Pattern macro = Pattern.compile(&quot;== *(.*[^ ]?) ==&quot;);</b>
+<b class="fc">&nbsp;    String prefix = &quot;&quot;;</b>
+<b class="fc">&nbsp;    for (String s : source.split(&quot;;&quot;)) {</b>
+<b class="fc">&nbsp;        Matcher matchmacro = macro.matcher(s);</b>
+<b class="fc">&nbsp;        if (matchmacro.matches()) {</b>
+<b class="fc">&nbsp;            prefix = matchmacro.group(1);</b>
+&nbsp;            continue;
+&nbsp;        }
+<b class="fc">&nbsp;        Matcher sp = p.matcher(s);</b>
+<b class="pc">&nbsp;        if (!prefix.equals(&quot;&quot;) &amp;&amp; !s.equals(&quot;&quot;) &amp;&amp; sp.matches()) {</b>
+<b class="fc">&nbsp;            s = sp.group(1).replaceFirst(&quot;^\&quot;&quot;, &quot;&quot;).replaceFirst(&quot;\&quot;$&quot;,&quot;&quot;);</b>
+<b class="pc">&nbsp;            s = &quot;\&quot;&quot; + (s.startsWith(&quot;^&quot;) ? &quot;^&quot; : &quot;&quot;) + prefix + (s.equals(&quot;&quot;) ? &quot;&quot; : &quot; &quot;) +</b>
+<b class="fc">&nbsp;                 s.replaceFirst(&quot;^\\^&quot;, &quot;&quot;) + &quot;\&quot; &quot; + sp.group(2);</b>
+<b class="fc">&nbsp;            sp = p.matcher(s);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (!s.equals(&quot;&quot;) &amp;&amp; sp.matches()) {</b>
+<b class="fc">&nbsp;            s = translate(sp.group(1).replaceFirst(&quot;^\&quot;&quot;, &quot;&quot;).replaceFirst(&quot;\&quot;$&quot;,&quot;&quot;),</b>
+<b class="fc">&nbsp;                c.substring(1), m.substring(1), &quot;&quot;);</b>
+<b class="fc">&nbsp;            s = s.replace(slash, &quot;\\\\&quot;); // -&gt; \\, &quot;, ;, #</b>
+<b class="fc">&nbsp;            String s2 = &quot;&quot;;</b>
+<b class="fc">&nbsp;            if (sp.group(2) != null) s2 = sp.group(2).replaceFirst(&quot;^\&quot;&quot;, &quot;&quot;).replaceFirst(&quot;\&quot;$&quot;,&quot;&quot;);</b>
+<b class="fc">&nbsp;            s2 = translate(s2, m2, c2, &quot;\\&quot;);   // \$, \(, \), \|, \[, \] -&gt; \uE004..\uE009</b>
+&nbsp;            // call inner separator: [ ... $1 ... ] -&gt; $(\uE00A ... \uE00A$1\uE00A ... )
+<b class="fc">&nbsp;            s2 = s2.replaceAll(&quot;^\\[[$](\\d\\d?|\\([^\\)]+\\))&quot;, &quot;\\$(\uE00A\uE00A|\\$$1\uE00A&quot;) // add &quot;|&quot;</b>
+<b class="fc">&nbsp;                .replaceAll(&quot;\\[([^$\\[\\\\]*)[$](\\d\\d?|\\([^\\)]+\\))&quot;, &quot;\\$(\uE00A$1\uE00A\\$$2\uE00A&quot;)</b>
+<b class="fc">&nbsp;                .replaceAll(&quot;\uE00A\\]$&quot;,&quot;|\uE00A)&quot;) // add &quot;|&quot; in terminating position</b>
+<b class="fc">&nbsp;                .replace(&quot;]&quot;, &quot;)&quot;)</b>
+<b class="fc">&nbsp;                .replaceAll(&quot;(\\$\\d|\\))\\|\\$&quot;, &quot;$1||\\$&quot;); // $()|$() -&gt; $()||$()</b>
+<b class="fc">&nbsp;            s2 = translate(s2, c, m, &quot;&quot;);       // \uE000..\uE003-&gt; \, &quot;, ;, #</b>
+<b class="fc">&nbsp;            s2 = translate(s2, m2.substring(0, c.length()), c, &quot;&quot;);      // $, (, ), | -&gt; \uE000..\uE003</b>
+<b class="fc">&nbsp;            s2 = translate(s2, c2, m2, &quot;&quot;);     // \uE004..\uE009 -&gt; $, (, ), |, [, ]</b>
+<b class="fc">&nbsp;            s2 = s2.replaceAll(&quot;[$]&quot;, &quot;\\$&quot;)    // $ -&gt; \$</b>
+<b class="fc">&nbsp;                .replaceAll(&quot;\uE000(\\d)&quot;, &quot;\uE000\uE001\\$$1\uE002&quot;) // $n -&gt; $(\n)</b>
+<b class="fc">&nbsp;                .replaceAll(&quot;\\\\(\\d)&quot;, &quot;\\$$1&quot;) // \[n] -&gt; $[n]</b>
+<b class="fc">&nbsp;                .replace(&quot;\\n&quot;, &quot;\n&quot;);            // \n -&gt; [new line]</b>
+<b class="fc">&nbsp;            patterns.add(Pattern.compile(&quot;^&quot; + s.replaceFirst(&quot;^\\^&quot;, &quot;&quot;)</b>
+<b class="fc">&nbsp;                .replaceFirst(&quot;\\$$&quot;, &quot;&quot;) + &quot;$&quot;));</b>
+<b class="fc">&nbsp;            begins.add(s.startsWith(&quot;^&quot;));</b>
+<b class="fc">&nbsp;            ends.add(s.endsWith(&quot;$&quot;));</b>
+<b class="fc">&nbsp;            values.add(s2);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public String run(String input) {
+<b class="nc">&nbsp;    return run(input, true, true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String run(String input, boolean begin, boolean end) {
+<b class="nc">&nbsp;    for (int i = 0; i &lt; patterns.size(); i++) {</b>
+<b class="nc">&nbsp;        if ((!begin &amp;&amp; begins.get(i)) || (!end &amp;&amp; ends.get(i))) continue;</b>
+<b class="nc">&nbsp;        Matcher m = patterns.get(i).matcher(input);</b>
+<b class="nc">&nbsp;        if (!m.matches()) continue;</b>
+<b class="nc">&nbsp;        String s = m.replaceAll(values.get(i));</b>
+<b class="nc">&nbsp;        Matcher n = func.matcher(s);</b>
+<b class="nc">&nbsp;        while (n.find()) {</b>
+<b class="nc">&nbsp;            boolean b = false;</b>
+<b class="nc">&nbsp;            boolean e = false;</b>
+<b class="nc">&nbsp;            if (n.group(1).startsWith(pipe) || n.group().startsWith(pipe)) b = true;</b>
+<b class="nc">&nbsp;            else if (n.start() == 0) b = begin;</b>
+<b class="nc">&nbsp;            if (n.group(1).endsWith(pipe) || n.group().endsWith(pipe)) e = true;</b>
+<b class="nc">&nbsp;            else if (n.end() == s.length()) e = end;</b>
+<b class="nc">&nbsp;            s = s.substring(0, n.start(1)) + run(n.group(2), b, e) + s.substring(n.end(1));</b>
+<b class="nc">&nbsp;            n = func.matcher(s);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return s;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String translate(String s, String chars, String chars2, String delim) {
+<b class="fc">&nbsp;    for (int i = 0; i &lt; chars.length(); i++) {</b>
+<b class="fc">&nbsp;        s = s.replace(delim + chars.charAt(i), &quot;&quot; + chars2.charAt(i));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return s;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

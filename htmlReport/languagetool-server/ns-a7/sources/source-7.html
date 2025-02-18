@@ -1,0 +1,174 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BuilderOptions</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tools</a>
+</div>
+
+<h1>Coverage Summary for Class: BuilderOptions (org.languagetool.tools)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BuilderOptions</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tools;
+&nbsp;
+&nbsp;import org.apache.commons.cli.BasicParser;
+&nbsp;import org.apache.commons.cli.CommandLine;
+&nbsp;import org.apache.commons.cli.CommandLineParser;
+&nbsp;import org.apache.commons.cli.HelpFormatter;
+&nbsp;import org.apache.commons.cli.Option;
+&nbsp;import org.apache.commons.cli.Options;
+&nbsp;import org.apache.commons.cli.ParseException;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;
+&nbsp;class BuilderOptions {
+&nbsp;  public static final String INFO_OPTION = &quot;info&quot;;
+&nbsp;  public static final String OUTPUT_OPTION = &quot;o&quot;;
+&nbsp;  public static final String INPUT_OPTION = &quot;i&quot;;
+&nbsp;  public static final String FREQ_OPTION = &quot;freq&quot;;
+&nbsp;  public static final String FREQ_HELP = &quot;optional .xml file with a frequency wordlist, &quot; 
+&nbsp;      + &quot;see https://dev.languagetool.org/developing-a-tagger-dictionary&quot;;
+&nbsp;  public static final String INFO_HELP = &quot;*.info properties file, &quot; 
+&nbsp;      + &quot;see https://dev.languagetool.org/developing-a-tagger-dictionary&quot;;
+&nbsp;  public static final String TAB_INPUT_HELP = &quot;tab-separated plain-text dictionary file &quot; 
+&nbsp;      + &quot;with format: wordform&lt;tab&gt;lemma&lt;tab&gt;postag&quot;;
+&nbsp;
+<b class="nc">&nbsp;  protected final Options options = new Options();</b>
+&nbsp;
+<b class="nc">&nbsp;  BuilderOptions() {</b>
+<b class="nc">&nbsp;    Option option = new Option(OUTPUT_OPTION, true, &quot;output file&quot;);</b>
+<b class="nc">&nbsp;    option.setRequired(true);</b>
+<b class="nc">&nbsp;    options.addOption(option);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public void addOption(String opt, boolean hasArg, String description, boolean isRequired) {
+<b class="nc">&nbsp;    Option option = new Option(opt, hasArg, description);</b>
+<b class="nc">&nbsp;    option.setRequired(isRequired);</b>
+<b class="nc">&nbsp;    options.addOption(option);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @NotNull
+&nbsp;  public CommandLine parseArguments(String[] args, Class&lt;? extends DictionaryBuilder&gt; clazz) throws ParseException {
+&nbsp;    try {
+<b class="nc">&nbsp;      CommandLineParser parser = new BasicParser();</b>
+<b class="nc">&nbsp;      CommandLine cmd = parser.parse(options, args);</b>
+<b class="nc">&nbsp;      return cmd;</b>
+&nbsp;    } catch (ParseException e) {
+<b class="nc">&nbsp;      HelpFormatter formatter = new HelpFormatter();</b>
+<b class="nc">&nbsp;      formatter.printHelp(clazz.getName(), options);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;      throw e; // should never happen - just to make compiler happy
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

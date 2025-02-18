@@ -1,0 +1,301 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > EnglishChunker</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.chunking</a>
+</div>
+
+<h1>Coverage Summary for Class: EnglishChunker (org.languagetool.chunking)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnglishChunker</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.7%
+  </span>
+  <span class="absValue">
+    (33/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.3%
+  </span>
+  <span class="absValue">
+    (61/64)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.chunking;
+&nbsp;
+&nbsp;import opennlp.tools.chunker.ChunkerME;
+&nbsp;import opennlp.tools.chunker.ChunkerModel;
+&nbsp;import opennlp.tools.postag.POSModel;
+&nbsp;import opennlp.tools.postag.POSTaggerME;
+&nbsp;import opennlp.tools.tokenize.TokenizerME;
+&nbsp;import opennlp.tools.tokenize.TokenizerModel;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * OpenNLP-based chunker. Also uses the OpenNLP tokenizer and POS tagger and
+&nbsp; * maps the result to our own tokens (we have our own tokenizer), as far as trivially possible.
+&nbsp; * @since 2.3
+&nbsp; */
+&nbsp;public class EnglishChunker implements Chunker {
+&nbsp;
+&nbsp;  private static final String TOKENIZER_MODEL = &quot;/en-token.bin&quot;;
+&nbsp;  private static final String POS_TAGGER_MODEL = &quot;/en-pos-maxent.bin&quot;;
+&nbsp;  private static final String CHUNKER_MODEL = &quot;/en-chunker.bin&quot;;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This needs to be static to save memory: as Language.LANGUAGES is static, any language
+&nbsp;   * that is once created there will never be released. As English has several variants,
+&nbsp;   * we&#39;d have as many posModels etc. as we have variants -&gt; huge waste of memory:
+&nbsp;   */
+&nbsp;  private static volatile TokenizerModel tokenModel;
+&nbsp;  private static volatile POSModel posModel;
+&nbsp;  private static volatile ChunkerModel chunkerModel;
+&nbsp;
+&nbsp;  private final EnglishChunkFilter chunkFilter;
+&nbsp;
+<b class="fc">&nbsp;  public EnglishChunker() {</b>
+&nbsp;    try {
+<b class="fc">&nbsp;      if (tokenModel == null) {</b>
+<b class="fc">&nbsp;        tokenModel = new TokenizerModel(Tools.getStream(TOKENIZER_MODEL));</b>
+&nbsp;      }
+<b class="fc">&nbsp;      if (posModel == null) {</b>
+<b class="fc">&nbsp;        posModel = new POSModel(Tools.getStream(POS_TAGGER_MODEL));</b>
+&nbsp;      }
+<b class="fc">&nbsp;      if (chunkerModel == null) {</b>
+<b class="fc">&nbsp;        chunkerModel = new ChunkerModel(Tools.getStream(CHUNKER_MODEL));</b>
+&nbsp;      }
+<b class="fc">&nbsp;      chunkFilter = new EnglishChunkFilter();</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not initialize English chunker&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void addChunkTags(List&lt;AnalyzedTokenReadings&gt; tokenReadings) {
+<b class="fc">&nbsp;    List&lt;ChunkTaggedToken&gt; origChunkTags = getChunkTagsForReadings(tokenReadings);</b>
+<b class="fc">&nbsp;    List&lt;ChunkTaggedToken&gt; chunkTags = chunkFilter.filter(origChunkTags);</b>
+<b class="fc">&nbsp;    assignChunksToReadings(chunkTags);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;ChunkTaggedToken&gt; getChunkTagsForReadings(List&lt;AnalyzedTokenReadings&gt; tokenReadings) {
+&nbsp;    // these are not thread-safe, so create them here, not as members:
+<b class="fc">&nbsp;    String sentence = getSentence(tokenReadings);</b>
+<b class="fc">&nbsp;    String[] tokens = cleanZeroWidthWhitespaces(tokenize(sentence)).toArray(new String[0]);</b>
+<b class="fc">&nbsp;    String[] posTags = posTag(tokens);</b>
+<b class="fc">&nbsp;    String[] chunkTags = chunk(tokens, posTags);</b>
+<b class="pc">&nbsp;    if (tokens.length != posTags.length || tokens.length != chunkTags.length) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Length of results must be the same: &quot; + tokens.length + &quot;, &quot; + posTags.length + &quot;, &quot; + chunkTags.length);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return getTokensWithTokenReadings(tokenReadings, tokens, chunkTags);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // workaround for the add-on, which adds ﻿ZERO WIDTH NO-BREAK SPACE, which confuses the chunker: 
+&nbsp;  @NotNull
+&nbsp;  private List&lt;String&gt; cleanZeroWidthWhitespaces(String[] tokens) {
+<b class="fc">&nbsp;    List&lt;String&gt; cleanTokens = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (String token : tokens) {</b>
+<b class="fc">&nbsp;      String[] splits = token.split(&quot;\uFEFF&quot;);</b>
+<b class="fc">&nbsp;      for (String split : splits) {</b>
+<b class="pc">&nbsp;        if (split.length() == 0) {</b>
+<b class="nc">&nbsp;          cleanTokens.add(&quot;&quot;);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;          cleanTokens.add(token);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return cleanTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // non-private for test cases
+&nbsp;  String[] tokenize(String sentence) {
+<b class="fc">&nbsp;    TokenizerME tokenizer = new TokenizerME(tokenModel);</b>
+<b class="fc">&nbsp;    String cleanString = sentence.replace(&#39;’&#39;, &#39;\&#39;&#39;);  // this is the type of apostrophe that OpenNLP expects</b>
+<b class="fc">&nbsp;    return tokenizer.tokenize(cleanString);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String[] posTag(String[] tokens) {
+<b class="fc">&nbsp;    POSTaggerME posTagger = new POSTaggerME(posModel);</b>
+<b class="fc">&nbsp;    return posTagger.tag(tokens);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String[] chunk(String[] tokens, String[] posTags) {
+<b class="fc">&nbsp;    ChunkerME chunker = new ChunkerME(chunkerModel);</b>
+<b class="fc">&nbsp;    return chunker.chunk(tokens, posTags);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;ChunkTaggedToken&gt; getTokensWithTokenReadings(List&lt;AnalyzedTokenReadings&gt; tokenReadings, String[] tokens, String[] chunkTags) {
+<b class="fc">&nbsp;    List&lt;ChunkTaggedToken&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    int i = 0;</b>
+<b class="fc">&nbsp;    int pos = 0;</b>
+<b class="fc">&nbsp;    for (String chunkTag : chunkTags) {</b>
+<b class="fc">&nbsp;      int startPos = pos;</b>
+<b class="fc">&nbsp;      int endPos = startPos + tokens[i].length();</b>
+&nbsp;      //System.out.println(&quot;OPEN: &quot; + tokens[i]);
+<b class="fc">&nbsp;      AnalyzedTokenReadings readings = getAnalyzedTokenReadingsFor(startPos, endPos, tokenReadings);</b>
+<b class="fc">&nbsp;      result.add(new ChunkTaggedToken(tokens[i], Collections.singletonList(new ChunkTag(chunkTag)), readings));</b>
+<b class="fc">&nbsp;      pos = endPos;</b>
+<b class="fc">&nbsp;      i++;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void assignChunksToReadings(List&lt;ChunkTaggedToken&gt; chunkTaggedTokens) {
+<b class="fc">&nbsp;    for (ChunkTaggedToken taggedToken : chunkTaggedTokens) {</b>
+<b class="fc">&nbsp;      AnalyzedTokenReadings readings = taggedToken.getReadings();</b>
+<b class="fc">&nbsp;      if (readings != null) {</b>
+<b class="fc">&nbsp;        readings.setChunkTags(taggedToken.getChunkTags());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getSentence(List&lt;AnalyzedTokenReadings&gt; sentenceTokens) {
+<b class="fc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="fc">&nbsp;    for (AnalyzedTokenReadings token : sentenceTokens) {</b>
+<b class="fc">&nbsp;      sb.append(token.getToken());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // Get only exact position matches - i.e. this can only be used for a trivial mapping
+&nbsp;  // where tokens that are not exactly at the same position will be skipped. For example,
+&nbsp;  // the tokens of &quot;I&#39;ll&quot; ([I] [&#39;ll] vs [I][&#39;][ll) cannot be mapped with this.
+&nbsp;  @Nullable
+&nbsp;  private AnalyzedTokenReadings getAnalyzedTokenReadingsFor(int startPos, int endPos, List&lt;AnalyzedTokenReadings&gt; tokenReadings) {
+<b class="fc">&nbsp;    int pos = 0;</b>
+<b class="fc">&nbsp;    for (AnalyzedTokenReadings tokenReading : tokenReadings) {</b>
+<b class="fc">&nbsp;      String token = tokenReading.getToken();</b>
+<b class="fc">&nbsp;      if (token.trim().isEmpty() ||</b>
+<b class="fc">&nbsp;          (token.length() == 1 &amp;&amp; Character.isSpaceChar(token.charAt(0)))) {  // needed for non-breaking space</b>
+&nbsp;        continue;  // the OpenNLP result has no whitespace, so we need to skip it
+&nbsp;      }
+<b class="fc">&nbsp;      int tokenStart = pos;</b>
+<b class="fc">&nbsp;      int tokenEnd = pos + token.length();</b>
+<b class="fc">&nbsp;      if (tokenStart == startPos &amp;&amp; tokenEnd == endPos) {</b>
+&nbsp;        //System.out.println(&quot;!!!&quot; + startPos + &quot; &quot; + endPos + &quot;  &quot; + tokenReading);
+<b class="fc">&nbsp;        return tokenReading;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      pos = tokenEnd;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

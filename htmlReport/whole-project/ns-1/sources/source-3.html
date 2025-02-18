@@ -1,0 +1,951 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AnalyzedTokenReadings</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool</a>
+</div>
+
+<h1>Coverage Summary for Class: AnalyzedTokenReadings (org.languagetool)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AnalyzedTokenReadings</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.5%
+  </span>
+  <span class="absValue">
+    (64/67)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.1%
+  </span>
+  <span class="absValue">
+    (155/178)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.8%
+  </span>
+  <span class="absValue">
+    (244/260)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AnalyzedTokenReadings$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (3/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    94.4%
+  </span>
+  <span class="absValue">
+    (67/71)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.2%
+  </span>
+  <span class="absValue">
+    (157/180)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.2%
+  </span>
+  <span class="absValue">
+    (247/265)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.apache.commons.lang3.builder.EqualsBuilder;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.chunking.ChunkTag;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.atomic.AtomicInteger;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static org.languagetool.JLanguageTool.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * An array of {@link AnalyzedToken}s used to store multiple POS tags and lemmas
+&nbsp; * for a given single token.
+&nbsp; * 
+&nbsp; * @author Marcin Milkowski
+&nbsp; */
+&nbsp;public final class AnalyzedTokenReadings implements Iterable&lt;AnalyzedToken&gt; {
+&nbsp;
+<b class="fc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(AnalyzedTokenReadings.class);</b>
+<b class="fc">&nbsp;  private static final Pattern NON_WORD_REGEX = Pattern.compile(&quot;[.?!…:;,~’&#39;\&quot;„“”»«‚‘›‹()\\[\\]\\-–—*×∗·+÷/=]&quot;);</b>
+&nbsp;
+&nbsp;  private final boolean isWhitespace;
+&nbsp;  private final boolean isLinebreak;
+&nbsp;  private final boolean isSentStart;
+&nbsp;  private final boolean isPosTagUnknown;
+&nbsp;
+&nbsp;  private AnalyzedToken[] anTokReadings;
+&nbsp;  private int startPos;
+&nbsp;  private int fixPos;
+&nbsp;  private String token;
+&nbsp;  private String cleanToken;
+<b class="fc">&nbsp;  private List&lt;ChunkTag&gt; chunkTags = Collections.emptyList();</b>
+&nbsp;  private boolean isSentEnd;
+&nbsp;  private boolean isParaEnd;
+&nbsp;  private boolean isWhitespaceBefore;
+&nbsp;  private String whitespaceBeforeChar;
+<b class="fc">&nbsp;  private boolean hasTypographicApostrophe = false;</b>
+&nbsp;
+&nbsp;  // If true, then the token is marked up as immune against tests:
+&nbsp;  // it should never be matched by any rule. Used to have generalized
+&nbsp;  // mechanism for exceptions in rules.
+&nbsp;  private boolean isImmunized;
+&nbsp;  private int immunizationSourceLine;
+&nbsp;
+&nbsp;  // If true, then the token is marked up as ignored in all spelling rules:
+&nbsp;  // other rules can freely match it.
+&nbsp;  private boolean isIgnoredBySpeller;
+&nbsp;
+&nbsp;  // Used to hold the string representation of the disambiguator actions on a token.
+<b class="fc">&nbsp;  private String historicalAnnotations = &quot;&quot;;</b>
+&nbsp;
+&nbsp;  // True if the token has the same lemma value for all tokens.
+&nbsp;  // Can be used internally to optimize matching.
+&nbsp;  private boolean hasSameLemmas;
+&nbsp;
+&nbsp;  public AnalyzedTokenReadings(AnalyzedToken[] tokens, int startPos) {
+<b class="fc">&nbsp;    this(Arrays.asList(tokens), startPos);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public AnalyzedTokenReadings(AnalyzedToken token, int startPos) {
+<b class="fc">&nbsp;    this(Collections.singletonList(token), startPos);</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public AnalyzedTokenReadings(List&lt;AnalyzedToken&gt; tokens, int startPos) {</b>
+<b class="fc">&nbsp;    anTokReadings = tokens.toArray(new AnalyzedToken[0]);</b>
+<b class="fc">&nbsp;    this.startPos = startPos;</b>
+<b class="fc">&nbsp;    token = anTokReadings[0].getToken();</b>
+<b class="fc">&nbsp;    isWhitespace = StringTools.isWhitespace(token);</b>
+<b class="fc">&nbsp;    isWhitespaceBefore = anTokReadings[0].isWhitespaceBefore();</b>
+<b class="pc">&nbsp;    isLinebreak = &quot;\n&quot;.equals(token) || &quot;\r\n&quot;.equals(token) || &quot;\r&quot;.equals(token) || &quot;\n\r&quot;.equals(token);</b>
+<b class="fc">&nbsp;    isSentStart = SENTENCE_START_TAGNAME.equals(anTokReadings[0].getPOSTag());</b>
+<b class="fc">&nbsp;    isParaEnd = hasPosTag(PARAGRAPH_END_TAGNAME);</b>
+<b class="fc">&nbsp;    isSentEnd = hasPosTag(SENTENCE_END_TAGNAME);</b>
+<b class="fc">&nbsp;    isPosTagUnknown = tokens.size() == 1 &amp;&amp; tokens.get(0).getPOSTag() == null;</b>
+<b class="fc">&nbsp;    setNoRealPOStag();</b>
+<b class="fc">&nbsp;    hasSameLemmas = areLemmasSame();</b>
+<b class="fc">&nbsp;    whitespaceBeforeChar = &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  // Constructor from a previous AnalyzedTokenReadings with new readings, and annotation of the change  
+&nbsp;  public AnalyzedTokenReadings(AnalyzedTokenReadings oldAtr, List&lt;AnalyzedToken&gt; newReadings, String ruleApplied) {
+<b class="fc">&nbsp;    this(newReadings, oldAtr.getStartPos());</b>
+<b class="fc">&nbsp;    if (oldAtr.isSentenceEnd()) {</b>
+<b class="fc">&nbsp;      setSentEnd();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (oldAtr.isParagraphEnd()) {</b>
+<b class="fc">&nbsp;      setParagraphEnd();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    setWhitespaceBefore(oldAtr.getWhitespaceBefore());</b>
+<b class="fc">&nbsp;    setChunkTags(oldAtr.getChunkTags());</b>
+<b class="fc">&nbsp;    if (oldAtr.isImmunized()) {</b>
+<b class="fc">&nbsp;      immunize(oldAtr.getImmunizationSourceLine());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (oldAtr.isIgnoredBySpeller()) {</b>
+<b class="fc">&nbsp;      ignoreSpelling();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (oldAtr.hasTypographicApostrophe()) {</b>
+<b class="fc">&nbsp;      setTypographicApostrophe();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    setHistoricalAnnotations(oldAtr.getHistoricalAnnotations());</b>
+<b class="fc">&nbsp;    addHistoricalAnnotations(oldAtr.toString(), ruleApplied); </b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public AnalyzedTokenReadings(AnalyzedToken token) {
+<b class="fc">&nbsp;    this(Collections.singletonList(token), 0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;AnalyzedToken&gt; getReadings() {
+<b class="fc">&nbsp;    return Arrays.asList(anTokReadings);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get a token reading.
+&nbsp;   * @see #getReadingsLength() getReadingsLength() for how many token readings there are
+&nbsp;   */
+&nbsp;  public AnalyzedToken getAnalyzedToken(int idx) {
+<b class="fc">&nbsp;    return anTokReadings[idx];</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if the token has a particular POS tag.
+&nbsp;   * @param posTag POS tag to look for
+&nbsp;   */
+&nbsp;  public boolean hasPosTag(String posTag) {
+<b class="fc">&nbsp;    for (AnalyzedToken reading : anTokReadings) {</b>
+<b class="fc">&nbsp;      if (posTag.equals(reading.getPOSTag())) {</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Checks if the token has a particular POS tag and lemma.
+&nbsp;   * @param posTag POS tag and lemma to look for
+&nbsp;   */
+&nbsp;  public boolean hasPosTagAndLemma(String posTag, String lemma) {
+<b class="fc">&nbsp;    for (AnalyzedToken reading : anTokReadings) {</b>
+<b class="fc">&nbsp;      if (posTag.equals(reading.getPOSTag()) &amp;&amp; lemma.equals(reading.getLemma())) {</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if there is at least one POS tag
+&nbsp;   * @since 4.7
+&nbsp;   */
+&nbsp;  public boolean hasReading() {
+<b class="pc">&nbsp;    return anTokReadings != null &amp;&amp; anTokReadings.length &gt; 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if one of the token&#39;s readings has a particular lemma.
+&nbsp;   * @param lemma lemma POS tag to look for
+&nbsp;   */
+&nbsp;  public boolean hasLemma(String lemma) {
+<b class="fc">&nbsp;    boolean found = false;</b>
+<b class="fc">&nbsp;    for (AnalyzedToken reading : anTokReadings) {</b>
+<b class="fc">&nbsp;      if (reading.getLemma() != null &amp;&amp; lemma.equals(reading.getLemma())) {</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return found;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if one of the token&#39;s readings has one of the given lemmas
+&nbsp;   * @param lemmas lemmas to look for
+&nbsp;   */
+&nbsp;  public boolean hasAnyLemma(String... lemmas) {
+<b class="fc">&nbsp;    for(String lemma : lemmas) {</b>
+<b class="fc">&nbsp;      for (AnalyzedToken reading : anTokReadings) {</b>
+<b class="fc">&nbsp;        if (lemma.equals(reading.getLemma())) {</b>
+<b class="fc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if the token has a particular POS tag, where only a part of the given POS tag needs to match.
+&nbsp;   *
+&nbsp;   * @param posTag POS tag substring to look for
+&nbsp;   * @since 1.8
+&nbsp;   */
+&nbsp;  public boolean hasPartialPosTag(String posTag) {
+<b class="fc">&nbsp;    for (AnalyzedToken reading : anTokReadings) {</b>
+<b class="fc">&nbsp;      if (reading.getPOSTag() != null &amp;&amp; reading.getPOSTag().contains(posTag)) {</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp; /**
+&nbsp;  * Checks if the token has any of the given particular POS tags (only a part of the given POS tag needs to match)
+&nbsp;  *
+&nbsp;  * @param posTags POS tag substring to look for
+&nbsp;  * @since 4.0
+&nbsp;  */
+&nbsp;  public boolean hasAnyPartialPosTag(String... posTags) {
+<b class="fc">&nbsp;    for (String posTag : posTags) {</b>
+<b class="fc">&nbsp;      if (hasPartialPosTag(posTag)) {</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if the token has a POS tag starting with the given string.
+&nbsp;   *
+&nbsp;   * @param posTag POS tag substring to look for
+&nbsp;   * @since 4.0
+&nbsp;   */
+&nbsp;  public boolean hasPosTagStartingWith(String posTag) {
+<b class="fc">&nbsp;    for (AnalyzedToken reading : anTokReadings) {</b>
+<b class="fc">&nbsp;      if (reading.getPOSTag() != null &amp;&amp; reading.getPOSTag().startsWith(posTag)) {</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if at least one of the readings matches a given POS tag regex.
+&nbsp;   * @param posTagRegex POS tag regular expression to look for
+&nbsp;   * @since 2.9
+&nbsp;   */
+&nbsp;  public boolean matchesPosTagRegex(String posTagRegex) {
+<b class="fc">&nbsp;    Pattern pattern = Pattern.compile(posTagRegex);</b>
+<b class="fc">&nbsp;    return matchesPosTagRegex(pattern);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if at least one of the readings matches a given POS tag pattern.
+&nbsp;   * @since 6.4
+&nbsp;   */
+&nbsp;  public boolean matchesPosTagRegex(Pattern pattern) {
+<b class="fc">&nbsp;    for (AnalyzedToken reading : anTokReadings) {</b>
+<b class="fc">&nbsp;      if (reading.getPOSTag() != null &amp;&amp; pattern.matcher(reading.getPOSTag()).matches()) {</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean matchesChunkRegex(String chunkRegex) {
+<b class="nc">&nbsp;    Pattern pattern = Pattern.compile(chunkRegex);</b>
+<b class="nc">&nbsp;    for (ChunkTag chunk : getChunkTags()) {</b>
+<b class="nc">&nbsp;      if (chunk != null &amp;&amp; pattern.matcher(chunk.getChunkTag()).matches()) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Returns the first reading that matches a given POS tag regex.
+&nbsp;   * @param posTagRegex POS tag regular expression to look for
+&nbsp;   * @since 5.5
+&nbsp;   */
+&nbsp;  public AnalyzedToken readingWithTagRegex(String posTagRegex) {
+<b class="fc">&nbsp;    Pattern pattern = Pattern.compile(posTagRegex);</b>
+<b class="fc">&nbsp;    for (AnalyzedToken reading : anTokReadings) {</b>
+<b class="fc">&nbsp;      if (reading.getPOSTag() != null &amp;&amp; pattern.matcher(reading.getPOSTag()).matches()) {</b>
+<b class="fc">&nbsp;        return reading;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public AnalyzedToken readingWithTagRegex(Pattern pattern) {
+<b class="fc">&nbsp;    for (AnalyzedToken reading : anTokReadings) {</b>
+<b class="pc">&nbsp;      if (reading.getPOSTag() != null &amp;&amp; pattern.matcher(reading.getPOSTag()).matches()) {</b>
+<b class="fc">&nbsp;        return reading;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Returns the first reading that matches a given lemma.
+&nbsp;   * @since 5.8
+&nbsp;   */
+&nbsp;  public AnalyzedToken readingWithLemma(String lemma) {
+<b class="nc">&nbsp;    for (AnalyzedToken reading : anTokReadings) {</b>
+<b class="nc">&nbsp;      if (reading.getLemma() != null &amp;&amp; reading.getLemma().equals(lemma)) {</b>
+<b class="nc">&nbsp;        return reading;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Add a new reading.
+&nbsp;   * @param token new reading, given as {@link AnalyzedToken}
+&nbsp;   */
+&nbsp;  public void addReading(AnalyzedToken token, String ruleApplied) {
+<b class="fc">&nbsp;    String oldValue = this.toString();</b>
+<b class="fc">&nbsp;    List&lt;AnalyzedToken&gt; l = new ArrayList&lt;&gt;(Arrays.asList(anTokReadings).subList(0, anTokReadings.length - 1));</b>
+<b class="fc">&nbsp;    if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {</b>
+<b class="fc">&nbsp;      l.add(anTokReadings[anTokReadings.length - 1]);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    token.setWhitespaceBefore(isWhitespaceBefore);</b>
+<b class="fc">&nbsp;    l.add(token);</b>
+<b class="fc">&nbsp;    anTokReadings = l.toArray(new AnalyzedToken[0]);</b>
+<b class="fc">&nbsp;    if (token.getToken().length() &gt; this.token.length()) { //in case a longer token is added</b>
+<b class="fc">&nbsp;      this.token = token.getToken();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    anTokReadings[anTokReadings.length - 1].setWhitespaceBefore(isWhitespaceBefore);</b>
+<b class="fc">&nbsp;    isParaEnd = hasPosTag(PARAGRAPH_END_TAGNAME);</b>
+<b class="fc">&nbsp;    isSentEnd = hasPosTag(SENTENCE_END_TAGNAME);</b>
+<b class="fc">&nbsp;    setNoRealPOStag();</b>
+<b class="fc">&nbsp;    hasSameLemmas = areLemmasSame();</b>
+<b class="fc">&nbsp;    addHistoricalAnnotations(oldValue, ruleApplied); </b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Removes a reading from the list of readings. Note: if the token
+&nbsp;   * has only one reading, then a new reading with an empty POS tag
+&nbsp;   * and an empty lemma is created.
+&nbsp;   * @param token reading to be removed
+&nbsp;   */
+&nbsp;  public void removeReading(AnalyzedToken token, String ruleApplied) {
+<b class="fc">&nbsp;    String oldValue = this.toString();</b>
+<b class="fc">&nbsp;    List&lt;AnalyzedToken&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());</b>
+<b class="fc">&nbsp;    tmpTok.setWhitespaceBefore(isWhitespaceBefore);</b>
+<b class="fc">&nbsp;    boolean removedSentEnd = false;</b>
+<b class="fc">&nbsp;    boolean removedParaEnd = false;</b>
+<b class="fc">&nbsp;    for (AnalyzedToken anTokReading : anTokReadings) {</b>
+<b class="fc">&nbsp;      if (!anTokReading.matches(tmpTok)) {</b>
+<b class="fc">&nbsp;        l.add(anTokReading);</b>
+<b class="fc">&nbsp;      } else if (SENTENCE_END_TAGNAME.equals(anTokReading.getPOSTag())) {</b>
+<b class="fc">&nbsp;        removedSentEnd = true;</b>
+<b class="pc">&nbsp;      } else if (PARAGRAPH_END_TAGNAME.equals(anTokReading.getPOSTag())) {</b>
+<b class="nc">&nbsp;        removedParaEnd = true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    if (l.isEmpty()) {</b>
+<b class="fc">&nbsp;      l.add(new AnalyzedToken(this.token, null, null));</b>
+<b class="fc">&nbsp;      l.get(0).setWhitespaceBefore(isWhitespaceBefore);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    anTokReadings = l.toArray(new AnalyzedToken[0]);</b>
+<b class="fc">&nbsp;    setNoRealPOStag();</b>
+<b class="fc">&nbsp;    if (removedSentEnd) {</b>
+<b class="fc">&nbsp;      isSentEnd = false;</b>
+<b class="fc">&nbsp;      setSentEnd();</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (removedParaEnd) {</b>
+<b class="nc">&nbsp;      isParaEnd = false;</b>
+<b class="nc">&nbsp;      setParagraphEnd();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    hasSameLemmas = areLemmasSame();</b>
+<b class="fc">&nbsp;    addHistoricalAnnotations(oldValue, ruleApplied); </b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Removes all readings but the one that matches the token given.
+&nbsp;   * @param token Token to be matched
+&nbsp;   * @since 1.5
+&nbsp;   */
+&nbsp;  public void leaveReading(AnalyzedToken token) {
+<b class="fc">&nbsp;    List&lt;AnalyzedToken&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());</b>
+<b class="fc">&nbsp;    tmpTok.setWhitespaceBefore(isWhitespaceBefore);</b>
+<b class="fc">&nbsp;    for (AnalyzedToken anTokReading : anTokReadings) {</b>
+<b class="fc">&nbsp;      if (anTokReading.matches(tmpTok)) {</b>
+<b class="fc">&nbsp;        l.add(anTokReading);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    if (l.isEmpty()) {</b>
+<b class="fc">&nbsp;      l.add(new AnalyzedToken(this.token, null, null));</b>
+<b class="fc">&nbsp;      l.get(0).setWhitespaceBefore(isWhitespaceBefore);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    anTokReadings = l.toArray(new AnalyzedToken[0]);</b>
+<b class="fc">&nbsp;    setNoRealPOStag();</b>
+<b class="fc">&nbsp;    hasSameLemmas = areLemmasSame();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Number of readings.
+&nbsp;   */
+&nbsp;  public int getReadingsLength() {
+<b class="fc">&nbsp;    return anTokReadings.length;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isWhitespace() {
+<b class="fc">&nbsp;    return isWhitespace;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns true if the token equals {@code \n}, {@code \r}, {@code \n\r}, or {@code \r\n}.
+&nbsp;   */
+&nbsp;  public boolean isLinebreak() {
+<b class="fc">&nbsp;    return isLinebreak;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public boolean isSentenceStart() {
+<b class="fc">&nbsp;    return isSentStart;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true when the token is a last token in a paragraph.
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public boolean isParagraphEnd() {
+<b class="fc">&nbsp;    return isParaEnd;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Add a reading with a paragraph end token unless this is already a paragraph end.
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public void setParagraphEnd() {
+<b class="fc">&nbsp;    if (!isParagraphEnd()) {</b>
+<b class="fc">&nbsp;      AnalyzedToken paragraphEnd = new AnalyzedToken(getToken(),</b>
+<b class="fc">&nbsp;          PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());</b>
+<b class="fc">&nbsp;      addReading(paragraphEnd, &quot;add_paragaph_end&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true when the token is a last token in a sentence.
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public boolean isSentenceEnd() {
+<b class="fc">&nbsp;    return isSentEnd;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if the token is LibreOffice/OpenOffice field code.
+&nbsp;   * @since 0.9.9
+&nbsp;   */
+&nbsp;  public boolean isFieldCode() {
+<b class="pc">&nbsp;    return &quot;\u0001&quot;.equals(token) || &quot;\u0002&quot;.equals(token);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Add a SENT_END tag.
+&nbsp;   */
+&nbsp;  public void setSentEnd() {
+<b class="fc">&nbsp;    if (!isSentenceEnd()) {</b>
+<b class="fc">&nbsp;      AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),</b>
+<b class="fc">&nbsp;          SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());</b>
+<b class="fc">&nbsp;      addReading(sentenceEnd, &quot;&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getStartPos() {
+<b class="fc">&nbsp;    return startPos;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.9 */
+&nbsp;  public int getEndPos() {
+<b class="fc">&nbsp;    return startPos + token.length();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setStartPos(int position) {
+<b class="fc">&nbsp;    startPos = position;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  public void setPosFix(int fix) {
+<b class="fc">&nbsp;    fixPos = fix;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  public int getPosFix() {
+<b class="fc">&nbsp;    return fixPos;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getToken() {
+<b class="fc">&nbsp;    return token;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setWhitespaceBefore(String prevToken) {
+<b class="fc">&nbsp;    isWhitespaceBefore = !prevToken.isEmpty() &amp;&amp; StringTools.isWhitespace(prevToken);</b>
+<b class="fc">&nbsp;    for (AnalyzedToken aTok : anTokReadings) {</b>
+<b class="fc">&nbsp;      aTok.setWhitespaceBefore(isWhitespaceBefore);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (isWhitespaceBefore) {</b>
+<b class="fc">&nbsp;      whitespaceBeforeChar = prevToken;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getWhitespaceBefore() {
+<b class="fc">&nbsp;    return whitespaceBeforeChar;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public boolean isWhitespaceBefore() {
+<b class="fc">&nbsp;    return isWhitespaceBefore;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void immunize(int sourceLine) {
+<b class="fc">&nbsp;    isImmunized = true;</b>
+<b class="fc">&nbsp;    immunizationSourceLine = sourceLine;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isImmunized() {
+<b class="pc">&nbsp;    if (isImmunized &amp;&amp; logger.isDebugEnabled()) {</b>
+<b class="nc">&nbsp;      logger.debug(&quot;&#39;&quot; + getToken() + &quot;&#39; is immunized by antipattern in line &quot; + immunizationSourceLine);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return isImmunized;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getImmunizationSourceLine() {
+<b class="fc">&nbsp;    return immunizationSourceLine;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Make the token ignored by all spelling rules.
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  public void ignoreSpelling() {
+<b class="fc">&nbsp;    isIgnoredBySpeller = true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Test if the token can be ignored by spelling rules.
+&nbsp;   * @return true if the token should be ignored.
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  public boolean isIgnoredBySpeller() {
+<b class="fc">&nbsp;    return isIgnoredBySpeller;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Test if the token&#39;s POStag equals null.
+&nbsp;   * @return true if the token does not have a POStag
+&nbsp;   * @since 3.9
+&nbsp;   */
+&nbsp;  public boolean isPosTagUnknown() {
+<b class="fc">&nbsp;    return isPosTagUnknown;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the flag on AnalyzedTokens to make matching
+&nbsp;   * on {@code UNKNOWN} POS tag correct in the Element class.
+&nbsp;   */
+&nbsp;  private void setNoRealPOStag() {
+<b class="fc">&nbsp;    boolean hasNoPOStag = !isLinebreak();</b>
+<b class="fc">&nbsp;    for (AnalyzedToken an: anTokReadings) {</b>
+<b class="fc">&nbsp;      String posTag = an.getPOSTag();</b>
+<b class="fc">&nbsp;      if (PARAGRAPH_END_TAGNAME.equals(posTag) ||</b>
+<b class="fc">&nbsp;          SENTENCE_END_TAGNAME.equals(posTag)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="fc">&nbsp;      if (posTag != null) {</b>
+<b class="fc">&nbsp;        hasNoPOStag = false;</b>
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    for (AnalyzedToken an: anTokReadings) {</b>
+<b class="fc">&nbsp;      an.setNoPOSTag(hasNoPOStag);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Used to track disambiguator actions.
+&nbsp;   * @return the historicalAnnotations
+&nbsp;   */
+&nbsp;  public String getHistoricalAnnotations() {
+<b class="fc">&nbsp;    return historicalAnnotations;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Used to track disambiguator actions.
+&nbsp;   * @param historicalAnnotations the historicalAnnotations to set
+&nbsp;   */
+&nbsp;  private void setHistoricalAnnotations(String historicalAnnotations) {
+<b class="fc">&nbsp;    if (GlobalConfig.isVerbose()) {</b>
+<b class="fc">&nbsp;      this.historicalAnnotations = historicalAnnotations;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void addHistoricalAnnotations(String oldValue, String ruleApplied) {
+<b class="fc">&nbsp;    if (!ruleApplied.isEmpty() &amp;&amp; GlobalConfig.isVerbose()) {</b>
+<b class="fc">&nbsp;      this.historicalAnnotations = this.getHistoricalAnnotations() + &quot;\n&quot; + ruleApplied + &quot;: &quot; + oldValue + &quot; -&gt; &quot;</b>
+&nbsp;          + this;
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public void setChunkTags(List&lt;ChunkTag&gt; chunkTags) {
+<b class="fc">&nbsp;    this.chunkTags = Objects.requireNonNull(chunkTags);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public List&lt;ChunkTag&gt; getChunkTags() {
+<b class="fc">&nbsp;    return chunkTags;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="fc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="fc">&nbsp;    sb.append(token);</b>
+<b class="fc">&nbsp;    sb.append(&#39;[&#39;);</b>
+<b class="fc">&nbsp;    for (AnalyzedToken element : anTokReadings) {</b>
+<b class="fc">&nbsp;      sb.append(element);</b>
+<b class="fc">&nbsp;      if (!element.isWhitespaceBefore()) {</b>
+<b class="fc">&nbsp;        sb.append(&#39;*&#39;);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      sb.append(&#39;,&#39;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    sb.delete(sb.length() - 1, sb.length());</b>
+<b class="fc">&nbsp;    if (!chunkTags.isEmpty()) {</b>
+<b class="fc">&nbsp;      sb.append(&#39;,&#39;);</b>
+<b class="fc">&nbsp;      sb.append(StringUtils.join(chunkTags, &quot;|&quot;));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    sb.append(&#39;]&#39;);</b>
+<b class="fc">&nbsp;    if (isImmunized()) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;{!},&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if AnalyzedTokenReadings has some real POS tag (= not null or a special tag)
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public boolean isTagged() {
+<b class="fc">&nbsp;    for (AnalyzedToken element : anTokReadings) {</b>
+<b class="fc">&nbsp;      if (!element.hasNoTag()) {</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Used to configure the internal variable for lemma equality.
+&nbsp;   * @return true if all {@link AnalyzedToken} lemmas are the same.
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  private boolean areLemmasSame() {
+<b class="fc">&nbsp;    String previousLemma = anTokReadings[0].getLemma();</b>
+<b class="fc">&nbsp;    if (previousLemma == null) {</b>
+<b class="fc">&nbsp;      for (AnalyzedToken element : anTokReadings) {</b>
+<b class="fc">&nbsp;        if (element.getLemma() != null) {</b>
+<b class="fc">&nbsp;          return false;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    for (AnalyzedToken element : anTokReadings) {</b>
+<b class="fc">&nbsp;      if (!previousLemma.equals(element.getLemma())) {</b>
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Used to optimize pattern matching.
+&nbsp;   * @return true if all {@link AnalyzedToken} lemmas are the same.
+&nbsp;   */
+&nbsp;  public boolean hasSameLemmas() {
+<b class="fc">&nbsp;    return hasSameLemmas;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if AnalyzedTokenReadings is a punctuation mark, bracket, etc
+&nbsp;   * @since 4.4
+&nbsp;   */
+&nbsp;  public boolean isNonWord() {
+<b class="fc">&nbsp;    return NON_WORD_REGEX.matcher(token).matches();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int hashCode() {
+<b class="nc">&nbsp;    return Arrays.hashCode(anTokReadings) +</b>
+<b class="nc">&nbsp;           Objects.hash(isLinebreak, isParaEnd, isSentEnd, isSentStart, isWhitespace, isWhitespaceBefore, chunkTags, startPos, token);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean equals(Object obj) {
+<b class="pc">&nbsp;    if (this == obj) { return true; }</b>
+<b class="pc">&nbsp;    if (obj == null || getClass() != obj.getClass()) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    AnalyzedTokenReadings other = (AnalyzedTokenReadings) obj;</b>
+<b class="fc">&nbsp;    return new EqualsBuilder()</b>
+<b class="fc">&nbsp;      .append(anTokReadings, other.anTokReadings)</b>
+<b class="fc">&nbsp;      .append(isLinebreak, other.isLinebreak)</b>
+<b class="fc">&nbsp;      .append(isParaEnd, other.isParaEnd)</b>
+<b class="fc">&nbsp;      .append(isSentEnd, other.isSentEnd)</b>
+<b class="fc">&nbsp;      .append(isSentStart, other.isSentStart)</b>
+<b class="fc">&nbsp;      .append(isWhitespace, other.isWhitespace)</b>
+<b class="fc">&nbsp;      .append(isWhitespaceBefore, other.isWhitespaceBefore)</b>
+<b class="fc">&nbsp;      .append(isImmunized, other.isImmunized)</b>
+<b class="fc">&nbsp;      .append(startPos, other.startPos)</b>
+<b class="fc">&nbsp;      .append(chunkTags, other.chunkTags)</b>
+<b class="fc">&nbsp;      .append(hasSameLemmas, other.hasSameLemmas)</b>
+<b class="fc">&nbsp;      .append(isIgnoredBySpeller, other.isIgnoredBySpeller)</b>
+<b class="fc">&nbsp;      .append(token, other.token)</b>
+<b class="fc">&nbsp;      .append(hasTypographicApostrophe, other.hasTypographicApostrophe)</b>
+<b class="fc">&nbsp;      .isEquals();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public Iterator&lt;AnalyzedToken&gt; iterator() {
+<b class="fc">&nbsp;    AtomicInteger i = new AtomicInteger(0);</b>
+<b class="fc">&nbsp;    return new Iterator&lt;AnalyzedToken&gt;() {</b>
+&nbsp;      @Override
+&nbsp;      public boolean hasNext() {
+<b class="fc">&nbsp;        return i.get() &lt; getReadingsLength();</b>
+&nbsp;      }
+&nbsp;      @Override
+&nbsp;      public AnalyzedToken next() {
+&nbsp;        try {
+<b class="fc">&nbsp;          return anTokReadings[i.getAndAdd(1)];</b>
+&nbsp;        } catch (ArrayIndexOutOfBoundsException e) {
+<b class="nc">&nbsp;          throw new NoSuchElementException(&quot;No such element: &quot; + i + &quot;, element count: &quot; + anTokReadings.length);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;      @Override
+&nbsp;      public void remove() {
+<b class="nc">&nbsp;        throw new UnsupportedOperationException();</b>
+&nbsp;      }
+&nbsp;    };
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.1
+&nbsp;   */
+&nbsp;  @Experimental
+&nbsp;  public void setCleanToken(String cleanToken) {
+<b class="fc">&nbsp;    this.cleanToken = cleanToken;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.1
+&nbsp;   */
+&nbsp;  @Experimental
+&nbsp;  public String getCleanToken() {
+<b class="fc">&nbsp;    return cleanToken != null ? cleanToken : token;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @since 5.2
+&nbsp;   */
+&nbsp;  public void setTypographicApostrophe() {
+<b class="fc">&nbsp;    hasTypographicApostrophe = true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.2
+&nbsp;   */
+&nbsp;  public boolean hasTypographicApostrophe() {
+<b class="fc">&nbsp;    return hasTypographicApostrophe;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,398 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AbstractSimpleReplaceRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractSimpleReplaceRule (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractSimpleReplaceRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57.1%
+  </span>
+  <span class="absValue">
+    (12/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    32.3%
+  </span>
+  <span class="absValue">
+    (20/62)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    41.9%
+  </span>
+  <span class="absValue">
+    (39/93)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule that matches words which should not be used and suggests
+&nbsp; * correct ones instead. Loads the relevant words from
+&nbsp; * &lt;code&gt;rules/XX/replace.txt&lt;/code&gt;, where XX is a code of the language.
+&nbsp; * 
+&nbsp; * @author Andriy Rysin
+&nbsp; */
+&nbsp;public abstract class AbstractSimpleReplaceRule extends Rule {
+&nbsp;
+<b class="fc">&nbsp;  protected boolean ignoreTaggedWords = false;</b>
+&nbsp;  protected boolean subRuleSpecificIds;
+&nbsp;
+<b class="fc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(AbstractSimpleReplaceRule.class);</b>
+<b class="fc">&nbsp;  private boolean checkLemmas = true;</b>
+&nbsp;  private final Language language;
+&nbsp;
+&nbsp;  public abstract Map&lt;String, List&lt;String&gt;&gt; getWrongWords();
+&nbsp;
+&nbsp;  protected static Map&lt;String, List&lt;String&gt;&gt; loadFromPath(String path) {
+<b class="fc">&nbsp;    return new SimpleReplaceDataLoader().loadWords(path);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.0
+&nbsp;   */
+&nbsp;  protected static Map&lt;String, List&lt;String&gt;&gt; loadFromPath(String... paths) {
+<b class="fc">&nbsp;    SimpleReplaceDataLoader loader = new SimpleReplaceDataLoader();</b>
+<b class="fc">&nbsp;    Map&lt;String, List&lt;String&gt;&gt; map = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (String path : paths) {</b>
+<b class="fc">&nbsp;      map.putAll(loader.loadWords(path));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return map;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Indicates if the rule is case-sensitive. Default value is &lt;code&gt;true&lt;/code&gt;.
+&nbsp;   * 
+&nbsp;   * @return true if the rule is case-sensitive, false otherwise.
+&nbsp;   */
+&nbsp;  public boolean isCaseSensitive() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the locale used for case conversion when {@link #isCaseSensitive()}
+&nbsp;   *         is set to &lt;code&gt;false&lt;/code&gt;.
+&nbsp;   */
+&nbsp;  public Locale getLocale() {
+<b class="nc">&nbsp;    return Locale.getDefault();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Skip words that are known in the POS tagging dictionary, assuming they
+&nbsp;   * cannot be incorrect.
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public void setIgnoreTaggedWords() {
+<b class="fc">&nbsp;    ignoreTaggedWords = true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public AbstractSimpleReplaceRule(ResourceBundle messages, Language language) {
+<b class="fc">&nbsp;    super(messages);</b>
+<b class="fc">&nbsp;    this.language = language;</b>
+<b class="fc">&nbsp;    super.setCategory(Categories.MISC.getCategory(messages));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;SIMPLE_REPLACE&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Checks for wrong words/phrases&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getMessage(String tokenStr, List&lt;String&gt; replacements) {
+<b class="nc">&nbsp;    return tokenStr + &quot; is not valid. Use: &quot;</b>
+<b class="nc">&nbsp;        + String.join(&quot;, &quot;, replacements) + &quot;.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getShort() {
+<b class="nc">&nbsp;    return &quot;Wrong word&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String cleanup(String word) {
+<b class="fc">&nbsp;    return isCaseSensitive() ? word : word.toLowerCase(getLocale()); </b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="fc">&nbsp;    for (AnalyzedTokenReadings tokenReadings : tokens) {</b>
+&nbsp;      // short for SENT_START
+<b class="fc">&nbsp;      if( JLanguageTool.SENTENCE_START_TAGNAME.equals(tokenReadings.getAnalyzedToken(0).getPOSTag()) ||</b>
+<b class="pc">&nbsp;          tokenReadings.isImmunized() ||        //this rule is used mostly for spelling, so ignore both immunized</b>
+<b class="fc">&nbsp;          tokenReadings.isIgnoredBySpeller() || //and speller-ignorable rules</b>
+<b class="pc">&nbsp;          isTokenException(tokenReadings) ||</b>
+<b class="fc">&nbsp;          (ignoreTaggedWords &amp;&amp; isTagged(tokenReadings))</b>
+&nbsp;      ) {
+&nbsp;        continue;
+&nbsp;      }
+<b class="fc">&nbsp;      List&lt;RuleMatch&gt; matchesForToken = findMatches(tokenReadings, sentence);</b>
+<b class="fc">&nbsp;      ruleMatches.addAll(matchesForToken);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected List&lt;RuleMatch&gt; findMatches(AnalyzedTokenReadings tokenReadings, AnalyzedSentence sentence) throws IOException {
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;    String originalTokenStr = tokenReadings.getToken();</b>
+<b class="fc">&nbsp;    String tokenString = cleanup(originalTokenStr);</b>
+<b class="fc">&nbsp;    boolean isAllUppercase = StringTools.isAllUppercase(originalTokenStr);</b>
+&nbsp;
+&nbsp;    // try first with the original word, then with the all lower-case version
+<b class="fc">&nbsp;    List&lt;String&gt; possibleReplacements = getWrongWords().get(originalTokenStr);</b>
+<b class="pc">&nbsp;    if (possibleReplacements == null) {</b>
+<b class="fc">&nbsp;      possibleReplacements = getWrongWords().get(tokenString);</b>
+&nbsp;    }
+&nbsp;
+<b class="pc">&nbsp;    if (possibleReplacements == null &amp;&amp; checkLemmas) {</b>
+<b class="nc">&nbsp;      possibleReplacements = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;      List&lt;String&gt; lemmas = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (AnalyzedToken analyzedToken : tokenReadings.getReadings()) {</b>
+<b class="nc">&nbsp;        String lemma = analyzedToken.getLemma();</b>
+<b class="nc">&nbsp;        if (lemma != null &amp;&amp; getWrongWords().containsKey(lemma) &amp;&amp; ! lemmas.contains(lemma) ) {</b>
+<b class="nc">&nbsp;          lemmas.add(cleanup(lemma));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      for (String lemma : lemmas) {</b>
+<b class="nc">&nbsp;        List&lt;String&gt; replacements = getWrongWords().get(lemma);</b>
+<b class="nc">&nbsp;        if (replacements != null) {</b>
+<b class="nc">&nbsp;          Synthesizer synth = getSynthesizer();</b>
+<b class="nc">&nbsp;          if (synth != null) {</b>
+<b class="nc">&nbsp;            for (String replacementLemma : replacements) {</b>
+<b class="nc">&nbsp;              for (AnalyzedToken at : tokenReadings.getReadings()) {</b>
+<b class="nc">&nbsp;                if (at.getLemma() == null) {</b>
+<b class="nc">&nbsp;                  logger.warn(&quot;at.getLemma() == null for &quot; + at + &quot;, replacementLemma: &quot; + replacementLemma);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                AnalyzedToken newAt = new AnalyzedToken(at.getLemma(), at.getPOSTag(), replacementLemma);</b>
+<b class="nc">&nbsp;                String[] s = synth.synthesize(newAt, at.getPOSTag());</b>
+<b class="nc">&nbsp;                possibleReplacements.addAll(Arrays.asList(s));</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          } else {
+<b class="nc">&nbsp;            possibleReplacements.addAll(replacements);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      possibleReplacements = possibleReplacements.stream().distinct().collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+<b class="pc">&nbsp;    if (possibleReplacements != null &amp;&amp; possibleReplacements.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      if (isAllUppercase) {</b>
+<b class="nc">&nbsp;        for (String s: possibleReplacements) {</b>
+<b class="nc">&nbsp;          replacements.add(s.toUpperCase());</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        replacements = new ArrayList&lt;&gt;(possibleReplacements);  </b>
+&nbsp;      }
+<b class="nc">&nbsp;      replacements.remove(originalTokenStr);</b>
+<b class="nc">&nbsp;      if (replacements.size() &gt; 0) {</b>
+<b class="nc">&nbsp;        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, sentence, originalTokenStr);</b>
+<b class="nc">&nbsp;        ruleMatches.add(potentialRuleMatch);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="fc">&nbsp;    return ruleMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This method allows to override which tags will mark token as tagged
+&nbsp;   * @return returns true if token has valid tag
+&nbsp;   */
+&nbsp;  protected boolean isTagged(AnalyzedTokenReadings tokenReadings) {
+<b class="fc">&nbsp;    return tokenReadings.isTagged();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings,
+&nbsp;                                      List&lt;String&gt; replacements, AnalyzedSentence sentence, String originalTokenStr) {
+<b class="nc">&nbsp;    String tokenString = tokenReadings.getToken();</b>
+<b class="nc">&nbsp;    int pos = tokenReadings.getStartPos();</b>
+&nbsp;    
+<b class="nc">&nbsp;    RuleMatch potentialRuleMatch = null;</b>
+&nbsp;
+<b class="nc">&nbsp;    if (subRuleSpecificIds) {</b>
+<b class="nc">&nbsp;      String id = StringTools.toId(getId() + &quot;_&quot; + originalTokenStr, language);</b>
+<b class="nc">&nbsp;      String desc = getDescription().replace(&quot;$match&quot;, originalTokenStr);</b>
+<b class="nc">&nbsp;      SpecificIdRule specificIdRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());</b>
+<b class="nc">&nbsp;      potentialRuleMatch = new RuleMatch(specificIdRule, sentence, pos, pos</b>
+<b class="nc">&nbsp;        + tokenString.length(), getMessage(tokenString, replacements), getShort());</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      potentialRuleMatch = new RuleMatch(this, sentence, pos, pos</b>
+<b class="nc">&nbsp;        + tokenString.length(), getMessage(tokenString, replacements), getShort());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!isCaseSensitive() &amp;&amp; StringTools.startsWithUppercase(tokenString)) {</b>
+<b class="nc">&nbsp;      for (int i = 0; i &lt; replacements.size(); i++) {</b>
+<b class="nc">&nbsp;        replacements.set(i, StringTools.uppercaseFirstChar(replacements.get(i)));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    potentialRuleMatch.setSuggestedReplacements(replacements);</b>
+&nbsp;
+<b class="nc">&nbsp;    return potentialRuleMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  public boolean isCheckLemmas() {
+<b class="nc">&nbsp;    return checkLemmas;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Used to disable matching lemmas.
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  public void setCheckLemmas(boolean checkLemmas) {
+<b class="fc">&nbsp;    this.checkLemmas = checkLemmas;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Synthesizer to generate inflected suggestions
+&nbsp;   * @since 5.1
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public Synthesizer getSynthesizer() {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /*
+&nbsp;   * @since 5.2
+&nbsp;   */
+&nbsp;  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * If this is set, each replacement pair will have its own rule ID, making rule deactivations more specific.
+&nbsp;   * @since 5.5
+&nbsp;   */
+&nbsp;  public void useSubRuleSpecificIds() {
+<b class="fc">&nbsp;    subRuleSpecificIds = true;</b>
+&nbsp;  }
+&nbsp;    
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

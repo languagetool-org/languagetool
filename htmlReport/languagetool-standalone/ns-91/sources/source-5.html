@@ -1,0 +1,185 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SrxTools</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tokenizers</a>
+</div>
+
+<h1>Coverage Summary for Class: SrxTools (org.languagetool.tokenizers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SrxTools</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.7%
+  </span>
+  <span class="absValue">
+    (11/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tokenizers;
+&nbsp;
+&nbsp;import net.loomchild.segment.TextIterator;
+&nbsp;import net.loomchild.segment.srx.SrxDocument;
+&nbsp;import net.loomchild.segment.srx.SrxParser;
+&nbsp;import net.loomchild.segment.srx.SrxTextIterator;
+&nbsp;import net.loomchild.segment.srx.io.Srx2SaxParser;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/**
+&nbsp; * Tools for loading an SRX tokenizer file.
+&nbsp; * @since 2.6
+&nbsp; */
+&nbsp;final class SrxTools {
+&nbsp;
+&nbsp;  private SrxTools() {
+&nbsp;  }
+&nbsp;
+&nbsp;  static SrxDocument createSrxDocument(String path) {
+&nbsp;    try {
+&nbsp;      try (
+<b class="fc">&nbsp;        InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);</b>
+<b class="fc">&nbsp;        BufferedReader srxReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))</b>
+&nbsp;      ) {
+<b class="fc">&nbsp;        Map&lt;String, Object&gt; parserParameters = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        parserParameters.put(Srx2SaxParser.VALIDATE_PARAMETER, true);</b>
+<b class="fc">&nbsp;        SrxParser srxParser = new Srx2SaxParser(parserParameters);</b>
+<b class="fc">&nbsp;        return srxParser.parse(srxReader);</b>
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not load SRX rules&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static List&lt;String&gt; tokenize(String text, SrxDocument srxDocument, String code) {
+<b class="fc">&nbsp;    List&lt;String&gt; segments = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    TextIterator textIterator = new SrxTextIterator(srxDocument, code, text);</b>
+<b class="fc">&nbsp;    while (textIterator.hasNext()) {</b>
+<b class="fc">&nbsp;      segments.add(textIterator.next());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return segments;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

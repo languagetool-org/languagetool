@@ -1,0 +1,360 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PatternRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns</a>
+</div>
+
+<h1>Coverage Summary for Class: PatternRule (org.languagetool.rules.patterns)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PatternRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    64.3%
+  </span>
+  <span class="absValue">
+    (9/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    47.9%
+  </span>
+  <span class="absValue">
+    (23/48)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    56.2%
+  </span>
+  <span class="absValue">
+    (41/73)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Comparator;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;/**
+&nbsp; * A Rule that describes a language error as a simple pattern of words or of
+&nbsp; * part-of-speech tags.
+&nbsp; * 
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public class PatternRule extends AbstractTokenBasedRule {
+&nbsp;
+&nbsp;  private final String shortMessage;
+&nbsp;
+&nbsp;  // A list of elements as they appear in XML file (phrases count as single tokens in case of matches or skipping).
+&nbsp;  private final List&lt;Integer&gt; elementNo;
+&nbsp;
+&nbsp;  // This property is used for short-circuiting evaluation of the elementNo list order:
+&nbsp;  private final boolean useList;
+&nbsp;  
+&nbsp;  private boolean interpretPosTagsPreDisambiguation;
+&nbsp;
+&nbsp;  // Marks whether the rule is a member of a disjunctive set (in case of OR operation on phraserefs).
+&nbsp;  private boolean isMemberOfDisjunctiveSet;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param id Id of the Rule. Used in configuration. Should not contain special characters and should
+&nbsp;   *        be stable over time, unless the rule changes completely.
+&nbsp;   * @param language Language of the Rule
+&nbsp;   * @param description Description to be shown (name)
+&nbsp;   * @param message Message to be displayed to the user
+&nbsp;   * @param shortMessage Message to be displayed to the user in the context menu in OpenOffice.org/LibreOffice
+&nbsp;   */
+&nbsp;  public PatternRule(String id, Language language,
+&nbsp;      List&lt;PatternToken&gt; patternTokens, String description,
+&nbsp;      String message, String shortMessage, String suggestionsOutMsg) {
+<b class="fc">&nbsp;    super(id, description, language, patternTokens, false);</b>
+<b class="fc">&nbsp;    this.message = Objects.requireNonNull(message);</b>
+<b class="fc">&nbsp;    this.shortMessage = Objects.requireNonNull(shortMessage);</b>
+<b class="fc">&nbsp;    this.elementNo = new ArrayList&lt;&gt;(0);</b>
+<b class="fc">&nbsp;    Objects.requireNonNull(suggestionsOutMsg);</b>
+<b class="fc">&nbsp;    this.suggestionsOutMsg = suggestionsOutMsg.isEmpty() ? &quot;&quot; : suggestionsOutMsg;</b>
+<b class="fc">&nbsp;    String prevName = &quot;&quot;;</b>
+&nbsp;    String curName;
+<b class="fc">&nbsp;    int cnt = 0;</b>
+<b class="fc">&nbsp;    int loopCnt = 0;</b>
+<b class="fc">&nbsp;    boolean tempUseList = false;</b>
+&nbsp;
+<b class="fc">&nbsp;    for (PatternToken pToken : patternTokens) {</b>
+<b class="fc">&nbsp;      if (pToken.isPartOfPhrase()) {</b>
+<b class="fc">&nbsp;        curName = pToken.getPhraseName();</b>
+<b class="pc">&nbsp;        if (StringTools.isEmpty(prevName) || prevName.equals(curName)) {</b>
+<b class="fc">&nbsp;          cnt++;</b>
+<b class="fc">&nbsp;          tempUseList = true;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          elementNo.add(cnt);</b>
+<b class="nc">&nbsp;          curName = &quot;&quot;;</b>
+<b class="nc">&nbsp;          cnt = 0;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        prevName = curName;</b>
+<b class="fc">&nbsp;        loopCnt++;</b>
+<b class="pc">&nbsp;        if (loopCnt == this.patternTokens.size() &amp;&amp; !StringTools.isEmpty(prevName)) {</b>
+<b class="fc">&nbsp;          elementNo.add(cnt);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="fc">&nbsp;        if (cnt &gt; 0) {</b>
+<b class="fc">&nbsp;          elementNo.add(cnt);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        elementNo.add(1);</b>
+<b class="fc">&nbsp;        loopCnt++;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    useList = tempUseList;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public PatternRule(String id, Language language,
+&nbsp;      List&lt;PatternToken&gt; patternTokens, String description,
+&nbsp;      String message, String shortMessage) {
+<b class="fc">&nbsp;    this(id, language, patternTokens, description, message, shortMessage, &quot;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public PatternRule(String id, Language language,
+&nbsp;      List&lt;PatternToken&gt; patternTokens, String description,
+&nbsp;      String message, String shortMessage, String suggestionsOutMsg,
+&nbsp;      boolean isMember) {
+<b class="nc">&nbsp;    this(id, language, patternTokens, description, message, shortMessage, suggestionsOutMsg, isMember, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.5
+&nbsp;   */
+&nbsp;  public PatternRule(String id, Language language,
+&nbsp;      List&lt;PatternToken&gt; patternTokens, String description,
+&nbsp;      String message, String shortMessage, String suggestionsOutMsg,
+&nbsp;      boolean isMember, boolean interpretPosTagsPreDisambiguation) {
+<b class="fc">&nbsp;    this(id, language, patternTokens, description, message, shortMessage, suggestionsOutMsg);</b>
+<b class="fc">&nbsp;    this.isMemberOfDisjunctiveSet = isMember;</b>
+<b class="fc">&nbsp;    this.interpretPosTagsPreDisambiguation = interpretPosTagsPreDisambiguation;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int estimateContextForSureMatch() {
+<b class="nc">&nbsp;    int extendAfterMarker = 0;</b>
+<b class="nc">&nbsp;    boolean markerSeen = false;</b>
+<b class="nc">&nbsp;    for (PatternToken pToken : this.patternTokens) {</b>
+<b class="nc">&nbsp;      if (markerSeen &amp;&amp; !pToken.isInsideMarker()) {</b>
+<b class="nc">&nbsp;        extendAfterMarker++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (JLanguageTool.SENTENCE_END_TAGNAME.equals(pToken.getPOStag())) {</b>
+&nbsp;        // e.g. for DT_JJ_NO_NOUN and all rules that match the sentence end
+<b class="nc">&nbsp;        extendAfterMarker++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (pToken.isInsideMarker()) {</b>
+<b class="nc">&nbsp;        markerSeen = true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (pToken.getSkipNext() == -1) {</b>
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        extendAfterMarker += pToken.getSkipNext();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;Integer&gt; antiPatternLengths = getAntiPatterns().stream().map(p -&gt; p.patternTokens.size()).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    int longestAntiPattern = antiPatternLengths.stream().max(Comparator.comparing(i -&gt; i)).orElse(0);</b>
+<b class="nc">&nbsp;    int longestSkip = 0;</b>
+<b class="nc">&nbsp;    for (DisambiguationPatternRule antiPattern : getAntiPatterns()) {</b>
+<b class="nc">&nbsp;      for (PatternToken token : antiPattern.getPatternTokens()) {</b>
+<b class="nc">&nbsp;        if (token.getSkipNext() == -1) {</b>
+<b class="nc">&nbsp;          return -1;</b>
+<b class="nc">&nbsp;        } else if (token.getSkipNext() &gt; longestSkip) {</b>
+<b class="nc">&nbsp;          longestSkip = token.getSkipNext();</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    //System.out.println(&quot;extendAfterMarker: &quot; + extendAfterMarker + &quot;, antiPatternLengths: &quot; + antiPatternLengths + &quot;, longestSkip: &quot; + longestSkip);
+<b class="nc">&nbsp;    return extendAfterMarker + Math.max(longestAntiPattern, longestAntiPattern + longestSkip);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Whether any POS tags from this rule should refer to the POS tags of the analyzed
+&nbsp;   * sentence *before* disambiguation.
+&nbsp;   * @since 4.5
+&nbsp;   */
+&nbsp;  boolean isInterpretPosTagsPreDisambiguation() {
+<b class="fc">&nbsp;    return interpretPosTagsPreDisambiguation;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Used for testing rules: only one of the set can match.
+&nbsp;   * @return Whether the rule can non-match (as a member of disjunctive set of
+&nbsp;   *         rules generated by phraseref in includephrases element).
+&nbsp;   */
+&nbsp;  public final boolean isWithComplexPhrase() {
+<b class="fc">&nbsp;    return isMemberOfDisjunctiveSet;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** Reset complex status - used for testing. **/
+&nbsp;  public final void notComplexPhrase() {
+<b class="nc">&nbsp;    isMemberOfDisjunctiveSet = false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return the pattern as a string, using toString() on the pattern elements.
+&nbsp;   * @since 0.9.2
+&nbsp;   */
+&nbsp;  public final String toPatternString() {
+<b class="nc">&nbsp;    List&lt;String&gt; strList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (PatternToken patternPatternToken : patternTokens) {</b>
+<b class="nc">&nbsp;      strList.add(patternPatternToken.toString());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return String.join(&quot;, &quot;, strList);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return the rule&#39;s definition as an XML string, loaded from the XML rule files.
+&nbsp;   * @since 0.9.3
+&nbsp;   */
+&nbsp;  public final String toXML() {
+<b class="nc">&nbsp;    return new PatternRuleXmlCreator().toXML(new PatternRuleId(getId(), getSubId()), getLanguage());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="fc">&nbsp;    if (canBeIgnoredFor(sentence)) return RuleMatch.EMPTY_ARRAY;</b>
+&nbsp;    
+<b class="fc">&nbsp;    RuleMatcher matcher = new PatternRuleMatcher(this, useList);</b>
+<b class="fc">&nbsp;    return checkForAntiPatterns(sentence, matcher, matcher.match(sentence));</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  private RuleMatch[] checkForAntiPatterns(AnalyzedSentence sentence, RuleMatcher matcher, RuleMatch[] matches) throws IOException {
+<b class="pc">&nbsp;    if (matches != null &amp;&amp; matches.length &gt; 0 &amp;&amp; !getAntiPatterns().isEmpty()) {</b>
+<b class="fc">&nbsp;      AnalyzedSentence immunized = getSentenceWithImmunization(sentence);</b>
+<b class="fc">&nbsp;      if (Arrays.stream(immunized.getTokens()).anyMatch(AnalyzedTokenReadings::isImmunized)) {</b>
+<b class="fc">&nbsp;        return matcher.match(immunized);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return matches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;Integer&gt; getElementNo() {
+<b class="fc">&nbsp;    return elementNo;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* (non-Javadoc)
+&nbsp;   * @see org.languagetool.rules.patterns.AbstractPatternRule#getShortMessage()
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public String getShortMessage() {
+<b class="fc">&nbsp;    return shortMessage;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

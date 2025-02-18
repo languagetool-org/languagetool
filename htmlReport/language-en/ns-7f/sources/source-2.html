@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Retaggable</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.ga</a>
+</div>
+
+<h1>Coverage Summary for Class: Retaggable (org.languagetool.tagging.ga)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Retaggable</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2019 Jim O&#39;Regan &lt;jaoregan@tcd.ie&gt;
+&nbsp; *
+&nbsp; * Permission is hereby granted, free of charge, to any person obtaining a
+&nbsp; * copy of this software and associated documentation files (the &quot;Software&quot;),
+&nbsp; * to deal in the Software without restriction, including without limitation
+&nbsp; * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+&nbsp; * and/or sell copies of the Software, and to permit persons to whom the
+&nbsp; * Software is furnished to do so, subject to the following conditions:
+&nbsp; *
+&nbsp; * The above copyright notice and this permission notice shall be included in
+&nbsp; * all copies or substantial portions of the Software.
+&nbsp; *
+&nbsp; * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+&nbsp; * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+&nbsp; * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+&nbsp; * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+&nbsp; * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+&nbsp; * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+&nbsp; * DEALINGS IN THE SOFTWARE.
+&nbsp; */
+&nbsp;package org.languagetool.tagging.ga;
+&nbsp;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;public class Retaggable {
+&nbsp;  
+&nbsp;  private String word;
+&nbsp;  private String restrictToPos;
+&nbsp;  private String appendTag;
+&nbsp;  private String prefix;
+&nbsp;  
+<b class="nc">&nbsp;  Retaggable(String word, String restrictToPos, String appendTag) {</b>
+<b class="nc">&nbsp;    this.word = Objects.requireNonNull(word, &quot;word must not be null&quot;);</b>
+<b class="nc">&nbsp;    this.restrictToPos = restrictToPos;</b>
+<b class="nc">&nbsp;    this.appendTag = appendTag;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  Retaggable(String word, String restrictToPos, String appendTag, String prefix) {
+<b class="nc">&nbsp;    this(word, restrictToPos, appendTag);</b>
+<b class="nc">&nbsp;    this.prefix = prefix;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void setAppendTag(String appendTag) {
+<b class="nc">&nbsp;    if(this.appendTag == null || &quot;&quot;.equals(this.appendTag)) {</b>
+<b class="nc">&nbsp;      this.appendTag = appendTag;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      this.appendTag = this.appendTag + appendTag;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  void setRestrictToPos(String restrictToPos) {
+<b class="nc">&nbsp;    if(this.restrictToPos == null || &quot;&quot;.equals(this.restrictToPos)) {</b>
+<b class="nc">&nbsp;      this.restrictToPos = restrictToPos;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      this.restrictToPos = this.restrictToPos + &quot;|&quot; + restrictToPos;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getWord() {
+<b class="nc">&nbsp;    return word;</b>
+&nbsp;  }
+&nbsp;  public String getRestrictToPos() {
+<b class="nc">&nbsp;    return restrictToPos;</b>
+&nbsp;  }
+&nbsp;  public String getAppendTag() {
+<b class="nc">&nbsp;    return appendTag;</b>
+&nbsp;  }
+&nbsp;  String getPrefix() {
+<b class="nc">&nbsp;    return prefix;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

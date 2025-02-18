@@ -1,0 +1,1035 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PatternToken</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns</a>
+</div>
+
+<h1>Coverage Summary for Class: PatternToken (org.languagetool.rules.patterns)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PatternToken</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.5%
+  </span>
+  <span class="absValue">
+    (77/79)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.5%
+  </span>
+  <span class="absValue">
+    (177/212)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90.9%
+  </span>
+  <span class="absValue">
+    (180/198)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PatternToken$PosToken</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PatternToken$RareFields</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    97.6%
+  </span>
+  <span class="absValue">
+    (82/84)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.9%
+  </span>
+  <span class="absValue">
+    (183/218)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.5%
+  </span>
+  <span class="absValue">
+    (193/211)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns;
+&nbsp;
+&nbsp;import com.google.common.collect.ObjectArrays;
+&nbsp;import org.jetbrains.annotations.ApiStatus;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.chunking.ChunkTag;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * A part of a pattern, represents the &#39;token&#39; element of the {@code grammar.xml}.
+&nbsp; */
+&nbsp;public class PatternToken implements Cloneable {
+&nbsp;
+&nbsp;  /** Matches only tokens without any POS tag. **/
+&nbsp;  public static final String UNKNOWN_TAG = &quot;UNKNOWN&quot;;
+&nbsp;
+<b class="fc">&nbsp;  private static final PatternToken[] EMPTY_ARRAY = new PatternToken[0];</b>
+&nbsp;
+&nbsp;  private static final int INFLECTED_MASK = 1;
+&nbsp;  private static final int NEGATION_MASK = 2;
+&nbsp;  private static final int TEST_WHITESPACE_MASK = 4;
+&nbsp;  private static final int WHITESPACE_BEFORE_MASK = 8;
+&nbsp;  private static final int INSIDE_MARKER_MASK = 0x10;
+&nbsp;
+&nbsp;  /** True if scope==&quot;next&quot;. */
+&nbsp;  private static final int EXCEPTION_VALID_NEXT_MASK = 0x20;
+&nbsp;
+&nbsp;  private static final int MAY_BE_OMITTED_MASK = 0x40;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This var is used to determine if calling {@link #setStringElement} makes sense. This method
+&nbsp;   * takes most time so it&#39;s best to reduce the number of its calls.
+&nbsp;   */
+&nbsp;  private static final int TEST_STRING_MASK = 0x80;
+&nbsp;
+&nbsp;  /** Determines whether the element should be ignored when doing unification **/
+&nbsp;  private static final int UNIFICATION_NEUTRAL_MASK = 0x100;
+&nbsp;
+&nbsp;  private static final int UNI_NEGATION_MASK = 0x200;
+&nbsp;
+&nbsp;  /** Set to true on tokens that close the unification block. */
+&nbsp;  private static final int LAST_UNIFIED_MASK = 0x400;
+&nbsp;
+&nbsp;  private short flags;
+&nbsp;
+&nbsp;  private StringMatcher textMatcher;
+&nbsp;  private PosToken posToken;
+&nbsp;
+&nbsp;  private RareFields rareFields;
+&nbsp;
+&nbsp;  private byte skip;
+<b class="fc">&nbsp;  private byte maxOccurrence = 1;</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates Element that is used to match tokens in the text.
+&nbsp;   * @param token String to be matched
+&nbsp;   * @param caseSensitive true if the check is case-sensitive
+&nbsp;   * @param regExp true if the check uses regular expressions
+&nbsp;   * @param inflected true if the check refers to base forms (lemmas), note that {@code token} must be a base form for this to work
+&nbsp;   */
+&nbsp;  public PatternToken(String token, boolean caseSensitive, boolean regExp, boolean inflected) {
+<b class="fc">&nbsp;    this(inflected, StringMatcher.create(normalizeTextPattern(token), regExp, caseSensitive));</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  PatternToken(boolean inflected, @NotNull StringMatcher textMatcher) {</b>
+<b class="fc">&nbsp;    flags = (short) (INSIDE_MARKER_MASK | (inflected ? INFLECTED_MASK : 0));</b>
+<b class="fc">&nbsp;    setTextMatcher(textMatcher);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Object clone() throws CloneNotSupportedException {
+<b class="fc">&nbsp;    return super.clone();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks whether the rule element matches the token given as a parameter.
+&nbsp;   * @param token AnalyzedToken to check matching against
+&nbsp;   * @return True if token matches, false otherwise.
+&nbsp;   */
+&nbsp;  public boolean isMatched(AnalyzedToken token) {
+<b class="fc">&nbsp;    if (hasFlag(TEST_WHITESPACE_MASK) &amp;&amp; !isWhitespaceBefore(token)) {</b>
+<b class="fc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    boolean posNegation = posToken != null &amp;&amp; posToken.negation;</b>
+<b class="fc">&nbsp;    if (hasFlag(TEST_STRING_MASK)) {</b>
+<b class="fc">&nbsp;      return textMatcher.matches(getTestToken(token)) ^ getNegation() &amp;&amp;</b>
+<b class="fc">&nbsp;             isPosTokenMatched(token) ^ posNegation;</b>
+&nbsp;    } else {
+<b class="pc">&nbsp;      return !getNegation() &amp;&amp;</b>
+<b class="fc">&nbsp;             isPosTokenMatched(token) ^ posNegation;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  boolean hasFlag(int mask) {
+<b class="fc">&nbsp;    return (flags &amp; mask) != 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void setFlag(int mask, boolean value) {
+<b class="fc">&nbsp;    if (value) {</b>
+<b class="fc">&nbsp;      flags |= mask;</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      flags &amp;= ~mask;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks whether an exception matches.
+&nbsp;   * @param token AnalyzedToken to check matching against
+&nbsp;   * @return True if any of the exceptions matches (logical disjunction).
+&nbsp;   */
+&nbsp;  public boolean isExceptionMatched(AnalyzedToken token) {
+<b class="fc">&nbsp;    if (rareFields != null &amp;&amp; rareFields.currentAndNextExceptions.length &gt; 0) {</b>
+<b class="fc">&nbsp;      for (PatternToken testException : rareFields.currentAndNextExceptions) {</b>
+<b class="fc">&nbsp;        if (!testException.hasNextException() &amp;&amp; testException.isMatched(token)) {</b>
+<b class="fc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Enables testing multiple conditions specified by multiple element exceptions.
+&nbsp;   * Works as logical AND operator.
+&nbsp;   * @param token the token checked for exceptions.
+&nbsp;   * @return true if all conditions are met, false otherwise.
+&nbsp;   */
+&nbsp;  public boolean isAndExceptionGroupMatched(AnalyzedToken token) {
+<b class="fc">&nbsp;    List&lt;PatternToken&gt; andGroupList = rareFields == null ? null : rareFields.andGroupList;</b>
+<b class="fc">&nbsp;    if (andGroupList == null) return false;</b>
+<b class="fc">&nbsp;    for (PatternToken testAndGroup : andGroupList) {</b>
+<b class="fc">&nbsp;      if (testAndGroup.isExceptionMatched(token)) {</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This method checks exceptions both in AND-group and the token. Introduced to for clarity.
+&nbsp;   * @param token Token to match
+&nbsp;   * @return True if matched.
+&nbsp;   */
+&nbsp;  public boolean isExceptionMatchedCompletely(AnalyzedToken token) {
+&nbsp;    // note: short-circuiting possible
+<b class="fc">&nbsp;    return isExceptionMatched(token) || isAndExceptionGroupMatched(token);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setAndGroupElement(PatternToken andToken) {
+<b class="fc">&nbsp;    RareFields rareFields = initRareFields();</b>
+<b class="fc">&nbsp;    if (rareFields.andGroupList == null) {</b>
+<b class="fc">&nbsp;      rareFields.andGroupList = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    rareFields.andGroupList.add(Objects.requireNonNull(andToken));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if this element has an AND group associated with it.
+&nbsp;   * @return true if the element has a group of elements that all should match.
+&nbsp;   */
+&nbsp;  public boolean hasAndGroup() {
+<b class="fc">&nbsp;    return rareFields != null &amp;&amp; rareFields.andGroupList != null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the group of elements linked with AND operator.
+&nbsp;   */
+&nbsp;  public List&lt;PatternToken&gt; getAndGroup() {
+<b class="pc">&nbsp;    List&lt;PatternToken&gt; andGroupList = rareFields == null ? null : rareFields.andGroupList;</b>
+<b class="pc">&nbsp;    return andGroupList == null ? Collections.emptyList() : Collections.unmodifiableList(andGroupList);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.3 */
+&nbsp;  public void setOrGroupElement(PatternToken orToken) {
+<b class="fc">&nbsp;    RareFields rareFields = initRareFields();</b>
+<b class="fc">&nbsp;    if (rareFields.orGroupList == null) {</b>
+<b class="fc">&nbsp;      rareFields.orGroupList = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    rareFields.orGroupList.add(Objects.requireNonNull(orToken));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if this element has an OR group associated with it.
+&nbsp;   * @return true if the element has a group of elements that all should match.
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public boolean hasOrGroup() {
+<b class="fc">&nbsp;    return rareFields != null &amp;&amp; rareFields.orGroupList != null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the group of elements linked with OR operator.
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public List&lt;PatternToken&gt; getOrGroup() {
+<b class="pc">&nbsp;    List&lt;PatternToken&gt; orGroupList = rareFields == null ? null : rareFields.orGroupList;</b>
+<b class="pc">&nbsp;    return orGroupList == null ? Collections.emptyList() : Collections.unmodifiableList(orGroupList);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks whether a previously set exception matches (in case the exception had scope == &quot;next&quot;).
+&nbsp;   * @param token {@link AnalyzedToken} to check matching against.
+&nbsp;   * @return True if any of the exceptions matches.
+&nbsp;   */
+&nbsp;  public boolean isMatchedByScopeNextException(AnalyzedToken token) {
+<b class="fc">&nbsp;    if (rareFields != null) {</b>
+<b class="fc">&nbsp;      for (PatternToken testException : rareFields.currentAndNextExceptions) {</b>
+<b class="fc">&nbsp;        if (testException.hasNextException() &amp;&amp; testException.isMatched(token)) {</b>
+<b class="fc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks whether an exception for a previous token matches (in case the exception had scope ==
+&nbsp;   * &quot;previous&quot;).
+&nbsp;   * @param token {@link AnalyzedToken} to check matching against.
+&nbsp;   * @return True if any of the exceptions matches.
+&nbsp;   */
+&nbsp;  public boolean isMatchedByPreviousException(AnalyzedToken token) {
+<b class="pc">&nbsp;    if (hasPreviousException()) {</b>
+<b class="fc">&nbsp;      for (PatternToken testException : rareFields.previousExceptions) {</b>
+<b class="pc">&nbsp;        if (!testException.hasNextException() &amp;&amp; testException.isMatched(token)) {</b>
+<b class="fc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks whether an exception for a previous token matches all readings of a given token (in case
+&nbsp;   * the exception had scope == &quot;previous&quot;).
+&nbsp;   * @param prevToken {@link AnalyzedTokenReadings} to check matching against.
+&nbsp;   * @return true if any of the exceptions matches.
+&nbsp;   */
+&nbsp;  public boolean isMatchedByPreviousException(AnalyzedTokenReadings prevToken) {
+<b class="fc">&nbsp;    for (AnalyzedToken analyzedToken : prevToken) {</b>
+<b class="fc">&nbsp;      if (isMatchedByPreviousException(analyzedToken)) {</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if the token is a sentence start.
+&nbsp;   * @return True if the element starts the sentence and the element hasn&#39;t been set to have negated POS token.
+&nbsp;   */
+&nbsp;  public boolean isSentenceStart() {
+<b class="fc">&nbsp;    return posToken != null &amp;&amp; JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken.posTag) &amp;&amp; !posToken.negation;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.9 */
+&nbsp;  public void setPosToken(PosToken posToken) {
+<b class="fc">&nbsp;    this.posToken = posToken;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.9 */
+&nbsp;  public void setChunkTag(ChunkTag chunkTag) {
+<b class="fc">&nbsp;    initRareFields().chunkTag = chunkTag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getString() {
+<b class="fc">&nbsp;    return textMatcher.pattern;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setStringElement(String token) {
+<b class="fc">&nbsp;    setTextMatcher(StringMatcher.create(normalizeTextPattern(token), isRegularExpression(), isCaseSensitive()));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void setTextMatcher(@NotNull StringMatcher matcher) {
+<b class="fc">&nbsp;    textMatcher = matcher;</b>
+<b class="fc">&nbsp;    setFlag(TEST_STRING_MASK, !StringTools.isEmpty(matcher.pattern));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static String normalizeTextPattern(String token) {
+<b class="fc">&nbsp;    return token == null ? &quot;&quot; : StringTools.trimWhitespace(token);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets a string and/or pos exception for matching tokens.
+&nbsp;   * @param token The string in the exception.
+&nbsp;   * @param regExp True if the string is specified as a regular expression.
+&nbsp;   * @param inflected True if the string is a base form (lemma).
+&nbsp;   * @param negation True if the exception is negated.
+&nbsp;   * @param scopeNext True if the exception scope is next tokens.
+&nbsp;   * @param scopePrevious True if the exception should match only a single previous token.
+&nbsp;   * @param posToken The part of the speech tag in the exception.
+&nbsp;   * @param posRegExp True if the POS is specified as a regular expression.
+&nbsp;   * @param posNegation True if the POS exception is negated.
+&nbsp;   * @param caseSensitivity if null, use this element&#39;s setting for case sensitivity, otherwise the specified value
+&nbsp;   * @since 2.9
+&nbsp;   */
+&nbsp;  public void setStringPosException(
+&nbsp;          String token, boolean regExp, boolean inflected,
+&nbsp;          boolean negation, boolean scopeNext, boolean scopePrevious,
+&nbsp;          String posToken, boolean posRegExp, boolean posNegation, Boolean caseSensitivity) {
+<b class="pc">&nbsp;    PatternToken exception = new PatternToken(token, caseSensitivity == null ? isCaseSensitive() : caseSensitivity, regExp, inflected);</b>
+<b class="fc">&nbsp;    exception.setNegation(negation);</b>
+<b class="fc">&nbsp;    exception.setPosToken(new PosToken(posToken, posRegExp, posNegation));</b>
+<b class="fc">&nbsp;    addException(scopeNext, scopePrevious, exception);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void addException(boolean scopeNext, boolean scopePrevious, PatternToken exception) {
+<b class="fc">&nbsp;    exception.setFlag(EXCEPTION_VALID_NEXT_MASK, scopeNext);</b>
+<b class="fc">&nbsp;    initRareFields().addException(exception, scopePrevious);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private RareFields initRareFields() {
+<b class="fc">&nbsp;    if (rareFields == null) {</b>
+<b class="fc">&nbsp;      rareFields = new RareFields();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return rareFields;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests if part of speech matches a given string.
+&nbsp;   * Special value UNKNOWN_TAG matches null POS tags.
+&nbsp;   * @param token Token to test.
+&nbsp;   * @return true if matches
+&nbsp;   */
+&nbsp;  private boolean isPosTokenMatched(AnalyzedToken token) {
+<b class="fc">&nbsp;    PosToken pos = posToken;</b>
+<b class="fc">&nbsp;    if (pos == null || pos.posTag == null || pos.posUnknown &amp;&amp; token.hasNoTag()) {</b>
+<b class="fc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    String tokenPos = token.getPOSTag();</b>
+<b class="fc">&nbsp;    if (tokenPos == null) {</b>
+<b class="fc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return pos.posPattern != null ? pos.posPattern.matches(tokenPos) : pos.posTag.equals(tokenPos);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getTestToken(AnalyzedToken token) {
+&nbsp;    // enables using words with lemmas and without lemmas
+&nbsp;    // in the same regexp with inflected=&quot;yes&quot;
+<b class="fc">&nbsp;    if (hasFlag(INFLECTED_MASK)) {</b>
+<b class="fc">&nbsp;      if (token.getLemma() != null) {</b>
+<b class="fc">&nbsp;        return token.getLemma();</b>
+&nbsp;      } else {
+<b class="fc">&nbsp;        return token.getToken();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return token.getToken();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets the exception scope length.
+&nbsp;   * @return scope length in tokens
+&nbsp;   */
+&nbsp;  public int getSkipNext() {
+<b class="fc">&nbsp;    return skip;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The minimum number of times the element needs to occur.
+&nbsp;   */
+&nbsp;  public int getMinOccurrence() {
+<b class="fc">&nbsp;    return hasFlag(MAY_BE_OMITTED_MASK) ? 0 : 1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The maximum number of times the element may occur.
+&nbsp;   */
+&nbsp;  public int getMaxOccurrence() {
+<b class="fc">&nbsp;    return maxOccurrence;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param i exception scope length.
+&nbsp;   */
+&nbsp;  public void setSkipNext(int i) {
+<b class="pc">&nbsp;    if (i &lt; -1 || i &gt; Byte.MAX_VALUE) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;&#39;skip&#39; should be between -1 and &quot; + Byte.MAX_VALUE);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    skip = (byte) i;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The minimum number of times this element may occur.
+&nbsp;   * @param i currently only {@code 0} and {@code 1} are supported
+&nbsp;   */
+&nbsp;  public void setMinOccurrence(int i) {
+<b class="pc">&nbsp;    if (i != 0 &amp;&amp; i != 1) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;minOccurrences must be 0 or 1: &quot; + i);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    setFlag(MAY_BE_OMITTED_MASK, i == 0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The maximum number of times this element may occur.
+&nbsp;   * @param i a number &amp;gt;= 1 or {@code -1} for unlimited occurrences
+&nbsp;   */
+&nbsp;  public void setMaxOccurrence(int i) {
+<b class="pc">&nbsp;    if (i == 0) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;maxOccurrences may not be 0&quot;);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (i &lt; -1 || i &gt; Byte.MAX_VALUE) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;maxOccurrences should be between -1 and &quot; + Byte.MAX_VALUE + &quot; but was: &quot; + i);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    maxOccurrence = (byte) i;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if the element has an exception for a previous token.
+&nbsp;   * @return True if the element has a previous token matching exception.
+&nbsp;   */
+&nbsp;  public boolean hasPreviousException() {
+<b class="fc">&nbsp;    return rareFields != null &amp;&amp; rareFields.previousExceptions.length &gt; 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if the element has an exception for a next scope.
+&nbsp;   * (only used for testing)
+&nbsp;   * @return True if the element has exception for the next scope.
+&nbsp;   */
+&nbsp;  public boolean hasNextException() {
+<b class="fc">&nbsp;    return hasFlag(EXCEPTION_VALID_NEXT_MASK);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Negates the matching so that non-matching elements match and vice-versa.
+&nbsp;   */
+&nbsp;  public void setNegation(boolean negation) {
+<b class="fc">&nbsp;    setFlag(NEGATION_MASK, negation);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * see {@link #setNegation}
+&nbsp;   * @since 0.9.3
+&nbsp;   */
+&nbsp;  public boolean getNegation() {
+<b class="fc">&nbsp;    return hasFlag(NEGATION_MASK);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true when this element refers to another token.
+&nbsp;   */
+&nbsp;  public boolean isReferenceElement() {
+<b class="fc">&nbsp;    return getMatch() != null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the reference to another token.
+&nbsp;   * @param match Formatting object for the token reference.
+&nbsp;   */
+&nbsp;  public void setMatch(Match match) {
+<b class="fc">&nbsp;    initRareFields().tokenReference = Objects.requireNonNull(match);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Match getMatch() {
+<b class="fc">&nbsp;    return rareFields == null ? null : rareFields.tokenReference;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Prepare PatternToken for matching by formatting its string token and POS (if the Element is supposed
+&nbsp;   * to refer to some other token).
+&nbsp;   * @param token the token specified as {@link AnalyzedTokenReadings}
+&nbsp;   * @param synth the language synthesizer ({@link Synthesizer})
+&nbsp;   */
+&nbsp;  public PatternToken compile(AnalyzedTokenReadings token, Synthesizer synth) throws IOException {
+&nbsp;    PatternToken compiledPatternToken;
+&nbsp;    try {
+<b class="fc">&nbsp;      compiledPatternToken = (PatternToken) clone();</b>
+&nbsp;    } catch (CloneNotSupportedException e) {
+<b class="nc">&nbsp;      throw new IllegalStateException(&quot;Could not clone element&quot;, e);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    compiledPatternToken.doCompile(token, synth);</b>
+<b class="fc">&nbsp;    return compiledPatternToken;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void doCompile(AnalyzedTokenReadings token, Synthesizer synth) throws IOException {
+<b class="fc">&nbsp;    Match tokenReference = rareFields.tokenReference;</b>
+<b class="fc">&nbsp;    MatchState matchState = tokenReference.createState(synth, token);</b>
+<b class="fc">&nbsp;    String reference = &quot;\\&quot; + tokenReference.getTokenRef();</b>
+<b class="pc">&nbsp;    if (tokenReference.setsPos()) {</b>
+<b class="nc">&nbsp;      String posReference = matchState.getTargetPosTag();</b>
+<b class="nc">&nbsp;      if (posReference != null) {</b>
+<b class="nc">&nbsp;        setPosToken(new PosToken(posReference, tokenReference.posRegExp(), getNegation()));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      setStringElement(getString().replace(reference, &quot;&quot;));</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      setStringElement(getString().replace(reference, matchState.toTokenString()));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the phrase the element is in.
+&nbsp;   * @param id ID of the phrase.
+&nbsp;   */
+&nbsp;  public void setPhraseName(String id) {
+<b class="fc">&nbsp;    initRareFields().phraseName = id;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if the Element is in any phrase.
+&nbsp;   * @return True if the Element is contained in the phrase.
+&nbsp;   */
+&nbsp;  public boolean isPartOfPhrase() {
+<b class="fc">&nbsp;    return rareFields != null &amp;&amp; rareFields.phraseName != null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Whether the element matches case sensitively.
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public boolean isCaseSensitive() {
+<b class="fc">&nbsp;    return textMatcher.caseSensitive;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests whether the element matches a regular expression.
+&nbsp;   * @since 0.9.6
+&nbsp;   */
+&nbsp;  public boolean isRegularExpression() {
+<b class="fc">&nbsp;    return textMatcher.isRegExp;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tests whether the POS matches a regular expression.
+&nbsp;   * @since 1.3.0
+&nbsp;   */
+&nbsp;  public boolean isPOStagRegularExpression() {
+<b class="nc">&nbsp;    return posToken != null &amp;&amp; posToken.posPattern != null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the POS of the Element or {@code null}
+&nbsp;   * @since 0.9.6
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public String getPOStag() {
+<b class="fc">&nbsp;    return posToken != null ? posToken.posTag : null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the chunk tag of the Element or {@code null}
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public ChunkTag getChunkTag() {
+<b class="fc">&nbsp;    return rareFields == null ? null : rareFields.chunkTag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if the POS is negated.
+&nbsp;   */
+&nbsp;  public boolean getPOSNegation() {
+<b class="pc">&nbsp;    return posToken != null &amp;&amp; posToken.negation;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if the token matches all inflected forms
+&nbsp;   */
+&nbsp;  public boolean isInflected() {
+<b class="fc">&nbsp;    return hasFlag(INFLECTED_MASK);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets the phrase the element is in.
+&nbsp;   * @return String The name of the phrase.
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public String getPhraseName() {
+<b class="fc">&nbsp;    return rareFields == null ? null : rareFields.phraseName;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isUnified() {
+<b class="fc">&nbsp;    return rareFields != null &amp;&amp; rareFields.unificationFeatures != null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setUnification(Map&lt;String, List&lt;String&gt;&gt; uniFeatures) {
+<b class="fc">&nbsp;    initRareFields().unificationFeatures = Objects.requireNonNull(uniFeatures);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get unification features and types.
+&nbsp;   * @return A map from features to a list of types or {@code null}
+&nbsp;   * @since 1.0.1
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public Map&lt;String, List&lt;String&gt;&gt; getUniFeatures() {
+<b class="pc">&nbsp;    return rareFields == null ? null : rareFields.unificationFeatures;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setUniNegation() {
+<b class="fc">&nbsp;    setFlag(UNI_NEGATION_MASK, true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isUniNegated() {
+<b class="fc">&nbsp;    return hasFlag(UNI_NEGATION_MASK);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isLastInUnification() {
+<b class="fc">&nbsp;    return hasFlag(LAST_UNIFIED_MASK);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setLastInUnification() {
+<b class="fc">&nbsp;    setFlag(LAST_UNIFIED_MASK, true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Determines whether the element should be silently ignored during unification,
+&nbsp;   * and simply added.
+&nbsp;   * @return True when the element is not included in unifying.
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  public boolean isUnificationNeutral() {
+<b class="fc">&nbsp;    return hasFlag(UNIFICATION_NEUTRAL_MASK);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the element as ignored during unification.
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  public void setUnificationNeutral() {
+<b class="fc">&nbsp;    setFlag(UNIFICATION_NEUTRAL_MASK, true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  public void setWhitespaceBefore(boolean isWhite) {
+<b class="fc">&nbsp;    setFlag(WHITESPACE_BEFORE_MASK, isWhite);</b>
+<b class="fc">&nbsp;    setFlag(TEST_WHITESPACE_MASK, true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isInsideMarker() {
+<b class="fc">&nbsp;    return hasFlag(INSIDE_MARKER_MASK);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setInsideMarker(boolean isInsideMarker) {
+<b class="fc">&nbsp;    setFlag(INSIDE_MARKER_MASK, isInsideMarker);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the attribute on the exception that determines matching of patterns
+&nbsp;   * that depends on whether there was a space before the token matching the exception
+&nbsp;   * or not.
+&nbsp;   * The same procedure is used for tokens that are valid for previous or current tokens.
+&nbsp;   * 
+&nbsp;   * @param isWhite If true, the space before exception is required.
+&nbsp;   */
+&nbsp;  public void setExceptionSpaceBefore(boolean isWhite) {
+<b class="fc">&nbsp;    if (rareFields != null) {</b>
+<b class="fc">&nbsp;      PatternToken[] array = hasPreviousException() ? rareFields.previousExceptions : rareFields.currentAndNextExceptions;</b>
+<b class="pc">&nbsp;      if (array.length &gt; 0) {</b>
+<b class="fc">&nbsp;        array[array.length - 1].setWhitespaceBefore(isWhite);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isWhitespaceBefore(AnalyzedToken token) {
+<b class="fc">&nbsp;    return hasFlag(WHITESPACE_BEFORE_MASK) == token.isWhitespaceBefore();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return A List of Exceptions. Used for testing.
+&nbsp;   * @since 1.0.0
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  public List&lt;PatternToken&gt; getExceptionList() {
+<b class="pc">&nbsp;    PatternToken[] array = rareFields == null ? EMPTY_ARRAY : rareFields.currentAndNextExceptions;</b>
+<b class="pc">&nbsp;    return array.length == 0 ? Collections.emptyList() : Arrays.asList(array);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @ApiStatus.Internal
+&nbsp;  public boolean hasCurrentOrNextExceptions() {
+<b class="fc">&nbsp;    return rareFields != null &amp;&amp; rareFields.currentAndNextExceptions.length &gt; 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean hasExceptionList() {
+<b class="nc">&nbsp;    return rareFields != null &amp;&amp;</b>
+&nbsp;           (rareFields.currentAndNextExceptions.length &gt; 0 || rareFields.previousExceptions.length &gt; 0);
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return all possible forms that this token pattern can accept, or {@code null} if such set is unknown/unbounded.
+&nbsp;   * This is used internally for performance optimizations.
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  Set&lt;String&gt; calcFormHints() {
+<b class="fc">&nbsp;    return calcStringHints(false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return all possible forms that this token pattern can accept, or {@code null} if such set is unknown/unbounded.
+&nbsp;   * This is used internally for performance optimizations.
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  Set&lt;String&gt; calcLemmaHints() {
+<b class="fc">&nbsp;    return calcStringHints(true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Set&lt;String&gt; calcStringHints(boolean inflected) {
+<b class="fc">&nbsp;    Set&lt;String&gt; result = inflected != isInflected() ? null : calcOwnPossibleStringValues();</b>
+<b class="fc">&nbsp;    if (result == null) return null;</b>
+&nbsp;
+<b class="fc">&nbsp;    List&lt;PatternToken&gt; andGroupList = rareFields == null ? null : rareFields.andGroupList;</b>
+<b class="fc">&nbsp;    List&lt;PatternToken&gt; orGroupList = rareFields == null ? null : rareFields.orGroupList;</b>
+<b class="fc">&nbsp;    if (andGroupList != null) {</b>
+<b class="fc">&nbsp;      result = new HashSet&lt;&gt;(result);</b>
+&nbsp;
+<b class="fc">&nbsp;      for (PatternToken token : andGroupList) {</b>
+<b class="fc">&nbsp;        Set&lt;String&gt; hints = token.calcStringHints(inflected);</b>
+<b class="fc">&nbsp;        if (hints != null) {</b>
+<b class="fc">&nbsp;          result.retainAll(hints);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;    } else if (orGroupList != null) {</b>
+<b class="fc">&nbsp;      result = new HashSet&lt;&gt;(result);</b>
+&nbsp;
+<b class="fc">&nbsp;      for (PatternToken token : orGroupList) {</b>
+<b class="fc">&nbsp;        Set&lt;String&gt; hints = token.calcStringHints(inflected);</b>
+<b class="fc">&nbsp;        if (hints == null) return null;</b>
+&nbsp;
+<b class="fc">&nbsp;        result.addAll(hints);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return result.isEmpty() ? null : result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private Set&lt;String&gt; calcOwnPossibleStringValues() {
+<b class="fc">&nbsp;    if (getNegation() || !hasStringThatMustMatch()) {</b>
+<b class="fc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return textMatcher.getPossibleValues();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  boolean hasStringThatMustMatch() {
+<b class="fc">&nbsp;    return !isReferenceElement() &amp;&amp; !hasFlag(MAY_BE_OMITTED_MASK) &amp;&amp; !getString().isEmpty();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="fc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="fc">&nbsp;    if (getNegation()) {</b>
+<b class="fc">&nbsp;      sb.append(&#39;!&#39;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    sb.append(getString());</b>
+<b class="fc">&nbsp;    String phraseName = getPhraseName();</b>
+<b class="pc">&nbsp;    if (phraseName != null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot; {&quot;);</b>
+<b class="nc">&nbsp;      sb.append(phraseName);</b>
+<b class="nc">&nbsp;      sb.append(&#39;}&#39;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (posToken != null) {</b>
+<b class="fc">&nbsp;      sb.append(&#39;/&#39;);</b>
+<b class="fc">&nbsp;      sb.append(posToken);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    ChunkTag chunkTag = getChunkTag();</b>
+<b class="pc">&nbsp;    if (chunkTag != null) {</b>
+<b class="nc">&nbsp;      sb.append(&#39;/&#39;);</b>
+<b class="nc">&nbsp;      sb.append(chunkTag);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    List&lt;PatternToken&gt; exceptionList = getExceptionList();</b>
+<b class="pc">&nbsp;    if (!exceptionList.isEmpty()) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;/exceptions=&quot;);</b>
+<b class="nc">&nbsp;      sb.append(exceptionList);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static class PosToken {
+&nbsp;
+&nbsp;    private final String posTag;
+&nbsp;    private final boolean negation;
+&nbsp;    private final StringMatcher posPattern;
+&nbsp;    private final boolean posUnknown;
+&nbsp;
+&nbsp;    public PosToken(String posTag, boolean regExp, boolean negation) {
+<b class="fc">&nbsp;      this(posTag, negation, regExp ? StringMatcher.regexp(posTag) : null);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    PosToken(String posTag, boolean negation, StringMatcher matcher) {</b>
+<b class="fc">&nbsp;      this.posTag = posTag;</b>
+<b class="fc">&nbsp;      this.negation = negation;</b>
+<b class="fc">&nbsp;      posPattern = matcher;</b>
+<b class="fc">&nbsp;      posUnknown = posPattern != null ? posPattern.matches(UNKNOWN_TAG) : UNKNOWN_TAG.equals(posTag);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;      return posTag;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /** Fields that are null in most instances of PatternToken */
+<b class="fc">&nbsp;  private static class RareFields {</b>
+&nbsp;    /**  List of exceptions that are valid for the current token and / or some next tokens. */
+<b class="fc">&nbsp;    @NotNull</b>
+&nbsp;    private PatternToken[] currentAndNextExceptions = EMPTY_ARRAY;
+&nbsp;
+&nbsp;    /** List of exceptions that are valid for a previous token. */
+<b class="fc">&nbsp;    @NotNull</b>
+&nbsp;    private PatternToken[] previousExceptions = EMPTY_ARRAY;
+&nbsp;
+&nbsp;    private Map&lt;String, List&lt;String&gt;&gt; unificationFeatures;
+&nbsp;
+&nbsp;    /** String ID of the phrase the element is in. **/
+&nbsp;    private String phraseName;
+&nbsp;
+&nbsp;    private List&lt;PatternToken&gt; andGroupList;
+&nbsp;    private List&lt;PatternToken&gt; orGroupList;
+&nbsp;
+&nbsp;    /** The reference to another element in the pattern. **/
+&nbsp;    private Match tokenReference;
+&nbsp;
+&nbsp;    private ChunkTag chunkTag;
+&nbsp;
+&nbsp;    private void addException(PatternToken pToken, boolean scopePrevious) {
+<b class="fc">&nbsp;      if (scopePrevious) {</b>
+<b class="fc">&nbsp;        previousExceptions = ObjectArrays.concat(previousExceptions, pToken);</b>
+&nbsp;      } else {
+<b class="fc">&nbsp;        currentAndNextExceptions = ObjectArrays.concat(currentAndNextExceptions, pToken);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

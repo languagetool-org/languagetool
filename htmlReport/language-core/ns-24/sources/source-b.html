@@ -1,0 +1,255 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AbstractNewYearDateFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractNewYearDateFilter (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractNewYearDateFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Accepts rule matches if we are in the first days of a new year and the user
+&nbsp; * may have entered a date with the old year (but not a date in December).
+&nbsp; * @since 4.3
+&nbsp; */
+<b class="nc">&nbsp;public abstract class AbstractNewYearDateFilter extends RuleFilter {</b>
+&nbsp;  // The day of the month may contain not only digits but also extra letters
+&nbsp;  // such as &quot;22nd&quot; in English or &quot;22-an&quot; in Esperanto. The regexp extracts
+&nbsp;  // the numerical part.
+<b class="nc">&nbsp;  private static final Pattern DAY_OF_MONTH_PATTERN = Pattern.compile(&quot;(\\d+).*&quot;);</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return true if the year recently changed (= it is January)
+&nbsp;  */
+&nbsp;  protected boolean isJanuary() {
+<b class="nc">&nbsp;    if (TestHackHelper.isJUnitTest()) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return getCalendar().get(Calendar.MONTH) == Calendar.JANUARY;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected int getCurrentYear() {
+<b class="nc">&nbsp;    if (TestHackHelper.isJUnitTest()) {</b>
+<b class="nc">&nbsp;      return 2014;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return getCalendar().get(Calendar.YEAR);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Implement so that January returns {@code 1}, February {@code 2} etc.
+&nbsp;   * @param localizedMonth name of a month or abbreviation thereof
+&nbsp;   */
+&nbsp;  protected abstract int getMonth(String localizedMonth);
+&nbsp;
+&nbsp;  protected abstract Calendar getCalendar();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Implement so that &quot;first&quot; returns {@code 1}, second returns {@code 2} etc.
+&nbsp;   * @param localizedDayOfMonth name of day of the month or abbreviation thereof
+&nbsp;   */
+&nbsp;  protected int getDayOfMonth(String localizedDayOfMonth) {
+<b class="nc">&nbsp;    return 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param args           a map with values for {@code year}, {@code month}, {@code day} (day of month)
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) {
+<b class="nc">&nbsp;    Calendar dateFromText = getDate(args);</b>
+&nbsp;    int monthFromText;
+&nbsp;    int yearFromText;
+&nbsp;    try {
+<b class="nc">&nbsp;      monthFromText = dateFromText.get(Calendar.MONTH);</b>
+<b class="nc">&nbsp;      yearFromText = dateFromText.get(Calendar.YEAR);</b>
+&nbsp;    } catch (IllegalArgumentException e) {
+<b class="nc">&nbsp;      return null; // date is not valid; another rule is responsible</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int currentYear = getCurrentYear();</b>
+<b class="nc">&nbsp;    if (isJanuary() &amp;&amp; monthFromText != 11 /*December*/ &amp;&amp; yearFromText + 1 == currentYear) {</b>
+<b class="nc">&nbsp;      String message = match.getMessage()</b>
+<b class="nc">&nbsp;              .replace(&quot;{year}&quot;, Integer.toString(yearFromText))</b>
+<b class="nc">&nbsp;              .replace(&quot;{realYear}&quot;, Integer.toString(currentYear));</b>
+<b class="nc">&nbsp;      RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());</b>
+<b class="nc">&nbsp;      ruleMatch.setType(match.getType());</b>
+<b class="nc">&nbsp;      return ruleMatch;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private Calendar getDate(Map&lt;String, String&gt; args) {
+<b class="nc">&nbsp;    int year = Integer.parseInt(getRequired(&quot;year&quot;, args));</b>
+<b class="nc">&nbsp;    int month = getMonthFromArguments(args);</b>
+<b class="nc">&nbsp;    int dayOfMonth = getDayOfMonthFromArguments(args);</b>
+&nbsp;
+<b class="nc">&nbsp;    Calendar calendar = getCalendar();</b>
+<b class="nc">&nbsp;    calendar.setLenient(false);  // be strict about validity of dates</b>
+&nbsp;    //noinspection MagicConstant
+<b class="nc">&nbsp;    calendar.set(year, month, dayOfMonth, 0, 0, 0);</b>
+<b class="nc">&nbsp;    return calendar;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int getDayOfMonthFromArguments(Map&lt;String, String&gt; args) {
+<b class="nc">&nbsp;    String dayOfMonthString = getRequired(&quot;day&quot;, args).replace(&quot;\u00AD&quot;, &quot;&quot;);  // replace soft hyphen</b>
+&nbsp;    int dayOfMonth;
+<b class="nc">&nbsp;    Matcher matcherDayOfMonth = DAY_OF_MONTH_PATTERN.matcher(dayOfMonthString);</b>
+<b class="nc">&nbsp;    if (matcherDayOfMonth.matches()) {</b>
+&nbsp;      // The day of the month is a number, possibly with a suffix such
+&nbsp;      // as &quot;22nd&quot; for example.
+<b class="nc">&nbsp;      dayOfMonth = Integer.parseInt(matcherDayOfMonth.group(1));</b>
+&nbsp;    } else {
+&nbsp;      // In some languages, the day of the month can also be written with
+&nbsp;      // letters rather than with digits, so parse localized numbers.
+<b class="nc">&nbsp;      dayOfMonth = getDayOfMonth(dayOfMonthString);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return dayOfMonth;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int getMonthFromArguments(Map&lt;String, String&gt; args) {
+<b class="nc">&nbsp;    String monthStr = getRequired(&quot;month&quot;, args).replace(&quot;\u00AD&quot;, &quot;&quot;);  // replace soft hyphen</b>
+&nbsp;    int month;
+<b class="nc">&nbsp;    if (StringUtils.isNumeric(monthStr)) {</b>
+<b class="nc">&nbsp;      month = Integer.parseInt(monthStr);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      month = getMonth(monthStr);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return month - 1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

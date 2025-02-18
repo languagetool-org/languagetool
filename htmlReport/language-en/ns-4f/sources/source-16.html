@@ -1,0 +1,313 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > HTTPSServer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: HTTPSServer (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HTTPSServer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/57)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">HTTPSServer$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/62)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import com.sun.net.httpserver.HttpsConfigurator;
+&nbsp;import com.sun.net.httpserver.HttpsParameters;
+&nbsp;import com.sun.net.httpserver.HttpsServer;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import javax.net.ssl.KeyManagerFactory;
+&nbsp;import javax.net.ssl.SSLContext;
+&nbsp;import javax.net.ssl.SSLParameters;
+&nbsp;import javax.net.ssl.TrustManagerFactory;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.net.BindException;
+&nbsp;import java.net.InetSocketAddress;
+&nbsp;import java.security.KeyStore;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.concurrent.*;
+&nbsp;
+&nbsp;import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
+&nbsp;
+&nbsp;/**
+&nbsp; * A small embedded HTTPS server that checks text. Works &lt;strong&gt;only&lt;/strong&gt; with https, not with http.
+&nbsp; *
+&nbsp; * @see HTTPServer
+&nbsp; * @since 2.0
+&nbsp; */
+&nbsp;public class HTTPSServer extends Server {
+&nbsp;
+&nbsp;  private final ThreadPoolExecutor executorService;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Prepare a server on the given host and port - use run() to start it.
+&nbsp;   * @param runInternally if true, then the server was started from the GUI.
+&nbsp;   * @param host the host to bind to, e.g. &lt;code&gt;&quot;localhost&quot;&lt;/code&gt; or &lt;code&gt;null&lt;/code&gt; to bind to any host
+&nbsp;   * @param allowedIps the IP addresses from which connections are allowed or &lt;code&gt;null&lt;/code&gt; to allow any host
+&nbsp;   * @throws PortBindingException if we cannot bind to the given port, e.g. because something else is running there
+&nbsp;   */
+<b class="nc">&nbsp;  public HTTPSServer(HTTPSServerConfig config, boolean runInternally, String host, Set&lt;String&gt; allowedIps) {</b>
+<b class="nc">&nbsp;    this.port = config.getPort();</b>
+<b class="nc">&nbsp;    this.host = host;</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      if (host == null) {</b>
+<b class="nc">&nbsp;        server = HttpsServer.create(new InetSocketAddress(port), 0);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        server = HttpsServer.create(new InetSocketAddress(host, port), 0);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      SSLContext sslContext = getSslContext(config.getKeystore(), config.getKeyStorePassword());</b>
+<b class="nc">&nbsp;      HttpsConfigurator configurator = getConfigurator(sslContext);</b>
+<b class="nc">&nbsp;      ((HttpsServer)server).setHttpsConfigurator(configurator);</b>
+<b class="nc">&nbsp;      RequestLimiter limiter = getRequestLimiterOrNull(config);</b>
+<b class="nc">&nbsp;      ErrorRequestLimiter errorLimiter = getErrorRequestLimiterOrNull(config);</b>
+<b class="nc">&nbsp;      executorService = getExecutorService(config);</b>
+<b class="nc">&nbsp;      BlockingQueue&lt;Runnable&gt; workQueue = executorService.getQueue();</b>
+<b class="nc">&nbsp;      httpHandler = new LanguageToolHttpHandler(config, allowedIps, runInternally, limiter, errorLimiter, workQueue, this);</b>
+<b class="nc">&nbsp;      server.createContext(&quot;/&quot;, httpHandler);</b>
+<b class="nc">&nbsp;      server.setExecutor(executorService);</b>
+&nbsp;    } catch (BindException e) {
+<b class="nc">&nbsp;      ResourceBundle messages = JLanguageTool.getMessageBundle();</b>
+<b class="nc">&nbsp;      String message = Tools.i18n(messages, &quot;https_server_start_failed&quot;, host, Integer.toString(port));</b>
+<b class="nc">&nbsp;      throw new PortBindingException(message, e);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      ResourceBundle messages = JLanguageTool.getMessageBundle();</b>
+<b class="nc">&nbsp;      String message = Tools.i18n(messages, &quot;https_server_start_failed_unknown_reason&quot;, host, Integer.toString(port));</b>
+<b class="nc">&nbsp;      throw new RuntimeException(message, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private SSLContext getSslContext(File keyStoreFile, String passPhrase) {
+<b class="nc">&nbsp;    try (FileInputStream keyStoreStream = new FileInputStream(keyStoreFile)) {</b>
+<b class="nc">&nbsp;      KeyStore keystore = KeyStore.getInstance(&quot;JKS&quot;);</b>
+<b class="nc">&nbsp;      keystore.load(keyStoreStream, passPhrase.toCharArray());</b>
+<b class="nc">&nbsp;      KeyManagerFactory kmf = KeyManagerFactory.getInstance(&quot;SunX509&quot;);</b>
+<b class="nc">&nbsp;      kmf.init(keystore, passPhrase.toCharArray());</b>
+<b class="nc">&nbsp;      TrustManagerFactory tmf = TrustManagerFactory.getInstance(&quot;SunX509&quot;);</b>
+<b class="nc">&nbsp;      tmf.init(keystore);</b>
+<b class="nc">&nbsp;      SSLContext sslContext = SSLContext.getInstance(&quot;TLS&quot;);</b>
+<b class="nc">&nbsp;      sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);</b>
+<b class="nc">&nbsp;      return sslContext;</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not set up SSL context&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private HttpsConfigurator getConfigurator(SSLContext sslContext) {
+<b class="nc">&nbsp;    return new HttpsConfigurator(sslContext) {</b>
+&nbsp;          @Override
+&nbsp;          public void configure (HttpsParameters params) {
+<b class="nc">&nbsp;            SSLContext context = getSSLContext();</b>
+<b class="nc">&nbsp;            SSLParameters sslParams = context.getDefaultSSLParameters();</b>
+<b class="nc">&nbsp;            params.setNeedClientAuth(false);</b>
+<b class="nc">&nbsp;            params.setSSLParameters(sslParams);</b>
+&nbsp;          }
+&nbsp;        };
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void stop() {
+<b class="nc">&nbsp;    super.stop();</b>
+<b class="nc">&nbsp;    if (executorService != null) {</b>
+<b class="nc">&nbsp;      executorService.shutdownNow();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) {
+<b class="nc">&nbsp;    if (args.length == 0 || usageRequested(args)) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + HTTPSServer.class.getSimpleName()</b>
+&nbsp;              + &quot; --config propertyFile [--port|-p port] [--public]&quot;);
+<b class="nc">&nbsp;      System.out.println(&quot;  --config file  a Java property file (one key=value entry per line) with values for:&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;                 &#39;keystore&#39; - a Java keystore with an SSL certificate (deprecated, use a reverse proxy to handle SSL)&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;                 &#39;password&#39; - the keystore&#39;s password (deprecated, use a reverse proxy to handle SSL)&quot;);</b>
+<b class="nc">&nbsp;      printCommonConfigFileOptions();</b>
+<b class="nc">&nbsp;      printCommonOptions();</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+&nbsp;    try {
+<b class="nc">&nbsp;      HTTPSServerConfig config = new HTTPSServerConfig(args);</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        checkForNonRootUser();</b>
+&nbsp;        HTTPSServer server;
+<b class="nc">&nbsp;        if (config.isPublicAccess()) {</b>
+<b class="nc">&nbsp;          System.out.println(&quot;WARNING: running in public mode, LanguageTool API can be accessed without restrictions!&quot;);</b>
+<b class="nc">&nbsp;          server = new HTTPSServer(config, false, null, null);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          server = new HTTPSServer(config, false, DEFAULT_HOST, DEFAULT_ALLOWED_IPS);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        server.run();</b>
+&nbsp;      } catch (Exception e) {
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Could not start LanguageTool HTTPS server on &quot; + HTTPServerConfig.DEFAULT_HOST + &quot;, port &quot; + config.getPort(), e);</b>
+&nbsp;      }
+&nbsp;    } catch (IllegalConfigurationException e) {
+<b class="nc">&nbsp;      System.out.println(e.getMessage());</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Note: this is the HTTPS server - if you want to use plain HTTP instead, please see https://dev.languagetool.org/http-server&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected String getProtocol() {
+<b class="nc">&nbsp;    return &quot;https&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

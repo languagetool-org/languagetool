@@ -1,0 +1,189 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > FalseFriendsAsBitextLoader</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns.bitext</a>
+</div>
+
+<h1>Coverage Summary for Class: FalseFriendsAsBitextLoader (org.languagetool.rules.patterns.bitext)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FalseFriendsAsBitextLoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (18/18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2010 Marcin Miłkowski (www.languagetool.org)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.patterns.bitext;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import javax.xml.parsers.ParserConfigurationException;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.patterns.AbstractPatternRule;
+&nbsp;import org.languagetool.rules.patterns.FalseFriendRuleLoader;
+&nbsp;import org.xml.sax.SAXException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Loads the false friend rules as bitext pattern rules. Note that the resulting
+&nbsp; * rules have suggestions that are not really customizable, in contradistinction
+&nbsp; * to the &#39;real&#39; bitext pattern rules.
+&nbsp; * 
+&nbsp; * @author Marcin Miłkowski
+&nbsp; */
+<b class="fc">&nbsp;public class FalseFriendsAsBitextLoader {</b>
+&nbsp;
+&nbsp;  public List&lt;BitextPatternRule&gt; getFalseFriendsAsBitext(
+&nbsp;          String filename, Language motherTongue,
+&nbsp;          Language language) throws ParserConfigurationException,
+&nbsp;          SAXException, IOException {
+<b class="fc">&nbsp;    FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader(motherTongue);</b>
+<b class="fc">&nbsp;    List&lt;BitextPatternRule&gt; bRules = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    List&lt;AbstractPatternRule&gt; rules1 = ruleLoader.getRules(</b>
+<b class="fc">&nbsp;            JLanguageTool.getDataBroker().getFromRulesDirAsStream(filename),</b>
+&nbsp;            motherTongue, language);
+<b class="fc">&nbsp;    List&lt;AbstractPatternRule&gt; rules2 = ruleLoader.getRules(</b>
+<b class="fc">&nbsp;            JLanguageTool.getDataBroker().getFromRulesDirAsStream(filename),</b>
+&nbsp;            language, motherTongue);
+<b class="fc">&nbsp;    Map&lt;String, AbstractPatternRule&gt; srcRules = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (AbstractPatternRule rule : rules1) {</b>
+<b class="fc">&nbsp;      srcRules.put(rule.getId(), rule);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    for (AbstractPatternRule rule : rules2) {</b>
+<b class="pc">&nbsp;      if (srcRules.containsKey(rule.getId())) {</b>
+<b class="fc">&nbsp;        BitextPatternRule bRule = new BitextPatternRule(</b>
+<b class="fc">&nbsp;                srcRules.get(rule.getId()), rule);</b>
+<b class="fc">&nbsp;        bRule.setSourceLanguage(motherTongue);</b>
+<b class="fc">&nbsp;        bRule.setCategory(rule.getCategory());</b>
+<b class="fc">&nbsp;        bRules.add(bRule);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return bRules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

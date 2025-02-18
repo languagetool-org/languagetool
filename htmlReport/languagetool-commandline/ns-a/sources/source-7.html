@@ -1,0 +1,239 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MixingSentenceSource</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.dumpcheck</a>
+</div>
+
+<h1>Coverage Summary for Class: MixingSentenceSource (org.languagetool.dev.dumpcheck)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MixingSentenceSource</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.dumpcheck;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.Language;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Alternately returns sentences from different sentence sources.
+&nbsp; * @since 2.4
+&nbsp; */
+&nbsp;public class MixingSentenceSource extends SentenceSource {
+&nbsp;
+&nbsp;  private final List&lt;SentenceSource&gt; sources;
+<b class="nc">&nbsp;  private final Map&lt;String, Integer&gt; sourceDistribution = new HashMap&lt;&gt;();</b>
+&nbsp;  
+&nbsp;  private int count;
+&nbsp;
+&nbsp;  public static MixingSentenceSource create(List&lt;String&gt; dumpFileNames, Language language) throws IOException {
+<b class="nc">&nbsp;    return create(dumpFileNames, language, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static MixingSentenceSource create(List&lt;String&gt; dumpFileNames, Language language, Pattern filter) throws IOException {
+<b class="nc">&nbsp;    List&lt;SentenceSource&gt; sources = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String dumpFileName : dumpFileNames) {</b>
+<b class="nc">&nbsp;      File file = new File(dumpFileName);</b>
+<b class="nc">&nbsp;      if (file.getName().endsWith(&quot;.xml&quot;)) {</b>
+<b class="nc">&nbsp;        sources.add(new WikipediaSentenceSource(new FileInputStream(dumpFileName), language, filter));</b>
+<b class="nc">&nbsp;      } else if (file.getName().startsWith(&quot;tatoeba-&quot;)) {</b>
+<b class="nc">&nbsp;        sources.add(new TatoebaSentenceSource(new FileInputStream(dumpFileName), language, filter));</b>
+<b class="nc">&nbsp;      } else if (file.getName().endsWith(&quot;.txt&quot;)) {</b>
+<b class="nc">&nbsp;        sources.add(new PlainTextSentenceSource(new FileInputStream(dumpFileName), language, filter));</b>
+<b class="nc">&nbsp;      } else if (file.getName().endsWith(&quot;.xz&quot;)) {</b>
+<b class="nc">&nbsp;        sources.add(new CommonCrawlSentenceSource(new FileInputStream(dumpFileName), language, filter));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Could not find a source handler for &quot; + dumpFileName +</b>
+&nbsp;                &quot; - Wikipedia files must be named &#39;*.xml&#39;, Tatoeba files must be named &#39;tatoeba-*&#39;, CommonCrawl files &#39;*.xz&#39;, plain text files &#39;*.txt&#39;&quot;);
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return new MixingSentenceSource(sources, language);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private MixingSentenceSource(List&lt;SentenceSource&gt; sources, Language language) {
+<b class="nc">&nbsp;    super(language);</b>
+<b class="nc">&nbsp;    this.sources = sources;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  Map&lt;String, Integer&gt; getSourceDistribution() {
+<b class="nc">&nbsp;    return sourceDistribution;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public boolean hasNext() {
+<b class="nc">&nbsp;    for (SentenceSource source : sources) {</b>
+<b class="nc">&nbsp;      if (source.hasNext()) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Sentence next() {
+<b class="nc">&nbsp;    SentenceSource sentenceSource = sources.get(count % sources.size());</b>
+<b class="nc">&nbsp;    while (!sentenceSource.hasNext()) {</b>
+<b class="nc">&nbsp;      sources.remove(sentenceSource);</b>
+<b class="nc">&nbsp;      if (sources.isEmpty()) {</b>
+<b class="nc">&nbsp;        throw new NoSuchElementException();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      count++;</b>
+<b class="nc">&nbsp;      sentenceSource = sources.get(count % sources.size());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    count++;</b>
+<b class="nc">&nbsp;    Sentence next = sentenceSource.next();</b>
+<b class="nc">&nbsp;    updateDistributionMap(next);</b>
+<b class="nc">&nbsp;    return next;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void updateDistributionMap(Sentence next) {
+<b class="nc">&nbsp;    Integer prevCount = sourceDistribution.get(next.getSource());</b>
+<b class="nc">&nbsp;    if (prevCount != null) {</b>
+<b class="nc">&nbsp;      sourceDistribution.put(next.getSource(), prevCount + 1);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      sourceDistribution.put(next.getSource(), 1);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getSource() {
+<b class="nc">&nbsp;    return StringUtils.join(sources, &quot;, &quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  int getIgnoredCount() {
+<b class="nc">&nbsp;    int sum = 0;</b>
+<b class="nc">&nbsp;    for (SentenceSource source : sources) {</b>
+<b class="nc">&nbsp;      sum += source.getIgnoredCount();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sum;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,238 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MissingVerbRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: MissingVerbRule (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MissingVerbRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.language.German;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.rules.patterns.PatternRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;/**
+&nbsp; * Checks that a sentence contains at least one verb. Ignores very short sentences.
+&nbsp; * Note that this is off by default, as there are quite some &quot;sentences&quot;
+&nbsp; * without a verb, e.g. &quot;Nix für ungut!&quot;, &quot;Bis nächste Woche.&quot;, &quot;Nicht schon wieder!&quot;,
+&nbsp; * &quot;Und deine Schwester?&quot;, &quot;Wie dumm von mir!&quot;, and book references like &quot;Andreas Fecker: Fluglotsen.&quot;
+&nbsp; * @since 2.7
+&nbsp; */
+&nbsp;public class MissingVerbRule extends Rule {
+&nbsp;
+&nbsp;  private static final int MIN_TOKENS_FOR_ERROR = 5;
+&nbsp;
+&nbsp;  private final PatternRule rule1;
+&nbsp;  private final PatternRule rule2;
+&nbsp;  private final Language language;
+&nbsp;
+<b class="nc">&nbsp;  public MissingVerbRule(ResourceBundle messages, German language) {</b>
+<b class="nc">&nbsp;    this.language = language;</b>
+<b class="nc">&nbsp;    rule1 = new PatternRule(&quot;internal&quot;, language, Arrays.asList(</b>
+&nbsp;            new PatternToken(&quot;Vielen&quot;, true, false, false),
+&nbsp;            new PatternToken(&quot;Dank&quot;, true, false, false)), &quot;&quot;, &quot;&quot;, &quot;&quot;);
+<b class="nc">&nbsp;    rule2 = new PatternRule(&quot;internal&quot;, language, Arrays.asList(</b>
+&nbsp;            new PatternToken(&quot;Herzlichen&quot;, true, false, false),
+&nbsp;            new PatternToken(&quot;Glückwunsch&quot;, true, false, false)), &quot;&quot;, &quot;&quot;, &quot;&quot;);
+<b class="nc">&nbsp;    super.setCategory(Categories.GRAMMAR.getCategory(messages));</b>
+<b class="nc">&nbsp;    setDefaultOff();</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;&lt;marker&gt;In diesem Satz kein Wort.&lt;/marker&gt;&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;In diesem Satz &lt;marker&gt;fehlt&lt;/marker&gt; kein Wort.&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;MISSING_VERB&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Satz ohne Verb&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    if (!isRealSentence(sentence) || isSpecialCase(sentence)) {</b>
+<b class="nc">&nbsp;      return new RuleMatch[0];</b>
+&nbsp;    }
+<b class="nc">&nbsp;    boolean verbFound = false;</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings lastToken = null;</b>
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    for (AnalyzedTokenReadings readings : sentence.getTokensWithoutWhitespace()) {</b>
+<b class="nc">&nbsp;      if (readings.hasPosTagStartingWith(&quot;VER&quot;)</b>
+<b class="nc">&nbsp;          || (!readings.isTagged() &amp;&amp; !StringTools.isCapitalizedWord(readings.getToken()) // ignore unknown words to avoid false alarms</b>
+<b class="nc">&nbsp;          || (i == 1 &amp;&amp; verbAtSentenceStart(readings)))) {</b>
+<b class="nc">&nbsp;        verbFound = true;</b>
+&nbsp;        break;
+&nbsp;      }
+<b class="nc">&nbsp;      lastToken = readings;</b>
+<b class="nc">&nbsp;      i++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!verbFound &amp;&amp; lastToken != null &amp;&amp; sentence.getTokensWithoutWhitespace().length &gt;= MIN_TOKENS_FOR_ERROR) {</b>
+<b class="nc">&nbsp;      RuleMatch match = new RuleMatch(this, sentence, 0, lastToken.getStartPos() + lastToken.getToken().length(), &quot;Dieser Satz scheint kein Verb zu enthalten&quot;);</b>
+<b class="nc">&nbsp;      return new RuleMatch[]{ match };</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new RuleMatch[0];</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // we want to ignore headlines, and these usually don&#39;t end with [.?!]
+&nbsp;  private boolean isRealSentence(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    if (tokens.length &gt; 0) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings lastToken = tokens[tokens.length - 1];</b>
+<b class="nc">&nbsp;      return lastToken.hasPosTag(&quot;PKT&quot;) &amp;&amp; StringUtils.equalsAny(lastToken.getToken(), &quot;.&quot;, &quot;?&quot;, &quot;!&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isSpecialCase(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    return rule1.match(sentence).length &gt; 0 || rule2.match(sentence).length &gt; 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean verbAtSentenceStart(AnalyzedTokenReadings readings) throws IOException {
+&nbsp;    // start of sentence is mis-tagged because of the uppercase first character, work around that:
+<b class="nc">&nbsp;    String lowercased = StringTools.lowercaseFirstChar(readings.getToken());</b>
+<b class="nc">&nbsp;    List&lt;AnalyzedTokenReadings&gt; lcReadings = language.getTagger().tag(Collections.singletonList(lowercased));</b>
+<b class="nc">&nbsp;    return lcReadings.size() &gt; 0 &amp;&amp; lcReadings.get(0).hasPosTagStartingWith(&quot;VER&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

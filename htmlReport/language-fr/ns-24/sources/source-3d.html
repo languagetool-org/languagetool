@@ -1,0 +1,207 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > IsEnglishWordFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: IsEnglishWordFilter (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">IsEnglishWordFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (2/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    10%
+  </span>
+  <span class="absValue">
+    (2/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    28%
+  </span>
+  <span class="absValue">
+    (7/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/*
+&nbsp; *  Check that the words are English.
+&nbsp; *  Alternatively, verify that they have the desired postag
+&nbsp; */
+&nbsp;public class IsEnglishWordFilter extends RuleFilter {
+&nbsp;
+<b class="fc">&nbsp;  private Language english = null;</b>
+&nbsp;  //private SpellingCheckRule spellingCheckRule = null;
+<b class="fc">&nbsp;  private Tagger tagger = null;</b>
+&nbsp;
+<b class="fc">&nbsp;  public IsEnglishWordFilter() {</b>
+&nbsp;    try {
+<b class="fc">&nbsp;      english = Languages.getLanguageForShortCode(&quot;en-US&quot;);</b>
+&nbsp;    } catch (Exception e) {
+&nbsp;    }
+<b class="pc">&nbsp;    if (english != null) {</b>
+&nbsp;      //spellingCheckRule = english.getDefaultSpellingRule();
+<b class="nc">&nbsp;      tagger = english.createDefaultTagger();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; args, int patternTokenPos,
+&nbsp;                                   AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) throws IOException {
+&nbsp;
+<b class="pc">&nbsp;    if (tagger == null) {</b>
+<b class="fc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String[] formPositions = getRequired(&quot;formPositions&quot;, args).split(&quot;,&quot;);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; forms = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String formPosition : formPositions) {</b>
+<b class="nc">&nbsp;      forms.add(patternTokens[getSkipCorrectedReference(tokenPositions, Integer.parseInt(formPosition))].getToken());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    boolean isEnglish = true;</b>
+<b class="nc">&nbsp;    String postagsStr = getOptional(&quot;postags&quot;, args);</b>
+<b class="nc">&nbsp;    if (postagsStr != null) {</b>
+<b class="nc">&nbsp;      String [] postags = postagsStr.split(&quot;,&quot;);</b>
+<b class="nc">&nbsp;      if (postags.length != forms.size()) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;The number of forms and postags has to be the same in disambiguation rule with &quot; +</b>
+&nbsp;            &quot;filter IsEnglishWordFilter.&quot;);
+&nbsp;      }
+<b class="nc">&nbsp;      for (int i = 0; i &lt; postags.length; i++) {</b>
+<b class="nc">&nbsp;        isEnglish = isEnglish &amp;&amp; wordIsTaggedWith(forms.get(i), postags[i]);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      for (int i = 0; i &lt; forms.size(); i++) {</b>
+<b class="nc">&nbsp;        isEnglish = isEnglish &amp;&amp; wordIsTagged(forms.get(i));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return (isEnglish ? match : null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean wordIsTaggedWith(String word, String postag) throws IOException {
+<b class="nc">&nbsp;    return tagger.tag(Collections.singletonList(word)).get(0).matchesPosTagRegex(postag);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean wordIsTagged(String word) throws IOException {
+<b class="nc">&nbsp;    return tagger.tag(Collections.singletonList(word)).get(0).isTagged();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

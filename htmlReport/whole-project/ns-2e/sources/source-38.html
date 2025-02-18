@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UnitConversionRuleImperial</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.en</a>
+</div>
+
+<h1>Coverage Summary for Class: UnitConversionRuleImperial (org.languagetool.rules.en)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UnitConversionRuleImperial</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (37/37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.en;
+&nbsp;
+&nbsp;import java.math.RoundingMode;
+&nbsp;import java.text.NumberFormat;
+&nbsp;import java.util.Locale;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;import static tech.units.indriya.unit.Units.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 4.3
+&nbsp; */
+&nbsp;public class UnitConversionRuleImperial extends UnitConversionRule {
+&nbsp;
+&nbsp;  public UnitConversionRuleImperial(ResourceBundle messages) {
+<b class="fc">&nbsp;    super(messages);</b>
+<b class="fc">&nbsp;    format = NumberFormat.getNumberInstance(Locale.UK);</b>
+<b class="fc">&nbsp;    format.setMaximumFractionDigits(2);</b>
+<b class="fc">&nbsp;    format.setRoundingMode(RoundingMode.HALF_UP);</b>
+&nbsp;
+<b class="fc">&nbsp;    addUnit(&quot;(kilometre|kilometer)s? per hour&quot;, KILOMETRE_PER_HOUR, &quot;kilometres per hour&quot;, 1, true);</b>
+&nbsp;
+<b class="fc">&nbsp;    addUnit(&quot;kilomet(re|er)s?&quot;, METRE, &quot;kilometres&quot;, 1e3, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;met(re|er)s?&quot;, METRE, &quot;metres&quot;, 1e0, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;decimet(re|er)s?&quot;, METRE, &quot;decimetres&quot;, 1e-1, false/*true*/); // Metric, but not commonly used</b>
+<b class="fc">&nbsp;    addUnit(&quot;centimet(re|er)s?&quot;, METRE, &quot;centimetres&quot;, 1e-2, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;millimet(re|er)s?&quot;, METRE, &quot;micrometres&quot;, 1e-3, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;micromet(re|er)s?&quot;, METRE, &quot;micrometres&quot;, 1e-6, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;nanomet(re|er)s?&quot;, METRE, &quot;nanometres&quot;, 1e-9, true);</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;    addUnit(&quot;square met(re|er)s?&quot;, SQUARE_METRE, &quot;square metres&quot;, 1, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;square kilomet(re|er)s?&quot;, SQUARE_METRE, &quot;square kilometres&quot;, 1e6, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;square decimet(re|er)s?&quot;, SQUARE_METRE, &quot;square decimetres&quot;, 1e-2, false/*true*/); // Metric, but not commonly used</b>
+<b class="fc">&nbsp;    addUnit(&quot;square centimet(re|er)s?&quot;, SQUARE_METRE, &quot;square centimetres&quot;, 1e-4, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;square millimet(re|er)s?&quot;, SQUARE_METRE, &quot;square millimetres&quot;, 1e-6, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;square micromet(re|er)s?&quot;, SQUARE_METRE, &quot;square micrometres&quot;, 1e-12, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;square nanomet(re|er)s?&quot;, SQUARE_METRE, &quot;square nanometres&quot;, 1e-18, true);</b>
+&nbsp;
+<b class="fc">&nbsp;    addUnit(&quot;cubic met(re|er)s?&quot;, CUBIC_METRE, &quot;cubic metres&quot;, 1, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;cubic kilomet(re|er)s?&quot;, CUBIC_METRE, &quot;cubic kilometres&quot;, 1e9, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;cubic decimet(re|er)s?&quot;, CUBIC_METRE, &quot;cubic decimetres&quot;, 1e-3, false/*true*/); // Metric, but not commonly used</b>
+<b class="fc">&nbsp;    addUnit(&quot;cubic centimet(re|er)s?&quot;, CUBIC_METRE, &quot;cubic centimetres&quot;, 1e-6, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;cubic millimet(re|er)s?&quot;, CUBIC_METRE, &quot;cubic millimetres&quot;, 1e-9, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;cubic micromet(re|er)s?&quot;, CUBIC_METRE, &quot;cubic micrometres&quot;, 1e-18, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;cubic nanomet(re|er)s?&quot;, CUBIC_METRE, &quot;cubic nanometres&quot;, 1e-27, true);</b>
+&nbsp;
+<b class="fc">&nbsp;    addUnit(&quot;lit(re|er)s?&quot;, LITRE, &quot;litres&quot;, 1, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;millilit(re|er)s?&quot;, LITRE, &quot;millilitres&quot;, 1e-3, true);</b>
+&nbsp;
+<b class="fc">&nbsp;    addUnit(&quot;qt\\.&quot;, IMP_QUART, &quot;qt.&quot;, 1, false);</b>
+<b class="fc">&nbsp;    addUnit(&quot;gal&quot;, IMP_GALLON, &quot;gal&quot;, 1, false);</b>
+<b class="fc">&nbsp;    addUnit(&quot;pt&quot;, IMP_PINT, &quot;pt&quot;, 1, false);</b>
+<b class="fc">&nbsp;    addUnit(&quot;(?:fl.? oz.?|oz. fl.)&quot;, IMP_FL_OUNCE, &quot;fl oz&quot;, 1, false);</b>
+&nbsp;
+<b class="fc">&nbsp;    addUnit(&quot;quarts?&quot;, IMP_QUART, &quot;quarts&quot;, 1, false);</b>
+<b class="fc">&nbsp;    addUnit(&quot;gallons?&quot;, IMP_GALLON, &quot;gallons&quot;, 1, false);</b>
+<b class="fc">&nbsp;    addUnit(&quot;pints?&quot;, IMP_PINT, &quot;pints&quot;, 1, false);</b>
+<b class="fc">&nbsp;    addUnit(&quot;(fluid )?ounces?&quot;, IMP_FL_OUNCE, &quot;fluid ounces&quot;, 1, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  @Override public String getId() {
+<b class="fc">&nbsp;    return &quot;METRIC_UNITS_EN_IMPERIAL&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

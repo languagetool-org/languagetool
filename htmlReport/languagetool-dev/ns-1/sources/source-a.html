@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ExtendedSentenceRange</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool</a>
+</div>
+
+<h1>Coverage Summary for Class: ExtendedSentenceRange (org.languagetool)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ExtendedSentenceRange</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * LanguageTool, a natural language style checker
+&nbsp; * Copyright (c) 2023.  Stefan Viol (https://stevio.de)
+&nbsp; *
+&nbsp; *  This library is free software; you can redistribute it and/or
+&nbsp; *  modify it under the terms of the GNU Lesser General Public
+&nbsp; *  License as published by the Free Software Foundation; either
+&nbsp; *  version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; *  This library is distributed in the hope that it will be useful,
+&nbsp; *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  Lesser General Public License for more details.
+&nbsp; *
+&nbsp; *  You should have received a copy of the GNU Lesser General Public
+&nbsp; *  License along with this library; if not, write to the Free Software
+&nbsp; *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool;
+&nbsp;
+&nbsp;import lombok.Getter;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;public final class ExtendedSentenceRange implements Comparable&lt;ExtendedSentenceRange&gt; {
+&nbsp;
+&nbsp;  @Getter
+&nbsp;  private final int fromPos;
+&nbsp;  @Getter
+&nbsp;  private final int toPos;
+&nbsp;  @Getter
+&nbsp;  private final Map&lt;String, Float&gt; languageConfidenceRates; //languageCode;0-1 confidenceRate from LanguageDetectionService
+&nbsp;
+&nbsp;  ExtendedSentenceRange(int fromPos, int toPos, String languageCode) {
+<b class="nc">&nbsp;    this(fromPos, toPos, Collections.singletonMap(languageCode, 1.0f));</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  ExtendedSentenceRange(int fromPos, int toPos, @NotNull Map&lt;String, Float&gt; languageConfidenceRates) {</b>
+<b class="nc">&nbsp;    this.fromPos = fromPos;</b>
+<b class="nc">&nbsp;    this.toPos = toPos;</b>
+<b class="nc">&nbsp;    this.languageConfidenceRates = new LinkedHashMap&lt;&gt;(languageConfidenceRates);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void updateLanguageConfidenceRates(@NotNull Map&lt;String, Float&gt; languageConfidenceRates) {
+<b class="nc">&nbsp;    this.languageConfidenceRates.clear();</b>
+<b class="nc">&nbsp;    this.languageConfidenceRates.putAll(languageConfidenceRates);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean equals(Object o) {
+<b class="nc">&nbsp;    if (this == o) return true;</b>
+<b class="nc">&nbsp;    if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="nc">&nbsp;    ExtendedSentenceRange extendedSentenceRange = (ExtendedSentenceRange) o;</b>
+<b class="nc">&nbsp;    return fromPos == extendedSentenceRange.fromPos &amp;&amp; toPos == extendedSentenceRange.toPos;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int hashCode() {
+<b class="nc">&nbsp;    int result = fromPos;</b>
+<b class="nc">&nbsp;    result = 31 * result + toPos;</b>
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return fromPos + &quot;-&quot; + toPos + &quot;:&quot; + languageConfidenceRates;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int compareTo(@NotNull ExtendedSentenceRange o) {
+<b class="nc">&nbsp;    return Integer.compare(this.fromPos, o.fromPos);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,575 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RussianChunker</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.chunking</a>
+</div>
+
+<h1>Coverage Summary for Class: RussianChunker (org.languagetool.chunking)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RussianChunker</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/62)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/129)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RussianChunker$AffectedSpans</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">RussianChunker$PhraseType</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">RussianChunker$RegularExpressionWithPhraseType</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">RussianChunker$Span</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/68)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/153)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2021 Yakov Reztsov (http://www.languagetool.org)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.Y
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.chunking;
+&nbsp;
+&nbsp;import org.languagetool.Experimental;
+&nbsp;import edu.washington.cs.knowitall.regex.Match;
+&nbsp;import edu.washington.cs.knowitall.regex.RegularExpression;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static org.languagetool.chunking.RussianChunker.PhraseType.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule-based prototype Russian chunker. Please note that this chunker
+&nbsp; * has not been evaluated as a stand-alone chunker, it has only been used
+&nbsp; * in the context of LanguageTool&#39;s error detection rules.
+&nbsp; * @author Yakov Reztsov
+&nbsp; * Based on idea of German LanguageTool Сhunker.
+&nbsp; * @since 5.6
+&nbsp; */
+&nbsp;@Experimental
+&nbsp;public class RussianChunker implements Chunker {
+&nbsp;
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; FILTER_TAGS = new HashSet&lt;&gt;(Arrays.asList(&quot;PP&quot;, &quot;NPP&quot;, &quot;NPS&quot;, &quot;MayMissingYO&quot;, &quot;VP&quot;, &quot;SBAR&quot;, &quot;ADJP&quot;, &quot;DPT&quot;));</b>
+<b class="nc">&nbsp;  private static final TokenExpressionFactory FACTORY = new TokenExpressionFactory(false);</b>
+&nbsp; 
+<b class="nc">&nbsp;  private static final Map&lt;String,String&gt; SYNTAX_EXPANSION = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    SYNTAX_EXPANSION.put(&quot;&lt;NP&gt;&quot;, &quot;&lt;chunk=B-NP&gt; &lt;chunk=I-NP&gt;*&quot;);</b>
+<b class="nc">&nbsp;    SYNTAX_EXPANSION.put(&quot;&lt;VP&gt;&quot;, &quot;&lt;chunk=B-VP&gt; &lt;chunk=I-VP&gt;*&quot;);</b>
+<b class="nc">&nbsp;    SYNTAX_EXPANSION.put(&quot;&lt;ADJP&gt;&quot;, &quot;&lt;chunk=B-ADJP&gt; &lt;chunk=I-ADJP&gt;*&quot;);</b>
+<b class="nc">&nbsp;    SYNTAX_EXPANSION.put(&quot;&lt;DPT&gt;&quot;, &quot;&lt;chunk=B-DPT&gt; &lt;chunk=I-DPT&gt;*&quot;);</b>
+&nbsp;
+&nbsp;
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  enum PhraseType {</b>
+<b class="nc">&nbsp;    NP,   // &quot;noun phrase&quot;, will be assigned as B-NP for the first token and I-NP for following tokens (like OpenNLP)</b>
+<b class="nc">&nbsp;    NPS,  // &quot;noun phrase singular&quot;</b>
+<b class="nc">&nbsp;    NPP,  // &quot;noun phrase plural&quot;</b>
+<b class="nc">&nbsp;    PP,    // &quot;prepositional phrase&quot; and similar</b>
+<b class="nc">&nbsp;    MayMissingYO,</b>
+<b class="nc">&nbsp;    VP,     // verb phrase</b>
+<b class="nc">&nbsp;    SBAR,</b>
+<b class="nc">&nbsp;    ADJP,   // participle</b>
+<b class="nc">&nbsp;    DPT     // adverbial participle</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @deprecated for internal use only */
+&nbsp;  public static void setDebug(boolean debugMode) {
+<b class="nc">&nbsp;    debug = debugMode;</b>
+&nbsp;  }
+&nbsp;  /** @deprecated for internal use only */
+&nbsp;  public static boolean isDebug() {
+<b class="nc">&nbsp;    return debug;</b>
+&nbsp;  }
+<b class="nc">&nbsp;  private static boolean debug = false;</b>
+&nbsp;
+&nbsp;  /*
+&nbsp;   * REGEXES1 and REGEXES2 are OpenRegex (https:*github.com/knowitall/openregex) expressions.
+&nbsp;   * REGEXES1 roughly emulates the behavior of the OpenNLP chunker by tagging the first
+&nbsp;   * token of a noun phrase with B-NP and the remaining ones with I-NP.
+&nbsp;   * REGEXES2 builds on those annotations to find complex noun phrases.
+&nbsp;   *
+&nbsp;   * Syntax:
+&nbsp;   *    &lt;string|regex|regexCS|chunk|pos|posregex|posre=value&gt;
+&nbsp;   *       string: matches the token itself
+&nbsp;   *       regex: matches the token against a regular expression
+&nbsp;   *       regexCS: is like regex but case-sensitive
+&nbsp;   *       chunk: matches the token&#39;s chunk
+&nbsp;   *       pos: matches the token&#39;s POS tags
+&nbsp;   *       posregex: matches the token&#39;s POS tags against a regular expression
+&nbsp;   *       posre: is a synonym for posregex
+&nbsp;   *    &lt;foo&gt; is a short form of &lt;string=foo&gt;
+&nbsp;   *    &lt;pos=X&gt; will match tokens with POS tags that contain X as a substring
+&nbsp;   *
+&nbsp;   * Example to combine two conditions via logical AND:
+&nbsp;   *    &lt;pos=ADJ &amp; chunk=B-NP&gt;
+&nbsp;   * Example: Quote a regular expression so OpenRegex doesn&#39;t get confused:
+&nbsp;   *    &lt;posre=&#39;.*(Nom|V).*&#39;&gt;
+&nbsp;   *
+&nbsp;   * See SYNTAX_EXPANSION for strings that get expanded before interpreted by OpenRegex.
+&nbsp;   * The chunks are added to the existing chunks, unless the last argument of build() is
+&nbsp;   * true, in which case existing chunks get overwritten.
+&nbsp;   */
+&nbsp;  
+<b class="nc">&nbsp;  private static final List&lt;RegularExpressionWithPhraseType&gt; REGEXES1 = Arrays.asList(</b>
+&nbsp;      // Иванов Иван Иванович
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;NN:(Name|Fam|Patr):.*&#39;&gt; &lt;posre=&#39;NN:(Name|Fam|Patr):.*&#39;&gt;+ &quot; , NP, true),</b>
+&nbsp;      // Иванов И.И.
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;NN:Fam:.*&#39;&gt; &lt;regexCS=[А-ЯЁ]&gt; &lt;.&gt; &lt;regexCS=[А-ЯЁ]&gt; &lt;.&gt; &quot;, NP, true),</b>
+&nbsp;      // И.И. Иванов
+<b class="nc">&nbsp;      build(&quot;&lt;regexCS=[А-ЯЁ]&gt; &lt;.&gt; &lt;regexCS=[А-ЯЁ]&gt; &lt;.&gt; &lt;posre=&#39;NN:Fam:.*&#39;&gt; &quot;, NP, true),</b>
+&nbsp;      // verb+verb
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;VB:.*:.*&#39; &amp; !posre=&#39;NN:.*&#39;&gt;* &quot; , VP, false),</b>
+&nbsp;
+<b class="nc">&nbsp;      build(&quot;&lt;если&gt;&quot;, SBAR),  //</b>
+<b class="nc">&nbsp;      build(&quot;&lt;поэтому&gt;&quot;, SBAR),  //</b>
+&nbsp;      // noun phrase 
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;ADJ:Posit:.*:.*&#39;&gt; &lt;posre=&#39;NN:(Anim|Inanim):.*&#39; &amp; !posre=&#39;NN:(Anim|Inanim):.*:(R|D|T|P)&#39;&gt; &quot; , NP, true),</b>
+&nbsp;     
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;ADJ:Posit:.*:.*&#39;&gt; &lt;posre=&#39;NN:(Anim|Inanim):.*&#39; &amp; !posre=&#39;NN:(Anim|Inanim):.*:(R|D|T|P)&#39;&gt; &lt;posre=&#39;NN:(Anim|Inanim):.*&#39;&gt; &quot; , NP, true),</b>
+&nbsp;      // adj -&gt; participle phrase
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;ADJ:Posit:.*:.*&#39;&gt; &lt;posre=&#39;NN:(Anim|Inanim):.*&#39; &amp; !posre=&#39;NN:(Anim|Inanim):.*:(Nom|V)&#39;&gt; &lt;posre=&#39;NN:(Anim|Inanim):.*:(Nom|V)&#39; &amp; !posre=&#39;NN:(Anim|Inanim):.*:(R|D|T|P)&#39;&gt; &quot; , ADJP, true),</b>
+&nbsp;      
+&nbsp;      //adverbial participle
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;DPT:.*:.*&#39; &amp; !pos=&#39;PREP&#39;&gt; &quot; , DPT),</b>
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;DPT:.*:.*&#39; &amp; !pos=&#39;PREP&#39;&gt; &lt;posre=&#39;NN:.*:.*:(R|D|T|P)&#39; &gt; &quot; , DPT, true),</b>
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;DPT:.*:.*&#39; &amp; !pos=&#39;PREP&#39;&gt; &lt;posre=&#39;PREP&#39;&gt; &lt;posre=&#39;NN:.*:.*:(R|D|T|P)&#39; &gt; &quot; , DPT, true),</b>
+&nbsp;      //participle
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;PT:.*:.*&#39;&gt; &quot; , ADJP),</b>
+&nbsp;
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;PT:.*:.*&#39;&gt; &lt;pos=&#39;ADV&#39; &gt; &quot; , ADJP, true),</b>
+&nbsp;
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;PT:.*:.*&#39;&gt; &lt;posre=&#39;NN:.*:.*:(R|D|T|P)&#39; &gt; &quot; , ADJP, true),</b>
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;PT:.*:.*&#39;&gt; &lt;posre=&#39;PREP&#39;&gt; &lt;posre=&#39;NN:.*:.*:(R|D|T|P|V)&#39; &gt; &quot; , ADJP, true),</b>
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;PT:.*:.*&#39;&gt; &lt;posre=&#39;PREP&#39;&gt; &lt;posre=&#39;ADJ:.*:.*:(R|D|T|P|V)&#39; &gt; &lt;posre=&#39;NN:.*:.*:(R|D|T|P|V)&#39; &gt; &quot; , ADJP, true),</b>
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;PT:.*:.*&#39;&gt; &lt;posre=&#39;NN:(Anim|Inanim):.*&#39; &amp; !posre=&#39;NN:(Anim|Inanim):.*:(Nom|V)&#39;&gt; &lt;posre=&#39;NN:(Anim|Inanim):.*:(Nom|V)&#39; &amp; !posre=&#39;NN:(Anim|Inanim):.*:(R|D|T|P)&#39;&gt; &quot; , ADJP, true),      </b>
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;PT:.*:.*&#39;&gt; &lt;posre=&#39;PNN:.*&#39; &amp; !posre=&#39;PNN:.*:Nom:.*&#39;&gt; &lt;posre=&#39;NN:(Anim|Inanim):.*:(Nom|V)&#39; &amp; !posre=&#39;NN:(Anim|Inanim):.*:(R|D|T|P)&#39;&gt; &quot; , ADJP, true),</b>
+&nbsp;      //
+<b class="nc">&nbsp;      build(&quot;&lt;posre=&#39;PT:.*:.*&#39;&gt; &lt;posre=&#39;ADJ:.*:.*&#39; &gt; &quot; , ADJP, false),</b>
+&nbsp;      //
+<b class="nc">&nbsp;      build(&quot;&lt;тов&gt;&quot;, NP)  // simulate OpenNLP?!</b>
+&nbsp;  );
+&nbsp;
+<b class="nc">&nbsp;  private static final List&lt;RegularExpressionWithPhraseType&gt; REGEXES2 = Arrays.asList(</b>
+&nbsp;      // ===== plural and singular noun phrases, based on OpenNLP chunker output ===============
+&nbsp;      // &quot;Маша и Миша&quot;:
+<b class="nc">&nbsp;      build(&quot;&lt;posre=NN:Name:.*&gt; &lt;и&gt; &lt;posre=NN:Name:.*&gt;&quot;, NPP, true),</b>
+<b class="nc">&nbsp;      build(&quot;&lt;posre=NN:Name:.*&gt; &lt;или&gt; &lt;posre=NN:Name:.*&gt;&quot;, NPP, true),</b>
+&nbsp;      // не + VB
+<b class="nc">&nbsp;      build(&quot;&lt;не&gt; &lt;posre=&#39;VB:.*:.*&#39; &amp; !posre=&#39;NN:.*&#39;&gt;* &quot; , VP, false)</b>
+&nbsp;  );
+&nbsp;
+&nbsp;  private static RegularExpressionWithPhraseType build(String expr, PhraseType phraseType) {
+<b class="nc">&nbsp;    return build(expr, phraseType, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static RegularExpressionWithPhraseType build(String expr, PhraseType phraseType, boolean overwrite) {
+<b class="nc">&nbsp;    String expandedExpr = expr;</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, String&gt; entry : SYNTAX_EXPANSION.entrySet()) {</b>
+<b class="nc">&nbsp;      expandedExpr = expandedExpr.replace(entry.getKey(), entry.getValue());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    RegularExpression&lt;ChunkTaggedToken&gt; expression = RegularExpression.compile(expandedExpr, FACTORY);</b>
+<b class="nc">&nbsp;    return new RegularExpressionWithPhraseType(expression, phraseType, overwrite);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  public RussianChunker() {</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void addChunkTags(List&lt;AnalyzedTokenReadings&gt; tokenReadings) {
+<b class="nc">&nbsp;    List&lt;ChunkTaggedToken&gt; chunkTaggedTokens = getBasicChunks(tokenReadings);</b>
+<b class="nc">&nbsp;    for (RegularExpressionWithPhraseType regex : REGEXES2) {</b>
+<b class="nc">&nbsp;      apply(regex, chunkTaggedTokens);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    assignChunksToReadings(chunkTaggedTokens);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;ChunkTaggedToken&gt; getBasicChunks(List&lt;AnalyzedTokenReadings&gt; tokenReadings) {
+<b class="nc">&nbsp;    List&lt;ChunkTaggedToken&gt; chunkTaggedTokens = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (AnalyzedTokenReadings tokenReading : tokenReadings) {</b>
+<b class="nc">&nbsp;      if ((!tokenReading.isWhitespace()) &amp;&amp; (!tokenReading.getChunkTags().contains(new ChunkTag(&quot;MayMissingYO&quot;))))    {</b>
+<b class="nc">&nbsp;        List&lt;ChunkTag&gt; chunkTags = Collections.singletonList(new ChunkTag(&quot;O&quot;));</b>
+<b class="nc">&nbsp;          ChunkTaggedToken chunkTaggedToken = new ChunkTaggedToken(tokenReading.getToken(), chunkTags, tokenReading);</b>
+<b class="nc">&nbsp;          chunkTaggedTokens.add(chunkTaggedToken);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (debug) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;=============== CHUNKER INPUT ===============&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(getDebugString(chunkTaggedTokens));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (RegularExpressionWithPhraseType regex : REGEXES1) {</b>
+<b class="nc">&nbsp;      apply(regex, chunkTaggedTokens);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return chunkTaggedTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void apply(RegularExpressionWithPhraseType regex, List&lt;ChunkTaggedToken&gt; tokens) {
+<b class="nc">&nbsp;    String prevDebug = getDebugString(tokens);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      AffectedSpans affectedSpans = doApplyRegex(regex, tokens);</b>
+<b class="nc">&nbsp;      String debug = getDebugString(tokens);</b>
+<b class="nc">&nbsp;      if (!debug.equals(prevDebug)) {</b>
+<b class="nc">&nbsp;        printDebugInfo(regex, affectedSpans, debug);</b>
+&nbsp;      }
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not apply chunk regexp &#39;&quot; + regex + &quot;&#39; to tokens: &quot; + tokens, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void assignChunksToReadings(List&lt;ChunkTaggedToken&gt; chunkTaggedTokens) {
+<b class="nc">&nbsp;    for (ChunkTaggedToken taggedToken : chunkTaggedTokens) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings readings = taggedToken.getReadings();</b>
+<b class="nc">&nbsp;      if (readings != null) {</b>
+<b class="nc">&nbsp;        readings.setChunkTags(taggedToken.getChunkTags());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private AffectedSpans doApplyRegex(RegularExpressionWithPhraseType regex, List&lt;ChunkTaggedToken&gt; tokens) {
+<b class="nc">&nbsp;    List&lt;Match&lt;ChunkTaggedToken&gt;&gt; matches = regex.expression.findAll(tokens);</b>
+<b class="nc">&nbsp;    List&lt;Span&gt; affectedSpans = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Match&lt;ChunkTaggedToken&gt; match : matches) {</b>
+<b class="nc">&nbsp;      affectedSpans.add(new Span(match.startIndex(), match.endIndex()));</b>
+<b class="nc">&nbsp;      for (int i = match.startIndex(); i &lt; match.endIndex(); i++) {</b>
+<b class="nc">&nbsp;        ChunkTaggedToken token = tokens.get(i);</b>
+<b class="nc">&nbsp;        List&lt;ChunkTag&gt; newChunkTags = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        newChunkTags.addAll(token.getChunkTags());</b>
+<b class="nc">&nbsp;        if (regex.overwrite) {</b>
+<b class="nc">&nbsp;          List&lt;ChunkTag&gt; filtered = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          for (ChunkTag newChunkTag : newChunkTags) {</b>
+<b class="nc">&nbsp;            if (!FILTER_TAGS.contains(newChunkTag.getChunkTag())) {</b>
+<b class="nc">&nbsp;              filtered.add(newChunkTag);</b>
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          newChunkTags = filtered;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        ChunkTag newTag = getChunkTag(regex, match, i);</b>
+<b class="nc">&nbsp;        if (!newChunkTags.contains(newTag)) {</b>
+<b class="nc">&nbsp;          newChunkTags.add(newTag);</b>
+<b class="nc">&nbsp;          newChunkTags.remove(new ChunkTag(&quot;O&quot;));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        tokens.set(i, new ChunkTaggedToken(token.getToken(), newChunkTags, token.getReadings()));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return new AffectedSpans(affectedSpans);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private ChunkTag getChunkTag(RegularExpressionWithPhraseType regex, Match&lt;ChunkTaggedToken&gt; match, int i) {
+&nbsp;    ChunkTag newTag;
+<b class="nc">&nbsp;    if (regex.phraseType == NP) {</b>
+&nbsp;      // we assign the same tags as the OpenNLP chunker, noun
+<b class="nc">&nbsp;      if (i == match.startIndex()) {</b>
+<b class="nc">&nbsp;        newTag = new ChunkTag(&quot;B-NP&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        newTag = new ChunkTag(&quot;I-NP&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (regex.phraseType == NPP) {</b>
+&nbsp;      // we assign the same tags as the OpenNLP chunker, plural noun
+<b class="nc">&nbsp;      if (i == match.startIndex()) {</b>
+<b class="nc">&nbsp;        newTag = new ChunkTag(&quot;B-NP-plural&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        newTag = new ChunkTag(&quot;I-NP-plural&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (regex.phraseType == VP) {</b>
+&nbsp;      // we assign the same tags as the OpenNLP chunker, verb
+<b class="nc">&nbsp;      if (i == match.startIndex()) {</b>
+<b class="nc">&nbsp;        newTag = new ChunkTag(&quot;B-VP&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        newTag = new ChunkTag(&quot;I-VP&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (regex.phraseType == ADJP) { </b>
+&nbsp;      // 
+<b class="nc">&nbsp;      if (i == match.startIndex()) {</b>
+<b class="nc">&nbsp;        newTag = new ChunkTag(&quot;B-ADJP&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        newTag = new ChunkTag(&quot;I-ADJP&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (regex.phraseType == DPT) {</b>
+&nbsp;      // 
+<b class="nc">&nbsp;      if (i == match.startIndex()) {</b>
+<b class="nc">&nbsp;        newTag = new ChunkTag(&quot;B-DPT&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        newTag = new ChunkTag(&quot;I-DPT&quot;);</b>
+&nbsp;      }
+&nbsp;
+&nbsp;    }   else {
+<b class="nc">&nbsp;      newTag = new ChunkTag(regex.phraseType.name());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return newTag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printDebugInfo(RegularExpressionWithPhraseType regex, AffectedSpans affectedSpans, String debug) {
+<b class="nc">&nbsp;    System.out.println(&quot;=== Applied &quot; + regex + &quot; ===&quot;);</b>
+<b class="nc">&nbsp;    if (regex.overwrite) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Note: overwrite mode, replacing old &quot; + FILTER_TAGS + &quot; tags&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String[] debugLines = debug.split(&quot;\n&quot;);</b>
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    for (String debugLine : debugLines) {</b>
+<b class="nc">&nbsp;      if (affectedSpans.isAffected(i)) {</b>
+<b class="nc">&nbsp;        System.out.println(debugLine.replaceFirst(&quot;^  &quot;, &quot; *&quot;));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        System.out.println(debugLine);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      i++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getDebugString(List&lt;ChunkTaggedToken&gt; tokens) {
+<b class="nc">&nbsp;    if (!debug) {</b>
+<b class="nc">&nbsp;      return &quot;&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    for (ChunkTaggedToken token : tokens) {</b>
+<b class="nc">&nbsp;      String tokenReadingStr = token.getReadings().toString().replaceFirst(Pattern.quote(token.getToken()) + &quot;\\[&quot;, &quot;[&quot;);</b>
+<b class="nc">&nbsp;      sb.append(&quot;  &quot;).append(token).append(&quot; -- &quot;).append(tokenReadingStr).append(&#39;\n&#39;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class Span {
+&nbsp;    final int startIndex;
+&nbsp;    final int endIndex;
+<b class="nc">&nbsp;    Span(int startIndex, int endIndex) {</b>
+<b class="nc">&nbsp;      this.startIndex = startIndex;</b>
+<b class="nc">&nbsp;      this.endIndex = endIndex;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class AffectedSpans {
+&nbsp;    final List&lt;Span&gt; spans;
+<b class="nc">&nbsp;    AffectedSpans(List&lt;Span&gt; spans) {</b>
+<b class="nc">&nbsp;      this.spans = spans;</b>
+&nbsp;    }
+&nbsp;    boolean isAffected(int pos) {
+<b class="nc">&nbsp;      for (Span span : spans) {</b>
+<b class="nc">&nbsp;        if (pos &gt;= span.startIndex &amp;&amp; pos &lt; span.endIndex) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class RegularExpressionWithPhraseType {
+&nbsp;    final RegularExpression&lt;ChunkTaggedToken&gt; expression;
+&nbsp;    final PhraseType phraseType;
+&nbsp;    final boolean overwrite;
+<b class="nc">&nbsp;    RegularExpressionWithPhraseType(RegularExpression&lt;ChunkTaggedToken&gt; expression, PhraseType phraseType, boolean overwrite) {</b>
+<b class="nc">&nbsp;      this.expression = expression;</b>
+<b class="nc">&nbsp;      this.phraseType = phraseType;</b>
+<b class="nc">&nbsp;      this.overwrite = overwrite;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;      return phraseType + &quot; &lt;= &quot; + expression + &quot; (overwrite: &quot; + overwrite + &quot;)&quot;;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

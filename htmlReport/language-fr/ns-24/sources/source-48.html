@@ -1,0 +1,535 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RemoteRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: RemoteRule (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RemoteRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/64)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/144)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RemoteRule$RemoteRequest</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/64)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/145)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+&nbsp;import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.tools.CircuitBreakers;
+&nbsp;import org.languagetool.tools.LtThreadPoolFactory;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import org.slf4j.MDC;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.text.SimpleDateFormat;
+&nbsp;import java.time.Duration;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.*;
+&nbsp;import java.util.function.Predicate;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.regex.PatternSyntaxException;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 4.9
+&nbsp; */
+&nbsp;public abstract class RemoteRule extends Rule {
+&nbsp;  
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(RemoteRule.class);</b>
+&nbsp;
+<b class="nc">&nbsp;  protected static final List&lt;Runnable&gt; shutdownRoutines = new LinkedList&lt;&gt;();</b>
+<b class="nc">&nbsp;  protected static final ConcurrentMap&lt;String, CircuitBreaker&gt; circuitBreakers = new ConcurrentHashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;  protected final RemoteRuleConfig serviceConfiguration;
+&nbsp;  protected final boolean premium;
+&nbsp;  protected final boolean inputLogging;
+&nbsp;  protected final boolean filterMatches;
+&nbsp;  protected final boolean fixOffsets;
+&nbsp;  protected final boolean whitespaceNormalisation; // implemented only in GRPCRule for now
+&nbsp;  protected final Language ruleLanguage;
+&nbsp;  protected final JLanguageTool lt;
+&nbsp;  protected final Pattern suppressMisspelledMatch;
+&nbsp;  protected final Pattern suppressMisspelledSuggestions;
+&nbsp;  
+&nbsp;  public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging, @Nullable String ruleId) {
+<b class="nc">&nbsp;    super(messages);</b>
+<b class="nc">&nbsp;    serviceConfiguration = config;</b>
+<b class="nc">&nbsp;    this.ruleLanguage = language;</b>
+<b class="nc">&nbsp;    this.lt = this.ruleLanguage.createDefaultJLanguageTool();</b>
+<b class="nc">&nbsp;    this.inputLogging = inputLogging;</b>
+<b class="nc">&nbsp;    if (ruleId == null) { // allow both providing rule ID in constructor or overriding getId</b>
+<b class="nc">&nbsp;      ruleId = getId();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    filterMatches = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault(&quot;filterMatches&quot;, &quot;false&quot;));</b>
+<b class="nc">&nbsp;    whitespaceNormalisation = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault(&quot;whitespaceNormalisation&quot;, &quot;true&quot;));</b>
+<b class="nc">&nbsp;    fixOffsets = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault(&quot;fixOffsets&quot;, &quot;true&quot;));</b>
+<b class="nc">&nbsp;    premium = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault(&quot;premium&quot;, &quot;false&quot;));</b>
+<b class="nc">&nbsp;    boolean includedInHiddenMatches = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault(&quot;includedInHiddenMatches&quot;, &quot;true&quot;));</b>
+<b class="nc">&nbsp;    setIncludedInHiddenMatches(includedInHiddenMatches);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      if (serviceConfiguration.getOptions().containsKey(&quot;suppressMisspelledMatch&quot;)) {</b>
+<b class="nc">&nbsp;        suppressMisspelledMatch = Pattern.compile(serviceConfiguration.getOptions().get(&quot;suppressMisspelledMatch&quot;));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        suppressMisspelledMatch = null;</b>
+&nbsp;      }
+&nbsp;    } catch(PatternSyntaxException e) {
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;suppressMisspelledMatch must be a valid regex&quot;, e);</b>
+&nbsp;    }
+&nbsp;    try {
+<b class="nc">&nbsp;      if (serviceConfiguration.getOptions().containsKey(&quot;suppressMisspelledSuggestions&quot;)) {</b>
+<b class="nc">&nbsp;        suppressMisspelledSuggestions = Pattern.compile(serviceConfiguration.getOptions().get(&quot;suppressMisspelledSuggestions&quot;));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        suppressMisspelledSuggestions = null;</b>
+&nbsp;      }
+&nbsp;    } catch(PatternSyntaxException e) {
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;suppressMisspelledSuggestions must be a valid regex&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
+<b class="nc">&nbsp;    this(language, messages, config, inputLogging, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void shutdown() {
+<b class="nc">&nbsp;    shutdownRoutines.forEach(Runnable::run);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public FutureTask&lt;RemoteRuleResult&gt; run(List&lt;AnalyzedSentence&gt; sentences) {
+<b class="nc">&nbsp;    return run(sentences, null);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  protected static class RemoteRequest {}</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * run local preprocessing steps (or just store sentences)
+&nbsp;   * @param sentences text to process
+&nbsp;   * @param textSessionId session ID for caching, partial rollout, A/B testing
+&nbsp;   * @return parameter for executeRequest/fallbackResults
+&nbsp;   */
+&nbsp;  protected abstract RemoteRequest prepareRequest(List&lt;AnalyzedSentence&gt; sentences, @Nullable Long textSessionId);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param request returned by prepareRequest
+&nbsp;   * @param timeoutMilliseconds timeout for this operation, &amp;lt;=0 -&amp;gt; unlimited
+&nbsp;   * @return callable that sends request, parses and returns result for this remote rule
+&nbsp;   * @throws TimeoutException if timeout was exceeded
+&nbsp;   */
+&nbsp;  protected abstract Callable&lt;RemoteRuleResult&gt; executeRequest(RemoteRequest request, long timeoutMilliseconds) throws TimeoutException;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * fallback if executeRequest times out or throws an error
+&nbsp;   * @param request returned by prepareRequest
+&nbsp;   * @return local results for this rule
+&nbsp;   */
+&nbsp;  protected abstract RemoteRuleResult fallbackResults(RemoteRequest request);
+&nbsp;
+&nbsp;  protected CircuitBreaker createCircuitBreaker(String id) {
+<b class="nc">&nbsp;    CircuitBreakerConfig config = getCircuitBreakerConfig(serviceConfiguration, id);</b>
+<b class="nc">&nbsp;    return CircuitBreakers.registry().circuitBreaker(&quot;remote-rule-&quot; + id, config);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  static CircuitBreakerConfig getCircuitBreakerConfig(RemoteRuleConfig c, String id) {
+&nbsp;    CircuitBreakerConfig.SlidingWindowType type;
+&nbsp;    try {
+<b class="nc">&nbsp;      type = CircuitBreakerConfig.SlidingWindowType.valueOf(c.getSlidingWindowType());</b>
+&nbsp;    } catch (IllegalArgumentException e) {
+<b class="nc">&nbsp;      type = CircuitBreakerConfig.SlidingWindowType.COUNT_BASED;</b>
+<b class="nc">&nbsp;      logger.warn(&quot;Couldn&#39;t parse slidingWindowType value &#39;{}&#39; for rule &#39;{}&#39;, use one of {}; defaulting to &#39;{}&#39;&quot;, c.getSlidingWindowType(), id, Arrays.asList(CircuitBreakerConfig.SlidingWindowType.values()), type);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    CircuitBreakerConfig config = CircuitBreakerConfig
+<b class="nc">&nbsp;      .custom()</b>
+<b class="nc">&nbsp;      .failureRateThreshold(c.getFailureRateThreshold())</b>
+<b class="nc">&nbsp;      .slidingWindow(</b>
+<b class="nc">&nbsp;        c.getSlidingWindowSize(), c.getMinimumNumberOfCalls(), type)</b>
+<b class="nc">&nbsp;      .waitDurationInOpenState(Duration.ofMillis(Math.max(1, c.getDownMilliseconds())))</b>
+<b class="nc">&nbsp;      .enableAutomaticTransitionFromOpenToHalfOpen()</b>
+<b class="nc">&nbsp;      .build();</b>
+<b class="nc">&nbsp;    return config;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean isPremium() {
+<b class="nc">&nbsp;    return premium;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param sentences text to check
+&nbsp;   * @param textSessionId ID for texts, should stay constant for a user session; used for A/B tests of experimental rules
+&nbsp;   * @return Future with result
+&nbsp;   */
+&nbsp;  public FutureTask&lt;RemoteRuleResult&gt; run(List&lt;AnalyzedSentence&gt; sentences, @Nullable Long textSessionId) {
+<b class="nc">&nbsp;    if (sentences.isEmpty()) {</b>
+<b class="nc">&nbsp;      return new FutureTask&lt;&gt;(() -&gt; new RemoteRuleResult(false, true, Collections.emptyList(), sentences));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Map&lt;String, String&gt; context = MDC.getCopyOfContextMap();</b>
+<b class="nc">&nbsp;    return new FutureTask&lt;&gt;(() -&gt; {</b>
+<b class="nc">&nbsp;      MDC.clear();</b>
+<b class="nc">&nbsp;      if (context != null) {</b>
+<b class="nc">&nbsp;        MDC.setContextMap(context);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      long characters = sentences.stream().mapToInt(sentence -&gt; sentence.getText().length()).sum();</b>
+<b class="nc">&nbsp;      long timeout = getTimeout(characters);</b>
+<b class="nc">&nbsp;      RemoteRequest req = prepareRequest(sentences, textSessionId);</b>
+&nbsp;      RemoteRuleResult result;
+&nbsp;
+<b class="nc">&nbsp;      result = executeRequest(req, timeout).call();</b>
+&nbsp;
+<b class="nc">&nbsp;      if (fixOffsets) {</b>
+<b class="nc">&nbsp;        for (AnalyzedSentence sentence : sentences) {</b>
+<b class="nc">&nbsp;          List&lt;RuleMatch&gt; toFix = result.matchesForSentence(sentence);</b>
+<b class="nc">&nbsp;          if (toFix != null) {</b>
+<b class="nc">&nbsp;            fixMatchOffsets(sentence, toFix);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if (filterMatches) {</b>
+<b class="nc">&nbsp;        List&lt;RuleMatch&gt; filteredMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (AnalyzedSentence sentence : sentences) {</b>
+<b class="nc">&nbsp;          List&lt;RuleMatch&gt; sentenceMatches = result.matchesForSentence(sentence);</b>
+<b class="nc">&nbsp;          if (sentenceMatches != null) {</b>
+<b class="nc">&nbsp;            List&lt;RuleMatch&gt; filteredSentenceMatches = RemoteRuleFilters.filterMatches(</b>
+&nbsp;              ruleLanguage, sentence, sentenceMatches);
+<b class="nc">&nbsp;            filteredMatches.addAll(filteredSentenceMatches);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      List&lt;RuleMatch&gt; filteredMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (AnalyzedSentence sentence : sentences) {</b>
+<b class="nc">&nbsp;        List&lt;RuleMatch&gt; sentenceMatches = result.matchesForSentence(sentence);</b>
+<b class="nc">&nbsp;        if (sentenceMatches != null) {</b>
+<b class="nc">&nbsp;          List&lt;RuleMatch&gt; filteredSentenceMatches = suppressMisspelled(sentenceMatches);</b>
+<b class="nc">&nbsp;          filteredMatches.addAll(filteredSentenceMatches);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);</b>
+<b class="nc">&nbsp;      return result;</b>
+&nbsp;    });
+&nbsp;  }
+&nbsp;
+&nbsp;  static long getTimeout(RemoteRuleConfig serviceConfiguration, long characters) {
+<b class="nc">&nbsp;    long timeout = serviceConfiguration.getBaseTimeoutMilliseconds() +</b>
+<b class="nc">&nbsp;      Math.round(characters * serviceConfiguration.getTimeoutPerCharacterMilliseconds());</b>
+<b class="nc">&nbsp;    return timeout;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public long getTimeout(long characters) {
+<b class="nc">&nbsp;    return getTimeout(serviceConfiguration, characters);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CircuitBreaker circuitBreaker() {
+<b class="nc">&nbsp;    return circuitBreakers.computeIfAbsent(getId(), this::createCircuitBreaker);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;RuleMatch&gt; suppressMisspelled(List&lt;RuleMatch&gt; sentenceMatches) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    SpellingCheckRule speller = ruleLanguage.getDefaultSpellingRule();</b>
+<b class="nc">&nbsp;    if (speller == null) {</b>
+<b class="nc">&nbsp;      if (suppressMisspelledMatch != null || suppressMisspelledSuggestions != null) {</b>
+<b class="nc">&nbsp;        logger.warn(&quot;Cannot activate suppression of misspelled matches for rule {}, no spelling rule found for language {}.&quot;,</b>
+<b class="nc">&nbsp;          getId(), ruleLanguage.getShortCodeWithCountryAndVariant());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return sentenceMatches;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    Predicate&lt;SuggestedReplacement&gt; checkSpelling = (s) -&gt; {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        AnalyzedSentence sentence = lt.getRawAnalyzedSentence(s.getReplacement());</b>
+<b class="nc">&nbsp;        RuleMatch[] matches = speller.match(sentence);</b>
+<b class="nc">&nbsp;        return matches.length == 0;</b>
+&nbsp;      } catch(IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+&nbsp;    };
+&nbsp;
+<b class="nc">&nbsp;    for (RuleMatch m : sentenceMatches) {</b>
+<b class="nc">&nbsp;      String id = m.getRule().getId();</b>
+<b class="nc">&nbsp;      m.setOriginalErrorStr();</b>
+<b class="nc">&nbsp;      if ((suppressMisspelledMatch != null &amp;&amp; suppressMisspelledMatch.matcher(id).matches())</b>
+<b class="nc">&nbsp;        || id.matches(&quot;AI_.._GGEC_.*&quot;)) {</b>
+<b class="nc">&nbsp;        if (!m.getSuggestedReplacementObjects().stream().allMatch(checkSpelling)) {</b>
+<b class="nc">&nbsp;          SimpleDateFormat sdf = new SimpleDateFormat(&quot;HH&quot;);</b>
+<b class="nc">&nbsp;          System.out.println(sdf.format(new Date()) + &quot; - ignored AI suggestion &quot; + id +&quot;: &quot; + m.getSuggestedReplacements().toString()</b>
+<b class="nc">&nbsp;            + &quot;; original: &quot; + m.getOriginalErrorStr());</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if ((suppressMisspelledSuggestions != null &amp;&amp; suppressMisspelledSuggestions.matcher(id).matches())</b>
+<b class="nc">&nbsp;        || id.matches(&quot;AI_.._GGEC_.*&quot;)) {</b>
+<b class="nc">&nbsp;        List&lt;SuggestedReplacement&gt; suggestedReplacements = m.getSuggestedReplacementObjects().stream()</b>
+<b class="nc">&nbsp;          .filter(checkSpelling).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;        if (suggestedReplacements.isEmpty()) {</b>
+<b class="nc">&nbsp;          SimpleDateFormat sdf = new SimpleDateFormat(&quot;HH&quot;);</b>
+<b class="nc">&nbsp;          System.out.println(sdf.format(new Date()) + &quot; - ignored AI suggestion &quot; + id +&quot;: &quot; + m.getSuggestedReplacements().toString()</b>
+<b class="nc">&nbsp;            + &quot;; original: &quot; + m.getOriginalErrorStr());</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        m.setSuggestedReplacementObjects(suggestedReplacements);</b>
+&nbsp;      }
+&nbsp;      // TODO: make configurable
+<b class="nc">&nbsp;      if (ruleLanguage.getShortCodeWithCountryAndVariant().matches(&quot;de-(AT|CH)&quot;) &amp;&amp; id.matches(&quot;AI_DE_GGEC_.*ORTHOGRAPHY.*&quot;)) {</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          AnalyzedSentence sentence = lt.getAnalyzedSentence(m.getOriginalErrorStr());</b>
+<b class="nc">&nbsp;          RuleMatch[] matches = speller.match(sentence);</b>
+<b class="nc">&nbsp;          if (matches.length == 0) {</b>
+&nbsp;            //System.out.println(&quot;3) skipping for &quot; + ruleLanguage.getShortCodeWithCountryAndVariant() + &quot;: &quot; + m.getOriginalErrorStr());
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;          //System.out.println(&quot;3) not skipping for &quot; + ruleLanguage.getShortCodeWithCountryAndVariant() + &quot;: &quot; + m.getOriginalErrorStr());
+&nbsp;        } catch (IOException e) {
+<b class="nc">&nbsp;          throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      result.add(m);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return serviceConfiguration.getRuleId();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    FutureTask&lt;RemoteRuleResult&gt; task = run(Collections.singletonList(sentence));</b>
+<b class="nc">&nbsp;    Optional&lt;ThreadPoolExecutor&gt; executor = LtThreadPoolFactory.getFixedThreadPoolExecutor(LtThreadPoolFactory.REMOTE_RULE_EXECUTING_POOL);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      long timeout = getTimeout(sentence.getText().length());</b>
+<b class="nc">&nbsp;      if (executor.isPresent()) {</b>
+<b class="nc">&nbsp;        executor.get().submit(task);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        task.run();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      RemoteRuleResult result = task.get(timeout, TimeUnit.MILLISECONDS);</b>
+<b class="nc">&nbsp;      return result.getMatches().toArray(RuleMatch.EMPTY_ARRAY);</b>
+&nbsp;    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+<b class="nc">&nbsp;      logger.info(&quot;Fetching results for remote rule &quot; + getId() + &quot; failed.&quot;, e);</b>
+<b class="nc">&nbsp;      return RuleMatch.EMPTY_ARRAY;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public RemoteRuleConfig getServiceConfiguration() {
+<b class="nc">&nbsp;    return serviceConfiguration;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   *  Helper for {@link #fixMatchOffsets}
+&nbsp;   *  lookup table, find shifted index for i at shifts[i];
+&nbsp;   */
+&nbsp;  static int[] computeOffsetShifts(String s) {
+<b class="nc">&nbsp;    int len = s.length() + 1;</b>
+<b class="nc">&nbsp;    int[] offsets = new int[len];</b>
+<b class="nc">&nbsp;    int shifted = 0, original = 0;</b>
+&nbsp;
+&nbsp;    // go from codepoint to codepoint using shifted
+&nbsp;    // offset saved in original will correspond to Java string index shifted
+<b class="nc">&nbsp;    while(shifted &lt; s.length()) {</b>
+<b class="nc">&nbsp;      offsets[original] = shifted;</b>
+<b class="nc">&nbsp;      shifted = s.offsetByCodePoints(shifted, 1);</b>
+<b class="nc">&nbsp;      original++;</b>
+&nbsp;    }
+&nbsp;    // save last shifted value if there is one remaining
+<b class="nc">&nbsp;    if (original &lt; len) {</b>
+<b class="nc">&nbsp;      offsets[original] = shifted;</b>
+&nbsp;    }
+&nbsp;    // fill the rest of the array for exclusive toPos indices
+<b class="nc">&nbsp;    for (int i = original + 1; i &lt; len; i++) {</b>
+<b class="nc">&nbsp;      offsets[i] = offsets[i - 1] + 1;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return offsets;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Adapt match positions so that results from languages that thread emojis, etc. as length 1
+&nbsp;   * work for Java and match the normal offsets we use
+&nbsp;   * JavaScript also behaves like Java, so most clients will expect this behavior;
+&nbsp;   * but servers used for RemoteRules will often be written in Python (e.g. to access ML frameworks)
+&nbsp;   *
+&nbsp;   * based on offsetByCodePoints since codePointCount can be confusing,
+&nbsp;   * e.g. &quot;👪&quot;.codePointCount(0,2) == 1, but length is 2
+&nbsp;   *
+&nbsp;   * Java substring methods use this length (which can be &amp;gt;1 for a single character)
+&nbsp;   * whereas Python 3 indexing/slicing and len() in strings treat them as a single character
+&nbsp;   * so &quot;😁foo&quot;.length() == 5, but len(&quot;😁foo&quot;) == 4;
+&nbsp;   * &quot;😁foo&quot;.substring(2,5) == &quot;foo&quot; but &quot;😁foo&quot;[1:4] == &#39;foo&#39;
+&nbsp;   */
+&nbsp;  public static void fixMatchOffsets(AnalyzedSentence sentence, List&lt;RuleMatch&gt; matches) {
+<b class="nc">&nbsp;    int[] shifts = computeOffsetShifts(sentence.getText());</b>
+<b class="nc">&nbsp;    matches.forEach(m -&gt; {</b>
+<b class="nc">&nbsp;      int from = shifts[m.getFromPos()];</b>
+<b class="nc">&nbsp;      int to = shifts[m.getToPos()];</b>
+<b class="nc">&nbsp;      m.setOffsetPosition(from, to);</b>
+&nbsp;    });
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

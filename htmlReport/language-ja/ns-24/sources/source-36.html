@@ -1,0 +1,317 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GRPCPostProcessing</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: GRPCPostProcessing (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GRPCPostProcessing</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    18.2%
+  </span>
+  <span class="absValue">
+    (2/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    9.1%
+  </span>
+  <span class="absValue">
+    (8/88)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import static org.languagetool.rules.GRPCRule.Connection.getManagedChannel;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.Iterator;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.concurrent.ConcurrentHashMap;
+&nbsp;import java.util.concurrent.ConcurrentMap;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;import java.util.concurrent.TimeoutException;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.ml.MLServerProto.MatchList;
+&nbsp;import org.languagetool.rules.ml.MLServerProto.MatchResponse;
+&nbsp;import org.languagetool.rules.ml.MLServerProto.PostProcessingRequest;
+&nbsp;import org.languagetool.rules.ml.PostProcessingServerGrpc;
+&nbsp;import org.languagetool.rules.ml.PostProcessingServerGrpc.PostProcessingServerBlockingStub;
+&nbsp;import org.languagetool.tools.CircuitBreakers;
+&nbsp;
+&nbsp;import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+&nbsp;import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+&nbsp;import io.grpc.ManagedChannel;
+&nbsp;import io.grpc.Status;
+&nbsp;import io.grpc.StatusRuntimeException;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;
+<b class="fc">&nbsp;@Slf4j</b>
+&nbsp;public class GRPCPostProcessing {
+&nbsp;  public static final String CONFIG_TYPE = &quot;grpc-post&quot;;
+&nbsp;
+&nbsp;  private final CircuitBreaker circuitBreaker;
+&nbsp;  private ManagedChannel channel;
+&nbsp;  private PostProcessingServerBlockingStub stub;
+&nbsp;
+&nbsp;  private RemoteRuleConfig config;
+&nbsp;
+&nbsp;  // instances by rule ID in RemoteRuleConfig
+<b class="fc">&nbsp;  private static ConcurrentMap&lt;String, GRPCPostProcessing&gt; instances = new ConcurrentHashMap&lt;&gt;();</b>
+&nbsp;  // configured rule IDs by language
+&nbsp;  // multiple language variants can share an instance
+&nbsp;  // there can be multiple IDs per language
+<b class="fc">&nbsp;  private static ConcurrentMap&lt;Language, Set&lt;String&gt;&gt; configIDs = new ConcurrentHashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;  protected GRPCPostProcessing(RemoteRuleConfig config) throws Exception {</b>
+<b class="nc">&nbsp;    this.config = config;</b>
+<b class="nc">&nbsp;    CircuitBreakerConfig circuitBreakerConfig = RemoteRule.getCircuitBreakerConfig(config, config.getRuleId());</b>
+<b class="nc">&nbsp;    circuitBreaker = CircuitBreakers.registry().circuitBreaker(</b>
+<b class="nc">&nbsp;      &quot;grpc-postprocessing-&quot; + config.getRuleId(), circuitBreakerConfig);</b>
+&nbsp;
+<b class="nc">&nbsp;    String host = config.getUrl();</b>
+<b class="nc">&nbsp;    int port = config.getPort();</b>
+<b class="nc">&nbsp;    boolean ssl = Boolean.parseBoolean(config.getOptions().getOrDefault(&quot;secure&quot;, &quot;false&quot;));</b>
+<b class="nc">&nbsp;    String key = config.getOptions().get(&quot;clientKey&quot;);</b>
+<b class="nc">&nbsp;    String cert = config.getOptions().get(&quot;clientCertificate&quot;);</b>
+<b class="nc">&nbsp;    String ca = config.getOptions().get(&quot;rootCertificate&quot;);</b>
+<b class="nc">&nbsp;    channel = getManagedChannel(host, port, ssl, key, cert, ca);</b>
+<b class="nc">&nbsp;    stub = PostProcessingServerGrpc.newBlockingStub(channel);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  public static List&lt;GRPCPostProcessing&gt; get(Language lang) {
+<b class="fc">&nbsp;    return configIDs</b>
+<b class="fc">&nbsp;      .getOrDefault(lang, Collections.emptySet())</b>
+<b class="fc">&nbsp;      .stream().map(instances::get)</b>
+<b class="fc">&nbsp;      .filter(Objects::nonNull)</b>
+<b class="fc">&nbsp;      .collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void configure(Language lang, List&lt;RemoteRuleConfig&gt; configs) {
+<b class="nc">&nbsp;    configs.stream().filter(RemoteRuleConfig.isRelevantConfig(CONFIG_TYPE, lang)).forEach(config -&gt; {</b>
+<b class="nc">&nbsp;      String key = config.getRuleId();</b>
+<b class="nc">&nbsp;      configIDs.computeIfAbsent(lang, k -&gt; new HashSet&lt;&gt;()).add(key);</b>
+<b class="nc">&nbsp;      instances.computeIfAbsent(key, k -&gt; {</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          return new GRPCPostProcessing(config);</b>
+&nbsp;        } catch (Exception e) {
+<b class="nc">&nbsp;          log.warn(String.format(&quot;Couldn&#39;t initialize GRPCPostProcessing instance&quot; +</b>
+&nbsp;            &quot; for language &#39;%s&#39; and configuration &#39;%s&#39;&quot;, lang, config), e);
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;        }
+&nbsp;      });
+&nbsp;    });
+&nbsp;  }
+&nbsp;
+&nbsp;  private PostProcessingRequest buildRequest(List&lt;AnalyzedSentence&gt; sentences, List&lt;RuleMatch&gt; ruleMatches,
+&nbsp;                                             List&lt;Integer&gt; offset, Long textSessionId, boolean inputLogging) {
+&nbsp;    // don&#39;t modify passed rule matches list, used as fallback
+<b class="nc">&nbsp;    ruleMatches = ruleMatches.stream().map(r -&gt; new RuleMatch(r)).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    List&lt;MatchList&gt; matches = new ArrayList&lt;&gt;();</b>
+&nbsp;    // convert offsets so that they are relative to each sentence instead of the text
+<b class="nc">&nbsp;    for (int i = 0; i &lt; sentences.size(); i++) {</b>
+<b class="nc">&nbsp;      AnalyzedSentence sentence = sentences.get(i);</b>
+<b class="nc">&nbsp;      if (i == 0) {</b>
+<b class="nc">&nbsp;        offset.add(0);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        offset.add(offset.get(i-1) + sentences.get(i-1).getText().length());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;RuleMatch&gt; sentenceMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      Iterator&lt;RuleMatch&gt; iter = ruleMatches.iterator();</b>
+<b class="nc">&nbsp;      while (iter.hasNext()) {</b>
+<b class="nc">&nbsp;        RuleMatch m = iter.next();</b>
+&nbsp;        // NOTE: we can&#39;t compare sentences directly, as parts of sentences like AnalyzedTokenReadings
+&nbsp;        // seem to be mutated during the matching process and rule matches will thus refer to sentences that are
+&nbsp;        // not equal to the initially analyzed sentences we receive in the first argument
+&nbsp;        // e.g. by AnalyzedTokenReadings.immunize()
+&nbsp;        // example sentence: The breakdown suggest that the transportation sector register a large fall in prices.
+&nbsp;        // so just use sentence.getText()
+<b class="nc">&nbsp;        if (sentence.getText().equals(m.getSentence().getText())) {</b>
+<b class="nc">&nbsp;          iter.remove();</b>
+<b class="nc">&nbsp;          m.setOffsetPosition(m.getFromPos() - offset.get(i), m.getToPos() - offset.get(i));</b>
+<b class="nc">&nbsp;          sentenceMatches.add(m);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      matches.add(MatchList.newBuilder()</b>
+<b class="nc">&nbsp;          .addAllMatches(sentenceMatches.stream().map(GRPCUtils::toGRPC).collect(Collectors.toList())).build());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; sentenceText = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());</b>
+&nbsp;
+<b class="nc">&nbsp;    PostProcessingRequest.Builder req = PostProcessingRequest.newBuilder()</b>
+<b class="nc">&nbsp;      .addAllSentences(sentenceText).addAllMatches(matches);</b>
+<b class="nc">&nbsp;    if (textSessionId != null) {</b>
+<b class="nc">&nbsp;      req.addAllTextSessionID(Collections.nCopies(sentenceText.size(), textSessionId));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    req.setInputLogging(inputLogging);</b>
+<b class="nc">&nbsp;    return req.build();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;RuleMatch&gt; filter(List&lt;AnalyzedSentence&gt; sentences, List&lt;RuleMatch&gt; ruleMatches, Long textSessionID, boolean inputLogging) {
+<b class="nc">&nbsp;    if (channel == null) {</b>
+<b class="nc">&nbsp;      return ruleMatches;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    int chars = sentences.stream().map(s -&gt; s.getText().length()).reduce(0, Integer::sum);</b>
+&nbsp;    List&lt;RuleMatch&gt; result;
+<b class="nc">&nbsp;    long start = System.nanoTime();</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      if (circuitBreaker != null) {</b>
+<b class="nc">&nbsp;        result = RemoteRuleMetrics.inCircuitBreaker(System.nanoTime(), circuitBreaker,</b>
+<b class="nc">&nbsp;          config.ruleId, chars, () -&gt; runPostprocessing(sentences, ruleMatches, textSessionID, inputLogging, chars));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        result = runPostprocessing(sentences, ruleMatches, textSessionID, inputLogging, chars);</b>
+&nbsp;      }
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      log.warn(&quot;gRPC postprocessing failed&quot;, e);</b>
+<b class="nc">&nbsp;      return ruleMatches;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (result == null) {</b>
+<b class="nc">&nbsp;      return ruleMatches;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      long delta = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);</b>
+<b class="nc">&nbsp;      log.info(&quot;gRPC postprocessing chars={} sentences={} matches={} time={}ms&quot;,</b>
+<b class="nc">&nbsp;               chars, sentences.size(), ruleMatches.size(), delta);</b>
+<b class="nc">&nbsp;      RemoteRuleMetrics.wait(config.getRuleId(), delta);</b>
+<b class="nc">&nbsp;      RemoteRuleMetrics.request(config.getRuleId(), start, chars, RemoteRuleMetrics.RequestResult.SUCCESS);</b>
+<b class="nc">&nbsp;      return result;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  protected MatchResponse sendRequest(PostProcessingRequest req, long timeout) throws Exception {
+<b class="nc">&nbsp;    return stub.withDeadlineAfter(timeout, TimeUnit.MILLISECONDS)</b>
+<b class="nc">&nbsp;      .process(req);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected List&lt;RuleMatch&gt; runPostprocessing(List&lt;AnalyzedSentence&gt; sentences, List&lt;RuleMatch&gt; ruleMatches,
+&nbsp;                                            Long textSessionID, boolean inputLogging, int chars) throws Exception {
+<b class="nc">&nbsp;    List&lt;Integer&gt; offset = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    long timeout = RemoteRule.getTimeout(config, chars);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      PostProcessingRequest req = buildRequest(sentences, ruleMatches, offset, textSessionID, inputLogging);</b>
+<b class="nc">&nbsp;      MatchResponse response = sendRequest(req, timeout);</b>
+<b class="nc">&nbsp;      List&lt;RuleMatch&gt; result = new ArrayList&lt;&gt;(response.getSentenceMatchesCount());</b>
+<b class="nc">&nbsp;      for (int i = 0; i &lt; response.getSentenceMatchesCount(); i++) {</b>
+<b class="nc">&nbsp;        MatchList matchList = response.getSentenceMatches(i);</b>
+<b class="nc">&nbsp;        AnalyzedSentence sentence = sentences.get(i);</b>
+<b class="nc">&nbsp;        int offsetShift = offset.get(i);</b>
+<b class="nc">&nbsp;        for (int j = 0; j  &lt; matchList.getMatchesCount(); j++) {</b>
+<b class="nc">&nbsp;          RuleMatch match = GRPCUtils.fromGRPC(matchList.getMatches(j), sentence);</b>
+<b class="nc">&nbsp;          match.setOffsetPosition(match.getFromPos() + offsetShift, match.getToPos() + offsetShift);</b>
+<b class="nc">&nbsp;          result.add(match);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return result;</b>
+&nbsp;    } catch (StatusRuntimeException e) {
+<b class="nc">&nbsp;      if (e.getStatus().getCode() == Status.DEADLINE_EXCEEDED.getCode()) {</b>
+<b class="nc">&nbsp;        throw new TimeoutException(&quot;gRPC postprocessing timed out: &quot; + e.getMessage());</b>
+&nbsp;      } else {
+&nbsp;        throw e;
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1159 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Utils</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.ga</a>
+</div>
+
+<h1>Coverage Summary for Class: Utils (org.languagetool.tagging.ga)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Utils</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/39)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/563)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/392)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Utils$SuffixGuess</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/563)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/397)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2019 Jim O&#39;Regan &lt;jaoregan@tcd.ie&gt;
+&nbsp; *
+&nbsp; * Permission is hereby granted, free of charge, to any person obtaining a
+&nbsp; * copy of this software and associated documentation files (the &quot;Software&quot;),
+&nbsp; * to deal in the Software without restriction, including without limitation
+&nbsp; * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+&nbsp; * and/or sell copies of the Software, and to permit persons to whom the
+&nbsp; * Software is furnished to do so, subject to the following conditions:
+&nbsp; *
+&nbsp; * The above copyright notice and this permission notice shall be included in
+&nbsp; * all copies or substantial portions of the Software.
+&nbsp; *
+&nbsp; * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+&nbsp; * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+&nbsp; * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+&nbsp; * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+&nbsp; * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+&nbsp; * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+&nbsp; * DEALINGS IN THE SOFTWARE.
+&nbsp; */
+&nbsp;package org.languagetool.tagging.ga;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="nc">&nbsp;public class Utils {</b>
+&nbsp;  private static class SuffixGuess {
+&nbsp;    public String suffix;
+&nbsp;    public String suffixReplacement;
+&nbsp;    public String restrictToTags;
+&nbsp;    public String appendTags;
+&nbsp;    SuffixGuess(String suffix,
+&nbsp;                String suffixReplacement,
+&nbsp;                String restrictToTags,
+<b class="nc">&nbsp;                String appendTags) {</b>
+<b class="nc">&nbsp;      this.suffix = suffix;</b>
+<b class="nc">&nbsp;      this.suffixReplacement = suffixReplacement;</b>
+<b class="nc">&nbsp;      this.restrictToTags = restrictToTags;</b>
+<b class="nc">&nbsp;      this.appendTags = appendTags;</b>
+&nbsp;    }
+&nbsp;  }
+<b class="nc">&nbsp;  private static final List&lt;SuffixGuess&gt; guesses = Arrays.asList(</b>
+&nbsp;    new SuffixGuess(&quot;éaracht&quot;, &quot;éireacht&quot;, &quot;.*Noun.*&quot;, &quot;:MorphError&quot;),
+&nbsp;    new SuffixGuess(&quot;éarachta&quot;, &quot;éireachta&quot;, &quot;.*Noun.*&quot;, &quot;:MorphError&quot;),
+&nbsp;    new SuffixGuess(&quot;eamhail&quot;, &quot;iúil&quot;, &quot;.*Noun.*|.*Adj.*&quot;, &quot;:MorphError&quot;),
+&nbsp;    new SuffixGuess(&quot;eamhuil&quot;, &quot;iúil&quot;, &quot;.*Noun.*|.*Adj.*&quot;, &quot;:MorphError&quot;),
+&nbsp;    new SuffixGuess(&quot;eamhla&quot;, &quot;iúla&quot;, &quot;.*Noun.*|.*Adj.*&quot;, &quot;:MorphError&quot;),
+&nbsp;    new SuffixGuess(&quot;amhail&quot;, &quot;úil&quot;, &quot;.*Noun.*|.*Adj.*&quot;, &quot;:MorphError&quot;),
+&nbsp;    new SuffixGuess(&quot;amhuil&quot;, &quot;úil&quot;, &quot;.*Noun.*|.*Adj.*&quot;, &quot;:MorphError&quot;)
+&nbsp;  );
+&nbsp;
+&nbsp;  public static Retaggable fixSuffix(String in) {
+<b class="nc">&nbsp;    for (SuffixGuess guess : guesses) {</b>
+<b class="nc">&nbsp;      if (in.endsWith(guess.suffix)) {</b>
+<b class="nc">&nbsp;        String base = in.substring(0, in.length() - guess.suffix.length());</b>
+<b class="nc">&nbsp;        return new Retaggable(base + guess.suffixReplacement, guess.restrictToTags, guess.appendTags);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return new Retaggable(in, &quot;&quot;, &quot;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static List&lt;Retaggable&gt; morphWord(String in) {
+<b class="nc">&nbsp;    List&lt;Retaggable&gt; out = new ArrayList&lt;&gt;();</b>
+&nbsp;    // First, mutations
+<b class="nc">&nbsp;    Retaggable mut = demutate(in);</b>
+<b class="nc">&nbsp;    if (mut.getAppendTag().equals(&quot;:Len:MorphError&quot;) || mut.getAppendTag().equals(&quot;:Ecl:MorphError&quot;) || mut.getAppendTag().equals(&quot;:EclLen&quot;)) {</b>
+<b class="nc">&nbsp;      out.add(mut);</b>
+<b class="nc">&nbsp;      out.add(new Retaggable(mut.getWord(), mut.getRestrictToPos(), &quot;:DefArt:MorphError&quot;));</b>
+<b class="nc">&nbsp;    } else if (!&quot;&quot;.equals(mut.getAppendTag())) {</b>
+<b class="nc">&nbsp;      out.add(mut);</b>
+&nbsp;    }
+&nbsp;    // Second, suffixes
+<b class="nc">&nbsp;    Retaggable sfx = fixSuffix(mut.getWord());</b>
+<b class="nc">&nbsp;    if (!&quot;&quot;.equals(sfx.getAppendTag())) {</b>
+<b class="nc">&nbsp;      sfx.setAppendTag(mut.getAppendTag());</b>
+<b class="nc">&nbsp;      out.add(sfx);</b>
+&nbsp;    }
+&nbsp;    // TODO: prefix corrections
+&nbsp;    // TODO: other alterations
+<b class="nc">&nbsp;    return out;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static Retaggable demutate(String in) {
+&nbsp;    String out;
+<b class="nc">&nbsp;    if ((out = unLeniteDefiniteS(in)) != null) {</b>
+<b class="nc">&nbsp;      return new Retaggable(out, &quot;(?:C[UMC]:)?Noun:.*:DefArt&quot;, &quot;:MorphError&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if ((out = unLenite(in)) != null) {</b>
+<b class="nc">&nbsp;      return new Retaggable(out, &quot;&quot;, &quot;:Len:MorphError&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if ((out = unEclipse(in)) != null) {</b>
+<b class="nc">&nbsp;      String out2 = unLenite(out);</b>
+<b class="nc">&nbsp;      if (out2 == null) {</b>
+<b class="nc">&nbsp;        return new Retaggable(out, &quot;&quot;, &quot;:Ecl:MorphError&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return new Retaggable(out2, &quot;&quot;, &quot;:EclLen&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return new Retaggable(in, &quot;&quot;, &quot;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String unEclipse(String in) {
+<b class="nc">&nbsp;    if (in.length() &gt; 2) {</b>
+<b class="nc">&nbsp;      char ch1 = in.charAt(1);</b>
+<b class="nc">&nbsp;      switch(in.charAt(0)) {</b>
+&nbsp;        case &#39;N&#39;:
+&nbsp;        case &#39;n&#39;:
+<b class="nc">&nbsp;          if (in.length() &gt; 3 &amp;&amp; in.charAt(1) == &#39;-&#39;) {</b>
+<b class="nc">&nbsp;            ch1 = in.charAt(2);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (ch1 == &#39;G&#39; || ch1 == &#39;D&#39; || isUpperVowel(ch1) || ch1 == &#39;g&#39; || ch1 == &#39;d&#39; || isLowerVowel(ch1)) {</b>
+<b class="nc">&nbsp;            return unEclipseChar(in, &#39;n&#39;, Character.toLowerCase(ch1));</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;          }
+&nbsp;        case &#39;B&#39;:
+&nbsp;        case &#39;b&#39;:
+<b class="nc">&nbsp;          if ((ch1 == &#39;p&#39; || ch1 == &#39;P&#39;) ||</b>
+<b class="nc">&nbsp;            in.length() &gt; 3 &amp;&amp; in.charAt(1) == &#39;-&#39;) {</b>
+<b class="nc">&nbsp;            return unEclipseChar(in, &#39;b&#39;, &#39;p&#39;);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            return unEclipseF(in);</b>
+&nbsp;          }
+&nbsp;        case &#39;D&#39;:
+&nbsp;        case &#39;d&#39;:
+<b class="nc">&nbsp;          return unEclipseChar(in, &#39;d&#39;, &#39;t&#39;);</b>
+&nbsp;        case &#39;G&#39;:
+&nbsp;        case &#39;g&#39;:
+<b class="nc">&nbsp;          return unEclipseChar(in, &#39;g&#39;, &#39;c&#39;);</b>
+&nbsp;        case &#39;M&#39;:
+&nbsp;        case &#39;m&#39;:
+<b class="nc">&nbsp;          return unEclipseChar(in, &#39;m&#39;, &#39;b&#39;);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Attempts to unlenite a string (See {@link #lenite(String)})
+&nbsp;   * Deliberately does not check if first character is one
+&nbsp;   * that ought to be lenited (this can be checked in XML rules)
+&nbsp;   */
+&nbsp;  public static String unLenite(String in) {
+<b class="nc">&nbsp;    if (in.length() &lt; 2) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (in.charAt(1) == &#39;h&#39; || in.charAt(1) == &#39;H&#39;) {</b>
+<b class="nc">&nbsp;      return in.charAt(0) + in.substring(2);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Removes lenition from a word beginning with &#39;s&#39;, following
+&nbsp;   * the definite article; as an exception to conventional
+&nbsp;   * lenition, this is a &#39;t&#39; prefix.
+&nbsp;   * The standard representation is a lowercase &#39;t&#39;, regardless
+&nbsp;   * of the case of the word; this function additionally checks
+&nbsp;   * for incorrect (e.g., capital &#39;T&#39;) and prestandard (e.g.,
+&nbsp;   * hyphenated &#39;t-&#39;) versions.
+&nbsp;   * @param in The written form
+&nbsp;   * @return The form with lenition removed
+&nbsp;   */
+&nbsp;  public static String unLeniteDefiniteS(String in) {
+<b class="nc">&nbsp;    String[] uppers = {&quot;Ts&quot;, &quot;T-s&quot;, &quot;TS&quot;, &quot;T-S&quot;, &quot;t-S&quot;, &quot;tS&quot;};</b>
+<b class="nc">&nbsp;    String[] lowers = {&quot;ts&quot;, &quot;t-s&quot;};</b>
+<b class="nc">&nbsp;    for (String start : uppers) {</b>
+<b class="nc">&nbsp;      if (in.length() &lt; start.length()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if (in.startsWith(start)) {</b>
+<b class="nc">&nbsp;        return &quot;S&quot; + in.substring(start.length());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    for (String start : lowers) {</b>
+<b class="nc">&nbsp;      if (in.length() &lt; start.length()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if (in.startsWith(start)) {</b>
+<b class="nc">&nbsp;        return &quot;s&quot; + in.substring(start.length());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;  public static String unEclipseF(String in) {
+<b class="nc">&nbsp;    String[] uppers = {&quot;Bhf&quot;, &quot;bhF&quot;, &quot;Bf&quot;, &quot;bhF&quot;, &quot;bF&quot;, &quot;Bh-f&quot;, &quot;bh-F&quot;, &quot;B-f&quot;, &quot;bh-F&quot;, &quot;b-F&quot;};</b>
+<b class="nc">&nbsp;    String[] lowers = {&quot;bhf&quot;, &quot;bh-f&quot;, &quot;bf&quot;, &quot;b-f&quot;};</b>
+<b class="nc">&nbsp;    for (String start : uppers) {</b>
+<b class="nc">&nbsp;      if (in.length() &lt; start.length()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if (in.startsWith(start)) {</b>
+<b class="nc">&nbsp;        return &quot;F&quot; + in.substring(start.length());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    for (String start : lowers) {</b>
+<b class="nc">&nbsp;      if (in.length() &lt; start.length()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if (in.startsWith(start)) {</b>
+<b class="nc">&nbsp;        return &quot;f&quot; + in.substring(start.length());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Helper to uneclipse single-letter consonant eclipsis (i.e., not bhfear or
+&nbsp;   *  n-éin), handling miscapitalised eclipsed words: Gcarr -&amp;gt; Carr, etc.
+&nbsp;   * @param in string to uneclipse
+&nbsp;   * @param first first (eclipsis) character
+&nbsp;   * @param second second character; first character of the word proper
+&nbsp;   * @return String with uneclipsed word or null if no match
+&nbsp;   */
+&nbsp;  public static String unEclipseChar(String in, char first, char second) {
+<b class="nc">&nbsp;    int from = 2;</b>
+<b class="nc">&nbsp;    char upperFirst = Character.toUpperCase(first);</b>
+<b class="nc">&nbsp;    char upperSecond = Character.toUpperCase(second);</b>
+<b class="nc">&nbsp;    char retSecond = (in.charAt(0) == upperFirst) ? upperSecond : second;</b>
+&nbsp;    // bail out if there&#39;s nothing to do
+<b class="nc">&nbsp;    if (in.length() &lt; 2) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;    // no match
+<b class="nc">&nbsp;    if (in.charAt(0) != first &amp;&amp; in.charAt(0) != upperFirst) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;    // properly eclipsed
+<b class="nc">&nbsp;    if (in.charAt(0) == first &amp;&amp; (in.charAt(1) == second || in.charAt(1) == upperSecond)) {</b>
+<b class="nc">&nbsp;      return in.substring(1);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    char ch1 = in.charAt(1);</b>
+<b class="nc">&nbsp;    if (in.length() &gt; 3 &amp;&amp; in.charAt(1) == &#39;-&#39;) {</b>
+<b class="nc">&nbsp;      from++;</b>
+<b class="nc">&nbsp;      ch1 = in.charAt(2);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (ch1 == second || ch1 == upperSecond) {</b>
+<b class="nc">&nbsp;      return Character.toString(retSecond)+ in.substring(from);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isUpperVowel(char c) {
+<b class="nc">&nbsp;    switch(c) {</b>
+&nbsp;      case &#39;A&#39;:
+&nbsp;      case &#39;E&#39;:
+&nbsp;      case &#39;I&#39;:
+&nbsp;      case &#39;O&#39;:
+&nbsp;      case &#39;U&#39;:
+&nbsp;      case &#39;\u00c1&#39;:
+&nbsp;      case &#39;\u00c9&#39;:
+&nbsp;      case &#39;\u00cd&#39;:
+&nbsp;      case &#39;\u00d3&#39;:
+&nbsp;      case &#39;\u00da&#39;:
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isLowerVowel(char c) {
+<b class="nc">&nbsp;    switch(c) {</b>
+&nbsp;      case &#39;a&#39;:
+&nbsp;      case &#39;e&#39;:
+&nbsp;      case &#39;i&#39;:
+&nbsp;      case &#39;o&#39;:
+&nbsp;      case &#39;u&#39;:
+&nbsp;      case &#39;\u00e1&#39;:
+&nbsp;      case &#39;\u00e9&#39;:
+&nbsp;      case &#39;\u00ed&#39;:
+&nbsp;      case &#39;\u00f3&#39;:
+&nbsp;      case &#39;\u00fa&#39;:
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isVowel(char c) {
+<b class="nc">&nbsp;    return isLowerVowel(c) || isUpperVowel(c);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isUpperLenitable(char c) {
+<b class="nc">&nbsp;    switch(c) {</b>
+&nbsp;      case &#39;B&#39;:
+&nbsp;      case &#39;C&#39;:
+&nbsp;      case &#39;D&#39;:
+&nbsp;      case &#39;F&#39;:
+&nbsp;      case &#39;G&#39;:
+&nbsp;      case &#39;M&#39;:
+&nbsp;      case &#39;P&#39;:
+&nbsp;      case &#39;S&#39;:
+&nbsp;      case &#39;T&#39;:
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isLowerLenitable(char c) {
+<b class="nc">&nbsp;    switch(c) {</b>
+&nbsp;      case &#39;b&#39;:
+&nbsp;      case &#39;c&#39;:
+&nbsp;      case &#39;d&#39;:
+&nbsp;      case &#39;f&#39;:
+&nbsp;      case &#39;g&#39;:
+&nbsp;      case &#39;m&#39;:
+&nbsp;      case &#39;p&#39;:
+&nbsp;      case &#39;s&#39;:
+&nbsp;      case &#39;t&#39;:
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The (non-definite) eclipsed form of &#39;s&#39;, &#39;sh&#39;,
+&nbsp;   * is pronounced like &#39;h&#39; in English; words beginning
+&nbsp;   * with &#39;s&#39; can only have lenition applied if the
+&nbsp;   * following letter would be easily pronounced after
+&nbsp;   * this sound: this function checks if the that second
+&nbsp;   * letter is one of them
+&nbsp;   * @param c The second letter of a word beginning with &#39;s&#39;
+&nbsp;   * @return true if the word can be lenited
+&nbsp;   */
+&nbsp;  public static boolean isSLenitable(char c) {
+<b class="nc">&nbsp;    switch(c) {</b>
+&nbsp;      case &#39;l&#39;:
+&nbsp;      case &#39;n&#39;:
+&nbsp;      case &#39;r&#39;:
+&nbsp;      case &#39;a&#39;:
+&nbsp;      case &#39;e&#39;:
+&nbsp;      case &#39;i&#39;:
+&nbsp;      case &#39;o&#39;:
+&nbsp;      case &#39;u&#39;:
+&nbsp;      case &#39;\u00e1&#39;:
+&nbsp;      case &#39;\u00e9&#39;:
+&nbsp;      case &#39;\u00ed&#39;:
+&nbsp;      case &#39;\u00f3&#39;:
+&nbsp;      case &#39;\u00fa&#39;:
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * lenites a word
+&nbsp;   * (&quot;Lenition&quot; in Irish grammar is an initial mutation,
+&nbsp;   * historically related to phonetic lenition; its
+&nbsp;   * written representation is an &#39;h&#39; after the initial
+&nbsp;   * consonant).
+&nbsp;   * In this context, to &quot;lenite&quot; is to apply lenition)
+&nbsp;   * @param in word form to be lenited
+&nbsp;   * @return lenited form, or unmodified string if it
+&nbsp;   * cannot be lenited
+&nbsp;   */
+&nbsp;  public static String lenite(String in) {
+<b class="nc">&nbsp;    if (in.length() &lt; 2) {</b>
+<b class="nc">&nbsp;      return in;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String outh = (Character.isUpperCase(in.charAt(0)) &amp;&amp; Character.isUpperCase(1)) ? &quot;H&quot; : &quot;h&quot;;</b>
+<b class="nc">&nbsp;    if (isLowerLenitable(in.charAt(0)) || isUpperLenitable(in.charAt(0))) {</b>
+<b class="nc">&nbsp;      if (in.charAt(0) == &#39;S&#39; || in.charAt(0) == &#39;s&#39;) {</b>
+<b class="nc">&nbsp;        if (isSLenitable(Character.toLowerCase(in.charAt(1)))) {</b>
+<b class="nc">&nbsp;          return Character.toString(in.charAt(0)) + outh + in.substring(1);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          return in;</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        return Character.toString(in.charAt(0)) + outh + in.substring(1);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      return in;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * eclipses a word
+&nbsp;   * (&quot;Eclipsis&quot; in Irish grammar is an initial mutation,
+&nbsp;   * represented as a prefix to the word that replaces
+&nbsp;   * the pronunciation of the letter for consonants, i.e.,
+&nbsp;   * &#39;f&#39; is eclipsed as &#39;bh&#39; - &#39;focal&#39; becomes &#39;bhfocal&#39; -
+&nbsp;   * but only &#39;bh&#39; (not &#39;f&#39;) is pronounced; or, with vowels,
+&nbsp;   * an initial &#39;n&#39; is added (hyphenated before a lowercase
+&nbsp;   * word, lowercased but not hyphenated before an uppercase
+&nbsp;   * or titlecase word).
+&nbsp;   * In this context, to &quot;eclipse&quot; is to apply eclipsis)
+&nbsp;   * @param in word form to be eclipsed
+&nbsp;   * @return eclipsed form, or unmodified string if it
+&nbsp;   * cannot be eclipsed
+&nbsp;   */
+&nbsp;  public static String eclipse(String in) {
+<b class="nc">&nbsp;    if (in == null || in.equals(&quot;&quot;)) {</b>
+<b class="nc">&nbsp;      return in;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (isUpperVowel(in.charAt(0))) {</b>
+<b class="nc">&nbsp;      return &quot;n&quot; + in;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (isLowerVowel(in.charAt(0))) {</b>
+<b class="nc">&nbsp;      return &quot;n-&quot; + in;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    switch(in.toLowerCase().charAt(0)) {</b>
+&nbsp;      case &#39;b&#39;:
+<b class="nc">&nbsp;        return &quot;m&quot; + in;</b>
+&nbsp;      case &#39;c&#39;:
+<b class="nc">&nbsp;        return &quot;g&quot; + in;</b>
+&nbsp;      case &#39;d&#39;:
+&nbsp;      case &#39;g&#39;:
+<b class="nc">&nbsp;        return &quot;n&quot; + in;</b>
+&nbsp;      case &#39;f&#39;:
+<b class="nc">&nbsp;        return &quot;bh&quot; + in;</b>
+&nbsp;      case &#39;p&#39;:
+<b class="nc">&nbsp;        return &quot;b&quot; + in;</b>
+&nbsp;      case &#39;t&#39;:
+<b class="nc">&nbsp;        return &quot;d&quot; + in;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        return in;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Case folding in Irish is non-trivial: initial mutations that
+&nbsp;   * prefix the word are always written in lowercase; &#39;n&#39; and &#39;t&#39;
+&nbsp;   * are written with a hyphen before a lowercase vowel.
+&nbsp;   * Converting to uppercase is impossible without a dictionary:
+&nbsp;   * unlike &#39;n&#39; and &#39;t&#39; (and unlike Scots Gaelic), &#39;h&#39; is not
+&nbsp;   * written hyphenated as &#39;h&#39; was not traditionally a &#39;letter&#39;, per
+&nbsp;   * se, but was used to indicate phonetic changes: in modern Irish,
+&nbsp;   * there are enough words that begin with &#39;h&#39; that converting to
+&nbsp;   * uppercase is impossible without a dictionary.
+&nbsp;   * @param s the word to lowercase
+&nbsp;   * @return lowercased word
+&nbsp;   */
+&nbsp;  public static String toLowerCaseIrish(String s) {
+<b class="nc">&nbsp;    if (s.length() &gt; 1 &amp;&amp; (s.charAt(0) == &#39;n&#39; || s.charAt(0) == &#39;t&#39;) &amp;&amp; isUpperVowel(s.charAt(1))) {</b>
+<b class="nc">&nbsp;      return s.substring(0,1) + &quot;-&quot; + s.substring(1).toLowerCase();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return s.toLowerCase();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Equivalent of
+&nbsp;   * {@link org.languagetool.tools.StringTools#startsWithUppercase(String)},
+&nbsp;   * adapted for Irish case folding oddities.
+&nbsp;   * @param s String to check
+&nbsp;   * @return true if string starts with uppercase, taking into
+&nbsp;   * account initial mutations which must remain lowercase.
+&nbsp;   */
+&nbsp;  public static boolean startsWithUppercase(String s) {
+<b class="nc">&nbsp;    if (startsWithMutatedUppercase(s)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;    // otherwise, as normal
+<b class="nc">&nbsp;    if (Character.isUpperCase(s.charAt(0))) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isAllUppercase(String s) {
+<b class="nc">&nbsp;    int startFrom = 0;</b>
+<b class="nc">&nbsp;    if (startsWithMutatedUppercase(s)) {</b>
+<b class="nc">&nbsp;      if (s.startsWith(&quot;bhF&quot;)) {</b>
+<b class="nc">&nbsp;        startFrom = 2;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        startFrom = 1;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    for (char c : s.substring(startFrom).toCharArray()) {</b>
+<b class="nc">&nbsp;      if (Character.isLetter(c) &amp;&amp; Character.isLowerCase(c)) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean startsWithMutatedUppercase(String s) {
+&nbsp;    // Consonant eclipsis
+<b class="nc">&nbsp;    if (s.startsWith(&quot;mB&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.startsWith(&quot;gC&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.startsWith(&quot;nD&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.startsWith(&quot;bhF&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.startsWith(&quot;nG&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.startsWith(&quot;bP&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.startsWith(&quot;dT&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;    // Vowel eclipsis
+<b class="nc">&nbsp;    if (s.length() &gt; 1 &amp;&amp; s.charAt(0) == &#39;n&#39; &amp;&amp; isUpperVowel(s.charAt(1))) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;    // t-prothesis
+<b class="nc">&nbsp;    if (s.length() &gt; 1 &amp;&amp; s.charAt(0) == &#39;t&#39; &amp;&amp; isUpperVowel(s.charAt(1))) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;    // h-prothesis
+<b class="nc">&nbsp;    if (s.length() &gt; 1 &amp;&amp; s.charAt(0) == &#39;h&#39; &amp;&amp; isUpperVowel(s.charAt(1))) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;    // definite s lenition
+<b class="nc">&nbsp;    if (s.startsWith(&quot;tS&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean isUpperPonc(char c) {
+<b class="nc">&nbsp;    switch(c) {</b>
+&nbsp;      case &#39;Ḃ&#39;:
+&nbsp;      case &#39;Ċ&#39;:
+&nbsp;      case &#39;Ḋ&#39;:
+&nbsp;      case &#39;Ḟ&#39;:
+&nbsp;      case &#39;Ġ&#39;:
+&nbsp;      case &#39;Ṁ&#39;:
+&nbsp;      case &#39;Ṗ&#39;:
+&nbsp;      case &#39;Ṡ&#39;:
+&nbsp;      case &#39;Ṫ&#39;:
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean isLowerPonc(char c) {
+<b class="nc">&nbsp;    switch(c) {</b>
+&nbsp;      case &#39;ḃ&#39;:
+&nbsp;      case &#39;ċ&#39;:
+&nbsp;      case &#39;ḋ&#39;:
+&nbsp;      case &#39;ḟ&#39;:
+&nbsp;      case &#39;ġ&#39;:
+&nbsp;      case &#39;ṁ&#39;:
+&nbsp;      case &#39;ṗ&#39;:
+&nbsp;      case &#39;ṡ&#39;:
+&nbsp;      case &#39;ṫ&#39;:
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Check if the character is dotted (&#39;ponc&#39; in Irish)
+&nbsp;   * @param c the character to check
+&nbsp;   * @return true if the character is dotted, false otherwise
+&nbsp;   */
+&nbsp;  public static boolean isPonc(char c) {
+<b class="nc">&nbsp;    return isUpperPonc(c) || isLowerPonc(c);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean containsPonc(String s) {
+<b class="nc">&nbsp;    for (char c : s.toCharArray()) {</b>
+<b class="nc">&nbsp;      if (isPonc(c)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static char unPonc(char c) {
+<b class="nc">&nbsp;    switch(c) {</b>
+&nbsp;      case &#39;Ḃ&#39;:
+<b class="nc">&nbsp;        return &#39;B&#39;;</b>
+&nbsp;      case &#39;Ċ&#39;:
+<b class="nc">&nbsp;        return &#39;C&#39;;</b>
+&nbsp;      case &#39;Ḋ&#39;:
+<b class="nc">&nbsp;        return &#39;D&#39;;</b>
+&nbsp;      case &#39;Ḟ&#39;:
+<b class="nc">&nbsp;        return &#39;F&#39;;</b>
+&nbsp;      case &#39;Ġ&#39;:
+<b class="nc">&nbsp;        return &#39;G&#39;;</b>
+&nbsp;      case &#39;Ṁ&#39;:
+<b class="nc">&nbsp;        return &#39;M&#39;;</b>
+&nbsp;      case &#39;Ṗ&#39;:
+<b class="nc">&nbsp;        return &#39;P&#39;;</b>
+&nbsp;      case &#39;Ṡ&#39;:
+<b class="nc">&nbsp;        return &#39;S&#39;;</b>
+&nbsp;      case &#39;Ṫ&#39;:
+<b class="nc">&nbsp;        return &#39;T&#39;;</b>
+&nbsp;      case &#39;ḃ&#39;:
+<b class="nc">&nbsp;        return &#39;b&#39;;</b>
+&nbsp;      case &#39;ċ&#39;:
+<b class="nc">&nbsp;        return &#39;c&#39;;</b>
+&nbsp;      case &#39;ḋ&#39;:
+<b class="nc">&nbsp;        return &#39;d&#39;;</b>
+&nbsp;      case &#39;ḟ&#39;:
+<b class="nc">&nbsp;        return &#39;f&#39;;</b>
+&nbsp;      case &#39;ġ&#39;:
+<b class="nc">&nbsp;        return &#39;g&#39;;</b>
+&nbsp;      case &#39;ṁ&#39;:
+<b class="nc">&nbsp;        return &#39;m&#39;;</b>
+&nbsp;      case &#39;ṗ&#39;:
+<b class="nc">&nbsp;        return &#39;p&#39;;</b>
+&nbsp;      case &#39;ṡ&#39;:
+<b class="nc">&nbsp;        return &#39;s&#39;;</b>
+&nbsp;      case &#39;ṫ&#39;:
+<b class="nc">&nbsp;        return &#39;t&#39;;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        return c;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Converts pre-standard lenition to modern
+&nbsp;   * (converts dotted (= ponc) letters to the equivalent
+&nbsp;   * undotted, followed by &#39;h&#39;
+&nbsp;   * @param s string to convert
+&nbsp;   * @return converted string
+&nbsp;   */
+&nbsp;  public static String unPonc(String s) {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; s.length(); i++) {</b>
+<b class="nc">&nbsp;      if (!isPonc(s.charAt(i))) {</b>
+<b class="nc">&nbsp;        sb.append(unPonc(s.charAt(i)));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        if (isLowerPonc(s.charAt(i))) {</b>
+<b class="nc">&nbsp;          sb.append(unPonc(s.charAt(i)));</b>
+<b class="nc">&nbsp;          sb.append(&#39;h&#39;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          if (i &lt; s.length() - 1 &amp;&amp; Character.isUpperCase(s.charAt(i + 1))) {</b>
+<b class="nc">&nbsp;            sb.append(unPonc(s.charAt(i)));</b>
+<b class="nc">&nbsp;            sb.append(&#39;H&#39;);</b>
+<b class="nc">&nbsp;          } else if (i == s.length() - 1 &amp;&amp; i &gt; 0 &amp;&amp; Character.isUpperCase(s.charAt(i - 1))) {</b>
+<b class="nc">&nbsp;            sb.append(unPonc(s.charAt(i)));</b>
+<b class="nc">&nbsp;            sb.append(&#39;H&#39;);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            sb.append(unPonc(s.charAt(i)));</b>
+<b class="nc">&nbsp;            sb.append(&#39;h&#39;);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static final int MATHEMATICAL_BOLD_CAPITAL_A = &#39;\uDC00&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_CAPITAL_Z = &#39;\uDC19&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_SMALL_A = &#39;\uDC1A&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_SMALL_Z = &#39;\uDC33&#39;;
+&nbsp;  private static final int MATHEMATICAL_ITALIC_CAPITAL_A = &#39;\uDC34&#39;;
+&nbsp;  private static final int MATHEMATICAL_ITALIC_CAPITAL_Z = &#39;\uDC4D&#39;;
+&nbsp;  private static final int MATHEMATICAL_ITALIC_SMALL_A = &#39;\uDC4E&#39;;
+&nbsp;  private static final int MATHEMATICAL_ITALIC_SMALL_Z = &#39;\uDC67&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_A = &#39;\uDC68&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_Z = &#39;\uDC81&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_A = &#39;\uDC82&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_Z = &#39;\uDC9B&#39;;
+&nbsp;  private static final int MATHEMATICAL_SCRIPT_CAPITAL_A = &#39;\uDC9C&#39;;
+&nbsp;  private static final int MATHEMATICAL_SCRIPT_CAPITAL_Z = &#39;\uDCB5&#39;;
+&nbsp;  private static final int MATHEMATICAL_SCRIPT_SMALL_A = &#39;\uDCB6&#39;;
+&nbsp;  private static final int MATHEMATICAL_SCRIPT_SMALL_Z = &#39;\uDCCF&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_SCRIPT_CAPITAL_A = &#39;\uDCD0&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_SCRIPT_CAPITAL_Z = &#39;\uDCE9&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_SCRIPT_SMALL_A = &#39;\uDCEA&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_SCRIPT_SMALL_Z = &#39;\uDD03&#39;;
+&nbsp;  private static final int MATHEMATICAL_FRAKTUR_CAPITAL_A = &#39;\uDD04&#39;;
+&nbsp;  private static final int MATHEMATICAL_FRAKTUR_CAPITAL_Z = &#39;\uDD1D&#39;;
+&nbsp;  private static final int MATHEMATICAL_FRAKTUR_SMALL_A = &#39;\uDD1E&#39;;
+&nbsp;  private static final int MATHEMATICAL_FRAKTUR_SMALL_Z = &#39;\uDD37&#39;;
+&nbsp;  private static final int MATHEMATICAL_DOUBLESTRUCK_CAPITAL_A = &#39;\uDD38&#39;;
+&nbsp;  private static final int MATHEMATICAL_DOUBLESTRUCK_CAPITAL_Z = &#39;\uDD51&#39;;
+&nbsp;  private static final int MATHEMATICAL_DOUBLESTRUCK_SMALL_A = &#39;\uDD52&#39;;
+&nbsp;  private static final int MATHEMATICAL_DOUBLESTRUCK_SMALL_Z = &#39;\uDD6B&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_A = &#39;\uDD6C&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_Z = &#39;\uDD85&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_FRAKTUR_SMALL_A = &#39;\uDD86&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_FRAKTUR_SMALL_Z = &#39;\uDD9F&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_CAPITAL_A = &#39;\uDDA0&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_CAPITAL_Z = &#39;\uDDB9&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_SMALL_A = &#39;\uDDBA&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_SMALL_Z = &#39;\uDDD3&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_A = &#39;\uDDD4&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_Z = &#39;\uDDED&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_A = &#39;\uDDEE&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_Z = &#39;\uDE07&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_A = &#39;\uDE08&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_Z = &#39;\uDE21&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_ITALIC_SMALL_A = &#39;\uDE22&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_ITALIC_SMALL_Z = &#39;\uDE3B&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_A = &#39;\uDE3C&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_Z = &#39;\uDE55&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_A = &#39;\uDE56&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_Z = &#39;\uDE6F&#39;;
+&nbsp;  private static final int MATHEMATICAL_MONOSPACE_CAPITAL_A = &#39;\uDE70&#39;;
+&nbsp;  private static final int MATHEMATICAL_MONOSPACE_CAPITAL_Z = &#39;\uDE89&#39;;
+&nbsp;  private static final int MATHEMATICAL_MONOSPACE_SMALL_A = &#39;\uDE8A&#39;;
+&nbsp;  private static final int MATHEMATICAL_MONOSPACE_SMALL_Z = &#39;\uDEA3&#39;;
+&nbsp;  private static final int MATHEMATICAL_ITALIC_SMALL_DOTLESS_I = &#39;\uDEA4&#39;;
+&nbsp;  private static final int MATHEMATICAL_ITALIC_SMALL_DOTLESS_J = &#39;\uDEA5&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_CAPITAL_ALPHA = &#39;\uDEA8&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_CAPITAL_OMEGA = &#39;\uDEC0&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_SMALL_ALPHA = &#39;\uDEC2&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_SMALL_OMEGA = &#39;\uDEDA&#39;;
+&nbsp;  private static final int MATHEMATICAL_ITALIC_CAPITAL_ALPHA = &#39;\uDEE2&#39;;
+&nbsp;  private static final int MATHEMATICAL_ITALIC_CAPITAL_OMEGA = &#39;\uDEFA&#39;;
+&nbsp;  private static final int MATHEMATICAL_ITALIC_SMALL_ALPHA = &#39;\uDEFC&#39;;
+&nbsp;  private static final int MATHEMATICAL_ITALIC_SMALL_OMEGA = &#39;\uDF14&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_ALPHA = &#39;\uDF1C&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_OMEGA = &#39;\uDF34&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_ALPHA = &#39;\uDF36&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_OMEGA = &#39;\uDF4E&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_ALPHA = &#39;\uDF56&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_OMEGA = &#39;\uDF6E&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_ALPHA = &#39;\uDF70&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_OMEGA = &#39;\uDF88&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_ALPHA = &#39;\uDF90&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_OMEGA = &#39;\uDFA8&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_ALPHA = &#39;\uDFAA&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_OMEGA = &#39;\uDFC2&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_DIGIT_ZERO = &#39;\uDFCE&#39;;
+&nbsp;  private static final int MATHEMATICAL_BOLD_DIGIT_NINE = &#39;\uDFD7&#39;;
+&nbsp;  private static final int MATHEMATICAL_DOUBLESTRUCK_DIGIT_ZERO = &#39;\uDFD8&#39;;
+&nbsp;  private static final int MATHEMATICAL_DOUBLESTRUCK_DIGIT_NINE = &#39;\uDFE1&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_DIGIT_ZERO = &#39;\uDFE2&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_DIGIT_NINE = &#39;\uDFEB&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_DIGIT_ZERO = &#39;\uDFEC&#39;;
+&nbsp;  private static final int MATHEMATICAL_SANSSERIF_BOLD_DIGIT_NINE = &#39;\uDFF5&#39;;
+&nbsp;  private static final int MATHEMATICAL_MONOSPACE_DIGIT_ZERO = &#39;\uDFF6&#39;;
+&nbsp;  private static final int MATHEMATICAL_MONOSPACE_DIGIT_NINE = &#39;\uDFFF&#39;;
+&nbsp;  private static final int CAPITAL_A = &#39;A&#39;;
+&nbsp;  private static final int SMALL_A = &#39;a&#39;;
+&nbsp;  private static final int CAPITAL_ALPHA = &#39;Α&#39;;
+&nbsp;  private static final int SMALL_ALPHA = &#39;α&#39;;
+&nbsp;  private static final int DIGIT_ZERO = &#39;0&#39;;
+&nbsp;
+&nbsp;  public static boolean isAllMathsChars(String s) {
+<b class="nc">&nbsp;    if(s.length() % 2 != 0) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (int i = 0; i &lt; s.length(); i++) {</b>
+<b class="nc">&nbsp;      if (i % 2 == 0) {</b>
+<b class="nc">&nbsp;        if (s.charAt(i) != &#39;\uD835&#39;) {</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        int numValue = s.charAt(i);</b>
+<b class="nc">&nbsp;        if (numValue &lt; MATHEMATICAL_BOLD_CAPITAL_A || numValue &gt; MATHEMATICAL_MONOSPACE_DIGIT_NINE) {</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isAllHalfWidthChars(String s) {
+<b class="nc">&nbsp;    for (char c : s.toCharArray()) {</b>
+<b class="nc">&nbsp;      int charValue = c;</b>
+<b class="nc">&nbsp;      if (charValue &lt; (int) &#39;Ａ&#39;) {</b>
+<b class="nc">&nbsp;        return false;</b>
+<b class="nc">&nbsp;      } else if (charValue &gt; (int) &#39;Ｚ&#39; &amp;&amp; charValue &lt; (int) &#39;ａ&#39;) {</b>
+<b class="nc">&nbsp;        return false;</b>
+<b class="nc">&nbsp;      } else if (charValue &gt; (int) &#39;ｚ&#39;) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String halfwidthLatinToLatin(String s) {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    int HALFWIDTH_LATIN_CAPITAL_A = &#39;Ａ&#39;;</b>
+<b class="nc">&nbsp;    int HALFWIDTH_LATIN_CAPITAL_Z = &#39;Ｚ&#39;;</b>
+<b class="nc">&nbsp;    int HALFWIDTH_LATIN_SMALL_A = &#39;ａ&#39;;</b>
+<b class="nc">&nbsp;    int HALFWIDTH_LATIN_SMALL_Z = &#39;ｚ&#39;;</b>
+&nbsp;
+<b class="nc">&nbsp;    for (char c : s.toCharArray()) {</b>
+<b class="nc">&nbsp;      int charValue = c;</b>
+<b class="nc">&nbsp;      if (charValue &gt;= HALFWIDTH_LATIN_CAPITAL_A &amp;&amp; charValue &lt;= HALFWIDTH_LATIN_CAPITAL_Z) {</b>
+<b class="nc">&nbsp;        sb.append((char) (charValue - HALFWIDTH_LATIN_CAPITAL_A + CAPITAL_A));</b>
+<b class="nc">&nbsp;      } else if (charValue &gt;= HALFWIDTH_LATIN_SMALL_A &amp;&amp; charValue &lt;= HALFWIDTH_LATIN_SMALL_Z) {</b>
+<b class="nc">&nbsp;        sb.append((char) (charValue - HALFWIDTH_LATIN_SMALL_A + SMALL_A));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        sb.append(c);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static char getMathsChar(char c) {
+<b class="nc">&nbsp;    return getMathsChar(c, false, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static char getMathsChar(char c, boolean normaliseGreek, boolean normaliseDigits) {
+<b class="nc">&nbsp;    int numeric = c;</b>
+<b class="nc">&nbsp;    if (numeric &lt; 0) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Failed to read character &quot; + c);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (numeric &lt; MATHEMATICAL_BOLD_CAPITAL_A) {</b>
+<b class="nc">&nbsp;      return c;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      if (numeric &lt;= MATHEMATICAL_BOLD_CAPITAL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_BOLD_CAPITAL_A + CAPITAL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_BOLD_SMALL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_BOLD_SMALL_A + SMALL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_ITALIC_CAPITAL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_ITALIC_CAPITAL_A + CAPITAL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_ITALIC_SMALL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_ITALIC_SMALL_A + SMALL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_BOLD_ITALIC_CAPITAL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_CAPITAL_A + CAPITAL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_BOLD_ITALIC_SMALL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_SMALL_A + SMALL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_SCRIPT_CAPITAL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_SCRIPT_CAPITAL_A + CAPITAL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_SCRIPT_SMALL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_SCRIPT_SMALL_A + SMALL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_BOLD_SCRIPT_CAPITAL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_BOLD_SCRIPT_CAPITAL_A + CAPITAL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_BOLD_SCRIPT_SMALL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_BOLD_SCRIPT_SMALL_A + SMALL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_FRAKTUR_CAPITAL_Z) {</b>
+&nbsp;        // Not all Fraktur capitals have valid characters, but include them anyway
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_FRAKTUR_CAPITAL_A + CAPITAL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_FRAKTUR_SMALL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_FRAKTUR_SMALL_A + SMALL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_DOUBLESTRUCK_CAPITAL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_DOUBLESTRUCK_CAPITAL_A + CAPITAL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_DOUBLESTRUCK_SMALL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_DOUBLESTRUCK_SMALL_A + SMALL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_A + CAPITAL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_BOLD_FRAKTUR_SMALL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_BOLD_FRAKTUR_SMALL_A + SMALL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_SANSSERIF_CAPITAL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_SANSSERIF_CAPITAL_A + CAPITAL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_SANSSERIF_SMALL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_SANSSERIF_SMALL_A + SMALL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_A + CAPITAL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_SANSSERIF_BOLD_SMALL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_SMALL_A + SMALL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_A + CAPITAL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_SANSSERIF_ITALIC_SMALL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_SANSSERIF_ITALIC_SMALL_A + SMALL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_A + CAPITAL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_A + SMALL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_MONOSPACE_CAPITAL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_MONOSPACE_CAPITAL_A + CAPITAL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric &lt;= MATHEMATICAL_MONOSPACE_SMALL_Z) {</b>
+<b class="nc">&nbsp;        return (char) (numeric - MATHEMATICAL_MONOSPACE_SMALL_A + SMALL_A);</b>
+<b class="nc">&nbsp;      } else if (numeric == MATHEMATICAL_ITALIC_SMALL_DOTLESS_I) {</b>
+<b class="nc">&nbsp;        return &#39;i&#39;;</b>
+<b class="nc">&nbsp;      } else if (numeric == MATHEMATICAL_ITALIC_SMALL_DOTLESS_J) {</b>
+<b class="nc">&nbsp;        return &#39;j&#39;;</b>
+<b class="nc">&nbsp;      } else if (normaliseGreek) {</b>
+<b class="nc">&nbsp;        if (numeric &gt;= MATHEMATICAL_BOLD_CAPITAL_ALPHA &amp;&amp; numeric &lt;= MATHEMATICAL_BOLD_CAPITAL_OMEGA) {</b>
+<b class="nc">&nbsp;          return (char) (numeric - MATHEMATICAL_BOLD_CAPITAL_ALPHA + CAPITAL_ALPHA);</b>
+<b class="nc">&nbsp;        } else if (numeric &gt;= MATHEMATICAL_BOLD_SMALL_ALPHA &amp;&amp; numeric &lt;= MATHEMATICAL_BOLD_SMALL_OMEGA) {</b>
+<b class="nc">&nbsp;          return (char) (numeric - MATHEMATICAL_BOLD_SMALL_ALPHA + SMALL_ALPHA);</b>
+<b class="nc">&nbsp;        } else if (numeric &gt;= MATHEMATICAL_ITALIC_CAPITAL_ALPHA &amp;&amp; numeric &lt;= MATHEMATICAL_ITALIC_CAPITAL_OMEGA) {</b>
+<b class="nc">&nbsp;          return (char) (numeric - MATHEMATICAL_ITALIC_CAPITAL_ALPHA + CAPITAL_ALPHA);</b>
+<b class="nc">&nbsp;        } else if (numeric &gt;= MATHEMATICAL_ITALIC_SMALL_ALPHA &amp;&amp; numeric &lt;= MATHEMATICAL_ITALIC_SMALL_OMEGA) {</b>
+<b class="nc">&nbsp;          return (char) (numeric - MATHEMATICAL_ITALIC_SMALL_ALPHA + SMALL_ALPHA);</b>
+<b class="nc">&nbsp;        } else if (numeric &gt;= MATHEMATICAL_BOLD_ITALIC_CAPITAL_ALPHA &amp;&amp; numeric &lt;= MATHEMATICAL_BOLD_ITALIC_CAPITAL_OMEGA) {</b>
+<b class="nc">&nbsp;          return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_CAPITAL_ALPHA + CAPITAL_ALPHA);</b>
+<b class="nc">&nbsp;        } else if (numeric &gt;= MATHEMATICAL_BOLD_ITALIC_SMALL_ALPHA &amp;&amp; numeric &lt;= MATHEMATICAL_BOLD_ITALIC_SMALL_OMEGA) {</b>
+<b class="nc">&nbsp;          return (char) (numeric - MATHEMATICAL_BOLD_ITALIC_SMALL_ALPHA + SMALL_ALPHA);</b>
+<b class="nc">&nbsp;        } else if (numeric &gt;= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_ALPHA &amp;&amp; numeric &lt;= MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_OMEGA) {</b>
+<b class="nc">&nbsp;          return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_ALPHA + CAPITAL_ALPHA);</b>
+<b class="nc">&nbsp;        } else if (numeric &gt;= MATHEMATICAL_SANSSERIF_BOLD_SMALL_ALPHA &amp;&amp; numeric &lt;= MATHEMATICAL_SANSSERIF_BOLD_SMALL_OMEGA) {</b>
+<b class="nc">&nbsp;          return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_SMALL_ALPHA + SMALL_ALPHA);</b>
+<b class="nc">&nbsp;        } else if (numeric &gt;= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_ALPHA &amp;&amp; numeric &lt;= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_OMEGA) {</b>
+<b class="nc">&nbsp;          return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_ALPHA + CAPITAL_ALPHA);</b>
+<b class="nc">&nbsp;        } else if (numeric &gt;= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_ALPHA &amp;&amp; numeric &lt;= MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_OMEGA) {</b>
+<b class="nc">&nbsp;          return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_ALPHA + SMALL_ALPHA);</b>
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (normaliseDigits) {</b>
+<b class="nc">&nbsp;        if (numeric &gt;= MATHEMATICAL_BOLD_DIGIT_ZERO &amp;&amp; numeric &lt;= MATHEMATICAL_BOLD_DIGIT_NINE) {</b>
+<b class="nc">&nbsp;          return (char) (numeric - MATHEMATICAL_BOLD_DIGIT_ZERO + DIGIT_ZERO);</b>
+<b class="nc">&nbsp;        } else if (numeric &lt;= MATHEMATICAL_DOUBLESTRUCK_DIGIT_NINE) {</b>
+<b class="nc">&nbsp;          return (char) (numeric - MATHEMATICAL_DOUBLESTRUCK_DIGIT_ZERO + DIGIT_ZERO);</b>
+<b class="nc">&nbsp;        } else if (numeric &lt;= MATHEMATICAL_SANSSERIF_DIGIT_NINE) {</b>
+<b class="nc">&nbsp;          return (char) (numeric - MATHEMATICAL_SANSSERIF_DIGIT_ZERO + DIGIT_ZERO);</b>
+<b class="nc">&nbsp;        } else if (numeric &lt;= MATHEMATICAL_SANSSERIF_BOLD_DIGIT_NINE) {</b>
+<b class="nc">&nbsp;          return (char) (numeric - MATHEMATICAL_SANSSERIF_BOLD_DIGIT_ZERO + DIGIT_ZERO);</b>
+<b class="nc">&nbsp;        } else if (numeric &lt;= MATHEMATICAL_MONOSPACE_DIGIT_NINE) {</b>
+<b class="nc">&nbsp;          return (char) (numeric - MATHEMATICAL_MONOSPACE_DIGIT_ZERO + DIGIT_ZERO);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return c;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String simplifyMathematical(String s) {
+<b class="nc">&nbsp;    return simplifyMathematical(s, false, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String simplifyMathematical(String s, boolean normaliseGreek, boolean normaliseDigits) {
+<b class="nc">&nbsp;    StringBuilder out = new StringBuilder();</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; s.length(); i++) {</b>
+<b class="nc">&nbsp;      if (s.charAt(i) == &#39;\uD835&#39;) {</b>
+<b class="nc">&nbsp;        int j = i + 1;</b>
+<b class="nc">&nbsp;        if (j &lt; s.length() &amp;&amp; (int) s.charAt(j) &gt;= MATHEMATICAL_BOLD_CAPITAL_A</b>
+<b class="nc">&nbsp;          &amp;&amp; (int) s.charAt(j) &lt;= MATHEMATICAL_MONOSPACE_DIGIT_NINE) {</b>
+<b class="nc">&nbsp;          char mapped = getMathsChar(s.charAt(j), normaliseGreek, normaliseDigits);</b>
+<b class="nc">&nbsp;          if (mapped == s.charAt(j)) {</b>
+<b class="nc">&nbsp;            out.append(s.charAt(i));</b>
+<b class="nc">&nbsp;            out.append(s.charAt(j));</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            out.append(mapped);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return out.toString();</b>
+&nbsp;  }
+&nbsp;  private static char greekLookalikes(char c) {
+<b class="nc">&nbsp;    switch(c) {</b>
+&nbsp;      case &#39;Α&#39;:
+<b class="nc">&nbsp;        return &#39;A&#39;;</b>
+&nbsp;      case &#39;Β&#39;:
+<b class="nc">&nbsp;        return &#39;B&#39;;</b>
+&nbsp;      case &#39;Ε&#39;:
+<b class="nc">&nbsp;        return &#39;E&#39;;</b>
+&nbsp;      case &#39;Ζ&#39;:
+<b class="nc">&nbsp;        return &#39;Z&#39;;</b>
+&nbsp;      case &#39;Η&#39;:
+<b class="nc">&nbsp;        return &#39;H&#39;;</b>
+&nbsp;      case &#39;Ι&#39;:
+<b class="nc">&nbsp;        return &#39;I&#39;;</b>
+&nbsp;      case &#39;Κ&#39;:
+<b class="nc">&nbsp;        return &#39;K&#39;;</b>
+&nbsp;      case &#39;Μ&#39;:
+<b class="nc">&nbsp;        return &#39;M&#39;;</b>
+&nbsp;      case &#39;Ν&#39;:
+<b class="nc">&nbsp;        return &#39;N&#39;;</b>
+&nbsp;      case &#39;Ο&#39;:
+<b class="nc">&nbsp;        return &#39;O&#39;;</b>
+&nbsp;      case &#39;Ρ&#39;:
+<b class="nc">&nbsp;        return &#39;P&#39;;</b>
+&nbsp;      case &#39;Τ&#39;:
+<b class="nc">&nbsp;        return &#39;T&#39;;</b>
+&nbsp;      case &#39;Υ&#39;:
+<b class="nc">&nbsp;        return &#39;Y&#39;;</b>
+&nbsp;      case &#39;Χ&#39;:
+<b class="nc">&nbsp;        return &#39;X&#39;;</b>
+&nbsp;      case &#39;α&#39;:
+<b class="nc">&nbsp;        return &#39;a&#39;;</b>
+&nbsp;      case &#39;β&#39;:
+<b class="nc">&nbsp;        return &#39;B&#39;;</b>
+&nbsp;      case &#39;γ&#39;:
+<b class="nc">&nbsp;        return &#39;y&#39;;</b>
+&nbsp;      case &#39;δ&#39;:
+<b class="nc">&nbsp;        return &#39;d&#39;;</b>
+&nbsp;      case &#39;ε&#39;:
+<b class="nc">&nbsp;        return &#39;e&#39;;</b>
+&nbsp;      case &#39;η&#39;:
+<b class="nc">&nbsp;        return &#39;n&#39;;</b>
+&nbsp;      case &#39;ι&#39;:
+<b class="nc">&nbsp;        return &#39;i&#39;;</b>
+&nbsp;      case &#39;κ&#39;:
+<b class="nc">&nbsp;        return &#39;K&#39;;</b>
+&nbsp;      case &#39;ν&#39;:
+<b class="nc">&nbsp;        return &#39;v&#39;;</b>
+&nbsp;      case &#39;ο&#39;:
+<b class="nc">&nbsp;        return &#39;o&#39;;</b>
+&nbsp;      case &#39;ρ&#39;:
+<b class="nc">&nbsp;        return &#39;p&#39;;</b>
+&nbsp;      case &#39;τ&#39;:
+<b class="nc">&nbsp;        return &#39;T&#39;;</b>
+&nbsp;      case &#39;χ&#39;:
+<b class="nc">&nbsp;        return &#39;x&#39;;</b>
+&nbsp;      case &#39;ω&#39;:
+<b class="nc">&nbsp;        return &#39;w&#39;;</b>
+&nbsp;
+&nbsp;      default:
+<b class="nc">&nbsp;        return c;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String greekToLatin(String s) {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    for (char c : s.toCharArray()) {</b>
+<b class="nc">&nbsp;      sb.append(greekLookalikes(c));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasMixedGreekAndLatin(String s) {
+<b class="nc">&nbsp;    return s.matches(&quot;.*[A-Za-z].*&quot;) &amp;&amp; s.matches(&quot;.*\\p{InGREEK}.*&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasMixedGreekAndCyrillic(String s) {
+<b class="nc">&nbsp;    return s.matches(&quot;.*[A-Za-z].*&quot;) &amp;&amp; s.matches(&quot;.*\\p{InCYRILLIC}.*&quot;);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

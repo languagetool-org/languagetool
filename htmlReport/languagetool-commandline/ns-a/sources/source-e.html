@@ -1,0 +1,216 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > StdoutHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.dumpcheck</a>
+</div>
+
+<h1>Coverage Summary for Class: StdoutHandler (org.languagetool.dev.dumpcheck)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StdoutHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.dumpcheck;
+&nbsp;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.AbstractPatternRule;
+&nbsp;import org.languagetool.tools.ContextTools;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Print rule matches to STDOUT.
+&nbsp; * @since 2.4
+&nbsp; */
+&nbsp;class StdoutHandler extends ResultHandler {
+&nbsp;
+<b class="nc">&nbsp;  private final ContextTools contextTools = new ContextTools();</b>
+&nbsp;  private final boolean verbose;
+&nbsp;
+&nbsp;  StdoutHandler(int maxSentences, int maxErrors) {
+<b class="nc">&nbsp;    this(maxSentences, maxErrors, CONTEXT_SIZE);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  StdoutHandler(int maxSentences, int maxErrors, int contextSize) {
+<b class="nc">&nbsp;    this(maxSentences, maxErrors, contextSize, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  StdoutHandler(int maxSentences, int maxErrors, int contextSize, boolean verbose) {
+<b class="nc">&nbsp;    super(maxSentences, maxErrors);</b>
+<b class="nc">&nbsp;    contextTools.setContextSize(contextSize);</b>
+<b class="nc">&nbsp;    this.verbose = verbose;</b>
+&nbsp;    //contextTools.setContextSize(100);
+&nbsp;    //contextTools.setErrorMarker(&quot;**&quot;, &quot;**&quot;);
+&nbsp;    //contextTools.setEscapeHtml(false);
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected void handleResult(Sentence sentence, List&lt;RuleMatch&gt; ruleMatches, Language language) {
+<b class="nc">&nbsp;    if (ruleMatches.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      int i = 1;</b>
+<b class="nc">&nbsp;      System.out.println(&quot;\nTitle: &quot; + sentence.getTitle());</b>
+<b class="nc">&nbsp;      for (RuleMatch match : ruleMatches) {</b>
+<b class="nc">&nbsp;        String output = i + &quot;.) Line &quot; + (match.getLine() + 1) + &quot;, column &quot;</b>
+<b class="nc">&nbsp;                + match.getColumn() + &quot;, Rule ID: &quot; + match.getSpecificRuleId(); //match.getRule().getId();</b>
+<b class="nc">&nbsp;        if (match.getRule() instanceof AbstractPatternRule) {</b>
+<b class="nc">&nbsp;          AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();</b>
+<b class="nc">&nbsp;          output += &quot;[&quot; + pRule.getSubId() + &quot;]&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (match.getRule().isDefaultTempOff()) {</b>
+<b class="nc">&nbsp;          output += &quot; [temp_off]&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (verbose &amp;&amp; match.getRule() instanceof AbstractPatternRule) {</b>
+<b class="nc">&nbsp;          AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();</b>
+<b class="nc">&nbsp;          output += &quot; ruleLine=&quot; + pRule.getXmlLineNumber();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println(output);</b>
+<b class="nc">&nbsp;        String msg = match.getMessage();</b>
+<b class="nc">&nbsp;        msg = msg.replace(&quot;&lt;suggestion&gt;&quot;, &quot;&#39;&quot;);</b>
+<b class="nc">&nbsp;        msg = msg.replace(&quot;&lt;/suggestion&gt;&quot;, &quot;&#39;&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Message: &quot; + msg);</b>
+<b class="nc">&nbsp;        List&lt;String&gt; replacements = match.getSuggestedReplacements();</b>
+<b class="nc">&nbsp;        if (!replacements.isEmpty()) {</b>
+<b class="nc">&nbsp;          System.out.println(&quot;Suggestion: &quot; + String.join(&quot;; &quot;, replacements.subList(0, Math.min(replacements.size(), 5))));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (match.getRule() instanceof AbstractPatternRule) {</b>
+<b class="nc">&nbsp;          AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();</b>
+<b class="nc">&nbsp;          if (pRule.getSourceFile() != null) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Rule source: &quot; + pRule.getSourceFile());</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), sentence.getText()));</b>
+&nbsp;        //System.out.println(contextTools.getContext(match.getFromPos(), match.getToPos(), sentence.getText()));
+<b class="nc">&nbsp;        i++;</b>
+<b class="nc">&nbsp;        checkMaxErrors(++errorCount);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    checkMaxSentences(++sentenceCount);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void close() throws Exception {
+<b class="nc">&nbsp;  }</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

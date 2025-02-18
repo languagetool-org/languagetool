@@ -1,0 +1,252 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SpaceInCompoundRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.nl</a>
+</div>
+
+<h1>Coverage Summary for Class: SpaceInCompoundRule (org.languagetool.rules.nl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SpaceInCompoundRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/56)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.nl;
+&nbsp;
+&nbsp;import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.SpecificIdRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;public class SpaceInCompoundRule extends Rule {
+&nbsp;
+<b class="nc">&nbsp;	private static final Map&lt;String, String&gt; normalizedCompound2message = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;	private static final AhoCorasickDoubleArrayTrie&lt;String&gt; trie = getTrie();</b>
+<b class="nc">&nbsp;  private static final Pattern chars = Pattern.compile(&quot;[a-zA-Z]&quot;);</b>
+&nbsp;
+&nbsp;  private final Language language;
+&nbsp;
+<b class="nc">&nbsp;	public SpaceInCompoundRule(ResourceBundle messages, Language language) {</b>
+<b class="nc">&nbsp;		this.language = language;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	private static AhoCorasickDoubleArrayTrie&lt;String&gt; getTrie() {
+<b class="nc">&nbsp;		Set&lt;String&gt; result = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;		String filename = &quot;/nl/multipartcompounds.txt&quot;;</b>
+<b class="nc">&nbsp;		List&lt;String&gt; lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(filename);</b>
+<b class="nc">&nbsp;		for (String line : lines) {</b>
+<b class="nc">&nbsp;			if (line.startsWith(&quot;#&quot;)) {</b>
+&nbsp;				continue;
+&nbsp;			}
+<b class="nc">&nbsp;			String[] lineParts = line.split(&quot;\\|&quot;);</b>
+<b class="nc">&nbsp;			String wordParts = lineParts[0];</b>
+<b class="nc">&nbsp;			if (!wordParts.contains(&quot; &quot;)) {</b>
+<b class="nc">&nbsp;				throw new RuntimeException(&quot;Unexpected format in &quot; + filename + &quot;, expected multi-word (i.e. spaces) left of the &#39;|&#39;: &quot; + line);</b>
+&nbsp;			}
+<b class="nc">&nbsp;			String[] words = wordParts.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;			generateVariants(&quot;&quot;, Arrays.asList(words), result);</b>
+&nbsp;			// Spaces in different places should not be counted as duplicates
+<b class="nc">&nbsp;			boolean hasDuplicate = lines.indexOf(wordParts) != lines.lastIndexOf(wordParts);</b>
+<b class="nc">&nbsp;			if (hasDuplicate) {</b>
+<b class="nc">&nbsp;				throw new RuntimeException(&quot;Duplicate item &#39;&quot; + wordParts + &quot;&#39; in file &quot; + filename);</b>
+&nbsp;			}
+<b class="nc">&nbsp;			String message = &quot;Waarschijnlijk bedoelt u: &quot; + Tools.glueParts(words);</b>
+<b class="nc">&nbsp;			if (lineParts.length == 2) {</b>
+<b class="nc">&nbsp;				message += &quot; (&quot; + lineParts[1] + &quot;)&quot;;</b>
+&nbsp;			}
+<b class="nc">&nbsp;			normalizedCompound2message.put(Tools.glueParts(words), message);</b>
+&nbsp;		}
+<b class="nc">&nbsp;		Map&lt;String, String&gt; map = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;		for (String variant : result) {</b>
+<b class="nc">&nbsp;			map.put(variant, variant);</b>
+&nbsp;		}
+<b class="nc">&nbsp;		AhoCorasickDoubleArrayTrie&lt;String&gt; trie = new AhoCorasickDoubleArrayTrie&lt;&gt;();</b>
+<b class="nc">&nbsp;		trie.build(map);</b>
+<b class="nc">&nbsp;		return trie;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	static void generateVariants(String soFar, List&lt;String&gt; l, Set&lt;String&gt; result) {
+<b class="nc">&nbsp;		if (l.size() == 1) {</b>
+<b class="nc">&nbsp;			if (soFar.contains(&quot; &quot;)) {</b>
+<b class="nc">&nbsp;				result.add(soFar + l.get(0));</b>
+&nbsp;			}
+<b class="nc">&nbsp;			result.add(soFar + &quot; &quot; + l.get(0));</b>
+&nbsp;		} else {
+<b class="nc">&nbsp;			List&lt;String&gt; rest = l.subList(1, l.size());</b>
+<b class="nc">&nbsp;			generateVariants(soFar + l.get(0), rest, result);</b>
+<b class="nc">&nbsp;			if (!soFar.isEmpty()) {</b>
+<b class="nc">&nbsp;				generateVariants(soFar + &quot; &quot; + l.get(0), rest, result);</b>
+&nbsp;			}
+&nbsp;		}
+&nbsp;	}
+&nbsp;
+&nbsp;	@Override
+&nbsp;	public String getId() {
+<b class="nc">&nbsp;		return &quot;NL_SPACE_IN_COMPOUND&quot;;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@Override
+&nbsp;	public String getDescription() {
+<b class="nc">&nbsp;		return &quot;Detecteert spatiefouten&quot;;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@Override
+&nbsp;	public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;		List&lt;RuleMatch&gt; matches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;		String text = sentence.getText();</b>
+<b class="nc">&nbsp;		List&lt;AhoCorasickDoubleArrayTrie.Hit&lt;String&gt;&gt; hits = trie.parseText(text);</b>
+<b class="nc">&nbsp;		for (AhoCorasickDoubleArrayTrie.Hit&lt;String&gt; hit : hits) {</b>
+<b class="nc">&nbsp;			String covered = text.substring(hit.begin, hit.end);</b>
+<b class="nc">&nbsp;			if (hit.begin &gt; 0 &amp;&amp; !isBoundary(text.substring(hit.begin-1, hit.begin))) {</b>
+&nbsp;				// prevent substring matches
+&nbsp;				continue;
+&nbsp;			}
+<b class="nc">&nbsp;			if (hit.end &lt; text.length() &amp;&amp; !isBoundary(text.substring(hit.end, hit.end+1))) {</b>
+&nbsp;				// prevent substring matches
+&nbsp;				continue;
+&nbsp;			}
+<b class="nc">&nbsp;			String coveredNoSpaces = Tools.glueParts(covered.split(&quot; &quot;));</b>
+<b class="nc">&nbsp;			String message = normalizedCompound2message.get(coveredNoSpaces);</b>
+<b class="nc">&nbsp;			if (message != null) {</b>
+<b class="nc">&nbsp;				String id = StringTools.toId(getId() + &quot;_&quot; + covered, language);</b>
+<b class="nc">&nbsp;				SpecificIdRule specificIdRule = new SpecificIdRule(id, getDescription(), isPremium(), getCategory(), getLocQualityIssueType(), getTags());</b>
+<b class="nc">&nbsp;				RuleMatch match = new RuleMatch(specificIdRule, sentence, hit.begin, hit.end, hit.begin, hit.end, message, null, false, &quot;&quot;);</b>
+<b class="nc">&nbsp;				match.setSuggestedReplacement(coveredNoSpaces);</b>
+<b class="nc">&nbsp;				matches.add(match);</b>
+&nbsp;			}
+&nbsp;		}
+<b class="nc">&nbsp;		return toRuleMatchArray(matches);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	private boolean isBoundary(String s) {
+<b class="nc">&nbsp;		return !chars.matcher(s).matches();</b>
+&nbsp;	}
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

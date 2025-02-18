@@ -1,0 +1,224 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SpanishWordTokenizer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tokenizers.es</a>
+</div>
+
+<h1>Coverage Summary for Class: SpanishWordTokenizer (org.languagetool.tokenizers.es)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SpanishWordTokenizer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tokenizers.es;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.StringTokenizer;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.tagging.es.SpanishTagger;
+&nbsp;import org.languagetool.tokenizers.WordTokenizer;
+&nbsp;
+&nbsp;/**
+&nbsp; * Tokenizes a sentence into words. Punctuation and whitespace gets its own
+&nbsp; * token.
+&nbsp; *
+&nbsp; * @author Juan Martorell
+&nbsp; */
+<b class="nc">&nbsp;public class SpanishWordTokenizer extends WordTokenizer {</b>
+&nbsp;
+&nbsp;  private static final String wordCharacters = &quot;§©@€£\\$_\\p{L}\\d·\\-\u0300-\u036F\u00A8\u2070-\u209F°%‰‱&amp;\uFFFD\u00AD\u00AC&quot;;
+<b class="nc">&nbsp;  private static final Pattern tokenizerPattern = Pattern.compile(&quot;[&quot; + wordCharacters + &quot;]+|[^&quot; + wordCharacters + &quot;]&quot;);</b>
+&nbsp;  //decimal point between digits
+<b class="nc">&nbsp;  private static final Pattern DECIMAL_POINT= Pattern.compile(&quot;([\\d])\\.([\\d])&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;  // decimal comma between digits
+<b class="nc">&nbsp;  private static final Pattern DECIMAL_COMMA= Pattern.compile(&quot;([\\d]),([\\d])&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;  // ordinals
+<b class="nc">&nbsp;  private static final Pattern ORDINAL_POINT= Pattern.compile(&quot;\\b([\\d]+)\\.(º|ª|o|a|er|os|as)\\b&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_1 = Pattern.compile(&quot;xxES_DECIMAL_POINTxx&quot;, Pattern.LITERAL);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_2 = Pattern.compile(&quot;xxES_DECIMAL_COMMAxx&quot;, Pattern.LITERAL);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_3 = Pattern.compile(&quot;xxES_ORDINAL_POINTxx&quot;, Pattern.LITERAL);</b>
+<b class="nc">&nbsp;  private static final Pattern SOFT_HYPHEN = Pattern.compile(&quot;\u00AD&quot;, Pattern.LITERAL);</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; tokenize(final String text) {
+<b class="nc">&nbsp;    final List&lt;String&gt; l = new ArrayList&lt;&gt;();</b>
+&nbsp;    // replace hyphen, non-break hyphen -&gt; hyphen-minus
+<b class="nc">&nbsp;    String auxText = text.replace(&#39;\u2010&#39;, &#39;\u002d&#39;);</b>
+<b class="nc">&nbsp;    auxText = auxText.replace(&#39;\u2011&#39;, &#39;\u002d&#39;);</b>
+<b class="nc">&nbsp;    Matcher matcher = DECIMAL_POINT.matcher(auxText);</b>
+<b class="nc">&nbsp;    auxText = matcher.replaceAll(&quot;$1xxES_DECIMAL_POINTxx$2&quot;);</b>
+<b class="nc">&nbsp;    matcher = DECIMAL_COMMA.matcher(auxText);</b>
+<b class="nc">&nbsp;    auxText = matcher.replaceAll(&quot;$1xxES_DECIMAL_COMMAxx$2&quot;);</b>
+<b class="nc">&nbsp;    matcher = ORDINAL_POINT.matcher(auxText);</b>
+<b class="nc">&nbsp;    auxText = matcher.replaceAll(&quot;$1xxES_ORDINAL_POINTxx$2&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;    Matcher tokenizerMatcher = tokenizerPattern.matcher(auxText);</b>
+<b class="nc">&nbsp;    while (tokenizerMatcher.find()) {</b>
+<b class="nc">&nbsp;      String s = tokenizerMatcher.group();</b>
+<b class="nc">&nbsp;      if (l.size() &gt; 0 &amp;&amp; s.length() == 1 &amp;&amp; s.codePointAt(0)&gt;=0xFE00 &amp;&amp; s.codePointAt(0)&lt;=0xFE0F) {</b>
+<b class="nc">&nbsp;        l.set(l.size() - 1, l.get(l.size() - 1) + s);</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      s = PATTERN_1.matcher(s).replaceAll(&quot;.&quot;);</b>
+<b class="nc">&nbsp;      s = PATTERN_2.matcher(s).replaceAll(&quot;,&quot;);</b>
+<b class="nc">&nbsp;      s = PATTERN_3.matcher(s).replaceAll(&quot;.&quot;);</b>
+<b class="nc">&nbsp;      l.addAll(wordsToAdd(s));   </b>
+&nbsp;    }
+<b class="nc">&nbsp;    return joinEMailsAndUrls(l);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* Splits a word containing hyphen(-) if it doesn&#39;t exist in the dictionary. */
+&nbsp;  private List&lt;String&gt; wordsToAdd(String s) {
+<b class="nc">&nbsp;    final List&lt;String&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (!s.isEmpty()) {</b>
+<b class="nc">&nbsp;      if (!s.contains(&quot;-&quot;)) {</b>
+<b class="nc">&nbsp;        l.add(s);</b>
+&nbsp;      } else {
+&nbsp;        // words containing hyphen (-) are looked up in the dictionary
+<b class="nc">&nbsp;        if (SpanishTagger.INSTANCE.tag(Arrays.asList(SOFT_HYPHEN.matcher(s).replaceAll(&quot;&quot;).replace(&#39;’&#39;, &#39;\&#39;&#39;))).get(0).isTagged()) {</b>
+<b class="nc">&nbsp;          l.add(s);</b>
+&nbsp;        }
+&nbsp;        // some camel-case words containing hyphen (is there any better fix?)
+<b class="nc">&nbsp;        else if (s.equalsIgnoreCase(&quot;mers-cov&quot;) || s.equalsIgnoreCase(&quot;mcgraw-hill&quot;)</b>
+<b class="nc">&nbsp;            || s.equalsIgnoreCase(&quot;sars-cov-2&quot;) || s.equalsIgnoreCase(&quot;sars-cov&quot;) || s.equalsIgnoreCase(&quot;ph-metre&quot;)</b>
+<b class="nc">&nbsp;            || s.equalsIgnoreCase(&quot;ph-metres&quot;)) {</b>
+<b class="nc">&nbsp;          l.add(s);</b>
+&nbsp;        } else {
+&nbsp;          // if not found, the word is split
+<b class="nc">&nbsp;          final StringTokenizer st2 = new StringTokenizer(s, &quot;-&quot;, true);</b>
+<b class="nc">&nbsp;          while (st2.hasMoreElements()) {</b>
+<b class="nc">&nbsp;            l.add(st2.nextToken());</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return l;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

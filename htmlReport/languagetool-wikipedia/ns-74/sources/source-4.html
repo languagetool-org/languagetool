@@ -1,0 +1,609 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DisambiguationRuleHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.disambiguation.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: DisambiguationRuleHandler (org.languagetool.tagging.disambiguation.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DisambiguationRuleHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/178)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/244)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tagging.disambiguation.rules;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.RuleEntityResolver;
+&nbsp;import org.languagetool.rules.patterns.Match;
+&nbsp;import org.languagetool.rules.patterns.XMLRuleHandler;
+&nbsp;import org.languagetool.tools.StringInterner;
+&nbsp;import org.xml.sax.Attributes;
+&nbsp;import org.xml.sax.InputSource;
+&nbsp;import org.xml.sax.SAXException;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Locale;
+&nbsp;
+&nbsp;class DisambiguationRuleHandler extends XMLRuleHandler {
+&nbsp;
+&nbsp;  private static final String WD = &quot;wd&quot;;
+&nbsp;  private static final String ACTION = &quot;action&quot;;
+&nbsp;  private static final String DISAMBIG = &quot;disambig&quot;;
+&nbsp;
+<b class="nc">&nbsp;  private final List&lt;DisambiguationPatternRule&gt; rules = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public InputSource resolveEntity(String publicId, String systemId) throws IOException, SAXException {
+<b class="nc">&nbsp;    return new RuleEntityResolver().resolveEntity(publicId, systemId);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean inDisambiguation;
+&nbsp;  private int subId;
+&nbsp;  private String name;
+&nbsp;  private String ruleGroupId;
+&nbsp;  private String ruleGroupName;
+&nbsp;  protected String filterClassName;
+&nbsp;  protected String filterArgs;
+<b class="nc">&nbsp;  private StringBuilder disamb = new StringBuilder();</b>
+<b class="nc">&nbsp;  private StringBuilder wd = new StringBuilder();</b>
+<b class="nc">&nbsp;  private StringBuilder example = new StringBuilder();</b>
+&nbsp;
+<b class="nc">&nbsp;  private int antiPatternCounter = 0;</b>
+&nbsp;  private boolean inRule;
+<b class="nc">&nbsp;  private List&lt;DisambiguationPatternRule&gt; rulegroupAntiPatterns = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;  private List&lt;DisambiguationPatternRule&gt; ruleAntiPatterns = new ArrayList&lt;&gt;();</b>
+&nbsp;  private boolean inAntiPattern;
+&nbsp;
+&nbsp;  private boolean inWord;
+&nbsp;
+&nbsp;  private String disambiguatedPOS;
+&nbsp;
+<b class="nc">&nbsp;  private int startPos = -1;</b>
+<b class="nc">&nbsp;  private int endPos = -1;</b>
+&nbsp;  private int tokenCountForMarker;
+&nbsp;
+&nbsp;  private Match posSelector;
+&nbsp;
+&nbsp;  private int uniCounter;
+&nbsp;
+&nbsp;  private List&lt;AnalyzedToken&gt; newWdList;
+&nbsp;  private String wdLemma;
+&nbsp;  private String wdPos;
+&nbsp;
+&nbsp;  private boolean inExample;
+&nbsp;  private boolean untouched;
+&nbsp;  private List&lt;String&gt; untouchedExamples;
+&nbsp;  private List&lt;DisambiguatedExample&gt; disambExamples;
+&nbsp;  private String input;
+&nbsp;  private String output;
+&nbsp;  private final String sourceFile;
+&nbsp;
+&nbsp;  private DisambiguationPatternRule.DisambiguatorAction disambigAction;
+&nbsp;
+<b class="nc">&nbsp;  public DisambiguationRuleHandler(Language lang, String xmlPath) {</b>
+<b class="nc">&nbsp;    if (lang != null) {</b>
+<b class="nc">&nbsp;      this.language = Languages.getLanguageForShortCode(lang.getShortCodeWithCountryAndVariant());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.sourceFile = xmlPath;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;DisambiguationPatternRule&gt; getDisambRules() {
+<b class="nc">&nbsp;    return rules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // ===========================================================
+&nbsp;  // SAX DocumentHandler methods
+&nbsp;  // ===========================================================
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void startElement(String namespaceURI, String lName,
+&nbsp;                           String qName, Attributes attrs) throws SAXException {
+<b class="nc">&nbsp;    switch (qName) {</b>
+&nbsp;      case RULE:
+<b class="nc">&nbsp;        inRule = true;</b>
+<b class="nc">&nbsp;        id = attrs.getValue(ID);</b>
+<b class="nc">&nbsp;        if (inRuleGroup) {</b>
+<b class="nc">&nbsp;          subId++;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        name = attrs.getValue(NAME);</b>
+<b class="nc">&nbsp;        if (inRuleGroup &amp;&amp; id == null) {</b>
+<b class="nc">&nbsp;          id = ruleGroupId;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (inRuleGroup &amp;&amp; name == null) {</b>
+<b class="nc">&nbsp;          name = ruleGroupName;</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      case &quot;rules&quot;:
+<b class="nc">&nbsp;        if (language == null) {</b>
+<b class="nc">&nbsp;          language = Languages.getLanguageForShortCode(attrs.getValue(&quot;lang&quot;));</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      case PATTERN:
+<b class="nc">&nbsp;        inPattern = true;</b>
+<b class="nc">&nbsp;        tokenCountForMarker = 0;</b>
+<b class="nc">&nbsp;        if (attrs.getValue(CASE_SENSITIVE) != null &amp;&amp; YES.equals(attrs.getValue(CASE_SENSITIVE))) {</b>
+<b class="nc">&nbsp;          caseSensitive = true;</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      case ANTIPATTERN:
+<b class="nc">&nbsp;        inAntiPattern = true;</b>
+<b class="nc">&nbsp;        antiPatternCounter++;</b>
+<b class="nc">&nbsp;        caseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));</b>
+<b class="nc">&nbsp;        tokenCounter = 0;</b>
+<b class="nc">&nbsp;        tokenCountForMarker = 0;</b>
+&nbsp;        break;
+&nbsp;      case EXCEPTION:
+<b class="nc">&nbsp;        setExceptions(attrs);</b>
+&nbsp;        break;
+&nbsp;      case AND:
+<b class="nc">&nbsp;        inAndGroup = true;</b>
+<b class="nc">&nbsp;        tokenCountForMarker++;</b>
+<b class="nc">&nbsp;        if (inUnification) {</b>
+<b class="nc">&nbsp;          uniCounter++;</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      case UNIFY:
+<b class="nc">&nbsp;        inUnification = true;</b>
+<b class="nc">&nbsp;        uniNegation = YES.equals(attrs.getValue(NEGATE));</b>
+<b class="nc">&nbsp;        uniCounter = 0;</b>
+&nbsp;        break;
+&nbsp;      case UNIFY_IGNORE:
+<b class="nc">&nbsp;        inUnificationNeutral = true;</b>
+&nbsp;        break;
+&nbsp;      case &quot;feature&quot;:
+<b class="nc">&nbsp;        uFeature = attrs.getValue(ID);</b>
+&nbsp;        break;
+&nbsp;      case TYPE:
+<b class="nc">&nbsp;        uType = attrs.getValue(ID);</b>
+<b class="nc">&nbsp;        uTypeList.add(uType);</b>
+&nbsp;        break;
+&nbsp;      case TOKEN:
+<b class="nc">&nbsp;        setToken(attrs);</b>
+<b class="nc">&nbsp;        if (!inAndGroup) {</b>
+<b class="nc">&nbsp;          tokenCountForMarker++;</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      case DISAMBIG:
+<b class="nc">&nbsp;        inDisambiguation = true;</b>
+<b class="nc">&nbsp;        disambiguatedPOS = attrs.getValue(POSTAG);</b>
+<b class="nc">&nbsp;        if (attrs.getValue(ACTION) == null) {</b>
+&nbsp;          // default mode:
+<b class="nc">&nbsp;          disambigAction = DisambiguationPatternRule.DisambiguatorAction.REPLACE;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          disambigAction = DisambiguationPatternRule.DisambiguatorAction</b>
+<b class="nc">&nbsp;                  .valueOf(attrs.getValue(ACTION).toUpperCase(Locale.ENGLISH));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        disamb = new StringBuilder();</b>
+&nbsp;        break;
+&nbsp;      case MATCH:
+<b class="nc">&nbsp;        inMatch = true;</b>
+<b class="nc">&nbsp;        match = new StringBuilder();</b>
+<b class="nc">&nbsp;        Match.CaseConversion caseConversion = Match.CaseConversion.NONE;</b>
+<b class="nc">&nbsp;        if (attrs.getValue(&quot;case_conversion&quot;) != null) {</b>
+<b class="nc">&nbsp;          caseConversion = Match.CaseConversion.valueOf(attrs</b>
+<b class="nc">&nbsp;                  .getValue(&quot;case_conversion&quot;).toUpperCase(Locale.ENGLISH));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        Match.IncludeRange includeRange = Match.IncludeRange.NONE;</b>
+<b class="nc">&nbsp;        if (attrs.getValue(&quot;include_skipped&quot;) != null) {</b>
+<b class="nc">&nbsp;          includeRange = Match.IncludeRange.valueOf(attrs</b>
+<b class="nc">&nbsp;                  .getValue(&quot;include_skipped&quot;).toUpperCase(Locale.ENGLISH));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        Match mWorker = new Match(attrs.getValue(POSTAG), attrs</b>
+<b class="nc">&nbsp;                .getValue(&quot;postag_replace&quot;), YES</b>
+<b class="nc">&nbsp;                .equals(attrs.getValue(POSTAG_REGEXP)), attrs</b>
+<b class="nc">&nbsp;                .getValue(&quot;regexp_match&quot;), attrs.getValue(&quot;regexp_replace&quot;),</b>
+<b class="nc">&nbsp;                caseConversion, YES.equals(attrs.getValue(&quot;setpos&quot;)),</b>
+<b class="nc">&nbsp;                YES.equals(attrs.getValue(&quot;suppress_mispelled&quot;)),</b>
+&nbsp;                includeRange);
+<b class="nc">&nbsp;        if (inDisambiguation) {</b>
+<b class="nc">&nbsp;          if (attrs.getValue(NO) != null) {</b>
+<b class="nc">&nbsp;            int refNumber = Integer.parseInt(attrs.getValue(NO));</b>
+<b class="nc">&nbsp;            refNumberSanityCheck(refNumber);</b>
+<b class="nc">&nbsp;            mWorker.setTokenRef(refNumber);</b>
+<b class="nc">&nbsp;            posSelector = mWorker;</b>
+&nbsp;          }
+<b class="nc">&nbsp;        } else if (inToken &amp;&amp; attrs.getValue(NO) != null) {</b>
+<b class="nc">&nbsp;          int refNumber = Integer.parseInt(attrs.getValue(NO));</b>
+<b class="nc">&nbsp;          refNumberSanityCheck(refNumber);</b>
+<b class="nc">&nbsp;          mWorker.setTokenRef(refNumber);</b>
+<b class="nc">&nbsp;          tokenReference = mWorker;</b>
+<b class="nc">&nbsp;          elements.append(&#39;\\&#39;);</b>
+<b class="nc">&nbsp;          elements.append(refNumber);</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      case RULEGROUP:
+<b class="nc">&nbsp;        ruleGroupId = attrs.getValue(ID);</b>
+<b class="nc">&nbsp;        ruleGroupName = attrs.getValue(NAME);</b>
+<b class="nc">&nbsp;        inRuleGroup = true;</b>
+<b class="nc">&nbsp;        subId = 0;</b>
+<b class="nc">&nbsp;        if (rulegroupAntiPatterns != null) {</b>
+<b class="nc">&nbsp;          rulegroupAntiPatterns.clear();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        antiPatternCounter = 0;</b>
+&nbsp;        break;
+&nbsp;      case UNIFICATION:
+<b class="nc">&nbsp;        uFeature = attrs.getValue(FEATURE);</b>
+<b class="nc">&nbsp;        inUnificationDef = true;</b>
+&nbsp;        break;
+&nbsp;      case &quot;equivalence&quot;:
+<b class="nc">&nbsp;        uType = attrs.getValue(TYPE);</b>
+&nbsp;        break;
+&nbsp;      case WD:
+<b class="nc">&nbsp;        wdLemma = attrs.getValue(&quot;lemma&quot;);</b>
+<b class="nc">&nbsp;        wdPos = attrs.getValue(&quot;pos&quot;);</b>
+<b class="nc">&nbsp;        inWord = true;</b>
+<b class="nc">&nbsp;        wd = new StringBuilder();</b>
+&nbsp;        break;
+&nbsp;      case EXAMPLE:
+<b class="nc">&nbsp;        inExample = true;</b>
+<b class="nc">&nbsp;        if (untouchedExamples == null) {</b>
+<b class="nc">&nbsp;          untouchedExamples = new ArrayList&lt;&gt;();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (disambExamples == null) {</b>
+<b class="nc">&nbsp;          disambExamples = new ArrayList&lt;&gt;();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        untouched = attrs.getValue(TYPE).equals(&quot;untouched&quot;);</b>
+<b class="nc">&nbsp;        if (attrs.getValue(TYPE).equals(&quot;ambiguous&quot;)) {</b>
+<b class="nc">&nbsp;          input = attrs.getValue(&quot;inputform&quot;);</b>
+<b class="nc">&nbsp;          output = attrs.getValue(&quot;outputform&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        example = new StringBuilder();</b>
+&nbsp;        break;
+&nbsp;      case &quot;filter&quot;:
+<b class="nc">&nbsp;        filterClassName = attrs.getValue(&quot;class&quot;);</b>
+<b class="nc">&nbsp;        filterArgs = attrs.getValue(&quot;args&quot;);</b>
+&nbsp;        break;
+&nbsp;      case MARKER:
+<b class="nc">&nbsp;        if (inMarker) {</b>
+<b class="nc">&nbsp;          throw new IllegalStateException(&quot;&#39;&lt;marker&gt;&#39; may not be nested in rule &#39;&quot; + id + &quot;&#39;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        example.append(&quot;&lt;marker&gt;&quot;);</b>
+<b class="nc">&nbsp;        if (inPattern || inAntiPattern) {</b>
+<b class="nc">&nbsp;          startPos = tokenCounter;</b>
+<b class="nc">&nbsp;          inMarker = true;</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void refNumberSanityCheck(int refNumber) throws SAXException {
+<b class="nc">&nbsp;    if (refNumber &gt; patternTokens.size()) {</b>
+<b class="nc">&nbsp;      throw new SAXException(&quot;Only backward references in match elements are possible, tried to specify token &quot;</b>
+<b class="nc">&nbsp;              + refNumber + &quot;\n Line: &quot; + pLocator.getLineNumber()</b>
+<b class="nc">&nbsp;              + &quot;, column: &quot; + pLocator.getColumnNumber() + &quot;.&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void endElement(String namespaceURI, String sName,
+&nbsp;                         String qName) throws SAXException {
+<b class="nc">&nbsp;    switch (qName) {</b>
+&nbsp;      case RULE:
+<b class="nc">&nbsp;        DisambiguationPatternRule rule = new DisambiguationPatternRule(id,</b>
+&nbsp;                name, language, patternTokens, disambiguatedPOS, posSelector,
+&nbsp;                disambigAction);
+&nbsp;
+<b class="nc">&nbsp;        endPositionCorrection = endPos - tokenCountForMarker;</b>
+<b class="nc">&nbsp;        if (startPos != -1 &amp;&amp; endPos != -1) {</b>
+<b class="nc">&nbsp;          rule.setStartPositionCorrection(startPos);</b>
+<b class="nc">&nbsp;          rule.setEndPositionCorrection(endPositionCorrection);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          startPos = 0;</b>
+<b class="nc">&nbsp;          endPos = tokenCountForMarker;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        rule.setSubId(inRuleGroup ? StringInterner.intern(Integer.toString(subId)) : &quot;1&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        int matchedTokenCount = endPos - startPos;</b>
+<b class="nc">&nbsp;        if (newWdList != null) {</b>
+<b class="nc">&nbsp;          if (disambigAction == DisambiguationPatternRule.DisambiguatorAction.ADDCHUNK || </b>
+&nbsp;              disambigAction == DisambiguationPatternRule.DisambiguatorAction.ADD || disambigAction == DisambiguationPatternRule.DisambiguatorAction.REMOVE
+&nbsp;                  || disambigAction == DisambiguationPatternRule.DisambiguatorAction.REPLACE) {
+<b class="nc">&nbsp;            if ((!newWdList.isEmpty() &amp;&amp; disambigAction == DisambiguationPatternRule.DisambiguatorAction.REPLACE)</b>
+<b class="nc">&nbsp;                    &amp;&amp; newWdList.size() != matchedTokenCount) {</b>
+<b class="nc">&nbsp;              throw new SAXException(</b>
+<b class="nc">&nbsp;                      language.getName() + &quot; rule error. The number of interpretations specified with wd: &quot;</b>
+<b class="nc">&nbsp;                              + newWdList.size()</b>
+&nbsp;                              + &quot; must be equal to the number of matched tokens (&quot; + matchedTokenCount + &quot;)&quot;
+<b class="nc">&nbsp;                              + &quot;\n Line: &quot; + pLocator.getLineNumber() + &quot;, column: &quot;</b>
+<b class="nc">&nbsp;                              + pLocator.getColumnNumber() + &quot;.&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            rule.setNewInterpretations(newWdList.toArray(new AnalyzedToken[0]));</b>
+&nbsp;          }
+<b class="nc">&nbsp;          newWdList.clear();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        caseSensitive = false;</b>
+<b class="nc">&nbsp;        if (disambExamples != null) {</b>
+<b class="nc">&nbsp;          rule.setExamples(disambExamples);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (untouchedExamples != null) {</b>
+<b class="nc">&nbsp;          rule.setUntouchedExamples(untouchedExamples);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        setRuleFilter(filterClassName, filterArgs, rule);</b>
+<b class="nc">&nbsp;        if (!rulegroupAntiPatterns.isEmpty()) {</b>
+<b class="nc">&nbsp;          rule.setAntiPatterns(rulegroupAntiPatterns);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (!ruleAntiPatterns.isEmpty()) {</b>
+<b class="nc">&nbsp;          rule.setAntiPatterns(ruleAntiPatterns);</b>
+<b class="nc">&nbsp;          ruleAntiPatterns.clear();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        rules.add(rule);</b>
+<b class="nc">&nbsp;        if (disambigAction == DisambiguationPatternRule.DisambiguatorAction.UNIFY &amp;&amp; matchedTokenCount != uniCounter) {</b>
+<b class="nc">&nbsp;          throw new SAXException(language.getName() + &quot; rule error. The number unified tokens: &quot;</b>
+&nbsp;                  + uniCounter + &quot; must be equal to the number of matched tokens: &quot; + matchedTokenCount
+<b class="nc">&nbsp;                  + &quot;\n Line: &quot; + pLocator.getLineNumber() + &quot;, column: &quot;</b>
+<b class="nc">&nbsp;                  + pLocator.getColumnNumber() + &quot;.&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        boolean singleTokenCorrection = endPos - startPos &gt; 1;</b>
+<b class="nc">&nbsp;        if ((!singleTokenCorrection &amp;&amp; (disambigAction == DisambiguationPatternRule.DisambiguatorAction.FILTER || disambigAction == DisambiguationPatternRule.DisambiguatorAction.REPLACE))</b>
+&nbsp;                &amp;&amp; (matchedTokenCount &gt; 1)) {
+<b class="nc">&nbsp;          throw new SAXException(</b>
+<b class="nc">&nbsp;                  language.getName() + &quot; rule error. Cannot replace or filter more than one token at a time.&quot;</b>
+<b class="nc">&nbsp;                          + &quot;\n Line: &quot; + pLocator.getLineNumber() + &quot;, column: &quot;</b>
+<b class="nc">&nbsp;                          + pLocator.getColumnNumber() + &quot;.&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        patternTokens.clear();</b>
+<b class="nc">&nbsp;        posSelector = null;</b>
+<b class="nc">&nbsp;        disambExamples = null;</b>
+<b class="nc">&nbsp;        untouchedExamples = null;</b>
+<b class="nc">&nbsp;        startPos = -1;</b>
+<b class="nc">&nbsp;        endPos = -1;</b>
+<b class="nc">&nbsp;        filterClassName = null;</b>
+<b class="nc">&nbsp;        filterArgs = null;</b>
+<b class="nc">&nbsp;        inRule = false;</b>
+&nbsp;        break;
+&nbsp;      case EXCEPTION:
+<b class="nc">&nbsp;        finalizeExceptions();</b>
+&nbsp;        break;
+&nbsp;      case AND:
+<b class="nc">&nbsp;        inAndGroup = false;</b>
+<b class="nc">&nbsp;        andGroupCounter = 0;</b>
+<b class="nc">&nbsp;        tokenCounter++;</b>
+&nbsp;        break;
+&nbsp;      case TOKEN:
+<b class="nc">&nbsp;        if (inUnification &amp;&amp; !inAndGroup) {</b>
+<b class="nc">&nbsp;          uniCounter++;</b>
+&nbsp;        }
+&nbsp;        // The disambiguation Unifier is always in the default language variant
+<b class="nc">&nbsp;        finalizeTokens(language.getDefaultLanguageVariant().getDisambiguationUnifierConfiguration());</b>
+&nbsp;        break;
+&nbsp;      case PATTERN:
+<b class="nc">&nbsp;        inPattern = false;</b>
+<b class="nc">&nbsp;        tokenCounter = 0;</b>
+&nbsp;        break;
+&nbsp;      case MATCH:
+<b class="nc">&nbsp;        if (inDisambiguation) {</b>
+<b class="nc">&nbsp;          posSelector.setLemmaString(match.toString());</b>
+<b class="nc">&nbsp;        } else if (inToken) {</b>
+<b class="nc">&nbsp;          tokenReference.setLemmaString(match.toString());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        inMatch = false;</b>
+&nbsp;        break;
+&nbsp;      case DISAMBIG:
+<b class="nc">&nbsp;        inDisambiguation = false;</b>
+&nbsp;        break;
+&nbsp;      case RULEGROUP:
+<b class="nc">&nbsp;        inRuleGroup = false;</b>
+&nbsp;        break;
+&nbsp;      case UNIFICATION:
+<b class="nc">&nbsp;        if (inUnificationDef) {</b>
+<b class="nc">&nbsp;          inUnificationDef = false;</b>
+<b class="nc">&nbsp;          tokenCounter = 0;</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      case &quot;feature&quot;:
+<b class="nc">&nbsp;        equivalenceFeatures.put(uFeature, uTypeList);</b>
+<b class="nc">&nbsp;        uTypeList = new ArrayList&lt;&gt;();</b>
+&nbsp;        break;
+&nbsp;      case UNIFY:
+<b class="nc">&nbsp;        inUnification = false;</b>
+<b class="nc">&nbsp;        equivalenceFeatures = new HashMap&lt;&gt;();</b>
+&nbsp;        //set negation on the last token only!
+<b class="nc">&nbsp;        int lastElement = patternTokens.size() - 1;</b>
+<b class="nc">&nbsp;        patternTokens.get(lastElement).setLastInUnification();</b>
+<b class="nc">&nbsp;        if (uniNegation) {</b>
+<b class="nc">&nbsp;          patternTokens.get(lastElement).setUniNegation();</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      case UNIFY_IGNORE:
+<b class="nc">&nbsp;        inUnificationNeutral = false;</b>
+&nbsp;        break;
+&nbsp;      case WD:
+<b class="nc">&nbsp;        addNewWord(wd.toString(), wdLemma, wdPos);</b>
+<b class="nc">&nbsp;        inWord = false;</b>
+&nbsp;        break;
+&nbsp;      case ANTIPATTERN:
+<b class="nc">&nbsp;        final DisambiguationPatternRule disRule = new DisambiguationPatternRule(</b>
+&nbsp;                id + &quot;_antipattern:&quot; + antiPatternCounter,
+&nbsp;                &quot;antipattern&quot;, language, patternTokens, null, null,
+&nbsp;                DisambiguationPatternRule.DisambiguatorAction.IMMUNIZE);
+<b class="nc">&nbsp;        if (startPos != -1 &amp;&amp; endPos != -1) {</b>
+<b class="nc">&nbsp;          disRule.setStartPositionCorrection(startPos);</b>
+<b class="nc">&nbsp;          disRule.setEndPositionCorrection(endPos - tokenCountForMarker);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        patternTokens.clear();</b>
+<b class="nc">&nbsp;        if (inRule) {</b>
+<b class="nc">&nbsp;          if (ruleAntiPatterns == null) {</b>
+<b class="nc">&nbsp;            ruleAntiPatterns = new ArrayList&lt;&gt;();</b>
+&nbsp;          }
+<b class="nc">&nbsp;          ruleAntiPatterns.add(disRule);</b>
+&nbsp;        } else { // a rulegroup shares all antipatterns not included in a single rule
+<b class="nc">&nbsp;          if (rulegroupAntiPatterns == null) {</b>
+<b class="nc">&nbsp;            rulegroupAntiPatterns = new ArrayList&lt;&gt;();</b>
+&nbsp;          }
+<b class="nc">&nbsp;          rulegroupAntiPatterns.add(disRule);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        tokenCounter = 0;</b>
+<b class="nc">&nbsp;        inAntiPattern = false;</b>
+&nbsp;        break;
+&nbsp;      case EXAMPLE:
+<b class="nc">&nbsp;        inExample = false;</b>
+<b class="nc">&nbsp;        if (untouched) {</b>
+<b class="nc">&nbsp;          untouchedExamples.add(example.toString());</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          disambExamples.add(new DisambiguatedExample(example.toString(), input, output));</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      case MARKER:
+<b class="nc">&nbsp;        example.append(&quot;&lt;/marker&gt;&quot;);</b>
+<b class="nc">&nbsp;        if (inPattern || inAntiPattern) {</b>
+<b class="nc">&nbsp;          endPos = tokenCountForMarker;</b>
+<b class="nc">&nbsp;          inMarker = false;</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void addNewWord(String word, String lemma, String pos) {
+<b class="nc">&nbsp;    AnalyzedToken newWd = new AnalyzedToken(word, pos, lemma);</b>
+<b class="nc">&nbsp;    if (newWdList == null) {</b>
+<b class="nc">&nbsp;      newWdList = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    newWdList.add(newWd);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final void characters(char[] buf, int offset, int len) {
+<b class="nc">&nbsp;    String s = new String(buf, offset, len);</b>
+<b class="nc">&nbsp;    if (inException) {</b>
+<b class="nc">&nbsp;      exceptions.append(s);</b>
+<b class="nc">&nbsp;    } else if (inToken &amp;&amp; (inPattern || inAntiPattern)) {</b>
+<b class="nc">&nbsp;      elements.append(s);</b>
+<b class="nc">&nbsp;    } else if (inMatch) {</b>
+<b class="nc">&nbsp;      match.append(s);</b>
+<b class="nc">&nbsp;    } else if (inWord) {</b>
+<b class="nc">&nbsp;      wd.append(s);</b>
+<b class="nc">&nbsp;    } else if (inDisambiguation) {</b>
+<b class="nc">&nbsp;      disamb.append(s);</b>
+<b class="nc">&nbsp;    } else if (inExample) {</b>
+<b class="nc">&nbsp;      example.append(s);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

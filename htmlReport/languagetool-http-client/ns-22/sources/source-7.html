@@ -1,0 +1,477 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RemoteLanguageTool</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.remote</a>
+</div>
+
+<h1>Coverage Summary for Class: RemoteLanguageTool (org.languagetool.remote)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RemoteLanguageTool</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+  <span class="absValue">
+    (15/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.1%
+  </span>
+  <span class="absValue">
+    (37/56)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (112/168)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.remote;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;
+&nbsp;import javax.xml.stream.XMLStreamException;
+&nbsp;import java.io.*;
+&nbsp;import java.net.*;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Check a text using a &lt;a href=&quot;https://dev.languagetool.org/http-server&quot;&gt;remote LanguageTool server&lt;/a&gt; via HTTP or HTTPS.
+&nbsp; * Our public HTTPS API and its restrictions are documented
+&nbsp; * &lt;a href=&quot;https://dev.languagetool.org/public-http-api&quot;&gt;here&lt;/a&gt;.
+&nbsp; *
+&nbsp; * @since 3.4
+&nbsp; */
+&nbsp;@SuppressWarnings(&quot;unchecked&quot;)
+&nbsp;public class RemoteLanguageTool {
+&nbsp;
+&nbsp;  private static final String V2_CHECK = &quot;/v2/check&quot;;
+&nbsp;  private static final String V2_MAXTEXTLENGTH = &quot;/v2/maxtextlength&quot;;
+&nbsp;  private static final String V2_CONFIGINFO = &quot;/v2/configinfo&quot;;
+&nbsp;
+<b class="fc">&nbsp;  private final ObjectMapper mapper = new ObjectMapper();</b>
+&nbsp;  private final URL serverBaseUrl;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param serverBaseUrl for example {@code https://languagetool.org/api} (not ending in slash)
+&nbsp;   */
+<b class="fc">&nbsp;  public RemoteLanguageTool(URL serverBaseUrl) {</b>
+<b class="pc">&nbsp;    if (serverBaseUrl.toString().endsWith(&quot;/&quot;)) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Server base URL must not end with &#39;/&#39;: &quot; + serverBaseUrl);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    this.serverBaseUrl = Objects.requireNonNull(serverBaseUrl);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param text     the text to be checked
+&nbsp;   * @param langCode the language code like {@code en} or {@code en-US} - &lt;strong&gt;note that for some languages (like English) you
+&nbsp;   *                 need to specify the country code (like {@code US} or {@code GB}) to get spell checking&lt;/strong&gt;
+&nbsp;   */
+&nbsp;  public RemoteResult check(String text, String langCode) {
+<b class="fc">&nbsp;    return check(getUrlParams(text, new CheckConfigurationBuilder(langCode).build(), null));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public RemoteResult check(String text, String langCode, Map&lt;String, String&gt; customParams) {
+<b class="nc">&nbsp;    return check(getUrlParams(text, new CheckConfigurationBuilder(langCode).build(), customParams));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param text the text to be checked
+&nbsp;   */
+&nbsp;  public RemoteResult check(String text, CheckConfiguration config) {
+<b class="fc">&nbsp;    return check(getUrlParams(text, config, null));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public RemoteResult check(String text, CheckConfiguration config, Map&lt;String, String&gt; customParams) {
+<b class="nc">&nbsp;    return check(getUrlParams(text, config, customParams));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getUrlParams(String text, CheckConfiguration config, Map&lt;String, String&gt; customParams) {
+<b class="fc">&nbsp;    StringBuilder params = new StringBuilder();</b>
+<b class="fc">&nbsp;    append(params, &quot;text&quot;, text);</b>
+<b class="pc">&nbsp;    if (config.getMotherTongueLangCode() != null) {</b>
+<b class="nc">&nbsp;      append(params, &quot;motherTongue&quot;, config.getMotherTongueLangCode());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (config.guessLanguage()) {</b>
+<b class="fc">&nbsp;      append(params, &quot;language&quot;, &quot;auto&quot;);</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      append(params, &quot;language&quot;, config.getLangCode().orElse(&quot;auto&quot;));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (config.getEnabledRuleIds().size() &gt; 0) {</b>
+<b class="fc">&nbsp;      append(params, &quot;enabledRules&quot;, String.join(&quot;,&quot;, config.getEnabledRuleIds()));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (config.enabledOnly()) {</b>
+<b class="fc">&nbsp;      append(params, &quot;enabledOnly&quot;, &quot;yes&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (config.getDisabledRuleIds().size() &gt; 0) {</b>
+<b class="fc">&nbsp;      append(params, &quot;disabledRules&quot;, String.join(&quot;,&quot;, config.getDisabledRuleIds()));</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (config.getMode() != null) {</b>
+<b class="nc">&nbsp;      append(params, &quot;mode&quot;, config.getMode());</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (config.getLevel() != null) {</b>
+<b class="nc">&nbsp;      append(params, &quot;level&quot;, config.getLevel());</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (config.getRuleValues().size() &gt; 0) {</b>
+<b class="nc">&nbsp;      append(params, &quot;ruleValues&quot;, String.join(&quot;,&quot;, config.getRuleValues()));</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (config.getTextSessionID() != null) {</b>
+<b class="nc">&nbsp;      append(params, &quot;textSessionId&quot;, config.getTextSessionID());</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (config.getUsername() != null) {</b>
+<b class="nc">&nbsp;      append(params, &quot;username&quot;, config.getUsername());</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (config.getAPIKey() != null) {</b>
+<b class="nc">&nbsp;      append(params, &quot;apiKey&quot;, config.getAPIKey());</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (customParams != null) {</b>
+<b class="nc">&nbsp;      customParams.forEach((key, value) -&gt; {</b>
+<b class="nc">&nbsp;        append(params, key, value);</b>
+&nbsp;      });
+&nbsp;    }
+<b class="fc">&nbsp;    append(params, &quot;useragent&quot;, &quot;java-http-client&quot;);</b>
+<b class="fc">&nbsp;    return params.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void append(StringBuilder params, String paramName, String paramValue) {
+<b class="fc">&nbsp;    if (params.length() &gt; 0) {</b>
+<b class="fc">&nbsp;      params.append(&#39;&amp;&#39;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    params.append(paramName).append(&#39;=&#39;).append(encode(paramValue));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String encode(String text) {
+&nbsp;    try {
+<b class="fc">&nbsp;      return URLEncoder.encode(text, &quot;utf-8&quot;);</b>
+&nbsp;    } catch (UnsupportedEncodingException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private RemoteResult check(String urlParameters) {
+<b class="fc">&nbsp;    byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);</b>
+&nbsp;    URL checkUrl;
+&nbsp;    try {
+<b class="fc">&nbsp;      checkUrl = new URL(serverBaseUrl + V2_CHECK);</b>
+&nbsp;    } catch (MalformedURLException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    HttpURLConnection conn = getConnection(postData, checkUrl);</b>
+&nbsp;    try {
+<b class="fc">&nbsp;      if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {</b>
+<b class="fc">&nbsp;        try (InputStream inputStream = conn.getInputStream()) {</b>
+<b class="fc">&nbsp;          return parseJson(inputStream);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="fc">&nbsp;        try (InputStream inputStream = conn.getErrorStream()) {</b>
+<b class="fc">&nbsp;          String error = readStream(inputStream, &quot;utf-8&quot;);</b>
+<b class="fc">&nbsp;          throw new RuntimeException(&quot;Got error: &quot; + error + &quot; - HTTP response code &quot; + conn.getResponseCode());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (ConnectException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not connect to server at &quot; + serverBaseUrl, e);</b>
+&nbsp;    } catch (Exception e) {
+<b class="fc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    } finally {
+<b class="fc">&nbsp;      conn.disconnect();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public RemoteConfigurationInfo getConfigurationInfo(String urlParameters) {
+<b class="nc">&nbsp;    if (!urlParameters.startsWith(&quot;language=&quot;)) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;&#39;language&#39; parameter missing&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);</b>
+&nbsp;    URL checkUrl;
+&nbsp;    try {
+<b class="nc">&nbsp;      checkUrl = new URL(serverBaseUrl + V2_CONFIGINFO);</b>
+&nbsp;    } catch (MalformedURLException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    HttpURLConnection conn = getConnection(postData, checkUrl);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {</b>
+<b class="nc">&nbsp;        try (InputStream inputStream = conn.getInputStream()) {</b>
+<b class="nc">&nbsp;          RemoteConfigurationInfo configInfo = new RemoteConfigurationInfo(mapper, inputStream);</b>
+<b class="nc">&nbsp;          return configInfo;</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        try (InputStream inputStream = conn.getErrorStream()) {</b>
+<b class="nc">&nbsp;          String error = readStream(inputStream, &quot;utf-8&quot;);</b>
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Got error: &quot; + error + &quot; - HTTP response code &quot; + conn.getResponseCode());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (ConnectException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not connect to server at &quot; + serverBaseUrl, e);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    } finally {
+<b class="nc">&nbsp;      conn.disconnect();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getMaxTextLength() {
+<b class="nc">&nbsp;    byte[] postData = {0};</b>
+&nbsp;    URL checkUrl;
+&nbsp;    try {
+<b class="nc">&nbsp;      checkUrl = new URL(serverBaseUrl + V2_MAXTEXTLENGTH);</b>
+&nbsp;    } catch (MalformedURLException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    HttpURLConnection conn = getConnection(postData, checkUrl);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {</b>
+<b class="nc">&nbsp;        try (InputStream inputStream = conn.getInputStream()) {</b>
+<b class="nc">&nbsp;          StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;          try (InputStreamReader isr = new InputStreamReader(inputStream, &quot;utf-8&quot;);</b>
+<b class="nc">&nbsp;               BufferedReader br = new BufferedReader(isr)) {</b>
+<b class="nc">&nbsp;            String line = br.readLine();</b>
+<b class="nc">&nbsp;            return Integer.parseInt(line);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        try (InputStream inputStream = conn.getErrorStream()) {</b>
+<b class="nc">&nbsp;          String error = readStream(inputStream, &quot;utf-8&quot;);</b>
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Got error: &quot; + error + &quot; - HTTP response code &quot; + conn.getResponseCode());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (ConnectException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not connect to server at &quot; + serverBaseUrl, e);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    } finally {
+<b class="nc">&nbsp;      conn.disconnect();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  HttpURLConnection getConnection(byte[] postData, URL url) {
+&nbsp;    try {
+<b class="fc">&nbsp;      HttpURLConnection conn = (HttpURLConnection) url.openConnection();</b>
+<b class="fc">&nbsp;      conn.setDoOutput(true);</b>
+<b class="fc">&nbsp;      conn.setInstanceFollowRedirects(false);</b>
+<b class="fc">&nbsp;      conn.setRequestMethod(&quot;POST&quot;);</b>
+<b class="fc">&nbsp;      conn.setRequestProperty(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);</b>
+<b class="fc">&nbsp;      conn.setRequestProperty(&quot;charset&quot;, &quot;utf-8&quot;);</b>
+<b class="fc">&nbsp;      conn.setRequestProperty(&quot;Content-Length&quot;, Integer.toString(postData.length));</b>
+<b class="fc">&nbsp;      try (DataOutputStream wr = new DataOutputStream(conn.getOutputStream())) {</b>
+<b class="fc">&nbsp;        wr.write(postData);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      return conn;</b>
+&nbsp;    } catch (Exception e) {
+<b class="fc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private String readStream(InputStream stream, String encoding) throws IOException {
+<b class="fc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="fc">&nbsp;    try (InputStreamReader isr = new InputStreamReader(stream, encoding);</b>
+<b class="fc">&nbsp;         BufferedReader br = new BufferedReader(isr)) {</b>
+&nbsp;      String line;
+<b class="fc">&nbsp;      while ((line = br.readLine()) != null) {</b>
+<b class="fc">&nbsp;        sb.append(line).append(&#39;\n&#39;);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private RemoteResult parseJson(InputStream inputStream) throws XMLStreamException, IOException {
+<b class="fc">&nbsp;    Map map = mapper.readValue(inputStream, Map.class);</b>
+<b class="fc">&nbsp;    Map&lt;String, String&gt; languageObj = (Map&lt;String, String&gt;) map.get(&quot;language&quot;);</b>
+<b class="fc">&nbsp;    String language = languageObj.get(&quot;name&quot;);</b>
+<b class="fc">&nbsp;    String languageCode = languageObj.get(&quot;code&quot;);</b>
+<b class="fc">&nbsp;    Map&lt;String, String&gt; detectedLanguageObj = (Map&lt;String, String&gt;) ((Map) languageObj).get(&quot;detectedLanguage&quot;);</b>
+<b class="fc">&nbsp;    String languageDetectedCode = null, languageDetectedName = null;</b>
+<b class="fc">&nbsp;    if (detectedLanguageObj != null) {</b>
+<b class="fc">&nbsp;      languageDetectedCode = detectedLanguageObj.get(&quot;code&quot;);</b>
+<b class="fc">&nbsp;      languageDetectedName = detectedLanguageObj.get(&quot;name&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    Map&lt;String, String&gt; software = (Map&lt;String, String&gt;) map.get(&quot;software&quot;);</b>
+<b class="fc">&nbsp;    RemoteServer remoteServer = new RemoteServer(software.get(&quot;name&quot;), software.get(&quot;version&quot;), software.get(&quot;buildDate&quot;));</b>
+<b class="fc">&nbsp;    List matches = (ArrayList) map.get(&quot;matches&quot;);</b>
+<b class="fc">&nbsp;    List&lt;RemoteRuleMatch&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (Object match : matches) {</b>
+<b class="fc">&nbsp;      RemoteRuleMatch remoteMatch = getMatch((Map&lt;String, Object&gt;) match);</b>
+<b class="fc">&nbsp;      result.add(remoteMatch);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    List ignoreRanges = (ArrayList) map.get(&quot;ignoreRanges&quot;);</b>
+<b class="fc">&nbsp;    List&lt;RemoteIgnoreRange&gt; remoteIgnoreRanges = new ArrayList&lt;&gt;();</b>
+<b class="pc">&nbsp;    if (ignoreRanges != null) {</b>
+<b class="nc">&nbsp;      for (Object range : ignoreRanges) {</b>
+<b class="nc">&nbsp;        RemoteIgnoreRange remoteIgnoreRange = getIgnoreRange((Map&lt;String, Object&gt;) range);</b>
+<b class="nc">&nbsp;        remoteIgnoreRanges.add(remoteIgnoreRange);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return new RemoteResult(language, languageCode, languageDetectedCode, languageDetectedName, result, remoteIgnoreRanges, remoteServer);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private RemoteIgnoreRange getIgnoreRange(Map&lt;String, Object&gt; range) {
+<b class="nc">&nbsp;    int from = (int) range.get(&quot;from&quot;);</b>
+<b class="nc">&nbsp;    int to = (int) range.get(&quot;to&quot;);</b>
+<b class="nc">&nbsp;    String langCode = (String) ((Map&lt;String, Object&gt;) range.get(&quot;language&quot;)).get(&quot;code&quot;);</b>
+<b class="nc">&nbsp;    return new RemoteIgnoreRange(from, to, langCode);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private RemoteRuleMatch getMatch(Map&lt;String, Object&gt; match) {
+<b class="fc">&nbsp;    Map&lt;String, Object&gt; rule = (Map&lt;String, Object&gt;) match.get(&quot;rule&quot;);</b>
+<b class="fc">&nbsp;    int offset = (int) getRequired(match, &quot;offset&quot;);</b>
+<b class="fc">&nbsp;    int errorLength = (int) getRequired(match, &quot;length&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;    Map&lt;String, Object&gt; context = (Map&lt;String, Object&gt;) match.get(&quot;context&quot;);</b>
+<b class="fc">&nbsp;    int contextOffset = (int) getRequired(context, &quot;offset&quot;);</b>
+<b class="fc">&nbsp;    RemoteRuleMatch remoteMatch = new RemoteRuleMatch(getRequiredString(rule, &quot;id&quot;), getRequiredString(rule, &quot;description&quot;), getRequiredString(match, &quot;message&quot;),</b>
+<b class="fc">&nbsp;            getRequiredString(context, &quot;text&quot;), contextOffset, offset, errorLength);</b>
+<b class="fc">&nbsp;    remoteMatch.setShortMsg(getOrNull(match, &quot;shortMessage&quot;));</b>
+<b class="fc">&nbsp;    remoteMatch.setRuleSubId(getOrNull(rule, &quot;subId&quot;));</b>
+<b class="fc">&nbsp;    remoteMatch.setLocQualityIssueType(getOrNull(rule, &quot;issueType&quot;));</b>
+<b class="fc">&nbsp;    List&lt;String&gt; urls = getValueList(rule, &quot;urls&quot;);</b>
+<b class="fc">&nbsp;    if (urls.size() &gt; 0) {</b>
+<b class="fc">&nbsp;      remoteMatch.setUrl(urls.get(0));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    Map&lt;String, Object&gt; category = (Map&lt;String, Object&gt;) rule.get(&quot;category&quot;);</b>
+<b class="fc">&nbsp;    remoteMatch.setCategory(getOrNull(category, &quot;name&quot;));</b>
+<b class="fc">&nbsp;    remoteMatch.setCategoryId(getOrNull(category, &quot;id&quot;));</b>
+&nbsp;
+<b class="fc">&nbsp;    remoteMatch.setReplacements(getValueList(match, &quot;replacements&quot;));</b>
+<b class="fc">&nbsp;    return remoteMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Object getRequired(Map&lt;String, Object&gt; elem, String propertyName) {
+<b class="fc">&nbsp;    Object val = elem.get(propertyName);</b>
+<b class="pc">&nbsp;    if (val != null) {</b>
+<b class="fc">&nbsp;      return val;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;JSON item &quot; + elem + &quot; doesn&#39;t contain required property &#39;&quot; + propertyName + &quot;&#39;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getRequiredString(Map&lt;String, Object&gt; elem, String propertyName) {
+<b class="fc">&nbsp;    return (String) getRequired(elem, propertyName);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getOrNull(Map&lt;String, Object&gt; elem, String propertyName) {
+<b class="fc">&nbsp;    Object val = elem.get(propertyName);</b>
+<b class="fc">&nbsp;    if (val != null) {</b>
+<b class="fc">&nbsp;      return (String) val;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; getValueList(Map&lt;String, Object&gt; match, String propertyName) {
+<b class="fc">&nbsp;    List&lt;Object&gt; matches = (List&lt;Object&gt;) match.get(propertyName);</b>
+<b class="fc">&nbsp;    List&lt;String&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    if (matches != null) {</b>
+<b class="fc">&nbsp;      for (Object o : matches) {</b>
+<b class="fc">&nbsp;        Map&lt;String, Object&gt; item = (Map&lt;String, Object&gt;) o;</b>
+<b class="fc">&nbsp;        l.add((String) item.get(&quot;value&quot;));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return l;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

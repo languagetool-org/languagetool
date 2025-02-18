@@ -1,0 +1,304 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > HTTPTestTools</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: HTTPTestTools (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HTTPTestTools</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">HTTPTestTools$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">HTTPTestTools$TestData</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import javax.net.ssl.HttpsURLConnection;
+&nbsp;import javax.net.ssl.SSLContext;
+&nbsp;import javax.net.ssl.TrustManager;
+&nbsp;import javax.net.ssl.X509TrustManager;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.OutputStreamWriter;
+&nbsp;import java.io.Writer;
+&nbsp;import java.net.ConnectException;
+&nbsp;import java.net.URL;
+&nbsp;import java.net.URLConnection;
+&nbsp;import java.security.KeyManagementException;
+&nbsp;import java.security.NoSuchAlgorithmException;
+&nbsp;import java.security.SecureRandom;
+&nbsp;import java.security.cert.X509Certificate;
+&nbsp;import java.sql.Date;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import static java.nio.charset.StandardCharsets.UTF_8;
+&nbsp;
+&nbsp;public final class HTTPTestTools {
+&nbsp;
+&nbsp;  private HTTPTestTools() {
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get default port, but considering property {@code lt.default.port}.
+&nbsp;   */
+&nbsp;  public static int getDefaultPort() {
+<b class="nc">&nbsp;    String defaultPort = System.getProperty(&quot;lt.default.port&quot;);</b>
+<b class="nc">&nbsp;    return defaultPort != null ? Integer.parseInt(defaultPort) : 8081; // see HTTPServerConfig.DEFAULT_PORT</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * For testing, we disable all checks because we use a self-signed certificate on the server
+&nbsp;   * side and we want this test to run everywhere without importing the certificate into the JVM&#39;s trust store.
+&nbsp;   *
+&nbsp;   * See http://stackoverflow.com/questions/2893819/telling-java-to-accept-self-signed-ssl-certificate
+&nbsp;   */
+&nbsp;  public static void disableCertChecks() throws NoSuchAlgorithmException, KeyManagementException {
+<b class="nc">&nbsp;    TrustManager[] trustAllCerts = {</b>
+<b class="nc">&nbsp;            new X509TrustManager() {</b>
+&nbsp;              @Override
+&nbsp;              public X509Certificate[] getAcceptedIssuers() {
+<b class="nc">&nbsp;                return null;</b>
+&nbsp;              }
+&nbsp;              @Override
+<b class="nc">&nbsp;              public void checkClientTrusted(X509Certificate[] certs, String authType) {}</b>
+&nbsp;              @Override
+<b class="nc">&nbsp;              public void checkServerTrusted(X509Certificate[] certs, String authType) {}</b>
+&nbsp;            }
+&nbsp;    };
+<b class="nc">&nbsp;    SSLContext sc = SSLContext.getInstance(&quot;SSL&quot;);</b>
+<b class="nc">&nbsp;    sc.init(null, trustAllCerts, new SecureRandom());</b>
+<b class="nc">&nbsp;    HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String checkAtUrl(URL url) throws IOException {
+&nbsp;    try {
+<b class="nc">&nbsp;      InputStream stream = (InputStream)url.getContent();</b>
+<b class="nc">&nbsp;      return StringTools.streamToString(stream, &quot;UTF-8&quot;);</b>
+&nbsp;    } catch (ConnectException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not connect to &quot; + url, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String checkAtUrlByPost(URL url, String postData) throws IOException {
+<b class="nc">&nbsp;    return checkAtUrlByPost(url, postData, new HashMap&lt;&gt;());</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static String checkAtUrlByPost(URL url, String postData, Map&lt;String, String&gt; properties) throws IOException {
+<b class="nc">&nbsp;    String keepAlive = System.getProperty(&quot;http.keepAlive&quot;);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      System.setProperty(&quot;http.keepAlive&quot;, &quot;false&quot;);  // without this, there&#39;s an overhead of about 1 second - not sure why</b>
+<b class="nc">&nbsp;      URLConnection connection = url.openConnection();</b>
+<b class="nc">&nbsp;      for (Map.Entry&lt;String, String&gt; entry : properties.entrySet()) {</b>
+<b class="nc">&nbsp;        connection.setRequestProperty(entry.getKey(), entry.getValue());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      connection.setDoOutput(true);</b>
+<b class="nc">&nbsp;      try (Writer writer = new OutputStreamWriter(connection.getOutputStream(), UTF_8)) {</b>
+<b class="nc">&nbsp;        writer.write(postData);</b>
+<b class="nc">&nbsp;        writer.flush();</b>
+<b class="nc">&nbsp;        return StringTools.streamToString(connection.getInputStream(), &quot;UTF-8&quot;);</b>
+&nbsp;      }
+&nbsp;    } finally {
+<b class="nc">&nbsp;      if (keepAlive != null) {</b>
+<b class="nc">&nbsp;        System.setProperty(&quot;http.keepAlive&quot;, keepAlive);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;  static class TestData {</b>
+&nbsp;
+&nbsp;    public static final String TOKEN_V2_1 = &quot;4472b043ce935018e1a5bf5ef4b8a21b&quot;;
+<b class="nc">&nbsp;    public static final Long USER_GROUP_1 = 1L;</b>
+&nbsp;    public static final String NAME1 = &quot;One&quot;;
+&nbsp;    protected static final String USERNAME1 = &quot;test@test.de&quot;;
+&nbsp;    protected static final String API_KEY1 = &quot;foo&quot;;
+&nbsp;    protected static final long USER_ID1 = 1;
+<b class="nc">&nbsp;    protected static final Date PREMIUM_FROM1 = Date.valueOf(&quot;1970-01-01&quot;);</b>
+&nbsp;    protected static final String NAME2 = &quot;Two&quot;;
+&nbsp;    protected static final String USERNAME2 = &quot;two@test.de&quot;;
+&nbsp;    protected static final String API_KEY2 = &quot;foo-two&quot;;
+<b class="nc">&nbsp;    protected static final Date PREMIUM_FROM2 = Date.valueOf(&quot;2000-01-01&quot;);</b>
+&nbsp;    protected static final long USER_ID2 = 2;
+&nbsp;    protected static final String USERNAME3 = &quot;free-account@example.com&quot;;
+&nbsp;    protected static final String NAME3 = &quot;Three&quot;;
+&nbsp;    protected static final String PASSWORD3 = &quot;password&quot;;
+&nbsp;    protected static final long USER_ID3 = 3;
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

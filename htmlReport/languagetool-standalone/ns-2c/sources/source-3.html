@@ -1,0 +1,933 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AgreementRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: AgreementRule (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AgreementRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    48.1%
+  </span>
+  <span class="absValue">
+    (13/27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    30.5%
+  </span>
+  <span class="absValue">
+    (86/282)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    37.5%
+  </span>
+  <span class="absValue">
+    (107/285)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AgreementRule$GrammarCategory</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">AgreementRule$ReplacementType</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    56.2%
+  </span>
+  <span class="absValue">
+    (18/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    30.5%
+  </span>
+  <span class="absValue">
+    (86/282)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    39.2%
+  </span>
+  <span class="absValue">
+    (115/293)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.language.German;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.tagging.de.GermanToken.POSType;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Supplier;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;import java.util.stream.Stream;
+&nbsp;
+&nbsp;import static org.languagetool.rules.de.GermanHelper.*;
+&nbsp;import static org.languagetool.tools.StringTools.startsWithUppercase;
+&nbsp;
+&nbsp;/**
+&nbsp; * Simple agreement checker for German noun phrases. Checks agreement in:
+&nbsp; *
+&nbsp; * &lt;ul&gt;
+&nbsp; *  &lt;li&gt;DET/PRO NOUN: e.g. &quot;mein Auto&quot;, &quot;der Mann&quot;, &quot;die Frau&quot; (correct), &quot;die Haus&quot; (incorrect)&lt;/li&gt;
+&nbsp; *  &lt;li&gt;DET/PRO ADJ NOUN: e.g. &quot;der riesige Tisch&quot; (correct), &quot;die riesigen Tisch&quot; (incorrect)&lt;/li&gt;
+&nbsp; *  &lt;li&gt;DET/PRO ADJ ADJ NOUN: e.g. &quot;der große riesige Tisch&quot; (correct), &quot;die große riesige Tisch&quot; (incorrect)&lt;/li&gt;
+&nbsp; * &lt;/ul&gt;
+&nbsp; *
+&nbsp; * Note that this rule only checks agreement inside the noun phrase, not whether
+&nbsp; * e.g. the correct case is used. For example, &quot;Es ist das Haus dem Mann&quot; is not
+&nbsp; * detected as incorrect.
+&nbsp; *
+&nbsp; * &lt;p&gt;TODO: the implementation could use a re-write that first detects the relevant noun phrases and then checks agreement
+&nbsp; *
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public class AgreementRule extends Rule {
+&nbsp;
+<b class="fc">&nbsp;  private static final Pattern MIT_MIR_ETC = Pattern.compile(&quot;mit (mir|dir|ihm|ihr|ihnen|uns|euch)&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern OHNE_MICH_ETC = Pattern.compile(&quot;ohne (mich|dich|ihn|sie|uns|euch)&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern ZUGESCHRIEBENEN_GENANNTEN = Pattern.compile(&quot;zugeschriebenen?|genannten?&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern VIEL_WEIT = Pattern.compile(&quot;viel|weit&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern WENIGER_EHER = Pattern.compile(&quot;weniger|eher&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern HERR_FRAU = Pattern.compile(&quot;Herr|Frau&quot;);</b>
+&nbsp;
+&nbsp;  private final German language;
+&nbsp;  private final Supplier&lt;List&lt;DisambiguationPatternRule&gt;&gt; antiPatterns;
+&nbsp;
+&nbsp;  private JLanguageTool lt;
+&nbsp;
+<b class="fc">&nbsp;  enum GrammarCategory {</b>
+<b class="fc">&nbsp;    KASUS(&quot;Kasus (Fall: Wer/Was, Wessen, Wem, Wen/Was - Beispiel: &#39;das Fahrrads&#39; statt &#39;des Fahrrads&#39;)&quot;),</b>
+<b class="fc">&nbsp;    GENUS(&quot;Genus (männlich, weiblich, sächlich - Beispiel: &#39;der Fahrrad&#39; statt &#39;das Fahrrad&#39;)&quot;),</b>
+<b class="fc">&nbsp;    NUMERUS(&quot;Numerus (Einzahl, Mehrzahl - Beispiel: &#39;das Fahrräder&#39; statt &#39;die Fahrräder&#39;)&quot;);</b>
+&nbsp;
+&nbsp;    private final String displayName;
+<b class="fc">&nbsp;    GrammarCategory(String displayName) {</b>
+<b class="fc">&nbsp;      this.displayName = displayName;</b>
+&nbsp;    }
+&nbsp;  }
+<b class="fc">&nbsp;  private static final AnalyzedToken[] INS_REPLACEMENT = {new AnalyzedToken(&quot;das&quot;, &quot;ART:DEF:AKK:SIN:NEU&quot;, &quot;das&quot;)};</b>
+<b class="fc">&nbsp;  private static final AnalyzedToken[] ZUR_REPLACEMENT = {new AnalyzedToken(&quot;der&quot;, &quot;ART:DEF:DAT:SIN:FEM&quot;, &quot;der&quot;)};</b>
+&nbsp;
+<b class="fc">&nbsp;  enum ReplacementType {</b>
+<b class="fc">&nbsp;    Ins, Zur</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /*
+&nbsp;  private static final String MSG = &quot;Möglicherweise fehlende grammatische Übereinstimmung &quot; +
+&nbsp;    &quot;von Kasus, Numerus oder Genus. Beispiel: &#39;mein kleiner Haus&#39; statt &#39;mein kleines Haus&#39;&quot;;
+&nbsp;  private static final String MSG2 = &quot;Möglicherweise fehlende grammatische Übereinstimmung &quot; +
+&nbsp;    &quot;von Kasus, Numerus oder Genus. Beispiel: &#39;mein schönes kleiner Haus&#39; statt &#39;mein schönes kleines Haus&#39;&quot;;
+&nbsp;  private static final String SHORT_MSG = &quot;Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus&quot;;
+&nbsp;  */
+&nbsp;
+&nbsp;  private static final String MSG = &quot;Möglicherweise passen das Nomen und die Wörter, die das Nomen beschreiben, grammatisch nicht zusammen.&quot;;
+&nbsp;  private static final String MSG2 = &quot;Möglicherweise passen das Nomen und die Wörter, die das Nomen beschreiben, grammatisch nicht zusammen.&quot;;
+&nbsp;  private static final String SHORT_MSG = &quot;Evtl. passen Wörter grammatisch nicht zusammen.&quot;;
+&nbsp;
+<b class="fc">&nbsp;  private static final Set&lt;String&gt; MODIFIERS = new HashSet&lt;&gt;(Arrays.asList(</b>
+&nbsp;    &quot;zu&quot;,
+&nbsp;    &quot;überraschend&quot;,
+&nbsp;    &quot;ungeahnt&quot;,
+&nbsp;    &quot;absolut&quot;,
+&nbsp;    &quot;ausgesprochen&quot;,
+&nbsp;    &quot;außergewöhnlich&quot;,
+&nbsp;    &quot;außerordentlich&quot;,
+&nbsp;    &quot;äußerst&quot;,
+&nbsp;    &quot;besonders&quot;,
+&nbsp;    &quot;dringend&quot;,
+&nbsp;    &quot;echt&quot;,
+&nbsp;    &quot;einigermaßen&quot;,
+&nbsp;    &quot;enorm&quot;,
+&nbsp;    &quot;extrem&quot;,
+&nbsp;    &quot;fast&quot;,
+&nbsp;    &quot;ganz&quot;,
+&nbsp;    &quot;entschieden&quot;,
+&nbsp;    &quot;geradezu&quot;,
+&nbsp;    &quot;zeitweise&quot;,
+&nbsp;    &quot;halbwegs&quot;,
+&nbsp;    &quot;höchst&quot;,
+&nbsp;    &quot;komplett&quot;,
+&nbsp;    &quot;laufend&quot;,
+&nbsp;    &quot;recht&quot;,
+&nbsp;    &quot;relativ&quot;,
+&nbsp;    &quot;sehr&quot;,
+&nbsp;    &quot;total&quot;,
+&nbsp;    &quot;überaus&quot;,
+&nbsp;    &quot;ungewöhnlich&quot;,
+&nbsp;    &quot;unglaublich&quot;,
+&nbsp;    //&quot;viel&quot;,    // &quot;xxx, die viel Platz...&quot;
+&nbsp;    &quot;völlig&quot;,
+&nbsp;    &quot;weit&quot;,
+&nbsp;    &quot;wirklich&quot;,
+&nbsp;    &quot;gerade&quot;,
+&nbsp;    &quot;vereint&quot;,
+&nbsp;    &quot;überwiegend&quot;,
+&nbsp;    &quot;gewollt&quot;,
+&nbsp;    &quot;angestrengt&quot;,
+&nbsp;    &quot;ziemlich&quot;
+&nbsp;  ));
+&nbsp;
+<b class="fc">&nbsp;  private static final Set&lt;String&gt; VIELE_WENIGE_LOWERCASE = new HashSet&lt;&gt;(Arrays.asList(</b>
+&nbsp;    &quot;manche&quot;,
+&nbsp;    &quot;jegliche&quot;,
+&nbsp;    &quot;jeglicher&quot;,
+&nbsp;    &quot;andere&quot;,
+&nbsp;    &quot;anderer&quot;,
+&nbsp;    &quot;anderen&quot;,
+&nbsp;    &quot;sämtliche&quot;,
+&nbsp;    &quot;sämtlicher&quot;,
+&nbsp;    &quot;etliche&quot;,
+&nbsp;    &quot;etlicher&quot;,
+&nbsp;    &quot;viele&quot;,
+&nbsp;    &quot;vieler&quot;,
+&nbsp;    &quot;wenige&quot;,
+&nbsp;    &quot;weniger&quot;,
+&nbsp;    &quot;einige&quot;,
+&nbsp;    &quot;einiger&quot;,
+&nbsp;    &quot;mehrerer&quot;,
+&nbsp;    &quot;mehrere&quot;
+&nbsp;  ));
+&nbsp;
+<b class="fc">&nbsp;  private static final String[] REL_PRONOUN_LEMMAS = {&quot;der&quot;, &quot;welch&quot;};</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final Set&lt;String&gt; PRONOUNS_TO_BE_IGNORED = new HashSet&lt;&gt;(Arrays.asList(</b>
+&nbsp;    &quot;nichts&quot;,
+&nbsp;    &quot;alles&quot;,   // &quot;Ruhe vor dem alles verheerenden Sturm&quot;, &quot;Alles Große und Edle ist einfacher Art.&quot;
+&nbsp;    &quot;dies&quot;,
+&nbsp;    &quot;ebendies&quot;,
+&nbsp;    &quot;ich&quot;,
+&nbsp;    &quot;dir&quot;,
+&nbsp;    &quot;dich&quot;,
+&nbsp;    &quot;du&quot;,
+&nbsp;    &quot;d&quot;,
+&nbsp;    &quot;er&quot;, &quot;sie&quot;, &quot;es&quot;,
+&nbsp;    &quot;wir&quot;,
+&nbsp;    &quot;mich&quot;,
+&nbsp;    &quot;mir&quot;,
+&nbsp;    &quot;uns&quot;,
+&nbsp;    &quot;ihnen&quot;,
+&nbsp;    &quot;euch&quot;,
+&nbsp;    &quot;ihm&quot;,
+&nbsp;    &quot;ihr&quot;,
+&nbsp;    &quot;ihn&quot;,
+&nbsp;    &quot;dessen&quot;,
+&nbsp;    &quot;deren&quot;,
+&nbsp;    &quot;denen&quot;,
+&nbsp;    &quot;sich&quot;,
+&nbsp;    &quot;aller&quot;,
+&nbsp;    &quot;allen&quot;,  // &quot;das allen bekannte Wollnashorn&quot;
+&nbsp;    &quot;man&quot;,
+&nbsp;    &quot;beide&quot;,
+&nbsp;    &quot;beiden&quot;,
+&nbsp;    &quot;beider&quot;,
+&nbsp;    &quot;wessen&quot;,
+&nbsp;    &quot;a&quot;,
+&nbsp;    &quot;alle&quot;,
+&nbsp;    &quot;etwas&quot;,
+&nbsp;    &quot;irgendetwas&quot;,
+&nbsp;    &quot;irgendwas&quot;,
+&nbsp;    &quot;irgendwer&quot;,
+&nbsp;    &quot;was&quot;,
+&nbsp;    &quot;wer&quot;,
+&nbsp;    &quot;wem&quot;,
+&nbsp;    &quot;jenen&quot;,      // &quot;...und mit jenen anderer Arbeitsgruppen verwoben&quot;
+&nbsp;    &quot;diejenigen&quot;,
+&nbsp;    &quot;irgendjemand&quot;, &quot;irgendjemandes&quot;,
+&nbsp;    &quot;jemand&quot;, &quot;jemandes&quot;,
+&nbsp;    &quot;niemand&quot;, &quot;niemandes&quot;
+&nbsp;  ));
+&nbsp;
+<b class="fc">&nbsp;  private static final Set&lt;String&gt; NOUNS_TO_BE_IGNORED = new HashSet&lt;&gt;(Arrays.asList(</b>
+&nbsp;    &quot;A&quot;,
+&nbsp;    &quot;Prozent&quot;,   // Plural &quot;Prozente&quot;, trotzdem ist &quot;mehrere Prozent&quot; korrekt
+&nbsp;    &quot;Wollen&quot;,  // das Wollen
+&nbsp;    &quot;Gramm&quot;,
+&nbsp;    &quot;Kilogramm&quot;,
+&nbsp;    &quot;Flippers&quot;, // Band, die Flippers
+&nbsp;    &quot;Standart&quot;, // Caught by speller
+&nbsp;    &quot;Stellungsname&quot;, // Caught by speller
+&nbsp;    &quot;Kündigungsscheiben&quot;, // Caught by speller
+&nbsp;    &quot;Piepen&quot;, // Die Piepen
+&nbsp;    &quot;Badlands&quot;,
+&nbsp;    &quot;Visual&quot;, // englisch
+&nbsp;    &quot;Special&quot;, // englisch
+&nbsp;    &quot;Multiple&quot;, // englisch
+&nbsp;    &quot;Chief&quot;, // Chief Executive Officer
+&nbsp;    &quot;Carina&quot;, // Name
+&nbsp;    &quot;Wüstenrot&quot;, // Name
+&nbsp;    &quot;Rückgrad&quot;, // found by speller
+&nbsp;    &quot;Rückgrads&quot;, // found by speller
+&nbsp;    &quot;Anteilname&quot;, // found by speller
+&nbsp;    &quot;Aalen&quot;, // Plural form of &quot;Aal&quot; but also large city in Germany
+&nbsp;    &quot;Meter&quot;, // Das Meter (Objekt zum Messen)
+&nbsp;    &quot;Boots&quot;, // &quot;Die neuen Boots&quot; (englisch Stiefel)
+&nbsp;    &quot;Taxameter&quot;, // Beides erlaubt &quot;Das&quot; und &quot;Die&quot;
+&nbsp;    &quot;Bild&quot;, // die Bild (Zeitung)
+&nbsp;    &quot;Emirates&quot;, // &quot;Mit einem Flug der Emirates&quot; (Fluggesellschaft)
+&nbsp;    &quot;Uhr&quot;,   // &quot;um ein Uhr&quot;
+&nbsp;    &quot;cm&quot;, // &quot;Die letzten cm&quot; können
+&nbsp;    &quot;km&quot;,
+&nbsp;    &quot;Nr&quot;,
+&nbsp;    &quot;KSC&quot;, // Abk
+&nbsp;    &quot;ANC&quot;, // Abk
+&nbsp;    &quot;DJK&quot;, // Der DJK Schweinfurt
+&nbsp;    &quot;RP&quot; // &quot;Die RP (Rheinische Post)&quot;
+&nbsp;  ));
+&nbsp;
+<b class="fc">&nbsp;  private final static List&lt;List&lt;PatternToken&gt;&gt; allAntiPatterns =</b>
+<b class="fc">&nbsp;    Stream.of(AgreementRuleAntiPatterns1.ANTI_PATTERNS, AgreementRuleAntiPatterns2.ANTI_PATTERNS, AgreementRuleAntiPatterns3.ANTI_PATTERNS)</b>
+<b class="fc">&nbsp;      .flatMap(Collection::stream)</b>
+<b class="fc">&nbsp;      .collect(Collectors.toList());</b>
+&nbsp;
+<b class="fc">&nbsp;  public AgreementRule(ResourceBundle messages, German language) {</b>
+<b class="fc">&nbsp;    this.language = language;</b>
+<b class="fc">&nbsp;    setCategory(Categories.GRAMMAR.getCategory(messages));</b>
+<b class="fc">&nbsp;    setUrl(Tools.getUrl(&quot;https://languagetool.org/insights/de/beitrag/deklination/&quot;));</b>
+<b class="fc">&nbsp;    addExamplePair(Example.wrong(&quot;&lt;marker&gt;Der Haus&lt;/marker&gt; wurde letztes Jahr gebaut.&quot;),</b>
+<b class="fc">&nbsp;                   Example.fixed(&quot;&lt;marker&gt;Das Haus&lt;/marker&gt; wurde letztes Jahr gebaut.&quot;));</b>
+<b class="fc">&nbsp;    antiPatterns = cacheAntiPatterns(language, allAntiPatterns);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="fc">&nbsp;    return &quot;DE_AGREEMENT&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int estimateContextForSureMatch() {
+<b class="nc">&nbsp;    return allAntiPatterns.stream().mapToInt(List::size).max().orElse(0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Kongruenz von Nominalphrasen (unvollständig!), z.B. &#39;mein kleiner (kleines) Haus&#39;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Map&lt;Integer,ReplacementType&gt; replacePrepositionsByArticle (AnalyzedTokenReadings[] tokens) {
+<b class="fc">&nbsp;    Map&lt;Integer, ReplacementType&gt; map = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; tokens.length; i++) {</b>
+<b class="pc">&nbsp;      if (StringUtils.equalsAny(tokens[i].getToken(), &quot;ins&quot;, &quot;ans&quot;, &quot;aufs&quot;, &quot;vors&quot;, &quot;durchs&quot;, &quot;hinters&quot;, &quot;unters&quot;, &quot;übers&quot;, &quot;fürs&quot;, &quot;ums&quot;)) {</b>
+<b class="nc">&nbsp;        tokens[i] = new AnalyzedTokenReadings(INS_REPLACEMENT, tokens[i].getStartPos());</b>
+<b class="nc">&nbsp;        map.put(i, ReplacementType.Ins);</b>
+<b class="fc">&nbsp;      } else if (StringUtils.equalsAny(tokens[i].getToken(), &quot;zur&quot;)) {</b>
+<b class="fc">&nbsp;        tokens[i] = new AnalyzedTokenReadings(ZUR_REPLACEMENT, tokens[i].getStartPos());</b>
+<b class="fc">&nbsp;        map.put(i, ReplacementType.Zur);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return map;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();</b>
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] origTokens = Arrays.copyOf(tokens, tokens.length);</b>
+<b class="fc">&nbsp;    Map&lt;Integer, ReplacementType&gt; replMap = replacePrepositionsByArticle(tokens);</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; tokens.length; i++) {</b>
+<b class="fc">&nbsp;      String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();  //TODO: check for all readings?</b>
+<b class="pc">&nbsp;      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) || tokens[i].isImmunized() || origTokens[i].isImmunized()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="pc">&nbsp;      if (couldBeRelativeOrDependentClause(tokens, i)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="pc">&nbsp;      if (i &gt; 0) {</b>
+<b class="fc">&nbsp;        String prevToken = tokens[i-1].getToken().toLowerCase();</b>
+<b class="fc">&nbsp;        if (StringUtils.equalsAny(prevToken, &quot;der&quot;, &quot;die&quot;, &quot;das&quot;, &quot;des&quot;, &quot;dieses&quot;) &amp;&amp;</b>
+<b class="pc">&nbsp;            StringUtils.equalsAny(tokens[i].getToken(), &quot;eine&quot;, &quot;einen&quot;)) {</b>
+&nbsp;          // z.B. &quot;Auf der einen Seite endlose Dünen&quot;
+&nbsp;          // TODO: &quot;der eine Polizist&quot; -&gt; nicht ignorieren, sondern &quot;der polizist&quot; checken; &quot;auf der einen Seite&quot;
+&nbsp;          // TODO: &quot;Leute, die eine gewissen Sicherheit brauchen.&quot; -&gt; nicht ignorieren
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;      }
+&nbsp;      // avoid false alarm on &quot;nichts Gutes&quot; and &quot;alles Gute&quot;
+<b class="fc">&nbsp;      AnalyzedTokenReadings tokenReadings = tokens[i];</b>
+&nbsp;      // avoid false alarm on &quot;Art. 1&quot; and &quot;bisherigen Art. 1&quot; (Art. = Artikel):
+<b class="pc">&nbsp;      boolean detAbbrev = i &lt; tokens.length-2 &amp;&amp; tokens[i+1].getToken().equals(&quot;Art&quot;) &amp;&amp; tokens[i+2].getToken().equals(&quot;.&quot;);</b>
+<b class="pc">&nbsp;      boolean detAdjAbbrev = i &lt; tokens.length-3 &amp;&amp; tokens[i+2].getToken().equals(&quot;Art&quot;) &amp;&amp; tokens[i+3].getToken().equals(&quot;.&quot;);</b>
+&nbsp;      // &quot;einen Hochwasser führenden Fluss&quot;, &quot;die Gott zugeschriebenen Eigenschaften&quot;:
+<b class="pc">&nbsp;      boolean followingParticiple = i &lt; tokens.length-3 &amp;&amp; (tokens[i+2].hasPartialPosTag(&quot;PA1&quot;) || ZUGESCHRIEBENEN_GENANNTEN.matcher(tokens[i+2].getToken()).matches());</b>
+<b class="pc">&nbsp;      if (detAbbrev || detAdjAbbrev || followingParticiple) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="pc">&nbsp;      if (hasReadingOfType(tokenReadings, POSType.DETERMINER) || isRelevantPronoun(tokens, i)) {</b>
+<b class="fc">&nbsp;        int tokenPosAfterModifier = getPosAfterModifier(i+1, tokens);</b>
+<b class="fc">&nbsp;        String skippedStr = null;</b>
+<b class="pc">&nbsp;        if (tokenPosAfterModifier &gt; i+1) {</b>
+<b class="nc">&nbsp;          skippedStr = sentence.getText().substring(tokens[i+1].getStartPos(), tokens[tokenPosAfterModifier-1].getEndPos());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        int tokenPos = tokenPosAfterModifier;</b>
+<b class="pc">&nbsp;        if (tokenPos &gt;= tokens.length) {</b>
+&nbsp;          break;
+&nbsp;        }
+<b class="fc">&nbsp;        AnalyzedTokenReadings nextToken = tokens[tokenPos];</b>
+<b class="pc">&nbsp;        AnalyzedTokenReadings maybePreposition = i-1 &gt;= 0 ? tokens[i-1] : null;</b>
+<b class="pc">&nbsp;        if (i-2 &gt;= 0 &amp;&amp; &quot;was&quot;.equalsIgnoreCase(tokens[i-2].getToken())) {</b>
+<b class="nc">&nbsp;          maybePreposition = null;  // avoid preposition filtering on &quot;Was für eine schöner Sonnenuntergang!&quot;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (isNonPredicativeAdjective(nextToken) || isParticiple(nextToken)) {</b>
+<b class="nc">&nbsp;          tokenPos = tokenPosAfterModifier + 1;</b>
+<b class="nc">&nbsp;          if (tokenPos &gt;= tokens.length) {</b>
+&nbsp;            break;
+&nbsp;          }
+<b class="nc">&nbsp;          if (hasReadingOfType(tokens[tokenPos], POSType.NOMEN)) {</b>
+&nbsp;            // TODO: add a case (checkAdjNounAgreement) for special cases like &quot;deren&quot;,
+&nbsp;            // e.g. &quot;deren komisches Geschenke&quot; isn&#39;t yet detected as incorrect
+<b class="nc">&nbsp;            if (i &gt;= 2 &amp;&amp; hasReadingOfType(tokens[i-2], POSType.ADJEKTIV)</b>
+<b class="nc">&nbsp;                       &amp;&amp; &quot;als&quot;.equals(tokens[i-1].getToken())</b>
+<b class="nc">&nbsp;                       &amp;&amp; &quot;das&quot;.equals(tokens[i].getToken())) {</b>
+&nbsp;              // avoid false alarm for e.g. &quot;weniger farbenprächtig als das anderer Papageien&quot;
+&nbsp;              continue;
+&nbsp;            }
+<b class="nc">&nbsp;            boolean allowSuggestion = tokenPos == i + 2;  // prevent incomplete suggestion for e.g. &quot;einen 142 Meter hoher Obelisken&quot; (-&gt; &quot;einen hohen Obelisken&quot;)</b>
+<b class="nc">&nbsp;            RuleMatch ruleMatch = checkDetAdjNounAgreement(maybePreposition, tokens[i],</b>
+<b class="nc">&nbsp;                nextToken, tokens[tokenPos], sentence, i, allowSuggestion ? replMap : null, skippedStr);</b>
+<b class="nc">&nbsp;            if (ruleMatch != null) {</b>
+<b class="nc">&nbsp;              ruleMatches.add(ruleMatch);</b>
+&nbsp;            }
+<b class="nc">&nbsp;          } else if (tokenPos+1 &lt; tokens.length &amp;&amp; hasReadingOfType(tokens[tokenPos+1], POSType.NOMEN) &amp;&amp; hasReadingOfType(tokens[tokenPos], POSType.ADJEKTIV)) {</b>
+<b class="nc">&nbsp;            RuleMatch ruleMatch = checkDetAdjAdjNounAgreement(maybePreposition, tokens[i],</b>
+&nbsp;              nextToken, tokens[tokenPos], tokens[tokenPos+1], sentence, i, replMap, skippedStr);
+<b class="nc">&nbsp;            if (ruleMatch != null) {</b>
+<b class="nc">&nbsp;              ruleMatches.add(ruleMatch);</b>
+&nbsp;            }
+&nbsp;          }
+<b class="pc">&nbsp;        } else if (hasReadingOfType(nextToken, POSType.NOMEN) &amp;&amp; !&quot;Herr&quot;.equals(nextToken.getToken())) {</b>
+<b class="fc">&nbsp;          RuleMatch ruleMatch = checkDetNounAgreement(maybePreposition, tokens[i], nextToken, sentence, i, replMap, skippedStr);</b>
+<b class="pc">&nbsp;          if (ruleMatch != null) {</b>
+<b class="nc">&nbsp;            ruleMatches.add(ruleMatch);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } // for each token
+<b class="fc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Search for modifiers (such as &quot;sehr&quot;, &quot;1,4 Meter&quot;) which can expand a
+&nbsp;   * determiner - adjective - noun group (&quot;ein hohes Haus&quot; -&gt; &quot;ein sehr hohes Haus&quot;,
+&nbsp;   * &quot;ein 500 Meter hohes Haus&quot;) and return the index of the first non-modifier token (&quot;Haus&quot;)
+&nbsp;   * @param startAt index of array where to start searching for modifier
+&nbsp;   * @return index of first non-modifier token
+&nbsp;   */
+&nbsp;  private int getPosAfterModifier(int startAt, AnalyzedTokenReadings[] tokens) {
+<b class="pc">&nbsp;    if (startAt &lt; tokens.length &amp;&amp; tokens[startAt].getToken().equals(&quot;relativ&quot;) &amp;&amp; startAt + 1 &lt; tokens.length &amp;&amp; tokens[startAt+1].getToken().equals(&quot;gesehen&quot;)) {</b>
+<b class="nc">&nbsp;      startAt += 2;</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (startAt &lt; tokens.length &amp;&amp; VIEL_WEIT.matcher(tokens[startAt].getToken()).matches() &amp;&amp; startAt + 1 &lt; tokens.length &amp;&amp; WENIGER_EHER.matcher(tokens[startAt + 1].getToken()).matches()) {</b>
+<b class="nc">&nbsp;      startAt += 2;</b>
+<b class="pc">&nbsp;    } else if (startAt + 1 &lt; tokens.length &amp;&amp; MODIFIERS.contains(tokens[startAt].getToken())) {</b>
+<b class="nc">&nbsp;      startAt++;</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (startAt+1 &lt; tokens.length) {</b>
+<b class="fc">&nbsp;      String phrase = tokens[startAt].getToken() + &quot; &quot; + tokens[startAt+1].getToken();</b>
+<b class="pc">&nbsp;      if (MIT_MIR_ETC.matcher(phrase.toLowerCase()).matches()) {</b>
+<b class="nc">&nbsp;        startAt += 2;</b>
+<b class="pc">&nbsp;      } else if (OHNE_MICH_ETC.matcher(phrase.toLowerCase()).matches()) {</b>
+<b class="nc">&nbsp;        startAt += 2;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="pc">&nbsp;    if (startAt + 1 &lt; tokens.length &amp;&amp; (StringUtils.isNumeric(tokens[startAt].getToken()) || tokens[startAt].hasPosTag(&quot;ZAL&quot;))) {</b>
+<b class="nc">&nbsp;      int posAfterModifier = startAt + 1;</b>
+<b class="nc">&nbsp;      if (startAt + 3 &lt; tokens.length &amp;&amp; &quot;,&quot;.equals(tokens[startAt+1].getToken()) &amp;&amp; StringUtils.isNumeric(tokens[startAt+2].getToken())) {</b>
+<b class="nc">&nbsp;        posAfterModifier = startAt + 3;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (StringUtils.endsWithAny(tokens[posAfterModifier].getToken(), &quot;gramm&quot;, &quot;Gramm&quot;, &quot;Meter&quot;, &quot;meter&quot;)) {</b>
+<b class="nc">&nbsp;        return posAfterModifier + 1;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return startAt;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;DisambiguationPatternRule&gt; getAntiPatterns() {
+<b class="fc">&nbsp;    return antiPatterns.get();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isNonPredicativeAdjective(AnalyzedTokenReadings tokensReadings) {
+<b class="fc">&nbsp;    for (AnalyzedToken reading : tokensReadings.getReadings()) {</b>
+<b class="fc">&nbsp;      String posTag = reading.getPOSTag();</b>
+<b class="pc">&nbsp;      if (posTag != null &amp;&amp; posTag.startsWith(&quot;ADJ&quot;) &amp;&amp; !posTag.contains(&quot;PRD&quot;)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isParticiple(AnalyzedTokenReadings tokensReadings) {
+<b class="pc">&nbsp;    return tokensReadings.hasPartialPosTag(&quot;PA1&quot;) || tokensReadings.hasPartialPosTag(&quot;PA2&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isRelevantPronoun(AnalyzedTokenReadings[] tokens, int pos) {
+<b class="fc">&nbsp;    AnalyzedTokenReadings analyzedToken = tokens[pos];</b>
+<b class="fc">&nbsp;    boolean relevantPronoun = hasReadingOfType(analyzedToken, POSType.PRONOMEN);</b>
+&nbsp;    // avoid false alarms:
+<b class="fc">&nbsp;    String token = tokens[pos].getToken();</b>
+<b class="pc">&nbsp;    if (PRONOUNS_TO_BE_IGNORED.contains(token.toLowerCase()) ||</b>
+<b class="pc">&nbsp;        (pos &gt; 0 &amp;&amp; tokens[pos-1].getToken().equalsIgnoreCase(&quot;vor&quot;) &amp;&amp; token.equalsIgnoreCase(&quot;allem&quot;))) {</b>
+<b class="fc">&nbsp;      relevantPronoun = false;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return relevantPronoun;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // TODO: improve this so it only returns true for real relative clauses
+&nbsp;  private boolean couldBeRelativeOrDependentClause(AnalyzedTokenReadings[] tokens, int pos) {
+&nbsp;    boolean comma;
+&nbsp;    boolean relPronoun;
+<b class="pc">&nbsp;    if (pos &gt;= 1) {</b>
+&nbsp;      // avoid false alarm: &quot;Das Wahlrecht, das Frauen zugesprochen bekamen.&quot; etc:
+<b class="fc">&nbsp;      comma = tokens[pos-1].getToken().equals(&quot;,&quot;);</b>
+<b class="fc">&nbsp;      relPronoun = comma &amp;&amp; tokens[pos].hasAnyLemma(REL_PRONOUN_LEMMAS);</b>
+<b class="pc">&nbsp;      if (relPronoun &amp;&amp; pos+3 &lt; tokens.length) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    if (pos &gt;= 2) {</b>
+&nbsp;      // avoid false alarm: &quot;Der Mann, in dem quadratische Fische schwammen.&quot;
+&nbsp;      // or: &quot;Die Polizei erwischte die Diebin, weil diese Ausweis und Visitenkarte hinterließ.&quot;
+<b class="fc">&nbsp;      comma = tokens[pos-2].getToken().equals(&quot;,&quot;);</b>
+<b class="fc">&nbsp;      if (comma) {</b>
+<b class="fc">&nbsp;        boolean prep = tokens[pos-1].hasPosTagStartingWith(&quot;PRP:&quot;);</b>
+<b class="fc">&nbsp;        relPronoun = tokens[pos].hasAnyLemma(REL_PRONOUN_LEMMAS);</b>
+<b class="pc">&nbsp;        return prep &amp;&amp; relPronoun || (tokens[pos-1].hasPosTag(&quot;KON:UNT&quot;) &amp;&amp; (tokens[pos].hasLemma(&quot;jen&quot;) || tokens[pos].hasLemma(&quot;dies&quot;) || tokens[pos].hasLemma(&quot;ebendies&quot;)));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private RuleMatch checkDetNounAgreement(AnalyzedTokenReadings maybePreposition, AnalyzedTokenReadings token1,
+&nbsp;                                          AnalyzedTokenReadings token2, AnalyzedSentence sentence, int tokenPos, Map&lt;Integer, ReplacementType&gt; replMap,
+&nbsp;                                          String skippedStr) {
+&nbsp;    // TODO: remove &quot;-&quot;.equals(token2.getToken()) after the bug fix
+&nbsp;    // see Daniel&#39;s comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
+<b class="pc">&nbsp;    if (token2.isImmunized() || NOUNS_TO_BE_IGNORED.contains(token2.getToken()) || &quot;-&quot;.equals(token2.getToken())) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    Set&lt;String&gt; set1;
+<b class="pc">&nbsp;    if (token1.getReadings().size() == 1 &amp;&amp;</b>
+<b class="pc">&nbsp;        token1.getReadings().get(0).getPOSTag() != null &amp;&amp;</b>
+<b class="pc">&nbsp;        token1.getReadings().get(0).getPOSTag().endsWith(&quot;:STV&quot;)) {</b>
+&nbsp;      // catch the error in &quot;Meiner Chef raucht.&quot;
+<b class="nc">&nbsp;      set1 = Collections.emptySet();</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      set1 = getAgreementCategories(token1);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    Set&lt;String&gt; set2 = getAgreementCategories(token2);</b>
+<b class="fc">&nbsp;    set1.retainAll(set2);</b>
+<b class="fc">&nbsp;    RuleMatch ruleMatch = null;</b>
+<b class="pc">&nbsp;    if (set1.isEmpty() &amp;&amp; !isException(token1, token2)) {</b>
+<b class="nc">&nbsp;      RuleMatch compoundMatch = getCompoundError(token1, token2, tokenPos, sentence);</b>
+<b class="nc">&nbsp;      if (compoundMatch != null) {</b>
+<b class="nc">&nbsp;        return compoundMatch;</b>
+&nbsp;      }
+&nbsp;      /*
+&nbsp;      List&lt;String&gt; errorCategories = getCategoriesCausingError(token1, token2);
+&nbsp;      String errorDetails = errorCategories.isEmpty() ?
+&nbsp;            &quot;Kasus, Genus oder Numerus&quot; : String.join(&quot; und &quot;, errorCategories);
+&nbsp;      String msg = &quot;Möglicherweise fehlende grammatische Übereinstimmung des &quot; + errorDetails + &quot;.&quot;;
+&nbsp;      String shortMsg = &quot;Evtl. keine Übereinstimmung von Kasus, Genus oder Numerus&quot;;
+&nbsp;      */
+&nbsp;
+<b class="nc">&nbsp;      String msg = &quot;Möglicherweise passen das Nomen und die Wörter, die das Nomen beschreiben, grammatisch nicht zusammen.&quot;;</b>
+<b class="nc">&nbsp;      String shortMsg = &quot;Evtl. passen Wörter grammatisch nicht zusammen.&quot;;</b>
+<b class="nc">&nbsp;      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token2.getEndPos(), msg, shortMsg);</b>
+&nbsp;      // this will not give a match for compounds that are not in the dictionary...
+&nbsp;      //ruleMatch.setUrl(Tools.getUrl(&quot;https://www.korrekturen.de/flexion/deklination/&quot; + token2.getToken() + &quot;/&quot;));
+<b class="nc">&nbsp;      AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));</b>
+<b class="nc">&nbsp;      suggestor.setPreposition(maybePreposition);</b>
+<b class="nc">&nbsp;      suggestor.setSkipped(skippedStr);</b>
+<b class="nc">&nbsp;      ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return ruleMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // z.B. &quot;die Original Mail&quot; -&gt; &quot;die Originalmail&quot;
+&nbsp;  @Nullable
+&nbsp;  private RuleMatch getCompoundError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2, int tokenPos, AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    if (tokenPos != -1 &amp;&amp; tokenPos + 2 &lt; sentence.getTokensWithoutWhitespace().length) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 2];</b>
+<b class="nc">&nbsp;      if (startsWithUppercase(nextToken.getToken())) {</b>
+<b class="nc">&nbsp;        if (token2.getStartPos() == nextToken.getStartPos()) {</b>
+&nbsp;          // avoids a strange bug that suggests e.g. &quot;Pflegende-Pflegende&quot; in sentence like this:
+&nbsp;          // &quot;Das passiert nur, wenn der zu Pflegende bereit ist.&quot;
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String potentialCompound = token2.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());</b>
+<b class="nc">&nbsp;        String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before &#39;ins&#39; etc. replacement</b>
+<b class="nc">&nbsp;        String testPhrase = origToken1 + &quot; &quot; + potentialCompound;</b>
+<b class="nc">&nbsp;        String hyphenPotentialCompound = token2.getToken() + &quot;-&quot; + nextToken.getToken();</b>
+<b class="nc">&nbsp;        String hyphenTestPhrase = origToken1 + &quot; &quot; + hyphenPotentialCompound;</b>
+<b class="nc">&nbsp;        return getRuleMatch(token1, nextToken, sentence, testPhrase, hyphenTestPhrase);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // z.B. &quot;die neue Original Mail&quot; -&gt; &quot;die neue Originalmail&quot;
+&nbsp;  @Nullable
+&nbsp;  private RuleMatch getCompoundError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2, AnalyzedTokenReadings token3,
+&nbsp;                                     int tokenPos, AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    if (tokenPos != -1 &amp;&amp; tokenPos + 3 &lt; sentence.getTokensWithoutWhitespace().length) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 3];</b>
+<b class="nc">&nbsp;      if (startsWithUppercase(nextToken.getToken())) {</b>
+<b class="nc">&nbsp;        if (token3.getStartPos() == nextToken.getStartPos()) {</b>
+&nbsp;          // avoids a strange bug, see above
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String potentialCompound = token3.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());</b>
+<b class="nc">&nbsp;        String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before &#39;ins&#39; etc. replacement</b>
+<b class="nc">&nbsp;        String testPhrase = origToken1 + &quot; &quot; + token2.getToken() + &quot; &quot; + potentialCompound;</b>
+<b class="nc">&nbsp;        String hyphenPotentialCompound = token3.getToken() + &quot;-&quot; + nextToken.getToken();</b>
+<b class="nc">&nbsp;        String hyphenTestPhrase = origToken1 + &quot; &quot; + token2.getToken() + &quot; &quot; + hyphenPotentialCompound;</b>
+<b class="nc">&nbsp;        return getRuleMatch(token1, nextToken, sentence, testPhrase, hyphenTestPhrase);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // z.B. &quot;die ganz neue Original Mail&quot; -&gt; &quot;die ganz neue Originalmail&quot;,
+&nbsp;  // &quot;Es ist ein sehr interessantes kostenloses Slot Spiel&quot; -&gt; &quot;ein sehr interessantes kostenloses Slot-Spiel&quot;
+&nbsp;  @Nullable
+&nbsp;  private RuleMatch getCompoundError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2, AnalyzedTokenReadings token3,
+&nbsp;                                     AnalyzedTokenReadings token4, int tokenPos, AnalyzedSentence sentence, String skippedStr) {
+<b class="nc">&nbsp;    int idx = tokenPos + 4 + (skippedStr != null ? 1 : 0);</b>
+<b class="nc">&nbsp;    if (tokenPos != -1 &amp;&amp; idx &lt; sentence.getTokensWithoutWhitespace().length) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[idx];</b>
+<b class="nc">&nbsp;      String potentialCompound = token4.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());</b>
+<b class="nc">&nbsp;      if (startsWithUppercase(token4.getToken()) &amp;&amp; startsWithUppercase(nextToken.getToken())) {</b>
+<b class="nc">&nbsp;        if (token4.getStartPos() == nextToken.getStartPos()) {</b>
+&nbsp;          // avoids a strange bug that suggests e.g. &quot;Machtmach&quot; in sentences like this:
+&nbsp;          // &quot;Denn die einzelnen sehen sich einer sehr verschieden starken Macht des...&quot;
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before &#39;ins&#39; etc. replacement</b>
+<b class="nc">&nbsp;        String testPhrase = origToken1 + (skippedStr != null ? &quot; &quot; + skippedStr + &quot; &quot; : &quot; &quot;) + token2.getToken() + &quot; &quot; + token3.getToken() + &quot; &quot; + potentialCompound;</b>
+<b class="nc">&nbsp;        String hyphenPotentialCompound = token4.getToken() + &quot;-&quot; + nextToken.getToken();</b>
+<b class="nc">&nbsp;        String hyphenTestPhrase = origToken1 + (skippedStr != null ? &quot; &quot; + skippedStr + &quot; &quot; : &quot; &quot;) + token2.getToken() + &quot; &quot; + token3.getToken() + &quot; &quot; + hyphenPotentialCompound;</b>
+<b class="nc">&nbsp;        return getRuleMatch(token1, nextToken, sentence, testPhrase, hyphenTestPhrase);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private RuleMatch getRuleMatch(AnalyzedTokenReadings token, AnalyzedTokenReadings token2, AnalyzedSentence sentence, String testPhrase, String hyphenTestPhrase) {
+&nbsp;    try {
+<b class="nc">&nbsp;      initLt();</b>
+<b class="nc">&nbsp;      if (token2.getReadings().stream().allMatch(k -&gt; k.getPOSTag() != null &amp;&amp; !k.getPOSTag().startsWith(&quot;SUB&quot;))) {</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      if (lt.check(testPhrase).isEmpty() &amp;&amp; token2.isTagged()) {</b>
+<b class="nc">&nbsp;        replacements.add(testPhrase);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (lt.check(hyphenTestPhrase).isEmpty() &amp;&amp; token2.isTagged()) {</b>
+<b class="nc">&nbsp;        replacements.add(hyphenTestPhrase);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (replacements.size() &gt; 0) {</b>
+<b class="nc">&nbsp;        String message = &quot;Wenn es sich um ein zusammengesetztes Nomen handelt, wird es zusammengeschrieben.&quot;;</b>
+<b class="nc">&nbsp;        RuleMatch ruleMatch = new RuleMatch(this, sentence, token.getStartPos(), token2.getEndPos(), message);</b>
+<b class="nc">&nbsp;        ruleMatch.addSuggestedReplacements(replacements);</b>
+<b class="nc">&nbsp;        ruleMatch.setUrl(Tools.getUrl(&quot;https://dict.leo.org/grammatik/deutsch/Rechtschreibung/Regeln/Getrennt-zusammen/Nomen.html#grammarAnchor-Nomen-49575&quot;));</b>
+<b class="nc">&nbsp;        return ruleMatch;</b>
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void initLt() {
+<b class="nc">&nbsp;    if (lt == null) {</b>
+<b class="nc">&nbsp;      lt = new JLanguageTool(language);</b>
+<b class="nc">&nbsp;      for (Rule rule : lt.getAllActiveRules()) {</b>
+<b class="nc">&nbsp;        if (!rule.getId().equals(&quot;DE_AGREEMENT&quot;) &amp;&amp; !rule.getId().equals(&quot;GERMAN_SPELLER_RULE&quot;)) {</b>
+<b class="nc">&nbsp;          lt.disableRule(rule.getId());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isException(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
+<b class="nc">&nbsp;    return &quot;allen&quot;.equals(token1.getToken()) &amp;&amp; &quot;Grund&quot;.equals(token2.getToken());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;String&gt; getCategoriesCausingError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
+<b class="nc">&nbsp;    List&lt;String&gt; categories = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;GrammarCategory&gt; categoriesToCheck = Arrays.asList(GrammarCategory.KASUS, GrammarCategory.GENUS, GrammarCategory.NUMERUS);</b>
+<b class="nc">&nbsp;    for (GrammarCategory category : categoriesToCheck) {</b>
+<b class="nc">&nbsp;      if (agreementWithCategoryRelaxation(token1, token2, category)) {</b>
+<b class="nc">&nbsp;        categories.add(category.displayName);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return categories;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private RuleMatch checkDetAdjNounAgreement(AnalyzedTokenReadings maybePreposition, AnalyzedTokenReadings token1,
+&nbsp;                                             AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedSentence sentence,
+&nbsp;                                             int tokenPos, Map&lt;Integer, ReplacementType&gt; replMap, String skippedStr) {
+&nbsp;    // TODO: remove (token3 == null || token3.getToken().length() &lt; 2)
+&nbsp;    // see Daniel&#39;s comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
+<b class="nc">&nbsp;    if (token3 == null || token3.getToken().length() &lt; 2) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Set&lt;String&gt; set = retainCommonCategories(token1, token2, token3);</b>
+<b class="nc">&nbsp;    RuleMatch ruleMatch = null;</b>
+<b class="nc">&nbsp;    if (set.isEmpty()) {</b>
+<b class="nc">&nbsp;      if (HERR_FRAU.matcher(token3.getToken()).matches() &amp;&amp; tokenPos + 3 &lt; sentence.getTokensWithoutWhitespace().length) {</b>
+<b class="nc">&nbsp;        AnalyzedTokenReadings token4 = sentence.getTokensWithoutWhitespace()[tokenPos + 3];</b>
+<b class="nc">&nbsp;        if (!token4.isTagged() || token4.hasPosTagStartingWith(&quot;EIG:&quot;)) {</b>
+&nbsp;          // &#39;Aber das ignorierte Herr Grey bewusst.&#39;
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (tokenPos + 4 &lt; sentence.getTokensWithoutWhitespace().length) {</b>
+<b class="nc">&nbsp;        RuleMatch compoundMatch = getCompoundError(sentence.getTokensWithoutWhitespace()[tokenPos],</b>
+<b class="nc">&nbsp;                sentence.getTokensWithoutWhitespace()[tokenPos+1],</b>
+<b class="nc">&nbsp;                sentence.getTokensWithoutWhitespace()[tokenPos+2],</b>
+<b class="nc">&nbsp;                sentence.getTokensWithoutWhitespace()[tokenPos+3], tokenPos, sentence, null);</b>
+<b class="nc">&nbsp;        if (compoundMatch != null) {</b>
+<b class="nc">&nbsp;          return compoundMatch;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      RuleMatch compoundMatch = getCompoundError(token1, token2, token3, tokenPos, sentence);</b>
+<b class="nc">&nbsp;      if (compoundMatch != null) {</b>
+<b class="nc">&nbsp;        return compoundMatch;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (token3.hasPosTagStartingWith(&quot;ABK&quot;)) {</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token3.getEndPos(), MSG, SHORT_MSG);</b>
+<b class="nc">&nbsp;      AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, replMap != null ? replMap.get(tokenPos) : null);</b>
+<b class="nc">&nbsp;      suggestor.setPreposition(maybePreposition);</b>
+<b class="nc">&nbsp;      suggestor.setSkipped(skippedStr);</b>
+<b class="nc">&nbsp;      ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return ruleMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private RuleMatch checkDetAdjAdjNounAgreement(AnalyzedTokenReadings maybePreposition, AnalyzedTokenReadings token1,
+&nbsp;                                             AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedTokenReadings token4,
+&nbsp;                                             AnalyzedSentence sentence, int tokenPos, Map&lt;Integer, ReplacementType&gt; replMap, String skippedStr) {
+<b class="nc">&nbsp;    Set&lt;String&gt; set = retainCommonCategories(token1, token2, token3, token4);</b>
+<b class="nc">&nbsp;    RuleMatch ruleMatch = null;</b>
+<b class="nc">&nbsp;    if (set.isEmpty()) {</b>
+<b class="nc">&nbsp;      RuleMatch compoundMatch = getCompoundError(token1, token2, token3, token4, tokenPos, sentence, skippedStr);</b>
+<b class="nc">&nbsp;      if (compoundMatch != null) {</b>
+<b class="nc">&nbsp;        return compoundMatch;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (token4.hasPosTagStartingWith(&quot;ABK&quot;)) {</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token4.getEndPos(), MSG2, SHORT_MSG);</b>
+<b class="nc">&nbsp;      if (replMap != null) {</b>
+<b class="nc">&nbsp;        AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, token4, replMap.get(tokenPos));</b>
+<b class="nc">&nbsp;        suggestor.setPreposition(maybePreposition);</b>
+<b class="nc">&nbsp;        suggestor.setSkipped(skippedStr);</b>
+<b class="nc">&nbsp;        ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return ruleMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean agreementWithCategoryRelaxation(AnalyzedTokenReadings token1,
+&nbsp;                                                  AnalyzedTokenReadings token2, GrammarCategory categoryToRelax) {
+&nbsp;    Set&lt;GrammarCategory&gt; categoryToRelaxSet;
+<b class="nc">&nbsp;    if (categoryToRelax != null) {</b>
+<b class="nc">&nbsp;      categoryToRelaxSet = Collections.singleton(categoryToRelax);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      categoryToRelaxSet = Collections.emptySet();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Set&lt;String&gt; set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, true);</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, true);</b>
+<b class="nc">&nbsp;    set1.retainAll(set2);</b>
+<b class="nc">&nbsp;    return !set1.isEmpty();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private Set&lt;String&gt; retainCommonCategories(AnalyzedTokenReadings token1,
+&nbsp;                                             AnalyzedTokenReadings token2, AnalyzedTokenReadings token3) {
+<b class="nc">&nbsp;    Set&lt;GrammarCategory&gt; categoryToRelaxSet = Collections.emptySet();</b>
+<b class="nc">&nbsp;    boolean skipSol = !VIELE_WENIGE_LOWERCASE.contains(token1.getToken().toLowerCase());</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, skipSol);</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, skipSol);</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; set3 = AgreementTools.getAgreementCategories(token3, categoryToRelaxSet, true);</b>
+<b class="nc">&nbsp;    set1.retainAll(set2);</b>
+<b class="nc">&nbsp;    set1.retainAll(set3);</b>
+<b class="nc">&nbsp;    return set1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private Set&lt;String&gt; retainCommonCategories(AnalyzedTokenReadings token1,
+&nbsp;                                             AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedTokenReadings token4) {
+<b class="nc">&nbsp;    Set&lt;GrammarCategory&gt; categoryToRelaxSet = Collections.emptySet();</b>
+<b class="nc">&nbsp;    boolean skipSol = !VIELE_WENIGE_LOWERCASE.contains(token1.getToken().toLowerCase());</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, skipSol);</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, skipSol);</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; set3 = AgreementTools.getAgreementCategories(token3, categoryToRelaxSet, skipSol);</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; set4 = AgreementTools.getAgreementCategories(token4, categoryToRelaxSet, true);</b>
+<b class="nc">&nbsp;    set1.retainAll(set2);</b>
+<b class="nc">&nbsp;    set1.retainAll(set3);</b>
+<b class="nc">&nbsp;    set1.retainAll(set4);</b>
+<b class="nc">&nbsp;    return set1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Set&lt;String&gt; getAgreementCategories(AnalyzedTokenReadings aToken) {
+<b class="fc">&nbsp;    return AgreementTools.getAgreementCategories(aToken, new HashSet&lt;&gt;(), false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

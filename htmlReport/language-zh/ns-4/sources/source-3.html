@@ -1,0 +1,281 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > EnglishChunkFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.chunking</a>
+</div>
+
+<h1>Coverage Summary for Class: EnglishChunkFilter (org.languagetool.chunking)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnglishChunkFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/46)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">EnglishChunkFilter$ChunkType</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/46)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/51)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.chunking;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Our chunker detects noun phrases but not whether they are singular
+&nbsp; * or plural noun phrases. We add this information here.
+&nbsp; * @since 2.3
+&nbsp; */
+<b class="nc">&nbsp;class EnglishChunkFilter {</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final ChunkTag BEGIN_NOUN_PHRASE_TAG = new ChunkTag(&quot;B-NP&quot;);</b>
+<b class="nc">&nbsp;  private static final ChunkTag IN_NOUN_PHRASE_TAG = new ChunkTag(&quot;I-NP&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  enum ChunkType { SINGULAR, PLURAL }</b>
+&nbsp;
+&nbsp;  List&lt;ChunkTaggedToken&gt; filter(List&lt;ChunkTaggedToken&gt; tokens) {
+<b class="nc">&nbsp;    List&lt;ChunkTaggedToken&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    String newChunkTag = null;</b>
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    for (ChunkTaggedToken taggedToken : tokens) {</b>
+<b class="nc">&nbsp;      List&lt;ChunkTag&gt; chunkTags = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      if (isBeginningOfNounPhrase(taggedToken)) {</b>
+<b class="nc">&nbsp;        ChunkType chunkType = getChunkType(tokens, i);</b>
+<b class="nc">&nbsp;        if (chunkType == ChunkType.SINGULAR || endOfNounPhraseIsSingular(tokens, i)) {</b>
+<b class="nc">&nbsp;          chunkTags.add(new ChunkTag(&quot;B-NP-singular&quot;));</b>
+<b class="nc">&nbsp;          newChunkTag = &quot;NP-singular&quot;;</b>
+<b class="nc">&nbsp;        } else if (chunkType == ChunkType.PLURAL) {</b>
+<b class="nc">&nbsp;          chunkTags.add(new ChunkTag(&quot;B-NP-plural&quot;));</b>
+<b class="nc">&nbsp;          newChunkTag = &quot;NP-plural&quot;;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          throw new IllegalStateException(&quot;Unknown chunk type: &quot; + chunkType);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (newChunkTag != null &amp;&amp; isEndOfNounPhrase(tokens, i)) {</b>
+<b class="nc">&nbsp;        chunkTags.add(new ChunkTag(&quot;E-&quot; + newChunkTag));</b>
+<b class="nc">&nbsp;        newChunkTag = null;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (newChunkTag != null &amp;&amp; isContinuationOfNounPhrase(taggedToken)) {</b>
+<b class="nc">&nbsp;        chunkTags.add(new ChunkTag(&quot;I-&quot; + newChunkTag));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (chunkTags.size() &gt; 0) {</b>
+<b class="nc">&nbsp;        result.add(new ChunkTaggedToken(taggedToken.getToken(), chunkTags, taggedToken.getReadings()));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        result.add(taggedToken);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      i++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean endOfNounPhraseIsSingular(List&lt;ChunkTaggedToken&gt; tokens, int i) {
+<b class="nc">&nbsp;    for (int j = i; j &lt; tokens.size(); j++) {</b>
+<b class="nc">&nbsp;      if (isEndOfNounPhrase(tokens, j)) {</b>
+<b class="nc">&nbsp;        return getChunkType(tokens, j) == ChunkType.SINGULAR;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isBeginningOfNounPhrase(ChunkTaggedToken taggedToken) {
+<b class="nc">&nbsp;    return taggedToken.getChunkTags().contains(BEGIN_NOUN_PHRASE_TAG);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isEndOfNounPhrase(List&lt;ChunkTaggedToken&gt; tokens, int i) {
+<b class="nc">&nbsp;    if (i &gt; tokens.size() - 2) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!isContinuationOfNounPhrase(tokens.get(i + 1))) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isContinuationOfNounPhrase(ChunkTaggedToken taggedToken) {
+<b class="nc">&nbsp;    return taggedToken.getChunkTags().contains(IN_NOUN_PHRASE_TAG);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the type of the chunk that starts at the given position.
+&nbsp;   */
+&nbsp;  private ChunkType getChunkType(List&lt;ChunkTaggedToken&gt; tokens, int chunkStartPos) {
+<b class="nc">&nbsp;    boolean isPlural = false;</b>
+<b class="nc">&nbsp;    for (int i = chunkStartPos; i &lt; tokens.size(); i++) {</b>
+<b class="nc">&nbsp;      ChunkTaggedToken token = tokens.get(i);</b>
+<b class="nc">&nbsp;      if (!isBeginningOfNounPhrase(token) &amp;&amp; !isContinuationOfNounPhrase(token)) {</b>
+&nbsp;        break;
+&nbsp;      }
+&nbsp;      if (false &amp;&amp; &quot;and&quot;.equals(token.getToken())) {   // e.g. &quot;Tarzan and Jane&quot; is a plural noun phrase
+&nbsp;        // TODO: &quot;Additionally, there are over 500 college and university chapter.&quot;
+&nbsp;        isPlural = true;
+<b class="nc">&nbsp;      } else if (hasNounWithPluralReading(token)) {   // e.g. &quot;ten books&quot; is a plural noun phrase</b>
+<b class="nc">&nbsp;        isPlural = true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return isPlural ? ChunkType.PLURAL : ChunkType.SINGULAR;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean hasNounWithPluralReading(ChunkTaggedToken token) {
+<b class="nc">&nbsp;    if (token.getReadings() != null) {</b>
+<b class="nc">&nbsp;      for (AnalyzedToken analyzedToken : token.getReadings().getReadings()) {</b>
+<b class="nc">&nbsp;        if (&quot;NNS&quot;.equals(analyzedToken.getPOSTag())) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

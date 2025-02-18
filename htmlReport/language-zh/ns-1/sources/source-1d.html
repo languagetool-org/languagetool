@@ -1,0 +1,340 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ResultCache</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool</a>
+</div>
+
+<h1>Coverage Summary for Class: ResultCache (org.languagetool)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ResultCache</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/29)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ResultCache$MatchesWeigher</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ResultCache$RemoteMatchesWeigher</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ResultCache$SentenceWeigher</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/35)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2017 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool;
+&nbsp;
+&nbsp;import com.google.common.cache.Cache;
+&nbsp;import com.google.common.cache.CacheBuilder;
+&nbsp;import com.google.common.cache.Weigher;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;
+&nbsp;/**
+&nbsp; * A cache to speed up text checking for use cases where sentences are checked more than once. This
+&nbsp; * typically happens when using LT as a server and texts get re-checked after corrections have been applied
+&nbsp; * for some sentences. Use the same cache object for all {@link JLanguageTool} objects &lt;strong&gt;only if
+&nbsp; * the JLanguageTool objects all use the same rules.&lt;/strong&gt; For example, if you call {@code JLanguageTool.addRule()}
+&nbsp; * in different ways for the different instances that you use the same cache for, the cache will return invalid results.
+&nbsp; * Using a cache with bitext rules isn&#39;t supported either.
+&nbsp; * It is okay however, to use the same cache for {@link JLanguageTool} objects with different languages, as
+&nbsp; * cached results are not used for a different language.
+&nbsp; * @since 3.7
+&nbsp; */
+&nbsp;public class ResultCache {
+&nbsp;
+&nbsp;  /**
+&nbsp;   * rules can fail individually, results can be partial -&gt;
+&nbsp;   * store list if success (can be empty), null -&gt; failure/not checked
+&nbsp;   */
+&nbsp;  private final Cache&lt;InputSentence, Map&lt;String, List&lt;RuleMatch&gt;&gt;&gt; remoteMatchesCache;
+&nbsp;  private final Cache&lt;InputSentence, List&lt;RuleMatch&gt;&gt; matchesCache;
+&nbsp;  private final Cache&lt;SimpleInputSentence, AnalyzedSentence&gt; sentenceCache;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Create a cache that expires items 5 minutes after the latest read access.
+&nbsp;   * @param maxSize maximum cache size in number of sentences
+&nbsp;   */
+&nbsp;  public ResultCache(long maxSize) {
+<b class="nc">&nbsp;    this(maxSize, 5, TimeUnit.MINUTES);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param maxSize maximum cache size in number of sentences
+&nbsp;   * @param expireAfter time to expire sentences from the cache after last read access 
+&nbsp;   */
+<b class="nc">&nbsp;  public ResultCache(long maxSize, long expireAfter, TimeUnit timeUnit) {</b>
+<b class="nc">&nbsp;    if (maxSize &lt; 0) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Result cache size must be &gt;= 0: &quot; + maxSize);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    matchesCache = CacheBuilder.newBuilder().</b>
+<b class="nc">&nbsp;            maximumWeight(maxSize/2).weigher(new MatchesWeigher()).</b>
+<b class="nc">&nbsp;            recordStats().</b>
+<b class="nc">&nbsp;            expireAfterAccess(expireAfter, timeUnit).</b>
+<b class="nc">&nbsp;            build();</b>
+<b class="nc">&nbsp;    remoteMatchesCache = CacheBuilder.newBuilder().</b>
+<b class="nc">&nbsp;            maximumWeight(maxSize/2).weigher(new RemoteMatchesWeigher()).</b>
+<b class="nc">&nbsp;            recordStats().</b>
+<b class="nc">&nbsp;            expireAfterAccess(expireAfter, timeUnit).</b>
+<b class="nc">&nbsp;            build();</b>
+<b class="nc">&nbsp;    sentenceCache = CacheBuilder.newBuilder().</b>
+<b class="nc">&nbsp;            maximumWeight(maxSize/2).weigher(new SentenceWeigher()).</b>
+<b class="nc">&nbsp;            recordStats().</b>
+<b class="nc">&nbsp;            expireAfterAccess(expireAfter, timeUnit).</b>
+<b class="nc">&nbsp;            build();</b>
+&nbsp;  }
+&nbsp;  
+<b class="nc">&nbsp;  static class MatchesWeigher implements Weigher&lt;InputSentence, List&lt;RuleMatch&gt;&gt; {</b>
+&nbsp;    @Override
+&nbsp;    public int weigh(InputSentence sentence, List&lt;RuleMatch&gt; matches) {
+&nbsp;      // this is just a rough guesstimate so that the cacheSize given by the user
+&nbsp;      // is very roughly the number of average sentences the cache can keep:
+<b class="nc">&nbsp;      return sentence.getText().length() / 75 + matches.size();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  static class RemoteMatchesWeigher implements Weigher&lt;InputSentence, Map&lt;String, List&lt;RuleMatch&gt;&gt;&gt; {</b>
+&nbsp;    @Override
+&nbsp;    public int weigh(InputSentence sentence, @NotNull Map&lt;String, List&lt;RuleMatch&gt;&gt; matches) {
+&nbsp;      // this is just a rough guesstimate so that the cacheSize given by the user
+&nbsp;      // is very roughly the number of average sentences the cache can keep:
+<b class="nc">&nbsp;      return sentence.getText().length() / 75;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  static class SentenceWeigher implements Weigher&lt;SimpleInputSentence, AnalyzedSentence&gt; {</b>
+&nbsp;    @Override
+&nbsp;    public int weigh(SimpleInputSentence sentence, @NotNull AnalyzedSentence analyzedSentence) {
+<b class="nc">&nbsp;      return sentence.getText().length() / 75;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  public double hitRate() {
+<b class="nc">&nbsp;    return (matchesCache.stats().hitRate() + sentenceCache.stats().hitRate()) / 2.0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public double requestCount() {
+<b class="nc">&nbsp;    return matchesCache.stats().requestCount() + sentenceCache.stats().requestCount();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public long hitCount() {
+<b class="nc">&nbsp;    return matchesCache.stats().hitCount() + sentenceCache.stats().hitCount();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;RuleMatch&gt; getIfPresent(InputSentence key) {
+<b class="nc">&nbsp;    return matchesCache.getIfPresent(key);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public AnalyzedSentence getIfPresent(SimpleInputSentence key) {
+<b class="nc">&nbsp;    return sentenceCache.getIfPresent(key);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void put(InputSentence key, List&lt;RuleMatch&gt; sentenceMatches) {
+<b class="nc">&nbsp;    matchesCache.put(key, sentenceMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void put(SimpleInputSentence key, AnalyzedSentence aSentence) {
+<b class="nc">&nbsp;    sentenceCache.put(key, aSentence);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.1 */
+&nbsp;  public Cache&lt;InputSentence, List&lt;RuleMatch&gt;&gt; getMatchesCache() {
+<b class="nc">&nbsp;    return matchesCache;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.0 */
+&nbsp;  public Cache&lt;InputSentence, Map&lt;String, List&lt;RuleMatch&gt;&gt;&gt; getRemoteMatchesCache() {
+<b class="nc">&nbsp;    return remoteMatchesCache;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.1 */
+&nbsp;  public Cache&lt;SimpleInputSentence, AnalyzedSentence&gt; getSentenceCache() {
+<b class="nc">&nbsp;    return sentenceCache;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

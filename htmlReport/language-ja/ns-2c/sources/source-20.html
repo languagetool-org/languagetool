@@ -1,0 +1,281 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GermanReadabilityRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: GermanReadabilityRule (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GermanReadabilityRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/76)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/58)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.rules.Category;
+&nbsp;import org.languagetool.rules.CategoryId;
+&nbsp;import org.languagetool.rules.ReadabilityRule;
+&nbsp;import org.languagetool.rules.Category.Location;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule that checks the readability of German text (using the Flesch-Reading-Ease Formula)
+&nbsp; * If tooEasyTest == true, the rule tests if paragraph level &amp;gt; level (readability is too easy)
+&nbsp; * If tooEasyTest == false, the rule tests if paragraph level &amp;lt; level (readability is too difficult)
+&nbsp; * @author Fred Kruse
+&nbsp; * @since 4.4
+&nbsp; */
+&nbsp;public class GermanReadabilityRule extends ReadabilityRule {
+&nbsp;  
+&nbsp;  private final boolean tooEasyTest;
+&nbsp;
+&nbsp;  public GermanReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest) {
+<b class="nc">&nbsp;    this(messages, lang, userConfig, tooEasyTest, -1, false);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public GermanReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest, int level) {
+<b class="nc">&nbsp;    this(messages, lang, userConfig, tooEasyTest, level, false);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public GermanReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest, boolean defaultOn) {
+<b class="nc">&nbsp;    this(messages, lang, userConfig, tooEasyTest, -1, defaultOn);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public GermanReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, 
+&nbsp;      boolean tooEasyTest, int level, boolean defaultOn) {
+<b class="nc">&nbsp;    super(messages, lang, userConfig, tooEasyTest, level, defaultOn);</b>
+<b class="nc">&nbsp;    super.setCategory(new Category(new CategoryId(&quot;CREATIVE_WRITING&quot;), messages.getString(&quot;category_creative_writing&quot;), Location.INTERNAL, false));</b>
+<b class="nc">&nbsp;    this.tooEasyTest = tooEasyTest;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return getId(tooEasyTest);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId(boolean tooEasyTest) {
+<b class="nc">&nbsp;    if (tooEasyTest) {</b>
+<b class="nc">&nbsp;      return &quot;READABILITY_RULE_SIMPLE_DE&quot;;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return &quot;READABILITY_RULE_DIFFICULT_DE&quot;;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    if (tooEasyTest) {</b>
+<b class="nc">&nbsp;      return &quot;Lesbarkeit: Zu einfacher Text&quot;;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return &quot;Lesbarkeit: Zu schwieriger Text&quot;;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String printMessageLevel(int level) {
+<b class="nc">&nbsp;    String sLevel = null;</b>
+<b class="nc">&nbsp;    if (level == 0) {</b>
+<b class="nc">&nbsp;      sLevel = &quot;Sehr schwer&quot;;</b>
+<b class="nc">&nbsp;    } else if (level == 1) {</b>
+<b class="nc">&nbsp;      sLevel = &quot;Schwer&quot;;</b>
+<b class="nc">&nbsp;    } else if (level == 2) {</b>
+<b class="nc">&nbsp;      sLevel = &quot;Mittelschwer&quot;;</b>
+<b class="nc">&nbsp;    } else if (level == 3) {</b>
+<b class="nc">&nbsp;      sLevel = &quot;Mittel&quot;;</b>
+<b class="nc">&nbsp;    } else if (level == 4) {</b>
+<b class="nc">&nbsp;      sLevel = &quot;Mittelleicht&quot;;</b>
+<b class="nc">&nbsp;    } else if (level == 5) {</b>
+<b class="nc">&nbsp;      sLevel = &quot;Leicht&quot;;</b>
+<b class="nc">&nbsp;    } else if (level == 6) {</b>
+<b class="nc">&nbsp;      sLevel = &quot;Sehr leicht&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (sLevel != null) {</b>
+<b class="nc">&nbsp;      return &quot; {Grad &quot; + level + &quot;: &quot; + sLevel + &quot;}&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected String getMessage(int level, int fre, int als, int asw) {
+&nbsp;    String simple;
+&nbsp;    String few;
+<b class="nc">&nbsp;    if (tooEasyTest) {</b>
+<b class="nc">&nbsp;      simple = &quot;einfach&quot;;</b>
+<b class="nc">&nbsp;      few = &quot;wenige&quot;;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      simple = &quot;schwierig&quot;;</b>
+<b class="nc">&nbsp;      few = &quot;viele&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return &quot;Lesbarkeit: Der Text dieses Absatzes ist zu &quot; + simple + printMessageLevel(level) + &quot;. Zu &quot;</b>
+&nbsp;        + few + &quot; Wörter pro Satz und zu &quot; + few + &quot; Silben pro Wort.&quot;;
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getConfigureText() {
+<b class="nc">&nbsp;    return &quot;Grad der Lesbarkeit 0 (sehr schwierig) bis 6 (sehr einfach):&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public double getFleschReadingEase(double asl, double asw) {
+<b class="nc">&nbsp;    return 180 - asl - ( 58.5 * asw );  //  German</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected int simpleSyllablesCount(String word) {
+<b class="nc">&nbsp;    if (word.length() == 0) {</b>
+<b class="nc">&nbsp;      return 0;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int nSyllables = 0;</b>
+<b class="nc">&nbsp;    if (GermanTools.isVowel(word.charAt(0))) {</b>
+<b class="nc">&nbsp;      nSyllables++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    boolean lastDouble = false;</b>
+<b class="nc">&nbsp;    for (int i = 1; i &lt; word.length(); i++) {</b>
+<b class="nc">&nbsp;      char c = word.charAt(i);</b>
+<b class="nc">&nbsp;      if (GermanTools.isVowel(c)) {</b>
+<b class="nc">&nbsp;        char cl = word.charAt(i - 1);</b>
+<b class="nc">&nbsp;        if (lastDouble) {</b>
+<b class="nc">&nbsp;          nSyllables++;</b>
+<b class="nc">&nbsp;          lastDouble = false;</b>
+<b class="nc">&nbsp;        } else if (((c == &#39;i&#39; || c == &#39;y&#39;) &amp;&amp; (cl == &#39;a&#39; || cl == &#39;e&#39; || cl == &#39;A&#39; || cl == &#39;E&#39;)) ||</b>
+&nbsp;            (c == &#39;u&#39; &amp;&amp; (cl == &#39;a&#39; || cl == &#39;e&#39; || cl == &#39;o&#39; || cl == &#39;A&#39; || cl == &#39;E&#39; || cl == &#39;O&#39;)) ||
+&nbsp;            (c == &#39;e&#39; &amp;&amp; (cl == &#39;e&#39; || cl == &#39;i&#39; || cl == &#39;E&#39; || cl == &#39;I&#39;)) ||
+&nbsp;            (c == &#39;a&#39; &amp;&amp; (cl == &#39;a&#39; || cl == &#39;A&#39;))) {
+<b class="nc">&nbsp;          lastDouble = true;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          nSyllables++;</b>
+<b class="nc">&nbsp;          lastDouble = false;</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        lastDouble = false;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return nSyllables == 0 ? 1 : nSyllables;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

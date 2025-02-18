@@ -1,0 +1,479 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PortugueseAccentuationCheckRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.pt</a>
+</div>
+
+<h1>Coverage Summary for Class: PortugueseAccentuationCheckRule (org.languagetool.rules.pt)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PortugueseAccentuationCheckRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/324)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/197)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2012 Jaume Ortolà i Font
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.pt;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;/**
+&nbsp; * This rule checks if a word without graphical accent and with a verb POS tag
+&nbsp; * should be a noun or an adjective with graphical accent. It uses two lists of
+&nbsp; * word pairs: verb-noun and verb-adjective.
+&nbsp; * 
+&nbsp; * @author Jaume Ortolà i Font
+&nbsp; * l18n by Tiago F. Santos
+&nbsp; * TODO Verify all exceptions that apply to Portuguese
+&nbsp; * FIXME Convert all chunking tags to the ones used in Portuguese
+&nbsp; */
+&nbsp;public class PortugueseAccentuationCheckRule extends Rule {
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Patterns
+&nbsp;   */
+<b class="nc">&nbsp;  private static final Pattern PREPOSICAO_DE = Pattern.compile(&quot;de|d[a|o]s?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ARTIGO_O_MS = Pattern.compile(&quot;o|O&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ARTIGO_O_FS = Pattern.compile(&quot;a|A&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ARTIGO_O_MP = Pattern.compile(&quot;as|As&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ARTIGO_O_FP = Pattern.compile(&quot;os|Os&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DETERMINANTE = Pattern.compile(&quot;D[^R].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DETERMINANTE_MS = Pattern.compile(&quot;D[^R].[MC][SN].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DETERMINANTE_FS = Pattern.compile(&quot;D[^R].[FC][SN].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DETERMINANTE_MP = Pattern.compile(&quot;D[^R].[MC][PN].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DETERMINANTE_FP = Pattern.compile(&quot;D[^R].[FC][PN].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOME_MS = Pattern.compile(&quot;NC[MC][SN].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOME_FS = Pattern.compile(&quot;NC[FC][SN].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOME_MP = Pattern.compile(&quot;NC[MC][PN].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOME_FP = Pattern.compile(&quot;NC[FC][PN].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADJETIVO_MS = Pattern.compile(&quot;A..[MC][SN].*|V.P..SM.?|PX.MS.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADJETIVO_FS = Pattern.compile(&quot;A..[FC][SN].*|V.P..SF.?|PX.FS.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADJETIVO_MP = Pattern.compile(&quot;A..[MC][PN].*|V.P..PM.?|PX.MP.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADJETIVO_FP = Pattern.compile(&quot;A..[FC][PN].*|V.P..PF.?|PX.FP.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern INFINITIVO = Pattern.compile(&quot;V.N.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern VERBO_CONJUGADO = Pattern.compile(&quot;V.[^NGP].*|_GV_&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PARTICIPIO_MS = Pattern.compile(&quot;V.P.*SM.?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern GRUPO_VERBAL = Pattern.compile(&quot;_GV_&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern VERBO_3S = Pattern.compile(&quot;V...3S..?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOT_IN_PREV_TOKEN = Pattern.compile(&quot;V..*|PP.*|P0.*|V.P.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern BEFORE_ADJECTIVE_MS = Pattern.compile(&quot;SPS00|D[^R].[MC][SN].*|V.[^NGP].*|PX.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern BEFORE_ADJECTIVE_FS = Pattern.compile(&quot;SPS00|D[^R].[FC][SN].*|V.[^NGP].*|PX.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern BEFORE_ADJECTIVE_MP = Pattern.compile(&quot;SPS00|D[^R].[MC][PN].*|V.[^NGP].*|PX.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern BEFORE_ADJECTIVE_FP = Pattern.compile(&quot;SPS00|D[^R].[FC][PN].*|V.[^NGP].*|PX.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern GN = Pattern.compile(&quot;.*_GN_.*|&lt;?/?N[CP].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern EXCEPCOES_ANTES_DE = Pattern.compile(&quot;forma|manera|por|costat&quot;, Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;/*  private static final Pattern LOCOCOES = Pattern.compile(&quot;.*LOC.*&quot;);*/
+<b class="nc">&nbsp;  private static final Pattern PRONOME_PESSOAL = Pattern.compile(&quot;P0.{6}|PP3CN000|PP3NN000|PP3CP000|PP3CSD00&quot;); // TODO Confirmar a exclusão de: PP3..A00 (coincidee COM articles determinats) se aplica ao português</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Map&lt;String, AnalyzedTokenReadings&gt; relevantWords = </b>
+<b class="nc">&nbsp;          new PortugueseAccentuationDataLoader().loadWords(&quot;/pt/verbos_sem_acento_nomes_com_acento.txt&quot;);</b>
+<b class="nc">&nbsp;  private static final Map&lt;String, AnalyzedTokenReadings&gt; relevantWords2 =</b>
+<b class="nc">&nbsp;          new PortugueseAccentuationDataLoader().loadWords(&quot;/pt/verbos_sem_acento_adj_com_acento.txt&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  public PortugueseAccentuationCheckRule(ResourceBundle messages) throws IOException {</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.CONFUSED_WORDS.getCategory(messages));</b>
+<b class="nc">&nbsp;    setDefaultOff(); // FIXME This rule is a basic adaptation that has no exceptions added. Users may test the rule and give the required feedback so that the rule can be on by default</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;ACCENTUATION_CHECK_PT&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Confus\u00E3o com acentos gr\u00E1ficos&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) { </b>
+&nbsp;      // ignoring token 0, i.e. SENT_START
+&nbsp;      String token;
+<b class="nc">&nbsp;      if (i == 1) {</b>
+<b class="nc">&nbsp;        token = tokens[i].getToken().toLowerCase();</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        token = tokens[i].getToken();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String prevToken = tokens[i - 1].getToken();</b>
+<b class="nc">&nbsp;      String prevPrevToken = &quot;&quot;;</b>
+<b class="nc">&nbsp;      if (i &gt; 2) {</b>
+<b class="nc">&nbsp;        prevPrevToken = tokens[i - 2].getToken();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String nextToken = &quot;&quot;;</b>
+<b class="nc">&nbsp;      if (i &lt; tokens.length - 1) {</b>
+<b class="nc">&nbsp;        nextToken = tokens[i + 1].getToken();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String nextNextToken = &quot;&quot;;</b>
+<b class="nc">&nbsp;      if (i &lt; tokens.length - 2) {</b>
+<b class="nc">&nbsp;        nextNextToken = tokens[i + 2].getToken();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      boolean isRelevantWord = false;</b>
+<b class="nc">&nbsp;      boolean isRelevantWord2 = false;</b>
+<b class="nc">&nbsp;      if (StringTools.isEmpty(token)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if (relevantWords.containsKey(token)) {</b>
+<b class="nc">&nbsp;        isRelevantWord = true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (relevantWords2.containsKey(token)) {</b>
+<b class="nc">&nbsp;        isRelevantWord2 = true;</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if (!isRelevantWord &amp;&amp; !isRelevantWord2) {</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+&nbsp;      // verbo precedido de pronome reflexo
+<b class="nc">&nbsp;      if (matchPostagRegexp(tokens[i - 1], PRONOME_PESSOAL)</b>
+<b class="nc">&nbsp;          &amp;&amp; !prevToken.startsWith(&quot;-&quot;)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      String replacement = null;</b>
+<b class="nc">&nbsp;      Matcher mPreposicaoDE = PREPOSICAO_DE.matcher(nextToken);</b>
+<b class="nc">&nbsp;      Matcher mExcepcoesDE = EXCEPCOES_ANTES_DE.matcher(nextNextToken);</b>
+<b class="nc">&nbsp;      Matcher mArtigoOMS = ARTIGO_O_MS.matcher(prevToken);</b>
+<b class="nc">&nbsp;      Matcher mArtigoOFS = ARTIGO_O_FS.matcher(prevToken);</b>
+<b class="nc">&nbsp;      Matcher mArtigoOMP = ARTIGO_O_MP.matcher(prevToken);</b>
+<b class="nc">&nbsp;      Matcher mArtigoOFP = ARTIGO_O_FP.matcher(prevToken);</b>
+&nbsp;
+&nbsp;      // VERB WITHOUT ACCENT -&gt; NOUN WITH ACCENT
+<b class="nc">&nbsp;      if (isRelevantWord &amp;&amp; !matchPostagRegexp(tokens[i], GN)/* &amp;&amp; !matchPostagRegexp(tokens[i], LOCUCOES)*/) {</b>
+&nbsp;        // amb renuncies
+<b class="nc">&nbsp;        if (tokens[i - 1].hasPosTag(&quot;SPS00&quot;) &amp;&amp; !tokens[i - 1].hasPosTag(&quot;RG&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !matchPostagRegexp(tokens[i - 1], DETERMINANTE)</b>
+<b class="nc">&nbsp;            &amp;&amp; !matchPostagRegexp(tokens[i], INFINITIVO)) {</b>
+<b class="nc">&nbsp;          replacement = relevantWords.get(token).getToken();</b>
+&nbsp;        }
+&nbsp;        // aquestes renuncies
+<b class="nc">&nbsp;        else if (((matchPostagRegexp(tokens[i - 1], DETERMINANTE_MS) &amp;&amp; matchPostagRegexp(relevantWords.get(token), NOME_MS) /*</b>
+&nbsp;              &amp;&amp; !token.equals(&quot;cantar&quot;)*/) 
+<b class="nc">&nbsp;            || (matchPostagRegexp(tokens[i - 1], DETERMINANTE_MP) &amp;&amp; matchPostagRegexp(relevantWords.get(token), NOME_MP))</b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(tokens[i - 1], DETERMINANTE_FS) &amp;&amp; matchPostagRegexp(relevantWords.get(token), NOME_FS) /*</b>
+&nbsp;                &amp;&amp; !token.equals(&quot;venia&quot;) &amp;&amp; !token.equals(&quot;tenia&quot;) &amp;&amp; !token.equals(&quot;continua&quot;) &amp;&amp; !token.equals(&quot;genera&quot;) 
+&nbsp;                &amp;&amp; !token.equals(&quot;faria&quot;)*/) 
+<b class="nc">&nbsp;            || (matchPostagRegexp(tokens[i - 1], DETERMINANTE_FP) &amp;&amp; matchPostagRegexp(relevantWords.get(token), NOME_FP)))) {</b>
+<b class="nc">&nbsp;          replacement = relevantWords.get(token).getToken();</b>
+&nbsp;        }
+&nbsp;        // fumaré una faria (correct: fària)
+<b class="nc">&nbsp;        else if (i &gt; 2</b>
+<b class="nc">&nbsp;            &amp;&amp; matchPostagRegexp(tokens[i - 2], VERBO_CONJUGADO)</b>
+<b class="nc">&nbsp;            &amp;&amp; ((matchPostagRegexp(tokens[i - 1], DETERMINANTE_MS) &amp;&amp; matchPostagRegexp(relevantWords.get(token), NOME_MS))</b>
+<b class="nc">&nbsp;                || (matchPostagRegexp(tokens[i - 1], DETERMINANTE_MP) &amp;&amp; matchPostagRegexp(relevantWords.get(token), NOME_MP))</b>
+<b class="nc">&nbsp;                || (matchPostagRegexp(tokens[i - 1], DETERMINANTE_FS) &amp;&amp; matchPostagRegexp(relevantWords.get(token), NOME_FS)) </b>
+<b class="nc">&nbsp;                || (matchPostagRegexp(tokens[i - 1], DETERMINANTE_FP) &amp;&amp; matchPostagRegexp(relevantWords.get(token), NOME_FP)))) {</b>
+<b class="nc">&nbsp;          replacement = relevantWords.get(token).getToken();</b>
+&nbsp;        }
+&nbsp;        // fem la copia (correct: còpia)
+<b class="nc">&nbsp;        else if (i &gt; 2</b>
+<b class="nc">&nbsp;            &amp;&amp; matchPostagRegexp(tokens[i - 2], VERBO_CONJUGADO)</b>
+<b class="nc">&nbsp;            &amp;&amp; ((mArtigoOMS.matches() &amp;&amp; matchPostagRegexp(relevantWords.get(token), NOME_MS))</b>
+<b class="nc">&nbsp;                || (mArtigoOMP.matches() &amp;&amp; matchPostagRegexp(relevantWords.get(token), NOME_MP))</b>
+<b class="nc">&nbsp;                || (mArtigoOFS.matches() &amp;&amp; matchPostagRegexp(relevantWords.get(token), NOME_FS)) </b>
+<b class="nc">&nbsp;                || (mArtigoOFP.matches() &amp;&amp; matchPostagRegexp(relevantWords.get(token),NOME_FP)))) {</b>
+<b class="nc">&nbsp;          replacement = relevantWords.get(token).getToken();</b>
+&nbsp;        }
+&nbsp;        // circumstancies d&#39;una altra classe
+<b class="nc">&nbsp;        else if (!matchPostagRegexp(tokens[i], PARTICIPIO_MS) /*</b>
+&nbsp;            &amp;&amp; !token.equals(&quot;venia&quot;) &amp;&amp; !token.equals(&quot;venies&quot;)
+&nbsp;            &amp;&amp; !token.equals(&quot;tenia&quot;) &amp;&amp; !token.equals(&quot;tenies&quot;)
+&nbsp;            &amp;&amp; !token.equals(&quot;faria&quot;) &amp;&amp; !token.equals(&quot;faries&quot;)
+&nbsp;            &amp;&amp; !token.equals(&quot;espero&quot;) &amp;&amp; !token.equals(&quot;continua&quot;)
+&nbsp;            &amp;&amp; !token.equals(&quot;continues&quot;) &amp;&amp; !token.equals(&quot;cantar&quot;)
+&nbsp;            &amp;&amp; !prevToken.equals(&quot;que&quot;) &amp;&amp; !prevToken.equals(&quot;qui&quot;)
+&nbsp;            &amp;&amp; !prevToken.equals(&quot;què&quot;) &amp;&amp; mPreposicaoDE.matches() */
+<b class="nc">&nbsp;            &amp;&amp; !matchPostagRegexp(tokens[i - 1], NOT_IN_PREV_TOKEN)</b>
+&nbsp;            /* &amp;&amp; !matchPostagRegexp(tokens[i + 1], LOCUCOES) */
+&nbsp;            &amp;&amp; (i &lt; tokens.length - 2)
+<b class="nc">&nbsp;            &amp;&amp; !matchPostagRegexp(tokens[i + 2], INFINITIVO)</b>
+<b class="nc">&nbsp;            &amp;&amp; !mExcepcoesDE.matches() </b>
+<b class="nc">&nbsp;            &amp;&amp; !tokens[i - 1].hasPosTag(&quot;RG&quot;)) {</b>
+<b class="nc">&nbsp;          replacement = relevantWords.get(token).getToken();</b>
+&nbsp;        }
+&nbsp;        // la renuncia del president.
+<b class="nc">&nbsp;        else if (/* !token.equals(&quot;venia&quot;)</b>
+&nbsp;            &amp;&amp; !token.equals(&quot;venies&quot;) &amp;&amp; !token.equals(&quot;tenia&quot;)
+&nbsp;            &amp;&amp; !token.equals(&quot;tenies&quot;) &amp;&amp; !token.equals(&quot;faria&quot;)
+&nbsp;            &amp;&amp; !token.equals(&quot;faries&quot;) &amp;&amp; !token.equals(&quot;continua&quot;)
+&nbsp;            &amp;&amp; !token.equals(&quot;continues&quot;) &amp;&amp; !token.equals(&quot;cantar&quot;)
+&nbsp;            &amp;&amp; !token.equals(&quot;diferencia&quot;) &amp;&amp; !token.equals(&quot;diferencies&quot;)
+&nbsp;            &amp;&amp; !token.equals(&quot;distancia&quot;)  &amp;&amp; !token.equals(&quot;distancies&quot;) 
+<b class="nc">&nbsp;            &amp;&amp; */ ((mArtigoOMS.matches() &amp;&amp; matchPostagRegexp(</b>
+<b class="nc">&nbsp;                relevantWords.get(token), NOME_MS))</b>
+<b class="nc">&nbsp;                || (mArtigoOFS.matches() &amp;&amp; matchPostagRegexp(</b>
+<b class="nc">&nbsp;                    relevantWords.get(token), NOME_FS))</b>
+<b class="nc">&nbsp;                || (mArtigoOMP.matches() &amp;&amp; matchPostagRegexp(</b>
+<b class="nc">&nbsp;                    relevantWords.get(token), NOME_MP)) </b>
+<b class="nc">&nbsp;                || (mArtigoOFP.matches() &amp;&amp; matchPostagRegexp(</b>
+<b class="nc">&nbsp;                    relevantWords.get(token), NOME_FP)))</b>
+&nbsp;
+<b class="nc">&nbsp;            &amp;&amp; mPreposicaoDE.matches()) {</b>
+<b class="nc">&nbsp;          replacement = relevantWords.get(token).getToken();</b>
+&nbsp;        }
+&nbsp;        // circunstancias extraordináries
+<b class="nc">&nbsp;        else if (/*!token.equals(&quot;pronuncia&quot;) </b>
+&nbsp;            &amp;&amp; !token.equals(&quot;espero&quot;) &amp;&amp; !token.equals(&quot;pronuncies&quot;)
+&nbsp;            &amp;&amp; !token.equals(&quot;venia&quot;)  &amp;&amp; !token.equals(&quot;venies&quot;) 
+&nbsp;            &amp;&amp; !token.equals(&quot;tenia&quot;)  &amp;&amp; !token.equals(&quot;tenies&quot;) 
+&nbsp;            &amp;&amp; !token.equals(&quot;continua&quot;) &amp;&amp; !token.equals(&quot;continues&quot;)
+&nbsp;            &amp;&amp; !token.equals(&quot;faria&quot;) &amp;&amp; !token.equals(&quot;faries&quot;) 
+&nbsp;            &amp;&amp; !token.equals(&quot;genera&quot;) &amp;&amp; !token.equals(&quot;figuri&quot;)
+&nbsp;            &amp;&amp; */ (i &lt; tokens.length - 1)
+<b class="nc">&nbsp;            &amp;&amp; ((matchPostagRegexp(relevantWords.get(token), NOME_MS) &amp;&amp; matchPostagRegexp(tokens[i + 1], ADJETIVO_MS))</b>
+<b class="nc">&nbsp;                || (matchPostagRegexp(relevantWords.get(token), NOME_FS) &amp;&amp; matchPostagRegexp(tokens[i + 1], ADJETIVO_FS))</b>
+<b class="nc">&nbsp;                || (matchPostagRegexp(relevantWords.get(token), NOME_MP) &amp;&amp; matchPostagRegexp(tokens[i + 1], ADJETIVO_MP)) </b>
+<b class="nc">&nbsp;                || (matchPostagRegexp(relevantWords.get(token), NOME_FP) &amp;&amp; matchPostagRegexp(tokens[i + 1], ADJETIVO_FP)))) {</b>
+<b class="nc">&nbsp;          replacement = relevantWords.get(token).getToken();</b>
+&nbsp;        }
+&nbsp;        // les seves contraries
+<b class="nc">&nbsp;        else if ((matchPostagRegexp(relevantWords.get(token), NOME_MS) &amp;&amp; matchPostagRegexp(tokens[i - 1], ADJETIVO_MS)</b>
+<b class="nc">&nbsp;              &amp;&amp; !matchPostagRegexp(tokens[i], VERBO_3S) &amp;&amp; !matchPostagRegexp(tokens[i], GRUPO_VERBAL))</b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(relevantWords.get(token), NOME_FS) &amp;&amp; matchPostagRegexp(tokens[i - 1], ADJETIVO_FS) </b>
+<b class="nc">&nbsp;              &amp;&amp; !matchPostagRegexp(tokens[i], VERBO_3S))</b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(relevantWords.get(token), NOME_MP) &amp;&amp; matchPostagRegexp(tokens[i - 1], ADJETIVO_MP))</b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(relevantWords.get(token), NOME_FP) &amp;&amp; matchPostagRegexp(tokens[i - 1], ADJETIVO_FP))) {</b>
+<b class="nc">&nbsp;          replacement = relevantWords.get(token).getToken();</b>
+&nbsp;        }
+&nbsp;        //uma nova formula que (fórmula)
+<b class="nc">&nbsp;        else if (nextToken.equals(&quot;que&quot;) &amp;&amp; i&gt;2</b>
+<b class="nc">&nbsp;            &amp;&amp; ((matchPostagRegexp(relevantWords.get(token), NOME_MS) &amp;&amp; matchPostagRegexp(tokens[i - 1], ADJETIVO_MS)</b>
+<b class="nc">&nbsp;                &amp;&amp; matchPostagRegexp(tokens[i - 2], DETERMINANTE_MS))</b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(relevantWords.get(token), NOME_FS) &amp;&amp; matchPostagRegexp(tokens[i - 1], ADJETIVO_FS)</b>
+<b class="nc">&nbsp;                &amp;&amp; matchPostagRegexp(tokens[i - 2], DETERMINANTE_FS))</b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(relevantWords.get(token), NOME_MP) &amp;&amp; matchPostagRegexp(tokens[i - 1], ADJETIVO_MP)</b>
+<b class="nc">&nbsp;                &amp;&amp; matchPostagRegexp(tokens[i - 2], DETERMINANTE_MP))</b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(relevantWords.get(token), NOME_FP) &amp;&amp; matchPostagRegexp(tokens[i - 1], ADJETIVO_FP)</b>
+<b class="nc">&nbsp;                &amp;&amp; matchPostagRegexp(tokens[i - 2], DETERMINANTE_FP)))) {</b>
+<b class="nc">&nbsp;          replacement = relevantWords.get(token).getToken();</b>
+&nbsp;        }
+&nbsp;        // les circumstancies que ens envolten
+<b class="nc">&nbsp;        else if (nextToken.equals(&quot;que&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; ((mArtigoOMS.matches() &amp;&amp; matchPostagRegexp(relevantWords.get(token), NOME_MS))</b>
+<b class="nc">&nbsp;                || (mArtigoOFS.matches() &amp;&amp; matchPostagRegexp(relevantWords.get(token), NOME_FS))</b>
+<b class="nc">&nbsp;                || (mArtigoOMP.matches() &amp;&amp; matchPostagRegexp(relevantWords.get(token), NOME_MP)) </b>
+<b class="nc">&nbsp;                || (mArtigoOFP.matches() &amp;&amp; matchPostagRegexp(relevantWords.get(token), NOME_FP)))) {</b>
+<b class="nc">&nbsp;          replacement = relevantWords.get(token).getToken();</b>
+&nbsp;        }
+&nbsp;        // de positiva influencia
+<b class="nc">&nbsp;        if (/*!token.equals(&quot;pronuncia&quot;) &amp;&amp; !token.equals(&quot;espero&quot;) &amp;&amp; !token.equals(&quot;pronuncies&quot;)</b>
+&nbsp;                &amp;&amp; !token.equals(&quot;venia&quot;) &amp;&amp; !token.equals(&quot;venies&quot;) &amp;&amp; !token.equals(&quot;tenia&quot;)
+&nbsp;                &amp;&amp; !token.equals(&quot;tenies&quot;) &amp;&amp; !token.equals(&quot;continua&quot;) &amp;&amp; !token.equals(&quot;continues&quot;)
+&nbsp;                &amp;&amp; !token.equals(&quot;faria&quot;) &amp;&amp; !token.equals(&quot;faries&quot;) &amp;&amp; !token.equals(&quot;genera&quot;)
+&nbsp;                &amp;&amp; !token.equals(&quot;figuri&quot;) 
+&nbsp;            &amp;&amp; */ i&gt;2 
+<b class="nc">&nbsp;            &amp;&amp; tokens[i - 2].hasPosTag(&quot;SPS00&quot;) &amp;&amp; !tokens[i - 2].hasPosTag(&quot;RG&quot;)           </b>
+<b class="nc">&nbsp;            &amp;&amp; ((matchPostagRegexp(relevantWords.get(token), NOME_MS) &amp;&amp; matchPostagRegexp(tokens[i - 1], ADJETIVO_MS))</b>
+<b class="nc">&nbsp;                || (matchPostagRegexp(relevantWords.get(token), NOME_FS) &amp;&amp; matchPostagRegexp(tokens[i - 1], ADJETIVO_FS))</b>
+<b class="nc">&nbsp;                || (matchPostagRegexp(relevantWords.get(token), NOME_MP) &amp;&amp; matchPostagRegexp(tokens[i - 1], ADJETIVO_MP)) </b>
+<b class="nc">&nbsp;                || (matchPostagRegexp(relevantWords.get(token), NOME_FP) &amp;&amp; matchPostagRegexp(tokens[i - 1], ADJETIVO_FP)))) {</b>
+<b class="nc">&nbsp;          replacement = relevantWords.get(token).getToken();</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+&nbsp;      // VERB WITHOUT ACCENT -&gt; ADJECTIVE WITH ACCENT
+<b class="nc">&nbsp;      if (isRelevantWord2 &amp;&amp; !matchPostagRegexp(tokens[i], GN)/* &amp;&amp; !matchPostagRegexp(tokens[i], LOCUCOES) */ ) {</b>
+&nbsp;        // de maneira obvia, circumstancias extraordinarias.
+<b class="nc">&nbsp;        if ((matchPostagRegexp(relevantWords2.get(token), ADJETIVO_MS) &amp;&amp; matchPostagRegexp(tokens[i - 1], NOME_MS)</b>
+<b class="nc">&nbsp;              &amp;&amp; !tokens[i - 1].hasPosTag(&quot;_GN_FS&quot;) &amp;&amp; matchPostagRegexp(tokens[i], VERBO_CONJUGADO) </b>
+<b class="nc">&nbsp;              &amp;&amp; !matchPostagRegexp(tokens[i], VERBO_3S))</b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(relevantWords2.get(token), ADJETIVO_FS) &amp;&amp; prevPrevToken.equalsIgnoreCase(&quot;de&quot;) </b>
+<b class="nc">&nbsp;                &amp;&amp; (prevToken.equals(&quot;maneira&quot;) || prevToken.equals(&quot;forma&quot;)))</b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(relevantWords2.get(token), ADJETIVO_MP) &amp;&amp; matchPostagRegexp(tokens[i - 1], NOME_MP))</b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(relevantWords2.get(token), ADJETIVO_FP) &amp;&amp; matchPostagRegexp(tokens[i - 1], NOME_FP))) {</b>
+<b class="nc">&nbsp;          replacement = relevantWords2.get(token).getToken();</b>
+&nbsp;        }
+&nbsp;        // de continua disputa
+<b class="nc">&nbsp;        else if ((i &lt; tokens.length - 1)</b>
+<b class="nc">&nbsp;            &amp;&amp; !prevToken.equals(&quot;que&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !matchPostagRegexp(tokens[i - 1], NOT_IN_PREV_TOKEN)</b>
+<b class="nc">&nbsp;            &amp;&amp; ((matchPostagRegexp(relevantWords2.get(token), ADJETIVO_MS) &amp;&amp; matchPostagRegexp(tokens[i + 1], NOME_MS) </b>
+<b class="nc">&nbsp;                &amp;&amp; matchPostagRegexp(tokens[i - 1], BEFORE_ADJECTIVE_MS))</b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(relevantWords2.get(token), ADJETIVO_FS) &amp;&amp; matchPostagRegexp(tokens[i + 1], NOME_FS) </b>
+<b class="nc">&nbsp;                &amp;&amp; matchPostagRegexp(tokens[i - 1], BEFORE_ADJECTIVE_FS))</b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(relevantWords2.get(token), ADJETIVO_MP) &amp;&amp; matchPostagRegexp(tokens[i + 1], NOME_MP) </b>
+<b class="nc">&nbsp;                &amp;&amp; matchPostagRegexp(tokens[i - 1], BEFORE_ADJECTIVE_MP)) </b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(relevantWords2.get(token), ADJETIVO_FP) &amp;&amp; matchPostagRegexp(tokens[i + 1], NOME_FP) </b>
+<b class="nc">&nbsp;                &amp;&amp; matchPostagRegexp(tokens[i - 1], BEFORE_ADJECTIVE_FP)))) {</b>
+<b class="nc">&nbsp;          replacement = relevantWords2.get(token).getToken();</b>
+&nbsp;        }
+&nbsp;        // a magnifica conservação
+<b class="nc">&nbsp;        else if ((i &lt; tokens.length - 1)</b>
+<b class="nc">&nbsp;            &amp;&amp; ((matchPostagRegexp(relevantWords2.get(token), ADJETIVO_MS)</b>
+<b class="nc">&nbsp;                &amp;&amp; matchPostagRegexp(tokens[i + 1], NOME_MS) &amp;&amp; mArtigoOMS.matches())</b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(relevantWords2.get(token), ADJETIVO_FS)</b>
+<b class="nc">&nbsp;                &amp;&amp; matchPostagRegexp(tokens[i + 1], NOME_FS) &amp;&amp; mArtigoOFS.matches())</b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(relevantWords2.get(token), ADJETIVO_MP)</b>
+<b class="nc">&nbsp;                &amp;&amp; matchPostagRegexp(tokens[i + 1], NOME_MP) &amp;&amp; mArtigoOMP.matches()) </b>
+<b class="nc">&nbsp;            || (matchPostagRegexp(relevantWords2.get(token), ADJETIVO_FP)</b>
+<b class="nc">&nbsp;                &amp;&amp; matchPostagRegexp(tokens[i + 1], NOME_FP) &amp;&amp; mArtigoOFP.matches()))) {</b>
+<b class="nc">&nbsp;          replacement = relevantWords2.get(token).getToken();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;      }
+<b class="nc">&nbsp;      if (replacement != null) {</b>
+<b class="nc">&nbsp;        String msg = &quot;Se \u00E9 um nome ou um adjectivo, tem acento.&quot;;</b>
+<b class="nc">&nbsp;        RuleMatch ruleMatch = new RuleMatch(this, sentence,</b>
+<b class="nc">&nbsp;            tokens[i].getStartPos(), tokens[i].getEndPos(),</b>
+&nbsp;            msg, &quot;Falta um acento&quot;);
+<b class="nc">&nbsp;        ruleMatch.setSuggestedReplacement(replacement);</b>
+<b class="nc">&nbsp;        ruleMatches.add(ruleMatch);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Match POS tag with regular expression
+&nbsp;   */
+&nbsp;  private boolean matchPostagRegexp(AnalyzedTokenReadings aToken,
+&nbsp;      Pattern pattern) {
+<b class="nc">&nbsp;    boolean matches = false;</b>
+<b class="nc">&nbsp;    for (AnalyzedToken analyzedToken : aToken) {</b>
+<b class="nc">&nbsp;      String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if (posTag != null) {</b>
+<b class="nc">&nbsp;        Matcher m = pattern.matcher(posTag);</b>
+<b class="nc">&nbsp;        if (m.matches()) {</b>
+<b class="nc">&nbsp;          matches = true;</b>
+&nbsp;          break;
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return matches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,689 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MultiWordChunker</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.disambiguation</a>
+</div>
+
+<h1>Coverage Summary for Class: MultiWordChunker (org.languagetool.tagging.disambiguation)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MultiWordChunker</td>
+<td class="coverageStat">
+  <span class="percent">
+    68.4%
+  </span>
+  <span class="absValue">
+    (13/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    54.3%
+  </span>
+  <span class="absValue">
+    (100/184)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    64.1%
+  </span>
+  <span class="absValue">
+    (150/234)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MultiWordChunker$Settings</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (5/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    72.7%
+  </span>
+  <span class="absValue">
+    (16/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    54.1%
+  </span>
+  <span class="absValue">
+    (105/194)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.1%
+  </span>
+  <span class="absValue">
+    (164/248)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.tagging.disambiguation;
+&nbsp;
+&nbsp;import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+&nbsp;import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.apache.commons.text.WordUtils;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.ConcurrentHashMap;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static org.languagetool.tools.StringInterner.intern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Multiword tagger-chunker.
+&nbsp; *
+&nbsp; * @author Marcin Miłkowski
+&nbsp; */
+&nbsp;public class MultiWordChunker extends AbstractDisambiguator {
+<b class="fc">&nbsp;  private static final Map&lt;Settings, MultiWordChunker&gt; chunkerCache = new ConcurrentHashMap&lt;&gt;();</b>
+&nbsp;  private final @NotNull Settings settings;
+&nbsp;
+&nbsp;  private volatile boolean initialized;
+&nbsp;  private Map&lt;String, Integer&gt; mStartSpace;
+&nbsp;  private Map&lt;String, Integer&gt; mStartNoSpace;
+&nbsp;  private Map&lt;String, AnalyzedToken&gt; mFullSpace;
+&nbsp;  private Map&lt;String, AnalyzedToken&gt; mFullNoSpace;
+&nbsp;
+&nbsp;  private final static int MAX_TOKENS_IN_MULTIWORD = 20;
+&nbsp;
+&nbsp;  private final static String DEFAULT_SEPARATOR = &quot;\t&quot;;
+&nbsp;  private String separator;
+&nbsp;
+<b class="fc">&nbsp;  private boolean addIgnoreSpelling = false;</b>
+<b class="fc">&nbsp;  private boolean isRemovePreviousTags = false;</b>
+&nbsp;
+<b class="fc">&nbsp;  public static String tagForNotAddingTags = &quot;_NONE_&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final Pattern GermanLineExpander = Pattern.compile(&quot;^.*/[ESN]+$&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;  private MultiWordChunker(@NotNull Settings settings) {</b>
+<b class="fc">&nbsp;    this.settings = settings;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /*
+&nbsp;   * Lazy init, thanks to Artur Trzewik
+&nbsp;   */
+&nbsp;  private void lazyInit() {
+<b class="fc">&nbsp;    if (initialized) {</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    synchronized (this) {</b>
+<b class="pc">&nbsp;      if (initialized) return;</b>
+&nbsp;
+<b class="fc">&nbsp;      Object2IntOpenHashMap&lt;String&gt; mStartSpace = new Object2IntOpenHashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;      Object2IntOpenHashMap&lt;String&gt; mStartNoSpace = new Object2IntOpenHashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;      Object2ObjectOpenHashMap&lt;String, AnalyzedToken&gt; mFullSpace = new Object2ObjectOpenHashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;      Object2ObjectOpenHashMap&lt;String, AnalyzedToken&gt; mFullNoSpace = new Object2ObjectOpenHashMap&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;      fillMaps(mStartSpace, mStartNoSpace, mFullSpace, mFullNoSpace);</b>
+&nbsp;
+<b class="fc">&nbsp;      mStartSpace.trim();</b>
+<b class="fc">&nbsp;      mStartNoSpace.trim();</b>
+<b class="fc">&nbsp;      mFullSpace.trim();</b>
+<b class="fc">&nbsp;      mFullNoSpace.trim();</b>
+&nbsp;
+<b class="fc">&nbsp;      this.mStartSpace = mStartSpace;</b>
+<b class="fc">&nbsp;      this.mStartNoSpace = mStartNoSpace;</b>
+<b class="fc">&nbsp;      this.mFullSpace = mFullSpace;</b>
+<b class="fc">&nbsp;      this.mFullNoSpace = mFullNoSpace;</b>
+<b class="fc">&nbsp;      initialized = true;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void fillMaps(Map&lt;String, Integer&gt; mStartSpace, Map&lt;String, Integer&gt; mStartNoSpace, Map&lt;String,
+&nbsp;    AnalyzedToken&gt; mFullSpace, Map&lt;String, AnalyzedToken&gt; mFullNoSpace) {
+<b class="fc">&nbsp;    try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(settings.filename)) {</b>
+<b class="fc">&nbsp;      List&lt;String&gt; lines = loadWords(stream);</b>
+<b class="fc">&nbsp;      for (String line : lines) {</b>
+<b class="fc">&nbsp;        String[] stringAndTag = line.split(separator);</b>
+<b class="pc">&nbsp;        if (stringAndTag.length != 2 &amp;&amp; settings.defaultTag == null) {</b>
+<b class="nc">&nbsp;          throw new RuntimeException(</b>
+&nbsp;            &quot;Invalid format in &quot; + settings.filename + &quot;: &#39;&quot; + line + &quot;&#39;, expected two tab-separated parts&quot;);
+&nbsp;        }
+<b class="pc">&nbsp;        if (stringAndTag.length != 1 &amp;&amp; settings.defaultTag != null) {</b>
+<b class="nc">&nbsp;          throw new RuntimeException(</b>
+&nbsp;            &quot;Invalid format in &quot; + settings.filename + &quot;: &#39;&quot; + line + &quot;&#39;, expected one element with no separator&quot;);
+&nbsp;        }
+<b class="fc">&nbsp;        List&lt;String&gt; casingVariants = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        String originalString = intern(stringAndTag[0]);</b>
+<b class="fc">&nbsp;        String tag = intern(settings.defaultTag != null ? settings.defaultTag : stringAndTag[1]);</b>
+<b class="fc">&nbsp;        boolean containsSpace = originalString.indexOf(&#39; &#39;) &gt; 0;</b>
+<b class="fc">&nbsp;        casingVariants.add(originalString);</b>
+<b class="fc">&nbsp;        if (containsSpace) {</b>
+<b class="fc">&nbsp;          casingVariants.addAll(getTokenLettercaseVariants(originalString, mFullSpace));</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;          casingVariants.addAll(getTokenLettercaseVariants(originalString, mFullNoSpace));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        for (String casingVariant : casingVariants) {</b>
+<b class="fc">&nbsp;          if (!containsSpace) {</b>
+<b class="fc">&nbsp;            String firstChar = casingVariant.substring(0, 1);</b>
+<b class="fc">&nbsp;            if (mStartNoSpace.containsKey(firstChar)) {</b>
+<b class="fc">&nbsp;              if (mStartNoSpace.get(firstChar) &lt; casingVariant.length()) {</b>
+<b class="fc">&nbsp;                mStartNoSpace.put(firstChar, casingVariant.length());</b>
+&nbsp;              }
+&nbsp;            } else {
+<b class="fc">&nbsp;              mStartNoSpace.put(firstChar, casingVariant.length());</b>
+&nbsp;            }
+<b class="fc">&nbsp;            mFullNoSpace.put(casingVariant, new AnalyzedToken(casingVariant, tag, originalString));</b>
+&nbsp;          } else {
+<b class="fc">&nbsp;            String[] tokens = casingVariant.split(&quot; &quot;);</b>
+<b class="fc">&nbsp;            String firstToken = tokens[0];</b>
+<b class="fc">&nbsp;            if (mStartSpace.containsKey(firstToken)) {</b>
+<b class="fc">&nbsp;              if (mStartSpace.get(firstToken) &lt; tokens.length) {</b>
+<b class="fc">&nbsp;                mStartSpace.put(firstToken, tokens.length);</b>
+&nbsp;              }
+&nbsp;            } else {
+<b class="fc">&nbsp;              mStartSpace.put(firstToken, tokens.length);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            mFullSpace.put(casingVariant, new AnalyzedToken(casingVariant, tag, originalString));</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;String&gt; getTokenLettercaseVariants(String originalToken, Map&lt;String, AnalyzedToken&gt; tokenMap) {
+<b class="fc">&nbsp;    List&lt;String&gt; newTokens = new ArrayList&lt;&gt;();</b>
+<b class="pc">&nbsp;    if (settings.allowAllUppercase &amp;&amp; !StringTools.isCamelCase(originalToken)) {</b>
+&nbsp;      // do not capitalize iPad, iPhone, etc. (single tokens)
+<b class="fc">&nbsp;      String tokenAllUppercase = originalToken.toUpperCase();</b>
+<b class="fc">&nbsp;      if (!tokenMap.containsKey(tokenAllUppercase) &amp;&amp; !originalToken.equals(tokenAllUppercase)) {</b>
+<b class="fc">&nbsp;        newTokens.add(tokenAllUppercase);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    if (settings.allowFirstCapitalized) {</b>
+<b class="fc">&nbsp;      String tokenFirstCapitalized = StringTools.uppercaseFirstChar(originalToken);</b>
+<b class="fc">&nbsp;      if (!tokenMap.containsKey(tokenFirstCapitalized) &amp;&amp; !originalToken.equals(tokenFirstCapitalized)) {</b>
+<b class="fc">&nbsp;        newTokens.add(tokenFirstCapitalized);</b>
+&nbsp;      }
+&nbsp;      // Titlecasing is only relevant for multi-token entries, and only done for expressions that are entirely lowercase
+&nbsp;      // It is also limited to when first-letter capitalisation is allowed.
+<b class="pc">&nbsp;      if (settings.allowTitlecase &amp;&amp; originalToken.split(&quot; &quot;).length &gt; 1 &amp;&amp; StringTools.allStartWithLowercase(originalToken)) {</b>
+<b class="nc">&nbsp;        String tokenNaivelyTitlecased = WordUtils.capitalize(originalToken);</b>
+<b class="nc">&nbsp;        if (!tokenNaivelyTitlecased.equals(tokenFirstCapitalized) &amp;&amp; !originalToken.equals(tokenNaivelyTitlecased)) {</b>
+<b class="nc">&nbsp;          newTokens.add(tokenNaivelyTitlecased);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String tokenSmartlyTitlecased = StringTools.titlecaseGlobal(originalToken);</b>
+<b class="nc">&nbsp;        if (!tokenSmartlyTitlecased.equals(tokenFirstCapitalized) &amp;&amp; !tokenSmartlyTitlecased.equals(tokenNaivelyTitlecased) &amp;&amp;</b>
+<b class="nc">&nbsp;          !originalToken.equals(tokenSmartlyTitlecased)) {</b>
+<b class="nc">&nbsp;          newTokens.add(tokenSmartlyTitlecased);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return newTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {
+<b class="nc">&nbsp;    return disambiguate(input, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Implements multiword POS tags, e.g., &amp;lt;ELLIPSIS&amp;gt; for ellipsis (...)
+&nbsp;   * start, and &amp;lt;/ELLIPSIS&amp;gt; for ellipsis end.
+&nbsp;   *
+&nbsp;   * @param input The tokens to be chunked.
+&nbsp;   * @return AnalyzedSentence with additional markers.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public final AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
+&nbsp;
+<b class="fc">&nbsp;    lazyInit();</b>
+&nbsp;
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] anTokens = input.getTokens();</b>
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] output = anTokens;</b>
+&nbsp;
+<b class="fc">&nbsp;    for (int i = 0; i &lt; anTokens.length; i++) {</b>
+<b class="fc">&nbsp;      String tok = output[i].getToken();</b>
+<b class="fc">&nbsp;      if (tok.length() &lt; 1) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="fc">&nbsp;      StringBuilder tokBuilder = new StringBuilder(tok);</b>
+&nbsp;      // If the next token is not whitespace, concatenate it
+<b class="fc">&nbsp;      int k = i + 1;</b>
+<b class="fc">&nbsp;      while (k &lt; anTokens.length &amp;&amp; !anTokens[k].isWhitespace()) {</b>
+<b class="fc">&nbsp;        tokBuilder.append(output[k].getToken());</b>
+<b class="fc">&nbsp;        k++;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      tok = tokBuilder.toString();</b>
+<b class="pc">&nbsp;      if (checkCanceled != null &amp;&amp; checkCanceled.checkCancelled()) {</b>
+&nbsp;        break;
+&nbsp;      }
+<b class="fc">&nbsp;      if (mStartSpace.containsKey(tok)) {</b>
+<b class="fc">&nbsp;        int finalLen = 0;</b>
+<b class="fc">&nbsp;        StringBuilder keyBuilder = new StringBuilder();</b>
+<b class="fc">&nbsp;        int len = mStartSpace.get(tok);</b>
+<b class="fc">&nbsp;        int j = i;</b>
+<b class="fc">&nbsp;        int lenCounter = 0;</b>
+<b class="pc">&nbsp;        while (j &lt; anTokens.length  &amp;&amp; j - i &lt; MAX_TOKENS_IN_MULTIWORD) {</b>
+<b class="fc">&nbsp;          if (!anTokens[j].isWhitespace()) {</b>
+<b class="fc">&nbsp;            keyBuilder.append(anTokens[j].getToken());</b>
+<b class="fc">&nbsp;            String keyStr = keyBuilder.toString();</b>
+<b class="fc">&nbsp;            AnalyzedToken at = mFullSpace.get(keyStr);</b>
+<b class="pc">&nbsp;            if (at != null) {</b>
+<b class="nc">&nbsp;              if (!at.getPOSTag().equals(tagForNotAddingTags)) {</b>
+<b class="nc">&nbsp;                if (finalLen == 0) { // the key has only one token</b>
+<b class="nc">&nbsp;                  output[i] = setAndAnnotate(output[i], new AnalyzedToken(anTokens[j].getToken(), at.getPOSTag(), at.getLemma()));</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                  output[i] = prepareNewReading(at, output[i].getToken(), output[i], false);</b>
+<b class="nc">&nbsp;                  output[finalLen] = prepareNewReading(at, anTokens[finalLen].getToken(), output[finalLen], true);</b>
+&nbsp;                }
+&nbsp;              }
+<b class="nc">&nbsp;              if (addIgnoreSpelling) {</b>
+<b class="nc">&nbsp;                if (finalLen == 0) {</b>
+<b class="nc">&nbsp;                  output[i].ignoreSpelling();</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                  for (int m = i; m &lt;= finalLen; m++) {</b>
+<b class="nc">&nbsp;                    output[m].ignoreSpelling();</b>
+&nbsp;                  }
+&nbsp;                }
+&nbsp;              }
+&nbsp;            }
+&nbsp;          } else {
+<b class="pc">&nbsp;            if (j &gt; 1 &amp;&amp; !anTokens[j - 1].isWhitespace()) { // avoid multiple whitespaces</b>
+<b class="fc">&nbsp;              keyBuilder.append(&#39; &#39;);</b>
+<b class="fc">&nbsp;              lenCounter++;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (lenCounter == len) {</b>
+&nbsp;              break;
+&nbsp;            }
+&nbsp;          }
+<b class="fc">&nbsp;          j++;</b>
+<b class="fc">&nbsp;          finalLen = j;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      if (mStartNoSpace.containsKey(tok.substring(0, 1))) {</b>
+<b class="fc">&nbsp;        int j = i;</b>
+<b class="fc">&nbsp;        StringBuilder keyBuilder = new StringBuilder();</b>
+<b class="pc">&nbsp;        while (j &lt; anTokens.length &amp;&amp; !anTokens[j].isWhitespace() &amp;&amp; j - i &lt; MAX_TOKENS_IN_MULTIWORD) {</b>
+<b class="fc">&nbsp;          keyBuilder.append(anTokens[j].getToken());</b>
+<b class="fc">&nbsp;          String keyStr = keyBuilder.toString();</b>
+<b class="fc">&nbsp;          AnalyzedToken at = mFullNoSpace.get(keyStr);</b>
+<b class="pc">&nbsp;          if (at != null) {</b>
+<b class="nc">&nbsp;            if (!at.getPOSTag().equals(tagForNotAddingTags)) {</b>
+<b class="nc">&nbsp;              if (i == j) {</b>
+<b class="nc">&nbsp;                String postag = at.getPOSTag();</b>
+<b class="nc">&nbsp;                if (!isLowPriorityTag(postag) || !output[i].hasReading() || output[i].isPosTagUnknown()) {</b>
+<b class="nc">&nbsp;                  output[i] = setAndAnnotate(output[i], new AnalyzedToken(anTokens[j].getToken(), postag, at.getLemma()));</b>
+&nbsp;                }
+&nbsp;              } else {
+<b class="nc">&nbsp;                output[i] = prepareNewReading(at, anTokens[i].getToken(), output[i], false);</b>
+<b class="nc">&nbsp;                output[j] = prepareNewReading(at, anTokens[j].getToken(), output[j], true);</b>
+&nbsp;              }
+&nbsp;            }
+<b class="nc">&nbsp;            if (addIgnoreSpelling) {</b>
+<b class="nc">&nbsp;              for (int m = i; m &lt;= j; m++) {</b>
+<b class="nc">&nbsp;                output[m].ignoreSpelling();</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+<b class="fc">&nbsp;          j++;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    if (isRemovePreviousTags) {</b>
+<b class="fc">&nbsp;      return new AnalyzedSentence(removePreviousTags(output));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return new AnalyzedSentence(output);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private AnalyzedTokenReadings prepareNewReading(AnalyzedToken at, String token, AnalyzedTokenReadings atrs,
+&nbsp;      boolean isLast) {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    sb.append(&#39;&lt;&#39;);</b>
+<b class="nc">&nbsp;    if (isLast) {</b>
+<b class="nc">&nbsp;      sb.append(&#39;/&#39;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    sb.append(at.getPOSTag());</b>
+<b class="nc">&nbsp;    sb.append(&#39;&gt;&#39;);</b>
+<b class="nc">&nbsp;    return setAndAnnotate(atrs, new AnalyzedToken(token, sb.toString(), at.getLemma()));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private AnalyzedTokenReadings setAndAnnotate(AnalyzedTokenReadings oldReading, AnalyzedToken newReading) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings newAtr = oldReading;</b>
+<b class="nc">&nbsp;    newAtr.addReading(newReading, &quot;MULTIWORD_CHUNKER&quot;);</b>
+<b class="nc">&nbsp;    return newAtr;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; loadWords(InputStream stream) {
+<b class="fc">&nbsp;    List&lt;String&gt; lines = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {</b>
+&nbsp;      String line;
+<b class="fc">&nbsp;      separator = DEFAULT_SEPARATOR;</b>
+<b class="fc">&nbsp;      while ((line = reader.readLine()) != null) {</b>
+<b class="fc">&nbsp;        line = line.trim();</b>
+<b class="pc">&nbsp;        if (line.startsWith(&quot;#separatorRegExp=&quot;)) {</b>
+<b class="nc">&nbsp;          separator = line.replace(&quot;#separatorRegExp=&quot;, &quot;&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (line.isEmpty() || line.charAt(0) == &#39;#&#39;) { // ignore comments</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="fc">&nbsp;        line = StringUtils.substringBefore(line, &quot;#&quot;).trim();</b>
+<b class="fc">&nbsp;        if (GermanLineExpander.matcher(line).matches()) {</b>
+&nbsp;          //German special case
+<b class="fc">&nbsp;          String [] parts = line.split(&quot;/&quot;);</b>
+<b class="fc">&nbsp;          lines.add(parts[0].trim());</b>
+<b class="fc">&nbsp;          if (parts[1].contains(&quot;E&quot;)) {</b>
+<b class="fc">&nbsp;            lines.add(parts[0].trim()+&quot;e&quot;);</b>
+&nbsp;          }
+<b class="fc">&nbsp;          if (parts[1].contains(&quot;S&quot;)) {</b>
+<b class="fc">&nbsp;            lines.add(parts[0].trim()+&quot;s&quot;);</b>
+&nbsp;          }
+<b class="fc">&nbsp;          if (parts[1].contains(&quot;N&quot;)) {</b>
+<b class="fc">&nbsp;            lines.add(parts[0].trim()+&quot;n&quot;);</b>
+&nbsp;          }
+&nbsp;        } else {
+<b class="fc">&nbsp;          lines.add(line);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return lines;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* set the ignorespelling attribute for the multi-token phrases*/
+&nbsp;  public void setIgnoreSpelling(boolean ignoreSpelling) {
+<b class="fc">&nbsp;    addIgnoreSpelling = ignoreSpelling;</b>
+&nbsp;  }
+&nbsp;  public void  setRemovePreviousTags (boolean removePreviousTags) {
+<b class="fc">&nbsp;    isRemovePreviousTags = removePreviousTags;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* Put the results of the MultiWordChunker in a more appropriate and useful way
+&nbsp;      &lt;NP..&gt;&lt;/NP..&gt; becomes NP.. NP..
+&nbsp;      For ES, PT, CA &lt;NCMS000&gt;&lt;/NCMS000&gt; becomes NCMS000 AQ0MS0
+&nbsp;      The individual original tags are removed */
+&nbsp;  private AnalyzedTokenReadings[] removePreviousTags(AnalyzedTokenReadings[] aTokens) {
+<b class="fc">&nbsp;    int i=0;</b>
+<b class="fc">&nbsp;    String POSTag = &quot;&quot;;</b>
+<b class="fc">&nbsp;    String lemma = &quot;&quot;;</b>
+<b class="fc">&nbsp;    String nextPOSTag = &quot;&quot;;</b>
+<b class="fc">&nbsp;    AnalyzedToken analyzedToken = null;</b>
+<b class="fc">&nbsp;    while (i &lt; aTokens.length) {</b>
+<b class="fc">&nbsp;      if (!aTokens[i].isWhitespace()) {</b>
+<b class="pc">&nbsp;        if (!nextPOSTag.isEmpty()) {</b>
+<b class="nc">&nbsp;          AnalyzedToken newAnalyzedToken = new AnalyzedToken(aTokens[i].getToken(), nextPOSTag, lemma);</b>
+<b class="nc">&nbsp;          if (aTokens[i].hasPosTagAndLemma(&quot;&lt;/&quot; + POSTag + &quot;&gt;&quot;, lemma)) {</b>
+<b class="nc">&nbsp;            nextPOSTag = &quot;&quot;;</b>
+<b class="nc">&nbsp;            lemma = &quot;&quot;;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Collections.singletonList(newAnalyzedToken),</b>
+&nbsp;            &quot;HybridDisamb&quot;);
+<b class="pc">&nbsp;        } else if ((analyzedToken = getMultiWordAnalyzedToken(aTokens, i)) != null) {</b>
+<b class="nc">&nbsp;          POSTag = analyzedToken.getPOSTag().substring(1, analyzedToken.getPOSTag().length() - 1);</b>
+<b class="nc">&nbsp;          lemma = analyzedToken.getLemma();</b>
+<b class="nc">&nbsp;          if (aTokens[i].hasPosTagAndLemma(&quot;&lt;/&quot; + POSTag + &quot;&gt;&quot;, lemma)) {</b>
+&nbsp;            // it is only one token
+<b class="nc">&nbsp;            aTokens[i].removeReading(aTokens[i].readingWithTagRegex(&quot;&lt;/&quot; + POSTag + &quot;&gt;&quot;), &quot;HybridDisamb&quot;);</b>
+<b class="nc">&nbsp;            aTokens[i].removeReading(aTokens[i].readingWithTagRegex(&quot;&lt;&quot; + POSTag + &quot;&gt;&quot;), &quot;HybridDisamb&quot;);</b>
+<b class="nc">&nbsp;            aTokens[i].addReading(new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma), &quot;HybridDisamb&quot;);</b>
+<b class="nc">&nbsp;            nextPOSTag = &quot;&quot;;</b>
+<b class="nc">&nbsp;            lemma = &quot;&quot;;</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            AnalyzedToken newAnalyzedToken = new AnalyzedToken(analyzedToken.getToken(), POSTag, lemma);</b>
+<b class="nc">&nbsp;            aTokens[i] = new AnalyzedTokenReadings(aTokens[i], Collections.singletonList(newAnalyzedToken), &quot;HybridDisamb&quot;);</b>
+<b class="nc">&nbsp;            nextPOSTag = getNextPosTag(POSTag);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      i++;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return aTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private AnalyzedToken getMultiWordAnalyzedToken(AnalyzedTokenReadings[] aTokens, Integer i) {
+<b class="fc">&nbsp;    List&lt;AnalyzedToken&gt; l = new ArrayList&lt;AnalyzedToken&gt;();</b>
+<b class="fc">&nbsp;    for (AnalyzedToken reading : aTokens[i]) {</b>
+<b class="fc">&nbsp;      String POSTag = reading.getPOSTag();</b>
+<b class="fc">&nbsp;      if (POSTag != null) {</b>
+<b class="pc">&nbsp;        if (POSTag.startsWith(&quot;&lt;&quot;) &amp;&amp; POSTag.endsWith(&quot;&gt;&quot;) &amp;&amp; !POSTag.startsWith(&quot;&lt;/&quot;)) {</b>
+<b class="nc">&nbsp;          l.add(reading);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // choose the longest one
+<b class="pc">&nbsp;    if (l.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      AnalyzedToken selectedAT = null;</b>
+<b class="nc">&nbsp;      int maxDistance = 0;</b>
+<b class="nc">&nbsp;      for (AnalyzedToken at : l) {</b>
+<b class="nc">&nbsp;        String tag = &quot;&lt;/&quot; + at.getPOSTag().substring(1);</b>
+<b class="nc">&nbsp;        String cleanTag = at.getPOSTag().substring(1, at.getPOSTag().length() - 2);</b>
+<b class="nc">&nbsp;        String lemma = at.getLemma();</b>
+<b class="nc">&nbsp;        int distance = 1;</b>
+<b class="nc">&nbsp;        while (i + distance &lt; aTokens.length) {</b>
+<b class="nc">&nbsp;          if (aTokens[i + distance].hasPosTagAndLemma(tag, lemma)) {</b>
+<b class="nc">&nbsp;            if (distance &gt; maxDistance) {</b>
+<b class="nc">&nbsp;              maxDistance = distance;</b>
+<b class="nc">&nbsp;              selectedAT = at;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (distance == maxDistance &amp;&amp; !isLowPriorityTag(cleanTag)) {</b>
+<b class="nc">&nbsp;              maxDistance = distance;</b>
+<b class="nc">&nbsp;              selectedAT = at;</b>
+&nbsp;            }
+&nbsp;            break;
+&nbsp;          }
+<b class="nc">&nbsp;          distance++;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return selectedAT;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getNextPosTag(String postag) {
+<b class="nc">&nbsp;    if (postag.startsWith(&quot;NC&quot;)) {</b>
+&nbsp;      // for ES, PT, CA
+<b class="nc">&nbsp;      return &quot;AQ0&quot; + postag.substring(2, 4) + &quot;0&quot;;</b>
+<b class="nc">&nbsp;    } else if (postag.startsWith(&quot;N &quot;)) {</b>
+&nbsp;      // French
+<b class="nc">&nbsp;      return &quot;J &quot; + postag.substring(2);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return postag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isLowPriorityTag(String tag) {
+&nbsp;    // CA, ES
+<b class="nc">&nbsp;    return tag.equals(&quot;NPCN000&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param filename file text with multiwords and tags
+&nbsp;   */
+&nbsp;  public static @NotNull MultiWordChunker getInstance(@NotNull String filename) {
+<b class="nc">&nbsp;    return getInstance(filename, false, false, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static @NotNull MultiWordChunker getInstance(@NotNull String filename,
+&nbsp;                                                      boolean allowFirstCapitalized,
+&nbsp;                                                      boolean allowAllUppercase,
+&nbsp;                                                      boolean allowTitlecase) {
+<b class="fc">&nbsp;    return getInstance(filename, allowFirstCapitalized, allowAllUppercase, allowTitlecase, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static @NotNull MultiWordChunker getInstance(@NotNull String filename,
+&nbsp;                                                      boolean allowFirstCapitalized,
+&nbsp;                                                      boolean allowAllUppercase,
+&nbsp;                                                      boolean allowTitlecase,
+&nbsp;                                                      @Nullable String defaultTag) {
+<b class="fc">&nbsp;    Settings settings = new Settings(filename, allowFirstCapitalized, allowAllUppercase, allowTitlecase, defaultTag);</b>
+<b class="fc">&nbsp;    return chunkerCache.computeIfAbsent(settings, key -&gt; new MultiWordChunker(settings));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class Settings {
+&nbsp;    private final @NotNull String filename;
+&nbsp;    private final boolean allowFirstCapitalized;
+&nbsp;    private final boolean allowAllUppercase;
+&nbsp;    private final boolean allowTitlecase;
+&nbsp;    private final @Nullable String defaultTag;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param filename              file text with multiwords and tags
+&nbsp;     * @param allowFirstCapitalized if set to {@code true}, first word of the
+&nbsp;     *                              multiword can be capitalized
+&nbsp;     * @param allowAllUppercase     if set to {@code true}, the all uppercase
+&nbsp;     *                              version of the multiword is allowed
+&nbsp;     * @param allowTitlecase        if set to {@code true}, titlecased variants
+&nbsp;     *                              of multi-token words are accepted
+&nbsp;     */
+<b class="fc">&nbsp;    private Settings(@NotNull String filename, boolean allowFirstCapitalized, boolean allowAllUppercase, boolean allowTitlecase, @Nullable String defaultTag) {</b>
+<b class="fc">&nbsp;      this.filename = filename;</b>
+<b class="fc">&nbsp;      this.allowFirstCapitalized = allowFirstCapitalized;</b>
+<b class="fc">&nbsp;      this.allowAllUppercase = allowAllUppercase;</b>
+<b class="fc">&nbsp;      this.allowTitlecase = allowTitlecase;</b>
+<b class="fc">&nbsp;      this.defaultTag = defaultTag;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public final boolean equals(Object o) {
+<b class="pc">&nbsp;      if (!(o instanceof Settings settings)) return false;</b>
+&nbsp;
+<b class="pc">&nbsp;      return allowFirstCapitalized == settings.allowFirstCapitalized &amp;&amp; allowAllUppercase == settings.allowAllUppercase &amp;&amp; allowTitlecase == settings.allowTitlecase &amp;&amp; filename.equals(settings.filename) &amp;&amp; Objects.equals(defaultTag, settings.defaultTag);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="fc">&nbsp;      int result = filename.hashCode();</b>
+<b class="fc">&nbsp;      result = 31 * result + Boolean.hashCode(allowFirstCapitalized);</b>
+<b class="fc">&nbsp;      result = 31 * result + Boolean.hashCode(allowAllUppercase);</b>
+<b class="fc">&nbsp;      result = 31 * result + Boolean.hashCode(allowTitlecase);</b>
+<b class="fc">&nbsp;      result = 31 * result + Objects.hashCode(defaultTag);</b>
+<b class="fc">&nbsp;      return result;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

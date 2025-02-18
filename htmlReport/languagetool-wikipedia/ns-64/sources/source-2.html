@@ -1,0 +1,976 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArabicTagManager</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.ar</a>
+</div>
+
+<h1>Coverage Summary for Class: ArabicTagManager (org.languagetool.tagging.ar)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArabicTagManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/45)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/379)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/345)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2020 Sohaib Afifi, Taha Zerrouki
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tagging.ar;
+&nbsp;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * @author Taha Zerrouki
+&nbsp; * @since 5.0
+&nbsp; */
+&nbsp;public class ArabicTagManager {
+&nbsp;
+&nbsp;  // CONSTANT for noun flags position
+&nbsp;  private static final int NOUN_TAG_LENGTH = 12;
+&nbsp;  private static final int NOUN_FLAG_POS_WORDTYPE = 0;
+&nbsp;  private static final int NOUN_FLAG_POS_CATEGORY = 1;
+&nbsp;
+&nbsp;  private static final int NOUN_FLAG_POS_GENDER = 4;
+&nbsp;  private static final int NOUN_FLAG_POS_NUMBER = 5;
+&nbsp;  private static final int NOUN_FLAG_POS_CASE = 6;
+&nbsp;  private static final int NOUN_FLAG_POS_INFLECT_MARK = 7;
+&nbsp;
+&nbsp;  private static final int NOUN_FLAG_POS_CONJ = 9;
+&nbsp;  private static final int NOUN_FLAG_POS_JAR = 10;
+&nbsp;  private static final int NOUN_FLAG_POS_PRONOUN = 11;
+&nbsp;
+&nbsp;  // CONSTANT for Verb flags position
+&nbsp;  private static final int VERB_TAG_LENGTH = 15;
+&nbsp;  private static final int VERB_FLAG_POS_WORDTYPE = 0;
+&nbsp;  private static final int VERB_FLAG_POS_CATEGORY = 1;
+&nbsp;  private static final int VERB_FLAG_POS_TRANS = 2;
+&nbsp;
+&nbsp;  private static final int VERB_FLAG_POS_GENDER = 4;
+&nbsp;  private static final int VERB_FLAG_POS_NUMBER = 5;
+&nbsp;  private static final int VERB_FLAG_POS_PERSON = 6;
+&nbsp;  private static final int VERB_FLAG_POS_INFLECT_MARK = 7;
+&nbsp;  private static final int VERB_FLAG_POS_TENSE = 8;
+&nbsp;  private static final int VERB_FLAG_POS_VOICE = 9;
+&nbsp;  private static final int VERB_FLAG_POS_CASE = 10;
+&nbsp;
+&nbsp;  private static final int VERB_FLAG_POS_CONJ = 12;
+&nbsp;  private static final int VERB_FLAG_POS_ISTIQBAL = 13;
+&nbsp;  private static final int VERB_FLAG_POS_PRONOUN = 14;
+&nbsp;
+&nbsp;  // CONSTANT for particle flags position
+&nbsp;  private static final int PARTICLE_TAG_LENGTH = 11;
+&nbsp;  private static final int PARTICLE_FLAG_POS_WORDTYPE = 0;
+&nbsp;  private static final int PARTICLE_FLAG_POS_CATEGORY = 1;
+&nbsp;  private static final int PARTICLE_FLAG_POS_OPTION = 2;
+&nbsp;
+&nbsp;  private static final int PARTICLE_FLAG_POS_GENDER = 4;
+&nbsp;  private static final int PARTICLE_FLAG_POS_NUMBER = 5;
+&nbsp;  private static final int PARTICLE_FLAG_POS_CASE = 6;
+&nbsp;//  private static final int PARTICLE_FLAG_POS_INFLECT_MARK = 7;
+&nbsp;
+&nbsp;  private static final int PARTICLE_FLAG_POS_CONJ = 8;
+&nbsp;  private static final int PARTICLE_FLAG_POS_JAR = 9;
+&nbsp;  private static final int PARTICLE_FLAG_POS_PRONOUN = 10;
+&nbsp;
+<b class="nc">&nbsp;  private final HashMap&lt;String, Integer&gt; mapFlagPos = new HashMap&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(ArabicTagManager.class);</b>
+&nbsp;
+<b class="nc">&nbsp;  public ArabicTagManager() {</b>
+<b class="nc">&nbsp;    loadHashmap();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String modifyPosTag(String postag, List&lt;String&gt; tags) {
+&nbsp;    // if one of tags are incompatible return null
+<b class="nc">&nbsp;    for (String tg : tags) {</b>
+<b class="nc">&nbsp;      postag = addTag(postag, tg);</b>
+<b class="nc">&nbsp;      if (postag == null) {</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return postag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* Add the flag to an encoded tag */
+&nbsp;  public String addTag(String postag, String flagString) {
+<b class="nc">&nbsp;    String[] flagTuple = flagString.split(&quot;;&quot;);</b>
+<b class="nc">&nbsp;    String flag = &quot;&quot;;</b>
+<b class="nc">&nbsp;    String flagType = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (flagTuple.length == 1)</b>
+<b class="nc">&nbsp;      flag = flagTuple[0];</b>
+<b class="nc">&nbsp;    if (flagTuple.length &gt;= 2) {</b>
+<b class="nc">&nbsp;      flagType = flagTuple[0];</b>
+<b class="nc">&nbsp;      flag = flagTuple[1];</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return addTag(postag, flagType, flag);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String addTag(String postag, String flagType, String flag) {
+<b class="nc">&nbsp;    switch (flag) {</b>
+&nbsp;      case &quot;W&quot;:
+<b class="nc">&nbsp;        postag = setFlag(postag, &quot;CONJ&quot;, &#39;W&#39;);</b>
+&nbsp;        break;
+&nbsp;      case &quot;K&quot;:
+<b class="nc">&nbsp;        if (isNoun(postag)) {</b>
+<b class="nc">&nbsp;          if (isMajrour(postag)) {</b>
+<b class="nc">&nbsp;            postag = setFlag(postag, &quot;JAR&quot;, &#39;K&#39;);</b>
+&nbsp;          }
+&nbsp;          // a prefix K but non majrour
+&nbsp;          else {
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;        } else return null;</b>
+&nbsp;        break;
+&nbsp;      case &quot;B&quot;:
+<b class="nc">&nbsp;        if (isNoun(postag)) {</b>
+&nbsp;          // the noun must be majrour
+<b class="nc">&nbsp;          if (isMajrour(postag)) {</b>
+&nbsp;            // a prefix B but non majrour
+<b class="nc">&nbsp;            postag = setFlag(postag, &quot;JAR&quot;, &#39;B&#39;);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;          }
+&nbsp;
+&nbsp;        } else {
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      case &quot;L&quot;:
+<b class="nc">&nbsp;        if (isNoun(postag)) {</b>
+&nbsp;          // the noun must be majrour
+<b class="nc">&nbsp;          if (isMajrour(postag)) {</b>
+&nbsp;            // a prefix Lam but non majrour
+<b class="nc">&nbsp;            postag = setFlag(postag, &quot;JAR&quot;, &#39;L&#39;);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;          }
+&nbsp;
+&nbsp;        } else {
+&nbsp;          // verb case
+<b class="nc">&nbsp;          postag = setFlag(postag, &quot;ISTIQBAL&quot;, &#39;L&#39;);</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      case &quot;D&quot;:
+&nbsp;        // the noun must be not attached
+<b class="nc">&nbsp;        if (isUnAttachedNoun(postag)) {</b>
+&nbsp;          // a prefix Lam but non majrour
+<b class="nc">&nbsp;          postag = setFlag(postag, &quot;PRONOUN&quot;, &#39;L&#39;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      case &quot;S&quot;:
+&nbsp;        // َAdd S flag
+&nbsp;        // if postag contains a future tag, use regex
+<b class="nc">&nbsp;        if (isFutureTense(postag)) {</b>
+<b class="nc">&nbsp;          postag = setFlag(postag, &quot;ISTIQBAL&quot;, &#39;S&#39;);</b>
+&nbsp;        } else
+&nbsp;          // a prefix Seen but non verb or future
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;        break;
+&nbsp;    }
+&nbsp;    // case of Pronoun
+<b class="nc">&nbsp;    if (flagType.equals(&quot;PRONOUN&quot;)</b>
+<b class="nc">&nbsp;      &amp;&amp; !flag.isEmpty()</b>
+<b class="nc">&nbsp;      &amp;&amp; !flag.equals(&quot;D&quot;)</b>
+&nbsp;    ) {
+<b class="nc">&nbsp;      postag = setFlag(postag, flagType, flag.charAt(0));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return postag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if have flag majrour
+&nbsp;   */
+&nbsp;  public boolean isMajrour(String postag) {
+<b class="nc">&nbsp;    char flag = getFlag(postag, &quot;CASE&quot;);</b>
+<b class="nc">&nbsp;    return (flag == &#39;I&#39;) || (flag == &#39;-&#39;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return add jar flag to noun
+&nbsp;   */
+&nbsp;  public String setJar(String postag, String jar) {
+<b class="nc">&nbsp;    char myflag = 0;</b>
+<b class="nc">&nbsp;    if (isMajrour(postag)) {</b>
+<b class="nc">&nbsp;      if (jar.equals(&quot;ب&quot;) || jar.equals(&quot;B&quot;)) {</b>
+<b class="nc">&nbsp;        myflag = &#39;B&#39;;</b>
+<b class="nc">&nbsp;      } else if (jar.equals(&quot;ل&quot;) || jar.equals(&quot;L&quot;)) {</b>
+<b class="nc">&nbsp;        myflag = &#39;L&#39;;</b>
+<b class="nc">&nbsp;      } else if (jar.equals(&quot;ك&quot;) || jar.equals(&quot;K&quot;)) {</b>
+<b class="nc">&nbsp;        myflag = &#39;K&#39;;</b>
+<b class="nc">&nbsp;      } else if (jar.equals(&quot;-&quot;) || jar.isEmpty()) {</b>
+<b class="nc">&nbsp;        myflag = &#39;-&#39;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (myflag != 0) {</b>
+<b class="nc">&nbsp;        postag = setFlag(postag, &quot;JAR&quot;, myflag);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return postag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return add definite flag to noun
+&nbsp;   */
+&nbsp;  public String setDefinite(String postag, String flag) {
+<b class="nc">&nbsp;    char myflag = 0;</b>
+<b class="nc">&nbsp;    if (isNoun(postag) &amp;&amp; isUnAttachedNoun(postag)) {</b>
+<b class="nc">&nbsp;      if (flag.equals(&quot;ال&quot;)</b>
+<b class="nc">&nbsp;        || flag.equals(&quot;L&quot;)</b>
+<b class="nc">&nbsp;        || flag.equals(&quot;لل&quot;)</b>
+<b class="nc">&nbsp;        || flag.equals(&quot;D&quot;)</b>
+&nbsp;      ) {
+<b class="nc">&nbsp;        myflag = &#39;L&#39;;</b>
+<b class="nc">&nbsp;      } else if (flag.equals(&quot;-&quot;) || flag.isEmpty()) {</b>
+<b class="nc">&nbsp;        myflag = &#39;-&#39;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (myflag != 0) {</b>
+<b class="nc">&nbsp;        postag = setFlag(postag, &quot;PRONOUN&quot;, myflag);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return postag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String unifyPronounTag(String postag) {
+<b class="nc">&nbsp;    char flag = getFlag(postag, &quot;PRONOUN&quot;);</b>
+<b class="nc">&nbsp;    if (isAttached(postag)) {</b>
+<b class="nc">&nbsp;      postag = setFlag(postag, &quot;PRONOUN&quot;, &#39;H&#39;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return postag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return add conjuction flag to noun
+&nbsp;   */
+&nbsp;  public String setConjunction(String postag, String flag) {
+<b class="nc">&nbsp;    char myflag = 0;</b>
+<b class="nc">&nbsp;    if (flag.equals(&quot;و&quot;)</b>
+<b class="nc">&nbsp;      || flag.equals(&quot;W&quot;)</b>
+<b class="nc">&nbsp;      || flag.equals(&quot;ف&quot;)</b>
+<b class="nc">&nbsp;      || flag.equals(&quot;F&quot;)</b>
+&nbsp;    ) {
+<b class="nc">&nbsp;      myflag = &#39;W&#39;;</b>
+<b class="nc">&nbsp;    } else if (flag.equals(&quot;-&quot;) || flag.isEmpty()) {</b>
+<b class="nc">&nbsp;      myflag = &#39;-&#39;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (myflag != 0) {</b>
+<b class="nc">&nbsp;      if (isNoun(postag) || isVerb(postag)) {</b>
+<b class="nc">&nbsp;        postag = setFlag(postag, &quot;CONJ&quot;, myflag);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return postag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return add conjunction flag to noun
+&nbsp;   */
+&nbsp;  public String setPronoun(String postag, String flag) {
+<b class="nc">&nbsp;    char myflag = 0;</b>
+<b class="nc">&nbsp;    if (flag.equals(&quot;ه&quot;)</b>
+<b class="nc">&nbsp;      || flag.equals(&quot;H&quot;)</b>
+&nbsp;    ) {
+<b class="nc">&nbsp;      myflag = &#39;H&#39;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (myflag != 0) {</b>
+<b class="nc">&nbsp;      if (isNoun(postag) || isVerb(postag)) {</b>
+<b class="nc">&nbsp;        postag = setFlag(postag, &quot;PRONOUN&quot;, myflag);</b>
+&nbsp;      }
+&nbsp;
+&nbsp;    }
+<b class="nc">&nbsp;    return postag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if have flag future
+&nbsp;   */
+&nbsp;  public boolean isFutureTense(String postag) {
+<b class="nc">&nbsp;    return isVerb(postag) &amp;&amp; (getFlag(postag, &quot;TENSE&quot;) == &#39;f&#39;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if have flag is noun and has attached pronoun
+&nbsp;   */
+&nbsp;  public boolean isUnAttachedNoun(String postag) {
+<b class="nc">&nbsp;    return isNoun(postag) &amp;&amp; !(getFlag(postag, &quot;PRONOUN&quot;) == &#39;H&#39;) &amp;&amp; !postag.endsWith(&quot;X&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if have flag is noun/verb and has attached pronoun
+&nbsp;   */
+&nbsp;  public boolean isAttached(String postag) {
+<b class="nc">&nbsp;    return ((isNoun(postag) || (isVerb(postag))) &amp;&amp; (getFlag(postag, &quot;PRONOUN&quot;) == &#39;H&#39;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return test if word has stopword tagging
+&nbsp;   */
+&nbsp;  public boolean isStopWord(String postag) {
+<b class="nc">&nbsp;    return postag.startsWith(&quot;P&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if have flag noun
+&nbsp;   */
+&nbsp;  public boolean isNoun(String postag) {
+<b class="nc">&nbsp;    return (postag != null) &amp;&amp; postag.startsWith(&quot;N&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if have flag dual
+&nbsp;   */
+&nbsp;  public boolean isDual(String postag) {
+<b class="nc">&nbsp;    return (postag != null) &amp;&amp; getFlag(postag, &quot;NUMBER&quot;) == &#39;2&#39;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if have flag verb
+&nbsp;   */
+&nbsp;  public boolean isVerb(String postag) {
+<b class="nc">&nbsp;    return postag != null &amp;&amp; postag.startsWith(&quot;V&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if have flag Adj
+&nbsp;   */
+&nbsp;  public boolean isAdj(String postag) {
+<b class="nc">&nbsp;    return postag != null &amp;&amp; postag.startsWith(&quot;NA&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if have flag Adj
+&nbsp;   */
+&nbsp;  public boolean isMasdar(String postag) {
+<b class="nc">&nbsp;    return postag != null &amp;&amp; postag.startsWith(&quot;NM&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if have flag is noun and definite
+&nbsp;   */
+&nbsp;  public boolean isDefinite(String postag) {
+<b class="nc">&nbsp;    return isNoun(postag) &amp;&amp; (getFlag(postag, &quot;PRONOUN&quot;) == &#39;L&#39;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if have flag is feminine or masculine
+&nbsp;   */
+&nbsp;  public boolean isFeminin(String postag) {
+<b class="nc">&nbsp;    return isNoun(postag) &amp;&amp; (getFlag(postag, &quot;GENDER&quot;) == &#39;F&#39;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if a word has procletics like conj and jar
+&nbsp;   */
+&nbsp;  public boolean isBreak(String postag) {
+<b class="nc">&nbsp;    return ((isStopWord(postag) &amp;&amp; !hasConjunction(postag)) // a stopword without conjunction</b>
+<b class="nc">&nbsp;      || (isNoun(postag) &amp;&amp; (!hasJar(postag) &amp;&amp; !hasConjunction(postag))) // a noun without conjucntion and jar</b>
+<b class="nc">&nbsp;      || (isVerb(postag) &amp;&amp; (!hasConjunction(postag)))); // a verb without conjucntion and istiqbal</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if the postag has a Jar
+&nbsp;   */
+&nbsp;  public boolean hasJar(String postag) {
+<b class="nc">&nbsp;    return isNoun(postag) &amp;&amp; (getFlag(postag, &quot;JAR&quot;) != &#39;-&#39;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if the postag has a Jar
+&nbsp;   */
+&nbsp;  public boolean hasPronoun(String postag) {
+<b class="nc">&nbsp;    return getFlag(postag, &quot;PRONOUN&quot;) == &#39;H&#39;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if the postag has a conjuction
+&nbsp;   */
+&nbsp;  public boolean hasConjunction(String postag) {
+<b class="nc">&nbsp;    char flag = getFlag(postag, &quot;CONJ&quot;);</b>
+<b class="nc">&nbsp;    return (isNoun(postag) &amp;&amp; (flag != &#39;-&#39;))</b>
+<b class="nc">&nbsp;      || (isVerb(postag) &amp;&amp; (flag != &#39;-&#39;))</b>
+<b class="nc">&nbsp;      || (isStopWord(postag) &amp;&amp; (flag != &#39;W&#39;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return if have a flag which is a noun and definite, return the prefix letter for this case
+&nbsp;   */
+&nbsp;  public String getDefinitePrefix(String postag) {
+<b class="nc">&nbsp;    if (postag.isEmpty()) {</b>
+<b class="nc">&nbsp;      return &quot;&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (isNoun(postag) &amp;&amp; (getFlag(postag, &quot;PRONOUN&quot;) == &#39;L&#39;)) {</b>
+<b class="nc">&nbsp;      if (hasJar(postag) &amp;&amp; getJarPrefix(postag).equals(&quot;ل&quot;)) {</b>
+<b class="nc">&nbsp;        return &quot;ل&quot;;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return &quot;ال&quot;;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the Jar prefix letter
+&nbsp;   */
+&nbsp;  public String getJarPrefix(String postag) {
+<b class="nc">&nbsp;    if (postag.isEmpty()) {</b>
+<b class="nc">&nbsp;      return &quot;&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (isNoun(postag)) {</b>
+<b class="nc">&nbsp;      char flag = getFlag(postag, &quot;JAR&quot;);</b>
+<b class="nc">&nbsp;      if (flag == &#39;L&#39;) {</b>
+<b class="nc">&nbsp;        return &quot;ل&quot;;</b>
+<b class="nc">&nbsp;      } else if (flag == &#39;K&#39;) {</b>
+<b class="nc">&nbsp;        return &quot;ك&quot;;</b>
+<b class="nc">&nbsp;      } else if (flag == &#39;B&#39;) {</b>
+<b class="nc">&nbsp;        return &quot;ب&quot;;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the Conjunction prefix letter
+&nbsp;   */
+&nbsp;  public String getConjunctionPrefix(String postag) {
+&nbsp;
+<b class="nc">&nbsp;    if (getFlag(postag, &quot;CONJ&quot;) == &#39;F&#39;) {</b>
+<b class="nc">&nbsp;      return &quot;ف&quot;;</b>
+<b class="nc">&nbsp;    } else if (getFlag(postag, &quot;CONJ&quot;) == &#39;W&#39;) {</b>
+<b class="nc">&nbsp;      return &quot;و&quot;;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return if have a flag which is a noun and has pronoun, return the suffix letters for this case
+&nbsp;   */
+&nbsp;  public String getPronounSuffix(String postag) {
+<b class="nc">&nbsp;    if (postag.isEmpty())</b>
+<b class="nc">&nbsp;      return &quot;&quot;;</b>
+<b class="nc">&nbsp;    char flag = getFlag(postag, &quot;PRONOUN&quot;);</b>
+<b class="nc">&nbsp;    String suffix = &quot;&quot;;</b>
+<b class="nc">&nbsp;    switch (flag) {</b>
+&nbsp;      case &#39;b&#39;:
+<b class="nc">&nbsp;        suffix = &quot;ني&quot;;</b>
+&nbsp;        break;
+&nbsp;      case &#39;c&#39;:
+<b class="nc">&nbsp;        suffix = &quot;نا&quot;;</b>
+&nbsp;        break;
+&nbsp;      case &#39;d&#39;:
+<b class="nc">&nbsp;        suffix = &quot;ك&quot;;</b>
+&nbsp;        break;
+&nbsp;      case &#39;e&#39;:
+<b class="nc">&nbsp;        suffix = &quot;كما&quot;;</b>
+&nbsp;        break;
+&nbsp;      case &#39;f&#39;:
+<b class="nc">&nbsp;        suffix = &quot;كم&quot;;</b>
+&nbsp;        break;
+&nbsp;      case &#39;g&#39;:
+<b class="nc">&nbsp;        suffix = &quot;كن&quot;;</b>
+&nbsp;        break;
+&nbsp;      case &#39;H&#39;:
+<b class="nc">&nbsp;        suffix = &quot;ه&quot;;</b>
+&nbsp;        break;
+&nbsp;      case &#39;i&#39;:
+<b class="nc">&nbsp;        suffix = &quot;ها&quot;;</b>
+&nbsp;        break;
+&nbsp;      case &#39;j&#39;:
+<b class="nc">&nbsp;        suffix = &quot;هما&quot;;</b>
+&nbsp;        break;
+&nbsp;      case &#39;k&#39;:
+<b class="nc">&nbsp;        suffix = &quot;هم&quot;;</b>
+&nbsp;        break;
+&nbsp;      case &#39;n&#39;:
+<b class="nc">&nbsp;        suffix = &quot;هن&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return suffix;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int getFlagPos(String postag, String flagType) {
+<b class="nc">&nbsp;    return getFlagPos2(postag, flagType);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  @Deprecated
+&nbsp;  private int getFlagPos1(String postag, String flagType) {
+&nbsp;   /*
+&nbsp;   return position of flag in the tag string accorging to word_type and tagstring
+&nbsp;    */
+<b class="nc">&nbsp;    int pos = 0;</b>
+<b class="nc">&nbsp;    String key = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (isNoun(postag)) {</b>
+<b class="nc">&nbsp;      key = &quot;NOUN_FLAG_POS_&quot; + flagType;</b>
+<b class="nc">&nbsp;    } else if (isVerb(postag)) {</b>
+<b class="nc">&nbsp;      key = &quot;VERB_FLAG_POS_&quot; + flagType;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (key.equals(&quot;NOUN_TAG_LENGTH&quot;)) {</b>
+<b class="nc">&nbsp;      pos = NOUN_TAG_LENGTH;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;NOUN_FLAG_POS_WORDTYPE&quot;)) {</b>
+<b class="nc">&nbsp;      pos = NOUN_FLAG_POS_WORDTYPE;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;NOUN_FLAG_POS_CATEGORY&quot;)) {</b>
+<b class="nc">&nbsp;      pos = NOUN_FLAG_POS_CATEGORY;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;NOUN_FLAG_POS_GENDER&quot;)) {</b>
+<b class="nc">&nbsp;      pos = NOUN_FLAG_POS_GENDER;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;NOUN_FLAG_POS_NUMBER&quot;)) {</b>
+<b class="nc">&nbsp;      pos = NOUN_FLAG_POS_NUMBER;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;NOUN_FLAG_POS_CASE&quot;)) {</b>
+<b class="nc">&nbsp;      pos = NOUN_FLAG_POS_CASE;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;NOUN_FLAG_POS_INFLECT_MARK&quot;)) {</b>
+<b class="nc">&nbsp;      pos = NOUN_FLAG_POS_INFLECT_MARK;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;NOUN_FLAG_POS_CONJ&quot;)) {</b>
+<b class="nc">&nbsp;      pos = NOUN_FLAG_POS_CONJ;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;NOUN_FLAG_POS_JAR&quot;)) {</b>
+<b class="nc">&nbsp;      pos = NOUN_FLAG_POS_JAR;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;NOUN_FLAG_POS_PRONOUN&quot;)) {</b>
+<b class="nc">&nbsp;      pos = NOUN_FLAG_POS_PRONOUN;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;VERB_TAG_LENGTH&quot;)) {</b>
+<b class="nc">&nbsp;      pos = VERB_TAG_LENGTH;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;VERB_FLAG_POS_WORDTYPE&quot;)) {</b>
+<b class="nc">&nbsp;      pos = VERB_FLAG_POS_WORDTYPE;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;VERB_FLAG_POS_CATEGORY&quot;)) {</b>
+<b class="nc">&nbsp;      pos = VERB_FLAG_POS_CATEGORY;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;VERB_FLAG_POS_TRANS&quot;)) {</b>
+<b class="nc">&nbsp;      pos = VERB_FLAG_POS_TRANS;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;VERB_FLAG_POS_GENDER&quot;)) {</b>
+<b class="nc">&nbsp;      pos = VERB_FLAG_POS_GENDER;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;VERB_FLAG_POS_NUMBER&quot;)) {</b>
+<b class="nc">&nbsp;      pos = VERB_FLAG_POS_NUMBER;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;VERB_FLAG_POS_PERSON&quot;)) {</b>
+<b class="nc">&nbsp;      pos = VERB_FLAG_POS_PERSON;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;VERB_FLAG_POS_INFLECT_MARK&quot;)) {</b>
+<b class="nc">&nbsp;      pos = VERB_FLAG_POS_INFLECT_MARK;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;VERB_FLAG_POS_TENSE&quot;)) {</b>
+<b class="nc">&nbsp;      pos = VERB_FLAG_POS_TENSE;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;VERB_FLAG_POS_VOICE&quot;)) {</b>
+<b class="nc">&nbsp;      pos = VERB_FLAG_POS_VOICE;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;VERB_FLAG_POS_CASE&quot;)) {</b>
+<b class="nc">&nbsp;      pos = VERB_FLAG_POS_CASE;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;VERB_FLAG_POS_CONJ&quot;)) {</b>
+<b class="nc">&nbsp;      pos = VERB_FLAG_POS_CONJ;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;VERB_FLAG_POS_ISTIQBAL&quot;)) {</b>
+<b class="nc">&nbsp;      pos = VERB_FLAG_POS_ISTIQBAL;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;VERB_FLAG_POS_PRONOUN&quot;)) {</b>
+<b class="nc">&nbsp;      pos = VERB_FLAG_POS_PRONOUN;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;PARTICLE_TAG_LENGTH&quot;)) {</b>
+<b class="nc">&nbsp;      pos = PARTICLE_TAG_LENGTH;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;PARTICLE_FLAG_POS_WORDTYPE&quot;)) {</b>
+<b class="nc">&nbsp;      pos = PARTICLE_FLAG_POS_WORDTYPE;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;PARTICLE_FLAG_POS_CATEGORY&quot;)) {</b>
+<b class="nc">&nbsp;      pos = PARTICLE_FLAG_POS_CATEGORY;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;PARTICLE_FLAG_POS_GENDER&quot;)) {</b>
+<b class="nc">&nbsp;      pos = PARTICLE_FLAG_POS_GENDER;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;PARTICLE_FLAG_POS_NUMBER&quot;)) {</b>
+<b class="nc">&nbsp;      pos = PARTICLE_FLAG_POS_NUMBER;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;PARTICLE_FLAG_POS_CASE&quot;)) {</b>
+<b class="nc">&nbsp;      pos = PARTICLE_FLAG_POS_CASE;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;PARTICLE_FLAG_POS_CONJ&quot;)) {</b>
+<b class="nc">&nbsp;      pos = PARTICLE_FLAG_POS_CONJ;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;PARTICLE_FLAG_POS_JAR&quot;)) {</b>
+<b class="nc">&nbsp;      pos = PARTICLE_FLAG_POS_JAR;</b>
+<b class="nc">&nbsp;    } else if (key.equals(&quot;PARTICLE_FLAG_POS_PRONOUN&quot;)) {</b>
+<b class="nc">&nbsp;      pos = PARTICLE_FLAG_POS_PRONOUN;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return pos;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public char getFlag(String postag, String flagType) {
+&nbsp;    /* a flag value for flagtype from postag */
+<b class="nc">&nbsp;    int pos = getFlagPos(postag, flagType);</b>
+<b class="nc">&nbsp;    if (pos &lt; postag.length()) {</b>
+<b class="nc">&nbsp;      return postag.charAt(pos);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return &#39;-&#39;;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public String setFlag(String postag, String flagType, char flag) {
+&nbsp;    /* a flag value for flagtype from postag */
+<b class="nc">&nbsp;    StringBuilder tmp = new StringBuilder(postag);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      tmp.setCharAt(getFlagPos(postag, flagType), flag);</b>
+&nbsp;    } catch (StringIndexOutOfBoundsException e) {
+<b class="nc">&nbsp;      int pos = getFlagPos(postag, flagType);</b>
+<b class="nc">&nbsp;      logger.debug(&quot;ArabicTagmanager:Exception: pos flag&quot; + Integer.toString(pos) + &quot;flagtype:&quot; + flagType + &quot; postag:&quot; + tmp + &quot; len:&quot; + tmp.length());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return tmp.toString();</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private void loadHashmap() {
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;None&quot;, 0);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;NOUN_TAG_LENGTH&quot;, 12);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;NOUN_WORDTYPE&quot;, 0);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;NOUN_CATEGORY&quot;, 1);</b>
+&nbsp;
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;NOUN_GENDER&quot;, 4);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;NOUN_NUMBER&quot;, 5);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;NOUN_CASE&quot;, 6);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;NOUN_INFLECT_MARK&quot;, 7);</b>
+&nbsp;
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;NOUN_CONJ&quot;, 9);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;NOUN_JAR&quot;, 10);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;NOUN_PRONOUN&quot;, 11);</b>
+&nbsp;
+&nbsp;    // CONSTANT for Verb flags position
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;VERB_TAG_LENGTH&quot;, 15);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;VERB_WORDTYPE&quot;, 0);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;VERB_CATEGORY&quot;, 1);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;VERB_TRANS&quot;, 2);</b>
+&nbsp;
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;VERB_GENDER&quot;, 4);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;VERB_NUMBER&quot;, 5);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;VERB_PERSON&quot;, 6);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;VERB_INFLECT_MARK&quot;, 7);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;VERB_TENSE&quot;, 8);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;VERB_VOICE&quot;, 9);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;VERB_CASE&quot;, 10);</b>
+&nbsp;
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;VERB_CONJ&quot;, 12);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;VERB_ISTIQBAL&quot;, 13);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;VERB_PRONOUN&quot;, 14);</b>
+&nbsp;
+&nbsp;    // CONSTANT for particle flags position
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;PARTICLE_TAG_LENGTH&quot;, 11);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;PARTICLE_WORDTYPE&quot;, 0);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;PARTICLE_CATEGORY&quot;, 1);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;PARTICLE_OPTION&quot;, 2);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;PARTICLE_CONJ&quot;, 8);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;PARTICLE_JAR&quot;, 9);</b>
+<b class="nc">&nbsp;    mapFlagPos.put(&quot;PARTICLE_PRONOUN&quot;, 10);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /*
+&nbsp;   *  Returns position of flag in the tag string accorging to word_type and tagstring
+&nbsp;   */
+&nbsp;  private int getFlagPos2(String tagString, String flagType) {
+<b class="nc">&nbsp;    int pos = 0;</b>
+<b class="nc">&nbsp;    String key = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (isNoun(tagString))</b>
+<b class="nc">&nbsp;      key = &quot;NOUN_&quot; + flagType;</b>
+<b class="nc">&nbsp;    else if (isVerb(tagString))</b>
+<b class="nc">&nbsp;      key = &quot;VERB_&quot; + flagType;</b>
+<b class="nc">&nbsp;    else if (isStopWord(tagString))</b>
+<b class="nc">&nbsp;      key = &quot;PARTICLE_&quot; + flagType;</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      pos = mapFlagPos.get(key);</b>
+&nbsp;    } catch (NullPointerException e) {
+<b class="nc">&nbsp;      pos = 0;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return pos;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* remove procletic flags in a given postag*/
+&nbsp;
+&nbsp;  public String setProcleticFlags(String postag) {
+<b class="nc">&nbsp;    if (postag.isEmpty())</b>
+<b class="nc">&nbsp;      return &quot;&quot;;</b>
+<b class="nc">&nbsp;    String newposTag = postag;</b>
+<b class="nc">&nbsp;    if (isVerb(postag)) {</b>
+<b class="nc">&nbsp;      newposTag = setFlag(newposTag, &quot;CONJ&quot;, &#39;-&#39;);</b>
+<b class="nc">&nbsp;      newposTag = setFlag(newposTag, &quot;ISTIQBAL&quot;, &#39;-&#39;);</b>
+<b class="nc">&nbsp;    } else if (isNoun(postag)) {</b>
+<b class="nc">&nbsp;      newposTag = setFlag(newposTag, &quot;CONJ&quot;, &#39;-&#39;);</b>
+<b class="nc">&nbsp;      newposTag = setFlag(newposTag, &quot;JAR&quot;, &#39;-&#39;);</b>
+&nbsp;      // if the word is a definated word, set the definition flag
+<b class="nc">&nbsp;      if (isDefinite(postag)) {</b>
+<b class="nc">&nbsp;        newposTag = setFlag(newposTag, &quot;PRONOUN&quot;, &#39;-&#39;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (isStopWord(postag)) {</b>
+<b class="nc">&nbsp;      newposTag = setFlag(newposTag, &quot;CONJ&quot;, &#39;-&#39;);</b>
+<b class="nc">&nbsp;      newposTag = setFlag(newposTag, &quot;JAR&quot;, &#39;-&#39;);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return postag;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return newposTag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /*
+&nbsp;  Add new tag manager functionalities to handle POS tag merging:
+&nbsp;
+&nbsp;        Need: When we replace a word &#39;w1&#39; by another word &#39;w2&#39;, we need to inflect the new word according the replaced word tag.
+&nbsp;        POS Tag Structure:
+&nbsp;
+&nbsp;        3 parts:
+&nbsp;
+&nbsp;            word class and category
+&nbsp;            Conjugation ( suffixes used to conjugate words in dual form, feminin form).
+&nbsp;            Affixes ( prefixes and enclitics)
+&nbsp;
+&nbsp;        Example:
+&nbsp;
+&nbsp;            Example: replace &quot;يعودون&quot; by &quot;يرجعون&quot;,
+&nbsp;                target lemma is رجع
+&nbsp;                lemma postag is different from source postag
+&nbsp;                    verb عاد : &quot;VW1;--------;---&quot;
+&nbsp;                    verb رجع : &quot;V31;--------;---&quot;
+&nbsp;                Inflected source postag: يعودون &quot;VW1;M3H-faU;WS-&quot;
+&nbsp;                The wanted target يرجعون&quot;V31;M3H-faU;WS-&quot;
+&nbsp;
+&nbsp;        Process
+&nbsp;        Same word type
+&nbsp;
+&nbsp;        if postags have the same word class,
+&nbsp;        it can be used to replace :
+&nbsp;        - a verb by new verb : يعتبرونه by يعدونه
+&nbsp;        - a preposition by a preposition: يتردد عليه by يتردد إليه
+&nbsp;        - a noun by a noun: بالمستهتر by بالمستهين
+&nbsp;        - replace Conjugation Part and Affixes part from the source postag to target postag
+&nbsp;        - merge(source: &quot;VW1;M3H-faU;WS-&quot;, target: &quot;V31;--------;---&quot;) =&gt; &quot;V31;M3H-faU;WS-&quot;
+&nbsp;        Different word type
+&nbsp;
+&nbsp;        if postags haven&#39;t the same word class,
+&nbsp;        it can be used to replace :
+&nbsp;        - a verb by new preposition : تحاشاه by تحاشى منه
+&nbsp;        - a preposition by a verb : تحاشاه by
+&nbsp;        - replace and Affixes part(only compatible flags) from the source postag to target postag
+&nbsp;        - change pronoun suffix
+&nbsp;        - verb specific features aren&#39;t borrowed
+&nbsp;        - merge(source: &quot;VW1;M1H-pa-;--H&quot;, target: &quot;PRD;---;---&quot;) =&gt; &quot;PRD;---;--H&quot;
+&nbsp;   */
+&nbsp;  public String mergePosTag(String sourcePosTag, String targetPosTag) {
+&nbsp;    // if the same word type
+&nbsp;    // noun vs noun
+<b class="nc">&nbsp;    String tmp = sourcePosTag;</b>
+<b class="nc">&nbsp;    if (sourcePosTag == null || sourcePosTag.isEmpty()) {</b>
+<b class="nc">&nbsp;      return targetPosTag;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (targetPosTag == null || targetPosTag.isEmpty()) {</b>
+<b class="nc">&nbsp;      return sourcePosTag;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (isNoun(sourcePosTag) &amp;&amp; isNoun(targetPosTag)) {</b>
+<b class="nc">&nbsp;      if (sourcePosTag.length() != targetPosTag.length()) {</b>
+<b class="nc">&nbsp;        return sourcePosTag;</b>
+&nbsp;      }
+&nbsp;      // change only first part
+&nbsp;      // use the source Conjugation and affixes parts
+&nbsp;      // the third flag position is not implemented
+&nbsp;      // copy target category into Source,
+&nbsp;
+<b class="nc">&nbsp;      tmp = setFlag(sourcePosTag, &quot;CATEGORY&quot;, getFlag(targetPosTag, &quot;CATEGORY&quot;));</b>
+&nbsp;      // second flag isn&#39;t implemented for nouns
+<b class="nc">&nbsp;      return tmp;</b>
+<b class="nc">&nbsp;    } else if (isVerb(sourcePosTag) &amp;&amp; isVerb(targetPosTag)) {</b>
+<b class="nc">&nbsp;      if (sourcePosTag.length() != targetPosTag.length()) {</b>
+<b class="nc">&nbsp;        return sourcePosTag;</b>
+&nbsp;      }
+&nbsp;      // change only first part
+&nbsp;      // use the source Conjugation and affixes parts
+&nbsp;      // copy target category into Source,
+&nbsp;
+<b class="nc">&nbsp;      tmp = setFlag(tmp, &quot;CATEGORY&quot;, getFlag(targetPosTag, &quot;CATEGORY&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;      tmp = setFlag(tmp, &quot;TRANS&quot;, getFlag(targetPosTag, &quot;TRANS&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;      return tmp;</b>
+<b class="nc">&nbsp;    } else if (isStopWord(sourcePosTag) &amp;&amp; isStopWord(targetPosTag)) {</b>
+<b class="nc">&nbsp;      if (sourcePosTag.length() != targetPosTag.length())</b>
+<b class="nc">&nbsp;        return sourcePosTag;</b>
+&nbsp;      // change only first part
+&nbsp;      // use the source Conjugation and affixes parts
+&nbsp;      // copy target category into Source,
+<b class="nc">&nbsp;      tmp = setFlag(tmp, &quot;CATEGORY&quot;, getFlag(targetPosTag, &quot;CATEGORY&quot;));</b>
+<b class="nc">&nbsp;      tmp = setFlag(tmp, &quot;OPTION&quot;, getFlag(targetPosTag, &quot;OPTION&quot;));</b>
+<b class="nc">&nbsp;      return tmp;</b>
+&nbsp;    }
+&nbsp;    // different
+<b class="nc">&nbsp;    tmp = targetPosTag;</b>
+&nbsp;    // Stopword to verb || noun
+&nbsp;    // Verb || noun to Stopword
+<b class="nc">&nbsp;    if (isStopWord(sourcePosTag) &amp;&amp; (isVerb(targetPosTag) || isNoun(targetPosTag)) ||</b>
+<b class="nc">&nbsp;      (isVerb(sourcePosTag) || isNoun(sourcePosTag)) &amp;&amp; isStopWord(targetPosTag)) {</b>
+&nbsp;      // change only first part
+&nbsp;      // use the compatible affixes parts (Pronoun only)
+&nbsp;      // the third flag position is not implemented
+&nbsp;      // copy target category into Source,
+<b class="nc">&nbsp;      if (hasPronoun(sourcePosTag)) {</b>
+&nbsp;        // only pronoun, not article defination
+<b class="nc">&nbsp;        tmp = setFlag(tmp, &quot;PRONOUN&quot;, getFlag(sourcePosTag, &quot;PRONOUN&quot;));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return tmp;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Verb to noun
+&nbsp;    // Noun to Nouns
+<b class="nc">&nbsp;    else if (isVerb(sourcePosTag) &amp;&amp; (isNoun(targetPosTag)) ||</b>
+<b class="nc">&nbsp;      (isNoun(sourcePosTag)) &amp;&amp; isVerb(targetPosTag)) {</b>
+&nbsp;      // change only first part
+&nbsp;      // use the compatible affixes parts (Pronoun only)
+&nbsp;      // the third flag position is not implemented
+&nbsp;      // copy target category into Source,
+<b class="nc">&nbsp;      if (hasPronoun(sourcePosTag)) {</b>
+<b class="nc">&nbsp;        tmp = setFlag(tmp, &quot;PRONOUN&quot;, getFlag(sourcePosTag, &quot;PRONOUN&quot;));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      tmp = setFlag(tmp, &quot;CONJ&quot;, getFlag(sourcePosTag, &quot;CONJ&quot;));</b>
+<b class="nc">&nbsp;      return tmp;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return targetPosTag;</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  public String setSingle(String postag) {
+<b class="nc">&nbsp;    return setFlag(postag, &quot;NUMBER&quot;, &#39;1&#39;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String setDual(String postag) {
+<b class="nc">&nbsp;    return setFlag(postag, &quot;NUMBER&quot;, &#39;2&#39;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String setPlural(String postag) {
+<b class="nc">&nbsp;    return setFlag(postag, &quot;NUMBER&quot;, &#39;3&#39;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String setMajrour(String postag) {
+<b class="nc">&nbsp;    if (isNoun(postag)) {</b>
+<b class="nc">&nbsp;      if (isDual(postag)) {</b>
+<b class="nc">&nbsp;        return setFlag(postag, &quot;CASE&quot;, &#39;A&#39;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return setFlag(postag, &quot;CASE&quot;, &#39;I&#39;);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      return postag;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  public String setMarfou3(String postag) {
+<b class="nc">&nbsp;    return setFlag(postag, &quot;CASE&quot;, &#39;U&#39;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String setMansoub(String postag) {
+<b class="nc">&nbsp;    return setFlag(postag, &quot;CASE&quot;, &#39;A&#39;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String setTanwin(String postag) {
+<b class="nc">&nbsp;    return setFlag(postag, &quot;PRONOUN&quot;, &#39;n&#39;);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

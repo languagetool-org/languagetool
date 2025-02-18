@@ -1,0 +1,600 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > FrequencyIndexCreator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.bigdata</a>
+</div>
+
+<h1>Coverage Summary for Class: FrequencyIndexCreator (org.languagetool.dev.bigdata)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FrequencyIndexCreator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/60)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/120)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">FrequencyIndexCreator$DataWriter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">FrequencyIndexCreator$LuceneDataWriter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">FrequencyIndexCreator$Mode</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">FrequencyIndexCreator$TextDataWriter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/70)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/161)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.bigdata;
+&nbsp;
+&nbsp;import org.apache.lucene.analysis.Analyzer;
+&nbsp;import org.apache.lucene.analysis.standard.StandardAnalyzer;
+&nbsp;import org.apache.lucene.document.*;
+&nbsp;import org.apache.lucene.index.IndexOptions;
+&nbsp;import org.apache.lucene.index.IndexWriter;
+&nbsp;import org.apache.lucene.index.IndexWriterConfig;
+&nbsp;import org.apache.lucene.store.Directory;
+&nbsp;import org.apache.lucene.store.FSDirectory;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.text.NumberFormat;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.atomic.AtomicLong;
+&nbsp;import java.util.zip.GZIPInputStream;
+&nbsp;
+&nbsp;/**
+&nbsp; * Index *.gz files from Google&#39;s ngram corpus into a Lucene index (&#39;text&#39; mode)
+&nbsp; * or aggregate them to plain text files (&#39;lucene&#39; mode).
+&nbsp; * Index time (1 doc = 1 ngram and its count, years are aggregated into one number):
+&nbsp; * 130µs/doc (both on an external USB hard disk or on an internal SSD) = about 7700 docs/sec
+&nbsp; * 
+&nbsp; * &lt;p&gt;The reason this isn&#39;t faster is not Lucene but the aggregation work we do or simply
+&nbsp; * the large amount of data. Indexing every line takes 3µs/doc, i.e. Lucene can 
+&nbsp; * index about 333,000 docs/s.
+&nbsp; * 
+&nbsp; * &lt;p&gt;Also see https://dev.languagetool.org/finding-errors-using-n-gram-data.
+&nbsp; * @since 2.7
+&nbsp; */
+&nbsp;public class FrequencyIndexCreator {
+&nbsp;
+&nbsp;  private static final int MIN_YEAR = 1910;
+&nbsp;  private static final String NAME_REGEX1 = &quot;googlebooks-[a-z]{3}-all-[1-5]gram-20120701-(.*?).gz&quot;;
+&nbsp;  private static final String NAME_REGEX2 = &quot;[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+[_-](.*?).gz&quot;;  // Hive result
+&nbsp;  private static final String NAME_REGEX3 = &quot;([_a-z0-9]{1,2}|other|pos|punctuation|_(ADJ|ADP|ADV|CONJ|DET|NOUN|NUM|PRON|PRT|VERB)_)&quot;;  // result of FrequencyIndexCreator with text mode
+&nbsp;  private static final int BUFFER_SIZE = 16384;
+&nbsp;  private static final String LT_COMPLETE_MARKER = &quot;languagetool_index_complete&quot;;
+&nbsp;  private static final boolean IGNORE_POS = true;
+&nbsp;
+<b class="nc">&nbsp;  private enum Mode { PlainText, Lucene }</b>
+&nbsp;
+<b class="nc">&nbsp;  private final AtomicLong bytesProcessed = new AtomicLong(0);</b>
+&nbsp;  private final Mode mode;
+&nbsp;  
+&nbsp;  private long totalTokenCount;
+&nbsp;  private long inputFileCount;
+&nbsp;
+<b class="nc">&nbsp;  public FrequencyIndexCreator(Mode mode) {</b>
+<b class="nc">&nbsp;    this.mode = mode;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void run(File inputDir, File indexBaseDir) throws Exception {
+<b class="nc">&nbsp;    if (!inputDir.exists()) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Not found: &quot; + inputDir);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;File&gt; files = Arrays.asList(inputDir.listFiles());</b>
+<b class="nc">&nbsp;    long totalBytes = files.stream().mapToLong(File::length).sum();</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Total input bytes: &quot; + totalBytes);</b>
+&nbsp;    //Collections.sort(files);  use for non-parallel streams
+&nbsp;    // use this to get one index per input file:
+&nbsp;    //files.parallelStream().forEach(dir -&gt; index(dir, indexBaseDir, totalBytes, files.size(), null));
+&nbsp;    // use this to get one large index for all input files:
+&nbsp;    DataWriter dw;
+<b class="nc">&nbsp;    if (mode == Mode.PlainText) {</b>
+<b class="nc">&nbsp;      dw = new TextDataWriter(indexBaseDir);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      dw = new LuceneDataWriter(indexBaseDir);</b>
+&nbsp;    }
+&nbsp;    try {
+<b class="nc">&nbsp;      files.parallelStream().forEach(dir -&gt; index(dir, indexBaseDir, totalBytes, files.size(), dw));</b>
+<b class="nc">&nbsp;      markIndexAsComplete(indexBaseDir);</b>
+&nbsp;    } finally {
+&nbsp;      dw.close();
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void index(File file, File indexBaseDir, long totalBytes, int inputFiles, DataWriter globalDataWriter) {
+<b class="nc">&nbsp;    System.out.println(file);</b>
+<b class="nc">&nbsp;    String name = file.getName();</b>
+&nbsp;    //if (file.list().length == 1) {
+&nbsp;    //  System.out.println(&quot;Ignoring empty dir &quot; + file);
+&nbsp;    //  return;
+&nbsp;    //}
+<b class="nc">&nbsp;    if (IGNORE_POS &amp;&amp; name.matches(&quot;.*_[A-Z]+_.*&quot;)) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Skipping POS tag file &quot; + name);</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;    File indexDir;
+&nbsp;    boolean hiveMode;
+<b class="nc">&nbsp;    if (name.matches(NAME_REGEX1)) {</b>
+<b class="nc">&nbsp;      indexDir = new File(indexBaseDir, name.replaceAll(NAME_REGEX1, &quot;$1&quot;));</b>
+<b class="nc">&nbsp;      hiveMode = false;</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Running in corpus mode (i.e. aggregation of years)&quot;);</b>
+<b class="nc">&nbsp;    } else if (name.matches(NAME_REGEX2)) {</b>
+<b class="nc">&nbsp;      indexDir = new File(indexBaseDir, name.replaceAll(NAME_REGEX2, &quot;$1&quot;));</b>
+<b class="nc">&nbsp;      hiveMode = true;</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Running in Hive mode (i.e. no aggregation of years)&quot;);</b>
+<b class="nc">&nbsp;    } else if (name.matches(NAME_REGEX3) &amp;&amp; file.isDirectory()) {</b>
+<b class="nc">&nbsp;      file = new File(file, file.getName() + &quot;-output.csv.gz&quot;);</b>
+<b class="nc">&nbsp;      indexDir = new File(indexBaseDir, name.replaceAll(NAME_REGEX1, &quot;$1&quot;));</b>
+<b class="nc">&nbsp;      hiveMode = true;</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Running in Hive/Text mode (i.e. no aggregation of years)&quot;);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      System.out.println(&quot;Skipping &quot; + name + &quot; - doesn&#39;t match regex &quot; + NAME_REGEX1 + &quot;, &quot; + NAME_REGEX2 + &quot;, or &quot; + NAME_REGEX3);</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    if (indexDir.exists() &amp;&amp; indexDir.isDirectory()) {</b>
+<b class="nc">&nbsp;      if (isIndexComplete(indexDir)) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Skipping &quot; + name + &quot; - index dir &#39;&quot; + indexDir + &quot;&#39; already exists and is complete&quot;);</b>
+<b class="nc">&nbsp;        bytesProcessed.addAndGet(file.length());</b>
+&nbsp;        return;
+&nbsp;      } else {
+<b class="nc">&nbsp;        System.out.println(&quot;Not skipping &quot; + name + &quot; - index dir &#39;&quot; + indexDir + &quot;&#39; already exists but is not complete&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(&quot;Index dir: &quot; + indexDir + &quot; - &quot; + (++inputFileCount) + &quot; of &quot; + inputFiles);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      if (mode == Mode.PlainText) {</b>
+<b class="nc">&nbsp;        if (globalDataWriter != null) {</b>
+<b class="nc">&nbsp;          indexLinesFromGoogleFile(globalDataWriter, file, totalBytes, hiveMode);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          try (DataWriter dw = new TextDataWriter(indexDir)) {</b>
+<b class="nc">&nbsp;            indexLinesFromGoogleFile(dw, file, totalBytes, hiveMode);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          markIndexAsComplete(indexDir);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        if (globalDataWriter != null) {</b>
+<b class="nc">&nbsp;          indexLinesFromGoogleFile(globalDataWriter, file, totalBytes, hiveMode);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          try (DataWriter dw = new LuceneDataWriter(indexDir)) {</b>
+<b class="nc">&nbsp;            indexLinesFromGoogleFile(dw, file, totalBytes, hiveMode);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          markIndexAsComplete(indexDir);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not index &quot; + file, e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    bytesProcessed.addAndGet(file.length());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void markIndexAsComplete(File directory) throws IOException {
+<b class="nc">&nbsp;    try (FileWriter fw = new FileWriter(new File(directory, LT_COMPLETE_MARKER))) {</b>
+<b class="nc">&nbsp;      fw.write(new Date().toString());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isIndexComplete(File directory) {
+<b class="nc">&nbsp;    return new File(directory, LT_COMPLETE_MARKER).exists();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void indexLinesFromGoogleFile(DataWriter writer, File inputFile, long totalBytes, boolean hiveMode) throws IOException {
+<b class="nc">&nbsp;    float progress = (float)bytesProcessed.get() / totalBytes * 100;</b>
+<b class="nc">&nbsp;    System.out.printf(&quot;==== Working on &quot; + inputFile + &quot; (%.2f%%) ====\n&quot;, progress);</b>
+&nbsp;    try (
+<b class="nc">&nbsp;      InputStream fileStream = new FileInputStream(inputFile);</b>
+<b class="nc">&nbsp;      InputStream gzipStream = new GZIPInputStream(fileStream, BUFFER_SIZE);</b>
+<b class="nc">&nbsp;      Reader decoder = new InputStreamReader(gzipStream, StandardCharsets.UTF_8);</b>
+<b class="nc">&nbsp;      BufferedReader buffered = new BufferedReader(decoder, BUFFER_SIZE)</b>
+&nbsp;    ) {
+<b class="nc">&nbsp;      int i = 0;</b>
+<b class="nc">&nbsp;      long docCount = 0;</b>
+<b class="nc">&nbsp;      long lineCount = 0;</b>
+<b class="nc">&nbsp;      String prevText = null;</b>
+<b class="nc">&nbsp;      long startTime = System.nanoTime()/1000;</b>
+&nbsp;      String line;
+&nbsp;      //noinspection NestedAssignment
+<b class="nc">&nbsp;      while ((line = buffered.readLine()) != null) {</b>
+<b class="nc">&nbsp;        lineCount++;</b>
+&nbsp;        // To create a smaller index just for testing, comment in this. For there/their
+&nbsp;        // with the v1 Google ngram data, the index will be 110MB (instead of 3.1GB with all words):
+&nbsp;        //if (!line.matches(&quot;.*\\b([Tt]here|[Tt]heir)\\b.*&quot;)) {
+&nbsp;        //  continue;
+&nbsp;        //}
+<b class="nc">&nbsp;        String[] parts = line.split(&quot;\t&quot;);</b>
+<b class="nc">&nbsp;        String text = parts[0];</b>
+<b class="nc">&nbsp;        if (IGNORE_POS &amp;&amp; isRealPosTag(text)) {  // filtering &#39;_VERB_&#39;, &#39;Italian_ADJ&#39;, etc.</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        if (hiveMode) {</b>
+<b class="nc">&nbsp;          if (parts.length &lt;= 1) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Could not index: &quot; + line);</b>
+&nbsp;            continue;
+&nbsp;          }
+<b class="nc">&nbsp;          String docCountStr = parts[1];</b>
+<b class="nc">&nbsp;          writer.addDoc(text, Long.parseLong(docCountStr));</b>
+<b class="nc">&nbsp;          if (++i % 500_000 == 0) {</b>
+<b class="nc">&nbsp;            printStats(i, inputFile, Long.parseLong(docCountStr), lineCount, text, startTime, totalBytes);</b>
+&nbsp;          }
+&nbsp;        } else {
+<b class="nc">&nbsp;          int year = Integer.parseInt(parts[1]);</b>
+<b class="nc">&nbsp;          if (year &lt; MIN_YEAR) {</b>
+&nbsp;            continue;
+&nbsp;          }
+<b class="nc">&nbsp;          if (prevText == null || prevText.equals(text)) {</b>
+&nbsp;            // aggregate years
+<b class="nc">&nbsp;            docCount += Long.parseLong(parts[2]);</b>
+&nbsp;          } else {
+&nbsp;            //System.out.println(&quot;&gt;&quot;+ prevText + &quot;: &quot; + count);
+<b class="nc">&nbsp;            writer.addDoc(prevText, docCount);</b>
+<b class="nc">&nbsp;            if (++i % 5_000 == 0) {</b>
+<b class="nc">&nbsp;              printStats(i, inputFile, docCount, lineCount, prevText, startTime, totalBytes);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            docCount = Long.parseLong(parts[2]);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        prevText = text;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      printStats(i, inputFile, docCount, lineCount, prevText, startTime, totalBytes);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    writer.addTotalTokenCountDoc(totalTokenCount);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isRealPosTag(String text) {
+<b class="nc">&nbsp;    int idx = text.indexOf(&#39;_&#39;);</b>
+<b class="nc">&nbsp;    if (idx == -1) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      String tag = idx + 7 &lt;= text.length() ? text.substring(idx, idx + 7) : &quot;&quot;; // _START_</b>
+<b class="nc">&nbsp;      if (tag.equals(LanguageModel.GOOGLE_SENTENCE_START)) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String tag2 = idx + 5 &lt;= text.length() ? text.substring(idx, idx + 5) : &quot;&quot;; // _END_</b>
+<b class="nc">&nbsp;      if (tag2.equals(LanguageModel.GOOGLE_SENTENCE_END)) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printStats(int i, File inputFile, long docCount, long lineCount, String prevText, long startTimeMicros, long totalBytes) {
+<b class="nc">&nbsp;    long microsNow = System.nanoTime()/1000;</b>
+<b class="nc">&nbsp;    float millisPerDoc = (microsNow-startTimeMicros)/Math.max(1, i);</b>
+<b class="nc">&nbsp;    NumberFormat format = NumberFormat.getNumberInstance(Locale.US);</b>
+<b class="nc">&nbsp;    float progress = (float)bytesProcessed.get() / totalBytes * 100;</b>
+<b class="nc">&nbsp;    System.out.printf(&quot;%.2f%% input:%s doc:%s line:%s ngram:%s occ:%s (%.0fµs/doc)\n&quot;,</b>
+<b class="nc">&nbsp;            progress, inputFile.getName(), format.format(i), format.format(lineCount),</b>
+<b class="nc">&nbsp;            prevText, format.format(docCount), millisPerDoc);</b>
+&nbsp;  }
+&nbsp;  
+<b class="nc">&nbsp;  abstract static class DataWriter implements AutoCloseable {</b>
+&nbsp;    abstract void addDoc(String text, long count) throws IOException;
+&nbsp;    abstract void addTotalTokenCountDoc(long totalTokenCount) throws IOException;
+&nbsp;  }
+&nbsp;
+&nbsp;  
+&nbsp;  class LuceneDataWriter extends DataWriter {
+&nbsp;
+&nbsp;    IndexWriter writer;
+&nbsp;    
+<b class="nc">&nbsp;    LuceneDataWriter(File indexDir) throws IOException {</b>
+<b class="nc">&nbsp;      Analyzer analyzer = new StandardAnalyzer();</b>
+<b class="nc">&nbsp;      IndexWriterConfig config = new IndexWriterConfig(analyzer);</b>
+<b class="nc">&nbsp;      config.setUseCompoundFile(false);  // ~10% speedup</b>
+<b class="nc">&nbsp;      config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);</b>
+&nbsp;      //config.setRAMBufferSizeMB(1000);
+<b class="nc">&nbsp;      Directory directory = FSDirectory.open(indexDir.toPath());</b>
+<b class="nc">&nbsp;      writer = new IndexWriter(directory, config);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    void addDoc(String text, long count) throws IOException {
+<b class="nc">&nbsp;      if (text.length() &gt; 1000) {</b>
+<b class="nc">&nbsp;        System.err.println(&quot;Ignoring doc, ngram is &gt; 1000 chars: &quot; + text.substring(0, 50) + &quot;...&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        Document doc = new Document();</b>
+<b class="nc">&nbsp;        doc.add(new Field(&quot;ngram&quot;, text, StringField.TYPE_NOT_STORED));</b>
+<b class="nc">&nbsp;        FieldType fieldType = new FieldType();</b>
+<b class="nc">&nbsp;        fieldType.setStored(true);</b>
+<b class="nc">&nbsp;        Field countField = new Field(&quot;count&quot;, String.valueOf(count), fieldType);</b>
+<b class="nc">&nbsp;        doc.add(countField);</b>
+<b class="nc">&nbsp;        totalTokenCount += count;</b>
+<b class="nc">&nbsp;        writer.addDocument(doc);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    void addTotalTokenCountDoc(long totalTokenCount) throws IOException {
+<b class="nc">&nbsp;      FieldType fieldType = new FieldType();</b>
+<b class="nc">&nbsp;      fieldType.setIndexOptions(IndexOptions.DOCS);</b>
+<b class="nc">&nbsp;      fieldType.setStored(true);</b>
+<b class="nc">&nbsp;      Field countField = new Field(&quot;totalTokenCount&quot;, String.valueOf(totalTokenCount), fieldType);</b>
+<b class="nc">&nbsp;      Document doc = new Document();</b>
+<b class="nc">&nbsp;      doc.add(countField);</b>
+<b class="nc">&nbsp;      writer.addDocument(doc);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void close() throws Exception {
+<b class="nc">&nbsp;      if (writer != null) {</b>
+<b class="nc">&nbsp;        writer.close();</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static class TextDataWriter extends DataWriter {
+&nbsp;
+&nbsp;    private final FileWriter fw;
+&nbsp;    private final BufferedWriter writer;
+&nbsp;    
+<b class="nc">&nbsp;    TextDataWriter(File indexDir) throws IOException {</b>
+<b class="nc">&nbsp;      if (indexDir.exists()) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Using existing dir: &quot; + indexDir.getAbsolutePath());</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        boolean mkdir = indexDir.mkdir();</b>
+<b class="nc">&nbsp;        if (!mkdir) {</b>
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Could not create: &quot; + indexDir.getAbsolutePath());</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      fw = new FileWriter(new File(indexDir, indexDir.getName() + &quot;-output.csv&quot;));</b>
+<b class="nc">&nbsp;      writer = new BufferedWriter(fw);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    void addDoc(String text, long count) throws IOException {
+<b class="nc">&nbsp;      fw.write(text + &quot;\t&quot; + count + &quot;\n&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    void addTotalTokenCountDoc(long totalTokenCount) throws IOException {
+<b class="nc">&nbsp;      System.err.println(&quot;Note: not writing totalTokenCount (&quot; + totalTokenCount + &quot;) in file mode&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void close() throws Exception {
+<b class="nc">&nbsp;      if (fw != null) {</b>
+<b class="nc">&nbsp;        fw.close();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      writer.close();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws Exception {
+<b class="nc">&nbsp;    if (args.length != 3) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + FrequencyIndexCreator.class.getSimpleName() + &quot; &lt;text|lucene&gt; &lt;inputDir&gt; &lt;outputDir&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;    &lt;text|lucene&gt; &#39;text&#39; will write plain text files, &#39;lucene&#39; will write Lucene indexes&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;    &lt;inputDir&gt; is the Google ngram data, optionally already aggregated by Hive (lucene mode),&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;               please see https://dev.languagetool.org/finding-errors-using-n-gram-data&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+&nbsp;    Mode mode;
+<b class="nc">&nbsp;    if (args[0].equals(&quot;text&quot;)) {</b>
+<b class="nc">&nbsp;      mode = Mode.PlainText;</b>
+<b class="nc">&nbsp;    } else if (args[0].equals(&quot;lucene&quot;)) {</b>
+<b class="nc">&nbsp;      mode = Mode.Lucene;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Unknown mode: &quot; + args[0]);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    FrequencyIndexCreator creator = new FrequencyIndexCreator(mode);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Mode: &quot; + mode);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Minimum year: &quot; + MIN_YEAR);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Ignore POS tags: &quot; + IGNORE_POS);</b>
+<b class="nc">&nbsp;    creator.run(new File(args[1]), new File(args[2]));</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

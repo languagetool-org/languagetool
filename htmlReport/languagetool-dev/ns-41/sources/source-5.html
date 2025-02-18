@@ -1,0 +1,203 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > INNNumberFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ru</a>
+</div>
+
+<h1>Coverage Summary for Class: INNNumberFilter (org.languagetool.rules.ru)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">INNNumberFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2023 Yakov Reztsov
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ru;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Checks if INN number is incorrect
+&nbsp; * @author Yakov Reztsov
+&nbsp; * @since 6.1
+&nbsp; */
+&nbsp;
+<b class="nc">&nbsp;public class INNNumberFilter extends RuleFilter {</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern DIGIT_SYMBOL_PATTERN = Pattern.compile(&quot;(\\d*)&quot;);</b>
+&nbsp;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) {
+&nbsp;
+<b class="nc">&nbsp;  String INNNumberString = getRequired(&quot;inn&quot;, args);</b>
+&nbsp;
+<b class="nc">&nbsp;    Matcher matcherdigitsymbol = DIGIT_SYMBOL_PATTERN.matcher(INNNumberString);</b>
+&nbsp;
+&nbsp;      try {
+<b class="nc">&nbsp;          if (matcherdigitsymbol.matches()) {</b>
+&nbsp;
+<b class="nc">&nbsp;              int[] intTab = String.valueOf(INNNumberString).chars().map(Character::getNumericValue).toArray();</b>
+<b class="nc">&nbsp;              int kz1=0;</b>
+<b class="nc">&nbsp;              int kz2=0;</b>
+<b class="nc">&nbsp;              switch (intTab.length) {</b>
+&nbsp;                  case 10:
+<b class="nc">&nbsp;                      kz1 = (intTab[0]*2 + intTab[1]*4 + intTab[2]*10 + intTab[3]*3 + intTab[4]*5+ intTab[5]*9 + intTab[6]*4 + intTab[7]*6 + intTab[8]*8)%11;</b>
+<b class="nc">&nbsp;                      if (kz1&gt;9) {kz1=kz1-10;};</b>
+<b class="nc">&nbsp;                      if (intTab[9] == kz1)  {</b>
+<b class="nc">&nbsp;                          return null;</b>
+&nbsp;                      } else {
+<b class="nc">&nbsp;                          return match;</b>
+&nbsp;                      }
+&nbsp;                  case 12:
+<b class="nc">&nbsp;                      kz1 = (intTab[0]*7 + intTab[1]*2 + intTab[2]*4 + intTab[3]*10 + intTab[4]*3 + intTab[5]*5+ intTab[6]*9 + intTab[7]*4 + intTab[8]*6 + intTab[9]*8)%11;</b>
+<b class="nc">&nbsp;                      kz2 = (intTab[0]*3 + intTab[1]*7 + intTab[2]*2 + intTab[3]*4 + intTab[4]*10 + intTab[5]*3 + intTab[6]*5+ intTab[7]*9 + intTab[8]*4 + intTab[9]*6 + intTab[10]*8)%11;</b>
+<b class="nc">&nbsp;                      if (kz1&gt;9) {kz1=kz1-10;};</b>
+<b class="nc">&nbsp;                      if (kz2&gt;9) {kz2=kz2-10;};</b>
+&nbsp;                      
+<b class="nc">&nbsp;                      if ((intTab[10] == kz1) &amp;&amp; (intTab[11] == kz2)) {</b>
+<b class="nc">&nbsp;                          return null;</b>
+&nbsp;                      } else {
+<b class="nc">&nbsp;                          return match;</b>
+&nbsp;                      }
+&nbsp;                  default:
+<b class="nc">&nbsp;                      return null;</b>
+&nbsp;              }
+&nbsp;
+&nbsp;          } else {
+<b class="nc">&nbsp;              return null;</b>
+&nbsp;      }
+&nbsp;    } catch (IllegalArgumentException ignore) {
+&nbsp;      // happens with &#39;inn&#39; like &#39;7676gj8778&#39; - those should be caught by a different rule
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

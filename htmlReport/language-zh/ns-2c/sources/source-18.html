@@ -1,0 +1,252 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GermanCompoundRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: GermanCompoundRule (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GermanCompoundRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/49)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.language.GermanyGerman;
+&nbsp;import org.languagetool.rules.AbstractCompoundRule;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.CompoundRuleData;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.patterns.PatternTokenBuilder;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+&nbsp;
+&nbsp;/**
+&nbsp; * Checks that compounds are not written as separate words. The supported compounds are loaded
+&nbsp; * from {@code /de/compounds.txt} and {@code /de/compounds-cities.txt} in the resource directory.
+&nbsp; * 
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public class GermanCompoundRule extends AbstractCompoundRule {
+&nbsp;
+<b class="nc">&nbsp;  private static final List&lt;DisambiguationPatternRule&gt; ANTI_PATTERNS = makeAntiPatterns(Arrays.asList(</b>
+<b class="nc">&nbsp;    Arrays.asList(  // &quot;Die Bürger konnten an die 900 Meter Kabel in Eigenregie verlegen.&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;an|um&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;die&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(  // &quot;Lohnt sich die Werbung vom ausgegebenen Euro aus gedacht?&quot;</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;von|vom&quot;).setSkip(5).build(),</b>
+<b class="nc">&nbsp;      token(&quot;aus&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;gedacht&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(  // &quot;Die Bürger konnten an die 900 Meter Kabel in Eigenregie verlegen.&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;rund|etwa|zirka|cirka|ungefähr|annähernd|grob|wohl|gegen|schätzungsweise&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(  // &quot;Die Bürger konnten ca. 900 Meter Kabel in Eigenregie verlegen.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;ca&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;.&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(  // Eigenname</b>
+<b class="nc">&nbsp;      token(&quot;Kung&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Fu&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Panda|Fighting&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(  // Eigenname</b>
+<b class="nc">&nbsp;      token(&quot;Harlem&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Gospel&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Singers&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(  // Englisch</b>
+<b class="nc">&nbsp;      token(&quot;Always&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;on&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;my|your|the|an?|their&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(  // sich selbst gerecht werden</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;sich|uns|ihm|ihr|mir|euch&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;selbst&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;gerecht.*&quot;)</b>
+&nbsp;    )
+<b class="nc">&nbsp;  ), GermanyGerman.getInstance());</b>
+&nbsp;
+&nbsp;  private static volatile CompoundRuleData compoundData;
+&nbsp;  
+&nbsp;  public GermanCompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {
+<b class="nc">&nbsp;    super(messages, lang, userConfig,</b>
+&nbsp;            &quot;Dieses Wort wird mit Bindestrich geschrieben.&quot;,
+&nbsp;            &quot;Dieses Wort wird zusammengeschrieben.&quot;,
+&nbsp;            &quot;Diese Wörter werden zusammengeschrieben oder mit Bindestrich getrennt.&quot;,
+&nbsp;            &quot;Zusammenschreibung von Wörtern&quot;);
+<b class="nc">&nbsp;    super.setCategory(Categories.COMPOUNDING.getCategory(messages));</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;Wenn es schlimmer wird, solltest Du zum &lt;marker&gt;HNO Arzt&lt;/marker&gt; gehen.&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;Wenn es schlimmer wird, solltest Du zum &lt;marker&gt;HNO-Arzt&lt;/marker&gt; gehen.&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;DE_COMPOUNDS&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Zusammenschreibung von Wörtern, z. B. &#39;CD-ROM&#39; statt &#39;CD ROM&#39;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public CompoundRuleData getCompoundRuleData() {
+<b class="nc">&nbsp;    CompoundRuleData data = compoundData;</b>
+<b class="nc">&nbsp;    if (data == null) {</b>
+<b class="nc">&nbsp;      synchronized (GermanCompoundRule.class) {</b>
+<b class="nc">&nbsp;        data = compoundData;</b>
+<b class="nc">&nbsp;        if (data == null) {</b>
+<b class="nc">&nbsp;          compoundData = data = new CompoundRuleData(&quot;/de/compounds.txt&quot;, &quot;/de/compound-cities.txt&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;      }</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return data;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public boolean isMisspelled(String word) throws IOException {
+<b class="nc">&nbsp;    return GermanyGerman.getInstance().getDefaultSpellingRule().isMisspelled(word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;DisambiguationPatternRule&gt; getAntiPatterns() {
+<b class="nc">&nbsp;    return ANTI_PATTERNS;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,318 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LanguageModelUtils</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ngrams</a>
+</div>
+
+<h1>Coverage Summary for Class: LanguageModelUtils (org.languagetool.rules.ngrams)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LanguageModelUtils</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/46)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/92)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.ngrams;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.tokenizers.Tokenizer;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Predicate;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;public final class LanguageModelUtils {
+&nbsp;  private LanguageModelUtils(){
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(LanguageModelUtils.class);</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return a tokenizer that works more like Google does for its ngram index (which
+&nbsp;   * doesn&#39;t seem to be properly documented).
+&nbsp;   */
+&nbsp;  static Tokenizer getGoogleStyleWordTokenizer(Language language) {
+<b class="nc">&nbsp;    return language.getWordTokenizer();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static List&lt;String&gt; getContext(GoogleToken token, List&lt;GoogleToken&gt; tokens, String newToken, int toLeft, int toRight) {
+<b class="nc">&nbsp;    return getContext(token, tokens, Collections.singletonList(new GoogleToken(newToken, 0, newToken.length())), toLeft, toRight);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  static List&lt;String&gt; getContext(GoogleToken token, List&lt;GoogleToken&gt; tokens, List&lt;GoogleToken&gt; newTokens, int toLeft, int toRight) {
+<b class="nc">&nbsp;    List&lt;GoogleToken&gt; result = getContext(token, tokens, newTokens, toLeft, toRight,</b>
+&nbsp;      GoogleToken::isWhitespace, new GoogleToken(&quot;.&quot;, 0, 0));
+<b class="nc">&nbsp;    return result.stream().map(t -&gt; t.token).collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static &lt;T&gt; List&lt;T&gt; getContext(T token, List&lt;T&gt; tokens, List&lt;T&gt; newTokens, int toLeft, int toRight, Predicate&lt;T&gt; isWhitespace, T endToken) {
+&nbsp;    // TODO: debug token not found sometimes
+&nbsp;    //int pos = -1;
+&nbsp;    //for (int i = 0; i &lt; tokens.size(); i++) {
+&nbsp;    //  if (tokens.get(i).token.s)
+&nbsp;    //}
+<b class="nc">&nbsp;    int pos = tokens.indexOf(token);</b>
+<b class="nc">&nbsp;    if (pos == -1) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(String.format(&quot;Token not found: &#39;%s&#39; in tokens %s&quot;, token, tokens));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;T&gt; result = new ArrayList&lt;T&gt;();</b>
+<b class="nc">&nbsp;    for (int i = 1, added = 0; added &lt; toLeft; i++) {</b>
+<b class="nc">&nbsp;      if (pos - i &lt; 0) {</b>
+&nbsp;        // So if we&#39;re at the beginning of the sentence, just use the first tokens:
+<b class="nc">&nbsp;        result.clear();</b>
+<b class="nc">&nbsp;        result.addAll(newTokens);</b>
+<b class="nc">&nbsp;        for (int j = pos - 1; j &gt;= 0; j--) {</b>
+<b class="nc">&nbsp;          result.add(0, tokens.get(j));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        if (!isWhitespace.test(tokens.get(pos - i))) {</b>
+<b class="nc">&nbsp;          result.add(0, tokens.get(pos - i));</b>
+<b class="nc">&nbsp;          added++;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    result.addAll(newTokens);</b>
+<b class="nc">&nbsp;    for (int i = 1, added = 0; added &lt; toRight; i++) {</b>
+<b class="nc">&nbsp;      if (pos + i &gt;= tokens.size()) {</b>
+&nbsp;        // I&#39;m not sure if we should use _END_ here instead. Evaluation on 2015-08-12
+&nbsp;        // shows increase in recall for some pairs, decrease in others.
+<b class="nc">&nbsp;        result.add(endToken);</b>
+<b class="nc">&nbsp;        added++;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        if (!isWhitespace.test(tokens.get(pos + i))) {</b>
+<b class="nc">&nbsp;          result.add(tokens.get(pos + i));</b>
+<b class="nc">&nbsp;          added++;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static double get3gramProbabilityFor(Language lang, LanguageModel lm, int position, AnalyzedSentence sentence, String candidate) {
+<b class="nc">&nbsp;    Tokenizer tokenizer = getGoogleStyleWordTokenizer(lang);</b>
+<b class="nc">&nbsp;    List&lt;GoogleToken&gt; tokens = GoogleToken.getGoogleTokens(sentence, true, tokenizer);</b>
+<b class="nc">&nbsp;    Optional&lt;GoogleToken&gt; token = tokens.stream()</b>
+<b class="nc">&nbsp;      .filter(t -&gt; t.startPos == position &amp;&amp; !LanguageModel.GOOGLE_SENTENCE_START.equals(t.token))</b>
+<b class="nc">&nbsp;      .findFirst();</b>
+<b class="nc">&nbsp;    if (!token.isPresent()) {</b>
+<b class="nc">&nbsp;      logger.warn(String.format(&quot;Could not find matching Google token in tokenizations &#39;%s&#39; / &#39;%s&#39;&quot;, sentence.getText(), tokens));</b>
+<b class="nc">&nbsp;      return 0.0;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return get3gramProbabilityFor(lang, lm, token.get(), tokens, candidate);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static double get4gramProbabilityFor(Language lang, LanguageModel lm, int position, AnalyzedSentence sentence, String candidate) {
+<b class="nc">&nbsp;    Tokenizer tokenizer = getGoogleStyleWordTokenizer(lang);</b>
+<b class="nc">&nbsp;    List&lt;GoogleToken&gt; tokens = GoogleToken.getGoogleTokens(sentence, true, tokenizer);</b>
+<b class="nc">&nbsp;    Optional&lt;GoogleToken&gt; token = tokens.stream()</b>
+<b class="nc">&nbsp;      .filter(t -&gt; t.startPos == position &amp;&amp; !LanguageModel.GOOGLE_SENTENCE_START.equals(t.token))</b>
+<b class="nc">&nbsp;      .findFirst();</b>
+<b class="nc">&nbsp;    if (!token.isPresent()) {</b>
+<b class="nc">&nbsp;      logger.warn(String.format(&quot;Could not find matching Google token in tokenizations &#39;%s&#39; / &#39;%s&#39;&quot;, sentence.getText(), tokens));</b>
+<b class="nc">&nbsp;      return 0.0;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return get4gramProbabilityFor(lang, lm, token.get(), tokens, candidate);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  static double get3gramProbabilityFor(Language lang, LanguageModel lm, GoogleToken token, List&lt;GoogleToken&gt; tokens, String term) {
+<b class="nc">&nbsp;    Tokenizer tokenizer = getGoogleStyleWordTokenizer(lang);</b>
+<b class="nc">&nbsp;    List&lt;GoogleToken&gt; newTokens = GoogleToken.getGoogleTokens(term, false, tokenizer);</b>
+&nbsp;    Probability ngram3Left;
+&nbsp;    Probability ngram3Middle;
+&nbsp;    Probability ngram3Right;
+<b class="nc">&nbsp;    if (newTokens.size() == 1) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; leftContext = getContext(token, tokens, term, 0, 2);</b>
+<b class="nc">&nbsp;      ngram3Left = lm.getPseudoProbability(leftContext);</b>
+<b class="nc">&nbsp;      logger.trace(String.format(&quot;Left  : %.90f %s\n&quot;, ngram3Left.getProb(), Arrays.asList(leftContext)));</b>
+<b class="nc">&nbsp;      List&lt;String&gt; middleContext = getContext(token, tokens, term, 1, 1);</b>
+<b class="nc">&nbsp;      ngram3Middle = lm.getPseudoProbability(middleContext);</b>
+<b class="nc">&nbsp;      logger.trace(String.format(&quot;Middle: %.90f %s\n&quot;, ngram3Middle.getProb(), Arrays.asList(middleContext)));</b>
+<b class="nc">&nbsp;      List&lt;String&gt; rightContext = getContext(token, tokens, term, 2, 0);</b>
+<b class="nc">&nbsp;      ngram3Right = lm.getPseudoProbability(rightContext);</b>
+<b class="nc">&nbsp;      logger.trace(String.format(&quot;Right : %.90f %s\n&quot;, ngram3Right.getProb(), Arrays.asList(rightContext)));</b>
+<b class="nc">&nbsp;    } else if (newTokens.size() == 2) {</b>
+&nbsp;      // e.g. you&#39;re -&gt; you &#39;re
+<b class="nc">&nbsp;      ngram3Left = lm.getPseudoProbability(getContext(token, tokens, newTokens, 0, 1));</b>
+<b class="nc">&nbsp;      ngram3Right = lm.getPseudoProbability(getContext(token, tokens, newTokens, 1, 0));</b>
+&nbsp;      // we cannot just use new Probability(1.0, 1.0f) as that would always produce higher
+&nbsp;      // probabilities than in the case of one token (eg. &quot;your&quot;):
+<b class="nc">&nbsp;      ngram3Middle = new Probability((ngram3Left.getProb() + ngram3Right.getProb()) / 2, 1.0f);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      logger.warn(&quot;Words that consists of more than 2 tokens (according to Google tokenization) are not supported yet: &quot; + term + &quot; -&gt; &quot; + newTokens);</b>
+<b class="nc">&nbsp;      return 0.0;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (ngram3Left.getCoverage() &lt; ConfusionProbabilityRule.MIN_COVERAGE &amp;&amp; ngram3Middle.getCoverage() &lt; ConfusionProbabilityRule.MIN_COVERAGE &amp;&amp; ngram3Right.getCoverage() &lt; ConfusionProbabilityRule.MIN_COVERAGE) {</b>
+<b class="nc">&nbsp;      logger.trace(String.format(&quot;  Min coverage of %.2f not reached: %.2f, %.2f, %.2f, assuming p=0\n&quot;, ConfusionProbabilityRule.MIN_COVERAGE, ngram3Left.getCoverage(), ngram3Middle.getCoverage(), ngram3Right.getCoverage()));</b>
+<b class="nc">&nbsp;      return 0.0;</b>
+&nbsp;    } else {
+&nbsp;      //logger.trace(String.format(&quot;  Min coverage of %.2f okay: %.2f, %.2f\n&quot;, MIN_COVERAGE, ngram3Left.getCoverage(), ngram3Right.getCoverage()));
+&nbsp;      //return Math.exp(ngram3Left.getLogProb() + ngram3Middle.getLogProb() + ngram3Right.getLogProb());
+<b class="nc">&nbsp;      return ngram3Left.getProb() * ngram3Middle.getProb() * ngram3Right.getProb();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static double get4gramProbabilityFor(Language lang, LanguageModel lm, GoogleToken token, List&lt;GoogleToken&gt; tokens, String term) {
+<b class="nc">&nbsp;    Tokenizer tokenizer = getGoogleStyleWordTokenizer(lang);</b>
+<b class="nc">&nbsp;    List&lt;GoogleToken&gt; newTokens = GoogleToken.getGoogleTokens(term, false, tokenizer);</b>
+&nbsp;
+&nbsp;    Probability ngram4Left, ngram4MiddleLeft, ngram4MiddleRight, ngram4Right;
+&nbsp;
+<b class="nc">&nbsp;    if (newTokens.size() == 1) {</b>
+<b class="nc">&nbsp;      ngram4Left = lm.getPseudoProbability(getContext(token, tokens, newTokens, 0, 3));</b>
+<b class="nc">&nbsp;      ngram4MiddleLeft = lm.getPseudoProbability(getContext(token, tokens, newTokens, 2, 1));</b>
+<b class="nc">&nbsp;      ngram4MiddleRight = lm.getPseudoProbability(getContext(token, tokens, newTokens, 1, 2));</b>
+<b class="nc">&nbsp;      ngram4Right = lm.getPseudoProbability(getContext(token, tokens, newTokens, 3, 0));</b>
+<b class="nc">&nbsp;    } else if (newTokens.size() == 2) {</b>
+<b class="nc">&nbsp;      ngram4Left = lm.getPseudoProbability(getContext(token, tokens, newTokens, 0, 2));</b>
+<b class="nc">&nbsp;      ngram4MiddleLeft = lm.getPseudoProbability(getContext(token, tokens, newTokens, 1, 1));</b>
+<b class="nc">&nbsp;      ngram4MiddleRight = ngram4MiddleLeft; // TODO: is this okay?</b>
+<b class="nc">&nbsp;      ngram4Right = lm.getPseudoProbability(getContext(token, tokens, newTokens, 2, 0));</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      logger.warn(&quot;Words that consists of more than 2 tokens (according to Google tokenization) are not supported yet: &quot; + term + &quot; -&gt; &quot; + newTokens);</b>
+<b class="nc">&nbsp;      return 0.0;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (ngram4Left.getCoverage() &lt; ConfusionProbabilityRule.MIN_COVERAGE &amp;&amp;</b>
+<b class="nc">&nbsp;      ngram4MiddleLeft.getCoverage() &lt; ConfusionProbabilityRule.MIN_COVERAGE &amp;&amp;</b>
+<b class="nc">&nbsp;      ngram4MiddleRight.getCoverage() &lt; ConfusionProbabilityRule.MIN_COVERAGE &amp;&amp;</b>
+<b class="nc">&nbsp;      ngram4Right.getCoverage() &lt; ConfusionProbabilityRule.MIN_COVERAGE) {</b>
+<b class="nc">&nbsp;      logger.trace(String.format(&quot;  Min coverage of %.2f not reached: %.2f, %.2f, %.2f, %.2f, assuming p=0\n&quot;,</b>
+<b class="nc">&nbsp;        ConfusionProbabilityRule.MIN_COVERAGE, ngram4Left.getCoverage(), ngram4MiddleLeft.getCoverage(),</b>
+<b class="nc">&nbsp;        ngram4MiddleRight.getCoverage(), ngram4Right.getCoverage()));</b>
+<b class="nc">&nbsp;      return 0.0;</b>
+&nbsp;    } else {
+&nbsp;      //logger.trace(String.format(&quot;  Min coverage of %.2f okay: %.2f, %.2f\n&quot;, MIN_COVERAGE, ngram4Left.getCoverage(), ngram4Right.getCoverage()));
+<b class="nc">&nbsp;      return Math.exp(ngram4Left.getLogProb() + ngram4MiddleLeft.getLogProb() +</b>
+<b class="nc">&nbsp;        ngram4MiddleRight.getLogProb() + ngram4Right.getLogProb());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

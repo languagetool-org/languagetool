@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DateFilterHelper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.es</a>
+</div>
+
+<h1>Coverage Summary for Class: DateFilterHelper (org.languagetool.rules.es)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DateFilterHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/76)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2.9%
+  </span>
+  <span class="absValue">
+    (1/34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2018 Fabian Richter
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.es;
+&nbsp;
+&nbsp;import java.util.Calendar;
+&nbsp;import java.util.Locale;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 4.3
+&nbsp; */
+<b class="fc">&nbsp;class DateFilterHelper {</b>
+&nbsp;
+&nbsp;  protected Calendar getCalendar() {
+<b class="nc">&nbsp;    return Calendar.getInstance(Locale.FRANCE);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings(&quot;ControlFlowStatementWithoutBraces&quot;)
+&nbsp;  protected int getDayOfWeek(String dayStr) {
+<b class="nc">&nbsp;    String day = dayStr.toLowerCase();</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;do&quot;) || day.equals(&quot;domingo&quot;)) return Calendar.SUNDAY;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;lu&quot;) || day.equals(&quot;lunes&quot;)) return Calendar.MONDAY;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;ma&quot;) || day.equals(&quot;martes&quot;)) return Calendar.TUESDAY;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;mi&quot;) || day.equals(&quot;miércoles&quot;)) return Calendar.WEDNESDAY;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;ju&quot;) || day.equals(&quot;jueves&quot;)) return Calendar.THURSDAY;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;vi&quot;) || day.equals(&quot;viernes&quot;)) return Calendar.FRIDAY;</b>
+<b class="nc">&nbsp;    if (day.equals(&quot;sa&quot;) || day.equals(&quot;sábado&quot;)) return Calendar.SATURDAY;</b>
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;Could not find day of week for &#39;&quot; + dayStr + &quot;&#39;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings(&quot;ControlFlowStatementWithoutBraces&quot;)
+&nbsp;  protected String getDayOfWeek(Calendar date) {
+<b class="nc">&nbsp;    String englishDay = date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);</b>
+<b class="nc">&nbsp;    if (englishDay.equals(&quot;Sunday&quot;)) return &quot;domingo&quot;;</b>
+<b class="nc">&nbsp;    if (englishDay.equals(&quot;Monday&quot;)) return &quot;lunes&quot;;</b>
+<b class="nc">&nbsp;    if (englishDay.equals(&quot;Tuesday&quot;)) return &quot;martes&quot;;</b>
+<b class="nc">&nbsp;    if (englishDay.equals(&quot;Wednesday&quot;)) return &quot;miércoles&quot;;</b>
+<b class="nc">&nbsp;    if (englishDay.equals(&quot;Thursday&quot;)) return &quot;jueves&quot;;</b>
+<b class="nc">&nbsp;    if (englishDay.equals(&quot;Friday&quot;)) return &quot;viernes&quot;;</b>
+<b class="nc">&nbsp;    if (englishDay.equals(&quot;Saturday&quot;)) return &quot;sábado&quot;;</b>
+<b class="nc">&nbsp;    return &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings({&quot;ControlFlowStatementWithoutBraces&quot;, &quot;MagicNumber&quot;})
+&nbsp;  protected int getMonth(String monthStr) {
+<b class="nc">&nbsp;    String mon = monthStr.toLowerCase();</b>
+<b class="nc">&nbsp;    if (mon.startsWith(&quot;en&quot;)) return 1;</b>
+<b class="nc">&nbsp;    if (mon.startsWith(&quot;fe&quot;)) return 2;</b>
+<b class="nc">&nbsp;    if (mon.startsWith(&quot;mar&quot;) || mon.startsWith(&quot;mzo&quot;)) return 3;</b>
+<b class="nc">&nbsp;    if (mon.startsWith(&quot;ab&quot;)) return 4;</b>
+<b class="nc">&nbsp;    if (mon.startsWith(&quot;may&quot;) || mon.startsWith(&quot;my&quot;)) return 5;</b>
+<b class="nc">&nbsp;    if (mon.startsWith(&quot;jun&quot;) || mon.equals(&quot;jn&quot;)) return 6;</b>
+<b class="nc">&nbsp;    if (mon.startsWith(&quot;jul&quot;) || mon.equals(&quot;jl&quot;)) return 7;</b>
+<b class="nc">&nbsp;    if (mon.startsWith(&quot;ag&quot;)) return 8;</b>
+<b class="nc">&nbsp;    if (mon.startsWith(&quot;se&quot;) || mon.startsWith(&quot;sep&quot;)) return 9;</b>
+<b class="nc">&nbsp;    if (mon.startsWith(&quot;oc&quot;)) return 10;</b>
+<b class="nc">&nbsp;    if (mon.startsWith(&quot;no&quot;)) return 11;</b>
+<b class="nc">&nbsp;    if (mon.startsWith(&quot;di&quot;)) return 12;</b>
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;Could not find month &#39;&quot; + monthStr + &quot;&#39;&quot;);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1096 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AgreementRuleAntiPatterns1</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: AgreementRuleAntiPatterns1 (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AgreementRuleAntiPatterns1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/753)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.rules.patterns.PatternTokenBuilder;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;import static java.util.Arrays.asList;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+&nbsp;
+<b class="nc">&nbsp;class AgreementRuleAntiPatterns1 {</b>
+&nbsp;
+&nbsp;  final static String MONTH_NAMES_REGEX = &quot;Jänner|Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember&quot;;
+&nbsp;
+<b class="nc">&nbsp;  static final List&lt;List&lt;PatternToken&gt;&gt; ANTI_PATTERNS = asList(</b>
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;bring(s?t|en?)&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*PLU.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;mit&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;sich&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;der|die|das&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;_english_ignore_&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;der|des&quot;),   // &quot;Übernahme der früher selbständigen Gesellschaft&quot;</b>
+<b class="nc">&nbsp;      token(&quot;früher&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;sein&quot;),   // &quot;ich kann nicht dabei sein nächste Woche&quot;</b>
+<b class="nc">&nbsp;      pos(&quot;ADV:TMP&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Woche|Monat|Jahr&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;(ART|PRO):.*&quot;),   // &quot;Wie viele Kolleg/-innen haben sie?&quot;</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;/&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;-in|-innen&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;wegen&quot;),   //  &quot;...und hatte wegen des vielen Trinkens Kopfschmerzen.&quot; (#4695)</b>
+<b class="nc">&nbsp;      token(&quot;des&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;vielen&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:GEN:SIN:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:GEN:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;des&quot;),   // &quot;Chef des renommierten Institute for Fiscal Studies (IFS)&quot;</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      token(&quot;Institute&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;for|of&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;zur&quot;),   // &quot;Bis zur Anfang Juni geplanten Eröffnung gebe es noch einiges zu tun.&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Anfang|Ende|Mitte&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(MONTH_NAMES_REGEX),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PA2:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*FEM.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;Jedes Grad zählt&quot;</b>
+<b class="nc">&nbsp;      token(&quot;jedes&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Grad&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;euer&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Gnaden&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;die&quot;),  // &quot;Die Adelmanns&quot; (Nachname not tagged properly)</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().pos(&quot;SUB:GEN:SIN:MAS&quot;).tokenRegex(&quot;.*manns&quot;).build()</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;für&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;viele&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Grund&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;genug&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;sowas&quot;),   // &quot;Wir können sowas Mittwoch machen.&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;bei&quot;),   // &quot;Es kann gut sein, dass bei sowas Probleme erkannt werden.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;sowas&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;beides&quot;),   // &quot;Beides Grund genug, es mal zu probieren.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;Grund&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;der|die|den&quot;),   // &quot;Ein Haus für die weniger Glücklichen.&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;weniger|besser|mehr|schlechter&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*PLU:.*:ADJ&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;wusste|weiß&quot;),   // &quot;Da wusste keiner Bescheid&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;keiner?&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Bescheid&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;keiner?&quot;),  // &quot;es braucht keiner Bescheid wissen&quot;</b>
+<b class="nc">&nbsp;      token(&quot;Bescheid&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;wissen&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;von&quot;),  // &quot;eine von manchem geforderte Übergewinnsteuer&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;manche[nmr]?&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PA2:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;niemandem&quot;),  // &quot;hat niemandem wirkliches Leid zugefügt&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:NOM:SIN:NEU:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*SIN.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(   // &quot;Eine mehrere hundert Meter lange Startbahn.&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;viele|mehrere&quot;),</b>
+<b class="nc">&nbsp;      pos(&quot;ZAL&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Meter|.+meter&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;lange[ns]?|kurze[ns]?|große[ns]?|kleine[ns]?&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;eine alles in allem spannende Geschichte&quot;</b>
+<b class="nc">&nbsp;      token(&quot;alles&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;in&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;allem&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;Man darf gespannt sein, wen Müller für&quot;</b>
+<b class="nc">&nbsp;      token(&quot;wen&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;EIG:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;das Vereinslokal in welchem Zusammenkünfte&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;in|zu&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;welche[nmrs]&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB.*PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;er lässt niemanden zu Wort kommen&quot;</b>
+<b class="nc">&nbsp;      token(&quot;niemanden&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Wort&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Kopfe?|Zwecken?|Ohren|Fü(ß|ss)en|Fu(ß|ss)|Händen|Beginn|Anfang|Geld|Gesicht|Recht|Unrecht|.*stein&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(   // &quot;Zum anderen verringert Zuversicht seelische Belastungen&quot;</b>
+<b class="nc">&nbsp;      token(&quot;zum&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;anderen&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:3:SIN:(PRÄ|PRT):SFT&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:NOM:SIN:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;an&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;allem&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Schuld&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;ART.*|PRO:POS.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;gleichen|gro(ß|ss)en|kleinen&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Teilen&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  //&quot;Bald läppert sich das zu richtigem Geld zusammen.&quot;</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;läppern|summieren&quot;).matchInflectedForms().build(),</b>
+<b class="nc">&nbsp;      token(&quot;sich&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:DEM.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:DAT.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:DAT.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  //&quot;Die Weimarer Parks laden ja förmlich ein zu Fotos im öffentlichen Raum.&quot;</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().token(&quot;laden&quot;).matchInflectedForms().setSkip(-1).build(),</b>
+<b class="nc">&nbsp;      token(&quot;ein&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:AKK.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( //&quot;Es is schwierig für mich, diese zu Sätzen zu verbinden.&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:DEM.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB.*&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().token(&quot;zu&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;verbinden|verhelfen|fähig&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( //&quot;Kombinieren Sie diese zu ganzen Bewegungsprogrammen&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;diese[sn]?&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ.*PLU.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB.*PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( //&quot;Es kam zum einen zu technischen Problemen, zum anderen wurde es unübersichtlich.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;zum&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;einen&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*&quot;).setSkip(-1).build(),</b>
+<b class="nc">&nbsp;      token(&quot;zum&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;anderen&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( //&quot;Das Spiel wird durch den zu neuer Größe gewachsenen Torwart dominiert.&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;ART.*|PRO:POS.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*&quot;).min(0).max(2).build(),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PA2.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( //&quot;Dort findet sich schlicht und einfach alles &amp; das zu sagenhafter Hafenkulisse.&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;und|&amp;&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ART:DEF.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;die zu basisdemokratischen Prozessen benötigte Mitbestimmung&quot;</b>
+<b class="nc">&nbsp;      token(&quot;die&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;nötigen?|benötigten?|erforderlichen?&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:.*|ART.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;wenige|viele|verschiedene|höheren|günstigeren&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:.*|ART.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Hause&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;Und das zu guter Qualität.&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:.*|ART.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:DAT:SIN:FEM:GRU:SOL&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Qualität&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO.*&quot;),  // &quot;Es gibt viele Stock Screener.&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().pos(&quot;UNKNOWN&quot;).csTokenRegex(&quot;[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+&quot;).build()</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRP.*(DAT|AKK)&quot;),  // &quot;zur Learning Academy&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().pos(&quot;UNKNOWN&quot;).csTokenRegex(&quot;[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+&quot;).build()</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRP.*DAT&quot;),  // &quot;zur neuen Learning Academy&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ.*DAT.*&quot;),  </b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().pos(&quot;UNKNOWN&quot;).csTokenRegex(&quot;[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+&quot;).build()</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRP.*AKK&quot;),  // &quot;zur neuen Learning Academy&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ.*AKK.*&quot;),  </b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().pos(&quot;UNKNOWN&quot;).csTokenRegex(&quot;[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+&quot;).build()</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO.*&quot;),  // &quot;Es gibt viele verschiedene Stock Screener.&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;(ADJ|PA2).*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().pos(&quot;UNKNOWN&quot;).csTokenRegex(&quot;[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+&quot;).build()</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[(\\[]&quot;),   // &quot;... (ich meine Pfeil, nicht Raute) ...&quot;</b>
+<b class="nc">&nbsp;      token(&quot;ich&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;meine&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;ein|das&quot;),   // &quot;ein leichter handhabbares Logo&quot;</b>
+<b class="nc">&nbsp;      token(&quot;leichter&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:NOM:SIN:NEU:GRU:IND&quot;),</b>
+<b class="nc">&nbsp;      pos(&quot;SUB:NOM:SIN:NEU&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;eine|die&quot;),   // &quot;eine leichter handhabbare Situation&quot;</b>
+<b class="nc">&nbsp;      token(&quot;leichter&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:NOM:SIN:FEM:GRU:IND&quot;),</b>
+<b class="nc">&nbsp;      pos(&quot;SUB:NOM:SIN:FEM&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;der|die|das&quot;),   // &quot;Der solchen Einsätzen gegenüber kritische Müller ...&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;solche[mn]|(eben)?diese[mn]&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;gegenüber&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*|EIG.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;des|der&quot;),   // &quot;des wenige Jahrzehnte zuvor verstorbenen Klostergründers&quot;</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*|EIG.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zuvor&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PA2:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;Ehre&quot;),  // &quot;Ehre, wem Ehre gebührt&quot;</b>
+<b class="nc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;wem&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Ehre&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;in&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;mehrerer&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Hinsicht&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;der|die|das&quot;),   // &quot;die [daraus] jedem zukommende Freiheit&quot;, &quot;im Lichte der diesem zukommenden Repräsentationsaufgabe&quot;</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADV:.*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;jedem|(eben)?diesem&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PA1:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;spendet|macht&quot;),  // &quot;Macht dir das Hoffnung?&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;mir|euch|dir|uns|ihnen&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*SIN.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;der|dem&quot;),  // &quot;Das Staatsoberhaupt ist der Verfassung zufolge der König.&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*SIN.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zufolge&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;der|die|das&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*SIN.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Erkenntnis|Erkenntnissen&quot;), // &quot;Als Auslöser könnte den ersten Erkenntnissen zufolge ein Specht in Betracht kommen.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;zufolge&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ART:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;die Anfang des 20. Jahrhunderts&quot;
+<b class="nc">&nbsp;      tokenRegex(&quot;Anfang|Mitte|Ende&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;des&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;.&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Das verlangt reifliche Überlegung.&quot;, &quot;Die abnehmend aufwendige Gestaltung der Portale...&quot;,
+&nbsp;      // &quot;Eine ausreichend genaue Bestimmung&quot;
+<b class="nc">&nbsp;      tokenRegex(&quot;(eben)?diese|der|die|das|ein|eine|dem|den|eine[ernm]|anderen?&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PA[12]:.*VER|ADV:TMP&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Und den dritten wenige Tage später.&quot;
+<b class="nc">&nbsp;      tokenRegex(&quot;den|die&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;ersten?|zweiten?|dritten?|vierten?|fünften?|sechsten?|siebten?|achten?|neuten?|zehnten?|elften?|zwölften?&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Die ersten Drei bekommen einen Preis.&quot; / &quot;Die geheimen Sechs&quot;
+<b class="nc">&nbsp;      tokenRegex(&quot;den|die&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;.+n&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun|Zehn|Elf|Zwölf|Zwanzig|Drei(ß|ss)ig|Vierzig|Fünzig|Hundert|Tausend&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;sie zog allem anderen kindliche Spiele vor&quot;
+<b class="nc">&nbsp;      token(&quot;allem&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;anderen&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Von denen die meisten erst Ende des 19. Jahrhunderts&quot;
+<b class="nc">&nbsp;      token(&quot;denen&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;die&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;meisten&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Viele weniger bekannte Vorschläge&quot;, &quot;Seine überwiegend raschen Walzer ...&quot;,
+&nbsp;      // &quot;Keiner erwähnte eigene Überprüfungen&quot;
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegexWithStringException(&quot;PRO:(IND|POS).*&quot;, &quot;eine[nm]&quot;).build(),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PA[12]:.*|ADV:TMP&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;der|die|manche[mr]&quot;), // &quot;zog sich der Düsseldorfer schwere Verletzungen zu. &quot;</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-ZÖÄÜ].*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;einer?&quot;),  // &quot;Der als einer der ersten gängige Swingklischees vermied&quot;</b>
+<b class="nc">&nbsp;      token(&quot;der&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:GEN:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;der|ein|eine[rnms]?|des|die&quot;),  // &quot;Ein lose zusammengewürfelter Haufen&quot;</b>
+<b class="nc">&nbsp;      token(&quot;lose&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;zusammengewürfelte[rnms]?&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;den&quot;),  // Als Ersatz für den kleiner gewordenen Spielplatz.</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:PRD:KOM&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:AKK:SIN.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:AKK:SIN.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;die&quot;),  // Als Ersatz für die kleiner gewordenen Spielplätze.</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:PRD:KOM&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:AKK:PLU.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:AKK:PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Andere weniger bekannte Vorschläge&quot;, &quot;Ich habe mir das gerade letzte Woche zugelegt.&quot;
+<b class="nc">&nbsp;      posRegex(&quot;ART:.*|PRO:(POS|DEM|PER|IND).*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;anscheinend|zunehmend|vorzugsweise|gekonnt|ausgeprägt|einige|solcher|solchen|typischerweise|hinreichend|nachgerade|vereinzelt|verheerend|hinreichend|zahlreiche|genauer|weiter|weniger|einzige|teilweise|anderen|sämtlicher|geringer|anderer|ausreichend|gerade|anhaltend|meisten&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:DEM:.*&quot;),  // &quot;Diese definiert einzelne Genres ...&quot;</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegexWithStringException(&quot;VER:[23]:.*&quot;, &quot;eine&quot;).build(),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;aufs|beides|welcher&quot;),  // &quot;aufs äußerste grausamer Krieg&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;eine[mr]&quot;),  // &quot;Dieses Bild stammt von einem lange Zeit unbekannten Maler.&quot;</b>
+<b class="nc">&nbsp;      pos(&quot;ADV:TMP&quot;),</b>
+<b class="nc">&nbsp;      pos(&quot;ADV:TMP&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*SIN.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;zu&quot;),  // &quot;Sie gehörte einst zu den besten Afrikas.&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;den&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;EIG:GEN:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;von&quot;),  // &quot;von denen viele Open-Source-Software sind&quot;</b>
+<b class="nc">&nbsp;      token(&quot;denen&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;viele|etliche|alle|einige|manche|mehrere|wenige&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB:.*SIN:.*&quot;).setSkip(-1).build(),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;sind|seien|sein|waren|wären&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;von&quot;),  // &quot;von denen die meisten Open-Source-Software sind&quot;</b>
+<b class="nc">&nbsp;      token(&quot;denen&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;die&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;meisten|wenigsten|besten&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB:.*SIN:.*&quot;).setSkip(-1).build(),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;sind|seien|sein|waren|wären&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;die|der|den&quot;),  // &quot;die späten 50er Jahre&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;frühen|späten&quot;),  // &quot;die späten 50er Jahre&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+er&quot;),  // &quot;die späten 50er Jahre&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Jahren?&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;die|der|den&quot;),  // &quot;die wilden 90er&quot;</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+er&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;ART:.*&quot;),  // &quot;ein ausgesprochen unattraktiver Dienstort&quot;</b>
+<b class="nc">&nbsp;      token(&quot;ausgesprochen&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;ein|eine|einen&quot;),  // &quot;bietet einen weniger genauen Zugriff&quot;</b>
+<b class="nc">&nbsp;      token(&quot;weniger&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:AKK:SIN:.*:GRU:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*SIN.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().csToken(&quot;sein&quot;).matchInflectedForms().build(),</b>
+<b class="nc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Grund|Anlass|Auslöser|Ursache&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Vielleicht schreckt das Frauen ab&quot;
+<b class="nc">&nbsp;      tokenRegex(&quot;schreckte?&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;eine&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Zeitlang&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;für&quot;),  // &quot;..., wann und für wen Impfungen vorgenommen werden könnten.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;wen&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;der&quot;),  // &quot;der fließend Englisch sprechende Mitarbeiter&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;flie(ß|ss)end&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;sprechende&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;ein&quot;),  // &quot;Das wolkige und ein bisschen kühle Wetter...&quot;</b>
+<b class="nc">&nbsp;      token(&quot;bisschen&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*SIN.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;ein&quot;),  // &quot;...um mal ein bisschen Einsichten zu bekommen&quot; (ugs., aber okay)</b>
+<b class="nc">&nbsp;      token(&quot;bisschen&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;dem&quot;),  // &quot;dem Abhilfe zu schaffen&quot;</b>
+<b class="nc">&nbsp;      token(&quot;Abhilfe&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().token(&quot;zu&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      token(&quot;schaffen&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;die&quot;),  // &quot;Die Müllers aus Hamburg&quot;</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;EIG.*&quot;).tokenRegex(&quot;.*s&quot;).build()</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;die&quot;),  // &quot;Die Xi Jinping Ära ist …&quot; -- should be &#39;Xi-Jinping-Ära&#39;, but don&#39;t detect here because of confusing error message</b>
+<b class="nc">&nbsp;      posRegex(&quot;EIG:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;die&quot;),  // &quot;Die Xi Ära ist …&quot;  -- should be &#39;Xi-Ära&#39;, but don&#39;t detect here because of confusing error message</b>
+<b class="nc">&nbsp;      posRegex(&quot;EIG:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;EIG:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;ist|war|sei|wäre&quot;),  // &quot;war das Absicht&quot;</b>
+<b class="nc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Absicht&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;das&quot;),  // &quot;in das damalige Reichenbach in Schlesien&quot;</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Reichenbach|Albstadt|Arnstadt|Darmstadt|Duderstadt|Eberstadt|Eibelstadt|Erftstadt|Freudenstadt|Bergneustadt|&quot; +</b>
+&nbsp;        &quot;Neustadt|Burgkunstadt|Diemelstadt|Ebermannstadt|Eisenhüttenstadt|Friedrichstadt|Filderstadt|Freystadt|Florstadt|Glückstadt|&quot; +
+&nbsp;        &quot;Grünstadt|Hallstadt|Halberstadt|Ingolstadt|Johanngeorgenstadt|Karlstadt&quot;)  // TODO: extend, https://de.wikipedia.org/wiki/Liste_der_St%C3%A4dte_in_Deutschland
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;das&quot;),  // &quot;Einwohnerzahl stieg um das Zweieinhalbfache&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;(zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf).*fache&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;ein&quot;),  // &quot;um ein vielfaches höhere Preise&quot; -&gt; Vielfaches, found by other rule</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;(viel|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf).*faches&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ.*KOM.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;(eben)?diese&quot;),  // &quot;...damit diese ausreichend Sauerstoff geben.&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;genug|genügend|viel|hinreichend|ausreichend&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:NOM:SIN:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;(eben)?diese[nmr]|andere[nm]&quot;),  // &quot;...um einer anderen genügend Platz zu schaffen&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;genug|genügend|viel|hinreichend|ausreichend&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:NOM:SIN:.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:MOD:.*&quot;),  // &quot;Sollten zu diesem weitere Informationen benötigt werden, ...&quot;</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      regex(&quot;(eben)?diese[mnr]&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:NOM:PLU:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PA2:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      regex(&quot;ein|das&quot;),  // &quot;Ein Geschenk, das Maßstäbe setzt&quot; (#4043)</b>
+<b class="nc">&nbsp;      pos(&quot;SUB:NOM:SIN:NEU&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:NOM:PLU:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:3:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;uns&quot;),  // &quot;und wünschen uns allen Gesundheit.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;allen&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*:SIN:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;Domain&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Name&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Systems?&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;der|das|die&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().min(0).build(),</b>
+<b class="nc">&nbsp;      token(&quot;Bad&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Homburger&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;der|die|das&quot;),   // &quot;Lieber jemanden, der einem Tipps/Hoffnung gibt.&quot; / &quot;die 69er Revolte&quot;</b>
+<b class="nc">&nbsp;      csRegex(&quot;einem|[0-9]+er&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;de[rs]&quot;),   // &quot;Die dauerhafte Abgrenzung des später Niedersachsen genannten Gebietes&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;EIG:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PA2:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;ART:.*FEM.*&quot;),  // &quot;Eine Lücke in der erneuerbare Energien eine sinnvolle Rolle spielen könnten&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*FEM.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;in&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;der&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;einem&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;kalte&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Schauer&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      regex(&quot;die|der&quot;),  // &quot;die Querwild GmbH&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;GmbH&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;Die&quot;),</b>
+<b class="nc">&nbsp;      regex(&quot;Waltons|Einen&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      regex(&quot;Gro(ß|ss)e[sn]?&quot;),</b>
+<b class="nc">&nbsp;      regex(&quot;(Bundes)?Verdienstkreuz(es)?&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // &quot;Adiponitril und Acetoncyanhydrin, beides Zwischenprodukte der Kunststoffproduktion.&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[,–-]&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;beides&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // &quot;In den Zwei Abhandlungen&quot; (lowercase &quot;zwei&quot; is correct, but does not need to be found here)</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Eins|Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun|Zehn|Elf|Zwölf&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // &quot;Eine Massengrenze, bis zu der Lithium nachgewiesen werden kann.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;bis&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;der&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PA2:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;jeder?&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Abitur&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;Halle&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;an&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;der&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Saale&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;mehrere Tausend Menschen&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Dutzend|Hundert|Tausend&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;Besonders reizen mich Fahrräder.&quot;, &quot;weil mich psychische Erkrankungen aus der Bahn werfen&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;dich|mich&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;jenes Weges, den die Tausenden Juden 1945 ...&quot;</b>
+<b class="nc">&nbsp;      token(&quot;die&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Tausenden&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // misspelling &quot;Format&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;das|ein&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Formart&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;... andere erfreut Tennis.&quot;</b>
+<b class="nc">&nbsp;      regex(&quot;andere&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:PA2.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;Das eine bedeutet Gefahr und das andere Gelegenheit.&quot;</b>
+<b class="nc">&nbsp;      regex(&quot;der|die|das&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().token(&quot;eine&quot;).setSkip(-1).build(),</b>
+<b class="nc">&nbsp;      regex(&quot;der|die|das&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;andere&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;... größeren Bekanntheitsgrad in der Bevölkerung als jeder andere Kandidat vor ihm&quot;</b>
+<b class="nc">&nbsp;      regex(&quot;jede[mnrs]?&quot;),</b>
+<b class="nc">&nbsp;      regex(&quot;anderen?&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;... kein anderer Unrecht hat.&quot;</b>
+<b class="nc">&nbsp;      regex(&quot;(eben)?diese[rs]?|keine?&quot;),</b>
+<b class="nc">&nbsp;      regex(&quot;anderer?&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;Toleranz ist der Verdacht, dass der andere Recht hat.&quot;</b>
+<b class="nc">&nbsp;      regex(&quot;der|die|das&quot;),</b>
+<b class="nc">&nbsp;      regex(&quot;anderen?&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Recht&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().csToken(&quot;haben&quot;).matchInflectedForms().build()</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;als einziger ein für die anderen unsichtbares Wunder zu sehen.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;für&quot;),</b>
+<b class="nc">&nbsp;      regex(&quot;den|die&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;anderen&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;Wer auf eines anderen Schuhe wartet...&quot;, &quot;...Auge darauf haben, dass keine der anderen Abbruch tue&quot;</b>
+<b class="nc">&nbsp;      regex(&quot;der|eine[sr]&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;anderen&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;wenn andere anderer Meinung sind&quot;</b>
+<b class="nc">&nbsp;      token(&quot;andere&quot;),</b>
+<b class="nc">&nbsp;      regex(&quot;anderer?&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;Hat ein Schutzgut gegenüber den anderen Priorität?&quot;</b>
+<b class="nc">&nbsp;      token(&quot;gegenüber&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;den&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;anderen&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;... ist des anderen Freiheitskämpfer&quot;, &quot;... die anderen Volleyball&quot;</b>
+<b class="nc">&nbsp;      regex(&quot;des|die&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;anderen&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;Ein Esel schimpft den anderen Langohr.&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:3:.*&quot;),</b>
+<b class="nc">&nbsp;      regex(&quot;den|die|das&quot;),</b>
+<b class="nc">&nbsp;      regex(&quot;anderen?&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;... eine bessere Behandlung als andere Gefangene.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;als&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;andere&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;was sein Klient für ein Mensch sei&quot;,</b>
+&nbsp;      // &quot;Mir wird nicht ganz klar, was das bei 1:58 für ein Akkord ist.&quot;
+<b class="nc">&nbsp;      new PatternTokenBuilder().token(&quot;was&quot;).setSkip(5).build(),</b>
+<b class="nc">&nbsp;      token(&quot;für&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;ein&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*(MAS|NEU).*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*:(MAS|NEU).*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;was sein Klient für ein Mensch sei&quot;,</b>
+&nbsp;      // &quot;Mir wird nicht ganz klar, was das bei 1:58 für ein Akkord ist.&quot;
+<b class="nc">&nbsp;      new PatternTokenBuilder().token(&quot;was&quot;).setSkip(5).build(),</b>
+<b class="nc">&nbsp;      token(&quot;für&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;eine&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.*FEM.*&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*:FEM.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Wir zeigen die Gründe auf, wieso noch nicht jeder solche Anschlüsse hat.&quot;
+<b class="nc">&nbsp;      regex(&quot;jede[rsm]?&quot;),</b>
+<b class="nc">&nbsp;      regex(&quot;(eben)?solche[rsm]?&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB.*PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      regex(&quot;als|um&quot;),</b>
+<b class="nc">&nbsp;      regex(&quot;(eben)?solche&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Solch frivolen Gedanken wollen wir gar nicht erst nachgehen.&quot;
+<b class="nc">&nbsp;      regex(&quot;(eben)?solch&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[a-zäöüß]+en?&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB.*PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Solch frivolen ungewohnten Gedanken wollen wir gar nicht erst nachgehen.&quot;
+<b class="nc">&nbsp;      regex(&quot;(eben)?solch&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[a-zäöüß]+en?&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[a-zäöüß]+en?&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB.*PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Er erwartete solch aggressives Verhalten.&quot;
+<b class="nc">&nbsp;      regex(&quot;(eben)?solch&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[a-zäöüß]+e[nms]&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB.*SIN.*NEU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Er erwartete solch aggressives ungewohntes Verhalten.&quot;
+<b class="nc">&nbsp;      regex(&quot;(eben)?solch&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[a-zäöüß]+e[nms]&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[a-zäöüß]+e[nms]&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB.*SIN.*NEU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Ein solch schöner Tisch.&quot;
+<b class="nc">&nbsp;      regex(&quot;(eben)?solch&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[a-zäöüß]+e[nmr]&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB.*SIN.*MAS.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Ein solch schöner neuer Tisch.&quot;
+<b class="nc">&nbsp;      regex(&quot;(eben)?solch&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[a-zäöüß]+e[nmr]&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[a-zäöüß]+e[nmr]&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB.*SIN.*MAS.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Eine solch schöne Frau.&quot;
+<b class="nc">&nbsp;      regex(&quot;(eben)?solch&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[a-zäöüß]+e[rn]?&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB.*SIN.*FEM.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Eine solch schöne hübsche Frau.&quot;
+<b class="nc">&nbsp;      regex(&quot;(eben)?solch&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[a-zäöüß]+e[rn]?&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[a-zäöüß]+e[rn]?&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB.*SIN.*FEM.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  </b>
+&nbsp;      // &quot;Wenn ein Tiger einen Menschen tötet, ist das Grausamkeit.&quot;
+<b class="nc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;dann|so&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      csRegex(&quot;ist|wäre?&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;das(jenige)?|(der|die)jenige&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:NOM.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  </b>
+&nbsp;      // &quot;Sind im Molekül mehrere Aminogruppen vertreten, so bestimmt dasjenige Kohlenstoff&quot;
+<b class="nc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;wenn|falls|sobald&quot;).matchInflectedForms().setSkip(-1).build(),</b>
+<b class="nc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;dann|so&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      token(&quot;bestimmt&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;das(jenige)?&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:NOM.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  </b>
+&nbsp;      // &quot;das Bände spricht&quot;
+<b class="nc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Bände&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;spricht|sprach|sprechen&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  </b>
+<b class="nc">&nbsp;      regex(&quot;des|der|den|dem|die&quot;),</b>
+<b class="nc">&nbsp;      csToken(&quot;Kommando&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;Spezialkräften?&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  </b>
+<b class="nc">&nbsp;      token(&quot;auf&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;die|den|das&quot;),</b>
+<b class="nc">&nbsp;      csToken(&quot;Verlass&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;ist|war|wäre?&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  </b>
+<b class="nc">&nbsp;      token(&quot;auf&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;die|den|das&quot;),</b>
+<b class="nc">&nbsp;      csToken(&quot;Verlass&quot;),</b>
+<b class="nc">&nbsp;      csToken(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      csToken(&quot;sein&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  </b>
+&nbsp;      // kannst du mal schauen, ob das zahlende Kunden sind?
+<b class="nc">&nbsp;      token(&quot;ob&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;.+e&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:NOM:PLU.*&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;sind|waren&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Er fragte, ob das Frauen auch so toll finden.
+<b class="nc">&nbsp;      token(&quot;ob&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Frauen&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Ich lese das Korrektur.
+<b class="nc">&nbsp;      csRegex(&quot;l[ea]sen?|liest|l[ea]st?&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Korrektur&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Ich habe das Korrektur gelesen.
+<b class="nc">&nbsp;      csRegex(&quot;habe?n?|ha[sb]?t&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Korrektur&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;gelesen&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // In einer entzückend chaotischen Partie zwischen A und B kam es zum Unentschieden.
+<b class="nc">&nbsp;      posRegex(&quot;ART.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:PA[12]&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Er lässt einen Visionen haben.
+<b class="nc">&nbsp;      csRegex(&quot;lässt|lassen|ließ|ließen&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;einen&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:AKK.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:INF.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Eine Initialzündung war der Bericht „Grenzen des Wachstums“ des Club of Rome, ...
+<b class="nc">&nbsp;      token(&quot;des&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Club&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;of&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Rome&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Entwickelt wurde das Session Initiation Protocol von der IETF.
+<b class="nc">&nbsp;      csRegex(&quot;das|ein&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Session&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Initiation&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Protocol&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Ähnliches gilt im Norden der Insel für die George-Washington-Bridge.
+<b class="nc">&nbsp;      token(&quot;die&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;George-Washington-Bridge&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Wie kann ich das zu Wege bringen?
+<b class="nc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Wege&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Erst in der zweiten Hälfte des 4. Jahrhunderts ging die alte aristokratische Ordnung durch Machtkämpfe zwischen diesen zu Grunde.
+<b class="nc">&nbsp;      csRegex(&quot;diese[mnrs]?&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Grunde&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // acht Passionsszenen Christi sowie das Jüngste Gericht
+<b class="nc">&nbsp;      csRegex(&quot;das|dem|des&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;Jüngsten?&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;Gerichts?&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Großes Konzert in der Kampnagel Kulturfabrik
+<b class="nc">&nbsp;      token(&quot;Kampnagel&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Kulturfabrik&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Es war Teil von Madonnas Performance während des Super Bowls 2012.
+<b class="nc">&nbsp;      token(&quot;Super&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;Bowls?&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Die Zeit begann mit der Gründung der englischen Football Association.
+<b class="nc">&nbsp;      csRegex(&quot;[Ee]nglischen?&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Football&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Assosiation&quot;)</b>
+&nbsp;    )
+&nbsp;  );
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

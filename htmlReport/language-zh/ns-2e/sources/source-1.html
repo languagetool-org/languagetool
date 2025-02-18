@@ -1,0 +1,1746 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AbstractEnglishSpellerRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.en</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractEnglishSpellerRule (org.languagetool.rules.en)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractEnglishSpellerRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/616)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1205)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AbstractEnglishSpellerRule$IrregularForms</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/29)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/616)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1210)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.en;
+&nbsp;
+&nbsp;import com.google.common.collect.Iterables;
+&nbsp;import com.google.common.collect.Sets;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.apache.commons.text.similarity.LevenshteinDistance;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.languagemodel.BaseLanguageModel;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.SuggestedReplacement;
+&nbsp;import org.languagetool.rules.en.translation.BeoLingusTranslator;
+&nbsp;import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+&nbsp;import org.languagetool.rules.translation.Translator;
+&nbsp;import org.languagetool.tagging.ner.NERService;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static java.util.regex.Pattern.*;
+&nbsp;import static org.languagetool.rules.SuggestedReplacement.topMatch;
+&nbsp;
+&nbsp;@SuppressWarnings(&quot;ArraysAsListWithZeroOrOneArgument&quot;)
+&nbsp;public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; getAdditionalSpellingFileNames() {
+&nbsp;    // NOTE: also add to GermanSpellerRule.getSpeller() when adding items here:
+<b class="nc">&nbsp;    return Arrays.asList(language.getShortCode() + CUSTOM_SPELLING_FILE, GLOBAL_SPELLING_FILE,</b>
+&nbsp;      &quot;/en/multiwords.txt&quot;);
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);</b>
+&nbsp;  //private static final EnglishSynthesizer synthesizer = (EnglishSynthesizer) Languages.getLanguageForShortCode(&quot;en&quot;).getSynthesizer();
+&nbsp;
+<b class="nc">&nbsp;  private final static Set&lt;String&gt; lcDoNotSuggestWords = new HashSet&lt;&gt;(Arrays.asList(</b>
+&nbsp;    // words with &#39;NOSUGGEST&#39; in en_US.dic:
+&nbsp;    &quot;asshole&quot;,
+&nbsp;    &quot;assholes&quot;,
+&nbsp;    &quot;bullshit&quot;,
+&nbsp;    &quot;bullshitted&quot;,
+&nbsp;    &quot;bullshitter&quot;,
+&nbsp;    &quot;bullshitters&quot;,
+&nbsp;    &quot;bullshitting&quot;,
+&nbsp;    &quot;chickenshit&quot;,
+&nbsp;    &quot;chickenshits&quot;,
+&nbsp;    &quot;cocksucker&quot;,
+&nbsp;    &quot;cocksuckers&quot;,
+&nbsp;    &quot;coon&quot;,
+&nbsp;    &quot;coon ass&quot;,
+&nbsp;    &quot;coon asses&quot;,
+&nbsp;    &quot;cunt&quot;,
+&nbsp;    &quot;germane&quot;, // confused with German
+&nbsp;    &quot;double check&quot;,
+&nbsp;    &quot;flat screen&quot;, // flatscreen
+&nbsp;    &quot;full time&quot;, // should be &#39;full-time&#39;
+&nbsp;    &quot;part time&quot;, // should be &#39;part-time&#39;
+&nbsp;    &quot;java script&quot;,
+&nbsp;    &quot;off topic&quot;,
+&nbsp;    &quot;hard coding&quot;,
+&nbsp;    &quot;hard coded&quot;,
+&nbsp;    &quot;fine tune&quot;,
+&nbsp;    &quot;fine tuned&quot;,
+&nbsp;    &quot;fine tuning&quot;,
+&nbsp;    &quot;kick started&quot;, // kickstarted
+&nbsp;    &quot;kick starting&quot;, // kickstarting
+&nbsp;    &quot;kicks tarting&quot;, // kickstarting
+&nbsp;    &quot;kicks tarted&quot;, // kickstarted
+&nbsp;    &quot;with holdings&quot;,
+&nbsp;    &quot;hard coded&quot;,
+&nbsp;    &quot;hands free&quot;,
+&nbsp;    &quot;screens hare&quot;, // suggestion to screenshare
+&nbsp;    &quot;screens hares&quot;, // suggestion to screenshare
+&nbsp;    &quot;screens hared&quot;, // suggestion to screenshare
+&nbsp;    &quot;screens haring&quot;, // suggestion to screenshare
+&nbsp;    &quot;in flight&quot;,
+&nbsp;    &quot;in car&quot;,
+&nbsp;    &quot;client side&quot;,
+&nbsp;    &quot;server side&quot;,
+&nbsp;    &quot;worry some&quot;, // suggestion for worrysome
+&nbsp;    &quot;skillet&quot;, // wrong suggestion for skillset
+&nbsp;    &quot;skillets&quot;, // wrong suggestion for skillsets
+&nbsp;    &quot;code named&quot;,
+&nbsp;    &quot;code naming&quot;,
+&nbsp;    &quot;in house&quot;,
+&nbsp;    &quot;back office&quot;,
+&nbsp;    &quot;faggot&quot;,
+&nbsp;    &quot;faggots&quot;,
+&nbsp;    &quot;fuckable&quot;,
+&nbsp;    &quot;fuck&quot;,
+&nbsp;    &quot;fucker&quot;,
+&nbsp;    &quot;fuckhead&quot;,
+&nbsp;    &quot;fuckheads&quot;,
+&nbsp;    &quot;horseshit&quot;,
+&nbsp;    &quot;kraut&quot;,
+&nbsp;    &quot;krauts&quot;,
+&nbsp;    &quot;blackie&quot;,
+&nbsp;    &quot;blackies&quot;,
+&nbsp;    &quot;motherfucker&quot;,
+&nbsp;    &quot;motherfuckers&quot;,
+&nbsp;    &quot;motherfucking&quot;,
+&nbsp;    &quot;nigga&quot;,
+&nbsp;    &quot;niggas&quot;,
+&nbsp;    &quot;niggaz&quot;,
+&nbsp;    &quot;negro&quot;,
+&nbsp;    &quot;nigger&quot;,
+&nbsp;    &quot;nigger lip&quot;,
+&nbsp;    &quot;nigger lips&quot;,
+&nbsp;    &quot;niggers&quot;,
+&nbsp;    &quot;skillet&quot;,
+&nbsp;    &quot;shit&quot;,
+&nbsp;    &quot;shits&quot;,
+&nbsp;    &quot;shitfaced&quot;,
+&nbsp;    &quot;shithead&quot;,
+&nbsp;    &quot;shitheads&quot;,
+&nbsp;    &quot;shitload&quot;,
+&nbsp;    &quot;shitted&quot;,
+&nbsp;    &quot;shitting&quot;,
+&nbsp;    &quot;shitty&quot;,
+&nbsp;    &quot;wop&quot;,
+&nbsp;    &quot;wops&quot;,
+&nbsp;    // extension:
+&nbsp;    &quot;niggard&quot;, &quot;niggardly&quot;
+&nbsp;  ));
+<b class="nc">&nbsp;  private static final Pattern PROFILERATION = compile(&quot;[Pp]rofileration&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern CEMETARY = compile(&quot;[Cc]emetary&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern CEMETARIES = compile(&quot;[Cc]emetaries&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern BASICLY = compile(&quot;[Bb]asicly&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern BELEIVES = compile(&quot;[Bb]eleives?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern BELIVES = compile(&quot;[Bb]elives?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern BIZZARE = compile(&quot;[Bb]izzare&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern COMPLETLY = compile(&quot;[Cc]ompletly&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DISSAPEARS = compile(&quot;[Dd]issapears?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern FARENHEIT = compile(&quot;[Ff]arenheit&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern FREINDS = compile(&quot;[Ff]reinds?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern INCIDENTLY = compile(&quot;[Ii]ncidently&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern INTERUPTS = compile(&quot;[Ii]nterupts?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern LOLLYPOPS = compile(&quot;[Ll]ollypops?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern OCASSIONS = compile(&quot;[Oo]cassions?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern OCCURANCES = compile(&quot;[Oo]ccurances?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PERSISTANT = compile(&quot;[Pp]ersistant&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PEICES = compile(&quot;[Pp]eices?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern SEIGES = compile(&quot;[Ss]eiges?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern SUPERCEDES = compile(&quot;[Ss]upercedes?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern THRESHHOLDS = compile(&quot;[Tt]hreshholds?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern TOMMORROWS = compile(&quot;[Tt]ommorrows?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern TOUTES = compile(&quot;[Tt]ounges?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern WIERD = compile(&quot;[Ww]ierd&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern SARGENT = compile(&quot;[Ss]argent&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern SWIMMED = compile(&quot;swimmed&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern MISSPELT = compile(&quot;misspelt&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern JIST = compile(&quot;[Jj]ist&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADHOC = compile(&quot;[Ad]hoc&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DEACTIVE = compile(&quot;[De]eactive&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern HONGKONG = compile(&quot;[hH]on[kg]kong&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern AFAIK = compile(&quot;afaik&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern JANUARY = compile(&quot;january&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern APRIL = compile(&quot;april&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern SEPTEMBER = compile(&quot;september&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern OCTOBER = compile(&quot;october&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOVEMBER = compile(&quot;november&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DECEMBER = compile(&quot;december&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ENGLISH = compile(&quot;english&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern SPANISH = compile(&quot;spanish&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern GITLAB = compile(&quot;[Gg]itlab&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern BONAFIDE = compile(&quot;[Bb]onafide&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern WHEREEVER = compile(&quot;[Ww]hereever&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern WHATSAPP = compile(&quot;[Ww]hatsapp&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern JETLAGGED = compile(&quot;jetlagged&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern MACBOOK = compile(&quot;[Mm]acbooks?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern LIKELYHOOD = compile(&quot;[Ll]ikelyhood&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern UNECESSARY = compile(&quot;[Uu]necessary&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern HUBSPOT = compile(&quot;[Hh]ubspot&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern URL = compile(&quot;[Uu]rl&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern TV = compile(&quot;tv&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern HTTP = compile(&quot;[Hh]ttp&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern HTTPS = compile(&quot;[Hh]ttps&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern FYI = compile(&quot;[Ff]yi&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern MICROSOFT = compile(&quot;microsoft&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DEVOPS = compile(&quot;[Dd]evops&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ALLRIGHT = compile(&quot;[Aa]llright&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern INTRANSPARENT = compile(&quot;intransparent(ly)?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADDON = compile(&quot;[Aa]ddons?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern WDYT = compile(&quot;[Ww]dyt&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern UNCOMPLIANT = compile(&quot;[UuIi]ncompliant&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern UX = compile(&quot;ux&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern LANGUAGETOOL = compile(&quot;[Ll]anguagetool&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern UNDETERMINISTIC = compile(&quot;undeterministic&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern QUILLBOT_POS = compile(&quot;QuillBots&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern QUILLBOT1 = compile(&quot;[Qq]uill?bot&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern QUILLBOT1_POS = compile(&quot;[Qq]uill?bots&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern QUILLBOT2 = compile(&quot;QuilBot&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern QUILLBOT2_POS = compile(&quot;QuilBots&quot;);</b>
+&nbsp;
+&nbsp;  private final BeoLingusTranslator translator;
+&nbsp;
+<b class="nc">&nbsp;  private static NERService nerPipe = null;</b>
+&nbsp;  
+&nbsp;  private static final int maxPatterns = 9;
+<b class="nc">&nbsp;  private static final Pattern[] wordPatterns = new Pattern[maxPatterns];</b>
+<b class="nc">&nbsp;  private static final String[] blogLinks = new String[maxPatterns];</b>
+<b class="nc">&nbsp;  private static final Pattern CONTAINS_TOKEN = compile(&quot;.* (b|c|d|e|f|g|h|j|k|l|m|n|o|p|q|r|s|t|v|w|y|z|ll|ve)&quot;);</b>
+&nbsp;  static  {
+<b class="nc">&nbsp;    wordPatterns[0] = compile(&quot;.*[yi][zs]e([sd])?|.*[yi][zs]ings?|.*i[zs]ations?&quot;, CASE_INSENSITIVE | UNICODE_CASE);</b>
+<b class="nc">&nbsp;    blogLinks[0] = &quot;https://languagetool.org/insights/post/ise-ize/#the-distinctions-between-%E2%80%9C-ise%E2%80%9D-%E2%80%9C-ize%E2%80%9D-and-%E2%80%9C-yse%E2%80%9D-%E2%80%9C-yze%E2%80%9D&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;    wordPatterns[1] = compile(&quot;.*(defen[cs]e|offen[sc]e|preten[sc]e).*&quot;, CASE_INSENSITIVE | UNICODE_CASE);</b>
+<b class="nc">&nbsp;    blogLinks[1] = &quot;https://languagetool.org/insights/post/ise-ize/#the-distinctions-between-%E2%80%9C-ise%E2%80%9D-%E2%80%9C-ize%E2%80%9D-and-%E2%80%9C-yse%E2%80%9D-%E2%80%9C-yze%E2%80%9D&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;    wordPatterns[2] = compile(&quot;.*og|.*ogue&quot;, CASE_INSENSITIVE | UNICODE_CASE);</b>
+<b class="nc">&nbsp;    blogLinks[2] = &quot;https://languagetool.org/insights/post/ise-ize/#another-difference-because-of-foreign-words-%E2%80%9C-og%E2%80%9D-vs-%E2%80%9C-ogue%E2%80%9D&quot;;</b>
+&nbsp;    
+<b class="nc">&nbsp;    wordPatterns[3] = compile(&quot;.*(or|our).*&quot;, CASE_INSENSITIVE | UNICODE_CASE);</b>
+<b class="nc">&nbsp;    blogLinks[3] = &quot;https://languagetool.org/insights/post/our-or/#colour-or-color%E2%80%94colourise-or-colorize&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;    wordPatterns[4] = compile(&quot;.*e?able|.*dge?ments?|aging|ageing|ax|axe|.*grame?s?|neuron|neurone|neurons|neurones&quot;, CASE_INSENSITIVE | UNICODE_CASE);</b>
+<b class="nc">&nbsp;    blogLinks[4] = &quot;https://languagetool.org/insights/post/our-or/#likeable-vs-likable-judgement-vs-judgment-oestrogen-vs-estrogen&quot;;</b>
+&nbsp;    
+<b class="nc">&nbsp;    wordPatterns[5] = compile(&quot;.*(centre|center).*|.*(re|er)&quot;, CASE_INSENSITIVE | UNICODE_CASE);</b>
+<b class="nc">&nbsp;    blogLinks[5] = &quot;https://languagetool.org/insights/post/re-vs-er/#the-difference-of-%E2%80%9C-reer%E2%80%9D-at-the-center-of-attention&quot;;</b>
+&nbsp;   
+<b class="nc">&nbsp;    wordPatterns[6] = compile(&quot;canceled|cancelled|canceling|cancelling|chili|chilli|chilies|chillies|chilis|chillis|counselor|counsellor|counselors|counsellors|defueled|defuelled|defueling|defuelling|defuelings|defuellings|dialed|dialled|dialer|dialler|dialers|diallers|dialing|dialling|dialog|dialogue|dialogize|dialogise|dialogized|dialogised|dialogizes|dialogises|dialogizing|dialogising|dialogs|dialogues|dialyzable|dialysable|dialyze|dialyse|dialyzed|dialysed|dialyzes|dialyses|dialyzing|dialysing|enroll|enrol|enrolled|enroled|enrolling|enroling|enrollment|enrolment|enrollments|enrolments|enrolls|enrols|fueled|fuelled|fueling|fuelling|fulfill|fulfil|fulfillment|fulfilment|fulfills|fulfils|installment|instalment|installments|instalments|jewelry|jewellery|labeled|labelled|labeling|labelling|marvelous|marvellous|medalist|medallist|medalists|medallists|modeled|modelled|modeling|modelling|noise-canceling|noise-cancelling|refueled|refuelled|refueling|refuelling|relabeled|relabelled|relabeling|relabelling|remodeled|remodelled|remodeling|remodelling|signalization|signalisation|signalize|signalise|signalized|signalised|signalizes|signalises|signalizing|signalising|skillful|skilful|skillfully|skilfully|tranquilize|tranquillize|tranquilized|tranquillized|tranquilizes|tranquillizes|traveled|travelled|traveler|traveller|travelers|travellers|traveling|travelling|uncanceled|uncancelled|uncanceling|uncancelling|unlabeled|unlabelled|wooly|woolly&quot;, CASE_INSENSITIVE | UNICODE_CASE);</b>
+<b class="nc">&nbsp;    blogLinks[6] = &quot;https://languagetool.org/insights/post/re-vs-er/#british-english-prefers-doubling-consonants-doesn%E2%80%99t-it&quot;;</b>
+&nbsp;    
+<b class="nc">&nbsp;    wordPatterns[7] = compile(&quot;airfoil|aerofoil|airfoils|aerofoils|airplane|aeroplane|airplanes|aeroplanes|aluminum|aluminium|artifact|artefact|artifacts|artefacts|backdraft|backdraught|cozy|cosy|&quot;, CASE_INSENSITIVE | UNICODE_CASE);</b>
+<b class="nc">&nbsp;    blogLinks[7] = &quot;https://languagetool.org/insights/post/re-vs-er/#more-radical-differences-between-british-and-american-english-spellings&quot;;</b>
+&nbsp;    
+<b class="nc">&nbsp;    wordPatterns[8] = compile(&quot;amenorrhea|amenorrhoea|anesthesia|anaesthesia|anesthesias|anaesthesias|anesthetic|anaesthetic|anesthetically|anaesthetically|anesthetics|anaesthetics|anesthetist|anaesthetist|anesthetists|anaesthetists|anesthetization|anaesthetisation|anesthetizations|anaesthetisations|anesthetize|anaesthetise|anesthetized|anaesthetised|anesthetizes|anaesthetises|anesthetizing|anaesthetising|archeological|archaeological|archeologically|archaeologically|archeologies|archaeologies|archeology|archaeology|cesium|caesium|diarrhea|diarrhoea|diarrheal|diarrhoeal|dyslipidemia|dyslipidaemia|dyslipidemias|dyslipidaemias|edematous|oedematous|encyclopedia|encyclopaedia|encyclopedias|encyclopaedias|eon|aeon|eons|aeons|esophagi|oesophagi|esophagus|oesophagus|esophaguses|oesophaguses|esthetic|aesthetic|esthetical|aesthetical|esthetically|aesthetically|esthetician|aesthetician|estheticians|aestheticians|estrogen|oestrogen|estrus|oestrus|etiologies|aetiologies|etiology|aetiology|feces|faeces|fetal|foetal|fetus|foetus|fetuses|foetuses|gastroesophageal|gastro-oesophageal|glycemic|glycaemic|gynecomastia|gynaecomastia|hematemesis|haematemesis|hematoma|haematoma|hematomas|haematomas|hematopoietic|haematopoietic|hematuria|haematuria|hematurias|haematurias|hemolytic|haemolytic|hemophilia|haemophilia|hemorrhage|haemorrhage|hemorrhages|haemorrhages|hemostasis|haemostasis|homeopathies|homoeopathies|homeopathy|homoeopathy|hyperemia|hyperaemia|hyperemic|hyperaemic|hypnopedia|hypnopaedia|hypnopedic|hypnopaedic|hypocalcaemia|hypocalcaemia|hypokalaemic|hypokalemic|kinesthesia|kinaesthesia|kinesthesis|kinaesthesis|kinesthetic|kinaesthetic|kinesthetically|kinaesthetically|maneuver|manoeuvre|maneuvers|manoeuvres|orthopedic|orthopaedic|orthopedics|orthopaedics|paleoecology|palaeoecology|paleogeographical|palaeogeographical|paleogeographically|palaeogeographically|paleogeography|palaeogeography|paresthesia|paraesthesia|pediatric|paediatric|pediatrically|paediatrically|pediatrician|paediatrician|pediatricians|paediatricians|pedomorphic|paedomorphic|pedophile|paedophile|pedophiles|paedophiles|polycythemia|polycythaemia|pretorium|praetorium|pyorrhea|pyorrhoea|septicemia|septicaemia|synesthesia|synaesthesia|synesthete|synaesthete|synesthetes|synaesthetes|tracheoesophageal|tracheo-oesophageal&quot;, CASE_INSENSITIVE | UNICODE_CASE);</b>
+<b class="nc">&nbsp;    blogLinks[8] = &quot;https://languagetool.org/insights/post/our-or/#likeable-vs-likable-judgement-vs-judgment-oestrogen-vs-estrogen&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
+<b class="nc">&nbsp;    this(messages, language, null, Collections.emptyList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    RuleMatch[] matches = super.match(sentence);</b>
+<b class="nc">&nbsp;    if (languageModel != null &amp;&amp; languageModel instanceof BaseLanguageModel &amp;&amp; nerPipe != null) {</b>
+<b class="nc">&nbsp;      String sentenceText = sentence.getText();</b>
+&nbsp;      try {
+&nbsp;        //long startTime = System.currentTimeMillis();
+<b class="nc">&nbsp;        if (sentenceText.length() &lt;= 250) {</b>
+<b class="nc">&nbsp;          List&lt;NERService.Span&gt; namedEntities = nerPipe.runNER(sentenceText);</b>
+&nbsp;          //System.out.println(&quot;namedEntities: &quot; + namedEntities + &quot;, matches before filter: &quot; + matches.length);
+<b class="nc">&nbsp;          List&lt;RuleMatch&gt; filtered = filter(matches, sentenceText, namedEntities, languageModel);</b>
+&nbsp;          //System.out.println(&quot;matches after filter: &quot; + filtered.size());
+<b class="nc">&nbsp;          matches = filtered.toArray(RuleMatch.EMPTY_ARRAY);</b>
+&nbsp;        }
+&nbsp;      } catch (Exception e) {
+<b class="nc">&nbsp;        logger.warn(&quot;Could not run NER test on &#39;&quot; + sentenceText + &quot;&#39;, will assume there are no named entities&quot;, e);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // add custom URLs
+<b class="nc">&nbsp;    for (RuleMatch match : matches) {</b>
+<b class="nc">&nbsp;      String misspelledWord = (String) match.getSentence().getText().subSequence(match.getFromPos(), match.getToPos());</b>
+<b class="nc">&nbsp;      if (isValidInOtherVariant(misspelledWord) != null) {</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; maxPatterns; i++) {</b>
+<b class="nc">&nbsp;          Matcher m = wordPatterns[i].matcher(misspelledWord);</b>
+<b class="nc">&nbsp;          if (m.matches()) {</b>
+<b class="nc">&nbsp;            match.setUrl(new URL(blogLinks[i]));</b>
+&nbsp;            break;
+&nbsp;          }
+&nbsp;        }  
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return matches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;RuleMatch&gt; filter(RuleMatch[] matches, String sentenceText, List&lt;NERService.Span&gt; namedEntities, LanguageModel languageModel) {
+<b class="nc">&nbsp;    BaseLanguageModel lm = (BaseLanguageModel) languageModel;</b>
+<b class="nc">&nbsp;    Set&lt;RuleMatch&gt; toFilter = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (NERService.Span neSpan : namedEntities) {</b>
+<b class="nc">&nbsp;      for (RuleMatch match : matches) {</b>
+&nbsp;        //System.out.println(neSpan.getStart() + &quot; &lt;= &quot; + match.getFromPos() + &quot; &amp;&amp; &quot; + neSpan.getEnd() + &quot; &gt;= &quot; +  match.getToPos());
+<b class="nc">&nbsp;        if (neSpan.getStart() &lt;= match.getFromPos() &amp;&amp; neSpan.getEnd() &gt;= match.getToPos()) {</b>
+<b class="nc">&nbsp;          String covered = sentenceText.substring(match.getFromPos(), match.getToPos());</b>
+<b class="nc">&nbsp;          if (!StringTools.startsWithUppercase(covered)) {</b>
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;          //List&lt;String&gt; infos = new ArrayList&lt;&gt;();
+<b class="nc">&nbsp;          long textCount = lm.getCount(covered);</b>
+&nbsp;          //System.out.println(textCount + &quot; for &quot; + covered);
+&nbsp;          //infos.add(covered + &quot;/&quot; + textCount);
+<b class="nc">&nbsp;          String mostCommonRepl = null;</b>
+<b class="nc">&nbsp;          long mostCommonReplCount = textCount;</b>
+<b class="nc">&nbsp;          int i = 0;</b>
+<b class="nc">&nbsp;          int nonZeroReplacements = 0;</b>
+<b class="nc">&nbsp;          int lookupFailures = 0;</b>
+<b class="nc">&nbsp;          int translations = 0;</b>
+<b class="nc">&nbsp;          for (SuggestedReplacement repl : match.getSuggestedReplacementObjects()) {</b>
+<b class="nc">&nbsp;            if (repl.getType() == SuggestedReplacement.SuggestionType.Translation) {</b>
+<b class="nc">&nbsp;              translations++;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            List&lt;String&gt; replList = Arrays.asList(repl.getReplacement().split(&quot; &quot;));</b>
+<b class="nc">&nbsp;            if (replList.size() &lt;= 3) {  // hard-coding 3grams is not good, but a base LM doesn&#39;t know about ngrams...</b>
+<b class="nc">&nbsp;              long replCount = lm.getCount(replList);</b>
+<b class="nc">&nbsp;              if (replCount &gt; 0) {</b>
+<b class="nc">&nbsp;                nonZeroReplacements++;</b>
+&nbsp;              }
+<b class="nc">&nbsp;              if (replCount &gt; mostCommonReplCount) {</b>
+<b class="nc">&nbsp;                mostCommonRepl = repl.getReplacement();</b>
+<b class="nc">&nbsp;                mostCommonReplCount = replCount;</b>
+&nbsp;              }
+&nbsp;              //infos.add(repl + &quot;/&quot; + replCount);
+&nbsp;            } else {
+<b class="nc">&nbsp;              lookupFailures++;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (i++ &gt;= 4) {</b>
+&nbsp;              break;
+&nbsp;            }
+&nbsp;          }
+&nbsp;          //System.out.println(&quot;mostCommonRepl: &quot;+  mostCommonRepl);
+<b class="nc">&nbsp;          if (translations == 0 &amp;&amp; nonZeroReplacements == 0 &amp;&amp; lookupFailures == 0) {  // e.g. &quot;Fastow&quot;, which only offers &quot;Fa stow&quot; and &quot;Fast ow&quot;</b>
+&nbsp;            //System.out.println(&quot;Would skip, as no replacement was found with &gt; 0 occurrences: &quot; + covered + &quot; &quot; + match.getSuggestedReplacements());
+<b class="nc">&nbsp;            toFilter.add(match);</b>
+<b class="nc">&nbsp;          } else if (translations == 0 &amp;&amp; mostCommonRepl != null) {</b>
+<b class="nc">&nbsp;            Integer dist = new LevenshteinDistance().apply(mostCommonRepl, covered);</b>
+<b class="nc">&nbsp;            String msg = &quot;Could skip: &quot; + mostCommonRepl + &quot; FOR &quot; + covered + &quot;, dist: &quot; + dist;</b>
+<b class="nc">&nbsp;            if (dist &lt;= 2) {</b>
+&nbsp;              //System.out.println(msg + &quot;\n -&gt; Would not skip, common repl: &quot; + mostCommonRepl + &quot;: &quot; + infos);
+&nbsp;            } else {
+&nbsp;              //System.out.println(msg + &quot;\n -&gt; Would skip, &quot; + infos);
+<b class="nc">&nbsp;              toFilter.add(match);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; filteredMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (RuleMatch match : matches) {</b>
+<b class="nc">&nbsp;      if (!toFilter.contains(match)) {</b>
+<b class="nc">&nbsp;        filteredMatches.add(match);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return filteredMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.4
+&nbsp;   */
+&nbsp;  public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    this(messages, language, null, userConfig, altLanguages, null, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;SuggestedReplacement&gt; filterNoSuggestWords(List&lt;SuggestedReplacement&gt; l) {
+<b class="nc">&nbsp;    return l.stream().filter(k -&gt; !lcDoNotSuggestWords.contains(k.getReplacement().toLowerCase())).collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static Map&lt;String,String&gt; loadWordlist(String path, int column) {
+<b class="nc">&nbsp;    if (column != 0 &amp;&amp; column != 1) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Only column 0 and 1 are supported: &quot; + column);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Map&lt;String,String&gt; words = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);</b>
+<b class="nc">&nbsp;    for (String line : lines) {</b>
+<b class="nc">&nbsp;      line = line.trim();</b>
+<b class="nc">&nbsp;      if (line.isEmpty() ||  line.startsWith(&quot;#&quot;)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String[] parts = line.split(&quot;;&quot;);</b>
+<b class="nc">&nbsp;      if (parts.length != 2) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Unexpected format in &quot; + path + &quot;: &quot; + line + &quot; - expected two parts delimited by &#39;;&#39;&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      words.put(parts[column].toLowerCase(), parts[column == 1 ? 0 : 1]);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return words;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.5
+&nbsp;   * optional: language model for better suggestions
+&nbsp;   */
+&nbsp;  public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, GlobalConfig globalConfig, UserConfig userConfig,
+&nbsp;                                    List&lt;Language&gt; altLanguages, LanguageModel languageModel, Language motherTongue) throws IOException {
+<b class="nc">&nbsp;    super(messages, language, globalConfig, userConfig, altLanguages, languageModel, motherTongue);</b>
+<b class="nc">&nbsp;    super.ignoreWordsWithLength = 1;</b>
+<b class="nc">&nbsp;    setCheckCompound(true);</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;This &lt;marker&gt;sentenc&lt;/marker&gt; contains a spelling mistake.&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;This &lt;marker&gt;sentence&lt;/marker&gt; contains a spelling mistake.&quot;));</b>
+<b class="nc">&nbsp;    String languageSpecificIgnoreFile = getSpellingFileName().replace(&quot;.txt&quot;, &quot;_&quot; + language.getShortCodeWithCountryAndVariant() + &quot;.txt&quot;);</b>
+<b class="nc">&nbsp;    for (String ignoreWord : wordListLoader.loadWords(languageSpecificIgnoreFile)) {</b>
+<b class="nc">&nbsp;      addIgnoreWords(ignoreWord);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    translator = BeoLingusTranslator.getInstance(globalConfig);</b>
+<b class="nc">&nbsp;    topSuggestions = getTopSuggestions();</b>
+<b class="nc">&nbsp;    topSuggestionsIgnoreCase = getTopSuggestionsIgnoreCase();</b>
+<b class="nc">&nbsp;    if (nerPipe == null &amp;&amp; globalConfig != null &amp;&amp; globalConfig.getNerUrl() != null) {</b>
+<b class="nc">&nbsp;      nerPipe = new NERService(globalConfig.getNerUrl());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;SuggestedReplacement&gt; filterSuggestions(List&lt;SuggestedReplacement&gt; suggestions) {
+<b class="nc">&nbsp;    List&lt;SuggestedReplacement&gt; result = super.filterSuggestions(suggestions);</b>
+<b class="nc">&nbsp;    List&lt;SuggestedReplacement&gt; clean = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (SuggestedReplacement suggestion : result) {</b>
+<b class="nc">&nbsp;      if (!CONTAINS_TOKEN.matcher(suggestion.getReplacement()).matches())   // e.g. &#39;timezones&#39; suggests &#39;timezone s&#39;</b>
+<b class="nc">&nbsp;        clean.add(suggestion);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return clean;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected List&lt;RuleMatch&gt; getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List&lt;RuleMatch&gt; ruleMatchesSoFar, int idx, AnalyzedTokenReadings[] tokens) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);</b>
+<b class="nc">&nbsp;    if (ruleMatches.size() &gt; 0) {</b>
+&nbsp;      // so &#39;word&#39; is misspelled:
+<b class="nc">&nbsp;      IrregularForms forms = getIrregularFormsOrNull(word);</b>
+<b class="nc">&nbsp;      if (forms != null) {</b>
+<b class="nc">&nbsp;        String message = &quot;Possible spelling mistake. Did you mean &lt;suggestion&gt;&quot; + forms.forms.get(0) +</b>
+&nbsp;                &quot;&lt;/suggestion&gt;, the &quot; + forms.formName + &quot; form of the &quot; + forms.posName +
+&nbsp;                &quot; &#39;&quot; + forms.baseform + &quot;&#39;?&quot;;
+<b class="nc">&nbsp;        addFormsToFirstMatch(message, sentence, ruleMatches, forms.forms);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        VariantInfo variantInfo = isValidInOtherVariant(word);</b>
+<b class="nc">&nbsp;        if (variantInfo != null) {</b>
+<b class="nc">&nbsp;          String message = &quot;Possible spelling mistake. &#39;&quot; + word + &quot;&#39; is &quot; + variantInfo.getVariantName() + &quot;.&quot;;</b>
+<b class="nc">&nbsp;          String suggestion = StringTools.startsWithUppercase(word) ?</b>
+<b class="nc">&nbsp;              StringTools.uppercaseFirstChar(variantInfo.otherVariant()) : variantInfo.otherVariant();</b>
+<b class="nc">&nbsp;          replaceFormsOfFirstMatch(message, sentence, ruleMatches, suggestion);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // filter &quot;re ...&quot; (#2562):
+<b class="nc">&nbsp;    return ruleMatches.stream().map(m -&gt; {</b>
+<b class="nc">&nbsp;      RuleMatch copy = new RuleMatch(m);</b>
+<b class="nc">&nbsp;      copy.setLazySuggestedReplacements(() -&gt; cleanSuggestions(m));</b>
+<b class="nc">&nbsp;      return copy;</b>
+<b class="nc">&nbsp;    }).collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static List&lt;SuggestedReplacement&gt; cleanSuggestions(RuleMatch ruleMatch) {
+<b class="nc">&nbsp;    return ruleMatch.getSuggestedReplacementObjects().stream()</b>
+<b class="nc">&nbsp;      .filter(k -&gt; {</b>
+<b class="nc">&nbsp;        String rep = k.getReplacement();</b>
+<b class="nc">&nbsp;        if (!rep.contains(&quot; &quot;)) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String repLc = rep.toLowerCase();</b>
+<b class="nc">&nbsp;        return</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;re &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;en &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;co &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;cl &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;de &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;ex &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;es &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;ab &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;ty &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;mid &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;non &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;bio &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;bi &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;op &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;con &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;pre &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;socio &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;proto &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;neo &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;geo &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;inter &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;multi &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;retro &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;extra &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;mega &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;meta &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;poly &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;para &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;uni &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;anti &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;necro &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;photo &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;post &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;sub &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;auto &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;pl &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;ht &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;dis &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;est &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;mono &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;trans &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;neuro &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;hetero &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;ultra &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;mini &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;hyper &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;micro &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;counter &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;over &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;overs &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;overt &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;under &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;cyber &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;hydro &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;ergo &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;fore &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;pro &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;pseudo &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;psycho &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;mi &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;nano &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;ans &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;semi &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;infra &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;hypo &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;syn &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;adv &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;com &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;res &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;resp &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;lo &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;ed &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;ac &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;al &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;ea &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;ge &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;mu &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;ma &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;la &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;bis &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;ger &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;inf &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;tar &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;f &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;k &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;l &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;b &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;e &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;c &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;d &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;p &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;v &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;h &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;r &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;s &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;t &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;u &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;w &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;um &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !repLc.startsWith(&quot;oft &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.startsWith(&quot;i &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.startsWith(&quot;sh &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.startsWith(&quot;li &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.startsWith(&quot;ha &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.startsWith(&quot;st &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.startsWith(&quot;ins &quot;) &amp;&amp; // instable (ins table)</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; i&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ING&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; able&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; om&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ox&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ht&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; wide&quot;) &amp;&amp; // (e.g. storewide)</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; less&quot;) &amp;&amp; // (e.g. permissionless)</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; sly&quot;) &amp;&amp; // unnecessary suggestion (e.g. for continuesly)</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; OO&quot;) &amp;&amp; // unnecessary suggestion (e.g. for &quot;HELLOOO&quot;)</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; HHH&quot;) &amp;&amp; // unnecessary suggestion (e.g. for &quot;OHHHH&quot;)</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ally&quot;) &amp;&amp; // adverbs ending in &quot;ally&quot; that LT doesn&#39;t know (yet)</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ize&quot;) &amp;&amp; // &quot;advertize&quot;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; sh&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; st&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; est&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; em&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ward&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ability&quot;) &amp;&amp; // interruptability</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ware&quot;) &amp;&amp; // drinkware</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; logy&quot;) &amp;&amp; // volcanology</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ting&quot;) &amp;&amp; // someting</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ion&quot;) &amp;&amp; // presention</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ions&quot;) &amp;&amp; // sealions</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; cal&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ted&quot;) &amp;&amp; // &quot;bursted&quot;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; sphere&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ell&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; co&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; con&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; com&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; sis&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; like&quot;) &amp;&amp; // &quot;ribbonlike&quot;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; full&quot;) &amp;&amp; // do not suggest &quot;use full&quot; for &quot;useful&quot;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; en&quot;) &amp;&amp; // &quot;Antwerpen&quot; suggests &quot;Antwerp en&quot;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ne&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ed&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; al&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ans&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; mans&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ti&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; de&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ea&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ge&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ab&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; rs&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; mi&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; tar&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; adv&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; re&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; e&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; c&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; v&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; h&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; s&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; r&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; l&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; u&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; um&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; er&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; es&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ex&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; na&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ifs&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; gs&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; don&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; dons&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; la&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ism&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !rep.endsWith(&quot; ma&quot;);</b>
+&nbsp;      })
+<b class="nc">&nbsp;      .collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.5
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  protected VariantInfo isValidInOtherVariant(String word) {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void addFormsToFirstMatch(String message, AnalyzedSentence sentence, List&lt;RuleMatch&gt; ruleMatches, List&lt;String&gt; forms) {
+&nbsp;    // recreating match, might overwrite information by SuggestionsRanker;
+&nbsp;    // this has precedence
+<b class="nc">&nbsp;    RuleMatch oldMatch = ruleMatches.get(0);</b>
+<b class="nc">&nbsp;    RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);</b>
+<b class="nc">&nbsp;    newMatch.setType(oldMatch.getType());</b>
+<b class="nc">&nbsp;    newMatch.setLazySuggestedReplacements(() -&gt; new ArrayList&lt;&gt;(Sets.newLinkedHashSet(Iterables.concat(</b>
+<b class="nc">&nbsp;      Iterables.transform(forms, SuggestedReplacement::new),</b>
+<b class="nc">&nbsp;      oldMatch.getSuggestedReplacementObjects()</b>
+&nbsp;    ))));
+<b class="nc">&nbsp;    ruleMatches.set(0, newMatch);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void replaceFormsOfFirstMatch(String message, AnalyzedSentence sentence, List&lt;RuleMatch&gt; ruleMatches, String suggestion) {
+&nbsp;    // recreating match, might overwrite information by SuggestionsRanker;
+&nbsp;    // this has precedence
+<b class="nc">&nbsp;    RuleMatch oldMatch = ruleMatches.get(0);</b>
+<b class="nc">&nbsp;    RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);</b>
+<b class="nc">&nbsp;    newMatch.setType(oldMatch.getType());</b>
+<b class="nc">&nbsp;    SuggestedReplacement sugg = new SuggestedReplacement(suggestion);</b>
+<b class="nc">&nbsp;    sugg.setShortDescription(language.getName());</b>
+<b class="nc">&nbsp;    newMatch.setSuggestedReplacementObjects(Collections.singletonList(sugg));</b>
+<b class="nc">&nbsp;    ruleMatches.set(0, newMatch);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings({&quot;ReuseOfLocalVariable&quot;, &quot;ControlFlowStatementWithoutBraces&quot;})
+&nbsp;  @Nullable
+&nbsp;  private IrregularForms getIrregularFormsOrNull(String word) {
+<b class="nc">&nbsp;    IrregularForms irregularFormsOrNull = getIrregularFormsOrNull(word, &quot;ed&quot;, Arrays.asList(&quot;ed&quot;), &quot;VBD&quot;, &quot;verb&quot;, &quot;past tense&quot;);</b>
+<b class="nc">&nbsp;    if (irregularFormsOrNull != null) return irregularFormsOrNull;</b>
+<b class="nc">&nbsp;    irregularFormsOrNull = getIrregularFormsOrNull(word, &quot;ed&quot;, Arrays.asList(&quot;d&quot; /* e.g. awaked */), &quot;VBD&quot;, &quot;verb&quot;, &quot;past tense&quot;);</b>
+<b class="nc">&nbsp;    if (irregularFormsOrNull != null) return irregularFormsOrNull;</b>
+<b class="nc">&nbsp;    irregularFormsOrNull = getIrregularFormsOrNull(word, &quot;s&quot;, Arrays.asList(&quot;s&quot;), &quot;NNS&quot;, &quot;noun&quot;, &quot;plural&quot;);</b>
+<b class="nc">&nbsp;    if (irregularFormsOrNull != null) return irregularFormsOrNull;</b>
+<b class="nc">&nbsp;    irregularFormsOrNull = getIrregularFormsOrNull(word, &quot;es&quot;, Arrays.asList(&quot;es&quot;/* e.g. &#39;analysises&#39; */), &quot;NNS&quot;, &quot;noun&quot;, &quot;plural&quot;);</b>
+<b class="nc">&nbsp;    if (irregularFormsOrNull != null) return irregularFormsOrNull;</b>
+<b class="nc">&nbsp;    irregularFormsOrNull = getIrregularFormsOrNull(word, &quot;er&quot;, Arrays.asList(&quot;er&quot;/* e.g. &#39;farer&#39; */), &quot;JJR&quot;, &quot;adjective&quot;, &quot;comparative&quot;);</b>
+<b class="nc">&nbsp;    if (irregularFormsOrNull != null) return irregularFormsOrNull;</b>
+<b class="nc">&nbsp;    irregularFormsOrNull = getIrregularFormsOrNull(word, &quot;est&quot;, Arrays.asList(&quot;est&quot;/* e.g. &#39;farest&#39; */), &quot;JJS&quot;, &quot;adjective&quot;, &quot;superlative&quot;);</b>
+<b class="nc">&nbsp;    return irregularFormsOrNull;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private IrregularForms getIrregularFormsOrNull(String word, String wordSuffix, List&lt;String&gt; suffixes, String posTag, String posName, String formName) {
+&nbsp;    try {
+<b class="nc">&nbsp;      for (String suffix : suffixes) {</b>
+<b class="nc">&nbsp;        if (word.endsWith(wordSuffix)) {</b>
+<b class="nc">&nbsp;          String baseForm = word.substring(0, word.length() - suffix.length());</b>
+<b class="nc">&nbsp;          String[] forms = Objects.requireNonNull(language.getSynthesizer()).synthesize(new AnalyzedToken(word, null, baseForm), posTag);</b>
+<b class="nc">&nbsp;          List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          for (String form : forms) {</b>
+<b class="nc">&nbsp;            if (!speller1.isMisspelled(form)) {</b>
+&nbsp;              // only accept suggestions that the spellchecker will accept
+<b class="nc">&nbsp;              result.add(form);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;          // the internal dict might contain forms that the spell checker doesn&#39;t accept (e.g. &#39;criterions&#39;),
+&nbsp;          // but we trust the spell checker in this case:
+<b class="nc">&nbsp;          result.remove(word);</b>
+<b class="nc">&nbsp;          result.remove(&quot;badder&quot;);  // non-standard usage</b>
+<b class="nc">&nbsp;          result.remove(&quot;baddest&quot;);  // non-standard usage</b>
+<b class="nc">&nbsp;          result.remove(&quot;spake&quot;);  // can be removed after dict update</b>
+<b class="nc">&nbsp;          if (result.size() &gt; 0) {</b>
+<b class="nc">&nbsp;            return new IrregularForms(baseForm, posName, formName, result);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  protected final Map&lt;String, List&lt;String&gt;&gt; topSuggestions;
+&nbsp;  protected final Map&lt;String, List&lt;String&gt;&gt; topSuggestionsIgnoreCase;
+&nbsp;
+&nbsp;  protected static Map&lt;String, List&lt;String&gt;&gt; getTopSuggestionsIgnoreCase() {
+<b class="nc">&nbsp;    Map&lt;String, List&lt;String&gt;&gt; s = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    s.put(&quot;json&quot;, Arrays.asList(&quot;Jason&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;bmps&quot;, Arrays.asList(&quot;BMPs&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ppts&quot;, Arrays.asList(&quot;PPTs&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;    s.put(&quot;italia&quot;, Arrays.asList(&quot;Italy&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;copenhague&quot;, Arrays.asList(&quot;Copenhagen&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;applepay&quot;, Arrays.asList(&quot;Apple Pay&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;&amp;&amp;&quot;, Arrays.asList(&quot;&amp;&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;wensday&quot;, Arrays.asList(&quot;Wednesday&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;interweb&quot;, Arrays.asList(&quot;internet&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;interwebs&quot;, Arrays.asList(&quot;internet&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;srilanka&quot;, Arrays.asList(&quot;Sri Lanka&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;pcs&quot;, Arrays.asList(&quot;PCs&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;    s.put(&quot;oconnor&quot;, Arrays.asList(&quot;O&#39;Connor&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;oconor&quot;, Arrays.asList(&quot;O&#39;Conor&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;obrien&quot;, Arrays.asList(&quot;O&#39;Brien&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;odonnell&quot;, Arrays.asList(&quot;O&#39;Donnell&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;oneill&quot;, Arrays.asList(&quot;O&#39;Neill&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;oneil&quot;, Arrays.asList(&quot;O&#39;Neil&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;oconnell&quot;, Arrays.asList(&quot;O&#39;Connell&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;todo&quot;, Arrays.asList(&quot;To-do&quot;, &quot;To do&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;todos&quot;, Arrays.asList(&quot;To-dos&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;elearning&quot;, Arrays.asList(&quot;e-learning&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;g-mail&quot;, Arrays.asList(&quot;Gmail&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;playstation&quot;, Arrays.asList(&quot;PlayStation&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;iam&quot;, Arrays.asList(&quot;I am&quot;, &quot;I&#39;m&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;kpop&quot;, Arrays.asList(&quot;K-pop&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;trumpian&quot;, Arrays.asList(&quot;Trumpist&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;trumpians&quot;, Arrays.asList(&quot;Trumpists&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;UberEats&quot;, Arrays.asList(&quot;Uber Eats&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;KWH&quot;, Arrays.asList(&quot;kWh&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;MWH&quot;, Arrays.asList(&quot;MWh&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;xray&quot;, Arrays.asList(&quot;X-ray&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;xrays&quot;, Arrays.asList(&quot;X-rays&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;soo&quot;, Arrays.asList(&quot;so&quot;, &quot;too&quot;, &quot;son&quot;));</b>
+<b class="nc">&nbsp;    return s;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static Map&lt;String, List&lt;String&gt;&gt; getTopSuggestions() {
+<b class="nc">&nbsp;    Map&lt;String, List&lt;String&gt;&gt; s = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    s.put(&quot;Ths&quot;, Arrays.asList(&quot;This&quot;, &quot;The&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;prev&quot;, Arrays.asList(&quot;previous&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;kilotonne&quot;, Arrays.asList(&quot;kiloton&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;kilotonnes&quot;, Arrays.asList(&quot;kilotons&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;litehouse&quot;, Arrays.asList(&quot;lighthouse&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Litehouse&quot;, Arrays.asList(&quot;Lighthouse&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;whitout&quot;, Arrays.asList(&quot;without&quot;, &quot;white out&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Whitout&quot;, Arrays.asList(&quot;Without&quot;, &quot;White out&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;compability&quot;, Arrays.asList(&quot;compatibility&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Compability&quot;, Arrays.asList(&quot;Compatibility&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;enroute&quot;, Arrays.asList(&quot;en route&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;teasered&quot;, Arrays.asList(&quot;teased&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;teasering&quot;, Arrays.asList(&quot;teasing&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;stealed&quot;, Arrays.asList(&quot;stole&quot;, &quot;stolen&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;stealt&quot;, Arrays.asList(&quot;stole&quot;, &quot;stolen&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ignight&quot;, Arrays.asList(&quot;ignite&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ignight&quot;, Arrays.asList(&quot;Ignite&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ignights&quot;, Arrays.asList(&quot;ignites&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ignights&quot;, Arrays.asList(&quot;Ignites&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ignighted&quot;, Arrays.asList(&quot;ignited&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ignighted&quot;, Arrays.asList(&quot;Ignited&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ignighting&quot;, Arrays.asList(&quot;igniting&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ignighting&quot;, Arrays.asList(&quot;Igniting&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;transcripted&quot;, Arrays.asList(&quot;transcribed&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;transcripting&quot;, Arrays.asList(&quot;transcribing&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;incase&quot;, Arrays.asList(&quot;in case&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Incase&quot;, Arrays.asList(&quot;In case&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;fam&quot;, Arrays.asList(&quot;family&quot;, &quot;fame&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;awnser&quot;, Arrays.asList(&quot;answer&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Awnser&quot;, Arrays.asList(&quot;Answer&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;awnsers&quot;, Arrays.asList(&quot;answers&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Awnsers&quot;, Arrays.asList(&quot;Answers&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;megatonne&quot;, Arrays.asList(&quot;megaton&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Megatonne&quot;, Arrays.asList(&quot;Megaton&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;megatonnes&quot;, Arrays.asList(&quot;megatons&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Megatonnes&quot;, Arrays.asList(&quot;Megatons&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;retd&quot;, Arrays.asList(&quot;retd.&quot;, &quot;retired&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Retd&quot;, Arrays.asList(&quot;Retd.&quot;, &quot;Retired&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;intransparent&quot;, Arrays.asList(&quot;non-transparent&quot;, &quot;lacking transparency&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;repetion&quot;, Arrays.asList(&quot;repetition&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Repetion&quot;, Arrays.asList(&quot;Repetition&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;repetions&quot;, Arrays.asList(&quot;repetitions&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Repetions&quot;, Arrays.asList(&quot;Repetitions&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;rom&quot;, Arrays.asList(&quot;room&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;th&quot;, Arrays.asList(&quot;the&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;transman&quot;, Arrays.asList(&quot;trans man&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Transman&quot;, Arrays.asList(&quot;Trans man&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;transmen&quot;, Arrays.asList(&quot;trans men&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Transmen&quot;, Arrays.asList(&quot;Trans men&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;transwoman&quot;, Arrays.asList(&quot;trans woman&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Transwoman&quot;, Arrays.asList(&quot;Trans woman&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;transwomen&quot;, Arrays.asList(&quot;trans women&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Transwomen&quot;, Arrays.asList(&quot;Trans women&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;litterly&quot;, Arrays.asList(&quot;literally&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Litterly&quot;, Arrays.asList(&quot;Literally&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;abt&quot;, Arrays.asList(&quot;about&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ley&quot;, Arrays.asList(&quot;let&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ley&quot;, Arrays.asList(&quot;Let&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;becuz&quot;, Arrays.asList(&quot;because&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;becus&quot;, Arrays.asList(&quot;because&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;lullabys&quot;, Arrays.asList(&quot;lullabies&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Lullabys&quot;, Arrays.asList(&quot;Lullabies&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;forceably&quot;, Arrays.asList(&quot;forcibly&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Forceably&quot;, Arrays.asList(&quot;Forcibly&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;accidently&quot;, Arrays.asList(&quot;accidentally&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Accidently&quot;, Arrays.asList(&quot;Accidentally&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;aer&quot;, Arrays.asList(&quot;are&quot;, &quot;air&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Aer&quot;, Arrays.asList(&quot;Are&quot;, &quot;Air&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;downie&quot;, Arrays.asList(&quot;downy&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Downie&quot;, Arrays.asList(&quot;Downy&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;happing&quot;, Arrays.asList(&quot;happening&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Happing&quot;, Arrays.asList(&quot;Happening&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;se&quot;, Arrays.asList(&quot;see&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;maam&quot;, Arrays.asList(&quot;ma&#39;am&quot;, &quot;madam&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Maam&quot;, Arrays.asList(&quot;Ma&#39;am&quot;, &quot;Madam&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;mam&quot;, Arrays.asList(&quot;ma&#39;am&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Mam&quot;, Arrays.asList(&quot;Ma&#39;am&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;evidents&quot;, Arrays.asList(&quot;evidence&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Evidents&quot;, Arrays.asList(&quot;Evidence&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;greatfull&quot;, Arrays.asList(&quot;grateful&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Greatfull&quot;, Arrays.asList(&quot;Grateful&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;verticle&quot;, Arrays.asList(&quot;vertical&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Verticle&quot;, Arrays.asList(&quot;Vertical&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;definaly&quot;, Arrays.asList(&quot;definitely&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Definaly&quot;, Arrays.asList(&quot;Definitely&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;definally&quot;, Arrays.asList(&quot;definitely&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Definally&quot;, Arrays.asList(&quot;Definitely&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;handable&quot;, Arrays.asList(&quot;handleable&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Handable&quot;, Arrays.asList(&quot;Handleable&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;sal-ammoniac&quot;, Arrays.asList(&quot;sal ammoniac&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;mumbo-jumbo&quot;, Arrays.asList(&quot;mumbo jumbo&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Mumbo-jumbo&quot;, Arrays.asList(&quot;Mumbo jumbo&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Mumbo-Jumbo&quot;, Arrays.asList(&quot;Mumbo Jumbo&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Tuffed&quot;, Arrays.asList(&quot;Toughed&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;tuffed&quot;, Arrays.asList(&quot;toughed&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;biosim&quot;, Arrays.asList(&quot;biosimilar&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;biosims&quot;, Arrays.asList(&quot;biosimilars&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Tuffest&quot;, Arrays.asList(&quot;Toughest&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;tuffest&quot;, Arrays.asList(&quot;toughest&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Tuffer&quot;, Arrays.asList(&quot;Tougher&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;tuffer&quot;, Arrays.asList(&quot;tougher&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;devast&quot;, Arrays.asList(&quot;devastate&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;devasts&quot;, Arrays.asList(&quot;devastates&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;devasted&quot;, Arrays.asList(&quot;devastated&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;devasting&quot;, Arrays.asList(&quot;devastating&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Fundrace&quot;, Arrays.asList(&quot;Fundraise&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;fundrace&quot;, Arrays.asList(&quot;fundraise&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Fundraces&quot;, Arrays.asList(&quot;Fundraises&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;fundraces&quot;, Arrays.asList(&quot;fundraises&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Fundracing&quot;, Arrays.asList(&quot;Fundraising&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;fundracing&quot;, Arrays.asList(&quot;fundraising&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Fundraced&quot;, Arrays.asList(&quot;Fundraised&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;fundraced&quot;, Arrays.asList(&quot;fundraised&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;withing&quot;, Arrays.asList(&quot;within&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Withing&quot;, Arrays.asList(&quot;Within&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;hollyday&quot;, Arrays.asList(&quot;holiday&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Hollyday&quot;, Arrays.asList(&quot;Holiday&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;hollydays&quot;, Arrays.asList(&quot;holidays&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Hollydays&quot;, Arrays.asList(&quot;Holidays&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;overnite&quot;, Arrays.asList(&quot;overnight&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Overnite&quot;, Arrays.asList(&quot;Overnight&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;tonite&quot;, Arrays.asList(&quot;tonight&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Tonite&quot;, Arrays.asList(&quot;Tonight&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;nite&quot;, Arrays.asList(&quot;night&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Nite&quot;, Arrays.asList(&quot;Night&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;nites&quot;, Arrays.asList(&quot;nights&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Nites&quot;, Arrays.asList(&quot;Nights&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;upto&quot;, Arrays.asList(&quot;up to&quot;, &quot;unto&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Upto&quot;, Arrays.asList(&quot;Up to&quot;, &quot;Unto&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;prolly&quot;, Arrays.asList(&quot;probably&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;corse&quot;, Arrays.asList(&quot;course&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;util&quot;, Arrays.asList(&quot;utility&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Util&quot;, Arrays.asList(&quot;Utility&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;prorata&quot;, Arrays.asList(&quot;pro rata&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;pro-rata&quot;, Arrays.asList(&quot;pro rata&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Prorata&quot;, Arrays.asList(&quot;Pro rata&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Pro-rata&quot;, Arrays.asList(&quot;Pro rata&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;wast&quot;, Arrays.asList(&quot;was&quot;, &quot;waste&quot;, &quot;waist&quot;, &quot;wasn&#39;t&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Wast&quot;, Arrays.asList(&quot;Was&quot;, &quot;Waste&quot;, &quot;Waist&quot;, &quot;Wasn&#39;t&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;drag&amp;drop&quot;, Arrays.asList(&quot;drag &amp; drop&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Drag&amp;drop&quot;, Arrays.asList(&quot;Drag &amp; drop&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Drag&amp;Drop&quot;, Arrays.asList(&quot;Drag &amp; Drop&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;copy&amp;paste&quot;, Arrays.asList(&quot;copy &amp; paste&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Copy&amp;paste&quot;, Arrays.asList(&quot;Copy &amp; paste&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Copy&amp;Paste&quot;, Arrays.asList(&quot;Copy &amp; Paste&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;hiphop&quot;, Arrays.asList(&quot;hip-hop&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Hiphop&quot;, Arrays.asList(&quot;Hip-hop&quot;, &quot;Hip-Hop&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ap&quot;, Arrays.asList(&quot;app&quot;, &quot;up&quot;, &quot;AP&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ap&quot;, Arrays.asList(&quot;App&quot;, &quot;Up&quot;, &quot;AP&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;aps&quot;, Arrays.asList(&quot;apps&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Aps&quot;, Arrays.asList(&quot;Apps&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;hehe&quot;, Arrays.asList(&quot;he-he&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Hehe&quot;, Arrays.asList(&quot;He-he&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;defacto&quot;, Arrays.asList(&quot;de facto&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Defacto&quot;, Arrays.asList(&quot;De facto&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;differently-abled&quot;, Arrays.asList(&quot;differently abled&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Differently-abled&quot;, Arrays.asList(&quot;Differently abled&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;data-uri&quot;, Arrays.asList(&quot;data URI&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ppl&quot;, Arrays.asList(&quot;People&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Si&quot;, Arrays.asList(&quot;Is&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;si&quot;, Arrays.asList(&quot;is&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;pcs&quot;, Arrays.asList(&quot;PCs&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;constits&quot;, Arrays.asList(&quot;consists&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ect&quot;, Arrays.asList(&quot;etc&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;fastly&quot;, Arrays.asList(&quot;fast&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;carrie&quot;, Arrays.asList(&quot;carry&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;bare-bone&quot;, Arrays.asList(&quot;bare-bones&quot;, &quot;bare-boned&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Bare-bone&quot;, Arrays.asList(&quot;Bare-bones&quot;, &quot;Bare-boned&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;mae&quot;, Arrays.asList(&quot;make&quot;, &quot;MAE&quot;, &quot;may&quot;, &quot;May&quot;, &quot;man&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;transportion&quot;, Arrays.asList(&quot;transportation&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Transportion&quot;, Arrays.asList(&quot;Transportation&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;presention&quot;, Arrays.asList(&quot;presentation&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Presention&quot;, Arrays.asList(&quot;Presentation&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;presension&quot;, Arrays.asList(&quot;presentation&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Presension&quot;, Arrays.asList(&quot;Presentation&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;realtime&quot;, Arrays.asList(&quot;real-time&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Realtime&quot;, Arrays.asList(&quot;Real-time&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;morphium&quot;, Arrays.asList(&quot;morphine&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Morphium&quot;, Arrays.asList(&quot;Morphine&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;morphiums&quot;, Arrays.asList(&quot;morphines&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Morphiums&quot;, Arrays.asList(&quot;Morphines&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;approvement&quot;, Arrays.asList(&quot;approval&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Approvement&quot;, Arrays.asList(&quot;Approval&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;approvements&quot;, Arrays.asList(&quot;approvals&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Approvements&quot;, Arrays.asList(&quot;Approvals&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ciggarets&quot;, Arrays.asList(&quot;cigarettes&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ciggarets&quot;, Arrays.asList(&quot;Cigarettes&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;pro-bono&quot;, Arrays.asList(&quot;pro bono&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Pro-bono&quot;, Arrays.asList(&quot;Pro bono&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;probono&quot;, Arrays.asList(&quot;pro bono&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Probono&quot;, Arrays.asList(&quot;Pro bono&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;electronical&quot;, Arrays.asList(&quot;electronic&quot;, &quot;electronically&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Electronical&quot;, Arrays.asList(&quot;Electronic&quot;, &quot;Electronically&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;unpolite&quot;, Arrays.asList(&quot;impolite&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;armys&quot;, Arrays.asList(&quot;armies&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Armys&quot;, Arrays.asList(&quot;Armies&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;tarrif&quot;, Arrays.asList(&quot;tariff&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Tarrif&quot;, Arrays.asList(&quot;Tariff&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;tarrifs&quot;, Arrays.asList(&quot;tariffs&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Tarrifs&quot;, Arrays.asList(&quot;Tariffs&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;techy&quot;, Arrays.asList(&quot;techie&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Techy&quot;, Arrays.asList(&quot;Techie&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;techys&quot;, Arrays.asList(&quot;techies&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Techys&quot;, Arrays.asList(&quot;Techies&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;non-techy&quot;, Arrays.asList(&quot;non-techie&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;pharmasuitable&quot;, Arrays.asList(&quot;pharmaceutical&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;storie&quot;, Arrays.asList(&quot;story&quot;, &quot;store&quot;, &quot;stories&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Storie&quot;, Arrays.asList(&quot;Story&quot;, &quot;Store&quot;, &quot;Stories&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ensuite&quot;, Arrays.asList(&quot;en suite&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ensuite&quot;, Arrays.asList(&quot;En suite&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;insite&quot;, Arrays.asList(&quot;insight&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;insites&quot;, Arrays.asList(&quot;insights&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Insite&quot;, Arrays.asList(&quot;Insight&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Insites&quot;, Arrays.asList(&quot;Insights&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;thouraly&quot;, Arrays.asList(&quot;thoroughly&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;heiaracky&quot;, Arrays.asList(&quot;hierarchy&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;on-prem&quot;, Arrays.asList(&quot;on-premise&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;sin-off&quot;, Arrays.asList(&quot;sign-off&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;sin-offs&quot;, Arrays.asList(&quot;sign-offs&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Sin-off&quot;, Arrays.asList(&quot;Sign-off&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Sin-offs&quot;, Arrays.asList(&quot;Sign-offs&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Alot&quot;, Arrays.asList(&quot;A lot&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;alot&quot;, Arrays.asList(&quot;a lot&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;DDOS&quot;, Arrays.asList(&quot;DDoS&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;disencouraged&quot;, Arrays.asList(&quot;discouraged&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Disencouraged&quot;, Arrays.asList(&quot;Discouraged&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;async&quot;, Arrays.asList(&quot;asynchronous&quot;, &quot;asynchronously&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Async&quot;, Arrays.asList(&quot;Asynchronous&quot;, &quot;Asynchronously&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;endevours&quot;, Arrays.asList(&quot;endeavours&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;endevors&quot;, Arrays.asList(&quot;endeavors&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;endevour&quot;, Arrays.asList(&quot;endeavour&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;endevor&quot;, Arrays.asList(&quot;endeavor&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;industrys&quot;, Arrays.asList(&quot;industries&quot;, &quot;industry&#39;s&quot;, &quot;industry&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Industrys&quot;, Arrays.asList(&quot;Industries&quot;, &quot;Industry&#39;s&quot;, &quot;Industry&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;partys&quot;, Arrays.asList(&quot;parties&quot;, &quot;party&#39;s&quot;, &quot;party&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Partys&quot;, Arrays.asList(&quot;Parties&quot;, &quot;Party&#39;s&quot;, &quot;Party&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;countrys&quot;, Arrays.asList(&quot;countries&quot;, &quot;country&#39;s&quot;, &quot;country&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Countrys&quot;, Arrays.asList(&quot;Countries&quot;, &quot;Country&#39;s&quot;, &quot;Country&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;bodys&quot;, Arrays.asList(&quot;bodies&quot;, &quot;body&#39;s&quot;, &quot;body&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Bodys&quot;, Arrays.asList(&quot;Bodies&quot;, &quot;Body&#39;s&quot;, &quot;Body&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ladys&quot;, Arrays.asList(&quot;ladies&quot;, &quot;lady&#39;s&quot;, &quot;lady&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ladys&quot;, Arrays.asList(&quot;Ladies&quot;, &quot;Lady&#39;s&quot;, &quot;Lady&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;citys&quot;, Arrays.asList(&quot;cities&quot;, &quot;city&#39;s&quot;, &quot;city&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Citys&quot;, Arrays.asList(&quot;Cities&quot;, &quot;City&#39;s&quot;, &quot;City&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;batterys&quot;, Arrays.asList(&quot;batteries&quot;, &quot;battery&#39;s&quot;, &quot;battery&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Batterys&quot;, Arrays.asList(&quot;Batteries&quot;, &quot;Battery&#39;s&quot;, &quot;Battery&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;technologys&quot;, Arrays.asList(&quot;technologies&quot;, &quot;technology&#39;s&quot;, &quot;technology&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Technologys&quot;, Arrays.asList(&quot;Technologies&quot;, &quot;Technology&#39;s&quot;, &quot;Technology&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;childrens&quot;, Arrays.asList(&quot;children&#39;s&quot;, &quot;children&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Childrens&quot;, Arrays.asList(&quot;Children&#39;s&quot;, &quot;Children&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;countys&quot;, Arrays.asList(&quot;counties&quot;, &quot;county&#39;s&quot;, &quot;county&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Countys&quot;, Arrays.asList(&quot;Counties&quot;, &quot;County&#39;s&quot;, &quot;County&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;familys&quot;, Arrays.asList(&quot;families&quot;, &quot;family&#39;s&quot;, &quot;family&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Familys&quot;, Arrays.asList(&quot;Families&quot;, &quot;Family&#39;s&quot;, &quot;Family&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Thak&quot;, Arrays.asList(&quot;Thank&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;thak&quot;, Arrays.asList(&quot;thank&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;dieing&quot;, Arrays.asList(&quot;dying&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Dieing&quot;, Arrays.asList(&quot;Dying&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Supposably&quot;, Arrays.asList(&quot;Supposedly&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;supposably&quot;, Arrays.asList(&quot;supposedly&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;dem&quot;, Arrays.asList(&quot;them&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Dem&quot;, Arrays.asList(&quot;Them&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;infact&quot;, Arrays.asList(&quot;in fact&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Infact&quot;, Arrays.asList(&quot;In fact&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ad-hoc&quot;, Arrays.asList(&quot;ad hoc&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;adhoc&quot;, Arrays.asList(&quot;ad hoc&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ad-hoc&quot;, Arrays.asList(&quot;Ad hoc&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Adhoc&quot;, Arrays.asList(&quot;Ad hoc&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ad-on&quot;, Arrays.asList(&quot;add-on&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;add-o&quot;, Arrays.asList(&quot;add-on&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;acc&quot;, Arrays.asList(&quot;account&quot;, &quot;accusative&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Acc&quot;, Arrays.asList(&quot;Account&quot;, &quot;Accusative&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ºC&quot;, Arrays.asList(&quot;°C&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;jus&quot;, Arrays.asList(&quot;just&quot;, &quot;juice&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Jus&quot;, Arrays.asList(&quot;Just&quot;, &quot;Juice&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;sayed&quot;, Arrays.asList(&quot;said&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;sess&quot;, Arrays.asList(&quot;says&quot;, &quot;session&quot;, &quot;cess&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Addon&quot;, Arrays.asList(&quot;Add-on&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Addons&quot;, Arrays.asList(&quot;Add-ons&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ios&quot;, Arrays.asList(&quot;iOS&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;yrs&quot;, Arrays.asList(&quot;years&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;standup&quot;, Arrays.asList(&quot;stand-up&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;standups&quot;, Arrays.asList(&quot;stand-ups&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Standup&quot;, Arrays.asList(&quot;Stand-up&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Standups&quot;, Arrays.asList(&quot;Stand-ups&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Playdough&quot;, Arrays.asList(&quot;Play-Doh&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;playdough&quot;, Arrays.asList(&quot;Play-Doh&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;biggy&quot;, Arrays.asList(&quot;biggie&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;lieing&quot;, Arrays.asList(&quot;lying&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;preffered&quot;, Arrays.asList(&quot;preferred&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;preffering&quot;, Arrays.asList(&quot;preferring&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;reffered&quot;, Arrays.asList(&quot;referred&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;reffering&quot;, Arrays.asList(&quot;referring&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;passthrough&quot;, Arrays.asList(&quot;pass-through&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;&amp;&amp;&quot;, Arrays.asList(&quot;&amp;&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;cmon&quot;, Arrays.asList(&quot;c&#39;mon&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Cmon&quot;, Arrays.asList(&quot;C&#39;mon&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;da&quot;, Arrays.asList(&quot;the&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Da&quot;, Arrays.asList(&quot;The&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Vue&quot;, Arrays.asList(&quot;Vue.JS&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;errornous&quot;, Arrays.asList(&quot;erroneous&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;brang&quot;, Arrays.asList(&quot;brought&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;brung&quot;, Arrays.asList(&quot;brought&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;thru&quot;, Arrays.asList(&quot;through&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;pitty&quot;, Arrays.asList(&quot;pity&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;barbwire&quot;, Arrays.asList(&quot;barbed wire&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;barbwires&quot;, Arrays.asList(&quot;barbed wires&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;monkie&quot;, Arrays.asList(&quot;monkey&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Monkie&quot;, Arrays.asList(&quot;Monkey&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;monkies&quot;, Arrays.asList(&quot;monkeys&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Monkies&quot;, Arrays.asList(&quot;Monkeys&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Daddys&quot;, Arrays.asList(&quot;Daddy&#39;s&quot;, &quot;Daddies&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Mommys&quot;, Arrays.asList(&quot;Mommy&#39;s&quot;, &quot;Mommies&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;daddys&quot;, Arrays.asList(&quot;daddy&#39;s&quot;, &quot;daddies&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;mommys&quot;, Arrays.asList(&quot;mommy&#39;s&quot;, &quot;mommies&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;dat&quot;, Arrays.asList(&quot;that&quot;, &quot;day&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Dat&quot;, Arrays.asList(&quot;That&quot;, &quot;Day&quot;));</b>
+&nbsp;    // the replacement pairs would prefer &quot;speak&quot;
+<b class="nc">&nbsp;    s.put(&quot;speach&quot;, Arrays.asList(&quot;speech&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;icecreem&quot;, Arrays.asList(&quot;ice cream&quot;));</b>
+&nbsp;    // in en-gb it&#39;s &#39;maths&#39;
+<b class="nc">&nbsp;    s.put(&quot;math&quot;, Arrays.asList(&quot;maths&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;fora&quot;, Arrays.asList(&quot;for a&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;fomr&quot;, Arrays.asList(&quot;form&quot;, &quot;from&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;lotsa&quot;, Arrays.asList(&quot;lots of&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;tryna&quot;, Arrays.asList(&quot;trying to&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;coulda&quot;, Arrays.asList(&quot;could have&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;shoulda&quot;, Arrays.asList(&quot;should have&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;woulda&quot;, Arrays.asList(&quot;would have&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;tellem&quot;, Arrays.asList(&quot;tell them&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Tellem&quot;, Arrays.asList(&quot;Tell them&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Webex&quot;, Arrays.asList(&quot;WebEx&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;didint&quot;, Arrays.asList(&quot;didn&#39;t&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Didint&quot;, Arrays.asList(&quot;Didn&#39;t&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;wasint&quot;, Arrays.asList(&quot;wasn&#39;t&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;hasint&quot;, Arrays.asList(&quot;hasn&#39;t&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;doesint&quot;, Arrays.asList(&quot;doesn&#39;t&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ist&quot;, Arrays.asList(&quot;is&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Boing&quot;, Arrays.asList(&quot;Boeing&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;te&quot;, Arrays.asList(&quot;the&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;todays&quot;, Arrays.asList(&quot;today&#39;s&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Todays&quot;, Arrays.asList(&quot;Today&#39;s&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;todo&quot;, Arrays.asList(&quot;to-do&quot;, &quot;to do&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;todos&quot;, Arrays.asList(&quot;to-dos&quot;, &quot;to do&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;heres&quot;, Arrays.asList(&quot;here&#39;s&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Heres&quot;, Arrays.asList(&quot;Here&#39;s&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;aways&quot;, Arrays.asList(&quot;always&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;McDonalds&quot;, Arrays.asList(&quot;McDonald&#39;s&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ux&quot;, Arrays.asList(&quot;UX&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ive&quot;, Arrays.asList(&quot;I&#39;ve&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;infos&quot;, Arrays.asList(&quot;informations&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Infos&quot;, Arrays.asList(&quot;Informations&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;prios&quot;, Arrays.asList(&quot;priorities&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Prio&quot;, Arrays.asList(&quot;Priority&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;prio&quot;, Arrays.asList(&quot;priority&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ecommerce&quot;, Arrays.asList(&quot;E-Commerce&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ezine&quot;, Arrays.asList(&quot;e-zine&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ezine&quot;, Arrays.asList(&quot;E-zine&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ezines&quot;, Arrays.asList(&quot;e-zines&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ezines&quot;, Arrays.asList(&quot;E-zines&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ebook&quot;, Arrays.asList(&quot;e-book&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ebooks&quot;, Arrays.asList(&quot;e-books&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;eBook&quot;, Arrays.asList(&quot;e-book&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;eBooks&quot;, Arrays.asList(&quot;e-books&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ebook&quot;, Arrays.asList(&quot;E-Book&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ebooks&quot;, Arrays.asList(&quot;E-Books&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Esport&quot;, Arrays.asList(&quot;E-Sport&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Esports&quot;, Arrays.asList(&quot;E-Sports&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;R&amp;B&quot;, Arrays.asList(&quot;R &amp; B&quot;, &quot;R &#39;n&#39; B&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ie&quot;, Arrays.asList(&quot;i.e.&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;eg&quot;, Arrays.asList(&quot;e.g.&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ppl&quot;, Arrays.asList(&quot;people&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;kiddin&quot;, Arrays.asList(&quot;kidding&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;doin&quot;, Arrays.asList(&quot;doing&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;nothin&quot;, Arrays.asList(&quot;nothing&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;SPOC&quot;, Arrays.asList(&quot;SpOC&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Thx&quot;, Arrays.asList(&quot;Thanks&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;thx&quot;, Arrays.asList(&quot;thanks&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ty&quot;, Arrays.asList(&quot;thank you&quot;, &quot;thanks&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Sry&quot;, Arrays.asList(&quot;Sorry&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;sry&quot;, Arrays.asList(&quot;sorry&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;im&quot;, Arrays.asList(&quot;I&#39;m&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;spoilt&quot;, Arrays.asList(&quot;spoiled&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Lil&quot;, Arrays.asList(&quot;Little&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;lil&quot;, Arrays.asList(&quot;little&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;gmail&quot;, Arrays.asList(&quot;Gmail&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Sucka&quot;, Arrays.asList(&quot;Sucker&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;sucka&quot;, Arrays.asList(&quot;sucker&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;whaddya&quot;, Arrays.asList(&quot;what are you&quot;, &quot;what do you&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Whaddya&quot;, Arrays.asList(&quot;What are you&quot;, &quot;What do you&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;sinc&quot;, Arrays.asList(&quot;sync&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;sweety&quot;, Arrays.asList(&quot;sweetie&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;sweetys&quot;, Arrays.asList(&quot;sweeties&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;sowwy&quot;, Arrays.asList(&quot;sorry&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Sowwy&quot;, Arrays.asList(&quot;Sorry&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;shouldent&quot;, Arrays.asList(&quot;shouldn&#39;t&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;couldent&quot;, Arrays.asList(&quot;couldn&#39;t&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;grandmum&quot;, Arrays.asList(&quot;grandma&quot;, &quot;grandmother&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;grandmom&quot;, Arrays.asList(&quot;grandma&quot;, &quot;grandmother&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Grandmum&quot;, Arrays.asList(&quot;Grandma&quot;, &quot;Grandmother&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Grandmom&quot;, Arrays.asList(&quot;Grandma&quot;, &quot;Grandmother&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;enlighting&quot;, Arrays.asList(&quot;enlightening&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Enlighting&quot;, Arrays.asList(&quot;Enlightening&quot;));</b>
+&nbsp;    // For non-US English
+<b class="nc">&nbsp;    s.put(&quot;center&quot;, Arrays.asList(&quot;centre&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ur&quot;, Arrays.asList(&quot;your&quot;, &quot;you are&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ur&quot;, Arrays.asList(&quot;Your&quot;, &quot;You are&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ure&quot;, Arrays.asList(&quot;your&quot;, &quot;you are&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ure&quot;, Arrays.asList(&quot;Your&quot;, &quot;You are&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;mins&quot;, Arrays.asList(&quot;minutes&quot;, &quot;min&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;geo&quot;, Arrays.asList(&quot;geography&quot;, &quot;geographic&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Geo&quot;, Arrays.asList(&quot;Geography&quot;, &quot;Geographic&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;addon&quot;, Arrays.asList(&quot;add-on&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;addons&quot;, Arrays.asList(&quot;add-ons&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;afterparty&quot;, Arrays.asList(&quot;after-party&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Afterparty&quot;, Arrays.asList(&quot;After-party&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;wellbeing&quot;, Arrays.asList(&quot;well-being&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;cuz&quot;, Arrays.asList(&quot;because&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Cuz&quot;, Arrays.asList(&quot;Because&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;coz&quot;, Arrays.asList(&quot;because&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Coz&quot;, Arrays.asList(&quot;Because&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;pls&quot;, Arrays.asList(&quot;please&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Pls&quot;, Arrays.asList(&quot;Please&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;plz&quot;, Arrays.asList(&quot;please&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Plz&quot;, Arrays.asList(&quot;Please&quot;));</b>
+&nbsp;    // AtD irregular plurals - START
+<b class="nc">&nbsp;    s.put(&quot;addendums&quot;, Arrays.asList(&quot;addenda&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;algas&quot;, Arrays.asList(&quot;algae&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;alumnas&quot;, Arrays.asList(&quot;alumnae&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;alumnuses&quot;, Arrays.asList(&quot;alumni&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;analysises&quot;, Arrays.asList(&quot;analyses&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;appendixs&quot;, Arrays.asList(&quot;appendices&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;axises&quot;, Arrays.asList(&quot;axes&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;bacilluses&quot;, Arrays.asList(&quot;bacilli&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;bacteriums&quot;, Arrays.asList(&quot;bacteria&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;basises&quot;, Arrays.asList(&quot;bases&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;beaus&quot;, Arrays.asList(&quot;beaux&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;bisons&quot;, Arrays.asList(&quot;bison&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;buffalos&quot;, Arrays.asList(&quot;buffaloes&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;calfs&quot;, Arrays.asList(&quot;calves&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Childs&quot;, Arrays.asList(&quot;Children&quot;, &quot;Child&#39;s&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;childs&quot;, Arrays.asList(&quot;children&quot;, &quot;child&#39;s&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;crisises&quot;, Arrays.asList(&quot;crises&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;criterions&quot;, Arrays.asList(&quot;criteria&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;curriculums&quot;, Arrays.asList(&quot;curricula&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;datums&quot;, Arrays.asList(&quot;data&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;deers&quot;, Arrays.asList(&quot;deer&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;diagnosises&quot;, Arrays.asList(&quot;diagnoses&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;echos&quot;, Arrays.asList(&quot;echoes&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;elfs&quot;, Arrays.asList(&quot;elves&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ellipsises&quot;, Arrays.asList(&quot;ellipses&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ir&quot;, Arrays.asList(&quot;it&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;embargos&quot;, Arrays.asList(&quot;embargoes&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;erratums&quot;, Arrays.asList(&quot;errata&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;firemans&quot;, Arrays.asList(&quot;firemen&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;fishs&quot;, Arrays.asList(&quot;fishes&quot;, &quot;fish&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;genuses&quot;, Arrays.asList(&quot;genera&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;gooses&quot;, Arrays.asList(&quot;geese&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;halfs&quot;, Arrays.asList(&quot;halves&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;heros&quot;, Arrays.asList(&quot;heroes&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;indexs&quot;, Arrays.asList(&quot;indices&quot;, &quot;indexes&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;lifes&quot;, Arrays.asList(&quot;lives&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;mans&quot;, Arrays.asList(&quot;men&quot;, &quot;man&#39;s&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;mens&quot;, Arrays.asList(&quot;men&quot;, &quot;men&#39;s&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;matrixs&quot;, Arrays.asList(&quot;matrices&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;meanses&quot;, Arrays.asList(&quot;means&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;mediums&quot;, Arrays.asList(&quot;media&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;memorandums&quot;, Arrays.asList(&quot;memoranda&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;mooses&quot;, Arrays.asList(&quot;moose&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;mosquitos&quot;, Arrays.asList(&quot;mosquitoes&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;moskitos&quot;, Arrays.asList(&quot;mosquitoes&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;moskito&quot;, Arrays.asList(&quot;mosquito&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;neurosises&quot;, Arrays.asList(&quot;neuroses&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;nucleuses&quot;, Arrays.asList(&quot;nuclei&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;oasises&quot;, Arrays.asList(&quot;oases&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;ovums&quot;, Arrays.asList(&quot;ova&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;oxs&quot;, Arrays.asList(&quot;oxen&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;oxes&quot;, Arrays.asList(&quot;oxen&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;paralysises&quot;, Arrays.asList(&quot;paralyses&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;potatos&quot;, Arrays.asList(&quot;potatoes&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;radiuses&quot;, Arrays.asList(&quot;radii&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;selfs&quot;, Arrays.asList(&quot;selves&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;serieses&quot;, Arrays.asList(&quot;series&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;sheeps&quot;, Arrays.asList(&quot;sheep&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;shelfs&quot;, Arrays.asList(&quot;shelves&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;scissorses&quot;, Arrays.asList(&quot;scissors&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;specieses&quot;, Arrays.asList(&quot;species&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;stimuluses&quot;, Arrays.asList(&quot;stimuli&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;stratums&quot;, Arrays.asList(&quot;strata&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;tableaus&quot;, Arrays.asList(&quot;tableaux&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;thats&quot;, Arrays.asList(&quot;those&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;thesises&quot;, Arrays.asList(&quot;theses&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;thiefs&quot;, Arrays.asList(&quot;thieves&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;thises&quot;, Arrays.asList(&quot;these&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;tomatos&quot;, Arrays.asList(&quot;tomatoes&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;tooths&quot;, Arrays.asList(&quot;teeth&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;torpedos&quot;, Arrays.asList(&quot;torpedoes&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;vertebras&quot;, Arrays.asList(&quot;vertebrae&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;vetos&quot;, Arrays.asList(&quot;vetoes&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;vitas&quot;, Arrays.asList(&quot;vitae&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;watchs&quot;, Arrays.asList(&quot;watches&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;wifes&quot;, Arrays.asList(&quot;wives&quot;, &quot;wife&#39;s&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;womans&quot;, Arrays.asList(&quot;women&quot;, &quot;woman&#39;s&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Womans&quot;, Arrays.asList(&quot;Women&quot;, &quot;Woman&#39;s&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;womens&quot;, Arrays.asList(&quot;women&#39;s&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Womens&quot;, Arrays.asList(&quot;Women&#39;s&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;deauthorized&quot;, Arrays.asList(&quot;unauthorized&quot;));</b>
+&nbsp;    // AtD irregular plurals - END
+&nbsp;    // &quot;tippy-top&quot; is an often used word by Donald Trump
+<b class="nc">&nbsp;    s.put(&quot;tippy-top&quot;, Arrays.asList(&quot;tip-top&quot;, &quot;top most&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;tippytop&quot;, Arrays.asList(&quot;tip-top&quot;, &quot;top most&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;imma&quot;, Arrays.asList(&quot;I&#39;m going to&quot;, &quot;I&#39;m a&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Imma&quot;, Arrays.asList(&quot;I&#39;m going to&quot;, &quot;I&#39;m a&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;dontcha&quot;, Arrays.asList(&quot;don&#39;t you&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;tobe&quot;, Arrays.asList(&quot;to be&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Gi&quot;, Arrays.asList(&quot;Hi&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Ji&quot;, Arrays.asList(&quot;Hi&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Dontcha&quot;, Arrays.asList(&quot;don&#39;t you&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;greatfruit&quot;, Arrays.asList(&quot;grapefruit&quot;, &quot;great fruit&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Insta&quot;, Arrays.asList(&quot;Instagram&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;IO&quot;, Arrays.asList(&quot;I/O&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;wierd&quot;, Arrays.asList(&quot;weird&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Wierd&quot;, Arrays.asList(&quot;Weird&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;HipHop&quot;, Arrays.asList(&quot;Hip-Hop&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;gove&quot;, Arrays.asList(&quot;love&quot;, &quot;give&quot;, &quot;gave&quot;, &quot;move&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;birdseye&quot;, Arrays.asList(&quot;bird&#39;s-eye&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Birdseye&quot;, Arrays.asList(&quot;Bird&#39;s-eye&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;al&quot;, Arrays.asList(&quot;all&quot;, &quot;Al&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;publically&quot;, Arrays.asList(&quot;publicly&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;fo&quot;, Arrays.asList(&quot;for&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;shawty&quot;, Arrays.asList(&quot;shorty&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Shawty&quot;, Arrays.asList(&quot;Shorty&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;savy&quot;, Arrays.asList(&quot;savvy&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Savy&quot;, Arrays.asList(&quot;Savvy&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;automization&quot;, Arrays.asList(&quot;automatization&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;automisation&quot;, Arrays.asList(&quot;automatisation&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Automization&quot;, Arrays.asList(&quot;Automatization&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Automisation&quot;, Arrays.asList(&quot;Automatisation&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;aswell&quot;, Arrays.asList(&quot;as well&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Continuesly&quot;, Arrays.asList(&quot;Continuously&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;continuesly&quot;, Arrays.asList(&quot;continuously&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;humain&quot;, Arrays.asList(&quot;humane&quot;, &quot;human&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;protene&quot;, Arrays.asList(&quot;protein&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;throught&quot;, Arrays.asList(&quot;thought&quot;, &quot;through&quot;, &quot;throat&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;specifity&quot;, Arrays.asList(&quot;specificity&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;specicity&quot;, Arrays.asList(&quot;specificity&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Specifity&quot;, Arrays.asList(&quot;Specificity&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Specicity&quot;, Arrays.asList(&quot;Specificity&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;specifities&quot;, Arrays.asList(&quot;specificities&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;specicities&quot;, Arrays.asList(&quot;specificities&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Specifities&quot;, Arrays.asList(&quot;Specificities&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Specicities&quot;, Arrays.asList(&quot;Specificities&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Neonazi&quot;, Arrays.asList(&quot;Neo-Nazi&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Neonazis&quot;, Arrays.asList(&quot;Neo-Nazis&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;neonazi&quot;, Arrays.asList(&quot;neo-Nazi&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;neonazis&quot;, Arrays.asList(&quot;neo-Nazis&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;fiveteen&quot;, Arrays.asList(&quot;fifteen&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Fiveteen&quot;, Arrays.asList(&quot;Fifteen&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;critism&quot;, Arrays.asList(&quot;criticism&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Critism&quot;, Arrays.asList(&quot;Criticism&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Hobbie&quot;, Arrays.asList(&quot;Hobby&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;hobbie&quot;, Arrays.asList(&quot;hobby&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Hobbys&quot;, Arrays.asList(&quot;Hobbies&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;hobbys&quot;, Arrays.asList(&quot;hobbies&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Copie&quot;, Arrays.asList(&quot;Copy&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Copys&quot;, Arrays.asList(&quot;Copies&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;copie&quot;, Arrays.asList(&quot;copy&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;copys&quot;, Arrays.asList(&quot;copies&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;unconform&quot;, Arrays.asList(&quot;nonconform&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Unconform&quot;, Arrays.asList(&quot;Nonconform&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;rideshare&quot;, Arrays.asList(&quot;ride-share&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Rideshare&quot;, Arrays.asList(&quot;Ride-share&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Rideshares&quot;, Arrays.asList(&quot;Ride-shares&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;dropoff&quot;, Arrays.asList(&quot;drop-off&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Dropoff&quot;, Arrays.asList(&quot;Drop-off&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;reportings&quot;, Arrays.asList(&quot;reports&quot;, &quot;reporting&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Reportings&quot;, Arrays.asList(&quot;Reports&quot;, &quot;Reporting&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;luv&quot;, Arrays.asList(&quot;love&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;luvs&quot;, Arrays.asList(&quot;loves&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Luv&quot;, Arrays.asList(&quot;Love&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Luvs&quot;, Arrays.asList(&quot;Loves&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;islam&quot;, Arrays.asList(&quot;Islam&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;andit&quot;, Arrays.asList(&quot;and it&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;wud&quot;, Arrays.asList(&quot;what&quot;, &quot;mud&quot;, &quot;bud&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Wud&quot;, Arrays.asList(&quot;What&quot;, &quot;Mud&quot;, &quot;Bud&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;fablet&quot;, Arrays.asList(&quot;phablet&quot;, &quot;tablet&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Fablet&quot;, Arrays.asList(&quot;Phablet&quot;, &quot;Tablet&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;companys&quot;, Arrays.asList(&quot;companies&quot;, &quot;company&#39;s&quot;, &quot;company&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Companys&quot;, Arrays.asList(&quot;Companies&quot;, &quot;Company&#39;s&quot;, &quot;Company&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;unencode&quot;, Arrays.asList(&quot;decode&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;unencodes&quot;, Arrays.asList(&quot;decodes&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;unencoded&quot;, Arrays.asList(&quot;decoded&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;unencoding&quot;, Arrays.asList(&quot;decoding&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;cheq&quot;, Arrays.asList(&quot;check&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;southwest&quot;, Arrays.asList(&quot;south-west&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;southeast&quot;, Arrays.asList(&quot;south-east&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;northwest&quot;, Arrays.asList(&quot;north-west&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;northeast&quot;, Arrays.asList(&quot;north-east&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Marylin&quot;, Arrays.asList(&quot;Marilyn&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;blest&quot;, Arrays.asList(&quot;blessed&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;yeld&quot;, Arrays.asList(&quot;yelled&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;os&quot;, Arrays.asList(&quot;OS&quot;, &quot;is&quot;, &quot;so&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;abel&quot;, Arrays.asList(&quot;able&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;param&quot;, Arrays.asList(&quot;parameter&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;params&quot;, Arrays.asList(&quot;parameters&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Param&quot;, Arrays.asList(&quot;Parameter&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Params&quot;, Arrays.asList(&quot;Parameters&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;amature&quot;, Arrays.asList(&quot;amateur&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;amatures&quot;, Arrays.asList(&quot;amateurs&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;egoic&quot;, Arrays.asList(&quot;egoistic&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;tarpit&quot;, Arrays.asList(&quot;tar pit&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;tarpits&quot;, Arrays.asList(&quot;tar pits&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Tarpit&quot;, Arrays.asList(&quot;Tar pit&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Tarpits&quot;, Arrays.asList(&quot;Tar pits&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;wheater&quot;, Arrays.asList(&quot;weather&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Wheater&quot;, Arrays.asList(&quot;Weather&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;defi&quot;, Arrays.asList(&quot;defibrillator&quot;, &quot;DeFi&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Defi&quot;, Arrays.asList(&quot;Defibrillator&quot;, &quot;DeFi&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;topup&quot;, Arrays.asList(&quot;top-up&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;topups&quot;, Arrays.asList(&quot;top-ups&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;nacked&quot;, Arrays.asList(&quot;backed&quot;, &quot;naked&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;no-profit&quot;, Arrays.asList(&quot;non-profit&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;No-profit&quot;, Arrays.asList(&quot;Non-profit&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;wrose&quot;, Arrays.asList(&quot;worse&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Wrose&quot;, Arrays.asList(&quot;Worse&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;reak&quot;, Arrays.asList(&quot;wreak&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Reak&quot;, Arrays.asList(&quot;Wreak&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;reaks&quot;, Arrays.asList(&quot;wreaks&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Reaks&quot;, Arrays.asList(&quot;Wreaks&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;reaked&quot;, Arrays.asList(&quot;wreaked&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Reaked&quot;, Arrays.asList(&quot;Wreaked&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;reaking&quot;, Arrays.asList(&quot;wreaking&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Reaking&quot;, Arrays.asList(&quot;Wreaking&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;hight&quot;, Arrays.asList(&quot;height&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Hight&quot;, Arrays.asList(&quot;Height&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;fulltime&quot;, Arrays.asList(&quot;full-time&quot;));</b>
+<b class="nc">&nbsp;    s.put(&quot;Fulltime&quot;, Arrays.asList(&quot;Full-time&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;    return s;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.7
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  protected List&lt;SuggestedReplacement&gt; getAdditionalTopSuggestions(List&lt;SuggestedReplacement&gt; suggestions, String word) throws IOException {
+&nbsp;    /*if (word.length() &lt; 20 &amp;&amp; word.matches(&quot;[a-zA-Z-]+.?&quot;)) {
+&nbsp;      List&lt;String&gt; prefixes = Arrays.asList(&quot;inter&quot;, &quot;pre&quot;);
+&nbsp;      for (String prefix : prefixes) {
+&nbsp;        if (word.startsWith(prefix)) {
+&nbsp;          String lastPart = word.substring(prefix.length());
+&nbsp;          if (!isMisspelled(lastPart)) {
+&nbsp;            // as these are only single words and both the first part and the last part are spelled correctly
+&nbsp;            // (but the combination is not), it&#39;s okay to log the words from a privacy perspective:
+&nbsp;            logger.info(&quot;UNKNOWN-EN: &quot; + word);
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }*/
+<b class="nc">&nbsp;    List&lt;String&gt; curatedSuggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    curatedSuggestions.addAll(topSuggestions.getOrDefault(word, Collections.emptyList()));</b>
+<b class="nc">&nbsp;    curatedSuggestions.addAll(topSuggestionsIgnoreCase.getOrDefault(word.toLowerCase(), Collections.emptyList()));</b>
+<b class="nc">&nbsp;    if (!curatedSuggestions.isEmpty()) {</b>
+<b class="nc">&nbsp;      return SuggestedReplacement.convert(curatedSuggestions);</b>
+<b class="nc">&nbsp;    } else if (word.endsWith(&quot;ys&quot;)) {</b>
+<b class="nc">&nbsp;      String suggestion = word.replaceFirst(&quot;ys$&quot;, &quot;ies&quot;);</b>
+<b class="nc">&nbsp;      if (!speller1.isMisspelled(suggestion)) {</b>
+<b class="nc">&nbsp;        return SuggestedReplacement.convert(Arrays.asList(suggestion));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return super.getAdditionalTopSuggestions(suggestions, word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // trivial approach that assumes only one part of the hyphenated word has a typo...
+&nbsp;  @Override
+&nbsp;  protected void addHyphenSuggestions(String[] parts, List&lt;SuggestedReplacement&gt; topSuggestions) throws IOException {
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    for (String part : parts) {</b>
+<b class="nc">&nbsp;      if (isMisspelled(part)) {</b>
+<b class="nc">&nbsp;        List&lt;String&gt; partSuggestions = speller1.getSuggestions(part);</b>
+<b class="nc">&nbsp;        if (partSuggestions.size() == 0) {</b>
+<b class="nc">&nbsp;          partSuggestions = speller2.getSuggestions(part);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (partSuggestions.size() &gt; 0) {</b>
+<b class="nc">&nbsp;          String suggestion = getHyphenatedWordSuggestion(parts, i, partSuggestions.get(0));</b>
+<b class="nc">&nbsp;          topSuggestions.add(new SuggestedReplacement(suggestion));</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      i++;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getHyphenatedWordSuggestion(String[] parts, int currentPos, String currentPostSuggestion) {
+<b class="nc">&nbsp;    List&lt;String&gt; newParts = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (int j = 0; j &lt; parts.length; j++) {</b>
+<b class="nc">&nbsp;      if (currentPos == j) {</b>
+<b class="nc">&nbsp;        newParts.add(currentPostSuggestion);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        newParts.add(parts[j]);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return String.join(&quot;-&quot;, newParts);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected Translator getTranslator(GlobalConfig globalConfig) {
+<b class="nc">&nbsp;    return translator;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // Do not tokenize new words from spelling.txt...
+&nbsp;  // Multi-token words should be in multiwords.txt
+&nbsp;  protected boolean tokenizeNewWords() {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;SuggestedReplacement&gt; getOnlySuggestions(String word) {
+&nbsp;    // NOTE: only add words here that would otherwise have more than one suggestion
+&nbsp;    // and have apply to all variants of English (en-US, en-GB, ...):
+<b class="nc">&nbsp;    if (PROFILERATION.matcher(word).matches())</b>
+<b class="nc">&nbsp;      return topMatch(StringUtils.replaceOnce(word, &quot;rofileration&quot;, &quot;roliferation&quot;), &quot;rapid expansion&quot;);</b>
+<b class="nc">&nbsp;    if (CEMETARY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;emetary&quot;, &quot;emetery&quot;));</b>
+<b class="nc">&nbsp;    if (CEMETARIES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;emetaries&quot;, &quot;emeteries&quot;));</b>
+<b class="nc">&nbsp;    if (BASICLY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;asicly&quot;, &quot;asically&quot;));</b>
+<b class="nc">&nbsp;    if (BELEIVES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;eleive&quot;, &quot;elieve&quot;));</b>
+<b class="nc">&nbsp;    if (BELIVES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;elive&quot;, &quot;elieve&quot;));</b>
+<b class="nc">&nbsp;    if (BIZZARE.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;izzare&quot;, &quot;izarre&quot;));</b>
+<b class="nc">&nbsp;    if (COMPLETLY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;ompletly&quot;, &quot;ompletely&quot;));</b>
+<b class="nc">&nbsp;    if (DISSAPEARS.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;issapear&quot;, &quot;isappear&quot;));</b>
+<b class="nc">&nbsp;    if (FARENHEIT.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;arenheit&quot;, &quot;ahrenheit&quot;));</b>
+<b class="nc">&nbsp;    if (FREINDS.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;reind&quot;, &quot;riend&quot;));</b>
+<b class="nc">&nbsp;    if (INCIDENTLY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;ncidently&quot;, &quot;ncidentally&quot;));</b>
+<b class="nc">&nbsp;    if (INTERUPTS.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;nterupt&quot;, &quot;nterrupt&quot;));</b>
+<b class="nc">&nbsp;    if (LOLLYPOPS.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;ollypop&quot;, &quot;ollipop&quot;));</b>
+<b class="nc">&nbsp;    if (OCASSIONS.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;cassion&quot;, &quot;ccasion&quot;));</b>
+<b class="nc">&nbsp;    if (OCCURANCES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;ccurance&quot;, &quot;ccurrence&quot;));</b>
+<b class="nc">&nbsp;    if (PERSISTANT.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;ersistant&quot;, &quot;ersistent&quot;));</b>
+<b class="nc">&nbsp;    if (PEICES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;eice&quot;, &quot;iece&quot;));</b>
+<b class="nc">&nbsp;    if (SEIGES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;eige&quot;, &quot;iege&quot;));</b>
+<b class="nc">&nbsp;    if (SUPERCEDES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;upercede&quot;, &quot;upersede&quot;));</b>
+<b class="nc">&nbsp;    if (THRESHHOLDS.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;hreshhold&quot;, &quot;hreshold&quot;));</b>
+<b class="nc">&nbsp;    if (TOMMORROWS.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;ommorrow&quot;, &quot;omorrow&quot;));</b>
+<b class="nc">&nbsp;    if (TOUTES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;ounge&quot;, &quot;ongue&quot;));</b>
+<b class="nc">&nbsp;    if (WIERD.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;ierd&quot;, &quot;eird&quot;));</b>
+<b class="nc">&nbsp;    if (SARGENT.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;argent&quot;, &quot;ergeant&quot;));</b>
+<b class="nc">&nbsp;    if (SWIMMED.matcher(word).matches()) return topMatch(&quot;swam&quot;);</b>
+<b class="nc">&nbsp;    if (MISSPELT.matcher(word).matches()) return topMatch(&quot;misspelled&quot;);</b>
+<b class="nc">&nbsp;    if (ADHOC.matcher(word).matches()) return topMatch(&quot;ad hoc&quot;);</b>
+<b class="nc">&nbsp;    if (DEACTIVE.matcher(word).matches()) return topMatch(&quot;inactive&quot;);</b>
+<b class="nc">&nbsp;    if (HUBSPOT.matcher(word).matches()) return topMatch(&quot;HubSpot&quot;);</b>
+<b class="nc">&nbsp;    if (URL.matcher(word).matches()) return topMatch(&quot;URL&quot;);</b>
+<b class="nc">&nbsp;    if (HTTP.matcher(word).matches()) return topMatch(&quot;HTTP&quot;);</b>
+<b class="nc">&nbsp;    if (HTTPS.matcher(word).matches()) return topMatch(&quot;HTTPS&quot;);</b>
+<b class="nc">&nbsp;    if (FYI.matcher(word).matches()) return topMatch(&quot;FYI&quot;);</b>
+<b class="nc">&nbsp;    if (DEVOPS.matcher(word).matches()) return topMatch(&quot;DevOps&quot;);</b>
+<b class="nc">&nbsp;    if (MICROSOFT.matcher(word).matches()) return topMatch(&quot;Microsoft&quot;);</b>
+<b class="nc">&nbsp;    if (LANGUAGETOOL.matcher(word).matches()) return topMatch(&quot;LanguageTool&quot;);</b>
+<b class="nc">&nbsp;    if (HONGKONG.matcher(word).matches()) return topMatch(&quot;Hong Kong&quot;);</b>
+<b class="nc">&nbsp;    if (OCTOBER.matcher(word).matches()) return topMatch(&quot;October&quot;);</b>
+<b class="nc">&nbsp;    if (SEPTEMBER.matcher(word).matches()) return topMatch(&quot;September&quot;);</b>
+<b class="nc">&nbsp;    if (DECEMBER.matcher(word).matches()) return topMatch(&quot;December&quot;);</b>
+<b class="nc">&nbsp;    if (NOVEMBER.matcher(word).matches()) return topMatch(&quot;November&quot;);</b>
+<b class="nc">&nbsp;    if (APRIL.matcher(word).matches()) return topMatch(&quot;April&quot;);</b>
+<b class="nc">&nbsp;    if (AFAIK.matcher(word).matches()) return topMatch(&quot;AFAIK&quot;);</b>
+<b class="nc">&nbsp;    if (JANUARY.matcher(word).matches()) return topMatch(&quot;January&quot;);</b>
+<b class="nc">&nbsp;    if (ENGLISH.matcher(word).matches()) return topMatch(&quot;English&quot;);</b>
+<b class="nc">&nbsp;    if (SPANISH.matcher(word).matches()) return topMatch(&quot;Spanish&quot;);</b>
+<b class="nc">&nbsp;    if (UNDETERMINISTIC.matcher(word).matches()) return topMatch(&quot;nondeterministic&quot;);</b>
+<b class="nc">&nbsp;    if (WDYT.matcher(word).matches()) return topMatch(&quot;WDYT&quot;);</b>
+<b class="nc">&nbsp;    if (INTRANSPARENT.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;in&quot;, &quot;un&quot;));</b>
+<b class="nc">&nbsp;    if (UNCOMPLIANT.matcher(word).matches()) return topMatch(&quot;non-compliant&quot;);</b>
+<b class="nc">&nbsp;    if (UX.matcher(word).matches()) return topMatch(&quot;UX&quot;);</b>
+<b class="nc">&nbsp;    if (GITLAB.matcher(word).matches()) return topMatch(&quot;GitLab&quot;);</b>
+<b class="nc">&nbsp;    if (BONAFIDE.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;onafide&quot;, &quot;ona fide&quot;));</b>
+<b class="nc">&nbsp;    if (ALLRIGHT.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;llright&quot;, &quot;lright&quot;));</b>
+<b class="nc">&nbsp;    if (ADDON.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;ddon&quot;, &quot;dd-on&quot;));</b>
+<b class="nc">&nbsp;    if (WHEREEVER.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;hereever&quot;, &quot;herever&quot;));</b>
+<b class="nc">&nbsp;    if (WHATSAPP.matcher(word).matches()) return topMatch(&quot;WhatsApp&quot;);</b>
+<b class="nc">&nbsp;    if (JETLAGGED.matcher(word).matches()) return topMatch(&quot;jet-lagged&quot;);</b>
+<b class="nc">&nbsp;    if (MACBOOK.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;acbook&quot;, &quot;acBook&quot;));</b>
+<b class="nc">&nbsp;    if (LIKELYHOOD.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;ikelyhood&quot;, &quot;ikelihood&quot;));</b>
+<b class="nc">&nbsp;    if (UNECESSARY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, &quot;necessary&quot;, &quot;nnecessary&quot;));</b>
+<b class="nc">&nbsp;    if (QUILLBOT1.matcher(word).matches() || QUILLBOT2.matcher(word).matches()) return topMatch(&quot;QuillBot&quot;);</b>
+<b class="nc">&nbsp;    if (QUILLBOT_POS.matcher(word).matches() || QUILLBOT1_POS.matcher(word).matches() ||</b>
+<b class="nc">&nbsp;      QUILLBOT2_POS.matcher(word).matches()) {</b>
+<b class="nc">&nbsp;      List&lt;SuggestedReplacement&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      l.add(new SuggestedReplacement(&quot;QuillBot&#39;s&quot;));</b>
+<b class="nc">&nbsp;      l.add(new SuggestedReplacement(&quot;QuillBot&quot;));</b>
+<b class="nc">&nbsp;      return l;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (TV.matcher(word).matches()) {</b>
+<b class="nc">&nbsp;      List&lt;SuggestedReplacement&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      l.add(new SuggestedReplacement(&quot;TV&quot;));</b>
+<b class="nc">&nbsp;      l.add(new SuggestedReplacement(&quot;to&quot;));</b>
+<b class="nc">&nbsp;      return l;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (JIST.matcher(word).matches()) {</b>
+<b class="nc">&nbsp;      List&lt;SuggestedReplacement&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      l.add(new SuggestedReplacement(&quot;just&quot;));</b>
+<b class="nc">&nbsp;      l.add(new SuggestedReplacement(&quot;gist&quot;));</b>
+<b class="nc">&nbsp;      return l;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class IrregularForms {
+&nbsp;    final String baseform;
+&nbsp;    final String posName;
+&nbsp;    final String formName;
+&nbsp;    final List&lt;String&gt; forms;
+<b class="nc">&nbsp;    private IrregularForms(String baseform, String posName, String formName, List&lt;String&gt; forms) {</b>
+<b class="nc">&nbsp;      this.baseform = baseform;</b>
+<b class="nc">&nbsp;      this.posName = posName;</b>
+<b class="nc">&nbsp;      this.formName = formName;</b>
+<b class="nc">&nbsp;      this.forms = forms;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,746 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > HunspellRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling.hunspell</a>
+</div>
+
+<h1>Coverage Summary for Class: HunspellRule (org.languagetool.rules.spelling.hunspell)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HunspellRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/214)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/274)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.spelling.hunspell;
+&nbsp;
+&nbsp;import com.google.common.io.Resources;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.SuggestedReplacement;
+&nbsp;import org.languagetool.rules.spelling.ForeignLanguageChecker;
+&nbsp;import org.languagetool.rules.spelling.RuleWithLanguage;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.net.URISyntaxException;
+&nbsp;import java.net.URL;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.text.SimpleDateFormat;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.ConcurrentHashMap;
+&nbsp;import java.util.concurrent.ConcurrentLinkedQueue;
+&nbsp;import java.util.concurrent.ConcurrentMap;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * A hunspell-based spellchecking-rule.
+&nbsp; * The default dictionary is set to the first country variant on the list - so the order
+&nbsp; * in the Language class declaration is important!
+&nbsp; * 
+&nbsp; * @author Marcin Miłkowski
+&nbsp; */
+&nbsp;public class HunspellRule extends SpellingCheckRule {
+&nbsp;
+&nbsp;  public static final String RULE_ID = &quot;HUNSPELL_RULE&quot;;
+&nbsp;
+&nbsp;  protected static final String FILE_EXTENSION = &quot;.dic&quot;;
+&nbsp;
+<b class="nc">&nbsp;  private volatile boolean needsInit = true;</b>
+<b class="nc">&nbsp;  protected volatile HunspellDictionary hunspell = null;</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(HunspellRule.class);</b>
+<b class="nc">&nbsp;  private static final ConcurrentLinkedQueue&lt;String&gt; activeChecks = new ConcurrentLinkedQueue&lt;&gt;();</b>
+&nbsp;  private static final String NON_ALPHABETIC = &quot;[^\\p{L}]&quot;;
+<b class="nc">&nbsp;  private static final Pattern NON_ALPHABETIC_PATTERN = Pattern.compile(NON_ALPHABETIC);</b>
+<b class="nc">&nbsp;  private static final Pattern STARTS_WITH_TWO_UPPERCASE_CHARS = Pattern.compile(&quot;[A-Z][A-Z]\\p{javaLowerCase}+&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final boolean monitorRules = System.getProperty(&quot;monitorActiveRules&quot;) != null;</b>
+&nbsp;
+&nbsp;  //300 most common Portuguese words. They are used to avoid wrong split suggestions
+<b class="nc">&nbsp;  private final List&lt;String&gt; commonPortugueseWords = Arrays.asList(&quot;eu&quot;, &quot;ja&quot;, &quot;so&quot;, &quot;de&quot;, &quot;e&quot;, &quot;a&quot;, &quot;o&quot;, &quot;da&quot;, &quot;do&quot;, &quot;em&quot;, &quot;que&quot;, &quot;uma&quot;, &quot;um&quot;, &quot;com&quot;, &quot;no&quot;, &quot;se&quot;, &quot;na&quot;, &quot;para&quot;, &quot;por&quot;, &quot;os&quot;, &quot;foi&quot;, &quot;como&quot;, &quot;dos&quot;, &quot;as&quot;, &quot;ao&quot;, &quot;mais&quot;, &quot;sua&quot;, &quot;das&quot;, &quot;não&quot;, &quot;ou&quot;, &quot;km&quot;, &quot;seu&quot;, &quot;pela&quot;, &quot;ser&quot;, &quot;pelo&quot;, &quot;são&quot;, &quot;também&quot;, &quot;anos&quot;, &quot;cidade&quot;, &quot;entre&quot;, &quot;era&quot;, &quot;tem&quot;, &quot;mas&quot;, &quot;habitantes&quot;, &quot;nos&quot;, &quot;seus&quot;, &quot;área&quot;, &quot;até&quot;, &quot;ele&quot;, &quot;onde&quot;, &quot;foram&quot;, &quot;população&quot;, &quot;região&quot;, &quot;sobre&quot;, &quot;nas&quot;, &quot;nome&quot;, &quot;parte&quot;, &quot;quando&quot;, &quot;ano&quot;, &quot;aos&quot;, &quot;grande&quot;, &quot;mesmo&quot;, &quot;pode&quot;, &quot;primeiro&quot;, &quot;segundo&quot;, &quot;sendo&quot;, &quot;suas&quot;, &quot;ainda&quot;, &quot;dois&quot;, &quot;estado&quot;, &quot;está&quot;, &quot;família&quot;, &quot;já&quot;, &quot;muito&quot;, &quot;outros&quot;, &quot;americano&quot;, &quot;depois&quot;, &quot;durante&quot;, &quot;maior&quot;, &quot;primeira&quot;, &quot;forma&quot;, &quot;apenas&quot;, &quot;banda&quot;, &quot;densidade&quot;, &quot;dia&quot;, &quot;então&quot;, &quot;município&quot;, &quot;norte&quot;, &quot;tempo&quot;, &quot;após&quot;, &quot;duas&quot;, &quot;num&quot;, &quot;pelos&quot;, &quot;qual&quot;, &quot;século&quot;, &quot;ter&quot;, &quot;todos&quot;, &quot;três&quot;, &quot;vez&quot;, &quot;água&quot;, &quot;acordo&quot;, &quot;cobertos&quot;, &quot;comuna&quot;, &quot;contra&quot;, &quot;ela&quot;, &quot;grupo&quot;, &quot;principal&quot;, &quot;quais&quot;, &quot;sem&quot;, &quot;tendo&quot;, &quot;às&quot;, &quot;álbum&quot;, &quot;alguns&quot;, &quot;assim&quot;, &quot;asteróide&quot;, &quot;bem&quot;, &quot;brasileiro&quot;, &quot;cerca&quot;, &quot;desde&quot;, &quot;este&quot;, &quot;localizada&quot;, &quot;mundo&quot;, &quot;outras&quot;, &quot;período&quot;, &quot;seguinte&quot;, &quot;sido&quot;, &quot;vida&quot;, &quot;através&quot;, &quot;cada&quot;, &quot;conhecido&quot;, &quot;final&quot;, &quot;história&quot;, &quot;partir&quot;, &quot;país&quot;, &quot;pessoas&quot;, &quot;sistema&quot;, &quot;terra&quot;, &quot;teve&quot;, &quot;tinha&quot;, &quot;época&quot;, &quot;administrativa&quot;, &quot;censo&quot;, &quot;departamento&quot;, &quot;dias&quot;, &quot;esta&quot;, &quot;filme&quot;, &quot;francesa&quot;, &quot;música&quot;, &quot;província&quot;, &quot;série&quot;, &quot;vezes&quot;, &quot;além&quot;, &quot;antes&quot;, &quot;eles&quot;, &quot;eram&quot;, &quot;espécie&quot;, &quot;governo&quot;, &quot;podem&quot;, &quot;vários&quot;, &quot;censos&quot;, &quot;distrito&quot;, &quot;estão&quot;, &quot;exemplo&quot;, &quot;hoje&quot;, &quot;início&quot;, &quot;jogo&quot;, &quot;lhe&quot;, &quot;lugar&quot;, &quot;muitos&quot;, &quot;média&quot;, &quot;novo&quot;, &quot;numa&quot;, &quot;número&quot;, &quot;pois&quot;, &quot;possui&quot;, &quot;sob&quot;, &quot;só&quot;, &quot;todo&quot;, &quot;tornou&quot;, &quot;trabalho&quot;, &quot;algumas&quot;, &quot;devido&quot;, &quot;estava&quot;, &quot;fez&quot;, &quot;filho&quot;, &quot;fim&quot;, &quot;grandes&quot;, &quot;há&quot;, &quot;isso&quot;, &quot;lado&quot;, &quot;local&quot;, &quot;morte&quot;, &quot;orbital&quot;, &quot;outro&quot;, &quot;passou&quot;, &quot;países&quot;, &quot;quatro&quot;, &quot;representa&quot;, &quot;seja&quot;, &quot;sempre&quot;, &quot;sul&quot;, &quot;várias&quot;, &quot;capital&quot;, &quot;chamado&quot;, &quot;começou&quot;, &quot; enquanto&quot;, &quot;fazer&quot;, &quot;lançado&quot;, &quot;meio&quot;, &quot;nova&quot;, &quot;nível&quot;, &quot;pelas&quot;, &quot;poder&quot;, &quot;presidente&quot;, &quot;redor&quot;, &quot;rio&quot;, &quot;tarde&quot;, &quot;todas&quot;, &quot;carreira&quot;, &quot;casa&quot;, &quot;década&quot;, &quot;estimada&quot;, &quot;guerra&quot;, &quot;havia&quot;, &quot;livro&quot;, &quot;localidades&quot;, &quot;maioria&quot;, &quot;muitas&quot;, &quot;obra&quot;, &quot;origem&quot;, &quot;pai&quot;, &quot;pouco&quot;, &quot;principais&quot;, &quot;produção&quot;, &quot;programa&quot;, &quot;qualquer&quot;, &quot;raio&quot;, &quot;seguintes&quot;, &quot;sucesso&quot;, &quot;título&quot;, &quot;aproximadamente&quot;, &quot;caso&quot;, &quot;centro&quot;, &quot;conhecida&quot;, &quot;construção&quot;, &quot;desta&quot;, &quot;diagrama&quot;, &quot;faz&quot;, &quot;ilha&quot;, &quot;importante&quot;, &quot;mar&quot;, &quot;melhor&quot;, &quot;menos&quot;, &quot;mesma&quot;, &quot;metros&quot;, &quot;mil&quot;, &quot;nacional&quot;, &quot;populacional&quot;, &quot;quase&quot;, &quot;rei&quot;, &quot;sede&quot;, &quot;segunda&quot;, &quot;tipo&quot;, &quot;toda&quot;, &quot;uso&quot;, &quot;velocidade&quot;, &quot;vizinhança&quot;, &quot;volta&quot;, &quot;base&quot;, &quot;brasileira&quot;, &quot;clube&quot;, &quot;desenvolvimento&quot;, &quot;deste&quot;, &quot;diferentes&quot;, &quot;diversos&quot;, &quot;empresa&quot;, &quot;entanto&quot;, &quot;futebol&quot;, &quot;geral&quot;, &quot;junto&quot;, &quot;longo&quot;, &quot;obras&quot;, &quot;outra&quot;, &quot;pertencente&quot;, &quot;política&quot;, &quot;português&quot;, &quot;principalmente&quot;, &quot;processo&quot;, &quot;quem&quot;, &quot;seria&quot;, &quot;têm&quot;, &quot;versão&quot;, &quot;TV&quot;, &quot;acima&quot;, &quot;atual&quot;, &quot;bairro&quot;, &quot;chamada&quot;, &quot;cinco&quot;, &quot;conta&quot;, &quot;corpo&quot;, &quot;dentro&quot;, &quot;deve&quot;);</b>
+<b class="nc">&nbsp;  private final List&lt;String&gt; commonGermanWords = Arrays.asList(&quot;-&quot;, &quot;das&quot;, &quot;sein&quot;, &quot;mein&quot;, &quot;meine&quot;, &quot;meinen&quot;, &quot;meines&quot;, &quot;meiner&quot;, &quot;haben&quot;, &quot;kein&quot;, &quot;keine&quot;, &quot;keinen&quot;, &quot;keinem&quot;, &quot;keines&quot;, &quot;keiner&quot;, &quot;ein&quot;, &quot;eines&quot;, &quot;eins&quot;, &quot;einen&quot;, &quot;einem&quot;, &quot;eine&quot;, &quot;einer&quot;, &quot;rund&quot;, &quot;sehr&quot;, &quot;mach&quot;, &quot;noch&quot;, &quot;nein&quot;, &quot;ja&quot;, &quot;hallo&quot;, &quot;hi&quot;, &quot;das&quot;, &quot;die&quot;, &quot;der&quot;, &quot;den&quot;, &quot;dem&quot;, &quot;des&quot;, &quot;nacht&quot;, &quot;diesen&quot;, &quot;dieser&quot;, &quot;dies&quot;, &quot;dieses&quot;, &quot;diesem&quot;, &quot;zum&quot;, &quot;zur&quot;, &quot;beim&quot;, &quot;noch&quot;, &quot;nichts&quot;, &quot;aufs&quot;, &quot;aufm&quot;, &quot;aufn&quot;, &quot;ausn&quot;, &quot;ausm&quot;, &quot;aus&quot;, &quot;fürs&quot;, &quot;für&quot;, &quot;osten&quot;, &quot;rein&quot;, &quot;raus&quot;, &quot;namen&quot;, &quot;shippen&quot;, &quot;amt&quot;, &quot;wir&quot;);</b>
+<b class="nc">&nbsp;  private final Pattern MINUS_PLUS = Pattern.compile(&quot;-+&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final ConcurrentMap&lt;URL, List&lt;String&gt;&gt; ignoreFileContents = new ConcurrentHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private static final ConcurrentMap&lt;Path, Pattern&gt; nonWordPatterns = new ConcurrentHashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;  public static Queue&lt;String&gt; getActiveChecks() {
+<b class="nc">&nbsp;    return activeChecks;</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final String[] WHITESPACE_ARRAY = new String[20];</b>
+&nbsp;
+&nbsp;  static {
+<b class="nc">&nbsp;    for (int i = 0; i &lt; 20; i++) {</b>
+<b class="nc">&nbsp;      WHITESPACE_ARRAY[i] = StringUtils.repeat(&#39; &#39;, i);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  protected Pattern nonWordPattern;
+&nbsp;
+&nbsp;  private final UserConfig userConfig;
+&nbsp;  private final List&lt;RuleWithLanguage&gt; enSpellRules;
+&nbsp;
+&nbsp;  public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig) {
+<b class="nc">&nbsp;    this(messages, language, userConfig, Collections.emptyList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List&lt;Language&gt; altLanguages) {
+<b class="nc">&nbsp;    this(messages, language, userConfig, altLanguages, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List&lt;Language&gt; altLanguages,
+&nbsp;                      LanguageModel languageModel) {
+<b class="nc">&nbsp;    super(messages, language, userConfig, altLanguages, languageModel);</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.TYPOS.getCategory(messages));</b>
+<b class="nc">&nbsp;    this.userConfig = userConfig;</b>
+<b class="nc">&nbsp;    enSpellRules = getEnglishSpellingRules();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;RuleWithLanguage&gt; getEnglishSpellingRules() {
+<b class="nc">&nbsp;    List&lt;RuleWithLanguage&gt; spellingRules = new ArrayList&lt;&gt;();</b>
+&nbsp;    Language en;
+&nbsp;    try {
+<b class="nc">&nbsp;      en = Languages.getLanguageForShortCode(&quot;en-US&quot;);</b>
+&nbsp;    } catch (IllegalArgumentException e) {
+<b class="nc">&nbsp;      logger.warn(&quot;Could not create en-US language for spell-check fallback, multi-lingual spell checking is not available&quot;);</b>
+<b class="nc">&nbsp;      return spellingRules;</b>
+&nbsp;    }
+&nbsp;    List&lt;Rule&gt; rules;
+&nbsp;    try {
+<b class="nc">&nbsp;      rules = new ArrayList&lt;&gt;(en.getRelevantRules(messages, userConfig, null, Collections.emptyList()));</b>
+<b class="nc">&nbsp;      rules.addAll(en.getRelevantLanguageModelCapableRules(messages, null,</b>
+<b class="nc">&nbsp;              null, userConfig, null, Collections.emptyList()));</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (Rule rule : rules) {</b>
+<b class="nc">&nbsp;      if (rule.isDictionaryBasedSpellingRule()) {</b>
+<b class="nc">&nbsp;        spellingRules.add(new RuleWithLanguage(rule, en));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return spellingRules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return RULE_ID;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return messages.getString(&quot;desc_spelling&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Is the given token part of a hyphenated compound preceded by a quoted token (e.g., „Spiegel“-Magazin) 
+&nbsp;   * and should be treated as an ordinary hyphenated compound (e.g., „Spiegel-Magazin“)
+&nbsp;   */
+&nbsp;  protected boolean isQuotedCompound (AnalyzedSentence analyzedSentence, int idx, String token) {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    ensureInitialized();</b>
+<b class="nc">&nbsp;    if (hunspell == null) {</b>
+&nbsp;      // some languages might not have a dictionary, be silent about it
+<b class="nc">&nbsp;      return toRuleMatchArray(ruleMatches);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String monitoringText = getClass().getName() + &quot;:&quot; + getId() + &quot;:&quot; + sentence.getText();</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      if (monitorRules) {</b>
+<b class="nc">&nbsp;        activeChecks.add(monitoringText);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String[] tokens = tokenizeText(getSentenceTextWithoutUrlsAndImmunizedTokens(sentence));</b>
+&nbsp;
+&nbsp;      // starting with the first token to skip the zero-length START_SENT
+&nbsp;      int len;
+<b class="nc">&nbsp;      if (sentence.getTokens().length &gt; 1) { // if fixes exception in SuggestionsChangesTest</b>
+<b class="nc">&nbsp;        len = sentence.getTokens()[1].getStartPos();</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        len = sentence.getTokens()[0].getStartPos();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      int prevStartPos = -1;</b>
+<b class="nc">&nbsp;      boolean gotResultsFromForeignLanguageChecker = false;</b>
+<b class="nc">&nbsp;      Long sentenceLength = Arrays.stream(sentence.getTokensWithoutWhitespace()).filter(k -&gt; !k.isNonWord()).count() - 1;</b>
+<b class="nc">&nbsp;      ForeignLanguageChecker foreignLanguageChecker = null;</b>
+<b class="nc">&nbsp;      if (userConfig != null &amp;&amp; !userConfig.getPreferredLanguages().isEmpty() &amp;&amp; userConfig.getPreferredLanguages().size() &gt;= 2) { //only create instance if user has 2 or more preferredLanguages</b>
+<b class="nc">&nbsp;        foreignLanguageChecker = new ForeignLanguageChecker(language.getShortCode(), sentence.getText(), sentenceLength, userConfig.getPreferredLanguages());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      for (int i = 0; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;        String word = tokens[i];</b>
+<b class="nc">&nbsp;        int dashCorr = 0;</b>
+<b class="nc">&nbsp;        if ((ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) &amp;&amp; !isProhibited(cutOffDot(word))) {</b>
+<b class="nc">&nbsp;          prevStartPos = len;</b>
+<b class="nc">&nbsp;          len += word.length() + 1;</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        if (isMisspelled(word)) {</b>
+<b class="nc">&nbsp;          if (ignorePotentiallyMisspelledWord(word)) {</b>
+<b class="nc">&nbsp;            prevStartPos = len;</b>
+<b class="nc">&nbsp;            len += word.length() + 1;</b>
+&nbsp;            continue;
+&nbsp;          }
+<b class="nc">&nbsp;          String cleanWord = word.endsWith(&quot;.&quot;) ? word.substring(0, word.length() - 1) : word;</b>
+<b class="nc">&nbsp;          if (word.startsWith(&quot;-&quot;)) {</b>
+<b class="nc">&nbsp;            if (!isMisspelled(cleanWord.substring(1)) || MINUS_PLUS.matcher(cleanWord).matches() )  {</b>
+<b class="nc">&nbsp;              len += word.length() + 1;</b>
+&nbsp;              continue;
+&nbsp;            } else {
+<b class="nc">&nbsp;              dashCorr++;</b>
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          if (i &gt; 0 &amp;&amp; prevStartPos != -1) {</b>
+<b class="nc">&nbsp;            String prevWord = tokens[i-1];</b>
+<b class="nc">&nbsp;            boolean ignoreSplitting = false;</b>
+<b class="nc">&nbsp;            if (this.language.getShortCode().equals(&quot;pt&quot;) &amp;&amp; (commonPortugueseWords.contains(prevWord.toLowerCase())</b>
+<b class="nc">&nbsp;                || commonPortugueseWords.contains(word.toLowerCase()))) {</b>
+<b class="nc">&nbsp;              ignoreSplitting = true;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (this.language.getShortCode().equals(&quot;de&quot;) &amp;&amp; (commonGermanWords.contains(prevWord.toLowerCase())</b>
+<b class="nc">&nbsp;                || commonGermanWords.contains(word.toLowerCase()))) {</b>
+<b class="nc">&nbsp;              ignoreSplitting = true;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (!ignoreSplitting &amp;&amp; prevWord.length() &gt; 0) {</b>
+&nbsp;              // &quot;thanky ou&quot; -&gt; &quot;thank you&quot;
+<b class="nc">&nbsp;              String sugg1a = prevWord.substring(0, prevWord.length()-1);</b>
+<b class="nc">&nbsp;              String sugg1b = cutOffDot(prevWord.substring(prevWord.length()-1) + word);</b>
+<b class="nc">&nbsp;              if (!isMisspelled(sugg1a) &amp;&amp; !isMisspelled(sugg1b) &amp;&amp; acceptSuggestion(sugg1a + &quot; &quot; + sugg1b)) {</b>
+<b class="nc">&nbsp;                RuleMatch rm = createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg1a, sugg1b, prevStartPos);</b>
+<b class="nc">&nbsp;                if (rm != null) {</b>
+<b class="nc">&nbsp;                  ruleMatches.add(rm);</b>
+&nbsp;                }
+&nbsp;              }
+&nbsp;              // &quot;than kyou&quot; -&gt; &quot;thank you&quot;
+<b class="nc">&nbsp;              String sugg2a = prevWord + word.charAt(0);</b>
+<b class="nc">&nbsp;              String sugg2b = cutOffDot(word.substring(1));</b>
+<b class="nc">&nbsp;              if (!isMisspelled(sugg2a) &amp;&amp; !isMisspelled(sugg2b) &amp;&amp; acceptSuggestion(sugg2a + &quot; &quot; + sugg2b)) {</b>
+<b class="nc">&nbsp;                RuleMatch rm = createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg2a, sugg2b, prevStartPos);</b>
+<b class="nc">&nbsp;                if (rm != null) {</b>
+<b class="nc">&nbsp;                  ruleMatches.add(rm);</b>
+&nbsp;                }
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;          
+<b class="nc">&nbsp;          RuleMatch ruleMatch = new RuleMatch(this, sentence,</b>
+<b class="nc">&nbsp;            len + dashCorr, len + cleanWord.length(),</b>
+<b class="nc">&nbsp;            messages.getString(&quot;spelling&quot;),</b>
+<b class="nc">&nbsp;            messages.getString(&quot;desc_spelling_short&quot;));</b>
+<b class="nc">&nbsp;          ruleMatch.setType(RuleMatch.Type.UnknownWord);</b>
+<b class="nc">&nbsp;          String cleanWord2 = cleanWord.substring(dashCorr);</b>
+&nbsp;          // log non-accepted de-DE words for debugging - only log hour to make aggregation easier:
+&nbsp;          //if (language.getShortCodeWithCountryAndVariant().equals(&quot;de-DE&quot;) &amp;&amp; cleanWord2.matches(&quot;[A-ZÖÄÜ][a-zöäüß]{6,30}+&quot;)) {
+&nbsp;          //  SimpleDateFormat sdf = new SimpleDateFormat(&quot;HH&quot;);
+&nbsp;          //  System.out.println(sdf.format(new Date()) + &quot; - speller: &quot; + cleanWord2);
+&nbsp;          //}
+<b class="nc">&nbsp;          if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() &lt;= userConfig.getMaxSpellingSuggestions()) {</b>
+<b class="nc">&nbsp;            List&lt;SuggestedReplacement&gt; sugg = calcSuggestions(word, cleanWord2);</b>
+<b class="nc">&nbsp;            if (isFirstItemHighConfidenceSuggestion(word, sugg)) {</b>
+<b class="nc">&nbsp;              sugg.get(0).setConfidence(HIGH_CONFIDENCE);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (sugg.size() &gt; 0) {</b>
+<b class="nc">&nbsp;              ruleMatch.setMessage(getMessage(cleanWord2, sugg.get(0)));</b>
+&nbsp;            }
+<b class="nc">&nbsp;            ruleMatch.setSuggestedReplacementObjects(sugg);</b>
+&nbsp;          } else {
+&nbsp;            // limited to save CPU
+<b class="nc">&nbsp;            ruleMatch.setSuggestedReplacement(messages.getString(&quot;too_many_errors&quot;));</b>
+&nbsp;          }
+<b class="nc">&nbsp;          ruleMatches.add(ruleMatch);</b>
+<b class="nc">&nbsp;          if (foreignLanguageChecker != null &amp;&amp; !gotResultsFromForeignLanguageChecker) {</b>
+<b class="nc">&nbsp;            Map&lt;String, Float&gt; langCodesScoring = foreignLanguageChecker.check(ruleMatches.size());</b>
+<b class="nc">&nbsp;            if (!langCodesScoring.isEmpty()) {</b>
+<b class="nc">&nbsp;              if (langCodesScoring.get(ForeignLanguageChecker.NO_FOREIGN_LANG_DETECTED) == null) {</b>
+<b class="nc">&nbsp;                ruleMatches.get(0).setNewLanguageMatches(langCodesScoring);</b>
+&nbsp;              }
+<b class="nc">&nbsp;              gotResultsFromForeignLanguageChecker = true;</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        prevStartPos = len + dashCorr;</b>
+<b class="nc">&nbsp;        len += word.length() + 1;</b>
+&nbsp;      }
+&nbsp;    } finally {
+<b class="nc">&nbsp;      if (monitorRules) {</b>
+<b class="nc">&nbsp;        activeChecks.remove(monitoringText);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    /*if (sentence.getErrorLimitReached()) {
+&nbsp;      return toRuleMatchArray(Collections.emptyList());
+&nbsp;    }*/
+&nbsp;    /*if (language.getShortCode().equals(&quot;de&quot;)) {
+&nbsp;      for (RuleMatch ruleMatch : ruleMatches) {
+&nbsp;        int i = 1;
+&nbsp;        for (String repl : ruleMatch.getSuggestedReplacements()) {
+&nbsp;          if (i &lt;= 5 &amp;&amp; repl.matches(&quot;[A-ZÖÄÜ][a-zöäüß]+ [a-zöäüß]+&quot;)) {
+&nbsp;            // potential word with &quot;Deppenleerzeichen&quot;:
+&nbsp;            System.out.println(&quot;repl: &quot; + sentence.getText().substring(ruleMatch.getFromPos(), ruleMatch.getToPos()) + &quot; =&gt; &quot; +  repl + &quot; - &quot; + i);
+&nbsp;          }
+&nbsp;          i++;
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }*/
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  protected String getMessage(String origWord, SuggestedReplacement firstSuggestion) {
+<b class="nc">&nbsp;    return messages.getString(&quot;spelling&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  protected String getShortMessage(String origWord, SuggestedReplacement firstSuggestion) {
+<b class="nc">&nbsp;    return messages.getString(&quot;desc_spelling_short&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean acceptSuggestion(String suggestion) {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  boolean isFirstItemHighConfidenceSuggestion(String word, List&lt;SuggestedReplacement&gt; sugg) {
+&nbsp;    // finds cases like &quot;HAus&quot;, where &quot;Haus&quot; is surely the proper suggestion:
+<b class="nc">&nbsp;    if (sugg.size() &gt; 0 &amp;&amp;</b>
+<b class="nc">&nbsp;        !word.equals(&quot;IPs&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;        word.equalsIgnoreCase(sugg.get(0).getReplacement()) &amp;&amp;</b>
+<b class="nc">&nbsp;      STARTS_WITH_TWO_UPPERCASE_CHARS.matcher(word).matches() &amp;&amp;</b>
+<b class="nc">&nbsp;        language.getShortCode().equals(&quot;de&quot;)) {</b>
+&nbsp;      //System.out.println(&quot;speller high conf case: &quot; + word + &quot;; &quot; + sugg.get(0).getReplacement() + &quot;; &quot; + language.getShortCodeWithCountryAndVariant());
+<b class="nc">&nbsp;      if (word.endsWith(&quot;s&quot;) &amp;&amp; StringUtils.isAllUpperCase(sugg.get(0).getReplacement())) {</b>
+&nbsp;        // e.g. &quot;DMs&quot; could mean plural of &quot;DM&quot;
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isEnglish(String word) throws IOException {
+<b class="nc">&nbsp;    for (RuleWithLanguage altRule : enSpellRules) {</b>
+<b class="nc">&nbsp;      AnalyzedToken token = new AnalyzedToken(word, null, null);</b>
+<b class="nc">&nbsp;      AnalyzedToken sentenceStartToken = new AnalyzedToken(&quot;&quot;, JLanguageTool.SENTENCE_START_TAGNAME, null);</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings startTokenReadings = new AnalyzedTokenReadings(sentenceStartToken, 0);</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(token, 0);</b>
+<b class="nc">&nbsp;      RuleMatch[] matches = altRule.getRule().match(new AnalyzedSentence(new AnalyzedTokenReadings[]{startTokenReadings, atr}));</b>
+<b class="nc">&nbsp;      if (matches.length == 0) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        if (word.endsWith(&quot;.&quot;)) {</b>
+<b class="nc">&nbsp;          return isEnglish(word.substring(0, word.length() - 1));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;SuggestedReplacement&gt; calcSuggestions(String word, String cleanWord) throws IOException {
+<b class="nc">&nbsp;    List&lt;SuggestedReplacement&gt; onlySuggestions = getOnlySuggestions(cleanWord);</b>
+<b class="nc">&nbsp;    if (!onlySuggestions.isEmpty()) {</b>
+<b class="nc">&nbsp;      return onlySuggestions;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;SuggestedReplacement&gt; suggestions = SuggestedReplacement.convert(getSuggestions(cleanWord));</b>
+<b class="nc">&nbsp;    if (word.endsWith(&quot;.&quot;)) {</b>
+<b class="nc">&nbsp;      int pos = 1;</b>
+<b class="nc">&nbsp;      for (String suggestion : getSuggestions(word)) {</b>
+<b class="nc">&nbsp;        if (suggestions.stream().noneMatch(sr -&gt; suggestion.equals(sr.getReplacement()))) {</b>
+<b class="nc">&nbsp;          suggestions.add(Math.min(pos, suggestions.size()), new SuggestedReplacement(suggestion.substring(0, suggestion.length()-1)));</b>
+<b class="nc">&nbsp;          pos += 2;  // we mix the lists, as we don&#39;t know which one is the better one</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;SuggestedReplacement&gt; additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, cleanWord);</b>
+<b class="nc">&nbsp;    if (additionalTopSuggestions.isEmpty() &amp;&amp; word.endsWith(&quot;.&quot;)) {</b>
+<b class="nc">&nbsp;      additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, word).</b>
+<b class="nc">&nbsp;        stream()</b>
+<b class="nc">&nbsp;        .map(sugg -&gt; {</b>
+<b class="nc">&nbsp;          if (sugg.getReplacement().endsWith(&quot;.&quot;)) {</b>
+<b class="nc">&nbsp;            return sugg;</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            SuggestedReplacement newSugg = new SuggestedReplacement(sugg);</b>
+<b class="nc">&nbsp;            newSugg.setReplacement(sugg.getReplacement() + &quot;.&quot;);</b>
+<b class="nc">&nbsp;            return newSugg;</b>
+&nbsp;          }
+<b class="nc">&nbsp;        }).collect(Collectors.toList());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Collections.reverse(additionalTopSuggestions);</b>
+<b class="nc">&nbsp;    for (SuggestedReplacement additionalTopSuggestion : additionalTopSuggestions) {</b>
+<b class="nc">&nbsp;      if (!cleanWord.equals(additionalTopSuggestion.getReplacement())) {</b>
+<b class="nc">&nbsp;        suggestions.add(0, additionalTopSuggestion);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;SuggestedReplacement&gt; additionalSuggestions = getAdditionalSuggestions(suggestions, cleanWord);</b>
+<b class="nc">&nbsp;    for (SuggestedReplacement additionalSuggestion : additionalSuggestions) {</b>
+<b class="nc">&nbsp;      if (!cleanWord.equals(additionalSuggestion.getReplacement())) {</b>
+<b class="nc">&nbsp;        suggestions.addAll(additionalSuggestions);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    suggestions = suggestions.stream().filter(k -&gt; acceptSuggestion(k.getReplacement())).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    suggestions = filterDupes(filterSuggestions(suggestions));</b>
+&nbsp;    // Find potentially missing compounds with privacy-friendly logging: we only log a single unknown word with no
+&nbsp;    // meta data and only if it&#39;s made up of two valid words, similar to the &quot;UNKNOWN&quot; logging in
+&nbsp;    // GermanSpellerRule:
+&nbsp;    /*if (language.getShortCode().equals(&quot;de&quot;)) {
+&nbsp;      String covered = sentence.getText().substring(len, len + cleanWord.length());
+&nbsp;      if (suggestions.stream().anyMatch(
+&nbsp;            k -&gt; k.getReplacement().contains(&quot; &quot;) &amp;&amp;
+&nbsp;            StringTools.uppercaseFirstChar(k.getReplacement().replaceAll(&quot; &quot;, &quot;&quot;).toLowerCase()).equals(covered) &amp;&amp;
+&nbsp;            k.getReplacement().length() &gt; 6 &amp;&amp; k.getReplacement().length() &lt; 25 &amp;&amp;
+&nbsp;            k.getReplacement().matches(&quot;[a-zA-ZÖÄÜöäüß -]+&quot;)
+&nbsp;          )) {
+&nbsp;        logger.info(&quot;COMPOUND: &quot; + covered);
+&nbsp;      }
+&nbsp;    }*/
+&nbsp;    // TODO user suggestions
+<b class="nc">&nbsp;    return suggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String cutOffDot(String s) {
+<b class="nc">&nbsp;    return s.endsWith(&quot;.&quot;) ? s.substring(0, s.length()-1) : s;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since public since 4.1
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public boolean isMisspelled(String word) {
+&nbsp;    try {
+<b class="nc">&nbsp;      if (!Tools.isExternSpeller()) {  // use of external speller for OO extension (32-bit)</b>
+<b class="nc">&nbsp;        ensureInitialized();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      boolean isAlphabetic = true;</b>
+<b class="nc">&nbsp;      if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation</b>
+<b class="nc">&nbsp;        isAlphabetic = Character.isAlphabetic(word.charAt(0));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return (</b>
+<b class="nc">&nbsp;              isAlphabetic &amp;&amp; !&quot;--&quot;.equals(word)</b>
+<b class="nc">&nbsp;              &amp;&amp; ((hunspell != null &amp;&amp; !hunspell.spell(word)) </b>
+<b class="nc">&nbsp;                  || (Tools.isExternSpeller() &amp;&amp; Tools.getLinguisticServices().isCorrectSpell(word, language)))</b>
+&nbsp;                                                            // use of external speller for OO extension (32-bit)
+<b class="nc">&nbsp;              &amp;&amp; !ignoreWord(word)</b>
+&nbsp;             )
+<b class="nc">&nbsp;             || isProhibited(cutOffDot(word));</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;String&gt; getSuggestions(String word) throws IOException {
+<b class="nc">&nbsp;    ensureInitialized();</b>
+<b class="nc">&nbsp;    return hunspell.suggest(word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected List&lt;String&gt; sortSuggestionByQuality(String misspelling, List&lt;String&gt; suggestions) {
+<b class="nc">&nbsp;    return suggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected String[] tokenizeText(String sentence) {
+<b class="nc">&nbsp;    return nonWordPattern.split(sentence);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected String getSentenceTextWithoutUrlsAndImmunizedTokens(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] sentenceTokens = getSentenceWithImmunization(sentence).getTokens();</b>
+<b class="nc">&nbsp;    for (int i = 1; i &lt; sentenceTokens.length; i++) {</b>
+<b class="nc">&nbsp;      String token = sentenceTokens[i].getToken();</b>
+<b class="nc">&nbsp;      if (sentenceTokens[i].isImmunized() || sentenceTokens[i].isIgnoredBySpeller() || isUrl(token) || isEMail(token)</b>
+<b class="nc">&nbsp;        || isQuotedCompound(sentence, i, token) || sentenceTokens[i].hasPosTag(&quot;_english_ignore_&quot;)) {</b>
+<b class="nc">&nbsp;        if (isQuotedCompound(sentence, i, token)) {</b>
+<b class="nc">&nbsp;          sb.append(&#39; &#39;).append(token.substring(1));</b>
+&nbsp;        }
+&nbsp;        // replace URLs and immunized tokens with whitespace to ignore them for spell checking:
+<b class="nc">&nbsp;        else if (token.length() &lt; 20) {</b>
+<b class="nc">&nbsp;          sb.append(WHITESPACE_ARRAY[token.length()]);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          for (int j = 0; j &lt; token.length(); j++) {</b>
+<b class="nc">&nbsp;            sb.append(&#39; &#39;);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        token = StringTools.stringForSpeller(token);</b>
+<b class="nc">&nbsp;        sb.append(token);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected final void ensureInitialized() throws IOException {
+<b class="nc">&nbsp;    if (needsInit) {</b>
+<b class="nc">&nbsp;      synchronized (this) {</b>
+<b class="nc">&nbsp;        if (needsInit) {</b>
+&nbsp;          try {
+<b class="nc">&nbsp;            init();</b>
+&nbsp;          } finally {
+<b class="nc">&nbsp;            needsInit = false;</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;      }</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected synchronized void init() throws IOException {
+<b class="nc">&nbsp;    super.init();</b>
+<b class="nc">&nbsp;    String langCountry = language.getShortCode();</b>
+<b class="nc">&nbsp;    if (language.getCountries().length &gt; 0) {</b>
+<b class="nc">&nbsp;      langCountry += &quot;_&quot; + language.getCountries()[0];</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String shortDicPath = getDictFilenameInResources(langCountry);</b>
+&nbsp;    // set dictionary only if there are dictionary files:
+<b class="nc">&nbsp;    Path affPath = null;</b>
+<b class="nc">&nbsp;    if(!Tools.isExternSpeller()) {    //  use of external speller for OO extension (32-bit)</b>
+&nbsp;                                      //  hunspell doesn&#39;t support 32 bit java
+<b class="nc">&nbsp;      if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {</b>
+<b class="nc">&nbsp;        String path = getDictionaryPath(langCountry, shortDicPath);</b>
+<b class="nc">&nbsp;        if (&quot;&quot;.equals(path)) {</b>
+<b class="nc">&nbsp;          hunspell = null;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          affPath = Paths.get(path + &quot;.aff&quot;);</b>
+<b class="nc">&nbsp;          hunspell = Hunspell.getDictionary(Paths.get(path + &quot;.dic&quot;), affPath);</b>
+<b class="nc">&nbsp;          addIgnoreWords();</b>
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (new File(shortDicPath + &quot;.dic&quot;).exists()) {</b>
+&nbsp;        // for dynamic languages
+<b class="nc">&nbsp;        affPath = Paths.get(shortDicPath + &quot;.aff&quot;);</b>
+<b class="nc">&nbsp;        hunspell = Hunspell.getDictionary(Paths.get(shortDicPath + &quot;.dic&quot;), affPath);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (affPath != null) {</b>
+<b class="nc">&nbsp;      nonWordPattern = nonWordPatterns.computeIfAbsent(affPath, (path) -&gt; {</b>
+<b class="nc">&nbsp;        String wordChars = &quot;&quot;;</b>
+<b class="nc">&nbsp;        if (path != null) {</b>
+<b class="nc">&nbsp;          try (Scanner sc = new Scanner(path)) {</b>
+<b class="nc">&nbsp;            while (sc.hasNextLine()) {</b>
+<b class="nc">&nbsp;              String line = sc.nextLine();</b>
+<b class="nc">&nbsp;              if (line.startsWith(&quot;WORDCHARS &quot;)) {</b>
+<b class="nc">&nbsp;                String wordCharsFromAff = line.substring(&quot;WORDCHARS &quot;.length());</b>
+&nbsp;                //System.out.println(&quot;#&quot; + wordCharsFromAff+ &quot;#&quot;);
+<b class="nc">&nbsp;                wordChars = &quot;(?![&quot; + wordCharsFromAff.replace(&quot;-&quot;, &quot;\\-&quot;) + &quot;])&quot;;</b>
+&nbsp;                break;
+&nbsp;              }
+&nbsp;            }
+&nbsp;          } catch (IOException e) {
+<b class="nc">&nbsp;            logger.error(&quot;Could not read aff file: &quot; + path, e);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        return Pattern.compile(wordChars + NON_ALPHABETIC);</b>
+&nbsp;      });
+&nbsp;    } else {
+<b class="nc">&nbsp;      nonWordPattern = NON_ALPHABETIC_PATTERN;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  protected String getDictFilenameInResources(String langCountry) {
+<b class="nc">&nbsp;    return &quot;/&quot; + language.getShortCode() + &quot;/hunspell/&quot; + langCountry + FILE_EXTENSION;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void addIgnoreWords() throws IOException {
+<b class="nc">&nbsp;    URL ignoreUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getIgnoreFileName());</b>
+<b class="nc">&nbsp;    wordsToBeIgnored.addAll(ignoreFileContents.computeIfAbsent(ignoreUrl, (url) -&gt; {</b>
+&nbsp;      try  {
+<b class="nc">&nbsp;        return Resources.readLines(url, StandardCharsets.UTF_8).stream()</b>
+<b class="nc">&nbsp;                .filter(line -&gt; !line.startsWith(&quot;#&quot;))</b>
+<b class="nc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;      } catch(IOException e) {
+<b class="nc">&nbsp;        logger.error(&quot;Could not read ignore file: &quot; + url, e);</b>
+<b class="nc">&nbsp;        return Collections.emptyList();</b>
+&nbsp;      }
+&nbsp;    }));
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected boolean isInIgnoredSet(String word) {
+<b class="nc">&nbsp;    return super.isInIgnoredSet(word) ||</b>
+&nbsp;           // We don&#39;t add these words to the main set to prevent startsWithIgnoredWord honoring them,
+&nbsp;           // and thus to avoid the bogus &quot;LanguageToolaccount&quot; suggestion in AgreementRuleTest.
+&nbsp;           // A better way might be nice.
+<b class="nc">&nbsp;           SpellingCheckRule.LANGUAGETOOL.equals(word) || SpellingCheckRule.LANGUAGETOOLER.equals(word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static synchronized String getDictionaryPath(String dicName,
+&nbsp;                                                       String originalPath) throws IOException {
+&nbsp;
+<b class="nc">&nbsp;    URL dictURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(originalPath);</b>
+&nbsp;    String dictionaryPath;
+&nbsp;    //in the webstart, java EE or OSGi bundle version, we need to copy the files outside the jar
+&nbsp;    //to the local temporary directory
+<b class="nc">&nbsp;    if (StringUtils.equalsAny(dictURL.getProtocol(), &quot;jar&quot;, &quot;vfs&quot;, &quot;bundle&quot;, &quot;bundleresource&quot;)) {</b>
+<b class="nc">&nbsp;      File tempDir = new File(System.getProperty(&quot;java.io.tmpdir&quot;));</b>
+<b class="nc">&nbsp;      File tempDicFile = new File(tempDir, dicName + FILE_EXTENSION);</b>
+<b class="nc">&nbsp;      if (!tempDicFile.exists()) {</b>
+<b class="nc">&nbsp;        JLanguageTool.addTemporaryFile(tempDicFile);</b>
+<b class="nc">&nbsp;        try (InputStream dicStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(originalPath)) {</b>
+<b class="nc">&nbsp;          fileCopy(dicStream, tempDicFile);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        File tempAffFile = new File(tempDir, dicName + &quot;.aff&quot;);</b>
+<b class="nc">&nbsp;        JLanguageTool.addTemporaryFile(tempAffFile);</b>
+<b class="nc">&nbsp;        if (originalPath.endsWith(FILE_EXTENSION)) {</b>
+<b class="nc">&nbsp;          originalPath = originalPath.substring(0, originalPath.length() - FILE_EXTENSION.length()) + &quot;.aff&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        try (InputStream affStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(originalPath)) {</b>
+<b class="nc">&nbsp;          fileCopy(affStream, tempAffFile);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      dictionaryPath = tempDir.getAbsolutePath() + &quot;/&quot; + dicName;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      int suffixLength = FILE_EXTENSION.length();</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        dictionaryPath = new File(dictURL.toURI()).getAbsolutePath();</b>
+<b class="nc">&nbsp;        dictionaryPath = dictionaryPath.substring(0, dictionaryPath.length() - suffixLength);</b>
+&nbsp;      } catch (URISyntaxException e) {
+<b class="nc">&nbsp;        return &quot;&quot;;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return dictionaryPath;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void fileCopy(InputStream in, File targetFile) throws IOException {
+<b class="nc">&nbsp;    try (OutputStream out = new FileOutputStream(targetFile)) {</b>
+<b class="nc">&nbsp;      byte[] buf = new byte[1024];</b>
+&nbsp;      int len;
+<b class="nc">&nbsp;      while ((len = in.read(buf)) &gt; 0) {</b>
+<b class="nc">&nbsp;        out.write(buf, 0, len);</b>
+&nbsp;      }
+&nbsp;      in.close();
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

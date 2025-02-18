@@ -1,0 +1,244 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CleanOverlappingFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: CleanOverlappingFilter (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CleanOverlappingFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    41.1%
+  </span>
+  <span class="absValue">
+    (23/56)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    72.9%
+  </span>
+  <span class="absValue">
+    (35/48)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2016 Jaume Ortolà
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Premium;
+&nbsp;import org.languagetool.Tag;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/* 
+&nbsp; * Remove overlapping errors according to the priorities established for the language.  
+&nbsp; * (It assumes the input list is ordered by start position)
+&nbsp; * 
+&nbsp; * @since 3.6
+&nbsp; */
+&nbsp;public class CleanOverlappingFilter implements RuleMatchFilter {
+&nbsp;
+&nbsp;  private static final int negativeConstant = Integer.MIN_VALUE + 10000;
+&nbsp;
+&nbsp;  private final Language language;
+&nbsp;  private final boolean hidePremiumMatches;
+&nbsp;
+<b class="fc">&nbsp;  public CleanOverlappingFilter(Language lang, boolean hidePremiumMatches) {</b>
+<b class="fc">&nbsp;    this.language = lang;</b>
+<b class="fc">&nbsp;    this.hidePremiumMatches = hidePremiumMatches;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public final List&lt;RuleMatch&gt; filter(List&lt;RuleMatch&gt; ruleMatches) {
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; cleanList = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    RuleMatch prevRuleMatch = null;</b>
+<b class="fc">&nbsp;    for (RuleMatch ruleMatch: ruleMatches) {</b>
+<b class="fc">&nbsp;      if (prevRuleMatch == null) {  // first item</b>
+<b class="fc">&nbsp;        prevRuleMatch = ruleMatch;</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="pc">&nbsp;      if (ruleMatch.getFromPos() &lt; prevRuleMatch.getFromPos()) {</b>
+<b class="nc">&nbsp;        throw new IllegalArgumentException(</b>
+&nbsp;            &quot;The list of rule matches is not ordered. Make sure it is sorted by start position.&quot;);
+&nbsp;      }
+&nbsp;
+<b class="fc">&nbsp;      boolean isDuplicateSuggestion = false;</b>
+<b class="fc">&nbsp;      if (ruleMatch.getSuggestedReplacements().size() &gt; 0</b>
+<b class="pc">&nbsp;        &amp;&amp; prevRuleMatch.getSuggestedReplacements().size() &gt; 0) {</b>
+<b class="fc">&nbsp;        String suggestion = ruleMatch.getSuggestedReplacements().get(0);</b>
+<b class="fc">&nbsp;        String prevSuggestion = prevRuleMatch.getSuggestedReplacements().get(0);</b>
+&nbsp;        // juxtaposed errors adding a comma in the same place
+<b class="pc">&nbsp;        if (ruleMatch.getFromPos() == prevRuleMatch.getToPos()) {</b>
+<b class="nc">&nbsp;          if (prevSuggestion.endsWith(&quot;,&quot;) &amp;&amp; suggestion.startsWith(&quot;, &quot;)) {</b>
+<b class="nc">&nbsp;            isDuplicateSuggestion = true;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;        // duplicate suggestion for the same position
+<b class="pc">&nbsp;        if (suggestion.indexOf(&quot; &quot;) &gt; 0 &amp;&amp; prevSuggestion.indexOf(&quot; &quot;) &gt; 0</b>
+<b class="nc">&nbsp;          &amp;&amp; ruleMatch.getFromPos() == prevRuleMatch.getToPos() + 1) {</b>
+<b class="nc">&nbsp;          String parts[] = suggestion.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;          String partsPrev[] = prevSuggestion.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;          if (partsPrev.length &gt; 1 &amp;&amp; parts.length &gt; 1 &amp;&amp; partsPrev[1].equals(parts[0])) {</b>
+<b class="nc">&nbsp;            isDuplicateSuggestion = true;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+&nbsp;      // no overlapping (juxtaposed errors are not removed)
+<b class="pc">&nbsp;      if (ruleMatch.getFromPos() &gt;= prevRuleMatch.getToPos() &amp;&amp; !isDuplicateSuggestion) {</b>
+<b class="fc">&nbsp;        cleanList.add(prevRuleMatch);</b>
+<b class="fc">&nbsp;        prevRuleMatch = ruleMatch;</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;      // overlapping
+<b class="fc">&nbsp;      int currentPriority = language.getRulePriority(ruleMatch.getRule());</b>
+<b class="pc">&nbsp;      if (isPremiumRule(ruleMatch) &amp;&amp; hidePremiumMatches) {</b>
+&nbsp;        // non-premium match should win, so the premium match does *not* become a hidden match
+&nbsp;        // (we&#39;d show hidden matches for errors covered by an Open Source match)
+<b class="nc">&nbsp;        currentPriority = Integer.MIN_VALUE;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (ruleMatch.getRule().getTags().contains(Tag.picky) &amp;&amp; currentPriority != Integer.MIN_VALUE) {</b>
+<b class="nc">&nbsp;        currentPriority += negativeConstant;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      int prevPriority = language.getRulePriority(prevRuleMatch.getRule());</b>
+<b class="pc">&nbsp;      if (isPremiumRule(prevRuleMatch) &amp;&amp; hidePremiumMatches) {</b>
+<b class="nc">&nbsp;        prevPriority = Integer.MIN_VALUE;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (prevRuleMatch.getRule().getTags().contains(Tag.picky) &amp;&amp; prevPriority != Integer.MIN_VALUE) {</b>
+<b class="nc">&nbsp;        prevPriority += negativeConstant;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      if (currentPriority == prevPriority) {</b>
+&nbsp;        // take the longest error:
+<b class="fc">&nbsp;        currentPriority = ruleMatch.getToPos() - ruleMatch.getFromPos();</b>
+<b class="fc">&nbsp;        prevPriority = prevRuleMatch.getToPos() - prevRuleMatch.getFromPos();</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (currentPriority == prevPriority) {</b>
+<b class="nc">&nbsp;        currentPriority++; // take the last one (to keep the current results in the web UI) </b>
+&nbsp;      }
+<b class="fc">&nbsp;      if (currentPriority &gt; prevPriority) {</b>
+<b class="fc">&nbsp;        prevRuleMatch = ruleMatch;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    //last match
+<b class="pc">&nbsp;    if (prevRuleMatch != null) {</b>
+<b class="fc">&nbsp;      cleanList.add(prevRuleMatch);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return cleanList;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean isPremiumRule(RuleMatch ruleMatch) {
+<b class="fc">&nbsp;    return Premium.get().isPremiumRule(ruleMatch.getRule());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

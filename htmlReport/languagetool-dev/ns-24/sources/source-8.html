@@ -1,0 +1,442 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AbstractFindSuggestionsFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractFindSuggestionsFilter (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractFindSuggestionsFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    14.3%
+  </span>
+  <span class="absValue">
+    (1/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/126)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    1.7%
+  </span>
+  <span class="absValue">
+    (2/121)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AbstractFindSuggestionsFilter$StringComparator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    11.1%
+  </span>
+  <span class="absValue">
+    (1/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/130)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    1.5%
+  </span>
+  <span class="absValue">
+    (2/131)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2021 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.Comparator;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.rules.spelling.symspell.implementation.EditDistance;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+<b class="fc">&nbsp;public abstract class AbstractFindSuggestionsFilter extends RuleFilter {</b>
+&nbsp;
+<b class="fc">&nbsp;  final protected int MAX_SUGGESTIONS = 10;</b>
+&nbsp;
+&nbsp;  abstract protected Tagger getTagger();
+&nbsp;
+&nbsp;  //abstract protected MorfologikSpeller getSpeller();
+&nbsp;  abstract protected List&lt;String&gt; getSpellingSuggestions(AnalyzedTokenReadings atr) throws IOException; 
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos,
+&nbsp;                                   AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) throws IOException {
+&nbsp;
+&nbsp;//    if (match.getSentence().getText().contains(&quot;Toni Comin&quot;)) {
+&nbsp;//      int ii=0;
+&nbsp;//      ii++;
+&nbsp;//    }
+&nbsp;
+&nbsp;    //TODO: remove suggestions that trigger the rule again.
+&nbsp;    // It would be needed to run again the rule with the full sentence. 
+<b class="nc">&nbsp;    List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; replacements2 = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    String wordFrom = getRequired(&quot;wordFrom&quot;, arguments);</b>
+<b class="nc">&nbsp;    String desiredPostag = getRequired(&quot;desiredPostag&quot;, arguments);</b>
+<b class="nc">&nbsp;    String priorityPostag = getOptional(&quot;priorityPostag&quot;, arguments);</b>
+<b class="nc">&nbsp;    String removeSuggestionsRegexp = getOptional(&quot;removeSuggestionsRegexp&quot;, arguments);</b>
+&nbsp;    // suppress match if there are no suggestions
+<b class="nc">&nbsp;    boolean bSuppressMatch = getOptional(&quot;suppressMatch&quot;, arguments, &quot;false&quot;).equalsIgnoreCase(&quot;true&quot;);</b>
+&nbsp;    
+&nbsp;    // diacriticsMode: return only changes in diacritics. If there is none, the
+&nbsp;    // match is removed.
+<b class="nc">&nbsp;    String mode = getOptional(&quot;Mode&quot;, arguments);</b>
+<b class="nc">&nbsp;    boolean diacriticsMode = (mode != null) &amp;&amp; mode.equals(&quot;diacritics&quot;);</b>
+<b class="nc">&nbsp;    boolean generateSuggestions = true;</b>
+<b class="nc">&nbsp;    Pattern regexpPattern = null;</b>
+<b class="nc">&nbsp;    Synthesizer synth = getSynthesizer();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; usedLemmas = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    StringComparator stringComparator = new StringComparator(&quot;&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;    if (wordFrom != null &amp;&amp; desiredPostag != null) {</b>
+&nbsp;      AnalyzedTokenReadings atrWord;
+<b class="nc">&nbsp;      if (wordFrom.equals(&quot;inmarker&quot;)) {</b>
+<b class="nc">&nbsp;        match.setOriginalErrorStr();</b>
+<b class="nc">&nbsp;        atrWord = new AnalyzedTokenReadings(new AnalyzedToken(preProcessWrongWord(match.getOriginalErrorStr()),</b>
+&nbsp;          &quot;&quot;, &quot;&quot;));
+&nbsp;      } else {
+<b class="nc">&nbsp;        atrWord = patternTokens[getPosition(wordFrom, patternTokens, match)];</b>
+&nbsp;      }
+<b class="nc">&nbsp;      stringComparator = new StringComparator(atrWord.getToken());</b>
+<b class="nc">&nbsp;      boolean isWordCapitalized = StringTools.isCapitalizedWord(atrWord.getToken());</b>
+<b class="nc">&nbsp;      boolean isWordAllupper = StringTools.isAllUppercase(atrWord.getToken());</b>
+&nbsp;
+&nbsp;      // Check if the original token (before disambiguation) meets the requirements
+<b class="nc">&nbsp;      List&lt;String&gt; originalWord = Collections.singletonList(atrWord.getToken());</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedTokenReadings&gt; aOriginalWord = getTagger().tag(originalWord);</b>
+<b class="nc">&nbsp;      for (AnalyzedTokenReadings atr : aOriginalWord) {</b>
+<b class="nc">&nbsp;        if (atr.matchesPosTagRegex(desiredPostag)) {</b>
+<b class="nc">&nbsp;          if (diacriticsMode) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if (generateSuggestions) {</b>
+<b class="nc">&nbsp;        if (removeSuggestionsRegexp != null) {</b>
+<b class="nc">&nbsp;          regexpPattern = Pattern.compile(removeSuggestionsRegexp, Pattern.UNICODE_CASE);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;String&gt; suggestions = getSpellingSuggestions(atrWord);</b>
+<b class="nc">&nbsp;        int usedPriorityPostagPos = 0;</b>
+<b class="nc">&nbsp;        if (suggestions.size() &gt; 0) {</b>
+<b class="nc">&nbsp;          for (String suggestion : suggestions) {</b>
+&nbsp;            // TODO: do not tag capitalized words with tags for lower case
+<b class="nc">&nbsp;            List&lt;AnalyzedTokenReadings&gt; analyzedSuggestions = getTagger().tag(Collections.singletonList(cleanSuggestion(suggestion)));</b>
+<b class="nc">&nbsp;            for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {</b>
+<b class="nc">&nbsp;              if (isSuggestionException(analyzedSuggestion)) {</b>
+&nbsp;                continue;
+&nbsp;              }
+<b class="nc">&nbsp;              if (replacements.size() &gt;= 2 * MAX_SUGGESTIONS) {</b>
+&nbsp;                break;
+&nbsp;              }
+<b class="nc">&nbsp;              boolean used = false;</b>
+<b class="nc">&nbsp;              if (!suggestion.equals(atrWord.getToken())</b>
+<b class="nc">&nbsp;                  &amp;&amp; analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {</b>
+<b class="nc">&nbsp;                if (!replacements.contains(suggestion)</b>
+<b class="nc">&nbsp;                    &amp;&amp; !replacements.contains(suggestion.toLowerCase())</b>
+<b class="nc">&nbsp;                    &amp;&amp; (!diacriticsMode || equalWithoutDiacritics(suggestion, atrWord.getToken()))) {</b>
+<b class="nc">&nbsp;                  if (regexpPattern == null || !regexpPattern.matcher(suggestion).matches()) {</b>
+<b class="nc">&nbsp;                    String replacement = suggestion;</b>
+<b class="nc">&nbsp;                    if (isWordAllupper) {</b>
+<b class="nc">&nbsp;                      replacement = replacement.toUpperCase();</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    if (isWordCapitalized) {</b>
+<b class="nc">&nbsp;                      replacement = StringTools.uppercaseFirstChar(replacement);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    if (priorityPostag!= null &amp;&amp; analyzedSuggestion.matchesPosTagRegex(priorityPostag)) {</b>
+<b class="nc">&nbsp;                      replacements.add(usedPriorityPostagPos, replacement);</b>
+<b class="nc">&nbsp;                      usedPriorityPostagPos++;</b>
+<b class="nc">&nbsp;                      used = true;</b>
+&nbsp;                    } else {
+<b class="nc">&nbsp;                      replacements.add(replacement);</b>
+<b class="nc">&nbsp;                      used = true;</b>
+&nbsp;                    }
+&nbsp;                  }
+&nbsp;                }
+&nbsp;              }
+&nbsp;              // try with the synthesizer
+<b class="nc">&nbsp;              if (!used &amp;&amp; synth != null) {</b>
+<b class="nc">&nbsp;                List&lt;String&gt; synthesizedSuggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;                for (AnalyzedToken at : analyzedSuggestion) {</b>
+<b class="nc">&nbsp;                  if (usedLemmas.contains(at.getLemma())) {</b>
+&nbsp;                    continue;
+&nbsp;                  }
+<b class="nc">&nbsp;                  String[] synthesizedArray = synth.synthesize(at, desiredPostag, true);</b>
+<b class="nc">&nbsp;                  usedLemmas.add(at.getLemma());</b>
+<b class="nc">&nbsp;                  for (String synthesizedSuggestion : synthesizedArray) {</b>
+<b class="nc">&nbsp;                    if (!synthesizedSuggestions.contains(synthesizedSuggestion)) {</b>
+<b class="nc">&nbsp;                      synthesizedSuggestions.add(synthesizedSuggestion);</b>
+&nbsp;                    }
+&nbsp;                  }
+<b class="nc">&nbsp;                  for (String replacement : synthesizedSuggestions) {</b>
+<b class="nc">&nbsp;                    if (isWordAllupper) {</b>
+<b class="nc">&nbsp;                      replacement = replacement.toUpperCase();</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    if (isWordCapitalized) {</b>
+<b class="nc">&nbsp;                      replacement = StringTools.uppercaseFirstChar(replacement);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    replacements2.add(replacement);</b>
+&nbsp;                  }
+&nbsp;                }
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    boolean matchContainsSomeFinishedSuggestion =</b>
+<b class="nc">&nbsp;      match.getSuggestedReplacements().stream().anyMatch(k -&gt; !k.toLowerCase().contains(&quot;{suggestion}&quot;));</b>
+<b class="nc">&nbsp;    if (diacriticsMode &amp;&amp; replacements.size() == 0 &amp;&amp; !matchContainsSomeFinishedSuggestion) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (replacements.size() + replacements2.size() == 0 &amp;&amp; bSuppressMatch &amp;&amp; !matchContainsSomeFinishedSuggestion) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String message = match.getMessage();</b>
+<b class="nc">&nbsp;    RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),</b>
+<b class="nc">&nbsp;        message, match.getShortMessage());</b>
+<b class="nc">&nbsp;    ruleMatch.setType(match.getType());</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;String&gt; definitiveReplacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    boolean replacementsUsed = false;</b>
+<b class="nc">&nbsp;    if (generateSuggestions) {</b>
+<b class="nc">&nbsp;      for (String s : match.getSuggestedReplacements()) {</b>
+<b class="nc">&nbsp;        if (s.contains(&quot;{suggestion}&quot;) || s.contains(&quot;{Suggestion}&quot;) || s.contains(&quot;{SUGGESTION}&quot;)) {</b>
+<b class="nc">&nbsp;          replacementsUsed = true;</b>
+<b class="nc">&nbsp;          for (String s2 : replacements) {</b>
+<b class="nc">&nbsp;            if (definitiveReplacements.size() &gt;= MAX_SUGGESTIONS) {</b>
+&nbsp;              break;
+&nbsp;            }
+<b class="nc">&nbsp;            if (s.contains(&quot;{suggestion}&quot;)) {</b>
+<b class="nc">&nbsp;              if (!definitiveReplacements.contains(s2)) {</b>
+<b class="nc">&nbsp;                definitiveReplacements.add(s.replace(&quot;{suggestion}&quot;, s2));</b>
+&nbsp;              }
+<b class="nc">&nbsp;            } else if (s.contains(&quot;{Suggestion}&quot;)) {</b>
+<b class="nc">&nbsp;              if (!definitiveReplacements.contains(StringTools.uppercaseFirstChar(s2))) {</b>
+<b class="nc">&nbsp;                definitiveReplacements.add(s.replace(&quot;{Suggestion}&quot;, StringTools.uppercaseFirstChar(s2)));</b>
+&nbsp;              }
+&nbsp;            } else {
+<b class="nc">&nbsp;              if (!definitiveReplacements.contains(s2.toUpperCase())) {</b>
+<b class="nc">&nbsp;                definitiveReplacements.add(s.replace(&quot;{SUGGESTION}&quot;, s2.toUpperCase()));</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        } else {
+<b class="nc">&nbsp;          if (!definitiveReplacements.contains(s)) {</b>
+<b class="nc">&nbsp;            definitiveReplacements.add(s);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (!replacementsUsed) {</b>
+<b class="nc">&nbsp;        if (replacements.size()==0) {</b>
+<b class="nc">&nbsp;          Collections.sort(replacements2, stringComparator);</b>
+<b class="nc">&nbsp;          for (String replacement : replacements2) {</b>
+<b class="nc">&nbsp;            if (!replacements.contains(replacement) &amp;&amp; !definitiveReplacements.contains(replacement)) {</b>
+<b class="nc">&nbsp;              replacements.add(replacement);</b>
+&nbsp;            }
+&nbsp;          }  
+&nbsp;        }
+<b class="nc">&nbsp;        for (String replacement: replacements) { </b>
+<b class="nc">&nbsp;          if (definitiveReplacements.size() &gt;= MAX_SUGGESTIONS) {</b>
+&nbsp;            break;
+&nbsp;          }
+<b class="nc">&nbsp;          if (!definitiveReplacements.contains(replacement)) {</b>
+<b class="nc">&nbsp;            definitiveReplacements.add(replacement);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    definitiveReplacements.remove(match.getOriginalErrorStr());</b>
+<b class="nc">&nbsp;    if (!definitiveReplacements.isEmpty()) {</b>
+<b class="nc">&nbsp;      ruleMatch.setSuggestedReplacements(definitiveReplacements.stream().distinct().collect(Collectors.toList()));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return ruleMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean isSuggestionException(AnalyzedTokenReadings analyzedSuggestion) {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  };
+&nbsp;
+&nbsp;  private boolean equalWithoutDiacritics(String s, String t) {
+<b class="nc">&nbsp;    return StringTools.removeDiacritics(s).equalsIgnoreCase(StringTools.removeDiacritics(t));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected String cleanSuggestion(String s) {
+<b class="nc">&nbsp;    return s;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected Synthesizer getSynthesizer() {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public class StringComparator implements Comparator&lt;String&gt; {
+&nbsp;    EditDistance levenstheinDistance;
+<b class="nc">&nbsp;    int maxDistance = 4;</b>
+&nbsp;
+<b class="nc">&nbsp;    StringComparator(String word) {</b>
+<b class="nc">&nbsp;      levenstheinDistance = new EditDistance(word, EditDistance.DistanceAlgorithm.Damerau);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int compare(String o1, String o2) {
+<b class="nc">&nbsp;      int d1 = levenstheinDistance.compare(o1, maxDistance);</b>
+<b class="nc">&nbsp;      int d2 = levenstheinDistance.compare(o2, maxDistance);</b>
+<b class="nc">&nbsp;      if (d1 &lt; 0) {</b>
+<b class="nc">&nbsp;        d1 = 2 * maxDistance;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (d2 &lt; 0) {</b>
+<b class="nc">&nbsp;        d2 = 2 * maxDistance;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return d1 - d2;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  protected String preProcessWrongWord (String word) {
+<b class="nc">&nbsp;    return word.replace(&quot; &quot;,&quot;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1140 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > StringTools</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tools</a>
+</div>
+
+<h1>Coverage Summary for Class: StringTools (org.languagetool.tools)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StringTools</td>
+<td class="coverageStat">
+  <span class="percent">
+    23.2%
+  </span>
+  <span class="absValue">
+    (13/56)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    13.5%
+  </span>
+  <span class="absValue">
+    (38/282)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    21.2%
+  </span>
+  <span class="absValue">
+    (73/345)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">StringTools$ApiPrintMode</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    22.4%
+  </span>
+  <span class="absValue">
+    (13/58)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    13.5%
+  </span>
+  <span class="absValue">
+    (38/282)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20.9%
+  </span>
+  <span class="absValue">
+    (73/350)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tools;
+&nbsp;
+&nbsp;import com.google.common.xml.XmlEscapers;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.Contract;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.text.Normalizer;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static java.util.regex.Pattern.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Tools for working with strings.
+&nbsp; * 
+&nbsp; * @author Daniel Naber
+&nbsp; */
+<b class="fc">&nbsp;public final class StringTools {</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final Pattern NONCHAR = compile(&quot;[^A-Z\\u00c0-\\u00D6\\u00D8-\\u00DE]&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern WORD_FOR_SPELLER = Pattern.compile(&quot;^[\\p{L}\\d\\p{P}\\p{Zs}]+$&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern IS_NUMERIC = Pattern.compile(&quot;^[\\d\\s\\.,]*\\d$&quot;);</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Constants for printing XML rule matches.
+&nbsp;   */
+<b class="nc">&nbsp;  public enum ApiPrintMode {</b>
+&nbsp;    /**
+&nbsp;     * Normally output the rule matches by starting and
+&nbsp;     * ending the XML/JSON output on every call.
+&nbsp;     */
+<b class="nc">&nbsp;    NORMAL_API,</b>
+&nbsp;    /**
+&nbsp;     * Start XML/JSON output by printing the preamble and the
+&nbsp;     * start of the root element.
+&nbsp;     */
+<b class="nc">&nbsp;    START_API,</b>
+&nbsp;    /**
+&nbsp;     * End XML/JSON output by closing the root element.
+&nbsp;     */
+<b class="nc">&nbsp;    END_API,</b>
+&nbsp;    /**
+&nbsp;     * Simply continue rule match output.
+&nbsp;     */
+<b class="nc">&nbsp;    CONTINUE_API</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public static final Set&lt;String&gt; UPPERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(&quot;Α&quot;,&quot;Β&quot;,&quot;Γ&quot;,&quot;Δ&quot;,&quot;Ε&quot;,&quot;Ζ&quot;,&quot;Η&quot;,&quot;Θ&quot;,&quot;Ι&quot;,&quot;Κ&quot;,&quot;Λ&quot;,&quot;Μ&quot;,&quot;Ν&quot;,&quot;Ξ&quot;,&quot;Ο&quot;,&quot;Π&quot;,&quot;Ρ&quot;,&quot;Σ&quot;,&quot;Τ&quot;,&quot;Υ&quot;,&quot;Φ&quot;,&quot;Χ&quot;,&quot;Ψ&quot;,&quot;Ω&quot;)));</b>
+<b class="fc">&nbsp;  public static final Set&lt;String&gt; LOWERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(&quot;α&quot;,&quot;β&quot;,&quot;γ&quot;,&quot;δ&quot;,&quot;ε&quot;,&quot;ζ&quot;,&quot;η&quot;,&quot;θ&quot;,&quot;ι&quot;,&quot;κ&quot;,&quot;λ&quot;,&quot;μ&quot;,&quot;ν&quot;,&quot;ξ&quot;,&quot;ο&quot;,&quot;π&quot;,&quot;ρ&quot;,&quot;σ&quot;,&quot;τ&quot;,&quot;υ&quot;,&quot;φ&quot;,&quot;χ&quot;,&quot;ψ&quot;,&quot;ω&quot;)));</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final String[] WHITESPACE_ARRAY = new String[20];</b>
+&nbsp;  static {
+<b class="fc">&nbsp;    for (int i = 0; i &lt; 20; i++) {</b>
+<b class="fc">&nbsp;      WHITESPACE_ARRAY[i] = StringUtils.repeat(&#39; &#39;, i);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public static final Pattern CHARS_NOT_FOR_SPELLING = compile(&quot;[^\\p{L}\\d\\p{P}\\p{Zs}]&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern XML_COMMENT_PATTERN = compile(&quot;&lt;!--.*?--&gt;&quot;, DOTALL);</b>
+<b class="fc">&nbsp;  private static final Pattern XML_PATTERN = compile(&quot;(?&lt;!&lt;)&lt;[^&lt;&gt;]+&gt;&quot;, DOTALL);</b>
+<b class="fc">&nbsp;  private static final Pattern PUNCTUATION_PATTERN = compile(&quot;[\\p{IsPunctuation}&#39;]&quot;, DOTALL);</b>
+<b class="fc">&nbsp;  private static final Pattern NOT_WORD_CHARACTER = compile(&quot;[^\\p{L}]&quot;, DOTALL);</b>
+<b class="fc">&nbsp;  private static final Pattern NOT_WORD_STR = compile(&quot;[^\\p{L}]+&quot;, DOTALL);</b>
+<b class="fc">&nbsp;  private static final Pattern PATTERN = compile(&quot;(?U)[^\\p{Space}\\p{Alnum}\\p{Punct}]&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern DIACRIT_MARKS = compile(&quot;[\\p{InCombiningDiacriticalMarks}]&quot;);</b>
+&nbsp;  // Sets of words used for titlecasing in a few locales; useful for named entities in foreign languages, esp. English
+<b class="fc">&nbsp;  private static final Set&lt;String&gt; ENGLISH_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(</b>
+<b class="fc">&nbsp;    new HashSet&lt;&gt;(Arrays.asList(&quot;of&quot;, &quot;in&quot;, &quot;on&quot;, &quot;the&quot;, &quot;a&quot;, &quot;an&quot;, &quot;and&quot;, &quot;or&quot;))</b>
+&nbsp;  );
+<b class="fc">&nbsp;  private static final Set&lt;String&gt; PORTUGUESE_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(</b>
+<b class="fc">&nbsp;    new HashSet&lt;&gt;(Arrays.asList(&quot;e&quot;, &quot;ou&quot;, &quot;que&quot;,</b>
+&nbsp;      &quot;de&quot;, &quot;do&quot;, &quot;dos&quot;, &quot;da&quot;, &quot;das&quot;,
+&nbsp;      &quot;o&quot;, &quot;a&quot;, &quot;os&quot;, &quot;as&quot;,
+&nbsp;      &quot;no&quot;, &quot;nos&quot;, &quot;na&quot;, &quot;nas&quot;,
+&nbsp;      &quot;ao&quot;, &quot;aos&quot;, &quot;à&quot;, &quot;às&quot;))
+&nbsp;  );
+<b class="fc">&nbsp;  private static final Set&lt;String&gt; FRENCH_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(</b>
+<b class="fc">&nbsp;    new HashSet&lt;&gt;(Arrays.asList(&quot;et&quot;, &quot;ou&quot;, &quot;que&quot;, &quot;qui&quot;,</b>
+&nbsp;      &quot;de&quot;, &quot;du&quot;, &quot;des&quot;, &quot;en&quot;,
+&nbsp;      &quot;le&quot;, &quot;les&quot;, &quot;la&quot;,
+&nbsp;      &quot;un&quot;, &quot;une&quot;,
+&nbsp;      &quot;à&quot;, &quot;au&quot;, &quot;aux&quot;))
+&nbsp;  );
+<b class="fc">&nbsp;  private static final Set&lt;String&gt; SPANISH_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(</b>
+<b class="fc">&nbsp;    new HashSet&lt;&gt;(Arrays.asList(&quot;y&quot;, &quot;e&quot;, &quot;o&quot;, &quot;u&quot;, &quot;que&quot;,</b>
+&nbsp;      &quot;el&quot;, &quot;la&quot;, &quot;los&quot;, &quot;las&quot;,
+&nbsp;      &quot;un&quot;, &quot;unos&quot;, &quot;una&quot;, &quot;unas&quot;,
+&nbsp;      &quot;del&quot;, &quot;nel&quot;, &quot;de&quot;, &quot;en&quot;, &quot;a&quot;, &quot;al&quot;))
+&nbsp;  );
+<b class="fc">&nbsp;  private static final Set&lt;String&gt; GERMAN_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(</b>
+<b class="fc">&nbsp;    new HashSet&lt;&gt;(Arrays.asList(&quot;von&quot;, &quot;in&quot;, &quot;im&quot;, &quot;an&quot;, &quot;am&quot;, &quot;vom&quot;, &quot;und&quot;, &quot;oder&quot;, &quot;dass&quot;, &quot;ob&quot;,</b>
+&nbsp;      &quot;der&quot;, &quot;die&quot;, &quot;das&quot;, &quot;dem&quot;, &quot;den&quot;, &quot;des&quot;,
+&nbsp;      &quot;ein&quot;, &quot;eines&quot;, &quot;einem&quot;, &quot;einen&quot;, &quot;einer&quot;, &quot;eine&quot;,
+&nbsp;      &quot;kein&quot;, &quot;keines&quot;, &quot;keinem&quot;, &quot;keinen&quot;, &quot;keiner&quot;, &quot;keine&quot;))
+&nbsp;  );
+<b class="fc">&nbsp;  private static final Set&lt;String&gt; DUTCH_TITLECASE_EXCEPTIONS = Collections.unmodifiableSet(</b>
+<b class="fc">&nbsp;    new HashSet&lt;&gt;(Arrays.asList(&quot;van&quot;, &quot;in&quot;, &quot;de&quot;, &quot;het&quot;, &quot;een&quot;, &quot;en&quot;, &quot;of&quot;))</b>
+&nbsp;  );
+&nbsp;
+<b class="fc">&nbsp;  private static final Set&lt;String&gt; ALL_TITLECASE_EXCEPTIONS = collectAllTitleCaseExceptions();</b>
+&nbsp;
+&nbsp;  private StringTools() {
+&nbsp;    // only static stuff
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Throw exception if the given string is null or empty or only whitespace.
+&nbsp;   */
+&nbsp;  public static void assureSet(String s, String varName) {
+<b class="fc">&nbsp;    Objects.requireNonNull(varName);</b>
+<b class="pc">&nbsp;    if (isEmpty(s.trim())) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(varName + &quot; cannot be empty or whitespace only&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Read the text stream using the given encoding.
+&nbsp;   *
+&nbsp;   * @param stream InputStream the stream to be read
+&nbsp;   * @param encoding the stream&#39;s character encoding, e.g. {@code utf-8}, or {@code null} to use the system encoding
+&nbsp;   * @return a string with the stream&#39;s content, lines separated by {@code \n} (note that {@code \n} will
+&nbsp;   *  be added to the last line even if it is not in the stream)
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public static String readStream(InputStream stream, String encoding) throws IOException {
+<b class="nc">&nbsp;    InputStreamReader isr = null;</b>
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      if (encoding == null) {</b>
+<b class="nc">&nbsp;        isr = new InputStreamReader(stream);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        isr = new InputStreamReader(stream, encoding);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      try (BufferedReader br = new BufferedReader(isr)) {</b>
+&nbsp;        String line;
+<b class="nc">&nbsp;        while ((line = br.readLine()) != null) {</b>
+<b class="nc">&nbsp;          sb.append(line);</b>
+<b class="nc">&nbsp;          sb.append(&#39;\n&#39;);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } finally {
+<b class="nc">&nbsp;      if (isr != null) {</b>
+&nbsp;        isr.close();
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns true if the given string is made up of all-uppercase characters
+&nbsp;   * (ignoring characters for which no upper-/lowercase distinction exists).
+&nbsp;   */
+&nbsp;  public static boolean isAllUppercase(String str) {
+<b class="fc">&nbsp;    for (int i = 0; i &lt; str.length(); i++) {</b>
+<b class="fc">&nbsp;      char c = str.charAt(i);</b>
+<b class="fc">&nbsp;      if (Character.isLetter(c) &amp;&amp; Character.isLowerCase(c)) {</b>
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns true if the given list of string is made up of all-uppercase words.
+&nbsp;   * If the list contains only numbers or punctuation marks it is not considered all-uppercase
+&nbsp;   */
+&nbsp;  public static boolean isAllUppercase(List&lt;String&gt; strList) {
+<b class="fc">&nbsp;    boolean isInputAllUppercase = true;</b>
+<b class="fc">&nbsp;    boolean isAllNotLetters = true;</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; strList.size(); i++) {</b>
+<b class="fc">&nbsp;      isInputAllUppercase = isInputAllUppercase &amp;&amp; StringTools.isAllUppercase(strList.get(i));</b>
+<b class="pc">&nbsp;      isAllNotLetters = isAllNotLetters &amp;&amp; (StringTools.isNotWordString(strList.get(i))</b>
+<b class="fc">&nbsp;        || StringTools.isPunctuationMark(strList.get(i)));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return isInputAllUppercase &amp;&amp; ! isAllNotLetters;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns true if the given string is mixed case, like {@code MixedCase} or {@code mixedCase}
+&nbsp;   * (but not {@code Mixedcase}).
+&nbsp;   * @param str input str
+&nbsp;   */
+&nbsp;  public static boolean isMixedCase(String str) {
+<b class="pc">&nbsp;    return !isAllUppercase(str)</b>
+<b class="nc">&nbsp;        &amp;&amp; !isCapitalizedWord(str)</b>
+<b class="nc">&nbsp;        &amp;&amp; isNotAllLowercase(str);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns true if &lt;code&gt;str&lt;/code&gt; is not made up of all-lowercase characters
+&nbsp;   * (ignoring characters for which no upper-/lowercase distinction exists).
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  public static boolean isNotAllLowercase(String str) {
+<b class="nc">&nbsp;    for (int i = 0; i &lt; str.length(); i++) {</b>
+<b class="nc">&nbsp;      char c = str.charAt(i);</b>
+<b class="nc">&nbsp;      if (Character.isLetter(c) &amp;&amp; !Character.isLowerCase(c)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param str input string
+&nbsp;   * @return true if word starts with an uppercase letter and all other letters are lowercase
+&nbsp;   */
+&nbsp;  @Contract(&quot;null -&gt; false&quot;)
+&nbsp;  public static boolean isCapitalizedWord(@Nullable String str) {
+<b class="nc">&nbsp;    if (!isEmpty(str) &amp;&amp; Character.isUpperCase(str.charAt(0))) {</b>
+<b class="nc">&nbsp;      for (int i = 1; i &lt; str.length(); i++) {</b>
+<b class="nc">&nbsp;        char c = str.charAt(i);</b>
+<b class="nc">&nbsp;        if (Character.isLetter(c) &amp;&amp; !Character.isLowerCase(c)) {</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Whether the first character of &lt;code&gt;str&lt;/code&gt; is an uppercase character.
+&nbsp;   */
+&nbsp;  public static boolean startsWithUppercase(String str) {
+<b class="pc">&nbsp;    if (isEmpty(str)) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return Character.isUpperCase(str.charAt(0));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Whether the first character of &lt;code&gt;str&lt;/code&gt; is an uppercase character.
+&nbsp;   * @since 4.9
+&nbsp;   */
+&nbsp;  public static boolean startsWithLowercase(String str) {
+<b class="nc">&nbsp;    if (isEmpty(str)) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return Character.isLowerCase(str.charAt(0));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean allStartWithLowercase(String str) {
+<b class="nc">&nbsp;    String[] strParts = str.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;    if (strParts.length &lt; 2) {</b>
+<b class="nc">&nbsp;      return startsWithLowercase(str);</b>
+&nbsp;    }
+<b class="nc">&nbsp;      for (String strPart : strParts) {</b>
+<b class="nc">&nbsp;        if (!startsWithLowercase(strPart)) {</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return &lt;code&gt;str&lt;/code&gt; modified so that its first character is now an
+&nbsp;   * uppercase character. If &lt;code&gt;str&lt;/code&gt; starts with non-alphabetic
+&nbsp;   * characters, such as quotes or parentheses, the first character is 
+&nbsp;   * determined as the first alphabetic character.
+&nbsp;   */
+&nbsp;  @Contract(&quot;!null -&gt; !null&quot;)
+&nbsp;  @Nullable
+&nbsp;  public static String uppercaseFirstChar(@Nullable String str) {
+<b class="nc">&nbsp;    return changeFirstCharCase(str, true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Like {@link #uppercaseFirstChar(String)}, but handles a special case for Dutch (IJ in 
+&nbsp;   * e.g. &quot;ijsselmeer&quot; -&amp;gt; &quot;IJsselmeer&quot;).
+&nbsp;   * @param language the language, will be ignored if it&#39;s {@code null}
+&nbsp;   * @since 2.7
+&nbsp;   */
+&nbsp;  @Contract(&quot;!null, _ -&gt; !null&quot;)
+&nbsp;  @Nullable
+&nbsp;  public static String uppercaseFirstChar(@Nullable String str, Language language) {
+<b class="nc">&nbsp;    if (language != null &amp;&amp; &quot;nl&quot;.equals(language.getShortCode()) &amp;&amp; str != null &amp;&amp; str.toLowerCase().startsWith(&quot;ij&quot;)) {</b>
+&nbsp;      // hack to fix https://github.com/languagetool-org/languagetool/issues/148
+<b class="nc">&nbsp;      return &quot;IJ&quot; + str.substring(2);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return changeFirstCharCase(str, true);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static Set&lt;String&gt; collectAllTitleCaseExceptions() {
+<b class="fc">&nbsp;    List&lt;Set&lt;String&gt;&gt; setList = Arrays.asList(ENGLISH_TITLECASE_EXCEPTIONS, PORTUGUESE_TITLECASE_EXCEPTIONS,</b>
+&nbsp;      FRENCH_TITLECASE_EXCEPTIONS, SPANISH_TITLECASE_EXCEPTIONS, GERMAN_TITLECASE_EXCEPTIONS, DUTCH_TITLECASE_EXCEPTIONS);
+<b class="fc">&nbsp;    Set&lt;String&gt; union = setList.stream().flatMap(Set::stream).collect(Collectors.toSet());</b>
+<b class="fc">&nbsp;    return union;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Title case a string ignoring a list of words. These words are ignored due to titlecasing conventions in the most
+&nbsp;   * frequent languages. Differs from {@link #convertToTitleCaseIteratingChars(String)} in that it is less aggressive,
+&nbsp;   * i.e., we do not force titlecase in all caps words (e.g. IDEA does not become Idea).
+&nbsp;   * This method behaves the same regardless of the language, and is rather aggressive in its ignoring of words.
+&nbsp;   * We can, possibly, in the future, have language-specific titlecasing conventions.
+&nbsp;   */
+&nbsp;  @Contract(&quot;!null -&gt; !null&quot;)
+&nbsp;  @Nullable
+&nbsp;  public static String titlecaseGlobal(@Nullable final String str) {
+<b class="nc">&nbsp;    assert str != null;</b>
+<b class="nc">&nbsp;    String[] strParts = str.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;    if (strParts.length == 1) {</b>
+<b class="nc">&nbsp;      return uppercaseFirstChar(str);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    StringJoiner titlecasedStr = new StringJoiner(&quot; &quot;);</b>
+<b class="nc">&nbsp;    for (int i=0; i &lt; strParts.length; i++) {</b>
+<b class="nc">&nbsp;      String strPart = strParts[i];</b>
+<b class="nc">&nbsp;      if (i == 0) {</b>
+<b class="nc">&nbsp;        titlecasedStr.add(uppercaseFirstChar(strPart));</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if (ALL_TITLECASE_EXCEPTIONS.contains(strPart.toLowerCase())) {</b>
+<b class="nc">&nbsp;        titlecasedStr.add(lowercaseFirstCharIfCapitalized(strPart));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        titlecasedStr.add(uppercaseFirstChar(strPart));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return titlecasedStr.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return &lt;code&gt;str&lt;/code&gt; modified so that its first character is now an
+&nbsp;   * lowercase character. If &lt;code&gt;str&lt;/code&gt; starts with non-alphabetic
+&nbsp;   * characters, such as quotes or parentheses, the first character is 
+&nbsp;   * determined as the first alphabetic character.
+&nbsp;   */
+&nbsp;  @Contract(&quot;!null -&gt; !null&quot;)
+&nbsp;  @Nullable
+&nbsp;  public static String lowercaseFirstChar(@Nullable String str) {
+<b class="nc">&nbsp;    return changeFirstCharCase(str, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return &lt;code&gt;str&lt;/code&gt; if str is capitalized {@link #isCapitalizedWord(String)},
+&nbsp;   * otherwise return modified &lt;code&gt;str&lt;/code&gt; so that its first character
+&nbsp;   * is now a lowercase character.
+&nbsp;   */
+&nbsp;  @Contract(&quot;!null, -&gt; !null&quot;)
+&nbsp;  @Nullable
+&nbsp;  public static String lowercaseFirstCharIfCapitalized(@Nullable String str) {
+<b class="nc">&nbsp;    if (!isCapitalizedWord(str)) return str;</b>
+<b class="nc">&nbsp;    return changeFirstCharCase(str, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return &lt;code&gt;str&lt;/code&gt; modified so that its first character is now an
+&nbsp;   * lowercase or uppercase character, depending on &lt;code&gt;toUpperCase&lt;/code&gt;.
+&nbsp;   * If &lt;code&gt;str&lt;/code&gt; starts with non-alphabetic
+&nbsp;   * characters, such as quotes or parentheses, the first character is 
+&nbsp;   * determined as the first alphabetic character.
+&nbsp;   */
+&nbsp;  @Contract(&quot;!null, _ -&gt; !null&quot;)
+&nbsp;  @Nullable
+&nbsp;  private static String changeFirstCharCase(@Nullable String str, boolean toUpperCase) {
+<b class="nc">&nbsp;    if (isEmpty(str)) {</b>
+<b class="nc">&nbsp;      return str;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (str.length() == 1) {</b>
+<b class="nc">&nbsp;      return toUpperCase ? str.toUpperCase(Locale.ENGLISH) : str.toLowerCase();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int pos = 0;</b>
+<b class="nc">&nbsp;    int len = str.length() - 1;</b>
+<b class="nc">&nbsp;    while (!Character.isLetterOrDigit(str.charAt(pos)) &amp;&amp; len &gt; pos) {</b>
+<b class="nc">&nbsp;      pos++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    char firstChar = str.charAt(pos);    </b>
+<b class="nc">&nbsp;    return str.substring(0, pos) </b>
+<b class="nc">&nbsp;        + (toUpperCase ? Character.toUpperCase(firstChar) : Character.toLowerCase(firstChar))</b>
+<b class="nc">&nbsp;        + str.substring(pos + 1);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String readerToString(Reader reader) throws IOException {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    int readBytes = 0;</b>
+<b class="nc">&nbsp;    char[] chars = new char[4000];</b>
+<b class="nc">&nbsp;    while (readBytes &gt;= 0) {</b>
+<b class="nc">&nbsp;      readBytes = reader.read(chars, 0, 4000);</b>
+<b class="nc">&nbsp;      if (readBytes &lt;= 0) {</b>
+&nbsp;        break;
+&nbsp;      }
+<b class="nc">&nbsp;      sb.append(new String(chars, 0, readBytes));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String streamToString(InputStream is, String charsetName) throws IOException {
+<b class="nc">&nbsp;    try (InputStreamReader isr = new InputStreamReader(is, charsetName)) {</b>
+<b class="nc">&nbsp;      return readerToString(isr);</b>
+&nbsp;    }
+&nbsp;  } 
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Calls {@link #escapeHTML(String)}.
+&nbsp;   */
+&nbsp;  public static String escapeXML(String s) {
+<b class="nc">&nbsp;    return escapeHTML(s);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.9
+&nbsp;   */
+&nbsp;  public static String escapeForXmlAttribute(String s) {
+<b class="nc">&nbsp;    return XmlEscapers.xmlAttributeEscaper().escape(s);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.9
+&nbsp;   */
+&nbsp;  public static String escapeForXmlContent(String s) {
+<b class="nc">&nbsp;    return XmlEscapers.xmlContentEscaper().escape(s);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Escapes these characters: less than, greater than, quote, ampersand.
+&nbsp;   */
+&nbsp;  public static String escapeHTML(String s) {
+&nbsp;    // this version is much faster than using s.replaceAll()
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    int n = s.length();</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; n; i++) {</b>
+<b class="nc">&nbsp;      char c = s.charAt(i);</b>
+<b class="nc">&nbsp;      switch (c) {</b>
+&nbsp;        case &#39;&lt;&#39;:
+<b class="nc">&nbsp;          sb.append(&quot;&amp;lt;&quot;);</b>
+&nbsp;          break;
+&nbsp;        case &#39;&gt;&#39;:
+<b class="nc">&nbsp;          sb.append(&quot;&amp;gt;&quot;);</b>
+&nbsp;          break;
+&nbsp;        case &#39;&amp;&#39;:
+<b class="nc">&nbsp;          sb.append(&quot;&amp;amp;&quot;);</b>
+&nbsp;          break;
+&nbsp;        case &#39;&quot;&#39;:
+<b class="nc">&nbsp;          sb.append(&quot;&amp;quot;&quot;);</b>
+&nbsp;          break;
+&nbsp;        default:
+<b class="nc">&nbsp;          sb.append(c);</b>
+&nbsp;          break;
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Filters any whitespace characters. Useful for trimming the contents of
+&nbsp;   * token elements that cannot possibly contain any spaces, with the exception
+&nbsp;   * for a single space in a word (for example, if the language supports numbers
+&nbsp;   * formatted with spaces as single tokens, as Catalan in LanguageTool).
+&nbsp;   * 
+&nbsp;   * @param s String to be filtered.
+&nbsp;   * @return Filtered s.
+&nbsp;   */
+&nbsp;  public static String trimWhitespace(String s) {
+<b class="fc">&nbsp;    StringBuilder filter = new StringBuilder();</b>
+<b class="fc">&nbsp;    String str = s.trim();</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; str.length(); i++) {</b>
+<b class="pc">&nbsp;      while (str.charAt(i) &lt;= &#39; &#39; &amp;&amp; i &lt; str.length() &amp;&amp;</b>
+<b class="nc">&nbsp;          (str.charAt(i + 1) &lt;= &#39; &#39; || i &gt; 1 &amp;&amp; str.charAt(i - 1) &lt;= &#39; &#39;)) {</b>
+<b class="nc">&nbsp;        i++;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      char c = str.charAt(i);</b>
+<b class="pc">&nbsp;      if (c != &#39;\n&#39; &amp;&amp; c != &#39;\t&#39; &amp;&amp; c != &#39;\r&#39;) {</b>
+<b class="fc">&nbsp;        filter.append(c);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="pc">&nbsp;    return filter.length() == str.length() ? str : filter.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * eliminate special (unicode) characters, e.g. soft hyphens
+&nbsp;   * @since 4.3
+&nbsp;   * @param s String to filter
+&nbsp;   * @return s, with non-(alphanumeric, punctuation, space) characters deleted
+&nbsp;   */
+&nbsp;  public static String trimSpecialCharacters(String s) {
+&nbsp;    // need unicode character classes -&gt; (?U)
+&nbsp;    // lists all allowed character classes, replace everything else
+<b class="nc">&nbsp;    return PATTERN.matcher(s).replaceAll(&quot;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Adds spaces before words that are not punctuation.
+&nbsp;   * 
+&nbsp;   * @param word Word to add the preceding space.
+&nbsp;   * @param language
+&nbsp;   *          Language of the word (to check typography conventions). Currently
+&nbsp;   *          French convention of not adding spaces only before &#39;.&#39; and &#39;,&#39; is
+&nbsp;   *          implemented; other languages assume that before ,.;:!? no spaces
+&nbsp;   *          should be added.
+&nbsp;   * @return String containing a space or an empty string.
+&nbsp;   */
+&nbsp;  public static String addSpace(String word, Language language) {
+<b class="nc">&nbsp;    String space = &quot; &quot;;</b>
+<b class="nc">&nbsp;    if (word.length() == 1) {</b>
+<b class="nc">&nbsp;      char c = word.charAt(0);</b>
+<b class="nc">&nbsp;      if (&quot;fr&quot;.equals(language.getShortCode())) {</b>
+<b class="nc">&nbsp;        if (c == &#39;.&#39; || c == &#39;,&#39;) {</b>
+<b class="nc">&nbsp;          space = &quot;&quot;;</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        if (c == &#39;.&#39; || c == &#39;,&#39; || c == &#39;;&#39; || c == &#39;:&#39; || c == &#39;?&#39; || c == &#39;!&#39;) {</b>
+<b class="nc">&nbsp;          space = &quot;&quot;;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return space;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if a string contains a whitespace, including:
+&nbsp;   * &lt;ul&gt;
+&nbsp;   * &lt;li&gt;all Unicode whitespace
+&nbsp;   * &lt;li&gt;the non-breaking space (U+00A0)
+&nbsp;   * &lt;li&gt;the narrow non-breaking space (U+202F)
+&nbsp;   * &lt;li&gt;the zero width space (U+200B), used in Khmer
+&nbsp;   * &lt;/ul&gt;
+&nbsp;   * @param str String to check
+&nbsp;   * @return true if the string is a whitespace character
+&nbsp;   */
+&nbsp;  public static boolean isWhitespace(String str) {
+<b class="pc">&nbsp;    if (&quot;\u0002&quot;.equals(str) // unbreakable field, e.g. a footnote number in OOo</b>
+<b class="pc">&nbsp;        || &quot;\u0001&quot;.equals(str)) { // breakable field in OOo</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;
+<b class="pc">&nbsp;    if (&quot;\uFEFF&quot;.equals(str)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    String trimStr = str.trim();</b>
+<b class="fc">&nbsp;    if (isEmpty(trimStr)) {</b>
+<b class="fc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (trimStr.length() == 1) {</b>
+<b class="pc">&nbsp;      if (&quot;\u200B&quot;.equals(str) ||// We need u200B​​ to be detected as whitespace for Khmer, as it was the case before Java 7.</b>
+<b class="pc">&nbsp;          &quot;\u00A0&quot;.equals(str) || &quot;\u202F&quot;.equals(str)) { // non-breaking space and narrow non-breaking space</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      return Character.isWhitespace(trimStr.charAt(0));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Checks if a string is the non-breaking whitespace (&lt;code&gt;\u00A0&lt;/code&gt;).
+&nbsp;   * @since 2.1
+&nbsp;   */
+&nbsp;  public static boolean isNonBreakingWhitespace(String str) {
+<b class="fc">&nbsp;    return &quot;\u00A0&quot;.equals(str);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param ch Character to check
+&nbsp;   * @return True if the character is a positive number (decimal digit from 1 to 9).
+&nbsp;   */
+&nbsp;  public static boolean isPositiveNumber(char ch) {
+<b class="nc">&nbsp;    return ch &gt;= &#39;1&#39; &amp;&amp; ch &lt;= &#39;9&#39;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Helper method to replace calls to {@code &quot;&quot;.equals()}.
+&nbsp;   * 
+&nbsp;   * @param str String to check
+&nbsp;   * @return true if string is empty or {@code null}
+&nbsp;   */
+&nbsp;  public static boolean isEmpty(@Nullable String str) {
+<b class="pc">&nbsp;    return str == null || str.length() == 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Simple XML filtering for XML tags.
+&nbsp;   * @param str XML string to be filtered.
+&nbsp;   * @return Filtered string without XML tags.
+&nbsp;   */
+&nbsp;  public static String filterXML(String str) {
+<b class="nc">&nbsp;    String s = str;       </b>
+<b class="nc">&nbsp;    if (s.contains(&quot;&lt;&quot;)) { // don&#39;t run slow regex unless we have to</b>
+<b class="nc">&nbsp;      s = XML_COMMENT_PATTERN.matcher(s).replaceAll(&quot; &quot;);</b>
+<b class="nc">&nbsp;      s = XML_PATTERN.matcher(s).replaceAll(&quot;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return s;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static boolean hasDiacritics(String str) {
+<b class="nc">&nbsp;    return !str.equals(removeDiacritics(str));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static String removeDiacritics(String str) {
+<b class="nc">&nbsp;    String s = Normalizer.normalize(str, Normalizer.Form.NFD);</b>
+<b class="nc">&nbsp;    return DIACRIT_MARKS.matcher(s).replaceAll(&quot;&quot;);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static String normalizeNFKC(String str) {
+<b class="nc">&nbsp;    return Normalizer.normalize(str, Normalizer.Form.NFKC);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static String normalizeNFC(String str) {
+<b class="nc">&nbsp;    return Normalizer.normalize(str, Normalizer.Form.NFC);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Apply to inputString the casing of modelString
+&nbsp;   * @param inputString, modelString 
+&nbsp;   * @return string
+&nbsp;   */
+&nbsp;  public static String preserveCase(String inputString, String modelString) {
+<b class="nc">&nbsp;    if (modelString.isEmpty()) {</b>
+<b class="nc">&nbsp;      return inputString; </b>
+&nbsp;    }
+&nbsp;    // modelString=&quot;L&#39;&quot; is ambiguous, apply capitalization
+<b class="nc">&nbsp;    if (isCapitalizedWord(modelString)) {</b>
+<b class="nc">&nbsp;      return uppercaseFirstChar(inputString.toLowerCase()); </b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (isAllUppercase(modelString)) {</b>
+<b class="nc">&nbsp;      return inputString.toUpperCase(); </b>
+&nbsp;    }  
+&nbsp;//    if (!isNotAllLowercase(modelString)) {
+&nbsp;//      return inputString.toLowerCase();
+&nbsp;//    }
+<b class="nc">&nbsp;    return inputString;</b>
+&nbsp;    
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public static String asString(CharSequence s) {
+<b class="nc">&nbsp;    if (s == null) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return s.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  public static boolean isParagraphEnd(String sentence, boolean singleLineBreaksMarksPara) {
+<b class="nc">&nbsp;    boolean isParaEnd = false;</b>
+<b class="nc">&nbsp;    if (singleLineBreaksMarksPara) {</b>
+<b class="nc">&nbsp;      if (sentence.endsWith(&quot;\n&quot;) || sentence.endsWith(&quot;\n\r&quot;)) {</b>
+<b class="nc">&nbsp;        isParaEnd = true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (sentence.endsWith(&quot;\n\n&quot;) || sentence.endsWith(&quot;\n\r\n\r&quot;) || sentence.endsWith(&quot;\r\n\r\n&quot;)) {</b>
+<b class="nc">&nbsp;      isParaEnd = true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return isParaEnd;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Loads file, ignoring comments (lines starting with {@code #}).
+&nbsp;   * @param path path in resource dir
+&nbsp;   * @since 4.6
+&nbsp;   * @deprecated use DataBroker#getFromResourceDirAsLines(java.lang.String) instead (NOTE: it won&#39;t handle comments)
+&nbsp;   */
+&nbsp;  public static List&lt;String&gt; loadLines(String path) {
+<b class="nc">&nbsp;    InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; l = new ArrayList&lt;&gt;();</b>
+&nbsp;    try (
+<b class="nc">&nbsp;      InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);</b>
+<b class="nc">&nbsp;      BufferedReader br = new BufferedReader(reader)</b>
+&nbsp;    ) {
+&nbsp;      String line;
+<b class="nc">&nbsp;      while ((line = br.readLine()) != null) {</b>
+<b class="nc">&nbsp;        if (line.isEmpty() || line.charAt(0) == &#39;#&#39;) {   // ignore comments</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        l.add(line);</b>
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not load data from &quot; + path, e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return Collections.unmodifiableList(l);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Will turn a string into a typical rule ID, i.e. uppercase and
+&nbsp;   * &quot;_&quot; instead of spaces.
+&nbsp;   *
+&nbsp;   * All non-ASCII characters are replaced with &quot;_&quot;, EXCEPT for
+&nbsp;   * Latin-1 ranges U+00C0-U+00D6 and U+00D8-U+00DE.
+&nbsp;   *
+&nbsp;   * &quot;de&quot; locales have a special implementation (ä =&amp;gt; ae, etc.).
+&nbsp;   *
+&nbsp;   * @param language LT language object, used to apply language-specific normalisation rules.
+&nbsp;   *
+&nbsp;   * @since 5.1
+&nbsp;   */
+&nbsp;  public static String toId(String input, Language language) {
+<b class="nc">&nbsp;    String languageCode = language.getShortCode();</b>
+&nbsp;    String normalisedId;
+<b class="nc">&nbsp;    normalisedId = input.toUpperCase().trim()</b>
+<b class="nc">&nbsp;      .replace(&#39; &#39;, &#39;_&#39;)</b>
+<b class="nc">&nbsp;      .replace(&quot;&#39;&quot;, &quot;_Q_&quot;);</b>
+&nbsp;    // Standard toUpperCase implementation already converts ß to SS, so that&#39;ll be done for all locales and there&#39;s no
+&nbsp;    // need to run a separate replace here.
+<b class="nc">&nbsp;    if (Objects.equals(languageCode, &quot;de&quot;)) {</b>
+<b class="nc">&nbsp;      normalisedId = normalisedId</b>
+<b class="nc">&nbsp;        .replace(&quot;Ä&quot;, &quot;AE&quot;)</b>
+<b class="nc">&nbsp;        .replace(&quot;Ü&quot;, &quot;UE&quot;)</b>
+<b class="nc">&nbsp;        .replace(&quot;Ö&quot;, &quot;OE&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    normalisedId = NONCHAR.matcher(normalisedId).replaceAll(&quot;_&quot;);</b>
+<b class="nc">&nbsp;    return normalisedId;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Whether the string is camelCase. Works only with ASCII input and with single words.
+&nbsp;   * @since 5.3
+&nbsp;   */
+&nbsp;  public static boolean isCamelCase(String token) {
+<b class="nc">&nbsp;    return token.matches(&quot;[a-z]+[A-Z][A-Za-z]+&quot;);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Whether the string is a punctuation mark
+&nbsp;   * @since 5.5
+&nbsp;   */
+&nbsp;  public static boolean isPunctuationMark(String input) {
+<b class="fc">&nbsp;    return PUNCTUATION_PATTERN.matcher(input).matches();</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Whether the string is a punctuation mark
+&nbsp;   * @since 6.1
+&nbsp;   */
+&nbsp;  public static boolean isNotWordCharacter(String input) {
+<b class="nc">&nbsp;    return NOT_WORD_CHARACTER.matcher(input).matches();</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Difference between two strings (only one difference)
+&nbsp;   * @return List of strings: 0: common string at the start; 1: diff in string1; 2: diff in string2; 3: common string at the end
+&nbsp;   * @since 6.2
+&nbsp;   */
+&nbsp;  
+&nbsp;  public static List&lt;String&gt; getDifference(String s1, String s2) {
+<b class="nc">&nbsp;    List&lt;String&gt; results = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (s1.equals(s2)) {</b>
+<b class="nc">&nbsp;      results.add(s1);</b>
+<b class="nc">&nbsp;      results.add(&quot;&quot;);</b>
+<b class="nc">&nbsp;      results.add(&quot;&quot;);</b>
+<b class="nc">&nbsp;      results.add(&quot;&quot;);</b>
+<b class="nc">&nbsp;      return results;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int l1 = s1.length();</b>
+<b class="nc">&nbsp;    int l2 = s2.length();</b>
+<b class="nc">&nbsp;    int fromStart = 0;</b>
+<b class="nc">&nbsp;    while (fromStart &lt; l1 &amp;&amp; fromStart &lt; l2 &amp;&amp; s1.charAt(fromStart) == s2.charAt(fromStart)) {</b>
+<b class="nc">&nbsp;      fromStart++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int fromEnd = 0;</b>
+<b class="nc">&nbsp;    while (fromEnd &lt; l1 &amp;&amp; fromEnd &lt; l2 &amp;&amp; s1.charAt(l1 - 1 - fromEnd) == s2.charAt(l2 - 1 - fromEnd)) {</b>
+<b class="nc">&nbsp;      fromEnd++;</b>
+&nbsp;    }
+&nbsp;    // corrections (e.g. stress vs stresses)
+<b class="nc">&nbsp;    while (fromStart &gt; l1 - fromEnd) {</b>
+<b class="nc">&nbsp;      fromEnd--;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    while (fromStart &gt; l2 - fromEnd) {</b>
+<b class="nc">&nbsp;      fromEnd--;</b>
+&nbsp;    }
+&nbsp;    // common string at start
+<b class="nc">&nbsp;    results.add(s1.substring(0, fromStart));</b>
+&nbsp;    // diff in string1
+<b class="nc">&nbsp;    results.add(s1.substring(fromStart, l1 - fromEnd));</b>
+&nbsp;    // diff in string2
+<b class="nc">&nbsp;    results.add(s2.substring(fromStart, l2 - fromEnd));</b>
+&nbsp;    // common string at end
+<b class="nc">&nbsp;    results.add(s1.substring(l1 - fromEnd, l1));</b>
+<b class="nc">&nbsp;    return results;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  
+&nbsp;  /*
+&nbsp;   * Invent a wrong word to find possible replacements. 
+&nbsp;   */
+&nbsp;  
+&nbsp;  public static String makeWrong(String s) {
+<b class="nc">&nbsp;    if (s.contains(&quot;a&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;a&quot;, &quot;ä&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.contains(&quot;e&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;e&quot;, &quot;ë&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.contains(&quot;i&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;i&quot;, &quot;ï&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.contains(&quot;o&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;o&quot;, &quot;ö&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.contains(&quot;u&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;u&quot;, &quot;ù&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.contains(&quot;á&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;á&quot;, &quot;ä&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.contains(&quot;é&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;é&quot;, &quot;ë&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.contains(&quot;í&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;í&quot;, &quot;ï&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.contains(&quot;ó&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;ó&quot;, &quot;ö&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.contains(&quot;ú&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;ú&quot;, &quot;ù&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.contains(&quot;à&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;à&quot;, &quot;ä&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.contains(&quot;è&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;è&quot;, &quot;ë&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.contains(&quot;ì&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;ì&quot;, &quot;i&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.contains(&quot;ò&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;ò&quot;, &quot;ö&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.contains(&quot;ï&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;ï&quot;, &quot;ì&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (s.contains(&quot;ü&quot;)) {</b>
+<b class="nc">&nbsp;      return s.replace(&quot;ü&quot;, &quot;ù&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return s + &quot;-&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;    * Return &lt;code&gt;str&lt;/code&gt; without tashkeel characters
+&nbsp;    * @param str input str
+&nbsp;    */
+&nbsp;   public static String removeTashkeel(String str) {
+<b class="nc">&nbsp;     String striped = str.replaceAll(&quot;[&quot;</b>
+&nbsp;       + &quot;\u064B&quot;  // Fathatan
+&nbsp;       + &quot;\u064C&quot;  // Dammatan
+&nbsp;       + &quot;\u064D&quot;  // Kasratan
+&nbsp;       + &quot;\u064E&quot;  // Fatha
+&nbsp;       + &quot;\u064F&quot;  // Damma
+&nbsp;       + &quot;\u0650&quot;  // Kasra
+&nbsp;       + &quot;\u0651&quot;  // Shadda
+&nbsp;       + &quot;\u0652&quot;  // Sukun
+&nbsp;       + &quot;\u0653&quot;  // Maddah Above
+&nbsp;       + &quot;\u0654&quot;  // Hamza Above
+&nbsp;       + &quot;\u0655&quot;  // Hamza Below
+&nbsp;       + &quot;\u0656&quot;  // Subscript Alef
+&nbsp;       + &quot;\u0640&quot;  // Tatweel
+&nbsp;       + &quot;]&quot;, &quot;&quot;);
+<b class="nc">&nbsp;      return striped;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  public static boolean isNotWordString(String input) {
+<b class="fc">&nbsp;    return NOT_WORD_STR.matcher(input).matches();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /*
+&nbsp;   * Number of occurrences of string t inside string s
+&nbsp;   */
+&nbsp;  public static int numberOf(String s, String t) {
+<b class="nc">&nbsp;    return s.length() - s.replace(t, &quot;&quot;).length();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String convertToTitleCaseIteratingChars(String text) {
+<b class="nc">&nbsp;    if (text == null || text.isEmpty()) {</b>
+<b class="nc">&nbsp;      return text;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    StringBuilder converted = new StringBuilder();</b>
+<b class="nc">&nbsp;    boolean convertNext = true;</b>
+<b class="nc">&nbsp;    for (char ch : text.toCharArray()) {</b>
+<b class="nc">&nbsp;      if (Character.isSpaceChar(ch) || ch == &#39;-&#39;) {</b>
+<b class="nc">&nbsp;        convertNext = true;</b>
+<b class="nc">&nbsp;      } else if (convertNext) {</b>
+<b class="nc">&nbsp;        ch = Character.toTitleCase(ch);</b>
+<b class="nc">&nbsp;        convertNext = false;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        ch = Character.toLowerCase(ch);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      converted.append(ch);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return converted.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks whether a given String is an Emoji with a string length larger 1.
+&nbsp;   * @param word to be checked
+&nbsp;   * @since 6.4
+&nbsp;   */
+&nbsp;  public static boolean isEmoji(String word) {
+<b class="nc">&nbsp;    if (word.length() &gt; 1 &amp;&amp; word.codePointCount(0, word.length()) != word.length()) {</b>
+&nbsp;      // some symbols such as emojis (😂) have a string length that equals 2
+<b class="nc">&nbsp;      return !WORD_FOR_SPELLER.matcher(word).matches();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /*
+&nbsp;   * Replace characters that are not letters, digits, punctuation or white spaces
+&nbsp;   * by white spaces
+&nbsp;   * @param word to be checked
+&nbsp;   * @since 6.4
+&nbsp;   */
+&nbsp;  public static String stringForSpeller(String s) {
+<b class="nc">&nbsp;    if (s.length() &gt; 1 &amp;&amp; s.codePointCount(0, s.length()) != s.length()) {</b>
+<b class="nc">&nbsp;      Matcher matcher = CHARS_NOT_FOR_SPELLING.matcher(s);</b>
+<b class="nc">&nbsp;      while (matcher.find()) {</b>
+<b class="nc">&nbsp;        String found = matcher.group(0);</b>
+&nbsp;        // some symbols such as emojis (😂) have a string length larger than 1
+<b class="nc">&nbsp;        s = s.replace(found, WHITESPACE_ARRAY[found.length()]);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return s;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String[] splitCamelCase(String input) {
+<b class="nc">&nbsp;    if (isAllUppercase(input)) {</b>
+<b class="nc">&nbsp;      return new String[]{input};</b>
+&nbsp;    }
+<b class="nc">&nbsp;    StringBuilder word = new StringBuilder();</b>
+<b class="nc">&nbsp;    StringBuilder result = new StringBuilder();</b>
+<b class="nc">&nbsp;    boolean previousIsUppercase = false;</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; input.length(); i++) {</b>
+<b class="nc">&nbsp;      char currentChar = input.charAt(i);</b>
+<b class="nc">&nbsp;      if (Character.isUpperCase(currentChar)) {</b>
+<b class="nc">&nbsp;        if (!previousIsUppercase) {</b>
+<b class="nc">&nbsp;          result.append(word).append(&quot; &quot;);</b>
+<b class="nc">&nbsp;          word.setLength(0);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        previousIsUppercase = true;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        previousIsUppercase = false;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      word.append(currentChar);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    result.append(word);</b>
+<b class="nc">&nbsp;    return result.toString().trim().split(&quot; &quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String[] splitDigitsAtEnd(String input) {
+<b class="nc">&nbsp;    int lastIndex = input.length() - 1;</b>
+<b class="nc">&nbsp;    while (lastIndex &gt;= 0 &amp;&amp; Character.isDigit(input.charAt(lastIndex))) {</b>
+<b class="nc">&nbsp;      lastIndex--;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String nonDigitPart = input.substring(0, lastIndex + 1);</b>
+<b class="nc">&nbsp;    String digitPart = input.substring(lastIndex + 1);</b>
+<b class="nc">&nbsp;    if (!nonDigitPart.isEmpty() &amp;&amp; !digitPart.isEmpty()) {</b>
+<b class="nc">&nbsp;      return new String[]{nonDigitPart, digitPart};</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new String[]{input};</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isAnagram(String string1, String string2) {
+<b class="nc">&nbsp;    if (string1.length() != string2.length()) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    char[] charArray1 = string1.toCharArray();</b>
+<b class="nc">&nbsp;    char[] charArray2 = string2.toCharArray();</b>
+<b class="nc">&nbsp;    Arrays.sort(charArray1);</b>
+<b class="nc">&nbsp;    Arrays.sort(charArray2);</b>
+<b class="nc">&nbsp;    return Arrays.equals(charArray1, charArray2);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isNumeric(String string) {
+<b class="nc">&nbsp;    return IS_NUMERIC.matcher(string).matches();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

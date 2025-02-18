@@ -1,0 +1,382 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ManualSynthesizer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.synthesis</a>
+</div>
+
+<h1>Coverage Summary for Class: ManualSynthesizer (org.languagetool.synthesis)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ManualSynthesizer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.7%
+  </span>
+  <span class="absValue">
+    (44/48)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96%
+  </span>
+  <span class="absValue">
+    (72/75)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ManualSynthesizer$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (10/12)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90.4%
+  </span>
+  <span class="absValue">
+    (47/52)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.3%
+  </span>
+  <span class="absValue">
+    (82/87)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.synthesis;
+&nbsp;
+&nbsp;import it.unimi.dsi.fastutil.ints.Int2IntMap;
+&nbsp;import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
+&nbsp;import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+&nbsp;import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+&nbsp;import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.apache.commons.lang3.tuple.ImmutableTriple;
+&nbsp;import org.apache.commons.lang3.tuple.Triple;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.tagging.ManualTagger;
+&nbsp;import org.languagetool.tagging.TaggedWord;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Consumer;
+&nbsp;
+&nbsp;import static org.languagetool.tools.StringInterner.intern;
+&nbsp;
+&nbsp;/**
+&nbsp; * A synthesizer that reads the inflected form and POS information from a plain (UTF-8) text file.
+&nbsp; * This makes it possible for the user to edit the text file to let the system know
+&nbsp; * about new words or missing readings in the synthesizer *.dict file.
+&nbsp; * &lt;p&gt;
+&nbsp; * File Format: &lt;tt&gt;fullform baseform postags&lt;/tt&gt; (tab separated)
+&nbsp; *
+&nbsp; * @author Ionuț Păduraru
+&nbsp; * @see ManualTagger
+&nbsp; * @see BaseSynthesizer
+&nbsp; */
+&nbsp;public final class ManualSynthesizer {
+&nbsp;  private static final String SUFFIX_MARKER = &quot;+&quot;;
+&nbsp;  private final Set&lt;String&gt; possibleTags;
+&nbsp;
+&nbsp;  private static final int OFFSET_SHIFT = 8;
+&nbsp;  private static final int MAX_LENGTH = (1 &lt;&lt; OFFSET_SHIFT) - 1;
+&nbsp;  private static final int MAX_OFFSET = (1 &lt;&lt; 32 - OFFSET_SHIFT) - 1;
+&nbsp;  private static final int ENTRY_SIZE = 3;
+&nbsp;  private final String[] data;
+&nbsp;
+&nbsp;  /** A map from lemma+POS hashes to encoded lemma+POS+word tuple offsets in {@link #data} */
+&nbsp;  private final Int2IntMap map;
+&nbsp;
+&nbsp;  private final static String DEFAULT_SEPARATOR = &quot;\t&quot;;
+&nbsp;
+<b class="fc">&nbsp;  public ManualSynthesizer(InputStream inputStream) throws IOException {</b>
+<b class="fc">&nbsp;    Map&lt;TaggedWord, List&lt;String&gt;&gt; mapping = loadMapping(inputStream);</b>
+<b class="fc">&nbsp;    Int2ObjectOpenHashMap&lt;List&lt;Triple&lt;String, String, String&gt;&gt;&gt; byHash = groupByHash(mapping);</b>
+&nbsp;
+<b class="fc">&nbsp;    map = new Int2IntOpenHashMap(byHash.size());</b>
+<b class="fc">&nbsp;    int valueCount = mapping.values().stream().mapToInt(v -&gt; v.size()).sum();</b>
+<b class="fc">&nbsp;    int firstIndex = ENTRY_SIZE; // skip an entry, as 0 means an absent value in TObjectIntHashMap</b>
+<b class="fc">&nbsp;    data = new String[valueCount * ENTRY_SIZE + firstIndex];</b>
+<b class="pc">&nbsp;    if (valueCount &gt; MAX_OFFSET) {</b>
+<b class="nc">&nbsp;      throw new UnsupportedOperationException(&quot;Too many values (&quot; + valueCount + &quot;), the storage needs adjusting&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    byHash.int2ObjectEntrySet().fastForEach(new Consumer&lt;Int2ObjectMap.Entry&lt;List&lt;Triple&lt;String, String, String&gt;&gt;&gt;&gt;() {</b>
+<b class="fc">&nbsp;      int index = firstIndex;</b>
+&nbsp;
+&nbsp;      @Override
+&nbsp;      public void accept(Int2ObjectMap.Entry&lt;List&lt;Triple&lt;String, String, String&gt;&gt;&gt; listEntry) {
+<b class="fc">&nbsp;        int hash = listEntry.getIntKey();</b>
+<b class="fc">&nbsp;        List&lt;Triple&lt;String, String, String&gt;&gt; value = listEntry.getValue();</b>
+<b class="pc">&nbsp;        if (value.size() &gt; MAX_LENGTH) {</b>
+<b class="nc">&nbsp;          throw new UnsupportedOperationException(</b>
+<b class="nc">&nbsp;            &quot;Too many lemmas (&quot; + value.size() + &quot; for the same hash &quot; + value + &quot;, the storage needs adjusting&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        map.put(hash, ((index / ENTRY_SIZE) &lt;&lt; OFFSET_SHIFT) | value.size());</b>
+<b class="fc">&nbsp;        for (Triple&lt;String, String, String&gt; triple : value) {</b>
+<b class="fc">&nbsp;          data[index++] = intern(triple.getLeft());</b>
+<b class="fc">&nbsp;          data[index++] = intern(triple.getMiddle());</b>
+<b class="fc">&nbsp;          data[index++] = intern(triple.getRight());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    });
+&nbsp;
+<b class="fc">&nbsp;    possibleTags = Collections.unmodifiableSet(collectTags(mapping));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static Int2ObjectOpenHashMap&lt;List&lt;Triple&lt;String, String, String&gt;&gt;&gt; groupByHash(Map&lt;TaggedWord, List&lt;String&gt;&gt; mapping) {
+<b class="fc">&nbsp;    Int2ObjectOpenHashMap&lt;List&lt;Triple&lt;String, String, String&gt;&gt;&gt; byHash = new Int2ObjectOpenHashMap&lt;&gt;(mapping.size());</b>
+<b class="fc">&nbsp;    for (Map.Entry&lt;TaggedWord, List&lt;String&gt;&gt; entry : mapping.entrySet()) {</b>
+<b class="fc">&nbsp;      TaggedWord tw = entry.getKey();</b>
+<b class="fc">&nbsp;      String lemma = tw.getLemma();</b>
+<b class="fc">&nbsp;      int hash = hashCode(lemma, tw.getPosTag());</b>
+<b class="fc">&nbsp;      List&lt;Triple&lt;String, String, String&gt;&gt; list = byHash.get(hash);</b>
+<b class="fc">&nbsp;      if (list == null) {</b>
+<b class="fc">&nbsp;        byHash.put(hash, list = new ArrayList&lt;&gt;());</b>
+&nbsp;      }
+<b class="fc">&nbsp;      for (String word : entry.getValue()) {</b>
+<b class="pc">&nbsp;        if (word.startsWith(SUFFIX_MARKER)) {</b>
+<b class="nc">&nbsp;          throw new UnsupportedOperationException(&quot;Words can&#39;t start with &quot; + SUFFIX_MARKER);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        String value = intern(encodeForm(lemma, word));</b>
+<b class="fc">&nbsp;        list.add(new ImmutableTriple&lt;&gt;(lemma, tw.getPosTag(), value));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return byHash;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String encodeForm(String lemma, String word) {
+<b class="fc">&nbsp;    if (word.length() &gt; lemma.length() &amp;&amp; word.startsWith(lemma)) {</b>
+<b class="fc">&nbsp;      return SUFFIX_MARKER + word.substring(lemma.length());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (word.length() &gt;= lemma.length() &amp;&amp; word.startsWith(lemma.substring(0, lemma.length() - 1))) {</b>
+<b class="fc">&nbsp;      return SUFFIX_MARKER + SUFFIX_MARKER + word.substring(lemma.length() - 1);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return word;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String decodeForm(String lemma, String word) {
+<b class="fc">&nbsp;    if (word.startsWith(SUFFIX_MARKER)) {</b>
+<b class="fc">&nbsp;      if (word.startsWith(SUFFIX_MARKER, SUFFIX_MARKER.length())) {</b>
+<b class="fc">&nbsp;        return lemma.substring(0, lemma.length() - 1) + word.substring(SUFFIX_MARKER.length() * 2);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      return lemma + word.substring(SUFFIX_MARKER.length());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return word;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static ObjectOpenHashSet&lt;String&gt; collectTags(Map&lt;TaggedWord, List&lt;String&gt;&gt; mapping) {
+<b class="fc">&nbsp;    ObjectOpenHashSet&lt;String&gt; tags = new ObjectOpenHashSet&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (TaggedWord tw : mapping.keySet()) {</b>
+<b class="fc">&nbsp;      tags.add(intern(tw.getPosTag()));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    tags.trim();</b>
+<b class="fc">&nbsp;    return tags;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static int hashCode(String lemma, String posTag) {
+<b class="fc">&nbsp;    return lemma.hashCode() * 31 + posTag.hashCode();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Retrieve all the possible POS values.
+&nbsp;   */
+&nbsp;  public Set&lt;String&gt; getPossibleTags() {
+<b class="fc">&nbsp;    return possibleTags;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Look up a word&#39;s inflected form as specified by the lemma and POS tag.
+&nbsp;   *
+&nbsp;   * @param lemma the lemma to inflect.
+&nbsp;   * @param posTag the required POS tag.
+&nbsp;   * @return a list with all the inflected forms of the specified lemma having the specified POS tag.
+&nbsp;   * If no inflected form is found, the function returns &lt;code&gt;null&lt;/code&gt;.
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public List&lt;String&gt; lookup(String lemma, String posTag) {
+<b class="fc">&nbsp;    if (lemma == null || posTag == null) {</b>
+<b class="fc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    int value = map.get(hashCode(lemma, posTag));</b>
+<b class="fc">&nbsp;    if (value == 0) return null;</b>
+&nbsp;
+<b class="fc">&nbsp;    int offset = (value &gt;&gt;&gt; OFFSET_SHIFT) * ENTRY_SIZE;</b>
+<b class="fc">&nbsp;    int length = value &amp; MAX_LENGTH;</b>
+<b class="fc">&nbsp;    List&lt;String&gt; result = new ArrayList&lt;&gt;(length);</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; length; i++) {</b>
+<b class="pc">&nbsp;      if (lemma.equals(data[offset + i * ENTRY_SIZE]) &amp;&amp; posTag.equals(data[offset + i * ENTRY_SIZE + 1])) {</b>
+<b class="fc">&nbsp;        String word = data[offset + i * ENTRY_SIZE + 2];</b>
+<b class="fc">&nbsp;        result.add(decodeForm(lemma, word));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static Map&lt;TaggedWord, List&lt;String&gt;&gt; loadMapping(InputStream inputStream) throws IOException {
+<b class="fc">&nbsp;    Map&lt;TaggedWord, List&lt;String&gt;&gt; mapping = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    try (Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8)) {</b>
+<b class="fc">&nbsp;      String separator = DEFAULT_SEPARATOR;</b>
+<b class="fc">&nbsp;      while (scanner.hasNextLine()) {</b>
+<b class="fc">&nbsp;        String line = scanner.nextLine();</b>
+<b class="fc">&nbsp;        line = line.trim();</b>
+<b class="fc">&nbsp;        if (line.startsWith(&quot;#separatorRegExp=&quot;)) {</b>
+<b class="fc">&nbsp;          separator = line.replace(&quot;#separatorRegExp=&quot;, &quot;&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (StringTools.isEmpty(line) || line.charAt(0) == &#39;#&#39;) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="fc">&nbsp;        line = StringUtils.substringBefore(line, &quot;#&quot;).trim();</b>
+<b class="fc">&nbsp;        String[] parts = line.split(separator);</b>
+<b class="pc">&nbsp;        if (parts.length != 3) {</b>
+<b class="nc">&nbsp;          throw new IOException(&quot;Unknown line format when loading manual synthesizer dictionary, &quot; +</b>
+&nbsp;            &quot;expected 3 parts separated by &#39;&quot; + separator + &quot;&#39;, found &quot; + parts.length + &quot;: &#39;&quot; + line + &quot;&#39;&quot;);
+&nbsp;        }
+<b class="fc">&nbsp;        String form = parts[0];</b>
+<b class="fc">&nbsp;        String lemma = parts[1];</b>
+<b class="fc">&nbsp;        if (form.equals(lemma)) {</b>
+<b class="fc">&nbsp;          form = lemma;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        lemma = intern(lemma);</b>
+<b class="fc">&nbsp;        String posTag = intern(parts[2]);</b>
+<b class="fc">&nbsp;        mapping.computeIfAbsent(new TaggedWord(lemma, posTag), __ -&gt; new ArrayList&lt;&gt;()).add(form);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return mapping;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

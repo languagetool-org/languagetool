@@ -1,0 +1,355 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArabicTransVerbRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ar</a>
+</div>
+
+<h1>Coverage Summary for Class: ArabicTransVerbRule (org.languagetool.rules.ar)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArabicTransVerbRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/84)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2021 Sohaib Afifi, Taha Zerrouki
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ar;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.language.Arabic;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.synthesis.ar.ArabicSynthesizer;
+&nbsp;import org.languagetool.tagging.ar.ArabicTagManager;
+&nbsp;import org.languagetool.tagging.ar.ArabicTagger;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
+&nbsp;
+&nbsp;  public static final String AR_VERB_TRANS_INDIRECT_REPLACE = &quot;AR_VERB_TRANSITIVE_IINDIRECT&quot;;
+&nbsp;
+&nbsp;  private static final String FILE_NAME = &quot;/ar/verb_trans_to_untrans2.txt&quot;;
+<b class="nc">&nbsp;  private static final Locale AR_LOCALE = new Locale(&quot;ar&quot;);</b>
+&nbsp;
+&nbsp;  private final ArabicTagger tagger;
+&nbsp;  private final ArabicTagManager tagmanager;
+&nbsp;  private final List&lt;Map&lt;String, SuggestionWithMessage&gt;&gt; wrongWords;
+&nbsp;
+&nbsp;  public ArabicTransVerbRule(ResourceBundle messages) {
+<b class="nc">&nbsp;    super(messages, new Arabic());</b>
+<b class="nc">&nbsp;    tagger = new ArabicTagger();</b>
+<b class="nc">&nbsp;    tagger.enableNewStylePronounTag();</b>
+<b class="nc">&nbsp;    tagmanager = new ArabicTagManager();</b>
+&nbsp;
+<b class="nc">&nbsp;    super.setCategory(Categories.MISC.getCategory(messages));</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;The train arrived &lt;marker&gt;a hour&lt;/marker&gt; ago.&quot;),</b>
+<b class="nc">&nbsp;      Example.fixed(&quot;The train arrived &lt;marker&gt;an hour&lt;/marker&gt; ago.&quot;));</b>
+&nbsp;
+&nbsp;    // get wrong words from resource file
+<b class="nc">&nbsp;    wrongWords = getWrongWords();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return AR_VERB_TRANS_INDIRECT_REPLACE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;َTransitive verbs corrected to indirect transitive&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final List&lt;String&gt; getFileNames() {
+<b class="nc">&nbsp;    return Collections.singletonList(FILE_NAME);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getShort() {
+<b class="nc">&nbsp;    return &quot;أفعال متعدية بحرف، يخطئ في تعديتها&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getMessage() {
+<b class="nc">&nbsp;    return &quot;&#39;$match&#39; الفعل خاطئ في التعدية بحرف: $suggestions&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getSuggestionsSeparator() {
+<b class="nc">&nbsp;    return &quot; أو &quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Locale getLocale() {
+<b class="nc">&nbsp;    return AR_LOCALE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (wrongWords.size() == 0) {</b>
+<b class="nc">&nbsp;      return toRuleMatchArray(ruleMatches);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    int prevTokenIndex = 0;</b>
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {  // ignoring token 0, i.e., SENT_START</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings token = tokens[i];</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings prevToken = prevTokenIndex &gt; 0 ? tokens[prevTokenIndex] : null;</b>
+<b class="nc">&nbsp;      String prevTokenStr = prevTokenIndex &gt; 0 ? tokens[prevTokenIndex].getToken() : null;</b>
+&nbsp;
+<b class="nc">&nbsp;      if (prevTokenStr != null) {</b>
+&nbsp;        // test if the first token is a verb
+<b class="nc">&nbsp;        boolean is_attached_verb_transitive = isAttachedTransitiveVerb(prevToken);</b>
+&nbsp;
+&nbsp;        // test if the preposition token is suitable for verb token (previous)
+<b class="nc">&nbsp;        List&lt;String&gt; prepositions = getProperPrepositionForTransitiveVerb(prevToken);</b>
+&nbsp;
+<b class="nc">&nbsp;        boolean is_right_preposition = isRightPreposition(token, prepositions);</b>
+&nbsp;
+&nbsp;        // the verb is attached and the next token is not the suitable preposition
+&nbsp;        // we give the correct new form
+<b class="nc">&nbsp;        if (is_attached_verb_transitive &amp;&amp; !is_right_preposition) {</b>
+<b class="nc">&nbsp;          String verb = getCorrectVerbForm(tokens[prevTokenIndex]);</b>
+&nbsp;          // generate suggestion according to suggested prepositions
+&nbsp;          // FIXME: test all suggestions
+<b class="nc">&nbsp;          String newPreposition = prepositions.get(0);</b>
+<b class="nc">&nbsp;          String preposition = getCorrectPrepositionForm(newPreposition, prevToken);</b>
+&nbsp;
+<b class="nc">&nbsp;          String replacement = verb + &quot; &quot; + preposition;</b>
+<b class="nc">&nbsp;          String msg = &quot;قل &lt;suggestion&gt;&quot; + replacement + &quot;&lt;/suggestion&gt; بدلا من &#39;&quot; + prevTokenStr + &quot;&#39; لأنّ الفعل &quot; +</b>
+&nbsp;            &quot; متعد بحرف  .&quot;;
+<b class="nc">&nbsp;          RuleMatch match = new RuleMatch(</b>
+<b class="nc">&nbsp;            this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[prevTokenIndex].getEndPos(),</b>
+<b class="nc">&nbsp;            tokens[prevTokenIndex].getStartPos(), token.getEndPos(), msg, &quot;خطأ في الفعل المتعدي بحرف&quot;);</b>
+<b class="nc">&nbsp;          ruleMatches.add(match);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if (isAttachedTransitiveVerb(token)) {</b>
+<b class="nc">&nbsp;        prevTokenIndex = i;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        prevTokenIndex = 0;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isAttachedTransitiveVerb(AnalyzedTokenReadings mytoken) {
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; verbTokenList = mytoken.getReadings();</b>
+&nbsp;
+<b class="nc">&nbsp;    for (AnalyzedToken verbTok : verbTokenList) {</b>
+<b class="nc">&nbsp;      String verbLemma = verbTok.getLemma();</b>
+<b class="nc">&nbsp;      String verbPostag = verbTok.getPOSTag();</b>
+&nbsp;
+&nbsp;      // if postag is attached
+&nbsp;      // test if verb is in the verb list
+<b class="nc">&nbsp;      if (verbPostag != null)// &amp;&amp; verbPostag.endsWith(&quot;H&quot;))</b>
+&nbsp;      {
+&nbsp;        // lookup in WrongWords
+<b class="nc">&nbsp;        SuggestionWithMessage verbLemmaMatch = wrongWords.get(wrongWords.size() - 1).get(verbLemma);</b>
+&nbsp;        // The lemma is found in the dictionary file
+<b class="nc">&nbsp;        if (verbLemmaMatch != null)</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* if the word is a transitive verb, we got proper preposition inorder to test it*/
+&nbsp;  private List&lt;String&gt; getProperPrepositionForTransitiveVerb(AnalyzedTokenReadings mytoken) {
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; verbTokenList = mytoken.getReadings();</b>
+&nbsp;
+&nbsp;    // keep the suitable postags
+<b class="nc">&nbsp;    List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    for (AnalyzedToken verbTok : verbTokenList) {</b>
+<b class="nc">&nbsp;      String verbLemma = verbTok.getLemma();</b>
+<b class="nc">&nbsp;      String verbPostag = verbTok.getPOSTag();</b>
+&nbsp;
+&nbsp;      // if postag is attached
+&nbsp;      // test if verb is in the verb list
+<b class="nc">&nbsp;      if (verbPostag != null)</b>
+&nbsp;      {
+&nbsp;        // lookup in WrongWords
+<b class="nc">&nbsp;        SuggestionWithMessage verbLemmaMatch = wrongWords.get(wrongWords.size() - 1).get(verbLemma);</b>
+&nbsp;        // The lemma is found in the dictionary file
+<b class="nc">&nbsp;        if (verbLemmaMatch != null) {</b>
+<b class="nc">&nbsp;          replacements = Arrays.asList(verbLemmaMatch.getSuggestion().split(&quot;\\|&quot;));</b>
+<b class="nc">&nbsp;          return replacements;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return replacements;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean isRightPreposition(AnalyzedTokenReadings nextToken, List&lt;String&gt; prepositionList) {
+&nbsp;    //FIXME: test if the next token  is the suitable preposition for the previous token as verbtoken
+<b class="nc">&nbsp;    String nextTokenStr = nextToken.getReadings().get(0).getLemma();</b>
+<b class="nc">&nbsp;    return prepositionList.contains(nextTokenStr);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getCorrectVerbForm(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    return generateUnattachedNewForm(token);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getCorrectPrepositionForm(String prepositionLemma, AnalyzedTokenReadings prevtoken) {
+<b class="nc">&nbsp;    return generateAttachedNewForm(prepositionLemma, prevtoken);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* generate a new form according to a specific postag*/
+&nbsp;  private String generateNewForm(String word, String posTag, char flag) {
+&nbsp;    // generate new from word form
+<b class="nc">&nbsp;    String newposTag = tagmanager.setFlag(posTag, &quot;PRONOUN&quot;, flag);</b>
+&nbsp;    // FIXME: remove the specific flag for option D
+<b class="nc">&nbsp;    if (flag != &#39;-&#39;)</b>
+<b class="nc">&nbsp;      newposTag = tagmanager.setFlag(newposTag, &quot;OPTION&quot;, &#39;D&#39;);</b>
+&nbsp;    // generate the new preposition according to modified postag
+<b class="nc">&nbsp;    AnalyzedToken prepAToken = new AnalyzedToken(word, newposTag, word);</b>
+<b class="nc">&nbsp;    String[] newwordList = ArabicSynthesizer.INSTANCE.synthesize(prepAToken, newposTag);</b>
+<b class="nc">&nbsp;    String newWord = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (newwordList.length != 0) {</b>
+<b class="nc">&nbsp;      newWord = newwordList[0];</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return newWord;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* generate a new form according to a specific postag, this form is Un-Attached*/
+&nbsp;  private String generateUnattachedNewForm(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    String lemma = token.getReadings().get(0).getLemma();</b>
+<b class="nc">&nbsp;    String postag = token.getReadings().get(0).getPOSTag();</b>
+<b class="nc">&nbsp;    return generateNewForm(lemma, postag, &#39;-&#39;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* generate a new form according to a specific postag, this form is Attached*/
+&nbsp;  private String generateAttachedNewForm(String prepositionLemma, AnalyzedTokenReadings prevtoken) {
+&nbsp;    // FIXME ; generate multiple cases
+<b class="nc">&nbsp;    String postag = &quot;PR-;---;---&quot;;</b>
+<b class="nc">&nbsp;    String prevPosTag = prevtoken.getReadings().get(0).getPOSTag();</b>
+<b class="nc">&nbsp;    char flag = tagmanager.getFlag(prevPosTag, &quot;PRONOUN&quot;);</b>
+<b class="nc">&nbsp;    return generateNewForm(prepositionLemma, postag, flag);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

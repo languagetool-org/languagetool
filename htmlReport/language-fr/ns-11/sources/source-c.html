@@ -1,0 +1,183 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SwebleWikipediaTextFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.wikipedia</a>
+</div>
+
+<h1>Coverage Summary for Class: SwebleWikipediaTextFilter (org.languagetool.dev.wikipedia)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SwebleWikipediaTextFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2011 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.wikipedia;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;//import org.sweble.wikitext.engine.CompiledPage;
+&nbsp;//import org.sweble.wikitext.engine.Compiler;
+&nbsp;import org.sweble.wikitext.engine.PageId;
+&nbsp;import org.sweble.wikitext.engine.PageTitle;
+&nbsp;//import org.sweble.wikitext.engine.utils.SimpleWikiConfiguration;
+&nbsp;
+&nbsp;/**
+&nbsp; * Convert Wikipedia syntax to HTML using Sweble.
+&nbsp; */
+&nbsp;public class SwebleWikipediaTextFilter implements TextMapFilter {
+&nbsp;
+&nbsp;  private static final int WRAP_COL = Integer.MAX_VALUE;
+&nbsp;
+&nbsp;  //private final SimpleWikiConfiguration config;
+&nbsp;//  private final Compiler compiler;
+&nbsp;//  private final PageId pageId;
+&nbsp;  
+<b class="nc">&nbsp;  private boolean enableMapping = true;</b>
+&nbsp;  
+<b class="nc">&nbsp;  public SwebleWikipediaTextFilter() {</b>
+&nbsp;//    try {
+&nbsp;//      config = new SimpleWikiConfiguration(
+&nbsp;//              &quot;classpath:/org/languagetool/resource/dev/SimpleWikiConfiguration.xml&quot;);
+&nbsp;//      compiler = new Compiler(config);
+&nbsp;//      PageTitle pageTitle = PageTitle.make(config, &quot;fileTitle&quot;);
+&nbsp;//      pageId = new PageId(pageTitle, -1);
+&nbsp;//    } catch (Exception e) {
+&nbsp;//      throw new RuntimeException(&quot;Could not set up text filter&quot;, e);
+&nbsp;//    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public PlainTextMapping filter(String wikiText) {
+&nbsp;//    try {
+&nbsp;//      CompiledPage compiledPage = compiler.postprocess(pageId, wikiText, null);
+&nbsp;//      TextConverter textConverter = new TextConverter(config, WRAP_COL);
+&nbsp;//      textConverter.enableMapping(enableMapping);
+&nbsp;//      String plainText = (String) textConverter.go(compiledPage.getPage());
+&nbsp;//      if (enableMapping) {
+&nbsp;//        return new PlainTextMapping(plainText, textConverter.getMapping());
+&nbsp;//      } else {
+&nbsp;//        return new PlainTextMapping(plainText, null);
+&nbsp;//      }
+&nbsp;//    } catch (Exception e) {
+&nbsp;//      throw new RuntimeException(&quot;Could not extract plain text from MediaWiki syntax: &#39;&quot;
+&nbsp;//              + StringUtils.abbreviate(wikiText, 500) + &quot;&#39;&quot;, e);
+&nbsp;//    }
+<b class="nc">&nbsp;    return new PlainTextMapping(&quot;&quot;, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set this to {@code false} for better performance. The result of {@link #filter(String)}
+&nbsp;   * will then have a {@code null} mapping.
+&nbsp;   */
+&nbsp;  public void enableMapping(boolean enable) {
+<b class="nc">&nbsp;    enableMapping = enable;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

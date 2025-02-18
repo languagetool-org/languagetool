@@ -1,0 +1,238 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PartialPosTagFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: PartialPosTagFilter (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PartialPosTagFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2.5%
+  </span>
+  <span class="absValue">
+    (1/40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Filters rule matches so that only matches are kept where a &lt;em&gt;part of the
+&nbsp; * token&lt;/em&gt; has a given POS tag. Expects these arguments:
+&nbsp; * &lt;ul&gt;
+&nbsp; *   &lt;li&gt;{@code no}: an integer of the matching &#39;token&#39; position to be considered. Starts with 1.&lt;/li&gt;
+&nbsp; *   &lt;li&gt;{@code regexp}: the regular expression to specify the part of the token to be considered.
+&nbsp; *       For example, &lt;tt&gt;(?:in|un)(.*)&lt;/tt&gt; will consider the part of the token that comes after &#39;in&#39; or &#39;un&#39;.
+&nbsp; *       Note that always the first group is considered, so if you need more parenthesis you need to use
+&nbsp; *       non-capturing groups &lt;tt&gt;(?:...)&lt;/tt&gt;, as in the example.&lt;/li&gt;
+&nbsp; *   &lt;li&gt;{@code postag_regexp}: a regular expression to match the POS tag of the part of the word, e.g. &lt;tt&gt;VB.?&lt;/tt&gt;
+&nbsp; *       to match any verb in English.&lt;/li&gt;
+&nbsp; *   &lt;li&gt;{@code negate_postag}: if value is yes, then the regexp is negated (not negated if not specified).&lt;/li&gt;
+&nbsp; *   &lt;li&gt;{@code two_groups_regexp}: if value is yes, then the regexp must contain 2 groups (if not specified - 1 groups).&lt;/li&gt;
+&nbsp; *   &lt;li&gt;{@code prefix}: a string with prefix that is added to token (since 5.0).&lt;/li&gt;
+&nbsp; *   &lt;li&gt;{@code suffix}: a string with suffix that is added to token (since 5.0).&lt;/li&gt;
+&nbsp; * &lt;/ul&gt;
+&nbsp; * @since 2.8
+&nbsp; */
+<b class="fc">&nbsp;public abstract class PartialPosTagFilter extends RuleFilter {</b>
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  protected abstract List&lt;AnalyzedTokenReadings&gt; tag(String token);
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) {
+<b class="nc">&nbsp;    if (!(args.containsKey(&quot;no&quot;) &amp;&amp; args.containsKey(&quot;regexp&quot;) &amp;&amp; args.containsKey(&quot;postag_regexp&quot;))) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Set &#39;no&#39;, &#39;regexp&#39; and &#39;postag_regexp&#39; for filter &quot; + PartialPosTagFilter.class.getSimpleName());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int tokenPos = Integer.parseInt(args.get(&quot;no&quot;));</b>
+<b class="nc">&nbsp;    Pattern pattern = Pattern.compile(args.get(&quot;regexp&quot;));</b>
+<b class="nc">&nbsp;    String requiredTagRegexp = args.get(&quot;postag_regexp&quot;);</b>
+<b class="nc">&nbsp;    boolean negatePos = args.containsKey(&quot;negate_pos&quot;);</b>
+<b class="nc">&nbsp;    boolean two_groups_regexp = args.containsKey(&quot;two_groups_regexp&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;      String prefix = &quot;&quot;;</b>
+<b class="nc">&nbsp;      String suffix = &quot;&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;      if (args.containsKey(&quot;prefix&quot;)) {</b>
+<b class="nc">&nbsp;          prefix = args.get(&quot;prefix&quot;);</b>
+&nbsp;      };
+&nbsp;
+<b class="nc">&nbsp;      if (args.containsKey(&quot;suffix&quot;)) {</b>
+<b class="nc">&nbsp;          suffix = args.get(&quot;suffix&quot;);</b>
+&nbsp;      };
+&nbsp;
+&nbsp;     
+<b class="nc">&nbsp;    String token = prefix + patternTokens[tokenPos - 1].getToken() + suffix;</b>
+&nbsp;    
+<b class="nc">&nbsp;    Matcher matcher = pattern.matcher(token);</b>
+<b class="nc">&nbsp;    if ((matcher.groupCount() != 1) &amp;&amp; !(two_groups_regexp)) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Got &quot; + matcher.groupCount() + &quot; groups for regex &#39;&quot; + pattern.pattern() + &quot;&#39;, expected 1&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if ((matcher.groupCount() != 2) &amp;&amp; (two_groups_regexp)) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Got &quot; + matcher.groupCount() + &quot; groups for regex &#39;&quot; + pattern.pattern() + &quot;&#39;, expected 2&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (matcher.matches()) {</b>
+<b class="nc">&nbsp;      String partialToken = matcher.group(1);</b>
+<b class="nc">&nbsp;      if (matcher.groupCount() == 2) {</b>
+<b class="nc">&nbsp;        partialToken += matcher.group(2);</b>
+&nbsp;      } 
+<b class="nc">&nbsp;      List&lt;AnalyzedTokenReadings&gt; tags = tag(partialToken);</b>
+<b class="nc">&nbsp;      if (tags != null &amp;&amp; partialTagHasRequiredTag(tags, requiredTagRegexp, negatePos)) {</b>
+<b class="nc">&nbsp;        return match;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean partialTagHasRequiredTag(List&lt;AnalyzedTokenReadings&gt; tags, String requiredTagRegexp, boolean negatePos) {
+&nbsp;    // Without negate_pos=yes: return true if any postag matches the regexp.
+&nbsp;    // With negate_pos=yes:    return true if there are postag and none them matches the regexp.
+<b class="nc">&nbsp;    int postagCount = 0;</b>
+<b class="nc">&nbsp;    for (AnalyzedTokenReadings tag : tags) {</b>
+<b class="nc">&nbsp;      for (AnalyzedToken analyzedToken : tag.getReadings()) {</b>
+<b class="nc">&nbsp;        if (analyzedToken.getPOSTag() != null) {</b>
+<b class="nc">&nbsp;          if (negatePos) {</b>
+<b class="nc">&nbsp;            postagCount++;</b>
+<b class="nc">&nbsp;            if (analyzedToken.getPOSTag().matches(requiredTagRegexp)) {</b>
+<b class="nc">&nbsp;              return false;</b>
+&nbsp;            }
+&nbsp;          } else {
+<b class="nc">&nbsp;            if (analyzedToken.getPOSTag().matches(requiredTagRegexp)) {</b>
+<b class="nc">&nbsp;              return true;</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return postagCount == 0 ? false : negatePos;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

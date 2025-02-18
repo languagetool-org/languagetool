@@ -1,0 +1,232 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UpperCaseNgramRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: UpperCaseNgramRule (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UpperCaseNgramRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.ngrams.Probability;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;import static org.languagetool.tools.StringTools.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Finds some(!) words written uppercase that should be spelled lowercase and vice versa.
+&nbsp; * @since 5.0
+&nbsp; */
+&nbsp;public class UpperCaseNgramRule extends Rule {
+&nbsp;
+&nbsp;  private static final int THRESHOLD = 50;
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; relevantWords = new HashSet&lt;&gt;(Arrays.asList(</b>
+&nbsp;    &quot;tage&quot;, &quot;tagen&quot;,
+&nbsp;    &quot;Tage&quot;, &quot;Tagen&quot;
+&nbsp;  ));
+&nbsp;
+&nbsp;  private final LanguageModel lm;
+&nbsp;
+&nbsp;  public UpperCaseNgramRule(ResourceBundle messages, LanguageModel lm, Language lang) {
+<b class="nc">&nbsp;    super(messages);</b>
+&nbsp;    /*
+&nbsp;    TODO: potential extension - too many false alarms for now...
+&nbsp;    String path = &quot;/de/ambiguous_case.txt&quot;;
+&nbsp;    List&lt;String&gt; lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
+&nbsp;    for (String line : lines) {
+&nbsp;      if (line.isEmpty() || line.startsWith(&quot;#&quot;)) {
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;      if (startsWithLowercase(line)) {
+&nbsp;        throw new RuntimeException(&quot;Only entries with uppercase first chars expected in &quot; + path + &quot;: &quot; + line);
+&nbsp;      }
+&nbsp;      relevantWords.add(line);
+&nbsp;      relevantWords.add(lowercaseFirstChar(line));
+&nbsp;    }*/
+<b class="nc">&nbsp;    super.setCategory(Categories.CASING.getCategory(messages));</b>
+<b class="nc">&nbsp;    this.lm = Objects.requireNonNull(lm);</b>
+<b class="nc">&nbsp;    setDefaultTempOff();  // TODO</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;Die Suche endete nach 15 &lt;marker&gt;tagen&lt;/marker&gt;.&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;Die Suche endete nach 15 &lt;marker&gt;Tagen&lt;/marker&gt;.&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final String getId() {
+<b class="nc">&nbsp;    return &quot;DE_UPPER_CASE_NGRAM&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Prüft Wörter, ob sie fälschlich groß- oder fälschlich kleingeschrieben sind&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; matches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings token = tokens[i];</b>
+<b class="nc">&nbsp;      String tokenStr = token.getToken();</b>
+<b class="nc">&nbsp;      if (i + 1 &lt; tokens.length &amp;&amp; relevantWords.contains(tokenStr) &amp;&amp; !isAllUppercase(tokenStr)) {</b>
+<b class="nc">&nbsp;        String ucToken = uppercaseFirstChar(tokenStr);</b>
+<b class="nc">&nbsp;        String lcToken = lowercaseFirstChar(tokenStr);</b>
+<b class="nc">&nbsp;        List&lt;String&gt; ucList = Arrays.asList(tokens[i - 1].getToken(), ucToken, tokens[i + 1].getToken());</b>
+<b class="nc">&nbsp;        List&lt;String&gt; lcList = Arrays.asList(tokens[i - 1].getToken(), lcToken, tokens[i + 1].getToken());</b>
+<b class="nc">&nbsp;        Probability ucProb = lm.getPseudoProbability(ucList);</b>
+<b class="nc">&nbsp;        Probability lcProb = lm.getPseudoProbability(lcList);</b>
+<b class="nc">&nbsp;        if (startsWithUppercase(tokenStr)) {</b>
+<b class="nc">&nbsp;          double ratio = lcProb.getProb() / ucProb.getProb();</b>
+<b class="nc">&nbsp;          if (ratio &gt; THRESHOLD) {</b>
+<b class="nc">&nbsp;            String msg = &quot;Meinten Sie das Verb &#39;&quot; + lcToken + &quot;&#39;? Nur Nomen und Eigennamen werden großgeschrieben.&quot;;</b>
+<b class="nc">&nbsp;            RuleMatch match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), msg);</b>
+<b class="nc">&nbsp;            match.setSuggestedReplacement(lcToken);</b>
+<b class="nc">&nbsp;            matches.add(match);</b>
+&nbsp;          }
+&nbsp;        } else {
+<b class="nc">&nbsp;          double ratio = ucProb.getProb() / lcProb.getProb();</b>
+<b class="nc">&nbsp;          if (ratio &gt; THRESHOLD) {</b>
+<b class="nc">&nbsp;            String msg = &quot;Meinten Sie das Nomen &#39;&quot; + ucToken + &quot;&#39;? Nomen und Eigennamen werden großgeschrieben.&quot;;</b>
+<b class="nc">&nbsp;            RuleMatch match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), msg);</b>
+<b class="nc">&nbsp;            match.setSuggestedReplacement(ucToken);</b>
+<b class="nc">&nbsp;            matches.add(match);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(matches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

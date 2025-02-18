@@ -1,0 +1,289 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CaseGovernmentHelper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: CaseGovernmentHelper (org.languagetool.rules.uk)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CaseGovernmentHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    22.2%
+  </span>
+  <span class="absValue">
+    (2/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    15.2%
+  </span>
+  <span class="absValue">
+    (10/66)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (19/76)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.rules.uk;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.LinkedHashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Map.Entry;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.tagging.uk.PosTagHelper;
+&nbsp;
+<b class="nc">&nbsp;public class CaseGovernmentHelper {</b>
+&nbsp;
+<b class="fc">&nbsp;  public static final Map&lt;String, Set&lt;String&gt;&gt; CASE_GOVERNMENT_MAP = loadMap(&quot;/uk/case_government.txt&quot;);</b>
+<b class="fc">&nbsp;  public static final Map&lt;String, Set&lt;String&gt;&gt; DERIVATIVES_MAP = loadMap(&quot;/uk/derivats.txt&quot;);</b>
+&nbsp;
+&nbsp;  static {
+<b class="fc">&nbsp;    CASE_GOVERNMENT_MAP.put(&quot;згідно з&quot;, new HashSet&lt;&gt;(Arrays.asList(&quot;v_oru&quot;)));</b>
+&nbsp;    
+<b class="fc">&nbsp;    for(Entry&lt;String, Set&lt;String&gt;&gt; entry: DERIVATIVES_MAP.entrySet()) {</b>
+<b class="fc">&nbsp;      HashSet&lt;String&gt; set = new HashSet&lt;&gt;();</b>
+<b class="fc">&nbsp;      CASE_GOVERNMENT_MAP.put(entry.getKey(), set);</b>
+<b class="fc">&nbsp;      for(String verb: entry.getValue()) {</b>
+<b class="fc">&nbsp;        Set&lt;String&gt; rvs = CASE_GOVERNMENT_MAP.get(verb);</b>
+<b class="fc">&nbsp;        if( rvs != null ) {</b>
+<b class="fc">&nbsp;          set.addAll(rvs);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static Map&lt;String, Set&lt;String&gt;&gt; loadMap(String path) {
+<b class="fc">&nbsp;    Map&lt;String, Set&lt;String&gt;&gt; result = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    List&lt;String&gt; lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);</b>
+<b class="fc">&nbsp;    for (String line : lines) {</b>
+<b class="fc">&nbsp;      String[] parts = line.split(&quot; &quot;);</b>
+<b class="fc">&nbsp;      String[] vidm = parts[1].split(&quot;:&quot;);</b>
+&nbsp;      
+<b class="fc">&nbsp;      if( result.containsKey(parts[0]) ) {</b>
+<b class="fc">&nbsp;        result.get(parts[0]).addAll(Arrays.asList(vidm));</b>
+&nbsp;      }
+&nbsp;      else {
+<b class="fc">&nbsp;        result.put(parts[0], new LinkedHashSet&lt;&gt;(Arrays.asList(vidm)));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    //        System.err.println(&quot;Found case governments: &quot; + result.size());
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasCaseGovernment(AnalyzedTokenReadings analyzedTokenReadings, String rvCase) {
+<b class="nc">&nbsp;    return hasCaseGovernment(analyzedTokenReadings, null, rvCase);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static boolean hasCaseGovernment(AnalyzedTokenReadings analyzedTokenReadings, Pattern startPosTag, String rvCase) {
+<b class="nc">&nbsp;    return getCaseGovernments(analyzedTokenReadings, startPosTag).contains(rvCase);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static Set&lt;String&gt; getCaseGovernments(AnalyzedTokenReadings analyzedTokenReadings, String startPosTag) {
+<b class="nc">&nbsp;    if( &quot;verb&quot;.equals(startPosTag) &amp;&amp; PosTagHelper.hasPosTagStart(analyzedTokenReadings.getReadings().get(0), &quot;advp&quot;) ) {</b>
+<b class="nc">&nbsp;      startPosTag = &quot;advp&quot;;</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    LinkedHashSet&lt;String&gt; list = new LinkedHashSet&lt;&gt;();</b>
+&nbsp;    
+<b class="nc">&nbsp;    list.addAll(getCustomGovs(analyzedTokenReadings));</b>
+&nbsp;
+<b class="nc">&nbsp;    for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {</b>
+<b class="nc">&nbsp;      if( ! token.hasNoTag()</b>
+<b class="nc">&nbsp;          &amp;&amp; (token.getPOSTag() != null &amp;&amp; token.getPOSTag().startsWith(startPosTag)</b>
+<b class="nc">&nbsp;              || (startPosTag.equals(&quot;prep&quot;) &amp;&amp; token.getPOSTag() != null &amp;&amp; token.getPOSTag().equals(&quot;&lt;prep&gt;&quot;)) )</b>
+<b class="nc">&nbsp;          &amp;&amp; CASE_GOVERNMENT_MAP.containsKey(token.getLemma()) ) {</b>
+&nbsp;
+<b class="nc">&nbsp;        Set&lt;String&gt; rvList = CASE_GOVERNMENT_MAP.get(token.getLemma());</b>
+<b class="nc">&nbsp;        list.addAll(rvList);</b>
+&nbsp;
+<b class="nc">&nbsp;        if( token.getPOSTag().contains(&quot;adjp:pasv&quot;) ) {</b>
+<b class="nc">&nbsp;          rvList.add(&quot;v_oru&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return list;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static Set&lt;String&gt; getCaseGovernments(AnalyzedTokenReadings analyzedTokenReadings, Pattern posTag) {
+&nbsp;//    if( &quot;verb&quot;.equals(startPosTag) &amp;&amp; PosTagHelper.hasPosTagStart(analyzedTokenReadings.getReadings().get(0), &quot;advp&quot;) ) {
+&nbsp;//      startPosTag = &quot;advp&quot;;
+&nbsp;//    }
+&nbsp;
+<b class="nc">&nbsp;    LinkedHashSet&lt;String&gt; list = new LinkedHashSet&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    list.addAll(getCustomGovs(analyzedTokenReadings));</b>
+&nbsp;    
+<b class="nc">&nbsp;    for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {</b>
+<b class="nc">&nbsp;      if( token.hasNoTag() )</b>
+&nbsp;        continue;
+&nbsp;        
+<b class="nc">&nbsp;      if( posTag == null ||</b>
+<b class="nc">&nbsp;           (token.getPOSTag() != null &amp;&amp; posTag.matcher(token.getPOSTag()).matches()) ) {</b>
+&nbsp;
+<b class="nc">&nbsp;        String vLemma = token.getLemma();</b>
+<b class="nc">&nbsp;        if ( ! CASE_GOVERNMENT_MAP.containsKey(vLemma) ) {</b>
+<b class="nc">&nbsp;          if( token.getPOSTag() != null &amp;&amp; token.getPOSTag().startsWith(&quot;advp&quot;) ) {</b>
+<b class="nc">&nbsp;            vLemma = getAdvpVerbLemma(token);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if ( CASE_GOVERNMENT_MAP.containsKey(vLemma) ) {</b>
+<b class="nc">&nbsp;          Set&lt;String&gt; rvList = CASE_GOVERNMENT_MAP.get(vLemma);</b>
+<b class="nc">&nbsp;          list.addAll(rvList);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( PosTagHelper.hasPosTagPart(token, &quot;adjp:pasv&quot;) ) {</b>
+<b class="nc">&nbsp;        list.add(&quot;v_oru&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return list;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static ArrayList&lt;String&gt; getCustomGovs(AnalyzedTokenReadings analyzedTokenReadings) {
+<b class="nc">&nbsp;    ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();</b>
+&nbsp;    // special case - only some inflections of the verbs
+<b class="nc">&nbsp;    if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList(&quot;мати&quot;), Pattern.compile(&quot;verb:imperf:(futr|past|pres).*&quot;)) ) {</b>
+<b class="nc">&nbsp;      list.add(&quot;v_inf&quot;);</b>
+&nbsp;    } // є, буде, було
+<b class="nc">&nbsp;    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList(&quot;бути&quot;), Pattern.compile(&quot;verb:imperf:(futr|past:n|pres:s:3).*&quot;)) ) {</b>
+<b class="nc">&nbsp;      list.add(&quot;v_inf&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList(</b>
+&nbsp;        &quot;вимагатися&quot;, &quot;випадати&quot;, &quot;випасти&quot;, &quot;личити&quot;, &quot;належати&quot;, &quot;тягнути&quot;, &quot;щастити&quot;,
+&nbsp;        &quot;плануватися&quot;, &quot;рекомендуватися&quot;, &quot;пропонуватися&quot;, &quot;сподобатися&quot;, &quot;плануватися&quot;, &quot;прийтися&quot;,
+&nbsp;        &quot;удатися&quot;, &quot;годитися&quot;, &quot;доводитися&quot;), 
+<b class="nc">&nbsp;        Pattern.compile(&quot;verb.*(pres:s:3|futr:s:3|past:n).*&quot;)) ) {</b>
+<b class="nc">&nbsp;      list.add(&quot;v_inf&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList(&quot;належить&quot;), </b>
+<b class="nc">&nbsp;        Pattern.compile(&quot;verb:imperf:inf.*&quot;)) ) {</b>
+<b class="nc">&nbsp;      list.add(&quot;v_inf&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Pattern.compile(&quot;(по)?більшати|(по)?меншати&quot;), </b>
+<b class="nc">&nbsp;        Pattern.compile(&quot;verb.*(inf|pres:s:3|futr:s:3|past:n).*&quot;)) ) {</b>
+<b class="nc">&nbsp;      list.add(&quot;v_rod&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return list;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String getAdvpVerbLemma(AnalyzedToken token) {
+<b class="nc">&nbsp;    String vLemma = token.getLemma();</b>
+<b class="nc">&nbsp;    if( vLemma.equals(&quot;даючи&quot;) ) {</b>
+<b class="nc">&nbsp;      vLemma = &quot;давати&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    else if( vLemma.equals(&quot;змушуючи&quot;) ) {</b>
+<b class="nc">&nbsp;      vLemma = &quot;змушувати&quot;;</b>
+&nbsp;    }
+&nbsp;    else {
+<b class="nc">&nbsp;      vLemma = token.getLemma()</b>
+<b class="nc">&nbsp;        .replaceFirst(&quot;лячи(с[яь])?&quot;, &quot;ити$1&quot;)</b>
+<b class="nc">&nbsp;        .replaceFirst(&quot;(ючи|вши)(с[яь])?&quot;, &quot;ти$2&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;   return vLemma; </b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static final String USED_U_INSTEAD_OF_A_MSG = &quot;. Можливо, вжито невнормований родовий відмінок ч.р. з закінченням -у/-ю замість -а/-я (така тенденція є в сучасній мові)?&quot;;
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,421 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LanguageAnnotator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool</a>
+</div>
+
+<h1>Coverage Summary for Class: LanguageAnnotator (org.languagetool)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LanguageAnnotator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/58)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/93)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">LanguageAnnotator$TokenRangeWithLanguage</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">LanguageAnnotator$TokenWithLanguages</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/70)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/113)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool;
+&nbsp;
+&nbsp;import org.languagetool.rules.spelling.VagueSpellChecker;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * Detect language per token and add that to the analysis.
+&nbsp; * @since 4.9
+&nbsp; */
+&nbsp;public class LanguageAnnotator {
+&nbsp;
+&nbsp;  private static final int MIN_TOKENS = 4;  // fragments shorter than this will get the previous fragment&#39;s language
+&nbsp;
+<b class="nc">&nbsp;  public LanguageAnnotator() {</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;FragmentWithLanguage&gt; detectLanguages(String input, Language mainLang, List&lt;Language&gt; secondLangs) {
+<b class="nc">&nbsp;    List&lt;TokenWithLanguages&gt; tokens = getTokensWithPotentialLanguages(input, mainLang, secondLangs);</b>
+<b class="nc">&nbsp;    List&lt;List&lt;TokenWithLanguages&gt;&gt; tokenRanges = getTokenRanges(tokens);   // split at boundaries like &quot;.&quot;</b>
+&nbsp;    //System.out.println(&quot;tokenRanges: &quot; + tokenRanges);
+<b class="nc">&nbsp;    List&lt;TokenRangeWithLanguage&gt; tokenRangesWithLang = getTokenRangesWithLang(tokenRanges, mainLang, secondLangs);</b>
+&nbsp;    //System.out.println(&quot;tokenRangesWithLang: &quot; + tokenRangesWithLang);
+&nbsp;    Language curLang;
+<b class="nc">&nbsp;    Language prevLang = mainLang;</b>
+<b class="nc">&nbsp;    int curPos = 0;</b>
+<b class="nc">&nbsp;    int fromPos = 0;</b>
+<b class="nc">&nbsp;    List&lt;FragmentWithLanguage&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (TokenRangeWithLanguage tokenRange : tokenRangesWithLang) {</b>
+<b class="nc">&nbsp;      curLang = tokenRange.lang;</b>
+<b class="nc">&nbsp;      if (tokenRange.tokens.size() == 1 &amp;&amp; isQuote(tokenRange.tokens.get(0))) {</b>
+&nbsp;        // assign single quote the language of the previous element, assuming it belongs there
+<b class="nc">&nbsp;        curLang = prevLang;</b>
+<b class="nc">&nbsp;      } else if (curLang != prevLang) {</b>
+<b class="nc">&nbsp;        result.add(new FragmentWithLanguage(prevLang.getShortCodeWithCountryAndVariant(), input.substring(fromPos, curPos)));</b>
+<b class="nc">&nbsp;        fromPos = curPos;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      prevLang = curLang;</b>
+<b class="nc">&nbsp;      curPos += tokenRange.tokens.stream().mapToInt(String::length).sum();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    result.add(new FragmentWithLanguage(prevLang.getShortCodeWithCountryAndVariant(), input.substring(fromPos)));</b>
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;TokenWithLanguages&gt; getTokensWithPotentialLanguages(String input, Language mainLang, List&lt;Language&gt; secondLangs) {
+<b class="nc">&nbsp;    List&lt;TokenWithLanguages&gt; tokens = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    long t1 = System.nanoTime();</b>
+&nbsp;    // TODO: tokenizing might be different for languages...
+<b class="nc">&nbsp;    VagueSpellChecker speller = new VagueSpellChecker();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; mainLangTokens = mainLang.getWordTokenizer().tokenize(input);</b>
+<b class="nc">&nbsp;    for (String token : mainLangTokens) {</b>
+<b class="nc">&nbsp;      if (isWord(token) &amp;&amp; speller.isValidWord(token, mainLang)) {</b>
+<b class="nc">&nbsp;        tokens.add(new TokenWithLanguages(token, mainLang));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        tokens.add(new TokenWithLanguages(token));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    for (Language secondLang : secondLangs) {</b>
+<b class="nc">&nbsp;      int i = 0;</b>
+<b class="nc">&nbsp;      for (TokenWithLanguages token : tokens) {</b>
+<b class="nc">&nbsp;        if (isWord(token.token) &amp;&amp; speller.isValidWord(token.token, secondLang)) {</b>
+<b class="nc">&nbsp;          List&lt;Language&gt; langs = new ArrayList&lt;&gt;(token.langs);</b>
+<b class="nc">&nbsp;          langs.add(secondLang);</b>
+<b class="nc">&nbsp;          tokens.set(i, new TokenWithLanguages(token.token, langs));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        i++;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    long t2 = System.nanoTime();</b>
+<b class="nc">&nbsp;    long runTime = t2 - t1;</b>
+&nbsp;    //System.out.printf(Locale.ENGLISH, &quot;%.0fms, %.2f ms/lookup, %d lookups [%s, %s]\n&quot;, runTime/1000.0/1000.0,
+&nbsp;    //  (float)runTime/mainLangTokens.size()/1000.0/1000.0,
+&nbsp;    //  mainLangTokens.size(), mainLang.getShortCodeWithCountryAndVariant(), secondLangs);
+<b class="nc">&nbsp;    return tokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;List&lt;TokenWithLanguages&gt;&gt; getTokenRanges(List&lt;TokenWithLanguages&gt; tokens) {
+<b class="nc">&nbsp;    List&lt;List&lt;TokenWithLanguages&gt;&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;TokenWithLanguages&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    boolean inQuote = false;</b>
+<b class="nc">&nbsp;    for (TokenWithLanguages token : tokens) {</b>
+<b class="nc">&nbsp;      if (isQuote(token.token) &amp;&amp; !inQuote) {</b>
+&nbsp;        // this is an opening quote - add to next range
+<b class="nc">&nbsp;        if (l.size() &gt; 0) {</b>
+<b class="nc">&nbsp;          result.add(l);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        l = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        l.add(token);</b>
+<b class="nc">&nbsp;      } else if (isBoundary(token)) {</b>
+<b class="nc">&nbsp;        l.add(token);</b>
+<b class="nc">&nbsp;        result.add(l);</b>
+<b class="nc">&nbsp;        l = new ArrayList&lt;&gt;();</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        l.add(token);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (isQuote(token.token)) {</b>
+<b class="nc">&nbsp;        inQuote = !inQuote;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (l.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      result.add(l);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // For each range, assign the language that has most tokens there. For ambiguous parts
+&nbsp;  // (no winning language), use the top language of the next non-ambiguous part:
+&nbsp;  List&lt;TokenRangeWithLanguage&gt; getTokenRangesWithLang(List&lt;List&lt;TokenWithLanguages&gt;&gt; tokenRanges, Language mainLang, List&lt;Language&gt; secondLangs) {
+<b class="nc">&nbsp;    List&lt;TokenRangeWithLanguage&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    Language prevTopLang = null;</b>
+<b class="nc">&nbsp;    for (List&lt;TokenWithLanguages&gt; tokens : tokenRanges) {</b>
+&nbsp;      //System.out.println(&quot;&gt;&quot;+tokens);
+<b class="nc">&nbsp;      Language topLang = null;</b>
+<b class="nc">&nbsp;      boolean allAmbiguous = tokens.stream().allMatch(k -&gt; k.ambiguous());</b>
+<b class="nc">&nbsp;      if (allAmbiguous) {</b>
+&nbsp;        //System.out.println(&quot;ALL AMBIG: &quot; + tokens);
+<b class="nc">&nbsp;        for (int j = i + 1; j &lt; tokenRanges.size(); j++) {</b>
+&nbsp;          //System.out.println(&quot;testing &quot; + j);
+<b class="nc">&nbsp;          List&lt;TokenWithLanguages&gt; nextTokens = tokenRanges.get(j);</b>
+<b class="nc">&nbsp;          boolean nextAllAmbiguous = nextTokens.stream().allMatch(k -&gt; k.ambiguous());</b>
+<b class="nc">&nbsp;          if (!nextAllAmbiguous) {</b>
+<b class="nc">&nbsp;            topLang = getTopLang(mainLang, secondLangs, nextTokens);</b>
+&nbsp;            //System.out.println(&quot;not ambig at &quot; + j + &quot; (&quot; + nextTokens + &quot;)&quot; +  &quot;, top lang  + &quot; + topLang);
+&nbsp;            break;
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (topLang == null) {</b>
+<b class="nc">&nbsp;        if (tokens.size() &lt; MIN_TOKENS &amp;&amp; prevTopLang != null) {</b>
+<b class="nc">&nbsp;          topLang = prevTopLang;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          topLang = getTopLang(mainLang, secondLangs, tokens);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;String&gt; tokenList = tokens.stream().map(k -&gt; k.token).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;      result.add(new TokenRangeWithLanguage(tokenList, topLang));</b>
+<b class="nc">&nbsp;      prevTopLang = topLang;</b>
+<b class="nc">&nbsp;      i++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Language getTopLang(Language mainLang, List&lt;Language&gt; secondLangs, List&lt;TokenWithLanguages&gt; tokens) {
+<b class="nc">&nbsp;    Map&lt;Language, Integer&gt; langToCount = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    langToCount.put(mainLang, tokens.stream().mapToInt(k -&gt; k.langs.contains(mainLang) ? 1 : 0).sum());</b>
+<b class="nc">&nbsp;    for (Language lang : secondLangs) {</b>
+<b class="nc">&nbsp;      int langCount = tokens.stream().mapToInt(k -&gt; k.langs.contains(lang) ? 1 : 0).sum();</b>
+<b class="nc">&nbsp;      langToCount.put(lang, langCount);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int max = 0;</b>
+<b class="nc">&nbsp;    Language topLang = mainLang;</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;Language, Integer&gt; entry : langToCount.entrySet()) {</b>
+<b class="nc">&nbsp;      if (entry.getValue() &gt; max) {</b>
+<b class="nc">&nbsp;        topLang = entry.getKey();</b>
+<b class="nc">&nbsp;        max = entry.getValue();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return topLang;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isBoundary(TokenWithLanguages token) {
+<b class="nc">&nbsp;    return token.token.matches(&quot;[.?!;:\&quot;„“»«()\\[\\]\n]&quot;);   // TODO: &quot; - &quot;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isQuote(String token) {
+<b class="nc">&nbsp;    return token.matches(&quot;[\&quot;„“”»«]&quot;);  }</b>
+&nbsp;
+&nbsp;  private static boolean isWord(String s) {
+<b class="nc">&nbsp;    return !s.trim().isEmpty() &amp;&amp; s.matches(&quot;\\w+&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class TokenWithLanguages {
+&nbsp;    private final String token;
+&nbsp;    private final List&lt;Language&gt; langs;
+<b class="nc">&nbsp;    TokenWithLanguages(String token, Language... langs) {</b>
+<b class="nc">&nbsp;      this.token = Objects.requireNonNull(token);</b>
+<b class="nc">&nbsp;      this.langs = new ArrayList&lt;&gt;(Arrays.asList(Objects.requireNonNull(langs)));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    TokenWithLanguages(String token, List&lt;Language&gt; langs) {</b>
+<b class="nc">&nbsp;      this.token = Objects.requireNonNull(token);</b>
+<b class="nc">&nbsp;      this.langs = Objects.requireNonNull(langs);</b>
+&nbsp;    }
+&nbsp;    boolean ambiguous() {
+<b class="nc">&nbsp;      return langs.size() != 1;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String toString() {
+&nbsp;      //return token + &quot;/&quot; + langs.stream().map(k -&gt; k.getShortCodeWithCountryAndVariant()).collect(Collectors.joining(&quot;/&quot;));
+<b class="nc">&nbsp;      if (isWord(token)) {</b>
+<b class="nc">&nbsp;        return token + &quot;/&quot; + langs.stream().map(k -&gt; k.getShortCodeWithCountryAndVariant()).collect(Collectors.joining(&quot;/&quot;));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return token;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    String getToken() {
+<b class="nc">&nbsp;      return token;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o) {
+<b class="nc">&nbsp;      if (this == o) return true;</b>
+<b class="nc">&nbsp;      if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="nc">&nbsp;      TokenWithLanguages that = (TokenWithLanguages) o;</b>
+<b class="nc">&nbsp;      return token.equals(that.token) &amp;&amp; langs.equals(that.langs);</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;      return Objects.hash(token, langs);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  static class TokenRangeWithLanguage {
+&nbsp;    private final List&lt;String&gt; tokens;
+&nbsp;    private final Language lang;
+<b class="nc">&nbsp;    TokenRangeWithLanguage(List&lt;String&gt; tokens, Language lang) {</b>
+<b class="nc">&nbsp;      this.tokens = Objects.requireNonNull(tokens);</b>
+<b class="nc">&nbsp;      this.lang = Objects.requireNonNull(lang);</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;      return lang.getShortCodeWithCountryAndVariant() + &quot;: &quot; + tokens;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

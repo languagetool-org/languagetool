@@ -1,0 +1,294 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Irish</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language</a>
+</div>
+
+<h1>Coverage Summary for Class: Irish (org.languagetool.language)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Irish</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2009 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.ga.*;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.synthesis.ga.IrishSynthesizer;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tagging.disambiguation.Disambiguator;
+&nbsp;import org.languagetool.tagging.disambiguation.ga.IrishHybridDisambiguator;
+&nbsp;import org.languagetool.tagging.ga.IrishTagger;
+&nbsp;import org.languagetool.tokenizers.SRXSentenceTokenizer;
+&nbsp;import org.languagetool.tokenizers.SentenceTokenizer;
+&nbsp;import org.languagetool.tokenizers.Tokenizer;
+&nbsp;import org.languagetool.tokenizers.WordTokenizer;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 4.9
+&nbsp; */
+&nbsp;public class Irish extends LanguageWithModel {
+&nbsp;
+&nbsp;  private static final String LANGUAGE_SHORT_CODE = &quot;ga&quot;;
+&nbsp;
+&nbsp;  private static volatile Throwable instantiationTrace;
+&nbsp;
+<b class="nc">&nbsp;  public Irish() {</b>
+<b class="nc">&nbsp;    Throwable trace = instantiationTrace;</b>
+<b class="nc">&nbsp;    if (trace != null) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Language was already instantiated, see the cause stacktrace below.&quot;, trace);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    instantiationTrace = new Throwable();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getName() {
+<b class="nc">&nbsp;    return &quot;Irish&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String[] getCountries() {
+<b class="nc">&nbsp;    return new String[]{&quot;IE&quot;};</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String getShortCode() {
+<b class="nc">&nbsp;    return &quot;ga&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  @NotNull
+&nbsp;  public Language getDefaultLanguageVariant() {
+<b class="nc">&nbsp;    return getInstance();</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public Contributor[] getMaintainers() {
+<b class="nc">&nbsp;    return new Contributor[] {</b>
+&nbsp;      new Contributor(&quot;Jim O&#39;Regan&quot;),
+&nbsp;      new Contributor(&quot;Emily Barnes&quot;),
+&nbsp;      new Contributor(&quot;Mícheál J. Ó Meachair&quot;),
+&nbsp;      new Contributor(&quot;Seanán Ó Coistín&quot;)
+&nbsp;    };
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    return Arrays.asList(</b>
+&nbsp;      new CommaWhitespaceRule(messages),
+&nbsp;	    new GenericUnpairedBracketsRule(messages,
+<b class="nc">&nbsp;                    Arrays.asList(&quot;[&quot;, &quot;(&quot;, &quot;{&quot;, &quot;\&quot;&quot;, &quot;“&quot;),</b>
+<b class="nc">&nbsp;                    Arrays.asList(&quot;]&quot;, &quot;)&quot;, &quot;}&quot;, &quot;\&quot;&quot;, &quot;”&quot;)),</b>
+&nbsp;      new DoublePunctuationRule(messages),
+&nbsp;      new UppercaseSentenceStartRule(messages, this),
+&nbsp;      new LongSentenceRule(messages, userConfig, 50),
+&nbsp;      new LongParagraphRule(messages, this, userConfig),
+&nbsp;      new UppercaseSentenceStartRule(messages, this),
+&nbsp;      new MultipleWhitespaceRule(messages, this),
+&nbsp;      new SentenceWhitespaceRule(messages),
+&nbsp;      new WhiteSpaceBeforeParagraphEnd(messages, this),
+&nbsp;      new WhiteSpaceAtBeginOfParagraph(messages),
+&nbsp;      new ParagraphRepeatBeginningRule(messages, this),
+&nbsp;      new WordRepeatRule(messages, this),
+&nbsp;      new MorfologikIrishSpellerRule(messages, this, userConfig, altLanguages),
+&nbsp;      new LogainmRule(messages, this),
+&nbsp;      new PeopleRule(messages, this),
+&nbsp;      new SpacesRule(messages, this),
+&nbsp;      new CompoundRule(messages, this, userConfig),
+&nbsp;      new PrestandardReplaceRule(messages, this),
+&nbsp;      new IrishReplaceRule(messages, this),
+&nbsp;      new IrishFGBEqReplaceRule(messages, this),
+&nbsp;      new EnglishHomophoneRule(messages, this),
+&nbsp;      new DhaNoBeirtRule(messages),
+&nbsp;      new DativePluralStandardReplaceRule(messages, this),
+&nbsp;      new IrishSpecificCaseRule(messages)
+&nbsp;    );
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public Tagger createDefaultTagger() {
+<b class="nc">&nbsp;    return new IrishTagger();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public Synthesizer createDefaultSynthesizer() {
+<b class="nc">&nbsp;    return IrishSynthesizer.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public SentenceTokenizer createDefaultSentenceTokenizer() {
+<b class="nc">&nbsp;    return new SRXSentenceTokenizer(this);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Disambiguator createDefaultDisambiguator() {
+<b class="nc">&nbsp;    return new IrishHybridDisambiguator();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Tokenizer createDefaultWordTokenizer() {
+<b class="nc">&nbsp;    return new WordTokenizer();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public LanguageMaintainedState getMaintainedState() {
+<b class="nc">&nbsp;    return LanguageMaintainedState.ActivelyMaintained;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected int getPriorityForId(String id) {
+<b class="nc">&nbsp;    switch (id) {</b>
+<b class="nc">&nbsp;      case &quot;TOO_LONG_PARAGRAPH&quot;: return -15;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return super.getPriorityForId(id);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+<b class="nc">&nbsp;    return new MorfologikIrishSpellerRule(messages, this, null, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static @NotNull Irish getInstance() {
+<b class="nc">&nbsp;    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));</b>
+<b class="nc">&nbsp;    if (language instanceof Irish irish) {</b>
+<b class="nc">&nbsp;      return irish;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;Irish language expected, got &quot; + language);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

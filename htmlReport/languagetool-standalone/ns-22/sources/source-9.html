@@ -1,0 +1,270 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RemoteRuleMatch</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.remote</a>
+</div>
+
+<h1>Coverage Summary for Class: RemoteRuleMatch (org.languagetool.remote)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RemoteRuleMatch</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.remote;
+&nbsp;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;/**
+&nbsp; * A potential error as returned by the HTTP API of LanguageTool.
+&nbsp; * @since 3.4
+&nbsp; */
+&nbsp;public class RemoteRuleMatch {
+&nbsp;
+&nbsp;  private final String ruleId;
+&nbsp;  private final String ruleDescription;
+&nbsp;  private final String msg;
+&nbsp;  private final String context;
+&nbsp;  private final int contextOffset;
+&nbsp;  private final int offset;
+&nbsp;  private final int errorLength;
+&nbsp;
+&nbsp;  private String subId;
+&nbsp;  private String shortMsg;
+&nbsp;  private List&lt;String&gt; replacements;
+&nbsp;  private String url;
+&nbsp;  private String category;
+&nbsp;  private String categoryId;
+&nbsp;  private String locQualityIssueType;
+&nbsp;
+<b class="nc">&nbsp;  RemoteRuleMatch(String ruleId, String ruleDescription, String msg, String context, int contextOffset, int offset, int errorLength) {</b>
+<b class="nc">&nbsp;    this.ruleId = Objects.requireNonNull(ruleId);</b>
+<b class="nc">&nbsp;    this.ruleDescription = ruleDescription;</b>
+<b class="nc">&nbsp;    this.msg = Objects.requireNonNull(msg);</b>
+<b class="nc">&nbsp;    this.context = Objects.requireNonNull(context);</b>
+<b class="nc">&nbsp;    this.contextOffset = contextOffset;</b>
+<b class="nc">&nbsp;    this.offset = offset;</b>
+<b class="nc">&nbsp;    this.errorLength = errorLength;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** Unique (per language) identifier for the error. */
+&nbsp;  public String getRuleId() {
+<b class="nc">&nbsp;    return ruleId;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** Description of the rule. */
+&nbsp;  public String getRuleDescription() {
+<b class="nc">&nbsp;    return ruleDescription;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** Optional sub id (rule groups have a sub id for each rule). */
+&nbsp;  public Optional&lt;String&gt; getRuleSubId() {
+<b class="nc">&nbsp;    return Optional.ofNullable(subId);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** A text describing the error to the user. */
+&nbsp;  public String getMessage() {
+<b class="nc">&nbsp;    return msg;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** Optional short message describing the error. */
+&nbsp;  public Optional&lt;String&gt; getShortMessage() {
+<b class="nc">&nbsp;    return Optional.ofNullable(shortMsg);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Potential corrections for the error. Note that corrections might be wrong and
+&nbsp;   * they are not necessarily ordered by quality.
+&nbsp;   */
+&nbsp;  public Optional&lt;List&lt;String&gt;&gt; getReplacements() {
+<b class="nc">&nbsp;    return Optional.ofNullable(replacements);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** The error in its context. See {@link #getContextOffset()} and {@link #getErrorLength()} to get the exact position. */
+&nbsp;  public String getContext() {
+<b class="nc">&nbsp;    return context;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** The character position of the error start inside the result of {@link #getContext()}. */
+&nbsp;  public int getContextOffset() {
+<b class="nc">&nbsp;    return contextOffset;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** The character position where the error starts. */
+&nbsp;  public int getErrorOffset() {
+<b class="nc">&nbsp;    return offset;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** The length of the error in characters. */
+&nbsp;  public int getErrorLength() {
+<b class="nc">&nbsp;    return errorLength;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** URL with a more detailed explanation of the error. */
+&nbsp;  public Optional&lt;String&gt; getUrl() {
+<b class="nc">&nbsp;    return Optional.ofNullable(url);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** The error&#39;s category. */
+&nbsp;  public Optional&lt;String&gt; getCategory() {
+<b class="nc">&nbsp;    return Optional.of(category);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** The id of the error&#39;s category. */
+&nbsp;  public Optional&lt;String&gt; getCategoryId() {
+<b class="nc">&nbsp;    return Optional.of(categoryId);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Optional&lt;String&gt; getLocQualityIssueType() {
+<b class="nc">&nbsp;    return Optional.ofNullable(locQualityIssueType);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  //
+&nbsp;  // non-public setters
+&nbsp;  //
+&nbsp;  
+&nbsp;  void setRuleSubId(String subId) {
+<b class="nc">&nbsp;    this.subId = subId;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void setShortMsg(String shortMsg) {
+<b class="nc">&nbsp;    this.shortMsg = shortMsg;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void setReplacements(List&lt;String&gt; replacements) {
+<b class="nc">&nbsp;    this.replacements = Collections.unmodifiableList(replacements);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void setUrl(String url) {
+<b class="nc">&nbsp;    this.url = url;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void setCategory(String category) {
+<b class="nc">&nbsp;    this.category = category;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void setCategoryId(String categoryId) {
+<b class="nc">&nbsp;    this.categoryId = categoryId;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void setLocQualityIssueType(String locQualityIssueType) {
+<b class="nc">&nbsp;    this.locQualityIssueType = locQualityIssueType;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return ruleId + &quot;@&quot; + offset + &quot;-&quot; + (offset + errorLength);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

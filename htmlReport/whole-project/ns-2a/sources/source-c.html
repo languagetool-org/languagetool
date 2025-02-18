@@ -1,0 +1,239 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CatalanUnpairedBracketsRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ca</a>
+</div>
+
+<h1>Coverage Summary for Class: CatalanUnpairedBracketsRule (org.languagetool.rules.ca)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CatalanUnpairedBracketsRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90.4%
+  </span>
+  <span class="absValue">
+    (47/52)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.6%
+  </span>
+  <span class="absValue">
+    (41/42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2010 Marcin Miłkowski (http://www.languagetool.org)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.ca;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.function.Supplier;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.GenericUnpairedBracketsRule;
+&nbsp;import org.languagetool.rules.SymbolLocator;
+&nbsp;import org.languagetool.rules.UnsyncStack;
+&nbsp;
+&nbsp;public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
+&nbsp;
+<b class="fc">&nbsp;  private static final List&lt;String&gt; CA_START_SYMBOLS = Arrays.asList(&quot;[&quot;, &quot;(&quot;, &quot;{&quot;, &quot;“&quot;, &quot;«&quot;, &quot;\&quot;&quot;, &quot;&#39;&quot;, &quot;‘&quot;);</b>
+<b class="fc">&nbsp;  private static final List&lt;String&gt; CA_END_SYMBOLS   = Arrays.asList(&quot;]&quot;, &quot;)&quot;, &quot;}&quot;, &quot;”&quot;, &quot;»&quot;, &quot;\&quot;&quot;, &quot;&#39;&quot;, &quot;’&quot;);</b>
+&nbsp;
+&nbsp;  //private static final Pattern NUMBER = Pattern.compile(&quot;[\\d,.]*\\d&quot;);
+&nbsp;  
+<b class="fc">&nbsp;  private static final Pattern VALID_BEFORE_CLOSING_PARENTHESIS = Pattern</b>
+<b class="fc">&nbsp;      .compile(&quot;\\d+|[a-zA-Z]&quot;, Pattern.UNICODE_CASE);</b>
+<b class="fc">&nbsp;  private static final Pattern NUMBER = Pattern.compile(&quot;\\d[\\d., ]+\\d|\\d{1,2}&quot;, Pattern.UNICODE_CASE);</b>
+&nbsp;
+&nbsp;  public CatalanUnpairedBracketsRule(ResourceBundle messages, Language language) {
+<b class="fc">&nbsp;    super(messages, CA_START_SYMBOLS, CA_END_SYMBOLS);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;//  @Override
+&nbsp;//  public String getId() {
+&nbsp;//    return &quot;CA_UNPAIRED_BRACKETS&quot;;
+&nbsp;//  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected boolean isNoException(final String tokenStr,
+&nbsp;      final AnalyzedTokenReadings[] tokens, final int i, final int j,
+&nbsp;      final boolean precSpace, final boolean follSpace, UnsyncStack&lt;SymbolLocator&gt; symbolStack) {
+&nbsp;
+<b class="pc">&nbsp;    if (i &lt; 1) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;    
+<b class="fc">&nbsp;    if ((tokenStr.equals(&quot;’&quot;) || tokenStr.equals(&quot;&#39;&quot;))</b>
+<b class="pc">&nbsp;        &amp;&amp; (tokens[i].hasPosTagStartingWith(&quot;N&quot;) || tokens[i].hasPosTagStartingWith(&quot;A&quot;))) {</b>
+<b class="fc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    final boolean superException = !super.isNoException(tokenStr, tokens, i, j, precSpace, follSpace, symbolStack);</b>
+<b class="fc">&nbsp;    if (superException) {</b>
+<b class="fc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //degrees, minutes, seconds...
+<b class="fc">&nbsp;    if ((&quot;\&quot;&quot;.equals(tokenStr) || &quot;&#39;&quot;.equals(tokenStr))</b>
+<b class="fc">&nbsp;        &amp;&amp; NUMBER.matcher(tokens[i - 1].getToken()).matches()</b>
+<b class="pc">&nbsp;        &amp;&amp; !tokens[i].isWhitespaceBefore()</b>
+<b class="pc">&nbsp;        &amp;&amp; ((i &gt; 2 &amp;&amp; (tokens[i - 2].getToken().contains(&quot;º&quot;) || tokens[i - 2].getToken().contains(&quot;°&quot;)))</b>
+<b class="pc">&nbsp;        || (i &gt; 4 &amp;&amp; (tokens[i - 4].getToken().contains(&quot;º&quot;) || tokens[i - 4].getToken().contains(&quot;°&quot;))))) {</b>
+<b class="fc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    if (i == 1 &amp;&amp; tokenStr.equals(&quot;»&quot;))</b>
+<b class="fc">&nbsp;      return false;</b>
+&nbsp;
+<b class="fc">&nbsp;    if (i &gt; 1 &amp;&amp; tokenStr.equals(&quot;)&quot;)) {</b>
+<b class="fc">&nbsp;      boolean isThereOpeningParenthesis = false;</b>
+<b class="fc">&nbsp;      int k=1;</b>
+<b class="fc">&nbsp;      while (i-k&gt;0) {</b>
+<b class="fc">&nbsp;        if (tokens[i-k].getToken().equals(&quot;)&quot;))</b>
+&nbsp;          break;
+<b class="fc">&nbsp;        if (tokens[i-k].getToken().equals(&quot;(&quot;)) {</b>
+<b class="fc">&nbsp;          isThereOpeningParenthesis=true;</b>
+&nbsp;          break;
+&nbsp;        }
+<b class="fc">&nbsp;        k++;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      if (!isThereOpeningParenthesis) {</b>
+<b class="fc">&nbsp;        final Matcher mValidBeforeClosingParenthesis = VALID_BEFORE_CLOSING_PARENTHESIS</b>
+<b class="fc">&nbsp;            .matcher(tokens[i - 1].getToken());</b>
+<b class="fc">&nbsp;        if (mValidBeforeClosingParenthesis.matches())</b>
+<b class="fc">&nbsp;          return false;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected List&lt;String&gt; getSuggestions(Supplier&lt;String&gt; text, int startPos, int endPos, Symbol symbol, String otherSymbol) {
+<b class="fc">&nbsp;    List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+&nbsp;    // add the other symbol together with the original symbol, needs to be moved by the user
+<b class="fc">&nbsp;    if (symbol.symbolType == Symbol.Type.Closing) {</b>
+<b class="fc">&nbsp;      replacements.add(otherSymbol + symbol);</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      replacements.add(symbol + otherSymbol);</b>
+&nbsp;    }
+&nbsp;    // add the option to remove the original symbol
+<b class="fc">&nbsp;    replacements.add(&quot;&quot;);</b>
+<b class="fc">&nbsp;    return replacements;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

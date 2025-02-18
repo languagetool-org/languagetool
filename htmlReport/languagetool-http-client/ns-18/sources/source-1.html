@@ -1,0 +1,267 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CommonWordsDetector</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language.identifier.detector</a>
+</div>
+
+<h1>Coverage Summary for Class: CommonWordsDetector (org.languagetool.language.identifier.detector)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommonWordsDetector</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    34.7%
+  </span>
+  <span class="absValue">
+    (25/72)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.5%
+  </span>
+  <span class="absValue">
+    (40/65)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2018 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language.identifier.detector;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.broker.ResourceDataBroker;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Information about common words - use as a fallback if language identification yields low confidence.
+&nbsp; * @since 4.4
+&nbsp; */
+&nbsp;public class CommonWordsDetector {
+&nbsp;
+<b class="fc">&nbsp;  private final static Map&lt;String, List&lt;Language&gt;&gt; word2langs = Collections.synchronizedMap(new HashMap&lt;&gt;());</b>
+<b class="fc">&nbsp;  private final static Pattern numberPattern = Pattern.compile(&quot;[0-9.,%-]+&quot;);</b>
+&nbsp;  
+<b class="fc">&nbsp;  private final static Language esLang = Languages.getLanguageForShortCode(&quot;es&quot;);</b>
+<b class="fc">&nbsp;  private final static Language caLang = Languages.getLanguageForShortCode(&quot;ca&quot;);</b>
+<b class="fc">&nbsp;  private final static Language ptLang = Languages.getLanguageForShortCode(&quot;pt&quot;);</b>
+&nbsp;  // but -cion can be Esperanto; ía(n) can be Galician
+<b class="fc">&nbsp;  private final static Pattern spanishPattern = Pattern.compile(&quot;^[a-zñ]+(ón|cion|aban|ábamos|ábais|íamos|íais|[úí]a[sn]?|úe[ns]?)$&quot;);</b>
+<b class="fc">&nbsp;  private final static Pattern notSpanishPattern = Pattern.compile(&quot;^[lmndts][&#39;’].*$|^.*(ns|[áéó].i[oa]s?)$|^.*(ss|[çàèòïâêôãõìù]|l·l).*$&quot;);</b>
+<b class="fc">&nbsp;  private final static Pattern notCatalanPattern = Pattern.compile(&quot;^.*([áéó].i[oa]s?|d[oa]s)$|^.*[áâêôãõìùñ].*$&quot;);</b>
+<b class="fc">&nbsp;  private final static Pattern portuguesePattern = Pattern.compile(&quot;^.*([áó]ri[oa]|ério)s?$&quot;); // éria can be French</b>
+<b class="fc">&nbsp;  private static final Pattern PUNCT_PATTERN = Pattern.compile(&quot;[(),.:;!?„“\&quot;¡¿\\s\\[\\]{}-«»”]&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern CHARS_PATTERN = Pattern.compile(&quot;\\p{L}+$&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern SPACE_OR_HYPHEN_PATTERN = Pattern.compile(&quot;[ -]&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;  public CommonWordsDetector() throws IOException {</b>
+<b class="fc">&nbsp;    synchronized (word2langs) {</b>
+<b class="pc">&nbsp;      if (word2langs.isEmpty()) {</b>
+<b class="fc">&nbsp;        for (Language lang : Languages.get()) {</b>
+<b class="fc">&nbsp;          if (lang.isVariant() &amp;&amp;</b>
+<b class="pc">&nbsp;              !lang.getShortCode().equals(&quot;no&quot;)) {  // ugly hack to quick fix https://github.com/languagetooler-gmbh/languagetool-premium/issues/822 </b>
+&nbsp;            continue;
+&nbsp;          }
+<b class="fc">&nbsp;          ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();</b>
+<b class="fc">&nbsp;          String path = lang.getCommonWordsPath();</b>
+<b class="fc">&nbsp;          InputStream stream = null;</b>
+&nbsp;          try {
+<b class="fc">&nbsp;            if (path != null) {</b>
+<b class="pc">&nbsp;              if (dataBroker.resourceExists(path)) {</b>
+<b class="fc">&nbsp;                stream = dataBroker.getFromResourceDirAsStream(path);</b>
+<b class="nc">&nbsp;              } else if (new File(path).exists()) {</b>
+<b class="nc">&nbsp;                stream = new FileInputStream(path);</b>
+&nbsp;              } else {
+<b class="nc">&nbsp;                throw new IOException(&quot;Common words file not found for &quot; + lang + &quot;: &quot; + path);</b>
+&nbsp;              }
+&nbsp;            } else {
+<b class="pc">&nbsp;              if (!lang.getShortCode().matches(&quot;ja|km&quot;)) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;WARN: no common words file defined for &quot; + lang + &quot; - this language might not be correctly auto-detected&quot;);</b>
+&nbsp;              }
+&nbsp;              continue;
+&nbsp;            }
+<b class="fc">&nbsp;            try (Scanner scanner = new Scanner(stream, &quot;utf-8&quot;)) {</b>
+<b class="fc">&nbsp;              while (scanner.hasNextLine()) {</b>
+<b class="fc">&nbsp;                String line = scanner.nextLine();</b>
+<b class="fc">&nbsp;                if (line.isEmpty() || line.startsWith(&quot;#&quot;)) {</b>
+&nbsp;                  continue;
+&nbsp;                }
+<b class="fc">&nbsp;                String key = line.toLowerCase();</b>
+<b class="pc">&nbsp;                if (key.length() == 1 &amp;&amp; Character.isSpaceChar(key.charAt(0))) {</b>
+&nbsp;                  continue;
+&nbsp;                }
+<b class="fc">&nbsp;                List&lt;Language&gt; languages = word2langs.get(key);</b>
+<b class="fc">&nbsp;                if (languages == null) {</b>
+&nbsp;                  // word2langs is static, so this can be accessed from multiple threads concurrently -&gt; prevent exceptions
+<b class="fc">&nbsp;                  List&lt;Language&gt; l = Collections.synchronizedList(new LinkedList&lt;&gt;());</b>
+<b class="fc">&nbsp;                  l.add(lang);</b>
+<b class="fc">&nbsp;                  word2langs.put(key, l);</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                  if (!languages.contains(lang)) {</b>
+<b class="fc">&nbsp;                    languages.add(lang);</b>
+&nbsp;                  }
+&nbsp;                }
+&nbsp;              }
+&nbsp;            }
+&nbsp;          } finally {
+<b class="pc">&nbsp;            if (stream != null) {</b>
+&nbsp;              stream.close();
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;    }</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Map&lt;Language, Integer&gt; getKnownWordsPerLanguage(String text) {
+<b class="nc">&nbsp;    Map&lt;Language,Integer&gt; result = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    String auxText = PUNCT_PATTERN.matcher(text).replaceAll(&quot; &quot;);</b>
+<b class="nc">&nbsp;    if (!auxText.endsWith(&quot; &quot;) &amp;&amp; StringUtils.countMatches(auxText, &quot; &quot;) &gt; 0) {</b>
+&nbsp;      // last word might not be finished yet, so ignore
+<b class="nc">&nbsp;      auxText = CHARS_PATTERN.matcher(auxText).replaceFirst(&quot;&quot;);</b>
+&nbsp;    }
+&nbsp;    // Proper per-language tokenizing might help, but then the common_words.txt
+&nbsp;    // will also need to be tokenized the same way. Also, this is quite fast.
+<b class="nc">&nbsp;    String[] words = SPACE_OR_HYPHEN_PATTERN.split(auxText);</b>
+<b class="nc">&nbsp;    for (String word : words) {</b>
+<b class="nc">&nbsp;      if (numberPattern.matcher(word).matches()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String lcWord = word.toLowerCase();</b>
+<b class="nc">&nbsp;      List&lt;Language&gt; languages = word2langs.get(lcWord);</b>
+<b class="nc">&nbsp;      if (languages != null) {</b>
+<b class="nc">&nbsp;        for (Language lang : languages) {</b>
+&nbsp;          //System.out.println(lcWord + &quot; -&gt; &quot; + lang);
+<b class="nc">&nbsp;          result.put(lang, result.getOrDefault(lang, 0) + 1);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;      //Portuguese
+<b class="nc">&nbsp;      if ((languages == null || !languages.contains(ptLang)) &amp;&amp; portuguesePattern.matcher(lcWord).matches()) {</b>
+<b class="nc">&nbsp;        result.put(ptLang, result.getOrDefault(ptLang, 0) + 1);</b>
+&nbsp;      }
+&nbsp;      //Spanish
+<b class="nc">&nbsp;      if ((languages == null || !languages.contains(esLang)) &amp;&amp; spanishPattern.matcher(lcWord).matches()) {</b>
+<b class="nc">&nbsp;        result.put(esLang, result.getOrDefault(esLang, 0) + 1);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if ((languages == null || !languages.contains(esLang)) &amp;&amp; notSpanishPattern.matcher(lcWord).matches()) {</b>
+<b class="nc">&nbsp;        result.put(esLang, result.getOrDefault(esLang, 0) - 1);</b>
+&nbsp;      }
+&nbsp;      //Catalan
+<b class="nc">&nbsp;      if ((languages == null || !languages.contains(caLang)) &amp;&amp; notCatalanPattern.matcher(lcWord).matches()) {</b>
+<b class="nc">&nbsp;        result.put(caLang, result.getOrDefault(caLang, 0) - 1);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    //System.out.println(&quot;==&gt; &quot; + result);
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

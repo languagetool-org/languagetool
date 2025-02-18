@@ -1,0 +1,498 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GermanCompoundTokenizer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tokenizers.de</a>
+</div>
+
+<h1>Coverage Summary for Class: GermanCompoundTokenizer (org.languagetool.tokenizers.de)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GermanCompoundTokenizer</td>
+<td class="coverageStat">
+  <span class="percent">
+    55.6%
+  </span>
+  <span class="absValue">
+    (5/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.9%
+  </span>
+  <span class="absValue">
+    (123/140)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GermanCompoundTokenizer$ExtendedGermanWordSplitter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (112/112)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    63.6%
+  </span>
+  <span class="absValue">
+    (7/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.3%
+  </span>
+  <span class="absValue">
+    (235/252)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tokenizers.de;
+&nbsp;
+&nbsp;import com.google.common.base.Suppliers;
+&nbsp;import de.danielnaber.jwordsplitter.EmbeddedGermanDictionary;
+&nbsp;import de.danielnaber.jwordsplitter.GermanWordSplitter;
+&nbsp;import de.danielnaber.jwordsplitter.InputTooLongException;
+&nbsp;import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+&nbsp;import org.languagetool.tokenizers.Tokenizer;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.function.Supplier;
+&nbsp;
+&nbsp;import static java.util.Arrays.asList;
+&nbsp;
+&nbsp;/**
+&nbsp; * Split German nouns using the jWordSplitter library.
+&nbsp; *
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public class GermanCompoundTokenizer implements Tokenizer {
+<b class="fc">&nbsp;  private static final Supplier&lt;GermanCompoundTokenizer&gt; strictInstance = Suppliers.memoize(() -&gt; {</b>
+&nbsp;    try {
+<b class="fc">&nbsp;      return new GermanCompoundTokenizer(true);</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  });
+<b class="fc">&nbsp;  private static final Supplier&lt;GermanCompoundTokenizer&gt; nonStrictInstance = Suppliers.memoize(() -&gt; {</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      return new GermanCompoundTokenizer(false);</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  });
+&nbsp;
+&nbsp;  private final ExtendedGermanWordSplitter wordSplitter;
+&nbsp;
+&nbsp;  public GermanCompoundTokenizer() throws IOException {
+<b class="nc">&nbsp;    this(true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class ExtendedGermanWordSplitter extends GermanWordSplitter {
+&nbsp;    ExtendedGermanWordSplitter(boolean hideInterfixCharacters) throws IOException {
+<b class="fc">&nbsp;      super(hideInterfixCharacters, extendedList());</b>
+&nbsp;    }
+&nbsp;    static Set&lt;String&gt; extendedList() {
+<b class="fc">&nbsp;      ObjectOpenHashSet&lt;String&gt; words = new ObjectOpenHashSet&lt;&gt;(EmbeddedGermanDictionary.getWords());</b>
+&nbsp;      // Add compound parts here so we don&#39;t need to update JWordSplitter for every missing word we find.
+&nbsp;      // Note: adding words, especially short ones, can also cause incorrect splits. E.g. if &quot;sport&quot;
+&nbsp;      // is in the list and you add &quot;tran&quot;, without &quot;transport&quot; being in the list, it would split &quot;transport&quot;.
+<b class="fc">&nbsp;      words.add(&quot;influencer&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;katheterisierung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;rücklass&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;abdichtung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;laptop&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;verschattung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;paradeiser&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;einreichung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;bestatter&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;divergenz&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;schrumpf&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;degustation&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;schaft&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;abstreifer&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;aufputz&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;glühwürmchen&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;aufwertung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;einhausung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;lackier&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;zarge&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;pluralisierung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;schanzen&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;abscheide&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;rangier&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;temporal&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;kartonage&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;kartonagen&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;rebellion&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;binokular&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;umverlegung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;umhausung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;überholung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;chloroplasten&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;nachrangigkeit&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;spital&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;turnus&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;teilnehmenden&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;pensionisten&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;graduierten&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;beladung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;controller&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;resilienz&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;mitführ&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;trauma&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;abtau&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;normung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;mikroskopie&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;bitumen&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;erfolglosigkeit&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;pneumatik&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;anlasser&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;allozierung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;alphabetisierung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;aktuator&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;akademisierung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;allergiker&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;queer&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;filament&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;querung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;curling&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;opioid&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;booster&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;schmuse&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;thrombozyten&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;dysfunktion&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;storchen&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;nasch&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;esperanto&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;passivierung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;radikalisierung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;erleuchtung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;verwalter&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;verbiss&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;ausleih&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;rutsch&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;kufen&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;entferner&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;debitoren&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;terrakotta&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;graffiti&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;auffahr&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;anmutung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;kritzel&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;salami&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;eukalyptus&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;kreativ&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;hochvolt&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;trading&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;extraktion&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;verstetigung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;diagonal&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;margen&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;synonym&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;aufbringung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;robustheit&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;nachuntersuchung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;erstkommunion&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;hauptstadt&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;neustart&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;polarisierung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;vollstreckbarkeit&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;vollziehung&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;kasko&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;blitzableiter&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;abschattungen&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;kuscheltier&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;gastro&quot;);</b>
+<b class="fc">&nbsp;      words.add(&quot;hortensien&quot;);</b>
+<b class="fc">&nbsp;      words.trim();</b>
+<b class="fc">&nbsp;      return words;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public GermanCompoundTokenizer(boolean strictMode) throws IOException {</b>
+<b class="fc">&nbsp;    wordSplitter = new ExtendedGermanWordSplitter(false);</b>
+<b class="fc">&nbsp;    wordSplitter.setStrictMode(strictMode);</b>
+<b class="fc">&nbsp;    wordSplitter.setMinimumWordLength(3);</b>
+&nbsp;    // add exceptions here so we don&#39;t need to update JWordSplitter for every exception we find:
+&nbsp;    //wordSplitter.addException(&quot;Maskerade&quot;, Collections.singletonList(&quot;Maskerade&quot;));
+&nbsp;    //wordSplitter.addException(&quot;Sportshorts&quot;, asList(&quot;Sport&quot;, &quot;shorts&quot;));
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Absolventen&quot;, asList(&quot;Absolventen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Acetat&quot;, asList(&quot;Acetat&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Alkoholabstinenz&quot;, asList(&quot;Alkohol&quot;, &quot;abstinenz&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Androgen&quot;, asList(&quot;Androgen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Auberginen&quot;, asList(&quot;Auberginen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Auckland&quot;, asList(&quot;Auckland&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Boston&quot;, asList(&quot;Boston&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Brandenburg&quot;, asList(&quot;Brandenburg&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Broadcast&quot;, asList(&quot;Broadcast&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Buchsbaum&quot;, asList(&quot;Buchsbaum&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Chiemsee&quot;, asList(&quot;Chiemsee&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Coffein&quot;, asList(&quot;Coffein&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Drohnen&quot;, asList(&quot;Drohnen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Eiben&quot;, asList(&quot;Eiben&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Eingroschen&quot;, asList(&quot;Eingroschen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Einkomponenten&quot;, asList(&quot;Einkomponenten&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Elster&quot;, asList(&quot;Elster&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Engineering&quot;, asList(&quot;Engineering&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Factoring&quot;, asList(&quot;Factoring&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Flexodruck&quot;, asList(&quot;Flexo&quot;, &quot;druck&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Graviton&quot;, asList(&quot;Graviton&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Göttinnen&quot;, asList(&quot;Göttinnen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Hallesche&quot;, asList(&quot;Hallesche&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Hinspiel&quot;, asList(&quot;Hinspiel&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Homogen&quot;, asList(&quot;Homogen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Kolleggen&quot;, asList(&quot;Kolleggen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Karstadt&quot;, asList(&quot;Karstadt&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Kartier&quot;, asList(&quot;Kartier&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Kaukasus&quot;, asList(&quot;Kaukasus&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Knoblauch&quot;, asList(&quot;Knoblauch&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Kollagen&quot;, asList(&quot;Kollagen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Kommerz&quot;, asList(&quot;Kommerz&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Mentoring&quot;, asList(&quot;Mentoring&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Monarchen&quot;, asList(&quot;Monarchen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Oligarchen&quot;, asList(&quot;Oligarchen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Optimal&quot;, asList(&quot;Optimal&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Saunieren&quot;, asList(&quot;Saunieren&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Schiessen&quot;, asList(&quot;Schiessen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Spielgeleier&quot;, asList(&quot;Spielgeleier&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Halleschen&quot;, asList(&quot;Halleschen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Reinigungstab&quot;, asList(&quot;Reinigungs&quot;, &quot;tab&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Reinigungstabs&quot;, asList(&quot;Reinigungs&quot;, &quot;tabs&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Tauschwerte&quot;, asList(&quot;Tausch&quot;, &quot;werte&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Tauschwertes&quot;, asList(&quot;Tausch&quot;, &quot;wertes&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Kinderspielen&quot;, asList(&quot;Kinder&quot;, &quot;spielen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Buchhaltungstrick&quot;, asList(&quot;Buchhaltungs&quot;, &quot;trick&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Buchhaltungstricks&quot;, asList(&quot;Buchhaltungs&quot;, &quot;tricks&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Haushaltstrick&quot;, asList(&quot;Haushalts&quot;, &quot;trick&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Haushaltstricks&quot;, asList(&quot;Haushalts&quot;, &quot;tricks&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Verkaufstrick&quot;, asList(&quot;Verkaufs&quot;, &quot;trick&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Verkaufstricks&quot;, asList(&quot;Verkaufs&quot;, &quot;tricks&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Ablenkungstrick&quot;, asList(&quot;Ablenkungs&quot;, &quot;trick&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Ablenkungstricks&quot;, asList(&quot;Ablenkungs&quot;, &quot;tricks&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Manipulationstrick&quot;, asList(&quot;Manipulations&quot;, &quot;trick&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Manipulationstricks&quot;, asList(&quot;Manipulations&quot;, &quot;tricks&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Erziehungstrick&quot;, asList(&quot;Erziehungs&quot;, &quot;trick&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Erziehungstricks&quot;, asList(&quot;Erziehungs&quot;, &quot;tricks&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Messetage&quot;, asList(&quot;Messe&quot;, &quot;tage&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Messetagen&quot;, asList(&quot;Messe&quot;, &quot;tagen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;karamelligen&quot;, asList(&quot;karamelligen&quot;));  // != Karamel+Ligen</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Häkelnadel&quot;, asList(&quot;Häkel&quot;, &quot;nadel&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Häkelnadeln&quot;, asList(&quot;Häkel&quot;, &quot;nadeln&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Freiberg&quot;, asList(&quot;Freiberg&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Abtestat&quot;, asList(&quot;Abtestat&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Abtestaten&quot;, asList(&quot;Abtestaten&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Freibergs&quot;, asList(&quot;Freibergs&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Kreuzberg&quot;, asList(&quot;Kreuzberg&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Kreuzbergs&quot;, asList(&quot;Kreuzbergs&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Digitalisierung&quot;, asList(&quot;Digitalisierung&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Abtrocknung&quot;, asList(&quot;Abtrocknung&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Erlösung&quot;, asList(&quot;Erlösung&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Feuerung&quot;, asList(&quot;Feuerung&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Aktivierung&quot;, asList(&quot;Aktivierung&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Protokollierung&quot;, asList(&quot;Protokollierung&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Budgetierung&quot;, asList(&quot;Budgetierung&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Faltung&quot;, asList(&quot;Faltung&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Anhäufung&quot;, asList(&quot;Anhäufung&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Aufkohlung&quot;, asList(&quot;Aufkohlung&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Festigung&quot;, asList(&quot;Festigung&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Allerheiligen&quot;, asList(&quot;Allerheiligen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Druckerpressen&quot;, asList(&quot;Drucker&quot;, &quot;pressen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Habitat&quot;, asList(&quot;Habitat&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Augarten&quot;, asList(&quot;Augarten&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Auszeit&quot;, asList(&quot;Auszeit&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Bewegtbild&quot;, asList(&quot;Bewegt&quot;, &quot;bild&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Bigband&quot;, asList(&quot;Bigband&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Bisexuelle&quot;, asList(&quot;Bisexuelle&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Bisexuellen&quot;, asList(&quot;Bisexuellen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Bunsenbrenner&quot;, asList(&quot;Bunsenbrenner&quot;));  // avoid &quot;Bunsenweisheit&quot;</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Carbon&quot;, asList(&quot;Carbon&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Carsharing&quot;, asList(&quot;Carsharing&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Castor&quot;, asList(&quot;Castor&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Catering&quot;, asList(&quot;Catering&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Cholesterin&quot;, asList(&quot;Cholesterin&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Damast&quot;, asList(&quot;Damast&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Dispositiv&quot;, asList(&quot;Dispositiv&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Emittent&quot;, asList(&quot;Emittent&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Emittenten&quot;, asList(&quot;Emittenten&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Express&quot;, asList(&quot;Express&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Fairness&quot;, asList(&quot;Fairness&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Fiberglas&quot;, asList(&quot;Fiberglas&quot;));  // avoid &quot;Fiberthermometer&quot;</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Globus&quot;, asList(&quot;Globus&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Göttinnen&quot;, asList(&quot;Göttinnen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Illustration&quot;, asList(&quot;Illustration&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Muttertag&quot;, asList(&quot;Muttertag&quot;));  // &quot;Muttertag&quot; needs infix s</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Muttertags&quot;, asList(&quot;Muttertags&quot;));  // &quot;Muttertag&quot; needs infix s</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Patriarchen&quot;, asList(&quot;Patriarchen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Phosgen&quot;, asList(&quot;Phosgen&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Vatertag&quot;, asList(&quot;Vatertag&quot;));  // &quot;Vatertag&quot; needs infix s</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Vatertags&quot;, asList(&quot;Vatertags&quot;));  // &quot;Vatertag&quot; needs infix s</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Vaterland&quot;, asList(&quot;Vaterland&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Vaterlands&quot;, asList(&quot;Vaterlands&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Wehrmacht&quot;, asList(&quot;Wehrmacht&quot;));</b>
+<b class="fc">&nbsp;    wordSplitter.addException(&quot;Wehrmachts&quot;, asList(&quot;Wehrmachts&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; tokenize(String word) {
+&nbsp;    try {
+<b class="fc">&nbsp;      return wordSplitter.splitWord(word);</b>
+&nbsp;    } catch (InputTooLongException e) {
+<b class="nc">&nbsp;      return Collections.singletonList(word);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static GermanCompoundTokenizer getStrictInstance() {
+<b class="fc">&nbsp;    return strictInstance.get();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static GermanCompoundTokenizer getNonStrictInstance() {
+<b class="nc">&nbsp;    return nonStrictInstance.get();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    if (args.length == 0) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + GermanCompoundTokenizer.class.getSimpleName() + &quot; &lt;wordsToSplit... or file&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer();</b>
+<b class="nc">&nbsp;    if (new File(args[0]).exists()) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Working on lines from &quot; + args[0] + &quot;:&quot;);</b>
+<b class="nc">&nbsp;      List&lt;String&gt; lines = Files.readAllLines(Paths.get(args[0]));</b>
+<b class="nc">&nbsp;      for (String line : lines) {</b>
+<b class="nc">&nbsp;        System.out.println(tokenizer.tokenize(line));</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      for (String arg : args) {</b>
+<b class="nc">&nbsp;        System.out.println(tokenizer.tokenize(arg));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,230 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ConfusionSetLoader</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: ConfusionSetLoader (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ConfusionSetLoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/45)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.ShortDescriptionProvider;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Loads a confusion set from a plain text file (UTF-8). See {@code confusion_sets.txt}
+&nbsp; * for a description of the file format.
+&nbsp; * @since 2.7
+&nbsp; */
+&nbsp;public class ConfusionSetLoader {
+&nbsp;
+&nbsp;  private static final String CHARSET = &quot;utf-8&quot;;
+&nbsp;  
+&nbsp;  private final ShortDescriptionProvider wordDefs;
+&nbsp;  private final Language lang;
+&nbsp;
+<b class="nc">&nbsp;  public ConfusionSetLoader(Language lang) {</b>
+<b class="nc">&nbsp;    wordDefs = new ShortDescriptionProvider();</b>
+<b class="nc">&nbsp;    this.lang = Objects.requireNonNull(lang);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Map&lt;String,List&lt;ConfusionPair&gt;&gt; loadConfusionPairs(InputStream stream) throws IOException {
+<b class="nc">&nbsp;    Map&lt;String,List&lt;ConfusionPair&gt;&gt; map = new HashMap&lt;&gt;();</b>
+&nbsp;    try (
+<b class="nc">&nbsp;      InputStreamReader reader = new InputStreamReader(stream, CHARSET);</b>
+<b class="nc">&nbsp;      BufferedReader br = new BufferedReader(reader)</b>
+&nbsp;    ) {
+&nbsp;      String line;
+<b class="nc">&nbsp;      while ((line = br.readLine()) != null) {</b>
+<b class="nc">&nbsp;        if (line.startsWith(&quot;#&quot;) || line.trim().isEmpty()) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        String[] parts = line.replaceFirst(&quot;\\s*#.*&quot;, &quot;&quot;).split(&quot;\\s*(;|-&gt;)\\s*&quot;);</b>
+<b class="nc">&nbsp;        if (parts.length != 3) {</b>
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Unexpected format: &#39;&quot; + line + &quot;&#39; - expected three semicolon-separated values: word1; word2; factor&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        boolean bidirectional = !line.replaceFirst(&quot;#.*&quot;, &quot;&quot;).contains(&quot; -&gt; &quot;);</b>
+<b class="nc">&nbsp;        List&lt;ConfusionString&gt; confusionStrings = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        Set&lt;String&gt; loadedForSet = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;        String prevWord = null;</b>
+<b class="nc">&nbsp;        for (String part : Arrays.asList(parts).subList(0, parts.length - 1)) {</b>
+<b class="nc">&nbsp;          String[] subParts = part.split(&quot;\\|&quot;);</b>
+<b class="nc">&nbsp;          String word = subParts[0];</b>
+<b class="nc">&nbsp;          if (bidirectional &amp;&amp; prevWord != null &amp;&amp; word.compareTo(prevWord) &lt; 0) {</b>
+&nbsp;            // Quick hack for reordering lines
+&nbsp;            //System.err.println(&quot;Delete: &quot; + line);
+&nbsp;            //String comment = line.substring(line.indexOf(&quot;#&quot;));
+&nbsp;            //String newLine = parts[1] + &quot;; &quot; + parts[0] + &quot;; &quot; + parts[2] + &quot;; &quot; + comment;
+&nbsp;            //System.err.println(&quot;Add: &quot; + newLine);
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Order words alphabetically per line in the confusion set file: &quot; + line + &quot;: found &quot; + word + &quot; after &quot; + prevWord);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          prevWord = word;</b>
+<b class="nc">&nbsp;          String description = subParts.length == 2 ? subParts[1] : null;</b>
+<b class="nc">&nbsp;          if (loadedForSet.contains(word)) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Word appears twice in same confusion set: &#39;&quot; + word + &quot;&#39;&quot;);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (description == null) {</b>
+<b class="nc">&nbsp;            description = wordDefs.getShortDescription(word, lang);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          confusionStrings.add(new ConfusionString(word, description));</b>
+<b class="nc">&nbsp;          loadedForSet.add(word);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        long factor = Long.parseLong(parts[parts.length - 1]);</b>
+<b class="nc">&nbsp;        if (bidirectional) {</b>
+<b class="nc">&nbsp;          ConfusionPair confusionSet1 = new ConfusionPair(confusionStrings.get(0), confusionStrings.get(1), factor, false);</b>
+<b class="nc">&nbsp;          addToMap(map, confusionStrings, confusionSet1);</b>
+<b class="nc">&nbsp;          ConfusionPair confusionSet2 = new ConfusionPair(confusionStrings.get(1), confusionStrings.get(0), factor, false);</b>
+<b class="nc">&nbsp;          addToMap(map, confusionStrings, confusionSet2);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          ConfusionPair confusionSet = new ConfusionPair(confusionStrings.get(0), confusionStrings.get(1), factor, false);</b>
+<b class="nc">&nbsp;          addToMap(map, confusionStrings, confusionSet);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return map;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void addToMap(Map&lt;String, List&lt;ConfusionPair&gt;&gt; map, List&lt;ConfusionString&gt; confusionStrings, ConfusionPair confusionSet) {
+<b class="nc">&nbsp;    for (ConfusionString confusionString : confusionStrings) {</b>
+<b class="nc">&nbsp;      String key = confusionString.getString();</b>
+<b class="nc">&nbsp;      List&lt;ConfusionPair&gt; existingEntry = map.get(key);</b>
+<b class="nc">&nbsp;      if (existingEntry != null) {</b>
+<b class="nc">&nbsp;        existingEntry.add(confusionSet);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        List&lt;ConfusionPair&gt; pairs = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        pairs.add(confusionSet);</b>
+<b class="nc">&nbsp;        map.put(key, pairs);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

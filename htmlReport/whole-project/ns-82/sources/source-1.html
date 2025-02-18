@@ -1,0 +1,179 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > JapaneseTagger</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.ja</a>
+</div>
+
+<h1>Coverage Summary for Class: JapaneseTagger (org.languagetool.tagging.ja)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JapaneseTagger</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (3/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    78.6%
+  </span>
+  <span class="absValue">
+    (11/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tagging.ja;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;
+<b class="fc">&nbsp;public class JapaneseTagger implements Tagger {</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;AnalyzedTokenReadings&gt; tag(List&lt;String&gt; sentenceTokens) throws IOException {
+<b class="fc">&nbsp;    List&lt;AnalyzedTokenReadings&gt; tokenReadings = new ArrayList&lt;&gt;(sentenceTokens.size());</b>
+<b class="fc">&nbsp;    int pos = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;    for (String word : sentenceTokens) {</b>
+<b class="fc">&nbsp;      AnalyzedToken at = asAnalyzedToken(word);</b>
+<b class="fc">&nbsp;      tokenReadings.add(new AnalyzedTokenReadings(at, pos));</b>
+<b class="fc">&nbsp;      pos += at.getToken().length();</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return tokenReadings;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final AnalyzedTokenReadings createNullToken(String token, int startPos) {
+<b class="nc">&nbsp;    return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null), startPos);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public AnalyzedToken createToken(String token, String posTag) {
+<b class="nc">&nbsp;    return new AnalyzedToken(token, posTag, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private AnalyzedToken asAnalyzedToken(String word) {
+<b class="fc">&nbsp;    String[] parts = word.split(&quot; &quot;);</b>
+<b class="pc">&nbsp;    if (parts.length != 3) {</b>
+<b class="nc">&nbsp;      return new AnalyzedToken(&quot; &quot;, null, null);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return new AnalyzedToken(parts[0], parts[1], parts[2]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

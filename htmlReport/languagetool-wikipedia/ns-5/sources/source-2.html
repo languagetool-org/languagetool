@@ -1,0 +1,357 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CommandLineParser</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.commandline</a>
+</div>
+
+<h1>Coverage Summary for Class: CommandLineParser (org.languagetool.commandline)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommandLineParser</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/138)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/128)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.commandline;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.PrintStream;
+&nbsp;import java.util.Arrays;
+&nbsp;
+&nbsp;/**
+&nbsp; * Parser for the command line arguments.
+&nbsp; */
+<b class="nc">&nbsp;class CommandLineParser {</b>
+&nbsp;
+&nbsp;  CommandLineOptions parseOptions(String[] args) {
+<b class="nc">&nbsp;    if (args.length &lt; 1 || args.length &gt; 14) {</b>
+<b class="nc">&nbsp;      throw new WrongParameterNumberException();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    CommandLineOptions options = new CommandLineOptions();</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; args.length; i++) {</b>
+<b class="nc">&nbsp;      if (args[i].equals(&quot;--version&quot;)) {</b>
+<b class="nc">&nbsp;        options.setPrintVersion(true);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--list&quot;)) {</b>
+<b class="nc">&nbsp;        options.setPrintLanguages(true);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-h&quot;) || args[i].equals(&quot;-help&quot;) || args[i].equals(&quot;--help&quot;) || args[i].equals(&quot;--?&quot;)) {</b>
+<b class="nc">&nbsp;        options.setPrintUsage(true);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-adl&quot;) || args[i].equals(&quot;--autoDetect&quot;)) {    // set autoDetect flag</b>
+<b class="nc">&nbsp;        options.setAutoDetect(true);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-v&quot;) || args[i].equals(&quot;--verbose&quot;)) {</b>
+<b class="nc">&nbsp;        options.setVerbose(true);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--line-by-line&quot;)) {</b>
+<b class="nc">&nbsp;        options.setLineByLine(true);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--enable-temp-off&quot;)) {</b>
+<b class="nc">&nbsp;        options.setEnableTempOff(true);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--clean-overlapping&quot;)) {</b>
+<b class="nc">&nbsp;        options.setCleanOverlapping(true);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--level&quot;)) {</b>
+<b class="nc">&nbsp;        String level = args[++i];</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          options.setLevel(JLanguageTool.Level.valueOf(level));</b>
+&nbsp;        } catch (IllegalArgumentException e) {
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;Unknown level &#39;&quot; + level + &quot;&#39; - currently, only &#39;PICKY&#39; is supported&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-t&quot;) || args[i].equals(&quot;--taggeronly&quot;)) {</b>
+<b class="nc">&nbsp;        options.setTaggerOnly(true);</b>
+<b class="nc">&nbsp;        if (options.isListUnknown()) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;You cannot list unknown words when tagging only&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (options.isApplySuggestions()) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;You cannot apply suggestions when tagging only&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-r&quot;) || args[i].equals(&quot;--recursive&quot;)) {</b>
+<b class="nc">&nbsp;        options.setRecursive(true);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-b2&quot;) || args[i].equals(&quot;--bitext&quot;)) {</b>
+<b class="nc">&nbsp;        options.setBitext(true);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-eo&quot;) || args[i].equals(&quot;--enabledonly&quot;)) {</b>
+<b class="nc">&nbsp;        if (options.getDisabledRules().size() &gt; 0) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;You cannot specify both disabled rules and enabledonly&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        options.setUseEnabledOnly();</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-d&quot;) || args[i].equals(&quot;--disable&quot;)) {</b>
+<b class="nc">&nbsp;        if (options.isUseEnabledOnly()) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;You cannot specify both disabled rules and enabledonly&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        checkArguments(&quot;-d/--disable&quot;, i, args);</b>
+<b class="nc">&nbsp;        String rules = args[++i];</b>
+<b class="nc">&nbsp;        options.setDisabledRules(Arrays.asList(rules.split(&quot;,&quot;)));</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-e&quot;) || args[i].equals(&quot;--enable&quot;)) {</b>
+<b class="nc">&nbsp;        checkArguments(&quot;-e/--enable&quot;, i, args);</b>
+<b class="nc">&nbsp;        String rules = args[++i];</b>
+<b class="nc">&nbsp;        options.setEnabledRules(Arrays.asList(rules.split(&quot;,&quot;)));</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--enablecategories&quot;)) {</b>
+<b class="nc">&nbsp;        checkArguments(&quot;--enablecategories&quot;, i, args);</b>
+<b class="nc">&nbsp;        String categories = args[++i];</b>
+<b class="nc">&nbsp;        options.setEnabledCategories(Arrays.asList(categories.split(&quot;,&quot;)));</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--disablecategories&quot;)) {</b>
+<b class="nc">&nbsp;        checkArguments(&quot;--disablecategories&quot;, i, args);</b>
+<b class="nc">&nbsp;        String categories = args[++i];</b>
+<b class="nc">&nbsp;        options.setDisabledCategories(Arrays.asList(categories.split(&quot;,&quot;)));</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-l&quot;) || args[i].equals(&quot;--language&quot;)) {</b>
+<b class="nc">&nbsp;        checkArguments(&quot;-l/--language&quot;, i, args);</b>
+<b class="nc">&nbsp;        options.setLanguage(getLanguage(args[++i]));</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-m&quot;) || args[i].equals(&quot;--mothertongue&quot;)) {</b>
+<b class="nc">&nbsp;        checkArguments(&quot;-m/--mothertongue&quot;, i, args);</b>
+<b class="nc">&nbsp;        options.setMotherTongue(getLanguage(args[++i]));</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--languagemodel&quot;)) {</b>
+<b class="nc">&nbsp;        checkArguments(&quot;--languagemodel&quot;, i, args);</b>
+<b class="nc">&nbsp;        options.setLanguageModel(new File(args[++i]));</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--fasttextmodel&quot;)) {</b>
+<b class="nc">&nbsp;        checkArguments(&quot;--fasttextmodel&quot;, i, args);</b>
+<b class="nc">&nbsp;        options.setFasttextModel(new File(args[++i]));</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--fasttextbinary&quot;)) {</b>
+<b class="nc">&nbsp;        checkArguments(&quot;--fasttextbinary&quot;, i, args);</b>
+<b class="nc">&nbsp;        options.setFasttextBinary(new File(args[++i]));</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--rulefile&quot;)) {</b>
+<b class="nc">&nbsp;        checkArguments(&quot;--rulefile&quot;, i, args);</b>
+<b class="nc">&nbsp;        options.setRuleFile(args[++i]);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--remoterules&quot;)) {</b>
+<b class="nc">&nbsp;        checkArguments(&quot;--remoterules&quot;, i, args);</b>
+<b class="nc">&nbsp;        options.setRemoteRulesFile(args[++i]);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--falsefriends&quot;)) {</b>
+<b class="nc">&nbsp;        checkArguments(&quot;--falsefriends&quot;, i, args);</b>
+<b class="nc">&nbsp;        options.setFalseFriendFile(args[++i]);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--bitextrules&quot;)) {</b>
+<b class="nc">&nbsp;        checkArguments(&quot;--bitextrules&quot;, i, args);</b>
+<b class="nc">&nbsp;        options.setBitextRuleFile(args[++i]);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-c&quot;) || args[i].equals(&quot;--encoding&quot;)) {</b>
+<b class="nc">&nbsp;        checkArguments(&quot;-c/--encoding&quot;, i, args);</b>
+<b class="nc">&nbsp;        options.setEncoding(args[++i]);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-u&quot;) || args[i].equals(&quot;--list-unknown&quot;)) {</b>
+<b class="nc">&nbsp;        options.setListUnknown(true);</b>
+<b class="nc">&nbsp;        if (options.isTaggerOnly()) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;You cannot list unknown words when tagging only&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-b&quot;)) {</b>
+<b class="nc">&nbsp;        options.setSingleLineBreakMarksParagraph(true);</b>
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--json&quot;)) {</b>
+<b class="nc">&nbsp;        options.setJsonFormat();</b>
+<b class="nc">&nbsp;        if (options.isApplySuggestions()) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;JSON output format makes no sense for automatic application of suggestions&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (options.isLineByLine()) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;JSON output format is not implemented for \&quot;line by line\&quot; analysis&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (options.isBitext()) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;JSON output format is not implemented for Bitext&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (options.isListUnknown()) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;You cannot list unknown words in JSON output format&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-a&quot;) || args[i].equals(&quot;--apply&quot;)) {</b>
+<b class="nc">&nbsp;        options.setApplySuggestions(true);</b>
+<b class="nc">&nbsp;        if (options.isTaggerOnly()) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;You cannot apply suggestions when tagging only&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (options.isJsonFormat()) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;JSON output format makes no sense for automatic application of suggestions&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;-p&quot;) || args[i].equals(&quot;--profile&quot;)) {</b>
+<b class="nc">&nbsp;        options.setProfile(true);</b>
+<b class="nc">&nbsp;        if (options.isJsonFormat()) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;JSON output format makes no sense for profiling&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (options.isApplySuggestions()) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;Applying suggestions makes no sense for profiling&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (options.isTaggerOnly()) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;Tagging makes no sense for profiling&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (args[i].equals(&quot;--xmlfilter&quot;)) {</b>
+<b class="nc">&nbsp;        options.setXmlFiltering(true);</b>
+<b class="nc">&nbsp;      } else if (i == args.length - 1) {</b>
+<b class="nc">&nbsp;        options.setFilename(args[i]);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        throw new UnknownParameterException(&quot;Unknown parameter: &quot; + args[i]);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return options;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void printUsage() {
+<b class="nc">&nbsp;    printUsage(System.out);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void printUsage(PrintStream stream) {
+<b class="nc">&nbsp;    stream.println(&quot;Usage: java -jar languagetool-commandline.jar [OPTION]... FILE\n&quot;</b>
+&nbsp;            + &quot; FILE                      plain text file to be checked\n&quot;
+&nbsp;            + &quot; Available options:\n&quot;
+&nbsp;            + &quot;  -r, --recursive          work recursively on directory, not on a single file\n&quot;
+&nbsp;            + &quot;  -c, --encoding ENC       character set of the input text, e.g. utf-8 or latin1\n&quot;
+&nbsp;            + &quot;  -b                       assume that a single line break marks the end of a paragraph\n&quot;
+&nbsp;            + &quot;  -l, --language LANG      the language code of the text, e.g. en for English, en-GB for British English\n&quot;
+&nbsp;            + &quot;  --list                   print all available languages and exit\n&quot;
+&nbsp;            + &quot;  -adl, --autoDetect       auto-detect the language of the input text - note this will not detect\n&quot;
+&nbsp;            + &quot;                           variants like &#39;English (US)&#39;, so you will not get spell checking for\n&quot;
+&nbsp;            + &quot;                           languages with variants\n&quot;
+&nbsp;            + &quot;  -m, --mothertongue LANG  the language code of your first language, used to activate false-friend checking\n&quot;
+&nbsp;            + &quot;  -d, --disable RULES      a comma-separated list of rule ids to be disabled (use no spaces between ids)\n&quot;
+&nbsp;            + &quot;  -e, --enable RULES       a comma-separated list of rule ids to be enabled (use no spaces between ids)\n&quot;
+&nbsp;            + &quot;  -eo, --enabledonly       disable all rules except those enabled explicitly in -e\n&quot;
+&nbsp;            + &quot;  --enablecategories CAT   a comma-separated list of category ids to be enabled (use no spaces between ids)\n&quot;
+&nbsp;            + &quot;  --disablecategories CAT  a comma-separated list of category ids to be disabled (use no spaces between ids)\n&quot;
+&nbsp;            + &quot;  -t, --taggeronly         don&#39;t check, but only print text analysis (sentences, part-of-speech tags)\n&quot;
+&nbsp;            + &quot;  -u, --list-unknown       also print a summary of words from the input that LanguageTool doesn&#39;t know\n&quot;
+&nbsp;            + &quot;  -b2, --bitext            check bilingual texts with a tab-separated input file,\n&quot;
+&nbsp;            + &quot;                           see http://languagetool.wikidot.com/checking-translations-bilingual-texts\n&quot;
+&nbsp;            + &quot;  --json                   print results as JSON (see https://languagetool.org/http-api/#!/default/post_check)\n&quot;
+&nbsp;            + &quot;  -p, --profile            print performance measurements\n&quot;
+&nbsp;            + &quot;  -v, --verbose            print text analysis (sentences, part-of-speech tags) to STDERR\n&quot;
+&nbsp;            + &quot;  --version                print LanguageTool version number and exit\n&quot;
+&nbsp;            + &quot;  -a, --apply              automatically apply suggestions if available, printing result to STDOUT\n&quot;
+&nbsp;            + &quot;                           NOTE: only use with very robust rules, as this will otherwise introduce new errors\n&quot;
+&nbsp;            + &quot;  --rulefile FILE          use an additional grammar file; if the filename contains a known language code,\n&quot;
+&nbsp;            + &quot;                           it is used in addition of standard rules\n&quot;
+&nbsp;            + &quot;  --remoterules FILE       configure rules depending on external services via a JSON file (optional)\n&quot;
+&nbsp;            + &quot;  --falsefriends FILE      use external false friend file to be used along with the built-in rules\n&quot;
+&nbsp;            + &quot;  --bitextrules  FILE      use external bitext XML rule file (useful only in bitext mode)\n&quot;
+&nbsp;            + &quot;  --languagemodel DIR      a directory with e.g. &#39;en&#39; sub directory (i.e. a language code) that contains\n&quot;
+&nbsp;            + &quot;                           &#39;1grams&#39;...&#39;3grams&#39; sub directories with Lucene indexes with\n&quot;
+&nbsp;            + &quot;                           ngram occurrence counts; activates the confusion rule if supported;\n&quot;
+&nbsp;            + &quot;                           see https://dev.languagetool.org/finding-errors-using-n-gram-data\n&quot;
+&nbsp;            + &quot;  --fasttextmodel FILE     fasttext language detection model (optional), see https://fasttext.cc/docs/en/language-identification.html\n&quot;
+&nbsp;            + &quot;  --fasttextbinary FILE    fasttext executable (optional), see https://fasttext.cc/docs/en/support.html\n&quot;
+&nbsp;            + &quot;  --xmlfilter              [deprecated] remove XML/HTML elements from input before checking\n&quot;
+&nbsp;            + &quot;  --line-by-line           work on file line by line (for development, e.g. inside an IDE)\n&quot;
+&nbsp;            + &quot;  --enable-temp-off        enable all temp_off rules (for testing and development)\n&quot;
+&nbsp;            + &quot;  --clean-overlapping      clean overlapping matches (show only the highest priority match)\n&quot;
+&nbsp;            + &quot;  --level level            enable the given level (currently only &#39;PICKY&#39;)&quot;
+&nbsp;    );
+&nbsp;  }
+&nbsp;
+&nbsp;  private void checkArguments(String option, int argParsingPos, String[] args) {
+<b class="nc">&nbsp;    if (argParsingPos + 1 &gt;= args.length) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Missing argument to &quot; + option + &quot; command line option.&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private Language getLanguage(String userSuppliedLangCode) {
+<b class="nc">&nbsp;    return Languages.getLanguageForShortCode(userSuppliedLangCode);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

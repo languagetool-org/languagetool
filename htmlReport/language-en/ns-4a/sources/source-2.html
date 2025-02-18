@@ -1,0 +1,325 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > EditDistance</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling.symspell.implementation</a>
+</div>
+
+<h1>Coverage Summary for Class: EditDistance (org.languagetool.rules.spelling.symspell.implementation)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EditDistance</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    3.8%
+  </span>
+  <span class="absValue">
+    (3/79)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    11.3%
+  </span>
+  <span class="absValue">
+    (8/71)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">EditDistance$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">EditDistance$DistanceAlgorithm</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (3/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    3.8%
+  </span>
+  <span class="absValue">
+    (3/79)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    13.5%
+  </span>
+  <span class="absValue">
+    (10/74)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.rules.spelling.symspell.implementation;
+&nbsp;//        MIT License
+&nbsp;//
+&nbsp;//        Copyright (c) 2018 Hampus Londögård
+&nbsp;//
+&nbsp;//        Permission is hereby granted, free of charge, to any person obtaining a copy
+&nbsp;//        of this software and associated documentation files (the &quot;Software&quot;), to deal
+&nbsp;//        in the Software without restriction, including without limitation the rights
+&nbsp;//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+&nbsp;//        copies of the Software, and to permit persons to whom the Software is
+&nbsp;//        furnished to do so, subject to the following conditions:
+&nbsp;//
+&nbsp;//        The above copyright notice and this permission notice shall be included in all
+&nbsp;//        copies or substantial portions of the Software.
+&nbsp;//
+&nbsp;//        THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+&nbsp;//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+&nbsp;//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+&nbsp;//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+&nbsp;//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+&nbsp;//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+&nbsp;//        SOFTWARE.
+&nbsp;
+&nbsp;public class EditDistance {
+<b class="fc">&nbsp;    public enum DistanceAlgorithm{</b>
+<b class="fc">&nbsp;        Damerau</b>
+&nbsp;    }
+&nbsp;    private String baseString;
+&nbsp;    private DistanceAlgorithm algorithm;
+&nbsp;    private int[] v0;
+&nbsp;    private int[] v2;
+&nbsp;    /// &lt;summary&gt;Create a new EditDistance object.&lt;/summary&gt;
+&nbsp;    /// &lt;param name=&quot;baseString&quot;&gt;The base string to which other strings will be compared.&lt;/param&gt;
+&nbsp;    /// &lt;param name=&quot;algorithm&quot;&gt;The desired edit distance algorithm.&lt;/param&gt;
+&nbsp;    public EditDistance(String baseString, DistanceAlgorithm algorithm)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.baseString = baseString;</b>
+<b class="fc">&nbsp;        this.algorithm = algorithm;</b>
+<b class="fc">&nbsp;        if (this.baseString.isEmpty()) {</b>
+<b class="fc">&nbsp;            this.baseString = null;</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="pc">&nbsp;        if (algorithm == DistanceAlgorithm.Damerau) {</b>
+<b class="fc">&nbsp;            v0 = new int[baseString.length()];</b>
+<b class="fc">&nbsp;            v2 = new int[baseString.length()]; // stores one level further back (offset by +1 position)</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    // &lt;summary&gt;compare a string to the base string to determine the edit distance,
+&nbsp;    /// using the previously selected algorithm.&lt;/summary&gt;
+&nbsp;    /// &lt;param name=&quot;string2&quot;&gt;The string to compare.&lt;/param&gt;
+&nbsp;    /// &lt;param name=&quot;maxDistance&quot;&gt;The maximum distance allowed.&lt;/param&gt;
+&nbsp;    /// &lt;returns&gt;The edit distance (or -1 if maxDistance exceeded).&lt;/returns&gt;
+&nbsp;    public int compare(String string2, int maxDistance) {
+<b class="nc">&nbsp;        switch (algorithm) {</b>
+<b class="nc">&nbsp;            case Damerau: return DamerauLevenshteinDistance(string2, maxDistance);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        throw new IllegalArgumentException(&quot;unknown DistanceAlgorithm&quot;);</b>
+&nbsp;    }
+&nbsp;    // stores one level further back (offset by +1 position)
+&nbsp;    /// &lt;param name=&quot;string1&quot;&gt;String being compared for distance.&lt;/param&gt;
+&nbsp;    /// &lt;param name=&quot;string2&quot;&gt;String being compared against other string.&lt;/param&gt;
+&nbsp;    /// &lt;param name=&quot;maxDistance&quot;&gt;The maximum edit distance of interest.&lt;/param&gt;
+&nbsp;    /// &lt;returns&gt;int edit distance, &gt;= 0 representing the number of edits required
+&nbsp;    /// to transform one string to the other, or -1 if the distance is greater than the specified maxDistance.&lt;/returns&gt;
+&nbsp;    public int DamerauLevenshteinDistance(String string2, int maxDistance) {
+<b class="nc">&nbsp;        if (baseString == null) return string2 == null ? 0 : string2.length(); //string2 ?? &quot;&quot;).Length;</b>
+<b class="nc">&nbsp;        if (string2 == null || string2.isEmpty()) return baseString.length();</b>
+<b class="nc">&nbsp;        if(maxDistance == 0) return baseString.equals(string2) ? 0 : -1;</b>
+&nbsp;
+&nbsp;        // if strings of different lengths, ensure shorter string is in string1. This can result in a little
+&nbsp;        // faster speed by spending more time spinning just the inner loop during the main processing.
+&nbsp;        String string1;
+<b class="nc">&nbsp;        if (baseString.length() &gt; string2.length()) {</b>
+<b class="nc">&nbsp;            string1 = string2;</b>
+<b class="nc">&nbsp;            string2 = baseString;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            string1 = baseString;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        int sLen = string1.length(); // this is also the minimum length of the two strings</b>
+<b class="nc">&nbsp;        int tLen = string2.length();</b>
+&nbsp;
+&nbsp;        // suffix common to both strings can be ignored
+<b class="nc">&nbsp;        while ((sLen &gt; 0) &amp;&amp; (string1.charAt(sLen - 1) == string2.charAt(tLen - 1))) { sLen--; tLen--; }</b>
+&nbsp;
+<b class="nc">&nbsp;        int start = 0;</b>
+<b class="nc">&nbsp;        if ((string1.charAt(0) == string2.charAt(0)) || (sLen == 0)) { // if there&#39;string1 a shared prefix, or all string1 matches string2&#39;string1 suffix</b>
+&nbsp;            // prefix common to both strings can be ignored
+<b class="nc">&nbsp;            while ((start &lt; sLen) &amp;&amp; (string1.charAt(start) == string2.charAt(start))) start++;</b>
+<b class="nc">&nbsp;            sLen -= start; // length of the part excluding common prefix and suffix</b>
+<b class="nc">&nbsp;            tLen -= start;</b>
+&nbsp;
+&nbsp;            // if all of shorter string matches prefix and/or suffix of longer string, then
+&nbsp;            // edit distance is just the delete of additional characters present in longer string
+<b class="nc">&nbsp;            if (sLen == 0) return tLen;</b>
+&nbsp;
+<b class="nc">&nbsp;            string2 = string2.substring(start, start + tLen); // faster than string2[start+j] in inner loop below</b>
+&nbsp;        }
+<b class="nc">&nbsp;        int lenDiff = tLen - sLen;</b>
+<b class="nc">&nbsp;        if ((maxDistance &lt; 0) || (maxDistance &gt; tLen)) {</b>
+<b class="nc">&nbsp;            maxDistance = tLen;</b>
+<b class="nc">&nbsp;        } else if (lenDiff &gt; maxDistance) return -1;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (tLen &gt; v0.length)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            v0 = new int[tLen];</b>
+<b class="nc">&nbsp;            v2 = new int[tLen];</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            for(int i = 0; i &lt; tLen; i++) v2[i] = 0;    // Substituting Array.clear(v2, 0, tLen)</b>
+&nbsp;        }
+&nbsp;        int j;
+<b class="nc">&nbsp;        for (j = 0; j &lt; maxDistance; j++) v0[j] = j + 1;</b>
+<b class="nc">&nbsp;        for (; j &lt; tLen; j++) v0[j] = maxDistance + 1;</b>
+&nbsp;
+<b class="nc">&nbsp;        int jStartOffset = maxDistance - (tLen - sLen);</b>
+<b class="nc">&nbsp;        boolean haveMax = maxDistance &lt; tLen;</b>
+<b class="nc">&nbsp;        int jStart = 0;</b>
+<b class="nc">&nbsp;        int jEnd = maxDistance;</b>
+<b class="nc">&nbsp;        char sChar = string1.charAt(0);</b>
+<b class="nc">&nbsp;        int current = 0;</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; sLen; i++) {</b>
+<b class="nc">&nbsp;            char prevsChar = sChar;</b>
+<b class="nc">&nbsp;            sChar = string1.charAt(start+i);</b>
+<b class="nc">&nbsp;            char tChar = string2.charAt(0);</b>
+<b class="nc">&nbsp;            int left = i;</b>
+<b class="nc">&nbsp;            current = left + 1;</b>
+<b class="nc">&nbsp;            int nextTransCost = 0;</b>
+&nbsp;            // no need to look beyond window of lower right diagonal - maxDistance cells (lower right diag is i - lenDiff)
+&nbsp;            // and the upper left diagonal + maxDistance cells (upper left is i)
+<b class="nc">&nbsp;            jStart += (i &gt; jStartOffset) ? 1 : 0;</b>
+<b class="nc">&nbsp;            jEnd += (jEnd &lt; tLen) ? 1 : 0;</b>
+<b class="nc">&nbsp;            for (j = jStart; j &lt; jEnd; j++) {</b>
+<b class="nc">&nbsp;                int above = current;</b>
+<b class="nc">&nbsp;                int thisTransCost = nextTransCost;</b>
+<b class="nc">&nbsp;                nextTransCost = v2[j];</b>
+<b class="nc">&nbsp;                v2[j] = current = left; // cost of diagonal (substitution)</b>
+<b class="nc">&nbsp;                left = v0[j];    // left now equals current cost (which will be diagonal at next iteration)</b>
+<b class="nc">&nbsp;                char prevtChar = tChar;</b>
+<b class="nc">&nbsp;                tChar = string2.charAt(j);</b>
+<b class="nc">&nbsp;                if (sChar != tChar) {</b>
+<b class="nc">&nbsp;                    if (left &lt; current) current = left;   // insertion</b>
+<b class="nc">&nbsp;                    if (above &lt; current) current = above; // deletion</b>
+<b class="nc">&nbsp;                    current++;</b>
+<b class="nc">&nbsp;                    if ((i != 0) &amp;&amp; (j != 0)</b>
+&nbsp;                            &amp;&amp; (sChar == prevtChar)
+&nbsp;                            &amp;&amp; (prevsChar == tChar)) {
+<b class="nc">&nbsp;                        thisTransCost++;</b>
+<b class="nc">&nbsp;                        if (thisTransCost &lt; current) current = thisTransCost; // transposition</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;                v0[j] = current;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (haveMax &amp;&amp; (v0[i + lenDiff] &gt; maxDistance)) return -1;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return (current &lt;= maxDistance) ? current : -1;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

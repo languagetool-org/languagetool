@@ -1,0 +1,418 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MultiWordChunker2</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.disambiguation</a>
+</div>
+
+<h1>Coverage Summary for Class: MultiWordChunker2 (org.languagetool.tagging.disambiguation)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MultiWordChunker2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/74)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MultiWordChunker2$MultiWordEntry</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/79)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.tagging.disambiguation;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Multiword tagger-chunker.
+&nbsp; * Note: currently does not support:
+&nbsp; * &lt;ul&gt;
+&nbsp; *  &lt;li&gt; overlapping tagging (first matching multiword entry wins)
+&nbsp; * &lt;/ul&gt;
+&nbsp; * @author Andriy Rysin
+&nbsp; */
+&nbsp;public class MultiWordChunker2 extends AbstractDisambiguator {
+&nbsp;  private static final String WRAP_TAG = &quot;&lt;%s&gt;&quot;;
+&nbsp;
+&nbsp;  private final String filename;
+&nbsp;  private final boolean allowFirstCapitalized;
+<b class="nc">&nbsp;  private boolean removeOtherReadings = false;</b>
+<b class="nc">&nbsp;  private String tagFormat = WRAP_TAG;</b>
+&nbsp;  private Map&lt;String, List&lt;MultiWordEntry&gt;&gt; tokenToPosTagMap;
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param filename file text with multiwords and tags
+&nbsp;   */
+&nbsp;  public MultiWordChunker2(String filename) {
+<b class="nc">&nbsp;    this(filename, false);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @param filename file text with multiwords and tags
+&nbsp;   * @param allowFirstCapitalized if set to {@code true}, first word of the multiword can be capitalized
+&nbsp;   */
+<b class="nc">&nbsp;  public MultiWordChunker2(String filename, boolean allowFirstCapitalized) {</b>
+<b class="nc">&nbsp;    this.filename = filename;</b>
+<b class="nc">&nbsp;    this.allowFirstCapitalized = allowFirstCapitalized;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param removeOtherReadings If true and multiword matches other readings will be removed
+&nbsp;   */
+&nbsp;  public void setRemoveOtherReadings(boolean removeOtherReadings) {
+<b class="nc">&nbsp;    this.removeOtherReadings = removeOtherReadings;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param wrapTag If true the tag will be wrapped with &amp;lt; and &amp;gt;
+&nbsp;   */
+&nbsp;  public void setWrapTag(boolean wrapTag) {
+<b class="nc">&nbsp;    tagFormat = wrapTag ? WRAP_TAG : null;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Override this method if you want format POS tag differently
+&nbsp;   * @param posTag POS tag for the multiword
+&nbsp;   * @param position Position of the token in the multiword
+&nbsp;   * @return Returns formatted POS tag for the multiword
+&nbsp;   */
+&nbsp;  protected String formatPosTag(String posTag, int position, int multiwordLength) {
+<b class="nc">&nbsp;    return tagFormat != null ? String.format(tagFormat, posTag) : posTag;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /*
+&nbsp;   * Lazy init, thanks to Artur Trzewik
+&nbsp;   */
+&nbsp;  private void lazyInit() {
+&nbsp;
+<b class="nc">&nbsp;    if (tokenToPosTagMap != null) {</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    Map&lt;String, List&lt;MultiWordEntry&gt;&gt; map = new HashMap&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename)) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; posTokens = loadWords(stream);</b>
+&nbsp;
+<b class="nc">&nbsp;      for (String posToken : posTokens) {</b>
+<b class="nc">&nbsp;        String[] tokenAndTag = posToken.split(&quot;\t&quot;);</b>
+<b class="nc">&nbsp;        if (tokenAndTag.length != 2) {</b>
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Invalid format in &quot; + filename + &quot;: &#39;&quot; + posToken + &quot;&#39;, expected two tab-separated parts&quot;);</b>
+&nbsp;        }
+&nbsp;        
+<b class="nc">&nbsp;        String[] tokens = tokenAndTag[0].split(&quot; &quot;);</b>
+<b class="nc">&nbsp;        String posTag = tokenAndTag[1];</b>
+&nbsp;        
+&nbsp;        List&lt;MultiWordEntry&gt; multiwordItems;
+<b class="nc">&nbsp;        if( map.containsKey(tokens[0]) ) {</b>
+<b class="nc">&nbsp;          multiwordItems = map.get(tokens[0]);</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;          multiwordItems = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          map.put(tokens[0], multiwordItems);</b>
+&nbsp;        }
+&nbsp;        
+<b class="nc">&nbsp;        multiwordItems.add(new MultiWordEntry(Arrays.asList(tokens), posTag));</b>
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      tokenToPosTagMap = map;</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Implements multiword POS tags, e.g., &amp;lt;ELLIPSIS&amp;gt; for ellipsis (...)
+&nbsp;   * start, and &amp;lt;/ELLIPSIS&amp;gt; for ellipsis end.
+&nbsp;   *
+&nbsp;   * @param input The tokens to be chunked.
+&nbsp;   * @return AnalyzedSentence with additional markers.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public AnalyzedSentence disambiguate(AnalyzedSentence input) {
+&nbsp;
+<b class="nc">&nbsp;    lazyInit();</b>
+&nbsp;
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] inputTokens = input.getTokens();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] outputTokens = inputTokens;</b>
+&nbsp;    
+<b class="nc">&nbsp;    for (int i = 1; i &lt; inputTokens.length; i++) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings analyzedToken = inputTokens[i];</b>
+&nbsp;      
+<b class="nc">&nbsp;      String firstToken = analyzedToken.getToken();</b>
+&nbsp;      
+<b class="nc">&nbsp;      List&lt;MultiWordEntry&gt; multiwordItems = tokenToPosTagMap.get(firstToken);</b>
+&nbsp;      
+<b class="nc">&nbsp;      if( multiwordItems == null ) {</b>
+<b class="nc">&nbsp;        if (allowFirstCapitalized &amp;&amp; StringTools.isCapitalizedWord(firstToken) ) {</b>
+<b class="nc">&nbsp;          multiwordItems = tokenToPosTagMap.get(StringTools.lowercaseFirstChar(firstToken));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if( multiwordItems == null )</b>
+&nbsp;          continue;
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      MultiWordEntry multiwordEntry = findMultiwordEntry(inputTokens, i, multiwordItems);</b>
+&nbsp;      
+<b class="nc">&nbsp;      if( multiwordEntry == null )</b>
+&nbsp;        continue;
+&nbsp;
+<b class="nc">&nbsp;      for(int multiwordPos=0, inputTokenPos=i; multiwordPos&lt;multiwordEntry.tokens.size(); inputTokenPos++) {</b>
+<b class="nc">&nbsp;        AnalyzedTokenReadings currentToken = inputTokens[inputTokenPos];</b>
+&nbsp;        
+<b class="nc">&nbsp;        if( currentToken.isWhitespace() ) {</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;        
+<b class="nc">&nbsp;        String multiwordTag = formatPosTag(multiwordEntry.tag, multiwordPos, multiwordEntry.tokens.size());</b>
+&nbsp;
+<b class="nc">&nbsp;        outputTokens[inputTokenPos] = prepareNewReading(multiwordEntry.getLemma(), currentToken.getToken(), currentToken, multiwordTag);</b>
+<b class="nc">&nbsp;        ++multiwordPos;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return new AnalyzedSentence(outputTokens);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private MultiWordEntry findMultiwordEntry(AnalyzedTokenReadings[] inputTokens, int startingPosition, List&lt;MultiWordEntry&gt; multiwordItems) {
+<b class="nc">&nbsp;    for (MultiWordEntry multiWordEntry : multiwordItems) {</b>
+<b class="nc">&nbsp;      if( isMatching(inputTokens, startingPosition, multiWordEntry) )</b>
+<b class="nc">&nbsp;        return multiWordEntry;</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isMatching(AnalyzedTokenReadings[] inputTokens, int startingPosition, MultiWordEntry multiWordEntry) {
+<b class="nc">&nbsp;    int j=1;  // we already matched the first token from multiword</b>
+<b class="nc">&nbsp;    for(int i=1; j&lt;multiWordEntry.tokens.size() &amp;&amp; startingPosition+i&lt;inputTokens.length; i++) {</b>
+&nbsp;  
+<b class="nc">&nbsp;      if( inputTokens[startingPosition+i].isWhitespace() ) {</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      if( ! matches(multiWordEntry.tokens.get(j), inputTokens[startingPosition+i]) )</b>
+<b class="nc">&nbsp;       return false;</b>
+&nbsp;      
+<b class="nc">&nbsp;      ++j;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return j == multiWordEntry.tokens.size();</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  protected boolean matches(String matchText, AnalyzedTokenReadings inputTokens) {
+<b class="nc">&nbsp;    return matchText.equals(inputTokens.getToken());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected AnalyzedTokenReadings prepareNewReading(String tokens, String tok, AnalyzedTokenReadings token, String tag) {
+<b class="nc">&nbsp;    AnalyzedToken tokenStart = new AnalyzedToken(tok, tag, tokens);</b>
+<b class="nc">&nbsp;    return setAndAnnotate(token, tokenStart);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private AnalyzedTokenReadings setAndAnnotate(AnalyzedTokenReadings oldReading, AnalyzedToken newReading) {
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; newAnalyzedTokenList = new ArrayList&lt;AnalyzedToken&gt;();</b>
+<b class="nc">&nbsp;    if(!removeOtherReadings) {</b>
+<b class="nc">&nbsp;      newAnalyzedTokenList.addAll(oldReading.getReadings());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    newAnalyzedTokenList.add(newReading);</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings newAtr = new AnalyzedTokenReadings(oldReading, newAnalyzedTokenList, &quot;MULTIWORD_CHUNKER&quot;); </b>
+<b class="nc">&nbsp;    return newAtr;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; loadWords(InputStream stream) {
+<b class="nc">&nbsp;    List&lt;String&gt; lines = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, &quot;UTF-8&quot;))) {</b>
+&nbsp;      String line;
+<b class="nc">&nbsp;      while ((line = reader.readLine()) != null) {</b>
+<b class="nc">&nbsp;        line = line.trim();</b>
+<b class="nc">&nbsp;        if (line.isEmpty() || line.charAt(0) == &#39;#&#39;) {  // ignore comments</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        lines.add(line);</b>
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return lines;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  
+&nbsp;  private static final class MultiWordEntry {
+&nbsp;    List&lt;String&gt; tokens;
+&nbsp;    String tag;
+&nbsp;
+<b class="nc">&nbsp;    public MultiWordEntry(List&lt;String&gt; tokens, String tag) {</b>
+<b class="nc">&nbsp;      this.tokens = tokens;</b>
+<b class="nc">&nbsp;      this.tag = tag;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    String getLemma() {
+<b class="nc">&nbsp;      return StringUtils.join(tokens, &quot; &quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;      return &quot;MultiWordEntry [tokens=&quot; + tokens + &quot;, tag=&quot; + tag + &quot;]&quot;;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,347 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DatabaseAccess</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: DatabaseAccess (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DatabaseAccess</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2018 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import com.google.common.cache.Cache;
+&nbsp;import org.apache.ibatis.jdbc.SQL;
+&nbsp;import org.apache.ibatis.session.SqlSession;
+&nbsp;import org.apache.ibatis.session.SqlSessionFactory;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Premium;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;
+&nbsp;import java.lang.reflect.InvocationTargetException;
+&nbsp;import java.sql.Connection;
+&nbsp;import java.sql.ResultSet;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.sql.Statement;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Encapsulate database access. Will do nothing if database access is not configured.
+&nbsp; *
+&nbsp; * @since 4.2
+&nbsp; */
+&nbsp;abstract class DatabaseAccess {
+&nbsp;  private static DatabaseAccess instance;
+&nbsp;  protected SqlSessionFactory sqlSessionFactory;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Implementations required to provide a constructor with the same signature
+&nbsp;   */
+<b class="nc">&nbsp;  protected DatabaseAccess(HTTPServerConfig config) {</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  static synchronized void init(HTTPServerConfig config) {
+<b class="nc">&nbsp;    if (instance == null) {</b>
+<b class="nc">&nbsp;      String className = &quot;org.languagetool.server.DatabaseAccess&quot;;</b>
+<b class="nc">&nbsp;      if (Premium.isPremiumVersion()) {</b>
+<b class="nc">&nbsp;        className += &quot;Premium&quot;;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        className += &quot;OpenSource&quot;;</b>
+&nbsp;      }
+&nbsp;      try {
+<b class="nc">&nbsp;        Class&lt;DatabaseAccess&gt; clazz = (Class&lt;DatabaseAccess&gt;) JLanguageTool.getClassBroker().forName(className);</b>
+<b class="nc">&nbsp;        instance = clazz.getConstructor(HTTPServerConfig.class).newInstance(config);</b>
+&nbsp;      } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static synchronized void reset() {
+<b class="nc">&nbsp;    if (instance != null) {</b>
+<b class="nc">&nbsp;      instance.sqlSessionFactory = null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    instance = null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static synchronized DatabaseAccess getInstance() {
+<b class="nc">&nbsp;    if (instance == null) {</b>
+<b class="nc">&nbsp;      throw new IllegalStateException(&quot;DatabaseAccess.init() has not been called yet or failed&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return instance;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.7
+&nbsp;   * Test if instance is configured and can be used
+&nbsp;   */
+&nbsp;  static synchronized boolean isReady() {
+<b class="nc">&nbsp;    return instance != null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * For tests, to avoid waiting for the invalidation period.
+&nbsp;   */
+&nbsp;  abstract void invalidateCaches();
+&nbsp;
+&nbsp;  abstract boolean addWord(String word, Long userId, String groupName);
+&nbsp;
+&nbsp;  abstract boolean deleteWord(String word, Long userId, String groupName);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * remove words in sql batch mode, no auto commit for better performance with large lists
+&nbsp;   * also suppresses uniqueness checks
+&nbsp;   */
+&nbsp;  abstract boolean deleteWordBatch(List&lt;String&gt; words, Long userId, String groupName);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * add words in sql batch mode, no auto commit for better performance with large lists
+&nbsp;   * also suppresses uniqueness checks
+&nbsp;   */
+&nbsp;  abstract void addWordBatch(List&lt;String&gt; words, Long userId, String groupName);
+&nbsp;
+&nbsp;  abstract UserInfoEntry getUserInfoWithPassword(String username, String password);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get more general information on a user
+&nbsp;   * Expects access to already be authorized
+&nbsp;   *
+&nbsp;   * @param user email address of user
+&nbsp;   * @return POJO with user information
+&nbsp;   */
+&nbsp;  abstract ExtendedUserInfo getExtendedUserInfo(String user);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get more general information on a user.
+&nbsp;   * Expects access to already be authorized.
+&nbsp;   *
+&nbsp;   * @param userId user id
+&nbsp;   * @return POJO with more user information
+&nbsp;   */
+&nbsp;  abstract ExtendedUserInfo getExtendedUserInfo(long userId);
+&nbsp;
+&nbsp;  abstract UserInfoEntry getUserInfoWithApiKey(String username, String apiKey);
+&nbsp;
+&nbsp;  abstract UserInfoEntry getUserInfoWithAddonToken(String username, String apiKey);
+&nbsp;
+&nbsp;  abstract void invalidateUserInfoCache(String user);
+&nbsp;
+&nbsp;  abstract Long getUserRequestCount(Long userId);
+&nbsp;
+&nbsp;  abstract Long getOrCreateServerId();
+&nbsp;
+&nbsp;  abstract Long getOrCreateClientId(String client);
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * get all dictionary groups belonging to a user
+&nbsp;   */
+&nbsp;  abstract List&lt;DictGroupEntry&gt; getDictGroups(Long userId);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * get or create a group with this name if it doesn&#39;t exist
+&nbsp;   *
+&nbsp;   * @return id of the created/existing group
+&nbsp;   */
+&nbsp;  abstract Long getOrCreateDictGroup(Long userId, String groupName);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * For unit tests only!
+&nbsp;   */
+&nbsp;  public void createAndFillTestTables() {
+<b class="nc">&nbsp;    createAndFillTestTables(false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * For unit tests only!
+&nbsp;   */
+&nbsp;  public void createAndFillTestTables(boolean mysql) {
+<b class="nc">&nbsp;    createAndFillTestTables(false, Collections.emptyList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * For unit tests only!
+&nbsp;   */
+&nbsp;  public abstract void createAndFillTestTables(boolean mysql, List&lt;String&gt; skipStatements);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * For unit tests only!
+&nbsp;   */
+&nbsp;  public void shutdownCompact() {
+<b class="nc">&nbsp;    try (SqlSession session = sqlSessionFactory.openSession(true)) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Running shutdownCompact...&quot;);</b>
+<b class="nc">&nbsp;      session.update(&quot;shutdownCompact&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * For unit tests only!
+&nbsp;   */
+&nbsp;  abstract void deleteTestTables();
+&nbsp;
+&nbsp;  /** For unit tests only! */
+&nbsp;  ResultSet executeStatement(SQL sql) throws SQLException {
+<b class="nc">&nbsp;    try (SqlSession session = sqlSessionFactory.openSession(true)) {</b>
+<b class="nc">&nbsp;      try (Connection conn = session.getConnection()) {</b>
+<b class="nc">&nbsp;        try (Statement stmt = conn.createStatement()) {</b>
+<b class="nc">&nbsp;          return stmt.executeQuery(sql.toString());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /** For unit tests only! */
+&nbsp;  void execute(SQL sql) throws SQLException {
+<b class="nc">&nbsp;    try (SqlSession session = sqlSessionFactory.openSession(true)) {</b>
+<b class="nc">&nbsp;      try (Connection conn = session.getConnection()) {</b>
+<b class="nc">&nbsp;        try (Statement stmt = conn.createStatement()) {</b>
+<b class="nc">&nbsp;          stmt.execute(sql.toString());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param limits user account and settings for e.g. caching
+&nbsp;   * @param groups names of dictionaries to be fetched, or null for default dictionary
+&nbsp;   * @param offset use offset with limit for an ordered list of words in the dictionary, or RowBounds.NO_ROW_OFFSET
+&nbsp;   * @param limit use limit with offset for an ordered list of words in the dictionary, or use RowBounds.NO_ROW_LIMIT
+&nbsp;   * @return a list of words from the user&#39;s dictionary (complete, or from the given range)
+&nbsp;   */
+&nbsp;  public abstract List&lt;String&gt; getWords(UserLimits limits, List&lt;String&gt; groups, int offset, int limit);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param limits user account and settings for e.g. caching
+&nbsp;   * @param lang language of rules to fetch; fetches global rules and language-specific rules for that language
+&nbsp;   * @param groups names of groups of rules to be fetched, or null for default set of rules
+&nbsp;   * @return a list of user rules (complete, or from the given range)
+&nbsp;   */
+&nbsp;  public abstract List&lt;Rule&gt; getRules(UserLimits limits, Language lang, @Nullable List&lt;String&gt; groups);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

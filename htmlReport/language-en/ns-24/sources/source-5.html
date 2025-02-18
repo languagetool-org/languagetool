@@ -1,0 +1,285 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AbstractDateCheckFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractDateCheckFilter (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractDateCheckFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/45)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import java.util.Calendar;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;/**
+&nbsp; * Accepts rule matches if a date doesn&#39;t match the accompanying weekday, e.g. if {@code Monday, 8 November 2003}
+&nbsp; * isn&#39;t actually a Monday. Replaces {@code {realDay}} with the real day of the date in the rule&#39;s message,
+&nbsp; * and {@code {day}} with the claimed day from the text (might be useful in case the text uses an abbreviation).
+&nbsp; * @since 2.7
+&nbsp; */
+<b class="nc">&nbsp;public abstract class AbstractDateCheckFilter extends RuleFilter {</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(AbstractDateCheckFilter.class);</b>
+&nbsp;
+&nbsp;  // The day of the month may contain not only digits but also extra letters
+&nbsp;  // such as&quot;22nd&quot; in English or &quot;22-an&quot; in Esperanto. The regexp extracts
+&nbsp;  // the numerical part.
+<b class="nc">&nbsp;  protected static final Pattern DAY_OF_MONTH_PATTERN = Pattern.compile(&quot;(\\d+).*&quot;);</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Implement so that Sunday returns {@code 1}, Monday {@code 2} etc.
+&nbsp;   * @param localizedWeekDayString a week day name or abbreviation thereof
+&nbsp;   */
+&nbsp;  protected abstract int getDayOfWeek(String localizedWeekDayString);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the localized name of the day of week for the given date.
+&nbsp;   */
+&nbsp;  protected abstract String getDayOfWeek(Calendar date);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Implement so that &quot;first&quot; returns {@code 1}, second returns {@code 2} etc.
+&nbsp;   * @param localizedDayOfMonth name of day of the month or abbreviation thereof
+&nbsp;   */
+&nbsp;  protected int getDayOfMonth(String localizedDayOfMonth) {
+<b class="nc">&nbsp;    return 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Implement so that January returns {@code 1}, February {@code 2} etc.
+&nbsp;   * @param localizedMonth name of a month or abbreviation thereof
+&nbsp;   */
+&nbsp;  protected abstract int getMonth(String localizedMonth);
+&nbsp;
+&nbsp;  protected abstract Calendar getCalendar();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param args           a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) {
+&nbsp;    try {
+<b class="nc">&nbsp;      int dayOfWeekFromString = getDayOfWeek(getRequired(&quot;weekDay&quot;, args).replace(&quot;\u00AD&quot;, &quot;&quot;));  // replace soft hyphen</b>
+<b class="nc">&nbsp;      Calendar dateFromDate = getDate(args);</b>
+&nbsp;      int dayOfWeekFromDate;
+&nbsp;      try {
+<b class="nc">&nbsp;        dayOfWeekFromDate = dateFromDate.get(Calendar.DAY_OF_WEEK);</b>
+&nbsp;      } catch (IllegalArgumentException ignore) {
+&nbsp;        // happens with &#39;dates&#39; like &#39;32.8.2014&#39; - those should be caught by a different rule
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (dayOfWeekFromString != dayOfWeekFromDate) {</b>
+<b class="nc">&nbsp;        Calendar calFromDateString = Calendar.getInstance();</b>
+<b class="nc">&nbsp;        calFromDateString.set(Calendar.DAY_OF_WEEK, dayOfWeekFromString);</b>
+<b class="nc">&nbsp;        String message = match.getMessage()</b>
+<b class="nc">&nbsp;          .replace(&quot;{realDay}&quot;, getDayOfWeek(dateFromDate))</b>
+<b class="nc">&nbsp;          .replace(&quot;{day}&quot;, getDayOfWeek(calFromDateString))</b>
+<b class="nc">&nbsp;          .replace(&quot;{currentYear}&quot;, Integer.toString(Calendar.getInstance().get(Calendar.YEAR)));</b>
+<b class="nc">&nbsp;        RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());</b>
+<b class="nc">&nbsp;        ruleMatch.setType(match.getType());</b>
+<b class="nc">&nbsp;        ruleMatch.setUrl(Tools.getUrl(&quot;https://www.timeanddate.com/calendar/?year=&quot; + dateFromDate.get(Calendar.YEAR)));</b>
+<b class="nc">&nbsp;        return ruleMatch;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+&nbsp;    } catch (IllegalArgumentException e) {
+&nbsp;      throw e;
+&nbsp;    } catch (RuntimeException e) {
+&nbsp;      // this can happen with some special characters which the Java regex matches but which the Java code
+&nbsp;      // cannot map to days, e.g. German &quot;Dıenstag&quot; vs &quot;Dienstag&quot; (note the difference on the second character -
+&nbsp;      // the first word is not valid, but it should not crash LT):
+<b class="nc">&nbsp;      logger.warn(&quot;Skipping potential match for &quot; + match.getRule().getFullId(), e);</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private Calendar getDate(Map&lt;String, String&gt; args) {
+<b class="nc">&nbsp;    String yearArg = args.get(&quot;year&quot;);</b>
+&nbsp;    int year;
+<b class="nc">&nbsp;    if (yearArg == null &amp;&amp; TestHackHelper.isJUnitTest()) {</b>
+&nbsp;      // Volkswagen-style testing
+&nbsp;      // Hack for tests of date - weekday match with missing year
+&nbsp;      // in production, we assume the current year
+&nbsp;      // For xml tests, we use weekdays of the year 2014
+<b class="nc">&nbsp;      year = 2014;</b>
+<b class="nc">&nbsp;    } else if (yearArg == null) {</b>
+&nbsp;      // assume current year for rule DATUM_WOCHENTAG_OHNE_JAHR etc.
+<b class="nc">&nbsp;      year = getCalendar().get(Calendar.YEAR);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      year = Integer.parseInt(yearArg);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int month = getMonthFromArguments(args);</b>
+<b class="nc">&nbsp;    int dayOfMonth = getDayOfMonthFromArguments(args);</b>
+&nbsp;
+<b class="nc">&nbsp;    Calendar calendar = getCalendar();</b>
+<b class="nc">&nbsp;    calendar.setLenient(false);  // be strict about validity of dates</b>
+&nbsp;    //noinspection MagicConstant
+<b class="nc">&nbsp;    calendar.set(year, month, dayOfMonth, 0, 0, 0);</b>
+<b class="nc">&nbsp;    return calendar;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int getDayOfMonthFromArguments(Map&lt;String, String&gt; args) {
+<b class="nc">&nbsp;    String dayOfMonthString = getRequired(&quot;day&quot;, args);</b>
+&nbsp;    int dayOfMonth;
+<b class="nc">&nbsp;    Matcher matcherDayOfMonth = DAY_OF_MONTH_PATTERN.matcher(dayOfMonthString);</b>
+<b class="nc">&nbsp;    if (matcherDayOfMonth.matches()) {</b>
+&nbsp;      // The day of the month is a number, possibly with a suffix such
+&nbsp;      // as &quot;22nd&quot; for example.
+<b class="nc">&nbsp;      dayOfMonth = Integer.parseInt(matcherDayOfMonth.group(1));</b>
+&nbsp;    } else {
+&nbsp;      // In some languages, the day of the month can also be written with
+&nbsp;      // letters rather than with digits, so parse localized numbers.
+<b class="nc">&nbsp;      dayOfMonth = getDayOfMonth(dayOfMonthString);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return dayOfMonth;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int getMonthFromArguments(Map&lt;String, String&gt; args) {
+<b class="nc">&nbsp;    String monthStr = getRequired(&quot;month&quot;, args);</b>
+&nbsp;    int month;
+<b class="nc">&nbsp;    if (StringUtils.isNumeric(monthStr)) {</b>
+<b class="nc">&nbsp;      month = Integer.parseInt(monthStr);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      month = getMonth(StringTools.trimSpecialCharacters(monthStr));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return month - 1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

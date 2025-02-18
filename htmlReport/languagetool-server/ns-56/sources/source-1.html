@@ -1,0 +1,268 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > EnglishSynthesizer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.synthesis.en</a>
+</div>
+
+<h1>Coverage Summary for Class: EnglishSynthesizer (org.languagetool.synthesis.en)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnglishSynthesizer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85.7%
+  </span>
+  <span class="absValue">
+    (6/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    70.8%
+  </span>
+  <span class="absValue">
+    (17/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.7%
+  </span>
+  <span class="absValue">
+    (28/38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.synthesis.en;
+&nbsp;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.en.AvsAnRule;
+&nbsp;import org.languagetool.synthesis.BaseSynthesizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * English word form synthesizer.
+&nbsp; * Based on part-of-speech lists in Public Domain. See readme.txt for details,
+&nbsp; * the POS tagset is described in tagset.txt.
+&nbsp; * 
+&nbsp; * There are to special additions:
+&nbsp; * &lt;ol&gt;
+&nbsp; * &lt;li&gt;+DT - tag that adds &quot;a&quot; or &quot;an&quot; (according to the way the word is
+&nbsp; * pronounced) and &quot;the&quot;&lt;/li&gt;
+&nbsp; * &lt;li&gt;+INDT - a tag that adds only &quot;a&quot; or &quot;an&quot;&lt;/li&gt;
+&nbsp; * &lt;/ol&gt;
+&nbsp; * 
+&nbsp; * @author Marcin Miłkowski
+&nbsp; */
+&nbsp;public class EnglishSynthesizer extends BaseSynthesizer {
+&nbsp;
+&nbsp;  private static final String RESOURCE_FILENAME = &quot;/en/english_synth.dict&quot;;
+&nbsp;  private static final String TAGS_FILE_NAME = &quot;/en/english_tags.txt&quot;;
+&nbsp;  private static final String SOR_FILE_NAME = &quot;/en/en.sor&quot;;
+&nbsp;  
+<b class="fc">&nbsp;  private static final List&lt;String&gt; exceptions = Arrays.asList(&quot;ne&#39;er&quot;, &quot;e&#39;er&quot;, &quot;o&#39;er&quot;, &quot;ol&#39;&quot;, &quot;ma&#39;am&quot;, &quot;n&#39;t&quot;, &quot;informations&quot;);</b>
+&nbsp;
+&nbsp;  // A special tag to add determiners.
+&nbsp;  private static final String ADD_DETERMINER = &quot;+DT&quot;;
+&nbsp;
+&nbsp;  // A special tag to add only indefinite articles.
+&nbsp;  private static final String ADD_IND_DETERMINER = &quot;+INDT&quot;;
+&nbsp;
+<b class="fc">&nbsp;  private final AvsAnRule aVsAnRule = new AvsAnRule(JLanguageTool.getMessageBundle(Languages.getLanguageForShortCode(&quot;en&quot;)));</b>
+&nbsp;
+<b class="fc">&nbsp;  public static final EnglishSynthesizer INSTANCE = new EnglishSynthesizer();</b>
+&nbsp;
+&nbsp;  /** @deprecated use {@link #INSTANCE} */
+&nbsp;  public EnglishSynthesizer(Language lang) {
+<b class="nc">&nbsp;    this();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private EnglishSynthesizer() {
+<b class="fc">&nbsp;    super(SOR_FILE_NAME, RESOURCE_FILENAME, TAGS_FILE_NAME, &quot;en&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get a form of a given AnalyzedToken, where the form is defined by a
+&nbsp;   * part-of-speech tag.
+&nbsp;   * 
+&nbsp;   * @param token AnalyzedToken to be inflected.
+&nbsp;   * @param posTag A desired part-of-speech tag.
+&nbsp;   * @return String value - inflected word.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
+<b class="pc">&nbsp;    if (posTag.startsWith(SPELLNUMBER_TAG)) {</b>
+<b class="nc">&nbsp;      return super.synthesize(token, posTag);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    String aOrAn = aVsAnRule.suggestAorAn(token.getToken());</b>
+<b class="pc">&nbsp;    if (ADD_DETERMINER.equals(posTag)) {</b>
+<b class="nc">&nbsp;      return new String[] { aOrAn, &quot;the &quot; + StringTools.lowercaseFirstCharIfCapitalized(token.getToken()) };</b>
+<b class="pc">&nbsp;    } else if (ADD_IND_DETERMINER.equals(posTag)) {</b>
+<b class="nc">&nbsp;      return new String[] { aOrAn };</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return removeExceptions(super.synthesize(token, posTag));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Special English regexp based synthesizer that allows adding articles
+&nbsp;   * when the regexp-based tag ends with a special signature {@code \\+INDT} or {@code \\+DT}.
+&nbsp;   * 
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
+<b class="pc">&nbsp;    if (posTag.startsWith(SPELLNUMBER_TAG)) {</b>
+<b class="nc">&nbsp;      return synthesize(token, posTag);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (posTagRegExp) {</b>
+<b class="fc">&nbsp;      String myPosTag = posTag;</b>
+<b class="fc">&nbsp;      String det = &quot;&quot;;</b>
+<b class="pc">&nbsp;      if (posTag.endsWith(ADD_IND_DETERMINER)) {</b>
+<b class="nc">&nbsp;        myPosTag = myPosTag.substring(0, myPosTag.indexOf(ADD_IND_DETERMINER) - &quot;\\&quot;.length());</b>
+<b class="nc">&nbsp;        det = aVsAnRule.suggestAorAn(token.getLemma());</b>
+<b class="nc">&nbsp;        det = det.substring(0, det.indexOf(&#39; &#39;) + &quot; &quot;.length());</b>
+<b class="pc">&nbsp;      } else if (posTag.endsWith(ADD_DETERMINER)) {</b>
+<b class="nc">&nbsp;        myPosTag = myPosTag.substring(0, myPosTag.indexOf(ADD_DETERMINER) - &quot;\\&quot;.length());</b>
+<b class="nc">&nbsp;        det = &quot;the &quot;;</b>
+&nbsp;      }
+&nbsp;
+<b class="fc">&nbsp;      initPossibleTags();</b>
+<b class="fc">&nbsp;      Pattern p = Pattern.compile(myPosTag);</b>
+<b class="fc">&nbsp;      List&lt;String&gt; results = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;      for (String tag : possibleTags) {</b>
+<b class="fc">&nbsp;        Matcher m = p.matcher(tag);</b>
+<b class="pc">&nbsp;        if (m.matches() &amp;&amp; token.getLemma() != null) {</b>
+<b class="fc">&nbsp;          lookup(token.getLemma(), tag, results, det);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      return removeExceptions(results.toArray(new String[0]));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return removeExceptions(synthesize(token, posTag));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void lookup(String lemma, String posTag, List&lt;String&gt; results, String determiner) {
+<b class="fc">&nbsp;    List&lt;String&gt; lookup = super.lookup(lemma, posTag);</b>
+<b class="fc">&nbsp;    for (String result : lookup) {</b>
+&nbsp;      //results.add(determiner + StringTools.lowercaseFirstCharIfCapitalized(result)); //why lowercase?
+<b class="fc">&nbsp;      results.add(determiner + result);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected boolean isException(String w) {
+&nbsp;    // remove: &#39;ve, &#39;s, &#39;re...
+<b class="fc">&nbsp;    return w.startsWith(&quot;&#39;&quot;) || exceptions.contains(w);  </b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+&nbsp;
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

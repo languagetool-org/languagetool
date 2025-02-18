@@ -1,0 +1,214 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > FrenchRepeatedWordsRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.fr</a>
+</div>
+
+<h1>Coverage Summary for Class: FrenchRepeatedWordsRule (org.languagetool.rules.fr)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FrenchRepeatedWordsRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2021 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.fr;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.language.French;
+&nbsp;import org.languagetool.rules.AbstractRepeatedWordsRule;
+&nbsp;import org.languagetool.rules.SynonymsData;
+&nbsp;import org.languagetool.synthesis.FrenchSynthesizer;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;public class FrenchRepeatedWordsRule extends AbstractRepeatedWordsRule {
+&nbsp;
+&nbsp;  public FrenchRepeatedWordsRule(ResourceBundle messages) {
+<b class="nc">&nbsp;    super(messages, French.getInstance());</b>
+&nbsp;    //super.setDefaultTempOff();
+&nbsp;  }
+&nbsp;  
+<b class="nc">&nbsp;  private static final Map&lt;String, SynonymsData&gt; wordsToCheck = loadWords(&quot;/fr/synonyms.txt&quot;);</b>
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected String getMessage() {
+<b class="nc">&nbsp;    return &quot;Ce mot apparaît déjà dans l&#39;une des phrases précédant immédiatement celle-ci. Utilisez un synonyme pour apporter plus de variété à votre texte, excepté si la répétition est intentionnelle.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return (&quot;Synonymes de mots répétés.&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected Map&lt;String, SynonymsData&gt; getWordsToCheck() {
+<b class="nc">&nbsp;    return wordsToCheck;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected String getShortMessage() {
+<b class="nc">&nbsp;    return &quot;Style : Mot répété&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected Synthesizer getSynthesizer() {
+<b class="nc">&nbsp;    return FrenchSynthesizer.INSTANCE;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected String adjustPostag(String postag) {
+<b class="nc">&nbsp;    if (postag.endsWith(&quot;e sp&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;e sp&quot;, &quot;. .*&quot;);</b>
+<b class="nc">&nbsp;    } else if (postag.endsWith(&quot;m s&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;m s&quot;, &quot;[me] sp?&quot;);</b>
+<b class="nc">&nbsp;    } else if (postag.endsWith(&quot;f s&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;f s&quot;, &quot;[fe] sp?&quot;);</b>
+<b class="nc">&nbsp;    } else if (postag.endsWith(&quot;m p&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;m p&quot;, &quot;[me] s?p&quot;);</b>
+<b class="nc">&nbsp;    } else if (postag.endsWith(&quot;f p&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;f p&quot;, &quot;[fe] s?p&quot;);</b>
+<b class="nc">&nbsp;    } else if (postag.endsWith(&quot;e s&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;e s&quot;, &quot;[me] sp?&quot;); // also F ?</b>
+<b class="nc">&nbsp;    } else if (postag.endsWith(&quot;e p&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;e p&quot;, &quot;[me] s?p&quot;); // also F ?</b>
+<b class="nc">&nbsp;    } else if (postag.endsWith(&quot;m sp&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;m sp&quot;, &quot;[me] s?p?&quot;);</b>
+<b class="nc">&nbsp;    } else if (postag.endsWith(&quot;f sp&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;f sp&quot;, &quot;[fe] s?p?&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return postag; </b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected boolean isException(AnalyzedTokenReadings[] tokens, int i, boolean sentStart, boolean isCapitalized,
+&nbsp;      boolean isAllUppercase) {
+<b class="nc">&nbsp;    if (isAllUppercase || (isCapitalized &amp;&amp; !sentStart)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return tokens[i].hasPosTagStartingWith(&quot;Z&quot;);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

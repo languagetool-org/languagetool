@@ -1,0 +1,203 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PatternRuleLoader</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns</a>
+</div>
+
+<h1>Coverage Summary for Class: PatternRuleLoader (org.languagetool.rules.patterns)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PatternRuleLoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (2/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.7%
+  </span>
+  <span class="absValue">
+    (14/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;import org.xml.sax.helpers.DefaultHandler;
+&nbsp;
+&nbsp;import javax.xml.parsers.SAXParser;
+&nbsp;import javax.xml.parsers.SAXParserFactory;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Loads {@link PatternRule}s from an XML file.
+&nbsp; * 
+&nbsp; * @author Daniel Naber
+&nbsp; */
+<b class="fc">&nbsp;public class PatternRuleLoader extends DefaultHandler {</b>
+&nbsp;
+<b class="fc">&nbsp;  private boolean relaxedMode = false;</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param file XML file with pattern rules
+&nbsp;   */
+&nbsp;  public final List&lt;AbstractPatternRule&gt; getRules(File file, Language lang) throws IOException {
+<b class="nc">&nbsp;    try (InputStream inputStream = Files.newInputStream(file.toPath())) {</b>
+<b class="nc">&nbsp;      PatternRuleLoader ruleLoader = new PatternRuleLoader();</b>
+<b class="nc">&nbsp;      return ruleLoader.getRules(inputStream, file.getAbsolutePath(), lang);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * If set to true, don&#39;t throw an exception if id or name is not set.
+&nbsp;   * Used for online rule editor.
+&nbsp;   * @since 2.1
+&nbsp;   */
+&nbsp;  public void setRelaxedMode(boolean relaxedMode) {
+<b class="nc">&nbsp;    this.relaxedMode = relaxedMode;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param is stream with the XML rules
+&nbsp;   * @param filename used only for verbose exception message - should refer to where the stream comes from
+&nbsp;   */
+&nbsp;  public final List&lt;AbstractPatternRule&gt; getRules(InputStream is, String filename, Language lang) throws IOException {
+&nbsp;    try {
+<b class="fc">&nbsp;      PatternRuleHandler handler = new PatternRuleHandler(filename, lang);</b>
+<b class="fc">&nbsp;      handler.setRelaxedMode(relaxedMode);</b>
+<b class="fc">&nbsp;      SAXParserFactory factory = SAXParserFactory.newInstance();</b>
+<b class="fc">&nbsp;      SAXParser saxParser = factory.newSAXParser();</b>
+<b class="pc">&nbsp;      if (JLanguageTool.isCustomPasswordAuthenticatorUsed()) {</b>
+<b class="fc">&nbsp;        Tools.setPasswordAuthenticator();</b>
+&nbsp;      }
+<b class="fc">&nbsp;      saxParser.getXMLReader().setFeature(&quot;http://apache.org/xml/features/nonvalidating/load-external-dtd&quot;, false);</b>
+<b class="fc">&nbsp;      saxParser.getXMLReader().setProperty(&quot;jdk.xml.maxGeneralEntitySizeLimit&quot;, 0);</b>
+<b class="fc">&nbsp;      saxParser.getXMLReader().setProperty(&quot;jdk.xml.totalEntitySizeLimit&quot;, 0);</b>
+<b class="fc">&nbsp;      saxParser.getXMLReader().setProperty(&quot;jdk.xml.entityExpansionLimit&quot;, 0);</b>
+<b class="fc">&nbsp;      saxParser.parse(is, handler);</b>
+<b class="fc">&nbsp;      return handler.getRules();</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new IOException(&quot;Cannot load or parse input stream of &#39;&quot; + filename + &quot;&#39;&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,366 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CatalanWordTokenizer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tokenizers.ca</a>
+</div>
+
+<h1>Coverage Summary for Class: CatalanWordTokenizer (org.languagetool.tokenizers.ca)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CatalanWordTokenizer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/66)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/121)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tokenizers.ca;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.StringTokenizer;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.tagging.ca.CatalanTagger;
+&nbsp;import org.languagetool.tokenizers.WordTokenizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import static org.languagetool.tools.StringTools.CHARS_NOT_FOR_SPELLING;
+&nbsp;
+&nbsp;/**
+&nbsp; * Tokenizes a sentence into words. Punctuation and whitespace gets its own token.
+&nbsp; * Special treatment for hyphens and apostrophes in Catalan.
+&nbsp; *
+&nbsp; * @author Jaume Ortolà 
+&nbsp; */
+&nbsp;public class CatalanWordTokenizer extends WordTokenizer {
+&nbsp;
+<b class="nc">&nbsp;  public static final CatalanWordTokenizer INSTANCE = new CatalanWordTokenizer();</b>
+&nbsp;
+&nbsp;  private static final String wordCharacters = &quot;§©@€£\\$_\\p{L}\\d·\\-\u0300-\u036F\u00A8\u2070-\u209F°%‰‱&amp;\uFFFD\u00AD\u00AC&quot;;
+<b class="nc">&nbsp;  private static final Pattern tokenizerPattern = Pattern.compile(&quot;[&quot; + wordCharacters + &quot;]+|[^&quot; + wordCharacters + &quot;]&quot;);</b>
+&nbsp;  //all possible forms of &quot;pronoms febles&quot; after a verb.
+&nbsp;  private static final String PF = &quot;([&#39;’]en|[&#39;’]hi|[&#39;’]ho|[&#39;’]l|[&#39;’]ls|[&#39;’]m|[&#39;’]n|[&#39;’]ns|[&#39;’]s|[&#39;’]t|-el|-els|-em|-en|-ens|-hi|-ho|-l|-la|-les|-li|-lo|-los|-m|-me|-n|-ne|-nos|-s|-se|-t|-te|-us|-vos)&quot;;
+<b class="nc">&nbsp;  private static final Pattern PATTERN_1 = Pattern.compile(&quot;xxCA_APOS_RECTExx&quot;, Pattern.LITERAL);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_2 = Pattern.compile(&quot;xxCA_APOS_RODOxx&quot;, Pattern.LITERAL);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_3 = Pattern.compile(&quot;xxCA_HYPHENxx&quot;, Pattern.LITERAL);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_4 = Pattern.compile(&quot;xxCA_DECIMALPOINTxx&quot;, Pattern.LITERAL);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_5 = Pattern.compile(&quot;xxCA_DECIMALCOMMAxx&quot;, Pattern.LITERAL);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_6 = Pattern.compile(&quot;xxCA_SPACExx&quot;, Pattern.LITERAL);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_7 = Pattern.compile(&quot;xxELA_GEMINADAxx&quot;, Pattern.LITERAL);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_8 = Pattern.compile(&quot;xxELA_GEMINADA_UPPERCASExx&quot;, Pattern.LITERAL);</b>
+&nbsp;
+&nbsp;  private static final int maxPatterns = 11;
+<b class="nc">&nbsp;  private final Pattern[] patterns = new Pattern[maxPatterns];</b>
+&nbsp;
+&nbsp;  //Patterns to avoid splitting words in certain special cases
+&nbsp;  // allows correcting typographical errors in &quot;ela geminada&quot;
+<b class="nc">&nbsp;  private static final Pattern ELA_GEMINADA = Pattern.compile(&quot;([aeiouàéèíóòúïüAEIOUÀÈÉÍÒÓÚÏÜ])l[\\.\u2022\u22C5\u2219\uF0D7]l([aeiouàéèíóòúïü])&quot;,Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;  private static final Pattern ELA_GEMINADA_UPPERCASE = Pattern.compile(&quot;([AEIOUÀÈÉÍÒÓÚÏÜ])L[\\.\u2022\u22C5\u2219\uF0D7]L([AEIOUÀÈÉÍÒÓÚÏÜ])&quot;,Pattern.UNICODE_CASE);</b>
+&nbsp;  // apostrophe 
+<b class="nc">&nbsp;  private static final Pattern APOSTROF_RECTE = Pattern.compile(&quot;([\\p{L}])&#39;([\\p{L}\&quot;‘“«])&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;  private static final Pattern APOSTROF_RODO = Pattern.compile(&quot;([\\p{L}])’([\\p{L}\&quot;‘“«])&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;  // apostrophe before number 1. Ex.: d&#39;1 km, és l&#39;1 de gener, és d&#39;1.4 kg
+<b class="nc">&nbsp;  private static final Pattern APOSTROF_RECTE_1 = Pattern.compile(&quot;([dlDL])&#39;(\\d[\\d\\s\\.,]?)&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;  private static final Pattern APOSTROF_RODO_1 = Pattern.compile(&quot;([dlDL])’(\\d[\\d\\s\\.,]?)&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;  // decimal point between digits
+<b class="nc">&nbsp;  private static final Pattern DECIMAL_POINT= Pattern.compile(&quot;([\\d])\\.([\\d])&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;  // decimal comma between digits
+<b class="nc">&nbsp;  private static final Pattern DECIMAL_COMMA= Pattern.compile(&quot;([\\d]),([\\d])&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;  // space between digits
+&nbsp;  // the first is an exception to the two next patterns
+<b class="nc">&nbsp;  private static final Pattern SPACE_DIGITS0= Pattern.compile(&quot;([\\d]{4}) &quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;  private static final Pattern SPACE_DIGITS= Pattern.compile(&quot;([\\d]) ([\\d][\\d][\\d])&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;  private static final Pattern SPACE_DIGITS2= Pattern.compile(&quot;([\\d]) ([\\d][\\d][\\d]) ([\\d][\\d][\\d])&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;  // Sàsser-l&#39;Alguer
+<b class="nc">&nbsp;  private static final Pattern HYPHEN_L= Pattern.compile(&quot;([\\p{L}]+)(-)([Ll][&#39;’])([\\p{L}]+)&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;
+<b class="nc">&nbsp;  public CatalanWordTokenizer() {</b>
+&nbsp;
+&nbsp;    // Apostrophe at the beginning of a word. Ex.: l&#39;home, s&#39;estima, n&#39;omple, hivern, etc.
+&nbsp;    // It creates 2 tokens: &lt;token&gt;l&#39;&lt;/token&gt;&lt;token&gt;home&lt;/token&gt;
+<b class="nc">&nbsp;    patterns[0] = Pattern.compile(&quot;^([lnmtsd][&#39;’])([^&#39;’\\-]*)$&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;
+&nbsp;    // Exceptions to (Match verb+1 pronom feble)
+&nbsp;    // It creates 1 token: &lt;token&gt;qui-sap-lo&lt;/token&gt;
+<b class="nc">&nbsp;    patterns[1] = Pattern.compile(&quot;^(qui-sap-lo|qui-sap-la|qui-sap-los|qui-sap-les)|(Castella)(-)(la)$&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;
+&nbsp;    // Match verb+3 pronoms febles (rare but possible!). Ex: Emporta-te&#39;ls-hi.
+&nbsp;    // It creates 4 tokens: &lt;token&gt;Emporta&lt;/token&gt;&lt;token&gt;-te&lt;/token&gt;&lt;token&gt;&#39;ls&lt;/token&gt;&lt;token&gt;-hi&lt;/token&gt;
+<b class="nc">&nbsp;    patterns[2] = Pattern.compile(&quot;^([lnmtsd][&#39;’])(.{2,})&quot;+PF+PF+PF+&quot;$&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;    patterns[3] = Pattern.compile(&quot;^(.{2,})&quot;+PF+PF+PF+&quot;$&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;
+&nbsp;    // Match verb+2 pronoms febles. Ex: Emporta-te&#39;ls. 
+&nbsp;    // It creates 3 tokens: &lt;token&gt;Emporta&lt;/token&gt;&lt;token&gt;-te&lt;/token&gt;&lt;token&gt;&#39;ls&lt;/token&gt;
+<b class="nc">&nbsp;    patterns[4] = Pattern.compile(&quot;^([lnmtsd][&#39;’])(.{2,})&quot;+PF+PF+&quot;$&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;    patterns[5] = Pattern.compile(&quot;^(.{2,})&quot;+PF+PF+&quot;$&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;
+&nbsp;    // match verb+1 pronom feble. Ex: Emporta&#39;t, vés-hi, porta&#39;m.
+&nbsp;    // It creates 2 tokens: &lt;token&gt;Emporta&lt;/token&gt;&lt;token&gt;&#39;t&lt;/token&gt;
+&nbsp;    // ^(.+[^cbfhjkovwyzCBFHJKOVWYZ])
+<b class="nc">&nbsp;    patterns[6] = Pattern.compile(&quot;^([lnmtsd][&#39;’])(.{2,})&quot;+PF+&quot;$&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;    patterns[7] = Pattern.compile(&quot;^(.+[^wo])&quot;+PF+&quot;$&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;
+&nbsp;    // d&#39;emportar
+<b class="nc">&nbsp;    patterns[8] = Pattern.compile(&quot;^([lnmtsd][&#39;’])(.*)$&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;
+&nbsp;    //contractions: al, als, pel, pels, del, dels, cal (!), cals (!) 
+<b class="nc">&nbsp;    patterns[9] = Pattern.compile(&quot;^(a|de|pe)(ls?)$&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;
+&nbsp;    //contraction: can
+<b class="nc">&nbsp;    patterns[10] = Pattern.compile(&quot;^(ca)(n)$&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param text Text to tokenize
+&nbsp;   * @return List of tokens.
+&nbsp;   *         Note: a special string xxCA_APOSxx is used to replace apostrophes,
+&nbsp;   *         and xxCA_HYPHENxx to replace hyphens.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; tokenize(final String text) {
+<b class="nc">&nbsp;    final List&lt;String&gt; l = new ArrayList&lt;&gt;();</b>
+&nbsp;    // replace hyphen, non-break hyphen -&gt; hyphen-minus
+<b class="nc">&nbsp;    String auxText = text.replace(&#39;\u2010&#39;, &#39;\u002d&#39;);</b>
+<b class="nc">&nbsp;    auxText = auxText.replace(&#39;\u2011&#39;, &#39;\u002d&#39;);</b>
+<b class="nc">&nbsp;    Matcher matcher=ELA_GEMINADA.matcher(auxText);</b>
+<b class="nc">&nbsp;    auxText = matcher.replaceAll(&quot;$1xxELA_GEMINADAxx$2&quot;);</b>
+<b class="nc">&nbsp;    matcher=ELA_GEMINADA_UPPERCASE.matcher(auxText);</b>
+<b class="nc">&nbsp;    auxText = matcher.replaceAll(&quot;$1xxELA_GEMINADA_UPPERCASExx$2&quot;);</b>
+<b class="nc">&nbsp;    matcher=APOSTROF_RECTE.matcher(auxText);</b>
+<b class="nc">&nbsp;    auxText = matcher.replaceAll(&quot;$1xxCA_APOS_RECTExx$2&quot;);</b>
+<b class="nc">&nbsp;    matcher=APOSTROF_RECTE_1.matcher(auxText);</b>
+<b class="nc">&nbsp;    auxText = matcher.replaceAll(&quot;$1xxCA_APOS_RECTExx$2&quot;);</b>
+<b class="nc">&nbsp;    matcher=APOSTROF_RODO.matcher(auxText);</b>
+<b class="nc">&nbsp;    auxText = matcher.replaceAll(&quot;$1xxCA_APOS_RODOxx$2&quot;);</b>
+<b class="nc">&nbsp;    matcher=APOSTROF_RODO_1.matcher(auxText);</b>
+<b class="nc">&nbsp;    auxText = matcher.replaceAll(&quot;$1xxCA_APOS_RODOxx$2&quot;);</b>
+<b class="nc">&nbsp;    matcher=DECIMAL_POINT.matcher(auxText);</b>
+<b class="nc">&nbsp;    auxText = matcher.replaceAll(&quot;$1xxCA_DECIMALPOINTxx$2&quot;);</b>
+<b class="nc">&nbsp;    matcher=DECIMAL_COMMA.matcher(auxText);</b>
+<b class="nc">&nbsp;    auxText = matcher.replaceAll(&quot;$1xxCA_DECIMALCOMMAxx$2&quot;);</b>
+<b class="nc">&nbsp;    matcher=SPACE_DIGITS0.matcher(auxText);</b>
+<b class="nc">&nbsp;    auxText = matcher.replaceAll(&quot;$1xxCA_SPACE0xx&quot;);</b>
+<b class="nc">&nbsp;    matcher=SPACE_DIGITS2.matcher(auxText);</b>
+<b class="nc">&nbsp;    auxText = matcher.replaceAll(&quot;$1xxCA_SPACExx$2xxCA_SPACExx$3&quot;);</b>
+<b class="nc">&nbsp;    matcher=SPACE_DIGITS.matcher(auxText);</b>
+<b class="nc">&nbsp;    auxText = matcher.replaceAll(&quot;$1xxCA_SPACExx$2&quot;);</b>
+<b class="nc">&nbsp;    auxText = auxText.replace(&quot;xxCA_SPACE0xx&quot;, &quot; &quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;    Matcher tokenizerMatcher = tokenizerPattern.matcher(auxText);</b>
+<b class="nc">&nbsp;    while (tokenizerMatcher.find()) {</b>
+<b class="nc">&nbsp;      String s = tokenizerMatcher.group();</b>
+<b class="nc">&nbsp;      if (l.size() &gt; 0 &amp;&amp; s.length() == 1 &amp;&amp; s.codePointAt(0)&gt;=0xFE00 &amp;&amp; s.codePointAt(0)&lt;=0xFE0F) {</b>
+<b class="nc">&nbsp;        l.set(l.size() - 1, l.get(l.size() - 1) + s);</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      s = PATTERN_1.matcher(s).replaceAll(&quot;&#39;&quot;);</b>
+<b class="nc">&nbsp;      s = PATTERN_2.matcher(s).replaceAll(&quot;’&quot;);</b>
+<b class="nc">&nbsp;      s = PATTERN_3.matcher(s).replaceAll(&quot;-&quot;);</b>
+<b class="nc">&nbsp;      s = PATTERN_4.matcher(s).replaceAll(&quot;.&quot;);</b>
+<b class="nc">&nbsp;      s = PATTERN_5.matcher(s).replaceAll(&quot;,&quot;);</b>
+<b class="nc">&nbsp;      s = PATTERN_6.matcher(s).replaceAll(&quot; &quot;);</b>
+<b class="nc">&nbsp;      s = PATTERN_7.matcher(s).replaceAll(&quot;l.l&quot;);</b>
+<b class="nc">&nbsp;      s = PATTERN_8.matcher(s).replaceAll(&quot;L.L&quot;);</b>
+<b class="nc">&nbsp;      boolean matchFound = false;</b>
+<b class="nc">&nbsp;      while (s.length() &gt; 1 &amp;&amp; s.startsWith(&quot;-&quot;)) {</b>
+<b class="nc">&nbsp;        l.add(&quot;-&quot;);</b>
+<b class="nc">&nbsp;        s = s.substring(1);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      int hyphensAtEnd = 0;</b>
+<b class="nc">&nbsp;      while (s.length() &gt; 1 &amp;&amp; s.endsWith(&quot;-&quot;)) {</b>
+<b class="nc">&nbsp;        s = s.substring(0, s.length() - 1);</b>
+<b class="nc">&nbsp;        hyphensAtEnd++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      int j = 0;</b>
+<b class="nc">&nbsp;      while (j &lt; maxPatterns &amp;&amp; !matchFound) {</b>
+<b class="nc">&nbsp;        matcher = patterns[j].matcher(s);</b>
+<b class="nc">&nbsp;        matchFound = matcher.find();</b>
+<b class="nc">&nbsp;        j++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (matchFound) {</b>
+<b class="nc">&nbsp;        for (int i = 1; i &lt;= matcher.groupCount(); i++) {</b>
+<b class="nc">&nbsp;          String groupStr = matcher.group(i);</b>
+<b class="nc">&nbsp;          if (groupStr!=null) {</b>
+<b class="nc">&nbsp;            l.addAll(wordsToAdd(groupStr));  </b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        l.addAll(wordsToAdd(s));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      while (hyphensAtEnd &gt; 0) {</b>
+<b class="nc">&nbsp;        l.add(&quot;-&quot;);</b>
+<b class="nc">&nbsp;        hyphensAtEnd--;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return joinEMailsAndUrls(l);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* Splits a word containing hyphen(-) if it doesn&#39;t exist in the dictionary. 
+&nbsp;   * Split apostrophe in the last char */
+&nbsp;  private List&lt;String&gt; wordsToAdd(String s) {
+<b class="nc">&nbsp;    final List&lt;String&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (!s.isEmpty()) {</b>
+<b class="nc">&nbsp;      if (!s.contains(&quot;-&quot;) &amp;&amp; !s.endsWith(&quot;&#39;&quot;) &amp;&amp; !s.endsWith(&quot;’&quot;)) {</b>
+<b class="nc">&nbsp;        l.add(s);</b>
+&nbsp;      } else {
+&nbsp;        // words containing hyphen (-) are looked up in the dictionary
+<b class="nc">&nbsp;        if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(s.replace(&quot;\u00AD&quot;, &quot;&quot;).replace(&quot;’&quot;, &quot;&#39;&quot;))).get(0).isTagged()) {</b>
+<b class="nc">&nbsp;          l.add(s);</b>
+&nbsp;        }
+&nbsp;        // some camel-case words containing hyphen (is there any better fix?)
+<b class="nc">&nbsp;        else if (s.equalsIgnoreCase(&quot;mers-cov&quot;) || s.equalsIgnoreCase(&quot;mcgraw-hill&quot;) </b>
+<b class="nc">&nbsp;            || s.equalsIgnoreCase(&quot;sars-cov-2&quot;) || s.equalsIgnoreCase(&quot;sars-cov&quot;) </b>
+<b class="nc">&nbsp;            || s.equalsIgnoreCase(&quot;ph-metre&quot;) || s.equalsIgnoreCase(&quot;ph-metres&quot;)) {</b>
+<b class="nc">&nbsp;          l.add(s);</b>
+&nbsp;        }
+&nbsp;        // words with &quot;ela geminada&quot; with typo: col-legi (col·legi)
+<b class="nc">&nbsp;        else if (CatalanTagger.INSTANCE_CAT.tag(Arrays.asList(s.replace(&quot;\u00AD&quot;, &quot;&quot;).replace(&quot;l-l&quot;, &quot;l·l&quot;))).get(0).isTagged()) {</b>
+<b class="nc">&nbsp;          l.add(s);</b>
+&nbsp;        // apostrophe in the last char
+<b class="nc">&nbsp;        } else if ((s.endsWith(&quot;&#39;&quot;) || s.endsWith(&quot;’&quot;)) &amp;&amp; s.length() &gt; 1) {</b>
+<b class="nc">&nbsp;          l.addAll(wordsToAdd(s.substring(0, s.length() - 1)));</b>
+<b class="nc">&nbsp;          l.add(s.substring(s.length() - 1));</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          Matcher matcher = HYPHEN_L.matcher(s);</b>
+<b class="nc">&nbsp;          if (matcher.matches()) {</b>
+<b class="nc">&nbsp;            for (int i = 1; i &lt;= matcher.groupCount(); i++) {</b>
+<b class="nc">&nbsp;              String groupStr = matcher.group(i);</b>
+<b class="nc">&nbsp;              l.addAll(wordsToAdd(groupStr));</b>
+&nbsp;            }
+&nbsp;          } else {
+&nbsp;            // if not found, the word is split
+<b class="nc">&nbsp;            final StringTokenizer st2 = new StringTokenizer(s, &quot;-&quot;, true);</b>
+<b class="nc">&nbsp;            while (st2.hasMoreElements()) {</b>
+<b class="nc">&nbsp;              l.add(st2.nextToken());</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return l;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

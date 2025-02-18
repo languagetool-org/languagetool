@@ -1,0 +1,783 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TokenAgreementNumrNounRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: TokenAgreementNumrNounRule (org.languagetool.rules.uk)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TokenAgreementNumrNounRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/250)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/306)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TokenAgreementNumrNounRule$State</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/250)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/313)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2013 Andriy Rysin
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.uk;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.URL;
+&nbsp;import java.text.MessageFormat;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.LinkedHashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.uk.InflectionHelper.Inflection;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tagging.uk.PosTagHelper;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule that checks if adjective and following noun agree on gender and inflection
+&nbsp; * 
+&nbsp; * @author Andriy Rysin
+&nbsp; */
+&nbsp;public class TokenAgreementNumrNounRule extends Rule {
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(TokenAgreementNumrNounRule.class);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern NOUN_IGNORE_PATTERN = Pattern.compile(&quot;.*(prop|noun.*pron|v_oru).*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NUMR_PATTERN = Pattern.compile(&quot;numr(?!.*abbr).*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOUN_NUMR_ALL_PATTERN = Pattern.compile(&quot;noun:inanim:([mf]:v_naz|p:v_(naz|rod)):&amp;numr.*|numr.*abbr.*|number&quot;);</b>
+<b class="nc">&nbsp;  static final Pattern DVA_3_4_PATTERN = Pattern.compile(&quot;оби(два|дві)|(.+-)?((два|дві)|три|чотири)&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DVA_PATTERN = Pattern.compile(&quot;(оби)?два|.+-два&quot;, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;  private static final Pattern DVI_PATTERN = Pattern.compile(&quot;(оби)?дві|.+-дві&quot;, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;  private static final Pattern _1_5 = Pattern.compile(&quot;([0-9]+[–-])?1,5&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern _2_5 = Pattern.compile(&quot;.*(?&lt;!1)[234],5&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern _5_5 = Pattern.compile(&quot;([0-9]+[–-])?([0-9\\h]*[05-9]|[0-9\\h]*1[1-4]),5&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern _FRACT = Pattern.compile(&quot;.*,[1-9]+&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern _2to4 = Pattern.compile(&quot;([0-9]+[–-])?[^,]*(?&lt;!1)[234]&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern _5to9 = Pattern.compile(&quot;[0-9\\h]*([5-90]|1[2-4])&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern _5to9_ALPHA = Pattern.compile(&quot;(.+-)?(п.ять|шість|сім|вісім|(три)?дев.?ять|.*дцять|сорок|.*десять?|дев.яносто|сто|двісті|триста|чотириста|півтораста|.+сот)|(де)?кілька|кількох|аніскільки&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOUN_FORCE_PATTERN = Pattern.compile(&quot;чоловік|солдат|тон|(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|біт|бар|бер|ват|вольт|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)&quot;);</b>
+&nbsp;
+&nbsp;  private final Synthesizer synthesizer;
+&nbsp;
+<b class="nc">&nbsp;  public TokenAgreementNumrNounRule(ResourceBundle messages, Language ukrainian) throws IOException {</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.MISC.getCategory(messages));</b>
+<b class="nc">&nbsp;    this.synthesizer = ukrainian.getSynthesizer();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final String getId() {
+<b class="nc">&nbsp;    return &quot;UK_NUMR_NOUN_INFLECTION_AGREEMENT&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Узгодження відмінків, роду і числа числівника та іменника&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getShort() {
+<b class="nc">&nbsp;    return &quot;Узгодження числівника та іменника&quot;;</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  static class State {</b>
+&nbsp;    boolean number;
+&nbsp;    int numrPos;
+&nbsp;    int nounPos;
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; numrTokenReadings = new ArrayList&lt;&gt;(); </b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings numrAnalyzedTokenReadings = null;</b>
+&nbsp;    
+&nbsp;    public boolean isEmpty() {
+<b class="nc">&nbsp;      return numrTokenReadings.isEmpty();</b>
+&nbsp;    }
+&nbsp;    public void reset() {
+<b class="nc">&nbsp;      number = false;</b>
+<b class="nc">&nbsp;      numrTokenReadings.clear();</b>
+<b class="nc">&nbsp;      numrAnalyzedTokenReadings = null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+&nbsp;
+<b class="nc">&nbsp;    State state = new State();</b>
+&nbsp;
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings tokenReadings = tokens[i];</b>
+&nbsp;
+<b class="nc">&nbsp;      String posTag0 = tokenReadings.getAnalyzedToken(0).getPOSTag();</b>
+<b class="nc">&nbsp;      String cleanToken = tokenReadings.getCleanToken();</b>
+&nbsp;
+<b class="nc">&nbsp;      if( posTag0 == null || cleanToken == null ) {</b>
+<b class="nc">&nbsp;        state.reset();</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+&nbsp;      // no need to start checking on last token or if no noun
+<b class="nc">&nbsp;      if( i == tokens.length - 1 &amp;&amp; state.isEmpty() )</b>
+&nbsp;          continue;
+&nbsp;
+<b class="nc">&nbsp;      String cleanTokenLower = cleanToken.toLowerCase();</b>
+&nbsp;
+&nbsp;      // grab initial numr inflections
+&nbsp;
+<b class="nc">&nbsp;      if( PosTagHelper.hasPosTag(tokens[i], NOUN_NUMR_ALL_PATTERN) ) {</b>
+<b class="nc">&nbsp;        if( i &lt; tokens.length-1</b>
+<b class="nc">&nbsp;            &amp;&amp; NOUN_FORCE_PATTERN.matcher(tokens[i+1].getCleanToken().toLowerCase()).matches() ) {</b>
+<b class="nc">&nbsp;          state.reset();</b>
+<b class="nc">&nbsp;          state.numrPos = i;</b>
+<b class="nc">&nbsp;          state.numrTokenReadings.add(tokenReadings.getAnalyzedToken(0));</b>
+<b class="nc">&nbsp;          state.numrAnalyzedTokenReadings = tokenReadings;</b>
+<b class="nc">&nbsp;          state.number = PosTagHelper.hasPosTagStart(tokens[i], &quot;number&quot;);</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;        
+<b class="nc">&nbsp;        if( i &lt; tokens.length-2</b>
+<b class="nc">&nbsp;            &amp;&amp; PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile(&quot;adj:p:v_rod.*&quot;))</b>
+<b class="nc">&nbsp;            &amp;&amp; NOUN_FORCE_PATTERN.matcher(tokens[i+2].getCleanToken().toLowerCase()).matches()</b>
+&nbsp;            ) {
+<b class="nc">&nbsp;          state.reset();</b>
+<b class="nc">&nbsp;          state.numrPos = i;</b>
+<b class="nc">&nbsp;          state.numrTokenReadings.add(tokenReadings.getAnalyzedToken(0));</b>
+<b class="nc">&nbsp;          state.numrAnalyzedTokenReadings = tokenReadings;</b>
+<b class="nc">&nbsp;          state.number = PosTagHelper.hasPosTagStart(tokens[i], &quot;number&quot;);</b>
+<b class="nc">&nbsp;          i++;</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( PosTagHelper.hasPosTag(tokens[i], NUMR_PATTERN) ) {</b>
+<b class="nc">&nbsp;        state.reset();</b>
+&nbsp;        
+&nbsp;        // 57-ма вулиця
+<b class="nc">&nbsp;        if( cleanToken.matches(&quot;.*[0-9]-[а-яіїєґ].*&quot;) )</b>
+&nbsp;          continue;
+&nbsp;
+<b class="nc">&nbsp;        if( LemmaHelper.hasLemma(tokenReadings, Arrays.asList(&quot;мати&quot;), &quot;verb&quot;) ) {</b>
+<b class="nc">&nbsp;          state.reset();</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;
+&nbsp;        // один одному руки
+<b class="nc">&nbsp;        if( LemmaHelper.hasLemma(tokenReadings, Arrays.asList(&quot;один&quot;)) ) {</b>
+<b class="nc">&nbsp;          state.reset();</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        for (AnalyzedToken token: tokenReadings) {</b>
+<b class="nc">&nbsp;          String adjPosTag = token.getPOSTag();</b>
+&nbsp;
+&nbsp;          // null can happen for words with \u0301 or \u00AD
+<b class="nc">&nbsp;          if( adjPosTag != null </b>
+<b class="nc">&nbsp;              &amp;&amp; (adjPosTag.startsWith(&quot;numr&quot;) || NOUN_NUMR_ALL_PATTERN.matcher(adjPosTag).matches()) ) {</b>
+<b class="nc">&nbsp;            state.numrPos = i;</b>
+<b class="nc">&nbsp;            state.numrTokenReadings.add(token);</b>
+<b class="nc">&nbsp;            state.numrAnalyzedTokenReadings = tokenReadings;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      else if( PosTagHelper.hasPosTag(tokens[i], &quot;number&quot;) ) {</b>
+<b class="nc">&nbsp;        state.numrPos = i;</b>
+<b class="nc">&nbsp;        state.numrTokenReadings.addAll(tokens[i].getReadings());</b>
+<b class="nc">&nbsp;        state.numrAnalyzedTokenReadings = tokenReadings;</b>
+<b class="nc">&nbsp;        state.number = true;</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( state.isEmpty() )</b>
+&nbsp;        continue;
+&nbsp;      
+&nbsp;      
+&nbsp;      // skip for: два з половиною
+<b class="nc">&nbsp;      if( i &lt; tokens.length - 2 </b>
+<b class="nc">&nbsp;          &amp;&amp; cleanTokenLower.matches(&quot;з|із|зі&quot;) </b>
+<b class="nc">&nbsp;            &amp;&amp; tokens[i+1].getCleanToken().toLowerCase().matches(&quot;половиною|третиною|чвертю|гаком&quot;) ) {</b>
+&nbsp;          
+<b class="nc">&nbsp;        i += 1;</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( i &lt; tokens.length - 1</b>
+<b class="nc">&nbsp;          &amp;&amp; (_2to4.matcher(state.numrAnalyzedTokenReadings.getCleanToken().toLowerCase()).matches()</b>
+<b class="nc">&nbsp;            || DVA_3_4_PATTERN.matcher(state.numrAnalyzedTokenReadings.getCleanToken().toLowerCase()).matches()) </b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTag(tokens[i], Pattern.compile(&quot;adj:p:v_(rod|naz).*&quot;))</b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTagAndToken(tokens[i+1], Pattern.compile(&quot;.*:m:v_rod.*&quot;), Pattern.compile(&quot;.*[ая]&quot;)) ) {</b>
+&nbsp;            // skip adj for frequent mistakes, e.g. :m:v_rod: 4 маленьких єнота
+&nbsp;            continue;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      String numrCleanToken = state.numrAnalyzedTokenReadings.getCleanToken();</b>
+<b class="nc">&nbsp;      String numrToken = numrCleanToken.toLowerCase();</b>
+&nbsp;
+<b class="nc">&nbsp;      if( numrToken.matches(&quot;(один-|одне-)?півтора&quot;) || _FRACT.matcher(numrToken).matches() ) {</b>
+<b class="nc">&nbsp;        if( cleanTokenLower.matches(&quot;раз|рази|разу|разів&quot;) ) {</b>
+<b class="nc">&nbsp;          String msg = &quot;Після десяткового дробу або «півтора» треба вживати «раза»&quot;;</b>
+<b class="nc">&nbsp;          String url = &quot;http://www.kulturamovy.org.ua/KM/pdfs/mix/61-12-65-26.pdf&quot;;</b>
+<b class="nc">&nbsp;          RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, state.numrAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());</b>
+<b class="nc">&nbsp;          potentialRuleMatch.addSuggestedReplacement(state.numrAnalyzedTokenReadings.getToken() + &quot; раза&quot;);</b>
+<b class="nc">&nbsp;          potentialRuleMatch.setUrl(new URL(url));</b>
+<b class="nc">&nbsp;          ruleMatches.add(potentialRuleMatch);</b>
+<b class="nc">&nbsp;          state.reset();</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      if( cleanTokenLower.equals(&quot;тон&quot;) ) {</b>
+<b class="nc">&nbsp;        String msg = &quot;Ви мали на увазі: «тонн»?&quot;;</b>
+<b class="nc">&nbsp;        RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());</b>
+<b class="nc">&nbsp;        String repl = &quot;тонн&quot;;</b>
+<b class="nc">&nbsp;        potentialRuleMatch.addSuggestedReplacement(repl);</b>
+<b class="nc">&nbsp;        ruleMatches.add(potentialRuleMatch);</b>
+<b class="nc">&nbsp;        state.reset();</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; nounTokenReadings = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;      for (AnalyzedToken token: tokenReadings) {</b>
+<b class="nc">&nbsp;        String nounPosTag = token.getPOSTag();</b>
+&nbsp;
+<b class="nc">&nbsp;        if( nounPosTag == null ) { // can happen for words with \u0301 or \u00AD</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        if ( nounPosTag.endsWith(&quot;_END&quot;) ) {</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if( PosTagHelper.hasPosTag(token, NOUN_IGNORE_PATTERN) ) {</b>
+<b class="nc">&nbsp;          nounTokenReadings.clear();</b>
+&nbsp;          break;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if( nounPosTag.startsWith(&quot;noun&quot;) || nounPosTag.startsWith(&quot;adj&quot;) ) {</b>
+<b class="nc">&nbsp;          nounTokenReadings.add(token);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if( ! PosTagHelper.isPredictOrInsert(token) ) {</b>
+<b class="nc">&nbsp;          nounTokenReadings.clear();</b>
+&nbsp;          break;
+&nbsp;        }
+&nbsp;      }
+&nbsp;      
+&nbsp;      // limit багато with m:v_rod - багато білку
+<b class="nc">&nbsp;      if( state.numrAnalyzedTokenReadings.getCleanToken().toLowerCase().endsWith(&quot;багато&quot;) ) {</b>
+<b class="nc">&nbsp;        if( ! (PosTagHelper.hasMaleUA(tokenReadings) </b>
+<b class="nc">&nbsp;            || NOUN_FORCE_PATTERN.matcher(cleanTokenLower).matches() ) </b>
+&nbsp;            ) {
+<b class="nc">&nbsp;          state.reset();</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;      }
+&nbsp;      
+&nbsp;      // no noun token - restart
+&nbsp;
+<b class="nc">&nbsp;      if( nounTokenReadings.isEmpty() ) {</b>
+<b class="nc">&nbsp;        state.reset();</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      state.nounPos = i;</b>
+&nbsp;
+&nbsp;      
+<b class="nc">&nbsp;      logger.debug(&quot;=== Checking:\n\t{}\n\t{}&quot;, state.numrTokenReadings, nounTokenReadings);</b>
+&nbsp;
+&nbsp;      // perform the check
+&nbsp;
+<b class="nc">&nbsp;      String genderOfPluralNotFound = null;</b>
+<b class="nc">&nbsp;      List&lt;InflectionHelper.Inflection&gt; masterInflections = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;      // чотири десятих відсотка
+<b class="nc">&nbsp;      if( state.numrPos == i - 2 </b>
+<b class="nc">&nbsp;          &amp;&amp; Arrays.asList(&quot;десятих&quot;, &quot;сотих&quot;, &quot;тисячних&quot;, &quot;третіх&quot;, &quot;четвертих&quot;).contains(tokens[i-1].getCleanToken().toLowerCase()) ) {</b>
+<b class="nc">&nbsp;        masterInflections.clear();</b>
+<b class="nc">&nbsp;        masterInflections.add(new Inflection(&quot;m&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;        masterInflections.add(new Inflection(&quot;f&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;        masterInflections.add(new Inflection(&quot;n&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      else if( state.number ) {</b>
+&nbsp;
+<b class="nc">&nbsp;        if( _5_5.matcher(numrCleanToken).matches() ) {</b>
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;m&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;f&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;n&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if( _2_5.matcher(numrCleanToken).matches() ) {</b>
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_naz&quot;, null));</b>
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_zna&quot;, &quot;inanim&quot;));</b>
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;m&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;f&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;n&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if( _1_5.matcher(numrCleanToken).matches() ) {</b>
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;m&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;f&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;n&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if( _FRACT.matcher(numrCleanToken).matches() ) {</b>
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;m&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;f&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;n&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if( _2to4.matcher(numrCleanToken).matches()</b>
+&nbsp;            // limited scope: otherwise too many positives
+<b class="nc">&nbsp;            &amp;&amp; PosTagHelper.hasPosTagAndToken(tokens[i], Pattern.compile(&quot;.*:m:v_rod.*&quot;), Pattern.compile(&quot;.*[ая]&quot;)) ) {</b>
+&nbsp;//            || PosTagHelper.hasPosTagAndToken(tokens[i], Pattern.compile(&quot;.*:p:v_naz.*&quot;), Pattern.compile(&quot;.*[и]&quot;))) ) {
+&nbsp;//              n1 = true;
+&nbsp;//              state.nounPos = i+1;
+&nbsp;              
+<b class="nc">&nbsp;          masterInflections.clear();</b>
+&nbsp;
+&nbsp;          // 2 подолянина
+<b class="nc">&nbsp;          boolean ynTokens = isNynCase(tokens, i);</b>
+<b class="nc">&nbsp;          if( ynTokens ) {</b>
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;m&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;          }
+&nbsp;          else {
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_naz&quot;, null));</b>
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_zna&quot;, null));</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        else if( _2to4.matcher(numrCleanToken).matches() ) {</b>
+&nbsp;          // 2 подоляни
+<b class="nc">&nbsp;          boolean ynTokens = isNynCase(tokens, i);</b>
+<b class="nc">&nbsp;          if( ynTokens ) {</b>
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;m&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;          }
+&nbsp;          else {
+&nbsp;//            masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_naz&quot;, null));
+&nbsp;//            masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_zna&quot;, null));
+<b class="nc">&nbsp;            state.reset();</b>
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;        }
+&nbsp;        // 5-9/0 is very limited in xml rules
+<b class="nc">&nbsp;        else if( _5to9.matcher(numrCleanToken).matches()</b>
+<b class="nc">&nbsp;            &amp;&amp; NOUN_FORCE_PATTERN.matcher(cleanTokenLower).matches() ) {</b>
+&nbsp;//            &amp;&amp; (LemmaHelper.hasLemma(tokens[i], Pattern.compile(&quot;(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|біт|бар|бер|ват|вольт|децибел|рентген|моль|мікрон|грам|аршин|лат|карат|солдат|чоловік|тон)&quot;), Pattern.compile(&quot;noun:(in)?anim:m:v_naz.*&quot;)) )){
+&nbsp;//            || tokens[i].getCleanToken().equals(&quot;чоловік&quot;)) ) {
+<b class="nc">&nbsp;          masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;          state.reset();</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;      }
+&nbsp;      else {
+<b class="nc">&nbsp;        masterInflections = PosTagHelper.hasPosTag(state.numrTokenReadings, NUMR_PATTERN)</b>
+<b class="nc">&nbsp;            ? InflectionHelper.getNumrInflections(state.numrTokenReadings)</b>
+<b class="nc">&nbsp;                : Arrays.asList(new Inflection(&quot;p&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;        
+<b class="nc">&nbsp;        List&lt;Inflection&gt; pVnazZna = masterInflections.stream()</b>
+<b class="nc">&nbsp;            .filter(inf -&gt; inf.gender.equals(&quot;p&quot;) &amp;&amp; (inf._case.equals(&quot;v_naz&quot;) || inf._case.equals(&quot;v_zna&quot;)))</b>
+<b class="nc">&nbsp;            .collect(Collectors.toList());</b>
+&nbsp;        
+<b class="nc">&nbsp;        if( pVnazZna.size() &gt; 0 ) {</b>
+&nbsp;
+<b class="nc">&nbsp;          if( _5to9_ALPHA.matcher(numrToken).matches() ) {</b>
+<b class="nc">&nbsp;            masterInflections.removeAll(pVnazZna);</b>
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;          }
+<b class="nc">&nbsp;          else if( numrToken.matches(&quot;((.+-)?(двоє|двох|троє|.+еро|.+ьох))|обидвоє|обидвох|обоє|обох|двійко&quot;) ) {</b>
+<b class="nc">&nbsp;            masterInflections.removeAll(pVnazZna);</b>
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;          }
+<b class="nc">&nbsp;          else if( numrToken.matches(&quot;(не)?багато|багато-багато|(не|чи)?мало|с[тк]ільки(-то|сь)?|.+-скільки|кілько&quot;) ) {</b>
+<b class="nc">&nbsp;            masterInflections.removeAll(pVnazZna);</b>
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;m&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;n&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;f&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;          }
+<b class="nc">&nbsp;          else if( numrToken.matches(&quot;пів&quot;) ) {</b>
+<b class="nc">&nbsp;            masterInflections.clear();</b>
+&nbsp;//            masterInflections.removeAll(pVnazZna);
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;m&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;f&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;n&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;          }
+&nbsp;          // на три дерева
+<b class="nc">&nbsp;          else if( DVA_3_4_PATTERN.matcher(numrToken).matches() ) {</b>
+<b class="nc">&nbsp;            masterInflections.removeAll(pVnazZna);</b>
+&nbsp;
+&nbsp;            // 2 подолянина
+<b class="nc">&nbsp;            if( isNynCase(tokens, i) ) {</b>
+<b class="nc">&nbsp;              masterInflections.add(new Inflection(&quot;m&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;              // обидва волинянина
+<b class="nc">&nbsp;              if( Arrays.asList(&quot;обидва&quot;, &quot;обидві&quot;).contains(numrToken) ) {</b>
+<b class="nc">&nbsp;                masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_naz&quot;, null));</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;            else {
+<b class="nc">&nbsp;              masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_naz&quot;, null));</b>
+<b class="nc">&nbsp;              if( PosTagHelper.hasPosTag(nounTokenReadings, Pattern.compile(&quot;noun:inanim:p:v_zna.*&quot;)) ) {</b>
+<b class="nc">&nbsp;                masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_zna&quot;, null));</b>
+&nbsp;              }
+<b class="nc">&nbsp;              else if( PosTagHelper.hasPosTag(nounTokenReadings, Pattern.compile(&quot;adj:p:v_zna.*&quot;))</b>
+&nbsp;                  &amp;&amp; ( i == tokens.length -1 
+<b class="nc">&nbsp;                  || ! PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile(&quot;(noun:.*p:v_rod).*&quot;)) ) ) {</b>
+<b class="nc">&nbsp;                masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_zna&quot;, null));</b>
+&nbsp;              }
+&nbsp;              // три цікавих міста, but not два додаткові років
+&nbsp;              //            else if( i &lt; tokens.length - 1
+&nbsp;              //                &amp;&amp; PosTagHelper.hasPosTag(tokens[i], Pattern.compile(&quot;(adj:p:v_zna).*&quot;))
+&nbsp;              //                &amp;&amp; PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile(&quot;(noun:inanim:p:v_zna).*&quot;)) ) {
+&nbsp;              //              masterInflections.add(new Inflection(&quot;p&quot;, &quot;v_zna&quot;, null));
+&nbsp;              //            }
+&nbsp;            }
+&nbsp;            
+<b class="nc">&nbsp;            if( DVI_PATTERN.matcher(numrToken).matches() ) {</b>
+<b class="nc">&nbsp;              String vidm = masterInflections.size() == 2 ? &quot;(naz|zna)&quot; : &quot;naz&quot;;</b>
+<b class="nc">&nbsp;              Pattern pattern = masterInflections.size() == 2 ? Pattern.compile(&quot;noun.*:p:v_&quot; + vidm + &quot;(?!:ns).*&quot;)</b>
+<b class="nc">&nbsp;                  : Pattern.compile(&quot;noun.*:p:v_&quot; + vidm + &quot;.*&quot;);</b>
+<b class="nc">&nbsp;              if (PosTagHelper.hasPosTag(nounTokenReadings, pattern)</b>
+<b class="nc">&nbsp;                  &amp;&amp; !PosTagHelper.hasPosTag(nounTokenReadings, Pattern.compile(&quot;adj:p:v_&quot; + vidm + &quot;.*&quot;))) {</b>
+<b class="nc">&nbsp;                HashSet&lt;String&gt; found = findSingulars(nounTokenReadings, pattern, &quot;:f:&quot;);</b>
+<b class="nc">&nbsp;                if (found != null &amp;&amp; found.isEmpty()) {</b>
+<b class="nc">&nbsp;                  genderOfPluralNotFound = &quot;f&quot;;</b>
+&nbsp;                }
+&nbsp;              }
+<b class="nc">&nbsp;            } else if (DVA_PATTERN.matcher(numrToken).matches()) {</b>
+<b class="nc">&nbsp;              String vidm = masterInflections.size() == 2 ? &quot;(naz|zna)&quot; : &quot;naz&quot;;</b>
+<b class="nc">&nbsp;              Pattern pattern = masterInflections.size() == 2 ? Pattern.compile(&quot;noun.*:p:v_&quot; + vidm + &quot;(?!:ns).*&quot;)</b>
+<b class="nc">&nbsp;                  : Pattern.compile(&quot;noun.*:p:v_&quot; + vidm + &quot;.*&quot;);</b>
+<b class="nc">&nbsp;              if (PosTagHelper.hasPosTag(nounTokenReadings, pattern)</b>
+<b class="nc">&nbsp;                  &amp;&amp; !PosTagHelper.hasPosTag(nounTokenReadings, Pattern.compile(&quot;adj:p:v_&quot; + vidm + &quot;.*&quot;))) {</b>
+<b class="nc">&nbsp;                HashSet&lt;String&gt; found = findSingulars(nounTokenReadings, pattern, &quot;:[mn]:&quot;);</b>
+<b class="nc">&nbsp;                if (found != null &amp;&amp; found.isEmpty()) {</b>
+<b class="nc">&nbsp;                  genderOfPluralNotFound = &quot;mn&quot;;</b>
+&nbsp;                }
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;          if( numrToken.matches(&quot;(один-|одне-)?півтора&quot;) ) {</b>
+&nbsp;              // TODO: force only direct inflections for півтора
+<b class="nc">&nbsp;              masterInflections.clear();</b>
+&nbsp;//              masterInflections.removeAll(pVnazZna);
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;m&quot;, &quot;v_rod&quot;, null));</b>
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;n&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;          }
+<b class="nc">&nbsp;          else if( numrToken.matches(&quot;(одн.+-)?півтори&quot;) ) {</b>
+<b class="nc">&nbsp;            masterInflections.clear();</b>
+&nbsp;//          masterInflections.removeAll(pVnazZna);
+<b class="nc">&nbsp;            masterInflections.add(new Inflection(&quot;f&quot;, &quot;v_rod&quot;, null));</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      List&lt;InflectionHelper.Inflection&gt; nounInflections = InflectionHelper.getNounInflections(nounTokenReadings);</b>
+<b class="nc">&nbsp;      List&lt;InflectionHelper.Inflection&gt; adjInflections = InflectionHelper.getAdjInflections(nounTokenReadings);</b>
+<b class="nc">&nbsp;      nounInflections.addAll(adjInflections);</b>
+&nbsp;      // remove dups
+<b class="nc">&nbsp;      nounInflections = new ArrayList&lt;&gt;(new LinkedHashSet&lt;&gt;(nounInflections));</b>
+&nbsp;
+<b class="nc">&nbsp;      boolean disjoint = Collections.disjoint(masterInflections, nounInflections);</b>
+<b class="nc">&nbsp;      if( genderOfPluralNotFound != null || disjoint ) {</b>
+&nbsp;
+<b class="nc">&nbsp;        if( TokenAgreementNumrNounExceptionHelper.isException(tokens, state, masterInflections, nounInflections, nounTokenReadings) ) {</b>
+<b class="nc">&nbsp;          state.reset();</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if( logger.isDebugEnabled()) {</b>
+<b class="nc">&nbsp;          logger.debug(MessageFormat.format(&quot;=== Found:\n\t{0}\n\t&quot;,</b>
+<b class="nc">&nbsp;              state.numrAnalyzedTokenReadings.getToken() + &quot;: &quot; + masterInflections + &quot; // &quot; + state.numrAnalyzedTokenReadings,</b>
+<b class="nc">&nbsp;            nounTokenReadings.get(0).getToken() + &quot;: &quot; + nounInflections+ &quot; // &quot; + nounTokenReadings));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        String msg = String.format(&quot;Потенційна помилка: числівник не узгоджений з іменником: \&quot;%s\&quot; вимагає: [%s], а далі йде \&quot;%s\&quot;: [%s]&quot;, </b>
+<b class="nc">&nbsp;            state.numrTokenReadings.get(0).getToken(), TokenAgreementAdjNounRule.formatInflections(masterInflections, true),</b>
+<b class="nc">&nbsp;            nounTokenReadings.get(0).getToken(), TokenAgreementAdjNounRule.formatInflections(nounInflections, false));</b>
+&nbsp;
+<b class="nc">&nbsp;        if( _1_5.matcher(numrCleanToken).matches() ) {</b>
+<b class="nc">&nbsp;          msg = &quot;Після «1,5» треба вживати родовий відмінок однини&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if( _2_5.matcher(numrCleanToken).matches() ) {</b>
+<b class="nc">&nbsp;          msg = &quot;Після числівника, що закінчується на 2-4 і потім «,5», іменник має стояти в називному відмінку множини (якщо вимовляємо «з половиною»)&quot;;</b>
+<b class="nc">&nbsp;          msg += &quot;, або в родовом відмінку однини (якщо вимовляємо «і п&#39;ять десятих»)&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if( numrCleanToken.endsWith(&quot;,5&quot;) ) {</b>
+<b class="nc">&nbsp;          msg = &quot;Після числівника, що закінчується на 5-9 і потім «,5», іменник має стояти в родовому відмінку множини (якщо вимовляємо «з половиною»)&quot;;</b>
+<b class="nc">&nbsp;          msg += &quot;, або в родовом відмінку однини (якщо вимовляємо «і п&#39;ять десятих»)&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if( numrCleanToken.equalsIgnoreCase(&quot;півтора&quot;) ) {</b>
+<b class="nc">&nbsp;          msg = &quot;Існує правило, що після «півтора» треба вживати родовий відмінок ч. або с.р., однак у текстах в багатьох випадках вживають і форму множини, надто коли перед іменником іде прикметник&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if( numrCleanToken.equalsIgnoreCase(&quot;півтори&quot;) ) {</b>
+<b class="nc">&nbsp;          msg = &quot;Існує правило, що після «півтора» треба вживати родовий відмінок ж.р., однак у текстах в багатьох випадках вживають і форму множини, надто коли перед іменником іде прикметник&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if( masterInflections.contains(new Inflection(&quot;m&quot;, &quot;v_rod&quot;, null))</b>
+<b class="nc">&nbsp;            &amp;&amp; tokens[i].getToken().matches(&quot;.*[ую]&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; PosTagHelper.hasPosTag(nounTokenReadings, Pattern.compile(&quot;noun.*?:m:v_dav.*&quot;)) ) {</b>
+<b class="nc">&nbsp;          msg += CaseGovernmentHelper.USED_U_INSTEAD_OF_A_MSG;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if( ! PosTagHelper.hasPosTag(state.numrTokenReadings, Pattern.compile(&quot;adj.*?v_mis.*&quot;))</b>
+<b class="nc">&nbsp;            &amp;&amp; PosTagHelper.hasPosTag(nounTokenReadings, Pattern.compile(&quot;noun.*?v_mis.*&quot;)) ) {</b>
+<b class="nc">&nbsp;          msg += &quot;. Можливо, пропущено прийменник на/в/у...?&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if( ! disjoint &amp;&amp; genderOfPluralNotFound != null ) {</b>
+<b class="nc">&nbsp;          msg += &quot;. Можливо, не збігається рід однини для множинної форми?&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, state.numrAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;String&gt; suggestions = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        if( ! disjoint &amp;&amp; genderOfPluralNotFound != null ) {</b>
+&nbsp;//          msg += &quot;. Можливо, не збігається рід однини для множинної форми?&quot;;
+<b class="nc">&nbsp;          String sugg1 = &quot;f&quot;.equals(genderOfPluralNotFound)</b>
+<b class="nc">&nbsp;              ? numrCleanToken.replaceFirst(&quot;і$&quot;, &quot;а&quot;) // два -&gt; дві</b>
+<b class="nc">&nbsp;                  : numrCleanToken.replaceFirst(&quot;а$&quot;, &quot;і&quot;); // дві -&gt; два</b>
+<b class="nc">&nbsp;          suggestions = Arrays.asList(sugg1 + &quot; &quot; + tokens[state.nounPos].getToken());</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;        for (Inflection numrInflection : masterInflections) {</b>
+<b class="nc">&nbsp;          String genderTag = &quot;:&quot;+numrInflection.gender+&quot;:&quot;;</b>
+<b class="nc">&nbsp;          String vidmTag = numrInflection._case;</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;          for(AnalyzedToken nounToken: nounTokenReadings) {</b>
+&nbsp;
+<b class="nc">&nbsp;            if( numrInflection.animMatters() ) {</b>
+<b class="nc">&nbsp;              String animTag = nounToken.getPOSTag().startsWith(&quot;noun&quot;) </b>
+<b class="nc">&nbsp;                  ? &quot;:&quot; + numrInflection.animTag</b>
+<b class="nc">&nbsp;                      : &quot;:r&quot; + numrInflection.animTag;</b>
+<b class="nc">&nbsp;              if( ! nounToken.getPOSTag().contains(animTag) )</b>
+&nbsp;                continue;
+&nbsp;            }
+<b class="nc">&nbsp;            String newNounPosTag = nounToken.getPOSTag().replaceFirst(&quot;:.:v_...&quot;, genderTag + vidmTag);</b>
+&nbsp;
+&nbsp;            try {
+<b class="nc">&nbsp;              String[] synthesized = synthesizer.synthesize(nounToken, newNounPosTag, false);</b>
+&nbsp;
+<b class="nc">&nbsp;              for (String s : synthesized) {</b>
+&nbsp;
+<b class="nc">&nbsp;                if( numrCleanToken.equalsIgnoreCase(&quot;півтора&quot;)</b>
+<b class="nc">&nbsp;                    &amp;&amp; nounToken.getLemma().equals(&quot;раз&quot;) &amp;&amp; ! s.equals(&quot;раза&quot;) )</b>
+&nbsp;                  continue;
+&nbsp;
+<b class="nc">&nbsp;                String suggestion = state.numrAnalyzedTokenReadings.getToken();</b>
+<b class="nc">&nbsp;                for(int j=state.numrPos+1; j&lt;state.nounPos; j++ ) {</b>
+<b class="nc">&nbsp;                  suggestion += &quot; &quot; + tokens[j].getToken(); // add middle adj</b>
+&nbsp;                }
+<b class="nc">&nbsp;                suggestion += &quot; &quot; + s;</b>
+&nbsp;                
+<b class="nc">&nbsp;                if( ! suggestions.contains(suggestion) ) {</b>
+<b class="nc">&nbsp;                  suggestions.add(suggestion);</b>
+&nbsp;                }
+&nbsp;              }
+&nbsp;            } catch (IOException e) {
+<b class="nc">&nbsp;              throw new RuntimeException(e);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if( suggestions.size() &gt; 0 ) {</b>
+<b class="nc">&nbsp;            potentialRuleMatch.setSuggestedReplacements(suggestions);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        ruleMatches.add(potentialRuleMatch);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      state.reset();</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isNynCase(AnalyzedTokenReadings[] tokens, int i) {
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; mVrodATokens = PosTagHelper.filter(tokens[i], Pattern.compile(&quot;noun:anim:m:v_rod.*&quot;), Pattern.compile(&quot;.*нин[ая]&quot;));</b>
+<b class="nc">&nbsp;    if( mVrodATokens.size() &gt; 0 ) {</b>
+<b class="nc">&nbsp;      return mVrodATokens.stream().anyMatch(r -&gt; r.getLemma().equals(r.getToken().toLowerCase().replaceFirst(&quot;[ая]$&quot;, &quot;&quot;)));</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; pVnazYTokens = PosTagHelper.filter(tokens[i], Pattern.compile(&quot;noun:anim:p:v_naz.*&quot;), Pattern.compile(&quot;.*ни&quot;));</b>
+<b class="nc">&nbsp;    return pVnazYTokens.stream().anyMatch(r -&gt; r.getLemma().equals(r.getToken().toLowerCase().replaceFirst(&quot;ни$&quot;, &quot;нин&quot;)));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private HashSet&lt;String&gt; findSingulars(List&lt;AnalyzedToken&gt; nounTokenReadings, Pattern pattern, String lookFor) throws IOException {
+<b class="nc">&nbsp;    HashSet&lt;String&gt; found = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    for(AnalyzedToken tr: nounTokenReadings) {</b>
+<b class="nc">&nbsp;      if( PosTagHelper.hasPosTag(tr, pattern) ) {</b>
+<b class="nc">&nbsp;        String[] synthTokens0 = synthesizer.synthesize(tr, tr.getPOSTag(), false);</b>
+<b class="nc">&nbsp;        if (synthTokens0.length == 0) // dynamically tagged: // наглядачки-африканерки</b>
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;
+<b class="nc">&nbsp;        if( ! found.contains(tr.getLemma()) ) {</b>
+&nbsp;          // два ока - noun:inanim:p:v_naz:var
+<b class="nc">&nbsp;          String singularTag = tr.getPOSTag().replace(&quot;:p:&quot;, lookFor).replaceAll(&quot;:(var|bad|arch)&quot;, &quot;.*&quot;);</b>
+<b class="nc">&nbsp;          String[] synthTokens = synthesizer.synthesize(tr, singularTag, true);</b>
+<b class="nc">&nbsp;          found.addAll(Arrays.asList(synthTokens));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return found;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

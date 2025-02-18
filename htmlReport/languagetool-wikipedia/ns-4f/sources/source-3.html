@@ -1,0 +1,778 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ApiV2</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: ApiV2 (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ApiV2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/188)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/392)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.core.JsonFactory;
+&nbsp;import com.fasterxml.jackson.core.JsonGenerator;
+&nbsp;import com.fasterxml.jackson.core.JsonProcessingException;
+&nbsp;import com.fasterxml.jackson.databind.JsonNode;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;import com.sun.net.httpserver.HttpExchange;
+&nbsp;import io.opentelemetry.api.common.Attributes;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.Premium;
+&nbsp;import org.languagetool.markup.AnnotatedText;
+&nbsp;import org.languagetool.markup.AnnotatedTextBuilder;
+&nbsp;import org.languagetool.rules.CorrectExample;
+&nbsp;import org.languagetool.rules.IncorrectExample;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleOption;
+&nbsp;import org.languagetool.rules.TextLevelRule;
+&nbsp;import org.languagetool.tools.TelemetryProvider;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.StringWriter;
+&nbsp;import java.net.HttpURLConnection;
+&nbsp;import java.net.InetSocketAddress;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static org.languagetool.server.LanguageToolHttpHandler.API_DOC_URL;
+&nbsp;
+&nbsp;/**
+&nbsp; * Handle requests to {@code /v2/} of the HTTP API. 
+&nbsp; * @since 3.4
+&nbsp; */
+&nbsp;class ApiV2 {
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(ApiV2.class);</b>
+&nbsp;
+&nbsp;  private static final String JSON_CONTENT_TYPE = &quot;application/json&quot;;
+&nbsp;  private static final String TEXT_CONTENT_TYPE = &quot;text/plain&quot;;
+&nbsp;  private static final String ENCODING = &quot;UTF-8&quot;;
+&nbsp;
+&nbsp;  private final TextChecker textChecker;
+&nbsp;  private final String allowOriginUrl;
+<b class="nc">&nbsp;  private final JsonFactory factory = new JsonFactory();</b>
+&nbsp;
+<b class="nc">&nbsp;  ApiV2(TextChecker textChecker, String allowOriginUrl) {</b>
+<b class="nc">&nbsp;    this.textChecker = textChecker;</b>
+<b class="nc">&nbsp;    this.allowOriginUrl = allowOriginUrl;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void handleRequest(String path, HttpExchange httpExchange, Map&lt;String, String&gt; parameters, ErrorRequestLimiter errorRequestLimiter,
+&nbsp;                     String remoteAddress, HTTPServerConfig config) throws Exception {
+<b class="nc">&nbsp;    String spanName = &quot;/v2/&quot; + path;</b>
+<b class="nc">&nbsp;    if (path.equals(&quot;languages&quot;)) {</b>
+<b class="nc">&nbsp;      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -&gt; handleLanguagesRequest(httpExchange));</b>
+<b class="nc">&nbsp;    } else if (path.equals(&quot;maxtextlength&quot;)) {</b>
+<b class="nc">&nbsp;      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -&gt; handleMaxTextLengthRequest(httpExchange, config));</b>
+<b class="nc">&nbsp;    } else if (path.equals(&quot;configinfo&quot;)) {</b>
+<b class="nc">&nbsp;      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -&gt; handleGetConfigurationInfoRequest(httpExchange, parameters, config));</b>
+<b class="nc">&nbsp;    } else if (path.equals(&quot;info&quot;)) {</b>
+<b class="nc">&nbsp;      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -&gt; handleSoftwareInfoRequest(httpExchange));</b>
+<b class="nc">&nbsp;    } else if (path.equals(&quot;check&quot;)) {</b>
+<b class="nc">&nbsp;      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -&gt; handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress, config));</b>
+<b class="nc">&nbsp;    } else if (path.equals(&quot;words&quot;)) {</b>
+<b class="nc">&nbsp;      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -&gt; handleWordsRequest(httpExchange, parameters, config));</b>
+<b class="nc">&nbsp;    } else if (path.equals(&quot;words/add&quot;)) {</b>
+<b class="nc">&nbsp;      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -&gt; handleWordAddRequest(httpExchange, parameters, config));</b>
+<b class="nc">&nbsp;    } else if (path.equals(&quot;words/delete&quot;)) {</b>
+<b class="nc">&nbsp;      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -&gt; handleWordDeleteRequest(httpExchange, parameters, config));</b>
+&nbsp;    //} else if (path.equals(&quot;rule/examples&quot;)) {
+&nbsp;    //  // private (i.e. undocumented) API for our own use only
+&nbsp;    //  handleRuleExamplesRequest(httpExchange, parameters);
+<b class="nc">&nbsp;    } else if (path.equals(&quot;admin/refreshUser&quot;)) {</b>
+&nbsp;      // private (i.e. undocumented) API for our own use only
+<b class="nc">&nbsp;      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -&gt; handleRefreshUserInfoRequest(httpExchange, parameters, config));</b>
+<b class="nc">&nbsp;    } else if (path.equals(&quot;users/me&quot;)) {</b>
+&nbsp;      // private (i.e. undocumented) API for our own use only
+<b class="nc">&nbsp;      TelemetryProvider.INSTANCE.createSpan(spanName, Attributes.empty(), () -&gt; </b>
+<b class="nc">&nbsp;        handleGetUserInfoRequest(httpExchange, parameters, config));</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      throw new PathNotFoundException(&quot;Unsupported action: &#39;&quot; + path + &quot;&#39;. Please see &quot; + API_DOC_URL);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void handleLanguagesRequest(HttpExchange httpExchange) throws IOException {
+<b class="nc">&nbsp;    String response = getLanguages();</b>
+<b class="nc">&nbsp;    ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);</b>
+<b class="nc">&nbsp;    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);</b>
+<b class="nc">&nbsp;    httpExchange.getResponseBody().write(response.getBytes(ENCODING));</b>
+<b class="nc">&nbsp;    ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void handleMaxTextLengthRequest(HttpExchange httpExchange, HTTPServerConfig config) throws IOException {
+<b class="nc">&nbsp;    String response = Integer.toString(config.getMaxTextLengthAnonymous());</b>
+<b class="nc">&nbsp;    ServerTools.setCommonHeaders(httpExchange, TEXT_CONTENT_TYPE, allowOriginUrl);</b>
+<b class="nc">&nbsp;    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);</b>
+<b class="nc">&nbsp;    httpExchange.getResponseBody().write(response.getBytes(ENCODING));</b>
+<b class="nc">&nbsp;    ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void handleGetConfigurationInfoRequest(HttpExchange httpExchange, Map&lt;String, String&gt; parameters, HTTPServerConfig config) throws IOException {
+<b class="nc">&nbsp;    if (parameters.get(&quot;language&quot;) == null) {</b>
+<b class="nc">&nbsp;      throw new BadRequestException(&quot;&#39;language&#39; parameter missing&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Language lang = Languages.getLanguageForShortCode(parameters.get(&quot;language&quot;));</b>
+<b class="nc">&nbsp;    String response = getConfigurationInfo(lang, config);</b>
+<b class="nc">&nbsp;    ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);</b>
+<b class="nc">&nbsp;    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);</b>
+<b class="nc">&nbsp;    httpExchange.getResponseBody().write(response.getBytes(ENCODING));</b>
+<b class="nc">&nbsp;    ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void handleSoftwareInfoRequest(HttpExchange httpExchange) throws IOException {
+<b class="nc">&nbsp;    String response = getSoftwareInfo();</b>
+<b class="nc">&nbsp;    ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);</b>
+<b class="nc">&nbsp;    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);</b>
+<b class="nc">&nbsp;    httpExchange.getResponseBody().write(response.getBytes(ENCODING));</b>
+<b class="nc">&nbsp;    ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void handleCheckRequest(HttpExchange httpExchange, Map&lt;String, String&gt; parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress, HTTPServerConfig config) throws Exception {
+&nbsp;    AnnotatedText aText;
+<b class="nc">&nbsp;    if (parameters.containsKey(&quot;text&quot;) &amp;&amp; parameters.containsKey(&quot;data&quot;)) {</b>
+<b class="nc">&nbsp;      throw new BadRequestException(&quot;Set only &#39;text&#39; or &#39;data&#39; parameter, not both&quot;);</b>
+<b class="nc">&nbsp;    } else if (parameters.containsKey(&quot;text&quot;)) {</b>
+<b class="nc">&nbsp;      aText = new AnnotatedTextBuilder().addText(parameters.get(&quot;text&quot;)).build();</b>
+<b class="nc">&nbsp;    } else if (parameters.containsKey(&quot;data&quot;)) {</b>
+<b class="nc">&nbsp;      ObjectMapper mapper = new ObjectMapper();</b>
+&nbsp;      JsonNode data;
+&nbsp;      try {
+<b class="nc">&nbsp;        data = mapper.readTree(parameters.get(&quot;data&quot;));</b>
+&nbsp;      } catch (JsonProcessingException e) {
+<b class="nc">&nbsp;        throw new BadRequestException(&quot;Could not parse JSON from &#39;data&#39; parameter&quot;, e);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (data.get(&quot;text&quot;) != null &amp;&amp; data.get(&quot;annotation&quot;) != null) {</b>
+<b class="nc">&nbsp;        throw new BadRequestException(&quot;&#39;data&#39; key in JSON requires either &#39;text&#39; or &#39;annotation&#39; key, not both&quot;);</b>
+<b class="nc">&nbsp;      } else if (data.get(&quot;text&quot;) != null) {</b>
+<b class="nc">&nbsp;        aText = getAnnotatedTextFromString(data, data.get(&quot;text&quot;).asText());</b>
+<b class="nc">&nbsp;      } else if (data.get(&quot;annotation&quot;) != null) {</b>
+<b class="nc">&nbsp;        aText = getAnnotatedTextFromJson(data);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        throw new BadRequestException(&quot;&#39;data&#39; key in JSON requires &#39;text&#39; or &#39;annotation&#39; key&quot;);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      throw new BadRequestException(&quot;Missing &#39;text&#39; or &#39;data&#39; parameter&quot;);</b>
+&nbsp;    }
+&nbsp;    //get from config
+<b class="nc">&nbsp;    if (config.logIp &amp;&amp; aText.getPlainText().trim().equals(config.logIpMatchingPattern)) {</b>
+<b class="nc">&nbsp;      handleIpLogMatch(httpExchange, remoteAddress, parameters);</b>
+&nbsp;      //no need to check text again rules
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    textChecker.checkText(aText, httpExchange, parameters, errorRequestLimiter, remoteAddress);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void handleIpLogMatch(HttpExchange httpExchange, String remoteAddress, Map&lt;String, String&gt; parameters) {
+<b class="nc">&nbsp;    Logger logger = LoggerFactory.getLogger(ApiV2.class);</b>
+<b class="nc">&nbsp;    InetSocketAddress localAddress = httpExchange.getLocalAddress();</b>
+<b class="nc">&nbsp;    logger.info(String.format(&quot;Found log-my-IP text in request from: %s to: %s, requestParams: %s&quot;, remoteAddress, localAddress.toString(), parameters));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void handleWordsRequest(HttpExchange httpExchange, Map&lt;String, String&gt; params, HTTPServerConfig config) throws Exception {
+<b class="nc">&nbsp;    ensureGetMethod(httpExchange, &quot;/words&quot;);</b>
+<b class="nc">&nbsp;    UserLimits limits = getUserLimits(params, config);</b>
+<b class="nc">&nbsp;    DatabaseAccess db = DatabaseAccess.getInstance();</b>
+<b class="nc">&nbsp;    int offset = params.get(&quot;offset&quot;) != null ? Integer.parseInt(params.get(&quot;offset&quot;)) : 0;</b>
+<b class="nc">&nbsp;    int limit = params.get(&quot;limit&quot;) != null ? Integer.parseInt(params.get(&quot;limit&quot;)) : 10;</b>
+<b class="nc">&nbsp;    logger.info(&quot;Started reading dictionary for user: {}, offset: {}, limit: {}, dict_cache: {}, dict: {}&quot;,</b>
+<b class="nc">&nbsp;      limits.getPremiumUid(), offset, limit, limits.getDictCacheSize(), params.get(&quot;dict&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;    if (params.containsKey(&quot;dict&quot;)) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Use parameter &#39;dicts&#39;, not &#39;dict&#39; in GET /words API method.&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // optional parameter: groups in comma separated list
+<b class="nc">&nbsp;    List&lt;String&gt; groups = null;</b>
+<b class="nc">&nbsp;    if (params.containsKey(&quot;dicts&quot;)) {</b>
+<b class="nc">&nbsp;      groups = Arrays.asList(params.get(&quot;dicts&quot;).split(&quot;,&quot;));</b>
+<b class="nc">&nbsp;    } else if (limits.getAccount() != null &amp;&amp;</b>
+<b class="nc">&nbsp;               limits.getAccount().getDefaultDictionary() != null &amp;&amp;</b>
+<b class="nc">&nbsp;               !limits.getAccount().getDefaultDictionary().isEmpty()) {</b>
+<b class="nc">&nbsp;      groups = Collections.singletonList(limits.getAccount().getDefaultDictionary());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    long start = System.nanoTime();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; words = db.getWords(limits, groups, offset, limit);</b>
+&nbsp;    //List&lt;String&gt; words = db.getWords(limits.getPremiumUid(), groups, offset, limit);
+<b class="nc">&nbsp;    long durationMilliseconds = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);</b>
+<b class="nc">&nbsp;    logger.info(&quot;Finished reading dictionary for user: {}, offset: {}, limit: {}, dict_cache: {}, dict: {}, size: {} in {}ms&quot;,</b>
+<b class="nc">&nbsp;      limits.getPremiumUid(), offset, limit, limits.getDictCacheSize(), params.get(&quot;dict&quot;), words.size(), durationMilliseconds);</b>
+<b class="nc">&nbsp;    writeListResponse(&quot;words&quot;, words, httpExchange);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void handleWordAddRequest(HttpExchange httpExchange, Map&lt;String, String&gt; parameters, HTTPServerConfig config) throws Exception {
+<b class="nc">&nbsp;    ensurePostMethod(httpExchange, &quot;/words/add&quot;);</b>
+<b class="nc">&nbsp;    UserLimits limits = getUserLimits(parameters, config);</b>
+<b class="nc">&nbsp;    DatabaseAccess db = DatabaseAccess.getInstance();</b>
+<b class="nc">&nbsp;    String dict = parameters.get(&quot;dict&quot;);</b>
+<b class="nc">&nbsp;    if(dict == null &amp;&amp;</b>
+<b class="nc">&nbsp;       limits.getAccount() != null &amp;&amp;</b>
+<b class="nc">&nbsp;       limits.getAccount().getDefaultDictionary() != null &amp;&amp;</b>
+<b class="nc">&nbsp;       !limits.getAccount().getDefaultDictionary().isEmpty()) {</b>
+<b class="nc">&nbsp;      dict = limits.getAccount().getDefaultDictionary();</b>
+&nbsp;    }
+&nbsp;    /*
+&nbsp;     *  experimental batch mode for adding words,
+&nbsp;     *  use mode=batch, words=&quot;word1 word2 word3&quot; (whitespace delimited list) instead of word parameter
+&nbsp;     */
+<b class="nc">&nbsp;    if (&quot;batch&quot;.equals(parameters.get(&quot;mode&quot;))) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; words = Arrays.asList(parameters.get(&quot;words&quot;).split(&quot;\\s+&quot;));</b>
+<b class="nc">&nbsp;      db.addWordBatch(words, limits.getPremiumUid(), dict);</b>
+<b class="nc">&nbsp;      writeResponse(&quot;added&quot;, true, httpExchange);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      boolean added = db.addWord(parameters.get(&quot;word&quot;), limits.getPremiumUid(), dict);</b>
+<b class="nc">&nbsp;      writeResponse(&quot;added&quot;, added, httpExchange);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void handleWordDeleteRequest(HttpExchange httpExchange, Map&lt;String, String&gt; parameters, HTTPServerConfig config) throws Exception {
+<b class="nc">&nbsp;    ensurePostMethod(httpExchange, &quot;/words/delete&quot;);</b>
+<b class="nc">&nbsp;    UserLimits limits = getUserLimits(parameters, config);</b>
+<b class="nc">&nbsp;    DatabaseAccess db = DatabaseAccess.getInstance();</b>
+<b class="nc">&nbsp;    String dict = parameters.get(&quot;dict&quot;);</b>
+<b class="nc">&nbsp;    if(dict == null &amp;&amp;</b>
+<b class="nc">&nbsp;      limits.getAccount() != null &amp;&amp;</b>
+<b class="nc">&nbsp;      limits.getAccount().getDefaultDictionary() != null &amp;&amp;</b>
+<b class="nc">&nbsp;      !limits.getAccount().getDefaultDictionary().isEmpty()) {</b>
+<b class="nc">&nbsp;      dict = limits.getAccount().getDefaultDictionary();</b>
+&nbsp;    }
+&nbsp;    boolean deleted;
+<b class="nc">&nbsp;    if(&quot;batch&quot;.equals(parameters.get(&quot;mode&quot;))) { //Experimental</b>
+<b class="nc">&nbsp;      List&lt;String&gt; words = Arrays.asList(parameters.get(&quot;words&quot;).split(&quot;\\s+&quot;));</b>
+<b class="nc">&nbsp;      deleted = db.deleteWordBatch(words, limits.getPremiumUid(),dict);</b>
+<b class="nc">&nbsp;      writeResponse(&quot;deleted&quot;, deleted, httpExchange);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      deleted = db.deleteWord(parameters.get(&quot;word&quot;), limits.getPremiumUid(), dict);</b>
+<b class="nc">&nbsp;      writeResponse(&quot;deleted&quot;, deleted, httpExchange);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void handleRuleExamplesRequest(HttpExchange httpExchange, Map&lt;String, String&gt; params) throws Exception {
+<b class="nc">&nbsp;    ensureGetMethod(httpExchange, &quot;/rule/examples&quot;);</b>
+<b class="nc">&nbsp;    if (params.get(&quot;lang&quot;) == null) {</b>
+<b class="nc">&nbsp;      throw new BadRequestException(&quot;&#39;lang&#39; parameter missing&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (params.get(&quot;ruleId&quot;) == null) {</b>
+<b class="nc">&nbsp;      throw new BadRequestException(&quot;&#39;ruleId&#39; parameter missing&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Language lang = Languages.getLanguageForShortCode(params.get(&quot;lang&quot;));</b>
+<b class="nc">&nbsp;    JLanguageTool lt = new JLanguageTool(lang);</b>
+<b class="nc">&nbsp;    if (textChecker.config.languageModelDir != null) {</b>
+<b class="nc">&nbsp;      lt.activateLanguageModelRules(textChecker.config.languageModelDir);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;Rule&gt; rules = lt.getAllRules();</b>
+<b class="nc">&nbsp;    List&lt;Rule&gt; foundRules = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Rule rule : rules) {</b>
+<b class="nc">&nbsp;      if (rule.getId().equals(params.get(&quot;ruleId&quot;))) {</b>
+<b class="nc">&nbsp;        foundRules.add(rule);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (foundRules.isEmpty()) {</b>
+<b class="nc">&nbsp;      throw new PathNotFoundException(&quot;Rule &#39;&quot; + params.get(&quot;ruleId&quot;) + &quot;&#39; not found for language &quot; + lang +</b>
+<b class="nc">&nbsp;              &quot; (LanguageTool version/date: &quot; + JLanguageTool.VERSION + &quot;/&quot; + JLanguageTool.BUILD_DATE + &quot;, total rules of language: &quot; + rules.size() + &quot;)&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    StringWriter sw = new StringWriter();</b>
+<b class="nc">&nbsp;    try (JsonGenerator g = factory.createGenerator(sw)) {</b>
+<b class="nc">&nbsp;      g.writeStartObject();</b>
+<b class="nc">&nbsp;      g.writeArrayFieldStart(&quot;results&quot;);</b>
+<b class="nc">&nbsp;      g.writeStartObject();</b>
+<b class="nc">&nbsp;      g.writeStringField(&quot;warning&quot;, &quot;*** This is not a public API - it may change anytime ***&quot;);</b>
+<b class="nc">&nbsp;      g.writeEndObject();</b>
+<b class="nc">&nbsp;      for (Rule foundRule : foundRules) {</b>
+<b class="nc">&nbsp;        for (CorrectExample example : foundRule.getCorrectExamples()) {</b>
+<b class="nc">&nbsp;          g.writeStartObject();</b>
+<b class="nc">&nbsp;          g.writeStringField(&quot;status&quot;, &quot;correct&quot;);</b>
+<b class="nc">&nbsp;          g.writeStringField(&quot;sentence&quot;, example.getExample());</b>
+<b class="nc">&nbsp;          g.writeEndObject();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for (IncorrectExample example : foundRule.getIncorrectExamples()) {</b>
+<b class="nc">&nbsp;          g.writeStartObject();</b>
+<b class="nc">&nbsp;          g.writeStringField(&quot;status&quot;, &quot;incorrect&quot;);</b>
+<b class="nc">&nbsp;          g.writeStringField(&quot;sentence&quot;, example.getExample());</b>
+<b class="nc">&nbsp;          g.writeArrayFieldStart(&quot;corrections&quot;);</b>
+<b class="nc">&nbsp;          for (String s : example.getCorrections()) {</b>
+<b class="nc">&nbsp;            g.writeString(s);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          g.writeEndArray();</b>
+<b class="nc">&nbsp;          g.writeEndObject();</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      g.writeEndArray();</b>
+<b class="nc">&nbsp;      g.writeEndObject();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    sendJson(httpExchange, sw);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /*
+&nbsp;   * Invalidate cached user information for this user, e.g. after a user has upgraded to premium
+&nbsp;   * -&gt; for internal use
+&nbsp;   * Authentication avoids the concept of a admin account by requiring credentials for the affected user:
+&nbsp;   * -&gt; api keys are available in plain text in database
+&nbsp;   */
+&nbsp;  private void handleRefreshUserInfoRequest(HttpExchange httpExchange, Map&lt;String, String&gt; params, HTTPServerConfig config) throws Exception {
+<b class="nc">&nbsp;    ensurePostMethod(httpExchange, &quot;/admin/refreshUser&quot;);</b>
+<b class="nc">&nbsp;    UserLimits limits = getUserLimits(params, config);</b>
+<b class="nc">&nbsp;    DatabaseAccess db = DatabaseAccess.getInstance();</b>
+<b class="nc">&nbsp;    if (limits.getPremiumUid() != null) {</b>
+<b class="nc">&nbsp;      String user = params.get(&quot;username&quot;);</b>
+<b class="nc">&nbsp;      if (user != null) {</b>
+<b class="nc">&nbsp;        db.invalidateUserInfoCache(user);</b>
+<b class="nc">&nbsp;        writeResponse(&quot;success&quot;, true, httpExchange);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        writeResponse(&quot;success&quot;, false, httpExchange);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      writeResponse(&quot;success&quot;, false, httpExchange);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /*
+&nbsp;   * Provide information on user that requests this, e.g. for add-on to acquire token + other information
+&nbsp;   * Expects user + password via HTTP Basic Auth
+&nbsp;   */
+&nbsp;  private void handleGetUserInfoRequest(HttpExchange httpExchange, Map&lt;String, String&gt; parameters, HTTPServerConfig config) throws Exception {
+<b class="nc">&nbsp;    if (httpExchange.getRequestMethod().equalsIgnoreCase(&quot;options&quot;)) {</b>
+<b class="nc">&nbsp;      ServerTools.setAllowOrigin(httpExchange, allowOriginUrl);</b>
+<b class="nc">&nbsp;      httpExchange.getResponseHeaders().put(&quot;Access-Control-Allow-Methods&quot;, Collections.singletonList(&quot;GET, OPTIONS&quot;));</b>
+<b class="nc">&nbsp;      List&lt;String&gt; requestHeaders = httpExchange.getRequestHeaders().get(&quot;Access-Control-Request-Headers&quot;);</b>
+<b class="nc">&nbsp;      if (requestHeaders != null) {</b>
+<b class="nc">&nbsp;        httpExchange.getResponseHeaders().put(&quot;Access-Control-Allow-Headers&quot;, Collections.singletonList(String.join(&quot;, &quot;, requestHeaders)));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_NO_CONTENT, -1);</b>
+<b class="nc">&nbsp;      ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_NO_CONTENT);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      ensureGetMethod(httpExchange, &quot;/users/me&quot;);</b>
+<b class="nc">&nbsp;      if (!httpExchange.getRequestHeaders().containsKey(&quot;Authorization&quot;)) {</b>
+<b class="nc">&nbsp;        throw new AuthException(&quot;Expected Basic Authentication&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String authParameter = parameters.getOrDefault(&quot;authMethod&quot;, &quot;password&quot;);</b>
+<b class="nc">&nbsp;      if (!(authParameter.equals(&quot;password&quot;) || </b>
+<b class="nc">&nbsp;            authParameter.equals(&quot;apiKey&quot;) || </b>
+<b class="nc">&nbsp;            authParameter.equals(&quot;addonToken&quot;))) {</b>
+<b class="nc">&nbsp;        throw new IllegalArgumentException(&quot;Unknown authMethod: &quot; + authParameter);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      String authHeader = httpExchange.getRequestHeaders().getFirst(&quot;Authorization&quot;);</b>
+<b class="nc">&nbsp;      BasicAuthentication basicAuthentication = new BasicAuthentication(authHeader);</b>
+<b class="nc">&nbsp;      String user = basicAuthentication.getUser();</b>
+<b class="nc">&nbsp;      String password = basicAuthentication.getPassword();</b>
+<b class="nc">&nbsp;      UserInfoEntry userInfo = null;</b>
+&nbsp;
+<b class="nc">&nbsp;      if (authParameter.equals(&quot;password&quot;)) {</b>
+<b class="nc">&nbsp;        userInfo = DatabaseAccess.getInstance().getUserInfoWithPassword(user, password);</b>
+<b class="nc">&nbsp;      } else if (authParameter.equals(&quot;addonToken&quot;)) {</b>
+<b class="nc">&nbsp;        userInfo = DatabaseAccess.getInstance().getUserInfoWithAddonToken(user, password);</b>
+<b class="nc">&nbsp;      } else if (authParameter.equals(&quot;apiKey&quot;)) {</b>
+<b class="nc">&nbsp;        userInfo = DatabaseAccess.getInstance().getUserInfoWithApiKey(user, password);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      String format = parameters.getOrDefault(&quot;format&quot;, &quot;extended&quot;);</b>
+<b class="nc">&nbsp;      if (userInfo != null) {</b>
+<b class="nc">&nbsp;        if (format.equals(&quot;minimal&quot;)) {</b>
+<b class="nc">&nbsp;          StringWriter sw = new StringWriter();</b>
+<b class="nc">&nbsp;          new ObjectMapper().writeValue(sw, userInfo);</b>
+<b class="nc">&nbsp;          sendJson(httpExchange, sw);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          StringWriter sw = new StringWriter();</b>
+<b class="nc">&nbsp;          new ObjectMapper().writeValue(sw, DatabaseAccess.getInstance().getExtendedUserInfo(user));</b>
+<b class="nc">&nbsp;          sendJson(httpExchange, sw);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        throw new IllegalStateException(&quot;Could not fetch user information&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void ensureGetMethod(HttpExchange httpExchange, String url) {
+<b class="nc">&nbsp;    if (!httpExchange.getRequestMethod().equalsIgnoreCase(&quot;get&quot;)) {</b>
+<b class="nc">&nbsp;      throw new BadRequestException(url + &quot; needs to be called with GET&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void ensurePostMethod(HttpExchange httpExchange, String url) {
+<b class="nc">&nbsp;    if (!httpExchange.getRequestMethod().equalsIgnoreCase(&quot;post&quot;)) {</b>
+<b class="nc">&nbsp;      throw new BadRequestException(url + &quot; needs to be called with POST&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private UserLimits getUserLimits(Map&lt;String, String&gt; parameters, HTTPServerConfig config) {
+<b class="nc">&nbsp;    UserLimits limits = ServerTools.getUserLimits(parameters, config);</b>
+<b class="nc">&nbsp;    if (limits.getPremiumUid() == null) {</b>
+<b class="nc">&nbsp;      throw new BadRequestException(&quot;This end point needs a user id&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return limits;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void writeResponse(String fieldName, boolean added, HttpExchange httpExchange) throws IOException {
+<b class="nc">&nbsp;    StringWriter sw = new StringWriter();</b>
+<b class="nc">&nbsp;    try (JsonGenerator g = factory.createGenerator(sw)) {</b>
+<b class="nc">&nbsp;      g.writeStartObject();</b>
+<b class="nc">&nbsp;      g.writeBooleanField(fieldName, added);</b>
+<b class="nc">&nbsp;      g.writeEndObject();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    sendJson(httpExchange, sw);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void writeListResponse(String fieldName, List&lt;String&gt; words, HttpExchange httpExchange) throws IOException {
+<b class="nc">&nbsp;    StringWriter sw = new StringWriter();</b>
+<b class="nc">&nbsp;    try (JsonGenerator g = factory.createGenerator(sw)) {</b>
+<b class="nc">&nbsp;      g.writeStartObject();</b>
+<b class="nc">&nbsp;      g.writeArrayFieldStart(fieldName);</b>
+<b class="nc">&nbsp;      for (String word : words) {</b>
+<b class="nc">&nbsp;        g.writeString(word);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      g.writeEndArray();</b>
+<b class="nc">&nbsp;      g.writeEndObject();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    sendJson(httpExchange, sw);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void sendJson(HttpExchange httpExchange, StringWriter sw) throws IOException {
+<b class="nc">&nbsp;    String response = sw.toString();</b>
+<b class="nc">&nbsp;    ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);</b>
+<b class="nc">&nbsp;    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);</b>
+<b class="nc">&nbsp;    httpExchange.getResponseBody().write(response.getBytes(ENCODING));</b>
+<b class="nc">&nbsp;    ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private AnnotatedText getAnnotatedTextFromString(JsonNode data, String text) {
+<b class="nc">&nbsp;    AnnotatedTextBuilder textBuilder = new AnnotatedTextBuilder().addText(text);</b>
+<b class="nc">&nbsp;    if (data.has(&quot;metaData&quot;)) {</b>
+<b class="nc">&nbsp;      JsonNode metaData = data.get(&quot;metaData&quot;);</b>
+<b class="nc">&nbsp;      Iterator&lt;String&gt; it = metaData.fieldNames();</b>
+<b class="nc">&nbsp;      while (it.hasNext()) {</b>
+<b class="nc">&nbsp;        String key = it.next();</b>
+<b class="nc">&nbsp;        String val = metaData.get(key).asText();</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          AnnotatedText.MetaDataKey metaDataKey = AnnotatedText.MetaDataKey.valueOf(key);</b>
+<b class="nc">&nbsp;          textBuilder.addGlobalMetaData(metaDataKey, val);</b>
+&nbsp;        } catch (IllegalArgumentException e) {
+<b class="nc">&nbsp;          textBuilder.addGlobalMetaData(key, val);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return textBuilder.build();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private AnnotatedText getAnnotatedTextFromJson(JsonNode data) {
+<b class="nc">&nbsp;    AnnotatedTextBuilder atb = new AnnotatedTextBuilder();</b>
+&nbsp;    // Expected format:
+&nbsp;    // annotation: [
+&nbsp;    //   {text: &#39;text&#39;},
+&nbsp;    //   {markup: &#39;&lt;b&gt;&#39;}
+&nbsp;    //   {text: &#39;more text&#39;},
+&nbsp;    //   {markup: &#39;&lt;/b&gt;&#39;}
+&nbsp;    // ]
+&nbsp;    //
+<b class="nc">&nbsp;    for (JsonNode node : data.get(&quot;annotation&quot;)) {</b>
+<b class="nc">&nbsp;      if (node.get(&quot;text&quot;) != null &amp;&amp; node.get(&quot;markup&quot;) != null) {</b>
+<b class="nc">&nbsp;        throw new BadRequestException(&quot;Only either &#39;text&#39; or &#39;markup&#39; are supported in an object in &#39;annotation&#39; list, not both: &quot; + node);</b>
+<b class="nc">&nbsp;      } else if (node.get(&quot;text&quot;) != null &amp;&amp; node.get(&quot;interpretAs&quot;) != null) {</b>
+<b class="nc">&nbsp;        throw new BadRequestException(&quot;&#39;text&#39; cannot be used with &#39;interpretAs&#39; (only &#39;markup&#39; can): &quot; + node);</b>
+<b class="nc">&nbsp;      } else if (node.get(&quot;text&quot;) != null) {</b>
+<b class="nc">&nbsp;        atb.addText(node.get(&quot;text&quot;).asText());</b>
+<b class="nc">&nbsp;      } else if (node.get(&quot;markup&quot;) != null) {</b>
+<b class="nc">&nbsp;        if (node.get(&quot;interpretAs&quot;) != null) {</b>
+<b class="nc">&nbsp;          atb.addMarkup(node.get(&quot;markup&quot;).asText(), node.get(&quot;interpretAs&quot;).asText());</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          atb.addMarkup(node.get(&quot;markup&quot;).asText());</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        throw new BadRequestException(&quot;Only &#39;text&#39; and &#39;markup&#39; are supported in &#39;annotation&#39; list: &quot; + node);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return atb.build();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getLanguages() throws IOException {
+<b class="nc">&nbsp;    StringWriter sw = new StringWriter();</b>
+<b class="nc">&nbsp;    try (JsonGenerator g = factory.createGenerator(sw)) {</b>
+<b class="nc">&nbsp;      g.writeStartArray();</b>
+<b class="nc">&nbsp;      List&lt;Language&gt; languages = new ArrayList&lt;&gt;(Languages.get());</b>
+<b class="nc">&nbsp;      Set&lt;String&gt; longCodes = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (Language lang : languages) {</b>
+<b class="nc">&nbsp;        g.writeStartObject();</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;name&quot;, lang.getName());</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;code&quot;, lang.getShortCode());</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;longCode&quot;, lang.getShortCodeWithCountryAndVariant());</b>
+<b class="nc">&nbsp;        longCodes.add(lang.getShortCodeWithCountryAndVariant());</b>
+<b class="nc">&nbsp;        g.writeEndObject();</b>
+&nbsp;      }
+&nbsp;      // add mappings like &quot;fr-FR -&gt; fr&quot; because LibreOffice 7.4 needs them:
+<b class="nc">&nbsp;      Map&lt;String, Language&gt; codeMap = Languages.getLongCodeToLangMapping();</b>
+<b class="nc">&nbsp;      for (Map.Entry&lt;String, Language&gt; entry : codeMap.entrySet()) {</b>
+<b class="nc">&nbsp;        if (!longCodes.contains(entry.getKey())) {</b>
+<b class="nc">&nbsp;          g.writeStartObject();</b>
+<b class="nc">&nbsp;          g.writeStringField(&quot;name&quot;, entry.getValue().getName());</b>
+<b class="nc">&nbsp;          g.writeStringField(&quot;code&quot;, entry.getValue().getShortCode());</b>
+<b class="nc">&nbsp;          g.writeStringField(&quot;longCode&quot;, entry.getKey());</b>
+<b class="nc">&nbsp;          g.writeEndObject();</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      g.writeEndArray();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sw.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getSoftwareInfo() throws IOException {
+<b class="nc">&nbsp;    StringWriter sw = new StringWriter();</b>
+<b class="nc">&nbsp;    try (JsonGenerator g = factory.createGenerator(sw)) {</b>
+<b class="nc">&nbsp;      g.writeStartObject();</b>
+<b class="nc">&nbsp;      g.writeObjectFieldStart(&quot;software&quot;);</b>
+<b class="nc">&nbsp;      g.writeStringField(&quot;name&quot;, &quot;LanguageTool&quot;);</b>
+<b class="nc">&nbsp;      g.writeStringField(&quot;version&quot;, JLanguageTool.VERSION);</b>
+<b class="nc">&nbsp;      g.writeStringField(&quot;buildDate&quot;, JLanguageTool.BUILD_DATE);</b>
+<b class="nc">&nbsp;      g.writeStringField(&quot;commit&quot;, JLanguageTool.GIT_SHORT_ID);</b>
+<b class="nc">&nbsp;      g.writeBooleanField(&quot;premium&quot;, Premium.isPremiumVersion());</b>
+<b class="nc">&nbsp;      if (Premium.isPremiumVersion()) {</b>
+<b class="nc">&nbsp;        Premium premium = Premium.get();</b>
+<b class="nc">&nbsp;        g.writeObjectFieldStart(&quot;premiumBuildInfo&quot;);</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;version&quot;, premium.getVersion());</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;buildDate&quot;, premium.getBuildDate());</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;commit&quot;, premium.getShortGitId());</b>
+<b class="nc">&nbsp;        g.writeEndObject();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      g.writeEndObject();</b>
+<b class="nc">&nbsp;      g.writeEndObject();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sw.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getConfigurationInfo(Language lang, HTTPServerConfig config) throws IOException {
+<b class="nc">&nbsp;    StringWriter sw = new StringWriter();</b>
+<b class="nc">&nbsp;    JLanguageTool lt = new JLanguageTool(lang);</b>
+<b class="nc">&nbsp;    if (textChecker.config.languageModelDir != null) {</b>
+<b class="nc">&nbsp;      lt.activateLanguageModelRules(textChecker.config.languageModelDir);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;Rule&gt; rules = lt.getAllRules();</b>
+<b class="nc">&nbsp;    rules = rules.stream().filter(rule -&gt; !Premium.get().isPremiumRule(rule)).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    try (JsonGenerator g = factory.createGenerator(sw)) {</b>
+<b class="nc">&nbsp;      g.writeStartObject();</b>
+&nbsp;
+<b class="nc">&nbsp;      g.writeObjectFieldStart(&quot;software&quot;);</b>
+<b class="nc">&nbsp;      g.writeStringField(&quot;name&quot;, &quot;LanguageTool&quot;);</b>
+<b class="nc">&nbsp;      g.writeStringField(&quot;version&quot;, JLanguageTool.VERSION);</b>
+<b class="nc">&nbsp;      g.writeStringField(&quot;buildDate&quot;, JLanguageTool.BUILD_DATE);</b>
+<b class="nc">&nbsp;      g.writeBooleanField(&quot;premium&quot;, Premium.isPremiumVersion());</b>
+<b class="nc">&nbsp;      g.writeEndObject();</b>
+&nbsp;      
+<b class="nc">&nbsp;      g.writeObjectFieldStart(&quot;parameter&quot;);</b>
+<b class="nc">&nbsp;      g.writeNumberField(&quot;maxTextLength&quot;, config.getMaxTextHardLength());</b>
+<b class="nc">&nbsp;      g.writeEndObject();</b>
+&nbsp;
+<b class="nc">&nbsp;      g.writeArrayFieldStart(&quot;rules&quot;);</b>
+<b class="nc">&nbsp;      for (Rule rule : rules) {</b>
+<b class="nc">&nbsp;        g.writeStartObject();</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;ruleId&quot;, rule.getId());</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;description&quot;, rule.getDescription());</b>
+<b class="nc">&nbsp;        if (rule.isDictionaryBasedSpellingRule()) {</b>
+<b class="nc">&nbsp;          g.writeStringField(&quot;isDictionaryBasedSpellingRule&quot;, &quot;yes&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (rule.isDefaultOff()) {</b>
+<b class="nc">&nbsp;          g.writeStringField(&quot;isDefaultOff&quot;, &quot;yes&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (rule.isOfficeDefaultOff()) {</b>
+<b class="nc">&nbsp;          g.writeStringField(&quot;isOfficeDefaultOff&quot;, &quot;yes&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (rule.isOfficeDefaultOn()) {</b>
+<b class="nc">&nbsp;          g.writeStringField(&quot;isOfficeDefaultOn&quot;, &quot;yes&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        RuleOption[] ruleOptions = rule.getRuleOptions();</b>
+<b class="nc">&nbsp;        if (ruleOptions != null) {</b>
+&nbsp;          //  Compatibility to old version (&lt; 6.5)
+<b class="nc">&nbsp;          if (ruleOptions[0].getDefaultValue() instanceof Integer) {</b>
+<b class="nc">&nbsp;            g.writeStringField(&quot;hasConfigurableValue&quot;, &quot;yes&quot;);</b>
+<b class="nc">&nbsp;            g.writeStringField(RuleOption.CONF_TEXT, ruleOptions[0].getConfigureText());</b>
+<b class="nc">&nbsp;            g.writeStringField(RuleOption.MAX_CONF_VALUE, Integer.toString((int) ruleOptions[0].getMaxConfigurableValue()));</b>
+<b class="nc">&nbsp;            g.writeStringField(RuleOption.MIN_CONF_VALUE, Integer.toString((int) ruleOptions[0].getMinConfigurableValue()));</b>
+<b class="nc">&nbsp;            g.writeStringField(RuleOption.DEFAULT_VALUE, Integer.toString((int)ruleOptions[0].getDefaultValue()));</b>
+&nbsp;          }
+&nbsp;          //  new Version (&gt;= 6.5)
+<b class="nc">&nbsp;          g.writeArrayFieldStart(&quot;ruleOptions&quot;);</b>
+<b class="nc">&nbsp;          for (RuleOption rOption : ruleOptions) {</b>
+<b class="nc">&nbsp;            g.writeStartObject();</b>
+<b class="nc">&nbsp;            Object o = rOption.getDefaultValue();</b>
+<b class="nc">&nbsp;            if (o instanceof Integer) {</b>
+<b class="nc">&nbsp;              g.writeStringField(RuleOption.DEFAULT_TYPE, &quot;Integer&quot;);</b>
+<b class="nc">&nbsp;              g.writeNumberField(RuleOption.DEFAULT_VALUE, (int) o);</b>
+<b class="nc">&nbsp;              g.writeNumberField(RuleOption.MIN_CONF_VALUE, (int) rOption.getMinConfigurableValue());</b>
+<b class="nc">&nbsp;              g.writeNumberField(RuleOption.MAX_CONF_VALUE, (int) rOption.getMaxConfigurableValue());</b>
+<b class="nc">&nbsp;            } else if (o instanceof Character) {</b>
+<b class="nc">&nbsp;              g.writeStringField(RuleOption.DEFAULT_TYPE, &quot;Character&quot;);</b>
+<b class="nc">&nbsp;              g.writeStringField(RuleOption.DEFAULT_VALUE, o.toString());</b>
+<b class="nc">&nbsp;              g.writeStringField(RuleOption.DEFAULT_VALUE, rOption.getMinConfigurableValue().toString());</b>
+<b class="nc">&nbsp;              g.writeStringField(RuleOption.DEFAULT_VALUE, rOption.getMaxConfigurableValue().toString());</b>
+<b class="nc">&nbsp;            } else if (o instanceof Boolean) {</b>
+<b class="nc">&nbsp;              g.writeStringField(RuleOption.DEFAULT_TYPE, &quot;Boolean&quot;);</b>
+<b class="nc">&nbsp;              g.writeBooleanField(RuleOption.DEFAULT_VALUE, (boolean) o);</b>
+<b class="nc">&nbsp;              g.writeNumberField(RuleOption.MIN_CONF_VALUE, (int) rOption.getMinConfigurableValue());</b>
+<b class="nc">&nbsp;              g.writeNumberField(RuleOption.MAX_CONF_VALUE, (int) rOption.getMaxConfigurableValue());</b>
+<b class="nc">&nbsp;            } else if (o instanceof Float) {</b>
+<b class="nc">&nbsp;              g.writeStringField(RuleOption.DEFAULT_TYPE, &quot;Float&quot;);</b>
+<b class="nc">&nbsp;              g.writeNumberField(RuleOption.DEFAULT_VALUE, (float) o);</b>
+<b class="nc">&nbsp;              g.writeNumberField(RuleOption.MIN_CONF_VALUE, (float) rOption.getMinConfigurableValue());</b>
+<b class="nc">&nbsp;              g.writeNumberField(RuleOption.MAX_CONF_VALUE, (float) rOption.getMaxConfigurableValue());</b>
+<b class="nc">&nbsp;            } else if (o instanceof Double) {</b>
+<b class="nc">&nbsp;              g.writeStringField(RuleOption.DEFAULT_TYPE, &quot;Double&quot;);</b>
+<b class="nc">&nbsp;              g.writeNumberField(RuleOption.DEFAULT_VALUE, (double) o);</b>
+<b class="nc">&nbsp;              g.writeNumberField(RuleOption.MIN_CONF_VALUE, (double) rOption.getMinConfigurableValue());</b>
+<b class="nc">&nbsp;              g.writeNumberField(RuleOption.MAX_CONF_VALUE, (double) rOption.getMaxConfigurableValue());</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              g.writeStringField(RuleOption.DEFAULT_TYPE, &quot;String&quot;);</b>
+<b class="nc">&nbsp;              g.writeStringField(RuleOption.DEFAULT_VALUE, o.toString());</b>
+<b class="nc">&nbsp;              g.writeStringField(RuleOption.MIN_CONF_VALUE, rOption.getMinConfigurableValue().toString());</b>
+<b class="nc">&nbsp;              g.writeStringField(RuleOption.MAX_CONF_VALUE, rOption.getMaxConfigurableValue().toString());</b>
+&nbsp;            }
+<b class="nc">&nbsp;            g.writeStringField(RuleOption.CONF_TEXT, rOption.getConfigureText());</b>
+<b class="nc">&nbsp;            g.writeEndObject();</b>
+&nbsp;          }
+<b class="nc">&nbsp;          g.writeEndArray();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        g.writeStringField(&quot;categoryId&quot;, rule.getCategory().getId().toString());</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;categoryName&quot;, rule.getCategory().getName());</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;locQualityIssueType&quot;, rule.getLocQualityIssueType().toString());</b>
+<b class="nc">&nbsp;        if (rule instanceof TextLevelRule) {</b>
+<b class="nc">&nbsp;          g.writeStringField(&quot;isTextLevelRule&quot;, &quot;yes&quot;);</b>
+<b class="nc">&nbsp;          g.writeStringField(&quot;minToCheckParagraph&quot;, Integer.toString(((TextLevelRule) rule).minToCheckParagraph()));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        g.writeEndObject();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      g.writeEndArray();</b>
+&nbsp;
+<b class="nc">&nbsp;      g.writeEndObject();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sw.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

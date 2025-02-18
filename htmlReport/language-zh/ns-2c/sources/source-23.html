@@ -1,0 +1,378 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GermanStyleRepeatedWordRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: GermanStyleRepeatedWordRule (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GermanStyleRepeatedWordRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/142)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/99)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import java.net.MalformedURLException;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.rules.AbstractStyleRepeatedWordRule;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.RuleOption;
+&nbsp;import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import morfologik.speller.Speller;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule checks the appearance of same words in a sentence or in two consecutive sentences.
+&nbsp; * Only substantive, verbs and adjectives are checked.
+&nbsp; * This rule detects no grammar error but a stylistic problem (default off)
+&nbsp; * @author Fred Kruse
+&nbsp; */
+&nbsp;public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
+&nbsp;  
+&nbsp;  private static final String SYNONYMS_URL = &quot;https://www.openthesaurus.de/synonyme/&quot;;
+<b class="nc">&nbsp;  private static final Pattern LETTERS = Pattern.compile(&quot;^[A-Za-zÄÖÜäöüß]+$&quot;);</b>
+&nbsp;  private static final int MAX_DISTANCE_OF_SENTENCES = 1;
+&nbsp;  private static final boolean EXCLUDE_DIRECT_SPEECH = true;
+&nbsp;  private static final boolean TEST_COMPOUND_WORDS = false;
+&nbsp;
+<b class="nc">&nbsp;  private Speller speller = null;</b>
+<b class="nc">&nbsp;  private boolean testCompoundWords = TEST_COMPOUND_WORDS;</b>
+&nbsp;
+&nbsp;  public GermanStyleRepeatedWordRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
+<b class="nc">&nbsp;    super(messages, lang, userConfig);</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.STYLE.getCategory(messages));</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;Ich gehe zum Supermarkt, danach &lt;marker&gt;gehe&lt;/marker&gt; ich nach Hause.&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;Ich gehe zum Supermarkt, danach nach Hause.&quot;));</b>
+<b class="nc">&nbsp;    if (userConfig != null) {</b>
+<b class="nc">&nbsp;      Object[] cf = userConfig.getConfigValueByID(getId());</b>
+<b class="nc">&nbsp;      if (cf != null &amp;&amp; cf.length &gt; 2) {</b>
+<b class="nc">&nbsp;        testCompoundWords = (boolean) cf[2];</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;STYLE_REPEATED_WORD_RULE_DE&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Wiederholte Worte in aufeinanderfolgenden Sätzen&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected String messageSameSentence() {
+<b class="nc">&nbsp;    return &quot;Mögliches Stilproblem: Das Wort wird noch einmal im selben Satz verwendet.&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected String messageSentenceBefore() {
+<b class="nc">&nbsp;    return &quot;Mögliches Stilproblem: Das Wort wird bereits in einem vorhergehenden Satz verwendet.&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected String messageSentenceAfter() {
+<b class="nc">&nbsp;    return &quot;Mögliches Stilproblem: Das Wort wird auch in einem nachfolgenden Satz verwendet.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   *  give the user the possibility to configure the function
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public RuleOption[] getRuleOptions() {
+<b class="nc">&nbsp;    RuleOption[] ruleOptions = { </b>
+<b class="nc">&nbsp;        new RuleOption(MAX_DISTANCE_OF_SENTENCES, messages.getString(&quot;guiStyleRepeatedWordText&quot;), 0, 5),</b>
+<b class="nc">&nbsp;        new RuleOption(EXCLUDE_DIRECT_SPEECH, &quot;Direkte Rede und Zitate ausschließen&quot;),</b>
+<b class="nc">&nbsp;        new RuleOption(TEST_COMPOUND_WORDS, &quot;Auch zusammengesetzte Wörter prüfen&quot;)</b>
+&nbsp;    };
+<b class="nc">&nbsp;    return ruleOptions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is a correct spelled word
+&nbsp;   */
+&nbsp;  private boolean isCorrectSpell(String word) {
+<b class="nc">&nbsp;    word = StringTools.uppercaseFirstChar(word);</b>
+<b class="nc">&nbsp;    if (speller == null) {</b>
+&nbsp;      // speller can not initialized by constructor because of temporary initialization of LanguageTool in other rules,
+&nbsp;      // which leads to problems in LO/OO extension
+<b class="nc">&nbsp;      speller = new Speller(MorfologikSpeller.getDictionaryWithCaching(&quot;/de/hunspell/de_DE.dict&quot;));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (speller != null) {</b>
+<b class="nc">&nbsp;      return !speller.isMisspelled(word);</b>
+<b class="nc">&nbsp;    } else if (linguServices != null) {</b>
+<b class="nc">&nbsp;      return linguServices.isCorrectSpell(word, lang);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    throw new IllegalStateException(&quot;LinguServices or Speller must be not null to check spelling in CompoundInfinitivRule&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Is a unknown word (has only letters and no PosTag) 
+&nbsp;   */
+&nbsp;  private static boolean isUnknownWord(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    return token.isPosTagUnknown() &amp;&amp; token.getToken().length() &gt; 2 &amp;&amp; LETTERS.matcher(token.getToken()).matches();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Only substantive, names, verbs and adjectives are checked
+&nbsp;   */
+&nbsp;  protected boolean isTokenToCheck(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    return ((token.matchesPosTagRegex(&quot;(SUB|EIG|VER|ADJ):.*&quot;) </b>
+<b class="nc">&nbsp;        &amp;&amp; !token.matchesPosTagRegex(&quot;(PRO|A(RT|DV)|VER:(AUX|MOD)):.*&quot;)</b>
+<b class="nc">&nbsp;        || isUnknownWord(token))</b>
+<b class="nc">&nbsp;        &amp;&amp; !StringUtils.equalsAny(token.getToken(), &quot;sicher&quot;, &quot;weit&quot;, &quot;Sie&quot;, &quot;Ich&quot;, &quot;Euch&quot;, &quot;Eure&quot;, &quot;Der&quot;, &quot;all&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Pairs of substantive are excluded like &quot;Arm in Arm&quot;, &quot;Seite an Seite&quot;, etc.
+&nbsp;   */
+&nbsp;  protected boolean isTokenPair(AnalyzedTokenReadings[] tokens, int n, boolean before) {
+<b class="nc">&nbsp;    if (before) {</b>
+<b class="nc">&nbsp;      if (n &gt; 2 &amp;&amp; n &lt; tokens.length &amp;&amp;</b>
+<b class="nc">&nbsp;          (tokens[n-2].hasPosTagStartingWith(&quot;SUB&quot;) &amp;&amp; tokens[n-1].hasPosTagStartingWith(&quot;PRP&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; tokens[n].hasPosTagStartingWith(&quot;SUB&quot;))</b>
+<b class="nc">&nbsp;          || (tokens[n-2].getToken().equals(&quot;hart&quot;) &amp;&amp; tokens[n-1].getToken().equals(&quot;auf&quot;) &amp;&amp; tokens[n].getToken().equals(&quot;hart&quot;))</b>
+<b class="nc">&nbsp;          || (tokens[n-2].getToken().equals(&quot;dicht&quot;) &amp;&amp; tokens[n-1].getToken().equals(&quot;an&quot;) &amp;&amp; tokens[n].getToken().equals(&quot;dicht&quot;))</b>
+<b class="nc">&nbsp;          || (tokens[n-2].getToken().equals(&quot;fressen&quot;) &amp;&amp; tokens[n-1].getToken().equals(&quot;und&quot;) &amp;&amp; tokens[n].getToken().equals(&quot;gefressen&quot;))</b>
+&nbsp;         ) {
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      if (n &gt; 0 &amp;&amp; n &lt; tokens.length - 2 &amp;&amp;</b>
+<b class="nc">&nbsp;          (tokens[n].hasPosTagStartingWith(&quot;SUB&quot;) &amp;&amp; tokens[n+1].hasPosTagStartingWith(&quot;PRP&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; tokens[n+2].hasPosTagStartingWith(&quot;SUB&quot;))</b>
+<b class="nc">&nbsp;          || (tokens[n].getToken().equals(&quot;hart&quot;) &amp;&amp; tokens[n+1].getToken().equals(&quot;auf&quot;) &amp;&amp; tokens[n+2].getToken().equals(&quot;hart&quot;))</b>
+<b class="nc">&nbsp;          || (tokens[n].getToken().equals(&quot;dicht&quot;) &amp;&amp; tokens[n+1].getToken().equals(&quot;an&quot;) &amp;&amp; tokens[n+2].getToken().equals(&quot;dicht&quot;))</b>
+<b class="nc">&nbsp;          || (tokens[n].getToken().equals(&quot;fressen&quot;) &amp;&amp; tokens[n+1].getToken().equals(&quot;und&quot;) &amp;&amp; tokens[n+2].getToken().equals(&quot;gefressen&quot;))</b>
+&nbsp;         ) {
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isSecondPartofWord(String testTokenText, String tokenText) {
+<b class="nc">&nbsp;    if (testTokenText.length() - tokenText.length() &lt; 3) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String lowerTokenText = StringTools.lowercaseFirstChar(tokenText);</b>
+<b class="nc">&nbsp;    if (lowerTokenText.equals(&quot;frei&quot;)</b>
+<b class="nc">&nbsp;        || (lowerTokenText.equals(&quot;alten&quot;) &amp;&amp; testTokenText.endsWith(&quot;halten&quot;))</b>
+&nbsp;        ) {
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (StringTools.lowercaseFirstChar(testTokenText).startsWith(lowerTokenText)) {</b>
+<b class="nc">&nbsp;      String word = testTokenText.substring(tokenText.length());</b>
+<b class="nc">&nbsp;      if (isCorrectSpell(word)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+<b class="nc">&nbsp;      } else if(word.startsWith(&quot;s&quot;)) {</b>
+<b class="nc">&nbsp;        word = word.substring(1);</b>
+<b class="nc">&nbsp;        if (isCorrectSpell(word)) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return false;</b>
+<b class="nc">&nbsp;    } else if (testTokenText.endsWith(lowerTokenText)) {</b>
+<b class="nc">&nbsp;      String word = testTokenText.substring(0, testTokenText.length() - tokenText.length());</b>
+<b class="nc">&nbsp;      if (isCorrectSpell(word)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+<b class="nc">&nbsp;      } else if(word.endsWith(&quot;s&quot;)) {</b>
+<b class="nc">&nbsp;        word = word.substring(word.length() - 1);</b>
+<b class="nc">&nbsp;        if (isCorrectSpell(word)) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected boolean isPartOfWord(String testTokenText, String tokenText) {
+<b class="nc">&nbsp;    if (!testCompoundWords || testTokenText.length() &lt; 3 || tokenText.length() &lt; 3) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (testTokenText.length() &gt; tokenText.length()) {</b>
+<b class="nc">&nbsp;      return isSecondPartofWord(testTokenText, tokenText);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return isSecondPartofWord(tokenText, testTokenText);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /* 
+&nbsp;   *  true if is an exception of token pair
+&nbsp;   *  note: method is called after two tokens are tested to share the same lemma
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  protected boolean isExceptionPair(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
+<b class="nc">&nbsp;    if ((token1.hasLemma(&quot;nah&quot;) &amp;&amp; token1.hasLemma(&quot;nächst&quot;) &amp;&amp; !token2.hasLemma(&quot;nächst&quot;)) || </b>
+<b class="nc">&nbsp;        (token2.hasLemma(&quot;nah&quot;) &amp;&amp; token2.hasLemma(&quot;nächst&quot;) &amp;&amp; !token1.hasLemma(&quot;nächst&quot;))) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      if(token1.hasLemma(&quot;gut&quot;) &amp;&amp; </b>
+<b class="nc">&nbsp;          ((token1.getToken().startsWith(&quot;gut&quot;) &amp;&amp; !token2.getToken().startsWith(&quot;gut&quot;)) || </b>
+<b class="nc">&nbsp;           (token2.getToken().startsWith(&quot;gut&quot;) &amp;&amp; !token1.getToken().startsWith(&quot;gut&quot;)))) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* 
+&nbsp;   *  set an URL to the German openThesaurus
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  protected URL setURL(AnalyzedTokenReadings token) throws MalformedURLException {
+<b class="nc">&nbsp;    if (token != null) {</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; readings = token.getReadings();</b>
+<b class="nc">&nbsp;      List&lt;String&gt; lemmas = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (AnalyzedToken reading : readings) {</b>
+<b class="nc">&nbsp;        String lemma = reading.getLemma();</b>
+<b class="nc">&nbsp;        if (lemma != null) {</b>
+<b class="nc">&nbsp;          lemmas.add(lemma);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (lemmas.size() == 1) {</b>
+<b class="nc">&nbsp;        return new URL(SYNONYMS_URL + lemmas.get(0));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return new URL(SYNONYMS_URL + token.getToken());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,506 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MatchState</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns</a>
+</div>
+
+<h1>Coverage Summary for Class: MatchState (org.languagetool.rules.patterns)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MatchState</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    70%
+  </span>
+  <span class="absValue">
+    (7/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25.3%
+  </span>
+  <span class="absValue">
+    (42/166)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40.7%
+  </span>
+  <span class="absValue">
+    (77/189)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * Copyright (C) 2013 Stefan Lotties
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.TreeSet;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.patterns.Match.IncludeRange;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import static org.languagetool.JLanguageTool.PARAGRAPH_END_TAGNAME;
+&nbsp;import static org.languagetool.JLanguageTool.SENTENCE_END_TAGNAME;
+&nbsp;import static org.languagetool.JLanguageTool.SENTENCE_START_TAGNAME;
+&nbsp;
+&nbsp;/**
+&nbsp; * The state of a matching process. This state is &lt;strong&gt;NOT&lt;/strong&gt; thread-safe.
+&nbsp; *
+&nbsp; * @author Stefan Lotties
+&nbsp; * @since 2.3
+&nbsp; */
+&nbsp;public class MatchState {
+&nbsp;
+&nbsp;  private final Match match;
+&nbsp;  private final Synthesizer synthesizer;
+&nbsp;
+&nbsp;  private AnalyzedTokenReadings formattedToken;
+&nbsp;  private AnalyzedTokenReadings matchedToken;
+&nbsp;  private String skippedTokens;
+&nbsp;
+<b class="fc">&nbsp;  public MatchState(Match match, Synthesizer synthesizer) {</b>
+<b class="fc">&nbsp;    this.match = match;</b>
+<b class="fc">&nbsp;    this.synthesizer = synthesizer;</b>
+<b class="fc">&nbsp;    String lemma = match.getLemma();</b>
+<b class="pc">&nbsp;    if (!StringUtils.isEmpty(lemma)) {</b>
+<b class="nc">&nbsp;      formattedToken = new AnalyzedTokenReadings(new AnalyzedToken(lemma, match.getPosTag(), lemma), 0);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setToken(AnalyzedTokenReadings token) {
+<b class="pc">&nbsp;    if (match.isStaticLemma()) {</b>
+<b class="nc">&nbsp;      this.matchedToken = token;</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      this.formattedToken = token;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the token to be formatted etc. and includes the support for
+&nbsp;   * including the skipped tokens.
+&nbsp;   *
+&nbsp;   * @param tokens Array of tokens
+&nbsp;   * @param index Index of the token to be formatted
+&nbsp;   * @param next Position of the next token (the skipped tokens are the ones between the tokens[index] and tokens[next]
+&nbsp;   */
+&nbsp;  public final void setToken(AnalyzedTokenReadings[] tokens, int index, int next) {
+<b class="fc">&nbsp;    int idx = index;</b>
+<b class="pc">&nbsp;    if (index &gt;= tokens.length) {</b>
+&nbsp;      // TODO: hacky workaround, find a proper solution. See EnglishPatternRuleTest.testBug()
+<b class="nc">&nbsp;      idx = tokens.length - 1;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    setToken(tokens[idx]);</b>
+<b class="fc">&nbsp;    IncludeRange includeSkipped = match.getIncludeSkipped();</b>
+<b class="pc">&nbsp;    if (includeSkipped == IncludeRange.FOLLOWING) {</b>
+<b class="nc">&nbsp;      formattedToken = null;</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (next &gt; 1 &amp;&amp; includeSkipped != IncludeRange.NONE) {</b>
+<b class="nc">&nbsp;      StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;      for (int k = index + 1; k &lt; index + next; k++) {</b>
+<b class="nc">&nbsp;        if (tokens[k].isWhitespaceBefore()</b>
+&nbsp;            &amp;&amp; !(k == index + 1 &amp;&amp; includeSkipped == IncludeRange.FOLLOWING)) {
+<b class="nc">&nbsp;          sb.append(&#39; &#39;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        sb.append(tokens[k].getToken());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      skippedTokens = sb.toString();</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      skippedTokens = &quot;&quot;;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public final AnalyzedTokenReadings filterReadings() {
+<b class="fc">&nbsp;    List&lt;AnalyzedToken&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="pc">&nbsp;    if (formattedToken != null) {</b>
+<b class="pc">&nbsp;      if (match.isStaticLemma()) {</b>
+&nbsp;        // Note: we want the token without ignored characters so we can&#39;t use matchedToken.getToken()
+<b class="nc">&nbsp;        matchedToken.leaveReading(new AnalyzedToken(matchedToken.getReadings().get(0).getToken(),</b>
+<b class="nc">&nbsp;                match.getPosTag(), formattedToken.getToken()));</b>
+<b class="nc">&nbsp;        formattedToken = matchedToken;</b>
+&nbsp;      }
+&nbsp;      // Note: we want the token without ignored characters so we can&#39;t use formattedToken.getToken()
+<b class="fc">&nbsp;      String token = formattedToken.getAnalyzedToken(0).getToken();</b>
+<b class="fc">&nbsp;      Pattern regexMatch = match.getRegexMatch();</b>
+<b class="fc">&nbsp;      String regexReplace = match.getRegexReplace();</b>
+<b class="pc">&nbsp;      if (regexMatch != null &amp;&amp; regexReplace != null) {</b>
+&nbsp;        /* only replace if it is something to replace */
+<b class="nc">&nbsp;        token = regexMatch.matcher(token).replaceAll(regexReplace);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      token = convertCase(token, token, null);</b>
+&nbsp;
+<b class="fc">&nbsp;      String posTag = match.getPosTag();</b>
+<b class="pc">&nbsp;      if (posTag != null) {</b>
+<b class="fc">&nbsp;        int numRead = formattedToken.getReadingsLength();</b>
+<b class="pc">&nbsp;        if (match.isPostagRegexp()) {</b>
+<b class="fc">&nbsp;          Pattern pPosRegexMatch = match.getPosRegexMatch();</b>
+<b class="fc">&nbsp;          String posTagReplace = match.getPosTagReplace();</b>
+&nbsp;          String targetPosTag;
+<b class="fc">&nbsp;          for (int i = 0; i &lt; numRead; i++) {</b>
+<b class="fc">&nbsp;            String testTag = formattedToken.getAnalyzedToken(i).getPOSTag();</b>
+<b class="pc">&nbsp;            if (testTag != null &amp;&amp; pPosRegexMatch.matcher(testTag).matches()) {</b>
+<b class="fc">&nbsp;              targetPosTag = testTag;</b>
+<b class="pc">&nbsp;              if (posTagReplace != null) {</b>
+<b class="nc">&nbsp;                targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(posTagReplace);</b>
+&nbsp;              }
+<b class="fc">&nbsp;              l.add(new AnalyzedToken(token, targetPosTag,</b>
+<b class="fc">&nbsp;                  formattedToken.getAnalyzedToken(i).getLemma()));</b>
+<b class="fc">&nbsp;              l.get(l.size() - 1).setWhitespaceBefore(formattedToken.isWhitespaceBefore());</b>
+&nbsp;            }
+&nbsp;          }
+<b class="pc">&nbsp;          if (l.isEmpty()) {</b>
+<b class="nc">&nbsp;            l.addAll(getNewToken(numRead, token));</b>
+&nbsp;          }
+&nbsp;        } else {
+<b class="nc">&nbsp;          l.addAll(getNewToken(numRead, token));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        String lemma = formattedToken.getAnalyzedToken(0).getLemma();</b>
+<b class="pc">&nbsp;        if (formattedToken.isSentenceEnd()) {</b>
+<b class="nc">&nbsp;          l.add(new AnalyzedToken(formattedToken.getToken(), SENTENCE_END_TAGNAME, lemma));</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (formattedToken.isParagraphEnd()) {</b>
+<b class="nc">&nbsp;          l.add(new AnalyzedToken(formattedToken.getToken(), PARAGRAPH_END_TAGNAME, lemma));</b>
+&nbsp;        }
+&nbsp;
+&nbsp;      }
+&nbsp;    }
+<b class="pc">&nbsp;    if (l.isEmpty()) {</b>
+<b class="nc">&nbsp;      return formattedToken;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    final AnalyzedTokenReadings anTkRead = new AnalyzedTokenReadings(</b>
+<b class="fc">&nbsp;        l.toArray(new AnalyzedToken[0]),</b>
+<b class="fc">&nbsp;        formattedToken.getStartPos());</b>
+&nbsp;    // TODO: in case original had ignored characters we want to restore readings.token
+&nbsp;    // but there&#39;s no setToken() available :(
+&nbsp;//    anTkRead.setToken(formattedToken.getToken());
+&nbsp;    
+<b class="fc">&nbsp;    anTkRead.setWhitespaceBefore(formattedToken.getWhitespaceBefore());</b>
+<b class="fc">&nbsp;    if (!formattedToken.getChunkTags().isEmpty()) {</b>
+<b class="fc">&nbsp;      anTkRead.setChunkTags(formattedToken.getChunkTags());</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (formattedToken.isImmunized()) {</b>
+<b class="nc">&nbsp;      anTkRead.immunize(formattedToken.getImmunizationSourceLine());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return anTkRead;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Converts case of the string token according to match element attributes.
+&nbsp;   * @param s Token to be converted.
+&nbsp;   * @param sample the sample string used to determine how the original string looks like (used only on case preservation)
+&nbsp;   * @return Converted string.
+&nbsp;   */
+&nbsp;  String convertCase(String s, String sample, Language lang) {
+<b class="fc">&nbsp;    return CaseConversionHelper.convertCase(match.getCaseConversionType(), s, sample, lang);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;AnalyzedToken&gt; getNewToken(int numRead, String token) {
+<b class="nc">&nbsp;    String posTag = match.getPosTag();</b>
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; list = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    String lemma = &quot;&quot;;</b>
+<b class="nc">&nbsp;    for (int j = 0; j &lt; numRead; j++) {</b>
+<b class="nc">&nbsp;      String tempPosTag = formattedToken.getAnalyzedToken(j).getPOSTag();</b>
+<b class="nc">&nbsp;      if (tempPosTag != null) {</b>
+<b class="nc">&nbsp;        if (tempPosTag.equals(posTag) &amp;&amp; formattedToken.getAnalyzedToken(j).getLemma() != null) {</b>
+<b class="nc">&nbsp;          lemma = formattedToken.getAnalyzedToken(j).getLemma();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (StringTools.isEmpty(lemma)) {</b>
+<b class="nc">&nbsp;          lemma = formattedToken.getAnalyzedToken(0).getLemma();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        list.add(new AnalyzedToken(token, posTag, lemma));</b>
+<b class="nc">&nbsp;        list.get(list.size() - 1).setWhitespaceBefore(</b>
+<b class="nc">&nbsp;            formattedToken.isWhitespaceBefore());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return list;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets all strings formatted using the match element.
+&nbsp;   */
+&nbsp;  public final String[] toFinalString(Language lang) throws IOException {
+<b class="fc">&nbsp;    String[] formattedString = new String[1];</b>
+<b class="pc">&nbsp;    if (formattedToken != null) {</b>
+<b class="fc">&nbsp;      int readingCount = formattedToken.getReadingsLength();</b>
+<b class="fc">&nbsp;      formattedString[0] = formattedToken.getToken();</b>
+&nbsp;
+<b class="fc">&nbsp;      Pattern pRegexMatch = match.getRegexMatch();</b>
+<b class="fc">&nbsp;      String regexReplace = match.getRegexReplace();</b>
+<b class="pc">&nbsp;      if (pRegexMatch != null) {</b>
+<b class="nc">&nbsp;        if (lang != null &amp;&amp; lang.getShortCode().equals(&quot;ar&quot;)) {</b>
+<b class="nc">&nbsp;           formattedString[0] = StringTools.removeTashkeel(formattedString[0]);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        formattedString[0] = pRegexMatch.matcher(formattedString[0]).replaceAll(regexReplace);</b>
+&nbsp;      }
+&nbsp;
+<b class="fc">&nbsp;      String posTag = match.getPosTag();</b>
+<b class="fc">&nbsp;      if (posTag != null) {</b>
+<b class="pc">&nbsp;        if (synthesizer == null) {</b>
+<b class="nc">&nbsp;          formattedString[0] = formattedToken.getToken();</b>
+<b class="pc">&nbsp;        } else if (match.isPostagRegexp()) {</b>
+<b class="nc">&nbsp;          TreeSet&lt;String&gt; wordForms = new TreeSet&lt;&gt;();</b>
+<b class="nc">&nbsp;          boolean oneForm = false;</b>
+<b class="nc">&nbsp;          for (int k = 0; k &lt; readingCount; k++) {</b>
+<b class="nc">&nbsp;            if (formattedToken.getAnalyzedToken(k).getLemma() == null) {</b>
+<b class="nc">&nbsp;              String posUnique = formattedToken.getAnalyzedToken(k).getPOSTag();</b>
+<b class="nc">&nbsp;              if (posUnique == null) {</b>
+<b class="nc">&nbsp;                wordForms.add(formattedToken.getToken());</b>
+<b class="nc">&nbsp;                oneForm = true;</b>
+&nbsp;              } else {
+<b class="nc">&nbsp;                if (SENTENCE_START_TAGNAME.equals(posUnique)</b>
+<b class="nc">&nbsp;                    || SENTENCE_END_TAGNAME.equals(posUnique)</b>
+<b class="nc">&nbsp;                    || PARAGRAPH_END_TAGNAME.equals(posUnique)) {</b>
+<b class="nc">&nbsp;                  if (!oneForm) {</b>
+<b class="nc">&nbsp;                    wordForms.add(formattedToken.getToken());</b>
+&nbsp;                  }
+<b class="nc">&nbsp;                  oneForm = true;</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                  oneForm = false;</b>
+&nbsp;                }
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          String targetPosTag = getTargetPosTag();</b>
+<b class="nc">&nbsp;          if (!oneForm) {</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; readingCount; i++) {</b>
+<b class="nc">&nbsp;              String[] possibleWordForms = synthesizer.synthesize(</b>
+<b class="nc">&nbsp;                  formattedToken.getAnalyzedToken(i), targetPosTag, true);</b>
+<b class="nc">&nbsp;              if (possibleWordForms != null &amp;&amp; possibleWordForms.length &gt; 0) {</b>
+<b class="nc">&nbsp;                wordForms.addAll(Arrays.asList(possibleWordForms));</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          if (wordForms.isEmpty()) {</b>
+<b class="nc">&nbsp;            formattedString[0] = &quot;(&quot; + formattedToken.getToken() + &quot;)&quot;;</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            formattedString = wordForms.toArray(new String[0]);</b>
+&nbsp;          }
+&nbsp;        } else {
+<b class="fc">&nbsp;          TreeSet&lt;String&gt; wordForms = new TreeSet&lt;&gt;();</b>
+<b class="fc">&nbsp;          for (int i = 0; i &lt; readingCount; i++) {</b>
+<b class="fc">&nbsp;            String[] possibleWordForms = synthesizer.synthesize(formattedToken.getAnalyzedToken(i), posTag);</b>
+<b class="pc">&nbsp;            if (possibleWordForms != null) {</b>
+<b class="fc">&nbsp;              wordForms.addAll(Arrays.asList(possibleWordForms));</b>
+&nbsp;            }
+&nbsp;          }
+<b class="fc">&nbsp;          formattedString = wordForms.toArray(new String[0]);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    String original;
+<b class="pc">&nbsp;    if (match.isStaticLemma()) {</b>
+<b class="nc">&nbsp;      original = matchedToken != null ? matchedToken.getToken() : &quot;&quot;;</b>
+&nbsp;    } else {
+<b class="pc">&nbsp;      original = formattedToken != null ? formattedToken.getToken() : &quot;&quot;;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    for (int i = 0; i &lt; formattedString.length; i++) {</b>
+<b class="pc">&nbsp;      formattedString[i] = convertCase((formattedString[i] != null ? formattedString[i] : &quot;&quot;), original, lang);</b>
+&nbsp;    }
+&nbsp;    // TODO should case conversion happen before or after including skipped tokens?
+<b class="fc">&nbsp;    IncludeRange includeSkipped = match.getIncludeSkipped();</b>
+<b class="pc">&nbsp;    if (includeSkipped != IncludeRange.NONE &amp;&amp; skippedTokens != null</b>
+<b class="nc">&nbsp;        &amp;&amp; !skippedTokens.isEmpty()) {</b>
+<b class="nc">&nbsp;      String[] helper = new String[formattedString.length];</b>
+<b class="nc">&nbsp;      for (int i = 0; i &lt; formattedString.length; i++) {</b>
+<b class="nc">&nbsp;        if (formattedString[i] == null) {</b>
+<b class="nc">&nbsp;          formattedString[i] = &quot;&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        helper[i] = formattedString[i] + skippedTokens;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      formattedString = helper;</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (match.checksSpelling() &amp;&amp; lang != null) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; formattedStringElements = Arrays.asList(formattedString);</b>
+&nbsp;      // tagger-based speller
+<b class="nc">&nbsp;      List&lt;AnalyzedTokenReadings&gt; analyzed = lang.getTagger().tag(</b>
+&nbsp;          formattedStringElements);
+<b class="nc">&nbsp;      for (int i = 0; i &lt; formattedString.length; i++) {</b>
+<b class="nc">&nbsp;        AnalyzedToken analyzedToken = analyzed.get(i).getAnalyzedToken(0);</b>
+<b class="nc">&nbsp;        if (analyzedToken.getLemma() == null &amp;&amp; analyzedToken.hasNoTag()) {</b>
+<b class="nc">&nbsp;          formattedString[i] = PatternRuleMatcher.MISTAKE;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return formattedString;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Format POS tag using parameters already defined in the class.
+&nbsp;   *
+&nbsp;   * @return Formatted POS tag as String.
+&nbsp;   */
+&nbsp;  // FIXME: gets only the first POS tag that matches, this can be wrong
+&nbsp;  // on the other hand, many POS tags = too many suggestions?
+&nbsp;  // POS tags can be chosen by the synthesizer of each language: synthesizer.getTargetPosTag()
+&nbsp;  public final String getTargetPosTag() {
+<b class="nc">&nbsp;    String targetPosTag = match.getPosTag();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; posTags = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    Pattern pPosRegexMatch = match.getPosRegexMatch();</b>
+<b class="nc">&nbsp;    String posTagReplace = match.getPosTagReplace();</b>
+<b class="nc">&nbsp;    if (match.isStaticLemma()) {</b>
+<b class="nc">&nbsp;      for (AnalyzedToken analyzedToken : matchedToken) {</b>
+<b class="nc">&nbsp;        String tst = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;        if (tst != null &amp;&amp; pPosRegexMatch.matcher(tst).matches()) {</b>
+<b class="nc">&nbsp;          posTags.add(tst);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      targetPosTag = synthesizer.getTargetPosTag(posTags, targetPosTag);</b>
+<b class="nc">&nbsp;      if (pPosRegexMatch != null &amp;&amp; posTagReplace != null &amp;&amp; !posTags.isEmpty()) {</b>
+<b class="nc">&nbsp;        targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(posTagReplace);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      for (AnalyzedToken analyzedToken : formattedToken) {</b>
+<b class="nc">&nbsp;        String tst = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;        if (tst != null &amp;&amp; pPosRegexMatch.matcher(tst).matches()) {</b>
+<b class="nc">&nbsp;          posTags.add(tst);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      targetPosTag = synthesizer.getTargetPosTag(posTags, targetPosTag);</b>
+<b class="nc">&nbsp;      if (pPosRegexMatch != null &amp;&amp; posTagReplace != null) {</b>
+<b class="nc">&nbsp;        if (posTags.isEmpty()) {</b>
+<b class="nc">&nbsp;          posTags.add(targetPosTag);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;        int posTagLen = posTags.size();</b>
+<b class="nc">&nbsp;        int l = 0;</b>
+<b class="nc">&nbsp;        for (String lPosTag : posTags) {</b>
+<b class="nc">&nbsp;          l++;</b>
+<b class="nc">&nbsp;          lPosTag = pPosRegexMatch.matcher(lPosTag).replaceAll(posTagReplace);</b>
+<b class="nc">&nbsp;          if (match.setsPos()) {</b>
+<b class="nc">&nbsp;            lPosTag = synthesizer.getPosTagCorrection(lPosTag);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          sb.append(lPosTag);</b>
+<b class="nc">&nbsp;          if (l &lt; posTagLen) {</b>
+<b class="nc">&nbsp;            sb.append(&#39;|&#39;);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        targetPosTag = sb.toString();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return targetPosTag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Method for getting the formatted match as a single string. In case of
+&nbsp;   * multiple matches, it joins them using a regular expression operator &quot;|&quot;.
+&nbsp;   * @return Formatted string of the matched token.
+&nbsp;   */
+&nbsp;  final String toTokenString() throws IOException {
+<b class="fc">&nbsp;    String[] stringToFormat = toFinalString(null);</b>
+<b class="fc">&nbsp;    return String.join(&quot;|&quot;, Arrays.asList(stringToFormat));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Match getMatch() {
+<b class="nc">&nbsp;    return match;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

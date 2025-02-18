@@ -1,0 +1,438 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LanguageBuilder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language</a>
+</div>
+
+<h1>Coverage Summary for Class: LanguageBuilder (org.languagetool.language)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LanguageBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">LanguageBuilder$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">LanguageBuilder$ExtendedLanguage</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/29)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/59)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.chunking.Chunker;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tagging.disambiguation.Disambiguator;
+&nbsp;import org.languagetool.tokenizers.SentenceTokenizer;
+&nbsp;import org.languagetool.tokenizers.Tokenizer;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Create a language by specifying the language&#39;s XML rule file.
+&nbsp; */
+&nbsp;public final class LanguageBuilder {
+&nbsp;
+&nbsp;  private LanguageBuilder() {
+&nbsp;  }
+&nbsp;
+&nbsp;  public static Language makeAdditionalLanguage(File file) throws InstantiationException, IllegalAccessException {
+<b class="nc">&nbsp;    return makeLanguage(file, true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Takes an XML file named &lt;tt&gt;rules-xx-language.xml&lt;/tt&gt;,
+&nbsp;   * e.g. &lt;tt&gt;rules-de-German.xml&lt;/tt&gt; and builds
+&nbsp;   * a Language object for that language.
+&nbsp;   */
+&nbsp;  private static Language makeLanguage(File file, boolean isAdditional) throws IllegalAccessException, InstantiationException {
+<b class="nc">&nbsp;    Objects.requireNonNull(file, &quot;file cannot be null&quot;);</b>
+<b class="nc">&nbsp;    if (!file.getName().endsWith(&quot;.xml&quot;)) {</b>
+<b class="nc">&nbsp;      throw new RuleFilenameException(file);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String[] parts = file.getName().split(&quot;-&quot;);</b>
+<b class="nc">&nbsp;    boolean startsWithRules = parts[0].equals(&quot;rules&quot;);</b>
+<b class="nc">&nbsp;    boolean secondPartHasCorrectLength = parts.length == 3 &amp;&amp;</b>
+<b class="nc">&nbsp;            (parts[1].length() == &quot;en&quot;.length() || parts[1].length() == &quot;ast&quot;.length() || parts[1].length() == &quot;en_US&quot;.length());</b>
+<b class="nc">&nbsp;    if (!startsWithRules || !secondPartHasCorrectLength) {</b>
+<b class="nc">&nbsp;      throw new RuleFilenameException(file);</b>
+&nbsp;    }
+&nbsp;    //TODO: when the XML file is mergeable with
+&nbsp;    // other rules (check this in the XML Rule Loader by using rules[@integrate=&#39;add&#39;]?),
+&nbsp;    // subclass the existing language,
+&nbsp;    //and adjust the settings if any are set in the rule file default configuration set
+&nbsp;
+&nbsp;    Language newLanguage;
+<b class="nc">&nbsp;    if (Languages.isLanguageSupported(parts[1])) {</b>
+<b class="nc">&nbsp;      Language baseLanguage = Languages.getLanguageForShortCode(parts[1]).getClass().newInstance();</b>
+<b class="nc">&nbsp;      newLanguage = new ExtendedLanguage(baseLanguage, parts[2].replace(&quot;.xml&quot;, &quot;&quot;), file);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      newLanguage = new Language() {</b>
+&nbsp;        @Override
+&nbsp;        public Locale getLocale() {
+<b class="nc">&nbsp;          return new Locale(getShortCode());</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public Contributor[] getMaintainers() {
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public String getShortCode() {
+<b class="nc">&nbsp;          if (parts[1].length() == 2) {</b>
+<b class="nc">&nbsp;            return parts[1];</b>
+&nbsp;          }
+<b class="nc">&nbsp;          return parts[1].split(&quot;_&quot;)[0]; //en as in en_US</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public String[] getCountries() {
+<b class="nc">&nbsp;          if (parts[1].length() == 2) {</b>
+<b class="nc">&nbsp;            return new String[]{&quot;&quot;};</b>
+&nbsp;          }
+<b class="nc">&nbsp;          return new String[]{parts[1].split(&quot;_&quot;)[1]}; //US as in en_US</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public String getName() {
+<b class="nc">&nbsp;          return parts[2].replace(&quot;.xml&quot;, &quot;&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public List&lt;Rule&gt; getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) {
+<b class="nc">&nbsp;          return Collections.emptyList();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public List&lt;String&gt; getRuleFileNames() {
+<b class="nc">&nbsp;          List&lt;String&gt; ruleFiles = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          ruleFiles.add(file.getAbsolutePath());</b>
+<b class="nc">&nbsp;          return ruleFiles;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public boolean isExternal() {
+<b class="nc">&nbsp;          return isAdditional;</b>
+&nbsp;        }
+&nbsp;      };
+&nbsp;    }
+<b class="nc">&nbsp;    return newLanguage;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class ExtendedLanguage extends Language {
+&nbsp;
+&nbsp;    private final Language baseLanguage;
+&nbsp;    private final String name;
+&nbsp;    private final File ruleFile;
+&nbsp;
+<b class="nc">&nbsp;    ExtendedLanguage(Language baseLanguage, String name, File ruleFile) {</b>
+<b class="nc">&nbsp;      this.baseLanguage = baseLanguage;</b>
+<b class="nc">&nbsp;      this.name = name;</b>
+<b class="nc">&nbsp;      this.ruleFile = ruleFile;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getName() {
+<b class="nc">&nbsp;      return name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;String&gt; getRuleFileNames() {
+<b class="nc">&nbsp;      List&lt;String&gt; ruleFiles = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      ruleFiles.addAll(baseLanguage.getRuleFileNames());</b>
+<b class="nc">&nbsp;      ruleFiles.add(ruleFile.getAbsolutePath());</b>
+<b class="nc">&nbsp;      return ruleFiles;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean isExternal() {
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Locale getLocale() {
+<b class="nc">&nbsp;      return baseLanguage.getLocale();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Contributor[] getMaintainers() {
+<b class="nc">&nbsp;      return baseLanguage.getMaintainers();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getShortCode() {
+<b class="nc">&nbsp;      return baseLanguage.getShortCode();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String[] getCountries() {
+<b class="nc">&nbsp;      return baseLanguage.getCountries();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Rule&gt; getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;      return baseLanguage.getRelevantRules(messages, null, motherTongue, altLanguages);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Nullable @Override
+&nbsp;    public String getVariant() {
+<b class="nc">&nbsp;      return baseLanguage.getVariant();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;String&gt; getDefaultEnabledRulesForVariant() {
+<b class="nc">&nbsp;      return baseLanguage.getDefaultEnabledRulesForVariant();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;String&gt; getDefaultDisabledRulesForVariant() {
+<b class="nc">&nbsp;      return baseLanguage.getDefaultDisabledRulesForVariant();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Nullable
+&nbsp;    @Override
+&nbsp;    public LanguageModel getLanguageModel(File indexDir) throws IOException {
+<b class="nc">&nbsp;      return baseLanguage.getLanguageModel(indexDir);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Rule&gt; getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+<b class="nc">&nbsp;      return baseLanguage.getRelevantLanguageModelRules(messages, languageModel, userConfig);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Locale getLocaleWithCountryAndVariant() {
+<b class="nc">&nbsp;      return baseLanguage.getLocaleWithCountryAndVariant();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Nullable
+&nbsp;    @Override
+&nbsp;    public Language getDefaultLanguageVariant() {
+<b class="nc">&nbsp;      return baseLanguage.getDefaultLanguageVariant();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Disambiguator createDefaultDisambiguator() {
+<b class="nc">&nbsp;      return baseLanguage.createDefaultDisambiguator();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @NotNull
+&nbsp;    @Override
+&nbsp;    public Tagger createDefaultTagger() {
+<b class="nc">&nbsp;      return baseLanguage.createDefaultTagger();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public SentenceTokenizer createDefaultSentenceTokenizer() {
+<b class="nc">&nbsp;      return baseLanguage.createDefaultSentenceTokenizer();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Tokenizer createDefaultWordTokenizer() {
+<b class="nc">&nbsp;      return baseLanguage.createDefaultWordTokenizer();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Nullable
+&nbsp;    @Override
+&nbsp;    public Chunker createDefaultChunker() {
+<b class="nc">&nbsp;      return baseLanguage.createDefaultChunker();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Nullable
+&nbsp;    @Override
+&nbsp;    public Chunker createDefaultPostDisambiguationChunker() {
+<b class="nc">&nbsp;      return baseLanguage.createDefaultPostDisambiguationChunker();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Nullable
+&nbsp;    @Override
+&nbsp;    public Synthesizer createDefaultSynthesizer() {
+<b class="nc">&nbsp;      return baseLanguage.createDefaultSynthesizer();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

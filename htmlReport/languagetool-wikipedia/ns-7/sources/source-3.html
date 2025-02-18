@@ -1,0 +1,231 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MissingGenitiveFinder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.archive</a>
+</div>
+
+<h1>Coverage Summary for Class: MissingGenitiveFinder (org.languagetool.dev.archive)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MissingGenitiveFinder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/54)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/45)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.archive;
+&nbsp;
+&nbsp;import morfologik.fsa.FSA;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.languagemodel.LuceneLanguageModel;
+&nbsp;import org.languagetool.tagging.de.GermanTagger;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.ByteBuffer;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * One-time script: find missing &quot;-es&quot; forms in the German tagger dictionary,
+&nbsp; * e.g. Morphy knows &quot;Antrag&quot; and &quot;Antrags&quot;, but not &quot;Antrages&quot;.
+&nbsp; * Uses Google n-gram data as a filter, but may nonetheless create
+&nbsp; * forms that aren&#39;t common anymore (e.g. Verb -&amp;gt; Verbes).
+&nbsp; * 
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public class MissingGenitiveFinder {
+&nbsp;
+&nbsp;  private static final String DICT_FILENAME = &quot;/de/german.dict&quot;;
+&nbsp;  private static final int THRESHOLD = 50;
+&nbsp;
+&nbsp;  private final LuceneLanguageModel lm;
+&nbsp;
+<b class="nc">&nbsp;  private MissingGenitiveFinder() {</b>
+<b class="nc">&nbsp;    lm = new LuceneLanguageModel(new File(&quot;/home/dnaber/data/google-ngram-index/de&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void run() throws IOException {
+<b class="nc">&nbsp;    GermanTagger tagger = new GermanTagger();</b>
+<b class="nc">&nbsp;    final FSA fsa = FSA.read(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));</b>
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    for (ByteBuffer buffer : fsa) {</b>
+<b class="nc">&nbsp;      final byte [] sequence = new byte [buffer.remaining()];</b>
+<b class="nc">&nbsp;      buffer.get(sequence);</b>
+<b class="nc">&nbsp;      final String output = new String(sequence, StandardCharsets.UTF_8);</b>
+<b class="nc">&nbsp;      boolean isNoun = output.contains(&quot;SUB:&quot;) || (output.contains(&quot;EIG:&quot;) &amp;&amp; output.contains(&quot;COU&quot;)); // COU = Country</b>
+<b class="nc">&nbsp;      if (isNoun &amp;&amp; output.contains(&quot;:GEN:&quot;)) {</b>
+<b class="nc">&nbsp;        String[] parts = output.split(&quot;_&quot;);</b>
+<b class="nc">&nbsp;        String word = parts[0];</b>
+<b class="nc">&nbsp;        String esWord = parts[0].replaceFirst(&quot;s$&quot;, &quot;es&quot;);</b>
+<b class="nc">&nbsp;        if (isRelevantWord(word)) {</b>
+<b class="nc">&nbsp;          boolean hasEsGenitive = hasEsGenitive(tagger, word);</b>
+<b class="nc">&nbsp;          boolean ignore1 = word.endsWith(&quot;els&quot;) &amp;&amp; !word.endsWith(&quot;iels&quot;);</b>
+<b class="nc">&nbsp;          long occurrences = lm.getCount(esWord);</b>
+<b class="nc">&nbsp;          if (!hasEsGenitive &amp;&amp; !ignore1 &amp;&amp; occurrences &gt;= THRESHOLD) {</b>
+&nbsp;            //System.out.println(i + &quot;. &quot; + word + &quot; &quot; + occurrence);
+<b class="nc">&nbsp;            System.out.println(esWord + &quot;\t&quot; + word.replaceFirst(&quot;s$&quot;, &quot;&quot;) + &quot;\t&quot; + parts[2]);</b>
+&nbsp;            //System.out.println(&quot;  &quot; + occurrences + &quot; &quot; + esWord);
+<b class="nc">&nbsp;            i++;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isRelevantWord(String word) {
+<b class="nc">&nbsp;    return word.endsWith(&quot;s&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !word.endsWith(&quot;es&quot;) </b>
+<b class="nc">&nbsp;            &amp;&amp; !word.endsWith(&quot;ens&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !word.endsWith(&quot;ems&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !word.endsWith(&quot;els&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !word.endsWith(&quot;ers&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !word.endsWith(&quot;lings&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !word.endsWith(&quot;leins&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !word.endsWith(&quot;chens&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !word.endsWith(&quot;erns&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !word.endsWith(&quot;elns&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !word.endsWith(&quot;os&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !word.endsWith(&quot;us&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !word.endsWith(&quot;is&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !word.endsWith(&quot;as&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !word.endsWith(&quot;ols&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean hasEsGenitive(GermanTagger tagger, String word) throws IOException {
+<b class="nc">&nbsp;    String esForm = word.replaceFirst(&quot;s$&quot;, &quot;es&quot;);</b>
+<b class="nc">&nbsp;    List&lt;AnalyzedTokenReadings&gt; readings = tagger.tag(Collections.singletonList(esForm));</b>
+<b class="nc">&nbsp;    for (AnalyzedTokenReadings reading : readings) {</b>
+<b class="nc">&nbsp;      if (reading.isTagged()) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    MissingGenitiveFinder prg = new MissingGenitiveFinder();</b>
+<b class="nc">&nbsp;    prg.run();</b>
+&nbsp;  }
+&nbsp;    
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

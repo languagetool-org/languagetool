@@ -1,0 +1,450 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AbstractStyleRepeatedWordRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractStyleRepeatedWordRule (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractStyleRepeatedWordRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    13.3%
+  </span>
+  <span class="absValue">
+    (2/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0.5%
+  </span>
+  <span class="absValue">
+    (1/192)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    9.7%
+  </span>
+  <span class="absValue">
+    (13/134)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.MalformedURLException;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.LinguServices;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;
+&nbsp;/**
+&nbsp; * An abstract rule checks the appearance of same words in a sentence or in two consecutive sentences.
+&nbsp; * The isTokenToCheck method can be used to check only specific words (e.g. substantive, verbs and adjectives).
+&nbsp; * This rule detects no grammar error but a stylistic problem (default off)
+&nbsp; * @author Fred Kruse
+&nbsp; * @since 4.1
+&nbsp; */
+&nbsp;public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
+&nbsp;  
+<b class="fc">&nbsp;  private static final Pattern OPENING_QUOTES = Pattern.compile(&quot;[\&quot;“„»«]&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern ENDING_QUOTES = Pattern.compile(&quot;[\&quot;“”»«]&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern SINGLE_QUOTES = Pattern.compile(&quot;[\&#39;‚‘’&#39;›‹]&quot;);</b>
+&nbsp;  private static final int MAX_TOKEN_TO_CHECK = 5;
+&nbsp;  private static final int MAX_DISTANCE_OF_SENTENCES = 1;
+&nbsp;  private static final boolean EXCLUDE_DIRECT_SPEECH = true;
+&nbsp;  
+&nbsp;  protected final LinguServices linguServices;
+&nbsp;  protected final Language lang;
+&nbsp;  
+<b class="fc">&nbsp;  protected int maxDistanceOfSentences = MAX_DISTANCE_OF_SENTENCES;</b>
+<b class="fc">&nbsp;  protected boolean excludeDirectSpeech = EXCLUDE_DIRECT_SPEECH;</b>
+&nbsp;
+&nbsp;  public AbstractStyleRepeatedWordRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
+<b class="fc">&nbsp;    super(messages);</b>
+<b class="fc">&nbsp;    super.setCategory(Categories.STYLE.getCategory(messages));</b>
+<b class="fc">&nbsp;    setLocQualityIssueType(ITSIssueType.Style);</b>
+<b class="fc">&nbsp;    setDefaultOff();</b>
+<b class="fc">&nbsp;    setOfficeDefaultOn();  // Default for LO/OO is always On</b>
+<b class="fc">&nbsp;    this.lang = lang;</b>
+<b class="pc">&nbsp;    if (userConfig != null) {</b>
+<b class="nc">&nbsp;      linguServices = userConfig.getLinguServices();</b>
+<b class="nc">&nbsp;      if (linguServices != null) {</b>
+<b class="nc">&nbsp;        linguServices.setThesaurusRelevantRule(this);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      Object[] cf = userConfig.getConfigValueByID(getId());</b>
+<b class="nc">&nbsp;      if (cf != null) {</b>
+<b class="nc">&nbsp;        if (cf != null &amp;&amp; cf.length &gt; 0 &amp;&amp; cf[0] != null &amp;&amp; cf[0] instanceof Integer) {</b>
+<b class="nc">&nbsp;          maxDistanceOfSentences = (int) cf[0];</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (cf != null &amp;&amp; cf.length &gt; 1 &amp;&amp; cf[1] != null &amp;&amp; cf[1] instanceof Boolean) {</b>
+<b class="nc">&nbsp;          excludeDirectSpeech = (boolean) cf[1];</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } else {
+<b class="fc">&nbsp;      linguServices = null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Override this ID by adding a language acronym (e.g. STYLE_REPEATED_WORD_RULE_DE)
+&nbsp;   * to use adjustment of maxWords by option panel
+&nbsp;   * @since 4.1
+&nbsp;   */   
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;STYLE_REPEATED_WORD_RULE&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Repeated words in consecutive sentences&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /*
+&nbsp;   * Message for repeated word in same sentence
+&nbsp;   */
+&nbsp;  protected abstract String messageSameSentence();
+&nbsp;  
+&nbsp;  /*
+&nbsp;   * Message for repeated word in sentence before
+&nbsp;   */
+&nbsp;  protected abstract String messageSentenceBefore();
+&nbsp;  
+&nbsp;  /*
+&nbsp;   * Message for repeated word in sentence after
+&nbsp;   */
+&nbsp;  protected abstract String messageSentenceAfter();
+&nbsp;  
+&nbsp;  /**
+&nbsp;   *  give the user the possibility to configure the function
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public RuleOption[] getRuleOptions() {
+<b class="nc">&nbsp;    RuleOption[] ruleOptions = { new RuleOption(MAX_DISTANCE_OF_SENTENCES, messages.getString(&quot;guiStyleRepeatedWordText&quot;), 0, 5),</b>
+<b class="nc">&nbsp;                                 new RuleOption(EXCLUDE_DIRECT_SPEECH, messages.getString(&quot;guiStyleExcludeDirectSpeechText&quot;), 0, 5)</b>
+&nbsp;                               };
+<b class="nc">&nbsp;    return ruleOptions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /*
+&nbsp;   * Check only special words (e.g substantive, verbs, adjectives)
+&nbsp;   * (German example: return (token.matchesPosTagRegex(&quot;(SUB|EIG|VER|ADJ):.*&quot;) 
+&nbsp;   *              &amp;&amp; !token.matchesPosTagRegex(&quot;ART:.*|ADV:.*|VER:(AUX|MOD):.*&quot;));
+&nbsp;   */
+&nbsp;  protected abstract boolean isTokenToCheck(AnalyzedTokenReadings token);
+&nbsp;    
+&nbsp;  /*
+&nbsp;   * Is checked word part of pairs like &quot;arm in arm&quot;, &quot;side by side&quot;, etc. (exclude such pairs)
+&nbsp;   */
+&nbsp;  protected abstract boolean isTokenPair(AnalyzedTokenReadings[] tokens, int n, boolean before);
+&nbsp;  
+&nbsp;  /*
+&nbsp;   * listings are excluded
+&nbsp;   */
+&nbsp;  private static boolean hasBreakToken(AnalyzedTokenReadings[] tokens) {
+<b class="nc">&nbsp;    for (int i = 0; i &lt; tokens.length &amp;&amp; i &lt; MAX_TOKEN_TO_CHECK; i++) {</b>
+<b class="nc">&nbsp;      if (tokens[i].getToken().equals(&quot;-&quot;) || tokens[i].getToken().equals(&quot;—&quot;) || tokens[i].getToken().equals(&quot;–&quot;)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /*
+&nbsp;   * question - response - pairs are excluded
+&nbsp;   */
+&nbsp;  private static boolean isQuestionResponse(int nAct, int nTest, List&lt;AnalyzedTokenReadings[]&gt; tokenList) {
+<b class="nc">&nbsp;    int dist = nAct - nTest;</b>
+<b class="nc">&nbsp;    if (dist != 1 &amp;&amp; dist != -1) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] actTokens = tokenList.get(nAct);</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] testTokens = tokenList.get(nTest);</b>
+<b class="nc">&nbsp;    if (actTokens.length &lt; 2 || testTokens.length &lt; 2) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;    String actToken;
+<b class="nc">&nbsp;    if (ENDING_QUOTES.matcher(actTokens[actTokens.length - 1].getToken()).matches()) {</b>
+<b class="nc">&nbsp;      actToken = actTokens[actTokens.length - 2].getToken();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      actToken = actTokens[actTokens.length - 1].getToken();</b>
+&nbsp;    }
+&nbsp;    String testToken;
+<b class="nc">&nbsp;    if (ENDING_QUOTES.matcher(testTokens[testTokens.length - 1].getToken()).matches()) {</b>
+<b class="nc">&nbsp;      testToken = testTokens[testTokens.length - 2].getToken();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      testToken = testTokens[testTokens.length - 1].getToken();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return ((actToken.equals(&quot;?&quot;) &amp;&amp; !testToken.equals(&quot;?&quot;)) || (testToken.equals(&quot;?&quot;) &amp;&amp; !actToken.equals(&quot;?&quot;)));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private boolean isTokenInSentence(AnalyzedTokenReadings testToken, AnalyzedTokenReadings[] tokens, boolean isDirectSpeech) {
+<b class="nc">&nbsp;    return isTokenInSentence(testToken, tokens, -1, isDirectSpeech);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /* 
+&nbsp;   *  true if token is part of composite word in sentence
+&nbsp;   *  override for languages like German which contents composed words
+&nbsp;   */
+&nbsp;  protected boolean isPartOfWord(String testTokenText, String tokenText) {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* 
+&nbsp;   *  true if is an exception of token pair
+&nbsp;   *  note: method is called after two tokens are tested to share the same lemma
+&nbsp;   */
+&nbsp;  protected boolean isExceptionPair(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* 
+&nbsp;   * Set a URL to a synonym dictionary for a token
+&nbsp;   */
+&nbsp;  protected URL setURL(AnalyzedTokenReadings token ) throws MalformedURLException {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /* 
+&nbsp;   *  true if token is found in sentence
+&nbsp;   */
+&nbsp;  private boolean isTokenInSentence(AnalyzedTokenReadings testToken, AnalyzedTokenReadings[] tokens, 
+&nbsp;      int notCheck, boolean isDirectSpeech) {
+<b class="nc">&nbsp;    if (testToken == null || tokens == null) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; readings = testToken.getReadings();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; lemmas = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (AnalyzedToken reading : readings) {</b>
+<b class="nc">&nbsp;      if (reading.getLemma() != null) {</b>
+<b class="nc">&nbsp;        lemmas.add(reading.getLemma());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    for (int i = 0; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      if (excludeDirectSpeech &amp;&amp; !isDirectSpeech &amp;&amp; OPENING_QUOTES.matcher(tokens[i].getToken()).matches() </b>
+<b class="nc">&nbsp;          &amp;&amp; i &lt; tokens.length - 1 &amp;&amp; !tokens[i + 1].isWhitespaceBefore()) {</b>
+<b class="nc">&nbsp;        isDirectSpeech = true;</b>
+<b class="nc">&nbsp;      } else if (excludeDirectSpeech &amp;&amp; isDirectSpeech &amp;&amp; ENDING_QUOTES.matcher(tokens[i].getToken()).matches() </b>
+<b class="nc">&nbsp;          &amp;&amp; i &gt; 1 &amp;&amp; !tokens[i].isWhitespaceBefore()) {</b>
+<b class="nc">&nbsp;        isDirectSpeech = false;</b>
+<b class="nc">&nbsp;      } else if (i != notCheck &amp;&amp; !isDirectSpeech &amp;&amp; !isInQuotes(tokens, i) &amp;&amp; isTokenToCheck(tokens[i])) {</b>
+<b class="nc">&nbsp;        if ((!lemmas.isEmpty() &amp;&amp; tokens[i].hasAnyLemma(lemmas.toArray(new String[0])) &amp;&amp; !isExceptionPair(testToken, tokens[i])) </b>
+<b class="nc">&nbsp;            || isPartOfWord(testToken.getToken(), tokens[i].getToken())) {</b>
+<b class="nc">&nbsp;          if (notCheck &gt;= 0) {</b>
+<b class="nc">&nbsp;            if (notCheck == i - 2) {</b>
+<b class="nc">&nbsp;              return !isTokenPair(tokens, i, true);</b>
+<b class="nc">&nbsp;            } else if (notCheck == i + 2) {</b>
+<b class="nc">&nbsp;              return !isTokenPair(tokens, i, false);</b>
+<b class="nc">&nbsp;            } else if ((notCheck == i + 1 || notCheck == i - 1) </b>
+<b class="nc">&nbsp;                &amp;&amp; testToken.getToken().equals(tokens[i].getToken())) {</b>
+<b class="nc">&nbsp;              return false;</b>
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private boolean isInQuotes(AnalyzedTokenReadings[] tokens, int i) {
+<b class="nc">&nbsp;    return (i &gt; 0 </b>
+<b class="nc">&nbsp;            &amp;&amp; (OPENING_QUOTES.matcher(tokens[i - 1].getToken()).matches() </b>
+<b class="nc">&nbsp;                || SINGLE_QUOTES.matcher(tokens[i - 1].getToken()).matches())</b>
+&nbsp;            &amp;&amp; i &lt; tokens.length - 1 
+<b class="nc">&nbsp;            &amp;&amp; (ENDING_QUOTES.matcher(tokens[i + 1].getToken()).matches()</b>
+<b class="nc">&nbsp;                || SINGLE_QUOTES.matcher(tokens[i + 1].getToken()).matches()));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(List&lt;AnalyzedSentence&gt; sentences) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;AnalyzedTokenReadings[]&gt; tokenList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;Boolean&gt; isDSList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int pos = 0;</b>
+<b class="nc">&nbsp;    for (int n = 0; n &lt; maxDistanceOfSentences &amp;&amp; n &lt; sentences.size(); n++) {</b>
+<b class="nc">&nbsp;      tokenList.add(sentences.get(n).getTokensWithoutWhitespace());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    boolean isDirectSpeech = false;</b>
+<b class="nc">&nbsp;    for (int n = 0; n &lt; sentences.size(); n++) {</b>
+<b class="nc">&nbsp;      isDSList.add(isDirectSpeech);</b>
+<b class="nc">&nbsp;      if (n + maxDistanceOfSentences &lt; sentences.size()) {</b>
+<b class="nc">&nbsp;        tokenList.add(sentences.get(n + maxDistanceOfSentences).getTokensWithoutWhitespace());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (tokenList.size() &gt; 2 * maxDistanceOfSentences + 1) {</b>
+<b class="nc">&nbsp;        tokenList.remove(0);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      int nTok = maxDistanceOfSentences;</b>
+<b class="nc">&nbsp;      if (n &lt; maxDistanceOfSentences) {</b>
+<b class="nc">&nbsp;        nTok = n;</b>
+<b class="nc">&nbsp;      } else if (n &gt;= sentences.size() - maxDistanceOfSentences) {</b>
+<b class="nc">&nbsp;        nTok = tokenList.size() - (sentences.size() - n);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (!hasBreakToken(tokenList.get(nTok))) {</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; tokenList.get(nTok).length; i++) {</b>
+<b class="nc">&nbsp;          AnalyzedTokenReadings token = tokenList.get(nTok)[i];</b>
+<b class="nc">&nbsp;          if (excludeDirectSpeech &amp;&amp; !isDirectSpeech &amp;&amp; OPENING_QUOTES.matcher(token.getToken()).matches() </b>
+<b class="nc">&nbsp;              &amp;&amp; i &lt; tokenList.get(nTok).length - 1 &amp;&amp; !tokenList.get(nTok)[i + 1].isWhitespaceBefore()) {</b>
+<b class="nc">&nbsp;            isDirectSpeech = true;</b>
+<b class="nc">&nbsp;          } else if (excludeDirectSpeech &amp;&amp; isDirectSpeech &amp;&amp; ENDING_QUOTES.matcher(token.getToken()).matches() </b>
+<b class="nc">&nbsp;              &amp;&amp; i &gt; 1 &amp;&amp; !tokenList.get(nTok)[i].isWhitespaceBefore()) {</b>
+<b class="nc">&nbsp;            isDirectSpeech = false;</b>
+<b class="nc">&nbsp;          } else if (!isDirectSpeech &amp;&amp; !isInQuotes(tokenList.get(nTok), i) &amp;&amp; isTokenToCheck(token)) {</b>
+<b class="nc">&nbsp;            int isRepeated = 0;</b>
+<b class="nc">&nbsp;            if (isTokenInSentence(token, tokenList.get(nTok), i, isDSList.get(nTok))) {</b>
+<b class="nc">&nbsp;              isRepeated = 1;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            for(int j = nTok - 1; isRepeated == 0 &amp;&amp; j &gt;= 0 &amp;&amp; j &gt;= nTok - maxDistanceOfSentences; j--) {</b>
+<b class="nc">&nbsp;              if (!isQuestionResponse(nTok, j, tokenList) &amp;&amp; isTokenInSentence(token, tokenList.get(j), isDSList.get(nTok))) {</b>
+<b class="nc">&nbsp;                isRepeated = 2;</b>
+&nbsp;              }
+&nbsp;            }
+<b class="nc">&nbsp;            for(int j = nTok + 1; isRepeated == 0 &amp;&amp; j &lt; tokenList.size() &amp;&amp; j &lt;= nTok + maxDistanceOfSentences; j++) {</b>
+<b class="nc">&nbsp;              if (!isQuestionResponse(nTok, j, tokenList) &amp;&amp; isTokenInSentence(token, tokenList.get(j), isDSList.get(nTok))) {</b>
+<b class="nc">&nbsp;                isRepeated = 3;</b>
+&nbsp;              }
+&nbsp;            }
+<b class="nc">&nbsp;            if (isRepeated != 0) {</b>
+&nbsp;              String msg;
+<b class="nc">&nbsp;              if (isRepeated == 1) {</b>
+<b class="nc">&nbsp;                msg = messageSameSentence();</b>
+<b class="nc">&nbsp;              } else if (isRepeated == 2) {</b>
+<b class="nc">&nbsp;                msg = messageSentenceBefore();</b>
+&nbsp;              } else {
+<b class="nc">&nbsp;                msg = messageSentenceAfter();</b>
+&nbsp;              }
+<b class="nc">&nbsp;              int startPos = pos + token.getStartPos();</b>
+<b class="nc">&nbsp;              int endPos = pos + token.getEndPos();</b>
+<b class="nc">&nbsp;              RuleMatch ruleMatch = new RuleMatch(this, null, startPos, endPos, msg);</b>
+<b class="nc">&nbsp;              URL url = setURL(token);</b>
+<b class="nc">&nbsp;              if(url != null) {</b>
+<b class="nc">&nbsp;                ruleMatch.setUrl(url);</b>
+&nbsp;              }
+<b class="nc">&nbsp;              ruleMatches.add(ruleMatch);</b>
+&nbsp;            }
+&nbsp;          } 
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      pos += sentences.get(n).getCorrectedTextLength();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public int minToCheckParagraph() {
+<b class="nc">&nbsp;    return maxDistanceOfSentences;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

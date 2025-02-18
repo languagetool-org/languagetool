@@ -1,0 +1,182 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DatabasePingLogEntry</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: DatabasePingLogEntry (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DatabasePingLogEntry</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  Copyright (C) 2020 Daniel Naber
+&nbsp; *  
+&nbsp; *  This library is free software; you can redistribute it and/or
+&nbsp; *  modify it under the terms of the GNU Lesser General Public
+&nbsp; *  License as published by the Free Software Foundation; either
+&nbsp; *  version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  
+&nbsp; *  This library is distributed in the hope that it will be useful,
+&nbsp; *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  Lesser General Public License for more details.
+&nbsp; *  
+&nbsp; *  You should have received a copy of the GNU Lesser General Public
+&nbsp; *  License along with this library; if not, write to the Free Software
+&nbsp; *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import java.util.Calendar;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;public class DatabasePingLogEntry extends DatabaseLogEntry {
+&nbsp;  
+&nbsp;  private final Calendar date;
+&nbsp;  private final Long client;
+&nbsp;  private final Long user;
+&nbsp;
+<b class="nc">&nbsp;  public DatabasePingLogEntry(Long client, Long user) {</b>
+<b class="nc">&nbsp;    this.client = client;</b>
+<b class="nc">&nbsp;    this.user = user;</b>
+<b class="nc">&nbsp;    this.date = Calendar.getInstance();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Map&lt;Object, Object&gt; getMapping() {
+<b class="nc">&nbsp;    HashMap&lt;Object, Object&gt; parameters = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    parameters.put(&quot;day&quot;, ServerTools.getSQLDateString(date));</b>
+<b class="nc">&nbsp;    parameters.put(&quot;created_at&quot;, ServerTools.getSQLDatetimeString(date));</b>
+<b class="nc">&nbsp;    parameters.put(&quot;client&quot;, client);</b>
+<b class="nc">&nbsp;    parameters.put(&quot;user_id&quot;, user);</b>
+<b class="nc">&nbsp;    return parameters;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getMappingIdentifier() {
+<b class="nc">&nbsp;    return &quot;org.languagetool.server.LogMapper.pings&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean equals(Object o) {
+<b class="nc">&nbsp;    if (this == o) return true;</b>
+<b class="nc">&nbsp;    if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="nc">&nbsp;    DatabasePingLogEntry that = (DatabasePingLogEntry) o;</b>
+<b class="nc">&nbsp;    return Objects.equals(client, that.client) &amp;&amp; Objects.equals(user, that.user);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int hashCode() {
+<b class="nc">&nbsp;    return Objects.hash(client, user);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

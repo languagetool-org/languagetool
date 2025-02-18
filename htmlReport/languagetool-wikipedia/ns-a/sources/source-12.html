@@ -1,0 +1,390 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > WikipediaSpecificCaseExpressionExtractor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.dumpcheck</a>
+</div>
+
+<h1>Coverage Summary for Class: WikipediaSpecificCaseExpressionExtractor (org.languagetool.dev.dumpcheck)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WikipediaSpecificCaseExpressionExtractor</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/44)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/70)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">WikipediaSpecificCaseExpressionExtractor$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/44)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/72)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.dumpcheck;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.Comparator;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.LinkedHashMap;
+&nbsp;import java.util.LinkedList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Queue;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.apache.commons.compress.compressors.CompressorException;
+&nbsp;import org.apache.commons.compress.compressors.CompressorStreamFactory;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;
+&nbsp;import java.io.BufferedInputStream;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;
+&nbsp;/**
+&nbsp; * Command line tool to extract &lt;strong&gt;Greek&lt;/strong&gt; expressions, that 
+&nbsp; * their words are starting with capital letter, 
+&nbsp; * from a (optionally bz2-compressed) Wikipedia XML dump.
+&nbsp; */
+<b class="nc">&nbsp;class WikipediaSpecificCaseExpressionExtractor {</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The HashMap that contains the specific case expressions and how many times
+&nbsp;   * they are found
+&nbsp;   */
+<b class="nc">&nbsp;  private static HashMap&lt;String, Integer&gt; specificCaseExpressionsCounter =</b>
+&nbsp;    new HashMap&lt;&gt;();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The number of expressions to be extracted
+&nbsp;   */
+<b class="nc">&nbsp;  private final int NUMBER_OF_EXPRESSIONS = 100;</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This method extracts the specific case expressions and writes them in the
+&nbsp;   * given file. Based on the extract method of the WikipediaSentenceExtractor.
+&nbsp;   * 
+&nbsp;   * @param language    the language of the xml dump
+&nbsp;   * @param xmlDumpPath the path of the xml dump
+&nbsp;   * @param outputFile  the path of the file to write the extracted expressions
+&nbsp;   */
+&nbsp;  private void extractSpecificCaseExpressions(Language language, 
+&nbsp;               String xmlDumpPath, String outputFile) 
+&nbsp;               throws IOException, CompressorException {
+<b class="nc">&nbsp;    try (FileInputStream fis = new FileInputStream(xmlDumpPath);</b>
+<b class="nc">&nbsp;    BufferedInputStream bis = new BufferedInputStream(fis);</b>
+<b class="nc">&nbsp;    FileWriter fw = new FileWriter(outputFile)) {</b>
+&nbsp;      InputStream input;
+<b class="nc">&nbsp;      if (xmlDumpPath.endsWith(&quot;.bz2&quot;)) {</b>
+<b class="nc">&nbsp;        input = new CompressorStreamFactory().createCompressorInputStream(bis);</b>
+<b class="nc">&nbsp;      } else if (xmlDumpPath.endsWith(&quot;.xml&quot;)) {</b>
+<b class="nc">&nbsp;        input = bis;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        throw new IllegalArgumentException(&quot;Unknown file name, expected &#39;.xml&#39; or &#39;.bz2&#39;: &quot; </b>
+&nbsp;                                              + xmlDumpPath);
+&nbsp;      }
+<b class="nc">&nbsp;      WikipediaSentenceSource source = new WikipediaSentenceSource(input, language);</b>
+<b class="nc">&nbsp;      while (source.hasNext()) {</b>
+<b class="nc">&nbsp;        String sentence = source.next().getText();</b>
+<b class="nc">&nbsp;        if (skipSentence(sentence)) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        detectSpecificCaseExpressions(sentence);</b>
+&nbsp;      }
+&nbsp;  
+<b class="nc">&nbsp;      specificCaseExpressionsCounter = sortByValue(specificCaseExpressionsCounter);</b>
+<b class="nc">&nbsp;      int number_of_expressions_added = 0;</b>
+<b class="nc">&nbsp;      for (String foundExpression : specificCaseExpressionsCounter.keySet()) {</b>
+&nbsp;        // System.out.println(foundExpression + &quot; : &quot; +
+&nbsp;         // specificCaseExpressionsCounter.get(foundExpression));
+<b class="nc">&nbsp;        fw.write(foundExpression);</b>
+<b class="nc">&nbsp;        fw.write(&#39;\n&#39;);</b>
+<b class="nc">&nbsp;        number_of_expressions_added++;</b>
+<b class="nc">&nbsp;        if (number_of_expressions_added == NUMBER_OF_EXPRESSIONS) {</b>
+&nbsp;          break;
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This method adds the specific case expressions of the given sentence to the
+&nbsp;   * specificCaseExpressionCounter.
+&nbsp;   * @param sentence the sentence to detect specific case exceptions
+&nbsp;   */
+&nbsp;  private void detectSpecificCaseExpressions(String sentence) {
+<b class="nc">&nbsp;    Queue&lt;String&gt; specificCaseQueue = new LinkedList&lt;&gt;(); // contains back to back words </b>
+&nbsp;                                                          // that start with uppercase
+<b class="nc">&nbsp;    String[] words = sentence.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;    boolean isExpressionFound = false, // true if an expression is present in the queue</b>
+<b class="nc">&nbsp;              isExpressionFinished = false; // true if the expression does not continue</b>
+&nbsp;  
+<b class="nc">&nbsp;    for (int i = 1; i &lt; words.length; i++) { // starting from 1 as the first word of </b>
+&nbsp;                                           // the sentence will always start with capital
+<b class="nc">&nbsp;      String word = words[i];</b>
+<b class="nc">&nbsp;      if (!containsLetter(word)) { // if the word does not contain any letters</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;  
+&nbsp;      // to check if the last character is symbol, which means that any expression
+&nbsp;      // created till now is finished
+<b class="nc">&nbsp;      if (isExpressionFound) {</b>
+&nbsp;        // to check if the first character is symbol, which means that any expression
+&nbsp;          // created till now is finished and a new one can start
+&nbsp;          // with the current word
+<b class="nc">&nbsp;          if (!Character.isLetter(word.charAt(0))) {</b>
+<b class="nc">&nbsp;            incrementSpecificCaseExpressionsCounter(specificCaseQueue);</b>
+<b class="nc">&nbsp;            isExpressionFound = false;</b>
+<b class="nc">&nbsp;            isExpressionFinished = false;</b>
+&nbsp;            // to check if the last character is symbol, which means that any expression
+&nbsp;            // created till now is finished
+<b class="nc">&nbsp;          } else if (!Character.isLetter(word.charAt(word.length() - 1))) {</b>
+<b class="nc">&nbsp;        isExpressionFinished = true;</b>
+&nbsp;          }
+&nbsp;      }
+&nbsp;        // remove any special characters like brackets and commas except &quot; &#39; &quot;
+<b class="nc">&nbsp;      word = word.replaceAll(&quot;^[^α-ωΑ-Ωίϊΐόάέύϋΰήώ&#39;\\s]+|[^α-ωΑ-Ωίϊΐόάέύϋΰήώ&#39;\\s]+$&quot;, &quot;&quot;);</b>
+&nbsp;      
+<b class="nc">&nbsp;      if (Character.isUpperCase(word.charAt(0))) {</b>
+<b class="nc">&nbsp;        specificCaseQueue.add(word);</b>
+<b class="nc">&nbsp;        if (specificCaseQueue.size() &gt; 1) {</b>
+<b class="nc">&nbsp;        isExpressionFound = true;</b>
+&nbsp;          }
+&nbsp;      } else {
+<b class="nc">&nbsp;        if (isExpressionFound) {</b>
+<b class="nc">&nbsp;        isExpressionFinished = true;</b>
+<b class="nc">&nbsp;        } else if (specificCaseQueue.size() &gt; 0) {</b>
+<b class="nc">&nbsp;        specificCaseQueue.remove();</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (isExpressionFound &amp;&amp; isExpressionFinished) {</b>
+<b class="nc">&nbsp;        incrementSpecificCaseExpressionsCounter(specificCaseQueue);</b>
+<b class="nc">&nbsp;        isExpressionFound = false;</b>
+<b class="nc">&nbsp;        isExpressionFinished = false;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This method sorts the HashMap according to the values in descending order.
+&nbsp;   * @param hm the HashMap to sort
+&nbsp;   * @return the given HashMap sorted
+&nbsp;   */
+&nbsp;  public static HashMap&lt;String, Integer&gt; sortByValue(HashMap&lt;String, Integer&gt; hm) {
+&nbsp;    // Create a list from elements of HashMap
+<b class="nc">&nbsp;    List&lt;Map.Entry&lt;String, Integer&gt;&gt; list = new LinkedList&lt;&gt;(hm.entrySet());</b>
+&nbsp;
+<b class="nc">&nbsp;    Collections.sort(list, new Comparator&lt;Map.Entry&lt;String, Integer&gt;&gt;() {</b>
+&nbsp;      public int compare(Map.Entry&lt;String, Integer&gt; o1, Map.Entry&lt;String, Integer&gt; o2) {
+<b class="nc">&nbsp;        return (o2.getValue()).compareTo(o1.getValue());</b>
+&nbsp;      }
+&nbsp;    });
+&nbsp;
+&nbsp;    // put data from sorted list to hashmap
+<b class="nc">&nbsp;    HashMap&lt;String, Integer&gt; temp = new LinkedHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, Integer&gt; aa : list) {</b>
+<b class="nc">&nbsp;      temp.put(aa.getKey(), aa.getValue());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return temp;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This method adds the given expression to the specificCaseExpressionsCounter
+&nbsp;   * @param queueContainingExpression a queue that contains the expression to add
+&nbsp;   */
+&nbsp;  private void incrementSpecificCaseExpressionsCounter(Queue&lt;String&gt; queueContainingExpression) {
+<b class="nc">&nbsp;    String specificCaseExpression = &quot;&quot;;</b>
+<b class="nc">&nbsp;    while (!queueContainingExpression.isEmpty()) {</b>
+<b class="nc">&nbsp;      String wordInExpression = queueContainingExpression.remove();</b>
+<b class="nc">&nbsp;      specificCaseExpression += wordInExpression + &quot; &quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int count = specificCaseExpressionsCounter.getOrDefault(specificCaseExpression, 0);</b>
+<b class="nc">&nbsp;      specificCaseExpressionsCounter.put(specificCaseExpression, count + 1);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This method checks if the given string contains at least one letter.
+&nbsp;   * 
+&nbsp;   * @param word the word to check
+&nbsp;   * @return &lt;code&gt;true&lt;/code&gt; if the word contains at least one letter, else
+&nbsp;   *         &lt;code&gt;false&lt;/code&gt;
+&nbsp;   */
+&nbsp;  private static boolean containsLetter(String word) { // returns true if at least one character is letter
+<b class="nc">&nbsp;    return Pattern.matches(&quot;.*[α-ωΑ-Ωίϊΐόάέύϋΰήώ\\s].*&quot;, word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This method checks if the given expression should be skipped.
+&nbsp;   * 
+&nbsp;   * @param sentence the sentence to check
+&nbsp;   * @return &lt;code&gt;true&lt;/code&gt; if the sentence should be skipped, else
+&nbsp;   *         &lt;code&gt;false&lt;/code&gt;
+&nbsp;   */
+&nbsp;  private boolean skipSentence(String sentence) {
+<b class="nc">&nbsp;    return sentence.trim().length() == 0 || Character.isLowerCase(sentence.trim().charAt(0))</b>
+<b class="nc">&nbsp;        || !sentence.matches(&quot;^[α-ωΑ-Ωίϊΐόάέύϋΰήώ\\s].*$&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The main method.
+&nbsp;   * @param args args[0] the path of the xml dump, 
+&nbsp;   *             args[1] the path of the output file
+&nbsp;   */
+&nbsp;  public static void main(String[] args) throws IOException, CompressorException {
+<b class="nc">&nbsp;    if (args.length != 2) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + WikipediaSentenceExtractor.class.getSimpleName()</b>
+&nbsp;                          + &quot; &lt;langCode&gt; &lt;wikipediaXmlDump&gt; &lt;output&gt;&quot;);
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    WikipediaSpecificCaseExpressionExtractor extractor = new WikipediaSpecificCaseExpressionExtractor();</b>
+<b class="nc">&nbsp;    extractor.extractSpecificCaseExpressions(Languages.getLanguageForShortCode(&quot;el&quot;), args[0], args[1]);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,341 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MorfologikPolishSpellerRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.pl</a>
+</div>
+
+<h1>Coverage Summary for Class: MorfologikPolishSpellerRule (org.languagetool.rules.pl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MorfologikPolishSpellerRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/48)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/110)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.pl;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
+&nbsp;
+&nbsp;  private static final String RESOURCE_FILENAME = &quot;/pl/hunspell/pl_PL.dict&quot;;
+<b class="nc">&nbsp;  private static final Pattern POLISH_TOKENIZING_CHARS = Pattern.compile(&quot;(?:[Qq]uasi|[Nn]iby)-&quot;);</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The set of prefixes that are not allowed to be split in the suggestions.
+&nbsp;   */
+&nbsp;  private static final Set&lt;String&gt; prefixes;
+&nbsp;
+&nbsp;  //Polish prefixes that should never be used to
+&nbsp;  //split parts of words
+&nbsp;  static {
+<b class="nc">&nbsp;    final Set&lt;String&gt; tempSet = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;arcy&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;neo&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;pre&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;anty&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;eks&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;bez&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;beze&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;ekstra&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;hiper&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;infra&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;kontr&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;maksi&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;midi&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;między&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;mini&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;nad&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;nade&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;około&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;ponad&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;post&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;pro&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;przeciw&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;pseudo&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;super&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;śród&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;ultra&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;wice&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;wokół&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;wokoło&quot;);</b>
+<b class="nc">&nbsp;    prefixes = Collections.unmodifiableSet(tempSet);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * non-word suffixes that should not be suggested (only morphological endings, never after a space)
+&nbsp;   */
+&nbsp;  private static final Set&lt;String&gt; bannedSuffixes;
+&nbsp;  static {
+<b class="nc">&nbsp;    final Set&lt;String&gt; tempSet = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;ami&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;ach&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;e&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;ego&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;em&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;emu&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;ie&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;im&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;m&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;om&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;owie&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;owi&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;ze&quot;);</b>
+<b class="nc">&nbsp;    bannedSuffixes = Collections.unmodifiableSet(tempSet);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private final UserConfig userConfig;
+&nbsp;
+&nbsp;  public MorfologikPolishSpellerRule(ResourceBundle messages,
+&nbsp;                                     Language language, UserConfig userConfig, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    super(messages, language, userConfig, altLanguages);</b>
+<b class="nc">&nbsp;    setCategory(Categories.TYPOS.getCategory(messages));</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;To jest zdanie z &lt;marker&gt;bledem&lt;/marker&gt;&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;To jest zdanie z &lt;marker&gt;błędem&lt;/marker&gt;.&quot;));</b>
+<b class="nc">&nbsp;    this.userConfig = userConfig;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getFileName() {
+<b class="nc">&nbsp;    return RESOURCE_FILENAME;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;MORFOLOGIK_RULE_PL_PL&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Pattern tokenizingPattern() {
+<b class="nc">&nbsp;    return POLISH_TOKENIZING_CHARS;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;RuleMatch&gt; getRuleMatches(String word, int startPos, AnalyzedSentence sentence,
+&nbsp;                                           List&lt;RuleMatch&gt; ruleMatchesSoFar, int idx, AnalyzedTokenReadings[] tokens) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if ((isMisspelled(speller1, word) &amp;&amp; isNotCompound(word)) || isProhibited(word)) {</b>
+<b class="nc">&nbsp;      RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos</b>
+<b class="nc">&nbsp;        + word.length(), messages.getString(&quot;spelling&quot;),</b>
+<b class="nc">&nbsp;        messages.getString(&quot;desc_spelling_short&quot;));</b>
+&nbsp;      //If lower case word is not a misspelled word, return it as the only suggestion
+<b class="nc">&nbsp;      boolean createSuggestions = userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 ||</b>
+<b class="nc">&nbsp;        ruleMatchesSoFar.size() &lt;= userConfig.getMaxSpellingSuggestions();</b>
+<b class="nc">&nbsp;      if (!isMisspelled(speller1, word.toLowerCase(conversionLocale))) {</b>
+<b class="nc">&nbsp;        if (createSuggestions) {</b>
+<b class="nc">&nbsp;          List&lt;String&gt; suggestion = Arrays.asList(word.toLowerCase(conversionLocale));</b>
+<b class="nc">&nbsp;          ruleMatch.setSuggestedReplacements(suggestion);</b>
+&nbsp;        } else {
+&nbsp;          // limited to save CPU
+<b class="nc">&nbsp;          ruleMatch.setSuggestedReplacement(messages.getString(&quot;too_many_errors&quot;));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        ruleMatches.add(ruleMatch);</b>
+<b class="nc">&nbsp;        return ruleMatches;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (createSuggestions) {</b>
+<b class="nc">&nbsp;        List&lt;SuggestedReplacement&gt; suggestions = SuggestedReplacement.convert(speller1.getSuggestions(word));</b>
+<b class="nc">&nbsp;        suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));</b>
+<b class="nc">&nbsp;        suggestions.addAll(getAdditionalSuggestions(suggestions, word));</b>
+<b class="nc">&nbsp;        if (!suggestions.isEmpty()) {</b>
+<b class="nc">&nbsp;          ruleMatch.setSuggestedReplacementObjects(pruneSuggestions(orderSuggestions(suggestions, word)));</b>
+&nbsp;        }
+&nbsp;      } else {
+&nbsp;        // limited to save CPU
+<b class="nc">&nbsp;        ruleMatch.setSuggestedReplacement(messages.getString(&quot;too_many_errors&quot;));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      ruleMatches.add(ruleMatch);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return ruleMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Check whether the word is a compound adjective or contains a non-splitting prefix.
+&nbsp;   * Used to suppress false positives.
+&nbsp;   *
+&nbsp;   * @param word Word to be checked.
+&nbsp;   * @return True if the word is not a compound.
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  private boolean isNotCompound(String word) throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; probablyCorrectWords = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; testedTokens = new ArrayList&lt;&gt;(2);</b>
+<b class="nc">&nbsp;    for (int i = 2; i &lt; word.length(); i++) {</b>
+&nbsp;      // chop from left to right
+<b class="nc">&nbsp;      String first = word.substring(0, i);</b>
+<b class="nc">&nbsp;      String second = word.substring(i);</b>
+<b class="nc">&nbsp;      if (prefixes.contains(first.toLowerCase(conversionLocale))</b>
+<b class="nc">&nbsp;        &amp;&amp; !isMisspelled(speller1, second)</b>
+<b class="nc">&nbsp;        &amp;&amp; second.length() &gt; first.length()) { // but not for short words such as &quot;premoc&quot;</b>
+&nbsp;        // ignore this match, it&#39;s fine
+<b class="nc">&nbsp;        probablyCorrectWords.add(word); // FIXME: some strange words are being accepted, like prekupa</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        testedTokens.clear();</b>
+<b class="nc">&nbsp;        testedTokens.add(first);</b>
+<b class="nc">&nbsp;        testedTokens.add(second);</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedTokenReadings&gt; taggedToks =</b>
+<b class="nc">&nbsp;          language.getTagger().tag(testedTokens);</b>
+<b class="nc">&nbsp;        if (taggedToks.size() == 2</b>
+&nbsp;          // &quot;białozielony&quot;, trzynastobitowy
+<b class="nc">&nbsp;          &amp;&amp; (taggedToks.get(0).hasPosTag(&quot;adja&quot;)</b>
+<b class="nc">&nbsp;          || (taggedToks.get(0).hasPosTag(&quot;num:comp&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; !taggedToks.get(0).hasPosTag(&quot;adv&quot;)))</b>
+<b class="nc">&nbsp;          &amp;&amp; taggedToks.get(1).hasPartialPosTag(&quot;adj:&quot;)) {</b>
+<b class="nc">&nbsp;          probablyCorrectWords.add(word);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (!probablyCorrectWords.isEmpty()) {</b>
+<b class="nc">&nbsp;      addIgnoreTokens(probablyCorrectWords);</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Remove suggestions -- not really runon words using a list of non-word suffixes
+&nbsp;   * @return A list of pruned suggestions.
+&nbsp;   */
+&nbsp;  private List&lt;SuggestedReplacement&gt; pruneSuggestions(List&lt;SuggestedReplacement&gt; suggestions) {
+<b class="nc">&nbsp;    List&lt;SuggestedReplacement&gt; prunedSuggestions = new ArrayList&lt;&gt;(suggestions.size());</b>
+<b class="nc">&nbsp;    for (SuggestedReplacement suggestion : suggestions) {</b>
+<b class="nc">&nbsp;      if (suggestion.getReplacement().indexOf(&#39; &#39;) == -1) {</b>
+<b class="nc">&nbsp;        prunedSuggestions.add(suggestion);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        String[] complexSug = suggestion.getReplacement().split(&quot; &quot;);</b>
+<b class="nc">&nbsp;        if (complexSug.length &gt; 1 &amp;&amp; !bannedSuffixes.contains(complexSug[1])) {</b>
+<b class="nc">&nbsp;          prunedSuggestions.add(suggestion);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return prunedSuggestions;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

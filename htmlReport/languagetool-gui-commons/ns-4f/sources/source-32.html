@@ -1,0 +1,288 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UserInfoEntry</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: UserInfoEntry (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserInfoEntry</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2018 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import lombok.Getter;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonIgnore;
+&nbsp;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.Calendar;
+&nbsp;import java.util.Date;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;/**
+&nbsp; * An item from our users table, with some information about the user/limits/etc.
+&nbsp; * @since 4.3
+&nbsp; */
+&nbsp;class UserInfoEntry {
+&nbsp;
+&nbsp;  private final long id;
+&nbsp;  private final String email;
+&nbsp;
+&nbsp;  @JsonIgnore
+&nbsp;  private final byte[] passwordHash;
+&nbsp;  private final String addonToken;
+&nbsp;  @Nullable
+&nbsp;  private final String apiKey;
+&nbsp;  private final Long userDictCacheSize;
+&nbsp;  private final Long requestsPerDay;
+&nbsp;  private final LimitEnforcementMode limitEnforcement;
+&nbsp;  @Nullable
+&nbsp;  private final Long managedAccounts;
+&nbsp;
+&nbsp;  private final Date premiumFrom;
+&nbsp;  private final Date premiumTo;
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private final Long userGroup;
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private final UUID groupId;
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private final String groupRole;
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Getter
+&nbsp;  private final String defaultDictionary;
+&nbsp;
+&nbsp;  UserInfoEntry(long id, String email, @Nullable Long userDictCacheSize, @Nullable Long requestsPerDay, @Nullable Integer limitEnforcement, @Nullable Long managedAccounts,
+&nbsp;                @Nullable String passwordHash, @Nullable java.sql.Date premiumFrom, @Nullable java.sql.Date premiumTo, String addonToken, String apiKey,
+&nbsp;                @Nullable Long userGroup, @Nullable UUID groupId, @Nullable String groupRole) {
+<b class="nc">&nbsp;    this(id, email, userDictCacheSize, requestsPerDay, limitEnforcement, managedAccounts, passwordHash, premiumFrom, premiumTo, addonToken, apiKey, userGroup, groupId, groupRole, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  UserInfoEntry(long id, String email, @Nullable Long userDictCacheSize, @Nullable Long requestsPerDay, @Nullable Integer limitEnforcement, @Nullable Long managedAccounts,
+&nbsp;                @Nullable String passwordHash, @Nullable java.sql.Date premiumFrom, @Nullable java.sql.Date premiumTo, String addonToken, @Nullable String apiKey,
+<b class="nc">&nbsp;                @Nullable Long userGroup, @Nullable UUID groupId, @Nullable String groupRole, @Nullable String defaultDictionary) {</b>
+<b class="nc">&nbsp;    this.id = id;</b>
+<b class="nc">&nbsp;    this.email = email;</b>
+<b class="nc">&nbsp;    this.addonToken = addonToken;</b>
+<b class="nc">&nbsp;    this.apiKey = apiKey;</b>
+<b class="nc">&nbsp;    this.userDictCacheSize = userDictCacheSize;</b>
+<b class="nc">&nbsp;    this.requestsPerDay = requestsPerDay;</b>
+<b class="nc">&nbsp;    this.managedAccounts = managedAccounts;</b>
+<b class="nc">&nbsp;    this.limitEnforcement = LimitEnforcementMode.parse(limitEnforcement);</b>
+<b class="nc">&nbsp;    this.passwordHash = passwordHash != null ? passwordHash.getBytes(StandardCharsets.UTF_8) : null;</b>
+<b class="nc">&nbsp;    this.premiumFrom = premiumFrom;</b>
+<b class="nc">&nbsp;    this.premiumTo = premiumTo;</b>
+<b class="nc">&nbsp;    this.userGroup = userGroup;</b>
+<b class="nc">&nbsp;    this.groupId = groupId;</b>
+<b class="nc">&nbsp;    this.groupRole = groupRole;</b>
+<b class="nc">&nbsp;    this.defaultDictionary = defaultDictionary;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  Date getPremiumFrom() {
+<b class="nc">&nbsp;    return premiumFrom;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  Date getPremiumTo() {
+<b class="nc">&nbsp;    return premiumTo;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  Long getUserDictCacheSize() {
+<b class="nc">&nbsp;    return userDictCacheSize;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  long getUserId() {
+<b class="nc">&nbsp;    return id;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getEmail() {
+<b class="nc">&nbsp;    return email;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public Long getRequestsPerDay() {
+<b class="nc">&nbsp;    return requestsPerDay;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  public LimitEnforcementMode getLimitEnforcement() {
+<b class="nc">&nbsp;    return limitEnforcement;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public byte[] getPasswordHash() {
+<b class="nc">&nbsp;    return passwordHash;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean hasPremium() {
+<b class="nc">&nbsp;    Calendar startOfToday = Calendar.getInstance();</b>
+<b class="nc">&nbsp;    startOfToday.set(Calendar.HOUR_OF_DAY, 0);</b>
+<b class="nc">&nbsp;    startOfToday.set(Calendar.MINUTE, 0);</b>
+<b class="nc">&nbsp;    startOfToday.set(Calendar.SECOND, 0);</b>
+<b class="nc">&nbsp;    startOfToday.set(Calendar.MILLISECOND, 0);</b>
+&nbsp;    // premiumTo in database is inclusive, saved as date only -&gt; time part set to zero
+<b class="nc">&nbsp;    return premiumFrom != null &amp;&amp; (premiumTo == null || premiumTo.compareTo(startOfToday.getTime()) &gt;= 0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getAddonToken() {
+<b class="nc">&nbsp;    return addonToken;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public String getApiKey() {
+<b class="nc">&nbsp;    return apiKey;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public Long getManagedAccounts() {
+<b class="nc">&nbsp;    return managedAccounts;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public Long getUserGroup() {
+<b class="nc">&nbsp;    return userGroup;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public UUID getGroupId() {
+<b class="nc">&nbsp;    return groupId;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getGroupRole() {
+<b class="nc">&nbsp;    return groupRole;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

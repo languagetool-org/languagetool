@@ -1,0 +1,281 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PedlerCorpus</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.errorcorpus</a>
+</div>
+
+<h1>Coverage Summary for Class: PedlerCorpus (org.languagetool.dev.errorcorpus)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PedlerCorpus</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.8%
+  </span>
+  <span class="absValue">
+    (15/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.4%
+  </span>
+  <span class="absValue">
+    (37/38)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PedlerCorpus$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (7/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.4%
+  </span>
+  <span class="absValue">
+    (17/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.5%
+  </span>
+  <span class="absValue">
+    (42/44)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.errorcorpus;
+&nbsp;
+&nbsp;import org.apache.commons.io.IOUtils;
+&nbsp;import org.languagetool.markup.AnnotatedText;
+&nbsp;import org.languagetool.markup.AnnotatedTextBuilder;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Iterator;
+&nbsp;import java.util.List;
+&nbsp;import java.util.StringTokenizer;
+&nbsp;
+&nbsp;/**
+&nbsp; * Access to the Jenny Pedler&#39;s Real-word Error Corpus corpus.
+&nbsp; * Get it from http://www.dcs.bbk.ac.uk/~jenny/resources.html.
+&nbsp; * @since 2.7
+&nbsp; */
+&nbsp;public class PedlerCorpus implements ErrorCorpus {
+&nbsp;
+&nbsp;  private static final String NORMALIZE_REGEX = &quot;\\s*&lt;ERR targ\\s*=\\s*([^&gt;]*?)\\s*&gt;\\s*(.*?)\\s*&lt;/ERR&gt;\\s*&quot;;
+&nbsp;  
+<b class="fc">&nbsp;  private final List&lt;String&gt; lines = new ArrayList&lt;&gt;();</b>
+&nbsp;  
+&nbsp;  private int pos;
+&nbsp;  
+<b class="fc">&nbsp;  public PedlerCorpus(File dir) throws IOException {</b>
+<b class="fc">&nbsp;    File[] files = dir.listFiles();</b>
+<b class="pc">&nbsp;    if (files == null) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Directory not found or is not a directory: &quot; + dir);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    for (File file : files) {</b>
+<b class="fc">&nbsp;      if (!file.getName().endsWith(&quot;.txt&quot;)) {</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Ignoring &quot; + file + &quot;, does not match *.txt&quot;);</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="fc">&nbsp;      try (FileInputStream fis = new FileInputStream(file)) {</b>
+<b class="fc">&nbsp;        lines.addAll(IOUtils.readLines(fis));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Iterator&lt;ErrorSentence&gt; iterator() {
+<b class="fc">&nbsp;    return new Iterator&lt;ErrorSentence&gt;() {</b>
+&nbsp;      @Override
+&nbsp;      public boolean hasNext() {
+<b class="fc">&nbsp;        return pos &lt; lines.size();</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      @Override
+&nbsp;      public ErrorSentence next() {
+<b class="fc">&nbsp;        String line = lines.get(pos++);</b>
+<b class="fc">&nbsp;        ErrorSentence sentence = getIncorrectSentence(line);</b>
+<b class="fc">&nbsp;        return sentence;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      @Override
+&nbsp;      public void remove() {
+<b class="nc">&nbsp;        throw new UnsupportedOperationException();</b>
+&nbsp;      }
+&nbsp;    };
+&nbsp;  }
+&nbsp;
+&nbsp;  private ErrorSentence getIncorrectSentence(String line) {
+<b class="fc">&nbsp;    String normalized = line.replaceAll(NORMALIZE_REGEX, &quot; &lt;ERR targ=$1&gt;$2&lt;/ERR&gt; &quot;).replaceAll(&quot;\\s+&quot;, &quot; &quot;).trim();</b>
+<b class="fc">&nbsp;    List&lt;Error&gt; errors = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    int startPos = 0;</b>
+<b class="fc">&nbsp;    while (normalized.indexOf(&quot;&lt;ERR targ=&quot;, startPos) != -1) {</b>
+<b class="fc">&nbsp;      int startTagStart = normalized.indexOf(&quot;&lt;ERR targ=&quot;, startPos);</b>
+<b class="fc">&nbsp;      int startTagEnd = normalized.indexOf(&quot;&gt;&quot;, startTagStart);</b>
+<b class="fc">&nbsp;      int endTagStart = normalized.indexOf(&quot;&lt;/ERR&gt;&quot;, startTagStart);</b>
+<b class="fc">&nbsp;      int correctionEnd = normalized.indexOf(&quot;&gt;&quot;, startTagStart);</b>
+<b class="fc">&nbsp;      String correction = normalized.substring(startTagStart + &quot;&lt;ERR targ=&quot;.length(), correctionEnd);</b>
+<b class="fc">&nbsp;      errors.add(new Error(startTagEnd + 1, endTagStart, correction));</b>
+<b class="fc">&nbsp;      startPos = startTagStart + 1;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return new ErrorSentence(normalized, makeAnnotatedText(normalized), errors);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private AnnotatedText makeAnnotatedText(String pseudoXml) {
+<b class="fc">&nbsp;    AnnotatedTextBuilder builder = new AnnotatedTextBuilder();</b>
+<b class="fc">&nbsp;    StringTokenizer tokenizer = new StringTokenizer(pseudoXml, &quot;&lt;&gt;&quot;, true);</b>
+<b class="fc">&nbsp;    boolean inMarkup = false;</b>
+<b class="fc">&nbsp;    while (tokenizer.hasMoreTokens()) {</b>
+<b class="fc">&nbsp;      String part = tokenizer.nextToken();</b>
+<b class="fc">&nbsp;      if (part.startsWith(&quot;&lt;&quot;)) {</b>
+<b class="fc">&nbsp;        builder.addMarkup(part);</b>
+<b class="fc">&nbsp;        inMarkup = true;</b>
+<b class="fc">&nbsp;      } else if (part.startsWith(&quot;&gt;&quot;)) {</b>
+<b class="fc">&nbsp;        inMarkup = false;</b>
+<b class="fc">&nbsp;        builder.addMarkup(part);</b>
+&nbsp;      } else {
+<b class="fc">&nbsp;        if (inMarkup) {</b>
+<b class="fc">&nbsp;          builder.addMarkup(part);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;          builder.addText(part);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return builder.build();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,234 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > NoSuggestionRuleList</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev</a>
+</div>
+
+<h1>Coverage Summary for Class: NoSuggestionRuleList (org.languagetool.dev)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NoSuggestionRuleList</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.rules.IncorrectExample;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.AbstractPatternRule;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Locale;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/**
+&nbsp; * List rules that offer no suggestion.
+&nbsp; */
+<b class="nc">&nbsp;public class NoSuggestionRuleList {</b>
+&nbsp;  
+&nbsp;  // format: rule_id,match_propability_as_float (and optionally more columns)
+&nbsp;  // e.g.:
+&nbsp;  // MORFOLOGIK_RULE_NL_NL,0.596809797834639
+&nbsp;  // EINDE_ZIN_ONVERWACHT,0.2137227907162415
+&nbsp;  private final static String POPULARITY_FILE = &quot;/home/dnaber/Downloads/rule_matches_nl_1w_detailed.csv&quot;;  // set to null to skip
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    if (args.length &lt; 1) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + NoSuggestionRuleList.class.getSimpleName() + &quot; &lt;langCodes&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Map&lt;String,Float&gt; popularity = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (POPULARITY_FILE != null) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; lines = Files.readAllLines(Paths.get(POPULARITY_FILE));</b>
+<b class="nc">&nbsp;      for (String line : lines) {</b>
+<b class="nc">&nbsp;        String[] parts = line.split(&quot;,&quot;);</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          popularity.put(parts[0], Float.parseFloat(parts[1]));</b>
+&nbsp;        } catch (NumberFormatException e) {
+<b class="nc">&nbsp;          System.err.println(&quot;Ignoring line: &quot; + line + &quot;, &quot; + e.getMessage());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(&quot;Loaded &quot; + popularity.size() + &quot; popularity mappings&quot;);</b>
+<b class="nc">&nbsp;    for (String langCode : args) {</b>
+<b class="nc">&nbsp;      Language lang = Languages.getLanguageForShortCode(langCode);</b>
+<b class="nc">&nbsp;      JLanguageTool lt = new JLanguageTool(lang);</b>
+<b class="nc">&nbsp;      for (Rule rule : lt.getAllActiveRules()) {</b>
+<b class="nc">&nbsp;        lt.disableRule(rule.getId());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      int suggestion = 0;</b>
+<b class="nc">&nbsp;      int noSuggestion = 0;</b>
+<b class="nc">&nbsp;      for (Rule rule : lt.getAllRules()) {</b>
+<b class="nc">&nbsp;        if (rule.isDefaultOff()) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;IncorrectExample&gt; incorrectExamples = rule.getIncorrectExamples();</b>
+<b class="nc">&nbsp;        if (incorrectExamples.isEmpty()) {</b>
+&nbsp;          //System.err.println(&quot;Skipping &quot; + rule.getId() + &quot; (no example)&quot;);
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        String incorrectExample = incorrectExamples.get(0).getExample().replace(&quot;&lt;marker&gt;&quot;, &quot;&quot;).replace(&quot;&lt;/marker&gt;&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        lt.enableRule(rule.getId());</b>
+<b class="nc">&nbsp;        List&lt;RuleMatch&gt; matches = lt.check(incorrectExample);</b>
+<b class="nc">&nbsp;        for (RuleMatch match : matches) {</b>
+<b class="nc">&nbsp;          if (match.getSuggestedReplacements().isEmpty()) {</b>
+&nbsp;            //if (rule instanceof AbstractPatternRule) {
+&nbsp;            //  printRule(((AbstractPatternRule)rule).getFullId(), rule, incorrectExample, popularity);
+&nbsp;            //} else {
+&nbsp;            //  printRule(rule.getId(), rule, incorrectExample, popularity);
+&nbsp;            //}
+<b class="nc">&nbsp;            printRule(rule.getId(), rule, incorrectExample, popularity);</b>
+<b class="nc">&nbsp;            noSuggestion++;</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            suggestion++;</b>
+&nbsp;          }
+&nbsp;          break;
+&nbsp;        }
+<b class="nc">&nbsp;        lt.disableRule(rule.getId());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      System.out.println(lang + &quot;:&quot;);</b>
+<b class="nc">&nbsp;      System.out.printf(&quot;With suggestion   : %d\n&quot;, suggestion);</b>
+<b class="nc">&nbsp;      System.out.printf(&quot;Without suggestion: %d (%.2f%%)\n&quot;, noSuggestion, ((float)noSuggestion / (suggestion + noSuggestion))*100.0);</b>
+<b class="nc">&nbsp;      System.out.println();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void printRule(String id, Rule rule, String incorrectExample, Map&lt;String, Float&gt; popularity) {
+<b class="nc">&nbsp;    Float pop = popularity.get(rule.getId());</b>
+<b class="nc">&nbsp;    if (pop != null) {</b>
+<b class="nc">&nbsp;      System.out.printf(Locale.ENGLISH, &quot;%.4f &quot; + id + &quot;\n&quot;, pop);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      System.out.println(&quot;0 &quot; + id);</b>
+&nbsp;    }
+&nbsp;    //System.out.println(&quot;--&gt; &quot;+incorrectExample);
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

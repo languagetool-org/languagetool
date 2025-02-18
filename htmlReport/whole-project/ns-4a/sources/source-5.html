@@ -1,0 +1,1053 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SymSpell</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling.symspell.implementation</a>
+</div>
+
+<h1>Coverage Summary for Class: SymSpell (org.languagetool.rules.spelling.symspell.implementation)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SymSpell</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/260)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/343)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SymSpell$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">SymSpell$SegmentedSuggestion</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">SymSpell$Verbosity</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/260)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/352)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.rules.spelling.symspell.implementation;
+&nbsp;//        MIT License
+&nbsp;//
+&nbsp;//        Copyright (c) 2018 Hampus Londögård
+&nbsp;//
+&nbsp;//        Permission is hereby granted, free of charge, to any person obtaining a copy
+&nbsp;//        of this software and associated documentation files (the &quot;Software&quot;), to deal
+&nbsp;//        in the Software without restriction, including without limitation the rights
+&nbsp;//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+&nbsp;//        copies of the Software, and to permit persons to whom the Software is
+&nbsp;//        furnished to do so, subject to the following conditions:
+&nbsp;//
+&nbsp;//        The above copyright notice and this permission notice shall be included in all
+&nbsp;//        copies or substantial portions of the Software.
+&nbsp;//
+&nbsp;//        THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+&nbsp;//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+&nbsp;//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+&nbsp;//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+&nbsp;//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+&nbsp;//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+&nbsp;//        SOFTWARE.
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;public class SymSpell implements Serializable {
+<b class="nc">&nbsp;  public enum Verbosity {</b>
+<b class="nc">&nbsp;    Top,</b>
+<b class="nc">&nbsp;    Closest,</b>
+<b class="nc">&nbsp;    All</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static int defaultMaxEditDistance = 2;</b>
+<b class="nc">&nbsp;  private static int defaultPrefixLength = 7;</b>
+<b class="nc">&nbsp;  private static int defaultCountThreshold = 1;</b>
+<b class="nc">&nbsp;  private static int defaultInitialCapacity = 16;</b>
+<b class="nc">&nbsp;  private static int defaultCompactLevel = 5;</b>
+&nbsp;  private int initialCapacity;
+&nbsp;  private int maxDictionaryEditDistance;
+&nbsp;  private int prefixLength; //prefix length  5..7
+&nbsp;  private long countThreshold; //a threshold might be specified, when a term occurs so frequently in the corpus that it is considered a valid word for spelling correction
+&nbsp;  private int compactMask;
+<b class="nc">&nbsp;  private EditDistance.DistanceAlgorithm distanceAlgorithm = EditDistance.DistanceAlgorithm.Damerau;</b>
+&nbsp;  private int maxLength;
+&nbsp;  private Map&lt;Integer, String[]&gt; deletes;
+&nbsp;  // Dictionary of unique correct spelling words, and the frequency count for each word.
+&nbsp;  private Map&lt;String, Long&gt; words;
+&nbsp;  // Dictionary of unique words that are below the count threshold for being considered correct spellings.
+<b class="nc">&nbsp;  private Map&lt;String, Long&gt; belowThresholdWords = new HashMap&lt;&gt;();</b>
+&nbsp;  /// &lt;summary&gt;Spelling suggestion returned from lookup.&lt;/summary&gt;
+&nbsp;
+&nbsp;  /// &lt;summary&gt;Create a new instanc of SymSpell.SymSpell.&lt;/summary&gt;
+&nbsp;  /// &lt;remarks&gt;Specifying ann accurate initialCapacity is not essential,
+&nbsp;  /// but it can help speed up processing by aleviating the need for
+&nbsp;  /// data restructuring as the size grows.&lt;/remarks&gt;
+&nbsp;  /// &lt;param name=&quot;initialCapacity&quot;&gt;The expected number of words in dictionary.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;maxDictionaryEditDistance&quot;&gt;Maximum edit distance for doing lookups.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;prefixLength&quot;&gt;The length of word prefixes used for spell checking..&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;countThreshold&quot;&gt;The minimum frequency count for dictionary words to be considered correct spellings.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;compactLevel&quot;&gt;Degree of favoring lower memory use over speed (0=fastest,most memory, 16=slowest,least memory).&lt;/param&gt;
+&nbsp;  public SymSpell(int initialCapacity, int maxDictionaryEditDistance, int prefixLength, int countThreshold)//,
+&nbsp;  //byte compactLevel)
+<b class="nc">&nbsp;  {</b>
+<b class="nc">&nbsp;    if (initialCapacity &lt; 0) {</b>
+<b class="nc">&nbsp;      initialCapacity = defaultInitialCapacity;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (maxDictionaryEditDistance &lt; 0) {</b>
+<b class="nc">&nbsp;      maxDictionaryEditDistance = defaultMaxEditDistance;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (prefixLength &lt; 1 || prefixLength &lt;= maxDictionaryEditDistance) {</b>
+<b class="nc">&nbsp;      prefixLength = defaultPrefixLength;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (countThreshold &lt; 0) {</b>
+<b class="nc">&nbsp;      countThreshold = defaultCountThreshold;</b>
+&nbsp;    }
+&nbsp;//        compactLevel = (byte) defaultCompactLevel;   //TODO might be faulty...
+&nbsp;
+<b class="nc">&nbsp;    this.initialCapacity = initialCapacity;</b>
+<b class="nc">&nbsp;    this.words = new HashMap&lt;&gt;(initialCapacity);</b>
+<b class="nc">&nbsp;    this.maxDictionaryEditDistance = maxDictionaryEditDistance;</b>
+<b class="nc">&nbsp;    this.prefixLength = prefixLength;</b>
+<b class="nc">&nbsp;    this.countThreshold = countThreshold;</b>
+&nbsp;//        if (compactLevel &gt; 16) compactLevel = 16;
+<b class="nc">&nbsp;    this.compactMask = (0xffffffff &gt;&gt; (3 + defaultCompactLevel)) &lt;&lt; 2;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /// &lt;summary&gt;Create/Update an entry in the dictionary.&lt;/summary&gt;
+&nbsp;  /// &lt;remarks&gt;For every word there are deletes with an edit distance of 1..maxEditDistance created and added to the
+&nbsp;  /// dictionary. Every delete entry has a suggestions list, which points to the original term(s) it was created from.
+&nbsp;  /// The dictionary may be dynamically updated (word frequency and new words) at any time by calling createDictionaryEntry&lt;/remarks&gt;
+&nbsp;  /// &lt;param name=&quot;key&quot;&gt;The word to add to dictionary.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;count&quot;&gt;The frequency count for word.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;staging&quot;&gt;Optional staging object to speed up adding many entries by staging them to a temporary structure.&lt;/param&gt;
+&nbsp;  /// &lt;returns&gt;True if the word was added as a new correctly spelled word,
+&nbsp;  /// or false if the word is added as a below threshold word, or updates an
+&nbsp;  /// existing correctly spelled word.&lt;/returns&gt;
+&nbsp;  public boolean createDictionaryEntry(String key, long count, SuggestionStage staging) {
+<b class="nc">&nbsp;    if (count &lt;= 0) {</b>
+<b class="nc">&nbsp;      if (this.countThreshold &gt; 0) {</b>
+<b class="nc">&nbsp;        return false; // no point doing anything if count is zero, as it can&#39;t change anything</b>
+&nbsp;      }
+<b class="nc">&nbsp;      count = 0;</b>
+&nbsp;    }
+&nbsp;    long countPrevious;
+&nbsp;
+&nbsp;    // look first in below threshold words, update count, and allow promotion to correct spelling word if count reaches threshold
+&nbsp;    // threshold must be &gt;1 for there to be the possibility of low threshold words
+<b class="nc">&nbsp;    if (countThreshold &gt; 1 &amp;&amp; belowThresholdWords.containsKey(key)) {</b>
+<b class="nc">&nbsp;      countPrevious = belowThresholdWords.get(key);</b>
+&nbsp;      // calculate new count for below threshold word
+<b class="nc">&nbsp;      count = (Long.MAX_VALUE - countPrevious &gt; count) ? countPrevious + count : Long.MAX_VALUE;</b>
+&nbsp;      // has reached threshold - remove from below threshold collection (it will be added to correct words below)
+<b class="nc">&nbsp;      if (count &gt;= countThreshold) {</b>
+<b class="nc">&nbsp;        belowThresholdWords.remove(key);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        belowThresholdWords.put(key, count); // = count;</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (words.containsKey(key)) {</b>
+<b class="nc">&nbsp;      countPrevious = words.get(key);</b>
+&nbsp;      // just update count if it&#39;s an already added above threshold word
+<b class="nc">&nbsp;      count = (Long.MAX_VALUE - countPrevious &gt; count) ? countPrevious + count : Long.MAX_VALUE;</b>
+<b class="nc">&nbsp;      words.put(key, count);</b>
+<b class="nc">&nbsp;      return false;</b>
+<b class="nc">&nbsp;    } else if (count &lt; countThreshold) {</b>
+&nbsp;      // new or existing below threshold word
+<b class="nc">&nbsp;      belowThresholdWords.put(key, count);</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // what we have at this point is a new, above threshold word
+<b class="nc">&nbsp;    words.put(key, count);</b>
+<b class="nc">&nbsp;    if (key.equals(&quot;can&#39;t&quot;)) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Added to words..!&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //edits/suggestions are created only once, no matter how often word occurs
+&nbsp;    //edits/suggestions are created only as soon as the word occurs in the corpus,
+&nbsp;    //even if the same term existed before in the dictionary as an edit from another word
+<b class="nc">&nbsp;    if (key.length() &gt; maxLength) {</b>
+<b class="nc">&nbsp;      maxLength = key.length();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //create deletes
+<b class="nc">&nbsp;    HashSet&lt;String&gt; edits = editsPrefix(key);</b>
+&nbsp;
+&nbsp;    // if not staging suggestions, put directly into main data structure
+<b class="nc">&nbsp;    if (staging != null) {</b>
+<b class="nc">&nbsp;      edits.forEach(delete -&gt; staging.add(getStringHash(delete), key));</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      if (deletes == null) {</b>
+<b class="nc">&nbsp;        this.deletes = new HashMap&lt;&gt;(initialCapacity); //initialisierung</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      edits.forEach(delete -&gt; {</b>
+<b class="nc">&nbsp;        int deleteHash = getStringHash(delete);</b>
+&nbsp;        String[] suggestions;
+<b class="nc">&nbsp;        if (deletes.containsKey(deleteHash)) {</b>
+<b class="nc">&nbsp;          suggestions = deletes.get(deleteHash);</b>
+<b class="nc">&nbsp;          String[] newSuggestions = Arrays.copyOf(suggestions, suggestions.length + 1);</b>
+<b class="nc">&nbsp;          deletes.put(deleteHash, newSuggestions);</b>
+<b class="nc">&nbsp;          suggestions = newSuggestions;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          suggestions = new String[1];</b>
+<b class="nc">&nbsp;          deletes.put(deleteHash, suggestions);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        suggestions[suggestions.length - 1] = key;</b>
+&nbsp;      });
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /// &lt;summary&gt;Load multiple dictionary entries from a file of word/frequency count pairs&lt;/summary&gt;
+&nbsp;  /// &lt;remarks&gt;Merges with any dictionary data already loaded.&lt;/remarks&gt;
+&nbsp;  /// &lt;param name=&quot;corpus&quot;&gt;The path+filename of the file.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;termIndex&quot;&gt;The column position of the word.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;countIndex&quot;&gt;The column position of the frequency count.&lt;/param&gt;
+&nbsp;  /// &lt;returns&gt;True if file loaded, or false if file not found.&lt;/returns&gt;
+&nbsp;  public boolean loadDictionary(String corpus, int termIndex, int countIndex) {
+<b class="nc">&nbsp;    File file = new File(corpus);</b>
+<b class="nc">&nbsp;    if (!file.exists()) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    BufferedReader br = null;</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      br = Files.newBufferedReader(Paths.get(corpus), StandardCharsets.UTF_8);</b>
+&nbsp;    } catch (IOException ex) {
+<b class="nc">&nbsp;      System.out.println(ex.getMessage());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (br == null) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return loadDictionary(br, termIndex, countIndex);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /// &lt;summary&gt;Load multiple dictionary entries from an input stream of word/frequency count pairs&lt;/summary&gt;
+&nbsp;  /// &lt;remarks&gt;Merges with any dictionary data already loaded.&lt;/remarks&gt;
+&nbsp;  /// &lt;remarks&gt;This is useful for loading the dictionary data from an asset file in Android.&lt;/remarks&gt;
+&nbsp;  /// &lt;param name=&quot;corpus&quot;&gt;An input stream to dictionary data.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;termIndex&quot;&gt;The column position of the word.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;countIndex&quot;&gt;The column position of the frequency count.&lt;/param&gt;
+&nbsp;  /// &lt;returns&gt;True if file loaded, or false if file not found.&lt;/returns&gt;
+&nbsp;  public boolean loadDictionary(InputStream corpus, int termIndex, int countIndex) {
+<b class="nc">&nbsp;    if (corpus == null) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    BufferedReader br = new BufferedReader(new InputStreamReader(corpus, StandardCharsets.UTF_8));</b>
+<b class="nc">&nbsp;    return loadDictionary(br, termIndex, countIndex);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /// &lt;summary&gt;Load multiple dictionary entries from an buffered reader of word/frequency count pairs&lt;/summary&gt;
+&nbsp;  /// &lt;remarks&gt;Merges with any dictionary data already loaded.&lt;/remarks&gt;
+&nbsp;  /// &lt;param name=&quot;corpus&quot;&gt;An buffered reader to dictionary data.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;termIndex&quot;&gt;The column position of the word.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;countIndex&quot;&gt;The column position of the frequency count.&lt;/param&gt;
+&nbsp;  /// &lt;returns&gt;True if file loaded, or false if file not found.&lt;/returns&gt;
+&nbsp;  public boolean loadDictionary(BufferedReader br, int termIndex, int countIndex) {
+<b class="nc">&nbsp;    if (br == null) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    SuggestionStage staging = new SuggestionStage(16384);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      for (String line; (line = br.readLine()) != null; ) {</b>
+<b class="nc">&nbsp;        String[] lineParts = line.split(&quot;\\s&quot;);</b>
+<b class="nc">&nbsp;        if (lineParts.length &gt;= 2) {</b>
+<b class="nc">&nbsp;          String key = lineParts[termIndex];</b>
+&nbsp;          long count;
+&nbsp;          try {
+<b class="nc">&nbsp;            count = Long.parseLong(lineParts[countIndex]);</b>
+&nbsp;            //count = Long.parseUnsignedLong(lineParts[countIndex]);
+<b class="nc">&nbsp;            createDictionaryEntry(key, count, staging);</b>
+&nbsp;          } catch (NumberFormatException ex) {
+<b class="nc">&nbsp;            System.out.println(ex.getMessage());</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (IOException ex) {
+<b class="nc">&nbsp;      System.out.println(ex.getMessage());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (this.deletes == null) {</b>
+<b class="nc">&nbsp;      this.deletes = new HashMap&lt;&gt;(staging.deleteCount());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    commitStaged(staging);</b>
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  //create a frequency dictionary from a corpus (merges with any dictionary data already loaded)
+&nbsp;  /// &lt;summary&gt;Load multiple dictionary words from a file containing plain text.&lt;/summary&gt;
+&nbsp;  /// &lt;param name=&quot;corpus&quot;&gt;The path+filename of the file.&lt;/param&gt;
+&nbsp;  /// &lt;returns&gt;True if file loaded, or false if file not found.&lt;/returns&gt;
+&nbsp;  public boolean createDictionary(String corpus) {
+<b class="nc">&nbsp;    File file = new File(corpus);</b>
+<b class="nc">&nbsp;    if (!file.exists()) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    SuggestionStage staging = new SuggestionStage(16384);</b>
+<b class="nc">&nbsp;    try (BufferedReader br = Files.newBufferedReader(Paths.get(corpus))) {</b>
+<b class="nc">&nbsp;      for (String line; (line = br.readLine()) != null; ) {</b>
+<b class="nc">&nbsp;        Arrays.stream(parseWords(line)).forEach(key -&gt; createDictionaryEntry(key, 1, staging));</b>
+&nbsp;      }
+&nbsp;    } catch (IOException ex) {
+<b class="nc">&nbsp;      System.out.println(ex.getMessage());</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (this.deletes == null) {</b>
+<b class="nc">&nbsp;      this.deletes = new HashMap&lt;&gt;(staging.deleteCount());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    commitStaged(staging);</b>
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void purgeBelowThresholdWords() {
+<b class="nc">&nbsp;    belowThresholdWords = new HashMap&lt;String, Long&gt;();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /// &lt;summary&gt;Commit staged dictionary additions.&lt;/summary&gt;
+&nbsp;  /// &lt;remarks&gt;Used when you write your own process to load multiple words into the
+&nbsp;  /// dictionary, and as part of that process, you first created a SuggestionsStage
+&nbsp;  /// object, and passed that to createDictionaryEntry calls.&lt;/remarks&gt;
+&nbsp;  /// &lt;param name=&quot;staging&quot;&gt;The SymSpell.SuggestionStage object storing the staged data.&lt;/param&gt;
+&nbsp;  public void commitStaged(SuggestionStage staging) {
+<b class="nc">&nbsp;    if (this.deletes == null) {</b>
+<b class="nc">&nbsp;      this.deletes = new HashMap&lt;&gt;(staging.deletes.size());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    staging.commitTo(deletes);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /// &lt;summary&gt;Find suggested spellings for a given input word, using the maximum
+&nbsp;  /// edit distance specified during construction of the SymSpell.SymSpell dictionary.&lt;/summary&gt;
+&nbsp;  /// &lt;param name=&quot;input&quot;&gt;The word being spell checked.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;verbosity&quot;&gt;The value controlling the quantity/closeness of the returned suggestions.&lt;/param&gt;
+&nbsp;  /// &lt;returns&gt;A List of SymSpell.SuggestItem object representing suggested correct spellings for the input word,
+&nbsp;  /// sorted by edit distance, and secondarily by count frequency.&lt;/returns&gt;
+&nbsp;  public List&lt;SuggestItem&gt; lookup(String input, Verbosity verbosity) {
+<b class="nc">&nbsp;    return lookup(input, verbosity, maxDictionaryEditDistance);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /// &lt;summary&gt;Find suggested spellings for a given input word.&lt;/summary&gt;
+&nbsp;  /// &lt;param name=&quot;input&quot;&gt;The word being spell checked.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;verbosity&quot;&gt;The value controlling the quantity/closeness of the returned suggestions.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;maxEditDistance&quot;&gt;The maximum edit distance between input and suggested words.&lt;/param&gt;
+&nbsp;  /// &lt;returns&gt;A List of SymSpell.SuggestItem object representing suggested correct spellings for the input word,
+&nbsp;  /// sorted by edit distance, and secondarily by count frequency.&lt;/returns&gt;
+&nbsp;  public List&lt;SuggestItem&gt; lookup(String input, Verbosity verbosity, int maxEditDistance) {
+&nbsp;    //verbosity=Top: the suggestion with the highest term frequency of the suggestions of smallest edit distance found
+&nbsp;    //verbosity=Closest: all suggestions of smallest edit distance found, the suggestions are ordered by term frequency
+&nbsp;    //verbosity=All: all suggestions &lt;= maxEditDistance, the suggestions are ordered by edit distance, then by term frequency (slower, no early termination)
+&nbsp;
+&nbsp;    // maxEditDistance used in lookup can&#39;t be bigger than the maxDictionaryEditDistance
+&nbsp;    // used to construct the underlying dictionary structure.
+<b class="nc">&nbsp;    if (maxEditDistance &gt; maxDictionaryEditDistance) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Dist to big: &quot; + maxEditDistance);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    List&lt;SuggestItem&gt; suggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int inputLen = input.length();</b>
+&nbsp;
+&nbsp;    // early exit - word is too big to possibly match any words
+<b class="nc">&nbsp;    if (inputLen - maxEditDistance &gt; maxLength) {</b>
+<b class="nc">&nbsp;      return suggestions;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // deletes we&#39;ve considered already
+<b class="nc">&nbsp;    HashSet&lt;String&gt; consideredDeletes = new HashSet&lt;&gt;();</b>
+&nbsp;    // suggestions we&#39;ve considered already
+<b class="nc">&nbsp;    HashSet&lt;String&gt; consideredSuggestions = new HashSet&lt;&gt;();</b>
+&nbsp;    long suggestionCount;
+&nbsp;
+&nbsp;    // quick look for exact match
+<b class="nc">&nbsp;    if (words.containsKey(input)) {</b>
+<b class="nc">&nbsp;      suggestionCount = words.get(input);</b>
+<b class="nc">&nbsp;      suggestions.add(new SuggestItem(input, 0, suggestionCount));</b>
+&nbsp;      // early exit - return exact match, unless caller wants all matches
+<b class="nc">&nbsp;      if (verbosity != Verbosity.All) {</b>
+<b class="nc">&nbsp;        return suggestions;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    consideredSuggestions.add(input); // input considered in above.</b>
+&nbsp;
+<b class="nc">&nbsp;    int maxEditDistance2 = maxEditDistance;</b>
+<b class="nc">&nbsp;    int candidatePointer = 0;</b>
+<b class="nc">&nbsp;    List&lt;String&gt; candidates = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;    //add original prefix
+<b class="nc">&nbsp;    int inputPrefixLen = inputLen;</b>
+<b class="nc">&nbsp;    if (inputPrefixLen &gt; prefixLength) {</b>
+<b class="nc">&nbsp;      inputPrefixLen = prefixLength;</b>
+<b class="nc">&nbsp;      candidates.add(input.substring(0, inputPrefixLen));</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      candidates.add(input);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    EditDistance distanceComparer = new EditDistance(input, this.distanceAlgorithm);</b>
+<b class="nc">&nbsp;    while (candidatePointer &lt; candidates.size()) {</b>
+<b class="nc">&nbsp;      String candidate = candidates.get(candidatePointer++);</b>
+<b class="nc">&nbsp;      int candidateLen = candidate.length();</b>
+<b class="nc">&nbsp;      int lengthDiff = inputPrefixLen - candidateLen;</b>
+&nbsp;
+&nbsp;      //early termination if distance higher than suggestion distance
+<b class="nc">&nbsp;      if (lengthDiff &gt; maxEditDistance2) {</b>
+&nbsp;        // skip to next candidate if Verbosity.All, look no further if Verbosity.Top or Closest
+&nbsp;        // (candidates are ordered by delete distance, so none are closer than current)
+<b class="nc">&nbsp;        if (verbosity == Verbosity.All) {</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      }
+&nbsp;
+&nbsp;      //read candidate entry from dictionary
+<b class="nc">&nbsp;      if (deletes.containsKey(getStringHash(candidate))) {</b>
+<b class="nc">&nbsp;        String[] dictSuggestions = deletes.get(getStringHash(candidate));</b>
+&nbsp;        //iterate through suggestions (to other correct dictionary items) of delete item and add them to suggestion list
+<b class="nc">&nbsp;        for (String suggestion : dictSuggestions) {</b>
+<b class="nc">&nbsp;          if (suggestion.equals(input)) {</b>
+&nbsp;            continue;
+&nbsp;          }
+<b class="nc">&nbsp;          int suggestionLen = suggestion.length();</b>
+&nbsp;
+<b class="nc">&nbsp;          if ((Math.abs(suggestionLen - inputLen) &gt; maxEditDistance2) // input/suggestion diff &gt; allowed/current best distance</b>
+&nbsp;            || (suggestionLen &lt; candidateLen) // sugg must be for a different delete String, in same bin only because of hash collision
+<b class="nc">&nbsp;            || (suggestionLen == candidateLen &amp;&amp; !suggestion.equals(candidate))) // if sugg len = delete len, then it either equals delete or is in same bin only because of hash collision</b>
+&nbsp;          {
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          int suggPrefixLen = Math.min(suggestionLen, prefixLength);</b>
+<b class="nc">&nbsp;          if (suggPrefixLen &gt; inputPrefixLen &amp;&amp; (suggPrefixLen - candidateLen) &gt; maxEditDistance2) {</b>
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;
+&nbsp;          //True Damerau-Levenshtein Edit Distance: adjust distance, if both distances &gt; 0
+&nbsp;          //We allow simultaneous edits (deletes) of maxEditDistance on on both the dictionary and the input term.
+&nbsp;          //For replaces and adjacent transposes the resulting edit distance stays &lt;= maxEditDistance.
+&nbsp;          //For inserts and deletes the resulting edit distance might exceed maxEditDistance.
+&nbsp;          //To prevent suggestions of a higher edit distance, we need to calculate the resulting edit distance, if there are simultaneous edits on both sides.
+&nbsp;          //Example: (bank==bnak and bank==bink, but bank!=kanb and bank!=xban and bank!=baxn for maxEditDistance=1)
+&nbsp;          //Two deletes on each side of a pair makes them all equal, but the first two pairs have edit distance=1, the others edit distance=2.
+&nbsp;          int distance;
+<b class="nc">&nbsp;          int min = 0;</b>
+<b class="nc">&nbsp;          if (candidateLen == 0) {</b>
+&nbsp;            //suggestions which have no common chars with input (inputLen&lt;=maxEditDistance &amp;&amp; suggestionLen&lt;=maxEditDistance)
+<b class="nc">&nbsp;            distance = Math.max(inputLen, suggestionLen);</b>
+<b class="nc">&nbsp;            if (distance &gt; maxEditDistance2 || !consideredSuggestions.add(suggestion)) {</b>
+&nbsp;              continue;
+&nbsp;            }
+<b class="nc">&nbsp;          } else if (suggestionLen == 1) {</b>
+<b class="nc">&nbsp;            if (input.indexOf(suggestion.charAt(0)) &lt; 0) {</b>
+<b class="nc">&nbsp;              distance = inputLen;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              distance = inputLen - 1;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (distance &gt; maxEditDistance2 || !consideredSuggestions.add(suggestion)) {</b>
+&nbsp;              continue;
+&nbsp;            }
+&nbsp;          } else
+&nbsp;            //number of edits in prefix == maxeditdistance  &amp;&amp; no identical suffix
+&nbsp;            //, then editdistance &gt; maxEditDistance and no need for Levenshtein calculation
+&nbsp;            //      (inputLen &gt;= prefixLength) &amp;&amp; (suggestionLen &gt;= prefixLength)
+<b class="nc">&nbsp;            if ((prefixLength - maxEditDistance == candidateLen)</b>
+<b class="nc">&nbsp;              &amp;&amp; (((min = Math.min(inputLen, suggestionLen) - prefixLength) &gt; 1)</b>
+<b class="nc">&nbsp;              &amp;&amp; !(input.substring(inputLen + 1 - min).equals(suggestion.substring(suggestionLen + 1 - min))))</b>
+<b class="nc">&nbsp;              || ((min &gt; 0) &amp;&amp; (input.charAt(inputLen - min) != suggestion.charAt(suggestionLen - min))</b>
+<b class="nc">&nbsp;              &amp;&amp; ((input.charAt(inputLen - min - 1) != suggestion.charAt(suggestionLen - min))</b>
+<b class="nc">&nbsp;              || (input.charAt(inputLen - min) != suggestion.charAt(suggestionLen - min - 1))))) {</b>
+&nbsp;              continue;
+&nbsp;            } else {
+&nbsp;              // deleteInSuggestionPrefix is somewhat expensive, and only pays off when verbosity is Top or Closest.
+<b class="nc">&nbsp;              if ((verbosity != Verbosity.All &amp;&amp; !deleteInSuggestionPrefix(candidate, candidateLen, suggestion, suggestionLen))</b>
+<b class="nc">&nbsp;                || !consideredSuggestions.add(suggestion)) {</b>
+&nbsp;                continue;
+&nbsp;              }
+<b class="nc">&nbsp;              distance = distanceComparer.compare(suggestion, maxEditDistance2);</b>
+<b class="nc">&nbsp;              if (distance &lt; 0) {</b>
+&nbsp;                continue;
+&nbsp;              }
+&nbsp;            }
+&nbsp;
+&nbsp;          //save some time
+&nbsp;          //do not process higher distances than those already found, if verbosity&lt;All (note: maxEditDistance2 will always equal maxEditDistance when Verbosity.All)
+<b class="nc">&nbsp;          if (distance &lt;= maxEditDistance2) {</b>
+<b class="nc">&nbsp;            suggestionCount = words.get(suggestion);</b>
+<b class="nc">&nbsp;            SuggestItem si = new SuggestItem(suggestion, distance, suggestionCount);</b>
+<b class="nc">&nbsp;            if (suggestions.size() &gt; 0) {</b>
+<b class="nc">&nbsp;              switch (verbosity) {</b>
+&nbsp;                case Closest:
+&nbsp;                  //we will calculate DamLev distance only to the smallest found distance so far
+<b class="nc">&nbsp;                  if (distance &lt; maxEditDistance2) {</b>
+<b class="nc">&nbsp;                    suggestions.clear();</b>
+&nbsp;                  }
+&nbsp;                  break;
+&nbsp;                case Top:
+<b class="nc">&nbsp;                  if (distance &lt; maxEditDistance2 || suggestionCount &gt; suggestions.get(0).count) {</b>
+<b class="nc">&nbsp;                    maxEditDistance2 = distance;</b>
+<b class="nc">&nbsp;                    suggestions.set(0, si);</b>
+&nbsp;                  }
+&nbsp;                  continue;
+&nbsp;              }
+&nbsp;            }
+<b class="nc">&nbsp;            if (verbosity != Verbosity.All) {</b>
+<b class="nc">&nbsp;              maxEditDistance2 = distance;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            suggestions.add(si);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+&nbsp;      //add edits
+&nbsp;      //derive edits (deletes) from candidate (input) and add them to candidates list
+&nbsp;      //this is a recursive process until the maximum edit distance has been reached
+<b class="nc">&nbsp;      if ((lengthDiff &lt; maxEditDistance) &amp;&amp; (candidateLen &lt;= prefixLength)) {</b>
+&nbsp;        //save some time
+&nbsp;        //do not create edits with edit distance smaller than suggestions already found
+<b class="nc">&nbsp;        if (verbosity != Verbosity.All &amp;&amp; lengthDiff &gt;= maxEditDistance2) {</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; candidateLen; i++) {</b>
+<b class="nc">&nbsp;          StringBuilder sb = new StringBuilder(candidate);</b>
+<b class="nc">&nbsp;          sb.deleteCharAt(i);</b>
+<b class="nc">&nbsp;          String delete = sb.toString();</b>
+&nbsp;
+<b class="nc">&nbsp;          if (consideredDeletes.add(delete)) {</b>
+<b class="nc">&nbsp;            candidates.add(delete);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    //sort by ascending edit distance, then by descending word frequency
+<b class="nc">&nbsp;    if (suggestions.size() &gt; 1) {</b>
+<b class="nc">&nbsp;      Collections.sort(suggestions);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return suggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;SuggestItem&gt; lookupCompound(String input, int maxEditDistance) {
+&nbsp;    //parse input String into single terms
+<b class="nc">&nbsp;    if (maxEditDistance &gt; maxDictionaryEditDistance) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Dist to big &quot; + maxEditDistance);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String[] termList1 = parseWords(input);</b>
+&nbsp;
+&nbsp;    List&lt;SuggestItem&gt; suggestions; //suggestions for a single term
+<b class="nc">&nbsp;    List&lt;SuggestItem&gt; suggestionParts = new ArrayList&lt;&gt;(); // 1 line with separate parts</b>
+&nbsp;    List&lt;SuggestItem&gt; suggestionsCombi;
+&nbsp;    EditDistance editDistance;
+&nbsp;
+&nbsp;    //translate every term to its best suggestion, otherwise it remains unchanged
+<b class="nc">&nbsp;    boolean lastCombi = false;</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; termList1.length; i++) {      // For each term do loop</b>
+<b class="nc">&nbsp;      suggestions = lookup(termList1[i], Verbosity.Top, maxEditDistance); // Get the normal suggestions,</b>
+&nbsp;//            suggestions.forEach(it -&gt; System.out.println(&quot;Suggestions: &quot; + it.term));
+&nbsp;      //combi check, always before split. i &gt; 0 because we can&#39;t split on zero obviously.
+<b class="nc">&nbsp;      if ((i &gt; 0) &amp;&amp; !lastCombi) {</b>
+<b class="nc">&nbsp;        suggestionsCombi = lookup(termList1[i - 1] + termList1[i], Verbosity.Top, maxEditDistance);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (!suggestionsCombi.isEmpty()) {</b>
+<b class="nc">&nbsp;          SuggestItem best1 = suggestionParts.get(suggestionParts.size() - 1);    // Grabbing the currently last part of sentence (i-1)</b>
+&nbsp;          SuggestItem best2;
+<b class="nc">&nbsp;          if (!suggestions.isEmpty()) {</b>
+<b class="nc">&nbsp;            best2 = suggestions.get(0);                 // Getting the best suggestion of term (i)</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            best2 = new SuggestItem(termList1[i], maxEditDistance + 1, 0); // No suggestion -&gt; it might be correct? (i)</b>
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          editDistance = new EditDistance(termList1[i - 1] + &quot; &quot; + termList1[i], EditDistance.DistanceAlgorithm.Damerau);</b>
+<b class="nc">&nbsp;          if (suggestionsCombi.get(0).distance + 1 &lt; editDistance.DamerauLevenshteinDistance(best1.term + &quot; &quot; + best2.term, maxEditDistance)) {</b>
+<b class="nc">&nbsp;            suggestionsCombi.get(0).distance++;</b>
+<b class="nc">&nbsp;            suggestionParts.set(suggestionParts.size() - 1, suggestionsCombi.get(0));   // Replacing value.</b>
+<b class="nc">&nbsp;            lastCombi = true;</b>
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      lastCombi = false;</b>
+&nbsp;
+&nbsp;      //always split terms without suggestion / never split terms with suggestion ed=0 / never split single char terms
+<b class="nc">&nbsp;      if (!suggestions.isEmpty() &amp;&amp; ((suggestions.get(0).distance == 0) || (termList1[i].length() == 1))) {</b>
+&nbsp;        //choose best suggestion
+<b class="nc">&nbsp;        suggestionParts.add(suggestions.get(0));</b>
+&nbsp;      } else {
+&nbsp;        //if no perfect suggestion, split word into pairs
+<b class="nc">&nbsp;        List&lt;SuggestItem&gt; suggestionsSplit = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;        //add original term
+<b class="nc">&nbsp;        if (!suggestions.isEmpty()) {</b>
+<b class="nc">&nbsp;          suggestionsSplit.add(suggestions.get(0));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (termList1[i].length() &gt; 1) {</b>
+<b class="nc">&nbsp;          for (int j = 1; j &lt; termList1[i].length(); j++) {      // Begin splitting! j=1 -&gt; last. Shouldnt it be j.size - 1?</b>
+<b class="nc">&nbsp;            String part1 = termList1[i].substring(0, j);</b>
+<b class="nc">&nbsp;            String part2 = termList1[i].substring(j);</b>
+&nbsp;            SuggestItem suggestionSplit;
+<b class="nc">&nbsp;            List&lt;SuggestItem&gt; suggestions1 = lookup(part1, Verbosity.Top, maxEditDistance);</b>
+&nbsp;
+<b class="nc">&nbsp;            if (!suggestions1.isEmpty()) {</b>
+<b class="nc">&nbsp;              if (!suggestions.isEmpty() &amp;&amp; (suggestions.get(0).equals(suggestions1.get(0)))) {</b>
+&nbsp;                continue; // suggestion top = split_1 suggestion top
+&nbsp;              }
+<b class="nc">&nbsp;              List&lt;SuggestItem&gt; suggestions2 = lookup(part2, Verbosity.Top, maxEditDistance);</b>
+&nbsp;
+<b class="nc">&nbsp;              if (!suggestions2.isEmpty()) {</b>
+<b class="nc">&nbsp;                if (!suggestions.isEmpty() &amp;&amp; (suggestions.get(0).equals(suggestions2.get(0)))) {</b>
+&nbsp;                  continue; //suggestion top = split_2 suggestion top
+&nbsp;                }
+&nbsp;
+&nbsp;                //select best suggestion for split pair
+<b class="nc">&nbsp;                String split = suggestions1.get(0).term + &quot; &quot; + suggestions2.get(0).term;</b>
+<b class="nc">&nbsp;                editDistance = new EditDistance(termList1[i], EditDistance.DistanceAlgorithm.Damerau);</b>
+<b class="nc">&nbsp;                suggestionSplit = new SuggestItem(split,</b>
+<b class="nc">&nbsp;                  editDistance.DamerauLevenshteinDistance(split, maxEditDistance),</b>
+<b class="nc">&nbsp;                  Math.min(suggestions1.get(0).count, suggestions2.get(0).count));</b>
+<b class="nc">&nbsp;                if (suggestionSplit.distance &gt;= 0) {</b>
+<b class="nc">&nbsp;                  suggestionsSplit.add(suggestionSplit);</b>
+&nbsp;                }
+&nbsp;
+&nbsp;                //early termination of split
+<b class="nc">&nbsp;                if (suggestionSplit.distance == 1) {</b>
+&nbsp;                  break;
+&nbsp;                }
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          if (!suggestionsSplit.isEmpty()) {</b>
+&nbsp;            //select best suggestion for split pair
+<b class="nc">&nbsp;            Collections.sort(suggestionsSplit);</b>
+<b class="nc">&nbsp;            suggestionParts.add(suggestionsSplit.get(0));</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            SuggestItem si = new SuggestItem(termList1[i], 0, maxEditDistance + 1);</b>
+<b class="nc">&nbsp;            suggestionParts.add(si);</b>
+&nbsp;          }
+&nbsp;        } else {
+<b class="nc">&nbsp;          SuggestItem si = new SuggestItem(termList1[i], 0, maxEditDistance + 1);</b>
+<b class="nc">&nbsp;          suggestionParts.add(si);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    SuggestItem suggestion = new SuggestItem(&quot;&quot;, Integer.MAX_VALUE, Long.MAX_VALUE);</b>
+&nbsp;
+<b class="nc">&nbsp;    StringBuilder s = new StringBuilder();</b>
+&nbsp;
+<b class="nc">&nbsp;    for (SuggestItem si : suggestionParts) {</b>
+<b class="nc">&nbsp;      s.append(si.term).append(&#39; &#39;);</b>
+<b class="nc">&nbsp;      suggestion.count = Math.min(suggestion.count, si.count);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    suggestion.term = s.toString().replaceAll(&quot;\\s+$&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    editDistance = new EditDistance(suggestion.term, EditDistance.DistanceAlgorithm.Damerau);</b>
+<b class="nc">&nbsp;    suggestion.distance = editDistance.DamerauLevenshteinDistance(input, maxDictionaryEditDistance);</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;SuggestItem&gt; suggestionsLine = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    suggestionsLine.add(suggestion);</b>
+<b class="nc">&nbsp;    return suggestionsLine;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  //public bool enableCompoundCheck = true;
+&nbsp;  //false: assumes input String as single term, no compound splitting / decompounding
+&nbsp;  //true:  supports compound splitting / decompounding with three cases:
+&nbsp;  //1. mistakenly inserted space into a correct word led to two incorrect terms
+&nbsp;  //2. mistakenly omitted space between two correct words led to one incorrect combined term
+&nbsp;  //3. multiple independent input terms with/without spelling errors
+&nbsp;
+&nbsp;  public List&lt;SuggestItem&gt; lookupCompound(String input) {
+<b class="nc">&nbsp;    return lookupCompound(input, this.maxDictionaryEditDistance);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean deleteInSuggestionPrefix(String delete, int deleteLen, String suggestion, int suggestionLen) {
+<b class="nc">&nbsp;    if (deleteLen == 0) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (prefixLength &lt; suggestionLen) {</b>
+<b class="nc">&nbsp;      suggestionLen = prefixLength;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int j = 0;</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; deleteLen; i++) {</b>
+<b class="nc">&nbsp;      char delChar = delete.charAt(i);</b>
+<b class="nc">&nbsp;      while (j &lt; suggestionLen &amp;&amp; delChar != suggestion.charAt(j)) {</b>
+<b class="nc">&nbsp;        j++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (j == suggestionLen) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String[] parseWords(String text) {
+&nbsp;    // \p{L} UTF-8 characters, plus &quot;_&quot;, does not split words at apostrophes.
+<b class="nc">&nbsp;    Pattern pattern = Pattern.compile(&quot;[&#39;’\\p{L}-[_]]+&quot;);</b>
+<b class="nc">&nbsp;    Matcher match = pattern.matcher(text.toLowerCase());</b>
+<b class="nc">&nbsp;    List&lt;String&gt; matches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    while (match.find()) {</b>
+<b class="nc">&nbsp;      matches.add(match.group());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String[] toreturn = new String[matches.size()];</b>
+<b class="nc">&nbsp;    matches.toArray(toreturn);</b>
+<b class="nc">&nbsp;    return toreturn;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private HashSet&lt;String&gt; edits(String word, int editDistance, HashSet&lt;String&gt; deleteWords) {
+<b class="nc">&nbsp;    editDistance++;</b>
+<b class="nc">&nbsp;    if (word.length() &gt; 1) {</b>
+<b class="nc">&nbsp;      for (int i = 0; i &lt; word.length(); i++) {</b>
+<b class="nc">&nbsp;        StringBuilder sb = new StringBuilder(word);     //  word.Remove(i, 1);</b>
+<b class="nc">&nbsp;        sb.deleteCharAt(i);</b>
+<b class="nc">&nbsp;        String delete = sb.toString();</b>
+<b class="nc">&nbsp;        if (deleteWords.add(delete)) {</b>
+&nbsp;          //recursion, if maximum edit distance not yet reached
+<b class="nc">&nbsp;          if (editDistance &lt; maxDictionaryEditDistance) {</b>
+<b class="nc">&nbsp;            edits(delete, editDistance, deleteWords);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return deleteWords;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private HashSet&lt;String&gt; editsPrefix(String key) {
+<b class="nc">&nbsp;    HashSet&lt;String&gt; hashSet = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (key.length() &lt;= maxDictionaryEditDistance) {</b>
+<b class="nc">&nbsp;      hashSet.add(&quot;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (key.length() &gt; prefixLength) {</b>
+<b class="nc">&nbsp;      key = key.substring(0, prefixLength);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    hashSet.add(key);</b>
+<b class="nc">&nbsp;    return edits(key, 0, hashSet);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings(&quot;unchecked&quot;)
+&nbsp;  private int getStringHash(String s) {
+<b class="nc">&nbsp;    int len = s.length();</b>
+<b class="nc">&nbsp;    int lenMask = len;</b>
+<b class="nc">&nbsp;    if (lenMask &gt; 3) {</b>
+<b class="nc">&nbsp;      lenMask = 3;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    long hash = 2166136261L;</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; len; i++) {</b>
+<b class="nc">&nbsp;      hash ^= s.charAt(i);</b>
+<b class="nc">&nbsp;      hash *= 16777619;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    hash &amp;= this.compactMask;</b>
+<b class="nc">&nbsp;    hash |= lenMask;</b>
+<b class="nc">&nbsp;    return (int) hash;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  //######
+&nbsp;
+&nbsp;  //WordSegmentation divides a String into words by inserting missing spaces at the appropriate positions
+&nbsp;  //misspelled words are corrected and do not affect segmentation
+&nbsp;  //existing spaces are allowed and considered for optimum segmentation
+&nbsp;
+&nbsp;  //SymSpell.WordSegmentation uses a novel approach *without* recursion.
+&nbsp;  //https://medium.com/@wolfgarbe/fast-word-segmentation-for-noisy-text-2c2c41f9e8da
+&nbsp;  //While each String of length n can be segmentend in 2^n−1 possible compositions https://en.wikipedia.org/wiki/Composition_(combinatorics)
+&nbsp;  //SymSpell.WordSegmentation has a linear runtime O(n) to find the optimum composition
+&nbsp;
+&nbsp;  //number of all words in the corpus used to generate the frequency dictionary
+&nbsp;  //this is used to calculate the word occurrence probability p from word counts c : p=c/N
+&nbsp;  //N equals the sum of all counts c in the dictionary only if the dictionary is complete, but not if the dictionary is truncated or filtered
+<b class="nc">&nbsp;  private static long N = 1024908267229L;  // TODO make dynamic man.</b>
+&nbsp;
+&nbsp;  class SegmentedSuggestion {
+<b class="nc">&nbsp;    String segmentedString = &quot;&quot;, correctedString = &quot;&quot;;</b>
+<b class="nc">&nbsp;    int distanceSum = 0;</b>
+<b class="nc">&nbsp;    double probabilityLogSum = 0.0;</b>
+&nbsp;
+<b class="nc">&nbsp;    SegmentedSuggestion() {</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /// &lt;summary&gt;Find suggested spellings for a multi-word input String (supports word splitting/merging).&lt;/summary&gt;
+&nbsp;  /// &lt;param name=&quot;input&quot;&gt;The String being spell checked.&lt;/param&gt;
+&nbsp;  /// &lt;returns&gt;The word segmented String,
+&nbsp;  /// the word segmented and spelling corrected String,
+&nbsp;  /// the Edit distance sum between input String and corrected String,
+&nbsp;  /// the Sum of word occurrence probabilities in log scale (a measure of how common and probable the corrected segmentation is).&lt;/returns&gt;
+&nbsp;  public SegmentedSuggestion wordSegmentation(String input) {
+<b class="nc">&nbsp;    return wordSegmentation(input, this.maxDictionaryEditDistance, this.maxLength);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /// &lt;summary&gt;Find suggested spellings for a multi-word input String (supports word splitting/merging).&lt;/summary&gt;
+&nbsp;  /// &lt;param name=&quot;input&quot;&gt;The String being spell checked.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;maxEditDistance&quot;&gt;The maximum edit distance between input and corrected words
+&nbsp;  /// (0=no correction/segmentation only).&lt;/param&gt;
+&nbsp;  /// &lt;returns&gt;The word segmented String,
+&nbsp;  /// the word segmented and spelling corrected String,
+&nbsp;  /// the Edit distance sum between input String and corrected String,
+&nbsp;  /// the Sum of word occurrence probabilities in log scale (a measure of how common and probable the corrected segmentation is).&lt;/returns&gt;
+&nbsp;  public SegmentedSuggestion wordSegmentation(String input, int maxEditDistance) {
+<b class="nc">&nbsp;    return wordSegmentation(input, maxEditDistance, this.maxLength);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /// &lt;summary&gt;Find suggested spellings for a multi-word input String (supports word splitting/merging).&lt;/summary&gt;
+&nbsp;  /// &lt;param name=&quot;input&quot;&gt;The String being spell checked.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;maxSegmentationWordLength&quot;&gt;The maximum word length that should be considered.&lt;/param&gt;
+&nbsp;  /// &lt;param name=&quot;maxEditDistance&quot;&gt;The maximum edit distance between input and corrected words
+&nbsp;  /// (0=no correction/segmentation only).&lt;/param&gt;
+&nbsp;  /// &lt;returns&gt;The word segmented String,
+&nbsp;  /// the word segmented and spelling corrected String,
+&nbsp;  /// the Edit distance sum between input String and corrected String,
+&nbsp;  /// the Sum of word occurrence probabilities in log scale (a measure of how common and probable the corrected segmentation is).&lt;/returns&gt;
+&nbsp;  public SegmentedSuggestion wordSegmentation(String input, int maxEditDistance, int maxSegmentationWordLength) {
+<b class="nc">&nbsp;    if (input.isEmpty()) {</b>
+<b class="nc">&nbsp;      return new SegmentedSuggestion();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int arraySize = Math.min(maxSegmentationWordLength, input.length());</b>
+<b class="nc">&nbsp;    SegmentedSuggestion[] compositions = new SegmentedSuggestion[arraySize];</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; arraySize; i++) {</b>
+<b class="nc">&nbsp;      compositions[i] = new SegmentedSuggestion();</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    int circularIndex = -1;</b>
+&nbsp;
+&nbsp;    //outer loop (column): all possible part start positions
+<b class="nc">&nbsp;    for (int j = 0; j &lt; input.length(); j++) {</b>
+&nbsp;      //inner loop (row): all possible part lengths (from start position): part can&#39;t be bigger than longest word in dictionary (other than long unknown word)
+<b class="nc">&nbsp;      int imax = Math.min(input.length() - j, maxSegmentationWordLength);</b>
+<b class="nc">&nbsp;      for (int i = 1; i &lt;= imax; i++) {</b>
+&nbsp;        //get top spelling correction/ed for part
+<b class="nc">&nbsp;        String part = input.substring(j, j + i);</b>
+<b class="nc">&nbsp;        int separatorLength = 0;</b>
+<b class="nc">&nbsp;        int topEd = 0;</b>
+&nbsp;        double topProbabilityLog;
+&nbsp;        String topResult;
+&nbsp;
+<b class="nc">&nbsp;        if (Character.isWhitespace(part.charAt(0))) {</b>
+&nbsp;          //remove space for levensthein calculation
+<b class="nc">&nbsp;          part = part.substring(1);</b>
+&nbsp;        } else {
+&nbsp;          //add ed+1: space did not exist, had to be inserted
+<b class="nc">&nbsp;          separatorLength = 1;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        //remove space from part1, add number of removed spaces to topEd
+<b class="nc">&nbsp;        topEd += part.length();</b>
+&nbsp;        //remove space
+<b class="nc">&nbsp;        part = part.replace(&quot; &quot;, &quot;&quot;); //=System.Text.RegularExpressions.Regex.Replace(part1, @&quot;\s+&quot;, &quot;&quot;);</b>
+&nbsp;        //add number of removed spaces to ed
+<b class="nc">&nbsp;        topEd -= part.length();</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;SuggestItem&gt; results = this.lookup(part, SymSpell.Verbosity.Top, maxEditDistance);</b>
+<b class="nc">&nbsp;        if (results.size() &gt; 0) {</b>
+<b class="nc">&nbsp;          topResult = results.get(0).term;</b>
+<b class="nc">&nbsp;          topEd += results.get(0).distance;</b>
+&nbsp;          //Naive Bayes Rule
+&nbsp;          //we assume the word probabilities of two words to be independent
+&nbsp;          //therefore the resulting probability of the word combination is the product of the two word probabilities
+&nbsp;
+&nbsp;          //instead of computing the product of probabilities we are computing the sum of the logarithm of probabilities
+&nbsp;          //because the probabilities of words are about 10^-10, the product of many such small numbers could exceed (underflow) the floating number range and become zero
+&nbsp;          //log(ab)=log(a)+log(b)
+<b class="nc">&nbsp;          topProbabilityLog = Math.log10((double) results.get(0).count / (double) N);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          topResult = part;</b>
+&nbsp;          //default, if word not found
+&nbsp;          //otherwise long input text would win as long unknown word (with ed=edmax+1 ), although there there should many spaces inserted
+<b class="nc">&nbsp;          topEd += part.length();</b>
+<b class="nc">&nbsp;          topProbabilityLog = Math.log10(10.0 / (N * Math.pow(10.0, part.length())));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        int destinationIndex = ((i + circularIndex) % arraySize);</b>
+&nbsp;
+&nbsp;        //set values in first loop
+<b class="nc">&nbsp;        if (j == 0) {</b>
+<b class="nc">&nbsp;          compositions[destinationIndex].segmentedString = part;</b>
+<b class="nc">&nbsp;          compositions[destinationIndex].correctedString = topResult;</b>
+<b class="nc">&nbsp;          compositions[destinationIndex].distanceSum = topEd;</b>
+<b class="nc">&nbsp;          compositions[destinationIndex].probabilityLogSum = topProbabilityLog;</b>
+<b class="nc">&nbsp;        } else if ((i == maxSegmentationWordLength)</b>
+&nbsp;          //replace values if better probabilityLogSum, if same edit distance OR one space difference
+&nbsp;          || (((compositions[circularIndex].distanceSum + topEd == compositions[destinationIndex].distanceSum) || (compositions[circularIndex].distanceSum + separatorLength + topEd == compositions[destinationIndex].distanceSum)) &amp;&amp; (compositions[destinationIndex].probabilityLogSum &lt; compositions[circularIndex].probabilityLogSum + topProbabilityLog))
+&nbsp;          //replace values if smaller edit distance
+&nbsp;          || (compositions[circularIndex].distanceSum + separatorLength + topEd &lt; compositions[destinationIndex].distanceSum)) {
+<b class="nc">&nbsp;          compositions[destinationIndex].segmentedString = compositions[circularIndex].segmentedString + &quot; &quot; + part;</b>
+<b class="nc">&nbsp;          compositions[destinationIndex].correctedString = compositions[circularIndex].correctedString + &quot; &quot; + topResult;</b>
+<b class="nc">&nbsp;          compositions[destinationIndex].distanceSum = compositions[circularIndex].distanceSum + topEd;</b>
+<b class="nc">&nbsp;          compositions[destinationIndex].probabilityLogSum = compositions[circularIndex].probabilityLogSum + topProbabilityLog;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      circularIndex++;</b>
+<b class="nc">&nbsp;      if (circularIndex &gt;= arraySize) {</b>
+<b class="nc">&nbsp;        circularIndex = 0;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return compositions[circularIndex];</b>
+&nbsp;
+&nbsp;  }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

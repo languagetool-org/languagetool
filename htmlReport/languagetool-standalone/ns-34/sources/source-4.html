@@ -1,0 +1,211 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DativePluralsEntry</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ga</a>
+</div>
+
+<h1>Coverage Summary for Class: DativePluralsEntry (org.languagetool.rules.ga)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DativePluralsEntry</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Jim O&#39;Regan
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ga;
+&nbsp;
+&nbsp;class DativePluralsEntry {
+&nbsp;  
+&nbsp;  private String form;
+&nbsp;  private String formModern;
+&nbsp;  private String lemma;
+&nbsp;  private String lemmaModern;
+&nbsp;  private String equivalent;
+&nbsp;  private String replacement;
+&nbsp;
+&nbsp;  String getForm() {
+<b class="nc">&nbsp;    return form;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getModern() {
+<b class="nc">&nbsp;    return formModern;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getLemma() {
+<b class="nc">&nbsp;    return lemma;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getLemmaModern() {
+<b class="nc">&nbsp;    return lemmaModern;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getEquivalent() {
+<b class="nc">&nbsp;    return equivalent;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getReplacement() {
+<b class="nc">&nbsp;    return replacement;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getGender() {
+<b class="nc">&nbsp;    return gender;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String gender;
+&nbsp;
+<b class="nc">&nbsp;  DativePluralsEntry(String form, String lemma, String gender, String replacement) {</b>
+<b class="nc">&nbsp;    this.form = form;</b>
+<b class="nc">&nbsp;    this.lemma = lemma;</b>
+<b class="nc">&nbsp;    this.gender = gender;</b>
+<b class="nc">&nbsp;    this.replacement = replacement;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void setEquivalent(String equiv) {
+<b class="nc">&nbsp;    this.equivalent = equiv;</b>
+&nbsp;  }
+&nbsp;  void setModernised(String modernised) {
+<b class="nc">&nbsp;    this.formModern = modernised;</b>
+&nbsp;  }
+&nbsp;  void setModernLemma(String modernised) {
+<b class="nc">&nbsp;    this.lemmaModern = modernised;</b>
+&nbsp;  }
+&nbsp;  boolean hasEquivalent() {
+<b class="nc">&nbsp;    return !(equivalent == null || equivalent.equals(&quot;&quot;));</b>
+&nbsp;  }
+&nbsp;  boolean hasModernised() {
+<b class="nc">&nbsp;    return !(formModern == null || formModern.equals(&quot;&quot;));</b>
+&nbsp;  }
+&nbsp;  boolean hasModernLemma() {
+<b class="nc">&nbsp;    return !(lemmaModern == null || lemmaModern.equals(&quot;&quot;));</b>
+&nbsp;  }
+&nbsp;  String getBaseTag() {
+<b class="nc">&nbsp;    return (this.gender.equals(&quot;f&quot;)) ? &quot;Noun:Fem:Dat:Pl&quot; : &quot;Noun:Masc:Dat:Pl&quot;;</b>
+&nbsp;  }
+&nbsp;  String getStandard() {
+<b class="nc">&nbsp;    if(hasEquivalent()) {</b>
+<b class="nc">&nbsp;      return equivalent;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return replacement;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

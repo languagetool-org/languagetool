@@ -1,0 +1,393 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CompoundAwareHunspellRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling.hunspell</a>
+</div>
+
+<h1>Coverage Summary for Class: CompoundAwareHunspellRule (org.languagetool.rules.spelling.hunspell)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CompoundAwareHunspellRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7.7%
+  </span>
+  <span class="absValue">
+    (1/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/74)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    3.2%
+  </span>
+  <span class="absValue">
+    (3/95)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.spelling.hunspell;
+&nbsp;
+&nbsp;import com.google.common.base.Suppliers;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
+&nbsp;import org.languagetool.tokenizers.CompoundWordTokenizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.ByteArrayInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.nio.charset.Charset;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Supplier;
+&nbsp;import java.util.stream.IntStream;
+&nbsp;
+&nbsp;/**
+&nbsp; * A spell checker that combines Hunspell and Morfologik spell checking
+&nbsp; * to support compound words and offer fast suggestions for some misspelled
+&nbsp; * compound words.
+&nbsp; */
+&nbsp;public abstract class CompoundAwareHunspellRule extends HunspellRule {
+&nbsp;
+&nbsp;  private static final int MAX_SUGGESTIONS = 20;
+&nbsp;  
+&nbsp;  private final CompoundWordTokenizer compoundSplitter;
+&nbsp;  private final Supplier&lt;MorfologikMultiSpeller&gt; morfoSpeller;
+&nbsp;
+&nbsp;  protected abstract void filterForLanguage(List&lt;String&gt; suggestions);
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  protected static List&lt;String&gt; getSpellingFilePaths(String langCode) {
+<b class="nc">&nbsp;    return Arrays.asList(</b>
+&nbsp;      &quot;/&quot; + langCode + &quot;/hunspell/spelling.txt&quot;,
+&nbsp;      &quot;/&quot; + langCode + &quot;/hunspell/spelling_custom.txt&quot;,
+&nbsp;      &quot;/&quot; + langCode + &quot;/multitoken-suggest.txt&quot;,
+&nbsp;      &quot;spelling_global.txt&quot;
+&nbsp;    );
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  protected static List&lt;InputStream&gt; getStreams(List&lt;String&gt; paths) {
+<b class="nc">&nbsp;    List&lt;InputStream&gt; streams = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String path : paths) {</b>
+&nbsp;      // add separation between streams so that missing newlines at the end don&#39;t join the last &amp; first line from two files
+<b class="nc">&nbsp;      String separation = &quot;# Start of file &quot; + path.replace(&quot;\n&quot;, &quot;&quot;) + &quot;\n&quot;;</b>
+<b class="nc">&nbsp;      ByteArrayInputStream separationStream = new ByteArrayInputStream(</b>
+<b class="nc">&nbsp;        Charset.defaultCharset().encode(separation).array());</b>
+<b class="nc">&nbsp;      streams.add(separationStream);</b>
+<b class="nc">&nbsp;      streams.add(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path));</b>
+<b class="nc">&nbsp;      streams.add(new ByteArrayInputStream(System.lineSeparator().getBytes(StandardCharsets.UTF_8)));  // don&#39;t crash if input doesn&#39;t end with newline</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return streams;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter, MorfologikMultiSpeller morfoSpeller, UserConfig userConfig) {
+<b class="nc">&nbsp;    this(messages, language, compoundSplitter, morfoSpeller, userConfig, Collections.emptyList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter, 
+&nbsp;                                   MorfologikMultiSpeller morfoSpeller, UserConfig userConfig, List&lt;Language&gt; altLanguages) {
+<b class="nc">&nbsp;    this(messages, language, compoundSplitter, morfoSpeller, userConfig, altLanguages, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter,
+&nbsp;                                   MorfologikMultiSpeller morfoSpeller, UserConfig userConfig, List&lt;Language&gt; altLanguages,
+&nbsp;                                   LanguageModel languageModel) {
+<b class="nc">&nbsp;    this(messages, language, compoundSplitter, () -&gt; morfoSpeller, userConfig, altLanguages, languageModel);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 6.4
+&nbsp;   */
+&nbsp;  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter,
+&nbsp;                                   Supplier&lt;MorfologikMultiSpeller&gt; morfoSpeller, UserConfig userConfig, List&lt;Language&gt; altLanguages,
+&nbsp;                                   LanguageModel languageModel) {
+<b class="fc">&nbsp;    super(messages, language, userConfig, altLanguages, languageModel);</b>
+<b class="fc">&nbsp;    this.compoundSplitter = compoundSplitter;</b>
+<b class="fc">&nbsp;    this.morfoSpeller = Suppliers.memoize(() -&gt; morfoSpeller.get());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * As a hunspell-based approach is too slow, we use Morfologik to create suggestions. As this
+&nbsp;   * won&#39;t work for compounds not in the dictionary, we split the word and also get suggestions
+&nbsp;   * on the compound parts. In the end, all candidates are filtered against Hunspell again (which
+&nbsp;   * supports compounds).
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; getSuggestions(String word) throws IOException {
+<b class="nc">&nbsp;    ensureInitialized();</b>
+&nbsp;    //System.out.println(&quot;Computing suggestions for &quot; + word);
+<b class="nc">&nbsp;    List&lt;String&gt; candidates = getCandidates(word);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; simpleSuggestions = getCorrectWords(candidates);</b>
+<b class="nc">&nbsp;    simpleSuggestions = getFilteredSuggestions(simpleSuggestions);</b>
+&nbsp;    //System.out.println(&quot;simpleSuggestions: &quot; + simpleSuggestions);
+&nbsp;
+<b class="nc">&nbsp;    MorfologikMultiSpeller morfoSpeller = this.morfoSpeller.get();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; noSplitSuggestions = morfoSpeller.getSuggestions(word);  // after getCorrectWords() so spelling.txt is considered</b>
+<b class="nc">&nbsp;    handleWordEndPunctuation(&quot;.&quot;, word, noSplitSuggestions, morfoSpeller);</b>
+<b class="nc">&nbsp;    handleWordEndPunctuation(&quot;...&quot;, word, noSplitSuggestions, morfoSpeller);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; noSplitLowercaseSuggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (StringTools.startsWithUppercase(word) &amp;&amp; !StringTools.isAllUppercase(word)) {</b>
+&nbsp;      // almost all words can be uppercase because they can appear at the start of a sentence:
+<b class="nc">&nbsp;      noSplitLowercaseSuggestions = morfoSpeller.getSuggestions(word.toLowerCase());</b>
+&nbsp;    }
+&nbsp;    //System.out.println(&quot;noSplitSuggestions: &quot; + noSplitSuggestions);
+&nbsp;    //System.out.println(&quot;noSplitLcSuggestions: &quot; + noSplitLowercaseSuggestions);
+&nbsp;    // We don&#39;t know about the quality of the results here, so mix both lists together,
+&nbsp;    // taking elements from both lists on a rotating basis:
+<b class="nc">&nbsp;    List&lt;String&gt; suggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int max = IntStream.of(simpleSuggestions.size(), noSplitSuggestions.size(), noSplitLowercaseSuggestions.size()).max().orElse(0);</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; max; i++) {</b>
+<b class="nc">&nbsp;      if (i &lt; noSplitSuggestions.size()) {</b>
+<b class="nc">&nbsp;        suggestions.add(noSplitSuggestions.get(i));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (i &lt; noSplitLowercaseSuggestions.size()) {</b>
+<b class="nc">&nbsp;        suggestions.add(StringTools.uppercaseFirstChar(noSplitLowercaseSuggestions.get(i)));</b>
+&nbsp;      }
+&nbsp;      // put these behind suggestions by Morfologik, often low-quality / made-up words
+<b class="nc">&nbsp;      if (i &lt; simpleSuggestions.size()) {</b>
+<b class="nc">&nbsp;        suggestions.add(simpleSuggestions.get(i));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    //System.out.println(&quot;suggestions (mixed from simpleSuggestions, noSplitSuggestions, noSplitLowerCaseSuggestions): &quot; + suggestions);
+&nbsp;
+<b class="nc">&nbsp;    suggestions = filterDupes(suggestions);</b>
+<b class="nc">&nbsp;    filterForLanguage(suggestions);</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;String&gt; sortedSuggestions = sortSuggestionByQuality(word, suggestions);</b>
+&nbsp;    //System.out.println(&quot;sortSuggestionByQuality(): &quot; + sortedSuggestions);
+&nbsp;    // This is probably be the right place to sort suggestions by probability:
+&nbsp;    //SuggestionSorter sorter = new SuggestionSorter(new LuceneLanguageModel(new File(&quot;/home/dnaber/data/google-ngram-index/de&quot;)));
+&nbsp;    //sortedSuggestions = sorter.sortSuggestions(sortedSuggestions);
+&nbsp;    //System.out.println();
+<b class="nc">&nbsp;    return sortedSuggestions.subList(0, Math.min(MAX_SUGGESTIONS, sortedSuggestions.size()));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void handleWordEndPunctuation(String punct, String word, List&lt;String&gt; noSplitSuggestions, MorfologikMultiSpeller morfoSpeller) {
+<b class="nc">&nbsp;    if (word.endsWith(punct)) {</b>
+&nbsp;      // e.g. &quot;informationnen.&quot; - the dot is a word char in hunspell, so it needs special treatment here
+<b class="nc">&nbsp;      List&lt;String&gt; tmp = morfoSpeller.getSuggestions(word.substring(0, word.length()-punct.length()));</b>
+<b class="nc">&nbsp;      for (String s : tmp) {</b>
+<b class="nc">&nbsp;        noSplitSuggestions.add(s + punct);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Find potential corrections - it&#39;s okay if some of these are not valid words,
+&nbsp;   * this list will be filtered against the spellchecker before being returned to the user.
+&nbsp;   */
+&nbsp;  protected List&lt;String&gt; getCandidates(String word) {
+<b class="nc">&nbsp;    return compoundSplitter.tokenize(word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected List&lt;String&gt; getCandidates(List&lt;String&gt; parts) {
+<b class="nc">&nbsp;    int partCount = 0;</b>
+<b class="nc">&nbsp;    List&lt;String&gt; candidates = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String part : parts) {</b>
+<b class="nc">&nbsp;      if (!hunspell.spell(part)) {</b>
+&nbsp;        // assume noun, so use uppercase:
+<b class="nc">&nbsp;        MorfologikMultiSpeller morfoSpeller = this.morfoSpeller.get();</b>
+<b class="nc">&nbsp;        boolean doUpperCase = partCount &gt; 0 &amp;&amp; !StringTools.startsWithUppercase(part);</b>
+<b class="nc">&nbsp;        List&lt;String&gt; suggestions = morfoSpeller.getSuggestions(doUpperCase ? StringTools.uppercaseFirstChar(part) : part);</b>
+<b class="nc">&nbsp;        if (suggestions.isEmpty()) {</b>
+<b class="nc">&nbsp;          suggestions = morfoSpeller.getSuggestions(doUpperCase ? StringTools.lowercaseFirstChar(part) : part);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        boolean appendS = false;</b>
+<b class="nc">&nbsp;        if (doUpperCase &amp;&amp; part.endsWith(&quot;s&quot;)) {  // maybe infix-s as in &quot;Dampfschiffahrtskapitän&quot; -&gt; &quot;Dampfschifffahrtskapitän&quot;</b>
+<b class="nc">&nbsp;          suggestions.addAll(morfoSpeller.getSuggestions(StringUtils.removeEnd(part, &quot;s&quot;)));</b>
+<b class="nc">&nbsp;          appendS = true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for (String suggestion : suggestions) {</b>
+<b class="nc">&nbsp;          List&lt;String&gt; partsCopy = new ArrayList&lt;&gt;(parts);</b>
+<b class="nc">&nbsp;          if (appendS) {</b>
+<b class="nc">&nbsp;            suggestion += &quot;s&quot;;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (partCount &gt; 0 &amp;&amp; parts.get(partCount).startsWith(&quot;-&quot;) &amp;&amp; parts.get(partCount).length() &gt; 1) {</b>
+<b class="nc">&nbsp;            partsCopy.set(partCount, &quot;-&quot; + StringTools.uppercaseFirstChar(suggestion.substring(1)));</b>
+<b class="nc">&nbsp;          } else if (partCount &gt; 0 &amp;&amp; !parts.get(partCount-1).endsWith(&quot;-&quot;)) {</b>
+<b class="nc">&nbsp;            partsCopy.set(partCount, suggestion.toLowerCase());</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            partsCopy.set(partCount, suggestion);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          String candidate = String.join(&quot;&quot;, partsCopy);</b>
+<b class="nc">&nbsp;          if (!isMisspelled(candidate)) {</b>
+<b class="nc">&nbsp;            candidates.add(candidate);</b>
+&nbsp;          }
+&nbsp;          // Arbeidszimmer -&gt; Arbeitszimmer:
+<b class="nc">&nbsp;          if (partCount &lt; parts.size()-1 &amp;&amp; part.endsWith(&quot;s&quot;) &amp;&amp; suggestion.endsWith(&quot;-&quot;)) {</b>
+<b class="nc">&nbsp;            partsCopy.set(partCount, suggestion.substring(0, suggestion.length()-1));</b>
+<b class="nc">&nbsp;            String infixCandidate = String.join(&quot;&quot;, partsCopy);</b>
+<b class="nc">&nbsp;            if (!isMisspelled(infixCandidate)) {</b>
+<b class="nc">&nbsp;              candidates.add(infixCandidate);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;      // What if there&#39;s no misspelled parts like for Arbeitamt = Arbeit+Amt ??
+&nbsp;      // -&gt; morfologik must be extended to return similar words even for known words
+&nbsp;      // But GermanSpellerRule.getCandidates() has a solution for the cases with infix &quot;s&quot;.
+<b class="nc">&nbsp;      partCount++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return candidates;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;String&gt; sortSuggestionByQuality(String misspelling, List&lt;String&gt; suggestions) {
+<b class="nc">&nbsp;    List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String suggestion : suggestions) {</b>
+<b class="nc">&nbsp;      if (StringUtils.remove(suggestion, &#39; &#39;).equals(misspelling)</b>
+<b class="nc">&nbsp;          &amp;&amp; Arrays.stream(StringUtils.split(suggestion, &#39; &#39;)).noneMatch(k -&gt; k.length() == 1)) {</b>
+&nbsp;        // prefer run-on words unless a single letter is split off:
+<b class="nc">&nbsp;        result.add(0, suggestion);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        result.add(suggestion);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // avoid over-accepting words, as the Morfologik approach above might construct
+&nbsp;  // compound words with parts that are correct but the compound is not correct (e.g. &quot;Arbeit + Amt = Arbeitamt&quot;):
+&nbsp;  private List&lt;String&gt; getCorrectWords(List&lt;String&gt; wordsOrPhrases) {
+<b class="nc">&nbsp;    List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String wordOrPhrase : wordsOrPhrases) {</b>
+&nbsp;      // this might be a phrase like &quot;aufgrund dessen&quot;, so it needs to be split: 
+<b class="nc">&nbsp;      String[] words = tokenizeText(wordOrPhrase);</b>
+<b class="nc">&nbsp;      boolean wordIsOkay = true;</b>
+<b class="nc">&nbsp;      for (String word : words) {</b>
+<b class="nc">&nbsp;        if (!hunspell.spell(word)) {</b>
+<b class="nc">&nbsp;          wordIsOkay = false;</b>
+&nbsp;          break;
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (wordIsOkay) {</b>
+<b class="nc">&nbsp;        result.add(wordOrPhrase);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.7
+&nbsp;   */
+&nbsp;  protected List&lt;String&gt; getFilteredSuggestions(List&lt;String&gt; wordsOrPhrases) {
+<b class="nc">&nbsp;    return wordsOrPhrases;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

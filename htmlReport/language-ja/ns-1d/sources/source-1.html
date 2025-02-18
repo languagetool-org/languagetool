@@ -1,0 +1,246 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BaseLanguageModel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.languagemodel</a>
+</div>
+
+<h1>Coverage Summary for Class: BaseLanguageModel (org.languagetool.languagemodel)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BaseLanguageModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2.3%
+  </span>
+  <span class="absValue">
+    (1/44)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.languagemodel;
+&nbsp;
+&nbsp;import org.languagetool.rules.ngrams.Probability;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Locale;
+&nbsp;
+&nbsp;/**
+&nbsp; * The algorithm of a language model, independent of the way data
+&nbsp; * is stored (see sub classes for that).
+&nbsp; * @since 3.2
+&nbsp; */
+&nbsp;public abstract class BaseLanguageModel implements LanguageModel {
+&nbsp;
+&nbsp;  private static final boolean DEBUG = false;
+&nbsp;  
+&nbsp;  private Long totalTokenCount;
+&nbsp;
+<b class="fc">&nbsp;  public BaseLanguageModel()  {</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Probability getPseudoProbabilityStupidBackoff(List&lt;String&gt; context) {
+&nbsp;    // stupid backoff, see Brants et al. (2007)
+<b class="nc">&nbsp;    List&lt;String&gt; backoffContext = context;</b>
+<b class="nc">&nbsp;    int maxCoverage = context.size();</b>
+<b class="nc">&nbsp;    int coverage = maxCoverage;</b>
+<b class="nc">&nbsp;    double lambda = 1.0;</b>
+<b class="nc">&nbsp;    final double lambdaFactor = 0.4;</b>
+<b class="nc">&nbsp;    while (backoffContext.size() != 0) {</b>
+<b class="nc">&nbsp;      long count = tryGetCount(backoffContext);</b>
+<b class="nc">&nbsp;      if (count != 0) {</b>
+<b class="nc">&nbsp;        long baseCount = tryGetCount(backoffContext.subList(0, backoffContext.size() - 1));</b>
+<b class="nc">&nbsp;        double prob = (double) count / baseCount;</b>
+<b class="nc">&nbsp;        float coverageRate = (float) coverage / maxCoverage;</b>
+<b class="nc">&nbsp;        return new Probability(lambda * prob, coverageRate);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        coverage--;</b>
+<b class="nc">&nbsp;        backoffContext = backoffContext.subList(0, backoffContext.size() - 1);</b>
+<b class="nc">&nbsp;        lambda *= lambdaFactor;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return new Probability(0.0, 0.0f);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private long tryGetCount(List&lt;String&gt; context) {
+&nbsp;    try {
+<b class="nc">&nbsp;      return getCount(context);</b>
+&nbsp;    } catch (RuntimeException ignored) {
+<b class="nc">&nbsp;      return 0;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Probability getPseudoProbability(List&lt;String&gt; context) {
+<b class="nc">&nbsp;    if (this.totalTokenCount == null) {</b>
+<b class="nc">&nbsp;      this.totalTokenCount = getTotalTokenCount();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int maxCoverage = 0;</b>
+<b class="nc">&nbsp;    int coverage = 0;</b>
+&nbsp;    // TODO: lm.getCount(&quot;_START_&quot;) returns 0 for Google data -- see getCount(String) in LuceneLanguageModel
+<b class="nc">&nbsp;    long firstWordCount = getCount(context.get(0));</b>
+<b class="nc">&nbsp;    maxCoverage++;</b>
+<b class="nc">&nbsp;    if (firstWordCount &gt; 0) {</b>
+<b class="nc">&nbsp;      coverage++;</b>
+&nbsp;    }
+&nbsp;    // chain rule of probability (https://www.coursera.org/course/nlp, &quot;Introduction to N-grams&quot; and &quot;Estimating N-gram Probabilities&quot;),
+&nbsp;    // https://www.ibm.com/developerworks/community/blogs/nlp/entry/the_chain_rule_of_probability?lang=en
+<b class="nc">&nbsp;    double p = (double) (firstWordCount + 1) / (totalTokenCount + 1);</b>
+<b class="nc">&nbsp;    debug(&quot;P for %s: %.20f (%d)\n&quot;, context.get(0), p, firstWordCount);</b>
+<b class="nc">&nbsp;    long totalCount = 0;</b>
+<b class="nc">&nbsp;    for (int i = 2; i &lt;= context.size(); i++) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; subList = context.subList(0, i);</b>
+<b class="nc">&nbsp;      long phraseCount = getCount(subList);</b>
+&nbsp;      //System.out.println(subList + &quot; -&gt; &quot; +phraseCount);
+<b class="nc">&nbsp;      if (subList.size() == 3) {</b>
+<b class="nc">&nbsp;        totalCount = phraseCount;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      double thisP = (double) (phraseCount + 1) / (firstWordCount + 1);</b>
+&nbsp;      /* boosting 4grams seems to improve f-measure a tiny bit:
+&nbsp;      if (subList.size() == 4 &amp;&amp; phraseCount &gt; 0) {
+&nbsp;        thisP = 100;
+&nbsp;      }*/
+<b class="nc">&nbsp;      maxCoverage++;</b>
+<b class="nc">&nbsp;      debug(&quot;P for &quot; + subList + &quot;: %.20f (%d)\n&quot;, thisP, phraseCount);</b>
+<b class="nc">&nbsp;      if (phraseCount &gt; 0) {</b>
+<b class="nc">&nbsp;        coverage++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      p *= thisP;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    debug(&quot;  &quot; + String.join(&quot; &quot;, context) + &quot; =&gt; %.20f (coverage/maxCoverage: %d / %d = %.2f)\n&quot;, p, coverage, maxCoverage, (float)coverage/maxCoverage);</b>
+<b class="nc">&nbsp;    return new Probability(p, (float)coverage/maxCoverage, totalCount);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the occurrence count for {@code token}.
+&nbsp;   */
+&nbsp;  public abstract long getCount(String token1);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the occurrence count for the given token sequence.
+&nbsp;   */
+&nbsp;  public abstract long getCount(List&lt;String&gt; tokens);
+&nbsp;
+&nbsp;  public abstract long getTotalTokenCount();
+&nbsp;
+&nbsp;  private void debug(String message, Object... vars) {
+&nbsp;    if (DEBUG) {
+&nbsp;      System.out.printf(Locale.ENGLISH, message, vars);
+&nbsp;    }
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

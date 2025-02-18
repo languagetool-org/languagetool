@@ -1,0 +1,881 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > EnglishConfusionProbabilityRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.en</a>
+</div>
+
+<h1>Coverage Summary for Class: EnglishConfusionProbabilityRule (org.languagetool.rules.en)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnglishConfusionProbabilityRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/152)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.en;
+&nbsp;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.rules.patterns.PatternTokenBuilder;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 2.7
+&nbsp; */
+&nbsp;public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
+&nbsp;
+<b class="nc">&nbsp;  private static final List&lt;String&gt; EXCEPTIONS = Arrays.asList(</b>
+&nbsp;      // Use all-lowercase, matches will be case-insensitive.
+&nbsp;      // See https://github.com/languagetool-org/languagetool/issues/1678
+&nbsp;      &quot;he messages&quot;,   // vs the
+&nbsp;      &quot;your invite&quot;,   // vs you
+&nbsp;      &quot;on a bye&quot;,   // vs buy
+&nbsp;      &quot;your (&quot;,   // ... so your (English) signature gets ...
+&nbsp;      &quot;your slack profile&quot;,
+&nbsp;      &quot;host to five&quot;,   // &quot;... is host to five classical music orchestras&quot;
+&nbsp;      &quot;had I known&quot;,
+&nbsp;      &quot;is not exactly known&quot;,
+&nbsp;      &quot;live duet&quot;,
+&nbsp;      &quot;isn&#39;t known&quot;,
+&nbsp;      &quot;your move makes&quot;,
+&nbsp;      &quot;your move is&quot;,
+&nbsp;      &quot;he unchecked the&quot;,
+&nbsp;      &quot;thank you for the patience&quot;,
+&nbsp;      &quot;your patience regarding&quot;,
+&nbsp;      &quot;your fix&quot;,  // fix = bug fix
+&nbsp;      &quot;your commit&quot;,
+&nbsp;      &quot;on point&quot;,
+&nbsp;      &quot;chapter one&quot;,
+&nbsp;      &quot;usb port&quot;,
+&nbsp;      // The quote in this case in management means: &quot;Know the competition and your software, and you will win.&quot;:
+&nbsp;      &quot;know the competition and&quot;,
+&nbsp;      &quot;know the competition or&quot;,
+&nbsp;      &quot;know your competition and&quot;,
+&nbsp;      &quot;know your competition or&quot;,
+&nbsp;      &quot;G Suite&quot;,
+&nbsp;      &quot;paste event&quot;,
+&nbsp;      &quot;need to know&quot;,
+&nbsp;      &quot;of you not&quot;,   // &quot;It would be wiser of you not to see him again.&quot;
+&nbsp;      &quot;of her element&quot;,
+&nbsp;      &quot;very grateful of you&quot;,
+&nbsp;      &quot;your use case&quot;,
+&nbsp;      &quot;he&#39;s&quot;, // vs. the&#39;s
+&nbsp;      &quot;he’s&quot;,
+&nbsp;      &quot;they&#39;re&quot;,
+&nbsp;      &quot;they’re&quot;,
+&nbsp;      &quot;your look is&quot;, // Really, your look is
+&nbsp;      &quot;have you known&quot;,// vs. &quot;know&quot;
+&nbsp;      &quot;have I known&quot;,// vs. &quot;know&quot;
+&nbsp;      &quot;had I known&quot;,
+&nbsp;      &quot;hang out&quot;, // vs hang our
+&nbsp;      &quot;had you known&quot;,
+&nbsp;      &quot;his fluffy butt&quot;,
+&nbsp;      &quot;it&#39;s now better&quot;, // vs. no
+&nbsp;      &quot;it’s now better&quot;, // vs. no
+&nbsp;      &quot;it is now better&quot;, // vs. no
+&nbsp;      &quot;let us know below&quot;,
+&nbsp;      &quot;let us know in&quot;,
+&nbsp;      &quot;your kind of&quot;,
+&nbsp;      &quot;sneak peek&quot;,
+&nbsp;      &quot;the 4 of you&quot;,
+&nbsp;      &quot;your ride&quot;,
+&nbsp;      &quot;he most likely&quot;,
+&nbsp;      &quot;good cause&quot;,
+&nbsp;      &quot;big butt&quot;,
+&nbsp;      &quot;news story&quot;,
+&nbsp;      &quot;news stories&quot;,
+&nbsp;      &quot;news debate&quot;,
+&nbsp;      &quot;news debates&quot;,
+&nbsp;      &quot;news leader&quot;, // vs new
+&nbsp;      &quot;news leaders&quot;,
+&nbsp;      &quot;news person&quot;,
+&nbsp;      &quot;news spokesperson&quot;,
+&nbsp;      &quot;news spokespersons&quot;,
+&nbsp;      &quot;news teller&quot;,
+&nbsp;      &quot;news tellers&quot;,
+&nbsp;      &quot;news outlet&quot;,
+&nbsp;      &quot;news outlets&quot;,
+&nbsp;      &quot;news portal&quot;,
+&nbsp;      &quot;news portals&quot;,
+&nbsp;      &quot;news company&quot;,
+&nbsp;      &quot;news companies&quot;,
+&nbsp;      &quot;news consumption&quot;,
+&nbsp;      &quot;news consumptions&quot;,
+&nbsp;      &quot;news topics&quot;,
+&nbsp;      &quot;news media&quot;,
+&nbsp;      &quot;news event&quot;,
+&nbsp;      &quot;news events&quot;,
+&nbsp;      &quot;news station&quot;,
+&nbsp;      &quot;news stations&quot;,
+&nbsp;      &quot;verify you own&quot;,
+&nbsp;      &quot;ensure you own&quot;,
+&nbsp;      &quot;happy us!&quot;,
+&nbsp;      &quot;your pick up&quot;,
+&nbsp;      &quot;no but you&quot;,
+&nbsp;      &quot;no but we&quot;,
+&nbsp;      &quot;no but he&quot;,
+&nbsp;      &quot;no but I&quot;,
+&nbsp;      &quot;no but they&quot;,
+&nbsp;      &quot;no but she&quot;,
+&nbsp;      &quot;no but it&quot;,
+&nbsp;      &quot;he tracks&quot;,
+&nbsp;      &quot;which complains about&quot;, // vs complaints
+&nbsp;      &quot;do your work&quot;, // vs &quot;you&quot;
+&nbsp;      &quot;one many times&quot;, // vs &quot;on&quot;
+&nbsp;      &quot;let us know&quot;,
+&nbsp;      &quot;let me know&quot;,
+&nbsp;      &quot;this way the&quot;,
+&nbsp;      &quot;save you money&quot;,
+&nbsp;      &quot;so your plan&quot;,
+&nbsp;      &quot;the news man&quot;,
+&nbsp;      &quot;on there,&quot;, // vs &quot;their&quot;
+&nbsp;      &quot;in there,&quot;, // vs &quot;their&quot;
+&nbsp;      &quot;created us equally&quot;,
+&nbsp;      &quot;, their,&quot;,
+&nbsp;      &quot;, your,&quot;,
+&nbsp;      &quot;, its,&quot;,
+&nbsp;      &quot;us, humans,&quot;,
+&nbsp;      &quot;bring you happiness&quot;,
+&nbsp;      &quot;in a while&quot;,
+&nbsp;      &quot;confirm you own&quot;,
+&nbsp;      &quot;oh, god&quot;,
+&nbsp;      &quot;honey nut&quot;,
+&nbsp;      &quot;not now&quot;,
+&nbsp;      &quot;he proofs&quot;,
+&nbsp;      &quot;he needs&quot;,
+&nbsp;      &quot;1 thing&quot;,
+&nbsp;      &quot;I now don&#39;t&quot;,
+&nbsp;      &quot;once your return is&quot;,
+&nbsp;      &quot;can we text&quot;,
+&nbsp;      &quot;believe in god&quot;,
+&nbsp;      &quot;on premise&quot;,
+&nbsp;      &quot;from poor to rich&quot;,
+&nbsp;      &quot;my GPU&quot;,
+&nbsp;      &quot;was your everything&quot;,
+&nbsp;      &quot;they mustnt&quot;, // different error
+&nbsp;      &quot;reply my email&quot;,
+&nbsp;      &quot;things god said&quot;,
+&nbsp;      &quot;let you text&quot;,
+&nbsp;      &quot;doubt in god&quot;,
+&nbsp;      &quot;in the news&quot;,
+&nbsp;      &quot;(news)&quot;,
+&nbsp;      &quot;fresh prince of&quot;,
+&nbsp;      &quot;good day bye&quot;,
+&nbsp;      &quot;it&#39;s us&quot;,
+&nbsp;      &quot;could be us being&quot;, // vs is
+&nbsp;      &quot;on twitter&quot;, // vs in
+&nbsp;      &quot;enjoy us being&quot;, // vs is
+&nbsp;      &quot;If your use of&quot;, // vs you
+&nbsp;      &quot;then,&quot;, // vs than
+&nbsp;      &quot;then?&quot;, // vs than
+&nbsp;      &quot;no it doesn&quot;, // vs know
+&nbsp;      &quot;no it does not&quot;, // vs know
+&nbsp;      &quot;no it isn&quot;,
+&nbsp;      &quot;no it is not&quot;,
+&nbsp;      &quot;no it wasn&quot;,
+&nbsp;      &quot;no it was not&quot;,
+&nbsp;      &quot;no it hasn&quot;,
+&nbsp;      &quot;no it has not&quot;,
+&nbsp;      &quot;no it can&#39;t&quot;,
+&nbsp;      &quot;no it cannot&quot;,
+&nbsp;      &quot;no it can not&quot;,
+&nbsp;      &quot;no it won&#39;t&quot;,
+&nbsp;      &quot;no it will not&quot;,
+&nbsp;      &quot;no it wouldn&quot;,
+&nbsp;      &quot;no it would not&quot;,
+&nbsp;      &quot;no it couldn&quot;,
+&nbsp;      &quot;no it could not&quot;,
+&nbsp;      &quot;no it shouldn&quot;,
+&nbsp;      &quot;no it should not&quot;,
+&nbsp;      &quot;no that&#39;s not&quot;, // vs know
+&nbsp;      &quot;provided my country&quot;,
+&nbsp;      &quot;no i don&#39;t&quot;,
+&nbsp;      &quot;no i do not&quot;,
+&nbsp;      &quot;no i can&#39;t&quot;,
+&nbsp;      &quot;no i cannot&quot;,
+&nbsp;      &quot;no i can not&quot;,
+&nbsp;      &quot;no i won&#39;t&quot;,
+&nbsp;      &quot;no i will not&quot;,
+&nbsp;      &quot;no i wasn&quot;,
+&nbsp;      &quot;no i was not&quot;,
+&nbsp;      &quot;no i haven&quot;,
+&nbsp;      &quot;no i have not&quot;,
+&nbsp;      &quot;no i wouldn&quot;,
+&nbsp;      &quot;no i would not&quot;,
+&nbsp;      &quot;no i couldn&quot;,
+&nbsp;      &quot;no i could not&quot;,
+&nbsp;      &quot;no i shouldn&quot;,
+&nbsp;      &quot;no i should not&quot;,
+&nbsp;      &quot;no you don&#39;t&quot;,
+&nbsp;      &quot;no you do not&quot;,
+&nbsp;      &quot;no you can&#39;t&quot;,
+&nbsp;      &quot;no you cannot&quot;,
+&nbsp;      &quot;no you can not&quot;,
+&nbsp;      &quot;no you won&#39;t&quot;,
+&nbsp;      &quot;no you will not&quot;,
+&nbsp;      &quot;no you weren&quot;,
+&nbsp;      &quot;no you were not&quot;,
+&nbsp;      &quot;no you haven&quot;,
+&nbsp;      &quot;no you have not&quot;,
+&nbsp;      &quot;no you wouldn&quot;,
+&nbsp;      &quot;no you would not&quot;,
+&nbsp;      &quot;no you couldn&quot;,
+&nbsp;      &quot;no you could not&quot;,
+&nbsp;      &quot;no you shouldn&quot;,
+&nbsp;      &quot;no you should not&quot;,
+&nbsp;      &quot;no they don&quot;,
+&nbsp;      &quot;no they do not&quot;,
+&nbsp;      &quot;no they weren&quot;,
+&nbsp;      &quot;no they were not&quot;,
+&nbsp;      &quot;no there was no&quot;,
+&nbsp;      &quot;no there was not&quot;,
+&nbsp;      &quot;no there wasn&quot;,
+&nbsp;      &quot;no there is no&quot;,
+&nbsp;      &quot;no there is not&quot;,
+&nbsp;      &quot;no there&#39;s no&quot;,
+&nbsp;      &quot;no there&#39;s not&quot;,
+&nbsp;      &quot;no there isn&quot;,
+&nbsp;      &quot;no there are no&quot;,
+&nbsp;      &quot;no there are not&quot;,
+&nbsp;      &quot;no there&#39;re no&quot;,
+&nbsp;      &quot;no there&#39;re not&quot;,
+&nbsp;      &quot;no there aren&quot;,
+&nbsp;      &quot;no there were no&quot;,
+&nbsp;      &quot;no there were not&quot;,
+&nbsp;      &quot;no there weren&quot;,
+&nbsp;      &quot;no this is not&quot;,
+&nbsp;      &quot;no that is not&quot;,
+&nbsp;      &quot;no we were not&quot;,
+&nbsp;      &quot;no we are not&quot;,
+&nbsp;      &quot;no we&#39;re not&quot;,
+&nbsp;      &quot;no they&#39;re not&quot;,
+&nbsp;      &quot;no they had not&quot;,
+&nbsp;      &quot;no they hadn&quot;,
+&nbsp;      &quot;no all good&quot;,
+&nbsp;      &quot;no everything alright&quot;,
+&nbsp;      &quot;no everything good&quot;,
+&nbsp;      &quot;no everything fine&quot;,
+&nbsp;      &quot;no we don&#39;t&quot;,
+&nbsp;      &quot;no dont&quot;,
+&nbsp;      &quot;which hat to buy&quot;, // vs had
+&nbsp;      &quot;her hat&quot;, // vs had
+&nbsp;      &quot;his hat&quot;, // vs had
+&nbsp;      &quot;my hat&quot;, // vs had
+&nbsp;      &quot;party hat&quot;, // vs had
+&nbsp;      &quot;95 theses&quot;, // vs these
+&nbsp;      &quot;ninety-five theses&quot;, // vs these
+&nbsp;      &quot;Ninety-five theses&quot;, // vs these
+&nbsp;      &quot;April Theses&quot;, // vs these
+&nbsp;      &quot;for your recharge&quot;, // vs you
+&nbsp;      &quot;all you kids&quot;, // vs your
+&nbsp;      &quot;thanks for the patience&quot;, // vs patients
+&nbsp;      &quot;what to text&quot;, // vs do
+&nbsp;      &quot;is he famous for&quot;, // vs the
+&nbsp;      &quot;was he famous for&quot;, // the
+&nbsp;      &quot;really quiet at&quot;, // vs quit/quite
+&nbsp;      &quot;he programs&quot;, // vs the
+&nbsp;      &quot;scene 1&quot;, // vs seen
+&nbsp;      &quot;scene 2&quot;,
+&nbsp;      &quot;scene 3&quot;,
+&nbsp;      &quot;scene 4&quot;,
+&nbsp;      &quot;scene 5&quot;,
+&nbsp;      &quot;scene 6&quot;,
+&nbsp;      &quot;scene 7&quot;,
+&nbsp;      &quot;scene 8&quot;,
+&nbsp;      &quot;scene 9&quot;,
+&nbsp;      &quot;scene 10&quot;,
+&nbsp;      &quot;scene 11&quot;,
+&nbsp;      &quot;scene 12&quot;,
+&nbsp;      &quot;scene 13&quot;,
+&nbsp;      &quot;scene 14&quot;,
+&nbsp;      &quot;scene 15&quot;,
+&nbsp;      &quot;make a hire&quot;,
+&nbsp;      &quot;on the news&quot;,
+&nbsp;      &quot;brown plane&quot;,
+&nbsp;      &quot;impeccable brows&quot;,
+&nbsp;      &quot;news politics&quot;,
+&nbsp;      &quot;organic reach&quot;,
+&nbsp;      &quot;out bid&quot;,
+&nbsp;      &quot;message us in&quot;,
+&nbsp;      &quot;I picture us&quot;,
+&nbsp;      &quot;your and our&quot;, // vs you
+&nbsp;      &quot;house and pool&quot;,
+&nbsp;      &quot;your set up is&quot;,
+&nbsp;      &quot;your set up was&quot;,
+&nbsp;      &quot;because your pay is&quot;,
+&nbsp;      &quot;but your pay is&quot;,
+&nbsp;      &quot;the while block&quot;, // dev speech
+&nbsp;      &quot;updated my edge&quot;, // vs by
+&nbsp;      &quot;he haven&quot;, // vs the
+&nbsp;      &quot;is he naked&quot;, // vs the
+&nbsp;      &quot;these news sound&quot;, // vs new
+&nbsp;      &quot;those news sound&quot;, // vs new
+&nbsp;      &quot;(t)he&quot;, // vs the
+&nbsp;      &quot;[t]he&quot;, // vs the
+&nbsp;      &quot;the role at&quot;, // vs add
+&nbsp;      &quot;same false alarm&quot;, // vs some
+&nbsp;      &quot;then that would&quot;, // vs than
+&nbsp;      &quot;was he part of&quot;, // vs the
+&nbsp;      &quot;is he right now&quot;, // vs the
+&nbsp;      &quot;news page&quot;, // vs new
+&nbsp;      &quot;news pages&quot;,
+&nbsp;      &quot;news headline&quot;,
+&nbsp;      &quot;news headlines&quot;,
+&nbsp;      &quot;news title&quot;,
+&nbsp;      &quot;news titles&quot;,
+&nbsp;      &quot;news article&quot;,
+&nbsp;      &quot;news articles&quot;,
+&nbsp;      &quot;news site&quot;,
+&nbsp;      &quot;news sites&quot;,
+&nbsp;      &quot;news website&quot;,
+&nbsp;      &quot;news websites&quot;,
+&nbsp;      &quot;news channel&quot;,
+&nbsp;      &quot;news channels&quot;,
+&nbsp;      &quot;news source&quot;,
+&nbsp;      &quot;news sources&quot;,
+&nbsp;      &quot;news organization&quot;,
+&nbsp;      &quot;news organizations&quot;,
+&nbsp;      &quot;news organisation&quot;,
+&nbsp;      &quot;news organisations&quot;,
+&nbsp;      &quot;news platform&quot;,
+&nbsp;      &quot;news platforms&quot;,
+&nbsp;      &quot;news data&quot;,
+&nbsp;      &quot;the news cover&quot;,
+&nbsp;      &quot;the news covers&quot;,
+&nbsp;      &quot;news documentary&quot;,
+&nbsp;      &quot;all the news check&quot;,
+&nbsp;      &quot;all the news checked&quot;,
+&nbsp;      &quot;all the news report&quot;,
+&nbsp;      &quot;all the news reported&quot;,
+&nbsp;      &quot;all the news mention&quot;,
+&nbsp;      &quot;all the news mentioned&quot;,
+&nbsp;      &quot;all the news are&quot;,
+&nbsp;      &quot;news documentaries&quot;,
+&nbsp;      &quot;scene in a movie&quot;,
+&nbsp;      &quot;mr.bean&quot;, // vs been
+&nbsp;      &quot;mr. bean&quot;, // vs been
+&nbsp;      &quot;your push notification&quot;, // vs you
+&nbsp;      &quot;check our page about&quot;,
+&nbsp;      &quot;have a think&quot;, // vs thing (see https://www.lexico.com/definition/think)
+&nbsp;      &quot;had a think&quot;,
+&nbsp;      &quot;live support&quot;, // vs life
+&nbsp;      &quot;your troll&quot;, // vs you
+&nbsp;      &quot;waist type&quot;, // vs waste
+&nbsp;      &quot;(wait)&quot;,
+&nbsp;      &quot;now ahead of schedule&quot;, // vs know
+&nbsp;      &quot;tag us in&quot;, // vs is
+&nbsp;      &quot;your rebuild&quot;, // vs you
+&nbsp;      &quot;got to know new&quot;, // vs now
+&nbsp;      &quot;to live post&quot;, // vs life
+&nbsp;      &quot;sea pineapple&quot;, // vs see
+&nbsp;      &quot;the commit&quot;, // vs to
+&nbsp;      &quot;appreciate you contacting me&quot;,
+&nbsp;      &quot;appreciate you contacting us&quot;,
+&nbsp;      &quot;appreciate you informing me&quot;,
+&nbsp;      &quot;appreciate you informing us&quot;,
+&nbsp;      &quot;appreciate you confirming it&quot;,
+&nbsp;      &quot;appreciate you confirming this&quot;,
+&nbsp;      &quot;appreciate you confirming that&quot;,
+&nbsp;      &quot;appreciate you choosing us&quot;,
+&nbsp;      &quot;appreciate you choosing me&quot;,
+&nbsp;      &quot;wand wood&quot;, // vs want
+&nbsp;      &quot;my order&quot;, // vs by
+&nbsp;      &quot;of you being her&quot;, // vs your
+&nbsp;      &quot;ad free&quot;,
+&nbsp;      &quot;ad rates&quot;,
+&nbsp;      &quot;your call is&quot;, // vs you
+&nbsp;      &quot;you want do&quot;, // vs your (&quot;want do&quot; is caught by MISSING_TO_BEFORE_A_VERB)
+&nbsp;      &quot;on his butt&quot;,
+&nbsp;      &quot;message us today&quot;,
+&nbsp;      &quot;sent you the invite&quot;,
+&nbsp;      &quot;appreciate you fowarding&quot;,
+&nbsp;      &quot;appreciate you cooking&quot;,
+&nbsp;      &quot;appreciate you sending&quot;,
+&nbsp;      &quot;appreciate you talking&quot;,
+&nbsp;      &quot;appreciate you taking&quot;,
+&nbsp;      &quot;that now means&quot;,
+&nbsp;      &quot;fiscal school&quot;, // vs physical
+&nbsp;      &quot;covid-19 cases&quot;, // vs causes
+&nbsp;      &quot;corona cases&quot;, // vs causes
+&nbsp;      &quot;your need can&quot;, // vs you
+&nbsp;      &quot;know the customer&quot;, // vs now
+&nbsp;      &quot;know what type&quot;, // vs now
+&nbsp;      &quot;your pulled pork&quot;, // vs you
+&nbsp;      &quot;dear management&quot;, // vs deer
+&nbsp;      &quot;way in advance&quot;, // vs was
+&nbsp;      &quot;that way&quot;, // vs was
+&nbsp;      &quot;way back when&quot;, // vs was
+&nbsp;      &quot;way back then&quot;, // vs was
+&nbsp;      &quot;way much more&quot;, // vs was
+&nbsp;      &quot;the other way&quot;,
+&nbsp;      &quot;way to much&quot;, // different error (already caught)
+&nbsp;      &quot;your to do&quot;, // vs you
+&nbsp;      &quot;when your zoom&quot;, // vs you
+&nbsp;      &quot;once your zoom&quot;, // vs you
+&nbsp;      &quot;if your zoom&quot;, // vs you
+&nbsp;      &quot;keep you day and night&quot;, // vs your
+&nbsp;      &quot;your hunt for&quot;, // vs you
+&nbsp;      &quot;if your bolt fits&quot;, // vs you
+&nbsp;      &quot;the go to&quot;, // vs to (caught by GO_TO_HYPHEN)
+&nbsp;      &quot;text my number&quot;, // vs by
+&nbsp;      &quot;why was he&quot;, // vs the
+&nbsp;      &quot;what was he&quot;, // vs the
+&nbsp;      &quot;was he sick&quot;, // vs the
+&nbsp;      &quot;why is he&quot;, // vs the
+&nbsp;      &quot;what is he&quot;, // vs the
+&nbsp;      &quot;is he happy&quot;, // vs the
+&nbsp;      &quot;he kind of&quot;, // vs the
+&nbsp;      &quot;logged out&quot;, // vs our
+&nbsp;      &quot;signed out&quot;, // vs our
+&nbsp;      &quot;same seems to&quot;, // vs some
+&nbsp;      &quot;am I cold&quot;, // vs could
+&nbsp;      &quot;is he cold&quot;, // vs could
+&nbsp;      &quot;was he cold&quot;, // vs could
+&nbsp;      &quot;is she cold&quot;, // vs could
+&nbsp;      &quot;was she cold&quot;, // vs could
+&nbsp;      &quot;is it cold&quot;, // vs could
+&nbsp;      &quot;was it cold&quot;, // vs could
+&nbsp;      &quot;are you cold&quot;, // vs could
+&nbsp;      &quot;were you cold&quot;, // vs could
+&nbsp;      &quot;are they cold&quot;, // vs could
+&nbsp;      &quot;were they cold&quot;, // vs could
+&nbsp;      &quot;are we cold&quot;, // vs could
+&nbsp;      &quot;were we cold&quot;, // vs could
+&nbsp;      &quot;us three&quot;, // vs is
+&nbsp;      &quot;way to go&quot;, // vs was
+&nbsp;      &quot;way won&#39;t&quot;, // was
+&nbsp;      &quot;way over&quot;, // was
+&nbsp;      &quot;way in the past&quot;, // was
+&nbsp;      &quot;way in the future&quot;, // was
+&nbsp;      &quot;aisle way&quot;, // was
+&nbsp;      &quot;airport way&quot;, // was
+&nbsp;      &quot;and now him&quot;, // vs know
+&nbsp;      &quot;and now us,&quot;, // vs is
+&nbsp;      &quot;to control us&quot;, // vs is
+&nbsp;      &quot;are way not&quot;, // vs was
+&nbsp;      &quot;the invite&quot;, // vs to invite
+&nbsp;      &quot;is there way to&quot;, // vs was
+&nbsp;      &quot;a way doing&quot;, // vs was
+&nbsp;      &quot;way different&quot;, // vs was
+&nbsp;      &quot;way too often&quot;, // vs was
+&nbsp;      &quot;I for one think&quot;, // vs thing
+&nbsp;      &quot;device insurance&quot;, // vs devise
+&nbsp;      &quot;the worst way&quot;,
+&nbsp;      &quot;the best way&quot;,
+&nbsp;      &quot;the first way&quot;,
+&nbsp;      &quot;&#39;s way&quot;,
+&nbsp;      &quot;all four&quot;, // vs for
+&nbsp;      &quot;in year four&quot;, // vs for
+&nbsp;      &quot;in week four&quot;, // vs for
+&nbsp;      &quot;in month four&quot;, // vs for
+&nbsp;      &quot;s day four&quot;, // vs for
+&nbsp;      &quot;is day four&quot;, // vs for
+&nbsp;      &quot;bean soup&quot;, // vs been
+&nbsp;      &quot;bean soups&quot;, // vs been
+&nbsp;      &quot;bean bag&quot;, // vs been
+&nbsp;      &quot;bean bags&quot;, // vs been
+&nbsp;      &quot;belief in god&quot;, // vs good
+&nbsp;      &quot;believe in a god&quot;, // vs good
+&nbsp;      &quot;believes in a god&quot;, // vs good
+&nbsp;      &quot;believing in a god&quot;, // vs good
+&nbsp;      &quot;believed in a god&quot;, // vs good
+&nbsp;      &quot;Jesus and god&quot;, // vs good
+&nbsp;      &quot;Jesus or god&quot;, // vs good
+&nbsp;      &quot;love of god&quot;, // vs good
+&nbsp;      &quot;god will be&quot;, // vs good
+&nbsp;      &quot;god is doing&quot;, // vs good
+&nbsp;      &quot;there may be a god&quot;, // vs good
+&nbsp;      &quot;bond with god&quot;, // vs good
+&nbsp;      &quot;the powers that be&quot;, // vs we
+&nbsp;      &quot;passed out&quot;, // vs past
+&nbsp;      &quot;passed vs failed&quot;, // vs past
+&nbsp;      &quot;passed vs. failed&quot;, // vs past
+&nbsp;      &quot;people from there&quot;, // vs their
+&nbsp;      &quot;as you well know&quot;, // vs known
+&nbsp;      &quot;as they well know&quot;, // vs known
+&nbsp;      &quot;as we well know&quot;, // vs known
+&nbsp;      &quot;close to god&quot;, // vs good
+&nbsp;      &quot;close with god&quot;, // vs good
+&nbsp;      &quot;see god when&quot;, // vs good
+&nbsp;      &quot;in a god&quot;, // vs good
+&nbsp;      &quot;he was a god&quot;, // vs good
+&nbsp;      &quot;she was a god&quot;, // vs good
+&nbsp;      &quot;she gave god&quot;, // vs good
+&nbsp;      &quot;he gave god&quot;, // vs good
+&nbsp;      &quot;believed in god&quot;, // vs good
+&nbsp;      &quot;faith with god&quot;, // vs good
+&nbsp;      &quot;days where&quot;, // vs were
+&nbsp;      &quot;where, when and why&quot;, // vs were
+&nbsp;      &quot;where, when, and why&quot;, // vs were
+&nbsp;      &quot;where, when and how&quot;, // vs were
+&nbsp;      &quot;where, when, and how&quot;, // vs were
+&nbsp;      &quot;where, when and who&quot;, // vs were
+&nbsp;      &quot;where, when, and who&quot; // vs were
+&nbsp;    );
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern CONTRACTION = Pattern.compile(&quot;[&#39;’`´‘]t .*&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final List&lt;List&lt;PatternToken&gt;&gt; ANTI_PATTERNS = Arrays.asList(</b>
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Those wee changes made a big difference&quot;
+<b class="nc">&nbsp;      tokenRegex(&quot;the|these|those&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;wee&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;NNS&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;...click on the icon, from there turn it to standard.&quot;
+<b class="nc">&nbsp;      token(&quot;from&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;there&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;turn|walk|go|drive&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;They told me that they got there first.&quot;
+<b class="nc">&nbsp;      posRegex(&quot;VB.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;there&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;first&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Or go to the individual site and then click on the icon, from there turn it to standard.
+<b class="nc">&nbsp;      posRegex(&quot;IN|CC&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;there&quot;), // vs their</b>
+<b class="nc">&nbsp;      posRegex(&quot;VB&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRP_O.*|DT&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;I just can&#39;t tell them no when they look at me with those puppy dog eyes&quot;
+<b class="nc">&nbsp;      tokenRegex(&quot;tells?|told|telling|answers?|answering|answered|reply|replies|replied|replying&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;them|him|her&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;no&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // way vs was: This way a person could learn ....
+<b class="nc">&nbsp;      token(&quot;this&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;way&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;DT|PRP\\$&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;NN.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // sense vs since: Neubauer has been a youth ambassador of the non-governmental organization ONE since 2016.
+<b class="nc">&nbsp;      token(&quot;since&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d{1,2}|\\d{4}&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // way vs was
+<b class="nc">&nbsp;      token(&quot;in&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;a&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;more|less&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;JJ&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;way&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // he wondered what way the country is ...
+<b class="nc">&nbsp;      token(&quot;what&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;way&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;DT|PRP\\$&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;NN.*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;is|was|were|has|have|had&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // This way Columbus could do ...
+<b class="nc">&nbsp;      token(&quot;this&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;way&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;NNP|PRP&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VB.*|MD&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // This way only he ...
+<b class="nc">&nbsp;      token(&quot;this&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;way&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;only&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;DT|PRP.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // This way neither of you ...
+<b class="nc">&nbsp;      token(&quot;this&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;way&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;none|neither&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;of&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // This way Christopher Columbus could do ...
+<b class="nc">&nbsp;      token(&quot;this&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;way&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;NNP&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;NNP&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VB.*|MD&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // way vs was: This way a person could learn ....
+<b class="nc">&nbsp;      token(&quot;way&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;too&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;from ... to ...&quot; (to/the)
+<b class="nc">&nbsp;      posRegex(&quot;NNP|UNKNOWN&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;to&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;NNP|UNKNOWN&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Meltzer taught Crim for Section 5 last year.&quot; (taught/thought)
+&nbsp;      // &quot;Sami threw Layla down and started to beat her.&quot;&quot;	(threw/through)
+<b class="nc">&nbsp;      posRegex(&quot;NNP|UNKNOWN&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;taught|threw&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;NNP|UNKNOWN&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Were you never taught to say your prayers?&quot; (taught/thought)
+<b class="nc">&nbsp;      token(&quot;taught&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;to&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;say|do|make|be|become|treat&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;way easier&quot; (was/way)
+<b class="nc">&nbsp;      token(&quot;way&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;JJR|RBR&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;He acts way different&quot; (was/way)
+<b class="nc">&nbsp;      posRegex(&quot;VB.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;way&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;different&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;way much easier&quot; (was/way)
+<b class="nc">&nbsp;      token(&quot;way&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;much&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;JJR&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;way out of&quot; (was/way)
+<b class="nc">&nbsp;      token(&quot;way&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;out&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;of|in|on&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;way to long&quot; (was/way)
+<b class="nc">&nbsp;      token(&quot;way&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;to&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;JJ&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;He was there way before&quot; (was/way)
+<b class="nc">&nbsp;      token(&quot;way&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;before|after|outside|inside|back&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;In a logic way&quot; (was/way)
+<b class="nc">&nbsp;      token(&quot;in&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;an?&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;JJ&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;way&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // They &quot;awarded&quot; us a contract ...
+<b class="nc">&nbsp;      posRegex(&quot;VB.*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[\&quot;”“]&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;us&quot;) // vs &quot;is&quot;</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Text us at (410) 4535
+<b class="nc">&nbsp;      tokenRegex(&quot;message(s|d)?|text(s|ed)?|DM&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;us&quot;), // vs &quot;is&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;PCT|IN|TO|CC|DT&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Clinton will pay us based on actuals.
+<b class="nc">&nbsp;      posRegex(&quot;VB.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;us&quot;), // vs &quot;is&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;based|depending&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;on&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // How Apple and FB do events:
+<b class="nc">&nbsp;      token(&quot;how&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;NNP&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;and|&amp;&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;NNP&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;do&quot;) // vs &#39;to&#39;</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      //...responded quickly to Mustaf Sheikh&#39;s request to wear his religious head gear, use break time for prayer, and combine his breaks for Friday attendance...
+<b class="nc">&nbsp;      token(&quot;break&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;times?&quot;).setSkip(10).build(),</b>
+<b class="nc">&nbsp;      token(&quot;breaks&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // The language added in 3.5 was an attempt to show how much EEFT does vs. EnronOnline.
+<b class="nc">&nbsp;      tokenRegex(&quot;how|what&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;much|many&quot;).min(0).setSkip(3).build(),</b>
+<b class="nc">&nbsp;      token(&quot;does&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Maybe we should pull over and dose him.
+<b class="nc">&nbsp;      posRegex(&quot;MD&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VB&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;IN|RP&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;and&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;dose&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // But your Mother&#39;s constant implications that your some big victim and I&#39;m a very big asshole has worn very thin and it&#39;s inappropriate and rude.
+<b class="nc">&nbsp;      token(&quot;your&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;DT&quot;)</b>
+&nbsp;    )
+&nbsp;  );
+&nbsp;
+&nbsp;  public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
+<b class="nc">&nbsp;    this(messages, languageModel, language, 3);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
+<b class="nc">&nbsp;    super(messages, languageModel, language, grams, EXCEPTIONS, ANTI_PATTERNS);</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;Don&#39;t forget to put on the &lt;marker&gt;breaks&lt;/marker&gt;.&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;Don&#39;t forget to put on the &lt;marker&gt;brakes&lt;/marker&gt;.&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected boolean isException(String sentence, int startPos, int endPos) {
+<b class="nc">&nbsp;    if (startPos &gt; 3) {</b>
+<b class="nc">&nbsp;      String covered = sentence.substring(startPos-3, endPos);</b>
+&nbsp;      // the Google ngram data expands negated contractions like this: &quot;Negations (n&#39;t) are normalized so
+&nbsp;      // that &gt;don&#39;t&lt; becomes &gt;do not&lt;.&quot; (Source: https://books.google.com/ngrams/info)
+&nbsp;      // We don&#39;t deal with that yet (see GoogleStyleWordTokenizer), so ignore for now:
+<b class="nc">&nbsp;      if (CONTRACTION.matcher(covered).matches()) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

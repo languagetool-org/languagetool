@@ -1,0 +1,376 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArabicNumberPhraseFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ar.filters</a>
+</div>
+
+<h1>Coverage Summary for Class: ArabicNumberPhraseFilter (org.languagetool.rules.ar.filters)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArabicNumberPhraseFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/94)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/112)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2022 Sohaib Afifi, Taha Zerrouki
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ar.filters;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.language.Arabic;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.synthesis.ar.ArabicSynthesizer;
+&nbsp;import org.languagetool.tagging.ar.ArabicTagManager;
+&nbsp;import org.languagetool.tools.ArabicNumbersWords;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;import static java.util.Arrays.asList;
+&nbsp;
+&nbsp;/**
+&nbsp; * Filter that maps suggestion for numeric phrases.
+&nbsp; */
+<b class="nc">&nbsp;public class ArabicNumberPhraseFilter extends RuleFilter {</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final ArabicTagManager tagmanager = new ArabicTagManager();</b>
+<b class="nc">&nbsp;  private final ArabicSynthesizer synthesizer = new ArabicSynthesizer(new Arabic());</b>
+&nbsp;
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) {
+&nbsp;
+&nbsp;    // get the previous word
+<b class="nc">&nbsp;    String previousWord = arguments.getOrDefault(&quot;previous&quot;, &quot;&quot;);</b>
+&nbsp;    // previous word index in token list
+<b class="nc">&nbsp;    int previousWordPos = getPreviousPos(arguments);</b>
+&nbsp;
+&nbsp;    // get the inflect mark
+<b class="nc">&nbsp;    String inflectArg = arguments.getOrDefault(&quot;inflect&quot;, &quot;&quot;);</b>
+&nbsp;    // get the next  word as units
+<b class="nc">&nbsp;    String nextWord = arguments.getOrDefault(&quot;next&quot;, &quot;&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;    int nextWordPos = getNextPos(arguments, patternTokens.length);</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;String&gt; numWordTokens = new ArrayList&lt;&gt;();</b>
+&nbsp;    /// get all numeric tokens
+<b class="nc">&nbsp;    int startPos = (previousWordPos &gt; 0) ? previousWordPos + 1 : 0;</b>
+&nbsp;
+<b class="nc">&nbsp;    int endPos = (nextWordPos &gt; 0) ? Integer.min(nextWordPos, patternTokens.length) : patternTokens.length + nextWordPos;</b>
+&nbsp;
+<b class="nc">&nbsp;    for (int i = startPos; i &lt; endPos; i++) {</b>
+<b class="nc">&nbsp;      numWordTokens.add(patternTokens[i].getToken().trim());</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String numPhrase = String.join(&quot; &quot;, numWordTokens);</b>
+&nbsp;    // extract features from previous
+<b class="nc">&nbsp;    boolean feminine = false;</b>
+<b class="nc">&nbsp;    boolean attached = false;</b>
+<b class="nc">&nbsp;    String inflection = getInflectedCase(patternTokens, previousWordPos, inflectArg);</b>
+&nbsp;    List&lt;String&gt; suggestionList;
+<b class="nc">&nbsp;    if (nextWord.isEmpty()) {</b>
+<b class="nc">&nbsp;      suggestionList = prepareSuggestion(numPhrase, previousWord, null, feminine, attached, inflection);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      AnalyzedTokenReadings nextWordToken = null;</b>
+<b class="nc">&nbsp;      if (endPos &gt; 0 &amp;&amp; endPos &lt; patternTokens.length) {</b>
+<b class="nc">&nbsp;        nextWordToken = patternTokens[endPos];</b>
+&nbsp;      }
+<b class="nc">&nbsp;      suggestionList = prepareSuggestionWithUnits(numPhrase, previousWord, nextWordToken, feminine, attached, inflection);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());</b>
+&nbsp;
+<b class="nc">&nbsp;    if (!suggestionList.isEmpty()) {</b>
+<b class="nc">&nbsp;      for (String sug : suggestionList) {</b>
+<b class="nc">&nbsp;        newMatch.addSuggestedReplacement(sug);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return newMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // extract inflection case
+&nbsp;  private static String getInflectedCase(AnalyzedTokenReadings[] patternTokens, int previousPos, String inflect) {
+<b class="nc">&nbsp;    if (!Objects.equals(inflect, &quot;&quot;)) {</b>
+<b class="nc">&nbsp;      return inflect;</b>
+&nbsp;    }
+&nbsp;    // if the previous is Jar
+&nbsp;
+<b class="nc">&nbsp;    if (previousPos &gt;= 0 &amp;&amp; previousPos &lt; patternTokens.length) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings previousToken = patternTokens[previousPos];</b>
+<b class="nc">&nbsp;      for (AnalyzedToken tk : patternTokens[previousPos]) {</b>
+<b class="nc">&nbsp;        if (tk.getPOSTag() != null &amp;&amp; tk.getPOSTag().startsWith(&quot;PR&quot;)) {</b>
+<b class="nc">&nbsp;          return &quot;jar&quot;;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+&nbsp;    }
+<b class="nc">&nbsp;    String firstWord = patternTokens[previousPos + 1].getToken();</b>
+<b class="nc">&nbsp;    if (firstWord.startsWith(&quot;ب&quot;)</b>
+<b class="nc">&nbsp;      || firstWord.startsWith(&quot;ل&quot;)</b>
+<b class="nc">&nbsp;      || firstWord.startsWith(&quot;ك&quot;)</b>
+&nbsp;    ) {
+<b class="nc">&nbsp;      return &quot;jar&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // extract inflection case
+&nbsp;  private static boolean getFemininCase(AnalyzedTokenReadings[] patternTokens, int nextPos) {
+&nbsp;    // if the previous is Jar
+<b class="nc">&nbsp;    for (AnalyzedToken tk : patternTokens[nextPos]) {</b>
+<b class="nc">&nbsp;      if (tagmanager.isFeminin(tk.getPOSTag())) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* prepare suggestion for given phrases */
+&nbsp;  public static List&lt;String&gt; prepareSuggestion(String numPhrase, String previousWord, AnalyzedTokenReadings nextWord, boolean feminin, boolean attached, String inflection) {
+&nbsp;
+<b class="nc">&nbsp;    List&lt;String&gt; tmpsuggestionList = ArabicNumbersWords.getSuggestionsNumericPhrase(numPhrase, feminin, attached, inflection);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; suggestionList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (!tmpsuggestionList.isEmpty()) {</b>
+<b class="nc">&nbsp;      for (String sug : tmpsuggestionList)</b>
+<b class="nc">&nbsp;        if (!previousWord.isEmpty()) {</b>
+<b class="nc">&nbsp;          suggestionList.add(previousWord + &quot; &quot; + sug);</b>
+&nbsp;        }
+&nbsp;    }
+<b class="nc">&nbsp;    return suggestionList;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* prepare suggestion for given phrases */
+&nbsp;  public List&lt;String&gt; prepareSuggestionWithUnits(String numPhrase, String previousWord, AnalyzedTokenReadings nextWord, boolean feminin, boolean attached, String inflection) {
+&nbsp;
+<b class="nc">&nbsp;    String defaultUnit = &quot;دينار&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;Map&lt;String, String&gt;&gt; tmpsuggestionList = ArabicNumbersWords.getSuggestionsNumericPhraseWithUnits(numPhrase, defaultUnit, feminin, attached, inflection);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; suggestionList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (!tmpsuggestionList.isEmpty()) {</b>
+<b class="nc">&nbsp;      for (Map&lt;String, String&gt; sugMap : tmpsuggestionList) {</b>
+<b class="nc">&nbsp;        String sug = sugMap.get(&quot;phrase&quot;);</b>
+<b class="nc">&nbsp;        List&lt;String&gt; inflectedUnitList = inflectUnit(nextWord, sugMap);</b>
+<b class="nc">&nbsp;        for (String unit : inflectedUnitList) {</b>
+<b class="nc">&nbsp;          StringBuilder tmp = new StringBuilder();</b>
+<b class="nc">&nbsp;          if (!previousWord.isEmpty()) {</b>
+<b class="nc">&nbsp;            tmp.append(previousWord + &quot; &quot;);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          tmp.append(sug);</b>
+<b class="nc">&nbsp;          if (unit != null &amp;&amp; !unit.isEmpty()) {</b>
+<b class="nc">&nbsp;            tmp.append(&quot; &quot; + unit);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          suggestionList.add(tmp.toString());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return suggestionList;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* get suitable forms for the given unit */
+&nbsp;  private List&lt;String&gt; inflectUnit(AnalyzedTokenReadings unit, Map&lt;String, String&gt; sugMap) {
+<b class="nc">&nbsp;    if (unit == null) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      String inflection = sugMap.getOrDefault(&quot;unitInflection&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;      String number = sugMap.getOrDefault(&quot;unitNumber&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;      String inflected = unit.getToken() + &quot;{&quot; + inflection + &quot;+&quot; + number + &quot;}&quot;;</b>
+<b class="nc">&nbsp;      List&lt;String&gt; tmpList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      List&lt;String&gt; inflectedList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (AnalyzedToken tk : unit) {</b>
+<b class="nc">&nbsp;        String postag = tk.getPOSTag();</b>
+<b class="nc">&nbsp;        if (tagmanager.isNoun(postag) &amp;&amp; !tagmanager.isDefinite(postag) &amp;&amp; !tagmanager.hasPronoun(postag)) {</b>
+&nbsp;          // add inflection flag
+<b class="nc">&nbsp;          if (inflection.equals(&quot;jar&quot;)) {</b>
+<b class="nc">&nbsp;            postag = tagmanager.setMajrour(postag);</b>
+<b class="nc">&nbsp;          } else if (inflection.equals(&quot;raf3&quot;)) {</b>
+<b class="nc">&nbsp;            postag = tagmanager.setMarfou3(postag);</b>
+<b class="nc">&nbsp;          } else if (inflection.equals(&quot;nasb&quot;)) {</b>
+<b class="nc">&nbsp;            postag = tagmanager.setMansoub(postag);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            postag = tagmanager.setMarfou3(postag);</b>
+&nbsp;          }
+&nbsp;
+&nbsp;          // add number flag
+<b class="nc">&nbsp;          if (number.equals(&quot;one&quot;)) {</b>
+<b class="nc">&nbsp;            postag = tagmanager.setSingle(postag);</b>
+<b class="nc">&nbsp;          } else if (number.equals(&quot;two&quot;)) {</b>
+<b class="nc">&nbsp;            postag = tagmanager.setDual(postag);</b>
+<b class="nc">&nbsp;          } else if (number.equals(&quot;plural&quot;)) {</b>
+<b class="nc">&nbsp;            postag = tagmanager.setPlural(postag);</b>
+&nbsp;
+&nbsp;          } else {
+<b class="nc">&nbsp;            postag = tagmanager.setSingle(postag);</b>
+&nbsp;
+&nbsp;          }
+&nbsp;          //  add Tanwin
+<b class="nc">&nbsp;          if (number.equals(&quot;one&quot;) &amp;&amp; inflection.equals(&quot;nasb&quot;)) {</b>
+<b class="nc">&nbsp;            postag = tagmanager.setTanwin(postag);</b>
+&nbsp;          }
+&nbsp;
+&nbsp;          //
+&nbsp;          // for each potag generate a new token
+<b class="nc">&nbsp;          if (!tmpList.contains(postag)) {</b>
+<b class="nc">&nbsp;            tmpList.add(postag);</b>
+<b class="nc">&nbsp;            List&lt;String&gt; syhthesizedList = asList(synthesizer.synthesize(tk, postag));</b>
+<b class="nc">&nbsp;            if (syhthesizedList != null &amp;&amp; !syhthesizedList.isEmpty()) {</b>
+<b class="nc">&nbsp;              inflectedList.addAll(syhthesizedList);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return inflectedList;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static int getPreviousPos(Map&lt;String, String&gt; args) {
+<b class="nc">&nbsp;    int previousWordPos = 0;</b>
+<b class="nc">&nbsp;    if (args.get(&quot;previousPos&quot;) != null)</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        if (args.get(&quot;previousPos&quot;) != null)</b>
+<b class="nc">&nbsp;          previousWordPos = Integer.valueOf(args.get(&quot;previousPos&quot;)) - 1;</b>
+&nbsp;      } catch (NumberFormatException e) {
+<b class="nc">&nbsp;        previousWordPos = -1;</b>
+&nbsp;      }
+<b class="nc">&nbsp;    return previousWordPos;</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  private static int getNextPos(Map&lt;String, String&gt; args, int size) {
+<b class="nc">&nbsp;    int nextPos = 0;</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      nextPos = Integer.parseInt(args.getOrDefault(&quot;nextPos&quot;, &quot;0&quot;));</b>
+&nbsp;      // the next token is index with a negative offset
+<b class="nc">&nbsp;      if (nextPos &lt; 0) {</b>
+<b class="nc">&nbsp;        nextPos = size + nextPos;</b>
+&nbsp;      }
+&nbsp;    } catch (NumberFormatException e) {
+<b class="nc">&nbsp;      nextPos = 0;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return nextPos;</b>
+&nbsp;
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

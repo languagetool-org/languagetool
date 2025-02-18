@@ -1,0 +1,250 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > NumeralStressRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.el</a>
+</div>
+
+<h1>Coverage Summary for Class: NumeralStressRule (org.languagetool.rules.el)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NumeralStressRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/44)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.el;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.Category;
+&nbsp;import org.languagetool.rules.CategoryId;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.ITSIssueType;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;
+&nbsp;/**
+&nbsp; * Rule for checking correct spell of ordinal numerals.
+&nbsp; * &lt;p&gt;
+&nbsp; * Greek ordinal numerals are declined like adjectives. When a numeral is
+&nbsp; * written as an arabic number followed by a suffix, the suffix may need a
+&nbsp; * stress (e.g. 20ός, 100ός but 1ος, 10ος). This rule will check for incorrect
+&nbsp; * usage or absence of stress.
+&nbsp; * 
+&nbsp; * @author Panagiotis Minos
+&nbsp; * @since 3.3
+&nbsp; */
+&nbsp;public class NumeralStressRule extends Rule {
+&nbsp;
+&nbsp;  //map from stressed to unstressed form and unstressed to stressed form
+<b class="nc">&nbsp;  private final Map&lt;String, String&gt; suffixMap = new HashMap&lt;&gt;();</b>
+&nbsp;  // pattern to match an arabic number followed by a possible suffix
+&nbsp;  private final Pattern numeral;
+&nbsp;  // pattern to match an arabic number that needs stress
+&nbsp;  private final Pattern stressedNumber;
+&nbsp;  // pattern to match a stressed suffix
+&nbsp;  private final Pattern stressedSuffix;
+&nbsp;
+&nbsp;  public NumeralStressRule(ResourceBundle messages) {
+<b class="nc">&nbsp;    super(messages);</b>
+&nbsp;
+<b class="nc">&nbsp;    String[] unstressedSfx = {</b>
+&nbsp;      &quot;ος&quot;, &quot;ου&quot;, &quot;ο&quot;, &quot;ον&quot;, &quot;οι&quot;, &quot;ων&quot;, &quot;ους&quot;, &quot;η&quot;, &quot;ης&quot;, &quot;ην&quot;, &quot;ες&quot;, &quot;α&quot;
+&nbsp;    };
+<b class="nc">&nbsp;    String[] stressedSfx = {</b>
+&nbsp;      &quot;ός&quot;, &quot;ού&quot;, &quot;ό&quot;, &quot;όν&quot;, &quot;οί&quot;, &quot;ών&quot;, &quot;ούς&quot;, &quot;ή&quot;, &quot;ής&quot;, &quot;ήν&quot;, &quot;ές&quot;, &quot;ά&quot;
+&nbsp;    };
+<b class="nc">&nbsp;    StringBuilder stressedSuffixRE = new StringBuilder();</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; stressedSfx.length; i++) {</b>
+<b class="nc">&nbsp;      if (i &gt; 0) {</b>
+<b class="nc">&nbsp;        stressedSuffixRE.append(&#39;|&#39;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      stressedSuffixRE.append(stressedSfx[i]);</b>
+<b class="nc">&nbsp;      suffixMap.put(stressedSfx[i], unstressedSfx[i]);</b>
+<b class="nc">&nbsp;      suffixMap.put(unstressedSfx[i], stressedSfx[i]);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    StringBuilder pattern = new StringBuilder(&quot;([1-9][0-9]*)(&quot;);</b>
+<b class="nc">&nbsp;    pattern.append(stressedSuffixRE);</b>
+<b class="nc">&nbsp;    for (String sfx : unstressedSfx) {</b>
+<b class="nc">&nbsp;      pattern.append(&#39;|&#39;).append(sfx);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    pattern.append(&#39;)&#39;);</b>
+&nbsp;
+<b class="nc">&nbsp;    numeral = Pattern.compile(pattern.toString());</b>
+&nbsp;    //we know the token can not start with 0
+<b class="nc">&nbsp;    stressedNumber = Pattern.compile(&quot;[0-9]*[0|2-9]0&quot;);</b>
+<b class="nc">&nbsp;    stressedSuffix = Pattern.compile(stressedSuffixRE.toString());</b>
+<b class="nc">&nbsp;    setCategory(new Category(new CategoryId(&quot;ORTHOGRAPHY&quot;), &quot;Orthography&quot;));</b>
+<b class="nc">&nbsp;    init();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void init() {
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+<b class="nc">&nbsp;    addExamplePair(</b>
+<b class="nc">&nbsp;        Example.wrong(&quot;Ο &lt;marker&gt;20ος&lt;/marker&gt; αιώνας μαζί με τον 21ο αιώνα κατατάσσεται από τους ιστορικούς στη Σύγχρονη Ιστορία.&quot;),</b>
+<b class="nc">&nbsp;        Example.fixed(&quot;Ο &lt;marker&gt;20ός&lt;/marker&gt; αιώνας μαζί με τον 21ο αιώνα κατατάσσεται από τους ιστορικούς στη Σύγχρονη Ιστορία.&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;GREEK_ORTHOGRAPHY_NUMERAL_STRESS&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Έλεγχος τονισμού αριθμητικών&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    for (AnalyzedTokenReadings token : tokens) {</b>
+<b class="nc">&nbsp;      Matcher m = numeral.matcher(token.getToken());</b>
+<b class="nc">&nbsp;      if (m.matches()) {</b>
+<b class="nc">&nbsp;        String number = m.group(1);</b>
+<b class="nc">&nbsp;        String suffix = m.group(2);</b>
+<b class="nc">&nbsp;        boolean needsStress = stressedNumber.matcher(number).matches();</b>
+<b class="nc">&nbsp;        boolean hasStress = stressedSuffix.matcher(suffix).matches();</b>
+<b class="nc">&nbsp;        if (needsStress != hasStress) {</b>
+<b class="nc">&nbsp;          suffix = suffixMap.get(suffix);</b>
+<b class="nc">&nbsp;          String suggestion = number + suffix;</b>
+<b class="nc">&nbsp;          String msg = &quot;&lt;suggestion&gt;&quot; + suggestion + &quot;&lt;/suggestion&gt;&quot;;</b>
+<b class="nc">&nbsp;          RuleMatch match = new RuleMatch(this, sentence, token.getStartPos(),</b>
+<b class="nc">&nbsp;                  token.getEndPos(), msg, &quot;Πρόβλημα ορθογραφίας&quot;);</b>
+<b class="nc">&nbsp;          ruleMatches.add(match);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

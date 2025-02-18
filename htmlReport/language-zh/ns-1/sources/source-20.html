@@ -1,0 +1,183 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ShortDescriptionProvider</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool</a>
+</div>
+
+<h1>Coverage Summary for Class: ShortDescriptionProvider (org.languagetool)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ShortDescriptionProvider</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40%
+  </span>
+  <span class="absValue">
+    (2/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    11.8%
+  </span>
+  <span class="absValue">
+    (2/17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Daniel Naber (www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool;
+&nbsp;
+&nbsp;import com.google.common.annotations.VisibleForTesting;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.broker.ResourceDataBroker;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.ConcurrentHashMap;
+&nbsp;
+&nbsp;/**
+&nbsp; * Provide short (up to ~ 40 characters) descriptions for words.
+&nbsp; * Used to display as an additional hint when there are several suggestions.
+&nbsp; * @since 4.5
+&nbsp; */
+<b class="fc">&nbsp;public class ShortDescriptionProvider {</b>
+<b class="fc">&nbsp;  private final static Map&lt;Language, Map&lt;String, String&gt;&gt; descriptions = new ConcurrentHashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public String getShortDescription(String word, Language lang) {
+<b class="nc">&nbsp;    return getAllDescriptions(lang).get(word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @VisibleForTesting
+&nbsp;  static Map&lt;String, String&gt; getAllDescriptions(Language lang) {
+<b class="nc">&nbsp;    return descriptions.computeIfAbsent(lang, ShortDescriptionProvider::init);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static Map&lt;String, String&gt; init(Language lang) {
+<b class="nc">&nbsp;    ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();</b>
+<b class="nc">&nbsp;    String path = &quot;/&quot; + lang.getShortCode() + &quot;/word_definitions.txt&quot;;</b>
+<b class="nc">&nbsp;    if (!dataBroker.resourceExists(path)) {</b>
+<b class="nc">&nbsp;      return Collections.emptyMap();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Map&lt;String, String&gt; wordToDef = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; lines = dataBroker.getFromResourceDirAsLines(path);</b>
+<b class="nc">&nbsp;    for (String line : lines) {</b>
+<b class="nc">&nbsp;      if (line.startsWith(&quot;#&quot;) || line.trim().isEmpty()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String[] parts = line.split(&quot;\t&quot;);</b>
+<b class="nc">&nbsp;      if (parts.length != 2) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Format in &quot; + path + &quot; not expected, expected 2 tab-separated columns: &#39;&quot; + line + &quot;&#39;&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      wordToDef.put(parts[0], parts[1]);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return wordToDef;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,331 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > WikipediaSentenceSource</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.dumpcheck</a>
+</div>
+
+<h1>Coverage Summary for Class: WikipediaSentenceSource (org.languagetool.dev.dumpcheck)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WikipediaSentenceSource</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/54)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">WikipediaSentenceSource$WikipediaSentence</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/58)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.dumpcheck;
+&nbsp;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.dev.wikipedia.SwebleWikipediaTextFilter;
+&nbsp;import org.languagetool.tokenizers.Tokenizer;
+&nbsp;
+&nbsp;import javax.xml.stream.XMLEventReader;
+&nbsp;import javax.xml.stream.XMLInputFactory;
+&nbsp;import javax.xml.stream.XMLStreamConstants;
+&nbsp;import javax.xml.stream.XMLStreamException;
+&nbsp;import javax.xml.stream.events.XMLEvent;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.NoSuchElementException;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Provides access to the sentences of a Wikipedia XML dump. Note that
+&nbsp; * conversion exceptions are logged to STDERR and are otherwise ignored.
+&nbsp; * 
+&nbsp; * To get an XML dump, download {@code pages-articles.xml.bz2} from
+&nbsp; * &lt;a href=&quot;http://download.wikimedia.org/backup-index.html&quot;&gt;http://download.wikimedia.org/backup-index.html&lt;/a&gt;, e.g.
+&nbsp; * {@code http://download.wikimedia.org/dewiki/latest/dewiki-latest-pages-articles.xml.bz2}.
+&nbsp; * @since 2.4
+&nbsp; */
+&nbsp;public class WikipediaSentenceSource extends SentenceSource {
+&nbsp;
+&nbsp;  private static final boolean ONLY_ARTICLES = false;
+&nbsp;  private static final String ARTICLE_NAMESPACE = &quot;0&quot;;
+&nbsp;
+<b class="nc">&nbsp;  private final SwebleWikipediaTextFilter textFilter = new SwebleWikipediaTextFilter();</b>
+&nbsp;  private final XMLEventReader reader;
+&nbsp;  private final Tokenizer sentenceTokenizer;
+&nbsp;  private final List&lt;WikipediaSentence&gt; sentences;
+&nbsp;  private final Language language;
+&nbsp;
+<b class="nc">&nbsp;  private int articleCount = 0;</b>
+<b class="nc">&nbsp;  private int namespaceSkipCount = 0;</b>
+<b class="nc">&nbsp;  private int redirectSkipCount = 0;</b>
+&nbsp;
+&nbsp;  WikipediaSentenceSource(InputStream xmlInput, Language language) {
+<b class="nc">&nbsp;    this(xmlInput, language, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 3.0 */
+&nbsp;  WikipediaSentenceSource(InputStream xmlInput, Language language, Pattern filter) {
+<b class="nc">&nbsp;    super(language, filter);</b>
+<b class="nc">&nbsp;    textFilter.enableMapping(false);  // improves performance</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      System.setProperty(&quot;jdk.xml.totalEntitySizeLimit&quot;, String.valueOf(Integer.MAX_VALUE));  // see https://github.com/dbpedia/extraction-framework/issues/487</b>
+<b class="nc">&nbsp;      XMLInputFactory factory = XMLInputFactory.newInstance();</b>
+<b class="nc">&nbsp;      reader = factory.createXMLEventReader(xmlInput);</b>
+<b class="nc">&nbsp;      sentenceTokenizer = language.getSentenceTokenizer();</b>
+<b class="nc">&nbsp;      sentences = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      this.language = language;</b>
+&nbsp;    } catch (XMLStreamException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean hasNext() {
+&nbsp;    try {
+<b class="nc">&nbsp;      fillSentences();</b>
+&nbsp;    } catch (XMLStreamException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sentences.size() &gt; 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Sentence next() {
+&nbsp;    try {
+<b class="nc">&nbsp;      fillSentences();</b>
+<b class="nc">&nbsp;      if (sentences.isEmpty()) {</b>
+<b class="nc">&nbsp;        throw new NoSuchElementException();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      WikipediaSentence wikiSentence = sentences.remove(0);</b>
+<b class="nc">&nbsp;      String url = &quot;http://&quot; + language.getShortCode() + &quot;.wikipedia.org/wiki/&quot; + wikiSentence.title;</b>
+<b class="nc">&nbsp;      return new Sentence(wikiSentence.sentence, getSource(), wikiSentence.title, url, wikiSentence.articleCount);</b>
+&nbsp;    } catch (XMLStreamException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getSource() {
+<b class="nc">&nbsp;    return &quot;wikipedia&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void fillSentences() throws XMLStreamException {
+<b class="nc">&nbsp;    String title = null;</b>
+<b class="nc">&nbsp;    String namespace = null;</b>
+<b class="nc">&nbsp;    while (sentences.isEmpty() &amp;&amp; reader.hasNext()) {</b>
+<b class="nc">&nbsp;      XMLEvent event = reader.nextEvent();</b>
+<b class="nc">&nbsp;      if (event.getEventType() == XMLStreamConstants.START_ELEMENT) {</b>
+<b class="nc">&nbsp;        String elementName = event.asStartElement().getName().getLocalPart();</b>
+<b class="nc">&nbsp;        switch (elementName) {</b>
+&nbsp;          case &quot;title&quot;:
+<b class="nc">&nbsp;            event = reader.nextEvent();</b>
+<b class="nc">&nbsp;            title = event.asCharacters().getData();</b>
+<b class="nc">&nbsp;            articleCount++;</b>
+<b class="nc">&nbsp;            if (articleCount % 100 == 0) {</b>
+<b class="nc">&nbsp;              System.out.println(&quot;Article: &quot; + articleCount);</b>
+&nbsp;            }
+&nbsp;            break;
+&nbsp;          case &quot;ns&quot;:
+<b class="nc">&nbsp;            event = reader.nextEvent();</b>
+<b class="nc">&nbsp;            namespace = event.asCharacters().getData();</b>
+&nbsp;            break;
+&nbsp;          case &quot;text&quot;:
+<b class="nc">&nbsp;            handleTextElement(namespace, title, articleCount);</b>
+&nbsp;            break;
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void handleTextElement(String namespace, String title, int articleCount) throws XMLStreamException {
+&nbsp;    if (ONLY_ARTICLES &amp;&amp; !ARTICLE_NAMESPACE.equals(namespace)) {
+&nbsp;      namespaceSkipCount++;
+&nbsp;      return;
+&nbsp;    }
+&nbsp;    //System.out.println(articleCount + &quot; (nsSkip:&quot; + namespaceSkipCount + &quot;, redirectSkip:&quot; + redirectSkipCount + &quot;). &quot; + title);
+<b class="nc">&nbsp;    XMLEvent event = reader.nextEvent();</b>
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    while (event.isCharacters()) {</b>
+<b class="nc">&nbsp;      sb.append(event.asCharacters().getData());</b>
+<b class="nc">&nbsp;      event = reader.nextEvent();</b>
+&nbsp;    }
+&nbsp;    try {
+<b class="nc">&nbsp;      if (sb.toString().trim().toLowerCase().startsWith(&quot;#redirect&quot;)) {</b>
+<b class="nc">&nbsp;        redirectSkipCount++;</b>
+&nbsp;        return;
+&nbsp;      }
+<b class="nc">&nbsp;      String textToCheck = textFilter.filter(sb.toString()).getPlainText();</b>
+<b class="nc">&nbsp;      for (String sentence : sentenceTokenizer.tokenize(textToCheck)) {</b>
+<b class="nc">&nbsp;        if (acceptSentence(sentence)) {</b>
+&nbsp;          // Create an artificial ID - as we treat each sentence as a single document
+&nbsp;          // in e.g. the nightly checks, this helps with detection of whether a match
+&nbsp;          // is new or a duplicate:
+<b class="nc">&nbsp;          String titleWithId = title + &quot;/&quot; + sentence.hashCode();</b>
+<b class="nc">&nbsp;          sentences.add(new WikipediaSentence(sentence, titleWithId, articleCount));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      System.err.println(&quot;Could not extract text, skipping document: &quot; + e + &quot;, full stacktrace follows:&quot;);</b>
+<b class="nc">&nbsp;      e.printStackTrace();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class WikipediaSentence {
+&nbsp;    final String sentence;
+&nbsp;    final String title;
+&nbsp;    final int articleCount;
+<b class="nc">&nbsp;    WikipediaSentence(String sentence, String title, int articleCount) {</b>
+<b class="nc">&nbsp;      this.sentence = sentence;</b>
+<b class="nc">&nbsp;      this.title = title;</b>
+<b class="nc">&nbsp;      this.articleCount = articleCount;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

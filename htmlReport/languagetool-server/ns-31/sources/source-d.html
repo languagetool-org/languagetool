@@ -1,0 +1,324 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SimpleReplaceVerbsRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.es</a>
+</div>
+
+<h1>Coverage Summary for Class: SimpleReplaceVerbsRule (org.languagetool.rules.es)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SimpleReplaceVerbsRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    55.6%
+  </span>
+  <span class="absValue">
+    (5/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    22.2%
+  </span>
+  <span class="absValue">
+    (12/54)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    39%
+  </span>
+  <span class="absValue">
+    (30/77)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.es;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Locale;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.synthesis.es.SpanishSynthesizer;
+&nbsp;import org.languagetool.tagging.es.SpanishTagger;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule that matches incorrect verbs (including all inflected forms) and
+&nbsp; * suggests correct ones instead.
+&nbsp; * 
+&nbsp; * Loads the relevant words from &lt;code&gt;rules/es/replace_verbs.txt&lt;/code&gt;.
+&nbsp; * 
+&nbsp; * @author Jaume Ortolà
+&nbsp; */
+&nbsp;public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
+&nbsp;
+<b class="fc">&nbsp;  private static final Map&lt;String, List&lt;String&gt;&gt; wrongWords = loadFromPath(&quot;/es/replace_verbs.txt&quot;);</b>
+<b class="fc">&nbsp;  private static final Locale ES_LOCALE = new Locale(&quot;ES&quot;);</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Map&lt;String, List&lt;String&gt;&gt; getWrongWords() {
+<b class="nc">&nbsp;    return wrongWords;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static final String endings = &quot;a|aba|abais|aban|abas|ad|ada|adas|ado|ados|amos|an|ando|ar|ara|&quot;
+&nbsp;      + &quot;arais|aran|aras|are|areis|aremos|aren|ares|aron|ará|arán|arás|aré|aréis|aría|aríais|aríamos|arían|&quot;
+&nbsp;      + &quot;arías|as|ase|aseis|asen|ases|aste|asteis|e|emos|en|es|o|ábamos|áis|áramos|áremos|ásemos|é|éis|ó|&quot;
+&nbsp;      + &quot;arse|arme|arte|arlos|arles|arlas|arnos|aros&quot;;
+<b class="fc">&nbsp;  private static final Pattern desinencies_1conj_0 = Pattern.compile(&quot;(.+?)(&quot; + endings + &quot;)&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern desinencies_1conj_1 = Pattern.compile(&quot;(.+)(&quot; + endings + &quot;)&quot;);</b>
+&nbsp;
+&nbsp;  private final SpanishTagger tagger;
+&nbsp;  private final SpanishSynthesizer synth;
+&nbsp;
+&nbsp;  public SimpleReplaceVerbsRule(final ResourceBundle messages, Language language) {
+<b class="fc">&nbsp;    super(messages, language);</b>
+<b class="fc">&nbsp;    super.setCategory(Categories.TYPOS.getCategory(messages));</b>
+<b class="fc">&nbsp;    super.setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+<b class="fc">&nbsp;    super.setIgnoreTaggedWords();</b>
+<b class="fc">&nbsp;    super.useSubRuleSpecificIds();</b>
+<b class="fc">&nbsp;    tagger = (SpanishTagger) language.getTagger();</b>
+<b class="fc">&nbsp;    synth = (SpanishSynthesizer) language.getSynthesizer();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final String getId() {
+<b class="fc">&nbsp;    return &quot;ES_SIMPLE_REPLACE_VERBS&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Detecta verbos incorrectos y propone sugerencias.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getShort() {
+<b class="nc">&nbsp;    return &quot;Verbo incorrecto&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getMessage(String tokenStr, List&lt;String&gt; replacements) {
+<b class="nc">&nbsp;    return &quot;Verbo incorrecto: $match&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Locale getLocale() {
+<b class="fc">&nbsp;    return ES_LOCALE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final RuleMatch[] match(final AnalyzedSentence sentence) {
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+&nbsp;
+<b class="fc">&nbsp;    for (AnalyzedTokenReadings tokenReadings : tokens) {</b>
+<b class="fc">&nbsp;      String originalTokenStr = tokenReadings.getToken();</b>
+<b class="pc">&nbsp;      if (ignoreTaggedWords &amp;&amp; tokenReadings.isTagged()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="fc">&nbsp;      String tokenString = originalTokenStr.toLowerCase(getLocale());</b>
+<b class="fc">&nbsp;      AnalyzedTokenReadings analyzedTokenReadings = null;</b>
+<b class="fc">&nbsp;      String infinitive = null;</b>
+<b class="fc">&nbsp;      int i = 0;</b>
+<b class="pc">&nbsp;      while (i &lt; 2 &amp;&amp; analyzedTokenReadings == null) {</b>
+&nbsp;        Matcher m;
+<b class="fc">&nbsp;        if (i == 0) {</b>
+<b class="fc">&nbsp;          m = desinencies_1conj_0.matcher(tokenString);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;          m = desinencies_1conj_1.matcher(tokenString);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (m.matches()) {</b>
+<b class="nc">&nbsp;          String lexeme = m.group(1);</b>
+<b class="nc">&nbsp;          String desinence = m.group(2);</b>
+<b class="nc">&nbsp;          if (desinence.startsWith(&quot;e&quot;) || desinence.startsWith(&quot;é&quot;) || desinence.startsWith(&quot;i&quot;)</b>
+<b class="nc">&nbsp;              || desinence.startsWith(&quot;ï&quot;)) {</b>
+<b class="nc">&nbsp;            if (lexeme.endsWith(&quot;c&quot;)) {</b>
+<b class="nc">&nbsp;              lexeme = lexeme.substring(0, lexeme.length() - 1).concat(&quot;z&quot;);</b>
+<b class="nc">&nbsp;            } else if (lexeme.endsWith(&quot;qu&quot;)) {</b>
+<b class="nc">&nbsp;              lexeme = lexeme.substring(0, lexeme.length() - 2).concat(&quot;c&quot;);</b>
+<b class="nc">&nbsp;            } else if (lexeme.endsWith(&quot;g&quot;)) {</b>
+<b class="nc">&nbsp;              lexeme = lexeme.substring(0, lexeme.length() - 1).concat(&quot;j&quot;);</b>
+<b class="nc">&nbsp;            } else if (lexeme.endsWith(&quot;gü&quot;)) {</b>
+<b class="nc">&nbsp;              lexeme = lexeme.substring(0, lexeme.length() - 2).concat(&quot;gu&quot;);</b>
+<b class="nc">&nbsp;            } else if (lexeme.endsWith(&quot;gu&quot;)) {</b>
+<b class="nc">&nbsp;              lexeme = lexeme.substring(0, lexeme.length() - 2).concat(&quot;g&quot;);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;          /*if (desinence.startsWith(&quot;ï&quot;)) {
+&nbsp;            desinence = &quot;i&quot; + desinence.substring(1, desinence.length());
+&nbsp;          }*/
+<b class="nc">&nbsp;          infinitive = lexeme.concat(&quot;ar&quot;);</b>
+<b class="nc">&nbsp;          if (wrongWords.containsKey(infinitive)) {</b>
+<b class="nc">&nbsp;            List&lt;String&gt; wordAsArray = Arrays.asList(&quot;am&quot;.concat(desinence));</b>
+<b class="nc">&nbsp;            List&lt;AnalyzedTokenReadings&gt; analyzedTokenReadingsList = tagger.tag(wordAsArray);</b>
+<b class="nc">&nbsp;            if (analyzedTokenReadingsList.get(0).getAnalyzedToken(0).getPOSTag() != null) {</b>
+<b class="nc">&nbsp;              analyzedTokenReadings = analyzedTokenReadingsList.get(0);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;          /*if (analyzedTokenReadings == null) {
+&nbsp;            infinitive = lexeme.concat(&quot;ir&quot;);
+&nbsp;            if (wrongWords.containsKey(infinitive)) {
+&nbsp;              List&lt;String&gt; wordAsArray = Arrays.asList(&quot;serv&quot;.concat(desinence));
+&nbsp;              List&lt;AnalyzedTokenReadings&gt; analyzedTokenReadingsList = tagger.tag(wordAsArray);
+&nbsp;              if (analyzedTokenReadingsList.get(0).getAnalyzedToken(0).getPOSTag() != null) {
+&nbsp;                analyzedTokenReadings = analyzedTokenReadingsList.get(0);
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }*/
+&nbsp;        }
+<b class="fc">&nbsp;        i++;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      // synthesize replacements
+<b class="pc">&nbsp;      if (analyzedTokenReadings != null) {</b>
+<b class="nc">&nbsp;        List&lt;String&gt; possibleReplacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        String[] synthesized = null;</b>
+<b class="nc">&nbsp;        List&lt;String&gt; replacementInfinitives = wrongWords.get(infinitive);</b>
+<b class="nc">&nbsp;        for (String replacementInfinitive : replacementInfinitives) {</b>
+<b class="nc">&nbsp;          if (replacementInfinitive.startsWith(&quot;(&quot;)) {</b>
+<b class="nc">&nbsp;            possibleReplacements.add(replacementInfinitive);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            String[] parts = replacementInfinitive.split(&quot; &quot;); // the first part</b>
+&nbsp;                                                               // is the verb
+<b class="nc">&nbsp;            AnalyzedToken infinitiveAsAnTkn = new AnalyzedToken(parts[0], &quot;V.*&quot;, parts[0]);</b>
+<b class="nc">&nbsp;            for (AnalyzedToken analyzedToken : analyzedTokenReadings) {</b>
+&nbsp;              try {
+<b class="nc">&nbsp;                String POSTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;                if (infinitiveAsAnTkn.getLemma().equals(&quot;haver&quot;)) {</b>
+<b class="nc">&nbsp;                  POSTag = &quot;VA&quot; + POSTag.substring(2);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                synthesized = synth.synthesize(infinitiveAsAnTkn, POSTag);</b>
+&nbsp;              } catch (IOException e) {
+<b class="nc">&nbsp;                throw new RuntimeException(</b>
+<b class="nc">&nbsp;                    &quot;Could not synthesize: &quot; + infinitiveAsAnTkn + &quot; with tag &quot; + analyzedToken.getPOSTag(), e);</b>
+&nbsp;              }
+<b class="nc">&nbsp;              for (String s : synthesized) {</b>
+<b class="nc">&nbsp;                for (int j = 1; j &lt; parts.length; j++) {</b>
+<b class="nc">&nbsp;                  s = s.concat(&quot; &quot;).concat(parts[j]);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if (!possibleReplacements.contains(s)) {</b>
+<b class="nc">&nbsp;                  possibleReplacements.add(s);</b>
+&nbsp;                }
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        if (possibleReplacements.size() &gt; 0) {</b>
+<b class="nc">&nbsp;          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, possibleReplacements, sentence, infinitive);</b>
+<b class="nc">&nbsp;          ruleMatches.add(potentialRuleMatch);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

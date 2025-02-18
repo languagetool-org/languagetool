@@ -1,0 +1,221 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ConfusionPair</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: ConfusionPair (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ConfusionPair</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Two words that can easily be confused - for internal use only.
+&nbsp; * @since 4.6
+&nbsp; */
+&nbsp;public class ConfusionPair {
+&nbsp;
+&nbsp;  private final ConfusionString term1;
+&nbsp;  private final ConfusionString term2;
+&nbsp;  private final long factor;
+&nbsp;  private final boolean bidirectional;
+&nbsp;
+<b class="nc">&nbsp;  public ConfusionPair(ConfusionString cs1, ConfusionString cs2, long factor, boolean bidirectional) {</b>
+<b class="nc">&nbsp;    this.term1 = Objects.requireNonNull(cs1);</b>
+<b class="nc">&nbsp;    this.term2 = Objects.requireNonNull(cs2);</b>
+<b class="nc">&nbsp;    if (factor &lt; 1) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;factor must be &gt;= 1: &quot; + factor);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.factor = factor;</b>
+<b class="nc">&nbsp;    this.bidirectional = bidirectional;</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  public ConfusionPair(String token1, String token2, Long factor, boolean bidirectional) {</b>
+<b class="nc">&nbsp;    term1 = new ConfusionString(token1, null);</b>
+<b class="nc">&nbsp;    term2 = new ConfusionString(token2, null);</b>
+<b class="nc">&nbsp;    if (factor &lt; 1) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;factor must be &gt;= 1: &quot; + factor);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.factor = factor;</b>
+<b class="nc">&nbsp;    this.bidirectional = bidirectional;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* Alternative must be at least this much more probable to be considered correct. */
+&nbsp;  public long getFactor() {
+<b class="nc">&nbsp;    return factor;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* If true, only direction term1 -&gt; term2 is possible, i.e. if term1 is used incorrectly, term2 is suggested - not vice versa. */
+&nbsp;  public boolean isBidirectional() {
+<b class="nc">&nbsp;    return bidirectional;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public ConfusionString getTerm1() {
+<b class="nc">&nbsp;    return term1;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public ConfusionString getTerm2() {
+<b class="nc">&nbsp;    return term2;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public List&lt;ConfusionString&gt; getTerms() {
+<b class="nc">&nbsp;    return Collections.unmodifiableList(Arrays.asList(term1, term2));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public List&lt;ConfusionString&gt; getUppercaseFirstCharTerms() {
+<b class="nc">&nbsp;    List&lt;ConfusionString&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    result.add(new ConfusionString(StringTools.uppercaseFirstChar(term1.getString()), term1.getDescription()));</b>
+<b class="nc">&nbsp;    result.add(new ConfusionString(StringTools.uppercaseFirstChar(term2.getString()), term2.getDescription()));</b>
+<b class="nc">&nbsp;    return Collections.unmodifiableList(result);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return term1 + (bidirectional ? &quot;; &quot; : &quot; -&gt; &quot;) + term2;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean equals(Object o) {
+<b class="nc">&nbsp;    if (this == o) return true;</b>
+<b class="nc">&nbsp;    if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="nc">&nbsp;    ConfusionPair that = (ConfusionPair) o;</b>
+<b class="nc">&nbsp;    return factor == that.factor &amp;&amp;</b>
+&nbsp;            bidirectional == that.bidirectional &amp;&amp;
+<b class="nc">&nbsp;            term1.equals(that.term1) &amp;&amp;</b>
+<b class="nc">&nbsp;            term2.equals(that.term2);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int hashCode() {
+<b class="nc">&nbsp;    return Objects.hash(term1, term2, factor, bidirectional);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

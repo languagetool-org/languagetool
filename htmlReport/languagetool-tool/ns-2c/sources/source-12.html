@@ -1,0 +1,204 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DashRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: DashRule (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DashRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;/**
+&nbsp; * Prüft, dass in Bindestrich-Komposita kein Leerzeichen eingefügt wird (wie z.B. in &#39;Diäten- Erhöhung&#39;).
+&nbsp; *   
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public class DashRule extends Rule {
+&nbsp;
+<b class="nc">&nbsp;  public DashRule(ResourceBundle messages) {</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.COMPOUNDING.getCategory(messages));</b>
+<b class="nc">&nbsp;    setUrl(Tools.getUrl(&quot;https://languagetool.org/insights/de/beitrag/grammatik-leerzeichen/#fehler-1-leerzeichen-vor-und-nach-satzzeichen&quot;));</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;Bundestag beschließt &lt;marker&gt;Diäten- Erhöhung&lt;/marker&gt;&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;Bundestag beschließt &lt;marker&gt;Diäten-Erhöhung&lt;/marker&gt;&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;DE_DASH&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Keine Leerzeichen in Bindestrich-Komposita (wie z.B. in &#39;Diäten- Erhöhung&#39;)&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    String prevToken = null;</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      String token = tokens[i].getToken();</b>
+<b class="nc">&nbsp;      if (prevToken != null &amp;&amp;</b>
+<b class="nc">&nbsp;          prevToken.endsWith(&quot;-&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !prevToken.equals(&quot;-&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !prevToken.contains(&quot;--&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !prevToken.contains(&quot;–-&quot;)    // first char is some special kind of dash, found in Wikipedia</b>
+&nbsp;          ) {
+<b class="nc">&nbsp;        char firstChar = token.charAt(0);</b>
+<b class="nc">&nbsp;        if (Character.isUpperCase(firstChar)) {</b>
+<b class="nc">&nbsp;          if (!StringUtils.equalsAny(token, &quot;UND&quot;, &quot;ODER&quot;, &quot;BZW&quot;) ) {  // ignore &quot;NORD- UND SÜDKOREA&quot;</b>
+<b class="nc">&nbsp;            String msg = &quot;Möglicherweise fehlt ein &#39;und&#39; oder ein Komma, oder es wurde nach dem Wort &quot; +</b>
+&nbsp;                    &quot;ein überflüssiges Leerzeichen eingefügt. Eventuell haben Sie auch versehentlich einen Bindestrich statt eines Punktes eingefügt.&quot;;
+<b class="nc">&nbsp;            String shortMsg = &quot;Fehlendes &#39;und&#39; oder Komma oder überflüssiges Leerzeichen?&quot;;</b>
+<b class="nc">&nbsp;            int fromPos = tokens[i - 1].getStartPos();</b>
+<b class="nc">&nbsp;            RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos,</b>
+<b class="nc">&nbsp;                    tokens[i].getEndPos(), msg, shortMsg);</b>
+<b class="nc">&nbsp;            ruleMatch.addSuggestedReplacement(tokens[i-1].getToken() + tokens[i].getToken());</b>
+<b class="nc">&nbsp;            if (StringUtils.countMatches(tokens[i-1].getToken(), &quot;-&quot;) + StringUtils.countMatches(tokens[i].getToken(), &quot;-&quot;) &lt;= 1) {</b>
+<b class="nc">&nbsp;              ruleMatch.addSuggestedReplacement(tokens[i-1].getToken() + &quot;, &quot; + tokens[i].getToken());</b>
+&nbsp;            }
+<b class="nc">&nbsp;            ruleMatches.add(ruleMatch);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }      
+<b class="nc">&nbsp;      prevToken = token;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

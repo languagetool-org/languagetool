@@ -1,0 +1,324 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > NERService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.ner</a>
+</div>
+
+<h1>Coverage Summary for Class: NERService (org.languagetool.tagging.ner)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NERService</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/52)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">NERService$Span</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/60)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2021 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tagging.ner;
+&nbsp;
+&nbsp;import com.google.common.util.concurrent.ThreadFactoryBuilder;
+&nbsp;import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+&nbsp;import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.tools.CircuitBreakers;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.io.OutputStreamWriter;
+&nbsp;import java.io.Writer;
+&nbsp;import java.net.URL;
+&nbsp;import java.net.URLConnection;
+&nbsp;import java.net.URLEncoder;
+&nbsp;import java.time.Duration;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.*;
+&nbsp;
+&nbsp;import static java.nio.charset.StandardCharsets.UTF_8;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 5.5
+&nbsp; */
+&nbsp;public class NERService {
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(NERService.class);</b>
+<b class="nc">&nbsp;  private static final ExecutorService executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat(&quot;lt-ner-thread-%d&quot;).build());</b>
+&nbsp;  private static final int TIMEOUT_MILLIS = 500;
+&nbsp;
+<b class="nc">&nbsp;  private static final Duration slowDurationThreshold = Duration.ofMillis(400);</b>
+&nbsp;  private static final int slowRateThreshold = 80;
+&nbsp;  private static final int failureRateThreshold = 50;
+<b class="nc">&nbsp;  private static final Duration waitDurationOpen = Duration.ofSeconds(60);</b>
+&nbsp;
+&nbsp;  private static final CircuitBreaker circuitBreaker;
+&nbsp;  static {
+<b class="nc">&nbsp;    CircuitBreakerConfig config = CircuitBreakerConfig.custom()</b>
+<b class="nc">&nbsp;      .slowCallDurationThreshold(slowDurationThreshold)</b>
+<b class="nc">&nbsp;      .slowCallRateThreshold(slowRateThreshold)</b>
+<b class="nc">&nbsp;      .failureRateThreshold(failureRateThreshold)</b>
+<b class="nc">&nbsp;      .waitDurationInOpenState(waitDurationOpen)</b>
+<b class="nc">&nbsp;      .build();</b>
+<b class="nc">&nbsp;    circuitBreaker = CircuitBreakers.registry().circuitBreaker(NERService.class.getName(), config);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private final String urlStr;
+&nbsp;
+<b class="nc">&nbsp;  public NERService(String urlStr) {</b>
+<b class="nc">&nbsp;    this.urlStr = urlStr;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;Span&gt; runNER(String text) {
+<b class="nc">&nbsp;    String joined = text.replace(&#39;\n&#39;, &#39; &#39;);</b>
+&nbsp;    String result;
+&nbsp;    try {
+<b class="nc">&nbsp;      result = circuitBreaker.executeCallable(() -&gt; postTo(Tools.getUrl(urlStr), &quot;input=&quot; + URLEncoder.encode(joined, &quot;utf-8&quot;), new HashMap&lt;&gt;()));</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      logger.warn(&quot;Failed to run NER, will continue with no named entities&quot;, e);</b>
+<b class="nc">&nbsp;      return Collections.emptyList();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return parseBuffer(result);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String postTo(URL url, String encodedPostData, Map&lt;String, String&gt; properties) {
+&nbsp;    try {
+<b class="nc">&nbsp;      Future&lt;?&gt; future = executorService.submit(() -&gt; {</b>
+<b class="nc">&nbsp;        URLConnection connection = url.openConnection();</b>
+<b class="nc">&nbsp;        for (Map.Entry&lt;String, String&gt; entry : properties.entrySet()) {</b>
+<b class="nc">&nbsp;          connection.setRequestProperty(entry.getKey(), entry.getValue());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        connection.setDoOutput(true);</b>
+<b class="nc">&nbsp;        try (Writer writer = new OutputStreamWriter(connection.getOutputStream(), UTF_8)) {</b>
+<b class="nc">&nbsp;          writer.write(encodedPostData);</b>
+<b class="nc">&nbsp;          writer.flush();</b>
+<b class="nc">&nbsp;          return StringTools.streamToString(connection.getInputStream(), &quot;UTF-8&quot;);</b>
+&nbsp;        }
+&nbsp;      });
+<b class="nc">&nbsp;      return (String) future.get(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);</b>
+&nbsp;    } catch (TimeoutException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Timeout (&quot; + TIMEOUT_MILLIS + &quot;ms) exhausted getting NER results&quot;, e);</b>
+&nbsp;    } catch (InterruptedException | ExecutionException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  List&lt;Span&gt; parseBuffer(String buffer) {
+<b class="nc">&nbsp;    String[] values = buffer.trim().split(&quot; &quot;);</b>
+<b class="nc">&nbsp;    if (buffer.trim().contains(&quot;\n&quot;)) {</b>
+<b class="nc">&nbsp;      logger.warn(&quot;Got multiple lines to read from external NER, this should not happen: &#39;&quot; + buffer.trim() + &quot;&#39;&quot; );</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;Span&gt; res = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String value : values) {</b>
+<b class="nc">&nbsp;      if (value.isEmpty()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      int slash3 = getLastSlashFrom(value, value.length()-1);</b>
+<b class="nc">&nbsp;      int slash2 = getLastSlashFrom(value, slash3-1);</b>
+<b class="nc">&nbsp;      int slash1 = getLastSlashFrom(value, slash2-1);</b>
+<b class="nc">&nbsp;      if (slash1 == -1 || slash2 == -1 || slash3 == -1) {</b>
+<b class="nc">&nbsp;        logger.warn(&quot;NER: Slash not found: &#39;&quot; + value + &quot;&#39;&quot;);</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String tag = value.substring(slash1 + 1, slash2);</b>
+<b class="nc">&nbsp;      int fromPos = Integer.parseInt(value.substring(slash2 + 1, slash3));</b>
+<b class="nc">&nbsp;      int toPos = Integer.parseInt(value.substring(slash3 + 1));</b>
+<b class="nc">&nbsp;      if (tag.equals(&quot;PERSON&quot;)) {</b>
+<b class="nc">&nbsp;        res.add(new Span(fromPos, toPos));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return res;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int getLastSlashFrom(String s, int startPos) {
+<b class="nc">&nbsp;    for (int i = startPos; i &gt;= 0; i--) {</b>
+<b class="nc">&nbsp;      char ch = s.charAt(i);</b>
+<b class="nc">&nbsp;      if (ch == &#39;/&#39;) {</b>
+<b class="nc">&nbsp;        return i;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static class Span {
+&nbsp;    private final int fromPos;
+&nbsp;    private final int toPos;
+<b class="nc">&nbsp;    public Span(int fromPos, int toPos) {</b>
+<b class="nc">&nbsp;      if (fromPos &gt;= toPos) {</b>
+<b class="nc">&nbsp;        throw new IllegalArgumentException(&quot;fromPos must be &lt; toPos: fromPos: &quot; + fromPos + &quot;, toPos: &quot; + toPos);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      this.fromPos = fromPos;</b>
+<b class="nc">&nbsp;      this.toPos = toPos;</b>
+&nbsp;    }
+&nbsp;    public int getStart() {
+<b class="nc">&nbsp;      return fromPos;</b>
+&nbsp;    }
+&nbsp;    public int getEnd() {
+<b class="nc">&nbsp;      return toPos;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;      return fromPos + &quot;-&quot; + toPos;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

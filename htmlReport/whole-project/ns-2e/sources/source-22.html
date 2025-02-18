@@ -1,0 +1,397 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > EnglishWordRepeatRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.en</a>
+</div>
+
+<h1>Coverage Summary for Class: EnglishWordRepeatRule (org.languagetool.rules.en)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnglishWordRepeatRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57%
+  </span>
+  <span class="absValue">
+    (171/300)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    63.5%
+  </span>
+  <span class="absValue">
+    (132/208)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.en;
+&nbsp;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.WordRepeatRule;
+&nbsp;
+&nbsp;/**
+&nbsp; * Word repeat rule for English, to avoid false alarms in the generic word repetition rule.
+&nbsp; */
+&nbsp;public class EnglishWordRepeatRule extends WordRepeatRule {
+&nbsp;
+<b class="fc">&nbsp;  private static final Pattern SINGLE_CHAR = Pattern.compile(&quot;(?i)^[a-z]$&quot;);</b>
+&nbsp;
+&nbsp;  public EnglishWordRepeatRule(ResourceBundle messages, Language language) {
+<b class="fc">&nbsp;    super(messages, language);</b>
+<b class="fc">&nbsp;    addExamplePair(Example.wrong(&quot;This &lt;marker&gt;is is&lt;/marker&gt; just an example sentence.&quot;),</b>
+<b class="fc">&nbsp;                   Example.fixed(&quot;This &lt;marker&gt;is&lt;/marker&gt; just an example sentence.&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="fc">&nbsp;    return &quot;ENGLISH_WORD_REPEAT_RULE&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
+<b class="pc">&nbsp;    if (position == 0) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // TODO:
+&nbsp;    // What that is is a ...
+&nbsp;    // but you you&#39;re my best friend ...
+&nbsp;    // I&#39;m so so happy
+&nbsp;    // I&#39;m very very happy
+<b class="fc">&nbsp;    String word = tokens[position].getToken();</b>
+&nbsp;
+<b class="fc">&nbsp;    if ((repetitionOf(&quot;did&quot;, tokens, position) || repetitionOf(&quot;do&quot;, tokens, position)</b>
+<b class="pc">&nbsp;        || repetitionOf(&quot;does&quot;, tokens, position)) &amp;&amp; (position + 1 &lt; tokens.length)</b>
+<b class="pc">&nbsp;        &amp;&amp; tokens[position + 1].getToken().equalsIgnoreCase(&quot;n&#39;t&quot;)) {</b>
+<b class="fc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;her&quot;, tokens, position) &amp;&amp; posIsIn(tokens, position - 2, &quot;VB&quot;, &quot;VBP&quot;, &quot;VBZ&quot;, &quot;VBG&quot;, &quot;VBD&quot;, &quot;VBN&quot;) &amp;&amp; posIsIn(tokens, position + 1, &quot;NN&quot;, &quot;NNS&quot;, &quot;NN:U&quot;, &quot;NN:UN&quot;, &quot;NNP&quot;)) {</b>
+<b class="fc">&nbsp;      return true;   // &quot;Please pass her her phone.&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;had&quot;, tokens, position) &amp;&amp; posIsIn(tokens, position - 2, &quot;PRP&quot;, &quot;NN&quot;)) {</b>
+<b class="fc">&nbsp;      return true;   // &quot;If I had had time, I would have gone to see him.&quot;</b>
+<b class="fc">&nbsp;    } else if (repetitionOf(&quot;that&quot;, tokens, position) &amp;&amp; posIsIn(tokens, position+1, &quot;MD&quot;, &quot;NN&quot;, &quot;PRP$&quot;, &quot;JJ&quot;, &quot;VBZ&quot;, &quot;VBD&quot;)) {</b>
+<b class="fc">&nbsp;      return true;   // &quot;I don&#39;t think that that is a problem.&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;can&quot;, tokens, position) &amp;&amp; posIsIn(tokens, position-1, &quot;NN&quot;)) {</b>
+<b class="fc">&nbsp;      return true; // &quot;The can can hold the water.&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;hip&quot;, tokens, position) &amp;&amp; (position + 1 &lt; tokens.length) &amp;&amp; tokens[position + 1].getToken().equalsIgnoreCase(&quot;hooray&quot;)) {</b>
+<b class="fc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;bam&quot;, tokens, position) &amp;&amp; (position + 1 &lt; tokens.length) &amp;&amp; tokens[position + 1].getToken().equalsIgnoreCase(&quot;bigelow&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;wild&quot;, tokens, position) &amp;&amp; (position + 1 &lt; tokens.length) &amp;&amp; tokens[position + 1].getToken().equalsIgnoreCase(&quot;west&quot;)) {</b>
+<b class="nc">&nbsp;      return true; // In the wild wild west (https://en.wikipedia.org/wiki/Wild_Wild_West)</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;far&quot;, tokens, position) &amp;&amp; (position + 1 &lt; tokens.length) &amp;&amp; tokens[position + 1].getToken().equalsIgnoreCase(&quot;away&quot;)) {</b>
+<b class="fc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;so&quot;, tokens, position) &amp;&amp; (position + 1 &lt; tokens.length) &amp;&amp; tokens[position + 1].getToken().equalsIgnoreCase(&quot;much&quot;)) {</b>
+<b class="fc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;so&quot;, tokens, position) &amp;&amp; (position + 1 &lt; tokens.length) &amp;&amp; tokens[position + 1].getToken().equalsIgnoreCase(&quot;many&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;s&quot;, tokens, position) &amp;&amp; position &gt; 1 &amp;&amp; tokens[position - 2].getToken().matches(&quot;[&#39;’`´‘]&quot;)) {</b>
+<b class="nc">&nbsp;      return true; // It&#39;s S.T.E.A.M.</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;in&quot;, tokens, position) &amp;&amp; position &gt; 2 &amp;&amp; tokens[position - 3].getToken().matches(&quot;log(ged|s)?|sign(ed|s)?&quot;)) {</b>
+<b class="nc">&nbsp;      return true; // log them in in the</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;in&quot;, tokens, position) &amp;&amp; position &gt; 1 &amp;&amp; tokens[position - 2].getToken().matches(&quot;log(ged|s)?|sign(ed|s)?&quot;)) {</b>
+<b class="nc">&nbsp;      return true; // log in in the</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;a&quot;, tokens, position) &amp;&amp; position &gt; 1 &amp;&amp; tokens[position - 2].getToken().equals(&quot;.&quot;)) {</b>
+<b class="nc">&nbsp;      return true; // &quot;a.k.a a&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;on&quot;, tokens, position) &amp;&amp; position &gt; 1 &amp;&amp; tokens[position - 2].getToken().equals(&quot;.&quot;)) {</b>
+<b class="fc">&nbsp;      return true; // &quot;You can contact E.ON on Instagram&quot;</b>
+<b class="pc">&nbsp;    } else if (tokens[position - 1].getToken().equalsIgnoreCase(word) &amp;&amp; (((position + 1 &lt; tokens.length) &amp;&amp; tokens[position + 1].getToken().equalsIgnoreCase(word)) || (position &gt; 1 &amp;&amp; tokens[position - 2].getToken().equalsIgnoreCase(word)))) {</b>
+&nbsp;      // three time word repetition
+<b class="fc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (SINGLE_CHAR.matcher(tokens[position].getToken()).matches() &amp;&amp; position &gt; 1 &amp;&amp;</b>
+<b class="pc">&nbsp;        SINGLE_CHAR.matcher(tokens[position - 2].getToken()).matches() &amp;&amp;</b>
+<b class="pc">&nbsp;        (position + 1 &lt; tokens.length) &amp;&amp; SINGLE_CHAR.matcher(tokens[position + 1].getToken()).matches()) {</b>
+&nbsp;      // spelling with spaces in between: &quot;b a s i c a l l y&quot;
+<b class="fc">&nbsp;      return true;</b>
+<b class="fc">&nbsp;    } else if (repetitionOf(&quot;aye&quot;, tokens, position)) {</b>
+<b class="fc">&nbsp;      return true;   // &quot;aye aye&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;blah&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;blah blah&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;mau&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;mau mau&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;uh&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;uh uh&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;paw&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;paw paw&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;cha&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;cha cha&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;yum&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;yum yum&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;wop&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;wop wop&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;woop&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;woop woop&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;fnarr&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;fnarr fnarr&quot; https://www.lexico.com/definition/fnarr_fnarr</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;fnar&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;fnar fnar&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;ha&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;ha ha&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;omg&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;omg omg&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;boo&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;boo boo&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;tick&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;tick tick&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;twinkle&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;twinkle twinkle little star&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;ta&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;la&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;x&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;hi&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;hi hi&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;ho&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;ho ho&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;heh&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;jay&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true; // Jay Jay (name)</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;walla&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true; // Walla Walla is a city in Washington State</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;sri&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true; // Sri Sri (name)</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;hey&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="fc">&nbsp;    } else if (repetitionOf(&quot;hah&quot;, tokens, position)) {</b>
+<b class="fc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;heh&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;oh&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;ouh&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;chop&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;ring&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;beep&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;bleep&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;yeah&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;gout&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="fc">&nbsp;    } else if (repetitionOf(&quot;wait&quot;, tokens, position) &amp;&amp; position == 2) {</b>
+<b class="fc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;quack&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="fc">&nbsp;    } else if (repetitionOf(&quot;meow&quot;, tokens, position)) {</b>
+<b class="fc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;squawk&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;whoa&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;si&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;honk&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;brum&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;chi&quot;, tokens, position)) {</b>
+&nbsp;      // name
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;santorio&quot;, tokens, position)) {</b>
+&nbsp;      // name
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;lapu&quot;, tokens, position)) {</b>
+&nbsp;      // city
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;chow&quot;, tokens, position)) {</b>
+&nbsp;      // dog breed https://en.wikipedia.org/wiki/Chow_Chow
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;beep&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;shh&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;yummy&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;boom&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;bye&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;ah&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;aah&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;bang&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;woof&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;wink&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;yes&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;tsk&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;hush&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;ding&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;choo&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;miu&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;tuk&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;yadda&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;yadda yadda&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;walla&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;walla walla&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;doo&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;doo doo&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;sapiens&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;Homo sapiens sapiens&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;tse&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;tse tse&quot;</b>
+<b class="pc">&nbsp;    } else if (repetitionOf(&quot;no&quot;, tokens, position)) {</b>
+<b class="nc">&nbsp;      return true;   // &quot;no no&quot;</b>
+<b class="fc">&nbsp;    } else if (tokens[position].getToken().endsWith(&quot;ay&quot;)) {</b>
+<b class="pc">&nbsp;      if (tokens[position - 1].getToken().equals(&quot;may&quot;) &amp;&amp; tokens[position].getToken().equals(&quot;May&quot;)) {</b>
+<b class="nc">&nbsp;        return true;   // &quot;may May&quot;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      if (tokens[position - 1].getToken().equals(&quot;May&quot;) &amp;&amp; tokens[position].getToken().equals(&quot;may&quot;)) {</b>
+<b class="fc">&nbsp;        return true;   // &quot;May may&quot;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (tokens[1].getToken().equals(&quot;May&quot;) &amp;&amp; tokens[2].getToken().equals(&quot;May&quot;)) {</b>
+<b class="fc">&nbsp;        return true;   // &quot;May May&quot; SENT_START</b>
+&nbsp;      }
+<b class="fc">&nbsp;    } else if (tokens[position].getToken().endsWith(&quot;ill&quot;)) {</b>
+<b class="pc">&nbsp;      return (position &gt; 0 &amp;&amp; tokens[position - 1].getToken().equals(&quot;will&quot;) &amp;&amp; tokens[position].getToken().equals(&quot;Will&quot;)) // will Wills</b>
+<b class="fc">&nbsp;        || (tokens[position - 1].getToken().equals(&quot;Will&quot;) &amp;&amp; tokens[position].getToken().equals(&quot;will&quot;)) // Will will ...</b>
+<b class="fc">&nbsp;        || (tokens[1].getToken().equals(&quot;Will&quot;) &amp;&amp; tokens[2].getToken().equals(&quot;Will&quot;)); // &quot;Will Will&quot; SENT_START</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return super.ignore(tokens, position);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean posIsIn(AnalyzedTokenReadings[] tokens, int position, String... posTags) {
+<b class="pc">&nbsp;    if (position &gt;= 0 &amp;&amp; position &lt; tokens.length) {</b>
+<b class="fc">&nbsp;      for (String posTag : posTags) {</b>
+<b class="fc">&nbsp;        if (tokens[position].hasPartialPosTag(posTag)) {</b>
+<b class="fc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean repetitionOf(String word, AnalyzedTokenReadings[] tokens, int position) {
+<b class="pc">&nbsp;    return position &gt; 0 &amp;&amp; tokens[position - 1].getToken().equalsIgnoreCase(word) &amp;&amp; tokens[position].getToken().equalsIgnoreCase(word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

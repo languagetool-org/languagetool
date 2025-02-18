@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LargestNGramFinder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.bigdata</a>
+</div>
+
+<h1>Coverage Summary for Class: LargestNGramFinder (org.languagetool.dev.bigdata)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LargestNGramFinder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.bigdata;
+&nbsp;
+&nbsp;import org.apache.lucene.document.Document;
+&nbsp;import org.apache.lucene.index.*;
+&nbsp;import org.apache.lucene.search.IndexSearcher;
+&nbsp;import org.apache.lucene.search.TermQuery;
+&nbsp;import org.apache.lucene.search.TopDocs;
+&nbsp;import org.apache.lucene.store.FSDirectory;
+&nbsp;import org.apache.lucene.util.BytesRef;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Find the ngram with the largest occurrence in a Lucene index,
+&nbsp; * i.e. the one with the largest value in the &#39;count&#39; field.
+&nbsp; * @since 3.3
+&nbsp; */
+&nbsp;final class LargestNGramFinder {
+&nbsp;
+&nbsp;  private LargestNGramFinder() {
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    if (args.length != 1) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + LargestNGramFinder.class.getSimpleName() + &quot; &lt;ngramIndexDir&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    FSDirectory fsDir = FSDirectory.open(new File(args[0]).toPath());</b>
+<b class="nc">&nbsp;    IndexReader reader = DirectoryReader.open(fsDir);</b>
+<b class="nc">&nbsp;    IndexSearcher searcher = new IndexSearcher(reader);</b>
+<b class="nc">&nbsp;    Fields fields = MultiFields.getFields(reader);</b>
+<b class="nc">&nbsp;    long max = 0;</b>
+<b class="nc">&nbsp;    String maxTerm = &quot;&quot;;</b>
+<b class="nc">&nbsp;    Terms terms = fields.terms(&quot;ngram&quot;);</b>
+<b class="nc">&nbsp;    TermsEnum termsEnum = terms.iterator();</b>
+<b class="nc">&nbsp;    int count = 0;</b>
+&nbsp;    BytesRef next;
+<b class="nc">&nbsp;    while ((next = termsEnum.next()) != null) {</b>
+<b class="nc">&nbsp;      String term = next.utf8ToString();</b>
+<b class="nc">&nbsp;      TopDocs topDocs = searcher.search(new TermQuery(new Term(&quot;ngram&quot;, term)), 5);</b>
+<b class="nc">&nbsp;      int docId = topDocs.scoreDocs[0].doc;</b>
+<b class="nc">&nbsp;      Document document = reader.document(docId);</b>
+<b class="nc">&nbsp;      long thisCount = Long.parseLong(document.get(&quot;count&quot;));</b>
+<b class="nc">&nbsp;      if (max &lt; thisCount) {</b>
+<b class="nc">&nbsp;        max = thisCount;</b>
+<b class="nc">&nbsp;        maxTerm = term;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (count % 10_000 == 0) {</b>
+<b class="nc">&nbsp;        System.out.println(count + &quot; -&gt; &quot; + topDocs.totalHits + &quot; for &quot; + term + &quot; -&gt; &quot; + thisCount + &quot;, max so far: &quot; + max + &quot; for &#39;&quot; + maxTerm + &quot;&#39;&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      count++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(&quot;Max: &quot; + max + &quot; for &quot; + maxTerm);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,849 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RuleMatchDiffFinder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.diff</a>
+</div>
+
+<h1>Coverage Summary for Class: RuleMatchDiffFinder (org.languagetool.dev.diff)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RuleMatchDiffFinder</td>
+<td class="coverageStat">
+  <span class="percent">
+    16.7%
+  </span>
+  <span class="absValue">
+    (5/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    12.7%
+  </span>
+  <span class="absValue">
+    (29/228)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    11.8%
+  </span>
+  <span class="absValue">
+    (48/406)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RuleMatchDiffFinder$OutputFile</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    16.1%
+  </span>
+  <span class="absValue">
+    (5/31)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    12.7%
+  </span>
+  <span class="absValue">
+    (29/228)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    11.7%
+  </span>
+  <span class="absValue">
+    (48/409)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.diff;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileWriter;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.UnsupportedEncodingException;
+&nbsp;import java.net.URLEncoder;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * Find diffs between runs of command-line LT. Matches with the same rule id, doc title, line, column
+&nbsp; * and covered text are considered the &quot;same&quot; match. If there&#39;s a difference in message or
+&nbsp; * suggestion of these same matches, then we consider this match to be &quot;modified&quot;.
+&nbsp; */
+<b class="fc">&nbsp;public class RuleMatchDiffFinder {</b>
+&nbsp;
+&nbsp;  private static final String MARKER_START = &quot;&lt;span class=&#39;marker&#39;&gt;&quot;;
+&nbsp;  private static final String MARKER_END = &quot;&lt;/span&gt;&quot;;
+&nbsp;  private static final int IFRAME_MAX = -1;
+&nbsp;
+&nbsp;  private boolean fullMode;
+&nbsp;
+&nbsp;  List&lt;RuleMatchDiff&gt; getDiffs(List&lt;LightRuleMatch&gt; l1, List&lt;LightRuleMatch&gt; l2) {
+<b class="fc">&nbsp;    System.out.println(&quot;Comparing result 1 (&quot; + l1.size() + &quot; matches) to result 2 (&quot; + l2.size() + &quot; matches), step 1&quot;);</b>
+&nbsp;    //debugList(&quot;List 1&quot;, l1);
+&nbsp;    //debugList(&quot;List 2&quot;, l2);
+<b class="fc">&nbsp;    List&lt;RuleMatchDiff&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    Map&lt;MatchKey, LightRuleMatch&gt; oldMatches = getMatchMap(l1);</b>
+<b class="fc">&nbsp;    for (LightRuleMatch match : l2) {</b>
+<b class="fc">&nbsp;      MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId(), match.getTitle(), match.getCoveredText());</b>
+<b class="fc">&nbsp;      LightRuleMatch oldMatch = oldMatches.get(key);</b>
+<b class="fc">&nbsp;      if (oldMatch != null) {</b>
+<b class="fc">&nbsp;        if (!oldMatch.getSuggestions().equals(match.getSuggestions()) ||</b>
+<b class="fc">&nbsp;          !oldMatch.getMessage().equals(match.getMessage()) ||</b>
+<b class="pc">&nbsp;          oldMatch.getStatus() != match.getStatus() ||</b>
+&nbsp;          //!Objects.equals(oldMatch.getSubId(), match.getSubId()) ||   -- sub id change = other sub-rule added or removed, this is usually not relevant
+<b class="pc">&nbsp;          !oldMatch.getCoveredText().equals(match.getCoveredText())) {</b>
+<b class="fc">&nbsp;          result.add(RuleMatchDiff.modified(oldMatch, match));</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="fc">&nbsp;        result.add(RuleMatchDiff.added(match));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    System.out.println(&quot;Comparing result 1 (&quot; + l1.size() + &quot; matches) to result 2 (&quot; + l2.size() + &quot; matches), step 2&quot;);</b>
+<b class="fc">&nbsp;    Map&lt;String, List&lt;RuleMatchDiff&gt;&gt; addedToMatch = getAddedMatchesMap(result);</b>
+<b class="fc">&nbsp;    Map&lt;MatchKey, LightRuleMatch&gt; newMatches = getMatchMap(l2);</b>
+<b class="fc">&nbsp;    for (LightRuleMatch match : l1) {</b>
+<b class="fc">&nbsp;      MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId(), match.getTitle(), match.getCoveredText());</b>
+<b class="fc">&nbsp;      LightRuleMatch newMatch = newMatches.get(key);</b>
+<b class="fc">&nbsp;      if (newMatch == null) {</b>
+&nbsp;        // removed
+<b class="fc">&nbsp;        String lookupKey = cleanSpan(match.getContext()) + &quot;_&quot; + match.getTitle();</b>
+<b class="fc">&nbsp;        List&lt;RuleMatchDiff&gt; addedMatches = addedToMatch.get(lookupKey);</b>
+<b class="fc">&nbsp;        LightRuleMatch replacedBy = null;</b>
+<b class="fc">&nbsp;        if (addedMatches != null) {</b>
+<b class="fc">&nbsp;          for (RuleMatchDiff addedMatch : addedMatches) {</b>
+<b class="fc">&nbsp;            LightRuleMatch tmp = addedMatch.getNewMatch();</b>
+<b class="pc">&nbsp;            boolean overlaps = tmp.getColumn() &lt; match.getColumn() + match.getCoveredText().length() &amp;&amp;</b>
+<b class="pc">&nbsp;              tmp.getColumn() + tmp.getCoveredText().length() &gt; match.getColumn();</b>
+<b class="pc">&nbsp;            if (overlaps &amp;&amp; !tmp.getFullRuleId().equals(match.getFullRuleId())) {</b>
+&nbsp;              /*System.out.println(tmp + &quot;\noverlaps\n&quot; + match);
+&nbsp;              System.out.println(&quot;tmp &quot; + tmp.getTitle());
+&nbsp;              System.out.println(&quot;match &quot; + match.getTitle());
+&nbsp;              System.out.println(&quot;  &quot; + tmp.getColumn() + &quot; &lt; &quot; + match.getColumn() +&quot; + &quot;+ match.getCoveredText().length()  + &quot; &amp;&amp;&quot;);
+&nbsp;              System.out.println(&quot;  &quot; + tmp.getColumn() + &quot; + &quot; + tmp.getCoveredText().length() +&quot; &gt;  &quot;+ match.getColumn());
+&nbsp;              System.out.println(&quot;   old covered: &quot; + match.getCoveredText());
+&nbsp;              System.out.println(&quot;   new covered: &quot; + tmp.getCoveredText());
+&nbsp;              System.out.println(&quot;&quot;);*/
+<b class="nc">&nbsp;              replacedBy = addedMatch.getNewMatch();</b>
+<b class="nc">&nbsp;              addedMatch.setReplaces(match);</b>
+&nbsp;              break;
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+<b class="fc">&nbsp;        result.add(RuleMatchDiff.removed(match, replacedBy));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private Map&lt;String, List&lt;RuleMatchDiff&gt;&gt; getAddedMatchesMap(List&lt;RuleMatchDiff&gt; result) {
+<b class="fc">&nbsp;    Map&lt;String, List&lt;RuleMatchDiff&gt;&gt; addedToMatch = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (RuleMatchDiff diff : result) {</b>
+<b class="fc">&nbsp;      if (diff.getStatus() == RuleMatchDiff.Status.ADDED) {</b>
+<b class="fc">&nbsp;        String key = cleanSpan(diff.getNewMatch().getContext()) + &quot;_&quot; + diff.getNewMatch().getTitle();</b>
+<b class="fc">&nbsp;        List&lt;RuleMatchDiff&gt; val = addedToMatch.get(key);</b>
+<b class="pc">&nbsp;        if (val == null) {</b>
+<b class="fc">&nbsp;          List&lt;RuleMatchDiff&gt; diffs = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;          diffs.add(diff);</b>
+<b class="fc">&nbsp;          addedToMatch.put(key, diffs);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          val.add(diff);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return addedToMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String cleanSpan(String s) {
+<b class="fc">&nbsp;    return StringUtils.replaceOnce(StringUtils.replaceOnce(s, MARKER_START, &quot;&quot;), &quot;&lt;/span&gt;&quot;, &quot;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void debugList(String title, List&lt;LightRuleMatch&gt; l1) {
+<b class="nc">&nbsp;    System.out.println(title);</b>
+<b class="nc">&nbsp;    for (LightRuleMatch lightRuleMatch : l1) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot; *&quot; + lightRuleMatch);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private Map&lt;MatchKey, LightRuleMatch&gt; getMatchMap(List&lt;LightRuleMatch&gt; list) {
+<b class="fc">&nbsp;    Map&lt;MatchKey, LightRuleMatch&gt; map = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (LightRuleMatch match : list) {</b>
+<b class="fc">&nbsp;      MatchKey key = new MatchKey(match.getLine(), match.getColumn(), match.getRuleId(), match.getTitle(), match.getCoveredText());</b>
+<b class="fc">&nbsp;      map.put(key, match);</b>
+&nbsp;      //System.out.println(&quot;-&gt; &quot; + key);
+&nbsp;    }
+<b class="fc">&nbsp;    return map;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printDiffs(List&lt;RuleMatchDiff&gt; diffs, FileWriter fw, String langCode, String date, String filename, String ruleId) throws IOException {
+<b class="nc">&nbsp;    fw.write(&quot;Diffs found: &quot; + diffs.size());</b>
+<b class="nc">&nbsp;    if (diffs.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      RuleMatchDiff diff1 = diffs.get(0);</b>
+<b class="nc">&nbsp;      if (diff1.getOldMatch() != null) {</b>
+<b class="nc">&nbsp;        fw.write(&quot;. Category: &quot; + diff1.getOldMatch().getCategoryName());</b>
+<b class="nc">&nbsp;      } else if (diff1.getNewMatch() != null) {</b>
+<b class="nc">&nbsp;        fw.write(&quot;. Category: &quot; + diff1.getNewMatch().getCategoryName());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (fullMode) {</b>
+<b class="nc">&nbsp;      fw.write(&quot;. &lt;a href=&#39;../&quot; + langCode + &quot;/&quot; + enc(filename) + &quot;&#39;&gt;Today&#39;s list&lt;/a&gt;&quot;);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      fw.write(&quot;. &lt;a href=&#39;../&quot; + langCode + &quot;_full/&quot; + enc(filename) + &quot;&#39;&gt;Full list&lt;/a&gt;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String shortRuleId = ruleId.replaceFirst(&quot;^.* / &quot;, &quot;&quot;).replaceFirst(&quot;\\[[0-9]+\\]&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;.  &quot; + getAnalyticsLink(shortRuleId, langCode));</b>
+<b class="nc">&nbsp;    fw.write(&quot;&lt;br&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    printTableBegin(fw);</b>
+<b class="nc">&nbsp;    int iframeCount = 0;</b>
+<b class="nc">&nbsp;    int i = 1;</b>
+<b class="nc">&nbsp;    for (RuleMatchDiff diff : diffs) {</b>
+<b class="nc">&nbsp;      if (diff.getStatus() == RuleMatchDiff.Status.ADDED) {</b>
+<b class="nc">&nbsp;        fw.write(&quot;&lt;tr style=&#39;background-color: #c7ffd0&#39;&gt;\n&quot;);</b>
+<b class="nc">&nbsp;      } else if (diff.getStatus() == RuleMatchDiff.Status.REMOVED) {</b>
+<b class="nc">&nbsp;        fw.write(&quot;&lt;tr style=&#39;background-color: #ffd2d8&#39;&gt;\n&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        fw.write(&quot;&lt;tr&gt;\n&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;td&gt;&quot; + diff.getStatus().name().substring(0, 3) + &quot;&lt;br&gt;#&quot; + i + &quot; &lt;/td&gt;\n&quot;);</b>
+<b class="nc">&nbsp;      i++;</b>
+<b class="nc">&nbsp;      LightRuleMatch oldMatch = diff.getOldMatch();</b>
+<b class="nc">&nbsp;      LightRuleMatch newMatch = diff.getNewMatch();</b>
+<b class="nc">&nbsp;      if (diff.getOldMatch() != null) {</b>
+<b class="nc">&nbsp;        fw.write(&quot;&lt;td&gt;&quot; + cleanSource(diff.getOldMatch().getRuleSource()) + &quot;&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;      } else if (diff.getNewMatch() != null) {</b>
+<b class="nc">&nbsp;        fw.write(&quot;&lt;td&gt;&quot; + cleanSource(diff.getNewMatch().getRuleSource()) + &quot;&lt;/td&gt;&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        fw.write(&quot;&lt;td&gt;&lt;/td&gt;&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (oldMatch != null &amp;&amp; newMatch != null) {</b>
+<b class="nc">&nbsp;        printRuleIdCol(fw, oldMatch, newMatch);</b>
+<b class="nc">&nbsp;        printReplacCol(fw, diff);</b>
+<b class="nc">&nbsp;        iframeCount += printMessage(fw, oldMatch, newMatch, diff.getReplaces(), diff.getReplacedBy(), langCode, date, diff.getStatus(), iframeCount);</b>
+<b class="nc">&nbsp;        printMarkerCol(fw, oldMatch, newMatch);</b>
+<b class="nc">&nbsp;        if (oldMatch.getSuggestions().equals(newMatch.getSuggestions())) {</b>
+<b class="nc">&nbsp;          fw.write(&quot;&lt;td&gt;&quot;);</b>
+<b class="nc">&nbsp;          fw.write(oldMatch.getSuggestions().stream().map(k -&gt; showTrimSpace(k)).collect(Collectors.joining(&quot;, &quot;)));</b>
+<b class="nc">&nbsp;          fw.write(&quot;&lt;/td&gt;\n&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          fw.write(&quot;&lt;td&gt;\n&quot;);</b>
+<b class="nc">&nbsp;          fw.write(&quot;  &lt;tt&gt;old: &lt;/tt&gt;&quot; + oldMatch.getSuggestions().stream().map(k -&gt; showTrimSpace(k)).collect(Collectors.joining(&quot;, &quot;)));</b>
+<b class="nc">&nbsp;          fw.write(&quot;  &lt;br&gt;&quot;);</b>
+<b class="nc">&nbsp;          fw.write(&quot;  &lt;tt&gt;new: &lt;/tt&gt;&quot; + newMatch.getSuggestions().stream().map(k -&gt; showTrimSpace(k)).collect(Collectors.joining(&quot;, &quot;)));</b>
+<b class="nc">&nbsp;          fw.write(&quot;&lt;/td&gt;\n&quot;);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        LightRuleMatch match = diff.getOldMatch() != null ? diff.getOldMatch() : diff.getNewMatch();</b>
+<b class="nc">&nbsp;        printRuleIdCol(fw, null, match);</b>
+<b class="nc">&nbsp;        printReplacCol(fw, diff);</b>
+<b class="nc">&nbsp;        iframeCount += printMessage(fw, match, null, diff.getReplaces(), diff.getReplacedBy(), langCode, date, diff.getStatus(), iframeCount);</b>
+<b class="nc">&nbsp;        printMarkerCol(fw, null, match);</b>
+<b class="nc">&nbsp;        fw.write(&quot;  &lt;td&gt;&quot; + match.getSuggestions().stream().map(k -&gt; showTrimSpace(k)).collect(Collectors.joining(&quot;, &quot;)) + &quot;&lt;/td&gt;\n&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      fw.write(&quot;&lt;/tr&gt;\n&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    printTableEnd(fw);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printReplacCol(FileWriter fw, RuleMatchDiff diff) throws IOException {
+<b class="nc">&nbsp;    if (diff.getReplaces() != null) {</b>
+<b class="nc">&nbsp;      fw.write(&quot;&lt;td title=&#39;replaces other match&#39;&gt;R&#39;s&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;    } else if (diff.getReplacedBy() != null) {</b>
+<b class="nc">&nbsp;      fw.write(&quot;&lt;td title=&#39;replaced by other match&#39;&gt;R&#39;d&lt;/td&gt;&quot;);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      fw.write(&quot;&lt;td&gt;-&lt;/td&gt;&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getAnalyticsLink(String ruleId, String langCode) {
+<b class="nc">&nbsp;    String shortId = ruleId.replaceFirst(&quot;\\[[0-9]+\\]&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    String shortLangCode = langCode.replaceFirst(&quot;-.*&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    return &quot;[&lt;a href=&#39;https://internal1.languagetool.org/grafana/d/BY_CNDHGz/rule-events-analysis?orgId=1&amp;var-rule_id=&quot; +</b>
+&nbsp;      shortId + &quot;&amp;from=now-30d&amp;var-language=&quot; + shortLangCode + &quot;&#39; target=&#39;grafana&#39; title=&#39;Grafana&#39;&gt;g&lt;/a&gt;/&quot; +
+&nbsp;      &quot;&lt;a href=&#39;https://analytics.languagetoolplus.com/matomo/index.php?module=Widgetize&amp;action=iframe&amp;secondaryDimension=eventName&amp;moduleToWidgetize=Events&amp;actionToWidgetize=getAction&amp;idSite=18&amp;period=day&amp;date=yesterday&amp;flat=1&amp;filter_column=label&amp;show_dimensions=1&amp;filter_pattern=&quot; +
+&nbsp;      shortId + &quot;&#39; target=&#39;disables&#39; title=&#39;disables in Matomo&#39;&gt;m&lt;/a&gt;]&quot;;
+&nbsp;  }
+&nbsp;
+&nbsp;  private String cleanSource(String ruleSource) {
+<b class="nc">&nbsp;    if (ruleSource == null) {</b>
+<b class="nc">&nbsp;      return &quot;java&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return ruleSource.replaceFirst(&quot;^.*/grammar&quot;, &quot;gram.&quot;).replaceFirst(&quot;gram.-premium&quot;, &quot;prem&quot;).replaceFirst(&quot;.xml&quot;, &quot;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printRuleIdCol(FileWriter fw, LightRuleMatch oldMatch, LightRuleMatch newMatch) throws IOException {
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;td class=&#39;small&#39;&gt;&quot;);</b>
+<b class="nc">&nbsp;    if (oldMatch != null &amp;&amp; !Objects.equals(oldMatch.getSubId(), newMatch.getSubId())) {</b>
+<b class="nc">&nbsp;      fw.write(oldMatch.getRuleId());</b>
+<b class="nc">&nbsp;      fw.write(&quot;[&quot; + oldMatch.getSubId() + &quot; =&gt; &quot; + newMatch.getSubId() + &quot;]&quot;);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      fw.write(newMatch.getRuleId() + &quot;[&quot; + (newMatch.getSubId() != null ? newMatch.getSubId() : &quot;&quot;) + &quot;]&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (newMatch.getStatus() != LightRuleMatch.Status.on) {</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;br&gt;&lt;span class=&#39;status&#39;&gt;[&quot; + newMatch.getStatus() + &quot;]&lt;/span&gt;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (oldMatch != null &amp;&amp; newMatch.getStatus() != oldMatch.getStatus()) {</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;br&gt;&lt;span class=&#39;status&#39;&gt;[&quot; + oldMatch.getStatus() + &quot; =&gt; &quot; + newMatch.getStatus() + &quot;]&lt;/span&gt;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (newMatch.getTags().size() &gt; 0) {</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;br&gt;&lt;span class=&#39;status&#39;&gt;&quot; + newMatch.getTags() + &quot;&lt;/span&gt;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (oldMatch != null &amp;&amp; !newMatch.getTags().equals(oldMatch.getTags())) {</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;br&gt;&lt;span class=&#39;status&#39;&gt;&quot; + oldMatch.getTags() + &quot; =&gt; &quot; + newMatch.getTags() + &quot;&lt;/span&gt;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    fw.write(&quot; &lt;/td&gt;\n&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printMarkerCol(FileWriter fw, LightRuleMatch oldMatch, LightRuleMatch newMatch) throws IOException {
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;td&gt;&quot;);</b>
+<b class="nc">&nbsp;    String markedText = newMatch == null ? oldMatch.getCoveredText() : newMatch.getCoveredText();</b>
+<b class="nc">&nbsp;    fw.write(markedText);</b>
+<b class="nc">&nbsp;    fw.write(&quot; &lt;/td&gt;\n&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int printMessage(FileWriter fw, LightRuleMatch oldMatch, LightRuleMatch newMatch,
+&nbsp;                           LightRuleMatch replaces, LightRuleMatch replacedBy, String langCode, String date,
+&nbsp;                           RuleMatchDiff.Status status, int iframeCount) throws IOException {
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;td&gt;&quot;);</b>
+&nbsp;    String message;
+&nbsp;    boolean canOverlap;
+<b class="nc">&nbsp;    if (newMatch == null) {</b>
+<b class="nc">&nbsp;      fw.write(oldMatch.getMessage());</b>
+<b class="nc">&nbsp;      message = oldMatch.getMessage();</b>
+<b class="nc">&nbsp;      canOverlap = canOverlap(oldMatch);</b>
+<b class="nc">&nbsp;    } else if (oldMatch.getMessage().equals(newMatch.getMessage())) {</b>
+<b class="nc">&nbsp;      fw.write(oldMatch.getMessage());</b>
+<b class="nc">&nbsp;      message = oldMatch.getMessage();</b>
+<b class="nc">&nbsp;      canOverlap = canOverlap(oldMatch);</b>
+&nbsp;    } else {
+&nbsp;      //System.out.println(&quot;old: &quot; + oldMatch.getMessage());
+&nbsp;      //System.out.println(&quot;new: &quot; + newMatch.getMessage());
+<b class="nc">&nbsp;      fw.write(</b>
+<b class="nc">&nbsp;        &quot;&lt;tt&gt;old:&lt;/tt&gt; &quot; + showTrimSpace(oldMatch.getMessage()) + &quot;&lt;br&gt;\n&quot; +</b>
+<b class="nc">&nbsp;          &quot;&lt;tt&gt;new:&lt;/tt&gt; &quot; + showTrimSpace(newMatch.getMessage()));</b>
+<b class="nc">&nbsp;      message = newMatch.getMessage();</b>
+<b class="nc">&nbsp;      canOverlap = canOverlap(newMatch);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;br&gt;&lt;span class=&#39;sentence&#39;&gt;&quot; + showTrimSpace(escapeSentence(oldMatch.getContext())) + &quot;&lt;/span&gt;&quot;);</b>
+<b class="nc">&nbsp;    boolean withIframe = false;</b>
+<b class="nc">&nbsp;    if (status == RuleMatchDiff.Status.ADDED || status == RuleMatchDiff.Status.MODIFIED) {</b>
+<b class="nc">&nbsp;      int markerFrom = oldMatch.getContext().indexOf(MARKER_START);</b>
+<b class="nc">&nbsp;      int markerTo = oldMatch.getContext().replace(MARKER_START, &quot;&quot;).indexOf(MARKER_END);</b>
+<b class="nc">&nbsp;      String params = &quot;sentence=&quot; + enc(oldMatch.getContext().replace(MARKER_START, &quot;&quot;).replace(MARKER_END, &quot;&quot;), 300) +</b>
+<b class="nc">&nbsp;        &quot;&amp;rule_id=&quot; + enc(oldMatch.getFullRuleId()) +</b>
+<b class="nc">&nbsp;        &quot;&amp;filename=&quot; + enc(cleanSource(oldMatch.getRuleSource())) +</b>
+<b class="nc">&nbsp;        &quot;&amp;message=&quot; + enc(message, 300) +</b>
+<b class="nc">&nbsp;        &quot;&amp;suggestions=&quot; + enc(String.join(&quot;, &quot;, oldMatch.getSuggestions()), 300) +</b>
+&nbsp;        &quot;&amp;marker_from=&quot; + markerFrom +
+&nbsp;        &quot;&amp;marker_to=&quot; + markerTo +
+<b class="nc">&nbsp;        &quot;&amp;language=&quot; + enc(langCode) +</b>
+<b class="nc">&nbsp;        &quot;&amp;day=&quot; + enc(date);</b>
+<b class="nc">&nbsp;      if (iframeCount &gt; IFRAME_MAX) {</b>
+&nbsp;        // rendering 2000 iframes into a page isn&#39;t fun...
+<b class="nc">&nbsp;        fw.write(&quot;    &lt;a target=&#39;regression_feedback&#39; href=\&quot;https://languagetoolplus.com/regression/button?&quot; + params + &quot;\&quot;&gt;FA?&lt;/a&gt;\n\n&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        fw.write(&quot;    &lt;iframe scrolling=\&quot;no\&quot; style=\&quot;border: none; width: 165px; height: 30px\&quot;\n&quot; +</b>
+&nbsp;          &quot;src=\&quot;https://languagetoolplus.com/regression/button?&quot; +
+&nbsp;          //&quot;src=\&quot;http://127.0.0.1:8000/regression/button&quot; +
+&nbsp;          params + &quot;\&quot;&gt;&lt;/iframe&gt;\n\n&quot;);
+<b class="nc">&nbsp;        withIframe = true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (replaces != null) {</b>
+<b class="nc">&nbsp;      if (canOverlap) {</b>
+&nbsp;        // can be ignored, sentence length rule can overlap other matches
+&nbsp;      } else {
+<b class="nc">&nbsp;        fw.write(&quot;&lt;br&gt;&lt;br&gt;&lt;i&gt;Maybe replaces old match:&lt;/i&gt;&lt;br&gt;&quot;);</b>
+<b class="nc">&nbsp;        fw.write(replaces.getMessage());</b>
+<b class="nc">&nbsp;        fw.write(&quot;  &lt;br&gt;&lt;span class=&#39;sentence&#39;&gt;&quot; + escapeSentence(replaces.getContext()) + &quot;&lt;/span&gt;&quot;);</b>
+<b class="nc">&nbsp;        fw.write(&quot;  &lt;br&gt;&lt;span class=&#39;suggestions&#39;&gt;Suggestions: &quot; + replaces.getSuggestions() + &quot;&lt;/span&gt;&quot;);</b>
+<b class="nc">&nbsp;        fw.write(&quot;  &lt;br&gt;&lt;span class=&#39;id&#39;&gt;&quot; + replaces.getFullRuleId() + &quot;&lt;/span&gt;&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (replacedBy != null) {</b>
+<b class="nc">&nbsp;      if (canOverlap(replacedBy)) {</b>
+&nbsp;        // can be ignored, sentence length rule can overlap other matches
+&nbsp;      } else {
+<b class="nc">&nbsp;        fw.write(&quot;&lt;br&gt;&lt;br&gt;&lt;i&gt;Maybe replaced by new match:&lt;/i&gt;&lt;br&gt;&quot;);</b>
+<b class="nc">&nbsp;        fw.write(replacedBy.getMessage());</b>
+<b class="nc">&nbsp;        fw.write(&quot;  &lt;br&gt;&lt;span class=&#39;sentence&#39;&gt;&quot; + escapeSentence(replacedBy.getContext()) + &quot;&lt;/span&gt;&quot;);</b>
+<b class="nc">&nbsp;        fw.write(&quot;  &lt;br&gt;&lt;span class=&#39;suggestions&#39;&gt;Suggestions: &quot; + replacedBy.getSuggestions() + &quot;&lt;/span&gt;&quot;);</b>
+<b class="nc">&nbsp;        fw.write(&quot;  &lt;br&gt;&lt;span class=&#39;id&#39;&gt;&quot; + replacedBy.getFullRuleId() + &quot;&lt;/span&gt;\n&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;/td&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    return withIframe ? 1 : 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean canOverlap(LightRuleMatch match) {
+<b class="nc">&nbsp;    return match.getRuleId().equals(&quot;TOO_LONG_SENTENCE&quot;) || match.getRuleId().equals(&quot;TOO_LONG_SENTENCE_DE&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String escapeSentence(String s) {
+<b class="nc">&nbsp;    return StringTools.escapeHTML(s).</b>
+<b class="nc">&nbsp;      replace(&quot;&amp;lt;span class=&#39;marker&#39;&amp;gt;&quot;, &quot;&lt;span class=&#39;marker&#39;&gt;&quot;).</b>
+<b class="nc">&nbsp;      replace(&quot;&amp;lt;/span&amp;gt;&quot;, &quot;&lt;/span&gt;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String enc(String s) {
+<b class="nc">&nbsp;    return enc(s, Integer.MAX_VALUE);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String enc(String s, int maxLen) {
+&nbsp;    try {
+<b class="nc">&nbsp;      return URLEncoder.encode(StringUtils.abbreviate(s, maxLen), &quot;utf-8&quot;);</b>
+&nbsp;    } catch (UnsupportedEncodingException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private String showTrimSpace(String s) {
+<b class="nc">&nbsp;    s = s.replace(&quot;\n&quot;, &quot;&lt;span class=&#39;whitespace&#39;&gt;\\\\n&lt;/span&gt;&quot;);</b>
+<b class="nc">&nbsp;    s = s.replaceFirst(&quot;^\\s&quot;, &quot;&lt;span class=&#39;whitespace&#39;&gt;&amp;nbsp;&lt;/span&gt;&quot;);</b>
+<b class="nc">&nbsp;    s = s.replaceFirst(&quot;\\s$&quot;, &quot;&lt;span class=&#39;whitespace&#39;&gt;&amp;nbsp;&lt;/span&gt;&quot;);</b>
+<b class="nc">&nbsp;    s = s.replace(&quot;\u00A0&quot;, &quot;&lt;span class=&#39;nbsp&#39; title=&#39;non-breaking space&#39;&gt;&amp;nbsp;&lt;/span&gt;&quot;);</b>
+<b class="nc">&nbsp;    return s;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printTableBegin(FileWriter fw) throws IOException {
+<b class="nc">&nbsp;    fw.write(&quot;&lt;table class=&#39;sortable_table&#39;&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;&lt;thead&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;&lt;tr&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;th style=&#39;width:60px&#39;&gt;Change&lt;/th&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;th&gt;File&lt;/th&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;th class=&#39;small&#39;&gt;Rule ID&lt;/th&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;th title=&#39;Replaced by, Replaces&#39;&gt;R&lt;/th&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;th&gt;Message and Text&lt;/th&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;th&gt;Marked&lt;/th&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;th&gt;Suggestions&lt;/th&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;&lt;/tr&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;&lt;/thead&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;&lt;tbody&gt;\n&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printTableEnd(FileWriter fw) throws IOException {
+<b class="nc">&nbsp;    fw.write(&quot;&lt;/tbody&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;&lt;/table&gt;\n\n&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void run(LightRuleMatchParser parser, File file1, File file2, File outputDir, String langCode, String date) throws IOException {
+<b class="nc">&nbsp;    if (file1.getName().equals(&quot;empty.json&quot;)) {</b>
+<b class="nc">&nbsp;      fullMode = true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    LightRuleMatchParser.JsonParseResult jsonParseResult1 = parser.parseOutput(file1);</b>
+<b class="nc">&nbsp;    List&lt;LightRuleMatch&gt; l1 = jsonParseResult1.result;</b>
+<b class="nc">&nbsp;    LightRuleMatchParser.JsonParseResult jsonParseResult2 = parser.parseOutput(file2);</b>
+<b class="nc">&nbsp;    List&lt;LightRuleMatch&gt; l2 = jsonParseResult2.result;</b>
+<b class="nc">&nbsp;    String title = &quot;Comparing &quot; + file1.getName() + &quot; to &quot; + file2.getName();</b>
+<b class="nc">&nbsp;    System.out.println(title);</b>
+<b class="nc">&nbsp;    List&lt;RuleMatchDiff&gt; diffs = getDiffs(l1, l2);</b>
+<b class="nc">&nbsp;    diffs.sort((k, j) -&gt; {</b>
+<b class="nc">&nbsp;        int idDiff = getFullId(k).compareTo(getFullId(j));</b>
+<b class="nc">&nbsp;        if (idDiff == 0) {</b>
+<b class="nc">&nbsp;          int diff2 = k.getStatus().compareTo(j.getStatus());</b>
+<b class="nc">&nbsp;          if (diff2 == 0) {</b>
+<b class="nc">&nbsp;            return k.getMarkedText().compareTo(j.getMarkedText());</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            return diff2;</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        return idDiff;</b>
+&nbsp;      }
+&nbsp;    );
+<b class="nc">&nbsp;    System.out.println(&quot;Total diffs found: &quot; + diffs.size());</b>
+<b class="nc">&nbsp;    Map&lt;String, List&lt;RuleMatchDiff&gt;&gt; keyToDiffs = groupDiffs(diffs);</b>
+<b class="nc">&nbsp;    List&lt;OutputFile&gt; outputFiles = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, List&lt;RuleMatchDiff&gt;&gt; entry : keyToDiffs.entrySet()) {</b>
+<b class="nc">&nbsp;      String filename = &quot;result_&quot; + entry.getKey().replace(&quot;/&quot;, &quot;_&quot;).replaceAll(&quot;[\\s_]+&quot;, &quot;_&quot;) + &quot;.html&quot;;</b>
+&nbsp;      /*if (filename.length() &gt; 100) {
+&nbsp;        System.out.println(&quot;WARN: Skipping &quot; + filename);
+&nbsp;        continue;
+&nbsp;      }*/
+<b class="nc">&nbsp;      File outputFile = new File(outputDir, filename);</b>
+<b class="nc">&nbsp;      if (entry.getValue().size() &gt; 0) {</b>
+<b class="nc">&nbsp;        outputFiles.add(new OutputFile(outputFile, entry.getValue()));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      try (FileWriter fw = new FileWriter(outputFile)) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Writing result to &quot; + outputFile);</b>
+<b class="nc">&nbsp;        printHeader(title, fw);</b>
+<b class="nc">&nbsp;        printDiffs(entry.getValue(), fw, langCode, date, filename, entry.getKey());</b>
+<b class="nc">&nbsp;        printFooter(fw);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    try (FileWriter fw = new FileWriter(new File(outputDir, &quot;index.html&quot;))) {</b>
+<b class="nc">&nbsp;      printHeader(&quot;Overview of regression results&quot;, fw);</b>
+<b class="nc">&nbsp;      fw.write(&quot;&lt;table class=&#39;sortable_table&#39;&gt;\n&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;&lt;thead&gt;&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;&lt;tr&gt;&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;td&gt;Total&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;td&gt;ADD&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;td&gt;REM&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;td&gt;MOD&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;td&gt;Source&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;td title=&#39;Picky&#39;&gt;P&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;td title=&#39;temp_off&#39;&gt;T&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;td title=&#39;Premium&#39;&gt;Prem&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;td&gt;ID&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;td&gt;Message of first match&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;&lt;/tr&gt;&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;&lt;/thead&gt;&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;&lt;tbody&gt;\n&quot;);</b>
+<b class="nc">&nbsp;      outputFiles.sort((f1, f2) -&gt; {</b>
+<b class="nc">&nbsp;          long added1 = f1.items.stream().filter(k -&gt; k.getStatus() == RuleMatchDiff.Status.ADDED).count();</b>
+<b class="nc">&nbsp;          long added2 = f2.items.stream().filter(k -&gt; k.getStatus() == RuleMatchDiff.Status.ADDED).count();</b>
+<b class="nc">&nbsp;          if (added2 == added1) {</b>
+<b class="nc">&nbsp;            long removed1 = f1.items.stream().filter(k -&gt; k.getStatus() == RuleMatchDiff.Status.REMOVED).count();</b>
+<b class="nc">&nbsp;            long removed2 = f2.items.stream().filter(k -&gt; k.getStatus() == RuleMatchDiff.Status.REMOVED).count();</b>
+<b class="nc">&nbsp;            return Long.compare(removed2, removed1);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            return Long.compare(added2, added1);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      );
+<b class="nc">&nbsp;      for (OutputFile outputFile : outputFiles) {</b>
+<b class="nc">&nbsp;        String file = outputFile.file.getName();</b>
+<b class="nc">&nbsp;        fw.write(&quot;&lt;tr&gt;&quot;);</b>
+<b class="nc">&nbsp;        fw.write(&quot;&lt;td&gt;&quot; + outputFile.items.size() + &quot;&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;        long added = outputFile.items.stream().filter(k -&gt; k.getStatus() == RuleMatchDiff.Status.ADDED).count();</b>
+<b class="nc">&nbsp;        fw.write(&quot;&lt;td &quot; + (added &gt; 0 ? &quot;style=&#39;background-color: #c7ffd0&#39;&quot; : &quot;&quot;) + &quot;&gt;&quot; + added + &quot;&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;        long removed = outputFile.items.stream().filter(k -&gt; k.getStatus() == RuleMatchDiff.Status.REMOVED).count();</b>
+<b class="nc">&nbsp;        fw.write(&quot;&lt;td &quot; + (removed &gt; 0 ? &quot;style=&#39;background-color: #ffd2d8&#39;&quot; : &quot;&quot;) + &quot;&gt;&quot; + removed + &quot;&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;        fw.write(&quot;&lt;td&gt;&quot; + outputFile.items.stream().filter(k -&gt; k.getStatus() == RuleMatchDiff.Status.MODIFIED).count() + &quot;&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;        fw.write(&quot;&lt;td&gt;&quot;);</b>
+<b class="nc">&nbsp;        fw.write(StringUtils.replaceOnce(file, &quot;result_&quot;, &quot;&quot;).replaceFirst(&quot;_.*&quot;, &quot;&quot;));</b>
+<b class="nc">&nbsp;        fw.write(&quot;&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;        if (outputFile.items.size() &gt; 0 &amp;&amp; outputFile.items.get(0).getNewMatch() != null) {</b>
+<b class="nc">&nbsp;          fw.write(&quot;&lt;td&gt;&quot; + (outputFile.items.get(0).getNewMatch().getTags().contains(&quot;picky&quot;) ? &quot;p&quot; : &quot;&quot;) + &quot;&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;        } else if (outputFile.items.size() &gt; 0 &amp;&amp; outputFile.items.get(0).getOldMatch() != null) {</b>
+<b class="nc">&nbsp;          fw.write(&quot;&lt;td&gt;&quot; + (outputFile.items.get(0).getOldMatch().getTags().contains(&quot;picky&quot;) ? &quot;p&quot; : &quot;&quot;) + &quot;&lt;/td&gt;&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          fw.write(&quot;&lt;td&gt;&lt;/td&gt;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (outputFile.items.size() &gt; 0 &amp;&amp; outputFile.items.get(0).getNewMatch() != null) {</b>
+<b class="nc">&nbsp;          fw.write(&quot;&lt;td&gt;&quot; + (outputFile.items.get(0).getNewMatch().getStatus() == LightRuleMatch.Status.temp_off ? &quot;t&quot; : &quot;&quot;) + &quot;&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;        } else if (outputFile.items.size() &gt; 0 &amp;&amp; outputFile.items.get(0).getOldMatch() != null) {</b>
+<b class="nc">&nbsp;          fw.write(&quot;&lt;td&gt;&quot; + (outputFile.items.get(0).getOldMatch().getStatus() == LightRuleMatch.Status.temp_off ? &quot;t&quot; : &quot;&quot;) + &quot;&lt;/td&gt;&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          fw.write(&quot;&lt;td&gt;&lt;/td&gt;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (outputFile.items.size() &gt; 0 &amp;&amp; outputFile.items.get(0).getNewMatch() != null) {</b>
+<b class="nc">&nbsp;          fw.write(&quot;&lt;td&gt;&quot; + (outputFile.items.get(0).getNewMatch().isPremium() ? &quot;prem&quot; : &quot;&quot;) + &quot;&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;        } else if (outputFile.items.size() &gt; 0 &amp;&amp; outputFile.items.get(0).getOldMatch() != null) {</b>
+<b class="nc">&nbsp;          fw.write(&quot;&lt;td&gt;&quot; + (outputFile.items.get(0).getOldMatch().isPremium() ? &quot;prem&quot; : &quot;&quot;) + &quot;&lt;/td&gt;&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          fw.write(&quot;&lt;td&gt;&lt;/td&gt;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        fw.write(&quot;&lt;td&gt;&quot;);</b>
+<b class="nc">&nbsp;        String id = file.replaceFirst(&quot;result_.*?_&quot;, &quot;&quot;).replace(&quot;.html&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        fw.write(&quot;  &lt;a href=&#39;&quot; + enc(file) + &quot;&#39;&gt;&quot; + id + &quot;&lt;/a&gt;&quot;);</b>
+<b class="nc">&nbsp;        fw.write(&quot;  &quot; + getAnalyticsLink(id, langCode));</b>
+<b class="nc">&nbsp;        fw.write(&quot;&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;        if (outputFile.items.size() &gt; 0 &amp;&amp; outputFile.items.get(0).getNewMatch() != null) {</b>
+<b class="nc">&nbsp;          fw.write(&quot;&lt;td class=&#39;msg&#39;&gt;&quot; + escapeSentence(outputFile.items.get(0).getNewMatch().getMessage()) + &quot;&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;        } else if (outputFile.items.size() &gt; 0 &amp;&amp; outputFile.items.get(0).getOldMatch() != null) {</b>
+<b class="nc">&nbsp;          fw.write(&quot;&lt;td class=&#39;msg&#39;&gt;&quot; + escapeSentence(outputFile.items.get(0).getOldMatch().getMessage()) + &quot;&lt;/td&gt;&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          fw.write(&quot;&lt;td&gt;&lt;/td&gt;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        fw.write(&quot;&lt;/tr&gt;\n&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      fw.write(&quot;&lt;/tbody&gt;&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;&lt;/table&gt;\n\n&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;&lt;br&gt;&lt;table class=&#39;meta&#39;&gt;\n&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;tr&gt;&lt;td&gt;Old API:&lt;/td&gt; &lt;td&gt;&quot; + jsonParseResult1.buildDates + &quot;&lt;/td&gt;&lt;/tr&gt;\n&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;  &lt;tr&gt;&lt;td&gt;New API:&lt;/td&gt; &lt;td&gt;&quot; + jsonParseResult2.buildDates + &quot;&lt;/td&gt;&lt;/tr&gt;\n&quot;);</b>
+<b class="nc">&nbsp;      fw.write(&quot;&lt;/table&gt;\n&quot;);</b>
+<b class="nc">&nbsp;      printFooterForIndex(fw);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static class OutputFile {
+&nbsp;    File file;
+&nbsp;    List&lt;RuleMatchDiff&gt; items;
+&nbsp;
+<b class="nc">&nbsp;    OutputFile(File file, List&lt;RuleMatchDiff&gt; items) {</b>
+<b class="nc">&nbsp;      this.file = file;</b>
+<b class="nc">&nbsp;      this.items = items;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private Map&lt;String, List&lt;RuleMatchDiff&gt;&gt; groupDiffs(List&lt;RuleMatchDiff&gt; diffs) {
+<b class="nc">&nbsp;    Map&lt;String, List&lt;RuleMatchDiff&gt;&gt; keyToDiffs = new TreeMap&lt;&gt;();</b>
+&nbsp;    String key;
+<b class="nc">&nbsp;    String prevKey = &quot;&quot;;</b>
+<b class="nc">&nbsp;    List&lt;RuleMatchDiff&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (RuleMatchDiff diff : diffs) {</b>
+<b class="nc">&nbsp;      if (diff.getOldMatch() != null) {</b>
+<b class="nc">&nbsp;        key = cleanSource(diff.getOldMatch().getRuleSource()) + &quot; / &quot; + diff.getOldMatch().getFullRuleId();</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        key = cleanSource(diff.getNewMatch().getRuleSource()) + &quot; / &quot; + diff.getNewMatch().getFullRuleId();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (!key.equals(prevKey) &amp;&amp; l.size() &gt; 0) {</b>
+<b class="nc">&nbsp;        keyToDiffs.put(prevKey, l);</b>
+<b class="nc">&nbsp;        l = new ArrayList&lt;&gt;();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      l.add(diff);</b>
+<b class="nc">&nbsp;      prevKey = key;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (l.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      keyToDiffs.put(prevKey, l);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return keyToDiffs;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printHeader(String title, FileWriter fw) throws IOException {
+<b class="nc">&nbsp;    fw.write(&quot;&lt;!doctype html&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;&lt;html&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;&lt;head&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;title&gt;&quot; + title + &quot;&lt;/title&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;meta charset=&#39;utf-8&#39;&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;script src=&#39;https://unpkg.com/tablefilter@0.7.0/dist/tablefilter/tablefilter.js&#39;&gt;&lt;/script&gt;\n&quot;);  // https://github.com/koalyptus/TableFilter/</b>
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;style&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;    td { vertical-align: top; }\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;    .small { font-size: small }\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;    .sentence { color: #666; }\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;    .marker { text-decoration: underline; background-color: rgba(200, 200, 200, 0.4) }\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;    .source { color: #999; }\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;    .status { color: #999; }\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;    .whitespace { background-color: rgba(200, 200, 200, 0.3) }\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;    .nbsp { background-color: rgba(200, 200, 200, 0.3) }\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;    .id { color: #666; }\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;    .msg { color: #666; }\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;    .meta { color: #666; }\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;  &lt;/style&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;&lt;/head&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;&lt;body&gt;\n\n&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printFooter(FileWriter fw) throws IOException {
+<b class="nc">&nbsp;    fw.write(&quot;&lt;script&gt;\n&quot; +</b>
+&nbsp;      &quot;var tf = new TableFilter(document.querySelector(&#39;.sortable_table&#39;), {\n&quot; +
+&nbsp;      &quot;    base_path: &#39;https://unpkg.com/tablefilter@0.7.0/dist/tablefilter/&#39;,\n&quot; +
+&nbsp;      &quot;    col_1: &#39;select&#39;,\n&quot; +
+&nbsp;      &quot;    col_3: &#39;select&#39;,\n&quot; +
+&nbsp;      &quot;    auto_filter: { delay: 100 },\n&quot; +
+&nbsp;      &quot;    grid_layout: false,\n&quot; +
+&nbsp;      &quot;    col_types: [&#39;string&#39;, &#39;string&#39;, &#39;string&#39;],\n&quot; +
+&nbsp;      &quot;    extensions: [{ name: &#39;sort&#39; }]\n&quot; +
+&nbsp;      &quot;});\n&quot; +
+&nbsp;      &quot;tf.init();\n&quot; +
+&nbsp;      &quot;&lt;/script&gt;&quot;);
+<b class="nc">&nbsp;    fw.write(&quot;&lt;/body&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;&lt;/html&gt;\n&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printFooterForIndex(FileWriter fw) throws IOException {
+<b class="nc">&nbsp;    fw.write(&quot;&lt;script&gt;\n&quot; +</b>
+&nbsp;      &quot;var tf = new TableFilter(document.querySelector(&#39;.sortable_table&#39;), {\n&quot; +
+&nbsp;      &quot;    base_path: &#39;https://unpkg.com/tablefilter@0.7.0/dist/tablefilter/&#39;,\n&quot; +
+&nbsp;      &quot;    auto_filter: { delay: 100 },\n&quot; +
+&nbsp;      &quot;    col_0: &#39;none&#39;,\n&quot; +
+&nbsp;      &quot;    col_1: &#39;none&#39;,\n&quot; +
+&nbsp;      &quot;    col_2: &#39;none&#39;,\n&quot; +
+&nbsp;      &quot;    col_3: &#39;none&#39;,\n&quot; +
+&nbsp;      &quot;    col_4: &#39;select&#39;,\n&quot; +
+&nbsp;      &quot;    col_5: &#39;select&#39;,\n&quot; +
+&nbsp;      &quot;    col_6: &#39;select&#39;,\n&quot; +
+&nbsp;      &quot;    col_7: &#39;select&#39;,\n&quot; +
+&nbsp;      &quot;    grid_layout: false,\n&quot; +
+&nbsp;      &quot;    col_types: [&#39;number&#39;, &#39;number&#39;, &#39;number&#39;, &#39;number&#39;, &#39;string&#39;, &#39;string&#39;],\n&quot; +
+&nbsp;      &quot;    extensions: [{ name: &#39;sort&#39; }]\n&quot; +
+&nbsp;      &quot;});\n&quot; +
+&nbsp;      &quot;tf.init();\n&quot; +
+&nbsp;      &quot;&lt;/script&gt;&quot;);
+<b class="nc">&nbsp;    fw.write(&quot;&lt;/body&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    fw.write(&quot;&lt;/html&gt;\n&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getFullId(RuleMatchDiff diff) {
+<b class="nc">&nbsp;    String id = &quot;unknown&quot;;</b>
+<b class="nc">&nbsp;    if (diff.getOldMatch() != null) {</b>
+<b class="nc">&nbsp;      id = diff.getOldMatch().getFullRuleId();</b>
+<b class="nc">&nbsp;    } else if (diff.getNewMatch() != null) {</b>
+<b class="nc">&nbsp;      id = diff.getNewMatch().getFullRuleId();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return id;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void printUsageAndExit() {
+<b class="nc">&nbsp;    System.out.println(&quot;Usage: &quot; + RuleMatchDiffFinder.class.getSimpleName() + &quot; &lt;matches1&gt; &lt;matches2&gt; &lt;resultDir&gt; &lt;date&gt;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot; &lt;matches1&gt; and &lt;matches2&gt; are text outputs of different versions of org.languagetool.dev.dumpcheck.SentenceSourceChecker run on the same input&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                           or JSON outputs from org.languagetool.dev.httpchecker.HttpApiSentenceChecker&quot;);</b>
+<b class="nc">&nbsp;    System.exit(1);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    RuleMatchDiffFinder diffFinder = new RuleMatchDiffFinder();</b>
+<b class="nc">&nbsp;    LightRuleMatchParser parser = new LightRuleMatchParser();</b>
+<b class="nc">&nbsp;    if (args.length == 0) {</b>
+<b class="nc">&nbsp;      printUsageAndExit();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (args[0].contains(&quot;XX&quot;) &amp;&amp; args[1].contains(&quot;XX&quot;) &amp;&amp; args[2].contains(&quot;XX&quot;)) {</b>
+<b class="nc">&nbsp;      if (args.length != 4) {</b>
+<b class="nc">&nbsp;        printUsageAndExit();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      System.out.println(&quot;Running in multi-file mode, replacing &#39;XX&#39; in filenames with lang codes...&quot;);</b>
+<b class="nc">&nbsp;      String file1 = args[0];</b>
+<b class="nc">&nbsp;      String file3 = args[2];</b>
+<b class="nc">&nbsp;      String date = args[3];</b>
+<b class="nc">&nbsp;      File dir = new File(file1).getParentFile();</b>
+<b class="nc">&nbsp;      String templateName = new File(file1).getName();</b>
+<b class="nc">&nbsp;      int varPos = templateName.indexOf(&quot;XX&quot;);</b>
+<b class="nc">&nbsp;      for (String file : dir.list()) {</b>
+<b class="nc">&nbsp;        if (file.length() &gt;= varPos + 1) {</b>
+<b class="nc">&nbsp;          StringBuilder tempName = new StringBuilder(file).replace(varPos, varPos + 2, &quot;XX&quot;);</b>
+<b class="nc">&nbsp;          if (tempName.toString().equals(templateName)) {</b>
+<b class="nc">&nbsp;            String langCode = file.substring(varPos, varPos + 2);</b>
+<b class="nc">&nbsp;            String tempNameNew = file.replace(&quot;.old&quot;, &quot;.new&quot;);</b>
+<b class="nc">&nbsp;            File newFile = new File(dir, tempNameNew);</b>
+<b class="nc">&nbsp;            if (!newFile.exists()) {</b>
+<b class="nc">&nbsp;              throw new RuntimeException(tempNameNew + &quot; not found - make sure files are names *.old and *.new in multi-file mode&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            System.out.println(&quot;==== &quot; + file + &quot; =================================&quot;);</b>
+<b class="nc">&nbsp;            File oldFile = new File(dir, file);</b>
+<b class="nc">&nbsp;            String outputDir = file3.replace(&quot;XX&quot;, langCode);</b>
+<b class="nc">&nbsp;            diffFinder.run(parser, oldFile, newFile, new File(outputDir), langCode, date);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      if (args.length != 5) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Usage: &quot; + RuleMatchDiffFinder.class.getSimpleName() + &quot; &lt;matches1&gt; &lt;matches2&gt; &lt;resultDir&gt; &lt;langCode&gt; &lt;date&gt;&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot; &lt;matches1&gt; and &lt;matches2&gt; are text outputs of different versions of org.languagetool.dev.dumpcheck.SentenceSourceChecker run on the same input&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;                           or JSON outputs from org.languagetool.dev.httpchecker.HttpApiSentenceChecker&quot;);</b>
+<b class="nc">&nbsp;        System.exit(1);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      File file1 = new File(args[0]);</b>
+<b class="nc">&nbsp;      File file2 = new File(args[1]);</b>
+<b class="nc">&nbsp;      File outputDir = new File(args[2]);</b>
+<b class="nc">&nbsp;      String langCode = args[3];</b>
+<b class="nc">&nbsp;      String date = args[4];</b>
+<b class="nc">&nbsp;      if (outputDir.exists() &amp;&amp; outputDir.isFile()) {</b>
+<b class="nc">&nbsp;        throw new IOException(&quot;&lt;resultDir&gt; already exists, but is a file: &quot; + outputDir);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (!outputDir.exists()) {</b>
+<b class="nc">&nbsp;        boolean mkdir = outputDir.mkdir();</b>
+<b class="nc">&nbsp;        if (!mkdir) {</b>
+<b class="nc">&nbsp;          throw new IOException(&quot;Could not create directory &quot; + outputDir);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      diffFinder.run(parser, file1, file2, outputDir, langCode, date);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

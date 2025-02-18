@@ -1,0 +1,372 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PatternRuleQueryBuilder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.index</a>
+</div>
+
+<h1>Coverage Summary for Class: PatternRuleQueryBuilder (org.languagetool.dev.index)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PatternRuleQueryBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/74)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/90)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.index;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.apache.lucene.index.Term;
+&nbsp;import org.apache.lucene.search.*;
+&nbsp;import org.apache.lucene.search.spans.SpanMultiTermQueryWrapper;
+&nbsp;import org.apache.lucene.search.spans.SpanNearQuery;
+&nbsp;import org.apache.lucene.search.spans.SpanQuery;
+&nbsp;import org.apache.lucene.search.spans.SpanTermQuery;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.patterns.AbstractPatternRule;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;import static org.languagetool.dev.index.LanguageToolFilter.LEMMA_PREFIX;
+&nbsp;import static org.languagetool.dev.index.LanguageToolFilter.POS_PREFIX;
+&nbsp;
+&nbsp;/**
+&nbsp; * A factory class for building a Lucene Query from a PatternRule. The query
+&nbsp; * requires an index where each document contains only one sentence. It returns
+&nbsp; * potential matches, i.e. LanguageTool still needs to run over the matches
+&nbsp; * to make sure there is indeed an error.
+&nbsp; * 
+&nbsp; * @author Tao Lin
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public class PatternRuleQueryBuilder {
+&nbsp;
+&nbsp;  private final Language language;
+&nbsp;  private final IndexSearcher indexSearcher;
+&nbsp;  private final String searchFieldName;
+&nbsp;
+&nbsp;  public PatternRuleQueryBuilder(Language language, IndexSearcher indexSearcher) {
+<b class="nc">&nbsp;    this(language, indexSearcher, Lucene.FIELD_NAME_LOWERCASE);</b>
+&nbsp;  }
+&nbsp;  
+<b class="nc">&nbsp;  public PatternRuleQueryBuilder(Language language, IndexSearcher indexSearcher, String searchFieldName) {</b>
+<b class="nc">&nbsp;    this.language = language;</b>
+<b class="nc">&nbsp;    this.indexSearcher = indexSearcher;</b>
+<b class="nc">&nbsp;    this.searchFieldName = searchFieldName;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Iterate over all elements, ignore those not supported, add the other ones to a BooleanQuery.
+&nbsp;   * @throws UnsupportedPatternRuleException if no query could be created for the rule
+&nbsp;   */
+&nbsp;  public Query buildRelaxedQuery(AbstractPatternRule rule) throws UnsupportedPatternRuleException {
+<b class="nc">&nbsp;    BooleanQuery.Builder builder = new BooleanQuery.Builder();</b>
+<b class="nc">&nbsp;    for (PatternToken patternToken : rule.getPatternTokens()) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        BooleanClause clause = makeQuery(patternToken);</b>
+<b class="nc">&nbsp;        builder.add(clause);</b>
+&nbsp;      } catch (UnsupportedPatternRuleException e) {
+&nbsp;        //System.out.println(&quot;Ignoring because it&#39;s not supported: &quot; + element + &quot;: &quot; + e);
+&nbsp;        // cannot handle - okay to ignore, as we may return too broad matches
+&nbsp;      } catch (Exception e) {
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Could not create query for rule &quot; + rule.getId(), e);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    BooleanQuery query = builder.build();</b>
+<b class="nc">&nbsp;    if (query.clauses().isEmpty()) {</b>
+<b class="nc">&nbsp;      throw new UnsupportedPatternRuleException(&quot;No items found in rule that can be used to build a search query: &quot; + rule);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return query;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private BooleanClause makeQuery(PatternToken patternToken) throws UnsupportedPatternRuleException {
+<b class="nc">&nbsp;    checkUnsupportedElement(patternToken);</b>
+&nbsp;
+<b class="nc">&nbsp;    String termStr = patternToken.getString();</b>
+<b class="nc">&nbsp;    String pos = patternToken.getPOStag();</b>
+&nbsp;
+<b class="nc">&nbsp;    BooleanClause termQuery = getTermQueryOrNull(patternToken, termStr);</b>
+<b class="nc">&nbsp;    BooleanClause posQuery = getPosQueryOrNull(patternToken, pos);</b>
+&nbsp;
+<b class="nc">&nbsp;    if (termQuery != null &amp;&amp; posQuery != null) {</b>
+&nbsp;      // if both term and POS are set, we create a query where both are at the same position
+<b class="nc">&nbsp;      if (mustOccur(termQuery) &amp;&amp; mustOccur(posQuery)) {</b>
+<b class="nc">&nbsp;        SpanQuery spanQueryForTerm = asSpanQuery(termQuery);</b>
+<b class="nc">&nbsp;        SpanQuery spanQueryForPos = asSpanQuery(posQuery);</b>
+<b class="nc">&nbsp;        SpanQuery[] spanClauses = {spanQueryForTerm, spanQueryForPos};</b>
+<b class="nc">&nbsp;        return new BooleanClause(new SpanNearQuery(spanClauses, 0, false), BooleanClause.Occur.MUST);</b>
+&nbsp;      } else {
+&nbsp;        // should not happen, we always use Occur.MUST:
+<b class="nc">&nbsp;        throw new UnsupportedPatternRuleException(&quot;Term/POS combination not supported yet: &quot; + patternToken);</b>
+&nbsp;      }
+&nbsp;    
+<b class="nc">&nbsp;    } else if (termQuery != null) {</b>
+<b class="nc">&nbsp;      return termQuery;</b>
+&nbsp;
+<b class="nc">&nbsp;    } else if (posQuery != null) {</b>
+<b class="nc">&nbsp;      return posQuery;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    throw new UnsupportedPatternRuleException(&quot;Neither POS tag nor term set for element: &quot; + patternToken);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private SpanQuery asSpanQuery(BooleanClause query) {
+<b class="nc">&nbsp;    if (query.getQuery() instanceof MultiTermQuery) {</b>
+<b class="nc">&nbsp;      return new SpanMultiTermQueryWrapper&lt;&gt;((MultiTermQuery) query.getQuery());</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      Set&lt;Term&gt; terms = new HashSet&lt;&gt;();</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        indexSearcher.createWeight(query.getQuery(), false).extractTerms(terms);</b>
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (terms.size() != 1) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Expected term set of size 1: &quot; + terms);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return new SpanTermQuery(terms.iterator().next());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean mustOccur(BooleanClause query) {
+<b class="nc">&nbsp;    return query != null &amp;&amp; query.getOccur() == BooleanClause.Occur.MUST;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private BooleanClause getTermQueryOrNull(PatternToken patternToken, String termStr) throws UnsupportedPatternRuleException {
+<b class="nc">&nbsp;    if (termStr == null || termStr.isEmpty()) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;    Query termQuery;
+<b class="nc">&nbsp;    Term termQueryTerm = getTermQueryTerm(termStr);</b>
+<b class="nc">&nbsp;    if (patternToken.getNegation() || patternToken.getMinOccurrence() == 0) {</b>
+&nbsp;      // we need to ignore this - negation, if any, must happen at the same position
+<b class="nc">&nbsp;      return null;</b>
+<b class="nc">&nbsp;    } else if (patternToken.isInflected() &amp;&amp; patternToken.isRegularExpression()) {</b>
+<b class="nc">&nbsp;      Term lemmaQueryTerm = getQueryTerm(LEMMA_PREFIX + &quot;(&quot;, simplifyRegex(termStr), &quot;)&quot;);</b>
+<b class="nc">&nbsp;      Query regexpQuery = getRegexQuery(lemmaQueryTerm, termStr, patternToken);</b>
+<b class="nc">&nbsp;      return new BooleanClause(regexpQuery, BooleanClause.Occur.MUST);</b>
+<b class="nc">&nbsp;    } else if (patternToken.isInflected() &amp;&amp; !patternToken.isRegularExpression()) {</b>
+&nbsp;      /*
+&nbsp;      This is simpler, but leads to problem with e.g. German rules ZEITLICH_SYNCHRON and GEWISSEN_SUBST:
+&nbsp;      Term lemmaQueryTerm = getQueryTerm(element, LEMMA_PREFIX, termStr, &quot;&quot;);
+&nbsp;      Query query = new TermQuery(lemmaQueryTerm);
+&nbsp;      return new BooleanClause(query, BooleanClause.Occur.MUST);
+&nbsp;      */
+<b class="nc">&nbsp;      Synthesizer synthesizer = language.getSynthesizer();</b>
+<b class="nc">&nbsp;      if (synthesizer != null) {</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          String[] synthesized = synthesizer.synthesize(new AnalyzedToken(termStr, null, termStr), &quot;.*&quot;, true);</b>
+&nbsp;          Query query;
+<b class="nc">&nbsp;          if (synthesized.length == 0) {</b>
+<b class="nc">&nbsp;            query = new TermQuery(termQueryTerm);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            query = new RegexpQuery(getTermQueryTerm(StringUtils.join(synthesized, &quot;|&quot;)));</b>
+&nbsp;          }
+<b class="nc">&nbsp;          return new BooleanClause(query, BooleanClause.Occur.MUST);</b>
+&nbsp;        } catch (IOException e) {
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Could not build Lucene query for &#39;&quot; + patternToken + &quot;&#39; and &#39;&quot; + termStr + &quot;&#39;&quot;, e);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return null;</b>
+<b class="nc">&nbsp;    } else if (patternToken.isRegularExpression()) {</b>
+<b class="nc">&nbsp;      termQuery = getRegexQuery(termQueryTerm, termStr, patternToken);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      termQuery = new TermQuery(termQueryTerm);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new BooleanClause(termQuery, BooleanClause.Occur.MUST);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // regex syntax not supported, but doesn&#39;t matter - remove or simplify it:
+&nbsp;  private String simplifyRegex(String regex) {
+<b class="nc">&nbsp;    return regex.replace(&quot;(?:&quot;, &quot;(&quot;).replace(&quot;\\d&quot;, &quot;[0-9]&quot;).replace(&quot;\\w&quot;, &quot;[a-zA-Z_0-9]&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // the new and fast Regex query of Lucene doesn&#39;t support full Java regex syntax:
+&nbsp;  private boolean needsSimplification(String regex) {
+<b class="nc">&nbsp;    return regex.contains(&quot;(?:&quot;) || regex.contains(&quot;\\d&quot;) || regex.contains(&quot;\\w&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private BooleanClause getPosQueryOrNull(PatternToken patternToken, String pos) throws UnsupportedPatternRuleException {
+<b class="nc">&nbsp;    if (pos == null || pos.isEmpty()) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;    Query posQuery;
+&nbsp;    Term posQueryTerm;
+<b class="nc">&nbsp;    if (patternToken.getPOSNegation() || patternToken.getMinOccurrence() == 0) {</b>
+&nbsp;      // we need to ignore this - negation, if any, must happen at the same position
+<b class="nc">&nbsp;      return null;</b>
+<b class="nc">&nbsp;    } else if (patternToken.isPOStagRegularExpression()) {</b>
+<b class="nc">&nbsp;      posQueryTerm = getQueryTerm(POS_PREFIX + &quot;(&quot;, pos, &quot;)&quot;);</b>
+<b class="nc">&nbsp;      posQuery = getRegexQuery(posQueryTerm, pos, patternToken);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      posQueryTerm = getQueryTerm(POS_PREFIX, pos, &quot;&quot;);</b>
+<b class="nc">&nbsp;      posQuery = new TermQuery(posQueryTerm);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new BooleanClause(posQuery, BooleanClause.Occur.MUST);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Term getTermQueryTerm(String str) {
+<b class="nc">&nbsp;    return new Term(searchFieldName, str.toLowerCase());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Term getQueryTerm(String prefix, String str, String suffix) {
+<b class="nc">&nbsp;    return new Term(searchFieldName, prefix.toLowerCase() + str.toLowerCase() + suffix.toLowerCase());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Query getRegexQuery(Term term, String str, PatternToken patternToken) throws UnsupportedPatternRuleException {
+&nbsp;    try {
+<b class="nc">&nbsp;      if (needsSimplification(str)) {</b>
+<b class="nc">&nbsp;        Term newTerm = new Term(term.field(), simplifyRegex(term.text()));</b>
+<b class="nc">&nbsp;        return new RegexpQuery(newTerm);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (str.contains(&quot;?iu&quot;) || str.contains(&quot;?-i&quot;)) {</b>
+&nbsp;        // Lucene&#39;s RegexpQuery doesn&#39;t seem to support this
+<b class="nc">&nbsp;        throw new UnsupportedPatternRuleException(&quot;Regex constructs like &#39;?iu&#39; and &#39;?-i&#39; are not supported: &quot; + patternToken);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return new RegexpQuery(term);</b>
+&nbsp;    } catch (IllegalArgumentException e) {
+&nbsp;      // constructs like &quot;\p{Punct}&quot; not supported by Lucene RegExp:
+<b class="nc">&nbsp;      throw new UnsupportedPatternRuleException(&quot;Advanced regex like &#39;\\p{Punct}&#39; are not supported: &quot; + patternToken);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void checkUnsupportedElement(PatternToken patternPatternToken)
+&nbsp;      throws UnsupportedPatternRuleException {
+<b class="nc">&nbsp;    if (patternPatternToken.hasOrGroup()) {</b>
+&nbsp;      // TODO: this is not enough: the first of the tokens in the &lt;or&gt; group will not get into this branch
+<b class="nc">&nbsp;      throw new UnsupportedPatternRuleException(&quot;&lt;or&gt; not yet supported.&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (patternPatternToken.isUnified()) {</b>
+<b class="nc">&nbsp;      throw new UnsupportedPatternRuleException(&quot;Elements with unified tokens are not supported.&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (patternPatternToken.getString() != null &amp;&amp; patternPatternToken.getString().matches(&quot;\\\\\\d+&quot;)) { // e.g. &quot;\1&quot;</b>
+<b class="nc">&nbsp;      throw new UnsupportedPatternRuleException(&quot;Elements with only match references (e.g. \\1) are not supported.&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

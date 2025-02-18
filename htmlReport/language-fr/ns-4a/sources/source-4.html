@@ -1,0 +1,276 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SuggestionStage</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling.symspell.implementation</a>
+</div>
+
+<h1>Coverage Summary for Class: SuggestionStage (org.languagetool.rules.spelling.symspell.implementation)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SuggestionStage</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/29)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SuggestionStage$Entry</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">SuggestionStage$Node</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/35)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.rules.spelling.symspell.implementation;
+&nbsp;//        MIT License
+&nbsp;//
+&nbsp;//        Copyright (c) 2018 Hampus Londögård
+&nbsp;//
+&nbsp;//        Permission is hereby granted, free of charge, to any person obtaining a copy
+&nbsp;//        of this software and associated documentation files (the &quot;Software&quot;), to deal
+&nbsp;//        in the Software without restriction, including without limitation the rights
+&nbsp;//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+&nbsp;//        copies of the Software, and to permit persons to whom the Software is
+&nbsp;//        furnished to do so, subject to the following conditions:
+&nbsp;//
+&nbsp;//        The above copyright notice and this permission notice shall be included in all
+&nbsp;//        copies or substantial portions of the Software.
+&nbsp;//
+&nbsp;//        THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+&nbsp;//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+&nbsp;//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+&nbsp;//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+&nbsp;//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+&nbsp;//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+&nbsp;//        SOFTWARE.
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/// &lt;summary&gt;An intentionally opacque class used to temporarily stage
+&nbsp;/// dictionary data during the adding of many words. By staging the
+&nbsp;/// data during the building of the dictionary data, significant savings
+&nbsp;/// of time can be achieved, as well as a reduction in final memory usage.&lt;/summary&gt;
+&nbsp;public class SuggestionStage {
+<b class="nc">&nbsp;    public SuggestionStage(int initialCapacity) {</b>
+<b class="nc">&nbsp;        deletes = new HashMap&lt;&gt;(initialCapacity);</b>
+<b class="nc">&nbsp;        nodes = new ChunkArray&lt;&gt;(initialCapacity * 2);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public class Node {
+&nbsp;        public String suggestion;
+&nbsp;        public int next;
+<b class="nc">&nbsp;        public Node(String suggestion, int next) {</b>
+<b class="nc">&nbsp;            this.suggestion = suggestion;</b>
+<b class="nc">&nbsp;            this.next = next;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    public class Entry {
+&nbsp;        public int count;
+&nbsp;        public int first;
+<b class="nc">&nbsp;        Entry(int count, int first) {</b>
+<b class="nc">&nbsp;            this.count = count;</b>
+<b class="nc">&nbsp;            this.first = first;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    public Map&lt;Integer, Entry&gt; deletes; // {get; set; }
+&nbsp;    public ChunkArray&lt;Node&gt; nodes;
+&nbsp;    /// &lt;summary&gt;Create a new instance of SymSpell.SuggestionStage.&lt;/summary&gt;
+&nbsp;    /// &lt;remarks&gt;Specifying ann accurate initialCapacity is not essential,
+&nbsp;    /// but it can help speed up processing by alleviating the need for
+&nbsp;    /// data restructuring as the size grows.&lt;/remarks&gt;
+&nbsp;    /// &lt;param name=&quot;initialCapacity&quot;&gt;The expected number of words that will be added.&lt;/param&gt;
+&nbsp;
+&nbsp;    /// &lt;summary&gt;Gets the count of unique delete words.&lt;/summary&gt;
+<b class="nc">&nbsp;    public int deleteCount() { return deletes.size(); }</b>
+&nbsp;    /// &lt;summary&gt;Gets the total count of all suggestions for all deletes.&lt;/summary&gt;
+<b class="nc">&nbsp;    public int nodeCount() { return nodes.count; }</b>
+&nbsp;    /// &lt;summary&gt;Clears all the data from the SuggestionStaging.&lt;/summary&gt;
+&nbsp;    public void clear() {
+<b class="nc">&nbsp;        deletes.clear();</b>
+<b class="nc">&nbsp;        nodes.clear();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    void add(int deleteHash, String suggestion) {
+<b class="nc">&nbsp;        Entry entry = deletes.getOrDefault(deleteHash, new Entry(0, -1));</b>
+<b class="nc">&nbsp;        int next = entry.first;</b>
+<b class="nc">&nbsp;        entry.count++;</b>
+<b class="nc">&nbsp;        entry.first = nodes.count;</b>
+<b class="nc">&nbsp;        deletes.put(deleteHash, entry);</b>
+<b class="nc">&nbsp;        nodes.add(new Node(suggestion, next));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    void commitTo(Map&lt;Integer, String[]&gt; permanentDeletes) {
+<b class="nc">&nbsp;        deletes.forEach((key, value) -&gt; {</b>
+&nbsp;            int i;
+&nbsp;            String[] suggestions;
+<b class="nc">&nbsp;            if (permanentDeletes.containsKey(key)) {</b>
+<b class="nc">&nbsp;                suggestions = permanentDeletes.get(key);</b>
+<b class="nc">&nbsp;                i = suggestions.length;</b>
+<b class="nc">&nbsp;                String[] newSuggestion = Arrays.copyOf(suggestions, i + value.count);</b>
+&nbsp;
+<b class="nc">&nbsp;                permanentDeletes.put(key, newSuggestion);</b>
+<b class="nc">&nbsp;                suggestions = newSuggestion;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                i = 0;</b>
+<b class="nc">&nbsp;                suggestions = new String[value.count];</b>
+<b class="nc">&nbsp;                permanentDeletes.put(key, suggestions);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            int next = value.first;</b>
+&nbsp;            Node node;
+<b class="nc">&nbsp;            while (next &gt;= 0) {</b>
+<b class="nc">&nbsp;                node = nodes.getValues(next);</b>
+<b class="nc">&nbsp;                suggestions[i] = node.suggestion;</b>
+<b class="nc">&nbsp;                next = node.next;</b>
+<b class="nc">&nbsp;                i++;</b>
+&nbsp;            }
+&nbsp;        });
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

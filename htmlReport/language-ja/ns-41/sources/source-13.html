@@ -1,0 +1,254 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RussianVerbConjugationRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ru</a>
+</div>
+
+<h1>Coverage Summary for Class: RussianVerbConjugationRule (org.languagetool.rules.ru)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RussianVerbConjugationRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/54)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2010 Daniel Naber (http://www.languagetool.org)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ru;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.tuple.ImmutablePair;
+&nbsp;import org.apache.commons.lang3.tuple.Pair;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;public class RussianVerbConjugationRule extends Rule {
+&nbsp;
+<b class="nc">&nbsp;    private static final Pattern PRONOUN = Pattern.compile(&quot;PNN:(.*):Nom:(.*)&quot;);</b>
+<b class="nc">&nbsp;    private static final Pattern FUT_REAL_VERB = Pattern.compile(&quot;VB:(Fut|Real):(.*):(.*):(.*):(.*)&quot;);</b>
+<b class="nc">&nbsp;    private static final Pattern PAST_VERB = Pattern.compile(&quot;VB:Past:(.*):(.*):(.*)&quot;);</b>
+&nbsp;    
+&nbsp;    public RussianVerbConjugationRule(ResourceBundle messages) {
+<b class="nc">&nbsp;        super(messages);</b>
+<b class="nc">&nbsp;        super.setCategory(Categories.GRAMMAR.getCategory(messages));</b>
+<b class="nc">&nbsp;        addExamplePair(Example.wrong(&quot;&lt;marker&gt;Я идёт&lt;/marker&gt;.&quot;),</b>
+<b class="nc">&nbsp;        Example.fixed(&quot;&lt;marker&gt;Я иду&lt;/marker&gt;.&quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getId() {
+<b class="nc">&nbsp;        return &quot;RU_VERB_CONJUGATION&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getDescription() {
+<b class="nc">&nbsp;        return &quot;Согласование личных местоимений с глаголами&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;        List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        AnalyzedTokenReadings[] tokenReadings = sentence.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;        for (int i = 1; i &lt; tokenReadings.length - 1; i++) {</b>
+<b class="nc">&nbsp;	    AnalyzedTokenReadings previousReading = tokenReadings[i-1];	</b>
+<b class="nc">&nbsp;            AnalyzedTokenReadings currentReading = tokenReadings[i];</b>
+<b class="nc">&nbsp;            AnalyzedTokenReadings nextReading = tokenReadings[i + 1];</b>
+<b class="nc">&nbsp;	    AnalyzedToken previousLemmaTok = previousReading.getReadings().get(0);</b>
+<b class="nc">&nbsp;            AnalyzedToken currentLemmaTok = currentReading.getReadings().get(0);</b>
+<b class="nc">&nbsp;            String previousToken = previousLemmaTok.getToken();</b>
+<b class="nc">&nbsp;	    String currentToken = currentLemmaTok.getToken();</b>
+<b class="nc">&nbsp;            String currentPosTag = currentLemmaTok.getPOSTag();</b>
+<b class="nc">&nbsp;            if (currentToken != null &amp;&amp; currentPosTag != null &amp;&amp; !currentToken.isEmpty() &amp;&amp; !currentPosTag.isEmpty()) {</b>
+<b class="nc">&nbsp;                Matcher pronounMatcher = PRONOUN.matcher(currentPosTag);</b>
+<b class="nc">&nbsp;                if ((pronounMatcher.find()) &amp;&amp; !(previousToken.equals(&quot;и&quot;)))  {</b>
+<b class="nc">&nbsp;                    Pair&lt;String, String&gt; pronounPair = new ImmutablePair&lt;&gt;(pronounMatcher.group(1), pronounMatcher.group(2));</b>
+<b class="nc">&nbsp;                    AnalyzedToken nextLemmaTok = nextReading.getReadings().get(0);</b>
+&nbsp;                    String next2Token;
+<b class="nc">&nbsp;                    if (i &lt; tokenReadings.length - 2) {</b>
+<b class="nc">&nbsp;                    AnalyzedTokenReadings next2Reading = tokenReadings[i + 2];</b>
+<b class="nc">&nbsp;                    AnalyzedToken next2LemmaTok = next2Reading.getReadings().get(0);</b>
+<b class="nc">&nbsp;                    next2Token = next2LemmaTok.getToken();</b>
+&nbsp;                    } else  {
+<b class="nc">&nbsp;                            next2Token = &quot;&quot;;</b>
+&nbsp;                            }
+<b class="nc">&nbsp;                    String nextToken = nextLemmaTok.getToken();</b>
+<b class="nc">&nbsp;                    String nextPosTag = nextLemmaTok.getPOSTag();</b>
+<b class="nc">&nbsp;                    if(nextPosTag != null &amp;&amp; !(nextPosTag.isEmpty()) &amp;&amp; !(next2Token.equals(&quot;быть&quot;) &amp;&amp; nextToken.equals(&quot;может&quot;)) &amp;&amp; !(nextToken.equals(&quot;целую&quot;)) ) {  //  &quot;может быть&quot;</b>
+<b class="nc">&nbsp;                        Matcher verbMatcher = FUT_REAL_VERB.matcher(nextPosTag);</b>
+<b class="nc">&nbsp;                        if (verbMatcher.find()) {</b>
+<b class="nc">&nbsp;                            Pair&lt;String, String&gt; verbPair = new ImmutablePair&lt;&gt;(verbMatcher.group(4), verbMatcher.group(5));</b>
+<b class="nc">&nbsp;                            if (isConjugationInPresentOrFutureWrong(pronounPair, verbPair)) {</b>
+<b class="nc">&nbsp;                                addRuleMatch(ruleMatches, currentReading, nextReading, sentence);</b>
+&nbsp;                            }
+&nbsp;                        } else {
+<b class="nc">&nbsp;                            verbMatcher = PAST_VERB.matcher(nextPosTag);</b>
+<b class="nc">&nbsp;                            if (verbMatcher.find()) {</b>
+<b class="nc">&nbsp;                                if (isConjugationInPastWrong(pronounMatcher.group(1), verbMatcher.group(3))) {</b>
+<b class="nc">&nbsp;                                    addRuleMatch(ruleMatches, currentReading, nextReading, sentence);</b>
+&nbsp;                                }
+&nbsp;                            }
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return toRuleMatchArray(ruleMatches);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean isConjugationInPresentOrFutureWrong(Pair&lt;String, String&gt; pronoun, Pair&lt;String, String&gt; verb) {
+<b class="nc">&nbsp;        if (!pronoun.getRight().equals(verb.getRight())) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (Arrays.asList(&quot;Masc&quot;, &quot;Fem&quot;, &quot;Neut&quot;).contains(pronoun.getLeft())) {</b>
+<b class="nc">&nbsp;            return &quot;PL&quot;.equals(verb.getLeft());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return !pronoun.getLeft().equals(verb.getLeft());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean isConjugationInPastWrong(String pronoun, String verb) {
+<b class="nc">&nbsp;        if (&quot;Sin&quot;.equals(pronoun)) {</b>
+<b class="nc">&nbsp;            return &quot;PL&quot;.equals(verb) || &quot;Neut&quot;.equals(verb);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return !pronoun.equals(verb);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void addRuleMatch(List&lt;RuleMatch&gt; ruleMatches, AnalyzedTokenReadings currentReading, AnalyzedTokenReadings nextReading, AnalyzedSentence sentence) {
+<b class="nc">&nbsp;        RuleMatch ruleMatch = new RuleMatch(this, sentence, currentReading.getStartPos(), nextReading.getEndPos(), &quot;Неверное спряжение глагола или неверное местоимение&quot;, getShort());</b>
+<b class="nc">&nbsp;        ruleMatches.add(ruleMatch);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected String getShort() {
+<b class="nc">&nbsp;        return &quot;Неверное спряжение глагола&quot;;</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

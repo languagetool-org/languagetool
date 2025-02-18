@@ -1,0 +1,1199 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > VerbAgreementRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: VerbAgreementRule (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VerbAgreementRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/260)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/614)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">VerbAgreementRule$BooleanAndFiniteVerb</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/260)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/617)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2012 Markus Brenneis
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.apache.commons.text.similarity.LevenshteinDistance;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.language.German;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.TextLevelRule;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.rules.patterns.PatternTokenBuilder;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Supplier;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static java.util.Arrays.*;
+&nbsp;import static org.languagetool.JLanguageTool.SENTENCE_START_TAGNAME;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Simple agreement checker for German verbs and subject. Checks agreement in:
+&nbsp; * 
+&nbsp; * &lt;ul&gt;
+&nbsp; *  &lt;li&gt;VER:1:SIN w/o ich: e.g. &quot;Max bin da.&quot; (incorrect) [same for VER:2:SIN w/o du, VER:1:PLU w/o wir]&lt;/li&gt;
+&nbsp; *  &lt;li&gt;ich + VER:[123]:.* (not VER:1:SIN): e.g. &quot;ich bist&quot; (incorrect) [same for du, er, wir]&lt;/li&gt; 
+&nbsp; * &lt;/ul&gt;
+&nbsp; * 
+&nbsp; * TODO:
+&nbsp; * &lt;ul&gt;
+&nbsp; * &lt;li&gt;wenn nur ein mögliches finites Verb -&amp;gt; das nehmen (Max machen das.)
+&nbsp; * &lt;li&gt;Sie (i&amp;gt;1)
+&nbsp; * &lt;li&gt;bei ich/du/er/wir sofort prüfen, damit alle vorkommen geprüft werden (Ich geht jetzt nach Hause und dort gehe ich sofort unter die Dusche.) [aber: isNear]
+&nbsp; * &lt;li&gt;Alle Verbvorkommen merken (Er präsentieren wollte und Video hätte keine Pläne.)
+&nbsp; * &lt;/ul&gt;
+&nbsp; * 
+&nbsp; * @author Markus Brenneis
+&nbsp; */
+&nbsp;public class VerbAgreementRule extends TextLevelRule {
+&nbsp;
+<b class="nc">&nbsp;  private static final List&lt;List&lt;PatternToken&gt;&gt; ANTI_PATTERNS = asList(</b>
+<b class="nc">&nbsp;    asList( // &quot;Ken dachte, du wärst ich.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;wärst&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;ich&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // &quot;*runterguck* das ist aber tief&quot; (Inflektiv)</b>
+<b class="nc">&nbsp;      token(&quot;*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:1:SIN:PRÄ:.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // &quot;Weder Peter noch ich wollen das.&quot;</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().token(&quot;weder&quot;).setSkip(8).build(),</b>
+<b class="nc">&nbsp;      token(&quot;noch&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;ich&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // &quot;Kümmerst dich ja gar nicht um sie.&quot; (okay for colloquial language)</b>
+<b class="nc">&nbsp;      pos(SENTENCE_START_TAGNAME),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:2:SIN:PRÄ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // &quot;Stehst einfach nicht zu mir.&quot; (okay for colloquial language)</b>
+<b class="nc">&nbsp;      pos(SENTENCE_START_TAGNAME),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:2:SIN:PRÄ:.*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;einfach|denn|schon&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // &quot;Stellst für deinen Dad etwas zu Essen bereit.&quot; (okay for colloquial language)</b>
+<b class="nc">&nbsp;      pos(SENTENCE_START_TAGNAME),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:2:SIN:PRÄ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRP:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // &quot;Springst weit, oder?&quot; (okay for colloquial language)</b>
+<b class="nc">&nbsp;      pos(SENTENCE_START_TAGNAME),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:2:SIN:PRÄ:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADJ:PRD:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // &quot;Siehst aus wie ein Wachhund.&quot; (okay for colloquial language)</b>
+<b class="nc">&nbsp;      pos(SENTENCE_START_TAGNAME),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:2:SIN:PRÄ:.*&quot;),</b>
+<b class="nc">&nbsp;      pos(&quot;ZUS&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // &quot;Könntest was erfinden, wie dein Papa.&quot; (okay for colloquial language)</b>
+<b class="nc">&nbsp;      pos(SENTENCE_START_TAGNAME),</b>
+<b class="nc">&nbsp;      pos(&quot;VER:MOD:2:SIN:KJ2&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // &quot;Darfst nicht so reden, Franz!&quot; (okay for colloquial language)</b>
+<b class="nc">&nbsp;      pos(SENTENCE_START_TAGNAME),</b>
+<b class="nc">&nbsp;      pos(&quot;VER:MOD:2:SIN:PRÄ&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().token(&quot;ich|er|sie|es|wir|ihr|sie&quot;).negate().build()</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;sobald wir frische und neue Akkus haben.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;wir&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;frische&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;wo der Stadtrat gleich mal zum Du übergeht.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;zum&quot;),</b>
+<b class="nc">&nbsp;      csToken(&quot;Du&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;wechseln|übergehen|schwenken&quot;).matchInflectedForms().build()</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;ich&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;schlafen&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;gehe&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Ich bin du
+<b class="nc">&nbsp;      token(&quot;ich&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;bin|war&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Dann beende du den Auftrag und bring sie ihrem Vater.
+<b class="nc">&nbsp;      tokenRegex(&quot;darum|deswegen|dann|bitte|so|,|-&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:IMP:SIN.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // - Wirst du ausflippen?
+<b class="nc">&nbsp;      tokenRegex(&quot;[-–]&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:.*(AUX|MOD).*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:INF.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;-(du|ich|er|sie|wir|ihr)&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;bin|war|wär&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;i|icke?&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;i|icke?&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;bin|war|wär&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;schlafen&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;gehst&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;per&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;sind|waren|sein|wären|war|ist|gewesen&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;schnellst&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;möglich&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Da freut er sich, wenn er schlafen geht und was findet.&quot;
+<b class="nc">&nbsp;      token(&quot;er&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;schlafen&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;geht&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;vermittelst&quot;)  // &quot;Sie befestigen die Regalbretter vermittelst dreier Schrauben.&quot;</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;denkst&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;ich&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;na&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;komm&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;muß|mußten?|müßt?en?&quot;), // alte rechtschreibung (andere fehler)</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;ich|wir|sie|er|es&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;ich|wir|sie|er|es&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER.*INF.*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;muß|mußten?|müßt?en?&quot;) // alte rechtschreibung (andere fehler)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;mußt|müßtest|mußtest&quot;), // alte rechtschreibung (andere fehler)</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER.*INF.*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;mußt|müßtest|mußtest&quot;) // alte rechtschreibung (andere fehler)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;ich&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;würd|könnt|werd|wollt|sollt|müsst|fürcht&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[&#39;’`´‘]&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;wir|sie|zu&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;seh|steh|geh&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[&#39;’`´‘]&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;n&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;ick&quot;), // different error (berlinerisch)</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;bin|war|wär|hab|hatte&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // hash tag
+<b class="nc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // wie du war ich auch
+<b class="nc">&nbsp;      token(&quot;wie&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;du|ihr|er|es|sie&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[-:]&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER.*(MOD|AUX).*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Arabic names: Aryat Abraha bin Sabah Kaaba
+<b class="nc">&nbsp;      posRegex(&quot;UNKNOWN|EIG.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;bin&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;UNKNOWN|EIG.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // Du scheiß Idiot
+<b class="nc">&nbsp;      tokenRegex(&quot;du|sie&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;schei(ß|ss)&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB.*|UNKNOWN&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;     asList(</b>
+<b class="nc">&nbsp;       token(&quot;Du&quot;),</b>
+<b class="nc">&nbsp;       tokenRegex(&quot;bist|warst|wärst&quot;)</b>
+&nbsp;     ),
+<b class="nc">&nbsp;     asList(</b>
+<b class="nc">&nbsp;       token(&quot;als&quot;),</b>
+<b class="nc">&nbsp;       token(&quot;auch&quot;),</b>
+<b class="nc">&nbsp;       tokenRegex(&quot;er|sie|wir|du|ich|ihr&quot;)</b>
+&nbsp;     ),
+<b class="nc">&nbsp;     asList(</b>
+<b class="nc">&nbsp;       tokenRegex(&quot;so|wie|zu&quot;),</b>
+<b class="nc">&nbsp;       token(&quot;lange&quot;),</b>
+<b class="nc">&nbsp;       tokenRegex(&quot;er|sie|wir|du|ich|ihr&quot;)</b>
+&nbsp;     ),
+<b class="nc">&nbsp;     asList(</b>
+&nbsp;       // Ich will nicht so wie er enden.
+<b class="nc">&nbsp;       new PatternTokenBuilder().tokenRegex(&quot;so|genauso|ähnlich&quot;).matchInflectedForms().setSkip(2).build(),</b>
+<b class="nc">&nbsp;       token(&quot;wie&quot;),</b>
+<b class="nc">&nbsp;       tokenRegex(&quot;er|sie|du|ihr|ich&quot;),</b>
+<b class="nc">&nbsp;       posRegex(&quot;VER.*&quot;)</b>
+&nbsp;     ),
+<b class="nc">&nbsp;     asList(</b>
+&nbsp;       // Ich will wie er aussehen
+<b class="nc">&nbsp;       posRegex(&quot;VER.*(MOD|AUX).*&quot;),</b>
+<b class="nc">&nbsp;       token(&quot;wie&quot;),</b>
+<b class="nc">&nbsp;       tokenRegex(&quot;er|sie|du|ihr|ich&quot;),</b>
+<b class="nc">&nbsp;       posRegex(&quot;VER.*INF.*&quot;)</b>
+&nbsp;     ),
+<b class="nc">&nbsp;     asList(</b>
+&nbsp;       // Ich will wie er aussehen
+<b class="nc">&nbsp;       token(&quot;wie&quot;),</b>
+<b class="nc">&nbsp;       posRegex(&quot;ADJ:PRD:GRU.*&quot;),</b>
+<b class="nc">&nbsp;       tokenRegex(&quot;er|sie|du|ihr|ich&quot;),</b>
+<b class="nc">&nbsp;       posRegex(&quot;VER.*&quot;)</b>
+&nbsp;     ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Bekommst sogar eine Sicherheitszulage&quot;
+<b class="nc">&nbsp;      pos(SENTENCE_START_TAGNAME),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:2:SIN:.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ART.*|ADV.*|PRO:POS.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;A, B und auch ich&quot;
+<b class="nc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;EIG:.*|UNKNOWN&quot;),</b>
+<b class="nc">&nbsp;      regex(&quot;und|oder&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;auch&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;ich&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Dallun sagte nur, dass er gleich kommen wird und legte wieder auf.&quot;
+&nbsp;      // &quot;Sie fragte, ob er bereit für die zweite Runde ist.&quot;
+<b class="nc">&nbsp;      posRegex(&quot;VER.*&quot;),  // z.B. &quot;Bist&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;er|sie|ich|wir|du|es|ihr&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;gleich|bereit|lange|schnelle?|halt|bitte|dank&quot;)  // ist hier kein Verb</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Dallun sagte nur, dass er gleich kommen wird und legte wieder auf.&quot;
+<b class="nc">&nbsp;      posRegex(&quot;ADV.*|KON.*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;er|sie|ich|wir|du|es|ihr&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;gleich|bereit|lange|schnelle?|halt|bitte|dank&quot;)  // ist hier kein Verb</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Woraufhin ich verlegen lächelte&quot;
+<b class="nc">&nbsp;      posRegex(&quot;ADV.*|KON.*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;er|sie|ich|wir|du|es|ihr&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;verlegen&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Bringst nicht einmal so etwas Einfaches zustande!&quot;
+<b class="nc">&nbsp;      pos(SENTENCE_START_TAGNAME),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:2:SIN:.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;nicht&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Da machte er auch vor dem eigenen Volk nicht halt.&quot;
+<b class="nc">&nbsp;      new PatternTokenBuilder().token(&quot;machen&quot;).matchInflectedForms().setSkip(-1).build(),</b>
+<b class="nc">&nbsp;      token(&quot;halt&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(  // &quot;Ich hoffe du auch.&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:.*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;du|ihr&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;auch&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Für Sie mache ich eine Ausnahme.&quot;
+<b class="nc">&nbsp;      token(&quot;für&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Sie&quot;),</b>
+<b class="nc">&nbsp;      pos(&quot;VER:3:SIN:KJ1:SFT&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;ich&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Einer wie du kennt ...&quot;, &quot;Aber wenn jemand wie Du daherkommt&quot;
+<b class="nc">&nbsp;      tokenRegex(&quot;(irgend)?einer?|(irgend)?jemand&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;wie&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:3:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+&nbsp;      // &quot;Kannst mich gerne anrufen&quot; (ugs.)
+<b class="nc">&nbsp;      pos(&quot;VER:MOD:2:SIN:PRÄ&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:PER:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;die|welche&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;.*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;mehr|weniger&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;als&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;ich|du|e[rs]|sie&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;wenn&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;anstelle&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // &quot;Ok bin ab morgen bei euch.&quot; (umgangssprachlich, benötigt eigene Regel)</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;ok(ay)?|ja|nein|vielleicht|oh&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;bin|sind&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="nc">&nbsp;      csToken(&quot;Du&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().token(&quot;anbieten&quot;).matchInflectedForms().build()</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      csToken(&quot;Du&quot;),  // &quot;jemanden mit Du anreden&quot;</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;anreden|ansprechen&quot;).matchInflectedForms().build()</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.*PLU.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;wie&quot;),  // &quot;Schreibtischtäter wie Du sind doch eher selten.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;Du&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:3:PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;würd&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[nm]ich|man|ichs|&#39;&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:MOD:2:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      csToken(&quot;Soll&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;ich&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      csToken(&quot;Solltest&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      csToken(&quot;Müsstest&quot;), // Müsstest dir das mal genauer anschauen.</b>
+<b class="nc">&nbsp;      token(&quot;dir&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      csToken(&quot;Könntest&quot;), // Könntest dir mal eine Scheibe davon abschneiden!</b>
+<b class="nc">&nbsp;      token(&quot;dir&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      csToken(&quot;Sollte&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;er|sie&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      pos(SENTENCE_START_TAGNAME),  // &quot;Bin gleich wieder da&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Bin|Kannst|Musst&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;,&quot;),  // &quot;..., hast aber keine Ahnung!&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;bin|hast|kannst|musst&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;er&quot;),  // &quot;egal, was er sagen wird, ...&quot;</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;wird&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;wie|als&quot;),  // &quot;Ein Mann wie ich braucht einen Hut&quot;</b>
+<b class="nc">&nbsp;      token(&quot;ich&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;glaube?|denke?|hoffe?|vermute?|behaupte?|wette?&quot;),  // &quot;Wir haben da ein monatliches Limit, in das wir glaube ich schon für September reingelaufen sind.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;ich&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;ADV.*|SUB.*|UNKNOWN|ADJ.*|PA[12].*|ART.*|PRP.*|PRO.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;ich&quot;),  // &quot;Ich weiß, was ich tun werde, falls etwas geschehen sollte.&quot;</b>
+<b class="nc">&nbsp;      pos(&quot;VER:INF:NON&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;werde&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:IMP:SIN:.*&quot;),  // &quot;Kümmere du dich mal nicht darum!&quot;</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;dich|dein|deine[srnm]?|mal&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:IMP:SIN:.*&quot;),  // &quot;Nee, geh du!&quot;</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;!&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;sei&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;selbst&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;bin&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;dran|dabei&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;      token(&quot;als&quot;),  // &quot;Du bist in dem Moment angekommen, als ich gegangen bin.&quot;</b>
+<b class="nc">&nbsp;      token(&quot;ich&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PA2:.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;bin&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;     token(&quot;als&quot;),</b>
+<b class="nc">&nbsp;     tokenRegex(&quot;du|e[rs]|sie|ich&quot;),</b>
+<b class="nc">&nbsp;     new PatternTokenBuilder().token(&quot;sein&quot;).matchInflectedForms().build(),</b>
+<b class="nc">&nbsp;     tokenRegex(&quot;[\\.,]&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // Musst du gehen?</b>
+<b class="nc">&nbsp;     tokenRegex(&quot;D[au]rf.*|Muss.*&quot;),</b>
+<b class="nc">&nbsp;     posRegex(&quot;PRO:PER:NOM:.+&quot;),</b>
+<b class="nc">&nbsp;     posRegex(&quot;VER:INF:.+&quot;),</b>
+<b class="nc">&nbsp;     pos(&quot;PKT&quot;),</b>
+<b class="nc">&nbsp;     tokenRegex(&quot;(?!die).+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;     csToken(&quot;(&quot;),</b>
+<b class="nc">&nbsp;     posRegex(&quot;VER:2:SIN:.+&quot;),</b>
+<b class="nc">&nbsp;     csToken(&quot;)&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList(</b>
+<b class="nc">&nbsp;     posRegex(&quot;VER:MOD:1:PLU:.+&quot;),</b>
+<b class="nc">&nbsp;     csToken(&quot;wir&quot;),</b>
+<b class="nc">&nbsp;     csToken(&quot;bitte&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // Ohne sie hätte ich das nie geschafft.</b>
+<b class="nc">&nbsp;     token(&quot;ohne&quot;),</b>
+<b class="nc">&nbsp;     token(&quot;sie&quot;),</b>
+<b class="nc">&nbsp;     token(&quot;hätte&quot;),</b>
+<b class="nc">&nbsp;     token(&quot;ich&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // Geh du mal!</b>
+<b class="nc">&nbsp;      pos(SENTENCE_START_TAGNAME),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:IMP:SIN.+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().csToken(&quot;?&quot;).negate().build()</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // -Du fühlst dich unsicher?</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[^a-zäöüß]+du&quot;),</b>
+<b class="nc">&nbsp;      pos(&quot;VER:2:SIN:PRÄ:SFT&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // Mir ist bewusst, dass viele Menschen wie du empfinden.</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:IND.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.+:PLU.*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;wie|als&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:PER.+&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:[1-3]:PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( //Weniger als du arbeitet keiner.</b>
+<b class="nc">&nbsp;      pos(&quot;ADV:MOD&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;als&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:PER.+&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:3:SIN.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:IND:NOM:SIN.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( //So was wie er könnte ich nicht machen, dich einfach dann zu verlassen</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:IND.*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;wie&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:PER.+&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:.*:SIN.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:PER:NOM:SIN.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( //Kein anderer als du kann mich glücklich machen</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;kein|keine&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;anderer|andere&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;als&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;ich|du|er|sie|es&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:MOD.*:PRÄ&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // Ich will nicht die gleiche Luft wie er einatmen</b>
+<b class="nc">&nbsp;      posRegex(&quot;ART:DEF.*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;gleich(e|en)|selb(e|en)&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;SUB:.+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;wie&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:PER:NOM:SIN.*&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:INF.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // Was würdest du sagen, wenn du ich wärst?</b>
+<b class="nc">&nbsp;      token(&quot;wenn&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:PER:NOM:SIN.+&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:PER:NOM.+&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:AUX:[1-3]:SIN:KJ2&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( // Was würdet ihr sagen, wenn ihr ich wärt?</b>
+<b class="nc">&nbsp;      token(&quot;wenn&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:PER:NOM:PLU.+&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;PRO:PER:NOM.+&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:AUX:[1-3]:PLU:KJ2&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( //Wenn du gehen willst, dann geh!</b>
+<b class="nc">&nbsp;      token(&quot;wenn&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;du&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;gehen&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;willst&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;dann&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;geh&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( //Ich habe mich noch nicht entschieden, ob ich studieren oder arbeiten gehen soll.</b>
+<b class="nc">&nbsp;      token(&quot;ob&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;ich&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:1.+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;oder&quot;),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:1.+&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().token(&quot;gehen&quot;).matchInflectedForms().build(),</b>
+<b class="nc">&nbsp;      posRegex(&quot;VER:MOD:1.*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    asList( //Mal seh’n, wie’s Wetter wird.</b>
+<b class="nc">&nbsp;      token(&quot;mal&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;seh&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;’|&#39;&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;n&quot;)</b>
+&nbsp;    )
+&nbsp;  );
+&nbsp;
+&nbsp;  // Words that prevent a rule match when they occur directly before &quot;bin&quot;:
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; BIN_IGNORE = new HashSet&lt;&gt;(asList(</b>
+&nbsp;    &quot;Suleiman&quot;,
+&nbsp;    &quot;Mohamed&quot;,
+&nbsp;    &quot;Muhammad&quot;,
+&nbsp;    &quot;Muhammed&quot;,
+&nbsp;    &quot;Mohammed&quot;,
+&nbsp;    &quot;Mohammad&quot;,
+&nbsp;    &quot;Mansour&quot;,
+&nbsp;    &quot;Qaboos&quot;,
+&nbsp;    &quot;Qabus&quot;,
+&nbsp;    &quot;Tamim&quot;,
+&nbsp;    &quot;Majid&quot;,
+&nbsp;    &quot;Salman&quot;,
+&nbsp;    &quot;Ghazi&quot;,
+&nbsp;    &quot;Mahathir&quot;,
+&nbsp;    &quot;Madschid&quot;,
+&nbsp;    &quot;Maktum&quot;,
+&nbsp;    &quot;al-Aziz&quot;,
+&nbsp;    &quot;Asis&quot;,
+&nbsp;    &quot;Numan&quot;,
+&nbsp;    &quot;Hussein&quot;,
+&nbsp;    &quot;Abdul&quot;,
+&nbsp;    &quot;Abdulla&quot;,
+&nbsp;    &quot;Abdullah&quot;,
+&nbsp;    &quot;Isa&quot;,
+&nbsp;    &quot;Osama&quot;,
+&nbsp;    &quot;Said&quot;,
+&nbsp;    &quot;Zayid&quot;,
+&nbsp;    &quot;Zayed&quot;,
+&nbsp;    &quot;Hamad&quot;,
+&nbsp;    &quot;Chalifa&quot;,
+&nbsp;    &quot;Raschid&quot;,
+&nbsp;    &quot;Turki&quot;,
+&nbsp;    &quot;/&quot;
+&nbsp;  ));
+&nbsp;  
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; CONJUNCTIONS = new HashSet&lt;&gt;(asList(</b>
+&nbsp;    &quot;weil&quot;,
+&nbsp;    &quot;obwohl&quot;,
+&nbsp;    &quot;dass&quot;,
+&nbsp;    &quot;indem&quot;,
+&nbsp;    &quot;sodass&quot;/*,
+&nbsp;    &quot;damit&quot;,
+&nbsp;    &quot;wenn&quot;*/
+&nbsp;  ));
+&nbsp;
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; QUOTATION_MARKS = new HashSet&lt;&gt;(asList(</b>
+&nbsp;    &quot;\&quot;&quot;, &quot;„&quot;
+&nbsp;  ));
+<b class="nc">&nbsp;  private static final Pattern COMMA = Pattern.compile(&quot;‚&quot;, Pattern.LITERAL);</b>
+&nbsp;
+&nbsp;  private final German language;
+&nbsp;  private final Supplier&lt;List&lt;DisambiguationPatternRule&gt;&gt; antiPatterns;
+&nbsp;
+<b class="nc">&nbsp;  public VerbAgreementRule(ResourceBundle messages, German language) {</b>
+<b class="nc">&nbsp;    this.language = language;</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.GRAMMAR.getCategory(messages));</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;Ich &lt;marker&gt;bist&lt;/marker&gt; über die Entwicklung sehr froh.&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;Ich &lt;marker&gt;bin&lt;/marker&gt; über die Entwicklung sehr froh.&quot;));</b>
+<b class="nc">&nbsp;    antiPatterns = cacheAntiPatterns(language, ANTI_PATTERNS);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;DE_VERBAGREEMENT&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Kongruenz von Subjekt und Prädikat (nur 1. u. 2. Person oder m. Personalpronomen), z.B. &#39;Er bist (ist)&#39;&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(List&lt;AnalyzedSentence&gt; sentences) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int pos = 0;</b>
+<b class="nc">&nbsp;    for (AnalyzedSentence sentence : sentences) {</b>
+<b class="nc">&nbsp;      int idx = 0;</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings[] tokens = sentence.getTokens();</b>
+&nbsp;      AnalyzedSentence partialSentence;
+<b class="nc">&nbsp;      for (int i = 2; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;        if (&quot;,&quot;.equals(tokens[i-2].getToken()) &amp;&amp; CONJUNCTIONS.contains(tokens[i].getToken())) {</b>
+<b class="nc">&nbsp;          partialSentence = new AnalyzedSentence(copyOfRange(tokens, idx, i));</b>
+<b class="nc">&nbsp;          ruleMatches.addAll(match(partialSentence, pos, sentence));</b>
+<b class="nc">&nbsp;          idx = i;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      partialSentence = new AnalyzedSentence(copyOfRange(tokens, idx, tokens.length));</b>
+<b class="nc">&nbsp;      ruleMatches.addAll(match(partialSentence, pos, sentence));</b>
+<b class="nc">&nbsp;      pos += sentence.getCorrectedTextLength();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;RuleMatch&gt; match(AnalyzedSentence sentence, int pos, AnalyzedSentence wholeSentence) {
+&nbsp;
+<b class="nc">&nbsp;    AnalyzedTokenReadings finiteVerb = null;</b>
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();</b>
+&nbsp;    
+<b class="nc">&nbsp;    if (tokens.length &lt; 4) { // ignore one-word sentences (3 tokens: SENT_START, one word, SENT_END)</b>
+<b class="nc">&nbsp;      return ruleMatches;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // position of the pronouns:
+<b class="nc">&nbsp;    int posIch = -1;</b>
+<b class="nc">&nbsp;    int posDu = -1;</b>
+<b class="nc">&nbsp;    int posEr = -1;</b>
+<b class="nc">&nbsp;    int posWir = -1;</b>
+&nbsp;    // positions of verbs which do match in person and number, and do not match any other person nor number:
+<b class="nc">&nbsp;    int posVer1Sin = -1;</b>
+<b class="nc">&nbsp;    int posVer2Sin = -1;</b>
+<b class="nc">&nbsp;    int posVer1Plu = -1;</b>
+&nbsp;    /*int posVer2Plu = -1;*/
+&nbsp;    // positions of verbs which do match in person and number:
+<b class="nc">&nbsp;    int posPossibleVer1Sin = -1;</b>
+<b class="nc">&nbsp;    int posPossibleVer2Sin = -1;</b>
+<b class="nc">&nbsp;    int posPossibleVer3Sin = -1;</b>
+<b class="nc">&nbsp;    int posPossibleVer1Plu = -1;</b>
+&nbsp;    /*int posPossibleVer2Plu = -1;*/
+&nbsp;    
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; ++i) { // ignore SENT_START</b>
+&nbsp;
+<b class="nc">&nbsp;      String strToken = tokens[i].getToken().toLowerCase();</b>
+<b class="nc">&nbsp;      strToken = COMMA.matcher(strToken).replaceAll(&quot;&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;      switch (strToken) {</b>
+&nbsp;        case &quot;ich&quot;:
+<b class="nc">&nbsp;          posIch = i;</b>
+&nbsp;          break;
+&nbsp;        case &quot;du&quot;:
+<b class="nc">&nbsp;          posDu = i;</b>
+&nbsp;          break;
+&nbsp;        case &quot;er&quot;:
+<b class="nc">&nbsp;          posEr = i;</b>
+&nbsp;          break;
+&nbsp;        case &quot;wir&quot;:
+<b class="nc">&nbsp;          posWir = i;</b>
+&nbsp;          break;
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      if (tokens[i].hasPartialPosTag(&quot;VER&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; (Character.isLowerCase(tokens[i].getToken().charAt(0)) || i == 1 || isQuotationMark(tokens[i-1])) ) {</b>
+<b class="nc">&nbsp;        if (hasUnambiguouslyPersonAndNumber(tokens[i], &quot;1&quot;, &quot;SIN&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; !(strToken.equals(&quot;bin&quot;) &amp;&amp; (BIN_IGNORE.contains(tokens[i-1].getToken())</b>
+<b class="nc">&nbsp;                  || (tokens.length != i + 1 &amp;&amp; tokens[i+1].getToken().startsWith(&quot;Laden&quot;)) ))) {</b>
+<b class="nc">&nbsp;          posVer1Sin = i;</b>
+&nbsp;        } 
+<b class="nc">&nbsp;        else if (hasUnambiguouslyPersonAndNumber(tokens[i], &quot;2&quot;, &quot;SIN&quot;) &amp;&amp; !&quot;Probst&quot;.equals(tokens[i].getToken())) {</b>
+<b class="nc">&nbsp;          posVer2Sin = i;</b>
+<b class="nc">&nbsp;        } else if (hasUnambiguouslyPersonAndNumber(tokens[i], &quot;1&quot;, &quot;PLU&quot;)) {</b>
+<b class="nc">&nbsp;          posVer1Plu = i;</b>
+&nbsp;//      } else if (hasUnambiguouslyPersonAndNumber(tokens[i], &quot;2&quot;, &quot;PLU&quot;)) {
+&nbsp;//        posVer2Plu = i;
+&nbsp;        }
+&nbsp;        
+<b class="nc">&nbsp;        if (tokens[i].hasPartialPosTag(&quot;:1:SIN&quot;)) {</b>
+<b class="nc">&nbsp;          posPossibleVer1Sin = i;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (tokens[i].hasPartialPosTag(&quot;:2:SIN&quot;)) {</b>
+<b class="nc">&nbsp;          posPossibleVer2Sin = i;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (tokens[i].hasPartialPosTag(&quot;:3:SIN&quot;)) {</b>
+<b class="nc">&nbsp;          posPossibleVer3Sin = i;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (tokens[i].hasPartialPosTag(&quot;:1:PLU&quot;)) {</b>
+<b class="nc">&nbsp;          posPossibleVer1Plu = i;</b>
+&nbsp;        }
+&nbsp;//      if (tokens[i].hasPartialPosTag(&quot;:2:PLU&quot;))
+&nbsp;//        posPossibleVer2Plu = i;
+&nbsp;        
+&nbsp;      }
+&nbsp;           
+&nbsp;    } // for each token
+&nbsp;      
+&nbsp;    // &quot;ich&quot;, &quot;du&quot;, and &quot;wir&quot; must be subject (no other interpretation possible)
+&nbsp;    // &quot;ich&quot;, &quot;du&quot;, &quot;er&quot;, and &quot;wir&quot; must have a matching verb
+&nbsp;
+<b class="nc">&nbsp;    if (posVer1Sin != -1 &amp;&amp; posIch == -1 &amp;&amp; !isQuotationMark(tokens[posVer1Sin-1])) { // 1st pers sg verb but no &quot;ich&quot;</b>
+<b class="nc">&nbsp;      if (!tokens[posVer1Sin].isImmunized()) {</b>
+<b class="nc">&nbsp;        ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Sin], pos, wholeSentence));</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (posIch &gt; 0 &amp;&amp; !isNear(posPossibleVer1Sin, posIch) // check whether verb next to &quot;ich&quot; is 1st pers sg</b>
+<b class="nc">&nbsp;               &amp;&amp; (tokens[posIch].getToken().equals(&quot;ich&quot;) || tokens[posIch].getStartPos() &lt;= 1 ||</b>
+<b class="nc">&nbsp;                   (tokens[posIch].getToken().equals(&quot;Ich&quot;) &amp;&amp; posIch &gt;= 2 &amp;&amp; tokens[posIch-2].getToken().equals(&quot;:&quot;)) ||</b>
+<b class="nc">&nbsp;                   (tokens[posIch].getToken().equals(&quot;Ich&quot;) &amp;&amp; posIch &gt;= 1 &amp;&amp; tokens[posIch-1].getToken().equals(&quot;:&quot;))) // ignore &quot;lyrisches Ich&quot; etc.</b>
+<b class="nc">&nbsp;               &amp;&amp; (!isQuotationMark(tokens[posIch-1]) || posIch &lt; 3 || (posIch &gt; 1 &amp;&amp; tokens[posIch-2].getToken().equals(&quot;:&quot;)))) {</b>
+<b class="nc">&nbsp;      int plus1 = ((posIch + 1) == tokens.length) ? 0 : +1; // prevent posIch+1 segfault</b>
+<b class="nc">&nbsp;      BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posIch - 1], tokens[posIch + plus1], &quot;1&quot;, &quot;SIN&quot;, finiteVerb);</b>
+<b class="nc">&nbsp;      if (!check.verbDoesMatchPersonAndNumber &amp;&amp; !nextButOneIsModal(tokens, posIch) &amp;&amp; !&quot;äußerst&quot;.equals(check.finiteVerb.getToken())) {</b>
+<b class="nc">&nbsp;        if (!tokens[posIch].isImmunized()) {</b>
+<b class="nc">&nbsp;          ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posIch], check.finiteVerb, &quot;1:SIN&quot;, pos, wholeSentence));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    if (posVer2Sin != -1 &amp;&amp; posDu == -1 &amp;&amp; !isQuotationMark(tokens[posVer2Sin-1])) {</b>
+<b class="nc">&nbsp;      if (!tokens[posVer2Sin].isImmunized()) {</b>
+<b class="nc">&nbsp;        ruleMatches.add(ruleMatchWrongVerb(tokens[posVer2Sin], pos, wholeSentence));</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (posDu &gt; 0 &amp;&amp; !isNear(posPossibleVer2Sin, posDu)</b>
+<b class="nc">&nbsp;               &amp;&amp;(!isQuotationMark(tokens[posDu-1]) || posDu &lt; 3 || (posDu &gt; 1 &amp;&amp; tokens[posDu-2].getToken().equals(&quot;:&quot;)))) {</b>
+<b class="nc">&nbsp;      int plus1 = ((posDu + 1) == tokens.length) ? 0 : +1;</b>
+<b class="nc">&nbsp;      BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posDu - 1], tokens[posDu + plus1], &quot;2&quot;, &quot;SIN&quot;, finiteVerb);</b>
+<b class="nc">&nbsp;      if (!check.verbDoesMatchPersonAndNumber &amp;&amp;</b>
+<b class="nc">&nbsp;          !tokens[posDu+plus1].hasPosTagStartingWith(&quot;VER:1:SIN:KJ2&quot;) &amp;&amp; // &quot;Wenn ich du wäre&quot;</b>
+<b class="nc">&nbsp;          !(tokens[posDu+plus1].hasPosTagStartingWith(&quot;ADJ:&quot;) &amp;&amp; !tokens[posDu+plus1].hasPosTag(&quot;ADJ:PRD:GRU&quot;))&amp;&amp; // &quot;dass du billige Klamotten...&quot;</b>
+<b class="nc">&nbsp;          !tokens[posDu-1].hasPosTagStartingWith(&quot;VER:1:SIN:KJ2&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;          !nextButOneIsModal(tokens, posDu) &amp;&amp;</b>
+<b class="nc">&nbsp;          !tokens[posDu].isImmunized()</b>
+&nbsp;      ) {
+<b class="nc">&nbsp;        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posDu], check.finiteVerb, &quot;2:SIN&quot;, pos, wholeSentence));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    if (posEr &gt; 0 &amp;&amp; !isNear(posPossibleVer3Sin, posEr)</b>
+<b class="nc">&nbsp;        &amp;&amp; (!isQuotationMark(tokens[posEr-1])  || posEr &lt; 3 || (posEr &gt; 1 &amp;&amp; tokens[posEr-2].getToken().equals(&quot;:&quot;)))) {</b>
+<b class="nc">&nbsp;      int plus1 = ((posEr + 1) == tokens.length) ? 0 : +1;</b>
+<b class="nc">&nbsp;      BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posEr - 1], tokens[posEr + plus1], &quot;3&quot;, &quot;SIN&quot;, finiteVerb);</b>
+<b class="nc">&nbsp;      if (!check.verbDoesMatchPersonAndNumber </b>
+<b class="nc">&nbsp;              &amp;&amp; !nextButOneIsModal(tokens, posEr)</b>
+<b class="nc">&nbsp;              &amp;&amp; !&quot;äußerst&quot;.equals(check.finiteVerb.getToken())</b>
+<b class="nc">&nbsp;              &amp;&amp; !&quot;regen&quot;.equals(check.finiteVerb.getToken())  // &quot;wo er regen Anteil nahm&quot;</b>
+<b class="nc">&nbsp;              &amp;&amp; !tokens[posEr].isImmunized()</b>
+&nbsp;          ) {
+<b class="nc">&nbsp;        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posEr], check.finiteVerb, &quot;3:SIN&quot;, pos, wholeSentence));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    if (posVer1Plu != -1 &amp;&amp; posWir == -1 &amp;&amp; !isQuotationMark(tokens[posVer1Plu-1])) {</b>
+<b class="nc">&nbsp;      if (!tokens[posVer1Plu].isImmunized()) {</b>
+<b class="nc">&nbsp;        ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Plu], pos, wholeSentence));</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (posWir &gt; 0 &amp;&amp; !isNear(posPossibleVer1Plu, posWir) &amp;&amp; !isQuotationMark(tokens[posWir-1])) {</b>
+<b class="nc">&nbsp;      int plus1 = ((posWir + 1) == tokens.length) ? 0 : +1;</b>
+<b class="nc">&nbsp;      BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posWir - 1], tokens[posWir + plus1], &quot;1&quot;, &quot;PLU&quot;, finiteVerb);</b>
+<b class="nc">&nbsp;      if (!check.verbDoesMatchPersonAndNumber &amp;&amp; !nextButOneIsModal(tokens, posWir) &amp;&amp; !tokens[posWir].isImmunized() &amp;&amp;</b>
+<b class="nc">&nbsp;          !check.finiteVerb.getToken().equals(&quot;äußerst&quot;)) {</b>
+<b class="nc">&nbsp;        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posWir], check.finiteVerb, &quot;1:PLU&quot;, pos, wholeSentence));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return ruleMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;DisambiguationPatternRule&gt; getAntiPatterns() {
+<b class="nc">&nbsp;    return antiPatterns.get();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // avoid false alarm on &#39;wenn ich sterben sollte ...&#39;:
+&nbsp;  private boolean nextButOneIsModal(AnalyzedTokenReadings[] tokens, int pos) {
+<b class="nc">&nbsp;    return pos &lt; tokens.length - 2 &amp;&amp; tokens[pos+2].hasPartialPosTag(&quot;:MOD:&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return true if |a - b| &lt; 5, and a != -1 
+&nbsp;   */
+&nbsp;  private boolean isNear(int a, int b) {
+<b class="nc">&nbsp;    return a != -1 &amp;&amp; (Math.abs(a - b) &lt; 5);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private boolean isQuotationMark(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    return QUOTATION_MARKS.contains(token.getToken());</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @return true if the verb @param token (if it is a verb) matches @param person and @param number, and matches no other person/number
+&nbsp;   */
+&nbsp;  private boolean hasUnambiguouslyPersonAndNumber(AnalyzedTokenReadings tokenReadings, String person, String number) {
+<b class="nc">&nbsp;    if (tokenReadings.getToken().length() == 0</b>
+<b class="nc">&nbsp;        || (Character.isUpperCase(tokenReadings.getToken().charAt(0)) &amp;&amp; tokenReadings.getStartPos() != 0)</b>
+<b class="nc">&nbsp;        || !tokenReadings.hasPosTagStartingWith(&quot;VER&quot;)) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (AnalyzedToken analyzedToken : tokenReadings) {</b>
+<b class="nc">&nbsp;      String postag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if (postag == null || postag.endsWith(&quot;_END&quot;)) { // ignore SENT_END and PARA_END</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if (!postag.contains(&quot;:&quot; + person + &quot;:&quot; + number)) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @return true if @param token is a finite verb, and it is no participle, pronoun or number
+&nbsp;   */
+&nbsp;  private boolean isFiniteVerb(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    if (token.getToken().length() == 0</b>
+<b class="nc">&nbsp;        || (Character.isUpperCase(token.getToken().charAt(0)) &amp;&amp; token.getStartPos() != 0)</b>
+<b class="nc">&nbsp;        || !token.hasPosTagStartingWith(&quot;VER&quot;)</b>
+<b class="nc">&nbsp;        || token.hasAnyPartialPosTag(&quot;PA2&quot;, &quot;PRO:&quot;, &quot;ZAL&quot;)</b>
+<b class="nc">&nbsp;        || &quot;einst&quot;.equals(token.getToken())) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return token.hasAnyPartialPosTag(&quot;:1:&quot;, &quot;:2:&quot;, &quot;:3:&quot;);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @return false if neither the verb @param token1 (if any) nor @param token2 match @param person and @param number, and none of them is &quot;und&quot; or &quot;,&quot;
+&nbsp;   * if a finite verb is found, it is saved in finiteVerb
+&nbsp;   */
+&nbsp;  private BooleanAndFiniteVerb verbDoesMatchPersonAndNumber(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2,
+&nbsp;                                               String person, String number, AnalyzedTokenReadings finiteVerb) {
+<b class="nc">&nbsp;    if (StringUtils.equalsAny(token1.getToken(), &quot;,&quot;, &quot;und&quot;, &quot;sowie&quot;, &quot;&amp;&quot;) ||</b>
+<b class="nc">&nbsp;    		StringUtils.equalsAny(token2.getToken(), &quot;,&quot;, &quot;und&quot;, &quot;sowie&quot;, &quot;&amp;&quot;)) {</b>
+<b class="nc">&nbsp;      return new BooleanAndFiniteVerb(true, finiteVerb);</b>
+&nbsp;    }
+&nbsp;   
+<b class="nc">&nbsp;    boolean foundFiniteVerb = false;</b>
+&nbsp;    
+<b class="nc">&nbsp;    if (isFiniteVerb(token1)) {</b>
+<b class="nc">&nbsp;      foundFiniteVerb = true;</b>
+<b class="nc">&nbsp;      finiteVerb = token1;</b>
+<b class="nc">&nbsp;      if (token1.hasPartialPosTag(&quot;:&quot; + person + &quot;:&quot; + number)) {</b>
+<b class="nc">&nbsp;        return new BooleanAndFiniteVerb(true, finiteVerb);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    if (isFiniteVerb(token2)) {</b>
+<b class="nc">&nbsp;      foundFiniteVerb = true;</b>
+<b class="nc">&nbsp;      finiteVerb = token2;</b>
+<b class="nc">&nbsp;      if (token2.hasPartialPosTag(&quot;:&quot; + person + &quot;:&quot; + number)) {</b>
+<b class="nc">&nbsp;        return new BooleanAndFiniteVerb(true, finiteVerb);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return new BooleanAndFiniteVerb(!foundFiniteVerb, finiteVerb);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @return a list of forms of @param verb which match @param expectedVerbPOS (person:number)
+&nbsp;   * @param toUppercase true when the suggestions should be capitalized
+&nbsp;   */
+&nbsp;  private List&lt;String&gt; getVerbSuggestions(AnalyzedTokenReadings verb, String expectedVerbPOS, boolean toUppercase) {
+&nbsp;    // find the first verb reading
+<b class="nc">&nbsp;    AnalyzedToken verbToken = new AnalyzedToken(&quot;&quot;, &quot;&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    for (AnalyzedToken token : verb.getReadings()) {</b>
+&nbsp;      //noinspection ConstantConditions
+<b class="nc">&nbsp;      if (token.getPOSTag().startsWith(&quot;VER:&quot;)) {</b>
+<b class="nc">&nbsp;        verbToken = token;</b>
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+&nbsp;    try {
+<b class="nc">&nbsp;      String[] synthesized = language.getSynthesizer().synthesize(verbToken, &quot;VER.*:&quot;+expectedVerbPOS+&quot;.*&quot;, true);</b>
+<b class="nc">&nbsp;      Set&lt;String&gt; suggestionSet = new HashSet&lt;&gt;(asList(synthesized));  // remove duplicates</b>
+<b class="nc">&nbsp;      List&lt;String&gt; suggestions = new ArrayList&lt;&gt;(suggestionSet);</b>
+<b class="nc">&nbsp;      if (toUppercase) {</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; suggestions.size(); ++i) {</b>
+<b class="nc">&nbsp;          suggestions.set(i, StringTools.uppercaseFirstChar(suggestions.get(i)));</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return suggestions;</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @return a list of pronouns which match the person and number of @param verb
+&nbsp;   * @param toUppercase true when the suggestions should be capitalized
+&nbsp;   */
+&nbsp;  private List&lt;String&gt; getPronounSuggestions(AnalyzedTokenReadings verb, boolean toUppercase) {
+<b class="nc">&nbsp;    List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (verb.hasPartialPosTag(&quot;:1:SIN&quot;)) {</b>
+<b class="nc">&nbsp;      result.add(&quot;ich&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (verb.hasPartialPosTag(&quot;:2:SIN&quot;)) {</b>
+<b class="nc">&nbsp;      result.add(&quot;du&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (verb.hasPartialPosTag(&quot;:3:SIN&quot;)) {</b>
+<b class="nc">&nbsp;      result.add(&quot;er&quot;);</b>
+<b class="nc">&nbsp;      result.add(&quot;sie&quot;);</b>
+<b class="nc">&nbsp;      result.add(&quot;es&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (verb.hasPartialPosTag(&quot;:1:PLU&quot;)) {</b>
+<b class="nc">&nbsp;      result.add(&quot;wir&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (verb.hasPartialPosTag(&quot;:2:PLU&quot;)) {</b>
+<b class="nc">&nbsp;      result.add(&quot;ihr&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (verb.hasPartialPosTag(&quot;:3:PLU&quot;) &amp;&amp; !result.contains(&quot;sie&quot;)) { // do not add &quot;sie&quot; twice</b>
+<b class="nc">&nbsp;      result.add(&quot;sie&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (toUppercase) {</b>
+<b class="nc">&nbsp;      for (int i = 0; i &lt; result.size(); ++i) {</b>
+<b class="nc">&nbsp;        result.set(i, StringTools.uppercaseFirstChar(result.get(i)));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private RuleMatch ruleMatchWrongVerb(AnalyzedTokenReadings token, int pos, AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    String msg = &quot;Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt und Prädikat (&quot; +</b>
+<b class="nc">&nbsp;      token.getToken() + &quot;) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: &quot; +</b>
+&nbsp;      &quot;&#39;Max bist&#39; statt &#39;Max ist&#39;).&quot;;
+<b class="nc">&nbsp;    return new RuleMatch(this, sentence, pos+token.getStartPos(), pos+token.getEndPos(), msg);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private RuleMatch ruleMatchWrongVerbSubject(AnalyzedTokenReadings subject, AnalyzedTokenReadings verb, String expectedVerbPOS, int pos, AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    String msg = &quot;Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (&quot; + subject.getToken() +</b>
+<b class="nc">&nbsp;      &quot;) und Prädikat (&quot; + verb.getToken() + &quot;) bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: &quot; +</b>
+&nbsp;      &quot;&#39;ich sind&#39; statt &#39;ich bin&#39;).&quot;;
+&nbsp;    
+<b class="nc">&nbsp;    List&lt;String&gt; suggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; verbSuggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; pronounSuggestions = new ArrayList&lt;&gt;();</b>
+&nbsp;    
+&nbsp;    RuleMatch ruleMatch;
+<b class="nc">&nbsp;    if (subject.getStartPos() &lt; verb.getStartPos()) {</b>
+<b class="nc">&nbsp;      ruleMatch = new RuleMatch(this, sentence, pos+subject.getStartPos(), pos+verb.getStartPos()+verb.getToken().length(), msg);</b>
+<b class="nc">&nbsp;      verbSuggestions.addAll(getVerbSuggestions(verb, expectedVerbPOS, false));</b>
+<b class="nc">&nbsp;      for (String verbSuggestion : verbSuggestions) {</b>
+<b class="nc">&nbsp;        suggestions.add(subject.getToken() + &quot; &quot; + verbSuggestion);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      pronounSuggestions.addAll(getPronounSuggestions(verb, Character.isUpperCase(subject.getToken().charAt(0))));</b>
+<b class="nc">&nbsp;      for (String pronounSuggestion : pronounSuggestions) {</b>
+<b class="nc">&nbsp;        suggestions.add(pronounSuggestion + &quot; &quot; + verb.getToken());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String markedText = sentence.getText().substring(subject.getStartPos(), verb.getStartPos()+verb.getToken().length());</b>
+<b class="nc">&nbsp;      sortBySimilarity(suggestions, markedText);</b>
+<b class="nc">&nbsp;      ruleMatch.setSuggestedReplacements(suggestions);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      ruleMatch = new RuleMatch(this, sentence, pos+verb.getStartPos(), pos+subject.getStartPos()+subject.getToken().length(), msg);</b>
+<b class="nc">&nbsp;      verbSuggestions.addAll(getVerbSuggestions(verb, expectedVerbPOS, Character.isUpperCase(verb.getToken().charAt(0))));</b>
+<b class="nc">&nbsp;      for (String verbSuggestion : verbSuggestions) {</b>
+<b class="nc">&nbsp;        suggestions.add(verbSuggestion + &quot; &quot; + subject.getToken());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      pronounSuggestions.addAll(getPronounSuggestions(verb, false));</b>
+<b class="nc">&nbsp;      for (String pronounSuggestion : pronounSuggestions) {</b>
+<b class="nc">&nbsp;        suggestions.add(verb.getToken() + &quot; &quot; + pronounSuggestion);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String markedText = sentence.getText().substring(verb.getStartPos(), subject.getStartPos()+subject.getToken().length());</b>
+<b class="nc">&nbsp;      sortBySimilarity(suggestions, markedText);</b>
+<b class="nc">&nbsp;      ruleMatch.setSuggestedReplacements(suggestions);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return ruleMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void sortBySimilarity(List&lt;String&gt; suggestions, String markedText) {
+<b class="nc">&nbsp;    suggestions.sort((o1, o2) -&gt; {</b>
+<b class="nc">&nbsp;      int diff1 = LevenshteinDistance.getDefaultInstance().apply(markedText, o1);</b>
+<b class="nc">&nbsp;      int diff2 = LevenshteinDistance.getDefaultInstance().apply(markedText, o2);</b>
+<b class="nc">&nbsp;      return diff1 - diff2;</b>
+&nbsp;    });
+&nbsp;  }
+&nbsp;
+&nbsp;  static class BooleanAndFiniteVerb {
+&nbsp;    boolean verbDoesMatchPersonAndNumber;
+&nbsp;    AnalyzedTokenReadings finiteVerb;
+<b class="nc">&nbsp;    private BooleanAndFiniteVerb(boolean verbDoesMatchPersonAndNumber, AnalyzedTokenReadings finiteVerb) {</b>
+<b class="nc">&nbsp;      this.verbDoesMatchPersonAndNumber = verbDoesMatchPersonAndNumber;</b>
+<b class="nc">&nbsp;      this.finiteVerb = finiteVerb;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int minToCheckParagraph() {
+<b class="nc">&nbsp;    return 0;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

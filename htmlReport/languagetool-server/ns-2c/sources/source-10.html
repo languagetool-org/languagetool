@@ -1,0 +1,489 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CompoundInfinitivRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: CompoundInfinitivRule (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CompoundInfinitivRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    46.2%
+  </span>
+  <span class="absValue">
+    (6/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7.8%
+  </span>
+  <span class="absValue">
+    (8/102)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.3%
+  </span>
+  <span class="absValue">
+    (132/199)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2018 Fred Kruse
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import morfologik.speller.Speller;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.rules.patterns.PatternTokenBuilder;
+&nbsp;import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.function.Supplier;
+&nbsp;
+&nbsp;/**
+&nbsp; * Checks the compound spelling of infinitive clause (Erweiterter Infinitiv mit zu)
+&nbsp; *
+&nbsp; * @author Fred Kruse
+&nbsp; * @since 4.4
+&nbsp; */
+&nbsp;public class CompoundInfinitivRule extends Rule {
+&nbsp;
+&nbsp;  private final LinguServices linguServices;
+&nbsp;  private final Language lang;
+&nbsp;  private final Supplier&lt;List&lt;DisambiguationPatternRule&gt;&gt; antiPatterns;
+&nbsp;
+<b class="fc">&nbsp;  private Speller speller = null;</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final List&lt;List&lt;PatternToken&gt;&gt; ANTI_PATTERNS = Arrays.asList(</b>
+&nbsp;    //
+&nbsp;    // NOTE: antipatterns only work when they cover &quot;zu&quot;:
+&nbsp;    //
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;auf&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;Nummer&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;sicher&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(   // &quot;Den richtigen Weg zu gehen bedeutet ab und an zu erkennen, dass man eventuell auf der falschen Spur ist.&quot;</b>
+<b class="fc">&nbsp;      token(&quot;ab&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;und|&amp;&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;an&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(  // &quot;Der diensthabende Kollege hatte ganz schön zu tun.&quot;</b>
+<b class="fc">&nbsp;      token(&quot;ganz&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;schön&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(  // &quot;Fang dort an zu lesen, wo du aufgehört hast.&quot;</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;fang|fängst|fängt|fangt|fangen|fing|fingen&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ADV.*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;an&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;dazu|darüber&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;machen&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;kurz&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;davor&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;Jahr|Monat|Zeit&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;über&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;endlich&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;wieder&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;bis&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;hin&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;von&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;.*[a-z].*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;her&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sehr|ganz|äu(ss|ß)erst|zu|nicht|absolut|total|wirklich|möglichst&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ADJ.*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;Schritt&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;weiter&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;und&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;so&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;weiter&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;darauf&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER.*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;dass&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;darauf&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER.*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;,&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(  // &quot;um dort die Nacht über zu stehen.&quot;</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;Spiel|Tag|Nacht|Morgen|Nachmittag|Abend|Zeit|.+zeit|Jahr(zehnt)?|Monat|.+tag|Mittwoch|Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;über&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;kurz&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;machen&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;ohne die Erlaubnis dazu zu haben&quot;
+<b class="fc">&nbsp;      token(&quot;dazu&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;haben&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Er hatte nichts weiter zu sagen&quot;
+<b class="fc">&nbsp;      tokenRegex(&quot;deutlich|viel|Stück|nichts|nix|noch&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;weiter&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Auf und ab zu schreiten&quot;
+<b class="fc">&nbsp;      token(&quot;auf&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;und|&amp;|oder|\\/&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADV.*&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      token(&quot;ab&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ADJ.*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Hin und her zu laufen&quot;
+<b class="fc">&nbsp;      token(&quot;hin&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;und|&amp;|oder|\\/&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADV.*&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      token(&quot;her&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Hoch und runter zu laufen&quot;
+<b class="fc">&nbsp;      tokenRegex(&quot;rauf|hoch&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;und|&amp;|oder|\\/&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADV.*&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      token(&quot;runter&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Sie scheint aus Spanien heraus zu kaufen
+<b class="fc">&nbsp;      new PatternTokenBuilder().token(&quot;aus&quot;).setSkip(3).build(),</b>
+<b class="fc">&nbsp;      token(&quot;heraus&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;)</b>
+&nbsp;    )
+&nbsp;  );
+&nbsp;  
+<b class="fc">&nbsp;  private static final String[] ADJ_EXCEPTION = {</b>
+&nbsp;    &quot;schwer&quot;,
+&nbsp;    &quot;klar&quot;,
+&nbsp;    &quot;verloren&quot;,
+&nbsp;    &quot;bekannt&quot;,
+&nbsp;    &quot;rot&quot;,
+&nbsp;    &quot;blau&quot;,
+&nbsp;    &quot;gelb&quot;,
+&nbsp;    &quot;grün&quot;,
+&nbsp;    &quot;schwarz&quot;,
+&nbsp;    &quot;weiß&quot;,
+&nbsp;    &quot;fertig&quot;,
+&nbsp;    &quot;neu&quot;
+&nbsp;  };
+&nbsp;
+&nbsp;  private static PatternToken token(String s) {
+<b class="fc">&nbsp;    return new PatternTokenBuilder().token(s).build();</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public CompoundInfinitivRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {</b>
+<b class="fc">&nbsp;    super.setCategory(Categories.COMPOUNDING.getCategory(messages));</b>
+<b class="fc">&nbsp;    setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+<b class="fc">&nbsp;    addExamplePair(Example.wrong(&quot;Er überprüfte die Rechnungen noch einmal, um &lt;marker&gt;sicher zu gehen&lt;/marker&gt;.&quot;),</b>
+<b class="fc">&nbsp;                   Example.fixed(&quot;Er überprüfte die Rechnungen noch einmal, um &lt;marker&gt;sicherzugehen&lt;/marker&gt;.&quot;));</b>
+<b class="fc">&nbsp;    this.lang = lang;</b>
+<b class="fc">&nbsp;    if (userConfig != null) {</b>
+<b class="fc">&nbsp;      linguServices = userConfig.getLinguServices();</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      linguServices = null;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    setUrl(Tools.getUrl(&quot;https://languagetool.org/insights/de/beitrag/zu-zusammen-oder-getrennt/&quot;));</b>
+<b class="fc">&nbsp;    antiPatterns = cacheAntiPatterns(lang, ANTI_PATTERNS);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="fc">&nbsp;    return &quot;COMPOUND_INFINITIV_RULE&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Erweiterter Infinitiv mit zu (Zusammenschreibung)&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean isInfinitiv(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    return token.hasPosTagStartingWith(&quot;VER:INF&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isMisspelled(String word) {
+<b class="nc">&nbsp;    word = StringTools.lowercaseFirstChar(word);</b>
+<b class="nc">&nbsp;    if (linguServices == null &amp;&amp; speller != null) {</b>
+<b class="nc">&nbsp;      return speller.isMisspelled(word);</b>
+<b class="nc">&nbsp;    } else if (linguServices != null) {</b>
+<b class="nc">&nbsp;      return !linguServices.isCorrectSpell(word, lang);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    throw new IllegalStateException(&quot;LinguServices or Speller must be not null to check spelling in CompoundInfinitivRule&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isRelevant(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    return token.hasPosTag(&quot;ZUS&quot;) &amp;&amp; !&quot;um&quot;.equalsIgnoreCase(token.getToken());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getLemma(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    if (token != null) {</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; readings = token.getReadings();</b>
+<b class="nc">&nbsp;      for (AnalyzedToken reading : readings) {</b>
+<b class="nc">&nbsp;        String lemma = reading.getLemma();</b>
+<b class="nc">&nbsp;        if (lemma != null) {</b>
+<b class="nc">&nbsp;          return lemma;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private boolean isException(AnalyzedTokenReadings[] tokens, int n) {
+<b class="nc">&nbsp;    if (tokens[n - 2].hasPosTagStartingWith(&quot;VER&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (String word : ADJ_EXCEPTION) {</b>
+<b class="nc">&nbsp;      if(tokens[n - 1].getToken().equals(word)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (&quot;sagen&quot;.equals(tokens[n + 1].getToken()) &amp;&amp;</b>
+<b class="nc">&nbsp;            (&quot;weiter&quot;.equals(tokens[n - 1].getToken()) || &quot;dazu&quot;.equals(tokens[n - 1].getToken()))) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if ((&quot;tragen&quot;.equals(tokens[n + 1].getToken()) || &quot;machen&quot;.equals(tokens[n + 1].getToken()))</b>
+<b class="nc">&nbsp;            &amp;&amp; &quot;davon&quot;.equals(tokens[n - 1].getToken())) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (&quot;geben&quot;.equals(tokens[n + 1].getToken()) &amp;&amp; &quot;daran&quot;.equals(tokens[n - 1].getToken())) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (&quot;gehen&quot;.equals(tokens[n + 1].getToken()) &amp;&amp; &quot;ab&quot;.equals(tokens[n - 1].getToken())) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (&quot;errichten&quot;.equals(tokens[n + 1].getToken()) &amp;&amp; &quot;wieder&quot;.equals(tokens[n - 1].getToken())) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String verb = null;</b>
+<b class="nc">&nbsp;    for (int i = n - 2; i &gt; 0 &amp;&amp; !isPunctuation(tokens[i].getToken()); i--) {</b>
+<b class="nc">&nbsp;      if (tokens[i].hasPosTagStartingWith(&quot;VER:IMP&quot;)) {</b>
+<b class="nc">&nbsp;        verb = StringUtils.lowerCase(getLemma(tokens[i]));</b>
+<b class="nc">&nbsp;      } else if (tokens[i].hasPosTagStartingWith(&quot;VER&quot;)) {</b>
+<b class="nc">&nbsp;        verb = tokens[i].getToken().toLowerCase();</b>
+<b class="nc">&nbsp;      } else if (&quot;Fang&quot;.equals(tokens[i].getToken())) {</b>
+<b class="nc">&nbsp;        verb = &quot;fangen&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (verb != null) {</b>
+<b class="nc">&nbsp;        if (!isMisspelled(tokens[n - 1].getToken() + verb)) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        } else {
+&nbsp;          break;
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (&quot;aus&quot;.equals(tokens[n - 1].getToken()) || &quot;an&quot;.equals(tokens[n - 1].getToken())) {</b>
+<b class="nc">&nbsp;      for (int i = n - 2; i &gt; 0 &amp;&amp; !isPunctuation(tokens[i].getToken()); i--) {</b>
+<b class="nc">&nbsp;        if (&quot;von&quot;.equals(tokens[i].getToken()) || &quot;vom&quot;.equals(tokens[i].getToken())) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (&quot;her&quot;.equals(tokens[n - 1].getToken())) {</b>
+<b class="nc">&nbsp;      for (int i = n - 2; i &gt; 0 &amp;&amp; !isPunctuation(tokens[i].getToken()); i--) {</b>
+<b class="nc">&nbsp;        if (&quot;vor&quot;.equals(tokens[i].getToken())) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;DisambiguationPatternRule&gt; getAntiPatterns() {
+<b class="fc">&nbsp;    return antiPatterns.get();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="pc">&nbsp;    if (linguServices == null &amp;&amp; speller == null) {</b>
+&nbsp;      // speller can not initialized by constructor because of temporary initialization of LanguageTool in other rules,
+&nbsp;      // which leads to problems in LO/OO extension
+<b class="fc">&nbsp;      speller = new Speller(MorfologikSpeller.getDictionaryWithCaching(&quot;/de/hunspell/de_DE.dict&quot;));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();</b>
+<b class="fc">&nbsp;    for (int i = 2; i &lt; tokens.length - 1; i++) {</b>
+<b class="pc">&nbsp;      if (&quot;zu&quot;.equals(tokens[i].getToken())</b>
+<b class="nc">&nbsp;        &amp;&amp; isInfinitiv(tokens[i + 1])</b>
+<b class="nc">&nbsp;        &amp;&amp; isRelevant(tokens[i - 1])</b>
+<b class="nc">&nbsp;        &amp;&amp; !tokens[i].isImmunized()</b>
+<b class="nc">&nbsp;        &amp;&amp; !isException(tokens, i)</b>
+<b class="nc">&nbsp;        &amp;&amp; !isMisspelled(tokens[i - 1].getToken() + tokens[i + 1].getToken())) {</b>
+<b class="nc">&nbsp;        String msg = &quot;Wenn der erweiterte Infinitiv von dem Verb &#39;&quot; + tokens[i - 1].getToken() + tokens[i + 1].getToken()</b>
+&nbsp;                   + &quot;&#39; abgeleitet ist, sollte er zusammengeschrieben werden.&quot;;
+<b class="nc">&nbsp;        RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[i - 1].getStartPos(), tokens[i + 1].getEndPos(), msg);</b>
+<b class="nc">&nbsp;        List&lt;String&gt; suggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        suggestions.add(tokens[i - 1].getToken() + tokens[i].getToken() + tokens[i + 1].getToken());</b>
+<b class="nc">&nbsp;        ruleMatch.setSuggestedReplacements(suggestions);</b>
+<b class="nc">&nbsp;        ruleMatches.add(ruleMatch);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isPunctuation(String word) {
+<b class="nc">&nbsp;    return word != null</b>
+<b class="nc">&nbsp;           &amp;&amp; word.length() == 1</b>
+<b class="nc">&nbsp;           &amp;&amp; StringUtils.equalsAny(word, &quot;.&quot;, &quot;?&quot;, &quot;!&quot;, &quot;…&quot;, &quot;:&quot;, &quot;;&quot;, &quot;,&quot;, &quot;(&quot;, &quot;)&quot;, &quot;[&quot;, &quot;]&quot;);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

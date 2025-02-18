@@ -1,0 +1,256 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SwissGerman</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language</a>
+</div>
+
+<h1>Coverage Summary for Class: SwissGerman (org.languagetool.language)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SwissGerman</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.markup.AnnotatedText;
+&nbsp;import org.languagetool.rules.RemoteRuleConfig;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.SuggestedReplacement;
+&nbsp;import org.languagetool.rules.de.SwissCompoundRule;
+&nbsp;import org.languagetool.rules.de.SwissGermanSpellerRule;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tagging.de.SwissGermanTagger;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;@SuppressWarnings(&quot;deprecation&quot;)
+<b class="nc">&nbsp;public class SwissGerman extends German {</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(SwissGerman.class);</b>
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public Tagger createDefaultTagger() {
+<b class="nc">&nbsp;    return new SwissGermanTagger();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String[] getCountries() {
+<b class="nc">&nbsp;    return new String[]{&quot;CH&quot;};</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getName() {
+<b class="nc">&nbsp;    return &quot;German (Swiss)&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    List&lt;Rule&gt; rules = new ArrayList&lt;&gt;(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));</b>
+<b class="nc">&nbsp;    rules.add(new SwissCompoundRule(messages, this, userConfig));</b>
+<b class="nc">&nbsp;    return rules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+<b class="nc">&nbsp;    return new SwissGermanSpellerRule(messages, this);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    List&lt;Rule&gt; rules = new ArrayList&lt;&gt;(super.getRelevantLanguageModelCapableRules(messages, languageModel, globalConfig, userConfig, motherTongue, altLanguages));</b>
+<b class="nc">&nbsp;    rules.add(new SwissGermanSpellerRule(messages, this,</b>
+&nbsp;      userConfig, languageModel));
+<b class="nc">&nbsp;    return rules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean isVariant() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantRemoteRules(ResourceBundle messageBundle, List&lt;RemoteRuleConfig&gt; configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages, boolean inputLogging) throws IOException {
+<b class="nc">&nbsp;    return super.getRelevantRemoteRules(messageBundle, configs, globalConfig, userConfig, motherTongue, altLanguages, inputLogging);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;RuleMatch&gt; filterRuleMatches(List&lt;RuleMatch&gt; ruleMatches, AnnotatedText text, Set&lt;String&gt; enabledRules) {
+&nbsp;    //First, use the filter in German.java
+<b class="nc">&nbsp;    ruleMatches = super.filterRuleMatches(ruleMatches, text, enabledRules);</b>
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; newRuleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (RuleMatch rm : ruleMatches) {</b>
+&nbsp;      //TODO: replace this by supporting remote-rule-filter for language variants
+<b class="nc">&nbsp;      String ruleId = rm.getRule().getId();</b>
+<b class="nc">&nbsp;      if (ruleId.equals(&quot;AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL&quot;) || ruleId.equals(&quot;AI_DE_GGEC_REPLACEMENT_ADJECTIVE_FORM&quot;)) {</b>
+<b class="nc">&nbsp;        String matchingString = null;</b>
+<b class="nc">&nbsp;        if (rm.getSentence() != null) {</b>
+<b class="nc">&nbsp;          if (rm.getFromPos() &gt; -1 &amp;&amp; rm.getToPos() &gt; -1) {</b>
+<b class="nc">&nbsp;            String sentenceStr = rm.getSentence().getText();</b>
+<b class="nc">&nbsp;            if (!sentenceStr.isEmpty()) {</b>
+<b class="nc">&nbsp;              matchingString = sentenceStr.substring(rm.getFromPos(), rm.getToPos());</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        String finalMatchingString = matchingString;</b>
+<b class="nc">&nbsp;        if (finalMatchingString != null &amp;&amp; finalMatchingString.contains(&quot;ss&quot;) &amp;&amp; rm.getSuggestedReplacements().stream().anyMatch(suggestion -&gt; suggestion.equals(finalMatchingString.replace(&quot;ss&quot;, &quot;ß&quot;)))) {</b>
+<b class="nc">&nbsp;          logger.info(&quot;Remove match with ruleID: {} ({} -&gt; {})&quot;, ruleId, matchingString, rm.getSuggestedReplacements());</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      List&lt;SuggestedReplacement&gt; replacements = rm.getSuggestedReplacementObjects();</b>
+<b class="nc">&nbsp;      List&lt;SuggestedReplacement&gt; newReplacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (SuggestedReplacement s : replacements) {</b>
+<b class="nc">&nbsp;        String newReplStr = s.getReplacement().replace(&quot;ß&quot;, &quot;ss&quot;);</b>
+<b class="nc">&nbsp;        SuggestedReplacement newRepl = new SuggestedReplacement(s);</b>
+<b class="nc">&nbsp;        newRepl.setReplacement(newReplStr);</b>
+<b class="nc">&nbsp;        newReplacements.add(newRepl);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      RuleMatch newMatch = new RuleMatch(rm, newReplacements);</b>
+<b class="nc">&nbsp;      newRuleMatches.add(newMatch);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return newRuleMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getOpeningDoubleQuote() {
+<b class="nc">&nbsp;    return &quot;«&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getClosingDoubleQuote() {
+<b class="nc">&nbsp;    return &quot;»&quot;;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

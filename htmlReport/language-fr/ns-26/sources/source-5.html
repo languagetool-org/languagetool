@@ -1,0 +1,280 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArabicDateFilterHelper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ar.filters</a>
+</div>
+
+<h1>Coverage Summary for Class: ArabicDateFilterHelper (org.languagetool.rules.ar.filters)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArabicDateFilterHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/59)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2022 Sohaib Afifi, Taha Zerrouki
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ar.filters;
+&nbsp;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.util.Calendar;
+&nbsp;import java.util.Locale;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 6.2
+&nbsp; */
+<b class="nc">&nbsp;class ArabicDateFilterHelper {</b>
+&nbsp;
+&nbsp;  protected Calendar getCalendar() {
+<b class="nc">&nbsp;    return Calendar.getInstance(Locale.UK);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings(&quot;ControlFlowStatementWithoutBraces&quot;)
+&nbsp;  protected int getDayOfWeek(String dayStr) {
+&nbsp;
+<b class="nc">&nbsp;    switch (dayStr) {</b>
+&nbsp;      case &quot;السبت&quot;:
+<b class="nc">&nbsp;        return Calendar.SATURDAY;</b>
+&nbsp;      case &quot;الأحد&quot;:
+<b class="nc">&nbsp;        return Calendar.SUNDAY;</b>
+&nbsp;      case &quot;الإثنين&quot;:
+<b class="nc">&nbsp;        return Calendar.MONDAY;</b>
+&nbsp;      case &quot;الاثنين&quot;:
+<b class="nc">&nbsp;        return Calendar.MONDAY;</b>
+&nbsp;      case &quot;الثلاثاء&quot;:
+<b class="nc">&nbsp;        return Calendar.TUESDAY;</b>
+&nbsp;      case &quot;الأربعاء&quot;:
+<b class="nc">&nbsp;        return Calendar.WEDNESDAY;</b>
+&nbsp;      case &quot;الخميس&quot;:
+<b class="nc">&nbsp;        return Calendar.THURSDAY;</b>
+&nbsp;      case &quot;الجمعة&quot;:
+<b class="nc">&nbsp;        return Calendar.FRIDAY;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;No day name found for &quot; + dayStr + &quot;&#39;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  @SuppressWarnings({&quot;ControlFlowStatementWithoutBraces&quot;, &quot;MagicNumber&quot;})
+&nbsp;  protected int getMonth(String monthStr) {
+<b class="nc">&nbsp;    String mon = StringTools.trimSpecialCharacters(monthStr);</b>
+<b class="nc">&nbsp;    switch (mon) {</b>
+&nbsp;      // الأشهر العربية بالسريانية
+&nbsp;      case &quot;كانون الثاني&quot;:
+<b class="nc">&nbsp;        return 1;</b>
+&nbsp;      case &quot;كانون ثاني&quot;:
+<b class="nc">&nbsp;        return 1;</b>
+&nbsp;      case &quot;شباط&quot;:
+<b class="nc">&nbsp;        return 2;</b>
+&nbsp;      case &quot;آذار&quot;:
+<b class="nc">&nbsp;        return 3;</b>
+&nbsp;      case &quot;نيسان&quot;:
+<b class="nc">&nbsp;        return 4;</b>
+&nbsp;      case &quot;أيار&quot;:
+<b class="nc">&nbsp;        return 5;</b>
+&nbsp;      case &quot;حزيران&quot;:
+<b class="nc">&nbsp;        return 6;</b>
+&nbsp;      case &quot;تموز&quot;:
+<b class="nc">&nbsp;        return 7;</b>
+&nbsp;      case &quot;آب&quot;:
+<b class="nc">&nbsp;        return 8;</b>
+&nbsp;      case &quot;أيلول&quot;:
+<b class="nc">&nbsp;        return 9;</b>
+&nbsp;      case &quot;تشرين الأول&quot;:
+<b class="nc">&nbsp;        return 10;</b>
+&nbsp;      case &quot;تشرين الثاني&quot;:
+<b class="nc">&nbsp;        return 11;</b>
+&nbsp;      case &quot;كانون الأول&quot;:
+<b class="nc">&nbsp;        return 12;</b>
+&nbsp;      case &quot;تشرين ثاني&quot;:
+<b class="nc">&nbsp;        return 11;</b>
+&nbsp;      case &quot;كانون أول&quot;:
+<b class="nc">&nbsp;        return 12;</b>
+&nbsp;      // الأشهر المعربة عن الإنجليزية
+&nbsp;      case &quot;يناير&quot;:
+<b class="nc">&nbsp;        return 1;</b>
+&nbsp;      case &quot;فبراير&quot;:
+<b class="nc">&nbsp;        return 2;</b>
+&nbsp;      case &quot;مارس&quot;:
+<b class="nc">&nbsp;        return 3;</b>
+&nbsp;      case &quot;أبريل&quot;:
+<b class="nc">&nbsp;        return 4;</b>
+&nbsp;      case &quot;مايو&quot;:
+<b class="nc">&nbsp;        return 5;</b>
+&nbsp;      case &quot;يونيو&quot;:
+<b class="nc">&nbsp;        return 6;</b>
+&nbsp;      case &quot;يوليو&quot;:
+<b class="nc">&nbsp;        return 7;</b>
+&nbsp;      case &quot;أغسطس&quot;:
+<b class="nc">&nbsp;        return 8;</b>
+&nbsp;      case &quot;سبتمبر&quot;:
+<b class="nc">&nbsp;        return 9;</b>
+&nbsp;      case &quot;أكتوبر&quot;:
+<b class="nc">&nbsp;        return 10;</b>
+&nbsp;      case &quot;نوفمبر&quot;:
+<b class="nc">&nbsp;        return 11;</b>
+&nbsp;      case &quot;ديسمبر&quot;:
+<b class="nc">&nbsp;        return 12;</b>
+&nbsp;      // الأشهر المعربة عن الفرنسية
+&nbsp;      case &quot;جانفي&quot;:
+<b class="nc">&nbsp;        return 1;</b>
+&nbsp;      case &quot;جانفييه&quot;:
+<b class="nc">&nbsp;        return 1;</b>
+&nbsp;      case &quot;فيفري&quot;:
+<b class="nc">&nbsp;        return 2;</b>
+&nbsp;      case &quot;أفريل&quot;:
+<b class="nc">&nbsp;        return 4;</b>
+&nbsp;      case &quot;ماي&quot;:
+<b class="nc">&nbsp;        return 5;</b>
+&nbsp;      case &quot;جوان&quot;:
+<b class="nc">&nbsp;        return 6;</b>
+&nbsp;      case &quot;جويلية&quot;:
+<b class="nc">&nbsp;        return 7;</b>
+&nbsp;      case &quot;أوت&quot;:
+<b class="nc">&nbsp;        return 8;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;No month name for &#39;&quot; + monthStr + &quot;&#39;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /* get day of week name */
+&nbsp;  protected String getDayOfWeekName(int day) {
+<b class="nc">&nbsp;    switch (day) {</b>
+&nbsp;      case Calendar.SATURDAY:
+<b class="nc">&nbsp;        return &quot;السبت&quot;;</b>
+&nbsp;      case Calendar.SUNDAY:
+<b class="nc">&nbsp;        return &quot;الأحد&quot;;</b>
+&nbsp;      case Calendar.MONDAY:
+<b class="nc">&nbsp;        return &quot;الإثنين&quot;;</b>
+&nbsp;      case Calendar.TUESDAY:
+<b class="nc">&nbsp;        return &quot;الثلاثاء&quot;;</b>
+&nbsp;      case Calendar.WEDNESDAY:
+<b class="nc">&nbsp;        return &quot;الأربعاء&quot;;</b>
+&nbsp;      case Calendar.THURSDAY:
+<b class="nc">&nbsp;        return &quot;الخميس&quot;;</b>
+&nbsp;      case Calendar.FRIDAY:
+<b class="nc">&nbsp;        return &quot;الجمعة&quot;;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        return &quot;غير محدد&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

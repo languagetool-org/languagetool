@@ -1,0 +1,293 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UnitConversionRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: UnitConversionRule (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UnitConversionRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (2/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75.4%
+  </span>
+  <span class="absValue">
+    (43/57)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">UnitConversionRule$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    28.6%
+  </span>
+  <span class="absValue">
+    (2/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    74.1%
+  </span>
+  <span class="absValue">
+    (43/58)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.languagetool.rules.AbstractUnitConversionRule;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;
+&nbsp;import java.math.RoundingMode;
+&nbsp;import java.text.NumberFormat;
+&nbsp;import java.util.Locale;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;import static tech.units.indriya.unit.Units.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 4.3
+&nbsp; */
+&nbsp;public class UnitConversionRule extends AbstractUnitConversionRule {
+&nbsp;
+&nbsp;  private final NumberFormat format;
+&nbsp;
+&nbsp;  public UnitConversionRule(ResourceBundle messages) {
+<b class="fc">&nbsp;    super(messages);</b>
+<b class="fc">&nbsp;    format = NumberFormat.getNumberInstance(Locale.GERMANY);</b>
+<b class="fc">&nbsp;    format.setMaximumFractionDigits(2);</b>
+<b class="fc">&nbsp;    format.setRoundingMode(RoundingMode.HALF_UP);</b>
+<b class="fc">&nbsp;    addExamplePair(Example.wrong(&quot;Ich bin &lt;marker&gt;6 Fuß&lt;/marker&gt; groß.&quot;),</b>
+<b class="fc">&nbsp;                   Example.fixed(&quot;Ich bin &lt;marker&gt;6 Fuß (1,83 m)&lt;/marker&gt; groß.&quot;));</b>
+&nbsp;
+<b class="fc">&nbsp;    addUnit(&quot;Kilo(gramm)?&quot;, KILOGRAM, &quot;Kilogramm&quot;, 1, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Gramm&quot;, KILOGRAM, &quot;Gramm&quot;, 1e-3, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Tonnen?&quot;, KILOGRAM, &quot;Tonnen&quot;, 1e3, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Pfund&quot;, POUND, &quot;Pfund&quot;, 1, false);</b>
+&nbsp;
+<b class="fc">&nbsp;    addUnit(&quot;Meilen?&quot;, MILE, &quot;Meile&quot;, 1, false);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Yard&quot;, YARD, &quot;Yard&quot;, 1, false);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Fuß&quot;, FEET, &quot;Fuß&quot;, 1, false);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Zoll&quot;, INCH, &quot;Zoll&quot;, 1, false);</b>
+&nbsp;
+<b class="fc">&nbsp;    addUnit(&quot;(Kilometer pro Stunde|Stundenkilometer)&quot;, KILOMETRE_PER_HOUR, &quot;Kilometer pro Stunde&quot;, 1, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Meilen pro Stunde&quot;, MILE.divide(HOUR), &quot;Meilen pro Stunde&quot;, 1, false);</b>
+&nbsp;
+<b class="fc">&nbsp;    addUnit(&quot;Meter&quot;, METRE, &quot;Meter&quot;, 1, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Kilometer&quot;, METRE, &quot;Kilometer&quot;, 1e3, true);</b>
+&nbsp;    //addUnit(&quot;Dezimeter&quot;, METRE, &quot;Dezimeter&quot;, 1e-1, false); // metric, but should not be suggested
+<b class="fc">&nbsp;    addUnit(&quot;Zentimeter&quot;, METRE, &quot;Zentimeter&quot;, 1e-2, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Millimeter&quot;, METRE, &quot;Millimeter&quot;, 1e-3, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Mikrometer&quot;, METRE, &quot;Mikrometer&quot;, 1e-6, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Nanometer&quot;, METRE, &quot;Nanometer&quot;, 1e-9, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Pikometer&quot;, METRE, &quot;Pikometer&quot;, 1e-12, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Femtometer&quot;, METRE, &quot;Femtometer&quot;, 1e-15, true);</b>
+&nbsp;
+<b class="fc">&nbsp;    addUnit(&quot;Quadratmeter&quot;, SQUARE_METRE, &quot;Quadratmeter&quot;, 1, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Hektar&quot;, SQUARE_METRE, &quot;Hektar&quot;, 1e4, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Ar&quot;, SQUARE_METRE, &quot;Ar&quot;, 1e2, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Quadratkilometer&quot;, SQUARE_METRE,  &quot;Quadratkilometer&quot;,  1e6, true);</b>
+&nbsp;    //addUnit(&quot;Quadratdezimeter&quot;, SQUARE_METRE,  &quot;Quadratdezimeter&quot;,  1e-2, false/*true*/); // Metric, but not commonly used
+<b class="fc">&nbsp;    addUnit(&quot;Quadratzentimeter&quot;, SQUARE_METRE, &quot;Quadratzentimeter&quot;, 1e-4, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Quadratmillimeter&quot;, SQUARE_METRE, &quot;Quadratmillimeter&quot;, 1e-6, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Quadratmikrometer&quot;, SQUARE_METRE, &quot;Quadratmikrometer&quot;, 1e-12, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Quadratnanometer&quot;, SQUARE_METRE,  &quot;Quadratnanometer&quot;,  1e-18, true);</b>
+&nbsp;
+<b class="fc">&nbsp;    addUnit(&quot;Kubikmeter&quot;, CUBIC_METRE,     &quot;Kubikmeter&quot;,      1, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Kubikkilometer&quot;, CUBIC_METRE, &quot;Kubikkilometer&quot;,  1e9, true);</b>
+&nbsp;    //addUnit(&quot;Kubikdezimeter&quot;, CUBIC_METRE, &quot;Kubikdezimeter&quot;,  1e-3, false/*true*/); // Metric, but not commonly used
+<b class="fc">&nbsp;    addUnit(&quot;Kubikzentimeter&quot;, CUBIC_METRE,&quot;Kubikzentimeter&quot;, 1e-6, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Kubikmillimeter&quot;, CUBIC_METRE,&quot;Kubikmillimeter&quot;, 1e-9, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Kubikmikrometer&quot;, CUBIC_METRE,&quot;Kubikmikrometer&quot;, 1e-18, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Kubiknanometer&quot;, CUBIC_METRE, &quot;Kubiknanometer&quot;,  1e-27, true);</b>
+&nbsp;
+<b class="fc">&nbsp;    addUnit(&quot;Liter&quot;, LITRE, &quot;Liter&quot;, 1, true);</b>
+<b class="fc">&nbsp;    addUnit(&quot;Milliliter&quot;, LITRE, &quot;Milliliter&quot;, 1e-3, true);</b>
+&nbsp;
+<b class="fc">&nbsp;    addUnit(&quot;(?:Grad)? Fahrenheit&quot;, FAHRENHEIT, &quot;Grad Fahrenheit&quot;, 1, false);</b>
+<b class="fc">&nbsp;    addUnit(&quot;(?:Grad)? Celsius&quot;, CELSIUS, &quot;Grad Celsius&quot;, 1, true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="fc">&nbsp;    return &quot;EINHEITEN_METRISCH&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Schlägt vor oder überprüft Angaben des metrischen Äquivalentes bei bestimmten Maßeinheiten.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected String getMessage(Message message) {
+<b class="nc">&nbsp;    switch(message) {</b>
+&nbsp;      case CHECK:
+<b class="nc">&nbsp;        return &quot;Diese Umrechnung scheint falsch zu sein. Wollen Sie sie automatisch korrigieren lassen?&quot;;</b>
+&nbsp;      case SUGGESTION:
+<b class="nc">&nbsp;        return &quot;Wollen Sie eine Umwandlung ins metrische System automatisch hinzufügen?&quot;;</b>
+&nbsp;      case CHECK_UNKNOWN_UNIT:
+<b class="nc">&nbsp;        return &quot;Die in dieser Umrechnung verwendete Einheit wurde nicht erkannt.&quot;;</b>
+&nbsp;      case UNIT_MISMATCH:
+<b class="nc">&nbsp;        return &quot;Diese Einheiten sind nicht kompatibel.&quot;;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Unknown message type: &quot; + message);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected String getShortMessage(Message message) {
+<b class="nc">&nbsp;    switch(message) {</b>
+&nbsp;      case CHECK:
+<b class="nc">&nbsp;        return &quot;Falsche Umrechnung. Automatisch korrigieren?&quot;;</b>
+&nbsp;      case SUGGESTION:
+<b class="nc">&nbsp;        return &quot;Metrisches Äquivalent hinzufügen?&quot;;</b>
+&nbsp;      case CHECK_UNKNOWN_UNIT:
+<b class="nc">&nbsp;        return &quot;Unbekannte Einheit.&quot;;</b>
+&nbsp;      case UNIT_MISMATCH:
+<b class="nc">&nbsp;        return &quot;Inkompatible Einheiten.&quot;;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Unknown message type: &quot; + message);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected NumberFormat getNumberFormat() {
+<b class="nc">&nbsp;    return format;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,475 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BaseSynthesizer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.synthesis</a>
+</div>
+
+<h1>Coverage Summary for Class: BaseSynthesizer (org.languagetool.synthesis)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BaseSynthesizer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/60)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/128)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2009 Marcin Miłkowski
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.synthesis;
+&nbsp;
+&nbsp;import morfologik.stemming.Dictionary;
+&nbsp;import morfologik.stemming.DictionaryLookup;
+&nbsp;import morfologik.stemming.IStemmer;
+&nbsp;import morfologik.stemming.WordData;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.net.URL;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.function.Predicate;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.regex.PatternSyntaxException;
+&nbsp;
+&nbsp;import static org.languagetool.tools.StringInterner.intern;
+&nbsp;
+&nbsp;public class BaseSynthesizer implements Synthesizer {
+&nbsp;
+<b class="nc">&nbsp;  public final String SPELLNUMBER_TAG = &quot;_spell_number_&quot;;</b>
+<b class="nc">&nbsp;  public final String SPELLNUMBER_FEMININE_TAG = &quot;_spell_number_:feminine&quot;;</b>
+<b class="nc">&nbsp;  public final String SPELLNUMBER_ROMAN_TAG = &quot;_spell_number_:Roman&quot;;</b>
+&nbsp;
+&nbsp;  protected volatile List&lt;String&gt; possibleTags;
+&nbsp;
+&nbsp;  private final String tagFileName;
+&nbsp;  private final String resourceFileName;
+&nbsp;  private final IStemmer stemmer;
+&nbsp;  private final ManualSynthesizer manualSynthesizer;
+&nbsp;  private final ManualSynthesizer removalSynthesizer;
+&nbsp;  private final ManualSynthesizer removalSynthesizer2;
+&nbsp;  private final String sorosFileName;
+&nbsp;  private final Soros numberSpeller;
+&nbsp;  private final Soros romanNumberer;
+&nbsp;  
+&nbsp;  private volatile Dictionary dictionary;
+&nbsp;
+<b class="nc">&nbsp;  protected Language language = null;</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param resourceFileName The dictionary file name.
+&nbsp;   * @param tagFileName The name of a file containing all possible tags.
+&nbsp;   * @deprecated use {@link #BaseSynthesizer(String, String, String, String)}
+&nbsp;   */
+&nbsp;  public BaseSynthesizer(String sorosFileName, String resourceFileName, String tagFileName, Language lang) {
+<b class="nc">&nbsp;    this(sorosFileName, resourceFileName, tagFileName, lang.getShortCode());</b>
+<b class="nc">&nbsp;    this.language = lang;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param resourceFileName The dictionary file name.
+&nbsp;   * @param tagFileName The name of a file containing all possible tags.
+&nbsp;   * @param langShortCode the language short code used to find the data files
+&nbsp;   */
+<b class="nc">&nbsp;  public BaseSynthesizer(String sorosFileName, String resourceFileName, String tagFileName, String langShortCode) {</b>
+<b class="nc">&nbsp;    this.resourceFileName = resourceFileName;</b>
+<b class="nc">&nbsp;    this.tagFileName = tagFileName;</b>
+<b class="nc">&nbsp;    this.stemmer = createStemmer();</b>
+<b class="nc">&nbsp;    this.sorosFileName = sorosFileName;</b>
+<b class="nc">&nbsp;    this.numberSpeller = createNumberSpeller(langShortCode);</b>
+<b class="nc">&nbsp;    this.romanNumberer = createRomanNumberer();</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      String path = &quot;/&quot; + langShortCode + &quot;/added.txt&quot;;</b>
+<b class="nc">&nbsp;      if (JLanguageTool.getDataBroker().resourceExists(path)) {</b>
+<b class="nc">&nbsp;        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {</b>
+<b class="nc">&nbsp;          this.manualSynthesizer = new ManualSynthesizer(stream);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        this.manualSynthesizer = null;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String removalPath = &quot;/&quot; + langShortCode + &quot;/removed.txt&quot;;</b>
+<b class="nc">&nbsp;      if (JLanguageTool.getDataBroker().resourceExists(removalPath)) {</b>
+<b class="nc">&nbsp;        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(removalPath)) {</b>
+<b class="nc">&nbsp;          this.removalSynthesizer = new ManualSynthesizer(stream);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        this.removalSynthesizer = null;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String removalPath2 = &quot;/&quot; + langShortCode + &quot;/do-not-synthesize.txt&quot;;</b>
+<b class="nc">&nbsp;      if (JLanguageTool.getDataBroker().resourceExists(removalPath2)) {</b>
+<b class="nc">&nbsp;        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(removalPath2)) {</b>
+<b class="nc">&nbsp;          this.removalSynthesizer2 = new ManualSynthesizer(stream);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        this.removalSynthesizer2 = null;</b>
+&nbsp;      }
+&nbsp;      
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @deprecated use {@link #BaseSynthesizer(String, String, String)}
+&nbsp;   */
+&nbsp;  public BaseSynthesizer(String resourceFileName, String tagFileName, Language lang) {
+<b class="nc">&nbsp;    this(resourceFileName, tagFileName, lang.getShortCode());</b>
+<b class="nc">&nbsp;    this.language = lang;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public BaseSynthesizer(String resourceFileName, String tagFileName, String langShortCode) {
+<b class="nc">&nbsp;    this(null, resourceFileName, tagFileName, langShortCode);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the {@link Dictionary} used for this synthesizer.
+&nbsp;   * The dictionary file can be defined in the {@link #BaseSynthesizer(String, String, Language) constructor}.
+&nbsp;   * @throws IOException In case the dictionary cannot be loaded.
+&nbsp;   */
+&nbsp;  protected Dictionary getDictionary() throws IOException {
+<b class="nc">&nbsp;    Dictionary dict = this.dictionary;</b>
+<b class="nc">&nbsp;    if (dict == null) {</b>
+<b class="nc">&nbsp;      synchronized (this) {</b>
+<b class="nc">&nbsp;        dict = this.dictionary;</b>
+<b class="nc">&nbsp;        if (dict == null) {</b>
+<b class="nc">&nbsp;          dictionary = dict = MorfologikSpeller.getDictionaryWithCaching(resourceFileName);</b>
+&nbsp;        }
+<b class="nc">&nbsp;      }</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return dict;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a new {@link IStemmer} based on the configured {@link #getDictionary() dictionary}.
+&nbsp;   * The result must not be shared among threads.
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  protected IStemmer createStemmer() {
+&nbsp;    try {
+<b class="nc">&nbsp;      return new DictionaryLookup(getDictionary());</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not load dictionary&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  private Soros createNumberSpeller(String langcode) {
+&nbsp;    Soros s;
+&nbsp;    try {
+<b class="nc">&nbsp;      URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(sorosFileName);</b>
+<b class="nc">&nbsp;      BufferedReader f = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));</b>
+<b class="nc">&nbsp;      StringBuilder sb = new StringBuilder();</b>
+&nbsp;      String line;
+<b class="nc">&nbsp;      while ((line = f.readLine()) != null) {</b>
+<b class="nc">&nbsp;        sb.append(line);</b>
+<b class="nc">&nbsp;        sb.append(&#39;\n&#39;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      s = new Soros(new String(sb), langcode);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return s;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private Soros createRomanNumberer() {
+&nbsp;    Soros s;
+&nbsp;    try {
+<b class="nc">&nbsp;      URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(&quot;Roman.sor&quot;);</b>
+<b class="nc">&nbsp;      BufferedReader f = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));</b>
+<b class="nc">&nbsp;      StringBuilder sb = new StringBuilder();</b>
+&nbsp;      String line;
+<b class="nc">&nbsp;      while ((line = f.readLine()) != null) {</b>
+<b class="nc">&nbsp;        sb.append(line);</b>
+<b class="nc">&nbsp;        sb.append(&#39;\n&#39;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      s = new Soros(new String(sb), &quot;Roman&quot;);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return s;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Lookup the inflected forms of a lemma defined by a part-of-speech tag.
+&nbsp;   * @param lemma the lemma to be inflected.
+&nbsp;   * @param posTag the desired part-of-speech tag.
+&nbsp;   */
+&nbsp;  protected List&lt;String&gt; lookup(String lemma, String posTag) {
+<b class="nc">&nbsp;    List&lt;String&gt; results = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    synchronized (this) { // the stemmer is not thread-safe</b>
+<b class="nc">&nbsp;      List&lt;WordData&gt; wordForms = stemmer.lookup(lemma + &quot;|&quot; + posTag);</b>
+<b class="nc">&nbsp;      for (WordData wd : wordForms) {</b>
+<b class="nc">&nbsp;        results.add(wd.getStem().toString());</b>
+&nbsp;      }
+<b class="nc">&nbsp;    }</b>
+<b class="nc">&nbsp;    if (manualSynthesizer != null) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; manualForms = manualSynthesizer.lookup(lemma, posTag);</b>
+<b class="nc">&nbsp;      if (manualForms != null) {</b>
+<b class="nc">&nbsp;        results.addAll(manualForms);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (removalSynthesizer != null) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; removeForms = removalSynthesizer.lookup(lemma, posTag);</b>
+<b class="nc">&nbsp;      if (removeForms != null) {</b>
+<b class="nc">&nbsp;        results.removeAll(removeForms);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (removalSynthesizer2 != null) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; removeForms = removalSynthesizer2.lookup(lemma, posTag);</b>
+<b class="nc">&nbsp;      if (removeForms != null) {</b>
+<b class="nc">&nbsp;        results.removeAll(removeForms);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return results;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get a form of a given AnalyzedToken, where the form is defined by a
+&nbsp;   * part-of-speech tag.
+&nbsp;   * @param token AnalyzedToken to be inflected.
+&nbsp;   * @param posTag The desired part-of-speech tag.
+&nbsp;   * @return inflected words, or an empty array if no forms were found
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
+<b class="nc">&nbsp;    if (posTag.equals(SPELLNUMBER_TAG)) {</b>
+<b class="nc">&nbsp;      return new String[] {getSpelledNumber(token.getToken())};</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (posTag.equals(SPELLNUMBER_FEMININE_TAG)) {</b>
+<b class="nc">&nbsp;      return new String[] {getSpelledNumber(&quot;feminine &quot; + token.getToken())};</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (posTag.equals(SPELLNUMBER_ROMAN_TAG)) {</b>
+<b class="nc">&nbsp;      return new String[] {getRomanNumber(token.getToken())};</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; wordForms = lookup(token.getLemma(), posTag);</b>
+<b class="nc">&nbsp;    return removeExceptions(wordForms.toArray(new String[0]));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
+<b class="nc">&nbsp;    if (posTagRegExp) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        Pattern p = Pattern.compile(posTag);</b>
+<b class="nc">&nbsp;        return synthesizeForPosTags(token.getLemma(), tag -&gt; p.matcher(tag).matches());</b>
+&nbsp;      } catch (PatternSyntaxException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Error trying to synthesize POS tag &quot; + posTag +</b>
+<b class="nc">&nbsp;                &quot; (posTagRegExp: true) from token &quot; + token.getToken(), e);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return removeExceptions(synthesize(token, posTag));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Synthesize forms for the given lemma and for all POS tags satisfying the given predicate.
+&nbsp;   * @since 5.3
+&nbsp;   */
+&nbsp;  public String[] synthesizeForPosTags(String lemma, Predicate&lt;String&gt; acceptTag) throws IOException {
+<b class="nc">&nbsp;    initPossibleTags();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; results = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String tag : possibleTags) {</b>
+<b class="nc">&nbsp;      if (acceptTag.test(tag)) {</b>
+<b class="nc">&nbsp;        results.addAll(lookup(lemma, tag));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return removeExceptions(results.toArray(new String[0]));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getPosTagCorrection(String posTag) {
+<b class="nc">&nbsp;    return posTag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.5
+&nbsp;   * @return the stemmer interface to be used.
+&nbsp;   */
+&nbsp;  public IStemmer getStemmer() {
+<b class="nc">&nbsp;    return stemmer;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void initPossibleTags() throws IOException {
+<b class="nc">&nbsp;    if (possibleTags == null) {</b>
+<b class="nc">&nbsp;      synchronized (this) {</b>
+<b class="nc">&nbsp;        if (possibleTags == null) {</b>
+<b class="nc">&nbsp;          possibleTags = loadTags();</b>
+&nbsp;        }
+<b class="nc">&nbsp;      }</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; loadTags() throws IOException {
+&nbsp;    List&lt;String&gt; tags;
+<b class="nc">&nbsp;    try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(tagFileName)) {</b>
+<b class="nc">&nbsp;      tags = SynthesizerTools.loadWords(stream);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (manualSynthesizer != null) {</b>
+<b class="nc">&nbsp;      for (String tag : manualSynthesizer.getPossibleTags()) {</b>
+<b class="nc">&nbsp;        if (!tags.contains(tag)) {</b>
+<b class="nc">&nbsp;          tags.add(intern(tag));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return tags;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getSpelledNumber(String arabicNumeral) {
+<b class="nc">&nbsp;    if (numberSpeller != null) {</b>
+<b class="nc">&nbsp;      return numberSpeller.run(arabicNumeral);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return arabicNumeral;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public String getRomanNumber(String arabicNumeral) {
+<b class="nc">&nbsp;    if (romanNumberer != null) {</b>
+<b class="nc">&nbsp;      return romanNumberer.run(arabicNumeral);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return arabicNumeral;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean isException(String w) {
+<b class="nc">&nbsp;    return false;  </b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected String[] removeExceptions(String[] words) {
+<b class="nc">&nbsp;    List&lt;String&gt; results = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String word : words) {</b>
+<b class="nc">&nbsp;      if (!isException(word)) {</b>
+<b class="nc">&nbsp;        results.add(word);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return results.toArray(new String[0]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getTargetPosTag(List&lt;String&gt; posTags, String targetPosTag) {
+<b class="nc">&nbsp;    if (posTags.isEmpty()) {</b>
+<b class="nc">&nbsp;      return targetPosTag;</b>
+&nbsp;    }
+&nbsp;    // return the last one to keep the previous results
+<b class="nc">&nbsp;    return posTags.get(posTags.size() - 1);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

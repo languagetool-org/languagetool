@@ -1,0 +1,472 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ConfusionRuleEvaluator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.bigdata</a>
+</div>
+
+<h1>Coverage Summary for Class: ConfusionRuleEvaluator (org.languagetool.dev.bigdata)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ConfusionRuleEvaluator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/78)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/146)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ConfusionRuleEvaluator$EnglishLight</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/78)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/150)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.bigdata;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.chunking.Chunker;
+&nbsp;import org.languagetool.dev.dumpcheck.*;
+&nbsp;import org.languagetool.dev.eval.FMeasure;
+&nbsp;import org.languagetool.language.English;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.languagemodel.LuceneLanguageModel;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tagging.xx.DemoTagger;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.text.SimpleDateFormat;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static java.util.Locale.ENGLISH;
+&nbsp;import static java.util.stream.Collectors.toList;
+&nbsp;
+&nbsp;/**
+&nbsp; * Loads sentences with a homophone (e.g. there/their) from Wikipedia or confusion set files
+&nbsp; * and evaluates EnglishConfusionProbabilityRule with them.
+&nbsp; * 
+&nbsp; * @see AutomaticConfusionRuleEvaluator
+&nbsp; * @since 3.0
+&nbsp; * @author Daniel Naber 
+&nbsp; */
+&nbsp;class ConfusionRuleEvaluator {
+&nbsp;
+&nbsp;  private static final boolean CASE_SENSITIVE = false;
+<b class="nc">&nbsp;  private static final List&lt;Long&gt; EVAL_FACTORS = Arrays.asList(10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);</b>
+&nbsp;  private static final int MAX_SENTENCES = 1000;
+&nbsp;
+&nbsp;  private final Language language;
+&nbsp;  private final boolean caseSensitive;
+&nbsp;  private final boolean bothDirections;  // replace A by B and vice versa?
+&nbsp;  private final ConfusionProbabilityRule rule;
+<b class="nc">&nbsp;  private final Map&lt;Long, RuleEvalValues&gt; evalValues = new HashMap&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;  private boolean verbose = true;</b>
+&nbsp;
+<b class="nc">&nbsp;  ConfusionRuleEvaluator(Language language, LanguageModel languageModel, boolean caseSensitive, boolean bothDirections) {</b>
+<b class="nc">&nbsp;    this.language = language;</b>
+<b class="nc">&nbsp;    this.caseSensitive = caseSensitive;</b>
+<b class="nc">&nbsp;    this.bothDirections = bothDirections;</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      List&lt;Rule&gt; rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel, null);</b>
+<b class="nc">&nbsp;      if (rules == null) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Language &quot; + language + &quot; doesn&#39;t seem to support a language model&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      ConfusionProbabilityRule foundRule = null;</b>
+<b class="nc">&nbsp;      for (Rule rule : rules) {</b>
+<b class="nc">&nbsp;        if (rule.getId().equals(ConfusionProbabilityRule.RULE_ID)) {</b>
+<b class="nc">&nbsp;          foundRule = (ConfusionProbabilityRule)rule;</b>
+&nbsp;          break;
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (foundRule == null) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Language &quot; + language + &quot; has no language model rule with id &quot; + ConfusionProbabilityRule.RULE_ID);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        this.rule = foundRule;</b>
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  void setVerboseMode(boolean verbose) {
+<b class="nc">&nbsp;    this.verbose = verbose;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  Map&lt;Long, RuleEvalResult&gt; run(List&lt;String&gt; inputsOrDir, String token, String homophoneToken, int maxSentences, List&lt;Long&gt; evalFactors,
+&nbsp;                                Map&lt;String, Integer&gt; sourcesForToken, Map&lt;String, Integer&gt; sourcesForHomophone) throws IOException {
+<b class="nc">&nbsp;    for (Long evalFactor : evalFactors) {</b>
+<b class="nc">&nbsp;      evalValues.put(evalFactor, new RuleEvalValues());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;Sentence&gt; allTokenSentences = getRelevantSentences(inputsOrDir, token, maxSentences);</b>
+&nbsp;    // Load the sentences with a homophone and later replace it so we get error sentences:
+<b class="nc">&nbsp;    List&lt;Sentence&gt; allHomophoneSentences = getRelevantSentences(inputsOrDir, homophoneToken, maxSentences);</b>
+&nbsp;    //if (allTokenSentences.size() &lt; 20 || allHomophoneSentences.size() &lt; 20) {
+&nbsp;    //  System.out.println(&quot;Skipping &quot; + token + &quot; / &quot; + homophoneToken);
+&nbsp;    //  return null;
+&nbsp;    //}
+<b class="nc">&nbsp;    evaluate(allTokenSentences, true, token, homophoneToken, evalFactors);</b>
+<b class="nc">&nbsp;    if (bothDirections) {</b>
+<b class="nc">&nbsp;      evaluate(allTokenSentences, false, homophoneToken, token, evalFactors);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    evaluate(allHomophoneSentences, false, token, homophoneToken, evalFactors);</b>
+<b class="nc">&nbsp;    if (bothDirections) {</b>
+<b class="nc">&nbsp;      evaluate(allHomophoneSentences, true, homophoneToken, token, evalFactors);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return printEvalResult(allTokenSentences, allHomophoneSentences, inputsOrDir, token, homophoneToken, sourcesForToken, sourcesForHomophone);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings(&quot;ConstantConditions&quot;)
+&nbsp;  private void evaluate(List&lt;Sentence&gt; sentences, boolean isCorrect, String token, String homophoneToken, List&lt;Long&gt; evalFactors) throws IOException {
+<b class="nc">&nbsp;    println(&quot;======================&quot;);</b>
+<b class="nc">&nbsp;    printf(&quot;Starting evaluation on &quot; + sentences.size() + &quot; &quot; + (isCorrect ? &quot;correct&quot; : &quot;incorrect&quot;) + &quot; sentences with %s/%s:\n&quot;, token, homophoneToken);</b>
+<b class="nc">&nbsp;    JLanguageTool lt = new JLanguageTool(language);</b>
+<b class="nc">&nbsp;    List&lt;Rule&gt; allActiveRules = lt.getAllActiveRules();</b>
+<b class="nc">&nbsp;    for (Rule activeRule : allActiveRules) {</b>
+<b class="nc">&nbsp;      lt.disableRule(activeRule.getId());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (Sentence sentence : sentences) {</b>
+<b class="nc">&nbsp;      String textToken = isCorrect ? token : homophoneToken;</b>
+<b class="nc">&nbsp;      String plainText = sentence.getText();</b>
+<b class="nc">&nbsp;      String replacement = plainText.indexOf(textToken) == 0 ? StringTools.uppercaseFirstChar(token) : token;</b>
+<b class="nc">&nbsp;      String replacedTokenSentence = isCorrect ? plainText : plainText.replaceFirst(&quot;(?i)\\b&quot; + textToken + &quot;\\b&quot;, replacement);</b>
+<b class="nc">&nbsp;      AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(replacedTokenSentence);</b>
+<b class="nc">&nbsp;      for (Long factor : evalFactors) {</b>
+<b class="nc">&nbsp;        rule.setConfusionPair(new ConfusionPair(token, homophoneToken, factor, bothDirections));</b>
+<b class="nc">&nbsp;        RuleMatch[] matches = rule.match(analyzedSentence);</b>
+<b class="nc">&nbsp;        boolean consideredCorrect = matches.length == 0;</b>
+<b class="nc">&nbsp;        String displayStr = plainText.replaceFirst(&quot;(?i)\\b&quot; + textToken + &quot;\\b&quot;, &quot;**&quot; + replacement + &quot;**&quot;);</b>
+&nbsp;        //System.out.println(&quot;consideredCorrect=&quot; + consideredCorrect + &quot;, correct=&quot; + isCorrect + &quot;: &quot; + replacedTokenSentence);
+<b class="nc">&nbsp;        if (consideredCorrect &amp;&amp; isCorrect) {</b>
+<b class="nc">&nbsp;          evalValues.get(factor).trueNegatives++;</b>
+<b class="nc">&nbsp;        } else if (!consideredCorrect &amp;&amp; isCorrect) {</b>
+<b class="nc">&nbsp;          evalValues.get(factor).falsePositives++;</b>
+<b class="nc">&nbsp;          println(&quot;false positive with factor &quot; + factor + &quot;: &quot; + displayStr);</b>
+<b class="nc">&nbsp;        } else if (consideredCorrect &amp;&amp; !isCorrect) {</b>
+&nbsp;          //println(&quot;false negative: &quot; + displayStr);
+<b class="nc">&nbsp;          evalValues.get(factor).falseNegatives++;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          evalValues.get(factor).truePositives++;</b>
+&nbsp;          //System.out.println(&quot;true positive: &quot; + displayStr);
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private Map&lt;Long, RuleEvalResult&gt; printEvalResult(List&lt;Sentence&gt; allTokenSentences, List&lt;Sentence&gt; allHomophoneSentences, List&lt;String&gt; inputsOrDir,
+&nbsp;                                                    String token, String homophoneToken, Map&lt;String, Integer&gt; sourcesForToken, Map&lt;String, Integer&gt; sourcesForHomophone) {
+<b class="nc">&nbsp;    Map&lt;Long, RuleEvalResult&gt; results = new LinkedHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    int sentences = allTokenSentences.size() + allHomophoneSentences.size();</b>
+<b class="nc">&nbsp;    System.out.println(&quot;\nEvaluation results for &quot; + token + &quot;/&quot; + homophoneToken</b>
+&nbsp;            + &quot; with &quot; + sentences + &quot; sentences as of &quot; + new Date() + &quot;:&quot;);
+<b class="nc">&nbsp;    System.out.printf(ENGLISH, &quot;Inputs:       %s\n&quot;, inputsOrDir);</b>
+<b class="nc">&nbsp;    System.out.printf(ENGLISH, &quot;Case sensit.: %s\n&quot;, caseSensitive);</b>
+<b class="nc">&nbsp;    List&lt;Long&gt; factors = evalValues.keySet().stream().sorted().collect(toList());</b>
+<b class="nc">&nbsp;    for (Long factor : factors) {</b>
+<b class="nc">&nbsp;      RuleEvalValues evalValues = this.evalValues.get(factor);</b>
+<b class="nc">&nbsp;      float precision = (float)evalValues.truePositives / (evalValues.truePositives + evalValues.falsePositives);</b>
+<b class="nc">&nbsp;      float specificity = (float)evalValues.trueNegatives / (evalValues.trueNegatives + evalValues.falsePositives);</b>
+<b class="nc">&nbsp;      float recall = (float) evalValues.truePositives / (evalValues.truePositives + evalValues.falseNegatives);</b>
+<b class="nc">&nbsp;      String date = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).format(new Date());</b>
+<b class="nc">&nbsp;      String spaces = StringUtils.repeat(&quot; &quot;, 82-Long.toString(factor).length());</b>
+<b class="nc">&nbsp;      String word1 = token;</b>
+<b class="nc">&nbsp;      String word2 = homophoneToken;</b>
+<b class="nc">&nbsp;      String delimiter = &quot; -&gt; &quot;;</b>
+<b class="nc">&nbsp;      if (bothDirections) {</b>
+<b class="nc">&nbsp;        delimiter = &quot;; &quot;;</b>
+<b class="nc">&nbsp;        if (word1.compareTo(word2) &gt; 0) {</b>
+<b class="nc">&nbsp;          String temp = word1;</b>
+<b class="nc">&nbsp;          word1 = word2;</b>
+<b class="nc">&nbsp;          word2 = temp;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      float fMeasureBeta = 0.5f;</b>
+<b class="nc">&nbsp;      String summary = String.format(ENGLISH, &quot;%s%s%s; %d; %s # p=%.3f, r=%.3f, f%.1f=%.3f, s=%.3f, %d+%d, %dgrams, %s, &quot; +</b>
+&nbsp;                      &quot;fp=%d, fn=%d, tp=%d, tn=%d, %s, %s&quot;,
+<b class="nc">&nbsp;              word1, delimiter, word2, factor, spaces, precision, recall, fMeasureBeta, FMeasure.getFMeasure(precision, recall, fMeasureBeta),</b>
+<b class="nc">&nbsp;              specificity, allTokenSentences.size(), allHomophoneSentences.size(), rule.getNGrams(), date,</b>
+<b class="nc">&nbsp;              evalValues.falsePositives, evalValues.falseNegatives, evalValues.truePositives, evalValues.trueNegatives,</b>
+&nbsp;              sourcesForToken, sourcesForHomophone);
+<b class="nc">&nbsp;      results.put(factor, new RuleEvalResult(summary, precision, recall));</b>
+<b class="nc">&nbsp;      if (verbose) {</b>
+<b class="nc">&nbsp;        System.out.println();</b>
+<b class="nc">&nbsp;        System.out.printf(ENGLISH, &quot;Factor: %d - %d false positives, %d false negatives, %d true positives, %d true negatives\n&quot;,</b>
+<b class="nc">&nbsp;                          factor, evalValues.falsePositives, evalValues.falseNegatives, evalValues.truePositives, evalValues.trueNegatives);</b>
+&nbsp;        //System.out.printf(ENGLISH, &quot;Precision:    %.3f (%d false positives)\n&quot;, precision, evalValues.falsePositives);
+&nbsp;        //System.out.printf(ENGLISH, &quot;Recall:       %.3f (%d false negatives)\n&quot;, recall, evalValues.falseNegatives);
+&nbsp;        //double fMeasure = FMeasure.getWeightedFMeasure(precision, recall);
+&nbsp;        //System.out.printf(ENGLISH, &quot;F-measure:    %.3f (beta=0.5)\n&quot;, fMeasure);
+&nbsp;        //System.out.printf(ENGLISH, &quot;Good Matches: %d (true positives)\n&quot;, evalValues.truePositives);
+&nbsp;        //System.out.printf(ENGLISH, &quot;All matches:  %d\n&quot;, evalValues.truePositives + evalValues.falsePositives);
+<b class="nc">&nbsp;        System.out.printf(summary + &quot;\n&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return results;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;Sentence&gt; getRelevantSentences(List&lt;String&gt; inputs, String token, int maxSentences) throws IOException {
+<b class="nc">&nbsp;    List&lt;Sentence&gt; sentences = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String input : inputs) {</b>
+<b class="nc">&nbsp;      if (new File(input).isDirectory()) {</b>
+<b class="nc">&nbsp;        File file = new File(input, token + &quot;.txt&quot;);</b>
+<b class="nc">&nbsp;        if (!file.exists()) {</b>
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;File with example sentences not found: &quot; + file);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        try (FileInputStream fis = new FileInputStream(file)) {</b>
+<b class="nc">&nbsp;          SentenceSource sentenceSource = new PlainTextSentenceSource(fis, language);</b>
+<b class="nc">&nbsp;          sentences = getSentencesFromSource(inputs, token, maxSentences, sentenceSource);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        SentenceSource sentenceSource = MixingSentenceSource.create(inputs, language);</b>
+<b class="nc">&nbsp;        sentences = getSentencesFromSource(inputs, token, maxSentences, sentenceSource);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return sentences;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;Sentence&gt; getSentencesFromSource(List&lt;String&gt; inputs, String token, int maxSentences, SentenceSource sentenceSource) {
+<b class="nc">&nbsp;    List&lt;Sentence&gt; sentences = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    Pattern pattern = Pattern.compile(&quot;.*\\b&quot; + (caseSensitive ? token : token.toLowerCase()) + &quot;\\b.*&quot;);</b>
+<b class="nc">&nbsp;    while (sentenceSource.hasNext()) {</b>
+<b class="nc">&nbsp;      Sentence sentence = sentenceSource.next();</b>
+<b class="nc">&nbsp;      String sentenceText = caseSensitive ? sentence.getText() : sentence.getText().toLowerCase();</b>
+<b class="nc">&nbsp;      Matcher matcher = pattern.matcher(sentenceText);</b>
+<b class="nc">&nbsp;      if (matcher.matches()) {</b>
+<b class="nc">&nbsp;        sentences.add(sentence);</b>
+<b class="nc">&nbsp;        if (sentences.size() % 250 == 0) {</b>
+<b class="nc">&nbsp;          println(&quot;Loaded sentence &quot; + sentences.size() + &quot; with &#39;&quot; + token + &quot;&#39; from &quot; + inputs);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (sentences.size() &gt;= maxSentences) {</b>
+&nbsp;          break;
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    println(&quot;Loaded &quot; + sentences.size() + &quot; sentences with &#39;&quot; + token + &quot;&#39; from &quot; + inputs);</b>
+<b class="nc">&nbsp;    return sentences;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void println(String msg) {
+<b class="nc">&nbsp;    if (verbose) {</b>
+<b class="nc">&nbsp;      System.out.println(msg);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printf(String msg, String... args) {
+<b class="nc">&nbsp;    if (verbose) {</b>
+<b class="nc">&nbsp;      System.out.printf(msg, args);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    if (args.length &lt; 5 || args.length &gt; 6) {</b>
+<b class="nc">&nbsp;      System.err.println(&quot;Usage: &quot; + ConfusionRuleEvaluator.class.getSimpleName()</b>
+&nbsp;              + &quot; &lt;token&gt; &lt;homophoneToken&gt; &lt;langCode&gt; &lt;languageModelTopDir&gt; &lt;wikipediaXml|tatoebaFile|plainTextFile|dir&gt;...&quot;);
+<b class="nc">&nbsp;      System.err.println(&quot;   &lt;languageModelTopDir&gt; is a directory with sub-directories like &#39;en&#39; which then again contain &#39;1grams&#39;,&quot;);</b>
+<b class="nc">&nbsp;      System.err.println(&quot;                      &#39;2grams&#39;, and &#39;3grams&#39; sub directories with Lucene indexes&quot;);</b>
+<b class="nc">&nbsp;      System.err.println(&quot;                      See https://dev.languagetool.org/finding-errors-using-n-gram-data&quot;);</b>
+<b class="nc">&nbsp;      System.err.println(&quot;   &lt;wikipediaXml|tatoebaFile|plainTextFile|dir&gt; either a Wikipedia XML dump, or a Tatoeba file, or&quot;);</b>
+<b class="nc">&nbsp;      System.err.println(&quot;                      a plain text file with one sentence per line, or a directory with&quot;);</b>
+<b class="nc">&nbsp;      System.err.println(&quot;                      example sentences (where &lt;word&gt;.txt contains only the sentences for &lt;word&gt;).&quot;);</b>
+<b class="nc">&nbsp;      System.err.println(&quot;                      You can specify both a Wikipedia file and a Tatoeba file.&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    long startTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    String token = args[0];</b>
+<b class="nc">&nbsp;    String homophoneToken = args[1];</b>
+<b class="nc">&nbsp;    String langCode = args[2];</b>
+&nbsp;    Language lang;
+<b class="nc">&nbsp;    if (&quot;en&quot;.equals(langCode)) {</b>
+<b class="nc">&nbsp;      lang = new EnglishLight();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      lang = Languages.getLanguageForShortCode(langCode);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    LanguageModel languageModel = new LuceneLanguageModel(new File(args[3], lang.getShortCode()));</b>
+&nbsp;    //LanguageModel languageModel = new BerkeleyRawLanguageModel(new File(&quot;/media/Data/berkeleylm/google_books_binaries/ger.blm.gz&quot;));
+&nbsp;    //LanguageModel languageModel = new BerkeleyLanguageModel(new File(&quot;/media/Data/berkeleylm/google_books_binaries/ger.blm.gz&quot;));
+<b class="nc">&nbsp;    List&lt;String&gt; inputsFiles = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    inputsFiles.add(args[4]);</b>
+<b class="nc">&nbsp;    if (args.length &gt;= 6) {</b>
+<b class="nc">&nbsp;      inputsFiles.add(args[5]);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    boolean bothDirections = true;</b>
+<b class="nc">&nbsp;    System.out.println(&quot;NOTE: assuming pair works in both directions (A -&gt; B and B -&gt; A)&quot;);</b>
+<b class="nc">&nbsp;    ConfusionRuleEvaluator generator = new ConfusionRuleEvaluator(lang, languageModel, CASE_SENSITIVE, bothDirections);</b>
+<b class="nc">&nbsp;    generator.run(inputsFiles, token, homophoneToken, MAX_SENTENCES, EVAL_FACTORS, Collections.emptyMap(), Collections.emptyMap());</b>
+<b class="nc">&nbsp;    long endTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    System.out.println(&quot;\nTime: &quot; + (endTime-startTime)+&quot;ms&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // faster version of English as it uses no chunking:
+<b class="nc">&nbsp;  static class EnglishLight extends English {</b>
+&nbsp;    
+&nbsp;    private DemoTagger tagger;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getName() {
+<b class="nc">&nbsp;      return &quot;English Light&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @NotNull
+&nbsp;    @Override
+&nbsp;    public Tagger createDefaultTagger() {
+<b class="nc">&nbsp;      return new DemoTagger();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Chunker createDefaultChunker() {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

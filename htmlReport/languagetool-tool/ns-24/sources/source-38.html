@@ -1,0 +1,393 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GRPCUtils</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: GRPCUtils (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GRPCUtils</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/90)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GRPCUtils$RuleData</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/109)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.MalformedURLException;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.chunking.ChunkTag;
+&nbsp;import org.languagetool.rules.ml.MLServerProto;
+&nbsp;import org.languagetool.rules.ml.MLServerProto.Match;
+&nbsp;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;
+<b class="nc">&nbsp;@Slf4j</b>
+<b class="nc">&nbsp;public final class GRPCUtils</b>
+&nbsp;{
+&nbsp;
+&nbsp;  private static class RuleData extends Rule {
+&nbsp;    private final Match m;
+&nbsp;    private final String sourceFile;
+&nbsp;
+<b class="nc">&nbsp;    RuleData(Match m) {</b>
+<b class="nc">&nbsp;      this.m = m;</b>
+<b class="nc">&nbsp;      this.sourceFile = m.getRule().getSourceFile();</b>
+&nbsp;      // keep default values from Rule baseclass
+<b class="nc">&nbsp;      if (!m.getRule().getIssueType().isEmpty()) {</b>
+<b class="nc">&nbsp;        setLocQualityIssueType(ITSIssueType.valueOf(m.getRule().getIssueType()));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (m.getRule().getTempOff()) {</b>
+<b class="nc">&nbsp;        setDefaultTempOff();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (m.getRule().hasCategory()) {</b>
+<b class="nc">&nbsp;        Category c = new Category(new CategoryId(m.getRule().getCategory().getId()),</b>
+<b class="nc">&nbsp;            m.getRule().getCategory().getName());</b>
+<b class="nc">&nbsp;        setCategory(c);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      setPremium(m.getRule().getIsPremium());</b>
+<b class="nc">&nbsp;      setTags(m.getRule().getTagsList().stream().map(t -&gt; Tag.valueOf(t.name())).collect(Collectors.toList()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Nullable
+&nbsp;    @Override
+&nbsp;    public String getSourceFile() {
+<b class="nc">&nbsp;      return emptyAsNull(sourceFile);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getId() {
+<b class="nc">&nbsp;      return m.getId();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getSubId() {
+<b class="nc">&nbsp;      return emptyAsNull(m.getSubId());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getDescription() {
+<b class="nc">&nbsp;      return m.getRuleDescription();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int estimateContextForSureMatch() {
+&nbsp;      // 0 is okay as default value
+<b class="nc">&nbsp;      return m.getContextForSureMatch();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;      throw new UnsupportedOperationException(</b>
+&nbsp;          &quot;Not implemented; internal class used for returning match&quot; + &quot; information from remote endpoint&quot;);
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private static String nullAsEmpty(@Nullable String s) {
+<b class="nc">&nbsp;    return s != null ? s : &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private static String emptyAsNull(String s) {
+<b class="nc">&nbsp;    if (s != null &amp;&amp; s.isEmpty()) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return s;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  public static MLServerProto.AnalyzedToken toGRPC(AnalyzedToken token) {
+<b class="nc">&nbsp;      MLServerProto.AnalyzedToken.Builder t = MLServerProto.AnalyzedToken.newBuilder();</b>
+<b class="nc">&nbsp;      if (token.getLemma() != null) {</b>
+<b class="nc">&nbsp;        t.setLemma(token.getLemma());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (token.getPOSTag() != null) {</b>
+<b class="nc">&nbsp;        t.setPosTag(token.getPOSTag());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      t.setToken(token.getToken());</b>
+<b class="nc">&nbsp;      return t.build();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static MLServerProto.AnalyzedTokenReadings toGRPC(AnalyzedTokenReadings readings) {
+<b class="nc">&nbsp;    return MLServerProto.AnalyzedTokenReadings.newBuilder()</b>
+<b class="nc">&nbsp;      .addAllChunkTags(readings.getChunkTags().stream().map(ChunkTag::getChunkTag).collect(Collectors.toList()))</b>
+<b class="nc">&nbsp;      .addAllReadings(readings.getReadings().stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))</b>
+<b class="nc">&nbsp;      .build();</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  public static MLServerProto.AnalyzedSentence toGRPC(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    return MLServerProto.AnalyzedSentence.newBuilder()</b>
+<b class="nc">&nbsp;      .setText(sentence.getText())</b>
+<b class="nc">&nbsp;      .addAllTokens(Arrays.stream(sentence.getTokens()).map(GRPCUtils::toGRPC).collect(Collectors.toList()))</b>
+<b class="nc">&nbsp;      .build();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static AnalyzedTokenReadings fromGRPC(MLServerProto.AnalyzedTokenReadings tokenReadings) {
+<b class="nc">&nbsp;    return new AnalyzedTokenReadings(tokenReadings.getReadingsList().stream()</b>
+<b class="nc">&nbsp;                                     .map(GRPCUtils::fromGRPC).collect(Collectors.toList()),</b>
+<b class="nc">&nbsp;                                     tokenReadings.getStartPos());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static AnalyzedToken fromGRPC(MLServerProto.AnalyzedToken token) {
+<b class="nc">&nbsp;    return new AnalyzedToken(token.getToken(), token.getPosTag(), token.getLemma());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static AnalyzedSentence fromGRPC(MLServerProto.AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    return new AnalyzedSentence(sentence.getTokensList().stream()</b>
+<b class="nc">&nbsp;                                .map(GRPCUtils::fromGRPC).toArray(AnalyzedTokenReadings[]::new));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String getUrl(RuleMatch m) {
+&nbsp;    // URL can be attached to Rule or RuleMatch (or both); in Protobuf, only to RuleMatch
+&nbsp;    // prefer URL from RuleMatch, default to empty string
+<b class="nc">&nbsp;    if (m.getUrl() != null) {</b>
+<b class="nc">&nbsp;      return m.getUrl().toString();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (m.getRule().getUrl() != null) {</b>
+<b class="nc">&nbsp;      return m.getRule().getUrl().toString();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  public static Match toGRPC(RuleMatch m) {
+&nbsp;    // could add better handling for conversion errors with enums
+<b class="nc">&nbsp;    return Match.newBuilder()</b>
+<b class="nc">&nbsp;      .setOffset(m.getFromPos())</b>
+<b class="nc">&nbsp;      .setLength(m.getToPos() - m.getFromPos())</b>
+<b class="nc">&nbsp;      .setId(m.getSpecificRuleId())</b>
+<b class="nc">&nbsp;      .setSubId(nullAsEmpty(m.getRule().getSubId()))</b>
+<b class="nc">&nbsp;      .addAllSuggestedReplacements(m.getSuggestedReplacementObjects().stream()</b>
+<b class="nc">&nbsp;                                   .map(GRPCUtils::toGRPC).collect(Collectors.toList()))</b>
+<b class="nc">&nbsp;      .setRuleDescription(nullAsEmpty(m.getRule().getDescription()))</b>
+<b class="nc">&nbsp;      .setMatchDescription(nullAsEmpty(m.getMessage()))</b>
+<b class="nc">&nbsp;      .setMatchShortDescription(nullAsEmpty(m.getShortMessage()))</b>
+<b class="nc">&nbsp;      .setUrl(getUrl(m))</b>
+<b class="nc">&nbsp;      .setAutoCorrect(m.isAutoCorrect())</b>
+<b class="nc">&nbsp;      .setType(Match.MatchType.valueOf(m.getType().name()))</b>
+<b class="nc">&nbsp;      .setContextForSureMatch(m.getRule().estimateContextForSureMatch())</b>
+<b class="nc">&nbsp;      .setRule(MLServerProto.Rule.newBuilder()</b>
+<b class="nc">&nbsp;        .setSourceFile(nullAsEmpty(m.getRule().getSourceFile()))</b>
+<b class="nc">&nbsp;        .setIssueType(m.getRule().getLocQualityIssueType().name())</b>
+<b class="nc">&nbsp;        .setTempOff(m.getRule().isDefaultTempOff())</b>
+<b class="nc">&nbsp;        .setCategory(MLServerProto.RuleCategory.newBuilder()</b>
+<b class="nc">&nbsp;          .setId(m.getRule().getCategory().getId().toString())</b>
+<b class="nc">&nbsp;          .setName(m.getRule().getCategory().getName())</b>
+<b class="nc">&nbsp;          .build())</b>
+<b class="nc">&nbsp;        .setIsPremium(Premium.get().isPremiumRule(m.getRule()))</b>
+<b class="nc">&nbsp;        .addAllTags(m.getRule().getTags().stream()</b>
+<b class="nc">&nbsp;          .map(t -&gt; MLServerProto.Rule.Tag.valueOf(t.name()))</b>
+<b class="nc">&nbsp;          .collect(Collectors.toList()))</b>
+<b class="nc">&nbsp;        .build()</b>
+<b class="nc">&nbsp;      ).build();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static RuleMatch fromGRPC(Match m, AnalyzedSentence s) {
+<b class="nc">&nbsp;    Rule rule = new RuleData(m);</b>
+<b class="nc">&nbsp;    RuleMatch r = new RuleMatch(rule, s, m.getOffset(), m.getOffset() + m.getLength(), m.getMatchDescription(), m.getMatchShortDescription());</b>
+&nbsp;
+<b class="nc">&nbsp;    r.setSuggestedReplacementObjects(m.getSuggestedReplacementsList().stream()</b>
+<b class="nc">&nbsp;                                     .map(GRPCUtils::fromGRPC).collect(Collectors.toList()));</b>
+<b class="nc">&nbsp;    r.setAutoCorrect(m.getAutoCorrect());</b>
+<b class="nc">&nbsp;    r.setType(RuleMatch.Type.valueOf(m.getType().name()));</b>
+&nbsp;
+<b class="nc">&nbsp;    if (!m.getUrl().isEmpty()) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        r.setUrl(new URL(m.getUrl()));</b>
+&nbsp;      } catch (MalformedURLException e) {
+<b class="nc">&nbsp;        log.warn(&quot;Got invalid URL from GRPC match filter: {}&quot;, e);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return r;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static MLServerProto.SuggestedReplacement toGRPC(SuggestedReplacement s) {
+<b class="nc">&nbsp;    MLServerProto.SuggestedReplacement.Builder sb = MLServerProto.SuggestedReplacement.newBuilder()</b>
+<b class="nc">&nbsp;      .setReplacement(s.getReplacement())</b>
+<b class="nc">&nbsp;      .setDescription(nullAsEmpty(s.getShortDescription()))</b>
+<b class="nc">&nbsp;      .setSuffix(nullAsEmpty(s.getSuffix()))</b>
+<b class="nc">&nbsp;      .setType(MLServerProto.SuggestedReplacement.SuggestionType.valueOf(s.getType().name()));</b>
+<b class="nc">&nbsp;    if (s.getConfidence() != null) {</b>
+<b class="nc">&nbsp;      sb.setConfidence(s.getConfidence());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.build();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static SuggestedReplacement fromGRPC(MLServerProto.SuggestedReplacement s) {
+<b class="nc">&nbsp;    SuggestedReplacement sb = new SuggestedReplacement(s.getReplacement(),</b>
+<b class="nc">&nbsp;      emptyAsNull(s.getDescription()), emptyAsNull(s.getSuffix()));</b>
+<b class="nc">&nbsp;    sb.setType(SuggestedReplacement.SuggestionType.valueOf(s.getType().name()));</b>
+<b class="nc">&nbsp;    if (s.getConfidence() != 0f) {</b>
+<b class="nc">&nbsp;      sb.setConfidence(s.getConfidence());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sb;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static JLanguageTool.Level fromGRPC(MLServerProto.ProcessingOptions.Level l) {
+<b class="nc">&nbsp;    if (l.equals(MLServerProto.ProcessingOptions.Level.defaultLevel)) {</b>
+<b class="nc">&nbsp;      return JLanguageTool.Level.DEFAULT;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return JLanguageTool.Level.valueOf(l.name().toUpperCase());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static MLServerProto.ProcessingOptions.Level toGRPC(JLanguageTool.Level level) {
+<b class="nc">&nbsp;    if (level.equals(JLanguageTool.Level.DEFAULT)) {</b>
+<b class="nc">&nbsp;      return MLServerProto.ProcessingOptions.Level.defaultLevel;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return MLServerProto.ProcessingOptions.Level.valueOf(level.name().toLowerCase());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

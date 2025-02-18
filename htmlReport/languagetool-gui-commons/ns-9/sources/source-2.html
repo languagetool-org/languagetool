@@ -1,0 +1,288 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LightRuleMatch</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.diff</a>
+</div>
+
+<h1>Coverage Summary for Class: LightRuleMatch (org.languagetool.dev.diff)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LightRuleMatch</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/31)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">LightRuleMatch$Status</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/33)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.diff;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;class LightRuleMatch {
+&nbsp;
+<b class="nc">&nbsp;  enum Status {</b>
+<b class="nc">&nbsp;    temp_off, on</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private final int line;
+&nbsp;  private final int column;
+&nbsp;  private final String fullRuleId;
+&nbsp;  private final String message;
+&nbsp;  private final String category;
+&nbsp;  private final String context;
+&nbsp;  private final String coveredText;
+&nbsp;  private final List&lt;String&gt; suggestions;
+&nbsp;  private final String ruleSource;  // e.g. grammar.xml
+&nbsp;  private final String title;
+&nbsp;  private final Status status;
+&nbsp;  private final List&lt;String&gt; tags;
+&nbsp;  private final boolean isPremium;
+&nbsp;  
+&nbsp;  LightRuleMatch(int line, int column, String ruleId, String message, String category, String context, String coveredText,
+<b class="nc">&nbsp;                 List&lt;String&gt; suggestions, String ruleSource, String title, Status status, List&lt;String&gt; tags, boolean isPremium) {</b>
+<b class="nc">&nbsp;    this.line = line;</b>
+<b class="nc">&nbsp;    this.column = column;</b>
+<b class="nc">&nbsp;    this.fullRuleId = Objects.requireNonNull(ruleId);</b>
+<b class="nc">&nbsp;    this.message = Objects.requireNonNull(message);</b>
+<b class="nc">&nbsp;    this.category = Objects.requireNonNull(category);</b>
+<b class="nc">&nbsp;    this.context = Objects.requireNonNull(context);</b>
+<b class="nc">&nbsp;    this.coveredText = Objects.requireNonNull(coveredText);</b>
+<b class="nc">&nbsp;    this.suggestions = suggestions == null ? Arrays.asList() : suggestions;</b>
+<b class="nc">&nbsp;    this.ruleSource = ruleSource;</b>
+<b class="nc">&nbsp;    this.title = title;</b>
+<b class="nc">&nbsp;    this.status = Objects.requireNonNull(status);</b>
+<b class="nc">&nbsp;    this.tags = Objects.requireNonNull(tags);</b>
+<b class="nc">&nbsp;    this.isPremium = isPremium;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  int getLine() {
+<b class="nc">&nbsp;    return line;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  int getColumn() {
+<b class="nc">&nbsp;    return column;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getFullRuleId() {
+<b class="nc">&nbsp;    return fullRuleId;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  String getRuleId() {
+<b class="nc">&nbsp;    return DiffTools.getMasterId(fullRuleId);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Nullable
+&nbsp;  String getSubId() {
+<b class="nc">&nbsp;    return DiffTools.getSubId(fullRuleId);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getMessage() {
+<b class="nc">&nbsp;    return message;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getCategoryName() {
+<b class="nc">&nbsp;    return category;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getContext() {
+<b class="nc">&nbsp;    return context;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  String getCoveredText() {
+<b class="nc">&nbsp;    return coveredText;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;String&gt; getSuggestions() {
+<b class="nc">&nbsp;    return suggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  String getRuleSource() {
+<b class="nc">&nbsp;    return ruleSource;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  String getTitle() {
+<b class="nc">&nbsp;    return title;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  Status getStatus() {
+<b class="nc">&nbsp;    return status;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;String&gt; getTags() {
+<b class="nc">&nbsp;    return tags;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  boolean isPremium() {
+<b class="nc">&nbsp;    return isPremium;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return line + &quot;/&quot; + column +</b>
+<b class="nc">&nbsp;      &quot; &quot; + getRuleId() + &quot;[&quot; + getSubId() + &quot;]&quot; +</b>
+&nbsp;      &quot;, msg=&quot; + message +
+&nbsp;      &quot;, covered=&quot; + coveredText +
+&nbsp;      &quot;, suggestions=&quot; + suggestions +
+&nbsp;      &quot;, title=&quot; + title +
+&nbsp;      //&quot;, status=&quot; + status +
+&nbsp;      &quot;, ctx=&quot; + context;
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,212 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > XmlIndenter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev</a>
+</div>
+
+<h1>Coverage Summary for Class: XmlIndenter (org.languagetool.dev)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">XmlIndenter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/110)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2022 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * A lightweight XML indentation helper for grammar.xml files. Unlike other XML
+&nbsp; * indenters, this will really only change the indentation (spaces at start of each line)
+&nbsp; * and *not* insert or remove line breaks.
+&nbsp; */
+<b class="nc">&nbsp;public class XmlIndenter {</b>
+&nbsp;
+&nbsp;  private static final int INDENT = 2;
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    if (args.length != 1) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + XmlIndenter.class.getSimpleName() + &quot; &lt;xmlFile&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; lines = Files.readAllLines(Paths.get(args[0]), StandardCharsets.UTF_8);</b>
+<b class="nc">&nbsp;    boolean inCategory = false;</b>
+<b class="nc">&nbsp;    boolean inRuleGroup = false;</b>
+<b class="nc">&nbsp;    boolean inRule = false;</b>
+<b class="nc">&nbsp;    boolean inAntiPattern = false;</b>
+<b class="nc">&nbsp;    boolean inPattern = false;</b>
+<b class="nc">&nbsp;    boolean inMarker = false;</b>
+<b class="nc">&nbsp;    boolean inAnd = false;</b>
+<b class="nc">&nbsp;    boolean inUnify = false;</b>
+<b class="nc">&nbsp;    boolean inUnifyIgnore = false;</b>
+<b class="nc">&nbsp;    boolean inToken = false;</b>
+<b class="nc">&nbsp;    for (String line : lines) {</b>
+<b class="nc">&nbsp;      String origLine = line;</b>
+<b class="nc">&nbsp;      line = line.trim();</b>
+<b class="nc">&nbsp;      if (line.contains(&quot;&lt;/marker&gt;&quot;) &amp;&amp; (inPattern || inAntiPattern)) { inMarker = false; }</b>
+<b class="nc">&nbsp;      if (line.startsWith(&quot;&lt;/antipattern&gt;&quot;)) { inAntiPattern = false; }</b>
+<b class="nc">&nbsp;      if (line.startsWith(&quot;&lt;/pattern&gt;&quot;)) { inPattern = false; }</b>
+<b class="nc">&nbsp;      if (line.startsWith(&quot;&lt;/rule&gt;&quot;)) { inRule = false; }</b>
+<b class="nc">&nbsp;      if (line.startsWith(&quot;&lt;/rulegroup&quot;)) { inRuleGroup = false; }</b>
+<b class="nc">&nbsp;      if (line.startsWith(&quot;&lt;/category&quot;)) { inCategory = false; }</b>
+<b class="nc">&nbsp;      if (line.startsWith(&quot;&lt;/and&quot;)) { inAnd = false; }</b>
+<b class="nc">&nbsp;      if (line.startsWith(&quot;&lt;/unify&gt;&quot;)) { inUnify = false; }</b>
+<b class="nc">&nbsp;      if (line.startsWith(&quot;&lt;/unify-ignore&gt;&quot;)) { inUnifyIgnore = false; }</b>
+<b class="nc">&nbsp;      int level = INDENT + (inCategory ? INDENT : 0) + (inRuleGroup ? INDENT : 0) + (inRule ? INDENT : 0) +</b>
+<b class="nc">&nbsp;        (inPattern ? INDENT : 0) + (inAntiPattern ? INDENT : 0) + (inMarker ? INDENT : 0) + (inToken ? INDENT : 0) +</b>
+<b class="nc">&nbsp;        (inAnd ? INDENT : 0) + (inUnify ? INDENT : 0) + (inUnifyIgnore ? INDENT : 0);</b>
+<b class="nc">&nbsp;      if (line.startsWith(&quot;&lt;category&quot;) || line.startsWith(&quot;&lt;/category&quot;)) {</b>
+<b class="nc">&nbsp;        level = INDENT;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (line.equals(&quot;&lt;/token&gt;&quot;)) {</b>
+<b class="nc">&nbsp;        level -= INDENT;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String indentSpaces = StringUtils.repeat(&#39; &#39;, level);</b>
+<b class="nc">&nbsp;      if (!line.isEmpty() &amp;&amp; (inCategory || line.startsWith(&quot;&lt;category&quot;) || line.startsWith(&quot;&lt;/category&quot;))) {</b>
+<b class="nc">&nbsp;        System.out.println(indentSpaces + line);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        System.out.println(origLine);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (line.startsWith(&quot;&lt;category&quot;)) { inCategory = true; }</b>
+<b class="nc">&nbsp;      if (line.startsWith(&quot;&lt;rulegroup&quot;)) { inRuleGroup = true; }</b>
+<b class="nc">&nbsp;      if (line.startsWith(&quot;&lt;rule &quot;) || line.startsWith(&quot;&lt;rule&gt;&quot;)) { inRule = true; }</b>
+<b class="nc">&nbsp;      if (line.startsWith(&quot;&lt;pattern&quot;)) { inPattern = true; }</b>
+<b class="nc">&nbsp;      if (line.startsWith(&quot;&lt;antipattern&quot;) &amp;&amp; !line.contains(&quot;&lt;/antipattern&quot;)) { inAntiPattern = true; }</b>
+<b class="nc">&nbsp;      if (line.contains(&quot;&lt;marker&gt;&quot;) &amp;&amp; !line.contains(&quot;&lt;/marker&gt;&quot;) &amp;&amp; (inPattern || inAntiPattern)) { inMarker = true; }</b>
+<b class="nc">&nbsp;      if (line.contains(&quot;&lt;and&gt;&quot;)) { inAnd = true; }</b>
+<b class="nc">&nbsp;      if (line.contains(&quot;&lt;unify&gt;&quot;) || line.contains(&quot;&lt;unify &quot;)) { inUnify = true; }</b>
+<b class="nc">&nbsp;      if (line.contains(&quot;&lt;unify-ignore&gt;&quot;)) { inUnifyIgnore = true; }</b>
+<b class="nc">&nbsp;      if (line.contains(&quot;&lt;/token&gt;&quot;) || (line.contains(&quot;&lt;token&quot;) &amp;&amp; line.contains(&quot;/&gt;&quot;)) &amp;&amp; (inPattern || inAntiPattern)) { inToken = false; }</b>
+<b class="nc">&nbsp;      if (line.contains(&quot;&lt;token&quot;) &amp;&amp; !line.contains(&quot;/&gt;&quot;) &amp;&amp; !line.contains(&quot;&lt;/token&gt;&quot;) &amp;&amp; (inPattern || inAntiPattern)) {</b>
+<b class="nc">&nbsp;        inToken = true;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

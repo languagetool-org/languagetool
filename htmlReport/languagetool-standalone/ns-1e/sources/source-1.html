@@ -1,0 +1,348 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RemoteLanguageModel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.languagemodel.bert</a>
+</div>
+
+<h1>Coverage Summary for Class: RemoteLanguageModel (org.languagetool.languagemodel.bert)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RemoteLanguageModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/49)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RemoteLanguageModel$Request</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/67)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;package org.languagetool.languagemodel.bert;
+&nbsp;
+&nbsp;import com.google.common.cache.Cache;
+&nbsp;import com.google.common.cache.CacheBuilder;
+&nbsp;import io.grpc.ManagedChannel;
+&nbsp;import io.grpc.Status;
+&nbsp;import io.grpc.StatusRuntimeException;
+&nbsp;import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
+&nbsp;import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
+&nbsp;import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
+&nbsp;import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.languagemodel.bert.grpc.BertLmGrpc;
+&nbsp;import org.languagetool.languagemodel.bert.grpc.BertLmGrpc.BertLmBlockingStub;
+&nbsp;
+&nbsp;import javax.net.ssl.SSLException;
+&nbsp;import java.io.File;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;import java.util.concurrent.TimeoutException;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static org.languagetool.languagemodel.bert.grpc.BertLmProto.*;
+&nbsp;
+&nbsp;public class RemoteLanguageModel {
+&nbsp;
+&nbsp;  private final BertLmGrpc.BertLmBlockingStub model;
+&nbsp;  private final ManagedChannel channel;
+<b class="nc">&nbsp;  private final Cache&lt;Request, List&lt;Double&gt;&gt; cache = CacheBuilder.newBuilder()</b>
+<b class="nc">&nbsp;    .maximumSize(1000)</b>
+<b class="nc">&nbsp;    .build();</b>
+&nbsp;
+&nbsp;  public static class Request {
+&nbsp;    public String text;
+&nbsp;    public int start;
+&nbsp;    public int end;
+&nbsp;    public List&lt;String&gt; candidates;
+&nbsp;
+<b class="nc">&nbsp;    public Request(String text, int start, int end, List&lt;String&gt; candidates) {</b>
+<b class="nc">&nbsp;      this.text = text;</b>
+<b class="nc">&nbsp;      this.start = start;</b>
+<b class="nc">&nbsp;      this.end = end;</b>
+<b class="nc">&nbsp;      this.candidates = candidates;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ScoreRequest convert() {
+<b class="nc">&nbsp;      List&lt;Mask&gt; masks = Arrays.asList(Mask.newBuilder()</b>
+<b class="nc">&nbsp;        .setStart(start)</b>
+<b class="nc">&nbsp;        .setEnd(end)</b>
+<b class="nc">&nbsp;        .addAllCandidates(candidates)</b>
+<b class="nc">&nbsp;        .build());</b>
+<b class="nc">&nbsp;      return ScoreRequest.newBuilder().setText(text).addAllMask(masks).build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o) {
+<b class="nc">&nbsp;      if (this == o) return true;</b>
+<b class="nc">&nbsp;      if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="nc">&nbsp;      Request request = (Request) o;</b>
+<b class="nc">&nbsp;      return start == request.start &amp;&amp;</b>
+&nbsp;        end == request.end &amp;&amp;
+<b class="nc">&nbsp;        text.equals(request.text) &amp;&amp;</b>
+<b class="nc">&nbsp;        candidates.equals(request.candidates);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;      return Objects.hash(text, start, end, candidates);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  public RemoteLanguageModel(String host, int port, boolean useSSL,
+&nbsp;                             @Nullable String clientPrivateKey, @Nullable  String clientCertificate,
+<b class="nc">&nbsp;                             @Nullable String rootCertificate) throws SSLException {</b>
+&nbsp;    // TODO configure deadline/retries/... here?
+<b class="nc">&nbsp;    channel = getChannel(host, port, useSSL, clientPrivateKey, clientCertificate, rootCertificate);</b>
+<b class="nc">&nbsp;    model = BertLmGrpc.newBlockingStub(channel);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private ManagedChannel getChannel(String host, int port, boolean useSSL,
+&nbsp;                    @Nullable String clientPrivateKey, @Nullable  String clientCertificate,
+&nbsp;                    @Nullable String rootCertificate) throws SSLException {
+<b class="nc">&nbsp;    NettyChannelBuilder channelBuilder = NettyChannelBuilder.forAddress(host, port);</b>
+<b class="nc">&nbsp;    if (useSSL) {</b>
+<b class="nc">&nbsp;      SslContextBuilder sslContextBuilder = GrpcSslContexts.forClient();</b>
+<b class="nc">&nbsp;      if (rootCertificate != null) {</b>
+<b class="nc">&nbsp;        sslContextBuilder.trustManager(new File(rootCertificate));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (clientCertificate != null &amp;&amp; clientPrivateKey != null) {</b>
+<b class="nc">&nbsp;        sslContextBuilder.keyManager(new File(clientCertificate), new File(clientPrivateKey));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      channelBuilder = channelBuilder.negotiationType(NegotiationType.TLS).sslContext(sslContextBuilder.build());</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      channelBuilder = channelBuilder.usePlaintext();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return channelBuilder.build();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void shutdown() {
+<b class="nc">&nbsp;    if (channel != null) {</b>
+<b class="nc">&nbsp;      channel.shutdownNow();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;List&lt;Double&gt;&gt; batchScore(List&lt;Request&gt; requests, long timeoutMilliseconds) throws TimeoutException {
+<b class="nc">&nbsp;    Map&lt;Request, List&lt;Double&gt;&gt; cachedRequests = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;Request&gt; uncachedRequests = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Request request : requests) {</b>
+<b class="nc">&nbsp;      List&lt;Double&gt; result = cache.getIfPresent(request);</b>
+<b class="nc">&nbsp;      if (result == null) {</b>
+<b class="nc">&nbsp;        uncachedRequests.add(request);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        cachedRequests.put(request, result);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    BatchScoreRequest batch = BatchScoreRequest.newBuilder().addAllRequests(</b>
+<b class="nc">&nbsp;      uncachedRequests.stream().map(Request::convert).collect(Collectors.toList())</b>
+<b class="nc">&nbsp;    ).build();</b>
+&nbsp;    // TODO multiple masks
+&nbsp;    List&lt;List&lt;Double&gt;&gt; nonCacheResult;
+&nbsp;    try {
+&nbsp;      BertLmBlockingStub stub;
+<b class="nc">&nbsp;      if (timeoutMilliseconds &gt; 0) {</b>
+<b class="nc">&nbsp;        stub = model.withDeadlineAfter(timeoutMilliseconds, TimeUnit.MILLISECONDS);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        stub = model;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      nonCacheResult = stub.batchScore(batch)</b>
+<b class="nc">&nbsp;        .getResponsesList().stream().map(r -&gt;</b>
+<b class="nc">&nbsp;          r.getScoresList().get(0).getScoreList()).collect(Collectors.toList());</b>
+&nbsp;    } catch (StatusRuntimeException e) {
+<b class="nc">&nbsp;      if (e.getStatus().getCode() == Status.DEADLINE_EXCEEDED.getCode()) {</b>
+<b class="nc">&nbsp;        throw new TimeoutException(e.getMessage());</b>
+&nbsp;      } else {
+&nbsp;        throw e;
+&nbsp;      }
+&nbsp;    }
+&nbsp;    //
+<b class="nc">&nbsp;    List&lt;List&lt;Double&gt;&gt; allResults = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    for (Request request : requests) {</b>
+<b class="nc">&nbsp;      List&lt;Double&gt; result = cachedRequests.get(request);</b>
+<b class="nc">&nbsp;      if (result != null) {</b>
+&nbsp;        //System.out.println(&quot;Adding result from cache&quot;);
+<b class="nc">&nbsp;        allResults.add(result);</b>
+&nbsp;      } else {
+&nbsp;        //System.out.println(&quot;Adding result from remote&quot;);
+<b class="nc">&nbsp;        allResults.add(nonCacheResult.get(i++));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    int j = 0;</b>
+<b class="nc">&nbsp;    for (List&lt;Double&gt; re : nonCacheResult) {</b>
+&nbsp;      // a CacheLoader doesn&#39;t work with batching, so add manually:
+&nbsp;      //System.out.println(&quot;Adding request to cache&quot;);
+<b class="nc">&nbsp;      cache.put(uncachedRequests.get(j), re);</b>
+<b class="nc">&nbsp;      j++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return allResults;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;Double&gt; score(Request req) {
+&nbsp;    // TODO deal with max seq length, extract windows
+&nbsp;    // TODO mask multiple tokens in a sentence
+&nbsp;    // TODO multiple masks
+<b class="nc">&nbsp;    return model.score(req.convert()).getScoresList().get(0).getScoreList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

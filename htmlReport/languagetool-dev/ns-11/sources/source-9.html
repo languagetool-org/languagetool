@@ -1,0 +1,200 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PlainTextMapping</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.wikipedia</a>
+</div>
+
+<h1>Coverage Summary for Class: PlainTextMapping (org.languagetool.dev.wikipedia)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlainTextMapping</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.wikipedia;
+&nbsp;
+&nbsp;import xtc.tree.Location;
+&nbsp;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/**
+&nbsp; * The result of a text extraction: plain text plus a mapping from plain text
+&nbsp; * positions to corresponding positions in the original markup.
+&nbsp; */
+&nbsp;public class PlainTextMapping {
+&nbsp;
+&nbsp;  private final String plainText;
+&nbsp;  private final Map&lt;Integer,Location&gt; mapping;
+&nbsp;
+<b class="nc">&nbsp;  public PlainTextMapping(String plainText, Map&lt;Integer, Location&gt; mapping) {</b>
+<b class="nc">&nbsp;    this.plainText = plainText;</b>
+<b class="nc">&nbsp;    this.mapping = mapping;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getPlainText() {
+<b class="nc">&nbsp;    return plainText;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Map&lt;Integer, Location&gt; getMapping() {
+<b class="nc">&nbsp;    return mapping;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param plainTextPosition not zero-based - smallest value is 1!
+&nbsp;   */
+&nbsp;  public Location getOriginalTextPositionFor(int plainTextPosition) {
+<b class="nc">&nbsp;    if (plainTextPosition &lt; 1) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;plainTextPosition must be &gt; 0 - its value starts at 1&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Location origPosition = mapping.get(plainTextPosition);</b>
+<b class="nc">&nbsp;    if (origPosition != null) {</b>
+&nbsp;      //System.out.println(&quot;mapping &quot; + plainTextPosition + &quot; to &quot; + origPosition + &quot; [direct]&quot;);
+<b class="nc">&nbsp;      return origPosition;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int minDiff = Integer.MAX_VALUE;</b>
+<b class="nc">&nbsp;    Location bestMatch = null;</b>
+&nbsp;    //Integer bestMaybeClosePosition = null;
+&nbsp;    // algorithm: find the closest lower position
+<b class="nc">&nbsp;    for (Map.Entry&lt;Integer, Location&gt; entry : mapping.entrySet()) {</b>
+<b class="nc">&nbsp;      int maybeClosePosition = entry.getKey();</b>
+<b class="nc">&nbsp;      if (plainTextPosition &gt; maybeClosePosition) {</b>
+<b class="nc">&nbsp;        int diff = plainTextPosition - maybeClosePosition;</b>
+<b class="nc">&nbsp;        if (diff &gt;= 0 &amp;&amp; diff &lt; minDiff) {</b>
+<b class="nc">&nbsp;          bestMatch = entry.getValue();</b>
+&nbsp;          //bestMaybeClosePosition = maybeClosePosition;
+<b class="nc">&nbsp;          minDiff = diff;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (bestMatch == null) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not map &quot; + plainTextPosition + &quot; to original position. Mapping: &quot; + mapping);</b>
+&nbsp;    }
+&nbsp;    // we assume that when we have found the closest match there&#39;s a one-to-one mapping
+&nbsp;    // in this region, thus we can add &#39;minDiff&#39; to get the exact position:
+&nbsp;    //System.out.println(&quot;mapping &quot; + plainTextPosition + &quot; to line &quot; + bestMatch.line + &quot;, column &quot; +
+&nbsp;    //        bestMatch.column + &quot;+&quot; +  minDiff + &quot;, bestMatch was: &quot; + bestMaybeClosePosition +&quot;=&gt;&quot;+ bestMatch);
+<b class="nc">&nbsp;    return new Location(bestMatch.file, bestMatch.line, bestMatch.column + minDiff);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

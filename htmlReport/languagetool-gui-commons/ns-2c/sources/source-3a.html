@@ -1,0 +1,333 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RedundantModalOrAuxiliaryVerb</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: RedundantModalOrAuxiliaryVerb (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RedundantModalOrAuxiliaryVerb</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/148)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/103)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.ITSIssueType;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule that detects redundant modal and auxiliary verbs.
+&nbsp; * @author Fred Kruse
+&nbsp; * @since 5.5
+&nbsp; */
+&nbsp;public class RedundantModalOrAuxiliaryVerb extends Rule {
+&nbsp;
+&nbsp;  private static final String VERB_TEXT = &quot; scheint redundant zu sein. Prüfen Sie, ob es gelöscht oder der Satz umformuliert werden kann.&quot;;
+&nbsp;  private static final String SUB_TEXT = &quot;Der Satzteil scheint redundant zu sein. Prüfen Sie, ob es gelöscht oder der Satz umformuliert werden kann.&quot;;
+<b class="nc">&nbsp;  private static final Pattern MARKS_REGEX = Pattern.compile(&quot;[,;.:?!-–—’&#39;\&quot;„“”»«‚‘›‹()\\[\\]]&quot;);</b>
+&nbsp;
+&nbsp;  public RedundantModalOrAuxiliaryVerb(ResourceBundle messages) {
+<b class="nc">&nbsp;    super(messages);</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.STYLE.getCategory(messages));</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Style);</b>
+<b class="nc">&nbsp;    setDefaultOff();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;REDUNDANT_MODAL_VERB&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Redundantes Modal- oder Hilfsverb&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static boolean isBreakToken (String sToken) {
+<b class="nc">&nbsp;    return MARKS_REGEX.matcher(sToken).matches() || sToken.equals(&quot;und&quot;) || sToken.equals(&quot;oder&quot;) || sToken.equals(&quot;sowie&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int hasParticipleAt(int nConjunction, int nStart, AnalyzedTokenReadings[] tokens) {
+<b class="nc">&nbsp;    if (tokens[nConjunction - 1].hasPosTagStartingWith(&quot;PA2&quot;)) {</b>
+<b class="nc">&nbsp;      String sParticiple = tokens[nConjunction - 1].getToken();</b>
+<b class="nc">&nbsp;      for (int i = nStart; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;        String sToken = tokens[i].getToken();</b>
+<b class="nc">&nbsp;        if (isBreakToken (sToken)) {</b>
+<b class="nc">&nbsp;          return -1;</b>
+<b class="nc">&nbsp;        } else if (sToken.equals(sParticiple)) {</b>
+<b class="nc">&nbsp;          if (i == tokens.length - 1 || isBreakToken (tokens[i + 1].getToken())) {</b>
+<b class="nc">&nbsp;            return i;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          return (-1);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+&nbsp;    int nt;
+&nbsp;    int nVerb;
+&nbsp;    boolean doBreak;
+<b class="nc">&nbsp;    for (nt = 2; nt &lt; tokens.length; nt++) {</b>
+<b class="nc">&nbsp;      boolean isModVerb = tokens[nt].hasPosTagStartingWith(&quot;VER:MOD&quot;);</b>
+<b class="nc">&nbsp;      if ((isModVerb || tokens[nt].hasPosTagStartingWith(&quot;VER:AUX&quot;)) </b>
+<b class="nc">&nbsp;          &amp;&amp; nt + 1 &lt; tokens.length &amp;&amp; !tokens[nt - 1].getToken().equals(tokens[nt + 1].getToken())) {</b>
+<b class="nc">&nbsp;        String sVerb = tokens[nt].getToken();</b>
+<b class="nc">&nbsp;        nVerb = nt;</b>
+<b class="nc">&nbsp;        doBreak = false;</b>
+<b class="nc">&nbsp;        String suggestion = null;</b>
+<b class="nc">&nbsp;        for (nt++; nt &lt; tokens.length; nt++) {</b>
+<b class="nc">&nbsp;          String sToken = tokens[nt].getToken();</b>
+<b class="nc">&nbsp;          if (MARKS_REGEX.matcher(sToken).matches()) {</b>
+&nbsp;            break;
+&nbsp;          }
+<b class="nc">&nbsp;          if (sToken.equals(&quot;und&quot;) || sToken.equals(&quot;oder&quot;) || sToken.equals(&quot;sowie&quot;)) {</b>
+<b class="nc">&nbsp;            int nConjunction = nt;</b>
+<b class="nc">&nbsp;            doBreak = true;</b>
+<b class="nc">&nbsp;            for (nt++; nt &lt; tokens.length; nt++) {</b>
+<b class="nc">&nbsp;              sToken = tokens[nt].getToken();</b>
+<b class="nc">&nbsp;              if (isBreakToken(sToken)) {</b>
+&nbsp;                break;
+&nbsp;              }
+<b class="nc">&nbsp;              if (sToken.equals(sVerb)) {</b>
+<b class="nc">&nbsp;                RuleMatch ruleMatch = null;</b>
+<b class="nc">&nbsp;                if (nt - 1 == nConjunction) {</b>
+<b class="nc">&nbsp;                  if (nVerb == nConjunction - 1) {</b>
+&nbsp;                    break;
+&nbsp;                  }
+&nbsp;                  int n;
+<b class="nc">&nbsp;                  for (n = 1; nt + n &lt; tokens.length &amp;&amp; tokens[nt + n].getToken().equalsIgnoreCase(tokens[nVerb + n].getToken()); n++);</b>
+<b class="nc">&nbsp;                  if (n &gt; 1) {</b>
+<b class="nc">&nbsp;                    if (nVerb + n == nConjunction) {</b>
+&nbsp;                      break;
+&nbsp;                    }
+<b class="nc">&nbsp;                    String msg = SUB_TEXT;</b>
+<b class="nc">&nbsp;                    ruleMatch = new RuleMatch(this, sentence, tokens[nt - 1].getEndPos(), tokens[nt + n - 1].getEndPos(), msg);</b>
+&nbsp;                  } else {
+<b class="nc">&nbsp;                    String msg = &quot;Das &quot; + (isModVerb ? &quot;Modalverb&quot; : &quot;Hilfsverb&quot;) + VERB_TEXT;</b>
+<b class="nc">&nbsp;                    ruleMatch = new RuleMatch(this, sentence, tokens[nt - 1].getEndPos(), tokens[nt].getEndPos(), msg);</b>
+&nbsp;                  }
+<b class="nc">&nbsp;                } else if (tokens[nt - 1].getToken().equalsIgnoreCase(tokens[nVerb - 1].getToken()) </b>
+<b class="nc">&nbsp;                    &amp;&amp; tokens[nt - 1].hasPosTagStartingWith(&quot;PRO:PER&quot;) &amp;&amp; !tokens[nt - 1].hasPosTagStartingWith(&quot;ART&quot;)) {</b>
+<b class="nc">&nbsp;                  String msg = SUB_TEXT;</b>
+<b class="nc">&nbsp;                  if (nVerb == nConjunction - 1) {</b>
+<b class="nc">&nbsp;                    ruleMatch = new RuleMatch(this, sentence, tokens[nVerb - 2].getEndPos(), tokens[nVerb].getEndPos(), msg);</b>
+&nbsp;                  } else {
+<b class="nc">&nbsp;                    ruleMatch = new RuleMatch(this, sentence, tokens[nt - 2].getEndPos(), tokens[nt].getEndPos(), msg);</b>
+&nbsp;                  }
+<b class="nc">&nbsp;                } else if (nt + 1 &lt; tokens.length &amp;&amp; tokens[nt + 1].getToken().equalsIgnoreCase(tokens[nVerb + 1].getToken()) </b>
+<b class="nc">&nbsp;                    &amp;&amp; (tokens[nt + 1].hasPosTagStartingWith(&quot;PRO:IND&quot;) </b>
+<b class="nc">&nbsp;                        || (tokens[nt + 1].hasPosTagStartingWith(&quot;PRO:PER&quot;) &amp;&amp; !tokens[nt + 1].getToken().equals(&quot;Sie&quot;) </b>
+<b class="nc">&nbsp;                            &amp;&amp; !tokens[nt + 1].hasPosTagStartingWith(&quot;ART&quot;) ))) {</b>
+<b class="nc">&nbsp;                  if (tokens[nt + 1].hasPosTagStartingWith(&quot;PRO:PER:AKK&quot;) &amp;&amp; tokens[nt].matchesPosTagRegex(&quot;VER:(AUX|MOD):.*KJ1&quot;)) {</b>
+<b class="nc">&nbsp;                    String msg = &quot;Das &quot; + (isModVerb ? &quot;Modalverb&quot; : &quot;Hilfsverb&quot;) + VERB_TEXT;</b>
+<b class="nc">&nbsp;                    ruleMatch = new RuleMatch(this, sentence, tokens[nt - 1].getEndPos(), tokens[nt].getEndPos(), msg);</b>
+&nbsp;                  } else {
+<b class="nc">&nbsp;                    String msg = SUB_TEXT;</b>
+<b class="nc">&nbsp;                    ruleMatch = new RuleMatch(this, sentence, tokens[nt - 1].getEndPos(), tokens[nt + 1].getEndPos(), msg);</b>
+&nbsp;                  }
+&nbsp;                } else {
+<b class="nc">&nbsp;                  if (tokens[nt - 1].hasPosTagStartingWith(&quot;PRO:PER&quot;)  </b>
+<b class="nc">&nbsp;                      || tokens[nt - 1].getToken().equals(&quot;da&quot;) || tokens[nt - 1].getToken().equals(&quot;zu&quot;)</b>
+<b class="nc">&nbsp;                      || tokens[nVerb + 1].getToken().equals(tokens[nt - 1].getToken())</b>
+<b class="nc">&nbsp;                      || nt + 1 &lt; tokens.length &amp;&amp; (tokens[nt + 1].hasPosTagStartingWith(&quot;PRO:PER&quot;)</b>
+<b class="nc">&nbsp;                          || tokens[nt - 1].getToken().equals(tokens[nt + 1].getToken())</b>
+<b class="nc">&nbsp;                          || tokens[nt - 1].getToken().equals(tokens[nt + 1].getToken())</b>
+<b class="nc">&nbsp;                          || tokens[nVerb - 1].getToken().equals(tokens[nt + 1].getToken())</b>
+<b class="nc">&nbsp;                          || (tokens[nVerb + 1].hasPosTagStartingWith(&quot;VER:MOD&quot;) &amp;&amp; tokens[nt + 1].hasPosTagStartingWith(&quot;VER:MOD&quot;))</b>
+<b class="nc">&nbsp;                          || (nVerb == nConjunction - 1 &amp;&amp; !isBreakToken(tokens[nt + 1].getToken())))</b>
+<b class="nc">&nbsp;                      || (nVerb &lt; nConjunction - 1 &amp;&amp; (nt + 1 == tokens.length || isBreakToken(tokens[nt + 1].getToken()))) ) {</b>
+&nbsp;                    break;
+&nbsp;                  }
+<b class="nc">&nbsp;                  if (nVerb == nConjunction - 1) {</b>
+&nbsp;                    int n;
+<b class="nc">&nbsp;                    for (n = 1; nVerb - n &gt; 0 &amp;&amp; nt - n &gt; nConjunction &amp;&amp; tokens[nVerb - n].getToken().equals(tokens[nt - n].getToken()); n++);</b>
+<b class="nc">&nbsp;                    if (n &gt; 1) {</b>
+<b class="nc">&nbsp;                      String msg = SUB_TEXT;</b>
+<b class="nc">&nbsp;                      ruleMatch = new RuleMatch(this, sentence, tokens[nVerb - n].getEndPos(), tokens[nVerb].getEndPos(), msg);</b>
+&nbsp;                    } else {
+<b class="nc">&nbsp;                      String msg = &quot;Das &quot; + (isModVerb ? &quot;Modalverb&quot; : &quot;Hilfsverb&quot;) + VERB_TEXT;</b>
+<b class="nc">&nbsp;                      ruleMatch = new RuleMatch(this, sentence, tokens[nVerb - 1].getEndPos(), tokens[nVerb].getEndPos(), msg);</b>
+&nbsp;                    }
+&nbsp;                  } else {
+<b class="nc">&nbsp;                    int paAt = hasParticipleAt(nConjunction, nt + 1, tokens);</b>
+<b class="nc">&nbsp;                    if (paAt &gt; 0) {</b>
+<b class="nc">&nbsp;                      String msg = SUB_TEXT;</b>
+<b class="nc">&nbsp;                      ruleMatch = new RuleMatch(this, sentence, tokens[nt - 1].getEndPos(), tokens[paAt].getEndPos(), msg);</b>
+<b class="nc">&nbsp;                      suggestion = &quot;&quot;;</b>
+<b class="nc">&nbsp;                      for (int i = nt + 1; i &lt; paAt; i++) {</b>
+<b class="nc">&nbsp;                        suggestion += (&quot; &quot; + tokens[i].getToken());</b>
+&nbsp;                      }
+&nbsp;                    } else {
+&nbsp;                      int n;
+<b class="nc">&nbsp;                      for (n = 1; n + nVerb &lt; nConjunction &amp;&amp; n + nt &lt; tokens.length &amp;&amp; tokens[nVerb + n].getToken().equals(tokens[nt + n].getToken()); n++);</b>
+<b class="nc">&nbsp;                      if (n + nVerb == nConjunction) {</b>
+<b class="nc">&nbsp;                        String msg = SUB_TEXT;</b>
+<b class="nc">&nbsp;                        ruleMatch = new RuleMatch(this, sentence, tokens[nt - 1].getEndPos(), tokens[nt + n - 1].getEndPos(), msg);</b>
+&nbsp;                      } else {
+<b class="nc">&nbsp;                        String msg = &quot;Das &quot; + (isModVerb ? &quot;Modalverb&quot; : &quot;Hilfsverb&quot;) + VERB_TEXT;</b>
+<b class="nc">&nbsp;                        ruleMatch = new RuleMatch(this, sentence, tokens[nt - 1].getEndPos(), tokens[nt].getEndPos(), msg);</b>
+&nbsp;                      }
+&nbsp;                    }
+&nbsp;                  }
+&nbsp;                }
+<b class="nc">&nbsp;                if (ruleMatch != null) {</b>
+<b class="nc">&nbsp;                  List&lt;String&gt; suggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;                  if (suggestion == null) {</b>
+<b class="nc">&nbsp;                    suggestions.add(&quot;&quot;);</b>
+&nbsp;                  } else {
+<b class="nc">&nbsp;                    suggestions.add(suggestion);</b>
+&nbsp;                  }
+<b class="nc">&nbsp;                  ruleMatch.setSuggestedReplacements(suggestions);</b>
+<b class="nc">&nbsp;                  ruleMatches.add(ruleMatch);</b>
+&nbsp;                }
+&nbsp;                break;
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          if (doBreak) {</b>
+&nbsp;            break;
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,198 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Tools</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.nl</a>
+</div>
+
+<h1>Coverage Summary for Class: Tools (org.languagetool.rules.nl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Tools</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96.9%
+  </span>
+  <span class="absValue">
+    (31/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (29/29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.nl;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static java.lang.Character.isLowerCase;
+&nbsp;import static java.lang.Character.isUpperCase;
+&nbsp;import static java.util.Arrays.asList;
+&nbsp;import static java.util.regex.Pattern.*;
+&nbsp;
+&nbsp;class Tools {
+&nbsp;
+&nbsp;  private final static String spelledWords = &quot;abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|&quot; +
+&nbsp;    &quot;hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|&quot; +
+&nbsp;    &quot;pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp&quot;;
+<b class="fc">&nbsp;  private final static Set&lt;String&gt; spelledWordsSet = new HashSet&lt;&gt;(asList(spelledWords.split(&quot;\\|&quot;)));</b>
+<b class="fc">&nbsp;  private static final Pattern ENDS_IN_DIGIT = compile(&quot;.*[0-9]$&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern STARTS_WITH_DIGIT = compile(&quot;^[0-9].*&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern ENDS_IN_HYPHEN_AND_CHAR = compile(&quot;.+-[a-z]$&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern STARTS_WITH_CHAR_AND_HYPHEN = compile(&quot;^[a-z]-.+&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern HYPHEN_CHARS = compile(&quot;(^|.+-)?(&quot; + spelledWords + &quot;)&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern CHARS_HYPHEN = compile(&quot;(&quot; + spelledWords + &quot;)(-.+|$)?&quot;);</b>
+&nbsp;
+&nbsp;  private Tools() {
+&nbsp;  }
+&nbsp;
+&nbsp;  static String glueParts(String[] str) {
+<b class="fc">&nbsp;    return glueParts(asList(str));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static String glueParts(List&lt;String&gt; s) {
+<b class="fc">&nbsp;    StringBuilder compound = new StringBuilder(s.get(0));</b>
+<b class="fc">&nbsp;    for (int i = 1; i &lt; s.size(); i++) {</b>
+<b class="fc">&nbsp;      String word2 = s.get(i);</b>
+<b class="fc">&nbsp;      if (compound.length() &gt; 2 || spelledWordsSet.contains(compound.toString())) {</b>
+<b class="fc">&nbsp;        char lastChar = compound.charAt(compound.length() - 1);</b>
+<b class="fc">&nbsp;        char firstChar = word2.charAt(0);</b>
+<b class="fc">&nbsp;        String connection = lastChar + String.valueOf(firstChar);</b>
+<b class="fc">&nbsp;        if (StringUtils.containsAny(connection, &quot;aa&quot;, &quot;ae&quot;, &quot;ai&quot;, &quot;ao&quot;, &quot;au&quot;, &quot;ee&quot;, &quot;ei&quot;, &quot;eu&quot;, &quot;ée&quot;, &quot;éi&quot;, &quot;éu&quot;, &quot;ie&quot;, &quot;ii&quot;, &quot;oe&quot;, &quot;oi&quot;, &quot;oo&quot;, &quot;ou&quot;, &quot;ui&quot;, &quot;uu&quot;, &quot;ij&quot;) ||</b>
+<b class="fc">&nbsp;            isUpperCase(firstChar) &amp;&amp; isLowerCase(lastChar) ||</b>
+<b class="fc">&nbsp;            isUpperCase(lastChar) &amp;&amp; isLowerCase(firstChar) ||</b>
+<b class="pc">&nbsp;            isUpperCase(lastChar) &amp;&amp; isUpperCase(firstChar) ||</b>
+<b class="fc">&nbsp;            ENDS_IN_DIGIT.matcher(compound).matches() ||</b>
+<b class="fc">&nbsp;            STARTS_WITH_DIGIT.matcher(word2).matches() ||</b>
+<b class="fc">&nbsp;            HYPHEN_CHARS.matcher(compound).matches() ||</b>
+<b class="fc">&nbsp;            CHARS_HYPHEN.matcher(word2).matches() ||</b>
+<b class="fc">&nbsp;            ENDS_IN_HYPHEN_AND_CHAR.matcher(compound).matches() ||</b>
+<b class="fc">&nbsp;            STARTS_WITH_CHAR_AND_HYPHEN.matcher(word2).matches()) {</b>
+<b class="fc">&nbsp;          compound.append(&#39;-&#39;).append(word2);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;          compound.append(word2);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="fc">&nbsp;        compound.append(word2);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return compound.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

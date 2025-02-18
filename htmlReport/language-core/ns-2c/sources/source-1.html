@@ -1,0 +1,318 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AdaptSuggestionFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: AdaptSuggestionFilter (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AdaptSuggestionFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/84)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/89)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Daniel Naber (www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.language.German;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.SuggestionFilter;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.synthesis.GermanSynthesizer;
+&nbsp;import org.languagetool.tagging.de.GermanTagger;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+<b class="nc">&nbsp;public class AdaptSuggestionFilter extends RuleFilter {</b>
+&nbsp;  
+<b class="nc">&nbsp;  private static final German german = new German();</b>
+<b class="nc">&nbsp;  private static final Pattern ART_PRO_PATTERN = Pattern.compile(&quot;(ART|PRO):.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern MAS_FEM_NEU_PATTERN = Pattern.compile(&quot;MAS|FEM|NEU&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PRO_POS_ETC_PATTERN = Pattern.compile(&quot;PRO:POS:(NOM|AKK|GEN|DAT):(SIN|PLU):(MAS|FEM|NEU)&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern STV_BEG_PATTERN = Pattern.compile(&quot;:(STV|BEG).*&quot;);</b>
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) {
+<b class="nc">&nbsp;    RuleMatch newMatch = null;</b>
+<b class="nc">&nbsp;    List&lt;String&gt; newSugg = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (patternTokenPos &gt; 0) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings prevToken = tokens[patternTokenPos-1];</b>
+<b class="nc">&nbsp;      boolean detNoun = prevToken.hasPosTagStartingWith(&quot;ART:&quot;) || prevToken.hasPosTagStartingWith(&quot;PRO:&quot;);</b>
+<b class="nc">&nbsp;      boolean detAdjNoun = patternTokenPos &gt; 1</b>
+<b class="nc">&nbsp;        &amp;&amp; (tokens[patternTokenPos-2].hasPosTagStartingWith(&quot;ART:&quot;) || tokens[patternTokenPos-2].hasPosTagStartingWith(&quot;PRO:&quot;))</b>
+<b class="nc">&nbsp;        &amp;&amp; prevToken.hasPosTagStartingWith(&quot;ADJ:&quot;);</b>
+<b class="nc">&nbsp;      if (detNoun) {</b>
+<b class="nc">&nbsp;        newMatch = new RuleMatch(match.getRule(), match.getSentence(), prevToken.getStartPos(), match.getToPos(), match.getMessage(), match.getShortMessage());</b>
+<b class="nc">&nbsp;        for (String replacement : match.getSuggestedReplacements()) {</b>
+<b class="nc">&nbsp;          List&lt;String&gt; adaptedDets = getAdaptedDet(prevToken, replacement);</b>
+<b class="nc">&nbsp;          for (String adaptedDet : adaptedDets) {</b>
+<b class="nc">&nbsp;            String newRepl = adaptedDet + &quot; &quot; + replacement;</b>
+<b class="nc">&nbsp;            if (!newSugg.contains(newRepl)) {</b>
+<b class="nc">&nbsp;              newSugg.add(newRepl);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        newMatch.setSuggestedReplacements(newSugg);</b>
+<b class="nc">&nbsp;      } else if (detAdjNoun &amp;&amp; false) {   // TODO: needs more testing before commenting in</b>
+&nbsp;        AnalyzedTokenReadings prevPrevToken = tokens[patternTokenPos-2];
+&nbsp;        newMatch = new RuleMatch(match.getRule(), match.getSentence(), prevPrevToken.getStartPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
+&nbsp;        for (String replacement : match.getSuggestedReplacements()) {
+&nbsp;          List&lt;String&gt; adaptedDets = getAdaptedDetAdj(prevPrevToken, prevToken, replacement);
+&nbsp;          for (String adaptedDet : adaptedDets) {
+&nbsp;            newSugg.add(adaptedDet + &quot; &quot; + replacement);
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    AgreementRule agreementRule = new AgreementRule(JLanguageTool.getMessageBundle(), german);</b>
+<b class="nc">&nbsp;    SuggestionFilter suggestionFilter = new SuggestionFilter(agreementRule, german);</b>
+<b class="nc">&nbsp;    if (newSugg.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      if (StringTools.startsWithUppercase(newSugg.get(0))) {</b>
+<b class="nc">&nbsp;        newSugg = suggestionFilter.filter(newSugg, &quot;{} ist das.&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        newSugg = suggestionFilter.filter(newSugg, &quot;Das ist {}.&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      newMatch.setSuggestedReplacements(newSugg);</b>
+<b class="nc">&nbsp;      return newMatch;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return match;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;String&gt; getAdaptedDet(AnalyzedTokenReadings detToken, String repl) {
+<b class="nc">&nbsp;    String oldDetBaseform = getBaseform(detToken, &quot;(ART|PRO):.*&quot;);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      String replGender = getNounGender(repl);</b>
+<b class="nc">&nbsp;      if (replGender == null || oldDetBaseform == null) {</b>
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      for (AnalyzedToken reading : detToken.getReadings()) {</b>
+<b class="nc">&nbsp;        if (reading.getPOSTag() == null || !(reading.getPOSTag().startsWith(&quot;ART:&quot;) || reading.getPOSTag().startsWith(&quot;PRO:&quot;))) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        String newDetPos = MAS_FEM_NEU_PATTERN.matcher(reading.getPOSTag()).replaceAll(replGender).replace(&quot;BEG&quot;, &quot;(BEG|B/S)&quot;).replace(&quot;:STV&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        String[] replDet = GermanSynthesizer.INSTANCE.synthesize(new AnalyzedToken(oldDetBaseform, null, oldDetBaseform), newDetPos, true);</b>
+<b class="nc">&nbsp;        for (String s : replDet) {</b>
+<b class="nc">&nbsp;          if (StringTools.startsWithUppercase(detToken.getToken())) {</b>
+<b class="nc">&nbsp;            if (!s.toLowerCase().startsWith(detToken.getToken().substring(0, 1).toLowerCase())) {</b>
+&nbsp;              continue;  // see below
+&nbsp;            }
+<b class="nc">&nbsp;            result.add(StringTools.uppercaseFirstChar(s));</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            if (!s.startsWith(detToken.getToken().substring(0, 1))) {</b>
+&nbsp;              continue;  // mein, dein, sein etc. all share the same lemma (&quot;mein&quot;), but don&#39;t suggest &quot;dein&quot; for &quot;mein&quot;
+&nbsp;            }
+<b class="nc">&nbsp;            result.add(s);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;String&gt; getAdaptedDetAdj(AnalyzedTokenReadings detToken, AnalyzedTokenReadings adjToken, String repl) {
+<b class="nc">&nbsp;    String oldDetBaseform = getBaseform(detToken, &quot;(ART|PRO):.*&quot;);</b>
+<b class="nc">&nbsp;    String oldAdjBaseform = getBaseform(adjToken, &quot;ADJ:.*&quot;);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      String replGender = getNounGender(repl);</b>
+<b class="nc">&nbsp;      if (replGender == null || oldDetBaseform == null || oldAdjBaseform == null) {</b>
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      for (AnalyzedToken reading : detToken.getReadings()) {</b>
+<b class="nc">&nbsp;        if (reading.getPOSTag() == null || !ART_PRO_PATTERN.matcher(reading.getPOSTag()).matches()) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        String newDetPos = MAS_FEM_NEU_PATTERN.matcher(reading.getPOSTag()).replaceAll(replGender).replace(&quot;BEG&quot;, &quot;(BEG|B/S)&quot;);</b>
+&nbsp;        String newAdjPos;
+<b class="nc">&nbsp;        if (newDetPos.startsWith(&quot;ART:&quot;)) {</b>
+<b class="nc">&nbsp;          newAdjPos = MAS_FEM_NEU_PATTERN.matcher(reading.getPOSTag()).replaceAll(replGender).replace(&quot;BEG&quot;, &quot;(BEG|B/S)&quot;).replace(&quot;:STV&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        } else if (newDetPos.startsWith(&quot;PRO:&quot;)) {</b>
+<b class="nc">&nbsp;          newAdjPos = STV_BEG_PATTERN.matcher(PRO_POS_ETC_PATTERN.matcher(newDetPos).replaceAll(&quot;ADJ:$1:$2:$3&quot;)).replaceFirst(&quot;:GRU:IND&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Unexpected POS tag: &quot; + newDetPos);</b>
+&nbsp;        }
+&nbsp;        //System.out.println(&quot;newDetPos: &quot; + newDetPos + &quot; for &quot; + oldDetBaseform);
+&nbsp;        //System.out.println(&quot;newAdjPos: &quot; + newAdjPos + &quot; for &quot; + oldAdjBaseform);
+<b class="nc">&nbsp;        String[] replDet = GermanSynthesizer.INSTANCE.synthesize(new AnalyzedToken(oldDetBaseform, null, oldDetBaseform), newDetPos, true);</b>
+<b class="nc">&nbsp;        String[] replAdj = GermanSynthesizer.INSTANCE.synthesize(new AnalyzedToken(oldAdjBaseform, null, oldAdjBaseform), newAdjPos, true);</b>
+&nbsp;        //System.out.println(&quot;replDet: &quot; + Arrays.toString(replDet));
+&nbsp;        //System.out.println(&quot;replAdj: &quot; + Arrays.toString(replAdj));
+<b class="nc">&nbsp;        for (String det : replDet) {</b>
+<b class="nc">&nbsp;          if (!det.startsWith(detToken.getToken().substring(0, 1))) {</b>
+&nbsp;            continue;  // mein, dein, sein etc. all share the same lemma (&quot;mein&quot;), but don&#39;t suggest &quot;dein&quot; for &quot;mein&quot;
+&nbsp;          }
+<b class="nc">&nbsp;          for (String adj : replAdj) {</b>
+<b class="nc">&nbsp;            String newDetAdj = det + &quot; &quot; + adj;</b>
+<b class="nc">&nbsp;            if (!result.contains(newDetAdj)) {</b>
+<b class="nc">&nbsp;              result.add(newDetAdj);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getBaseform(AnalyzedTokenReadings token, String tagStartsWith) {
+<b class="nc">&nbsp;    String baseform = null;</b>
+<b class="nc">&nbsp;    for (AnalyzedToken reading : token.getReadings()) {</b>
+<b class="nc">&nbsp;      if (reading.getPOSTag() != null &amp;&amp; reading.getPOSTag().matches(tagStartsWith)) {</b>
+<b class="nc">&nbsp;        baseform = reading.getLemma();</b>
+&nbsp;      }
+&nbsp;      // TODO: what if more than one match?
+&nbsp;    }
+<b class="nc">&nbsp;    return baseform;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private String getNounGender(String word) throws IOException {
+<b class="nc">&nbsp;    List&lt;AnalyzedTokenReadings&gt; readings = GermanTagger.INSTANCE.tag(Collections.singletonList(word));</b>
+<b class="nc">&nbsp;    for (AnalyzedTokenReadings atr : readings) {</b>
+<b class="nc">&nbsp;      if (atr.getReadings().size() &gt; 0) {</b>
+<b class="nc">&nbsp;        String pos = atr.getReadings().get(0).getPOSTag();</b>
+<b class="nc">&nbsp;        if (pos != null &amp;&amp; pos.startsWith(&quot;SUB:&quot;)) {</b>
+<b class="nc">&nbsp;          String[] parts = pos.split(&quot;:&quot;);</b>
+<b class="nc">&nbsp;          if (parts.length &gt;= 4) {</b>
+<b class="nc">&nbsp;            return parts[3];</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,316 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PronomFebleDuplicateRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ca</a>
+</div>
+
+<h1>Coverage Summary for Class: PronomFebleDuplicateRule (org.languagetool.rules.ca)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PronomFebleDuplicateRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/106)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/114)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.rules.ca;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.chunking.ChunkTag;
+&nbsp;import org.languagetool.rules.Category;
+&nbsp;import org.languagetool.rules.CategoryId;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.ITSIssueType;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;public class PronomFebleDuplicateRule extends Rule {
+&nbsp;
+&nbsp;  // tots els pronoms febles
+<b class="nc">&nbsp;  private static final Pattern PRONOM_FEBLE = Pattern.compile(&quot;P0.{6}|PP3CN000|PP3NN000|PP3.&quot; +</b>
+&nbsp;      &quot;.A00|PP[123]CP000|PP3CSD00&quot;);
+<b class="nc">&nbsp;  private static final Pattern VERB_CONJUGAT = Pattern.compile(&quot;V.[SI].*&quot;);</b>
+<b class="nc">&nbsp;  private static final List&lt;String&gt; PRONOMS_EN_HI = Arrays.asList(&quot;en&quot;, &quot;hi&quot;);</b>
+<b class="nc">&nbsp;  private String correctedPronouns = null;</b>
+<b class="nc">&nbsp;  private final String ruleMessage = &quot;Combinació incorrecta de pronoms febles. Deixeu els de davant o els de darrere &quot; +</b>
+&nbsp;      &quot;del verb.&quot;;
+<b class="nc">&nbsp;  private final String shortMessage = &quot;Combinació incorrecta de pronoms febles.&quot;;</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;PRONOMS_FEBLES_DUPLICATS&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Pronoms febles duplicats&quot;;</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  public PronomFebleDuplicateRule(ResourceBundle messages) throws IOException {</b>
+<b class="nc">&nbsp;    super.setCategory(new Category(new CategoryId(&quot;PRONOMS_FEBLES&quot;), &quot;Pronoms febles&quot;));</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Grammar);</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;&lt;marker&gt;S&#39;ha de fer-se&lt;/marker&gt;.&quot;), Example.fixed(&quot;&lt;marker&gt;S&#39;ha de fer&lt;/marker&gt;.&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    final List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    int initPos = -1;</b>
+<b class="nc">&nbsp;    int lastVerbPos = -1;</b>
+<b class="nc">&nbsp;    List&lt;String&gt; lemesPronomsAbans = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; lemesPronomsDespres = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; lemesPreposicions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int countVerb = 0;</b>
+<b class="nc">&nbsp;    boolean inVerbGroup = false;</b>
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) { // ignoring token 0, i.e., SENT_START</b>
+<b class="nc">&nbsp;      String pfLemma = getLemmaOfPronomFeble(tokens[i]);</b>
+<b class="nc">&nbsp;      if (!pfLemma.isEmpty()) {</b>
+<b class="nc">&nbsp;        if (countVerb == 0 &amp;&amp; (lemesPronomsAbans.size() &gt; 0 || tokens[i].isWhitespaceBefore() || tokens[i - 1].hasPosTag(&quot;SENT_START&quot;))) {</b>
+<b class="nc">&nbsp;          lemesPronomsAbans.add(pfLemma);</b>
+<b class="nc">&nbsp;          if (lemesPronomsAbans.size() == 1) {</b>
+<b class="nc">&nbsp;            initPos = i;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          inVerbGroup = true;</b>
+<b class="nc">&nbsp;        } else if (!tokens[i].isWhitespaceBefore()) {</b>
+<b class="nc">&nbsp;          lemesPronomsDespres.add(pfLemma);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          countVerb = 0;</b>
+<b class="nc">&nbsp;          lemesPronomsAbans.clear();</b>
+<b class="nc">&nbsp;          lemesPronomsDespres.clear();</b>
+<b class="nc">&nbsp;          lemesPronomsAbans.add(pfLemma);</b>
+<b class="nc">&nbsp;          initPos = i;</b>
+<b class="nc">&nbsp;          inVerbGroup = true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (tokens[i].getChunkTags().contains(new ChunkTag(&quot;GV&quot;)) &amp;&amp; !lemesPronomsAbans.isEmpty()</b>
+<b class="nc">&nbsp;        &amp;&amp; lemesPronomsDespres.isEmpty() &amp;&amp; !isException(tokens, i)) {</b>
+<b class="nc">&nbsp;        if (tokens[i].readingWithTagRegex(VERB_CONJUGAT) != null &amp;&amp; countVerb &gt; 0) {</b>
+<b class="nc">&nbsp;          inVerbGroup = false;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          countVerb++;</b>
+<b class="nc">&nbsp;          inVerbGroup = true;</b>
+<b class="nc">&nbsp;          lastVerbPos = i;</b>
+<b class="nc">&nbsp;          AnalyzedToken prepToken = tokens[i].readingWithTagRegex(&quot;SPS00&quot;);</b>
+<b class="nc">&nbsp;          if (prepToken != null) {</b>
+<b class="nc">&nbsp;            lemesPreposicions.add(prepToken.getLemma());</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        inVerbGroup = false;</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if (!inVerbGroup || i == tokens.length - 1) {</b>
+<b class="nc">&nbsp;        if (isThereErrorInLemmas(lemesPronomsAbans, lemesPronomsDespres, lemesPreposicions, tokens, lastVerbPos)) {</b>
+<b class="nc">&nbsp;          if (inVerbGroup &amp;&amp; i == tokens.length - 1) {</b>
+<b class="nc">&nbsp;            i++;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          final RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[initPos].getStartPos(),</b>
+<b class="nc">&nbsp;            tokens[i - 1].getEndPos(), ruleMessage, shortMessage);</b>
+<b class="nc">&nbsp;          List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          if (correctedPronouns == null) {</b>
+<b class="nc">&nbsp;            replacements.add(StringTools.preserveCase(getSuggestionFromTo(tokens, initPos + lemesPronomsAbans.size(),</b>
+<b class="nc">&nbsp;              initPos + lemesPronomsAbans.size() + countVerb + lemesPronomsDespres.size()),</b>
+<b class="nc">&nbsp;                tokens[initPos].getToken()));</b>
+<b class="nc">&nbsp;            replacements.add(StringTools.preserveCase(getSuggestionFromTo(tokens, initPos,</b>
+<b class="nc">&nbsp;              initPos + lemesPronomsAbans.size() + countVerb), tokens[initPos].getToken()));</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            String verbs = getSuggestionFromTo(tokens, initPos + lemesPronomsAbans.size(),</b>
+<b class="nc">&nbsp;              initPos + lemesPronomsAbans.size() + countVerb);</b>
+<b class="nc">&nbsp;            replacements.add(StringTools.preserveCase(correctedPronouns + &quot; &quot; + verbs, tokens[initPos].getToken()));</b>
+<b class="nc">&nbsp;            String pronomsDarrere = PronomsFeblesHelper.transformDarrere(correctedPronouns, verbs);</b>
+<b class="nc">&nbsp;            replacements.add(StringTools.preserveCase(verbs + pronomsDarrere, tokens[initPos].getToken()));</b>
+&nbsp;          }
+<b class="nc">&nbsp;          ruleMatch.addSuggestedReplacements(replacements);</b>
+<b class="nc">&nbsp;          ruleMatches.add(ruleMatch);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        countVerb = 0;</b>
+<b class="nc">&nbsp;        lemesPronomsAbans.clear();</b>
+<b class="nc">&nbsp;        lemesPronomsDespres.clear();</b>
+<b class="nc">&nbsp;        lemesPreposicions.clear();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getSuggestionFromTo(AnalyzedTokenReadings[] tokens, int from, int to) {
+<b class="nc">&nbsp;    StringBuilder sugg = new StringBuilder();</b>
+<b class="nc">&nbsp;    for (int j = from; j &lt; to; j++) {</b>
+<b class="nc">&nbsp;      if (tokens[j].isWhitespaceBefore() &amp;&amp; sugg.length() &gt; 0) {</b>
+<b class="nc">&nbsp;        sugg.append(&quot; &quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      sugg.append(tokens[j].getToken());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sugg.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getLemmaOfPronomFeble(AnalyzedTokenReadings aToken) {
+<b class="nc">&nbsp;    for (AnalyzedToken analyzedToken : aToken) {</b>
+<b class="nc">&nbsp;      String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if (posTag == null) {</b>
+<b class="nc">&nbsp;        posTag = &quot;UNKNOWN&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      final Matcher m = PRONOM_FEBLE.matcher(posTag);</b>
+<b class="nc">&nbsp;      if (m.matches()) {</b>
+<b class="nc">&nbsp;        return analyzedToken.getLemma();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isException(AnalyzedTokenReadings[] tokens, int i) {
+<b class="nc">&nbsp;    if (tokens[i].getToken().equals(&quot;poder&quot;) &amp;&amp; tokens[i - 1].hasPosTagStartingWith(&quot;V&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isThereErrorInLemmas(List&lt;String&gt; lemesPronomsAbans, List&lt;String&gt; lemesPronomsDespres,
+&nbsp;                                       List&lt;String&gt; lemesPreposicions, AnalyzedTokenReadings[] tokens,
+&nbsp;                                       int lastVerbPos) {
+<b class="nc">&nbsp;    correctedPronouns = null;</b>
+<b class="nc">&nbsp;    if (lemesPronomsAbans.size() == 0 || lemesPronomsDespres.size() == 0) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (lemesPronomsAbans.size() == 1 &amp;&amp; lemesPronomsDespres.size() == 1</b>
+<b class="nc">&nbsp;      &amp;&amp; lemesPronomsAbans.get(0).equals(lemesPronomsDespres.get(0))) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (lemesPronomsAbans.size() &gt; 1 &amp;&amp; lemesPronomsDespres.size() &gt; 1) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if ((tokens[lastVerbPos].getToken().equals(&quot;haver&quot;) || tokens[lastVerbPos].getToken().equals(&quot;havent&quot;))</b>
+<b class="nc">&nbsp;      &amp;&amp; PRONOMS_EN_HI.contains(lemesPronomsDespres.get(0))</b>
+<b class="nc">&nbsp;      &amp;&amp; PRONOMS_EN_HI.contains(lemesPronomsAbans.get(0))) {</b>
+<b class="nc">&nbsp;      correctedPronouns = &quot;n&#39;hi&quot;;</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (lemesPronomsAbans.contains(&quot;en&quot;) &amp;&amp; lemesPronomsDespres.contains(&quot;en&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (lemesPronomsAbans.contains(&quot;ell&quot;) &amp;&amp; lemesPronomsDespres.contains(&quot;ell&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (lemesPronomsAbans.contains(&quot;ho&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;      (lemesPronomsDespres.contains(&quot;hi&quot;) || lemesPronomsDespres.contains(&quot;ell&quot;) || lemesPronomsDespres.contains(&quot;en&quot;))) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (lemesPronomsAbans.contains(&quot;hi&quot;) &amp;&amp; !lemesPreposicions.contains(&quot;a&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;      (lemesPronomsDespres.contains(&quot;ho&quot;) || lemesPronomsDespres.contains(&quot;ell&quot;) || lemesPronomsDespres.contains(&quot;en&quot;))) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,197 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DhaNoBeirtData</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ga</a>
+</div>
+
+<h1>Coverage Summary for Class: DhaNoBeirtData (org.languagetool.rules.ga)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DhaNoBeirtData</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ga;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Data for {@link DhaNoBeirtRule}.
+&nbsp; * Loads list of humans from external files.
+&nbsp; * Based on AvsAnData
+&nbsp; */
+&nbsp;final class DhaNoBeirtData {
+&nbsp;
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; daoine = loadWords(&quot;/ga/people.txt&quot;);</b>
+&nbsp;
+&nbsp;  private DhaNoBeirtData() {
+&nbsp;  }
+&nbsp;
+&nbsp;  static Set&lt;String&gt; getDaoine() {
+<b class="nc">&nbsp;    return daoine;</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final Map&lt;String, String&gt; numbers = new HashMap&lt;String, String&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    numbers.put(&quot;dhá&quot;, &quot;beirt&quot;);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;trí&quot;, &quot;triúr&quot;);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;ceathair&quot;, &quot;ceathrar&quot;);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;cúig&quot;, &quot;cúigear&quot;);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;sé&quot;, &quot;seisear&quot;);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;seacht&quot;, &quot;seachtar&quot;);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;ocht&quot;, &quot;ochtar&quot;);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;naoi&quot;, &quot;naonúr&quot;);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;deich&quot;, &quot;deichniúr&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static Map&lt;String, String&gt; getNumberReplacements() {
+<b class="nc">&nbsp;    return numbers;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Load words, normalized to lowercase unless starting with &#39;*&#39;.
+&nbsp;   */
+&nbsp;  private static Set&lt;String&gt; loadWords(String path) {
+<b class="nc">&nbsp;    Set&lt;String&gt; set = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);</b>
+<b class="nc">&nbsp;    try (Scanner scanner = new Scanner(stream, &quot;utf-8&quot;)) {</b>
+<b class="nc">&nbsp;      while (scanner.hasNextLine()) {</b>
+<b class="nc">&nbsp;        String line = scanner.nextLine().trim();</b>
+<b class="nc">&nbsp;        if (line.isEmpty() || line.charAt(0) == &#39;#&#39;) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        if (line.charAt(0) == &#39;*&#39;) {</b>
+<b class="nc">&nbsp;          set.add(line.substring(1));</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          set.add(line.toLowerCase());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return Collections.unmodifiableSet(set);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,301 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SimpleLanguageIdentifier</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language.identifier</a>
+</div>
+
+<h1>Coverage Summary for Class: SimpleLanguageIdentifier (org.languagetool.language.identifier)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SimpleLanguageIdentifier</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/58)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/82)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * LanguageTool, a natural language style checker
+&nbsp; * Copyright (c) 2022.  Stefan Viol (https://stevio.de)
+&nbsp; *
+&nbsp; *  This library is free software; you can redistribute it and/or
+&nbsp; *  modify it under the terms of the GNU Lesser General Public
+&nbsp; *  License as published by the Free Software Foundation; either
+&nbsp; *  version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; *  This library is distributed in the hope that it will be useful,
+&nbsp; *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  Lesser General Public License for more details.
+&nbsp; *
+&nbsp; *  You should have received a copy of the GNU Lesser General Public
+&nbsp; *  License along with this library; if not, write to the Free Software
+&nbsp; *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.language.identifier;
+&nbsp;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.DetectedLanguage;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.noop.NoopLanguage;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static org.languagetool.JLanguageTool.getDataBroker;
+&nbsp;
+<b class="nc">&nbsp;@Slf4j</b>
+&nbsp;public class SimpleLanguageIdentifier extends LanguageIdentifier {
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern WHITESPACE = Pattern.compile(&quot;\\s+&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private final Map&lt;String, SpellingCheckRule&gt; spellingCheckRules = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;  public SimpleLanguageIdentifier() {
+<b class="nc">&nbsp;    super(1000);</b>
+<b class="nc">&nbsp;    List&lt;Language&gt; languages = Languages.get();</b>
+<b class="nc">&nbsp;    for (Language language : languages) {</b>
+<b class="nc">&nbsp;      if (language.isVariant() || language.getShortCode().equals(&quot;zz&quot;)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      boolean hasVariant = language.hasVariant();</b>
+<b class="nc">&nbsp;      Language spellingRuleLanguage = null;</b>
+<b class="nc">&nbsp;      if (hasVariant) {</b>
+<b class="nc">&nbsp;        spellingRuleLanguage = language.getDefaultLanguageVariant();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (spellingRuleLanguage == null) {</b>
+<b class="nc">&nbsp;        spellingRuleLanguage = language;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      ResourceBundle bundle = getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, new Locale(spellingRuleLanguage.getShortCodeWithCountryAndVariant()));</b>
+<b class="nc">&nbsp;      SpellingCheckRule defaultSpellingCheckRule = spellingRuleLanguage.getDefaultSpellingRule(bundle);</b>
+<b class="nc">&nbsp;      if (defaultSpellingCheckRule != null) {</b>
+<b class="nc">&nbsp;        spellingCheckRules.put(language.getShortCode(), defaultSpellingCheckRule);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        log.warn(&quot;Could not find default speller rule for {}&quot;, language.getShortCode());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public SimpleLanguageIdentifier(List&lt;String&gt; preferredLangCodes) {
+<b class="nc">&nbsp;    super(1000);</b>
+<b class="nc">&nbsp;    log.info(&quot;Init SimpleLanguageIdentifier with {}&quot;, preferredLangCodes);</b>
+<b class="nc">&nbsp;    preferredLangCodes.forEach(langCode -&gt; {</b>
+<b class="nc">&nbsp;      Language language = Languages.getLanguageForShortCode(langCode);</b>
+<b class="nc">&nbsp;      SpellingCheckRule defaultSpellingRule = language.getDefaultSpellingRule(getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, new Locale(langCode)));</b>
+<b class="nc">&nbsp;      if (defaultSpellingRule != null) {</b>
+<b class="nc">&nbsp;        spellingCheckRules.put(language.getShortCode(), defaultSpellingRule);</b>
+&nbsp;      }
+&nbsp;    });
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public DetectedLanguage detectLanguage(String cleanText, List&lt;String&gt; noopLangsTmp, List&lt;String&gt; preferredLangsTmp) {
+<b class="nc">&nbsp;    ParsedLanguageLists parsedLanguageLists = prepareDetectLanguage(cleanText, noopLangsTmp, preferredLangsTmp);</b>
+<b class="nc">&nbsp;    if (parsedLanguageLists == null) {</b>
+<b class="nc">&nbsp;      return new DetectedLanguage(null, new NoopLanguage());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; additionalLangs = parsedLanguageLists.getAdditionalLangs();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; preferredLangs = parsedLanguageLists.getPreferredLangs();</b>
+&nbsp;
+<b class="nc">&nbsp;    String[] words = WHITESPACE.split(cleanText);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; dominantLangCodes = UNICODE_BASED_LANG_IDENTIFIER.getDominantLangCodes(cleanText);</b>
+<b class="nc">&nbsp;    Map&lt;String, Double&gt; scores = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    String detectionSource = &quot;spellchecker&quot;;</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, SpellingCheckRule&gt; scp : spellingCheckRules.entrySet()) {</b>
+<b class="nc">&nbsp;      if (dominantLangCodes.contains(scp.getKey()) ^ (dominantLangCodes.isEmpty() &amp;&amp; !NON_LATIN_CHARS_LANGUAGES.contains(scp.getKey()))) {</b>
+<b class="nc">&nbsp;        double errors = 0;</b>
+<b class="nc">&nbsp;        for (String word : words) {</b>
+&nbsp;          try {
+<b class="nc">&nbsp;            errors += scp.getValue().isMisspelled(word) ? 1 : 0;</b>
+&nbsp;          } catch (IOException ex) {
+<b class="nc">&nbsp;            throw new RuntimeException(ex);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        double errorRate = errors / (double) words.length;</b>
+<b class="nc">&nbsp;        log.info(&quot;Found {} errors for {} words with {} spellchecker, this scores in an error rate of {}&quot;, errors, words.length, scp.getKey(), errorRate);</b>
+<b class="nc">&nbsp;        scores.put(scp.getKey(), 1.0 - errorRate);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (scores.isEmpty()) {</b>
+<b class="nc">&nbsp;      scores.put(&quot;zz&quot;, 1.0);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    log.debug(&quot;Got scores: {}&quot;, scores);</b>
+&nbsp;    //Check if languages have the same highest score
+<b class="nc">&nbsp;    double maxValue = 0;</b>
+<b class="nc">&nbsp;    int countFullScore = 0;</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, Double&gt; entry : scores.entrySet()) {</b>
+<b class="nc">&nbsp;      if (entry.getValue() &gt; maxValue) {</b>
+<b class="nc">&nbsp;        countFullScore = 1;</b>
+<b class="nc">&nbsp;        maxValue = entry.getValue();</b>
+<b class="nc">&nbsp;      } else if (entry.getValue() == maxValue) {</b>
+<b class="nc">&nbsp;        countFullScore++;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    Map.Entry&lt;String, Double&gt; highestScoringResult = getHighestScoringResult(scores);</b>
+<b class="nc">&nbsp;    if (highestScoringResult.getValue() &lt; SCORE_THRESHOLD || highestScoringResult.getKey().equals(&quot;zz&quot;) || countFullScore &gt; 1) {</b>
+<b class="nc">&nbsp;      Map&lt;Language, Integer&gt; lang2Count = COMMON_WORDS_LANG_IDENTIFIER.getKnownWordsPerLanguage(cleanText);</b>
+<b class="nc">&nbsp;      Set&lt;String&gt; baseLangAlreadyHandled = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (Map.Entry&lt;Language, Integer&gt; entry : lang2Count.entrySet()) {</b>
+<b class="nc">&nbsp;        String langCode = entry.getKey().getShortCode();</b>
+<b class="nc">&nbsp;        if (baseLangAlreadyHandled.contains(langCode)) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        baseLangAlreadyHandled.add(langCode);</b>
+<b class="nc">&nbsp;        if (scores.containsKey(langCode)) {</b>
+&nbsp;          // this looks arbitrary, but gave best scores with evaluation (LanguageDetectionMinLengthEval):
+<b class="nc">&nbsp;          scores.put(langCode, scores.get(langCode) + Double.valueOf(entry.getValue()));</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          scores.put(langCode, Double.valueOf(entry.getValue()));</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      detectionSource += &quot;+commonwords&quot;;</b>
+<b class="nc">&nbsp;      highestScoringResult = getHighestScoringResult(scores);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (preferredLangs.contains(&quot;no&quot;) &amp;&amp; !preferredLangs.contains(&quot;da&quot;)) {</b>
+&nbsp;      // Special case, as Norwegian easily gets detected as Danish (https://github.com/languagetool-org/languagetool/issues/5520).
+<b class="nc">&nbsp;      scores.keySet().removeIf(k -&gt; k.equals(&quot;da&quot;));</b>
+<b class="nc">&nbsp;      highestScoringResult = getHighestScoringResult(scores);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (cleanText.length() &lt; CONSIDER_ONLY_PREFERRED_THRESHOLD &amp;&amp; preferredLangs.size() &gt; 0) {</b>
+&nbsp;      //System.out.println(&quot;remove? &quot; + preferredLangs + &quot; &lt;-&gt; &quot; + scores);
+<b class="nc">&nbsp;      scores.keySet().removeIf(k -&gt; !preferredLangs.contains(k));</b>
+&nbsp;      //System.out.println(&quot;-&gt; &quot; + b + &quot; ==&gt; &quot; + scores);
+<b class="nc">&nbsp;      highestScoringResult = getHighestScoringResult(scores);</b>
+<b class="nc">&nbsp;      detectionSource += &quot;+prefLang&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (highestScoringResult.getKey() != null &amp;&amp; LanguageIdentifierService.INSTANCE.canLanguageBeDetected(highestScoringResult.getKey(), additionalLangs)) {</b>
+<b class="nc">&nbsp;      return new DetectedLanguage(null,</b>
+<b class="nc">&nbsp;              Languages.getLanguageForShortCode(highestScoringResult.getKey(), additionalLangs),</b>
+<b class="nc">&nbsp;              highestScoringResult.getValue().floatValue(), detectionSource);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public DetectedLanguage detectLanguage(String cleanText, List&lt;String&gt; noopLangsTmp, List&lt;String&gt; preferredLangsTmp, boolean limitOnPreferredLangs) {
+<b class="nc">&nbsp;    return this.detectLanguage(cleanText, noopLangsTmp, preferredLangsTmp);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public List&lt;DetectedLanguage&gt; getDetectedLanguageScores(String cleanText, List&lt;String&gt; noopLangsTmp, List&lt;String&gt; preferredLangsTmp, boolean limitOnPreferredLangs, int count) {
+<b class="nc">&nbsp;    return Collections.singletonList(this.detectLanguage(cleanText, noopLangsTmp, preferredLangsTmp, limitOnPreferredLangs));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public Language detectLanguage(String cleanText) {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

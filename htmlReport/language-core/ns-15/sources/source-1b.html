@@ -1,0 +1,292 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TreeListener</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: TreeListener (org.languagetool.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TreeListener</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/60)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.gui;
+&nbsp;
+&nbsp;import java.awt.Dimension;
+&nbsp;import java.awt.MouseInfo;
+&nbsp;import java.awt.Point;
+&nbsp;import java.awt.event.KeyEvent;
+&nbsp;import java.awt.event.KeyListener;
+&nbsp;import java.awt.event.MouseEvent;
+&nbsp;import java.awt.event.MouseListener;
+&nbsp;import javax.swing.JCheckBox;
+&nbsp;import javax.swing.JTree;
+&nbsp;import javax.swing.event.TreeExpansionEvent;
+&nbsp;import javax.swing.event.TreeWillExpandListener;
+&nbsp;import javax.swing.tree.DefaultTreeModel;
+&nbsp;import javax.swing.tree.ExpandVetoException;
+&nbsp;import javax.swing.tree.TreePath;
+&nbsp;
+&nbsp;/**
+&nbsp; *
+&nbsp; * @author Panagiotis Minos
+&nbsp; * @since 2.6
+&nbsp; */
+&nbsp;class TreeListener implements KeyListener, MouseListener, TreeWillExpandListener {
+&nbsp;
+&nbsp;  static void install(JTree tree) {
+<b class="nc">&nbsp;    TreeListener listener = new TreeListener(tree);</b>
+<b class="nc">&nbsp;    tree.addMouseListener(listener);</b>
+<b class="nc">&nbsp;    tree.addKeyListener(listener);</b>
+<b class="nc">&nbsp;    tree.addTreeWillExpandListener(listener);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final Dimension checkBoxDimension = new JCheckBox().getPreferredSize();</b>
+&nbsp;
+&nbsp;  private final JTree tree;
+&nbsp;
+<b class="nc">&nbsp;  private TreeListener(JTree tree) {</b>
+<b class="nc">&nbsp;    this.tree = tree;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void keyTyped(KeyEvent e) {
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void keyPressed(KeyEvent e) {
+<b class="nc">&nbsp;    if (e.getKeyCode() == KeyEvent.VK_SPACE) {</b>
+<b class="nc">&nbsp;      TreePath[] paths = tree.getSelectionPaths();</b>
+<b class="nc">&nbsp;      if (paths != null) {</b>
+<b class="nc">&nbsp;        for (TreePath path : paths) {</b>
+<b class="nc">&nbsp;          handle(path);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void keyReleased(KeyEvent e) {
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void mouseClicked(MouseEvent e) {
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void mousePressed(MouseEvent e) {
+<b class="nc">&nbsp;    int x = e.getX();</b>
+<b class="nc">&nbsp;    int y = e.getY();</b>
+<b class="nc">&nbsp;    TreePath path = tree.getPathForLocation(x, y);</b>
+<b class="nc">&nbsp;    if (isOverCheckBox(x, y, path)) {</b>
+<b class="nc">&nbsp;      handle(path);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void mouseReleased(MouseEvent e) {
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void mouseEntered(MouseEvent e) {
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void mouseExited(MouseEvent e) {
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  private void handle(TreePath path) {
+<b class="nc">&nbsp;    if ((path != null) &amp;&amp; (path.getPathCount() &gt; 0)) {</b>
+<b class="nc">&nbsp;      if (path.getLastPathComponent() instanceof CategoryNode) {</b>
+<b class="nc">&nbsp;        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();</b>
+&nbsp;
+<b class="nc">&nbsp;        CategoryNode node = (CategoryNode) path.getLastPathComponent();</b>
+<b class="nc">&nbsp;        node.setEnabled(!node.isEnabled());</b>
+<b class="nc">&nbsp;        model.nodeChanged(node);</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; node.getChildCount(); i++) {</b>
+<b class="nc">&nbsp;          RuleNode child = (RuleNode) node.getChildAt(i);</b>
+<b class="nc">&nbsp;          if (child.isEnabled() != node.isEnabled()) {</b>
+<b class="nc">&nbsp;            child.setEnabled(node.isEnabled());</b>
+<b class="nc">&nbsp;            model.nodeChanged(child);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (path.getLastPathComponent() instanceof RuleNode) {</b>
+<b class="nc">&nbsp;        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();</b>
+&nbsp;
+<b class="nc">&nbsp;        RuleNode node = (RuleNode) path.getLastPathComponent();</b>
+<b class="nc">&nbsp;        node.setEnabled(!node.isEnabled());</b>
+<b class="nc">&nbsp;        model.nodeChanged(node);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (node.isEnabled()) {</b>
+<b class="nc">&nbsp;          CategoryNode parent = (CategoryNode) node.getParent();</b>
+<b class="nc">&nbsp;          parent.setEnabled(true);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        model.nodeChanged(node.getParent());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isOverCheckBox(int x, int y, TreePath path) {
+<b class="nc">&nbsp;    if ((path == null) || (path.getPathCount() == 0)) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!isValidNode(path.getLastPathComponent())) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;    //checkbox is east
+&nbsp;    //int offset = tree.getPathBounds(path).x + tree.getPathBounds(path).width - checkBoxDimension.width;
+&nbsp;    //if (x &lt; offset) {
+&nbsp;
+&nbsp;    //checkbox is west
+<b class="nc">&nbsp;    int offset = tree.getPathBounds(path).x + checkBoxDimension.width;</b>
+<b class="nc">&nbsp;    if (x &gt; offset) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isValidNode(Object c) {
+<b class="nc">&nbsp;    return ((c instanceof CategoryNode) || (c instanceof RuleNode));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void treeWillExpand(TreeExpansionEvent e) throws ExpandVetoException {
+<b class="nc">&nbsp;    Point cursorPosition = MouseInfo.getPointerInfo().getLocation();</b>
+<b class="nc">&nbsp;    Point treePosition = tree.getLocationOnScreen();</b>
+<b class="nc">&nbsp;    int x = (int) (cursorPosition.getX() - treePosition.getX());</b>
+<b class="nc">&nbsp;    int y = (int) (cursorPosition.getY() - treePosition.getY());</b>
+<b class="nc">&nbsp;    TreePath path = tree.getPathForLocation(x, y);</b>
+<b class="nc">&nbsp;    if (isOverCheckBox(x, y, path)) {</b>
+<b class="nc">&nbsp;      throw new ExpandVetoException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void treeWillCollapse(TreeExpansionEvent e) throws ExpandVetoException {
+<b class="nc">&nbsp;    treeWillExpand(e);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

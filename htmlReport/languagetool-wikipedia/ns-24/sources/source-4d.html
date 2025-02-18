@@ -1,0 +1,738 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Rule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: Rule (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Rule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/59)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/66)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/120)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import com.google.common.base.Suppliers;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Supplier;
+&nbsp;
+&nbsp;/**
+&nbsp; * Abstract rule class. A Rule describes a language error and can test whether a
+&nbsp; * given pre-analyzed text contains that error using the {@link Rule#match(AnalyzedSentence)}
+&nbsp; * method.
+&nbsp; *
+&nbsp; * &lt;p&gt;Rules are created whenever a {@link JLanguageTool} or
+&nbsp; * a {@link org.languagetool.MultiThreadedJLanguageTool} object is created.
+&nbsp; * As these objects are not thread-safe, this can happen often. Rules should thus
+&nbsp; * make sure that their initialization works fast. For example, if a rule needs
+&nbsp; * to load data from disk, it should store it in a static variable to make sure
+&nbsp; * the loading happens only once.
+&nbsp; *
+&nbsp; * Rules also need to make sure their {@code match()} code is stateless, i.e. that
+&nbsp; * its results are not influenced by previous calls to {@code match()} (this is relevant
+&nbsp; * if pipeline caching is used).
+&nbsp; *
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public abstract class Rule {
+&nbsp;
+<b class="nc">&nbsp;  private static final Category MISC = new Category(CategoryIds.MISC, &quot;Miscellaneous&quot;);</b>
+&nbsp;
+&nbsp;  protected final ResourceBundle messages;
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private List&lt;Tag&gt; tags;
+&nbsp;  
+&nbsp;  @Nullable
+&nbsp;  private List&lt;ToneTag&gt; toneTags;
+&nbsp;
+<b class="nc">&nbsp;  private boolean isGoalSpecific = false;</b>
+&nbsp;  private List&lt;CorrectExample&gt; correctExamples;
+&nbsp;  private List&lt;IncorrectExample&gt; incorrectExamples;
+&nbsp;  private List&lt;ErrorTriggeringExample&gt; errorTriggeringExamples;
+<b class="nc">&nbsp;  private ITSIssueType locQualityIssueType = ITSIssueType.Uncategorized;</b>
+&nbsp;  private Category category;
+&nbsp;  private URL url;
+&nbsp;  private boolean isPremium;
+&nbsp;  private boolean defaultOff;
+&nbsp;  private boolean defaultTempOff;
+<b class="nc">&nbsp;  private boolean officeDefaultOn = false;</b>
+<b class="nc">&nbsp;  private boolean officeDefaultOff = false;</b>
+<b class="nc">&nbsp;  private boolean includedInHiddenMatches = true;</b>
+<b class="nc">&nbsp;  private int minPrevMatches = 0; // minimum number of previous matches to show the rule</b>
+<b class="nc">&nbsp;  private int distanceTokens = -1; // distance (number of tokens) between matches to consider a repetition</b>
+<b class="nc">&nbsp;  private int priority = 0;</b>
+&nbsp;
+&nbsp;  public Rule() {
+<b class="nc">&nbsp;    this(null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Called by rules that require a translation of their messages.
+&nbsp;   */
+<b class="nc">&nbsp;  public Rule(ResourceBundle messages) {</b>
+<b class="nc">&nbsp;    this.messages = messages;</b>
+<b class="nc">&nbsp;    if (messages != null) {</b>
+<b class="nc">&nbsp;      setCategory(Categories.MISC.getCategory(messages));  // the default, sub classes may overwrite this</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      setCategory(MISC);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * A string used to identify the rule in e.g. configuration files.
+&nbsp;   * This string is supposed to be unique and to stay the same in all upcoming
+&nbsp;   * versions of LanguageTool. It&#39;s supposed to contain only the characters {@code A-Z} 
+&nbsp;   * and the underscore.
+&nbsp;   */
+&nbsp;  public abstract String getId();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Same as {@link #getId()} for Java rules. For XML rules, this can contain a number
+&nbsp;   * that identifies the subrule of a rule group.
+&nbsp;   * @since 4.9
+&nbsp;   */
+&nbsp;  public String getFullId() {
+<b class="nc">&nbsp;    if (getSubId() != null) {</b>
+<b class="nc">&nbsp;      return getId() + &quot;[&quot; + getSubId() + &quot;]&quot;;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return getId();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  /**
+&nbsp;   * Optional, mostly used for XML rules (pulled from there to all rules for uniformity)
+&nbsp;   * @since 5.7
+&nbsp;   */
+&nbsp;  public String getSubId() {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  /**
+&nbsp;   * Optional, mostly used for XML rules (pulled from there to all rules for uniformity)
+&nbsp;   * For XML rules, this returns the file that this rule was loaded from
+&nbsp;   */
+&nbsp;  public String getSourceFile() {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * A short description of the error this rule can detect, usually in the language of the text
+&nbsp;   * that is checked.
+&nbsp;   */
+&nbsp;  public abstract String getDescription();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Check whether the given sentence matches this error rule, i.e. whether it
+&nbsp;   * contains the error detected by this rule. Note that the order in which
+&nbsp;   * this method is called is not always guaranteed, i.e. the sentence order in the
+&nbsp;   * text may be different from the order in which you get the sentences (this may be the
+&nbsp;   * case when LanguageTool is used as a LibreOffice/OpenOffice add-on, for example).
+&nbsp;   * In other words, implementations must be stateless, so that a previous call to
+&nbsp;   * this method has no influence on later calls.
+&nbsp;   *
+&nbsp;   * @param sentence a pre-analyzed sentence
+&nbsp;   * @return an array of {@link RuleMatch} objects
+&nbsp;   */
+&nbsp;  public abstract RuleMatch[] match(AnalyzedSentence sentence) throws IOException;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * A number that estimates how many words there must be after a match before we
+&nbsp;   * can be (relatively) sure the match is valid. This is useful for check-as-you-type,
+&nbsp;   * where a match might occur and the word that gets typed next makes the match
+&nbsp;   * disappear (something one would obviously like to avoid).
+&nbsp;   * Note: this may over-estimate the real context size.
+&nbsp;   * Returns {@code -1} when the sentence needs to end to be sure there&#39;s a match.
+&nbsp;   * @since 4.5
+&nbsp;   */
+&nbsp;  public int estimateContextForSureMatch() {
+<b class="nc">&nbsp;    return 0;</b>
+&nbsp;  }
+&nbsp;    
+&nbsp;  /**
+&nbsp;   * Overwrite this to avoid false alarms by ignoring these patterns -
+&nbsp;   * note that your {@link #match(AnalyzedSentence)} method needs to
+&nbsp;   * call {@link #getSentenceWithImmunization} for this to be used
+&nbsp;   * and you need to check {@link AnalyzedTokenReadings#isImmunized()}
+&nbsp;   * @since 3.1
+&nbsp;   */
+&nbsp;  public List&lt;DisambiguationPatternRule&gt; getAntiPatterns() {
+<b class="nc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Overwrite this to return configurable options for option panel
+&nbsp;   * @since 6.5
+&nbsp;   */
+&nbsp;  public RuleOption[] getRuleOptions() {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * To be called from {@link #match(AnalyzedSentence)} for rules that want
+&nbsp;   * {@link #getAntiPatterns()} to be considered.
+&nbsp;   * @since 3.1
+&nbsp;   */
+&nbsp;  protected AnalyzedSentence getSentenceWithImmunization(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    List&lt;DisambiguationPatternRule&gt; antiPatterns = getAntiPatterns();</b>
+<b class="nc">&nbsp;    if (!antiPatterns.isEmpty()) {</b>
+&nbsp;      //we need a copy of the sentence, not reference to the old one
+<b class="nc">&nbsp;      AnalyzedSentence immunizedSentence = sentence.copy(sentence);</b>
+&nbsp;      //noinspection ForLoopReplaceableByForEach
+<b class="nc">&nbsp;      for (int i = 0; i &lt; antiPatterns.size(); i++) {</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          immunizedSentence = antiPatterns.get(i).replace(immunizedSentence);</b>
+&nbsp;        } catch (IOException e) {
+<b class="nc">&nbsp;          throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return immunizedSentence;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sentence;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Helper for implementing {@link #getAntiPatterns()}. The result of this method should better be cached, please see
+&nbsp;   * {@link #cacheAntiPatterns} which does that.
+&nbsp;   * @since 3.1
+&nbsp;   */
+&nbsp;  protected static List&lt;DisambiguationPatternRule&gt; makeAntiPatterns(List&lt;List&lt;PatternToken&gt;&gt; patternList, Language language) {
+<b class="nc">&nbsp;    List&lt;DisambiguationPatternRule&gt; rules = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (List&lt;PatternToken&gt; patternTokens : patternList) {</b>
+<b class="nc">&nbsp;      rules.add(new DisambiguationPatternRule(&quot;INTERNAL_ANTIPATTERN&quot;, &quot;(no description)&quot;, language,</b>
+&nbsp;              patternTokens, null, null, DisambiguationPatternRule.DisambiguatorAction.IMMUNIZE));
+&nbsp;    }
+<b class="nc">&nbsp;    return rules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return a memoizing supplier that caches the result of {@link #makeAntiPatterns}. It makes sense
+&nbsp;   * to store the returned value, e.g. in a field.
+&nbsp;   * @since 5.2
+&nbsp;   */
+&nbsp;  protected static Supplier&lt;List&lt;DisambiguationPatternRule&gt;&gt; cacheAntiPatterns(Language language, List&lt;List&lt;PatternToken&gt;&gt; antiPatterns) {
+<b class="nc">&nbsp;    return Suppliers.memoize(() -&gt; makeAntiPatterns(antiPatterns, language));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Whether this rule can be used for text in the given language.
+&nbsp;   * Since LanguageTool 2.6, this also works {@link org.languagetool.rules.patterns.PatternRule}s
+&nbsp;   * (before, it used to always return {@code false} for those).
+&nbsp;   */
+&nbsp;  public boolean supportsLanguage(Language language) {
+&nbsp;    try {
+<b class="nc">&nbsp;      List&lt;Class&lt;? extends Rule&gt;&gt; relevantRuleClasses = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      UserConfig config = new UserConfig();</b>
+<b class="nc">&nbsp;      List&lt;Rule&gt; relevantRules = new ArrayList&lt;&gt;(language.getRelevantRules(JLanguageTool.getMessageBundle(),</b>
+<b class="nc">&nbsp;          config, null, Collections.emptyList()));  //  empty UserConfig has to be added to prevent null pointer exception</b>
+<b class="nc">&nbsp;      relevantRules.addAll(language.getRelevantLanguageModelCapableRules(JLanguageTool.getMessageBundle(), null,</b>
+<b class="nc">&nbsp;        null, config, null, Collections.emptyList()));</b>
+<b class="nc">&nbsp;      for (Rule relevantRule : relevantRules) {</b>
+<b class="nc">&nbsp;        relevantRuleClasses.add(relevantRule.getClass());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return relevantRuleClasses.contains(this.getClass());</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Whether this is a spelling rule that uses a dictionary.
+&nbsp;   * Rules that return {@code true} here are basically rules that work like
+&nbsp;   * a simple hunspell-like spellchecker: they check words without considering
+&nbsp;   * the words&#39; context.
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  public boolean isDictionaryBasedSpellingRule() {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Whether this rule should be forced to be used in LO/OO extension.
+&nbsp;   * Rules that return {@code true} will be enabled always in LO/OO extension
+&nbsp;   * regardless of other options like isDictionaryBasedSpellingRule().
+&nbsp;   * @since 2.6
+&nbsp;   */
+&nbsp;  public boolean useInOffice() {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set the examples that are correct and thus do not trigger the rule.
+&nbsp;   */
+&nbsp;  public final void setCorrectExamples(List&lt;CorrectExample&gt; correctExamples) {
+<b class="nc">&nbsp;    this.correctExamples = correctExamples.isEmpty() ? null : correctExamples;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get example sentences that are correct and thus will not match this rule.
+&nbsp;   */
+&nbsp;  public final List&lt;CorrectExample&gt; getCorrectExamples() {
+<b class="nc">&nbsp;    return correctExamples == null ? Collections.emptyList() : Collections.unmodifiableList(correctExamples);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set the examples that are incorrect and thus do trigger the rule.
+&nbsp;   */
+&nbsp;  public final void setIncorrectExamples(List&lt;IncorrectExample&gt; incorrectExamples) {
+<b class="nc">&nbsp;    this.incorrectExamples = incorrectExamples.isEmpty() ? null : incorrectExamples;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get example sentences that are incorrect and thus will match this rule.
+&nbsp;   */
+&nbsp;  public final List&lt;IncorrectExample&gt; getIncorrectExamples() {
+<b class="nc">&nbsp;    return incorrectExamples == null ? Collections.emptyList() : Collections.unmodifiableList(incorrectExamples);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set the examples that are correct but still trigger the rule due to an issue with the rule.
+&nbsp;   * @since 3.5
+&nbsp;   */
+&nbsp;  public final void setErrorTriggeringExamples(List&lt;ErrorTriggeringExample&gt; examples) {
+<b class="nc">&nbsp;    this.errorTriggeringExamples = examples.isEmpty() ? null : examples;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the examples that are correct but still trigger the rule due to an issue with the rule.
+&nbsp;   * @since 3.5
+&nbsp;   */
+&nbsp;  public final List&lt;ErrorTriggeringExample&gt; getErrorTriggeringExamples() {
+<b class="nc">&nbsp;    return errorTriggeringExamples == null ? Collections.emptyList() : Collections.unmodifiableList(this.errorTriggeringExamples);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return a category (never null since LT 3.4)
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  public Category getCategory() {
+<b class="nc">&nbsp;    return category;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public final void setCategory(Category category) {
+<b class="nc">&nbsp;    this.category = Objects.requireNonNull(category, &quot;category cannot be null&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected final RuleMatch[] toRuleMatchArray(List&lt;RuleMatch&gt; ruleMatches) {
+<b class="nc">&nbsp;    return ruleMatches.toArray(new RuleMatch[0]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks whether the rule has been turned off by default by the rule author.
+&nbsp;   * @return True if the rule is turned off by default.
+&nbsp;   */
+&nbsp;  public final boolean isDefaultOff() {
+<b class="nc">&nbsp;    return defaultOff;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks whether the rule has been turned off using &quot;default=&#39;temp_off&#39;&quot; by default by the rule author.
+&nbsp;   * This is a special case where the rule is off for users but active for nightly regression checks.
+&nbsp;   */
+&nbsp;  public final boolean isDefaultTempOff() {
+<b class="nc">&nbsp;    return defaultTempOff;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Turns the rule off by default.
+&nbsp;   */
+&nbsp;  public final void setDefaultOff() {
+<b class="nc">&nbsp;    defaultOff = true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Turns the pattern rule off by default, expect for internal regression tests.
+&nbsp;   */
+&nbsp;  public final void setDefaultTempOff() {
+<b class="nc">&nbsp;    defaultOff = true;</b>
+<b class="nc">&nbsp;    defaultTempOff = true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Turns the rule on by default.
+&nbsp;   */
+&nbsp;  public final void setDefaultOn() {
+<b class="nc">&nbsp;    defaultOff = false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Checks whether the rule has been turned off by default for Office Extension by the rule author.
+&nbsp;   * @return True if the rule is turned off. Overrides the default for LO/OO.
+&nbsp;   * @since 4.0
+&nbsp;  */
+&nbsp;  public final boolean isOfficeDefaultOff() {
+<b class="nc">&nbsp;    return officeDefaultOff;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks whether the rule has been turned on by default for Office Extension by the rule author.
+&nbsp;   * @return True if the rule is turned on. Overrides the default for LO/OO.
+&nbsp;   * @since 4.0
+&nbsp;   */
+&nbsp;  public final boolean isOfficeDefaultOn() {
+<b class="nc">&nbsp;    return officeDefaultOn;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Turns the rule off for Office Extension by default.
+&nbsp;   * @since 4.0
+&nbsp;   */
+&nbsp;  public final void setOfficeDefaultOff() {
+<b class="nc">&nbsp;    officeDefaultOff = true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Turns the rule on for Office Extension by default.
+&nbsp;   * @since 4.0
+&nbsp;   */
+&nbsp;  public final void setOfficeDefaultOn() {
+<b class="nc">&nbsp;    officeDefaultOn = true;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * An optional URL describing the rule match in more detail. Typically points to a dictionary or grammar website
+&nbsp;   * with explanations and examples. Will return {@code null} for rules that have no URL.
+&nbsp;   * @since 1.8
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public URL getUrl() {
+<b class="nc">&nbsp;    return url;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 1.8
+&nbsp;   * @see #getUrl()
+&nbsp;   */
+&nbsp;  public void setUrl(URL url) {
+<b class="nc">&nbsp;    this.url = url;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the Localization Quality Issue Type, as defined
+&nbsp;   * at &lt;a href=&quot;http://www.w3.org/International/multilingualweb/lt/drafts/its20/its20.html#lqissue-typevalues&quot;
+&nbsp;   * &gt;http://www.w3.org/International/multilingualweb/lt/drafts/its20/its20.html#lqissue-typevalues&lt;/a&gt;.
+&nbsp;   *
+&nbsp;   * &lt;p&gt;Note that not all languages nor all rules actually map yet to a type yet. In those
+&nbsp;   * cases, &lt;tt&gt;uncategorized&lt;/tt&gt; is returned.
+&nbsp;   *
+&nbsp;   * @return the Localization Quality Issue Type - &lt;tt&gt;uncategorized&lt;/tt&gt; if no type has been assigned
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  public ITSIssueType getLocQualityIssueType() {
+<b class="nc">&nbsp;    return locQualityIssueType;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set the Localization Quality Issue Type.
+&nbsp;   * @see #getLocQualityIssueType()
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  public void setLocQualityIssueType(ITSIssueType locQualityIssueType) {
+<b class="nc">&nbsp;    this.locQualityIssueType = Objects.requireNonNull(locQualityIssueType);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Convenience method to add a pair of sentences: an incorrect sentence and the same sentence
+&nbsp;   * with the error corrected.
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  protected void addExamplePair(IncorrectExample incorrectSentence, CorrectExample correctSentence) {
+<b class="nc">&nbsp;    if (correctExamples == null) {</b>
+<b class="nc">&nbsp;      correctExamples = new ArrayList&lt;&gt;(0);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (incorrectExamples == null) {</b>
+<b class="nc">&nbsp;      incorrectExamples = new ArrayList&lt;&gt;(0);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String correctExample = correctSentence.getExample();</b>
+<b class="nc">&nbsp;    int markerStart= correctExample.indexOf(&quot;&lt;marker&gt;&quot;);</b>
+<b class="nc">&nbsp;    int markerEnd = correctExample.indexOf(&quot;&lt;/marker&gt;&quot;);</b>
+<b class="nc">&nbsp;    if (markerStart != -1 &amp;&amp; markerEnd != -1) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; correction = Collections.singletonList(correctExample.substring(markerStart + &quot;&lt;marker&gt;&quot;.length(), markerEnd));</b>
+<b class="nc">&nbsp;      incorrectExamples.add(new IncorrectExample(incorrectSentence.getExample(), correction));</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      incorrectExamples.add(incorrectSentence);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    correctExamples.add(correctSentence);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Convenience method to set a pair of sentences: an incorrect sentence and the same sentence
+&nbsp;   * with the error corrected.
+&nbsp;   * @since 4.9
+&nbsp;   */
+&nbsp;  protected void setExamplePair(IncorrectExample incorrectSentence, CorrectExample correctSentence) {
+<b class="nc">&nbsp;    if (incorrectExamples != null) {</b>
+<b class="nc">&nbsp;      incorrectExamples.clear();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (correctSentence != null) {</b>
+<b class="nc">&nbsp;      correctExamples.clear();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    addExamplePair(incorrectSentence, correctSentence);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.1
+&nbsp;   */
+&nbsp;  public void addTags(List&lt;String&gt; tags) {
+<b class="nc">&nbsp;    if (tags.isEmpty()) return;</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;Tag&gt; myTags = this.tags;</b>
+<b class="nc">&nbsp;    if (myTags == null) {</b>
+<b class="nc">&nbsp;      this.tags = myTags = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (String tag : tags) {</b>
+<b class="nc">&nbsp;      if (myTags.stream().noneMatch(k -&gt; k.name().equals(tag))) {</b>
+<b class="nc">&nbsp;        myTags.add(Tag.valueOf(tag));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.1
+&nbsp;   */
+&nbsp;  public void setTags(List&lt;Tag&gt; tags) {
+<b class="nc">&nbsp;    this.tags = tags.isEmpty() ? null : Objects.requireNonNull(tags);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  @NotNull
+&nbsp;  public List&lt;Tag&gt; getTags() {
+<b class="nc">&nbsp;    return tags == null ? Collections.emptyList() : tags;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  public boolean hasTag(Tag tag) {
+<b class="nc">&nbsp;    return tags != null &amp;&amp; tags.contains(tag);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @since 6.2
+&nbsp;   */
+&nbsp;  public void addToneTags(List&lt;String&gt; toneTags) {
+<b class="nc">&nbsp;    if (toneTags == null || toneTags.isEmpty()) {</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;ToneTag&gt; tags = this.toneTags;</b>
+<b class="nc">&nbsp;    if (tags == null) {</b>
+<b class="nc">&nbsp;      this.toneTags = tags = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (String toneTag : toneTags) {</b>
+<b class="nc">&nbsp;      if (tags.stream().noneMatch(k -&gt; k.name().equals(toneTag))) {</b>
+<b class="nc">&nbsp;        tags.add(ToneTag.valueOf(toneTag));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 6.2
+&nbsp;   */
+&nbsp;  public void setToneTags(List&lt;ToneTag&gt; toneTags) {
+<b class="nc">&nbsp;    this.toneTags = toneTags.isEmpty() ? null : Objects.requireNonNull(toneTags);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @since 6.2
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  public List&lt;ToneTag&gt; getToneTags() {
+<b class="nc">&nbsp;    return this.toneTags == null ? Collections.emptyList() : this.toneTags;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 6.2
+&nbsp;   */
+&nbsp;  public boolean hasToneTag(ToneTag toneTag) {
+<b class="nc">&nbsp;    return this.toneTags != null &amp;&amp; this.toneTags.contains(toneTag);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isPremium() {
+<b class="nc">&nbsp;    return isPremium;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setPremium(boolean premium) {
+<b class="nc">&nbsp;    isPremium = premium;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public void setMinPrevMatches(int i) {
+<b class="nc">&nbsp;    minPrevMatches = i;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public int getMinPrevMatches() {
+<b class="nc">&nbsp;    return minPrevMatches;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public void setDistanceTokens(int i) {
+<b class="nc">&nbsp;    distanceTokens = i;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public int getDistanceTokens() {
+<b class="nc">&nbsp;    return distanceTokens;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public boolean isGoalSpecific() {
+<b class="nc">&nbsp;    return isGoalSpecific;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setGoalSpecific(boolean goalSpecific) {
+<b class="nc">&nbsp;    isGoalSpecific = goalSpecific;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getPriority() {
+<b class="nc">&nbsp;    return priority;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setPriority(int priority) {
+<b class="nc">&nbsp;    this.priority = priority;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 6.5
+&nbsp;   * @return whether this rule should be run when hidden rules are enabled
+&nbsp;   * when Rule.isPremium is true and QueryParams.premium is false,
+&nbsp;   * this rule will only be run when both Rule.isIncludedInHiddenMatches and QueryParams.enableHiddenRules are true
+&nbsp;   * No effect otherwise
+&nbsp;   */
+&nbsp;  public boolean isIncludedInHiddenMatches() {
+<b class="nc">&nbsp;    return includedInHiddenMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 6.5
+&nbsp; * @param includedInHiddenMatches whether this rule should be run when hidden rules are enabled (if it&#39;s a Premium rule)
+&nbsp; */
+&nbsp;  public void setIncludedInHiddenMatches(boolean includedInHiddenMatches) {
+<b class="nc">&nbsp;    this.includedInHiddenMatches = includedInHiddenMatches;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

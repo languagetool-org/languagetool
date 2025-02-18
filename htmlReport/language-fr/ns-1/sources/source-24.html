@@ -1,0 +1,427 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UserConfig</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool</a>
+</div>
+
+<h1>Coverage Summary for Class: UserConfig (org.languagetool)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserConfig</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    41.2%
+  </span>
+  <span class="absValue">
+    (14/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (9/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    69.6%
+  </span>
+  <span class="absValue">
+    (64/92)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2018 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool;
+&nbsp;
+&nbsp;import lombok.Getter;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.apache.commons.lang3.builder.EqualsBuilder;
+&nbsp;import org.apache.commons.lang3.builder.HashCodeBuilder;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * User-specific configuration. So far, this contains a list of words and a settings map.
+&nbsp; * @since 4.2
+&nbsp; */
+&nbsp;public class UserConfig {
+&nbsp;
+&nbsp;  // don&#39;t do A/B tests in command line / GUI mode / tests, etc.; true when running as a server
+<b class="fc">&nbsp;  private static boolean abTestEnabled = false;</b>
+&nbsp;  public static void enableABTests() {
+<b class="nc">&nbsp;    abTestEnabled = true;</b>
+&nbsp;  }
+&nbsp;  public static boolean hasABTestsEnabled() {
+<b class="nc">&nbsp;    return abTestEnabled;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private final List&lt;String&gt; userSpecificSpellerWords;
+&nbsp;  private final Set&lt;String&gt; acceptedPhrases;
+&nbsp;  private final List&lt;Rule&gt; userSpecificRules;
+&nbsp;  private final int maxSpellingSuggestions;
+&nbsp;  private final Long userDictCacheSize;
+&nbsp;  private final String userDictName;
+&nbsp;  private final Long premiumUid;
+<b class="fc">&nbsp;  private final Map&lt;String, Object[]&gt; configurableRuleValues = new HashMap&lt;&gt;();</b>
+&nbsp;  private final LinguServices linguServices;
+&nbsp;  // needs to be in UserConfig so it is considered both in ResultCache and in PipelinePool
+&nbsp;  private final boolean filterDictionaryMatches;
+&nbsp;  private final boolean hidePremiumMatches;
+&nbsp;
+&nbsp;  // partially indifferent for comparing UserConfigs (e.g. in PipelinePool)
+&nbsp;  // provided to rules only for A/B tests
+&nbsp;  private final Long textSessionId;
+&nbsp;  private final List&lt;String&gt; abTest;
+&nbsp;  private final String preferredLanguages;
+&nbsp;  @Getter
+&nbsp;  private boolean trustedSource;
+&nbsp;
+&nbsp;  public UserConfig() {
+<b class="fc">&nbsp;    this(new ArrayList&lt;&gt;(), new HashMap&lt;&gt;());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public UserConfig(List&lt;String&gt; userSpecificSpellerWords) {
+<b class="nc">&nbsp;    this(userSpecificSpellerWords, new HashMap&lt;&gt;());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public UserConfig(Map&lt;String, Object[]&gt; ruleValues) {
+<b class="nc">&nbsp;    this(new ArrayList&lt;&gt;(), Objects.requireNonNull(ruleValues));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public UserConfig(Map&lt;String, Object[]&gt; ruleValues, LinguServices linguServices) {
+<b class="nc">&nbsp;    this(new ArrayList&lt;&gt;(), Objects.requireNonNull(ruleValues), 0, 0L, null, 0L, linguServices);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public UserConfig(List&lt;String&gt; userSpecificSpellerWords, Map&lt;String, Object[]&gt; ruleValues) {
+<b class="fc">&nbsp;    this(userSpecificSpellerWords, ruleValues, 0, null, null, null, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public UserConfig(List&lt;String&gt; userSpecificSpellerWords, Map&lt;String, Object[]&gt; ruleValues,
+&nbsp;                    int maxSpellingSuggestions, Long premiumUid, String userDictName, Long userDictCacheSize,
+&nbsp;                    LinguServices linguServices) {
+<b class="fc">&nbsp;    this(userSpecificSpellerWords, Collections.emptyList(), ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices,</b>
+&nbsp;      false, null, null, false, null, false);
+&nbsp;  }
+&nbsp;
+&nbsp;  public UserConfig(List&lt;String&gt; userSpecificSpellerWords,
+&nbsp;                    List&lt;Rule&gt; userSpecificRules,
+&nbsp;                    Map&lt;String, Object[]&gt; ruleValues,
+&nbsp;                    int maxSpellingSuggestions, Long premiumUid, String userDictName,
+&nbsp;                    Long userDictCacheSize,
+&nbsp;                    LinguServices linguServices, boolean filterDictionaryMatches,
+&nbsp;                    @Nullable List&lt;String&gt; abTest, @Nullable Long textSessionId,
+&nbsp;                    boolean hidePremiumMatches, List&lt;String&gt; preferredLanguages) {
+<b class="nc">&nbsp;    this(userSpecificSpellerWords, userSpecificRules, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices, filterDictionaryMatches, abTest, textSessionId, hidePremiumMatches, preferredLanguages, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public UserConfig(List&lt;String&gt; userSpecificSpellerWords,
+&nbsp;                    List&lt;Rule&gt; userSpecificRules,
+&nbsp;                    Map&lt;String, Object[]&gt; ruleValues,
+&nbsp;                    int maxSpellingSuggestions, Long premiumUid, String userDictName,
+&nbsp;                    Long userDictCacheSize,
+&nbsp;                    LinguServices linguServices, boolean filterDictionaryMatches,
+&nbsp;                    @Nullable List&lt;String&gt; abTest, @Nullable Long textSessionId,
+&nbsp;                    boolean hidePremiumMatches, List&lt;String&gt; preferredLanguages,
+<b class="fc">&nbsp;                    boolean trustedSource) {</b>
+<b class="fc">&nbsp;    this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);</b>
+<b class="fc">&nbsp;    this.userSpecificRules = Objects.requireNonNull(userSpecificRules);</b>
+<b class="pc">&nbsp;    for (Map.Entry&lt;String, Object[]&gt; entry : ruleValues.entrySet()) {</b>
+<b class="nc">&nbsp;      this.configurableRuleValues.put(entry.getKey(), entry.getValue());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    this.maxSpellingSuggestions = maxSpellingSuggestions;</b>
+<b class="fc">&nbsp;    this.premiumUid = premiumUid;</b>
+<b class="pc">&nbsp;    this.userDictName = userDictName == null ? &quot;default&quot; : userDictName;</b>
+<b class="fc">&nbsp;    this.userDictCacheSize = userDictCacheSize;</b>
+<b class="fc">&nbsp;    this.linguServices = linguServices;</b>
+<b class="fc">&nbsp;    this.filterDictionaryMatches = filterDictionaryMatches;</b>
+<b class="fc">&nbsp;    this.abTest = abTest;</b>
+<b class="fc">&nbsp;    this.textSessionId = textSessionId;</b>
+<b class="fc">&nbsp;    this.hidePremiumMatches = hidePremiumMatches;</b>
+<b class="fc">&nbsp;    this.acceptedPhrases = buildAcceptedPhrases();</b>
+<b class="fc">&nbsp;    this.preferredLanguages = removeAllButMainLanguagesAndSort(preferredLanguages);</b>
+<b class="fc">&nbsp;    this.trustedSource = trustedSource;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String removeAllButMainLanguagesAndSort(List&lt;String&gt; preferredLanguages) {
+<b class="pc">&nbsp;    List&lt;String&gt; cleanLangList = preferredLanguages != null ? new ArrayList&lt;&gt;(preferredLanguages) : Collections.emptyList();</b>
+<b class="fc">&nbsp;    cleanLangList.removeIf(language -&gt; {</b>
+<b class="nc">&nbsp;      if (language.equals(&quot;de&quot;) || language.equals(&quot;en&quot;) || language.equals(&quot;es&quot;) || language.equals(&quot;fr&quot;) || language.equals(&quot;nl&quot;) || language.equals(&quot;pt&quot;)) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    });
+<b class="fc">&nbsp;    Collections.sort(cleanLangList);</b>
+<b class="pc">&nbsp;    return cleanLangList.size() &gt;= 2 ? String.join(&quot;,&quot;, cleanLangList) : &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  public List&lt;String&gt; getAcceptedWords() {
+<b class="fc">&nbsp;    return userSpecificSpellerWords;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Set&lt;String&gt; buildAcceptedPhrases() {
+<b class="fc">&nbsp;    HashSet&lt;String&gt; phrases = new HashSet&lt;&gt;();</b>
+<b class="pc">&nbsp;    for (String wordOrPhrase : userSpecificSpellerWords) {</b>
+<b class="nc">&nbsp;      if (wordOrPhrase.contains(&quot; &quot;)) {</b>
+<b class="nc">&nbsp;        phrases.add(wordOrPhrase);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return phrases;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  public Set&lt;String&gt; getAcceptedPhrases() {
+<b class="nc">&nbsp;    return acceptedPhrases;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.7
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  public List&lt;Rule&gt; getRules() {
+<b class="fc">&nbsp;    return userSpecificRules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getMaxSpellingSuggestions() {
+<b class="nc">&nbsp;    return maxSpellingSuggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Map&lt;String, Object[]&gt; getConfigValues() {
+<b class="nc">&nbsp;    return configurableRuleValues;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public void insertConfigValues(Map&lt;String, Object[]&gt;  ruleValues) {
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, Object[]&gt; entry : ruleValues.entrySet()) {</b>
+<b class="nc">&nbsp;      this.configurableRuleValues.put(entry.getKey(), entry.getValue());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  public Object[] getConfigValueByID(String ruleID) {
+<b class="pc">&nbsp;    if (configurableRuleValues.containsKey(ruleID)) {</b>
+<b class="nc">&nbsp;      return configurableRuleValues.get(ruleID);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public boolean hasLinguServices() {
+<b class="nc">&nbsp;    return linguServices != null;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public LinguServices getLinguServices() {
+<b class="fc">&nbsp;    return linguServices;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * for speedup, certain users custom dictionaries are cached.
+&nbsp;   * Null if disabled, else max. number of words in cache
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  public Long getUserDictCacheSize() {
+<b class="nc">&nbsp;    return userDictCacheSize;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  public String getUserDictName() {
+<b class="nc">&nbsp;    return userDictName;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  public Long getPremiumUid() {
+<b class="nc">&nbsp;    return premiumUid;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean equals(Object o) {
+<b class="pc">&nbsp;    if (this == o) return true;</b>
+<b class="pc">&nbsp;    if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="fc">&nbsp;    UserConfig other = (UserConfig) o;</b>
+&nbsp;    // optimization: equals on userSpecificSpellerWords can be expensive with huge dictionaries
+&nbsp;    // -&gt; we use user id &amp; dictionary names first
+&nbsp;    // -&gt; userSpecificSpellerWords still needs to be included,
+&nbsp;    //  otherwise ResultCache can be used even when dictionaries have changed
+<b class="fc">&nbsp;    return new EqualsBuilder()</b>
+<b class="fc">&nbsp;      .append(configurableRuleValues, other.configurableRuleValues)</b>
+<b class="fc">&nbsp;      .append(userSpecificRules.stream().mapToLong(k -&gt; k.getId().hashCode()).sum(),</b>
+<b class="fc">&nbsp;              other.userSpecificRules.stream().mapToLong(k -&gt; k.getId().hashCode()).sum())</b>
+<b class="fc">&nbsp;      .append(premiumUid, other.premiumUid)</b>
+<b class="fc">&nbsp;      .append(userDictName, other.userDictName)</b>
+<b class="fc">&nbsp;      .append(userSpecificSpellerWords, other.userSpecificSpellerWords)</b>
+<b class="fc">&nbsp;      .append(filterDictionaryMatches, other.filterDictionaryMatches)</b>
+&nbsp;      // omitting these distorts A/B tests, as UserConfig is cached by the pipeline pool
+&nbsp;      // -&gt; (cached) textSessionId on server may say group A, but ID on client (relevant for saved correction) says B
+&nbsp;      // only group must match; keeps hit rate of pipeline cache up
+<b class="fc">&nbsp;      .append(abTest, other.abTest)</b>
+<b class="fc">&nbsp;      .append(hidePremiumMatches, other.hidePremiumMatches)</b>
+<b class="fc">&nbsp;      .append(preferredLanguages, other.preferredLanguages)</b>
+<b class="fc">&nbsp;      .append(trustedSource, other.trustedSource)</b>
+<b class="fc">&nbsp;      .isEquals();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int hashCode() {
+&nbsp;    // not calculating userSpecificSpellerWords.hashCode(), can be expensive; premiumId + userDictName is close enough
+<b class="fc">&nbsp;    return new HashCodeBuilder(3, 11)</b>
+<b class="fc">&nbsp;      .append(maxSpellingSuggestions)</b>
+<b class="fc">&nbsp;      .append(userSpecificRules.stream()</b>
+<b class="fc">&nbsp;              .mapToLong(k -&gt; k.getId().hashCode()).sum())</b>
+<b class="fc">&nbsp;      .append(premiumUid)</b>
+<b class="fc">&nbsp;      .append(userDictName)</b>
+<b class="fc">&nbsp;      .append(userDictCacheSize)</b>
+<b class="fc">&nbsp;      .append(configurableRuleValues)</b>
+<b class="fc">&nbsp;      .append(abTest)</b>
+<b class="fc">&nbsp;      .append(filterDictionaryMatches)</b>
+<b class="fc">&nbsp;      .append(hidePremiumMatches)</b>
+<b class="fc">&nbsp;      .append(preferredLanguages)</b>
+<b class="fc">&nbsp;      .append(trustedSource)</b>
+<b class="fc">&nbsp;      .toHashCode();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return &quot;UserConfig{&quot; +</b>
+<b class="nc">&nbsp;      &quot;dictionarySize=&quot; + userSpecificSpellerWords.size() +</b>
+&nbsp;      &quot;, maxSpellingSuggestions=&quot; + maxSpellingSuggestions +
+&nbsp;      &quot;, userDictName=&#39;&quot; + userDictName + &#39;\&#39;&#39; +
+&nbsp;      &quot;, configurableRuleValues=&quot; + configurableRuleValues +
+&nbsp;      &quot;, linguServices=&quot; + linguServices +
+&nbsp;      &quot;, filterDictionaryMatches=&quot; + filterDictionaryMatches +
+&nbsp;      &quot;, textSessionId=&quot; + textSessionId +
+&nbsp;      &quot;, hidePremiumMatches=&quot; + hidePremiumMatches +
+&nbsp;      &quot;, abTest=&#39;&quot; + abTest + &#39;\&#39;&#39; +
+&nbsp;      &#39;}&#39;;
+&nbsp;  }
+&nbsp;
+&nbsp;  public Long getTextSessionId() {
+<b class="nc">&nbsp;    return textSessionId;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;String&gt; getAbTest() {
+<b class="nc">&nbsp;    return abTest;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean filterDictionaryMatches() {
+<b class="nc">&nbsp;    return filterDictionaryMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.5 */
+&nbsp;  public boolean getHidePremiumMatches() {
+<b class="fc">&nbsp;    return hidePremiumMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This may not contain the full preferredLanguages list as it&#39;s  intended to only be used with ForeignLanguageChecker
+&nbsp;   * @return 
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  public List&lt;String&gt; getPreferredLanguages() {
+<b class="nc">&nbsp;    return Arrays.asList(preferredLanguages.split(&quot;,&quot;));</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

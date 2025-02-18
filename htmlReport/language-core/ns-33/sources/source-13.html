@@ -1,0 +1,318 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > QuestionWhitespaceRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.fr</a>
+</div>
+
+<h1>Coverage Summary for Class: QuestionWhitespaceRule (org.languagetool.rules.fr)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">QuestionWhitespaceRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/48)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/94)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.fr;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.rules.patterns.PatternTokenBuilder;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.function.Supplier;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule that matches spaces before ?,:,; and ! (required for correct French
+&nbsp; * punctuation).
+&nbsp; *
+&nbsp; * @see &lt;a href=
+&nbsp; *      &quot;http://unicode.org/udhr/n/notes_fra.html&quot;&gt;http://unicode.org/udhr/n/notes_fra.html&lt;/a&gt;
+&nbsp; *
+&nbsp; * @author Marcin Miłkowski
+&nbsp; */
+&nbsp;public class QuestionWhitespaceRule extends Rule {
+&nbsp;
+&nbsp;  // Pattern used to avoid false positive when signaling missing
+&nbsp;  // space before and after colon &#39;:&#39; in URL with common schemes.
+<b class="nc">&nbsp;  private static final Pattern urlPattern = Pattern.compile(</b>
+&nbsp;      &quot;^(file|s?ftp|finger|git|gopher|hdl|https?|shttp|imap|mailto|mms|nntp|s?news(post|reply)?|prospero|rsync|rtspu|sips?|svn|svn\\+ssh|telnet|wais)$&quot;);
+&nbsp;
+&nbsp;  private static final String ESPACE_FINE_INSECABLE = &quot;\u202F&quot;;
+&nbsp;  private static final String NBSP = &quot;\u00A0&quot;;
+&nbsp;
+<b class="nc">&nbsp;  private static final List&lt;List&lt;PatternToken&gt;&gt; ANTI_PATTERNS = Arrays.asList(Arrays.asList(</b>
+&nbsp;      // ignore smileys, such as :-)
+<b class="nc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;[:;]&quot;).build(),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().csToken(&quot;-&quot;).setIsWhiteSpaceBefore(false).build(),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;[\\(\\)D]&quot;).setIsWhiteSpaceBefore(false).build()),</b>
+<b class="nc">&nbsp;      Arrays.asList( // ignore smileys, such as :)</b>
+<b class="nc">&nbsp;          new PatternTokenBuilder().tokenRegex(&quot;[:;]&quot;).build(),</b>
+<b class="nc">&nbsp;          new PatternTokenBuilder().tokenRegex(&quot;[\\(\\)D]&quot;).setIsWhiteSpaceBefore(false).build()),</b>
+<b class="nc">&nbsp;      Arrays.asList( // times like 23:20</b>
+<b class="nc">&nbsp;          new PatternTokenBuilder().tokenRegex(&quot;.*\\d{1,2}&quot;).build(), new PatternTokenBuilder().token(&quot;:&quot;).build(),</b>
+<b class="nc">&nbsp;          new PatternTokenBuilder().tokenRegex(&quot;\\d{1,2}&quot;).build()),</b>
+<b class="nc">&nbsp;      Arrays.asList( // &quot;??&quot;</b>
+<b class="nc">&nbsp;          new PatternTokenBuilder().tokenRegex(&quot;[?!]&quot;).build(), new PatternTokenBuilder().tokenRegex(&quot;[?!]&quot;).build()),</b>
+<b class="nc">&nbsp;      Arrays.asList( // mac address</b>
+<b class="nc">&nbsp;          new PatternTokenBuilder().tokenRegex(&quot;[a-z0-9]{2}&quot;).build(), new PatternTokenBuilder().token(&quot;:&quot;).build(),</b>
+<b class="nc">&nbsp;          new PatternTokenBuilder().tokenRegex(&quot;[a-z0-9]{2}&quot;).build(), new PatternTokenBuilder().token(&quot;:&quot;).build(),</b>
+<b class="nc">&nbsp;          new PatternTokenBuilder().tokenRegex(&quot;[a-z0-9]{2}&quot;).build()),</b>
+<b class="nc">&nbsp;      Arrays.asList( // csv markup (not sure why we need this, but there were a lot of users ignoring</b>
+&nbsp;                     // this specific case)
+<b class="nc">&nbsp;          new PatternTokenBuilder().token(&quot;;&quot;).build(),</b>
+<b class="nc">&nbsp;          new PatternTokenBuilder().tokenRegex(&quot;.+&quot;).setIsWhiteSpaceBefore(false).build(),</b>
+<b class="nc">&nbsp;          new PatternTokenBuilder().token(&quot;;&quot;).setIsWhiteSpaceBefore(false).build()),</b>
+<b class="nc">&nbsp;      Arrays.asList( // csv markup (not sure why we need this, but there were a lot of users ignoring</b>
+&nbsp;                     // this specific case)
+<b class="nc">&nbsp;          new PatternTokenBuilder().tokenRegex(&quot;.+&quot;).setIsWhiteSpaceBefore(false).build(),</b>
+<b class="nc">&nbsp;          new PatternTokenBuilder().token(&quot;;&quot;).setIsWhiteSpaceBefore(false).build(),</b>
+<b class="nc">&nbsp;          new PatternTokenBuilder().tokenRegex(&quot;.+&quot;).setIsWhiteSpaceBefore(false).build()));</b>
+&nbsp;  private final Supplier&lt;List&lt;DisambiguationPatternRule&gt;&gt; antiPatterns;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;DisambiguationPatternRule&gt; getAntiPatterns() {
+<b class="nc">&nbsp;    return antiPatterns.get();</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  public QuestionWhitespaceRule(ResourceBundle messages, Language language) {</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.MISC.getCategory(messages));</b>
+<b class="nc">&nbsp;    antiPatterns = cacheAntiPatterns(language, ANTI_PATTERNS);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;FRENCH_WHITESPACE&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Insertion des espaces fines insécables&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean isAllowedWhitespaceChar(AnalyzedTokenReadings[] tokens, int i) {
+<b class="nc">&nbsp;    return i &gt;= 0 ? tokens[i].isWhitespace() : false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokens();</b>
+<b class="nc">&nbsp;    String prevPrevToken = &quot;&quot;;</b>
+<b class="nc">&nbsp;    String prevToken = &quot;&quot;;</b>
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      String token = tokens[i].getToken();</b>
+<b class="nc">&nbsp;      if (tokens[i].isImmunized() || prevToken.equals(&quot;(&quot;) || prevToken.equals(&quot;[&quot;)) {</b>
+<b class="nc">&nbsp;        prevPrevToken = prevToken;</b>
+<b class="nc">&nbsp;        prevToken = token;</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String msg = null;</b>
+<b class="nc">&nbsp;      String suggestionText = null;</b>
+<b class="nc">&nbsp;      int iFrom = i - 1;</b>
+<b class="nc">&nbsp;      int iTo = i;</b>
+<b class="nc">&nbsp;      boolean isPreviousWhitespace = i &gt; 0 ? tokens[i - 1].isWhitespace() : false;</b>
+<b class="nc">&nbsp;      String prevTokenToChange = prevToken;</b>
+<b class="nc">&nbsp;      if (isPreviousWhitespace) {</b>
+<b class="nc">&nbsp;        prevTokenToChange = &quot;&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (!isAllowedWhitespaceChar(tokens, i - 1)) {</b>
+&nbsp;        // Strictly speaking, the character before ?!; should be an &quot;espace fine
+&nbsp;        // insécable&quot; (U+202f). In practise, an &quot;espace insécable&quot; (U+00a0) is also
+&nbsp;        // often used - or even a common space. Let&#39;s accept all - use
+&nbsp;        // QuestionWhitespaceStrictRule if this is not strict enough.
+<b class="nc">&nbsp;        if (token.equals(&quot;?&quot;) &amp;&amp; !prevToken.equals(&quot;!&quot;)) {</b>
+<b class="nc">&nbsp;          msg = &quot;Le point d&#39;interrogation est précédé d&#39;une espace fine insécable.&quot;;</b>
+<b class="nc">&nbsp;          suggestionText = prevTokenToChange + ESPACE_FINE_INSECABLE + &quot;?&quot;;</b>
+<b class="nc">&nbsp;        } else if (token.equals(&quot;!&quot;) &amp;&amp; !prevToken.equals(&quot;?&quot;)) {</b>
+<b class="nc">&nbsp;          msg = &quot;Le point d&#39;exclamation est précédé d&#39;une espace fine insécable.&quot;;</b>
+<b class="nc">&nbsp;          suggestionText = prevTokenToChange + ESPACE_FINE_INSECABLE + &quot;!&quot;;</b>
+<b class="nc">&nbsp;        } else if (token.equals(&quot;;&quot;)) {</b>
+<b class="nc">&nbsp;          msg = &quot;Le point-virgule est précédé d&#39;une espace fine insécable.&quot;;</b>
+<b class="nc">&nbsp;          suggestionText = prevTokenToChange + ESPACE_FINE_INSECABLE + &quot;;&quot;;</b>
+<b class="nc">&nbsp;        } else if (token.equals(&quot;:&quot;)) {</b>
+&nbsp;          // Avoid false positive for URL like http://www.languagetool.org.
+<b class="nc">&nbsp;          Matcher matcherUrl = urlPattern.matcher(prevToken);</b>
+<b class="nc">&nbsp;          if (!matcherUrl.find()) {</b>
+<b class="nc">&nbsp;            msg = &quot;Les deux-points sont précédés d&#39;une espace insécable.&quot;;</b>
+<b class="nc">&nbsp;            suggestionText = prevTokenToChange + NBSP + &quot;:&quot;;</b>
+&nbsp;          }
+<b class="nc">&nbsp;        } else if (token.equals(&quot;»&quot;)) {</b>
+<b class="nc">&nbsp;          if (prevPrevToken.equals(&quot;«&quot;)) {</b>
+<b class="nc">&nbsp;            msg = &quot;Les guillemets sont toujours accompagnés d&#39;une espace insécable.&quot;;</b>
+<b class="nc">&nbsp;            suggestionText = &quot;«&quot; + NBSP + prevTokenToChange + NBSP + &quot;»&quot;;</b>
+<b class="nc">&nbsp;            iFrom = i - 2;</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            msg = &quot;Le guillemet fermant est précédé d&#39;une espace insécable.&quot;;</b>
+<b class="nc">&nbsp;            suggestionText = prevTokenToChange + NBSP + &quot;»&quot;;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if (prevToken.equals(&quot;«&quot;)) {</b>
+<b class="nc">&nbsp;        if (StringTools.isEmpty(token)) {</b>
+<b class="nc">&nbsp;          msg = &quot;Le guillemet ouvrant est suivi d&#39;une espace insécable.&quot;;</b>
+<b class="nc">&nbsp;          suggestionText = &quot;«&quot; + NBSP;</b>
+<b class="nc">&nbsp;          iTo = i - 1;</b>
+<b class="nc">&nbsp;        } else if (!isAllowedWhitespaceChar(tokens, i)) {</b>
+<b class="nc">&nbsp;          String nextToken = &quot;&quot;;</b>
+<b class="nc">&nbsp;          if (i + 1 &lt; tokens.length) {</b>
+<b class="nc">&nbsp;            nextToken = tokens[i + 1].getToken();</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (!nextToken.equals(&quot;»&quot;)) {</b>
+<b class="nc">&nbsp;            msg = &quot;Le guillemet ouvrant est suivi d&#39;une espace insécable.&quot;;</b>
+<b class="nc">&nbsp;            if (!tokens[i].isWhitespace()) {</b>
+<b class="nc">&nbsp;              suggestionText = &quot;«&quot; + NBSP + token;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              suggestionText = &quot;«&quot; + NBSP;</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if (msg != null) {</b>
+<b class="nc">&nbsp;        int fromPos = tokens[iFrom].getStartPos();</b>
+<b class="nc">&nbsp;        int toPos = tokens[iTo].getEndPos();</b>
+<b class="nc">&nbsp;        RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg, &quot;Insérer une espace insécable&quot;);</b>
+<b class="nc">&nbsp;        ruleMatch.setSuggestedReplacement(suggestionText);</b>
+<b class="nc">&nbsp;        ruleMatches.add(ruleMatch);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      prevPrevToken = prevToken;</b>
+<b class="nc">&nbsp;      prevToken = token;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,382 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CatalanSynthesizer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.synthesis.ca</a>
+</div>
+
+<h1>Coverage Summary for Class: CatalanSynthesizer (org.languagetool.synthesis.ca)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CatalanSynthesizer</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+  <span class="absValue">
+    (5/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    28.6%
+  </span>
+  <span class="absValue">
+    (12/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    44.2%
+  </span>
+  <span class="absValue">
+    (34/77)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CatalanSynthesizer$PostagComparator</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    30.6%
+  </span>
+  <span class="absValue">
+    (11/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57.1%
+  </span>
+  <span class="absValue">
+    (12/21)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    77.8%
+  </span>
+  <span class="absValue">
+    (7/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    29.5%
+  </span>
+  <span class="absValue">
+    (23/78)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    46.9%
+  </span>
+  <span class="absValue">
+    (46/98)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2012 Jaume Ortolà i Font
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.synthesis.ca;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.synthesis.BaseSynthesizer;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Comparator;
+&nbsp;import java.util.List;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.regex.PatternSyntaxException;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/**
+&nbsp; * Catalan word form synthesizer.
+&nbsp; * @author Jaume Ortolà i Font
+&nbsp; */
+&nbsp;public class CatalanSynthesizer extends BaseSynthesizer {
+&nbsp;
+<b class="fc">&nbsp;  private static final Map&lt;String, String&gt; verbTags = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="fc">&nbsp;    verbTags.put(&quot;ca-ES&quot;, &quot;[0CXY12]&quot;);</b>
+<b class="fc">&nbsp;    verbTags.put(&quot;ca-ES-valencia&quot;, &quot;[0VXZ13567]&quot;);</b>
+<b class="fc">&nbsp;    verbTags.put(&quot;ca-ES-balear&quot;, &quot;[0BYZ1247]&quot;);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /* Exceptions */
+<b class="fc">&nbsp;  public static final List&lt;String&gt; LemmasToIgnore =  Arrays.asList(&quot;enterar&quot;, &quot;sentar&quot;, &quot;conseguir&quot;, &quot;alcançar&quot;);</b>
+&nbsp;
+&nbsp;  /** Patterns verb **/
+<b class="fc">&nbsp;  private static final Pattern pVerb = Pattern.compile(&quot;V.*[CVBXYZ0123456]&quot;);</b>
+&nbsp;  
+<b class="fc">&nbsp;  private static final Pattern pLemmaSpace = Pattern.compile(&quot;([^ ]+) (.+)&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;  public static final CatalanSynthesizer INSTANCE_CAT = new CatalanSynthesizer(Languages.getLanguageForShortCode(&quot;ca-ES&quot;));</b>
+<b class="fc">&nbsp;  public static final CatalanSynthesizer INSTANCE_VAL = new CatalanSynthesizer(Languages.getLanguageForShortCode(&quot;ca-ES-valencia&quot;));</b>
+<b class="fc">&nbsp;  public static final CatalanSynthesizer INSTANCE_BAL = new CatalanSynthesizer(Languages.getLanguageForShortCode(&quot;ca-ES-balear&quot;));</b>
+&nbsp;  
+&nbsp;//  /** @deprecated use {@link #INSTANCE} */
+&nbsp;//  public CatalanSynthesizer(Language lang) {
+&nbsp;//    this();
+&nbsp;//  }
+&nbsp;
+&nbsp;  private CatalanSynthesizer(Language language) {
+<b class="fc">&nbsp;    super(&quot;/ca/ca.sor&quot;, &quot;/ca/ca-ES-valencia_synth.dict&quot;, &quot;/ca/ca-ES-valencia_tags.txt&quot;, language);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
+<b class="nc">&nbsp;    if (posTag.startsWith(SPELLNUMBER_TAG)) {</b>
+<b class="nc">&nbsp;      return super.synthesize(token, posTag);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String lemma = token.getLemma();</b>
+<b class="nc">&nbsp;    String toAddAfter = &quot;&quot;;</b>
+&nbsp;    // verbs with noun
+<b class="nc">&nbsp;    if (posTag.startsWith(&quot;V&quot;)) {</b>
+<b class="nc">&nbsp;      Matcher mLemmaSpace = pLemmaSpace.matcher(lemma);</b>
+<b class="nc">&nbsp;      if (mLemmaSpace.matches()) {</b>
+<b class="nc">&nbsp;        lemma = mLemmaSpace.group(1);</b>
+<b class="nc">&nbsp;        toAddAfter = mLemmaSpace.group(2);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    initPossibleTags();</b>
+<b class="nc">&nbsp;    Pattern p = Pattern.compile(posTag);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; results = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String tag : possibleTags) {</b>
+<b class="nc">&nbsp;      Matcher m = p.matcher(tag);</b>
+<b class="nc">&nbsp;      if (m.matches()) {</b>
+<b class="nc">&nbsp;        results.addAll(lookup(lemma, tag));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // if not found, try verbs from a regional variant
+<b class="nc">&nbsp;    if (results.isEmpty() &amp;&amp; posTag.startsWith(&quot;V&quot;)) {</b>
+<b class="nc">&nbsp;      return synthesize(token,</b>
+<b class="nc">&nbsp;        posTag.substring(0, posTag.length() - 1).concat(verbTags.get(language.getShortCodeWithCountryAndVariant())),</b>
+&nbsp;        true);
+&nbsp;    }
+<b class="nc">&nbsp;    return addWordsAfter(results, toAddAfter).toArray(new String[0]);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
+<b class="pc">&nbsp;    if (posTag.startsWith(SPELLNUMBER_TAG)) {</b>
+<b class="nc">&nbsp;      return synthesize(token, posTag);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (posTagRegExp) {</b>
+<b class="fc">&nbsp;      String lemma = token.getLemma();</b>
+<b class="pc">&nbsp;      if (LemmasToIgnore.contains(lemma)) {</b>
+<b class="nc">&nbsp;        return new String[0];</b>
+&nbsp;      }
+<b class="fc">&nbsp;      String toAddAfter = &quot;&quot;;</b>
+&nbsp;      // verbs with noun
+<b class="pc">&nbsp;      if (posTag.startsWith(&quot;V&quot;)) {</b>
+<b class="fc">&nbsp;        Matcher mLemmaSpace = pLemmaSpace.matcher(lemma);</b>
+<b class="pc">&nbsp;        if (mLemmaSpace.matches()) {</b>
+<b class="nc">&nbsp;          lemma = mLemmaSpace.group(1);</b>
+<b class="nc">&nbsp;          toAddAfter = mLemmaSpace.group(2);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      initPossibleTags();</b>
+&nbsp;      Pattern p;
+&nbsp;      try {
+<b class="fc">&nbsp;        p = Pattern.compile(posTag);</b>
+&nbsp;      } catch (PatternSyntaxException e) {
+<b class="nc">&nbsp;        System.err.println(&quot;WARNING: Error trying to synthesize POS tag &quot;</b>
+<b class="nc">&nbsp;            + posTag + &quot; from token &quot; + token + &quot;: &quot; + e.getMessage() + &quot; StackTrace: &quot; + e.getStackTrace());</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      List&lt;String&gt; results = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;      for (String tag : possibleTags) {</b>
+<b class="fc">&nbsp;        Matcher m = p.matcher(tag);</b>
+<b class="fc">&nbsp;        if (m.matches()) {</b>
+<b class="fc">&nbsp;          results.addAll(lookup(lemma, tag));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;      // if not found, try verbs from the active regional variant
+<b class="pc">&nbsp;      if (results.isEmpty()) {</b>
+<b class="nc">&nbsp;        Matcher mVerb = pVerb.matcher(posTag);</b>
+<b class="nc">&nbsp;        if (mVerb.matches()) {</b>
+<b class="nc">&nbsp;          p = Pattern.compile(posTag.substring(0, posTag.length() - 1)</b>
+<b class="nc">&nbsp;            .concat(verbTags.get(language.getShortCodeWithCountryAndVariant())));</b>
+<b class="nc">&nbsp;          for (String tag : possibleTags) {</b>
+<b class="nc">&nbsp;            Matcher m = p.matcher(tag);</b>
+<b class="nc">&nbsp;            if (m.matches()) {</b>
+<b class="nc">&nbsp;              results.addAll(lookup(lemma, tag));</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      return addWordsAfter(results, toAddAfter).toArray(new String[0]);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return synthesize(token, posTag);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private List&lt;String&gt; addWordsAfter(List&lt;String&gt; results, String toAddAfter) {
+<b class="pc">&nbsp;    if (!toAddAfter.isEmpty()) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; output = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (String result : results) {</b>
+<b class="nc">&nbsp;        output.add(result + &quot; &quot; + toAddAfter);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return output;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return results;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String getTargetPosTag(List&lt;String&gt; posTags, String targetPosTag) {
+<b class="pc">&nbsp;    if (posTags.isEmpty()) {</b>
+<b class="nc">&nbsp;      return targetPosTag;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    PostagComparator postagComparator = new PostagComparator();</b>
+<b class="fc">&nbsp;    posTags.sort(postagComparator);</b>
+&nbsp;    // return the last one to keep the previous results
+<b class="fc">&nbsp;    return posTags.get(posTags.size() - 1);</b>
+&nbsp;  }
+&nbsp;  
+<b class="fc">&nbsp;  private static class PostagComparator implements Comparator&lt;String&gt; {</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int compare(String arg0, String arg1) {
+&nbsp;      // give priority 3 person &gt; 1 person, Indicative &gt; Subjunctive
+<b class="fc">&nbsp;      int len0 = arg0.length();</b>
+<b class="fc">&nbsp;      int len1 = arg1.length();</b>
+<b class="pc">&nbsp;      if (len0 &gt; 4 &amp;&amp; len1 &gt; 4) {</b>
+<b class="pc">&nbsp;        if (arg0.contains(&quot;3S&quot;) &amp;&amp; arg1.equals(&quot;1S&quot;)) {</b>
+<b class="nc">&nbsp;          return 150;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (arg0.contains(&quot;1S&quot;) &amp;&amp; arg1.contains(&quot;3S&quot;)) {</b>
+<b class="nc">&nbsp;          return -150;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (arg0.equals(&quot;VMIP2P00&quot;) &amp;&amp; arg1.equals(&quot;VMIS3S00&quot;)) {</b>
+&nbsp;          //feu (present/passat)
+<b class="nc">&nbsp;          return 150;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (arg1.equals(&quot;VMIP2P00&quot;) &amp;&amp; arg0.equals(&quot;VMIS3S00&quot;)) {</b>
+<b class="nc">&nbsp;          return -150;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (arg0.charAt(2) == &#39;I&#39; &amp;&amp; arg1.charAt(2) != &#39;I&#39;) {</b>
+<b class="nc">&nbsp;          return 100;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (arg1.charAt(2) == &#39;I&#39; &amp;&amp; arg0.charAt(2) != &#39;I&#39;) {</b>
+<b class="nc">&nbsp;          return -100;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (arg0.charAt(4) == &#39;3&#39; &amp;&amp; arg1.charAt(4) == &#39;1&#39;) {</b>
+<b class="fc">&nbsp;          return 50;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (arg1.charAt(4) == &#39;1&#39; &amp;&amp; arg0.charAt(4) == &#39;3&#39;) {</b>
+<b class="nc">&nbsp;          return -50;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return 0;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;String&gt; getPossibleTags() throws IOException {
+<b class="nc">&nbsp;    initPossibleTags();</b>
+<b class="nc">&nbsp;    return possibleTags;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

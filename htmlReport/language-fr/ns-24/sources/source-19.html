@@ -1,0 +1,792 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AbstractUnitConversionRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractUnitConversionRule (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractUnitConversionRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/140)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/294)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AbstractUnitConversionRule$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">AbstractUnitConversionRule$Message</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/140)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/300)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;
+&nbsp;import javax.measure.UnconvertibleException;
+&nbsp;import javax.measure.Unit;
+&nbsp;import javax.measure.quantity.Length;
+&nbsp;import javax.measure.quantity.Mass;
+&nbsp;import javax.measure.quantity.Temperature;
+&nbsp;import javax.measure.quantity.Volume;
+&nbsp;import java.io.IOException;
+&nbsp;import java.math.RoundingMode;
+&nbsp;import java.net.URL;
+&nbsp;import java.net.URLEncoder;
+&nbsp;import java.text.DecimalFormat;
+&nbsp;import java.text.NumberFormat;
+&nbsp;import java.text.ParseException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.DoubleUnaryOperator;
+&nbsp;import java.util.function.Function;
+&nbsp;import java.util.regex.MatchResult;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static tech.units.indriya.unit.Units.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Base class providing support for detecting, parsing and converting between measurements in different units
+&nbsp; * @since 4.3
+&nbsp; */
+&nbsp;@SuppressWarnings(&quot;unchecked&quot;)
+&nbsp;public abstract class AbstractUnitConversionRule extends Rule {
+&nbsp;  
+<b class="nc">&nbsp;  protected static final Unit&lt;Mass&gt; POUND = KILOGRAM.multiply(0.45359237);</b>
+<b class="nc">&nbsp;  protected static final Unit&lt;Mass&gt; OUNCE = POUND.divide(12);</b>
+&nbsp;
+<b class="nc">&nbsp;  protected static final Unit&lt;Length&gt; FEET = METRE.multiply(0.3048);</b>
+<b class="nc">&nbsp;  protected static final Unit&lt;Length&gt; YARD = FEET.multiply(3);</b>
+<b class="nc">&nbsp;  protected static final Unit&lt;Length&gt; INCH = FEET.divide(12);</b>
+<b class="nc">&nbsp;  protected static final Unit&lt;Length&gt; MILE = FEET.multiply(5280);</b>
+&nbsp;
+<b class="nc">&nbsp;  protected static final Unit&lt;Volume&gt; US_QUART = LITRE.multiply(0.946352946);</b>
+<b class="nc">&nbsp;  protected static final Unit&lt;Volume&gt; US_GALLON = US_QUART.multiply(4);</b>
+<b class="nc">&nbsp;  protected static final Unit&lt;Volume&gt; US_PINT = US_QUART.divide(2);</b>
+<b class="nc">&nbsp;  protected static final Unit&lt;Volume&gt; US_CUP = US_QUART.divide(4);</b>
+<b class="nc">&nbsp;  protected static final Unit&lt;Volume&gt; US_FL_OUNCE = US_QUART.divide(32);</b>
+&nbsp;
+<b class="nc">&nbsp;  protected static final Unit&lt;Volume&gt; IMP_PINT = LITRE.multiply(0.5682612532);</b>
+<b class="nc">&nbsp;  protected static final Unit&lt;Volume&gt; IMP_QUART = IMP_PINT.multiply(2);</b>
+<b class="nc">&nbsp;  protected static final Unit&lt;Volume&gt; IMP_GALLON = IMP_QUART.multiply(4);</b>
+<b class="nc">&nbsp;  protected static final Unit&lt;Volume&gt; IMP_FL_OUNCE = IMP_PINT.divide(20);</b>
+&nbsp;
+<b class="nc">&nbsp;  protected static final Unit&lt;Temperature&gt; FAHRENHEIT = CELSIUS.multiply(5.0/9.0).shift(-32);</b>
+&nbsp;  // limit size of matched number to (possibly) avoid hangups
+&nbsp;  // we need a different regex for including a word boundary (\b), instead of just prepending that
+&nbsp;  // because otherwise negative numbers aren&#39;t correctly recognized
+&nbsp;  protected static final String NUMBER_REGEX = &quot;(-?[0-9]{1,32}[0-9,.]{0,32})&quot;;
+&nbsp;  protected static final String NUMBER_REGEX_WITH_BOUNDARY = &quot;(-?\\b[0-9]{1,32}[0-9,.]{0,32})&quot;;
+&nbsp;
+<b class="nc">&nbsp;  protected final Pattern numberRangePart = Pattern.compile(NUMBER_REGEX_WITH_BOUNDARY + &quot;$&quot;);</b>
+&nbsp;  
+&nbsp;  private static final double DELTA = 1e-2;
+&nbsp;  private static final double ROUNDING_DELTA = 0.05;
+&nbsp;  private static final int MAX_SUGGESTIONS = 5;
+&nbsp;  private static final int WHITESPACE_LIMIT = 5;
+&nbsp;
+<b class="nc">&nbsp;  protected Map&lt;Pattern, Unit&gt; unitPatterns = new LinkedHashMap&lt;&gt;();  // use LinkedHashMap for stable iteration order</b>
+&nbsp;
+&nbsp;  // for patterns that require a custom number parsing function
+<b class="nc">&nbsp;  protected Map&lt;Pattern, Map.Entry&lt;Unit, Function&lt;MatchResult, Double&gt;&gt;&gt; specialPatterns = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  protected Map&lt;Unit, List&lt;String&gt;&gt; unitSymbols = new HashMap&lt;&gt;();</b>
+&nbsp;  // for recognizing conversions made by this rule or the user
+<b class="nc">&nbsp;  protected List&lt;Pattern&gt; convertedPatterns = new ArrayList&lt;&gt;();</b>
+&nbsp;  // units to use for conversions
+<b class="nc">&nbsp;  protected final List&lt;Unit&gt; metricUnits = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;  protected enum Message {</b>
+<b class="nc">&nbsp;    SUGGESTION,</b>
+<b class="nc">&nbsp;    CHECK,</b>
+<b class="nc">&nbsp;    CHECK_UNKNOWN_UNIT,</b>
+<b class="nc">&nbsp;    UNIT_MISMATCH</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private final static List&lt;Pattern&gt; antiPatterns = Arrays.asList(</b>
+<b class="nc">&nbsp;          Pattern.compile(&quot;\\s?\\d+&#39;\\d\\d\\d\\s?&quot;),   // &quot;100&#39;000&quot;, thousands separator in de-CH</b>
+<b class="nc">&nbsp;          Pattern.compile(&quot;\\d+[-‐–]\\d+&quot;),   // &quot;3-5 pounds&quot;</b>
+<b class="nc">&nbsp;          Pattern.compile(&quot;\\d+/\\d+&quot;),   // &quot;1/4 mile&quot;</b>
+<b class="nc">&nbsp;          Pattern.compile(&quot;\\d+:\\d+&quot;),   // &quot;A 2:1 cup&quot;</b>
+<b class="nc">&nbsp;          Pattern.compile(&quot;Pfund Sterling&quot;),   // &quot;1.800 Pfund Sterling&quot; (German)</b>
+<b class="nc">&nbsp;          Pattern.compile(&quot;\\d+⁄\\d+&quot;)    // &quot;1⁄4 cup&quot; (it&#39;s not the standard slash)</b>
+&nbsp;  );
+&nbsp;
+&nbsp;  private URL buildURLForExplanation(String original) {
+&nbsp;    try {
+<b class="nc">&nbsp;      String query = URLEncoder.encode(&quot;convert &quot; + original + &quot; to metric&quot;, &quot;utf-8&quot;);</b>
+<b class="nc">&nbsp;      return new URL(&quot;http://www.wolframalpha.com/input/?i=&quot; + query);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Override in subclasses
+&nbsp;   * @return locale-specific number format
+&nbsp;   */
+&nbsp;  protected NumberFormat getNumberFormat() {
+<b class="nc">&nbsp;    DecimalFormat df = new DecimalFormat();</b>
+<b class="nc">&nbsp;    df.setMaximumFractionDigits(2);</b>
+<b class="nc">&nbsp;    df.setRoundingMode(RoundingMode.HALF_UP);</b>
+<b class="nc">&nbsp;    return df;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Override in subclasses
+&nbsp;   */
+&nbsp;  protected String getMessage(Message message) {
+<b class="nc">&nbsp;    switch(message) {</b>
+&nbsp;      case CHECK:
+<b class="nc">&nbsp;        return &quot;This unit conversion doesn&#39;t seem right. Do you want to correct it automatically?&quot;;</b>
+&nbsp;      case SUGGESTION:
+<b class="nc">&nbsp;        return &quot;Writing for an international audience? Consider adding the metric equivalent.&quot;;</b>
+&nbsp;      case CHECK_UNKNOWN_UNIT:
+<b class="nc">&nbsp;        return &quot;This unit conversion doesn&#39;t seem right, unable to recognize the used unit.&quot;;</b>
+&nbsp;      case UNIT_MISMATCH:
+<b class="nc">&nbsp;        return &quot;These units don&#39;t seem to be compatible.&quot;;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Unknown message type: &quot; + message);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Override in subclasses
+&nbsp;   */
+&nbsp;  protected String getShortMessage(Message message) {
+<b class="nc">&nbsp;    switch(message) {</b>
+&nbsp;      case CHECK:
+<b class="nc">&nbsp;        return &quot;Incorrect unit conversion. Correct it?&quot;;</b>
+&nbsp;      case SUGGESTION:
+<b class="nc">&nbsp;        return &quot;Add metric equivalent?&quot;;</b>
+&nbsp;      case CHECK_UNKNOWN_UNIT:
+<b class="nc">&nbsp;        return &quot;Unknown unit used in conversion.&quot;;</b>
+&nbsp;      case UNIT_MISMATCH:
+<b class="nc">&nbsp;        return &quot;Units incompatible.&quot;;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Unknown message type: &quot; + message);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Format suggestion.
+&nbsp;   * @param original matched in the text
+&nbsp;   * @param converted computed by this rule
+&nbsp;   */
+&nbsp;  protected String getSuggestion(String original, String converted) {
+<b class="nc">&nbsp;    return original + &quot; (&quot; + converted + &quot;)&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Override in subclasses.
+&nbsp;   * @return formatting of rounded numbers according to locale
+&nbsp;   */
+&nbsp;  protected String formatRounded(String s) {
+<b class="nc">&nbsp;    return &quot;ca. &quot; + s;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Associate a notation with a given unit.
+&nbsp;   * @param pattern Regex for recognizing the unit. Word boundaries and numbers are added to this pattern by addUnit itself.
+&nbsp;   * @param base Unit to associate with the pattern
+&nbsp;   * @param symbol Suffix used for suggestion.
+&nbsp;   * @param factor Convenience parameter for prefixes for metric units, unit is multiplied with this. Defaults to 1 if not used.
+&nbsp;   * @param metric Register this notation for suggestion.
+&nbsp;   */
+&nbsp;  protected void addUnit(String pattern, Unit base, String symbol, double factor, boolean metric) {
+<b class="nc">&nbsp;    Unit unit = base.multiply(factor);</b>
+<b class="nc">&nbsp;    unitPatterns.put(Pattern.compile(NUMBER_REGEX_WITH_BOUNDARY + &quot;[\\s\u00A0]{0,&quot; + WHITESPACE_LIMIT + &quot;}&quot; + pattern + &quot;\\b&quot;), unit);</b>
+<b class="nc">&nbsp;    unitSymbols.putIfAbsent(unit, new ArrayList&lt;&gt;());</b>
+<b class="nc">&nbsp;    unitSymbols.get(unit).add(symbol);</b>
+<b class="nc">&nbsp;    if (metric &amp;&amp; !metricUnits.contains(unit)) {</b>
+<b class="nc">&nbsp;      metricUnits.add(unit);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  protected AbstractUnitConversionRule(ResourceBundle messages) {</b>
+<b class="nc">&nbsp;    setCategory(Categories.STYLE.getCategory(messages));</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Style);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;kg&quot;, KILOGRAM, &quot;kg&quot;, 1e0, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;g&quot;, KILOGRAM, &quot;g&quot;, 1e-3, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;t&quot;, KILOGRAM, &quot;t&quot;, 1e3, true);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;lb&quot;, POUND, &quot;lb&quot;, 1, false);</b>
+&nbsp;    //addUnit(&quot;oz&quot;, OUNCE, &quot;oz&quot;, 1, false); -- probably not useful, see https://github.com/languagetooler-gmbh/languagetool-premium/issues/4560
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;mi&quot;, MILE, &quot;mi&quot;, 1, false);</b>
+<b class="nc">&nbsp;    addUnit(&quot;yd&quot;, YARD, &quot;yd&quot;, 1, false);</b>
+&nbsp;    // negative lookahead here to avoid matching &quot;&#39;s&quot; and so on
+<b class="nc">&nbsp;    addUnit(&quot;(?:ft|′|&#39;)(?!(\\w|\\d))&quot;, FEET, &quot;ft&quot;, 1, false);</b>
+&nbsp;    // removed &#39;in&#39;, &quot; because of many false positives
+<b class="nc">&nbsp;    addUnit(&quot;(?:inch|″)(?!(\\w|\\d))&quot;, INCH, &quot;inch&quot;, 1, false);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;(?:km/h|kmh)&quot;, KILOMETRE_PER_HOUR, &quot;km/h&quot;, 1, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;(?:mph)&quot;, MILE.divide(HOUR), &quot;mph&quot;, 1, false);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;km&quot;, METRE, &quot;km&quot;, 1e3, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;m&quot;, METRE, &quot;m&quot;,   1e0, true);</b>
+&nbsp;    //addUnit(&quot;dm&quot;, METRE, &quot;dm&quot;, 1e-1,  /*true*/); // Metric, but not commonly used
+<b class="nc">&nbsp;    addUnit(&quot;cm&quot;, METRE, &quot;cm&quot;, 1e-2, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;mm&quot;, METRE, &quot;mm&quot;, 1e-3, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;µm&quot;, METRE, &quot;µm&quot;, 1e-6, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;nm&quot;, METRE, &quot;nm&quot;, 1e-9, true);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;m(?:\\^2|2|²)&quot;, SQUARE_METRE, &quot;m²&quot;, 1, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;ha&quot;, SQUARE_METRE, &quot;ha&quot;, 1e4, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;a&quot;, SQUARE_METRE, &quot;a&quot;, 1e2, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;km(?:\\^2|2|²)&quot;, SQUARE_METRE, &quot;km²&quot;, 1e6, true);</b>
+&nbsp;    //addUnit(&quot;dm(?:\\^2|2|²)&quot;, SQUARE_METRE, &quot;dm²&quot;, 1e-2,  false/*true*/); // Metric, but not commonly used
+<b class="nc">&nbsp;    addUnit(&quot;cm(?:\\^2|2|²)&quot;, SQUARE_METRE, &quot;cm²&quot;, 1e-4, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;mm(?:\\^2|2|²)&quot;, SQUARE_METRE, &quot;mm²&quot;, 1e-6, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;µm(?:\\^2|2|²)&quot;, SQUARE_METRE, &quot;µm²&quot;, 1e-12, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;nm(?:\\^2|2|²)&quot;, SQUARE_METRE, &quot;nm²&quot;, 1e-18, true);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;(?:sq|square) (?:in(?:ch)?|inches)&quot;, INCH.multiply(INCH), &quot;sq in&quot;, 1, false);</b>
+<b class="nc">&nbsp;    addUnit(&quot;(?:inches|in|inch) (?:\\^2|2|²)&quot;, INCH.multiply(INCH), &quot;in²&quot;, 1, false);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;(?:sq|square) (?:ft|feet|foot)&quot;, FEET.multiply(FEET), &quot;sq ft&quot;, 1, false);</b>
+<b class="nc">&nbsp;    addUnit(&quot;sf&quot;, FEET.multiply(FEET), &quot;sf&quot;, 1, false);</b>
+<b class="nc">&nbsp;    addUnit(&quot;ft(?:\\^2|2|²)&quot;, FEET.multiply(FEET), &quot;ft²&quot;, 1, false);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;(?:sq|square) (?:yds?|yards?)&quot;, YARD.multiply(YARD), &quot;sq yd&quot;, 1, false);</b>
+<b class="nc">&nbsp;    addUnit(&quot;(?:yards?|yds?)(?:\\^2|2|²)&quot;, YARD.multiply(YARD), &quot;yd²&quot;, 1, false);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;m(?:\\^3|3|³)&quot;, CUBIC_METRE, &quot;m³&quot;, 1, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;km(?:\\^3|3|³)&quot;, CUBIC_METRE, &quot;km³&quot;, 1e9, true);</b>
+&nbsp;    //addUnit(&quot;dm(?:\\^3|3|³)&quot;, CUBIC_METRE, &quot;dm³&quot;, 1e-3,  false/*true*/); // Metric, but not commonly used
+<b class="nc">&nbsp;    addUnit(&quot;cm(?:\\^3|3|³)&quot;, CUBIC_METRE, &quot;cm³&quot;, 1e-6, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;mm(?:\\^3|3|³)&quot;, CUBIC_METRE, &quot;mm³&quot;, 1e-9, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;µm(?:\\^3|3|³)&quot;, CUBIC_METRE, &quot;µm³&quot;, 1e-18, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;nm(?:\\^3|3|³)&quot;, CUBIC_METRE, &quot;nm³&quot;, 1e-27, true);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;(?:cubic|cu) (?:feet|ft|foot)&quot;, FEET.multiply(FEET).multiply(FEET), &quot;cubic feet&quot;, 1, false);</b>
+<b class="nc">&nbsp;    addUnit(&quot;(?:feet|ft|foot)(?:\\^3|3|³)&quot;, FEET.multiply(FEET).multiply(FEET), &quot;ft³&quot;, 1, false);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;(?:cubic|cu) (?:inch|in|inches)&quot;, INCH.multiply(INCH).multiply(INCH), &quot;cubic inch&quot;, 1, false);</b>
+<b class="nc">&nbsp;    addUnit(&quot;(?:inch|in)(?:\\^3|3|³)&quot;, INCH.multiply(INCH).multiply(INCH), &quot;inch³&quot;, 1, false);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;(?:cubic|cu) (?:yards?|yds?)&quot;, YARD.multiply(YARD).multiply(YARD), &quot;cubic yard&quot;, 1, false);</b>
+<b class="nc">&nbsp;    addUnit(&quot;(?:yard|yd)(?:\\^3|3|³)&quot;, YARD.multiply(YARD).multiply(YARD), &quot;yard³&quot;, 1, false);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;l&quot;, LITRE, &quot;l&quot;, 1, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;ml&quot;, LITRE, &quot;ml&quot;, 1e-3, true);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;°F&quot;, FAHRENHEIT, &quot;°F&quot;, 1, false);</b>
+<b class="nc">&nbsp;    addUnit(&quot;°C&quot;, CELSIUS, &quot;°C&quot;, 1, true);</b>
+&nbsp;
+<b class="nc">&nbsp;    convertedPatterns.add(Pattern.compile(&quot;\\s*\\((?:ca. )?&quot; + NUMBER_REGEX + &quot;\\s*([^)]+)\\s*\\)&quot;));</b>
+&nbsp;
+&nbsp;    // recognizes 5&#39;6&quot; = 5 feet + 6 inches = 5.5 feet
+<b class="nc">&nbsp;    Function&lt;MatchResult, Double&gt; parseFeetAndInch = match -&gt; {</b>
+&nbsp;      double feet, inch;
+&nbsp;      try {
+<b class="nc">&nbsp;        feet = getNumberFormat().parse(match.group(1)).doubleValue();</b>
+&nbsp;      } catch (ParseException e) {
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+&nbsp;      try {
+<b class="nc">&nbsp;        inch = getNumberFormat().parse(match.group(2)).doubleValue();</b>
+&nbsp;      } catch (ParseException e) {
+<b class="nc">&nbsp;        inch = 0.0;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return feet + inch / 12.0;</b>
+&nbsp;    };
+<b class="nc">&nbsp;    Map.Entry&lt;Unit, Function&lt;MatchResult, Double&gt;&gt; feetAndInchEntry = new AbstractMap.SimpleImmutableEntry&lt;&gt;( FEET, parseFeetAndInch );</b>
+<b class="nc">&nbsp;    specialPatterns.put(Pattern.compile(&quot;(?:(?&lt;=[^º°\\d]))\\s(\\d+)(?:ft|′|&#39;)\\s*(\\d+)\\s*(?:in|\&quot;|″)?&quot;), feetAndInchEntry);</b>
+<b class="nc">&nbsp;    specialPatterns.put(Pattern.compile(&quot;(?:(?&lt;=[^º°\\d\\s]))(\\d+)(?:ft|′|&#39;)\\s*(\\d+)\\s*(?:in|\&quot;|″)?&quot;), feetAndInchEntry);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param value number to convert
+&nbsp;   * @param unit unit used in text
+&nbsp;   * @return suggestions of the given number converted into metric units, sorted by naturalness
+&nbsp;   *         or null if conversion is not necessary / was not possible
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  protected List&lt;Map.Entry&lt;Unit, Double&gt;&gt; getMetricEquivalent(double value, @NotNull Unit unit) {
+<b class="nc">&nbsp;    LinkedList&lt;Map.Entry&lt;Unit, Double&gt;&gt; conversions = new LinkedList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Unit metric : metricUnits) {</b>
+<b class="nc">&nbsp;      if (unit.equals(metric)) { // don&#39;t convert to itself</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (unit.isCompatible(metric)) {</b>
+<b class="nc">&nbsp;        Double converted = unit.getConverterTo(metric).convert(value);</b>
+<b class="nc">&nbsp;        conversions.add(new AbstractMap.SimpleImmutableEntry&lt;&gt;(metric, converted));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    sortByNaturalness(conversions);</b>
+<b class="nc">&nbsp;    if (conversions.isEmpty()) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return conversions;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  protected List&lt;String&gt; formatMeasurement(double value, @NotNull Unit unit) {
+<b class="nc">&nbsp;    List&lt;Map.Entry&lt;Unit, Double&gt;&gt; equivalents = getMetricEquivalent(value, unit);</b>
+<b class="nc">&nbsp;    if (equivalents == null) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; formatted = getFormattedConversions(equivalents);</b>
+<b class="nc">&nbsp;    if (formatted.isEmpty()) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return formatted;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Adds different formatted variants of the given conversions up to MAX_SUGGESTIONS.
+&nbsp;   * @param conversions as computed by getMetricEquivalent
+&nbsp;   * @return formatted numbers, with various units and unit symbols, rounded to integers or according to getNumberFormat
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  private List&lt;String&gt; getFormattedConversions(List&lt;Map.Entry&lt;Unit, Double&gt;&gt; conversions) {
+<b class="nc">&nbsp;    List&lt;String&gt; formatted = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;Unit, Double&gt; equivalent : conversions) {</b>
+<b class="nc">&nbsp;      Unit metric = equivalent.getKey();</b>
+<b class="nc">&nbsp;      double converted = equivalent.getValue();</b>
+<b class="nc">&nbsp;      long rounded = Math.round(converted);</b>
+<b class="nc">&nbsp;      for (String symbol : unitSymbols.getOrDefault(metric, new ArrayList&lt;&gt;())) {</b>
+<b class="nc">&nbsp;        if (formatted.size() &gt; MAX_SUGGESTIONS) {</b>
+&nbsp;          break;
+&nbsp;        }
+<b class="nc">&nbsp;        if (Math.abs(converted - rounded) / Math.abs(converted) &lt; ROUNDING_DELTA &amp;&amp; rounded != 0) {</b>
+<b class="nc">&nbsp;          String formattedStr = formatRounded(getNumberFormat().format(rounded) + &quot; &quot; + symbol);</b>
+<b class="nc">&nbsp;          if (!formatted.contains(formattedStr)) {</b>
+<b class="nc">&nbsp;            formatted.add(formattedStr);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        String formattedNumber = getNumberFormat().format(converted);</b>
+<b class="nc">&nbsp;        String formattedStr = formattedNumber + &quot; &quot; + symbol;</b>
+&nbsp;        // TODO: be cleverer than !equals(&quot;0&quot;), can prevent valid conversions
+<b class="nc">&nbsp;        if (!formatted.contains(formattedStr) &amp;&amp; !formattedNumber.equals(&quot;0&quot;)) {</b>
+<b class="nc">&nbsp;          formatted.add(formattedStr);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return formatted;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void sortByNaturalness(List&lt;Map.Entry&lt;Unit, Double&gt;&gt; conversions) {
+<b class="nc">&nbsp;    conversions.sort((a, b) -&gt; { // sort according to &quot;naturalness&quot; of this unit, i.e. numbers not being too small/large</b>
+<b class="nc">&nbsp;      DoubleUnaryOperator naturalness = number -&gt; { // smaller score -&gt; better</b>
+<b class="nc">&nbsp;        double abs = Math.abs(number);</b>
+<b class="nc">&nbsp;        if (abs &lt; 1.0) {</b>
+<b class="nc">&nbsp;          return 1.0 / (abs * abs * 2);</b>
+<b class="nc">&nbsp;        } else if (abs &lt; 100) {</b>
+<b class="nc">&nbsp;          return abs - 50;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          return abs * abs;</b>
+&nbsp;        }
+&nbsp;      };
+<b class="nc">&nbsp;      double scoreA = naturalness.applyAsDouble(a.getValue());</b>
+<b class="nc">&nbsp;      double scoreB = naturalness.applyAsDouble(b.getValue());</b>
+<b class="nc">&nbsp;      return Double.compare(scoreA, scoreB);</b>
+&nbsp;    });
+&nbsp;  }
+&nbsp;
+&nbsp;  private void matchUnits(AnalyzedSentence sentence, List&lt;RuleMatch&gt; matches, List&lt;Map.Entry&lt;Integer, Integer&gt;&gt; ignoreRanges, boolean isMetric) {
+<b class="nc">&nbsp;    for (Pattern unitPattern : unitPatterns.keySet()) { // find specific unit through lookup of pattern</b>
+<b class="nc">&nbsp;      if (metricUnits.contains(unitPatterns.get(unitPattern)) != isMetric) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      Matcher unitMatcher = unitPattern.matcher(sentence.getText());</b>
+<b class="nc">&nbsp;      while (unitMatcher.find()) {</b>
+<b class="nc">&nbsp;        boolean ignore = false;</b>
+<b class="nc">&nbsp;        for (Map.Entry&lt;Integer, Integer&gt; range : ignoreRanges) {</b>
+<b class="nc">&nbsp;          if (unitMatcher.start() &gt;= range.getKey() &amp;&amp; unitMatcher.end() &lt;= range.getValue()) {</b>
+<b class="nc">&nbsp;            ignore = true;</b>
+&nbsp;            break;
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        if (!ignore) {</b>
+<b class="nc">&nbsp;          tryConversion(sentence, matches, unitPattern, null, null, unitMatcher, ignoreRanges);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  protected boolean detectNumberRange(AnalyzedSentence sentence, Matcher matcher) {
+<b class="nc">&nbsp;    boolean hyphenInNumber = matcher.group(1).startsWith(&quot;-&quot;);</b>
+<b class="nc">&nbsp;    if (!hyphenInNumber) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String textBefore = sentence.getText().substring(0, matcher.start());</b>
+<b class="nc">&nbsp;    return numberRangePart.matcher(textBefore).find();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void tryConversion(AnalyzedSentence sentence, List&lt;RuleMatch&gt; matches, Pattern unitPattern, Double customValue,
+&nbsp;                             Unit customUnit, Matcher unitMatcher, List&lt;Map.Entry&lt;Integer, Integer&gt;&gt; ignoreRanges) {
+<b class="nc">&nbsp;    Map.Entry&lt;Integer, Integer&gt; range = new AbstractMap.SimpleImmutableEntry&lt;&gt;(</b>
+<b class="nc">&nbsp;      unitMatcher.start(), unitMatcher.end());</b>
+<b class="nc">&nbsp;    ignoreRanges.add(range);</b>
+&nbsp;    // search for an existing conversion, e.g. &quot;5 miles (8km)&quot;
+<b class="nc">&nbsp;    String convertedInText = null;</b>
+<b class="nc">&nbsp;    int convertedOffset = unitMatcher.end();</b>
+<b class="nc">&nbsp;    Matcher convertedMatcher = null;</b>
+<b class="nc">&nbsp;    for (Pattern convertedPattern : convertedPatterns) {</b>
+<b class="nc">&nbsp;      convertedMatcher = convertedPattern.matcher(sentence.getText().substring(convertedOffset));</b>
+<b class="nc">&nbsp;      if (convertedMatcher.find() &amp;&amp; convertedMatcher.start() == 0) {</b>
+<b class="nc">&nbsp;        convertedInText = convertedMatcher.group(0);</b>
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // customValue/unit are used with patterns in specialPatterns, where unit and value are already extracted
+<b class="nc">&nbsp;    Unit unit = unitPatterns.getOrDefault(unitPattern, customUnit);</b>
+&nbsp;    double value;
+<b class="nc">&nbsp;    if (customValue == null) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        String valueAsString = unitMatcher.group(1);</b>
+&nbsp;        // remove hyphen at start if it belongs to a range (e.g 1-5 miles)
+&nbsp;        // see https://github.com/languagetool-org/languagetool/issues/2170
+&nbsp;        // TODO convert whole range, not only end
+<b class="nc">&nbsp;        if (detectNumberRange(sentence, unitMatcher)) {</b>
+<b class="nc">&nbsp;          valueAsString = valueAsString.substring(1);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        value = getNumberFormat().parse(valueAsString).doubleValue();</b>
+&nbsp;      } catch (ParseException e) {
+&nbsp;        return;
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      value = customValue;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; converted = formatMeasurement(value, unit);</b>
+<b class="nc">&nbsp;    if (converted == null &amp;&amp; convertedInText == null) {</b>
+&nbsp;      // no conversion necessary, e.g. already metric
+<b class="nc">&nbsp;    } else if (convertedInText == null) { // no conversion found -&gt; suggest one</b>
+<b class="nc">&nbsp;      RuleMatch match = new RuleMatch(this, sentence, unitMatcher.start(), unitMatcher.end(),</b>
+<b class="nc">&nbsp;        getMessage(Message.SUGGESTION), getShortMessage(Message.SUGGESTION));</b>
+<b class="nc">&nbsp;      List&lt;String&gt; suggestions = converted.stream()</b>
+<b class="nc">&nbsp;        .map(formatted -&gt; getSuggestion(unitMatcher.group(0), formatted))</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+<b class="nc">&nbsp;      match.setSuggestedReplacements(suggestions);</b>
+<b class="nc">&nbsp;      match.setUrl(buildURLForExplanation(unitMatcher.group(0)));</b>
+<b class="nc">&nbsp;      matches.add(match);</b>
+&nbsp;    } else { // check given conversion for accuracy
+<b class="nc">&nbsp;      Map.Entry&lt;Integer, Integer&gt; convertedRange = new AbstractMap.SimpleImmutableEntry&lt;&gt;(</b>
+<b class="nc">&nbsp;        convertedMatcher.start(0) + convertedOffset, convertedMatcher.end(0) + convertedOffset);</b>
+<b class="nc">&nbsp;      ignoreRanges.add(convertedRange);</b>
+&nbsp;
+&nbsp;      // already using one of our conversions?
+<b class="nc">&nbsp;      String finalConvertedInText = convertedInText.trim();</b>
+<b class="nc">&nbsp;      String convertedTrimmed = finalConvertedInText.substring(1, finalConvertedInText.length()-1);</b>
+<b class="nc">&nbsp;      if (converted != null &amp;&amp; converted.stream().anyMatch(s -&gt; s.equals(convertedTrimmed))) {</b>
+&nbsp;        return;
+&nbsp;      }
+<b class="nc">&nbsp;      Optional&lt;Pattern&gt; convertedUnitPattern = unitPatterns.keySet().stream()</b>
+<b class="nc">&nbsp;        .filter(pattern -&gt; pattern.matcher(finalConvertedInText).find())</b>
+<b class="nc">&nbsp;        .findFirst();</b>
+<b class="nc">&nbsp;      if (convertedUnitPattern.isPresent()) { // known unit used for conversion</b>
+<b class="nc">&nbsp;        Unit convertedUnit = unitPatterns.get(convertedUnitPattern.get());</b>
+&nbsp;        // If the unit before and after conversion is the same, e.g. &quot;22.3 cm (20.4 cm)&quot;, assume users either:
+&nbsp;        // 1. know what they&#39;re doing; or
+&nbsp;        // 2. there&#39;s a more complex expression at play here, which we can&#39;t parse
+<b class="nc">&nbsp;        if (unit.equals(convertedUnit)) {</b>
+&nbsp;          return;
+&nbsp;        }
+&nbsp;        Double convertedValueInText;
+&nbsp;        try {
+<b class="nc">&nbsp;          convertedValueInText = getNumberFormat().parse(convertedMatcher.group(1)).doubleValue();</b>
+<b class="nc">&nbsp;          if (convertedMatcher.group().trim().matches(&quot;\\(\\d+ (feet|ft) \\d+ inch\\)&quot;)) {</b>
+&nbsp;            // e.g. &quot;(2 ft 6 inch)&quot; would be interpreted as just &quot;2 ft&quot;, given a wrong suggestion
+&nbsp;            return;
+&nbsp;          }
+&nbsp;        } catch (ParseException e) {
+&nbsp;          return;
+&nbsp;        }
+<b class="nc">&nbsp;        if (converted == null) { // already metric, check conversion in convertedUnit / convertedValueInText (order may be reversed)</b>
+<b class="nc">&nbsp;          List&lt;String&gt; reverseConverted = null;</b>
+&nbsp;          try {
+<b class="nc">&nbsp;            double unitConverted = unit.getConverterTo(convertedUnit).convert(value);</b>
+<b class="nc">&nbsp;            double diff = Math.abs(unitConverted - convertedValueInText);</b>
+<b class="nc">&nbsp;            if (diff &gt; DELTA) {</b>
+<b class="nc">&nbsp;              RuleMatch match = new RuleMatch(this, sentence,</b>
+<b class="nc">&nbsp;                convertedMatcher.start(1) + convertedOffset, convertedMatcher.end(1) + convertedOffset,</b>
+<b class="nc">&nbsp;                getMessage(Message.CHECK), getShortMessage(Message.CHECK));</b>
+<b class="nc">&nbsp;              match.setUrl(buildURLForExplanation(convertedTrimmed));</b>
+<b class="nc">&nbsp;              List&lt;Map.Entry&lt;Unit, Double&gt;&gt; numbers = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;              numbers.add(new AbstractMap.SimpleImmutableEntry&lt;&gt;(convertedUnit, unitConverted));</b>
+<b class="nc">&nbsp;              reverseConverted = getFormattedConversions(numbers);</b>
+<b class="nc">&nbsp;              if (reverseConverted.stream().anyMatch(s -&gt; s.equals(convertedTrimmed))) {</b>
+&nbsp;                return;
+&nbsp;              }
+<b class="nc">&nbsp;              match.setSuggestedReplacements(reverseConverted);</b>
+<b class="nc">&nbsp;              matches.add(match);</b>
+&nbsp;            }
+&nbsp;          } catch (UnconvertibleException e) {
+<b class="nc">&nbsp;            RuleMatch match = new RuleMatch(this, sentence, unitMatcher.start(), convertedMatcher.end() + convertedOffset,</b>
+<b class="nc">&nbsp;              getMessage(Message.UNIT_MISMATCH), getShortMessage(Message.UNIT_MISMATCH));</b>
+<b class="nc">&nbsp;            if (reverseConverted != null) {</b>
+<b class="nc">&nbsp;              match.setSuggestedReplacements(reverseConverted);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            match.setUrl(buildURLForExplanation(convertedTrimmed));</b>
+<b class="nc">&nbsp;            matches.add(match);</b>
+&nbsp;          }
+&nbsp;        } else { // found conversion to metric, check for accuracy
+<b class="nc">&nbsp;          List&lt;Map.Entry&lt;Unit, Double&gt;&gt; metricEquivalents = getMetricEquivalent(value, unit);</b>
+<b class="nc">&nbsp;          if (metricEquivalents == null || metricEquivalents.isEmpty()) {</b>
+&nbsp;            return;
+&nbsp;          }
+<b class="nc">&nbsp;          Map.Entry&lt;Unit, Double&gt; metricEquivalent = metricEquivalents.get(0);</b>
+<b class="nc">&nbsp;          Unit metricUnit = metricEquivalent.getKey();</b>
+<b class="nc">&nbsp;          Double convertedValueComputed = metricEquivalent.getValue();</b>
+<b class="nc">&nbsp;          String original = unitMatcher.group(0);</b>
+<b class="nc">&nbsp;          List&lt;String&gt; corrected = converted.stream()</b>
+<b class="nc">&nbsp;            .map(suggestion -&gt; getSuggestion(original, suggestion)).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;          if (!(convertedUnit.equals(metricUnit) &amp;&amp; Math.abs(convertedValueInText - convertedValueComputed) &lt; DELTA)) {</b>
+<b class="nc">&nbsp;            RuleMatch match = new RuleMatch(this, sentence,</b>
+<b class="nc">&nbsp;              unitMatcher.start(), convertedMatcher.end(0) + convertedOffset,</b>
+<b class="nc">&nbsp;              getMessage(Message.CHECK), getShortMessage(Message.CHECK));</b>
+<b class="nc">&nbsp;            match.setSuggestedReplacements(corrected);</b>
+<b class="nc">&nbsp;            match.setUrl(buildURLForExplanation(unitMatcher.group(0)));</b>
+<b class="nc">&nbsp;            matches.add(match);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (converted != null) { // unknown unit used for conversion</b>
+<b class="nc">&nbsp;        RuleMatch match = new RuleMatch(this, sentence,</b>
+<b class="nc">&nbsp;          convertedMatcher.start(1) + convertedOffset, convertedMatcher.end(2) + convertedOffset,</b>
+<b class="nc">&nbsp;          getMessage(Message.CHECK_UNKNOWN_UNIT), getShortMessage(Message.CHECK_UNKNOWN_UNIT));</b>
+<b class="nc">&nbsp;        match.setSuggestedReplacements(converted);</b>
+<b class="nc">&nbsp;        matches.add(match);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; matches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;Map.Entry&lt;Integer, Integer&gt;&gt; ignoreRanges = new LinkedList&lt;&gt;();</b>
+&nbsp;
+&nbsp;    // handle special patterns where simple number parsing is not enough, e.g. 5&#39;6&quot;
+<b class="nc">&nbsp;    for (Pattern specialPattern : specialPatterns.keySet()) {</b>
+<b class="nc">&nbsp;      Matcher matcher = specialPattern.matcher(sentence.getText());</b>
+<b class="nc">&nbsp;      while (matcher.find()) {</b>
+<b class="nc">&nbsp;        MatchResult result = matcher.toMatchResult();</b>
+<b class="nc">&nbsp;        Double value = specialPatterns.get(specialPattern).getValue().apply(result);</b>
+<b class="nc">&nbsp;        Unit unit = specialPatterns.get(specialPattern).getKey();</b>
+<b class="nc">&nbsp;        if (value == null) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        boolean ignore = false;</b>
+<b class="nc">&nbsp;        for (Map.Entry&lt;Integer, Integer&gt; range : ignoreRanges) {</b>
+<b class="nc">&nbsp;          if (matcher.start() &gt;= range.getKey() &amp;&amp; matcher.end() &lt;= range.getValue()) {</b>
+<b class="nc">&nbsp;            ignore = true;</b>
+&nbsp;            break;
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        if (!ignore) {</b>
+<b class="nc">&nbsp;          tryConversion(sentence, matches, specialPattern, value, unit, matcher, ignoreRanges);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // check for numbers with a given set of units (e.g. imperial)
+&nbsp;
+&nbsp;    // two runs: first metric units, so that ignore ranges are set up properly
+&nbsp;    // then match other units
+&nbsp;    // should fix sentences like 10 km (5 miles), where 5 miles matches first and matching 10 km first would have prevented that
+&nbsp;    // there should be no influence on other results
+<b class="nc">&nbsp;    matchUnits(sentence, matches, ignoreRanges, true);</b>
+<b class="nc">&nbsp;    matchUnits(sentence, matches, ignoreRanges, false);</b>
+<b class="nc">&nbsp;    Map&lt;Integer, RuleMatch&gt; matchesByStart = new HashMap&lt;&gt;();</b>
+&nbsp;    // deduplicate matches with equal start, longer match should win, e.g. miles per hour over just miles
+<b class="nc">&nbsp;    for (RuleMatch match : matches) {</b>
+<b class="nc">&nbsp;      matchesByStart.compute(match.getFromPos(), (pos, other) -&gt;</b>
+<b class="nc">&nbsp;        other == null ? match :</b>
+<b class="nc">&nbsp;        match.getToPos() &gt; other.getToPos() ? match : other);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (matches.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      removeAntiPatternMatches(sentence, matchesByStart);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return matchesByStart.values().toArray(new RuleMatch[0]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void removeAntiPatternMatches(AnalyzedSentence sentence, Map&lt;Integer, RuleMatch&gt; matchesByStart) {
+<b class="nc">&nbsp;    for (Pattern antiPattern : antiPatterns) {</b>
+<b class="nc">&nbsp;      String text = sentence.getText();</b>
+<b class="nc">&nbsp;      Matcher matcher = antiPattern.matcher(text);</b>
+<b class="nc">&nbsp;      int pos = 0;</b>
+<b class="nc">&nbsp;      while (pos &lt; text.length() &amp;&amp; matcher.find(pos)) {</b>
+<b class="nc">&nbsp;        matchesByStart.entrySet().removeIf(entry -&gt;</b>
+<b class="nc">&nbsp;                matcher.start() &lt;= entry.getValue().getFromPos() &amp;&amp; matcher.end() &gt;= entry.getValue().getFromPos() ||</b>
+<b class="nc">&nbsp;                matcher.start() &lt;= entry.getValue().getToPos() &amp;&amp; matcher.end() &gt;= entry.getValue().getToPos()</b>
+&nbsp;        );
+<b class="nc">&nbsp;        pos = matcher.end() + 1;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

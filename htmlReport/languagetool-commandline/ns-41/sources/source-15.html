@@ -1,0 +1,217 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RussianWordRepeatRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ru</a>
+</div>
+
+<h1>Coverage Summary for Class: RussianWordRepeatRule (org.languagetool.rules.ru)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RussianWordRepeatRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ru;
+&nbsp;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;
+&nbsp;import org.languagetool.rules.AdvancedWordRepeatRule;
+&nbsp;
+&nbsp;/**
+&nbsp; * @author Yakov Reztsov, based on code by Marcin Miłkowski
+&nbsp; */
+&nbsp;public class RussianWordRepeatRule extends AdvancedWordRepeatRule {
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Excluded dictionary words.
+&nbsp;   */
+&nbsp;  private static final Set&lt;String&gt; EXC_WORDS;
+&nbsp;  static {
+<b class="nc">&nbsp;    final Set&lt;String&gt; tempSet = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;не&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;ни&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;а&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;их&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;на&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;в&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;по&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;минута&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;друг&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;час&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;секунда&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;ПАО&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;ООО&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;табл&quot;);</b>
+<b class="nc">&nbsp;    tempSet.add(&quot;рис&quot;);</b>
+<b class="nc">&nbsp;    EXC_WORDS = Collections.unmodifiableSet(tempSet);</b>
+&nbsp;  }
+&nbsp;  /**
+&nbsp;   * Excluded part of speech classes.
+&nbsp;   */
+<b class="nc">&nbsp;  private static final Pattern EXC_POS = Pattern.compile(&quot;INTERJECTION|PRDC|PREP|CONJ|PARTICLE|ABR|NumC:.*|Num:.*&quot;); </b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Excluded non-words (special symbols, Roman numerals etc.) (remove from exclude PNN:.*)
+&nbsp;   */
+<b class="nc">&nbsp;  private static final Pattern EXC_NONWORDS = Pattern</b>
+<b class="nc">&nbsp;      .compile(&quot;&amp;quot|&amp;gt|&amp;lt|&amp;amp|[0-9].*|&quot;</b>
+&nbsp;          + &quot;M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$&quot;);
+&nbsp;
+&nbsp;  public RussianWordRepeatRule(ResourceBundle messages) {
+<b class="nc">&nbsp;    super(messages);</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;Всё смешалось в &lt;marker&gt;доме доме&lt;/marker&gt; Облонских.&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;Всё смешалось в &lt;marker&gt;доме&lt;/marker&gt; Облонских.&quot;));</b>
+&nbsp;//  setDefaultTempOff();
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final String getId() {
+<b class="nc">&nbsp;    return &quot;RU_WORD_REPEAT&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final String getDescription() {
+<b class="nc">&nbsp;    return &quot;Повтор слов в предложении&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected Set&lt;String&gt; getExcludedWordsPattern() {
+<b class="nc">&nbsp;    return EXC_WORDS;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected Pattern getExcludedNonWordsPattern() {
+<b class="nc">&nbsp;    return EXC_NONWORDS;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected Pattern getExcludedPos() {
+<b class="nc">&nbsp;    return EXC_POS;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final String getMessage() {
+<b class="nc">&nbsp;    return &quot;Повтор слов в предложении&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final String getShortMessage() {
+<b class="nc">&nbsp;    return &quot;Повтор слов в предложении&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

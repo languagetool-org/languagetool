@@ -1,0 +1,831 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UpperCaseNgramRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.en</a>
+</div>
+
+<h1>Coverage Summary for Class: UpperCaseNgramRule (org.languagetool.rules.en)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UpperCaseNgramRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/104)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/465)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.en;
+&nbsp;
+&nbsp;import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.LinguServices;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.ngrams.Probability;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.rules.patterns.PatternTokenBuilder;
+&nbsp;import org.languagetool.rules.spelling.CachingWordListLoader;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Supplier;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
+&nbsp;
+&nbsp;/**
+&nbsp; * Finds some(!) words written uppercase that should be spelled lowercase.
+&nbsp; * @since 5.0
+&nbsp; */
+&nbsp;public class UpperCaseNgramRule extends Rule {
+&nbsp;
+&nbsp;  public static final int THRESHOLD = 50;
+&nbsp;
+<b class="nc">&nbsp;  private static MorfologikAmericanSpellerRule spellerRule = null;</b>
+<b class="nc">&nbsp;  private static LinguServices linguServices = null;</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern PUNCT_PATTERN = Pattern.compile(&quot;[.!?:]&quot;);</b>
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; exceptions = new HashSet&lt;&gt;(Arrays.asList(</b>
+&nbsp;    &quot;Bin&quot;, &quot;Spot&quot;,  // names
+&nbsp;    &quot;Go&quot;,           // common usage, as in &quot;Go/No Go decision&quot;
+&nbsp;    &quot;French&quot;, &quot;Roman&quot;, &quot;Hawking&quot;, &quot;Square&quot;, &quot;Japan&quot;, &quot;Premier&quot;, &quot;Allied&quot;,
+&nbsp;    &quot;Counsel&quot; // legal
+&nbsp;  ));
+<b class="nc">&nbsp;  private static final Pattern TYPICAL_LOWERCASE = Pattern.compile(&quot;and|or|the|of|on|with|to|it|in|for|as|at|his|her|its|into|&amp;|/&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static AhoCorasickDoubleArrayTrie&lt;String&gt; exceptionTrie = null;</b>
+<b class="nc">&nbsp;  private static final List&lt;List&lt;PatternToken&gt;&gt; ANTI_PATTERNS = Arrays.asList(</b>
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      token(&quot;Hugs&quot;), token(&quot;and&quot;), token(&quot;Kisses&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Please go to File and select Options. </b>
+<b class="nc">&nbsp;      token(&quot;go&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;to&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[Aa]nd|[Oo]r|&amp;&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // &quot;The goal is to Develop, Discuss and Learn.&quot;&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[Aa]nd|[Oo]r|&amp;|,&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // &quot;The goal is to Develop, Discuss and Learn.&quot;&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;)&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[Aa]nd|[Oo]r|&amp;|,&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().token(&quot;-&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      token(&quot;&gt;&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[→⇾⇉⇒]&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[’&#39;]&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;s&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      pos(&quot;SENT_START&quot;), // Two-word phrases with &quot;?&quot; or &quot;!&quot;: &quot;What Happened?&quot;, &quot;Catch Up!&quot; (can be headlines)</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[\\!\\?]&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      pos(&quot;SENT_START&quot;), // Step1 - Watch the full episode.</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;.*\\w.*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;-|–&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      pos(&quot;SENT_START&quot;), // Step 1 - Watch the full episode.</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;.*\\w.*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[0-9]+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;-|–&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      pos(&quot;SENT_START&quot;), // Markdowm headline # Show some</b>
+<b class="nc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      pos(&quot;SENT_START&quot;), // Markdowm headline ## Show some</b>
+<b class="nc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      pos(&quot;SENT_START&quot;), // Markdowm headline ## Show some</b>
+<b class="nc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Scene 4, Lines 93-96</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;-|–|,&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // 1.- Sign up for ...</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;.&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;-|–&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // French Quote + Uppercase word</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;«&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // H1 What&#39;s wrong?</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;H[1-6]&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      pos(&quot;SENT_START&quot;), // ii) Enabling you to ...</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[a-z]{1,2}&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;)&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      pos(&quot;SENT_START&quot;), // bullet point</b>
+<b class="nc">&nbsp;      token(&quot;•&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Dash + Uppercase word</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;-|–&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Step|Grade|Phase|Reason&quot;), // I finished Step 6</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;the|our|their&quot;), // Let&#39;s talk to the Onboarding team.</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;team|department&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      pos(&quot;SENT_START&quot;), // 12.3 Game.</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\.|/&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      pos(&quot;SENT_START&quot;), // Lesson #1 - Learn the alphabet.</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;.*\\w.*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[0-9]+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;-|–&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      token(&quot;BBC&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Culture&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      token(&quot;Time&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;magazines?&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // name of TV series</b>
+<b class="nc">&nbsp;      token(&quot;Dublin&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Murders&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      token(&quot;Amazon&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Live&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Company name</b>
+<b class="nc">&nbsp;      token(&quot;Volvo&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Buses&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // video game</b>
+<b class="nc">&nbsp;      token(&quot;Heavy&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Rain&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;/&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // &quot;Order #76540&quot;</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // &quot;He plays games at Games.co.uk.&quot;</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;.&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;com?|de|us|gov|net|info|org|es|mx|ca|uk|at|ch|it|pl|ru|nl|ie|be|fr|ai|dev|io|pt|mil|club|jp|es|se|dk|no&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),  // He&#39;s Ben (Been)</b>
+<b class="nc">&nbsp;      token(&quot;(&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;)&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      token(&quot;[&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;]&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      token(&quot;Pay&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;per&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Hi|Hello|Heya?&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // &quot;C stands for Curse.&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z]&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;is|stands&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;for&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      pos(&quot;SENT_START&quot;), // The Story: (short headlines with colon)</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;:&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      pos(&quot;SENT_START&quot;), // Stop &amp; Jot: (short headlines with colon)</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;&amp;&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;:&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      pos(&quot;SENT_START&quot;), // Easy to Use: (short headlines with colon)</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[a-z].+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;:&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),  // e.g. &quot;Top 10% Lunch Deals&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+%?&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[0-9]+&quot;),  // e.g. &quot;6) Have a beer&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[)\\]]&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[a-z]&quot;),  // e.g. &quot;a) Have a beer&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[)\\]]&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[\\(\\]]&quot;),  // e.g. &quot;(b) Have a beer&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[a-z0-9]&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[)\\]]&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),  // e.g. &quot;Freelance 2.0&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[0-9]+&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;.&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[0-9]+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].*&quot;),  // e.g. &quot;You Don&#39;t Know&quot; or &quot;Kuiper’s Belt&quot;</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[&#39;’`´‘]&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;t|d|ve|s|re|m|ll&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),  // e.g. &quot;Culture, People , Nature&quot;, probably a title</b>
+<b class="nc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;The&quot;),  // e.g. &quot;The Sea is Watching&quot;, probably a title</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;is&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      token(&quot;Professor&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      token(&quot;Time&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;magazine&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // My name is Gentle.</b>
+<b class="nc">&nbsp;      token(&quot;name&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;is&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // They called it Greet.</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;calls?|called|calling|name[ds]?|naming&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;it|him|her|them|me|us|that|this&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // ... to something called Faded</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;some(thing|body|one)&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;called|named&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // It is called Ranked mode</b>
+<b class="nc">&nbsp;      csRegex(&quot;is|was|been|were|are&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;calls?|called|calling|name[ds]?|naming&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // What is Foreshadowing?</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Who|What&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;is|are|was|were&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;?&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // His name is Carp.</b>
+<b class="nc">&nbsp;      token(&quot;name&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;is|was&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // FDM Group</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;Group&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Enter key</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Enter|Escape|Shift|Control|Meta|Backspace&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;key&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Victor or Rabbit as everyone calls him.</b>
+<b class="nc">&nbsp;      pos(&quot;NNP&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;or|and|&amp;&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Hashtags</b>
+<b class="nc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;Teams|Maps|Canvas|Remind|Tile|Switch|Gems?|Glamour|Divvy|Solo|Splash|Phrase||Spotlight|Outreach|Grab&quot;) // Microsoft Teams, Google Maps, Remind App, Nintendo Switch (not tagged as NNP), Gems (Ruby Gems)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      pos(&quot;SENT_START&quot;), // Music and Concepts.</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;or|and|&amp;&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].*&quot;),</b>
+<b class="nc">&nbsp;      pos(&quot;SENT_END&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Please click Send</b>
+<b class="nc">&nbsp;      csRegex(&quot;click(ed|s)?|type(d|s)|hit&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Please click on Send</b>
+<b class="nc">&nbsp;      csRegex(&quot;click(ed|s)?&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;on|at&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Chronicle of a Death Foretold</b>
+<b class="nc">&nbsp;      csRegex(&quot;Chronicle&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;of&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;the|an?&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[A-Z].*&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Please see Question 2, </b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].*&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Please see Question #2, </b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\d+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // company departments used like proper nouns</b>
+<b class="nc">&nbsp;      csRegex(&quot;Finance|Marketing|Engineering|Controlling|Support|Accounting&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // They used Draft.js to solve it.</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].*&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;.&quot;),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;js&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // And mine is Wed.</b>
+<b class="nc">&nbsp;      csRegex(&quot;Wed&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Ender&#39;s Game</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;NN.*&quot;).csTokenRegex(&quot;[A-Z].+&quot;).build(),</b>
+<b class="nc">&nbsp;      token(&quot;&#39;s&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Title Case: How to Become an Millionaire</b>
+<b class="nc">&nbsp;      csRegex(&quot;How&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;to&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().pos(&quot;VB&quot;).csTokenRegex(&quot;[A-Z].+&quot;).build(),</b>
+<b class="nc">&nbsp;      csRegex(&quot;an?|my|y?our|her|his|the|from|by|about&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Do</b>
+<b class="nc">&nbsp;      csRegex(&quot;Do|Does|Did|Can|[CW]ould&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;n&#39;t&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().pos(&quot;VB&quot;).csTokenRegex(&quot;[A-Z].+&quot;).build(),</b>
+<b class="nc">&nbsp;      pos(&quot;IN&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Title Case: How to Become an Millionaire</b>
+<b class="nc">&nbsp;      csRegex(&quot;Let&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;&#39;s&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().pos(&quot;VB&quot;).csTokenRegex(&quot;[A-Z].+&quot;).build(),</b>
+<b class="nc">&nbsp;      pos(&quot;IN&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Keys</b>
+<b class="nc">&nbsp;      csRegex(&quot;Enter|Return|Escape|Shift&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // You Can&#39;t Judge a Book by the Cover</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;Ca|Wo|Do|Should|[CW]ould|Must|Did|Does|Need&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;n&#39;t&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // You Can&#39;t Judge a Book by the Cover</b>
+<b class="nc">&nbsp;      csRegex(&quot;Ca|Wo|Do|Should|[CW]ould|Must|Did|Does|Need&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;n&#39;t&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList(</b>
+<b class="nc">&nbsp;      csRegex(&quot;Peters&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // What Does an Effective Cover Letter Look Like?</b>
+<b class="nc">&nbsp;      csRegex(&quot;Who|What|When|Where|Why|How&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;Is|Are|Was|Were|Do(es)?|Have|Has&quot;),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().pos(&quot;DT&quot;).min(0).build(),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // PARENTHESES: (4 hrs/wk) Manage all IT affairs / Exercise (Engage in exercises...</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;\\(|\\)&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Arrows</b>
+<b class="nc">&nbsp;      token(&quot;-&quot;),</b>
+<b class="nc">&nbsp;      token(&quot;&gt;&quot;),</b>
+<b class="nc">&nbsp;      csRegex(&quot;[A-Z].+&quot;)</b>
+&nbsp;    ),
+<b class="nc">&nbsp;    Arrays.asList( // Quotes</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;[\&quot;“”„]&quot;).setSkip(-1).build(),</b>
+<b class="nc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;[A-Z].+&quot;).setSkip(-1).build(),</b>
+<b class="nc">&nbsp;      tokenRegex(&quot;[\&quot;“”„]&quot;)</b>
+&nbsp;    )
+&nbsp;  );
+&nbsp;
+&nbsp;  private final Language lang;
+&nbsp;  private final LanguageModel lm;
+&nbsp;  private final Supplier&lt;List&lt;DisambiguationPatternRule&gt;&gt; antiPatterns;
+&nbsp;
+&nbsp;  public UpperCaseNgramRule(ResourceBundle messages, LanguageModel lm, Language lang, UserConfig userConfig) {
+<b class="nc">&nbsp;    super(messages);</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.CASING.getCategory(messages));</b>
+<b class="nc">&nbsp;    this.lm = lm;</b>
+<b class="nc">&nbsp;    this.lang = lang;</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;This &lt;marker&gt;Prototype&lt;/marker&gt; was developed by Miller et al.&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;This &lt;marker&gt;prototype&lt;/marker&gt; was developed by Miller et al.&quot;));</b>
+<b class="nc">&nbsp;    antiPatterns = cacheAntiPatterns(lang, ANTI_PATTERNS);</b>
+&nbsp;
+<b class="nc">&nbsp;    initTrie();</b>
+<b class="nc">&nbsp;    initSpeller();</b>
+<b class="nc">&nbsp;    if (userConfig != null &amp;&amp; linguServices == null) {</b>
+<b class="nc">&nbsp;      linguServices = userConfig.getLinguServices();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void initSpeller() {
+<b class="nc">&nbsp;    if (spellerRule == null) {</b>
+<b class="nc">&nbsp;      synchronized (UpperCaseNgramRule.class) {</b>
+<b class="nc">&nbsp;        if (spellerRule == null) {</b>
+&nbsp;          try {
+<b class="nc">&nbsp;            spellerRule = new MorfologikAmericanSpellerRule(messages, lang);</b>
+&nbsp;          } catch (IOException e) {
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;      }</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void initTrie() {
+<b class="nc">&nbsp;    if (exceptionTrie == null) {</b>
+<b class="nc">&nbsp;      synchronized (UpperCaseNgramRule.class) {</b>
+<b class="nc">&nbsp;        if (exceptionTrie == null) {</b>
+<b class="nc">&nbsp;          exceptionTrie = new AhoCorasickDoubleArrayTrie&lt;&gt;();</b>
+<b class="nc">&nbsp;          CachingWordListLoader cachingWordListLoader = new CachingWordListLoader();</b>
+<b class="nc">&nbsp;          List&lt;String&gt; words = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          words.addAll(cachingWordListLoader.loadWords(&quot;en/specific_case.txt&quot;));</b>
+<b class="nc">&nbsp;          words.addAll(cachingWordListLoader.loadWords(&quot;spelling_global.txt&quot;));</b>
+<b class="nc">&nbsp;          Map&lt;String,String&gt; map = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;          for (String word : words) {</b>
+<b class="nc">&nbsp;            map.put(word, word);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          exceptionTrie.build(map);</b>
+&nbsp;        }
+<b class="nc">&nbsp;      }</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;DisambiguationPatternRule&gt; getAntiPatterns() {
+<b class="nc">&nbsp;    return antiPatterns.get();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final String getId() {
+<b class="nc">&nbsp;    return &quot;EN_UPPER_CASE_NGRAM&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Checks wrong uppercase spelling of words that are not proper nouns&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; matches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    boolean atSentStart = true;</b>
+&nbsp;
+<b class="nc">&nbsp;    boolean isSentence = isSentence(tokens);</b>
+<b class="nc">&nbsp;    if (!isSentence) {</b>
+&nbsp;      // might be a headline, so skip it
+<b class="nc">&nbsp;      return toRuleMatchArray(matches);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    for (int i = 0; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings token = tokens[i];</b>
+<b class="nc">&nbsp;      String tokenStr = token.getToken();</b>
+&nbsp;      //System.out.println(i + &quot;: &quot; + prevIsUpperCase(tokens, i) + &quot; - &quot; + tokenStr);
+<b class="nc">&nbsp;      if (tokenStr.length() &gt; 0</b>
+<b class="nc">&nbsp;          &amp;&amp; !token.isImmunized()</b>
+<b class="nc">&nbsp;          &amp;&amp; Character.isUpperCase(tokenStr.charAt(0))</b>
+<b class="nc">&nbsp;          &amp;&amp; !StringTools.isAllUppercase(tokenStr)</b>
+&nbsp;          &amp;&amp; !atSentStart
+<b class="nc">&nbsp;          &amp;&amp; token.hasPosTagStartingWith(&quot;VB&quot;)   // start only with these to avoid false alarms. TODO: extend</b>
+<b class="nc">&nbsp;          &amp;&amp; !token.hasPosTagStartingWith(&quot;NNP&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; token.isTagged()</b>
+<b class="nc">&nbsp;          &amp;&amp; (!prevIsUpperCase(tokens, i) || (prevIsUpperCase(tokens, i) &amp;&amp; i == 2))  // probably a name, like &quot;Sex Pistols&quot;, but not c</b>
+<b class="nc">&nbsp;          &amp;&amp; !nextIsUpperCase(tokens, i)</b>
+<b class="nc">&nbsp;          &amp;&amp; !prevIsOneOf(tokens, i, Arrays.asList(&quot;:&quot;, &quot;née&quot;, &quot;of&quot;, &quot;\&quot;&quot;, &quot;&#39;&quot;))  // probably a title like &quot;The history of XYZ&quot;</b>
+<b class="nc">&nbsp;          &amp;&amp; !nextIsOneOfThenUppercase(tokens, i, Arrays.asList(&quot;of&quot;))</b>
+<b class="nc">&nbsp;          &amp;&amp; !tokenStr.matches(&quot;I&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; !exceptions.contains(tokenStr)</b>
+<b class="nc">&nbsp;          &amp;&amp; !trieMatches(sentence.getText(), token)</b>
+<b class="nc">&nbsp;          &amp;&amp; !maybeTitle(tokens, i)</b>
+<b class="nc">&nbsp;          &amp;&amp; !isMisspelled(StringTools.lowercaseFirstChar(tokenStr))    // e.g. &quot;German&quot; is correct, &quot;german&quot; isn&#39;t</b>
+&nbsp;      ) {
+<b class="nc">&nbsp;        if (i + 1 &lt; tokens.length) {</b>
+<b class="nc">&nbsp;          List&lt;String&gt; ucList = Arrays.asList(tokens[i - 1].getToken(), tokenStr, tokens[i + 1].getToken());</b>
+<b class="nc">&nbsp;          List&lt;String&gt; lcList = Arrays.asList(tokens[i - 1].getToken(), StringTools.lowercaseFirstChar(tokenStr), tokens[i + 1].getToken());</b>
+<b class="nc">&nbsp;          Probability ucProb = lm.getPseudoProbability(ucList);</b>
+<b class="nc">&nbsp;          Probability lcProb = lm.getPseudoProbability(lcList);</b>
+<b class="nc">&nbsp;          double ratio = lcProb.getProb() / ucProb.getProb();</b>
+&nbsp;          //System.out.println(&quot;--&gt;&quot; + ucProb + &quot;, lc: &quot; + lcProb + &quot; ==&gt; &quot; + ratio);
+<b class="nc">&nbsp;          if (ratio &gt; THRESHOLD) {</b>
+<b class="nc">&nbsp;            String msg = &quot;Only proper nouns start with an uppercase character (there are exceptions for headlines).&quot;;</b>
+<b class="nc">&nbsp;            RuleMatch match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), msg);</b>
+<b class="nc">&nbsp;            match.setSuggestedReplacement(StringTools.lowercaseFirstChar(tokenStr));</b>
+<b class="nc">&nbsp;            matches.add(match);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (!token.isSentenceStart() &amp;&amp; !tokenStr.isEmpty() &amp;&amp; !token.isNonWord()) {</b>
+<b class="nc">&nbsp;        atSentStart = false;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(matches);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  boolean isMisspelled(String word) throws IOException {
+<b class="nc">&nbsp;    synchronized (spellerRule) {</b>
+<b class="nc">&nbsp;      return linguServices == null ? spellerRule.isMisspelled(word) : !linguServices.isCorrectSpell(word, lang);</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // a very rough guess whether the word at the given position might be part of a title
+&nbsp;  boolean maybeTitle(AnalyzedTokenReadings[] tokens, int i) {
+<b class="nc">&nbsp;    return firstLongWordToLeftIsUppercase(tokens, i) || firstLongWordToRightIsUppercase(tokens, i);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  boolean firstLongWordToLeftIsUppercase(AnalyzedTokenReadings[] tokens, int pos) {
+<b class="nc">&nbsp;    for (int i = pos - 1; i &gt; 1; i--) {</b>
+<b class="nc">&nbsp;      if (isShortWord(tokens[i])) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      return StringTools.startsWithUppercase(tokens[i].getToken());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  boolean firstLongWordToRightIsUppercase(AnalyzedTokenReadings[] tokens, int pos) {
+<b class="nc">&nbsp;    for (int i = pos + 1; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      if (isShortWord(tokens[i])) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      return StringTools.startsWithUppercase(tokens[i].getToken());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isShortWord(AnalyzedTokenReadings token) {
+&nbsp;    // ignore words typically spelled lowercase even in titles
+<b class="nc">&nbsp;    return token.getToken().trim().isEmpty() || TYPICAL_LOWERCASE.matcher(token.getToken()).matches();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean trieMatches(String text, AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    List&lt;AhoCorasickDoubleArrayTrie.Hit&lt;String&gt;&gt; hits = exceptionTrie.parseText(text);</b>
+<b class="nc">&nbsp;    for (AhoCorasickDoubleArrayTrie.Hit&lt;String&gt; hit : hits) {</b>
+<b class="nc">&nbsp;      if (hit.begin &lt;= token.getStartPos() &amp;&amp; hit.end &gt;= token.getEndPos()) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean prevIsOneOf(AnalyzedTokenReadings[] tokens, int i, List&lt;String&gt; strings) {
+<b class="nc">&nbsp;    return i &gt; 0 &amp;&amp; strings.contains(tokens[i-1].getToken());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // e.g. &quot;The history of Xyz&quot;
+&nbsp;  //           ^^^^^^^
+&nbsp;  private boolean nextIsOneOfThenUppercase(AnalyzedTokenReadings[] tokens, int i, List&lt;String&gt; strings) {
+<b class="nc">&nbsp;    return i + 2 &lt; tokens.length &amp;&amp; strings.contains(tokens[i+1].getToken()) &amp;&amp; StringTools.startsWithUppercase(tokens[i+2].getToken());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean prevIsUpperCase(AnalyzedTokenReadings[] tokens, int i) {
+<b class="nc">&nbsp;    return i &gt; 0 &amp;&amp; StringTools.startsWithUppercase(tokens[i-1].getToken());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean nextIsUpperCase(AnalyzedTokenReadings[] tokens, int i) {
+<b class="nc">&nbsp;    return i + 1 &lt; tokens.length &amp;&amp; StringTools.startsWithUppercase(tokens[i+1].getToken());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isSentence(AnalyzedTokenReadings[] tokens) {
+<b class="nc">&nbsp;    boolean isSentence = false;</b>
+<b class="nc">&nbsp;    for (int i = tokens.length - 1; i &gt; 0; i--) {</b>
+<b class="nc">&nbsp;      if (PUNCT_PATTERN.matcher(tokens[i].getToken()).matches()) {</b>
+<b class="nc">&nbsp;        isSentence = true;</b>
+&nbsp;        break;
+&nbsp;      }
+<b class="nc">&nbsp;      if (!tokens[i].isParagraphEnd() &amp;&amp; !tokens[i].isNonWord()) {</b>
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return isSentence;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

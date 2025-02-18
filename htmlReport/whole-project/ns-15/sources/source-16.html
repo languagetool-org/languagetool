@@ -1,0 +1,460 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ResultAreaHelper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: ResultAreaHelper (org.languagetool.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ResultAreaHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/64)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/160)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.gui;
+&nbsp;
+&nbsp;import java.awt.Cursor;
+&nbsp;import java.awt.Desktop;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;import javax.swing.JTextPane;
+&nbsp;import javax.swing.event.HyperlinkEvent;
+&nbsp;import javax.swing.event.HyperlinkListener;
+&nbsp;import javax.swing.text.BadLocationException;
+&nbsp;import javax.swing.text.Element;
+&nbsp;import javax.swing.text.html.HTMLDocument;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.LanguageMaintainedState;
+&nbsp;import org.languagetool.rules.ITSIssueType;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.tools.ContextTools;
+&nbsp;
+&nbsp;/**
+&nbsp; * Helper for the JTextPane where the result of text checking is displayed.
+&nbsp; */
+&nbsp;class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
+&nbsp;
+&nbsp;  private static final String KEY = &quot;org.languagetool.gui.ResultAreaHelper&quot;;
+&nbsp;  private static final String EMPTY_PARA = &quot;&lt;p class=\&quot;small\&quot;&gt;&lt;/p&gt;&quot;;
+&nbsp;  private static final String HEADER = &quot;header&quot;;
+&nbsp;  private static final String MAIN = &quot;maincontent&quot;;
+&nbsp;  private static final String TEMPLATE = &quot;&lt;html&gt;\n&quot;
+&nbsp;          + &quot;  &lt;head&gt;\n&quot;
+&nbsp;          + &quot;     &lt;style type=\&quot;text/css\&quot;&gt;\n&quot;
+&nbsp;          + &quot;       #&quot; + HEADER + &quot; {  }\n&quot;
+&nbsp;          + &quot;       #&quot; + MAIN + &quot; { }\n&quot;
+&nbsp;          + &quot;       p { font-family: Arial,Helvetica; padding: 1px; margin: 1px }\n&quot;
+&nbsp;          + &quot;       p.small { font-size: 1px; }\n&quot;
+&nbsp;          + &quot;       p.grayed { font-family: Arial,Helvetica; color: #666666 }\n&quot;
+&nbsp;          + &quot;     &lt;/style&gt;\n&quot;
+&nbsp;          + &quot;  &lt;/head&gt;\n&quot;
+&nbsp;          + &quot;  &lt;body&gt;\n&quot;
+&nbsp;          + &quot;    &lt;div id=\&quot;&quot; + HEADER + &quot;\&quot;&gt;\n&quot;
+&nbsp;          + &quot;    &lt;/div&gt;\n&quot;
+&nbsp;          + &quot;    &lt;div id=\&quot;&quot; + MAIN + &quot;\&quot;&gt;\n&quot;
+&nbsp;          + &quot;    &lt;/div&gt;\n&quot;
+&nbsp;          + &quot;  &lt;/body&gt;\n&quot;
+&nbsp;          + &quot;&lt;/html&gt;&quot;;
+&nbsp;  private static final String DEACTIVATE_URL = &quot;http://languagetool.org/deactivate/&quot;;
+&nbsp;  private static final String REACTIVATE_URL = &quot;http://languagetool.org/reactivate/&quot;;
+&nbsp;  private static final String LT_ERROR_MARKER_START = &quot;&lt;b&gt;&lt;font bgcolor=\&quot;#d7d7ff\&quot;&gt;&quot;;
+&nbsp;  private static final String SPELL_ERROR_MARKER_START = &quot;&lt;b&gt;&lt;font bgcolor=\&quot;#ffd7d7\&quot;&gt;&quot;;
+&nbsp;
+&nbsp;  private final ResourceBundle messages;
+&nbsp;  private final JTextPane statusPane;
+&nbsp;  private final LanguageToolSupport ltSupport;
+&nbsp;
+&nbsp;  private long runTime;
+<b class="nc">&nbsp;  private final Object lock = new Object();</b>
+<b class="nc">&nbsp;  private boolean enabled = false;</b>
+&nbsp;
+&nbsp;  static void install(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane pane) {
+<b class="nc">&nbsp;    Object prev = pane.getClientProperty(KEY);</b>
+<b class="nc">&nbsp;    if (prev instanceof ResultAreaHelper) {</b>
+<b class="nc">&nbsp;      enable(pane);</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    ResultAreaHelper helper = new ResultAreaHelper(messages, ltSupport, pane);</b>
+<b class="nc">&nbsp;    pane.putClientProperty(KEY, helper);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static void enable(JTextPane pane) {
+<b class="nc">&nbsp;    Object helper = pane.getClientProperty(KEY);</b>
+<b class="nc">&nbsp;    if (helper instanceof ResultAreaHelper) {</b>
+<b class="nc">&nbsp;      ((ResultAreaHelper) helper).enable();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static void disable(JTextPane pane) {
+<b class="nc">&nbsp;    Object helper = pane.getClientProperty(KEY);</b>
+<b class="nc">&nbsp;    if (helper instanceof ResultAreaHelper) {</b>
+<b class="nc">&nbsp;      ((ResultAreaHelper) helper).disable();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private ResultAreaHelper(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane statusPane) {</b>
+<b class="nc">&nbsp;    this.messages = messages;</b>
+<b class="nc">&nbsp;    this.ltSupport = ltSupport;</b>
+<b class="nc">&nbsp;    this.statusPane = statusPane;</b>
+<b class="nc">&nbsp;    statusPane.setContentType(&quot;text/html&quot;);</b>
+<b class="nc">&nbsp;    statusPane.setEditable(false);</b>
+<b class="nc">&nbsp;    statusPane.setTransferHandler(new RetainLineBreakTransferHandler());</b>
+<b class="nc">&nbsp;    enable();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void enable() {
+<b class="nc">&nbsp;    synchronized (lock) {</b>
+<b class="nc">&nbsp;      if (enabled) {</b>
+<b class="nc">&nbsp;        return;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      enabled = true;</b>
+<b class="nc">&nbsp;      statusPane.setText(TEMPLATE);</b>
+<b class="nc">&nbsp;      setHeader(messages.getString(&quot;resultAreaText&quot;));</b>
+<b class="nc">&nbsp;      statusPane.addHyperlinkListener(this);</b>
+<b class="nc">&nbsp;      ltSupport.addLanguageToolListener(this);</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void disable() {
+<b class="nc">&nbsp;    synchronized (lock) {</b>
+<b class="nc">&nbsp;      if (!enabled) {</b>
+<b class="nc">&nbsp;        return;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      enabled = false;</b>
+<b class="nc">&nbsp;      statusPane.setText(TEMPLATE);</b>
+<b class="nc">&nbsp;      statusPane.removeHyperlinkListener(this);</b>
+<b class="nc">&nbsp;      ltSupport.removeLanguageToolListener(this);</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void languageToolEventOccurred(LanguageToolEvent event) {
+<b class="nc">&nbsp;    if (event.getType() == LanguageToolEvent.Type.CHECKING_STARTED) {</b>
+<b class="nc">&nbsp;      Language lang = ltSupport.getLanguage();</b>
+&nbsp;      String langName;
+<b class="nc">&nbsp;      if (lang.isExternal()) {</b>
+<b class="nc">&nbsp;        langName = lang.getTranslatedName(messages) + Main.EXTERNAL_LANGUAGE_SUFFIX;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        langName = lang.getTranslatedName(messages);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String msg = org.languagetool.tools.Tools.i18n(</b>
+&nbsp;              messages, &quot;startChecking&quot;, langName) + &quot;...&quot;;
+<b class="nc">&nbsp;      setHeader(msg);</b>
+<b class="nc">&nbsp;      setMain(EMPTY_PARA);</b>
+<b class="nc">&nbsp;      if (event.getCaller() == this) {</b>
+<b class="nc">&nbsp;        statusPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (event.getType() == LanguageToolEvent.Type.CHECKING_FINISHED) {</b>
+<b class="nc">&nbsp;      setRunTime(event.getElapsedTime());</b>
+<b class="nc">&nbsp;      String inputText = event.getSource().getTextComponent().getText();</b>
+<b class="nc">&nbsp;      displayResult(inputText, event.getSource().getMatches());</b>
+<b class="nc">&nbsp;      if (event.getCaller() == this) {</b>
+<b class="nc">&nbsp;        statusPane.setCursor(Cursor.getDefaultCursor());</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (event.getType() == LanguageToolEvent.Type.RULE_DISABLED</b>
+<b class="nc">&nbsp;            || event.getType() == LanguageToolEvent.Type.RULE_ENABLED) {</b>
+<b class="nc">&nbsp;      String inputText = event.getSource().getTextComponent().getText();</b>
+<b class="nc">&nbsp;      displayResult(inputText, event.getSource().getMatches());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void setHeader(String txt) {
+<b class="nc">&nbsp;    HTMLDocument d = (HTMLDocument) statusPane.getDocument();</b>
+<b class="nc">&nbsp;    Element e = d.getElement(HEADER);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      d.setInnerHTML(e, &quot;&lt;p class=\&quot;grayed\&quot;&gt;&quot; + txt + &quot;&lt;/p&gt;&quot;);</b>
+&nbsp;    } catch (BadLocationException | IOException ex) {
+<b class="nc">&nbsp;      Tools.showError(ex);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void setMain(String html) {
+<b class="nc">&nbsp;    HTMLDocument d = (HTMLDocument) statusPane.getDocument();</b>
+<b class="nc">&nbsp;    Element e = d.getElement(MAIN);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      d.setInnerHTML(e, html);</b>
+&nbsp;    } catch (BadLocationException | IOException ex) {
+<b class="nc">&nbsp;      Tools.showError(ex);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void appendMain(String html) {
+<b class="nc">&nbsp;    HTMLDocument d = (HTMLDocument) statusPane.getDocument();</b>
+<b class="nc">&nbsp;    Element e = d.getElement(MAIN);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      d.insertBeforeEnd(e, html);</b>
+&nbsp;    } catch (BadLocationException | IOException ex) {
+<b class="nc">&nbsp;      Tools.showError(ex);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void getRuleMatchHtml(List&lt;RuleMatch&gt; ruleMatches, String text) {
+<b class="nc">&nbsp;    ContextTools contextTools = new ContextTools();</b>
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder(200);</b>
+<b class="nc">&nbsp;    if (ltSupport.getLanguage().getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;&lt;p&gt;&lt;b&gt;&quot;).append(messages.getString(&quot;unsupportedWarning&quot;))</b>
+<b class="nc">&nbsp;              .append(&quot;&lt;/b&gt;&lt;/p&gt;\n&quot;);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      sb.append(EMPTY_PARA);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    setMain(sb.toString());</b>
+<b class="nc">&nbsp;    sb.setLength(0);</b>
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    for (RuleMatch match : ruleMatches) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;&lt;p&gt;&quot;);</b>
+<b class="nc">&nbsp;      String output = org.languagetool.tools.Tools.i18n(messages, &quot;result1&quot;, i + 1, match.getLine() + 1, match.getColumn());</b>
+<b class="nc">&nbsp;      sb.append(output);</b>
+<b class="nc">&nbsp;      String msg = match.getMessage()</b>
+<b class="nc">&nbsp;          .replace(&quot;&lt;suggestion&gt;&quot;, &quot;&lt;b&gt;&quot;).replace(&quot;&lt;/suggestion&gt;&quot;, &quot;&lt;/b&gt;&quot;)</b>
+<b class="nc">&nbsp;          .replace(&quot;&lt;old&gt;&quot;, &quot;&lt;b&gt;&quot;).replace(&quot;&lt;/old&gt;&quot;, &quot;&lt;/b&gt;&quot;);</b>
+<b class="nc">&nbsp;      sb.append(&quot;&lt;b&gt;&quot;).append(messages.getString(&quot;errorMessage&quot;)).append(&quot;&lt;/b&gt; &quot;);</b>
+<b class="nc">&nbsp;      sb.append(msg);</b>
+<b class="nc">&nbsp;      RuleLink ruleLink = RuleLink.buildDeactivationLink(match.getRule());</b>
+<b class="nc">&nbsp;      sb.append(&quot; &lt;a href=\&quot;&quot;).append(ruleLink).append(&quot;\&quot;&gt;&quot;).append(messages.getString(&quot;deactivateRule&quot;)).append(&quot;&lt;/a&gt;&lt;br&gt;\n&quot;);</b>
+<b class="nc">&nbsp;      if (match.getSuggestedReplacements().size() &gt; 0) {</b>
+<b class="nc">&nbsp;        String replacement = String.join(&quot;; &quot;, match.getSuggestedReplacements());</b>
+<b class="nc">&nbsp;        sb.append(&quot;&lt;b&gt;&quot;).append(messages.getString(&quot;correctionMessage&quot;)).append(&quot;&lt;/b&gt; &quot;).append(replacement).append(&quot;&lt;br&gt;\n&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (ITSIssueType.Misspelling == match.getRule().getLocQualityIssueType()) {</b>
+<b class="nc">&nbsp;        contextTools.setErrorMarkerStart(SPELL_ERROR_MARKER_START);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        contextTools.setErrorMarkerStart(LT_ERROR_MARKER_START);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);</b>
+<b class="nc">&nbsp;      sb.append(&quot;&lt;b&gt;&quot;).append(messages.getString(&quot;errorContext&quot;)).append(&quot;&lt;/b&gt; &quot;).append(context);</b>
+<b class="nc">&nbsp;      if ((match.getRule().getUrl() != null || match.getUrl() != null) &amp;&amp; Desktop.isDesktopSupported()) {</b>
+<b class="nc">&nbsp;        sb.append(&quot;&lt;br&gt;\n&quot;);</b>
+<b class="nc">&nbsp;        sb.append(&quot;&lt;b&gt;&quot;).append(messages.getString(&quot;moreInfo&quot;)).append(&quot;&lt;/b&gt; &lt;a href=\&quot;&quot;);</b>
+&nbsp;        String url;
+<b class="nc">&nbsp;        if(match.getUrl() != null) {</b>
+<b class="nc">&nbsp;          url = match.getUrl().toString();</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          url = match.getRule().getUrl().toString();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        sb.append(url);</b>
+<b class="nc">&nbsp;        String shortUrl = StringUtils.abbreviate(url, 60);</b>
+<b class="nc">&nbsp;        sb.append(&quot;\&quot;&gt;&quot;).append(shortUrl).append(&quot;&lt;/a&gt;\n&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      sb.append(&quot;&lt;/p&gt;&quot;);</b>
+<b class="nc">&nbsp;      i++;</b>
+<b class="nc">&nbsp;      appendMain(sb.toString());</b>
+<b class="nc">&nbsp;      sb.setLength(0);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    sb.append(&quot;&lt;p class=\&quot;grayed\&quot;&gt;&quot;);</b>
+<b class="nc">&nbsp;    sb.append(getDisabledRulesHtml());</b>
+<b class="nc">&nbsp;    String checkDone = org.languagetool.tools.Tools.i18n(messages, &quot;checkDone&quot;,</b>
+<b class="nc">&nbsp;            ruleMatches.size(), runTime);</b>
+<b class="nc">&nbsp;    sb.append(&quot;&lt;br&gt;\n&quot;).append(checkDone);</b>
+<b class="nc">&nbsp;    sb.append(&quot;&lt;/p&gt;&quot;);</b>
+<b class="nc">&nbsp;    appendMain(sb.toString());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getDisabledRulesHtml() {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder(40);</b>
+<b class="nc">&nbsp;    sb.append(messages.getString(&quot;deactivatedRulesText&quot;));</b>
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    int deactivatedRuleCount = 0;</b>
+<b class="nc">&nbsp;    for (String ruleId : ltSupport.getConfig().getDisabledRuleIds()) {</b>
+<b class="nc">&nbsp;      if (ruleId.trim().isEmpty()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      Rule rule = ltSupport.getRuleForId(ruleId);</b>
+<b class="nc">&nbsp;      if (rule == null || rule.isDefaultOff()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if (i++ &gt; 0) {</b>
+<b class="nc">&nbsp;        sb.append(&#39;,&#39;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      RuleLink reactivationLink = RuleLink.buildReactivationLink(rule);</b>
+<b class="nc">&nbsp;      sb.append(&quot; &lt;a href=\&quot;&quot;).append(reactivationLink).append(&quot;\&quot;&gt;&quot;)</b>
+<b class="nc">&nbsp;              .append(rule.getDescription()).append(&quot;&lt;/a&gt;&quot;);</b>
+<b class="nc">&nbsp;      deactivatedRuleCount++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    sb.append(&quot;&lt;br&gt;&quot;);</b>
+<b class="nc">&nbsp;    if (deactivatedRuleCount == 0) {</b>
+<b class="nc">&nbsp;      return &quot;&quot;;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return sb.toString();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void setRunTime(long runTime) {
+<b class="nc">&nbsp;    this.runTime = runTime;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void displayResult(String inputText, List&lt;RuleMatch&gt; matches) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; filtered = filterRuleMatches(matches);</b>
+<b class="nc">&nbsp;    getRuleMatchHtml(filtered, inputText);</b>
+<b class="nc">&nbsp;    statusPane.setCaretPosition(0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;RuleMatch&gt; filterRuleMatches(List&lt;RuleMatch&gt; matches) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; filtered = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; disabledRuleIds = ltSupport.getConfig().getDisabledRuleIds();</b>
+<b class="nc">&nbsp;    for (RuleMatch ruleMatch : matches) {</b>
+<b class="nc">&nbsp;      if (!disabledRuleIds.contains(ruleMatch.getRule().getId())) {</b>
+<b class="nc">&nbsp;        filtered.add(ruleMatch);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return filtered;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void hyperlinkUpdate(HyperlinkEvent e) {
+<b class="nc">&nbsp;    if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {</b>
+<b class="nc">&nbsp;      URL url = e.getURL();</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        String uri = url.toURI().toString();</b>
+<b class="nc">&nbsp;        if (uri.startsWith(DEACTIVATE_URL) || uri.startsWith(REACTIVATE_URL)) {</b>
+<b class="nc">&nbsp;          handleRuleLinkClick(uri);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          Tools.openURL(url);</b>
+&nbsp;        }
+&nbsp;      } catch (Exception ex) {
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Could not handle URL click: &quot; + url, ex);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void handleRuleLinkClick(String uri) throws IOException {
+<b class="nc">&nbsp;    RuleLink ruleLink = RuleLink.getFromString(uri);</b>
+<b class="nc">&nbsp;    String ruleId = ruleLink.getId();</b>
+<b class="nc">&nbsp;    if (uri.startsWith(DEACTIVATE_URL)) {</b>
+<b class="nc">&nbsp;      ltSupport.disableRule(ruleId);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      ltSupport.enableRule(ruleId);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    ltSupport.getConfig().saveConfiguration(ltSupport.getLanguage());</b>
+<b class="nc">&nbsp;    ltSupport.checkImmediately(this);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

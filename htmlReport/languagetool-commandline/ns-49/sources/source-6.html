@@ -1,0 +1,423 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SuggestionsChanges</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling.suggestions</a>
+</div>
+
+<h1>Coverage Summary for Class: SuggestionsChanges (org.languagetool.rules.spelling.suggestions)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SuggestionsChanges</td>
+<td class="coverageStat">
+  <span class="percent">
+    13.3%
+  </span>
+  <span class="absValue">
+    (2/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2.1%
+  </span>
+  <span class="absValue">
+    (1/48)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    4.4%
+  </span>
+  <span class="absValue">
+    (3/68)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SuggestionsChanges$Report</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/52)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    11.8%
+  </span>
+  <span class="absValue">
+    (2/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    1.7%
+  </span>
+  <span class="absValue">
+    (1/60)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2.5%
+  </span>
+  <span class="absValue">
+    (3/120)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.spelling.suggestions;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.tuple.Pair;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;
+&nbsp;import java.io.BufferedWriter;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.ConcurrentHashMap;
+&nbsp;import java.util.concurrent.ConcurrentMap;
+&nbsp;
+&nbsp;/**
+&nbsp; * Helper class for SuggestionChangesTest, tracks experiment configuration and results
+&nbsp; * Rules should use getInstance() != null -&amp;gt; getInstance().getCurrentExperiment() in constructors to fetch relevant parameters
+&nbsp; * Use isRunningExperiment if no parameters are needed
+&nbsp; */
+&nbsp;public class SuggestionsChanges {
+&nbsp;  private static SuggestionsChanges instance;
+&nbsp;  private final SuggestionChangesTestConfig config;
+&nbsp;  private final List&lt;SuggestionChangesExperiment&gt; experiments;
+&nbsp;
+<b class="nc">&nbsp;  private final ConcurrentMap&lt;SuggestionChangesExperiment, Integer&gt; correctSuggestions = new ConcurrentHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final ConcurrentMap&lt;SuggestionChangesExperiment, Integer&gt; notFoundSuggestions = new ConcurrentHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final ConcurrentMap&lt;SuggestionChangesExperiment, Integer&gt; suggestionPosSum = new ConcurrentHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final ConcurrentMap&lt;SuggestionChangesExperiment, Integer&gt; textSize = new ConcurrentHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final ConcurrentMap&lt;SuggestionChangesExperiment, Long&gt; computationTime = new ConcurrentHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final ConcurrentMap&lt;SuggestionChangesExperiment, Integer&gt; numSamples = new ConcurrentHashMap&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;  private final ConcurrentMap&lt;Pair&lt;SuggestionChangesExperiment, SuggestionChangesDataset&gt;, Integer&gt;</b>
+&nbsp;    datasetCorrectSuggestions = new ConcurrentHashMap&lt;&gt;();
+<b class="nc">&nbsp;  private final ConcurrentMap&lt;Pair&lt;SuggestionChangesExperiment, SuggestionChangesDataset&gt;, Integer&gt;</b>
+&nbsp;    datasetNotFoundSuggestions = new ConcurrentHashMap&lt;&gt;();
+<b class="nc">&nbsp;  private final ConcurrentMap&lt;Pair&lt;SuggestionChangesExperiment, SuggestionChangesDataset&gt;, Integer&gt;</b>
+&nbsp;    datasetSuggestionPosSum = new ConcurrentHashMap&lt;&gt;();
+<b class="nc">&nbsp;  private final ConcurrentMap&lt;Pair&lt;SuggestionChangesExperiment, SuggestionChangesDataset&gt;, Integer&gt; datasetNumSamples = new ConcurrentHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final ConcurrentMap&lt;Pair&lt;SuggestionChangesExperiment, SuggestionChangesDataset&gt;, Integer&gt; datasetTextSize = new ConcurrentHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final ConcurrentMap&lt;Pair&lt;SuggestionChangesExperiment, SuggestionChangesDataset&gt;, Long&gt; datasetComputationTime = new ConcurrentHashMap&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;  private SuggestionChangesExperiment currentExperiment = null;</b>
+&nbsp;
+<b class="nc">&nbsp;  private SuggestionsChanges(SuggestionChangesTestConfig config, BufferedWriter reportWriter) {</b>
+<b class="nc">&nbsp;    this.config = config;</b>
+<b class="nc">&nbsp;    experiments = generateExperiments(config.experiments);</b>
+&nbsp;
+<b class="nc">&nbsp;    Runtime.getRuntime().addShutdownHook(new Thread(new Report(reportWriter)));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * null if nothing is configured, i.e. in most normal use cases
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public static SuggestionsChanges getInstance() {
+<b class="fc">&nbsp;    return instance;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static void init(@NotNull SuggestionChangesTestConfig config, @Nullable BufferedWriter reportWriter) {
+<b class="nc">&nbsp;    instance = new SuggestionsChanges(config, reportWriter);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;Map&lt;String, Object&gt;&gt; gridsearch(SortedMap&lt;String, List&lt;Object&gt;&gt; grid, List&lt;Map&lt;String, Object&gt;&gt; current) {
+<b class="nc">&nbsp;    if (grid.isEmpty()) { // recursion exit</b>
+<b class="nc">&nbsp;      return current;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String name = grid.lastKey();</b>
+<b class="nc">&nbsp;    List&lt;Object&gt; params = grid.get(name);</b>
+<b class="nc">&nbsp;    List&lt;Map&lt;String, Object&gt;&gt; result = new LinkedList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    if (current.isEmpty()) {</b>
+<b class="nc">&nbsp;      for (Object value : params) {</b>
+<b class="nc">&nbsp;        result.add(Collections.singletonMap(name, value));</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      for (Map&lt;String, Object&gt; entry : current) {</b>
+<b class="nc">&nbsp;        for (Object value : params) {</b>
+<b class="nc">&nbsp;          Map&lt;String, Object&gt; modified = new HashMap&lt;&gt;(entry);</b>
+<b class="nc">&nbsp;          modified.put(name, value);</b>
+<b class="nc">&nbsp;          result.add(modified);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return gridsearch(grid.headMap(name), result);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;SuggestionChangesExperiment&gt; generateExperiments(List&lt;SuggestionChangesExperimentRuns&gt; experimentSpecs) {
+<b class="nc">&nbsp;    List&lt;SuggestionChangesExperiment&gt; experiments = new LinkedList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (SuggestionChangesExperimentRuns spec : experimentSpecs) {</b>
+&nbsp;
+<b class="nc">&nbsp;      if (spec.parameters == null) {</b>
+<b class="nc">&nbsp;        experiments.add(new SuggestionChangesExperiment(spec.name, Collections.emptyMap()));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        SortedMap&lt;String, List&lt;Object&gt;&gt; params = new TreeMap&lt;&gt;(spec.parameters);</b>
+<b class="nc">&nbsp;        List&lt;Map&lt;String, Object&gt;&gt; combinations = gridsearch(params, Collections.emptyList());</b>
+&nbsp;
+<b class="nc">&nbsp;        for (Map&lt;String, Object&gt; settings : combinations) {</b>
+<b class="nc">&nbsp;          experiments.add(new SuggestionChangesExperiment(spec.name, settings));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return experiments;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public SuggestionChangesTestConfig getConfig() {
+<b class="nc">&nbsp;    return config;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public SuggestionChangesExperiment getCurrentExperiment() {
+<b class="nc">&nbsp;    return currentExperiment;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * For testing changes to suggestion ordering using a data corpus;
+&nbsp;   * iterate over experiments (including grid search for parameters)
+&nbsp;   * original behavior (for A/B testing) can be modeled by an experiment without parameters and an arbitrary name
+&nbsp;   */
+&nbsp;  public void setCurrentExperiment(@Nullable SuggestionChangesExperiment experiment) {
+<b class="nc">&nbsp;    currentExperiment = experiment;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isRunningExperiment(String name) {
+<b class="pc">&nbsp;    if (getInstance() == null) {</b>
+<b class="fc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    SuggestionChangesExperiment experiment = getInstance().getCurrentExperiment();</b>
+<b class="nc">&nbsp;    return experiment != null &amp;&amp; experiment.name.equals(name);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void trackExperimentResult(Pair&lt;SuggestionChangesExperiment, SuggestionChangesDataset&gt; source,
+&nbsp;                                    int position, int resultTextSize, long resultComputationTime) {
+<b class="nc">&nbsp;    numSamples.compute(source.getKey(), (ex, value) -&gt; value == null ? 1 : value + 1);</b>
+<b class="nc">&nbsp;    datasetNumSamples.compute(source, (ex, value) -&gt; value == null ? 1 : value + 1);</b>
+&nbsp;
+<b class="nc">&nbsp;    textSize.compute(source.getKey(), (ex, value) -&gt;</b>
+<b class="nc">&nbsp;      value == null ? resultTextSize : value + resultTextSize);</b>
+<b class="nc">&nbsp;    datasetTextSize.compute(source, (ex, value) -&gt;</b>
+<b class="nc">&nbsp;      value == null ? resultTextSize : value + resultTextSize);</b>
+&nbsp;
+<b class="nc">&nbsp;    computationTime.compute(source.getKey(), (ex, value) -&gt;</b>
+<b class="nc">&nbsp;      value == null ? resultComputationTime : value + resultComputationTime);</b>
+<b class="nc">&nbsp;    datasetComputationTime.compute(source, (ex, value) -&gt;</b>
+<b class="nc">&nbsp;      value == null ? resultComputationTime : value + resultComputationTime);</b>
+&nbsp;
+<b class="nc">&nbsp;    if (position == 0) {</b>
+<b class="nc">&nbsp;      correctSuggestions.compute(source.getKey(), (ex, value) -&gt; value == null ? 1 : value + 1);</b>
+<b class="nc">&nbsp;      datasetCorrectSuggestions.compute(source, (ex, value) -&gt; value == null ? 1 : value + 1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (position == -1) {</b>
+<b class="nc">&nbsp;      notFoundSuggestions.compute(source.getKey(), (ex, value) -&gt; value == null ? 1 : value + 1);</b>
+<b class="nc">&nbsp;      datasetNotFoundSuggestions.compute(source, (ex, value) -&gt; value == null ? 1 : value + 1);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      suggestionPosSum.compute(source.getKey(), (ex, value) -&gt; value == null ? position : value + position);</b>
+<b class="nc">&nbsp;      datasetSuggestionPosSum.compute(source, (ex, value) -&gt; value == null ? position : value + position);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;SuggestionChangesExperiment&gt; getExperiments() {
+<b class="nc">&nbsp;    return experiments;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private class Report implements Runnable {
+&nbsp;
+&nbsp;    private final BufferedWriter reportWriter;
+&nbsp;
+<b class="nc">&nbsp;    Report(BufferedWriter reportWriter) {</b>
+<b class="nc">&nbsp;      this.reportWriter = reportWriter;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void run() {
+<b class="nc">&nbsp;      if (reportWriter == null) {</b>
+&nbsp;        return;
+&nbsp;      }
+&nbsp;      try {
+<b class="nc">&nbsp;        StringBuilder report = new StringBuilder();</b>
+<b class="nc">&nbsp;        report.append(&quot;Overall report:\n\n&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        SuggestionChangesExperiment best = null;</b>
+<b class="nc">&nbsp;        int bestId = -1;</b>
+<b class="nc">&nbsp;        double bestAccuracy = 0.0;</b>
+&nbsp;
+<b class="nc">&nbsp;        int experimentId = 0;</b>
+<b class="nc">&nbsp;        for (SuggestionChangesExperiment experiment : experiments) {</b>
+<b class="nc">&nbsp;          experimentId++;</b>
+<b class="nc">&nbsp;          int correct = correctSuggestions.getOrDefault(experiment, 0);</b>
+<b class="nc">&nbsp;          int score = suggestionPosSum.getOrDefault(experiment, 0);</b>
+<b class="nc">&nbsp;          int notFound = notFoundSuggestions.getOrDefault(experiment, 0);</b>
+<b class="nc">&nbsp;          int total = numSamples.getOrDefault(experiment, 0);</b>
+<b class="nc">&nbsp;          double accuracy = (double) correct / total * 100.0;</b>
+<b class="nc">&nbsp;          double speed = (double) textSize.getOrDefault(experiment, 0) /</b>
+<b class="nc">&nbsp;            computationTime.getOrDefault(experiment, 0L) * 1000.0;</b>
+<b class="nc">&nbsp;          if (accuracy &gt; bestAccuracy) {</b>
+<b class="nc">&nbsp;            best = experiment;</b>
+<b class="nc">&nbsp;            bestAccuracy = accuracy;</b>
+<b class="nc">&nbsp;            bestId = experimentId;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          report.append(String.format(&quot;Experiment #%d (%s): %d / %d correct suggestions -&gt; %f%% accuracy;&quot; +</b>
+&nbsp;            &quot; score (less = better): %d; not found: %d; processed %f chars/second.%n&quot;,
+<b class="nc">&nbsp;            experimentId, experiment, correct, total, accuracy, score, notFound, speed));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        report.append(String.format(&quot;%nBest experiment: #%d (%s) @ %f%% accuracy%n&quot;, bestId, best, bestAccuracy));</b>
+&nbsp;
+<b class="nc">&nbsp;        for (SuggestionChangesDataset dataset : config.datasets) {</b>
+<b class="nc">&nbsp;          report.append(String.format(&quot;%nReport for dataset: %s%n&quot;, dataset.name));</b>
+<b class="nc">&nbsp;          best = null;</b>
+<b class="nc">&nbsp;          bestAccuracy = 0f;</b>
+<b class="nc">&nbsp;          bestId = -1;</b>
+&nbsp;
+<b class="nc">&nbsp;          experimentId = 0;</b>
+<b class="nc">&nbsp;          for (SuggestionChangesExperiment experiment : experiments) {</b>
+<b class="nc">&nbsp;            experimentId++;</b>
+<b class="nc">&nbsp;            Pair&lt;SuggestionChangesExperiment, SuggestionChangesDataset&gt; source = Pair.of(experiment, dataset);</b>
+<b class="nc">&nbsp;            int correct = datasetCorrectSuggestions.getOrDefault(source, 0);</b>
+<b class="nc">&nbsp;            int score = datasetSuggestionPosSum.getOrDefault(source, 0);</b>
+<b class="nc">&nbsp;            int notFound = datasetNotFoundSuggestions.getOrDefault(source, 0);</b>
+<b class="nc">&nbsp;            int total = datasetNumSamples.getOrDefault(source, 0);</b>
+<b class="nc">&nbsp;            double accuracy = (double) correct / total * 100.0;</b>
+<b class="nc">&nbsp;            double speed = (double) datasetTextSize.getOrDefault(source, 0) /</b>
+<b class="nc">&nbsp;              datasetComputationTime.getOrDefault(source, 0L) * 1000.0;</b>
+<b class="nc">&nbsp;            if (accuracy &gt; bestAccuracy) {</b>
+<b class="nc">&nbsp;              best = experiment;</b>
+<b class="nc">&nbsp;              bestAccuracy = accuracy;</b>
+<b class="nc">&nbsp;              bestId = experimentId;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            report.append(String.format(&quot;Experiment #%d (%s): %d / %d correct suggestions-&gt; %f%% accuracy;&quot; +</b>
+&nbsp;              &quot; score (less = better): %d; not found: %d; processed %f chars/second.%n&quot;,
+<b class="nc">&nbsp;              experimentId, experiment, correct, total, accuracy, score, notFound, speed));</b>
+&nbsp;          }
+<b class="nc">&nbsp;          report.append(String.format(&quot;%nBest experiment: #%d (%s) @ %f%% accuracy%n&quot;, bestId, best, bestAccuracy));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println(report);</b>
+<b class="nc">&nbsp;        reportWriter.write(report.toString());</b>
+<b class="nc">&nbsp;        reportWriter.close();</b>
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

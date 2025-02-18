@@ -1,0 +1,2183 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Configuration</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: Configuration (org.languagetool.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Configuration</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/159)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/402)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/866)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.gui;
+&nbsp;
+&nbsp;import java.awt.Color;
+&nbsp;import java.awt.Font;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.FileNotFoundException;
+&nbsp;import java.io.FileOutputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Collection;
+&nbsp;import java.util.EnumMap;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Map.Entry;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.Properties;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.rules.ITSIssueType;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleOption;
+&nbsp;
+&nbsp;/**
+&nbsp; * Configuration like list of disabled rule IDs, server mode etc.
+&nbsp; * Configuration is loaded from and stored to a properties file.
+&nbsp; *
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public class Configuration {
+&nbsp;  
+&nbsp;  public final static short UNDERLINE_WAVE = 10;
+&nbsp;  public final static short UNDERLINE_BOLDWAVE = 18;
+&nbsp;  public final static short UNDERLINE_BOLD = 12;
+&nbsp;  public final static short UNDERLINE_DASH = 5;
+&nbsp;  
+&nbsp;  static final int DEFAULT_SERVER_PORT = 8081;  // should be HTTPServerConfig.DEFAULT_PORT but we don&#39;t have that dependency
+&nbsp;  static final int DEFAULT_NUM_CHECK_PARAS = -1;  //  default number of parameters to be checked by TextLevelRules in LO/OO 
+&nbsp;  static final int FONT_STYLE_INVALID = -1;
+&nbsp;  static final int FONT_SIZE_INVALID = -1;
+&nbsp;  static final boolean DEFAULT_DO_RESET = false;
+&nbsp;  static final boolean DEFAULT_MULTI_THREAD = false;
+&nbsp;  static final boolean DEFAULT_NO_BACKGROUND_CHECK = false;
+&nbsp;  static final boolean DEFAULT_USE_QUEUE = true;
+&nbsp;  static final boolean DEFAULT_USE_DOC_LANGUAGE = true;
+&nbsp;  static final boolean DEFAULT_DO_REMOTE_CHECK = false;
+&nbsp;  static final boolean DEFAULT_USE_OTHER_SERVER = false;
+&nbsp;  static final boolean DEFAULT_IS_PREMIUM = false;
+&nbsp;  static final boolean DEFAULT_MARK_SINGLE_CHAR_BOLD = false;
+&nbsp;  static final boolean DEFAULT_USE_LT_SPELL_CHECKER = true;
+&nbsp;  static final boolean DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS = false;
+&nbsp;  static final boolean DEFAULT_INCLUDE_TRACKED_CHANGES = false;
+&nbsp;  static final boolean DEFAULT_ENABLE_TMP_OFF_RULES = false;
+&nbsp;  static final boolean DEFAULT_ENABLE_GOAL_SPECIFIC_RULES = false;
+&nbsp;  static final boolean DEFAULT_FILTER_OVERLAPPING_MATCHES = true;
+&nbsp;  static final boolean DEFAULT_SAVE_LO_CACHE = true;
+&nbsp;  static final boolean DEFAULT_USE_AI_SUPPORT = false;
+&nbsp;  static final boolean DEFAULT_AI_AUTO_CORRECT = false;
+&nbsp;  static final boolean DEFAULT_AI_SHOW_STYLISTIC_CHANGES = false;
+&nbsp;  
+&nbsp;  static final String DEFAULT_AI_MODEL = &quot;gpt-4&quot;;
+&nbsp;  static final String DEFAULT_AI_URL = &quot;http://localhost:8080/v1/chat/completions/&quot;;
+&nbsp;  static final String DEFAULT_AI_APIKEY = &quot;1234567&quot;;
+&nbsp;
+<b class="nc">&nbsp;  static final Color STYLE_COLOR = new Color(0, 175, 0);</b>
+&nbsp;
+&nbsp;  private static final String CONFIG_FILE = &quot;.languagetool.cfg&quot;;
+&nbsp;
+&nbsp;  private static final String CURRENT_PROFILE_KEY = &quot;currentProfile&quot;;
+&nbsp;  private static final String DEFINED_PROFILES_KEY = &quot;definedProfiles&quot;;
+&nbsp;  
+&nbsp;  private static final String DISABLED_RULES_KEY = &quot;disabledRules&quot;;
+&nbsp;  private static final String ENABLED_RULES_KEY = &quot;enabledRules&quot;;
+&nbsp;  private static final String DISABLED_CATEGORIES_KEY = &quot;disabledCategories&quot;;
+&nbsp;  private static final String ENABLED_CATEGORIES_KEY = &quot;enabledCategories&quot;;
+&nbsp;  private static final String ENABLED_RULES_ONLY_KEY = &quot;enabledRulesOnly&quot;;
+&nbsp;  private static final String LANGUAGE_KEY = &quot;language&quot;;
+&nbsp;  private static final String MOTHER_TONGUE_KEY = &quot;motherTongue&quot;;
+&nbsp;  private static final String FIXED_LANGUAGE_KEY = &quot;fixedLanguage&quot;;
+&nbsp;  private static final String NGRAM_DIR_KEY = &quot;ngramDir&quot;;
+&nbsp;  private static final String AUTO_DETECT_KEY = &quot;autoDetect&quot;;
+&nbsp;  private static final String TAGGER_SHOWS_DISAMBIG_LOG_KEY = &quot;taggerShowsDisambigLog&quot;;
+&nbsp;  private static final String SERVER_RUN_KEY = &quot;serverMode&quot;;
+&nbsp;  private static final String SERVER_PORT_KEY = &quot;serverPort&quot;;
+&nbsp;  private static final String NO_DEFAULT_CHECK_KEY = &quot;noDefaultCheck&quot;;
+&nbsp;  private static final String PARA_CHECK_KEY = &quot;numberParagraphs&quot;;
+&nbsp;  private static final String RESET_CHECK_KEY = &quot;doResetCheck&quot;;
+&nbsp;  private static final String USE_QUEUE_KEY = &quot;useTextLevelQueue&quot;;
+&nbsp;  private static final String NO_BACKGROUND_CHECK_KEY = &quot;noBackgroundCheck&quot;;
+&nbsp;  private static final String USE_DOC_LANG_KEY = &quot;useDocumentLanguage&quot;;
+&nbsp;  private static final String USE_GUI_KEY = &quot;useGUIConfig&quot;;
+&nbsp;  private static final String FONT_NAME_KEY = &quot;font.name&quot;;
+&nbsp;  private static final String FONT_STYLE_KEY = &quot;font.style&quot;;
+&nbsp;  private static final String FONT_SIZE_KEY = &quot;font.size&quot;;
+&nbsp;  private static final String LF_NAME_KEY = &quot;lookAndFeelName&quot;;
+&nbsp;  private static final String ERROR_COLORS_KEY = &quot;errorColors&quot;;
+&nbsp;  private static final String UNDERLINE_COLORS_KEY = &quot;underlineColors&quot;;
+&nbsp;  private static final String UNDERLINE_RULE_COLORS_KEY = &quot;underlineRuleColors&quot;;
+&nbsp;  private static final String UNDERLINE_TYPES_KEY = &quot;underlineTypes&quot;;
+&nbsp;  private static final String UNDERLINE_RULE_TYPES_KEY = &quot;underlineRuleTypes&quot;;
+&nbsp;  private static final String CONFIGURABLE_RULE_VALUES_KEY = &quot;configurableRuleValues&quot;;
+&nbsp;  private static final String LT_SWITCHED_OFF_KEY = &quot;ltSwitchedOff&quot;;
+&nbsp;  private static final String IS_MULTI_THREAD_LO_KEY = &quot;isMultiThread&quot;;
+&nbsp;  private static final String EXTERNAL_RULE_DIRECTORY = &quot;extRulesDirectory&quot;;
+&nbsp;  private static final String DO_REMOTE_CHECK_KEY = &quot;doRemoteCheck&quot;;
+&nbsp;  private static final String OTHER_SERVER_URL_KEY = &quot;otherServerUrl&quot;;
+&nbsp;  private static final String REMOTE_USERNAME_KEY = &quot;remoteUserName&quot;;
+&nbsp;  private static final String REMOTE_APIKEY_KEY = &quot;remoteApiKey&quot;;
+&nbsp;  private static final String USE_OTHER_SERVER_KEY = &quot;useOtherServer&quot;;
+&nbsp;  private static final String IS_PREMIUM_KEY = &quot;isPremium&quot;;
+&nbsp;  private static final String MARK_SINGLE_CHAR_BOLD_KEY = &quot;markSingleCharBold&quot;;
+&nbsp;  private static final String LOG_LEVEL_KEY = &quot;logLevel&quot;;
+&nbsp;  private static final String USE_LT_SPELL_CHECKER_KEY = &quot;UseLtSpellChecker&quot;;
+&nbsp;  private static final String NO_SYNONYMS_AS_SUGGESTIONS_KEY = &quot;noSynonymsAsSuggestions&quot;;
+&nbsp;  private static final String INCLUDE_TRACKED_CHANGES_KEY = &quot;includeTrackedChanges&quot;;
+&nbsp;  private static final String ENABLE_TMP_OFF_RULES_KEY = &quot;enableTmpOffRules&quot;;
+&nbsp;  private static final String ENABLE_GOAL_SPECIFIC_RULES_KEY = &quot;enableGoalSpecificRules&quot;;
+&nbsp;  private static final String FILTER_OVERLAPPING_MATCHES_KEY = &quot;filterOverlappingMatches&quot;;
+&nbsp;  private static final String SAVE_LO_CACHE_KEY = &quot;saveLoCache&quot;;
+&nbsp;  private static final String LT_VERSION_KEY = &quot;ltVersion&quot;;
+&nbsp;  private static final String AI_URL_KEY = &quot;aiUrl&quot;;
+&nbsp;  private static final String AI_APIKEY_KEY = &quot;aiApiKey&quot;;
+&nbsp;  private static final String AI_MODEL_KEY = &quot;aiModel&quot;;
+&nbsp;  private static final String AI_USE_AI_SUPPORT_KEY = &quot;useAiSupport&quot;;
+&nbsp;  private static final String AI_AUTO_CORRECT_KEY = &quot;aiAutoCorrect&quot;;
+&nbsp;  private static final String AI_SHOW_STYLISTIC_CHANGES_KEY = &quot;aiShowStylisticChanges&quot;;
+&nbsp;
+&nbsp;  private static final String DELIMITER = &quot;,&quot;;
+&nbsp;  // find all comma followed by zero or more white space characters that are preceded by &quot;:&quot; AND a valid 6-digit hex code
+&nbsp;  // example: &quot;:#44ffee,&quot;
+&nbsp;  private static final String COLOR_SPLITTER_REGEXP = &quot;(?&lt;=:#[0-9A-Fa-f]{6}),\\s*&quot;;
+&nbsp;  //find all colon followed by a valid 6-digit hex code, e.g., &quot;:#44ffee&quot;
+&nbsp;  private static final String COLOR_SPLITTER_REGEXP_COLON = &quot;:(?=#[0-9A-Fa-f]{6})&quot;;
+&nbsp;  // find all comma followed by zero or more white space characters that are preceded by at least one digit
+&nbsp;  // example: &quot;4,&quot;
+&nbsp;  private static final String CONFIGURABLE_RULE_SPLITTER_REGEXP = &quot;(?&lt;=[0-9]),\\s*&quot;;
+&nbsp;
+&nbsp;  private static final String BLANK = &quot;[ \t]&quot;;
+&nbsp;  private static final String BLANK_REPLACE = &quot;_&quot;;
+&nbsp;  private static final String PROFILE_DELIMITER = &quot;__&quot;;
+&nbsp;  
+&nbsp;  // For new Maps, Sets or Lists add a clear to initOptions
+<b class="nc">&nbsp;  private final Map&lt;String, String&gt; configForOtherProfiles = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Map&lt;String, String&gt; configForOtherLanguages = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Map&lt;ITSIssueType, Color&gt; errorColors = new EnumMap&lt;&gt;(ITSIssueType.class);</b>
+<b class="nc">&nbsp;  private final Map&lt;String, Color&gt; underlineColors = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Map&lt;String, Color&gt; underlineRuleColors = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Map&lt;String, Short&gt; underlineTypes = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Map&lt;String, Short&gt; underlineRuleTypes = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Map&lt;String, Object[]&gt; configurableRuleValues = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Set&lt;String&gt; styleLikeCategories = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Map&lt;String, String&gt; specialTabCategories = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;  // For new Maps, Sets or Lists add a clear to initOptions
+<b class="nc">&nbsp;  private Set&lt;String&gt; disabledRuleIds = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;  private Set&lt;String&gt; enabledRuleIds = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;  private Set&lt;String&gt; disabledCategoryNames = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;  private Set&lt;String&gt; enabledCategoryNames = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;  private List&lt;String&gt; definedProfiles = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;  private List&lt;String&gt; allProfileKeys = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;  private List&lt;String&gt; allProfileLangKeys = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;  // Add new option default parameters to initOptions
+&nbsp;  private Language lang;
+&nbsp;  private File configFile;
+&nbsp;  private File oldConfigFile;
+<b class="nc">&nbsp;  private boolean enabledRulesOnly = false;</b>
+&nbsp;  private Language language;
+<b class="nc">&nbsp;  private Language motherTongue = null;</b>
+<b class="nc">&nbsp;  private Language fixedLanguage = null;</b>
+&nbsp;  private File ngramDirectory;
+&nbsp;  private boolean runServer;
+&nbsp;  private boolean autoDetect;
+&nbsp;  private boolean taggerShowsDisambigLog;
+&nbsp;  private boolean guiConfig;
+&nbsp;  private String fontName;
+<b class="nc">&nbsp;  private int fontStyle = FONT_STYLE_INVALID;</b>
+<b class="nc">&nbsp;  private int fontSize = FONT_SIZE_INVALID;</b>
+<b class="nc">&nbsp;  private int serverPort = DEFAULT_SERVER_PORT;</b>
+<b class="nc">&nbsp;  private int numParasToCheck = DEFAULT_NUM_CHECK_PARAS;</b>
+<b class="nc">&nbsp;  private boolean doResetCheck = DEFAULT_DO_RESET;</b>
+<b class="nc">&nbsp;  private boolean isMultiThreadLO = DEFAULT_MULTI_THREAD;</b>
+<b class="nc">&nbsp;  private boolean noBackgroundCheck = DEFAULT_NO_BACKGROUND_CHECK;</b>
+<b class="nc">&nbsp;  private boolean useTextLevelQueue = DEFAULT_USE_QUEUE;</b>
+<b class="nc">&nbsp;  private boolean useDocLanguage = DEFAULT_USE_DOC_LANGUAGE;</b>
+<b class="nc">&nbsp;  private boolean doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;</b>
+<b class="nc">&nbsp;  private boolean useOtherServer = DEFAULT_USE_OTHER_SERVER;</b>
+<b class="nc">&nbsp;  private boolean isPremium = DEFAULT_IS_PREMIUM;</b>
+<b class="nc">&nbsp;  private boolean markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;</b>
+<b class="nc">&nbsp;  private boolean useLtSpellChecker = DEFAULT_USE_LT_SPELL_CHECKER;</b>
+<b class="nc">&nbsp;  private boolean noSynonymsAsSuggestions = DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS;</b>
+<b class="nc">&nbsp;  private boolean includeTrackedChanges = DEFAULT_INCLUDE_TRACKED_CHANGES;</b>
+<b class="nc">&nbsp;  private boolean enableTmpOffRules = DEFAULT_ENABLE_TMP_OFF_RULES;</b>
+<b class="nc">&nbsp;  private boolean enableGoalSpecificRules = DEFAULT_ENABLE_GOAL_SPECIFIC_RULES;</b>
+<b class="nc">&nbsp;  private boolean filterOverlappingMatches = DEFAULT_FILTER_OVERLAPPING_MATCHES;</b>
+<b class="nc">&nbsp;  private boolean saveLoCache = DEFAULT_SAVE_LO_CACHE;</b>
+&nbsp;  private String externalRuleDirectory;
+&nbsp;  private String lookAndFeelName;
+<b class="nc">&nbsp;  private String currentProfile = null;</b>
+<b class="nc">&nbsp;  private String otherServerUrl = null;</b>
+<b class="nc">&nbsp;  private String remoteUsername = null;</b>
+<b class="nc">&nbsp;  private String remoteApiKey = null;</b>
+<b class="nc">&nbsp;  private String logLevel = null;</b>
+<b class="nc">&nbsp;  private String ltVersion = null;</b>
+<b class="nc">&nbsp;  private boolean switchOff = false;</b>
+<b class="nc">&nbsp;  private boolean isOffice = false;</b>
+<b class="nc">&nbsp;  private boolean isOpenOffice = false;</b>
+<b class="nc">&nbsp;  private String aiUrl = DEFAULT_AI_URL;</b>
+<b class="nc">&nbsp;  private String aiApiKey = DEFAULT_AI_APIKEY;</b>
+<b class="nc">&nbsp;  private String aiModel = DEFAULT_AI_MODEL;</b>
+<b class="nc">&nbsp;  private boolean useAiSupport = DEFAULT_USE_AI_SUPPORT;</b>
+<b class="nc">&nbsp;  private boolean aiAutoCorrect = DEFAULT_AI_AUTO_CORRECT;</b>
+<b class="nc">&nbsp;  private boolean aiShowStylisticChanges = DEFAULT_AI_SHOW_STYLISTIC_CHANGES;</b>
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Uses the configuration file from the default location.
+&nbsp;   *
+&nbsp;   * @param lang The language for the configuration, used to distinguish
+&nbsp;   *             rules that are enabled or disabled per language.
+&nbsp;   */
+&nbsp;  public Configuration(Language lang) throws IOException {
+<b class="nc">&nbsp;    this(new File(System.getProperty(&quot;user.home&quot;)), CONFIG_FILE, lang);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Configuration(File baseDir, Language lang) throws IOException {
+<b class="nc">&nbsp;    this(baseDir, CONFIG_FILE, lang);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Configuration(File baseDir, String filename, Language lang) throws IOException {
+<b class="nc">&nbsp;    this(baseDir, filename, null, lang, false);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  public Configuration(File baseDir, String filename, File oldConfigFile, Language lang, boolean isOffice) throws IOException {</b>
+&nbsp;    // already fails silently if file doesn&#39;t exist in loadConfiguration, don&#39;t fail here either
+&nbsp;    // can cause problem when starting LanguageTool server as a user without a home directory because of default arguments
+&nbsp;    //if (baseDir == null || !baseDir.isDirectory()) {
+&nbsp;    //  throw new IllegalArgumentException(&quot;Cannot open file &quot; + filename + &quot; in directory &quot; + baseDir);
+&nbsp;    //}
+<b class="nc">&nbsp;    initOptions();</b>
+<b class="nc">&nbsp;    this.lang = lang;</b>
+<b class="nc">&nbsp;    this.isOffice = isOffice;</b>
+<b class="nc">&nbsp;    this.isOpenOffice = isOffice &amp;&amp; filename.contains(&quot;ooo&quot;);</b>
+<b class="nc">&nbsp;    configFile = new File(baseDir, filename);</b>
+<b class="nc">&nbsp;    this.oldConfigFile = oldConfigFile;</b>
+<b class="nc">&nbsp;    setAllProfileKeys();</b>
+<b class="nc">&nbsp;    loadConfiguration();</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private Configuration() {</b>
+<b class="nc">&nbsp;    lang = null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Initialize variables and clears Maps, Sets and Lists
+&nbsp;   */
+&nbsp;  public void initOptions() {
+<b class="nc">&nbsp;    configForOtherLanguages.clear();</b>
+<b class="nc">&nbsp;    underlineColors.clear();</b>
+<b class="nc">&nbsp;    underlineRuleColors.clear();</b>
+<b class="nc">&nbsp;    underlineTypes.clear();</b>
+<b class="nc">&nbsp;    underlineRuleTypes.clear();</b>
+<b class="nc">&nbsp;    configurableRuleValues.clear();</b>
+&nbsp;
+<b class="nc">&nbsp;    disabledRuleIds.clear();</b>
+<b class="nc">&nbsp;    enabledRuleIds.clear();</b>
+<b class="nc">&nbsp;    disabledCategoryNames.clear();</b>
+<b class="nc">&nbsp;    enabledCategoryNames.clear();</b>
+<b class="nc">&nbsp;    definedProfiles.clear();</b>
+&nbsp;
+<b class="nc">&nbsp;    enabledRulesOnly = false;</b>
+<b class="nc">&nbsp;    ngramDirectory = null;</b>
+<b class="nc">&nbsp;    runServer = false;</b>
+<b class="nc">&nbsp;    autoDetect = false;</b>
+<b class="nc">&nbsp;    taggerShowsDisambigLog = false;</b>
+<b class="nc">&nbsp;    guiConfig = false;</b>
+<b class="nc">&nbsp;    fontName = null;</b>
+<b class="nc">&nbsp;    fontStyle = FONT_STYLE_INVALID;</b>
+<b class="nc">&nbsp;    fontSize = FONT_SIZE_INVALID;</b>
+<b class="nc">&nbsp;    serverPort = DEFAULT_SERVER_PORT;</b>
+<b class="nc">&nbsp;    numParasToCheck = DEFAULT_NUM_CHECK_PARAS;</b>
+<b class="nc">&nbsp;    doResetCheck = DEFAULT_DO_RESET;</b>
+<b class="nc">&nbsp;    isMultiThreadLO = DEFAULT_MULTI_THREAD;</b>
+<b class="nc">&nbsp;    noBackgroundCheck = DEFAULT_NO_BACKGROUND_CHECK;</b>
+<b class="nc">&nbsp;    useTextLevelQueue = DEFAULT_USE_QUEUE;</b>
+<b class="nc">&nbsp;    useDocLanguage = DEFAULT_USE_DOC_LANGUAGE;</b>
+<b class="nc">&nbsp;    doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;</b>
+<b class="nc">&nbsp;    useOtherServer = DEFAULT_USE_OTHER_SERVER;</b>
+<b class="nc">&nbsp;    isPremium = DEFAULT_IS_PREMIUM;</b>
+<b class="nc">&nbsp;    markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;</b>
+<b class="nc">&nbsp;    useLtSpellChecker = DEFAULT_USE_LT_SPELL_CHECKER;</b>
+<b class="nc">&nbsp;    noSynonymsAsSuggestions = DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS;</b>
+<b class="nc">&nbsp;    includeTrackedChanges = DEFAULT_INCLUDE_TRACKED_CHANGES;</b>
+<b class="nc">&nbsp;    enableTmpOffRules = DEFAULT_ENABLE_TMP_OFF_RULES;</b>
+<b class="nc">&nbsp;    enableGoalSpecificRules = DEFAULT_ENABLE_GOAL_SPECIFIC_RULES;</b>
+<b class="nc">&nbsp;    filterOverlappingMatches = DEFAULT_FILTER_OVERLAPPING_MATCHES;</b>
+<b class="nc">&nbsp;    saveLoCache = DEFAULT_SAVE_LO_CACHE;</b>
+<b class="nc">&nbsp;    aiUrl = DEFAULT_AI_URL;</b>
+<b class="nc">&nbsp;    aiApiKey = DEFAULT_AI_APIKEY;</b>
+<b class="nc">&nbsp;    aiModel = DEFAULT_AI_MODEL;</b>
+<b class="nc">&nbsp;    useAiSupport = DEFAULT_USE_AI_SUPPORT;</b>
+<b class="nc">&nbsp;    aiAutoCorrect = DEFAULT_AI_AUTO_CORRECT;</b>
+<b class="nc">&nbsp;    aiShowStylisticChanges = DEFAULT_AI_SHOW_STYLISTIC_CHANGES;</b>
+<b class="nc">&nbsp;    externalRuleDirectory = null;</b>
+<b class="nc">&nbsp;    lookAndFeelName = null;</b>
+<b class="nc">&nbsp;    currentProfile = null;</b>
+<b class="nc">&nbsp;    otherServerUrl = null;</b>
+<b class="nc">&nbsp;    remoteUsername = null;</b>
+<b class="nc">&nbsp;    remoteApiKey = null;</b>
+<b class="nc">&nbsp;    logLevel = null;</b>
+<b class="nc">&nbsp;    switchOff = false;</b>
+&nbsp;  }
+&nbsp;  /**
+&nbsp;   * Returns a copy of the given configuration.
+&nbsp;   * @param configuration the object to copy.
+&nbsp;   * @since 2.6
+&nbsp;   */
+&nbsp;  Configuration copy(Configuration configuration) {
+<b class="nc">&nbsp;    Configuration copy = new Configuration();</b>
+<b class="nc">&nbsp;    copy.restoreState(configuration);</b>
+<b class="nc">&nbsp;    return copy;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Restore the state of this object from configuration.
+&nbsp;   * @param configuration the object from which we will read the state
+&nbsp;   * @since 2.6
+&nbsp;   */
+&nbsp;  void restoreState(Configuration configuration) {
+<b class="nc">&nbsp;    this.configFile = configuration.configFile;</b>
+<b class="nc">&nbsp;    this.language = configuration.language;</b>
+<b class="nc">&nbsp;    this.lang = configuration.lang;</b>
+<b class="nc">&nbsp;    this.motherTongue = configuration.motherTongue;</b>
+<b class="nc">&nbsp;    this.fixedLanguage = configuration.fixedLanguage;</b>
+<b class="nc">&nbsp;    this.ngramDirectory = configuration.ngramDirectory;</b>
+<b class="nc">&nbsp;    this.runServer = configuration.runServer;</b>
+<b class="nc">&nbsp;    this.autoDetect = configuration.autoDetect;</b>
+<b class="nc">&nbsp;    this.taggerShowsDisambigLog = configuration.taggerShowsDisambigLog;</b>
+<b class="nc">&nbsp;    this.guiConfig = configuration.guiConfig;</b>
+<b class="nc">&nbsp;    this.fontName = configuration.fontName;</b>
+<b class="nc">&nbsp;    this.fontStyle = configuration.fontStyle;</b>
+<b class="nc">&nbsp;    this.fontSize = configuration.fontSize;</b>
+<b class="nc">&nbsp;    this.serverPort = configuration.serverPort;</b>
+<b class="nc">&nbsp;    this.numParasToCheck = configuration.numParasToCheck;</b>
+<b class="nc">&nbsp;    this.doResetCheck = configuration.doResetCheck;</b>
+<b class="nc">&nbsp;    this.useTextLevelQueue = configuration.useTextLevelQueue;</b>
+<b class="nc">&nbsp;    this.noBackgroundCheck = configuration.noBackgroundCheck;</b>
+<b class="nc">&nbsp;    this.isMultiThreadLO = configuration.isMultiThreadLO;</b>
+<b class="nc">&nbsp;    this.useDocLanguage = configuration.useDocLanguage;</b>
+<b class="nc">&nbsp;    this.lookAndFeelName = configuration.lookAndFeelName;</b>
+<b class="nc">&nbsp;    this.externalRuleDirectory = configuration.externalRuleDirectory;</b>
+<b class="nc">&nbsp;    this.currentProfile = configuration.currentProfile;</b>
+<b class="nc">&nbsp;    this.doRemoteCheck = configuration.doRemoteCheck;</b>
+<b class="nc">&nbsp;    this.useOtherServer = configuration.useOtherServer;</b>
+<b class="nc">&nbsp;    this.isPremium = configuration.isPremium;</b>
+<b class="nc">&nbsp;    this.markSingleCharBold = configuration.markSingleCharBold;</b>
+<b class="nc">&nbsp;    this.useLtSpellChecker = configuration.useLtSpellChecker;</b>
+<b class="nc">&nbsp;    this.noSynonymsAsSuggestions = configuration.noSynonymsAsSuggestions;</b>
+<b class="nc">&nbsp;    this.includeTrackedChanges = configuration.includeTrackedChanges;</b>
+<b class="nc">&nbsp;    this.enableTmpOffRules = configuration.enableTmpOffRules;</b>
+<b class="nc">&nbsp;    this.enableGoalSpecificRules = configuration.enableGoalSpecificRules;</b>
+<b class="nc">&nbsp;    this.filterOverlappingMatches = configuration.filterOverlappingMatches;</b>
+<b class="nc">&nbsp;    this.saveLoCache = configuration.saveLoCache;</b>
+<b class="nc">&nbsp;    this.otherServerUrl = configuration.otherServerUrl;</b>
+<b class="nc">&nbsp;    this.remoteUsername = configuration.remoteUsername;</b>
+<b class="nc">&nbsp;    this.remoteApiKey = configuration.remoteApiKey;</b>
+<b class="nc">&nbsp;    this.logLevel = configuration.logLevel;</b>
+<b class="nc">&nbsp;    this.isOffice = configuration.isOffice;</b>
+<b class="nc">&nbsp;    this.isOpenOffice = configuration.isOpenOffice;</b>
+<b class="nc">&nbsp;    this.ltVersion = configuration.ltVersion;</b>
+<b class="nc">&nbsp;    this.aiUrl = configuration.aiUrl;</b>
+<b class="nc">&nbsp;    this.aiApiKey = configuration.aiApiKey;</b>
+<b class="nc">&nbsp;    this.aiModel = configuration.aiModel;</b>
+<b class="nc">&nbsp;    this.useAiSupport = configuration.useAiSupport;</b>
+<b class="nc">&nbsp;    this.aiAutoCorrect = configuration.aiAutoCorrect;</b>
+<b class="nc">&nbsp;    this.aiShowStylisticChanges = configuration.aiShowStylisticChanges;</b>
+&nbsp;    
+<b class="nc">&nbsp;    this.disabledRuleIds.clear();</b>
+<b class="nc">&nbsp;    this.disabledRuleIds.addAll(configuration.disabledRuleIds);</b>
+<b class="nc">&nbsp;    this.enabledRuleIds.clear();</b>
+<b class="nc">&nbsp;    this.enabledRuleIds.addAll(configuration.enabledRuleIds);</b>
+<b class="nc">&nbsp;    this.disabledCategoryNames.clear();</b>
+<b class="nc">&nbsp;    this.disabledCategoryNames.addAll(configuration.disabledCategoryNames);</b>
+<b class="nc">&nbsp;    this.enabledCategoryNames.clear();</b>
+<b class="nc">&nbsp;    this.enabledCategoryNames.addAll(configuration.enabledCategoryNames);</b>
+<b class="nc">&nbsp;    this.configForOtherLanguages.clear();</b>
+<b class="nc">&nbsp;    for (String key : configuration.configForOtherLanguages.keySet()) {</b>
+<b class="nc">&nbsp;      this.configForOtherLanguages.put(key, configuration.configForOtherLanguages.get(key));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.underlineColors.clear();</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, Color&gt; entry : configuration.underlineColors.entrySet()) {</b>
+<b class="nc">&nbsp;      this.underlineColors.put(entry.getKey(), entry.getValue());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.underlineRuleColors.clear();</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, Color&gt; entry : configuration.underlineRuleColors.entrySet()) {</b>
+<b class="nc">&nbsp;      this.underlineRuleColors.put(entry.getKey(), entry.getValue());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.underlineTypes.clear();</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, Short&gt; entry : configuration.underlineTypes.entrySet()) {</b>
+<b class="nc">&nbsp;      this.underlineTypes.put(entry.getKey(), entry.getValue());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.underlineRuleTypes.clear();</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, Short&gt; entry : configuration.underlineRuleTypes.entrySet()) {</b>
+<b class="nc">&nbsp;      this.underlineRuleTypes.put(entry.getKey(), entry.getValue());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.configurableRuleValues.clear();</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, Object[]&gt; entry : configuration.configurableRuleValues.entrySet()) {</b>
+<b class="nc">&nbsp;      this.configurableRuleValues.put(entry.getKey(), entry.getValue());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.styleLikeCategories.clear();</b>
+<b class="nc">&nbsp;    this.styleLikeCategories.addAll(configuration.styleLikeCategories);</b>
+<b class="nc">&nbsp;    this.specialTabCategories.clear();</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, String&gt; entry : configuration.specialTabCategories.entrySet()) {</b>
+<b class="nc">&nbsp;      this.specialTabCategories.put(entry.getKey(), entry.getValue());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.definedProfiles.clear();</b>
+<b class="nc">&nbsp;    this.definedProfiles.addAll(configuration.definedProfiles);</b>
+<b class="nc">&nbsp;    this.allProfileLangKeys.clear();</b>
+<b class="nc">&nbsp;    this.allProfileLangKeys.addAll(configuration.allProfileLangKeys);</b>
+<b class="nc">&nbsp;    this.allProfileKeys.clear();</b>
+<b class="nc">&nbsp;    this.allProfileKeys.addAll(configuration.allProfileKeys);</b>
+<b class="nc">&nbsp;    this.configForOtherProfiles.clear();</b>
+<b class="nc">&nbsp;    for (Entry&lt;String, String&gt; entry : configuration.configForOtherProfiles.entrySet()) {</b>
+<b class="nc">&nbsp;      this.configForOtherProfiles.put(entry.getKey(), entry.getValue());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setConfigFile(File configFile) {
+<b class="nc">&nbsp;    this.configFile = configFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Set&lt;String&gt; getDisabledRuleIds() {
+<b class="nc">&nbsp;    return disabledRuleIds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Set&lt;String&gt; getEnabledRuleIds() {
+<b class="nc">&nbsp;    return enabledRuleIds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Set&lt;String&gt; getDisabledCategoryNames() {
+<b class="nc">&nbsp;    return disabledCategoryNames;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Set&lt;String&gt; getEnabledCategoryNames() {
+<b class="nc">&nbsp;    return enabledCategoryNames;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setDisabledRuleIds(Set&lt;String&gt; ruleIds) {
+<b class="nc">&nbsp;    disabledRuleIds = ruleIds;</b>
+<b class="nc">&nbsp;    enabledRuleIds.removeAll(ruleIds);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void addDisabledRuleIds(Set&lt;String&gt; ruleIds) {
+<b class="nc">&nbsp;    disabledRuleIds.addAll(ruleIds);</b>
+<b class="nc">&nbsp;    enabledRuleIds.removeAll(ruleIds);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void removeDisabledRuleIds(Set&lt;String&gt; ruleIds) {
+<b class="nc">&nbsp;    disabledRuleIds.removeAll(ruleIds);</b>
+<b class="nc">&nbsp;    enabledRuleIds.addAll(ruleIds);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void removeDisabledRuleId(String ruleId) {
+<b class="nc">&nbsp;    disabledRuleIds.remove(ruleId);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void removeEnabledRuleId(String ruleId) {
+<b class="nc">&nbsp;    enabledRuleIds.remove(ruleId);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setEnabledRuleIds(Set&lt;String&gt; ruleIds) {
+<b class="nc">&nbsp;    enabledRuleIds = ruleIds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setDisabledCategoryNames(Set&lt;String&gt; categoryNames) {
+<b class="nc">&nbsp;    disabledCategoryNames = categoryNames;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setEnabledCategoryNames(Set&lt;String&gt; categoryNames) {
+<b class="nc">&nbsp;    enabledCategoryNames = categoryNames;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean getEnabledRulesOnly() {
+<b class="nc">&nbsp;    return enabledRulesOnly;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Language getLanguage() {
+<b class="nc">&nbsp;    return language;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setLanguage(Language language) {
+<b class="nc">&nbsp;    this.language = language;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Language getMotherTongue() {
+<b class="nc">&nbsp;    return motherTongue;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setMotherTongue(Language motherTongue) {
+<b class="nc">&nbsp;    this.motherTongue = motherTongue;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Language getFixedLanguage() {
+<b class="nc">&nbsp;    return fixedLanguage;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setFixedLanguage(Language fixedLanguage) {
+<b class="nc">&nbsp;    this.fixedLanguage = fixedLanguage;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Language getDefaultLanguage() {
+<b class="nc">&nbsp;    if (useDocLanguage) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return fixedLanguage;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setUseDocLanguage(boolean useDocLang) {
+<b class="nc">&nbsp;    useDocLanguage = useDocLang;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean getUseDocLanguage() {
+<b class="nc">&nbsp;    return useDocLanguage;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean getAutoDetect() {
+<b class="nc">&nbsp;    return autoDetect;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setAutoDetect(boolean autoDetect) {
+<b class="nc">&nbsp;    this.autoDetect = autoDetect;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setRemoteCheck(boolean doRemoteCheck) {
+<b class="nc">&nbsp;    this.doRemoteCheck = doRemoteCheck;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean doRemoteCheck() {
+<b class="nc">&nbsp;    return doRemoteCheck;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setUseOtherServer(boolean useOtherServer) {
+<b class="nc">&nbsp;    this.useOtherServer = useOtherServer;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean useOtherServer() {
+<b class="nc">&nbsp;    return useOtherServer;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setPremium(boolean isPremium) {
+<b class="nc">&nbsp;    this.isPremium = isPremium;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isPremium() {
+<b class="nc">&nbsp;    return isPremium;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setOtherServerUrl(String otherServerUrl) {
+<b class="nc">&nbsp;    this.otherServerUrl = otherServerUrl;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getServerUrl() {
+<b class="nc">&nbsp;    return useOtherServer ? otherServerUrl : null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setRemoteUsername(String remoteUsername) {
+<b class="nc">&nbsp;    this.remoteUsername = remoteUsername;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getRemoteUsername() {
+<b class="nc">&nbsp;    return isPremium ? remoteUsername : null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setRemoteApiKey(String remoteApiKey) {
+<b class="nc">&nbsp;    this.remoteApiKey = remoteApiKey;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String aiUrl() {
+<b class="nc">&nbsp;    return aiUrl;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setAiUrl(String aiUrl) {
+<b class="nc">&nbsp;    this.aiUrl = aiUrl;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String aiModel() {
+<b class="nc">&nbsp;    return aiModel;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setAiModel(String aiModel) {
+<b class="nc">&nbsp;    this.aiModel = aiModel;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String aiApiKey() {
+<b class="nc">&nbsp;    return aiApiKey;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setAiApiKey(String aiApiKey) {
+<b class="nc">&nbsp;    this.aiApiKey = aiApiKey;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean useAiSupport() {
+<b class="nc">&nbsp;    return useAiSupport;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setUseAiSupport(boolean useAiSupport) {
+<b class="nc">&nbsp;    this.useAiSupport = useAiSupport;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean aiAutoCorrect() {
+<b class="nc">&nbsp;    return aiAutoCorrect;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setAiAutoCorrect(boolean aiAutoCorrect) {
+<b class="nc">&nbsp;    this.aiAutoCorrect = aiAutoCorrect;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean aiShowStylisticChanges() {
+<b class="nc">&nbsp;    return aiShowStylisticChanges;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setAiShowStylisticChanges(boolean aiShowStylisticChanges) {
+<b class="nc">&nbsp;    this.aiShowStylisticChanges = aiShowStylisticChanges;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getRemoteApiKey() {
+<b class="nc">&nbsp;    return isPremium ? remoteApiKey : null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getlogLevel() {
+<b class="nc">&nbsp;    return logLevel;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setMarkSingleCharBold(boolean markSingleCharBold) {
+<b class="nc">&nbsp;    this.markSingleCharBold = markSingleCharBold;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean markSingleCharBold() {
+<b class="nc">&nbsp;    return markSingleCharBold;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public void setUseLtSpellChecker(boolean useLtSpellChecker) {
+<b class="nc">&nbsp;    this.useLtSpellChecker = useLtSpellChecker;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean useLtSpellChecker() {
+<b class="nc">&nbsp;    return useLtSpellChecker;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public void setNoSynonymsAsSuggestions(boolean noSynonymsAsSuggestions) {
+<b class="nc">&nbsp;    this.noSynonymsAsSuggestions = noSynonymsAsSuggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean noSynonymsAsSuggestions() {
+<b class="nc">&nbsp;    return noSynonymsAsSuggestions;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public void setIncludeTrackedChanges(boolean includeTrackedChanges) {
+<b class="nc">&nbsp;    this.includeTrackedChanges = includeTrackedChanges;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean includeTrackedChanges() {
+<b class="nc">&nbsp;    return includeTrackedChanges;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public void setEnableTmpOffRules(boolean enableTmpOffRules) {
+<b class="nc">&nbsp;    this.enableTmpOffRules = enableTmpOffRules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean enableTmpOffRules() {
+<b class="nc">&nbsp;    return enableTmpOffRules;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public void setEnableGoalSpecificRules(boolean enableGoalSpecificRules) {
+<b class="nc">&nbsp;    this.enableGoalSpecificRules = enableGoalSpecificRules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean enableGoalSpecificRules() {
+<b class="nc">&nbsp;    return enableGoalSpecificRules;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public void setFilterOverlappingMatches(boolean filterOverlappingMatches) {
+<b class="nc">&nbsp;    this.filterOverlappingMatches = filterOverlappingMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean filterOverlappingMatches() {
+<b class="nc">&nbsp;    return filterOverlappingMatches;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public void setSaveLoCache(boolean saveLoCache) {
+<b class="nc">&nbsp;    this.saveLoCache = saveLoCache;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean saveLoCache() {
+<b class="nc">&nbsp;    return saveLoCache;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Determines whether the tagger window will also print the disambiguation
+&nbsp;   * log.
+&nbsp;   * @return true if the tagger window will print the disambiguation log,
+&nbsp;   * false otherwise
+&nbsp;   * @since 3.3
+&nbsp;   */
+&nbsp;  public boolean getTaggerShowsDisambigLog() {
+<b class="nc">&nbsp;    return taggerShowsDisambigLog;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Enables or disables the disambiguation log on the tagger window,
+&nbsp;   * depending on the value of the parameter taggerShowsDisambigLog.
+&nbsp;   * @param taggerShowsDisambigLog If true, the tagger window will print the
+&nbsp;   * @since 3.3
+&nbsp;   */
+&nbsp;  public void setTaggerShowsDisambigLog(boolean taggerShowsDisambigLog) {
+<b class="nc">&nbsp;    this.taggerShowsDisambigLog = taggerShowsDisambigLog;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean getRunServer() {
+<b class="nc">&nbsp;    return runServer;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setRunServer(boolean runServer) {
+<b class="nc">&nbsp;    this.runServer = runServer;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getServerPort() {
+<b class="nc">&nbsp;    return serverPort;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setUseGUIConfig(boolean useGUIConfig) {
+<b class="nc">&nbsp;    this.guiConfig = useGUIConfig;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean getUseGUIConfig() {
+<b class="nc">&nbsp;    return guiConfig;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setServerPort(int serverPort) {
+<b class="nc">&nbsp;    this.serverPort = serverPort;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getExternalRuleDirectory() {
+<b class="nc">&nbsp;    return externalRuleDirectory;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setExternalRuleDirectory(String path) {
+<b class="nc">&nbsp;    externalRuleDirectory = path;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * get the number of paragraphs to be checked for TextLevelRules
+&nbsp;   * @since 4.0
+&nbsp;   */
+&nbsp;  public int getNumParasToCheck() {
+<b class="nc">&nbsp;    return numParasToCheck;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * set the number of paragraphs to be checked for TextLevelRules
+&nbsp;   * @since 4.0
+&nbsp;   */
+&nbsp;  public void setNumParasToCheck(int numParas) {
+<b class="nc">&nbsp;    this.numParasToCheck = numParas;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * will all paragraphs check after every change of text?
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  public boolean isResetCheck() {
+<b class="nc">&nbsp;    return doResetCheck;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * set all paragraphs to be checked after every change of text
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  public void setDoResetCheck(boolean resetCheck) {
+<b class="nc">&nbsp;    this.doResetCheck = resetCheck;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * will all paragraphs not checked after every change of text 
+&nbsp;   * if more than one document loaded?
+&nbsp;   * @since 4.5
+&nbsp;   */
+&nbsp;  public boolean useTextLevelQueue() {
+<b class="nc">&nbsp;    return useTextLevelQueue;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * set all paragraphs to be not checked after every change of text
+&nbsp;   * if more than one document loaded?
+&nbsp;   * @since 4.5
+&nbsp;   */
+&nbsp;  public void setUseTextLevelQueue(boolean useTextLevelQueue) {
+<b class="nc">&nbsp;    this.useTextLevelQueue = useTextLevelQueue;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * set option to switch off background check
+&nbsp;   * if true: LT engine is switched of (no marks inside of document)
+&nbsp;   * @since 5.2
+&nbsp;   */
+&nbsp;  public void setNoBackgroundCheck(boolean noBackgroundCheck) {
+<b class="nc">&nbsp;    this.noBackgroundCheck = noBackgroundCheck;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * set option to switch off background check
+&nbsp;   * and save configuration
+&nbsp;   * @since 5.2
+&nbsp;   */
+&nbsp;  public void saveNoBackgroundCheck(boolean noBackgroundCheck, Language lang) throws IOException {
+<b class="nc">&nbsp;    this.noBackgroundCheck = noBackgroundCheck;</b>
+<b class="nc">&nbsp;    saveConfiguration(lang);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * return true if background check is switched of
+&nbsp;   * (no marks inside of document)
+&nbsp;   * @since 5.2
+&nbsp;   */
+&nbsp;  public boolean noBackgroundCheck() {
+<b class="nc">&nbsp;    return noBackgroundCheck;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * get the current profile
+&nbsp;   * @since 4.7
+&nbsp;   */
+&nbsp;  public String getCurrentProfile() {
+<b class="nc">&nbsp;    return currentProfile;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * set the current profile
+&nbsp;   * @since 4.7
+&nbsp;   */
+&nbsp;  public void setCurrentProfile(String profile) {
+<b class="nc">&nbsp;    currentProfile = profile;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * get the current profile
+&nbsp;   * @since 4.7
+&nbsp;   */
+&nbsp;  public List&lt;String&gt; getDefinedProfiles() {
+<b class="nc">&nbsp;    return definedProfiles;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * add a new profile
+&nbsp;   * @since 4.7
+&nbsp;   */
+&nbsp;  public void addProfile(String profile) {
+<b class="nc">&nbsp;    definedProfiles.add(profile);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * add a list of profiles
+&nbsp;   * @since 4.7
+&nbsp;   */
+&nbsp;  public void addProfiles(List&lt;String&gt; profiles) {
+<b class="nc">&nbsp;    definedProfiles.clear();</b>
+<b class="nc">&nbsp;    definedProfiles.addAll(profiles);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * remove an existing profile
+&nbsp;   * @since 4.7
+&nbsp;   */
+&nbsp;  public void removeProfile(String profile) {
+<b class="nc">&nbsp;    definedProfiles.remove(profile);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * run LO in multi thread mode
+&nbsp;   * @since 4.6
+&nbsp;   */
+&nbsp;  public void setMultiThreadLO(boolean isMultiThread) {
+<b class="nc">&nbsp;    this.isMultiThreadLO = isMultiThread;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * shall LO run in multi thread mode 
+&nbsp;   * @since 4.6
+&nbsp;   */
+&nbsp;  public boolean isMultiThread() {
+<b class="nc">&nbsp;    return isMultiThreadLO;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the name of the GUI&#39;s editing textarea font.
+&nbsp;   * @return the name of the font.
+&nbsp;   * @see Font#getFamily()
+&nbsp;   * @since 2.6
+&nbsp;   */
+&nbsp;  public String getFontName() {
+<b class="nc">&nbsp;    return fontName;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the name of the GUI&#39;s editing textarea font.
+&nbsp;   * @param fontName the name of the font.
+&nbsp;   * @see Font#getFamily()
+&nbsp;   * @since 2.6
+&nbsp;   */
+&nbsp;  public void setFontName(String fontName) {
+<b class="nc">&nbsp;    this.fontName = fontName;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the style of the GUI&#39;s editing textarea font.
+&nbsp;   * @return the style of the font.
+&nbsp;   * @see Font#getStyle()
+&nbsp;   * @since 2.6
+&nbsp;   */
+&nbsp;  public int getFontStyle() {
+<b class="nc">&nbsp;    return fontStyle;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the style of the GUI&#39;s editing textarea font.
+&nbsp;   * @param fontStyle the style of the font.
+&nbsp;   * @see Font#getStyle()
+&nbsp;   * @since 2.6
+&nbsp;   */
+&nbsp;  public void setFontStyle(int fontStyle) {
+<b class="nc">&nbsp;    this.fontStyle = fontStyle;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the size of the GUI&#39;s editing textarea font.
+&nbsp;   * @return the size of the font.
+&nbsp;   * @see Font#getSize()
+&nbsp;   * @since 2.6
+&nbsp;   */
+&nbsp;  public int getFontSize() {
+<b class="nc">&nbsp;    return fontSize;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the size of the GUI&#39;s editing textarea font.
+&nbsp;   * @param fontSize the size of the font.
+&nbsp;   * @see Font#getSize()
+&nbsp;   * @since 2.6
+&nbsp;   */
+&nbsp;  public void setFontSize(int fontSize) {
+<b class="nc">&nbsp;    this.fontSize = fontSize;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the name of the GUI&#39;s LaF.
+&nbsp;   * @return the name of the LaF.
+&nbsp;   * @see javax.swing.UIManager.LookAndFeelInfo#getName()
+&nbsp;   * @since 2.6
+&nbsp;   */
+&nbsp;  public String getLookAndFeelName() {
+<b class="nc">&nbsp;    return this.lookAndFeelName;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the name of the GUI&#39;s LaF.
+&nbsp;   * @param lookAndFeelName the name of the LaF.
+&nbsp;   * @see javax.swing.UIManager.LookAndFeelInfo#getName()
+&nbsp;   * @since 2.6 @see
+&nbsp;   */
+&nbsp;  public void setLookAndFeelName(String lookAndFeelName) {
+<b class="nc">&nbsp;    this.lookAndFeelName = lookAndFeelName;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Directory with ngram data or null.
+&nbsp;   * @since 3.0
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public File getNgramDirectory() {
+<b class="nc">&nbsp;    return ngramDirectory;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the directory with ngram data (may be null).
+&nbsp;   * @since 3.0
+&nbsp;   */
+&nbsp;  public void setNgramDirectory(File dir) {
+<b class="nc">&nbsp;    this.ngramDirectory = dir;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.8
+&nbsp;   */
+&nbsp;  public Map&lt;ITSIssueType, Color&gt; getErrorColors() {
+<b class="nc">&nbsp;    return errorColors;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   * Returns true if category is style like
+&nbsp;   */
+&nbsp;  public boolean isStyleCategory(String category) {
+<b class="nc">&nbsp;    return styleLikeCategories.contains(category);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.4
+&nbsp;   * Initialize set of style like categories
+&nbsp;   */
+&nbsp;  public void initStyleCategories(List&lt;Rule&gt; allRules) {
+<b class="nc">&nbsp;    for (Rule rule : allRules) {</b>
+<b class="nc">&nbsp;      if (rule.getCategory().getTabName() != null &amp;&amp; !specialTabCategories.containsKey(rule.getCategory().getName())) {</b>
+<b class="nc">&nbsp;        specialTabCategories.put(rule.getCategory().getName(), rule.getCategory().getTabName());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (rule.getLocQualityIssueType().toString().equalsIgnoreCase(&quot;STYLE&quot;)</b>
+<b class="nc">&nbsp;              || rule.getLocQualityIssueType().toString().equalsIgnoreCase(&quot;REGISTER&quot;)</b>
+<b class="nc">&nbsp;              || rule.getCategory().getId().toString().equals(&quot;STYLE&quot;)</b>
+<b class="nc">&nbsp;              || rule.getCategory().getId().toString().equals(&quot;TYPOGRAPHY&quot;)) {</b>
+<b class="nc">&nbsp;        styleLikeCategories.add(rule.getCategory().getName());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   * Returns true if category is a special Tab category
+&nbsp;   */
+&nbsp;  public boolean isSpecialTabCategory(String category) {
+<b class="nc">&nbsp;    return specialTabCategories.containsKey(category);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   * Returns true if category is member of named special Tab
+&nbsp;   */
+&nbsp;  public boolean isInSpecialTab(String category, String tabName) {
+<b class="nc">&nbsp;    if (specialTabCategories.containsKey(category)) {</b>
+<b class="nc">&nbsp;      return specialTabCategories.get(category).equals(tabName);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   * Returns all special tab names
+&nbsp;   */
+&nbsp;  public String[] getSpecialTabNames() {
+<b class="nc">&nbsp;    Set&lt;String&gt; tabNames = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, String&gt; entry : specialTabCategories.entrySet()) {</b>
+<b class="nc">&nbsp;      tabNames.add(entry.getValue());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return tabNames.toArray(new String[0]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   * Returns all categories for a named special tab
+&nbsp;   */
+&nbsp;  public Set&lt;String&gt; getSpecialTabCategories(String tabName) {
+<b class="nc">&nbsp;    Set&lt;String&gt; tabCategories = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, String&gt; entry : specialTabCategories.entrySet()) {</b>
+<b class="nc">&nbsp;      if (entry.getKey().equals(tabName)) {</b>
+<b class="nc">&nbsp;        tabCategories.add(entry.getKey());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return tabCategories;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  public Map&lt;String, Color&gt; getUnderlineColors() {
+<b class="nc">&nbsp;    return underlineColors;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.3
+&nbsp;   */
+&nbsp;  public Map&lt;String, Color&gt; getUnderlineRuleColors() {
+<b class="nc">&nbsp;    return underlineRuleColors;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.2
+&nbsp;   * Get the color to underline a rule match by the Name of its category
+&nbsp;   */
+&nbsp;  public Color getUnderlineColor(String category, String ruleId) {
+<b class="nc">&nbsp;    if (ruleId != null &amp;&amp; underlineRuleColors.containsKey(ruleId)) {</b>
+<b class="nc">&nbsp;      return underlineRuleColors.get(ruleId);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (underlineColors.containsKey(category)) {</b>
+<b class="nc">&nbsp;      return underlineColors.get(category);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (styleLikeCategories.contains(category)) {</b>
+<b class="nc">&nbsp;      return STYLE_COLOR;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return Color.blue;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.2
+&nbsp;   * Set the color to underline a rule match for its category
+&nbsp;   */
+&nbsp;  public void setUnderlineColor(String category, Color col) {
+<b class="nc">&nbsp;    underlineColors.put(category, col);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.3
+&nbsp;   * Set the color to underline a rule match for this rule
+&nbsp;   */
+&nbsp;  public void setUnderlineRuleColor(String ruleId, Color col) {
+<b class="nc">&nbsp;    underlineRuleColors.put(ruleId, col);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.2
+&nbsp;   * Set the category color back to default (removes category from map)
+&nbsp;   */
+&nbsp;  public void setDefaultUnderlineColor(String category) {
+<b class="nc">&nbsp;    underlineColors.remove(category);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.3
+&nbsp;   * Set the category color back to default (removes category from map)
+&nbsp;   */
+&nbsp;  public void setDefaultUnderlineRuleColor(String ruleId) {
+<b class="nc">&nbsp;    underlineRuleColors.remove(ruleId);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.9
+&nbsp;   */
+&nbsp;  public Map&lt;String, Short&gt; getUnderlineTypes() {
+<b class="nc">&nbsp;    return underlineTypes;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.3
+&nbsp;   */
+&nbsp;  public Map&lt;String, Short&gt; getUnderlineRuleTypes() {
+<b class="nc">&nbsp;    return underlineRuleTypes;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.9
+&nbsp;   * Get the type to underline a rule match by the Name of its category
+&nbsp;   */
+&nbsp;  public Short getUnderlineType(String category, String ruleId) {
+<b class="nc">&nbsp;    if (ruleId != null &amp;&amp; underlineRuleTypes.containsKey(ruleId)) {</b>
+<b class="nc">&nbsp;      return underlineRuleTypes.get(ruleId);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (underlineTypes.containsKey(category)) {</b>
+<b class="nc">&nbsp;      return underlineTypes.get(category);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return UNDERLINE_WAVE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.9
+&nbsp;   * Set the type to underline a rule match for its category
+&nbsp;   */
+&nbsp;  public void setUnderlineType(String category, short type) {
+<b class="nc">&nbsp;    underlineTypes.put(category, type);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.3
+&nbsp;   * Set the type to underline a rule match
+&nbsp;   */
+&nbsp;  public void setUnderlineRuleType(String ruleID, short type) {
+<b class="nc">&nbsp;    underlineRuleTypes.put(ruleID, type);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.9
+&nbsp;   * Set the type back to default (removes category from map)
+&nbsp;   */
+&nbsp;  public void setDefaultUnderlineType(String category) {
+<b class="nc">&nbsp;    underlineTypes.remove(category);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.3
+&nbsp;   * Set the type back to default (removes ruleId from map)
+&nbsp;   */
+&nbsp;  public void setDefaultUnderlineRuleType(String ruleID) {
+<b class="nc">&nbsp;    underlineRuleTypes.remove(ruleID);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * returns all configured values
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  public Map&lt;String, Object[]&gt; getConfigurableValues() {
+<b class="nc">&nbsp;    return configurableRuleValues;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the configurable value of a rule by ruleID
+&nbsp;   * returns default value if no value is set by configuration
+&nbsp;   * @since 6.5
+&nbsp;   */
+&nbsp;  public &lt;T&gt; T getConfigValueByID(String ruleID, int index, Class&lt;T&gt; clazz, T defaultValue) {
+<b class="nc">&nbsp;    Object[] value = configurableRuleValues.get(ruleID);</b>
+<b class="nc">&nbsp;    if (value == null || index &gt;= value.length || !clazz.isInstance(value[index])) {</b>
+<b class="nc">&nbsp;      return defaultValue;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return (T) value[index];</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set the values for a rule by ruleID
+&nbsp;   * @since 6.5
+&nbsp;   */
+&nbsp;  public void setConfigurableValue(String ruleID, Object[] values) {
+<b class="nc">&nbsp;    configurableRuleValues.put(ruleID, values);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Remove the configuration values of a rule by ruleID
+&nbsp;   * @since 6.5
+&nbsp;   */
+&nbsp;  public void removeConfigurableValue(String ruleID) {
+<b class="nc">&nbsp;    configurableRuleValues.remove(ruleID);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * only single paragraph mode can be used (for OO and old LO
+&nbsp;   * @since 5.6
+&nbsp;   */
+&nbsp;  public boolean onlySingleParagraphMode() {
+<b class="nc">&nbsp;    return isOpenOffice;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set LT is switched Off or On
+&nbsp;   * save configuration
+&nbsp;   * @since 4.4
+&nbsp;   */
+&nbsp;//  public void setSwitchedOff(boolean switchOff, Language lang) throws IOException {
+&nbsp;//    this.switchOff = switchOff;
+&nbsp;//    saveConfiguration(lang);
+&nbsp;//  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Test if http-server URL is correct
+&nbsp;   */
+&nbsp;  public boolean isValidServerUrl(String url) {
+<b class="nc">&nbsp;    if (url.endsWith(&quot;/&quot;) || url.endsWith(&quot;/v2&quot;) || !Pattern.matches(&quot;https?://.+(:\\d+)?.*&quot;, url)) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isValidAiServerUrl(String url) {
+<b class="nc">&nbsp;    if (!Pattern.matches(&quot;https?://.+(:\\d+)?.*&quot;, url)) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void loadConfiguration() throws IOException {
+<b class="nc">&nbsp;    loadConfiguration(null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void loadConfiguration(String profile) throws IOException {
+<b class="nc">&nbsp;    String qualifier = getQualifier(lang);</b>
+&nbsp;    
+&nbsp;    File cfgFile;
+<b class="nc">&nbsp;    if (configFile.exists() || oldConfigFile == null) {</b>
+<b class="nc">&nbsp;      cfgFile = configFile;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      cfgFile = oldConfigFile;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    try (FileInputStream fis = new FileInputStream(cfgFile)) {</b>
+&nbsp;
+<b class="nc">&nbsp;      Properties props = new Properties();</b>
+<b class="nc">&nbsp;      props.load(fis);</b>
+&nbsp;      
+<b class="nc">&nbsp;      if (profile == null) {</b>
+<b class="nc">&nbsp;        String curProfileStr = (String) props.get(CURRENT_PROFILE_KEY);</b>
+<b class="nc">&nbsp;        if (curProfileStr != null) {</b>
+<b class="nc">&nbsp;          currentProfile = curProfileStr;</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        currentProfile = profile;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      definedProfiles.addAll(getListFromProperties(props, DEFINED_PROFILES_KEY));</b>
+&nbsp;      
+<b class="nc">&nbsp;      ltVersion = (String) props.get(LT_VERSION_KEY);</b>
+&nbsp;      
+<b class="nc">&nbsp;      if (ltVersion != null) {</b>
+<b class="nc">&nbsp;        String motherTongueStr = (String) props.get(MOTHER_TONGUE_KEY);</b>
+<b class="nc">&nbsp;        if (motherTongueStr != null &amp;&amp; !motherTongueStr.equals(&quot;xx&quot;)) {</b>
+<b class="nc">&nbsp;          motherTongue = Languages.getLanguageForShortCode(motherTongueStr);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      logLevel = (String) props.get(LOG_LEVEL_KEY);</b>
+&nbsp;      
+<b class="nc">&nbsp;      storeConfigForAllProfiles(props);</b>
+&nbsp;      
+&nbsp;      String prefix;
+<b class="nc">&nbsp;      if (currentProfile == null) {</b>
+<b class="nc">&nbsp;        prefix = &quot;&quot;;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        prefix = currentProfile;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (!prefix.isEmpty()) {</b>
+<b class="nc">&nbsp;        prefix = prefix.replaceAll(BLANK, BLANK_REPLACE);</b>
+<b class="nc">&nbsp;        prefix += PROFILE_DELIMITER;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      loadCurrentProfile(props, prefix, qualifier);</b>
+&nbsp;    } catch (FileNotFoundException e) {
+&nbsp;      // file not found: okay, leave disabledRuleIds empty
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void loadCurrentProfile(Properties props, String prefix, String qualifier) {
+&nbsp;    
+<b class="nc">&nbsp;    String useDocLangString = (String) props.get(prefix + USE_DOC_LANG_KEY);</b>
+<b class="nc">&nbsp;    if (useDocLangString != null) {</b>
+<b class="nc">&nbsp;      useDocLanguage = Boolean.parseBoolean(useDocLangString);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (ltVersion == null) {</b>
+<b class="nc">&nbsp;      String motherTongueStr = (String) props.get(prefix + MOTHER_TONGUE_KEY);</b>
+<b class="nc">&nbsp;      if (motherTongueStr != null &amp;&amp; !motherTongueStr.equals(&quot;xx&quot;)) {</b>
+<b class="nc">&nbsp;        if (isOffice) {</b>
+<b class="nc">&nbsp;          fixedLanguage = Languages.getLanguageForShortCode(motherTongueStr);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          motherTongue = Languages.getLanguageForShortCode(motherTongueStr);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      String fixedLanguageStr = (String) props.get(prefix + FIXED_LANGUAGE_KEY);</b>
+<b class="nc">&nbsp;      if (fixedLanguageStr != null) {</b>
+<b class="nc">&nbsp;        fixedLanguage = Languages.getLanguageForShortCode(fixedLanguageStr);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (!useDocLanguage &amp;&amp; fixedLanguage != null) {</b>
+<b class="nc">&nbsp;      qualifier = getQualifier(fixedLanguage);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    disabledRuleIds.addAll(getListFromProperties(props, prefix + DISABLED_RULES_KEY + qualifier));</b>
+<b class="nc">&nbsp;    enabledRuleIds.addAll(getListFromProperties(props, prefix + ENABLED_RULES_KEY + qualifier));</b>
+<b class="nc">&nbsp;    disabledCategoryNames.addAll(getListFromProperties(props, prefix + DISABLED_CATEGORIES_KEY + qualifier));</b>
+<b class="nc">&nbsp;    enabledCategoryNames.addAll(getListFromProperties(props, prefix + ENABLED_CATEGORIES_KEY + qualifier));</b>
+<b class="nc">&nbsp;    enabledRulesOnly = &quot;true&quot;.equals(props.get(prefix + ENABLED_RULES_ONLY_KEY));</b>
+&nbsp;
+<b class="nc">&nbsp;    String languageStr = (String) props.get(prefix + LANGUAGE_KEY);</b>
+<b class="nc">&nbsp;    if (languageStr != null) {</b>
+<b class="nc">&nbsp;      language = Languages.getLanguageForShortCode(languageStr);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String ngramDir = (String) props.get(prefix + NGRAM_DIR_KEY);</b>
+<b class="nc">&nbsp;    if (ngramDir != null) {</b>
+<b class="nc">&nbsp;      ngramDirectory = new File(ngramDir);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    autoDetect = &quot;true&quot;.equals(props.get(prefix + AUTO_DETECT_KEY));</b>
+<b class="nc">&nbsp;    taggerShowsDisambigLog = &quot;true&quot;.equals(props.get(prefix + TAGGER_SHOWS_DISAMBIG_LOG_KEY));</b>
+<b class="nc">&nbsp;    guiConfig = &quot;true&quot;.equals(props.get(prefix + USE_GUI_KEY));</b>
+<b class="nc">&nbsp;    runServer = &quot;true&quot;.equals(props.get(prefix + SERVER_RUN_KEY));</b>
+&nbsp;
+<b class="nc">&nbsp;    fontName = (String) props.get(prefix + FONT_NAME_KEY);</b>
+<b class="nc">&nbsp;    if (props.get(prefix + FONT_STYLE_KEY) != null) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        fontStyle = Integer.parseInt((String) props.get(prefix + FONT_STYLE_KEY));</b>
+&nbsp;      } catch (NumberFormatException e) {
+&nbsp;        // Ignore
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (props.get(prefix + FONT_SIZE_KEY) != null) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        fontSize = Integer.parseInt((String) props.get(prefix + FONT_SIZE_KEY));</b>
+&nbsp;      } catch (NumberFormatException e) {
+&nbsp;        // Ignore
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    lookAndFeelName = (String) props.get(prefix + LF_NAME_KEY);</b>
+&nbsp;
+<b class="nc">&nbsp;    String serverPortString = (String) props.get(prefix + SERVER_PORT_KEY);</b>
+<b class="nc">&nbsp;    if (serverPortString != null) {</b>
+<b class="nc">&nbsp;      serverPort = Integer.parseInt(serverPortString);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String extRules = (String) props.get(prefix + EXTERNAL_RULE_DIRECTORY);</b>
+<b class="nc">&nbsp;    if (extRules != null) {</b>
+<b class="nc">&nbsp;      externalRuleDirectory = extRules;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String paraCheckString = (String) props.get(prefix + NO_DEFAULT_CHECK_KEY);</b>
+<b class="nc">&nbsp;    if (Boolean.parseBoolean(paraCheckString)) {</b>
+<b class="nc">&nbsp;      paraCheckString = (String) props.get(prefix + PARA_CHECK_KEY);</b>
+<b class="nc">&nbsp;      if (paraCheckString != null) {</b>
+<b class="nc">&nbsp;        numParasToCheck = Integer.parseInt(paraCheckString);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String resetCheckString = (String) props.get(prefix + RESET_CHECK_KEY);</b>
+<b class="nc">&nbsp;    if (resetCheckString != null) {</b>
+<b class="nc">&nbsp;      doResetCheck = Boolean.parseBoolean(resetCheckString);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String useTextLevelQueueString = (String) props.get(prefix + USE_QUEUE_KEY);</b>
+<b class="nc">&nbsp;    if (useTextLevelQueueString != null) {</b>
+<b class="nc">&nbsp;      useTextLevelQueue = Boolean.parseBoolean(useTextLevelQueueString);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String noBackgroundCheckString = (String) props.get(prefix + NO_BACKGROUND_CHECK_KEY);</b>
+<b class="nc">&nbsp;    if (noBackgroundCheckString != null) {</b>
+<b class="nc">&nbsp;      noBackgroundCheck = Boolean.parseBoolean(noBackgroundCheckString);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String switchOffString = (String) props.get(prefix + LT_SWITCHED_OFF_KEY);</b>
+<b class="nc">&nbsp;    if (switchOffString != null) {</b>
+<b class="nc">&nbsp;      switchOff = Boolean.parseBoolean(switchOffString);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String isMultiThreadString = (String) props.get(prefix + IS_MULTI_THREAD_LO_KEY);</b>
+<b class="nc">&nbsp;    if (isMultiThreadString != null) {</b>
+<b class="nc">&nbsp;      isMultiThreadLO = Boolean.parseBoolean(isMultiThreadString);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    String doRemoteCheckString = (String) props.get(prefix + DO_REMOTE_CHECK_KEY);</b>
+<b class="nc">&nbsp;    if (doRemoteCheckString != null) {</b>
+<b class="nc">&nbsp;      doRemoteCheck = Boolean.parseBoolean(doRemoteCheckString);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    String useOtherServerString = (String) props.get(prefix + USE_OTHER_SERVER_KEY);</b>
+<b class="nc">&nbsp;    if (useOtherServerString != null) {</b>
+<b class="nc">&nbsp;      useOtherServer = Boolean.parseBoolean(useOtherServerString);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    otherServerUrl = (String) props.get(prefix + OTHER_SERVER_URL_KEY);</b>
+<b class="nc">&nbsp;    if (otherServerUrl != null &amp;&amp; !isValidServerUrl(otherServerUrl)) {</b>
+<b class="nc">&nbsp;      otherServerUrl = null;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String isPremiumString = (String) props.get(prefix + IS_PREMIUM_KEY);</b>
+<b class="nc">&nbsp;    if (isPremiumString != null) {</b>
+<b class="nc">&nbsp;      isPremium = Boolean.parseBoolean(isPremiumString);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    remoteUsername = (String) props.get(prefix + REMOTE_USERNAME_KEY);</b>
+&nbsp;
+<b class="nc">&nbsp;    remoteApiKey = (String) props.get(prefix + REMOTE_APIKEY_KEY);</b>
+&nbsp;
+<b class="nc">&nbsp;    String markSingleCharBoldString = (String) props.get(prefix + MARK_SINGLE_CHAR_BOLD_KEY);</b>
+<b class="nc">&nbsp;    if (markSingleCharBoldString != null) {</b>
+<b class="nc">&nbsp;      markSingleCharBold = Boolean.parseBoolean(markSingleCharBoldString);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    String useLtSpellCheckerString = (String) props.get(prefix + USE_LT_SPELL_CHECKER_KEY);</b>
+<b class="nc">&nbsp;    if (useLtSpellCheckerString != null) {</b>
+<b class="nc">&nbsp;      useLtSpellChecker = Boolean.parseBoolean(useLtSpellCheckerString);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    String noSynonymsAsSuggestionsString = (String) props.get(prefix + NO_SYNONYMS_AS_SUGGESTIONS_KEY);</b>
+<b class="nc">&nbsp;    if (noSynonymsAsSuggestionsString != null) {</b>
+<b class="nc">&nbsp;      noSynonymsAsSuggestions = Boolean.parseBoolean(noSynonymsAsSuggestionsString);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    String includeTrackedChangesString = (String) props.get(prefix + INCLUDE_TRACKED_CHANGES_KEY);</b>
+<b class="nc">&nbsp;    if (includeTrackedChangesString != null) {</b>
+<b class="nc">&nbsp;      includeTrackedChanges = Boolean.parseBoolean(includeTrackedChangesString);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    String enableTmpOffRulesString = (String) props.get(prefix + ENABLE_TMP_OFF_RULES_KEY);</b>
+<b class="nc">&nbsp;    if (enableTmpOffRulesString != null) {</b>
+<b class="nc">&nbsp;      enableTmpOffRules = Boolean.parseBoolean(enableTmpOffRulesString);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    String enableGoalSpecificRulesString = (String) props.get(prefix + ENABLE_GOAL_SPECIFIC_RULES_KEY);</b>
+<b class="nc">&nbsp;    if (enableGoalSpecificRulesString != null) {</b>
+<b class="nc">&nbsp;      enableGoalSpecificRules = Boolean.parseBoolean(enableGoalSpecificRulesString);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    String filterOverlappingMatchesString = (String) props.get(prefix + FILTER_OVERLAPPING_MATCHES_KEY);</b>
+<b class="nc">&nbsp;    if (filterOverlappingMatchesString != null) {</b>
+<b class="nc">&nbsp;      filterOverlappingMatches = Boolean.parseBoolean(filterOverlappingMatchesString);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    String saveLoCacheString = (String) props.get(prefix + SAVE_LO_CACHE_KEY);</b>
+<b class="nc">&nbsp;    if (saveLoCacheString != null) {</b>
+<b class="nc">&nbsp;      saveLoCache = Boolean.parseBoolean(saveLoCacheString);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    String aiString = (String) props.get(prefix + AI_URL_KEY);</b>
+<b class="nc">&nbsp;    if (aiString != null) {</b>
+<b class="nc">&nbsp;      aiUrl = aiString;</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    aiString = (String) props.get(prefix + AI_MODEL_KEY);</b>
+<b class="nc">&nbsp;    if (aiString != null) {</b>
+<b class="nc">&nbsp;      aiModel = aiString;</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    aiString = (String) props.get(prefix + AI_APIKEY_KEY);</b>
+<b class="nc">&nbsp;    if (aiString != null) {</b>
+<b class="nc">&nbsp;      aiApiKey = aiString;</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    aiString = (String) props.get(prefix + AI_USE_AI_SUPPORT_KEY);</b>
+<b class="nc">&nbsp;    if (aiString != null) {</b>
+<b class="nc">&nbsp;      useAiSupport = Boolean.parseBoolean(aiString);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    aiString = (String) props.get(prefix + AI_AUTO_CORRECT_KEY);</b>
+<b class="nc">&nbsp;    if (aiString != null) {</b>
+<b class="nc">&nbsp;      aiAutoCorrect = Boolean.parseBoolean(aiString);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    aiString = (String) props.get(prefix + AI_SHOW_STYLISTIC_CHANGES_KEY);</b>
+<b class="nc">&nbsp;    if (aiString != null) {</b>
+<b class="nc">&nbsp;      aiShowStylisticChanges = Boolean.parseBoolean(aiString);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    
+<b class="nc">&nbsp;    String rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier);</b>
+<b class="nc">&nbsp;    if (rulesValuesString == null) {</b>
+<b class="nc">&nbsp;      rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    parseConfigurableRuleValues(rulesValuesString);</b>
+&nbsp;
+<b class="nc">&nbsp;    String colorsString = (String) props.get(prefix + ERROR_COLORS_KEY);</b>
+<b class="nc">&nbsp;    parseErrorColors(colorsString);</b>
+&nbsp;
+<b class="nc">&nbsp;    String underlineColorsString = (String) props.get(prefix + UNDERLINE_COLORS_KEY);</b>
+<b class="nc">&nbsp;    parseUnderlineColors(underlineColorsString, underlineColors);</b>
+&nbsp;
+<b class="nc">&nbsp;    String underlineRuleColorsString = (String) props.get(prefix + UNDERLINE_RULE_COLORS_KEY);</b>
+<b class="nc">&nbsp;    parseUnderlineColors(underlineRuleColorsString, underlineRuleColors);</b>
+&nbsp;
+<b class="nc">&nbsp;    String underlineTypesString = (String) props.get(prefix + UNDERLINE_TYPES_KEY);</b>
+<b class="nc">&nbsp;    parseUnderlineTypes(underlineTypesString, underlineTypes);</b>
+&nbsp;
+<b class="nc">&nbsp;    String underlineRulesTypesString = (String) props.get(prefix + UNDERLINE_RULE_TYPES_KEY);</b>
+<b class="nc">&nbsp;    parseUnderlineTypes(underlineRulesTypesString, underlineRuleTypes);</b>
+&nbsp;
+&nbsp;    //store config for other languages
+<b class="nc">&nbsp;    loadConfigForOtherLanguages(lang, props, prefix);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void parseErrorColors(String colorsString) {
+<b class="nc">&nbsp;    if (StringUtils.isNotEmpty(colorsString)) {</b>
+<b class="nc">&nbsp;      String[] typeToColorList = colorsString.split(COLOR_SPLITTER_REGEXP);</b>
+<b class="nc">&nbsp;      for (String typeToColor : typeToColorList) {</b>
+<b class="nc">&nbsp;        String[] typeAndColor = typeToColor.split(COLOR_SPLITTER_REGEXP_COLON);</b>
+<b class="nc">&nbsp;        if (typeAndColor.length != 2) {</b>
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Could not parse type and color, colon expected: &#39;&quot; + typeToColor + &quot;&#39;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        ITSIssueType type = ITSIssueType.getIssueType(typeAndColor[0]);</b>
+<b class="nc">&nbsp;        String hexColor = typeAndColor[1];</b>
+<b class="nc">&nbsp;        errorColors.put(type, Color.decode(hexColor));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void parseUnderlineColors(String colorsString, Map&lt;String, Color&gt; underlineColors) {
+<b class="nc">&nbsp;    if (StringUtils.isNotEmpty(colorsString)) {</b>
+<b class="nc">&nbsp;      String[] typeToColorList = colorsString.split(COLOR_SPLITTER_REGEXP);</b>
+<b class="nc">&nbsp;      for (String typeToColor : typeToColorList) {</b>
+<b class="nc">&nbsp;        String[] typeAndColor = typeToColor.split(COLOR_SPLITTER_REGEXP_COLON);</b>
+<b class="nc">&nbsp;        if (typeAndColor.length != 2) {</b>
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Could not parse type and color, colon expected: &#39;&quot; + typeToColor + &quot;&#39;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        underlineColors.put(typeAndColor[0], Color.decode(typeAndColor[1]));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void parseUnderlineTypes(String typessString, Map&lt;String, Short&gt; underlineTypes) {
+<b class="nc">&nbsp;    if (StringUtils.isNotEmpty(typessString)) {</b>
+<b class="nc">&nbsp;      String[] categoryToTypesList = typessString.split(CONFIGURABLE_RULE_SPLITTER_REGEXP);</b>
+<b class="nc">&nbsp;      for (String categoryToType : categoryToTypesList) {</b>
+<b class="nc">&nbsp;        String[] categoryAndType = categoryToType.split(&quot;:&quot;);</b>
+<b class="nc">&nbsp;        if (categoryAndType.length != 2) {</b>
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Could not parse category and type, colon expected: &#39;&quot; + categoryToType + &quot;&#39;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        underlineTypes.put(categoryAndType[0], Short.parseShort(categoryAndType[1]));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void parseConfigurableRuleValues(String rulesValueString) {
+<b class="nc">&nbsp;    if (StringUtils.isNotEmpty(rulesValueString)) {</b>
+<b class="nc">&nbsp;      String[] ruleToValueList = rulesValueString.split(&quot;,&quot;);</b>
+<b class="nc">&nbsp;      for (String ruleToValue : ruleToValueList) {</b>
+<b class="nc">&nbsp;        ruleToValue = ruleToValue.trim();</b>
+<b class="nc">&nbsp;        if (!ruleToValue.isEmpty()) {</b>
+<b class="nc">&nbsp;          String[] ruleAndValue = ruleToValue.split(&quot;:&quot;);</b>
+<b class="nc">&nbsp;          if (ruleAndValue.length != 2) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Could not parse rule and value, colon expected: &#39;&quot; + ruleToValue + &quot;&#39;&quot;);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          Object[] objects = RuleOption.stringToObjects(ruleAndValue[1]);</b>
+<b class="nc">&nbsp;          configurableRuleValues.put(ruleAndValue[0].trim(), objects);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getQualifier(Language lang) {
+<b class="nc">&nbsp;    String qualifier = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (lang != null) {</b>
+<b class="nc">&nbsp;      qualifier = &quot;.&quot; + lang.getShortCodeWithCountryAndVariant();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return qualifier;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void loadConfigForOtherLanguages(Language lang, Properties prop, String prefix) {
+<b class="nc">&nbsp;    for (Language otherLang : Languages.get()) {</b>
+<b class="nc">&nbsp;      if (!otherLang.equals(lang)) {</b>
+<b class="nc">&nbsp;        String languageSuffix = &quot;.&quot; + otherLang.getShortCodeWithCountryAndVariant();</b>
+<b class="nc">&nbsp;        storeConfigKeyFromProp(prop, prefix + DISABLED_RULES_KEY + languageSuffix);</b>
+<b class="nc">&nbsp;        storeConfigKeyFromProp(prop, prefix + ENABLED_RULES_KEY + languageSuffix);</b>
+<b class="nc">&nbsp;        storeConfigKeyFromProp(prop, prefix + DISABLED_CATEGORIES_KEY + languageSuffix);</b>
+<b class="nc">&nbsp;        storeConfigKeyFromProp(prop, prefix + ENABLED_CATEGORIES_KEY + languageSuffix);</b>
+<b class="nc">&nbsp;        storeConfigKeyFromProp(prop, prefix + CONFIGURABLE_RULE_VALUES_KEY + languageSuffix);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void storeConfigKeyFromProp(Properties prop, String key) {
+<b class="nc">&nbsp;    if (prop.containsKey(key)) {</b>
+<b class="nc">&nbsp;      configForOtherLanguages.put(key, prop.getProperty(key));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private Collection&lt;? extends String&gt; getListFromProperties(Properties props, String key) {
+<b class="nc">&nbsp;    String value = (String) props.get(key);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; list = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (value != null &amp;&amp; !value.isEmpty()) {</b>
+<b class="nc">&nbsp;      String[] names = value.split(DELIMITER);</b>
+<b class="nc">&nbsp;      list.addAll(Arrays.asList(names));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return list;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void saveConfiguration(Language lang) throws IOException {
+<b class="nc">&nbsp;    if (lang == null) {</b>
+<b class="nc">&nbsp;      lang = this.lang;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Properties props = new Properties();</b>
+<b class="nc">&nbsp;    String qualifier = getQualifier(lang);</b>
+&nbsp;
+<b class="nc">&nbsp;    String[] versionParts = JLanguageTool.VERSION.split(&quot;-&quot;);</b>
+<b class="nc">&nbsp;    props.setProperty(LT_VERSION_KEY, versionParts[0]);</b>
+&nbsp;
+<b class="nc">&nbsp;    if (currentProfile != null &amp;&amp; !currentProfile.isEmpty()) {</b>
+<b class="nc">&nbsp;      props.setProperty(CURRENT_PROFILE_KEY, currentProfile);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    if (!definedProfiles.isEmpty()) {</b>
+<b class="nc">&nbsp;      props.setProperty(DEFINED_PROFILES_KEY, String.join(DELIMITER, definedProfiles));</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    if (motherTongue != null) {</b>
+<b class="nc">&nbsp;      props.setProperty(MOTHER_TONGUE_KEY, motherTongue.getShortCodeWithCountryAndVariant());</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (logLevel != null) {</b>
+<b class="nc">&nbsp;      props.setProperty(LOG_LEVEL_KEY, logLevel);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    try (FileOutputStream fos = new FileOutputStream(configFile)) {</b>
+<b class="nc">&nbsp;      props.store(fos, &quot;LanguageTool configuration (&quot; + JLanguageTool.VERSION + &quot;/&quot; + JLanguageTool.BUILD_DATE + &quot;)&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    List&lt;String&gt; prefixes = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    prefixes.add(&quot;&quot;);</b>
+<b class="nc">&nbsp;    for (String profile : definedProfiles) {</b>
+<b class="nc">&nbsp;      String prefix = profile;</b>
+<b class="nc">&nbsp;      prefixes.add(prefix.replaceAll(BLANK, BLANK_REPLACE) + PROFILE_DELIMITER);</b>
+&nbsp;    }
+&nbsp;    String currentPrefix;
+<b class="nc">&nbsp;    if (currentProfile == null) {</b>
+<b class="nc">&nbsp;      currentPrefix = &quot;&quot;;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      currentPrefix = currentProfile;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!currentPrefix.isEmpty()) {</b>
+<b class="nc">&nbsp;      currentPrefix = currentPrefix.replaceAll(BLANK, BLANK_REPLACE);</b>
+<b class="nc">&nbsp;      currentPrefix += PROFILE_DELIMITER;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (String prefix : prefixes) {</b>
+<b class="nc">&nbsp;      props = new Properties();</b>
+<b class="nc">&nbsp;      if (currentPrefix.equals(prefix)) {</b>
+<b class="nc">&nbsp;        saveConfigForCurrentProfile(props, prefix, qualifier);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        saveConfigForProfile(props, prefix);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      try (FileOutputStream fos = new FileOutputStream(configFile, true)) {</b>
+<b class="nc">&nbsp;        props.store(fos, &quot;Profile: &quot; + (prefix.isEmpty() ? &quot;Default&quot; : prefix.substring(0, prefix.length() - 2)));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    if (oldConfigFile != null &amp;&amp; oldConfigFile.exists()) {</b>
+<b class="nc">&nbsp;      oldConfigFile.delete();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void addListToProperties(Properties props, String key, Set&lt;String&gt; list) {
+<b class="nc">&nbsp;    if (list == null) {</b>
+<b class="nc">&nbsp;      props.setProperty(key, &quot;&quot;);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      props.setProperty(key, String.join(DELIMITER, list));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void setAllProfileKeys() {
+<b class="nc">&nbsp;    allProfileKeys.add(LANGUAGE_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(FIXED_LANGUAGE_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(NGRAM_DIR_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(AUTO_DETECT_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(TAGGER_SHOWS_DISAMBIG_LOG_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(SERVER_RUN_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(SERVER_PORT_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(NO_DEFAULT_CHECK_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(PARA_CHECK_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(RESET_CHECK_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(USE_QUEUE_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(NO_BACKGROUND_CHECK_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(USE_DOC_LANG_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(USE_GUI_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(FONT_NAME_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(FONT_STYLE_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(FONT_SIZE_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(LF_NAME_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(ERROR_COLORS_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(UNDERLINE_COLORS_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(UNDERLINE_RULE_COLORS_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(UNDERLINE_TYPES_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(UNDERLINE_RULE_TYPES_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(LT_SWITCHED_OFF_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(IS_MULTI_THREAD_LO_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(EXTERNAL_RULE_DIRECTORY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(DO_REMOTE_CHECK_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(OTHER_SERVER_URL_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(USE_OTHER_SERVER_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(IS_PREMIUM_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(REMOTE_USERNAME_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(REMOTE_APIKEY_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(MARK_SINGLE_CHAR_BOLD_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(USE_LT_SPELL_CHECKER_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(NO_SYNONYMS_AS_SUGGESTIONS_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(INCLUDE_TRACKED_CHANGES_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(ENABLE_TMP_OFF_RULES_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(ENABLE_GOAL_SPECIFIC_RULES_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(FILTER_OVERLAPPING_MATCHES_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(SAVE_LO_CACHE_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(AI_URL_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(AI_APIKEY_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(AI_MODEL_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(AI_USE_AI_SUPPORT_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(AI_AUTO_CORRECT_KEY);</b>
+<b class="nc">&nbsp;    allProfileKeys.add(AI_SHOW_STYLISTIC_CHANGES_KEY);</b>
+&nbsp;
+<b class="nc">&nbsp;    allProfileLangKeys.add(DISABLED_RULES_KEY);</b>
+<b class="nc">&nbsp;    allProfileLangKeys.add(ENABLED_RULES_KEY);</b>
+<b class="nc">&nbsp;    allProfileLangKeys.add(DISABLED_CATEGORIES_KEY);</b>
+<b class="nc">&nbsp;    allProfileLangKeys.add(ENABLED_CATEGORIES_KEY);</b>
+<b class="nc">&nbsp;    allProfileLangKeys.add(CONFIGURABLE_RULE_VALUES_KEY);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void storeConfigForAllProfiles(Properties props) {
+<b class="nc">&nbsp;    List&lt;String&gt; prefix = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    prefix.add(&quot;&quot;);</b>
+<b class="nc">&nbsp;    for (String profile : definedProfiles) {</b>
+<b class="nc">&nbsp;      String sPrefix = profile;</b>
+<b class="nc">&nbsp;      prefix.add(sPrefix.replaceAll(BLANK, BLANK_REPLACE) + PROFILE_DELIMITER);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (String sPrefix : prefix) {</b>
+<b class="nc">&nbsp;      for (String key : allProfileLangKeys) {</b>
+<b class="nc">&nbsp;        for (Language lang : Languages.get()) {</b>
+<b class="nc">&nbsp;          String preKey = sPrefix + key + &quot;.&quot; + lang.getShortCodeWithCountryAndVariant();</b>
+<b class="nc">&nbsp;          if (props.containsKey(preKey)) {</b>
+<b class="nc">&nbsp;            configForOtherProfiles.put(preKey, props.getProperty(preKey));</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    for (String sPrefix : prefix) {</b>
+<b class="nc">&nbsp;      if (isOffice &amp;&amp; ltVersion == null) {</b>
+<b class="nc">&nbsp;        if (props.containsKey(sPrefix + MOTHER_TONGUE_KEY)) {</b>
+<b class="nc">&nbsp;          configForOtherProfiles.put(sPrefix + FIXED_LANGUAGE_KEY, props.getProperty(sPrefix + MOTHER_TONGUE_KEY));</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      for (String key : allProfileKeys) {</b>
+<b class="nc">&nbsp;        String preKey = sPrefix + key;</b>
+<b class="nc">&nbsp;        if (props.containsKey(preKey)) {</b>
+<b class="nc">&nbsp;          configForOtherProfiles.put(preKey, props.getProperty(preKey));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void saveConfigForCurrentProfile(Properties props, String prefix, String qualifier) {
+<b class="nc">&nbsp;    if (!disabledRuleIds.isEmpty()) {</b>
+<b class="nc">&nbsp;      addListToProperties(props, prefix + DISABLED_RULES_KEY + qualifier, disabledRuleIds);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!enabledRuleIds.isEmpty()) {</b>
+<b class="nc">&nbsp;      addListToProperties(props, prefix + ENABLED_RULES_KEY + qualifier, enabledRuleIds);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!disabledCategoryNames.isEmpty()) {</b>
+<b class="nc">&nbsp;      addListToProperties(props, prefix + DISABLED_CATEGORIES_KEY + qualifier, disabledCategoryNames);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!enabledCategoryNames.isEmpty()) {</b>
+<b class="nc">&nbsp;      addListToProperties(props, prefix + ENABLED_CATEGORIES_KEY + qualifier, enabledCategoryNames);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (language != null &amp;&amp; !language.isExternal()) {  // external languages won&#39;t be known at startup, so don&#39;t save them</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + LANGUAGE_KEY, language.getShortCodeWithCountryAndVariant());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (fixedLanguage != null) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + FIXED_LANGUAGE_KEY, fixedLanguage.getShortCodeWithCountryAndVariant());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (ngramDirectory != null) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + NGRAM_DIR_KEY, ngramDirectory.getAbsolutePath());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    props.setProperty(prefix + AUTO_DETECT_KEY, Boolean.toString(autoDetect));</b>
+<b class="nc">&nbsp;    props.setProperty(prefix + TAGGER_SHOWS_DISAMBIG_LOG_KEY, Boolean.toString(taggerShowsDisambigLog));</b>
+<b class="nc">&nbsp;    props.setProperty(prefix + USE_GUI_KEY, Boolean.toString(guiConfig));</b>
+<b class="nc">&nbsp;    props.setProperty(prefix + SERVER_RUN_KEY, Boolean.toString(runServer));</b>
+<b class="nc">&nbsp;    props.setProperty(prefix + SERVER_PORT_KEY, Integer.toString(serverPort));</b>
+<b class="nc">&nbsp;    if (numParasToCheck != DEFAULT_NUM_CHECK_PARAS) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + NO_DEFAULT_CHECK_KEY, Boolean.toString(true));</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + PARA_CHECK_KEY, Integer.toString(numParasToCheck));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (doResetCheck != DEFAULT_DO_RESET) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + RESET_CHECK_KEY, Boolean.toString(doResetCheck));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (useTextLevelQueue != DEFAULT_USE_QUEUE) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + USE_QUEUE_KEY, Boolean.toString(useTextLevelQueue));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (noBackgroundCheck != DEFAULT_NO_BACKGROUND_CHECK) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + NO_BACKGROUND_CHECK_KEY, Boolean.toString(noBackgroundCheck));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (useDocLanguage != DEFAULT_USE_DOC_LANGUAGE) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + USE_DOC_LANG_KEY, Boolean.toString(useDocLanguage));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (isMultiThreadLO != DEFAULT_MULTI_THREAD) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + IS_MULTI_THREAD_LO_KEY, Boolean.toString(isMultiThreadLO));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (doRemoteCheck != DEFAULT_DO_REMOTE_CHECK) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + DO_REMOTE_CHECK_KEY, Boolean.toString(doRemoteCheck));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (useOtherServer != DEFAULT_USE_OTHER_SERVER) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + USE_OTHER_SERVER_KEY, Boolean.toString(useOtherServer));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (isPremium != DEFAULT_IS_PREMIUM) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + IS_PREMIUM_KEY, Boolean.toString(isPremium));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (markSingleCharBold != DEFAULT_MARK_SINGLE_CHAR_BOLD) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + MARK_SINGLE_CHAR_BOLD_KEY, Boolean.toString(markSingleCharBold));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (useLtSpellChecker != DEFAULT_USE_LT_SPELL_CHECKER) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + USE_LT_SPELL_CHECKER_KEY, Boolean.toString(useLtSpellChecker));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (noSynonymsAsSuggestions != DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + NO_SYNONYMS_AS_SUGGESTIONS_KEY, Boolean.toString(noSynonymsAsSuggestions));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (includeTrackedChanges != DEFAULT_INCLUDE_TRACKED_CHANGES) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + INCLUDE_TRACKED_CHANGES_KEY, Boolean.toString(includeTrackedChanges));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (enableTmpOffRules != DEFAULT_ENABLE_TMP_OFF_RULES) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + ENABLE_TMP_OFF_RULES_KEY, Boolean.toString(enableTmpOffRules));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (enableGoalSpecificRules != DEFAULT_ENABLE_GOAL_SPECIFIC_RULES) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + ENABLE_GOAL_SPECIFIC_RULES_KEY, Boolean.toString(enableGoalSpecificRules));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (filterOverlappingMatches != DEFAULT_FILTER_OVERLAPPING_MATCHES) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + FILTER_OVERLAPPING_MATCHES_KEY, Boolean.toString(filterOverlappingMatches));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (saveLoCache != DEFAULT_SAVE_LO_CACHE) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + SAVE_LO_CACHE_KEY, Boolean.toString(saveLoCache));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (switchOff) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + LT_SWITCHED_OFF_KEY, Boolean.toString(switchOff));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (otherServerUrl != null &amp;&amp; isValidServerUrl(otherServerUrl)) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + OTHER_SERVER_URL_KEY, otherServerUrl);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (remoteUsername != null) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + REMOTE_USERNAME_KEY, remoteUsername);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (remoteApiKey != null) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + REMOTE_APIKEY_KEY, remoteApiKey);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (aiUrl != null) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + AI_URL_KEY, aiUrl);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (aiModel != null) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + AI_MODEL_KEY, aiModel);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (aiApiKey != null) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + AI_APIKEY_KEY, aiApiKey);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (useAiSupport != DEFAULT_USE_AI_SUPPORT) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + AI_USE_AI_SUPPORT_KEY, Boolean.toString(useAiSupport));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (aiAutoCorrect != DEFAULT_AI_AUTO_CORRECT) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + AI_AUTO_CORRECT_KEY, Boolean.toString(aiAutoCorrect));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (this.aiShowStylisticChanges != DEFAULT_AI_SHOW_STYLISTIC_CHANGES) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + AI_SHOW_STYLISTIC_CHANGES_KEY, Boolean.toString(aiShowStylisticChanges));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (fontName != null) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + FONT_NAME_KEY, fontName);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (fontStyle != FONT_STYLE_INVALID) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + FONT_STYLE_KEY, Integer.toString(fontStyle));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (fontSize != FONT_SIZE_INVALID) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + FONT_SIZE_KEY, Integer.toString(fontSize));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (this.lookAndFeelName != null) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + LF_NAME_KEY, lookAndFeelName);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (externalRuleDirectory != null) {</b>
+<b class="nc">&nbsp;      props.setProperty(prefix + EXTERNAL_RULE_DIRECTORY, externalRuleDirectory);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!configurableRuleValues.isEmpty()) {</b>
+<b class="nc">&nbsp;      StringBuilder sbRV = new StringBuilder();</b>
+<b class="nc">&nbsp;      int i = 0;</b>
+<b class="nc">&nbsp;      for (Map.Entry&lt;String, Object[]&gt; entry : configurableRuleValues.entrySet()) {</b>
+<b class="nc">&nbsp;        Object[] obs = entry.getValue();</b>
+<b class="nc">&nbsp;        if (obs != null &amp;&amp; obs.length &gt; 0) {</b>
+<b class="nc">&nbsp;          if (i &gt; 0) {</b>
+<b class="nc">&nbsp;            sbRV.append(&quot;,&quot;);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          sbRV.append(entry.getKey()).append(&#39;:&#39;).append(RuleOption.objectsToString(obs));</b>
+<b class="nc">&nbsp;          i++;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      props.setProperty(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier, sbRV.toString());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!errorColors.isEmpty()) {</b>
+<b class="nc">&nbsp;      StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;      for (Map.Entry&lt;ITSIssueType, Color&gt; entry : errorColors.entrySet()) {</b>
+<b class="nc">&nbsp;        String rgb = Integer.toHexString(entry.getValue().getRGB());</b>
+<b class="nc">&nbsp;        rgb = rgb.substring(2);</b>
+<b class="nc">&nbsp;        sb.append(entry.getKey()).append(&quot;:#&quot;).append(rgb).append(&quot;, &quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      props.setProperty(prefix + ERROR_COLORS_KEY, sb.toString());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!underlineColors.isEmpty()) {</b>
+<b class="nc">&nbsp;      StringBuilder sbUC = new StringBuilder();</b>
+<b class="nc">&nbsp;      for (Map.Entry&lt;String, Color&gt; entry : underlineColors.entrySet()) {</b>
+<b class="nc">&nbsp;        String rgb = Integer.toHexString(entry.getValue().getRGB());</b>
+<b class="nc">&nbsp;        rgb = rgb.substring(2);</b>
+<b class="nc">&nbsp;        sbUC.append(entry.getKey()).append(&quot;:#&quot;).append(rgb).append(&quot;, &quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      props.setProperty(prefix + UNDERLINE_COLORS_KEY, sbUC.toString());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!underlineRuleColors.isEmpty()) {</b>
+<b class="nc">&nbsp;      StringBuilder sbUC = new StringBuilder();</b>
+<b class="nc">&nbsp;      for (Map.Entry&lt;String, Color&gt; entry : underlineRuleColors.entrySet()) {</b>
+<b class="nc">&nbsp;        String rgb = Integer.toHexString(entry.getValue().getRGB());</b>
+<b class="nc">&nbsp;        rgb = rgb.substring(2);</b>
+<b class="nc">&nbsp;        sbUC.append(entry.getKey()).append(&quot;:#&quot;).append(rgb).append(&quot;, &quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      props.setProperty(prefix + UNDERLINE_RULE_COLORS_KEY, sbUC.toString());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!underlineTypes.isEmpty()) {</b>
+<b class="nc">&nbsp;      StringBuilder sbUT = new StringBuilder();</b>
+<b class="nc">&nbsp;      for (Map.Entry&lt;String, Short&gt; entry : underlineTypes.entrySet()) {</b>
+<b class="nc">&nbsp;        sbUT.append(entry.getKey()).append(&#39;:&#39;).append(entry.getValue()).append(&quot;, &quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      props.setProperty(prefix + UNDERLINE_TYPES_KEY, sbUT.toString());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!underlineRuleTypes.isEmpty()) {</b>
+<b class="nc">&nbsp;      StringBuilder sbUT = new StringBuilder();</b>
+<b class="nc">&nbsp;      for (Map.Entry&lt;String, Short&gt; entry : underlineRuleTypes.entrySet()) {</b>
+<b class="nc">&nbsp;        sbUT.append(entry.getKey()).append(&#39;:&#39;).append(entry.getValue()).append(&quot;, &quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      props.setProperty(prefix + UNDERLINE_RULE_TYPES_KEY, sbUT.toString());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (String key : configForOtherLanguages.keySet()) {</b>
+<b class="nc">&nbsp;      props.setProperty(key, configForOtherLanguages.get(key));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void saveConfigForProfile(Properties props, String prefix) {
+<b class="nc">&nbsp;    for (String key : allProfileLangKeys) {</b>
+<b class="nc">&nbsp;      for (Language lang : Languages.get()) {</b>
+<b class="nc">&nbsp;        String preKey = prefix + key + &quot;.&quot; + lang.getShortCodeWithCountryAndVariant();</b>
+<b class="nc">&nbsp;        if (configForOtherProfiles.containsKey(preKey)) {</b>
+<b class="nc">&nbsp;          props.setProperty(preKey, configForOtherProfiles.get(preKey));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    for (String key : allProfileKeys) {</b>
+<b class="nc">&nbsp;      String preKey = prefix + key;</b>
+<b class="nc">&nbsp;      if (configForOtherProfiles.containsKey(preKey)) {</b>
+<b class="nc">&nbsp;        props.setProperty(preKey, configForOtherProfiles.get(preKey));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public void importProfile(File importFile) throws IOException {
+<b class="nc">&nbsp;    String qualifier = getQualifier(lang);</b>
+<b class="nc">&nbsp;    try (FileInputStream fis = new FileInputStream(importFile)) {</b>
+<b class="nc">&nbsp;      Properties props = new Properties();</b>
+<b class="nc">&nbsp;      props.load(fis);</b>
+<b class="nc">&nbsp;      String curProfileStr = (String) props.get(CURRENT_PROFILE_KEY);</b>
+<b class="nc">&nbsp;      if (curProfileStr == null || curProfileStr.isEmpty()) {</b>
+&nbsp;        return;
+&nbsp;      }
+<b class="nc">&nbsp;      currentProfile = curProfileStr;</b>
+<b class="nc">&nbsp;      String prefix = currentProfile;</b>
+<b class="nc">&nbsp;      prefix = prefix.replaceAll(BLANK, BLANK_REPLACE);</b>
+<b class="nc">&nbsp;      prefix += PROFILE_DELIMITER;</b>
+<b class="nc">&nbsp;      loadCurrentProfile(props, prefix, qualifier);</b>
+&nbsp;    } catch (FileNotFoundException e) {
+&nbsp;      // file not found: okay, leave disabledRuleIds empty
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public void exportProfile(String profile, File exportFile) throws IOException {
+<b class="nc">&nbsp;    Properties props = new Properties();</b>
+<b class="nc">&nbsp;    String qualifier = getQualifier(lang);</b>
+<b class="nc">&nbsp;    if (currentProfile != null &amp;&amp; !currentProfile.isEmpty()) {</b>
+<b class="nc">&nbsp;      props.setProperty(CURRENT_PROFILE_KEY, profile);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    try (FileOutputStream fos = new FileOutputStream(exportFile)) {</b>
+<b class="nc">&nbsp;      props.store(fos, &quot;LanguageTool configuration (&quot; + JLanguageTool.VERSION + &quot;/&quot; + JLanguageTool.BUILD_DATE + &quot;)&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String prefix = profile;</b>
+<b class="nc">&nbsp;    if (!prefix.isEmpty()) {</b>
+<b class="nc">&nbsp;      prefix = prefix.replaceAll(BLANK, BLANK_REPLACE);</b>
+<b class="nc">&nbsp;      prefix += PROFILE_DELIMITER;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    saveConfigForCurrentProfile(props, prefix, qualifier);</b>
+<b class="nc">&nbsp;    try (FileOutputStream fos = new FileOutputStream(exportFile, true)) {</b>
+<b class="nc">&nbsp;      props.store(fos, &quot;Profile: &quot; + (prefix.isEmpty() ? &quot;Default&quot; : prefix.substring(0, prefix.length() - 2)));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

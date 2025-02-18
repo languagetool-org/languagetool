@@ -1,0 +1,227 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DiacriticsCheckFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ca</a>
+</div>
+
+<h1>Coverage Summary for Class: DiacriticsCheckFilter (org.languagetool.rules.ca)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DiacriticsCheckFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    72.5%
+  </span>
+  <span class="absValue">
+    (29/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89.3%
+  </span>
+  <span class="absValue">
+    (50/56)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ca;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+<b class="fc">&nbsp;public class DiacriticsCheckFilter extends RuleFilter {</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final Map&lt;String, AnalyzedTokenReadings&gt; relevantWords = </b>
+<b class="fc">&nbsp;      new ConfusionPairsDataLoader().loadWords(&quot;/ca/confusion_pairs.txt&quot;);</b>
+&nbsp;  
+<b class="fc">&nbsp;  private static final Pattern MS = Pattern.compile(&quot;NC[MC][SN]000|A..[MC][SN].|V.P..SM.&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern FS = Pattern.compile(&quot;NC[FC][SN]000|A..[FC][SN].|V.P..SF.&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern MP = Pattern.compile(&quot;NC[MC][PN]000|A..[MC][PN].|V.P..PM.&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern FP = Pattern.compile(&quot;NC[FC][PN]000|A..[FC][PN].|V.P..PF.&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern CP = Pattern.compile(&quot;NC[MFC][PN]000|A..[MFC][PN].|V.P..P..&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern CS = Pattern.compile(&quot;NC[MFC][SN]000|A..[MFC][SN].|V.P..S..&quot;);</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos,
+&nbsp;                                   AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) {
+&nbsp;    
+<b class="fc">&nbsp;    Pattern desiredGenderNumberPattern = null;</b>
+<b class="fc">&nbsp;    String replacement = null;</b>
+<b class="fc">&nbsp;    String postag = getRequired(&quot;postag&quot;, arguments);</b>
+<b class="fc">&nbsp;    String originalForm = getRequired(&quot;form&quot;, arguments);</b>
+<b class="fc">&nbsp;    boolean isAllUppercase = StringTools.isAllUppercase(originalForm);</b>
+<b class="fc">&nbsp;    boolean isCapitalized = StringTools.isCapitalizedWord(originalForm);</b>
+<b class="fc">&nbsp;    String form = originalForm.toLowerCase();</b>
+&nbsp;    
+<b class="fc">&nbsp;    String gendernumberFrom = getOptional(&quot;gendernumberFrom&quot;, arguments);</b>
+<b class="fc">&nbsp;    if (gendernumberFrom != null) {</b>
+<b class="fc">&nbsp;      int i = Integer.parseInt(gendernumberFrom);</b>
+<b class="pc">&nbsp;      if (i &lt; 1 || i &gt; patternTokens.length) {</b>
+<b class="nc">&nbsp;        throw new IllegalArgumentException(</b>
+<b class="nc">&nbsp;            &quot;ConfusionCheckFilter: Index out of bounds in &quot; + match.getRule().getFullId() + &quot;, value: &quot; + i);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      AnalyzedTokenReadings atr = patternTokens[i - 1];</b>
+<b class="fc">&nbsp;      if (atr.matchesPosTagRegex(&quot;[NAPD].+MS.*|V.P..SM.&quot;)) { desiredGenderNumberPattern = MS;}</b>
+<b class="fc">&nbsp;      else if (atr.matchesPosTagRegex(&quot;[NAPD].+MP.*|V.P..PM.&quot;)) { desiredGenderNumberPattern = MP;}</b>
+<b class="fc">&nbsp;      else if (atr.matchesPosTagRegex(&quot;[NAPD].+FS.*|V.P..SF.&quot;)) { desiredGenderNumberPattern = FS;}</b>
+<b class="fc">&nbsp;      else if (atr.matchesPosTagRegex(&quot;[NAPD].+FP.*|V.P..PF.&quot;)) { desiredGenderNumberPattern = FP;}</b>
+<b class="pc">&nbsp;      else if (atr.matchesPosTagRegex(&quot;[NAPD].+CP.*|V.P..P..&quot;)) { desiredGenderNumberPattern = CP;}</b>
+<b class="nc">&nbsp;      else if (atr.matchesPosTagRegex(&quot;[NAPD].+CS.*|V.P..S..&quot;)) { desiredGenderNumberPattern = CS;}</b>
+&nbsp;    }
+&nbsp;    
+<b class="fc">&nbsp;    if (relevantWords.containsKey(form)) {</b>
+<b class="pc">&nbsp;      if (relevantWords.get(form).matchesPosTagRegex(postag)) {</b>
+<b class="fc">&nbsp;        if (desiredGenderNumberPattern != null) {</b>
+<b class="fc">&nbsp;          Matcher m = desiredGenderNumberPattern.matcher(relevantWords.get(form).getReadings().get(0).getPOSTag());</b>
+<b class="pc">&nbsp;          if (!m.matches()) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;          }
+<b class="fc">&nbsp;          replacement = relevantWords.get(form).getToken();</b>
+<b class="pc">&nbsp;        } else if (gendernumberFrom == null) {</b>
+&nbsp;          // there is no desired gender number defined
+<b class="fc">&nbsp;          replacement = relevantWords.get(form).getToken();</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    if (replacement != null) {</b>
+<b class="fc">&nbsp;      String message = match.getMessage();</b>
+&nbsp;      // Change the message if the replacement has no diacritic
+<b class="pc">&nbsp;      if (!(StringTools.hasDiacritics(replacement) &amp;&amp; !StringTools.hasDiacritics(form))) {</b>
+<b class="nc">&nbsp;        message = message.replace(&quot;s&#39;escriu amb accent&quot;, &quot;s&#39;escriu d&#39;una altra manera&quot;);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),</b>
+<b class="fc">&nbsp;          message, match.getShortMessage());</b>
+<b class="fc">&nbsp;      ruleMatch.setType(match.getType());</b>
+<b class="pc">&nbsp;      if (isAllUppercase) {</b>
+<b class="nc">&nbsp;        replacement = replacement.toUpperCase();</b>
+&nbsp;      }
+<b class="fc">&nbsp;      if (isCapitalized) {</b>
+<b class="fc">&nbsp;        replacement = StringTools.uppercaseFirstChar(replacement);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      for (String sugg : match.getSuggestedReplacements()) {</b>
+<b class="fc">&nbsp;        String suggestion = sugg.replace(&quot;{suggestion}&quot;, replacement);</b>
+<b class="fc">&nbsp;        suggestion = suggestion.replace(&quot;{Suggestion}&quot;, StringTools.uppercaseFirstChar(replacement));</b>
+<b class="fc">&nbsp;        suggestion = suggestion.replace(&quot;{SUGGESTION}&quot;, replacement.toUpperCase());</b>
+<b class="fc">&nbsp;        ruleMatch.addSuggestedReplacement(suggestion);  </b>
+&nbsp;      }
+<b class="fc">&nbsp;      return ruleMatch;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

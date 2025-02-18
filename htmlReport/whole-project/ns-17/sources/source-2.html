@@ -1,0 +1,318 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LanguageIdentifier</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language.identifier</a>
+</div>
+
+<h1>Coverage Summary for Class: LanguageIdentifier (org.languagetool.language.identifier)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LanguageIdentifier</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (5/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/38)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25.5%
+  </span>
+  <span class="absValue">
+    (13/51)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">LanguageIdentifier$ParsedLanguageLists</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    45.5%
+  </span>
+  <span class="absValue">
+    (5/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/38)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    23.2%
+  </span>
+  <span class="absValue">
+    (13/56)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * LanguageTool, a natural language style checker
+&nbsp; * Copyright (c) 2022.  Stefan Viol (https://stevio.de)
+&nbsp; *
+&nbsp; *  This library is free software; you can redistribute it and/or
+&nbsp; *  modify it under the terms of the GNU Lesser General Public
+&nbsp; *  License as published by the Free Software Foundation; either
+&nbsp; *  version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; *  This library is distributed in the hope that it will be useful,
+&nbsp; *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  Lesser General Public License for more details.
+&nbsp; *
+&nbsp; *  You should have received a copy of the GNU Lesser General Public
+&nbsp; *  License along with this library; if not, write to the Free Software
+&nbsp; *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.language.identifier;
+&nbsp;
+&nbsp;import com.optimaize.langdetect.text.TextFilter;
+&nbsp;import lombok.Getter;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.DetectedLanguage;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.language.identifier.detector.CommonWordsDetector;
+&nbsp;import org.languagetool.language.identifier.detector.UnicodeBasedDetector;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;public abstract class LanguageIdentifier {
+<b class="fc">&nbsp;  private static final Pattern URL_REGEX = Pattern.compile(&quot;https?://[-_.?&amp;~;+=/#%0-9A-Za-z]+&quot;);   // &#39;%&#39; has been added</b>
+<b class="fc">&nbsp;  private static final Pattern MAIL_REGEX = Pattern.compile(&quot;[-_.0-9A-Za-z]+@[-_0-9A-Za-z]+[-_.0-9A-Za-z]+&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern SIGNATURE = Pattern.compile(&quot;\n--[ \u00A0]\n.*&quot;, Pattern.DOTALL);</b>
+<b class="fc">&nbsp;  private static final Pattern MENTION = Pattern.compile(&quot;@[A-Za-z0-9_]+&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern NBSP_INVIS_SEPARATOR = Pattern.compile(&quot;[\uFEFF\u2063]+&quot;);</b>
+&nbsp;  protected static final float SCORE_THRESHOLD = 0.85f;
+&nbsp;  protected static final int CONSIDER_ONLY_PREFERRED_THRESHOLD = 50;
+<b class="fc">&nbsp;  protected static final List&lt;String&gt; NON_LATIN_CHARS_LANGUAGES = Arrays.asList(&quot;ar&quot;, &quot;fa&quot;, &quot;ru&quot;, &quot;uk&quot;, &quot;be&quot;, &quot;zh&quot;, &quot;ja&quot;, &quot;km&quot;, &quot;ta&quot;, &quot;el&quot;, &quot;hi&quot;, &quot;mr&quot;, &quot;th&quot;, &quot;he&quot;, &quot;ko&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;  protected static final TextFilter REMOVE_EMAIL_SIGNATURE_FILTER = text -&gt; SIGNATURE.matcher(text).replaceFirst(&quot;&quot;);</b>
+<b class="fc">&nbsp;  protected static final TextFilter REMOVE_MENTION_FILTER = text -&gt; MENTION.matcher(text).replaceFirst(&quot;&quot;);</b>
+<b class="fc">&nbsp;  protected static final TextFilter REMOVE_NON_BREAKING_SPACES_FILTER = text -&gt; text.toString().replace(&#39;\u00A0&#39;, &#39; &#39;);</b>
+<b class="fc">&nbsp;  protected static final TextFilter REMOVE_URL_FILTER = text -&gt; MAIL_REGEX.matcher(URL_REGEX.matcher(text).replaceAll(&quot; &quot;)).replaceAll(&quot; &quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;  protected static final UnicodeBasedDetector UNICODE_BASED_LANG_IDENTIFIER = new UnicodeBasedDetector();</b>
+&nbsp;  protected static final CommonWordsDetector COMMON_WORDS_LANG_IDENTIFIER;
+&nbsp;
+&nbsp;  static {
+&nbsp;    try {
+<b class="fc">&nbsp;      COMMON_WORDS_LANG_IDENTIFIER = new CommonWordsDetector();</b>
+&nbsp;    } catch (IOException ex) {
+<b class="fc">&nbsp;      throw new RuntimeException(ex);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  protected int maxLength;
+&nbsp;
+<b class="nc">&nbsp;  public LanguageIdentifier(int maxLength) {</b>
+<b class="nc">&nbsp;    if (maxLength &lt; 10) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;maxLength must be &gt;= 10 (but values &gt; 100 are recommended): &quot; + maxLength);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.maxLength = maxLength;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param cleanText    a cleanText as returned by {@link #cleanAndShortenText(String)}
+&nbsp;   * @param noopLangsTmp list of codes that are detected but will lead to the NoopLanguage that has no rules
+&nbsp;   * @return language or {@code null} if language could not be identified
+&nbsp;   * @since 4.4 (new parameter noopLangs, changed return type to DetectedLanguage)
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public abstract DetectedLanguage detectLanguage(String cleanText, List&lt;String&gt; noopLangsTmp, List&lt;String&gt; preferredLangsTmp);
+&nbsp;  
+&nbsp;  @Nullable 
+&nbsp;  public abstract DetectedLanguage detectLanguage(String cleanText, List&lt;String&gt; noopLangsTmp, List&lt;String&gt; preferredLangsTmp, boolean limitOnPreferredLangs);
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  public abstract List&lt;DetectedLanguage&gt; getDetectedLanguageScores(String cleanText, List&lt;String&gt; noopLangsTmp, List&lt;String&gt; preferredLangsTmp, boolean limitOnPreferredLangs, int count);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param cleanText a cleanText as returned by {@link #cleanAndShortenText(String)}
+&nbsp;   * @return language or {@code null} if language could not be identified
+&nbsp;   * @since 4.4 (new parameter noopLangs, changed return type to DetectedLanguage)
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public abstract Language detectLanguage(String cleanText);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.8
+&nbsp;   */
+&nbsp;  public String cleanAndShortenText(String text) {
+<b class="nc">&nbsp;    String shortText = text.length() &gt; maxLength ? text.substring(0, maxLength) : text;</b>
+<b class="nc">&nbsp;    shortText = NBSP_INVIS_SEPARATOR.matcher(shortText).replaceAll(&quot; &quot;);  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)</b>
+<b class="nc">&nbsp;    shortText = REMOVE_URL_FILTER.filter(shortText);</b>
+<b class="nc">&nbsp;    shortText = REMOVE_EMAIL_SIGNATURE_FILTER.filter(shortText);</b>
+<b class="nc">&nbsp;    shortText = REMOVE_MENTION_FILTER.filter(shortText);</b>
+<b class="nc">&nbsp;    shortText = REMOVE_NON_BREAKING_SPACES_FILTER.filter(shortText);</b>
+<b class="nc">&nbsp;    return shortText;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  protected ParsedLanguageLists prepareDetectLanguage(String text, List&lt;String&gt; noopLangsTmp, List&lt;String&gt; preferredLangsTmp) {
+<b class="nc">&nbsp;    Objects.requireNonNull(noopLangsTmp);</b>
+<b class="nc">&nbsp;    Objects.requireNonNull(preferredLangsTmp);</b>
+&nbsp;
+&nbsp;    // Chrome sends &#39;nn&#39; (Nynorsk) or &#39;nb&#39; (Bokmal), but fasttext detects &#39;no&#39;, so we have to map, and 
+&nbsp;    // Bokmal seems to be the standard variant:
+<b class="nc">&nbsp;    List&lt;String&gt; additionalLangs = noopLangsTmp.stream().map(k -&gt; k.equals(&quot;nb&quot;) ? &quot;no&quot; : k).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    List&lt;String&gt; preferredLangs = preferredLangsTmp.stream().map(k -&gt; k.equals(&quot;nb&quot;) ? &quot;no&quot; : k).collect(Collectors.toCollection(ArrayList::new));</b>
+<b class="nc">&nbsp;    if (preferredLangs.stream().anyMatch(k -&gt; k.contains(&quot;-&quot;))) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;preferredLanguages may only contain language codes without variants (e.g. &#39;en&#39;, but not &#39;en-US&#39;): &quot; + preferredLangs + &quot;. Use &#39;preferredVariants&#39; to specify variants.&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    List&lt;String&gt; domLangCodes = UNICODE_BASED_LANG_IDENTIFIER.getDominantLangCodes(text);</b>
+<b class="nc">&nbsp;    String domLangStr = String.join(&quot;,&quot;, domLangCodes);</b>
+<b class="nc">&nbsp;    if (domLangStr.equals(&quot;th&quot;) || domLangStr.equals(&quot;he&quot;) || domLangStr.equals(&quot;ko&quot;) || domLangStr.equals(&quot;hi,mr&quot;)) {</b>
+&nbsp;      // more than 50% of characters are ..., so assume we don&#39;t support this cleanText:
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!preferredLangs.contains(&quot;ru&quot;) &amp;&amp; !preferredLangs.contains(&quot;uk&quot;) &amp;&amp; !preferredLangs.contains(&quot;be&quot;) &amp;&amp; !preferredLangs.contains(&quot;zh&quot;) &amp;&amp; !preferredLangs.contains(&quot;hi&quot;) &amp;&amp; !preferredLangs.contains(&quot;mr&quot;)) {</b>
+&nbsp;      // Cyrillic and Chinese are so different from Latin characters that we try to detect it even with preferredLangs not properly set:
+<b class="nc">&nbsp;      preferredLangs.addAll(domLangCodes);</b>
+<b class="nc">&nbsp;      additionalLangs.addAll(domLangCodes);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new ParsedLanguageLists(additionalLangs, preferredLangs);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected Map.Entry&lt;String, Double&gt; getHighestScoringResult(Map&lt;String, Double&gt; probs) {
+<b class="nc">&nbsp;    String result = null;</b>
+<b class="nc">&nbsp;    double max = -1;</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, Double&gt; entry : probs.entrySet()) {</b>
+<b class="nc">&nbsp;      if (entry.getValue() &gt; max) {</b>
+<b class="nc">&nbsp;        max = entry.getValue();</b>
+<b class="nc">&nbsp;        result = entry.getKey();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return new AbstractMap.SimpleImmutableEntry&lt;&gt;(result, max);  </b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected Map&lt;String, Double&gt; getOrderedScores(Map&lt;String, Double&gt; scores, int count) {
+<b class="nc">&nbsp;    ArrayList&lt;Map.Entry&lt;String, Double&gt;&gt; entries = new ArrayList&lt;&gt;(scores.entrySet());</b>
+<b class="nc">&nbsp;    entries.sort(Map.Entry.comparingByValue(Collections.reverseOrder()));</b>
+<b class="nc">&nbsp;    Map&lt;String, Double&gt; sortedScores = new LinkedHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; entries.size() &amp;&amp; i &lt; count; i++) {</b>
+<b class="nc">&nbsp;      sortedScores.put(entries.get(i).getKey(), entries.get(i).getValue());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sortedScores;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static class ParsedLanguageLists {
+<b class="nc">&nbsp;    @Getter</b>
+&nbsp;    private final List&lt;String&gt; additionalLangs = new ArrayList&lt;&gt;();
+<b class="nc">&nbsp;    @Getter</b>
+&nbsp;    private final List&lt;String&gt; preferredLangs = new ArrayList&lt;&gt;();
+&nbsp;
+<b class="nc">&nbsp;    public ParsedLanguageLists(List&lt;String&gt; additionalLangs, List&lt;String&gt; preferredLangs) {</b>
+<b class="nc">&nbsp;      this.additionalLangs.addAll(additionalLangs);</b>
+<b class="nc">&nbsp;      this.preferredLangs.addAll(preferredLangs);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

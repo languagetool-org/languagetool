@@ -1,0 +1,384 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UserLimits</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: UserLimits (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserLimits</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/66)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">UserLimits$Account</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/74)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2017 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.builder.ToStringBuilder;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 4.0
+&nbsp; */
+&nbsp;class UserLimits {
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(UserLimits.class);</b>
+&nbsp;  
+&nbsp;  @Nullable
+&nbsp;  private final UserInfoEntry account;
+&nbsp;
+&nbsp;  private final int maxTextLength;
+&nbsp;  private final long maxCheckTimeMillis;
+&nbsp;  // number of words from custom dictionaries that are cached, enabled only for selected users
+&nbsp;  private final boolean hasPremium;
+&nbsp;  private final Long dictionaryCacheSize;
+&nbsp;  private final Long premiumUid;
+&nbsp;  private boolean skipLimits;
+&nbsp;
+&nbsp;  private final Long requestsPerDay;
+&nbsp;  private final LimitEnforcementMode limitEnforcementMode;
+&nbsp;
+&nbsp;  static UserLimits getDefaultLimits(HTTPServerConfig config) {
+<b class="nc">&nbsp;    if (config.premiumAlways) {</b>
+<b class="nc">&nbsp;      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisAnonymous(), 1L, true);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return new UserLimits(config.getMaxTextLengthAnonymous(), config.getMaxCheckTimeMillisAnonymous(), null, false);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @deprecated Use getLimitsByApiKey() instead
+&nbsp;   */
+&nbsp;  @Deprecated
+&nbsp;  static UserLimits getLimitsFromUserAccount(HTTPServerConfig config, @NotNull String username, @NotNull String password) {
+<b class="nc">&nbsp;    UserInfoEntry entry = DatabaseAccess.getInstance().getUserInfoWithPassword(username, password);</b>
+<b class="nc">&nbsp;    if (entry == null) { // transparent fallback to anonymous user if DB down</b>
+<b class="nc">&nbsp;      return getUserLimitsFromWhitelistOrDefault(config, username);</b>
+<b class="nc">&nbsp;    } if (entry.hasPremium() || config.isPremiumAlways()) {</b>
+<b class="nc">&nbsp;      logger.info(&quot;Access via username/password for &quot; + username);</b>
+<b class="nc">&nbsp;      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), entry.getUserId(), true, entry.getUserDictCacheSize(), entry.getRequestsPerDay(), entry.getLimitEnforcement(), entry);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      logger.info(&quot;Non-premium access via username/password for &quot; + username);</b>
+<b class="nc">&nbsp;      return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), entry.getUserId(), false, entry.getUserDictCacheSize(), entry.getRequestsPerDay(), entry.getLimitEnforcement(), entry);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get limits from the api key itself, database access is needed.
+&nbsp;   */
+&nbsp;  public static UserLimits getLimitsByApiKey(HTTPServerConfig config, String username, String apiKey) {
+<b class="nc">&nbsp;    DatabaseAccess db = DatabaseAccess.getInstance();</b>
+<b class="nc">&nbsp;    UserInfoEntry data = db.getUserInfoWithApiKey(username, apiKey);</b>
+<b class="nc">&nbsp;    if (data == null) { // transparent fallback to anonymous user if DB down</b>
+<b class="nc">&nbsp;      return getUserLimitsFromWhitelistOrDefault(config, username);</b>
+<b class="nc">&nbsp;    } else if (data.hasPremium() || config.isPremiumAlways()) {</b>
+<b class="nc">&nbsp;      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get limits from the addon token, needs DB access
+&nbsp;   */
+&nbsp;  public static UserLimits getLimitsByAddonToken(HTTPServerConfig config, String username, String addonToken) {
+<b class="nc">&nbsp;    DatabaseAccess db = DatabaseAccess.getInstance();</b>
+<b class="nc">&nbsp;    UserInfoEntry data = db.getUserInfoWithAddonToken(username, addonToken);</b>
+<b class="nc">&nbsp;    if (data == null) { // transparent fallback to anonymous user if DB down</b>
+<b class="nc">&nbsp;      return getUserLimitsFromWhitelistOrDefault(config, username);</b>
+<b class="nc">&nbsp;    } if (data.hasPremium() || config.isPremiumAlways()) {</b>
+<b class="nc">&nbsp;      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static UserLimits getUserLimitsFromWhitelistOrDefault(HTTPServerConfig config, String username) {
+<b class="nc">&nbsp;    if (config.getRequestLimitWhitelistUsers() == null) {</b>
+<b class="nc">&nbsp;      return getDefaultLimits(config);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String mailDomain = username.substring(username.indexOf(&#39;@&#39;) + 1);</b>
+<b class="nc">&nbsp;    boolean isWhitelisted = false;</b>
+<b class="nc">&nbsp;    for (String whitelisted : config.getRequestLimitWhitelistUsers()) {</b>
+<b class="nc">&nbsp;      if (whitelisted.equals(username) || whitelisted.equals(mailDomain)) {</b>
+<b class="nc">&nbsp;        isWhitelisted = true;</b>
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (isWhitelisted) {</b>
+<b class="nc">&nbsp;      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), null, true);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return getDefaultLimits(config);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid, boolean hasPremium) {
+<b class="nc">&nbsp;    this(maxTextLength, maxCheckTimeMillis, premiumUid, hasPremium, null, null, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid, boolean hasPremium, Long dictCacheSize, Long requestsPerDay, LimitEnforcementMode limitEnforcement) {
+<b class="nc">&nbsp;    this(maxTextLength, maxCheckTimeMillis, premiumUid, hasPremium, dictCacheSize, requestsPerDay, limitEnforcement, null);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid, boolean hasPremium, Long dictCacheSize, Long requestsPerDay, LimitEnforcementMode limitEnforcement, UserInfoEntry account) {</b>
+<b class="nc">&nbsp;    this.maxTextLength = maxTextLength;</b>
+<b class="nc">&nbsp;    this.maxCheckTimeMillis = maxCheckTimeMillis;</b>
+<b class="nc">&nbsp;    this.premiumUid = premiumUid;</b>
+<b class="nc">&nbsp;    this.hasPremium = hasPremium;</b>
+<b class="nc">&nbsp;    this.dictionaryCacheSize = dictCacheSize;</b>
+<b class="nc">&nbsp;    this.requestsPerDay = requestsPerDay;</b>
+<b class="nc">&nbsp;    this.limitEnforcementMode = limitEnforcement != null ? limitEnforcement : LimitEnforcementMode.DISABLED;</b>
+<b class="nc">&nbsp;    this.account = account;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Special case for internal use to skip all limits.
+&nbsp;   */
+&nbsp;  UserLimits(boolean skipLimits) {
+<b class="nc">&nbsp;    this(0, 0, -1L, true);</b>
+<b class="nc">&nbsp;    this.skipLimits = skipLimits;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  int getMaxTextLength() {
+<b class="nc">&nbsp;    return maxTextLength;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  long getMaxCheckTimeMillis() {
+<b class="nc">&nbsp;   return maxCheckTimeMillis;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  boolean getSkipLimits() {
+<b class="nc">&nbsp;    return skipLimits;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  Long getPremiumUid() {
+<b class="nc">&nbsp;    return premiumUid;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean hasPremium() {
+<b class="nc">&nbsp;    return hasPremium;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return new ToStringBuilder(this)</b>
+<b class="nc">&nbsp;      .append(&quot;premiumUid&quot;, premiumUid)</b>
+<b class="nc">&nbsp;      .append(&quot;maxTextLength&quot;, maxTextLength)</b>
+<b class="nc">&nbsp;      .append(&quot;maxCheckTimeMillis&quot;, maxCheckTimeMillis)</b>
+<b class="nc">&nbsp;      .append(&quot;dictCacheSize&quot;, dictionaryCacheSize)</b>
+<b class="nc">&nbsp;      .append(&quot;requestsPerDay&quot;, requestsPerDay)</b>
+<b class="nc">&nbsp;      .append(&quot;limitEnforcement&quot;, limitEnforcementMode)</b>
+<b class="nc">&nbsp;      .build();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Long getDictCacheSize() {
+<b class="nc">&nbsp;    return dictionaryCacheSize;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Long getRequestsPerDay() {
+<b class="nc">&nbsp;    return requestsPerDay;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public LimitEnforcementMode getLimitEnforcementMode() {
+<b class="nc">&nbsp;    return limitEnforcementMode;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  UserInfoEntry getAccount() {
+<b class="nc">&nbsp;    return account;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class Account {
+&nbsp;
+&nbsp;    private final String username;
+&nbsp;    private final String password;
+&nbsp;
+<b class="nc">&nbsp;    Account(String username, String password) {</b>
+<b class="nc">&nbsp;      this.username = Objects.requireNonNull(username);</b>
+<b class="nc">&nbsp;      this.password = Objects.requireNonNull(password);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o) {
+<b class="nc">&nbsp;      if (this == o) return true;</b>
+<b class="nc">&nbsp;      if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="nc">&nbsp;      Account account = (Account) o;</b>
+<b class="nc">&nbsp;      return Objects.equals(username, account.username) &amp;&amp; Objects.equals(password, account.password);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;      return Objects.hash(username, password);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,467 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MorfologikPortugueseSpellerRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.pt</a>
+</div>
+
+<h1>Coverage Summary for Class: MorfologikPortugueseSpellerRule (org.languagetool.rules.pt)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MorfologikPortugueseSpellerRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/92)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/142)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.pt;
+&nbsp;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.SuggestedReplacement;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+&nbsp;import org.languagetool.synthesis.pt.PortugueseSynthesizer;
+&nbsp;import org.languagetool.tagging.pt.PortugueseTagger;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Predicate;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static org.languagetool.JLanguageTool.getDataBroker;
+&nbsp;
+&nbsp;public class MorfologikPortugueseSpellerRule extends MorfologikSpellerRule {
+&nbsp;
+&nbsp;  private final Language spellerLanguage;
+&nbsp;  private final String dictFilepath;
+&nbsp;  // Path, in pt/resources, where the list of words to be removed from the suggestion list is to be found.
+&nbsp;  private static final String doNotSuggestWordsFilepath = &quot;/pt/do_not_suggest.txt&quot;;
+&nbsp;  // Set of words that we do not want to add to the suggestions, despite being correctly spelt. Mostly profanity.
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; doNotSuggestWords = getDoNotSuggestWords();</b>
+&nbsp;  // Path, in pt/resources, where a list of abbreviations is found. These are simple abbreviations of the shape \w+\.
+&nbsp;  private static final String abbreviationFilepath = &quot;/pt/abbreviations.txt&quot;;
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; abbreviations = getAbbreviations();</b>
+&nbsp;  private static final String dialectAlternationsFilepath = &quot;/pt/dialect_alternations.txt&quot;;
+&nbsp;  private final Map&lt;String, String&gt; dialectAlternationMapping;
+<b class="nc">&nbsp;  private static final PortugueseTagger tagger = new PortugueseTagger();</b>
+<b class="nc">&nbsp;  private static final PortugueseSynthesizer synth = PortugueseSynthesizer.INSTANCE;</b>
+&nbsp;  // Moved out of hunspell/spelling.txt for Morfologik.
+&nbsp;  private static final String SPELLING_FILE = &quot;pt/spelling.txt&quot;;
+&nbsp;  private static final String MULTIWORDS_FILE = &quot;pt/multiwords.txt&quot;;
+&nbsp;  private static final String SPELLING_IGNORE_FILE = &quot;pt/ignore.txt&quot;;
+&nbsp;  private static final String SPELLING_PROHIBIT_FILE = &quot;pt/prohibit.txt&quot;;
+&nbsp;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getFileName() {
+<b class="nc">&nbsp;    return dictFilepath;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static Set&lt;String&gt; getDoNotSuggestWords() {
+<b class="nc">&nbsp;    return getWordSetFromResources(doNotSuggestWordsFilepath);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static Set&lt;String&gt; getAbbreviations() {
+<b class="nc">&nbsp;    return getWordSetFromResources(abbreviationFilepath);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static Set&lt;String&gt; getWordSetFromResources(String filepath) {
+<b class="nc">&nbsp;    return new HashSet&lt;String&gt;(getDataBroker().getFromResourceDirAsLines(filepath));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getIgnoreFileName() {
+<b class="nc">&nbsp;    return SPELLING_IGNORE_FILE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getProhibitFileName() {
+<b class="nc">&nbsp;    return SPELLING_PROHIBIT_FILE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;MORFOLOGIK_RULE_&quot;</b>
+<b class="nc">&nbsp;      + language.getShortCodeWithCountryAndVariant().replace(&quot;-&quot;, &quot;_&quot;).toUpperCase();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected String getIdForDialectIssue() {
+<b class="nc">&nbsp;    return getId() + &quot;_DIALECT&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // TODO: document this, as it&#39;s about to get messy
+&nbsp;  @Nullable
+&nbsp;  protected String dialectAlternative(String word) throws IOException {
+&nbsp;    // Naive check: word is identical to lemma present on the TXT list
+<b class="nc">&nbsp;    String lemmaCheckResult = dialectAlternationMapping.get(word.toLowerCase());</b>
+<b class="nc">&nbsp;    if (lemmaCheckResult != null) {</b>
+<b class="nc">&nbsp;      return lemmaCheckResult;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; wordAsList = Collections.singletonList(word);</b>
+<b class="nc">&nbsp;    List&lt;AnalyzedTokenReadings&gt; readings = tagger.tag(wordAsList);</b>
+&nbsp;    // Annoying check: the word&#39;s lemma exists on the TXT list
+<b class="nc">&nbsp;    for (AnalyzedTokenReadings reading : readings) {</b>
+<b class="nc">&nbsp;      for (AnalyzedToken token : reading.getReadings()) {</b>
+<b class="nc">&nbsp;        String lemma = token.getLemma();</b>
+<b class="nc">&nbsp;        String tag = token.getPOSTag();</b>
+<b class="nc">&nbsp;        if (tag != null &amp;&amp; dialectAlternationMapping.containsKey(lemma)) {</b>
+<b class="nc">&nbsp;          String candidate = dialectAlternationMapping.get(lemma);</b>
+<b class="nc">&nbsp;          Predicate&lt;String&gt; tagPredicate = tagStr -&gt; tagStr.contentEquals(tag);</b>
+<b class="nc">&nbsp;          String[] forms = synth.synthesizeForPosTags(candidate, tagPredicate);</b>
+&nbsp;          // the assumption is these words are almost identical, their tagging also ought to be; so even if it returns
+&nbsp;          // many POS tags, the synthesiser should always yield the same form for the same set of tags
+<b class="nc">&nbsp;          if (forms.length &gt; 0) {</b>
+<b class="nc">&nbsp;            return forms[0];</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private String checkDiaeresis(String word) {
+<b class="nc">&nbsp;    if (word.indexOf(&#39;ü&#39;) &gt;= 0) {</b>
+<b class="nc">&nbsp;      return word.replace(&#39;ü&#39;, &#39;u&#39;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private String checkEuropeanStyle1PLPastTense(String word) {
+<b class="nc">&nbsp;    if (Objects.equals(spellerLanguage.getShortCodeWithCountryAndVariant(), &quot;pt-BR&quot;) &amp;&amp; word.endsWith(&quot;ámos&quot;)) {</b>
+<b class="nc">&nbsp;      return word.replace(&#39;á&#39;, &#39;a&#39;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isTitlecasedHyphenatedWord(String[] wordParts) {
+<b class="nc">&nbsp;    for (String part : wordParts) {</b>
+<b class="nc">&nbsp;      if (StringTools.isMixedCase(part)) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // This is a bit of a hack specifically for the cases when the tagger dictionary has a hyphenated form (which is,
+&nbsp;  // therefore, NOT split in tokenisation) and the speller dictionary doesn&#39;t have it.
+&nbsp;  @Nullable
+&nbsp;  private String checkCompoundElements(String[] wordParts) {
+<b class="nc">&nbsp;    List&lt;String&gt; suggestedParts = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String part : wordParts) {</b>
+<b class="nc">&nbsp;      if (speller1.isMisspelled(part)) {</b>
+<b class="nc">&nbsp;        List&lt;String&gt; partSuggestions = speller1.getSuggestions(part);</b>
+<b class="nc">&nbsp;        if (partSuggestions.isEmpty()) {  // if no suggestions, keep the part and hope for the best</b>
+<b class="nc">&nbsp;          suggestedParts.add(part);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          suggestedParts.add(speller1.getSuggestions(part).get(0));  // keep it simple, only first suggestion for now</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        suggestedParts.add(part);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    String newSuggestion = String.join(&quot;-&quot;, suggestedParts);</b>
+<b class="nc">&nbsp;    if (newSuggestion.equals(String.join(&quot;-&quot;, wordParts))) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return newSuggestion;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private Map&lt;String,String&gt; getDialectAlternationMapping() {
+<b class="nc">&nbsp;    Map&lt;String,String&gt; wordMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(dialectAlternationsFilepath);</b>
+<b class="nc">&nbsp;    String fullLanguageCode = spellerLanguage.getShortCodeWithCountryAndVariant();</b>
+<b class="nc">&nbsp;    int column = -1;</b>
+<b class="nc">&nbsp;    switch(fullLanguageCode) {</b>
+<b class="nc">&nbsp;      case &quot;pt-BR&quot;: column = 1; break;  // hash from pt-PT to pt-BR</b>
+<b class="nc">&nbsp;      case &quot;pt-PT&quot;: column = 0; break;  // hash from pt-BR to pt-PT</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (column == -1) { // not supported for pre-45 dictionaries</b>
+<b class="nc">&nbsp;      return Collections.emptyMap();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (String line : lines) {</b>
+<b class="nc">&nbsp;      line = line.trim();</b>
+<b class="nc">&nbsp;      if (line.isEmpty() || line.startsWith(&quot;#&quot;)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String[] parsedLine = line.split(&quot;=&quot;);</b>
+<b class="nc">&nbsp;      if (parsedLine.length != 2) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Unexpected format in &quot; + dialectAlternationsFilepath + &quot;: &quot; + line +</b>
+&nbsp;          &quot; - expected two parts delimited by &#39;=&#39;&quot;);
+&nbsp;      }
+<b class="nc">&nbsp;      wordMap.put(parsedLine[column].toLowerCase(), parsedLine[column == 1 ? 0 : 1]);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return wordMap;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isValidCliticVerb(String word) {
+&nbsp;    // Because of differences between the tagger and the speller when it comes to verbs with clitics, and the fact
+&nbsp;    // that, theoretically, it is possible for dialect issues to emerge, we need to check if the flagged word is
+&nbsp;    // actually a *valid* verb form (e.g. pt-PT struggles with &#39;diz-se&#39;).
+<b class="nc">&nbsp;    for (AnalyzedTokenReadings reading : tagger.tag(Collections.singletonList(word))) {</b>
+<b class="nc">&nbsp;      for (AnalyzedToken token : reading.getReadings()) {</b>
+<b class="nc">&nbsp;        String posTag = token.getPOSTag();</b>
+<b class="nc">&nbsp;        if (posTag != null &amp;&amp; posTag.matches(&quot;V.+:P.+&quot;)) {</b>
+<b class="nc">&nbsp;          String lemma = token.getLemma();</b>
+&nbsp;          // if the lemma is in the dialect alternation mapping, it is invalid
+<b class="nc">&nbsp;          return !dialectAlternationMapping.containsKey(lemma);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // Not a clitic verb, so can&#39;t be an invalid clitic verb. Logically this works later on, don&#39;t worry.
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public MorfologikPortugueseSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
+&nbsp;                                      List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    super(messages, language, userConfig, altLanguages);</b>
+&nbsp;    // the tagger tags pt-PT and pt-BR words all the same, as it should, but they&#39;re still incorrect if they belong
+&nbsp;    // to the wrong dialect, commenting this out
+&nbsp;    // this.setIgnoreTaggedWords();
+<b class="nc">&nbsp;    if (language.getShortCodeWithCountryAndVariant().equals(&quot;pt&quot;)) {</b>
+<b class="nc">&nbsp;      spellerLanguage = language.getDefaultLanguageVariant();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      spellerLanguage = language;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    dictFilepath = &quot;/pt/spelling/&quot; + getDictFilename() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;</b>
+<b class="nc">&nbsp;    dialectAlternationMapping = getDialectAlternationMapping();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;SuggestedReplacement&gt; filterNoSuggestWords(List&lt;SuggestedReplacement&gt; suggestedReplacements) {
+<b class="nc">&nbsp;    return suggestedReplacements.stream().filter(</b>
+<b class="nc">&nbsp;      suggestedReplacement -&gt; !doNotSuggestWords.contains(</b>
+<b class="nc">&nbsp;        suggestedReplacement.getReplacement().toLowerCase()</b>
+<b class="nc">&nbsp;      )).collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;SuggestedReplacement&gt; getAdditionalTopSuggestions(List&lt;SuggestedReplacement&gt; suggestions, String word)
+&nbsp;    throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; suggestionsList = suggestions.stream().map(SuggestedReplacement::getReplacement)</b>
+<b class="nc">&nbsp;      .collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    return SuggestedReplacement.convert(getAdditionalTopSuggestionsString(suggestionsList, word));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; getAdditionalTopSuggestionsString(List&lt;String&gt; suggestions, String word) throws IOException {
+<b class="nc">&nbsp;    if (isAbbreviation(word)) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(word + &quot;.&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // Check if the word we&#39;re checking is in our list of abbreviations.
+&nbsp;  protected boolean isAbbreviation(String word) {
+&nbsp;    // regular case (since we do have some abbreviations with weird casing) as well as downcased
+<b class="nc">&nbsp;    return abbreviations.contains(word + &quot;.&quot;) || abbreviations.contains(word.toLowerCase() + &quot;.&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getDictFilename() {
+<b class="nc">&nbsp;    String dictFilename = &quot;pt-BR&quot;;  // default dict is pt-BR with 1990 spelling</b>
+<b class="nc">&nbsp;    String fullLanguageCode = this.spellerLanguage.getShortCodeWithCountryAndVariant();</b>
+<b class="nc">&nbsp;    switch (fullLanguageCode) {</b>
+<b class="nc">&nbsp;      case &quot;pt-BR&quot;:               dictFilename = &quot;pt-BR&quot;;    break;</b>
+<b class="nc">&nbsp;      case &quot;pt-PT&quot;:               dictFilename = &quot;pt-PT-90&quot;; break;</b>
+<b class="nc">&nbsp;      case &quot;pt-AO&quot;: case &quot;pt-MZ&quot;: dictFilename = &quot;pt-PT-45&quot;; break;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return dictFilename;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; getAdditionalSpellingFileNames() {
+<b class="nc">&nbsp;    return Arrays.asList(SpellingCheckRule.GLOBAL_SPELLING_FILE, SPELLING_FILE, MULTIWORDS_FILE);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void replaceFormsOfFirstMatch(String message, AnalyzedSentence sentence, List&lt;RuleMatch&gt; ruleMatches,
+&nbsp;                                        String suggestion, boolean dialectIssue) {
+&nbsp;    // recreating match, might overwrite information by SuggestionsRanker;
+&nbsp;    // this has precedence
+<b class="nc">&nbsp;    RuleMatch oldMatch = ruleMatches.get(0);</b>
+<b class="nc">&nbsp;    RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);</b>
+<b class="nc">&nbsp;    newMatch.setType(oldMatch.getType());</b>
+<b class="nc">&nbsp;    if (dialectIssue) {</b>
+<b class="nc">&nbsp;      newMatch.setSpecificRuleId(getIdForDialectIssue());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    SuggestedReplacement sugg = new SuggestedReplacement(suggestion);</b>
+<b class="nc">&nbsp;    sugg.setShortDescription(language.getName());</b>
+<b class="nc">&nbsp;    newMatch.setSuggestedReplacementObjects(Collections.singletonList(sugg));</b>
+<b class="nc">&nbsp;    ruleMatches.set(0, newMatch);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;RuleMatch&gt; getRuleMatches(String word, int startPos, AnalyzedSentence sentence,
+&nbsp;                                        List&lt;RuleMatch&gt; ruleMatchesSoFar, int idx,
+&nbsp;                                        AnalyzedTokenReadings[] tokens) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);</b>
+<b class="nc">&nbsp;    if (tokens[idx].hasPosTag(&quot;_english_ignore_&quot;)) {</b>
+<b class="nc">&nbsp;      return Collections.emptyList();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!ruleMatches.isEmpty()) {</b>
+<b class="nc">&nbsp;      if (isValidCliticVerb(word)) {</b>
+<b class="nc">&nbsp;        ruleMatches = Collections.emptyList();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (word.indexOf(&#39;-&#39;) &gt; 0) {</b>
+<b class="nc">&nbsp;        String[] wordParts = word.split(&quot;-&quot;);</b>
+<b class="nc">&nbsp;        if (isTitlecasedHyphenatedWord(wordParts)) {</b>
+&nbsp;          // if the word is hyphenated and each element is titlecased, downcase it and see if it&#39;s still misspelt
+<b class="nc">&nbsp;          if (!speller1.isMisspelled(word.toLowerCase())) {  // if not misspelt, empty out the rule matches</b>
+<b class="nc">&nbsp;            ruleMatches = Collections.emptyList();</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;        // When the word is incorrect but we don&#39;t have a suggestion, put one together based on each of its parts
+<b class="nc">&nbsp;        if (!ruleMatches.isEmpty() &amp;&amp; ruleMatches.get(0).getSuggestedReplacements().isEmpty()) {</b>
+<b class="nc">&nbsp;          @Nullable String newSuggestion = checkCompoundElements(wordParts);</b>
+<b class="nc">&nbsp;          if (newSuggestion == null) {</b>
+<b class="nc">&nbsp;            ruleMatches = Collections.emptyList();</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            replaceFormsOfFirstMatch(ruleMatches.get(0).getMessage(), sentence, ruleMatches, newSuggestion, false);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      String wordWithBrazilianStylePastTense = checkEuropeanStyle1PLPastTense(word);</b>
+<b class="nc">&nbsp;      if (wordWithBrazilianStylePastTense != null) {</b>
+<b class="nc">&nbsp;        String message = &quot;No Brasil, o pretérito perfeito da primeira pessoa do plural escreve-se sem acento.&quot;;</b>
+<b class="nc">&nbsp;        replaceFormsOfFirstMatch(message, sentence, ruleMatches, wordWithBrazilianStylePastTense, true);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String wordWithoutDiaeresis = checkDiaeresis(word);</b>
+<b class="nc">&nbsp;      if (wordWithoutDiaeresis != null) {</b>
+<b class="nc">&nbsp;        String message = &quot;No mais recente acordo ortográfico, não se usa mais o trema no português.&quot;;</b>
+<b class="nc">&nbsp;        replaceFormsOfFirstMatch(message, sentence, ruleMatches, wordWithoutDiaeresis, false);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String dialectAlternative = this.dialectAlternative(word);</b>
+<b class="nc">&nbsp;      if (dialectAlternative != null) {</b>
+<b class="nc">&nbsp;        String otherVariant = &quot;europeu&quot;;</b>
+<b class="nc">&nbsp;        if (Objects.equals(spellerLanguage.getShortCodeWithCountryAndVariant(), &quot;pt-PT&quot;)) {</b>
+<b class="nc">&nbsp;          otherVariant = &quot;brasileiro&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String message = &quot;Possível erro de ortografia: esta é a grafia utilizada no português &quot; + otherVariant + &quot;.&quot;;</b>
+<b class="nc">&nbsp;        String suggestion = StringTools.startsWithUppercase(word) ? StringTools.uppercaseFirstChar(dialectAlternative) : dialectAlternative;</b>
+<b class="nc">&nbsp;        replaceFormsOfFirstMatch(message, sentence, ruleMatches, suggestion, true);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return ruleMatches;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

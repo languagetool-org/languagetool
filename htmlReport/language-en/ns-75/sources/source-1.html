@@ -1,0 +1,169 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GermanRuleDisambiguator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.disambiguation.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: GermanRuleDisambiguator (org.languagetool.tagging.disambiguation.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GermanRuleDisambiguator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.tagging.disambiguation.rules.de;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
+&nbsp;import org.languagetool.tagging.disambiguation.Disambiguator;
+&nbsp;import org.languagetool.tagging.disambiguation.MultiWordChunker;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;public class GermanRuleDisambiguator extends AbstractDisambiguator {
+&nbsp;  
+&nbsp;  private final Disambiguator disambiguator;
+&nbsp;
+<b class="nc">&nbsp;  private final MultiWordChunker multitokenSpeller = MultiWordChunker.getInstance(</b>
+&nbsp;    &quot;/de/multitoken-ignore.txt&quot;, true, true, false, MultiWordChunker.tagForNotAddingTags);
+&nbsp;
+<b class="nc">&nbsp;  private final MultiWordChunker multitokenSpeller2 = MultiWordChunker.getInstance(</b>
+&nbsp;    &quot;/de/multitoken-suggest.txt&quot;, true, true, false, MultiWordChunker.tagForNotAddingTags);
+&nbsp;
+<b class="nc">&nbsp;  private final MultiWordChunker multitokenSpeller3 = MultiWordChunker.getInstance(</b>
+&nbsp;    &quot;/spelling_global.txt&quot;, false, true, false, MultiWordChunker.tagForNotAddingTags);
+&nbsp;
+<b class="nc">&nbsp;  public GermanRuleDisambiguator(Language lang) {</b>
+<b class="nc">&nbsp;    disambiguator = new XmlRuleDisambiguator(lang, true);</b>
+&nbsp;    //TODO: merge in one disambiguator:
+<b class="nc">&nbsp;    multitokenSpeller.setIgnoreSpelling(true);</b>
+<b class="nc">&nbsp;    multitokenSpeller2.setIgnoreSpelling(true);</b>
+<b class="nc">&nbsp;    multitokenSpeller3.setIgnoreSpelling(true);</b>
+&nbsp;  }
+&nbsp;  @Override
+&nbsp;  public final AnalyzedSentence disambiguate(AnalyzedSentence input)
+&nbsp;      throws IOException {
+<b class="nc">&nbsp;    return disambiguator.disambiguate(input);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
+<b class="nc">&nbsp;    return disambiguator.disambiguate(multitokenSpeller2.disambiguate(multitokenSpeller3.disambiguate(</b>
+<b class="nc">&nbsp;      multitokenSpeller.disambiguate(input, checkCanceled), checkCanceled), checkCanceled), checkCanceled</b>
+&nbsp;    );
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,217 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RegexExpander</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev</a>
+</div>
+
+<h1>Coverage Summary for Class: RegexExpander (org.languagetool.dev)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RegexExpander</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2022 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev;
+&nbsp;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static org.languagetool.tools.StringTools.uppercaseFirstChar;
+&nbsp;
+&nbsp;/**
+&nbsp; * &quot;Expand&quot; regular expressions like {@code [Ss](?:e[gx]|áb)} to make them readable.
+&nbsp; * To use this, you need a list of &quot;all&quot; words, e.g. exported (using &#39;unmunch&#39;) from the spell
+&nbsp; * checker&#39;s *.dic files. Then copy the regexp in question to `String regex = ...` here,
+&nbsp; * set the file to the list of words at `String wordListFile = ...` and run the main
+&nbsp; * method to print the expanded regex. Note that words that are not in your list of
+&nbsp; * words but that the regex would match will be missing from the new regex.
+&nbsp; */
+<b class="nc">&nbsp;public class RegexExpander {</b>
+&nbsp;
+<b class="nc">&nbsp;  private final static List&lt;String&gt; entities = Arrays.asList(</b>
+&nbsp;        &quot;       &lt;!ENTITY conjuncoes_coordenativas \&quot;(?:e(?:ntão|ntretanto)?|p(?:ois|orém|or(?:t|qu)anto)|mas|ou|nem|contudo|logo|todavia)\&quot;&gt;&quot;);
+&nbsp;  private final static String wordListFile = &quot;/home/dnaber/lt/pt-words.txt&quot;;
+<b class="nc">&nbsp;  private final static Set&lt;String&gt; printed = new HashSet&lt;&gt;();</b>
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+&nbsp;    //Pattern tempP = Pattern.compile(&quot;(?:e(?:stere|ur|g)|(?:cent|sac)r|a(?:str|udi)|t(?:erm|urb)|f(?:il|ot)|i(?:ntr|d)|bronc|labi|mon|vas|zo)o&quot;);
+&nbsp;    //System.out.println(tempP.matcher(&quot;estereo&quot;).matches());
+&nbsp;    //System.exit(0);
+<b class="nc">&nbsp;    List&lt;String&gt; lines = Files.readAllLines(Paths.get(wordListFile));</b>
+<b class="nc">&nbsp;    for (String s : entities) {</b>
+&nbsp;
+<b class="nc">&nbsp;      Matcher matcher = Pattern.compile(&quot;&lt;!ENTITY (.*?) &quot;).matcher(s);</b>
+<b class="nc">&nbsp;      boolean found = matcher.find();</b>
+<b class="nc">&nbsp;      if (!found) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Entity name not found: &quot; + s);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String entityName = matcher.group(1);</b>
+<b class="nc">&nbsp;      s = s.replaceFirst(&quot;&lt;!ENTITY .*? \&quot;(.*)\&quot;&gt;&quot;, &quot;$1&quot;).trim();</b>
+<b class="nc">&nbsp;      System.out.print(&quot;&lt;!ENTITY &quot; + entityName + &quot; \&quot;&quot;);</b>
+<b class="nc">&nbsp;      Pattern p = Pattern.compile(s);</b>
+<b class="nc">&nbsp;      int i = 0;</b>
+<b class="nc">&nbsp;      for (String line : lines) {</b>
+<b class="nc">&nbsp;        line = line.trim();</b>
+<b class="nc">&nbsp;        boolean lcMatch = false;</b>
+<b class="nc">&nbsp;        boolean ucMatch = false;</b>
+<b class="nc">&nbsp;        if (p.matcher(line).matches()) {</b>
+<b class="nc">&nbsp;          lcMatch = true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (StringTools.startsWithLowercase(line) &amp;&amp; p.matcher(uppercaseFirstChar(line)).matches()) {</b>
+<b class="nc">&nbsp;          ucMatch = true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (lcMatch &amp;&amp; ucMatch) {</b>
+<b class="nc">&nbsp;          printToken(i, &quot;[&quot; + uppercaseFirstChar(line).charAt(0) + StringTools.lowercaseFirstChar(line).charAt(0) + &quot;]&quot; + line.substring(1));</b>
+<b class="nc">&nbsp;          i++;</b>
+<b class="nc">&nbsp;        } else if (lcMatch &amp;&amp; !printed.contains(line)) {</b>
+<b class="nc">&nbsp;          printToken(i, line);</b>
+<b class="nc">&nbsp;          i++;</b>
+<b class="nc">&nbsp;        } else if (ucMatch &amp;&amp; !printed.contains(uppercaseFirstChar(line))) {</b>
+<b class="nc">&nbsp;          printToken(i, uppercaseFirstChar(line));</b>
+<b class="nc">&nbsp;          i++;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      System.out.println(&quot;\&quot;&gt;&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void printToken(int i, String s) {
+<b class="nc">&nbsp;    if (i == 0) {</b>
+<b class="nc">&nbsp;      System.out.print(s);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      System.out.print(&quot;|&quot; + s);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    printed.add(s);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

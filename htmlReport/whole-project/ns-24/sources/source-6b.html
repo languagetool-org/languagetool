@@ -1,0 +1,473 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > WrongWordInContextRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: WrongWordInContextRule (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WrongWordInContextRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (6/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90.3%
+  </span>
+  <span class="absValue">
+    (65/72)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.6%
+  </span>
+  <span class="absValue">
+    (106/112)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">WrongWordInContextRule$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">WrongWordInContextRule$ContextWords</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (12/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90.5%
+  </span>
+  <span class="absValue">
+    (67/74)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.2%
+  </span>
+  <span class="absValue">
+    (120/126)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2012 Markus Brenneis
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import com.google.common.cache.CacheBuilder;
+&nbsp;import com.google.common.cache.CacheLoader;
+&nbsp;import com.google.common.cache.LoadingCache;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;/**
+&nbsp; * Check if there is a confusion of two words (which might have a similar spelling) depending on the context.
+&nbsp; * This rule loads the words and their respective context from an external file with the following 
+&nbsp; * format (tab-separated):
+&nbsp; * 
+&nbsp; * &lt;pre&gt;word1 word2 match1 match2 context1 context2 explanation1 explanation2&lt;/pre&gt;
+&nbsp; * 
+&nbsp; * &lt;ul&gt;
+&nbsp; * &lt;li&gt;word1 and word2 are regular expressions of the words that can easily be confused
+&nbsp; * &lt;li&gt;match1 is the substring of word1 that will be replaced with match2 when word1 occurs in a context where it is probably wrong (and vice versa) 
+&nbsp; * &lt;li&gt;context1 is the context in which word1 typically occurs (but which is wrong for word2), given as a regular expression
+&nbsp; * &lt;li&gt;context2 is the context in which word2 typically occurs (but which is wrong for word1), given as a regular expression
+&nbsp; * &lt;li&gt;explanation1 is a short description of word1 (optional)
+&nbsp; * &lt;li&gt;explanation2 is a short description of word2 (optional)
+&nbsp; * &lt;/ul&gt;
+&nbsp; * 
+&nbsp; * @author Markus Brenneis
+&nbsp; */
+&nbsp;public abstract class WrongWordInContextRule extends Rule {
+&nbsp;
+<b class="fc">&nbsp;  private static final LoadingCache&lt;String, List&lt;ContextWords&gt;&gt; cache = CacheBuilder.newBuilder()</b>
+<b class="fc">&nbsp;          .expireAfterWrite(30, TimeUnit.MINUTES)</b>
+<b class="fc">&nbsp;          .build(new CacheLoader&lt;String, List&lt;ContextWords&gt;&gt;() {</b>
+&nbsp;            @Override
+&nbsp;            public List&lt;ContextWords&gt; load(@NotNull String path) {
+<b class="fc">&nbsp;              return loadContextWords(path);</b>
+&nbsp;            }
+&nbsp;          });
+&nbsp;
+&nbsp;  private final List&lt;ContextWords&gt; contextWordsSet;
+&nbsp;  private final Language lang;
+&nbsp;
+<b class="fc">&nbsp;  private boolean matchLemmas = false;</b>
+&nbsp;
+<b class="fc">&nbsp;  public WrongWordInContextRule(ResourceBundle messages, Language lang) {</b>
+<b class="fc">&nbsp;    super.setCategory(new Category(CategoryIds.CONFUSED_WORDS, getCategoryString()));</b>
+<b class="fc">&nbsp;    contextWordsSet = cache.getUnchecked(getFilename());</b>
+<b class="fc">&nbsp;    setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+<b class="fc">&nbsp;    this.lang = lang;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected abstract String getFilename();
+&nbsp;
+&nbsp;  protected String getCategoryString() {
+<b class="nc">&nbsp;    return messages.getString(&quot;category_misc&quot;);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;WRONG_WORD_IN_CONTEXT&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Confusion of words&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /*
+&nbsp;   *  Match lemmas instead of word forms
+&nbsp;   */
+&nbsp;  public void setMatchLemmmas() {
+<b class="fc">&nbsp;    matchLemmas = true;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="fc">&nbsp;    for (ContextWords contextWords : contextWordsSet) {</b>
+<b class="fc">&nbsp;      boolean[] matchedWord = {false, false};</b>
+<b class="fc">&nbsp;      Matcher[] matchers = {null, null};</b>
+<b class="fc">&nbsp;      matchers[0] = contextWords.words[0].matcher(&quot;&quot;);</b>
+<b class="fc">&nbsp;      matchers[1] = contextWords.words[1].matcher(&quot;&quot;);</b>
+&nbsp;      //start searching for words
+&nbsp;      //ignoring token 0, i.e., SENT_START
+&nbsp;      int i;
+<b class="fc">&nbsp;      String token1 = &quot;&quot;;</b>
+<b class="fc">&nbsp;      for (i = 1; i &lt; tokens.length &amp;&amp; !matchedWord[0]; i++) {</b>
+<b class="fc">&nbsp;        if (!tokens[i].hasPartialPosTag(&quot;IS_URL&quot;)) {</b>
+<b class="fc">&nbsp;          token1 = tokens[i].getToken();</b>
+<b class="fc">&nbsp;          matchedWord[0] = matchers[0].reset(token1).find();</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;      int j;
+<b class="fc">&nbsp;      String token2 = &quot;&quot;;</b>
+<b class="fc">&nbsp;      for (j = 1; j &lt; tokens.length &amp;&amp; !matchedWord[1]; j++) {</b>
+<b class="fc">&nbsp;        if (!tokens[j].hasPartialPosTag(&quot;IS_URL&quot;)) {</b>
+<b class="fc">&nbsp;          token2 = tokens[j].getToken();</b>
+<b class="fc">&nbsp;          matchedWord[1] = matchers[1].reset(token2).find();</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      int foundWord = -1;</b>
+<b class="fc">&nbsp;      int notFoundWord = -1;</b>
+<b class="fc">&nbsp;      int startPos = 0;</b>
+<b class="fc">&nbsp;      int endPos = 0;</b>
+<b class="fc">&nbsp;      String matchedToken = &quot;&quot;;</b>
+&nbsp;      // when both words have been found, we cannot determine if one of them is wrong
+<b class="pc">&nbsp;      if (matchedWord[0] &amp;&amp; !matchedWord[1]) {</b>
+<b class="fc">&nbsp;        foundWord = 0;</b>
+<b class="fc">&nbsp;        notFoundWord = 1;</b>
+<b class="fc">&nbsp;        matchers[1] = contextWords.contexts[1].matcher(&quot;&quot;);</b>
+<b class="fc">&nbsp;        startPos = tokens[i-1].getStartPos();</b>
+<b class="fc">&nbsp;        endPos = tokens[i-1].getStartPos() + token1.length();</b>
+<b class="fc">&nbsp;        matchedToken = token1;</b>
+<b class="pc">&nbsp;      } else if (matchedWord[1] &amp;&amp; !matchedWord[0]) {</b>
+<b class="fc">&nbsp;        foundWord = 1;</b>
+<b class="fc">&nbsp;        notFoundWord = 0;</b>
+<b class="fc">&nbsp;        matchers[0] = contextWords.contexts[0].matcher(&quot;&quot;);</b>
+<b class="fc">&nbsp;        startPos = tokens[j-1].getStartPos();</b>
+<b class="fc">&nbsp;        endPos = tokens[j-1].getStartPos() + token2.length();</b>
+<b class="fc">&nbsp;        matchedToken = token2;</b>
+&nbsp;      }
+&nbsp;      
+<b class="fc">&nbsp;      if (foundWord != -1) {</b>
+<b class="fc">&nbsp;        boolean[] matchedContext = {false, false};</b>
+<b class="fc">&nbsp;        matchers[foundWord] = contextWords.contexts[foundWord].matcher(&quot;&quot;);</b>
+<b class="fc">&nbsp;        matchers[notFoundWord] = contextWords.contexts[notFoundWord].matcher(&quot;&quot;);</b>
+&nbsp;        //start searching for context words
+&nbsp;        //ignoring token 0, i.e., SENT_START
+&nbsp;        String token;
+<b class="fc">&nbsp;        for (i = 1; i &lt; tokens.length &amp;&amp; !matchedContext[foundWord]; i++) {</b>
+<b class="fc">&nbsp;          if (matchLemmas) {</b>
+<b class="fc">&nbsp;            for (j = 0; j &lt; tokens[i].getReadingsLength() &amp;&amp; !matchedContext[foundWord]; j++) {</b>
+<b class="fc">&nbsp;              String lemma = tokens[i].getAnalyzedToken(j).getLemma();</b>
+<b class="pc">&nbsp;              if (lemma != null &amp;&amp; !lemma.isEmpty()) {</b>
+<b class="fc">&nbsp;                matchedContext[foundWord] = matchers[foundWord].reset(lemma).find();</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          } else {
+<b class="fc">&nbsp;            token = tokens[i].getToken();</b>
+<b class="fc">&nbsp;            matchedContext[foundWord] = matchers[foundWord].reset(token).find();</b>
+&nbsp;          }
+&nbsp;        }
+<b class="fc">&nbsp;        for (i = 1; i &lt; tokens.length &amp;&amp; !matchedContext[notFoundWord]; i++) {</b>
+<b class="fc">&nbsp;          if (matchLemmas) {</b>
+<b class="fc">&nbsp;            for (j = 0; j &lt; tokens[i].getReadingsLength() &amp;&amp; !matchedContext[notFoundWord]; j++) {</b>
+<b class="fc">&nbsp;              String lemma = tokens[i].getAnalyzedToken(j).getLemma();</b>
+<b class="pc">&nbsp;              if (lemma != null &amp;&amp; !lemma.isEmpty()) {</b>
+<b class="fc">&nbsp;                matchedContext[notFoundWord] = matchers[notFoundWord].reset(lemma).find();</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          } else {
+<b class="fc">&nbsp;            token = tokens[i].getToken();</b>
+<b class="fc">&nbsp;            matchedContext[notFoundWord] = matchers[notFoundWord].reset(token).find();</b>
+&nbsp;          }
+&nbsp;        }
+<b class="fc">&nbsp;        if (matchedContext[notFoundWord] &amp;&amp; !matchedContext[foundWord]) {</b>
+<b class="fc">&nbsp;          String repl = matchedToken.replaceFirst(contextWords.matches[foundWord],contextWords.matches[notFoundWord]);</b>
+<b class="fc">&nbsp;          String msg = getMessage(matchedToken, repl, contextWords.explanations[notFoundWord], contextWords.explanations[foundWord]);</b>
+<b class="fc">&nbsp;          String id = StringTools.toId(getId() + &quot;_&quot; + matchedToken + &quot;_&quot; + repl, lang);</b>
+<b class="fc">&nbsp;          String desc = getDescription().replace(&quot;$match&quot;, matchedToken + &quot;/&quot; + repl);</b>
+<b class="fc">&nbsp;          SpecificIdRule specificIdRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());</b>
+<b class="fc">&nbsp;          RuleMatch ruleMatch = new RuleMatch(specificIdRule, sentence, startPos, endPos, msg, getShortMessageString());</b>
+<b class="fc">&nbsp;          ruleMatches.add(ruleMatch);</b>
+&nbsp;        }
+&nbsp;      } // if foundWord != -1
+&nbsp;    } // for each contextWords in contextWordsSet
+<b class="fc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @return a string like &quot;Possible confusion of words: Did you mean &amp;lt;suggestion&amp;gt;$SUGGESTION&amp;lt;/suggestion&amp;gt; instead of &#39;$WRONGWORD&#39;?&quot;
+&nbsp;   */
+&nbsp;  protected abstract String getMessageString();
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @return a string like &quot;Possible confusion of words&quot;
+&nbsp;   */
+&nbsp;  protected abstract String getShortMessageString();
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @return a string like &quot;Possible confusion of words: Did you mean &amp;lt;suggestion&amp;gt;$SUGGESTION&amp;lt;/suggestion&amp;gt;
+&nbsp;   * (= $EXPLANATION_SUGGESTION) instead of &#39;$WRONGWORD&#39; (= $EXPLANATION_WRONGWORD)?&quot;
+&nbsp;   */
+&nbsp;  protected abstract String getLongMessageString();
+&nbsp;  
+&nbsp;  private String getMessage(String wrongWord, String suggestion, String explanationSuggestion, String explanationWrongWord) {
+<b class="fc">&nbsp;    String quotedSuggestion = Matcher.quoteReplacement(suggestion);</b>
+<b class="fc">&nbsp;    String quotedWrongWord = Matcher.quoteReplacement(wrongWord);</b>
+<b class="fc">&nbsp;    String quotedExplanationSuggestion = Matcher.quoteReplacement(explanationSuggestion);</b>
+<b class="fc">&nbsp;    String quotedExplanationWrongWord = Matcher.quoteReplacement(explanationWrongWord);</b>
+<b class="pc">&nbsp;    if (explanationSuggestion.isEmpty() || explanationWrongWord.isEmpty()) {</b>
+<b class="nc">&nbsp;      return getMessageString()</b>
+<b class="nc">&nbsp;        .replaceFirst(&quot;\\$SUGGESTION&quot;, quotedSuggestion)</b>
+<b class="nc">&nbsp;        .replaceFirst(&quot;\\$WRONGWORD&quot;, quotedWrongWord);</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      return getLongMessageString()</b>
+<b class="fc">&nbsp;        .replaceFirst(&quot;\\$SUGGESTION&quot;, quotedSuggestion)</b>
+<b class="fc">&nbsp;        .replaceFirst(&quot;\\$WRONGWORD&quot;, quotedWrongWord)</b>
+<b class="fc">&nbsp;        .replaceFirst(&quot;\\$EXPLANATION_SUGGESTION&quot;, quotedExplanationSuggestion)</b>
+<b class="fc">&nbsp;        .replaceFirst(&quot;\\$EXPLANATION_WRONGWORD&quot;, quotedExplanationWrongWord);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Load words, contexts, and explanations.
+&nbsp;   */
+&nbsp;  private static List&lt;ContextWords&gt; loadContextWords(String path) {
+<b class="fc">&nbsp;    List&lt;ContextWords&gt; set = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);</b>
+<b class="fc">&nbsp;    try (Scanner scanner = new Scanner(stream, &quot;utf-8&quot;)) {</b>
+<b class="fc">&nbsp;      while (scanner.hasNextLine()) {</b>
+<b class="fc">&nbsp;        String line = scanner.nextLine();</b>
+<b class="fc">&nbsp;        if (line.trim().isEmpty() || line.charAt(0) == &#39;#&#39;) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="fc">&nbsp;        String[] column = line.split(&quot;\t&quot;);</b>
+<b class="pc">&nbsp;        if (column.length &gt;= 6) {</b>
+<b class="fc">&nbsp;          ContextWords contextWords = new ContextWords();</b>
+<b class="fc">&nbsp;          contextWords.setWord(0, column[0]);</b>
+<b class="fc">&nbsp;          contextWords.setWord(1, column[1]);</b>
+<b class="fc">&nbsp;          contextWords.matches[0] = column[2];</b>
+<b class="fc">&nbsp;          contextWords.matches[1] = column[3];</b>
+<b class="fc">&nbsp;          contextWords.setContext(0, column[4]);</b>
+<b class="fc">&nbsp;          contextWords.setContext(1, column[5]);</b>
+<b class="fc">&nbsp;          if (column.length &gt; 6) {</b>
+<b class="fc">&nbsp;            contextWords.explanations[0] = column[6];</b>
+<b class="fc">&nbsp;            if (column.length &gt; 7) {</b>
+<b class="fc">&nbsp;              contextWords.explanations[1] = column[7];</b>
+&nbsp;            }
+&nbsp;          }
+<b class="fc">&nbsp;          set.add(contextWords);</b>
+&nbsp;        } // if (column.length &gt;= 6)
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return Collections.unmodifiableList(set);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  static class ContextWords {
+&nbsp;    
+<b class="fc">&nbsp;    final String[] matches = {&quot;&quot;, &quot;&quot;};</b>
+<b class="fc">&nbsp;    final String[] explanations = {&quot;&quot;, &quot;&quot;};</b>
+&nbsp;    final Pattern[] words;
+&nbsp;    final Pattern[] contexts;
+&nbsp;    
+<b class="fc">&nbsp;    ContextWords() {</b>
+<b class="fc">&nbsp;      words = new Pattern[2];</b>
+<b class="fc">&nbsp;      contexts = new Pattern[2];</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    private String addBoundaries(String str) {
+<b class="fc">&nbsp;      String ignoreCase = &quot;&quot;;</b>
+<b class="fc">&nbsp;      if (str.startsWith(&quot;(?i)&quot;)) {</b>
+<b class="fc">&nbsp;        str = str.substring(4);</b>
+<b class="fc">&nbsp;        ignoreCase = &quot;(?i)&quot;;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      return ignoreCase + &quot;\\b(&quot; + str + &quot;)\\b&quot;;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    void setWord(int i, String word) {
+<b class="fc">&nbsp;      words[i] = Pattern.compile(addBoundaries(word));</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    void setContext(int i, String context) {
+<b class="fc">&nbsp;      contexts[i] = Pattern.compile(addBoundaries(context));</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>
