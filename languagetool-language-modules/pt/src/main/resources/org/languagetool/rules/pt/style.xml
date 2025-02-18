@@ -3740,7 +3740,7 @@ USA
         </rule>
 
 
-        <rule id='DAR_ATRIBUIR' name="Dar → atribuir/conferir" tone_tags='formal' tags='picky' default='temp_off'>
+        <rule id='DAR_ATRIBUIR_CONFERIR' name="Dar → atribuir/conferir" tone_tags='formal' tags='picky' default='temp_off'>
             <!-- Used ChatGPT with Reason and DeepSeek-V3 -->
             <pattern>
                 <marker>
@@ -3754,6 +3754,21 @@ USA
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conferir</match></suggestion>
             <example correction="atribuiu|conferiu">O tribunal <marker>deu</marker> a responsabilidade da criança à mãe.</example>
             <example>A comissão atribuiu a distinção ao melhor candidato.</example>
+        </rule>
+
+        <rule id='ESTAR_CONSTAR' name="Estar → constar" tone_tags='formal' tags='picky' default='temp_off'>
+            <!-- Used DeepSeek-V3 -->
+            <pattern>
+                <marker>
+                    <token inflected='yes' regexp='no'>estar</token>
+                </marker>
+                <token regexp='yes'>n[ao]s?</token>
+                <token inflected='yes' regexp='yes'>anexo|artigo|autos|bibliografia|biografia|carta|contrato|cr[óô]nica|currículo|CV|dissertação|documento|edital|ensaio|escritos|Europass|guia|licença|livro|manual|memorial|memórias|monografia|parecer|pesquisa|plano|projeto|publicação|referências|relatório|revista|sentença|tese|texto|tratado</token>
+            </pattern>
+            <message>Substitua &quot;está&quot; por &quot;consta&quot; para indicar registo oficial ou dar um tom mais formal.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>constar</match></suggestion>
+            <example correction="consta">O conteúdo que <marker>está</marker> na tese é relevante.</example>
+            <example>O que consta nos autos deve ser bastante levado em conta.</example>
         </rule>
 
 
