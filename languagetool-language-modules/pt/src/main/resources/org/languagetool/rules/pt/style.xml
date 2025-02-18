@@ -3740,6 +3740,23 @@ USA
         </rule>
 
 
+        <rule id='DAR_ATRIBUIR' name="Dar → atribuir/conferir" tone_tags='formal' tags='picky' default='temp_off'>
+            <!-- Used ChatGPT with Reason and DeepSeek-V3 -->
+            <pattern>
+                <marker>
+                    <token inflected='yes' regexp='no'>dar</token>
+                </marker>
+                <token skip='2' regexp='yes'>[ao]s?|um|uns|umas?</token>
+                <token inflected='yes' regexp='yes'>acesso|atenção|autoridade|autorização|benefício|cargo|certificação|certificado|chance|competência|condecoração|designação|destaque|diploma|direito|distinção|distintivo|dom|emblema|ênfase|enfoque|forma|função|garantia|graduação|grau|habilitação|honra|honraria|importância|investidura|liberdade|licença|lugar|mandato|medalha|mérito|oportunidade|ordem|outorga|patente|permissão|poder|posição|possibilidade|pr[éê]mio|prerrogativa|prioridade|privilégio|propósito|reconhecimento|responsabilidade|sentido|status|título|troféu|valor|vantagem</token>
+            </pattern>
+            <message>Use &quot;dar&quot; para casos gerais, &quot;conferir&quot; para concessões formais e &quot;atribuir&quot; para designações.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>atribuir</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conferir</match></suggestion>
+            <example correction="atribuiu|conferiu">O tribunal <marker>deu</marker> a responsabilidade da criança à mãe.</example>
+            <example>A comissão atribuiu a distinção ao melhor candidato.</example>
+        </rule>
+
+
         <rule id='ESTAR_AQUI_PARA_INF_VIR_INF' name="'Estar aqui para' Inf. → 'Vir Inf.'" tone_tags='formal'>
             <pattern>
                 <marker>
