@@ -434,6 +434,8 @@ public class CaseRule extends Rule {
     "Plattdeutsch",
     "Wallet",
     "Str",
+    "Priest",
+    "Forward",
     "Auszubildende",
     "Auszubildender",
     "Gelehrte",
