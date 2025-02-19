@@ -217,6 +217,11 @@ class CaseRuleAntiPatterns {
       posRegex("(?!SUB).*")
     ),
     Arrays.asList(
+      // Er war verantwortlich für Lieder wie Everything I Do und andere.
+      posRegex("_english_ignore_"),
+      posRegex("_english_ignore_")
+    ),
+    Arrays.asList(
       // "Um das herauszubekommen..."
       token("das"),
       regex(".+zu.+")
